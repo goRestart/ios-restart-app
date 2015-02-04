@@ -1,0 +1,420 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
+		6608E03E1A820FBD005895ED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03D1A820FBD005895ED /* ViewController.swift */; };
+		6608E0411A820FBD005895ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6608E03F1A820FBD005895ED /* Main.storyboard */; };
+		6608E0431A820FBD005895ED /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Images.xcassets */; };
+		6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0441A820FBD005895ED /* LaunchScreen.xib */; };
+		6608E0521A820FBD005895ED /* AmbatanaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E0511A820FBD005895ED /* AmbatanaTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6608E04C1A820FBD005895ED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6608E02E1A820FBD005895ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6608E0351A820FBD005895ED;
+			remoteInfo = Ambatana;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6608E0361A820FBD005895ED /* Ambatana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ambatana.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6608E03B1A820FBD005895ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6608E03D1A820FBD005895ED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		6608E0401A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6608E0421A820FBD005895ED /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		6608E0451A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		6608E04B1A820FBD005895ED /* AmbatanaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmbatanaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6608E0501A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6608E0511A820FBD005895ED /* AmbatanaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmbatanaTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6608E0331A820FBD005895ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6608E0481A820FBD005895ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6608E02D1A820FBD005895ED = {
+			isa = PBXGroup;
+			children = (
+				6608E0381A820FBD005895ED /* Ambatana */,
+				6608E04E1A820FBD005895ED /* AmbatanaTests */,
+				6608E0371A820FBD005895ED /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6608E0371A820FBD005895ED /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6608E0361A820FBD005895ED /* Ambatana.app */,
+				6608E04B1A820FBD005895ED /* AmbatanaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6608E0381A820FBD005895ED /* Ambatana */ = {
+			isa = PBXGroup;
+			children = (
+				6608E03B1A820FBD005895ED /* AppDelegate.swift */,
+				6608E03D1A820FBD005895ED /* ViewController.swift */,
+				6608E03F1A820FBD005895ED /* Main.storyboard */,
+				6608E0421A820FBD005895ED /* Images.xcassets */,
+				6608E0441A820FBD005895ED /* LaunchScreen.xib */,
+				6608E0391A820FBD005895ED /* Supporting Files */,
+			);
+			path = Ambatana;
+			sourceTree = "<group>";
+		};
+		6608E0391A820FBD005895ED /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6608E03A1A820FBD005895ED /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6608E04E1A820FBD005895ED /* AmbatanaTests */ = {
+			isa = PBXGroup;
+			children = (
+				6608E0511A820FBD005895ED /* AmbatanaTests.swift */,
+				6608E04F1A820FBD005895ED /* Supporting Files */,
+			);
+			path = AmbatanaTests;
+			sourceTree = "<group>";
+		};
+		6608E04F1A820FBD005895ED /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6608E0501A820FBD005895ED /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6608E0351A820FBD005895ED /* Ambatana */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "Ambatana" */;
+			buildPhases = (
+				6608E0321A820FBD005895ED /* Sources */,
+				6608E0331A820FBD005895ED /* Frameworks */,
+				6608E0341A820FBD005895ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Ambatana;
+			productName = Ambatana;
+			productReference = 6608E0361A820FBD005895ED /* Ambatana.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6608E04A1A820FBD005895ED /* AmbatanaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6608E0581A820FBD005895ED /* Build configuration list for PBXNativeTarget "AmbatanaTests" */;
+			buildPhases = (
+				6608E0471A820FBD005895ED /* Sources */,
+				6608E0481A820FBD005895ED /* Frameworks */,
+				6608E0491A820FBD005895ED /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6608E04D1A820FBD005895ED /* PBXTargetDependency */,
+			);
+			name = AmbatanaTests;
+			productName = AmbatanaTests;
+			productReference = 6608E04B1A820FBD005895ED /* AmbatanaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6608E02E1A820FBD005895ED /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Ignacio Nieto Carvajal";
+				TargetAttributes = {
+					6608E0351A820FBD005895ED = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					6608E04A1A820FBD005895ED = {
+						CreatedOnToolsVersion = 6.1.1;
+						TestTargetID = 6608E0351A820FBD005895ED;
+					};
+				};
+			};
+			buildConfigurationList = 6608E0311A820FBD005895ED /* Build configuration list for PBXProject "Ambatana" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6608E02D1A820FBD005895ED;
+			productRefGroup = 6608E0371A820FBD005895ED /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6608E0351A820FBD005895ED /* Ambatana */,
+				6608E04A1A820FBD005895ED /* AmbatanaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6608E0341A820FBD005895ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
+				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
+				6608E0431A820FBD005895ED /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6608E0491A820FBD005895ED /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6608E0321A820FBD005895ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6608E03E1A820FBD005895ED /* ViewController.swift in Sources */,
+				6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6608E0471A820FBD005895ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6608E0521A820FBD005895ED /* AmbatanaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6608E04D1A820FBD005895ED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6608E0351A820FBD005895ED /* Ambatana */;
+			targetProxy = 6608E04C1A820FBD005895ED /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6608E03F1A820FBD005895ED /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6608E0401A820FBD005895ED /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		6608E0441A820FBD005895ED /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6608E0451A820FBD005895ED /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6608E0531A820FBD005895ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6608E0541A820FBD005895ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6608E0561A820FBD005895ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Ambatana/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		6608E0571A820FBD005895ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Ambatana/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		6608E0591A820FBD005895ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AmbatanaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ambatana.app/Ambatana";
+			};
+			name = Debug;
+		};
+		6608E05A1A820FBD005895ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AmbatanaTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ambatana.app/Ambatana";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6608E0311A820FBD005895ED /* Build configuration list for PBXProject "Ambatana" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6608E0531A820FBD005895ED /* Debug */,
+				6608E0541A820FBD005895ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "Ambatana" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6608E0561A820FBD005895ED /* Debug */,
+				6608E0571A820FBD005895ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		6608E0581A820FBD005895ED /* Build configuration list for PBXNativeTarget "AmbatanaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6608E0591A820FBD005895ED /* Debug */,
+				6608E05A1A820FBD005895ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6608E02E1A820FBD005895ED /* Project object */;
+}
