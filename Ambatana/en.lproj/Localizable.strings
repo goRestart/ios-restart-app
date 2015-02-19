@@ -1,0 +1,151 @@
+/* 
+  Localizable.strings
+  Ambatana
+
+  Created by Nacho on 18/2/15.
+  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
+*/
+"have_a_look" = "Have a look at this product in Ambatana. ";
+"loading" = "Loading...";
+"just_now" = "Just now";
+"x_seconds_ago" = "%d seconds ago";
+"a_minute_ago" = "A minute ago";
+"x_minutes_ago" = "%d minutes ago";
+"an_hour_ago" = "An hour ago";
+"x_hours_ago" = "%d hours ago";
+"a_day_ago" = "A day ago";
+"x_days_ago" = "%d days ago";
+"a_week_ago" = "A week ago";
+"x_weeks_ago" = "%d weeks ago";
+"more_than_a_month_ago" = "More than a month ago";
+"user" = "User";
+"electronics" = "Electronics";
+"cars_and_motors" = "Cars and Motors";
+"sports_leisure_and_games" = "Sports, Leisure and Games";
+"home_and_garden" = "Home and Garden";
+"movies_books_and_comics" = "Movies, Books and Music";
+"fashion_and_accesories" = "Fashion and Accesories";
+"baby_and_child" = "Baby and Child";
+"other" = "Other";
+"change_photo" = "Change photo";
+"change_my_location" = "Change my location";
+"change_password" = "Change password";
+"favorite_categories" = "Favorite categories";
+"login" = "Login";
+"signup" = "Sign Up";
+"signin" = "Sign In";
+"logout" = "Logout";
+"change_your_location" = "Change your location";
+"select_valid_location" = "Please select a valid location in the map with a long tap";
+"ok" = "Ok";
+"cancel" = "Cancel";
+"exit" = "Exit";
+"error" = "Error";
+"i_am_here" = "I am here!";
+"unable_find_location" = "I was unable to find that location. Please, try again.";
+"success" = "Success!";
+"stored_your_location" = "Successfully stored your location";
+"unable_set_location" = "Unable to set your location. Please try again.";
+"no_published_favorited_products" = "You still don't have any published or favorited product";
+"this_user_no_published_favorited_products" = "This user still doesn't have any published or favorited product";
+"no_items_in_this_section" = "There are no items in this section";
+"my_profile" = "My profile";
+"conversations" = "Conversations";
+"sell_something" = "Sell something";
+"categories" = "Categories";
+"help" = "Help";
+"unable_show_product" = "Unable to show product information. Please, try again.";
+"unable_get_products" = "Unable to retrieve the list of products. Please try again.";
+"try_again" = "Try again";
+"order_by" = "Order products by";
+"latest_published" = "Latest published";
+"highest_price" = "Highest price";
+"lowest_price" = "Lowest price";
+"proximity" = "Proximity";
+"error_sharing_facebook" = "An error happened while sharing in Facebook. Please, try again later.";
+"ambatana_product" = "Ambatana product";
+"completed" = "Completed";
+"canceled_by_user" = "Canceled by user";
+"whatsapp_not_configured" = "WhatsApp doesn't seem to be configured in your device.";
+"error_sharing_whatsapp" = "There was an error sharing this product in WhatsApp.";
+"mailcancelled" = "Mail cancelled";
+"mailsaved" = "Mail saved";
+"errorsendingmail" = "Error sending mail";
+"thanksforcontact" = "Thanks for contacting us!";
+"session_expired" = "Session expired";
+"your_session_has_expired" = "It seems that your session has expired. Please try again.";
+"authentication_error" = "Authentication error";
+"unable_access_system" = "I was unable to access the system. Please try again.";
+"unable_login" = "Imposible acceder al sistema";
+"login_canceled " = "Login was canceled by the user or an unknown error happened.";
+"password_recovery" = "Password recovery";
+"send_recovery_email_question" = "Would you like to receive an email for recovering your password?";
+"password_recovery_email_sent" = "Password recovery email successfully sent. Please, check your email and follow the instructions.";
+"password_recovery_email_error" = "An error happened while sending your password recovery email. Please check that the email address is correct.";
+"insert_valid_email" = "Please, insert a valid email in the user email textfield";
+"insert_valid_password" = "Please, insert a valid password, it must have at least 6 characters.";
+"incorrect_credentials" = "Unable to login: unknown user or incorrect credentials";
+"insert_valid_name" = "Please, insert a valid, non-empty name in the user name textfield";
+"user_created_successfully" = "User successfully created.";
+"login_now" = "Login now";
+"error_creating_user" = "An error occurred while creating the user.";
+"fun_unique_way" = "A fun and unique way to shop and sell second hand items";
+"connect_with_facebook" = "Connect with Facebook";
+"or_use_your_email" = "Or use your email";
+"email" = "Email";
+"password" = "Password";
+"recover_lost_password" = "Recover lost password";
+"create_account" = "Create account";
+"insert_your_password" = "Insert your password";
+"or_use" = "Or use";
+"signup_start_making_money" = "Sign up to start making money";
+"sell_buy_with_chat" = "Sell and buy with a chat";
+"full_name" = "Full name";
+"more_six_characters" = "+6 characters";
+"already_have_account" = "Already have an account?";
+"unknown" = "Unknown";
+"by" = "By";
+"published" = "Published";
+"mark_as_sold" = "Mark as sold";
+"make_an_offer" = "Make an offer";
+"ask_a_question" = "Ask a question";
+"share_this_item" = "Share this item on";
+"selling" = "Sell";
+"sold" = "Sold";
+"favorited" = "Favorited";
+"write_your_address" = "Write your address";
+"keep_finger_pressed" = "Or keep your finger pressed in your location";
+"settings" = "Settings";
+"choose_image_source" = "Choose image source";
+"choose_image_source_description" = "Choose a source for the image.";
+"camera" = "Camera";
+"photo_library" = "Photo library";
+"setting_profile_image" = "Setting your profile image, please wait...";
+"success_setting_profile_image" = "Profile picture changed successfully";
+"error_setting_profile_image" = "There was an error setting the profile picture";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

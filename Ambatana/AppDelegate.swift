@@ -8,6 +8,9 @@
 
 import UIKit
 
+let kAmbatanaParseApplicationID = "Kzeem57zMsUao8Jx9aUppsUOQBJbvg54FPEJAP35"
+let kAmbatanaParseClientKey = "cBWwdoHgdi0zW0oQI2WxF9krCH4B1I2cVGyWldJ3"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -15,8 +18,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        // initializate parse
+        //Parse.enableLocalDatastore()
+        Parse.setApplicationId(kAmbatanaParseApplicationID, clientKey: kAmbatanaParseClientKey)
+        PFFacebookUtils.initializeFacebook()
+        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
+        
+        // Registering for push notifications && Installation
+        let userNotificationTypes = (UIUserNotificationType.Alert |
+            UIUserNotificationType.Badge |
+            UIUserNotificationType.Sound);
+        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+        application.registerUserNotificationSettings(settings)
+        application.registerForRemoteNotifications()
+        
+        // responding to push notifications received while in background.
+        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+            // TODO: Do something and finally clear the badge.
+            
+        }
+        application.applicationIconBadgeNumber = 0
+        
+        // initialize location services
+        LocationManager.sharedInstance
+        
         return true
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        return FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession: PFFacebookUtils.session())
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -35,10 +65,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
     }
 
+    // receive push notifications.
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        let installation = PFInstallation.currentInstallation()
+        installation.setDeviceTokenFromData(deviceToken)
+        installation.channels = [""]
+        if PFUser.currentUser() != nil {
+            installation["user_objectId"] = PFUser.currentUser().objectId
+            installation["username"] = PFUser.currentUser()["username"]
+        }
+        installation.saveInBackgroundWithBlock { (success, error) -> Void in
+            println("Installation saved. Success: \(success), error: \(error)")
+        }
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        PFPush.handlePush(userInfo)
+        // TODO: Do something like going to chat window... and clear badge.
+        application.applicationIconBadgeNumber = 0
+    }
+    
     func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Close facebook session
+        PFFacebookUtils.session().close()
+        
+        // stop location services (if any).
+        LocationManager.sharedInstance.terminate()
     }
 
 
