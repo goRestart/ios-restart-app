@@ -87,7 +87,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             showAutoFadingOutMessageAlert(translate("insert_valid_email"))
             return
         }
-        if countElements(self.passwordTextfield.text) < 6 {
+        if countElements(self.passwordTextfield.text) < kAmbatanaMinPasswordLength {
             showAutoFadingOutMessageAlert(translate("insert_valid_password"))
             return
         }

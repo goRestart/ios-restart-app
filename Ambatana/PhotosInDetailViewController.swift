@@ -8,7 +8,7 @@
 
 import UIKit
 
-let kAmbatanaPhotoDetailsInnerImageViewTag = 100
+private let kAmbatanaPhotoDetailsInnerImageViewTag = 100
 
 class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
     // outlets & buttons

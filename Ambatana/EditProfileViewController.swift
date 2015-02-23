@@ -12,10 +12,11 @@ enum UserProductsListType: Int {
     case Sell = 0, Sold, Favorite
 }
 
-let kAmbatanaDisabledButtonBackgroundColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1.0)
-let kAmbatanaDisabledButtonForegroundColor = UIColor.lightGrayColor()
-let kAmbatanaEnabledButtonBackgroundColor = UIColor.whiteColor()
-let kAmbatanaEnabledButtonForegroundColor = UIColor(red: 0.949, green: 0.361, blue: 0.376, alpha: 1.0)
+private let kAmbatanaDisabledButtonBackgroundColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1.0)
+private let kAmbatanaDisabledButtonForegroundColor = UIColor.lightGrayColor()
+private let kAmbatanaEnabledButtonBackgroundColor = UIColor.whiteColor()
+private let kAmbatanaEnabledButtonForegroundColor = UIColor(red: 0.949, green: 0.361, blue: 0.376, alpha: 1.0)
+private let kAmbatanaEditProfileCellFactor: CGFloat = 190.0 / 145.0
 
 
 class EditProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -40,7 +41,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     var currentType: UserProductsListType = .Sell {
         didSet {
             if (oldValue != currentType) {
-                collectionView.reloadData()
+                collectionView.reloadSections(NSIndexSet(index: 0))
                 selectButton(selectedButtonForProductsListType(currentType))
             }
         }
@@ -48,6 +49,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     var sellEntries: [PFObject]?
     var soldEntries: [PFObject]?
     var favoriteEntries: [PFObject]?
+    var cellSize = CGSizeMake(145.0, 190.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,8 +59,13 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         // UX/UI and Appearance.
         setAmbatanaNavigationBarStyle(title: "", includeBackArrow: true)
         
+        // cell size
+        let cellWidth = (kAmbatanaTableScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0
+        let cellHeight = cellWidth * kAmbatanaEditProfileCellFactor
+        cellSize = CGSizeMake(cellWidth, cellHeight)
+
         // internationalization
-        sellButton.setTitle(translate("selling"), forState: .Normal)
+        sellButton.setTitle(translate("selling_button"), forState: .Normal)
         soldButton.setTitle(translate("sold"), forState: .Normal)
         favoriteButton.setTitle(translate("favorited"), forState: .Normal)
     }
@@ -111,7 +118,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             collectionView.hidden = false
             activityIndicator.hidden = true
             activityIndicator.stopAnimating()
-            collectionView.reloadData()
+            collectionView.reloadSections(NSIndexSet(index: 0))
         }
     }
     
@@ -124,7 +131,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             let innerQuery = PFQuery(className: "UserFavoriteProducts")
             innerQuery.whereKey("user", equalTo: userObject)
             let favoriteProductsQuery = PFQuery(className: "Products")
-            favoriteProductsQuery.whereKey("user", matchesQuery: innerQuery)
+            favoriteProductsQuery.whereKey("user", matchesKey: "user", inQuery: innerQuery)
             
             // query for all user products
             let userProductsQuery = PFQuery(className: "Products")
@@ -179,7 +186,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             
             activityIndicator.hidden = true
             activityIndicator.stopAnimating()
-            collectionView.reloadData()
+            collectionView.reloadSections(NSIndexSet(index: 0))
         }
         
     }
@@ -235,7 +242,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         } else if entries!.count > 0 {
             youDontHaveTitleLabel.hidden = true
             collectionView.hidden = false
-            collectionView.reloadData()
+            collectionView.reloadSections(NSIndexSet(index: 0))
         } else {
             youDontHaveTitleLabel.hidden = false
             youDontHaveTitleLabel.text = translate("no_items_in_this_section")
@@ -283,6 +290,12 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     // MARK: - UICollectionViewDataSource and Delegate methods
     
+    func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            return cellSize
+    }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch (currentType) {
         case .Sell:
@@ -327,8 +340,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         // image
         // TODO: Implement a image cache for images...?
         if let imageView = cell.viewWithTag(3) as? UIImageView {
-            if productObject["image_0"] != nil {
-                let imageFile = productObject["image_0"] as PFFile
+            if productObject[kAmbatanaProductFirstImageKey] != nil {
+                let imageFile = productObject[kAmbatanaProductFirstImageKey] as PFFile
                 imageFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
                     if error == nil {
                         imageView.image = UIImage(data: data)

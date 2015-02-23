@@ -8,12 +8,32 @@
 
 import UIKit
 
-class ChatViewController: UIViewController {
+private let kAmbatanaConversationMyMessagesCell = "MyMessagesCell"
+private let kAmbatanaConversationOthersMessagesCell = "OthersMessagesCell"
 
+private let kAmbatanaConversationCellBubbleTag = 1
+private let kAmbatanaConversationCellTextTag = 2
+private let kAmbatanaConversationCellRelativeTimeTag = 3
+private let kAmbatanaConversationCellAvatarTag = 4
+
+
+class ChatViewController: UIViewController {
+    // outlets & buttons
+    @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var productNameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var publishedDateLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var messageTextfield: UITextField!
+    @IBOutlet weak var sendButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        // internationalization
+        messageTextfield.placeholder = translate("type_your_message_here")
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,7 +41,11 @@ class ChatViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    // MARK: - Button actions
+    
+    @IBAction func sendMessage(sender: AnyObject) {
+    }
+    
     /*
     // MARK: - Navigation
 

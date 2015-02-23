@@ -80,12 +80,11 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             // fill fields
             
             // images first (as they need to be downloaded).
-            let imageKeys = ["image_0", "image_1", "image_2", "image_3", "image_4", "image_5"]
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
                 var retrievedImages: [UIImage] = []
                 var retrievedImageURLS: [String] = []
                 // iterate and retrieve all images.
-                for imageKey in imageKeys {
+                for imageKey in kAmbatanaProductImageKeys {
                     if let imageFile = self.productObject[imageKey] as? PFFile {
                         if let data = imageFile.getData(nil) {
                             if let retrievedImage = UIImage(data: data) {
@@ -162,6 +161,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
+        self.performSegueWithIdentifier("MakeAnOffer", sender: sender)
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {

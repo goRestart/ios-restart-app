@@ -8,8 +8,8 @@
 
 import UIKit
 
-let kAmbatanaParseApplicationID = "Kzeem57zMsUao8Jx9aUppsUOQBJbvg54FPEJAP35"
-let kAmbatanaParseClientKey = "cBWwdoHgdi0zW0oQI2WxF9krCH4B1I2cVGyWldJ3"
+private let kAmbatanaParseApplicationID = "Kzeem57zMsUao8Jx9aUppsUOQBJbvg54FPEJAP35"
+private let kAmbatanaParseClientKey = "cBWwdoHgdi0zW0oQI2WxF9krCH4B1I2cVGyWldJ3"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

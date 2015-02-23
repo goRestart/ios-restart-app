@@ -8,9 +8,9 @@
 
 import UIKit
 
-let kAmbatanaMenuOptionCellName = "AmbatanaMenuOptionCell"
-let kAmbatanaMenuOptionCellTitleTag = 1
-let kAmbatanaMenuOptionCellImageTag = 2
+private let kAmbatanaMenuOptionCellName = "AmbatanaMenuOptionCell"
+private let kAmbatanaMenuOptionCellTitleTag = 1
+private let kAmbatanaMenuOptionCellImageTag = 2
 
 
 enum AmbatanaMenuOptions : Int {

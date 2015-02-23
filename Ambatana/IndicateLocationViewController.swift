@@ -26,13 +26,14 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         }
     }
     let geocoder = CLGeocoder()
+    var allowGoingBack = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.searchTextField.delegate = self
         
         // UX/UI
-        self.setAmbatanaNavigationBarStyle(title: translate("change_your_location"), includeBackArrow: false)
+        self.setAmbatanaNavigationBarStyle(title: translate("change_your_location"), includeBackArrow: allowGoingBack)
         searchContentView.layer.shadowColor = UIColor.grayColor().CGColor
         searchContentView.layer.shadowOffset = CGSizeMake(0, 2)
         searchContentView.layer.shadowOpacity = 0.75
@@ -56,6 +57,15 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableToSetUserLocation:", name: kAmbatanaUnableToSetUserLocationNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kAmbatanaUserLocationSuccessfullySetNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kAmbatanaUserLocationSuccessfullyChangedNotification, object: nil)
+        
+        // if we have a current location (we are accessing through the "Change my location" option in settings, start with that location.
+        var initialLocation: CLLocationCoordinate2D?
+        if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastKnownLocation) { initialLocation = LocationManager.sharedInstance.lastKnownLocation }
+        else if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation) { initialLocation = LocationManager.sharedInstance.lastRegisteredLocation }
+        // do we have an initial location?
+        if initialLocation != nil && CLLocationCoordinate2DIsValid(initialLocation!) {
+            self.centerMapInLocation(initialLocation!, andIncludePin: false)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -106,18 +116,22 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
                 }
             }
             if coordinate != nil && CLLocationCoordinate2DIsValid(coordinate!) {
-                self.locationInMap = coordinate!
-                // set map region
-                let region = MKCoordinateRegionMakeWithDistance(coordinate!, 1000, 1000)
-                self.mapView.setRegion(region, animated: true)
-                // add pin
-                self.mapView.setPinInTheMapAtCoordinate(coordinate!, title: translate("i_am_here"))
+                self.centerMapInLocation(coordinate!, andIncludePin: true)
             } else {
                 self.showAutoFadingOutMessageAlert(translate("unable_find_location"))
             }
             self.disableLoadingStatus()
         })
         return true
+    }
+    
+    func centerMapInLocation(coordinate: CLLocationCoordinate2D, andIncludePin includePin: Bool) {
+        self.locationInMap = coordinate
+        // set map region
+        let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000)
+        self.mapView.setRegion(region, animated: true)
+        // add pin
+        if includePin { self.mapView.setPinInTheMapAtCoordinate(coordinate, title: translate("i_am_here")) }
     }
     
     

@@ -8,10 +8,10 @@
 
 import UIKit
 
-let kAmbatanaSettingsTableCellImageTag = 1
-let kAmbatanaSettingsTableCellTitleTag = 2
+private let kAmbatanaSettingsTableCellImageTag = 1
+private let kAmbatanaSettingsTableCellTitleTag = 2
 
-let kAmbatanaUserImageSquareSize: CGFloat = 1024
+private let kAmbatanaUserImageSquareSize: CGFloat = 1024
 
 enum AmbatanaUserSettings: Int {
     case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, FavoriteCategories = 3, LogOut = 4
@@ -96,17 +96,22 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         case .ChangePhoto:
             showImageSourceSelection()
         case .ChangeLocation:
-            break
+            performSegueWithIdentifier("ChangeLocation", sender: nil)
         case .ChangePassword:
-            break
+            if PFFacebookUtils.isLinkedWithUser(PFUser.currentUser()) {
+                // we are linked with Facebook, so we don't actually have a password.
+                self.showAutoFadingOutMessageAlert(translate("cant_change_facebook_password"))
+            } else {
+                performSegueWithIdentifier("ChangePassword", sender: nil)
+            }
         case .FavoriteCategories:
-            break
+            performSegueWithIdentifier("SetFavoriteCategories", sender: nil)
         case .LogOut:
-            break
+            logoutUser()
         }
     }
     
-    @IBAction func logoutUser(sender: UIButton) {
+    func logoutUser() {
         PFUser.logOut()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -138,7 +143,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
         
-        self.showLoadingMessageAlert(translate("setting_profile_image"))
+        self.showLoadingMessageAlert(customMessage: translate("setting_profile_image"))
         if image != nil {
             if let croppedImage = image!.cropToSquare() {
                 if let resizedImage = croppedImage.resize(CGSizeMake(kAmbatanaUserImageSquareSize, kAmbatanaUserImageSquareSize), contentMode: .ScaleAspectFill) {
@@ -175,5 +180,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
+    // MARK: - Navigation.
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let ilvc = segue.destinationViewController as? IndicateLocationViewController {
+            ilvc.allowGoingBack = true
+        }
+    }
 }

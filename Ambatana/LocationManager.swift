@@ -9,12 +9,8 @@
 import UIKit
 import AddressBookUI
 
-let kAmbatanaLocationTimerUpdateInterval: NSTimeInterval = 300
-let kAmbatanaUnableToGetUserLocationNotification = "AmbatanaUnableToGetUserLocation"
-let kAmbatanaUnableToSetUserLocationNotification = "AmbatanaUnableToSetUserLocationNotification"
-let kAmbatanaUserLocationSuccessfullySetNotification = "AmbatanaUserLocationSuccessfullySetNotification"
-let kAmbatanaUserLocationSuccessfullyChangedNotification = "AmbatanaUserLocationSuccessfullyChangedNotification"
-let kAmbatanaUserWantsToSpecifyLocationDirectly = "AmbatanaUserWantsToSpecifyLocationDirectly"
+private let kAmbatanaLocationTimerUpdateInterval: NSTimeInterval = 300
+private let kAmbatanaUserWantsToSpecifyLocationDirectly = "AmbatanaUserWantsToSpecifyLocationDirectly"
 
 // private singleton instance
 private let _singletonInstance = LocationManager()
@@ -72,11 +68,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         self.clLocationManager.startUpdatingLocation()
         self.updatingLocation = true
         if locationTimer == nil { // clear previous timer
-            locationTimer = NSTimer.scheduledTimerWithTimeInterval(kAmbatanaLocationTimerUpdateInterval, target: self, selector: "updateLocation", userInfo: nil, repeats: true)
+            locationTimer = NSTimer.scheduledTimerWithTimeInterval(kAmbatanaLocationTimerUpdateInterval, target: self, selector: "updateLocationTimerTriggered", userInfo: nil, repeats: true)
         }
     }
     
-    func updateLocation() {
+    private func updateLocationTimerTriggered() {
         if (!self.updatingLocation) {
             self.updatingLocation = true
             self.clLocationManager.startUpdatingLocation()
@@ -157,11 +153,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             }
             PFUser.currentUser().saveInBackgroundWithBlock({ (success, error) -> Void in
                 if (success) {
-                    println("Updated user location successfully")
+                    println("*** Updated registered user location successfully")
                     self.lastRegisteredLocation = latestLocation.coordinate
                     NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserLocationSuccessfullyChangedNotification, object: latestLocation)
                 } else {
-                    println("Error setting user's location")
+                    println("*** Error setting registered user's location")
                     NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUnableToSetUserLocationNotification, object: nil)
                 }
             })

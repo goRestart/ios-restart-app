@@ -1,11 +1,6 @@
 //
 //  AF+Image+Extension.swift
 //
-//  Version 1.03
-//
-//  Created by Melvin Rivera on 7/5/14.
-//  Copyright (c) 2014 All Forces. All rights reserved.
-//
 
 import Foundation
 import UIKit
@@ -280,6 +275,22 @@ extension UIImage {
         return newImage;
     }
 
+    // © Ignacio Nieto Carvajal
+    // Resize the biggest side of an image to the given maxSideLength
+    func resizeDownToMaxSide(maxSideLength: CGFloat, contentMode: UIImageContentMode = .ScaleToFill) -> UIImage? {
+        // if the image is currently smaller, we don't want to scale it up. Just return self.
+        if self.size.width < maxSideLength && self.size.height > maxSideLength { return self }
+        
+        // calculate final size
+        var w = maxSideLength
+        var h = maxSideLength
+        if self.size.width > self.size.height {
+            h *= self.size.height / self.size.width
+        } else if self.size.height > self.size.width {
+            w *= self.size.width / self.size.height
+        }
+        return self.resize(CGSizeMake(w, h), contentMode: contentMode)
+    }
     
     // MARK: Corner Radius
     

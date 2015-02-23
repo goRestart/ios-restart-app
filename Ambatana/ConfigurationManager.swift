@@ -8,12 +8,6 @@
 
 import UIKit
 
-// constants
-let kAmbatanaDefaultUserImageName = "no_photo"
-
-let kAmbatanaUserPictureUpdatedNotification = "AmbatanaUserPictureUpdated"
-let kAmbatanaSessionInvalidatedNotification = "AmbatanaSessionInvalidated"
-let kAmbatanaInvalidCredentialsNotification = "AmbatanaInvalidCredentialsNotification"
 // private singleton instance
 private let _singletonInstance = ConfigurationManager()
 
@@ -28,7 +22,6 @@ class ConfigurationManager: NSObject {
     var userLocation: String = ""
     var userEmail: String = ""
     var userProfileImage: UIImage?
-    var currentCategory: ProductListCategory?
     var currentFilterForSearch: String? = "createdAt"
     var currentFilterOrderForSearch: NSComparisonResult = .OrderedDescending
     var currentNameForSearch: String?

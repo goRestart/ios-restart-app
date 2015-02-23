@@ -8,14 +8,8 @@
 
 import UIKit
 
-let kAmbatanaProductCellFactor: CGFloat = 190.0 / 145.0
-let kAmbatanaProductCellSpan: CGFloat = 10.0
-let kAmbatanaTableViewMaxWidth = UIScreen.mainScreen().bounds.size.width
-let kAmbatanaProductListOffsetLoadingOffsetInc = 10 // Load 20 products each time.
-let kAmbatanaProductListMaxKmDistance = 10000
-
-let kAmbatanaContentScrollingDownThreshold: CGFloat = 20.0
-let kAmbatanaContentScrollingUpThreshold: CGFloat = -20.0
+private let kAmbatanaProductListCellFactor: CGFloat = 190.0 / 145.0
+private let kAmbatanaMaxWaitingTimeForLocation: NSTimeInterval = 30 // seconds
 
 class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
     // outlets & buttons
@@ -33,28 +27,31 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     var lastRetrievedProductsCount = kAmbatanaProductListOffsetLoadingOffsetInc
     var queryingProducts = false
+    var currentCategory: ProductListCategory?
     
     var entries: [PFObject] = []
     var cellSize = CGSizeMake(145.0, 190.0)
     var lastContentOffset: CGFloat = 0.0
     
+    var unableToRetrieveLocationTimer: NSTimer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // cell size
-        let cellWidth = (kAmbatanaTableViewMaxWidth - (3*kAmbatanaProductCellSpan)) / 2.0
-        let cellHeight = cellWidth * kAmbatanaProductCellFactor
+        let cellWidth = (kAmbatanaTableScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0
+        let cellHeight = cellWidth * kAmbatanaProductListCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
-        
-        // Navigation bar & items
-        self.setAmbatanaNavigationBarStyle(title: UIImage(named: "actionbar_logo"), includeBackArrow: false)
-        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_filter"], andSelectors: ["searchProduct", "showFilters"])
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         hideNoProductsFoundInterface()
-        
+    
+        // Navigation bar & items
+        self.setAmbatanaNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil)
+        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat", "actionbar_filter"], andSelectors: ["searchProduct", "conversations", "showFilters"])
+
         // register for notifications.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableSetLocation:", name: kAmbatanaUnableToSetUserLocationNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableGetLocation:", name: kAmbatanaUnableToGetUserLocationNotification, object: nil)
@@ -64,11 +61,13 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         // check current location status.
         if (CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation)) { // we have a valid registered location.
             if entries.count > 0 { disableLoadingInterface() } // we have some entries, so show them.
-            else { queryProducts() } // query entries from Parse.
+            else { enableLoadingInterface(); queryProducts() } // query entries from Parse.
         } else { // we need a location.
             enableLoadingInterface()
             if (!LocationManager.sharedInstance.updatingLocation) { // if we are not already updating our location...
                 if (LocationManager.sharedInstance.appIsAuthorizedToUseLocationServices()) { // ... and we have permission for updating it.
+                    // enable a timer to fallback
+                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kAmbatanaMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(), repeats: false)
                     // update our location.
                     LocationManager.sharedInstance.startUpdatingLocation()
                 } else { // segue to ask user about his/her location directly
@@ -145,8 +144,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         // image
         // TODO: Implement a image cache for images...?
         if let imageView = cell.viewWithTag(3) as? UIImageView {
-            if productObject["image_0"] != nil {
-                let imageFile = productObject["image_0"] as PFFile
+            if productObject[kAmbatanaProductFirstImageKey] != nil {
+                let imageFile = productObject[kAmbatanaProductFirstImageKey] as PFFile
                 imageFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
                     if error == nil {
                         imageView.image = UIImage(data: data)
@@ -232,8 +231,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                 query.whereKey("name", containsString: ConfigurationManager.sharedInstance.currentNameForSearch!)
             }
             // search only in category (if set...)
-            if ConfigurationManager.sharedInstance.currentCategory != nil { // if we have specified a category, retrieve only items in that category.
-                query.whereKey("category_id", equalTo: ConfigurationManager.sharedInstance.currentCategory!.rawValue)
+            if currentCategory != nil { // if we have specified a category, retrieve only items in that category.
+                query.whereKey("category_id", equalTo: currentCategory!.rawValue)
             }
             
             // perform query.
@@ -258,7 +257,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                         
                         // Update UI
                         self.collectionView.reloadSections(NSIndexSet(index: 0))
-                        //self.collectionView.reloadData()
                         self.disableLoadingInterface()
                     } else if (objects.count == 0) { // no more items found. Time to next bunch of products.
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
@@ -324,24 +322,32 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     // MARK: - Reacting to location notifications.
     
     func unableSetLocation(notification: NSNotification) {
-        // TODO
+        unableToRetrieveLocationTimer?.invalidate()
+        unableToRetrieveLocationTimer = nil
+        // ask the user to indicate the location directly
+        performSegueWithIdentifier("IndicateLocation", sender: nil)
     }
 
     func unableGetLocation(notification: NSNotification) {
+        unableToRetrieveLocationTimer?.invalidate()
+        unableToRetrieveLocationTimer = nil
         // ask the user to indicate the location directly
         performSegueWithIdentifier("IndicateLocation", sender: nil)
     }
 
     /** (Re)load products based in last registered user location */
     func userLocationReady(notification: NSNotification) {
+        unableToRetrieveLocationTimer?.invalidate()
+        unableToRetrieveLocationTimer = nil
         self.queryProducts()
     }
 
     /** Reset product list and start query again */
     func userLocationUpdated(notification: NSNotification) {
+        unableToRetrieveLocationTimer?.invalidate()
+        unableToRetrieveLocationTimer = nil
         self.resetProductList()
     }
-
     
     func nextKmOffset(kmOffset: Int) -> Int {
         if (kmOffset <= 1) { return 5 }
@@ -357,8 +363,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     // MARK: - UI Enable/Disable
     
     func enableLoadingInterface() {
-        activityIndicator.hidden = false
         activityIndicator.startAnimating()
+        activityIndicator.hidden = false
         collectionView.hidden = true
     }
     
@@ -387,9 +393,12 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         // TODO
         println("Search products!")
     }
+
+    func conversations() {
+        performSegueWithIdentifier("Conversations", sender: nil)
+    }
     
     func showFilters() {
-        // TODO
         let alert = UIAlertController(title: translate("order_by"), message: nil, preferredStyle: .ActionSheet)
         alert.addAction(UIAlertAction(title: translate("latest_published"), style: .Default, handler: { (action) -> Void in
             self.changeFilterTo("createdAt", order: .OrderedDescending)

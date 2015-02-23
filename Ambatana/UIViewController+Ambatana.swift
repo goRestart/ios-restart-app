@@ -10,6 +10,8 @@ import UIKit
 
 extension UIViewController {
     func setAmbatanaNavigationBarStyle(title: AnyObject? = nil, includeBackArrow: Bool = true) {
+        self.navigationController?.navigationBar.backgroundColor = UIColor.whiteColor()
+        
         // title
         if let titleString = title as? String {
             self.navigationItem.title = titleString
@@ -62,7 +64,7 @@ extension UIViewController {
         NSTimer.scheduledTimerWithTimeInterval(Double(3.0), target: self, selector: "dismissAlert", userInfo: nil, repeats: false)
     }
     
-    func showLoadingMessageAlert(customMessage: String?) {
+    func showLoadingMessageAlert(customMessage: String? = translate("loading")) {
         let alert = UIAlertController(title: customMessage ?? translate("loading"), message: nil, preferredStyle: .Alert)
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
         activityIndicator.color = UIColor.blackColor()
