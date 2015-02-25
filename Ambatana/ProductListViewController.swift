@@ -2,7 +2,7 @@
 //  ProductListViewController.swift
 //  Ambatana
 //
-//  Created by Nacho on 04/02/15.
+//  Created by Ignacio Nieto Carvajal on 04/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
@@ -151,17 +151,33 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         // image
         // TODO: Implement a image cache for images...?
         if let imageView = cell.viewWithTag(3) as? UIImageView {
+            // clean image first
+            imageView.image = nil
+            //if imageView.image == nil { imageView.image = UIImage.randomImageGradientOfSize(CGSizeMake(640, 480)) }
+            
+            // get image from object
             if productObject[kAmbatanaProductFirstImageKey] != nil {
                 let imageFile = productObject[kAmbatanaProductFirstImageKey] as PFFile
-                imageFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                    if error == nil {
-                        imageView.image = UIImage(data: data)
-                        imageView.contentMode = .ScaleAspectFill
-                        imageView.clipsToBounds = true
-                    } else {
-                        println("Unable to get image data for image \(productObject.objectId): \(error.localizedDescription)")
-                    }
-                })
+                // if processed == true, we try to retrieve the previously generated thumbnail images.
+                var useThumbnails = false
+                if let processed = productObject["processed"] as? Bool {
+                    useThumbnails = processed
+                }
+                
+                if useThumbnails { // can we try to download the image from the generated thumbnail?
+                    let thumbnailURL = ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(productObject.objectId, imageURL: imageFile.url)
+                    ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image) -> Void in
+                        if success {
+                            imageView.image = image
+                            imageView.contentMode = .ScaleAspectFill
+                            imageView.clipsToBounds = true
+                        } else { // failure, fallback to parse PFFile for the image.
+                            self.retrieveImageFile(imageFile, andAssignToImageView: imageView)
+                        }
+                    })
+                } else { // stick to the Parse big fat old image...
+                    self.retrieveImageFile(imageFile, andAssignToImageView: imageView)
+                }
             }
         }
         
@@ -205,6 +221,18 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         return cell
     }
     
+    func retrieveImageFile(imageFile: PFFile, andAssignToImageView imageView: UIImageView) {
+        imageFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
+            if error == nil {
+                imageView.image = UIImage(data: data)
+                imageView.contentMode = .ScaleAspectFill
+                imageView.clipsToBounds = true
+            } else {
+                println("Unable to get image data for image \(imageFile.name)")
+            }
+        })
+    }
+    
     // MARK: - UICollectionViewDelegate methods
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -222,30 +250,31 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if let userGeo = PFUser.currentUser()["gpscoords"] as? PFGeoPoint {
             // query in the products table
             var query = PFQuery(className: "Products")
+            
             // current distance below currentKmOffset kms.
             query.whereKey("gpscoords", nearGeoPoint: userGeo, withinKilometers: Double(currentKmOffset))
-            // do not include approval pending items...            
-            query.whereKey("status", notEqualTo: 0)
-            // ... or discarded items.
-            query.whereKey("status", notEqualTo: 2)
+            
+            // do not include approval pending items or discarded items
+            query.whereKey("status", notContainedIn: [ProductStatus.Discarded.rawValue, ProductStatus.Pending.rawValue])
+            
             // paginate in groups of kAmbatanaProductListOffsetLoadingOffsetInc
             query.limit = kAmbatanaProductListOffsetLoadingOffsetInc
+            
             // order by current filter (default, creation date).
             if ConfigurationManager.sharedInstance.currentFilterForSearch != nil {
                 if (ConfigurationManager.sharedInstance.currentFilterOrderForSearch == .OrderedDescending) {
                     query.orderByDescending(ConfigurationManager.sharedInstance.currentFilterForSearch)
                 } else { query.orderByAscending(ConfigurationManager.sharedInstance.currentFilterForSearch) }
             }
+            
             // do not include currently downloaded items
             query.whereKey("objectId", notContainedIn: alreadyRetrievedProductIds)
-            // filter by name (if needed).
-            if (ConfigurationManager.sharedInstance.currentNameForSearch != nil) {
-                query.whereKey("name", containsString: ConfigurationManager.sharedInstance.currentNameForSearch!)
-            }
+            
             // search only in category (if set...)
             if currentCategory != nil { // if we have specified a category, retrieve only items in that category.
                 query.whereKey("category_id", equalTo: currentCategory!.rawValue)
             }
+            
             // search for name or description containing search string (if set...)
             if currentSearchString != nil {
                 let nameQuery = PFQuery(className: "Products")

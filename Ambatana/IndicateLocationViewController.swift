@@ -2,7 +2,7 @@
 //  IndicateLocationViewController.swift
 //  Ambatana
 //
-//  Created by Nacho on 06/02/15.
+//  Created by Ignacio Nieto Carvajal on 06/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 

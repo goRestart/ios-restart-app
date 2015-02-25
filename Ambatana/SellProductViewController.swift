@@ -2,7 +2,7 @@
 //  SellProductViewController.swift
 //  Ambatana
 //
-//  Created by Nacho on 10/02/15.
+//  Created by Ignacio Nieto Carvajal on 10/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
@@ -30,9 +30,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     @IBOutlet weak var uploadingImageView: UIView!
     @IBOutlet weak var uploadingImageLabel: UILabel!
     @IBOutlet weak var uploadingImageProgressView: UIProgressView!
-    
-    
-    
     var originalFrame: CGRect!
     
     // data
@@ -46,6 +43,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var currentCurrency = CurrencyManager.sharedInstance.defaultCurrency
     var geocoder = CLGeocoder()
     var currenciesFromBackend: [PFObject]?
+    var imageCounter = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -148,8 +146,8 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if !CLLocationCoordinate2DIsValid(currentLocationCoordinate) { showAutoFadingOutMessageAlert(translate("unable_sell_product_location")); return }
         
         // Ok, if we reached this point we are ready to sell! Now let's build the new product object.
+        let productObject = PFObject(className: "Products") // product to sell
         enableLoadingWhileSellingObjectInterface()
-        let productObject = PFObject(className: "Products")
         // fill in all product fields
         productObject["category_id"] = currentCategory!.rawValue
         productObject["currency"] = currentCurrency.iso4217Code
@@ -198,9 +196,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
                 self.disableLoadingWhileSellingObjectInterface()
                 if success {
-                    self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"))
-                    self.popBackViewController()
                     if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId) }
+                    else { self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
+                        self.popBackViewController()
+                    }) }
                 } else {
                     self.showAutoFadingOutMessageAlert(translate("error_uploading_product"))
                 }
@@ -215,7 +214,11 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if FBSession.activeSession().state != FBSessionState.Open {
             if FBSession.openActiveSessionWithAllowLoginUI(false) {
                 shareCurrentProductInFacebook(objectId)
-            } else { showAutoFadingOutMessageAlert(translate("error_sharing_facebook")) }
+            } else { // Unable to share in Facebook. Just pop out
+                showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
+                    self.popBackViewController()
+                })
+            }
         } else { shareCurrentProductInFacebook(objectId) }
     }
     
@@ -228,9 +231,13 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if FBDialogs.canPresentShareDialogWithParams(fbSharingParams) {
             FBDialogs.presentShareDialogWithParams(fbSharingParams, clientState: nil, handler: { (call, result, error) -> Void in
                 if error == nil {
-                    self.showAutoFadingOutMessageAlert(translate("completed"))
+                    self.showAutoFadingOutMessageAlert(translate("completed"), completionBlock: { () -> Void in
+                        self.popBackViewController()
+                    })
                 } else {
-                    self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"))
+                    self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
+                        self.popBackViewController()
+                    })
                     println("Error: \(error.localizedDescription): \(error)")
                 }
             })
@@ -243,12 +250,18 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             // show dialog
             FBWebDialogs.presentFeedDialogModallyWithSession(nil, parameters: shareParamsForBrowserFallback, handler: { (result, url, error) -> Void in
                 if error != nil { // error
-                    self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"))
+                    self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
+                        self.popBackViewController()
+                    })
                 } else { // check result status
                     if result == FBWebDialogResult.DialogNotCompleted { // user cancelled
-                        self.showAutoFadingOutMessageAlert(translate("canceled_by_user"))
+                        self.showAutoFadingOutMessageAlert(translate("canceled_by_user"), completionBlock: { () -> Void in
+                            self.popBackViewController()
+                        })
                     } else { // success
-                        self.showAutoFadingOutMessageAlert(translate("completed"))
+                        self.showAutoFadingOutMessageAlert(translate("completed"), completionBlock: { () -> Void in
+                            self.popBackViewController()
+                        })
                     }
                 }
             })
@@ -292,7 +305,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             if resizedImage != nil {
                 // update parse DDBB
                 let imageData = UIImageJPEGRepresentation(resizedImage, kAmbatanaMaxProductImageJPEGQuality)
-                imageFile = PFFile(data: imageData)
+                let imageName = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "", options: nil, range: nil) + "_\(imageCounter++).jpg"
+
+                imageFile = PFFile(name: imageName, data: imageData)
             }
         }
         

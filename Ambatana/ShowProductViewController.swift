@@ -2,7 +2,7 @@
 //  ShowProductViewController.swift
 //  Ambatana
 //
-//  Created by Nacho on 11/2/15.
+//  Created by Ignacio Nieto Carvajal on 11/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
@@ -104,25 +104,15 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // images first (as they need to be downloaded).
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-                var retrievedImages: [UIImage] = []
-                var retrievedImageURLS: [String] = []
-                // iterate and retrieve all images.
-                for imageKey in kAmbatanaProductImageKeys {
-                    if let imageFile = self.productObject[imageKey] as? PFFile {
-                        if let data = imageFile.getData(nil) {
-                            if let retrievedImage = UIImage(data: data) {
-                                retrievedImages.append(retrievedImage)
-                                retrievedImageURLS.append(imageFile.url!)
-                            }
-                        }
-                    }
+                // do we have processed images?
+                var useThumbnails = false
+                if let processed = self.productObject["processed"] as? Bool {
+                    useThumbnails = processed
                 }
-                // set images and update scrollview. Must be done in main queue.
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.productImages = retrievedImages
-                    self.setProductMainImages()
-                    self.productImageURLStrings = retrievedImageURLS
-                })
+                
+                // retrieve from Parse / from thumbnail
+                if useThumbnails { self.retrieveImagesFromProcessedThumbnails() }
+                else { self.retrieveImagesFromParse() }
             })
             
             // product name
@@ -181,6 +171,60 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Image retrieval
+    
+    func retrieveImagesFromParse() {
+        var retrievedImages: [UIImage] = []
+        var retrievedImageURLS: [String] = []
+        // iterate and retrieve all images.
+        for imageKey in kAmbatanaProductImageKeys {
+            if let imageFile = self.productObject[imageKey] as? PFFile {
+                
+                if let data = imageFile.getData(nil) {
+                    if let retrievedImage = UIImage(data: data) {
+                        retrievedImages.append(retrievedImage)
+                        retrievedImageURLS.append(imageFile.url!)
+                        println("Object \(productObject.objectId): Retrieved image from PARSE file \(imageFile.name)")
+                    }
+                }
+            }
+        }
+        // set images and update scrollview. Must be done in main queue.
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.productImages = retrievedImages
+            self.setProductMainImages()
+            self.productImageURLStrings = retrievedImageURLS
+        })
+    }
+    
+    func retrieveImagesFromProcessedThumbnails() {
+        var retrievedImages: [UIImage] = []
+        var retrievedImageURLS: [String] = []
+        // iterate and retrieve all images.
+        for imageKey in kAmbatanaProductImageKeys {
+            if let imageFile = self.productObject[imageKey] as? PFFile {
+                let bigImageURL = ImageManager.sharedInstance.calculateBigImageURLForProductImage(self.productObject.objectId, imageURL: imageFile.url)
+                if let image = ImageManager.sharedInstance.retrieveImageSynchronouslyFromURLString(bigImageURL, andAddToCache: true) {
+                    retrievedImages.append(image)
+                    retrievedImageURLS.append(bigImageURL)
+                    println("Object \(self.productObject.objectId): Retrieved image from processed URL \(bigImageURL) successfully")
+                }
+            }
+        }
+        
+        if retrievedImages.count > 0 { // we managed to retrieve at least one thumbnail.
+            // set images and update scrollview. Must be done in main queue.
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.productImages = retrievedImages
+                self.setProductMainImages()
+                self.productImageURLStrings = retrievedImageURLS
+            })
+        } else { // fallback to Parse images.
+            retrieveImagesFromParse()
+        }
+        
+    }
+
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
     }

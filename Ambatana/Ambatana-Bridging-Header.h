@@ -8,6 +8,9 @@
 #import "UIImage+RoundedCorner.h"
 #import "UIImage+Alpha.h"
 
+// Crypto functions
+#import <CommonCrypto/CommonCrypto.h>
+
 // Sidebar menu
 #import "REFrostedViewController.h"
 
