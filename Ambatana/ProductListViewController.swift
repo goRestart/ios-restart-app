@@ -11,13 +11,14 @@ import UIKit
 private let kAmbatanaProductListCellFactor: CGFloat = 190.0 / 145.0
 private let kAmbatanaMaxWaitingTimeForLocation: NSTimeInterval = 30 // seconds
 
-class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, ShowProductViewControllerDelegate, UISearchBarDelegate {
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var noProductsFoundLabel: UILabel!
     @IBOutlet weak var noProductsFoundButton: UIButton!
     @IBOutlet weak var sellButton: UIButton!
+    weak var searchButton: UIButton!
     
     // data
     var currentKmOffset = 1
@@ -28,6 +29,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     var lastRetrievedProductsCount = kAmbatanaProductListOffsetLoadingOffsetInc
     var queryingProducts = false
     var currentCategory: ProductListCategory?
+    var currentSearchString: String?
     
     var entries: [PFObject] = []
     var cellSize = CGSizeMake(145.0, 190.0)
@@ -39,7 +41,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         super.viewDidLoad()
         
         // cell size
-        let cellWidth = (kAmbatanaTableScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0
+        let cellWidth = kAmbatanaFullScreenWidth * 0.45 // width/2.0 (2 cells per row) - 0.5*width(span)*2 cells
+        //let cellWidth = (kAmbatanaFullScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0 (margen más fino).
         let cellHeight = cellWidth * kAmbatanaProductListCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
     }
@@ -49,7 +52,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         hideNoProductsFoundInterface()
     
         // Navigation bar & items
-        self.setAmbatanaNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil)
+        self.setAmbatanaNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
         self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat", "actionbar_filter"], andSelectors: ["searchProduct", "conversations", "showFilters"])
 
         // register for notifications.
@@ -67,7 +70,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             if (!LocationManager.sharedInstance.updatingLocation) { // if we are not already updating our location...
                 if (LocationManager.sharedInstance.appIsAuthorizedToUseLocationServices()) { // ... and we have permission for updating it.
                     // enable a timer to fallback
-                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kAmbatanaMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(), repeats: false)
+                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kAmbatanaMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(name: kAmbatanaUnableToGetUserLocationNotification, object: nil), repeats: false)
                     // update our location.
                     LocationManager.sharedInstance.startUpdatingLocation()
                 } else { // segue to ask user about his/her location directly
@@ -126,16 +129,20 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         let productObject = entries[indexPath.row]
         
         // name
+        let productName = productObject["name"] as? String ?? ""
         if let nameLabel = cell.viewWithTag(1) as? UILabel {
-            nameLabel.text = productObject["name"] as? String ?? ""
+            nameLabel.text = productName
         }
         // price
         if let priceLabel = cell.viewWithTag(2) as? UILabel {
             priceLabel.hidden = true
             if let price = productObject["price"] as? Double {
-                let currencyString = productObject["currency"] as? String ?? "EUR"
-                if let currency = Currency(rawValue: currencyString) {
+                let currencyString = productObject["currency"] as? String ?? CurrencyManager.sharedInstance.defaultCurrency.iso4217Code
+                if let currency = CurrencyManager.sharedInstance.currencyForISO4217Symbol(currencyString) {
                     priceLabel.text = currency.formattedCurrency(price)
+                    priceLabel.hidden = false
+                } else { // fallback to just price.
+                    priceLabel.text = "\(price)"
                     priceLabel.hidden = false
                 }
             }
@@ -163,7 +170,12 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if let distanceLabel = cell.viewWithTag(4) as? UILabel {
             if let productGeoPoint = productObject["gpscoords"] as? PFGeoPoint {
                 let distance = productGeoPoint.distanceInKilometersTo(PFUser.currentUser()["gpscoords"] as PFGeoPoint)
-                distanceLabel.text = NSString(format: "%.1fK", distance)
+                if distance > 1.0 { distanceLabel.text = NSString(format: "%.1fK", distance) }
+                else {
+                    let metres: Int = Int(distance * 1000)
+                    if metres > 1 { distanceLabel.text = NSString(format: "%dM", metres) }
+                    else { distanceLabel.text = translate("here") }
+                }
                 distanceLabel.hidden = false
             } else { distanceLabel.hidden = true }
         }
@@ -209,7 +221,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         
         if let userGeo = PFUser.currentUser()["gpscoords"] as? PFGeoPoint {
             // query in the products table
-            let query = PFQuery(className: "Products")
+            var query = PFQuery(className: "Products")
             // current distance below currentKmOffset kms.
             query.whereKey("gpscoords", nearGeoPoint: userGeo, withinKilometers: Double(currentKmOffset))
             // do not include approval pending items...            
@@ -234,6 +246,15 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             if currentCategory != nil { // if we have specified a category, retrieve only items in that category.
                 query.whereKey("category_id", equalTo: currentCategory!.rawValue)
             }
+            // search for name or description containing search string (if set...)
+            if currentSearchString != nil {
+                let nameQuery = PFQuery(className: "Products")
+                nameQuery.whereKey("name", matchesRegex: currentSearchString, modifiers: "i")
+                let descriptionQuery = PFQuery(className: "Products")
+                descriptionQuery.whereKey("description", matchesRegex: currentSearchString, modifiers: "i")
+                let innerQuery = PFQuery.orQueryWithSubqueries([nameQuery, descriptionQuery])
+                query.whereKey("objectId", matchesKey: "objectId", inQuery: innerQuery)
+            }
             
             // perform query.
             //println("Performing query with currentKmOffset=\(currentKmOffset), current offset: \(lastRetrievedProductsCount)")
@@ -252,9 +273,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                                 ids += "\(retrievedProduct.objectId), "
                             }
                         }
-                        //println("Retrieved: \(ids)")
-                        //println("Retrieved: \(objects.count) objects. Currently we have loaded \(self.entries.count) products")
-                        
                         // Update UI
                         self.collectionView.reloadSections(NSIndexSet(index: 0))
                         self.disableLoadingInterface()
@@ -314,6 +332,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let spvc = segue.destinationViewController as? ShowProductViewController {
             spvc.productObject = self.productToShow
+            spvc.delegate = self
         } else if let epvc = segue.destinationViewController as? EditProfileViewController {
             epvc.userObject = PFUser.currentUser()
         }
@@ -387,11 +406,28 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         noProductsFoundLabel.hidden = true
     }
     
+    // MARK: - UISearchBarDelegate methods
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        dismissSearchBar(searchBar, animated: true, searchBarCompletion: nil)
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        let searchString = searchBar.text
+        dismissSearchBar(searchBar, animated: true) { () -> Void in
+            // analyze search string
+            if searchString != nil && countElements(searchString) > 0 {
+                let newProductListVC = self.storyboard?.instantiateViewControllerWithIdentifier("productListViewController") as ProductListViewController
+                newProductListVC.currentSearchString = searchString
+                self.navigationController?.pushViewController(newProductListVC, animated: true)
+            }
+        }
+        
+    }
+    
     // MARK: - UIBarButtonItems actions
     
     func searchProduct() {
-        // TODO
-        println("Search products!")
+        showSearchBarAnimated(true, delegate: self)
     }
 
     func conversations() {
@@ -445,5 +481,15 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         })
     }
 
+    // MARK: - ShowProductViewControllerDelegate methods
+    
+    // update status of a product (i.e: if it gets marked as sold).
+    func ambatanaProduct(product: PFObject, statusUpdatedTo newStatus: ProductStatus) {
+        if let found = find(entries, product) {
+            entries[found]["status"] = newStatus.rawValue
+            collectionView.reloadSections(NSIndexSet(index: 0))
+        }
+    }
+    
 }
 

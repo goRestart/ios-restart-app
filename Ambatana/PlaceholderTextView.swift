@@ -69,12 +69,14 @@ private let kPlaceholderTextViewInsetSpan: CGFloat = 8
     override func willMoveToWindow(newWindow: UIWindow?) {
         super.willMoveToWindow(newWindow)
         if newWindow == nil { NSNotificationCenter.defaultCenter().removeObserver(self, name: UITextViewTextDidChangeNotification, object: self) }
+        else { listenForTextChangedNotifications() }
     }
 
 
     // MARK: - Adjusting placeholder.
     func textChangedForPlaceholderTextView(notification: NSNotification) {
         setNeedsDisplay()
+        setNeedsLayout()
     }
     
     override func drawRect(rect: CGRect) {

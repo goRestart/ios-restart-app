@@ -13,7 +13,7 @@ private let kAmbatanaCategoryCellGradientImageTag = 2
 private let kAmbatanaCategoryCellNameTag = 3
 private let kAmbatanaCategoriesCellFactor: CGFloat = 115.0 / 145.0
 
-class CategoriesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class CategoriesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var sellButton: UIButton!
@@ -32,7 +32,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProducts", "conversations"])
         
         // cell size
-        let cellWidth = (kAmbatanaTableScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0
+        let cellWidth = kAmbatanaFullScreenWidth * 0.45 // width/2.0 (2 cells per row) - 0.5*width(span)*2 cells
         let cellHeight = cellWidth * kAmbatanaCategoriesCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
     }
@@ -49,11 +49,29 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         let allCategoriesQuery = allCategoriesQueryForLanguage(initialLanguage)
         performCategoriesQuery(allCategoriesQuery, isDefaultLanguage: initialLanguage == kAmbatanaDefaultCategoriesLanguage)
     }
-
+    
+    // MARK: - UISearchBarDelegate methods
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        dismissSearchBar(searchBar, animated: true, searchBarCompletion: nil)
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        let searchString = searchBar.text
+        dismissSearchBar(searchBar, animated: true) { () -> Void in
+            // analyze search string
+            if searchString != nil && countElements(searchString) > 0 {
+                let newProductListVC = self.storyboard?.instantiateViewControllerWithIdentifier("productListViewController") as ProductListViewController
+                newProductListVC.currentSearchString = searchString
+                self.navigationController?.pushViewController(newProductListVC, animated: true)
+            }
+        }
+        
+    }
+    
     // MARK: - Navigation bar item actions
     
     func searchProducts() {
-        // TODO
+        showSearchBarAnimated(true, delegate: self)
     }
     
     func conversations() {
@@ -132,17 +150,25 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             
             // category image
             if let categoryImage = cell.viewWithTag(kAmbatanaCategoryCellRealImageTag) as? UIImageView {
-                ImageManager.sharedInstance.retrieveImageFromURLString(categoryObject["image"] as String, completion: { (success, image) -> Void in
-                    if success { categoryImage.image = image }
-                    // TODO: else? try again?
-                })
+                // first we try to retrieve it locally.
+                var imageRetrievedLocally = false
+                if let categoryId = categoryObject["category_id"] as? Int {
+                    if let category = ProductListCategory(rawValue: categoryId) {
+                        if let localImage = category.imageForCategory() {
+                            categoryImage.image = localImage
+                            imageRetrievedLocally = true
+                        }
+                    }
+                }
+                
+                // if we don't have an image for that category locally, we must retrieve it from the network using the "image" URL String from the backend.
+                if !imageRetrievedLocally {
+                    ImageManager.sharedInstance.retrieveImageFromURLString(categoryObject["image"] as String, completion: { (success, image) -> Void in
+                        if success { categoryImage.image = image }
+                        // TODO: else? try again?
+                    })
+                }
             }
-            
-            // gradient image
-            if let gradientImage = cell.viewWithTag(kAmbatanaCategoryCellGradientImageTag) as? UIImageView {
-                gradientImage.image = UIImage(gradientColors: [UIColor.clearColor(), UIColor.blackColor().colorWithAlphaComponent(0.8)], size: cellSize!)
-            }
-            
         }
         
         
@@ -153,7 +179,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         if let categoryObject = categories?[indexPath.row] {
             if let category = ProductListCategory(rawValue: categoryObject["category_id"] as Int) {
                 selectedCategory = category
-                println("Searching products with category \(selectedCategory?.getName()), number \(selectedCategory?.rawValue)")
                 performSegueWithIdentifier("ProductListByCategory", sender: nil)
             }
         }

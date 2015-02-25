@@ -23,7 +23,7 @@
 "cars_and_motors" = "Cars and Motors";
 "sports_leisure_and_games" = "Sports, Leisure and Games";
 "home_and_garden" = "Home and Garden";
-"movies_books_and_comics" = "Movies, Books and Music";
+"movies_books_and_music" = "Movies, Books and Music";
 "fashion_and_accesories" = "Fashion and Accesories";
 "baby_and_child" = "Baby and Child";
 "other" = "Other";
@@ -149,7 +149,7 @@
 "choose_action" = "Choose an action";
 "delete" = "Delete";
 "save_to_disk" = "Save to disk";
-"saving_to_disk" = "Saving image to photo library...";
+"saving_to_disk" = "Saving image in photo library...";
 "successfully_saved_to_disk" = "Successfully saved image to photo library.";
 "error_saving_to_disk" = "An error occurred while saving the image in your photo library. Please, make sure Ambatana is allowed to access your photos in the Settings App.";
 "error_deleting_photo" = "Error deleting photo, please try again later.";
@@ -160,8 +160,13 @@
 "insert_valid_category" = "Please, choose a category for the product.";
 "unable_sell_product_location" = "I was unable to find your current location. For selling the product, I need to be able to find it. Please, try again later.";
 "successfully_uploaded_product" = "Product was successfully registered for selling. It will appear in Ambatana as soon as it's approved.";
+"uploading_image_please_wait" = "Uploading image, please wait...";
 "error_uploading_product" = "An error happened while registering your product. Please, try again later.";
-
+"here" = "Here";
+"mark_as_sold" = "Mark as sold";
+"are_you_sure_mark_sold" = "Are you sure you want to mark this item as sold?";
+"marked_as_sold" = "Marked as sold";
+"error_marking_as_sold" = "There was an error while marking the product as sold. Please, try again later.";
 
 
 

@@ -30,19 +30,6 @@ class ImageManager: NSObject {
         return _singletonInstance
     }
     
-    override init() {
-        super.init()
-        // TODO: remove when we have some fast-loading URLs
-        imageCache = ["http://ambatana.cgmprojects.com/baby_and_child.png": UIImage(named: "categories_babies")!,
-                              "http://ambatana.cgmprojects.com/cars_and_motors.png": UIImage(named: "categories_cars")!,
-                              "http://ambatana.cgmprojects.com/electronics.png": UIImage(named: "categories_electronics")!,
-                              "http://ambatana.cgmprojects.com/fashion_and_accesories.png": UIImage(named: "categories_fashion")!,
-                              "http://ambatana.cgmprojects.com/home_and_garden.png": UIImage(named: "categories_homes")!,
-                              "http://ambatana.cgmprojects.com/movies_books_and_music.png": UIImage(named: "categories_music")!,
-                              "http://ambatana.cgmprojects.com/other.png": UIImage(named: "categories_others")!,
-                              "http://ambatana.cgmprojects.com/sports_leisure_and_games.png": UIImage(named: "categories_sports")! ]
-    }
-    
     /** Asynchronously retrieves a image from a URL. If the image is in the cache, it retrieves if from the cache first */
     func retrieveImageFromURLString(urlString: String, completion: (success: Bool, image: UIImage?) -> Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in

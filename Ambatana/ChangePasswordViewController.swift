@@ -38,15 +38,23 @@ class ChangePasswordViewController: UIViewController {
         } else if passwordTextfield.text != confirmPasswordTextfield.text { // passwords do not match.
             showAutoFadingOutMessageAlert(translate("passwords_dont_match"))
         } else {
-            // clean fields
+            // dismiss keyboard
+            self.view.resignFirstResponder()
+            self.view.endEditing(true)
             
+            // change password
             showLoadingMessageAlert()
             PFUser.currentUser().password = passwordTextfield.text
             PFUser.currentUser().saveInBackgroundWithBlock({ (success, error) -> Void in
                 if success {
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.showAutoFadingOutMessageAlert(translate("password_successfully_changed"))
-                        self.popBackViewController()
+                        // clean fields
+                        self.passwordTextfield.text = ""
+                        self.confirmPasswordTextfield.text = ""
+                        // show alert message and pop back to settings after finished.
+                        self.showAutoFadingOutMessageAlert(translate("password_successfully_changed"), completionBlock: { (_) -> Void in
+                            self.popBackViewController()
+                        })
                     })
                 } else {
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in

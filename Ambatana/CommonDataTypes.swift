@@ -11,7 +11,7 @@ import Foundation
 // constants
 let kAmbatanaMinPasswordLength = 6
 let kAmbatanaDefaultCategoriesLanguage = "en"
-let kAmbatanaTableScreenWidth = UIScreen.mainScreen().bounds.size.width
+let kAmbatanaFullScreenWidth = UIScreen.mainScreen().bounds.size.width
 let kAmbatanaProductCellSpan: CGFloat = 10.0
 let kAmbatanaProductListOffsetLoadingOffsetInc = 10 // Load 20 products each time.
 let kAmbatanaProductListMaxKmDistance = 10000
@@ -79,47 +79,27 @@ enum ProductListCategory: Int {
             return "other"
         }
     }
-}
-
-/** Currencies */
-
-enum Currency: String {
-    case Eur = "EUR", Usd = "USD", Gbp = "GBP", Ars = "ARS", Brl = "BRL"
     
-    func formattedCurrency(price: Double) -> String {
+    func imageForCategory() -> UIImage? {
         switch (self) {
-        case .Eur:
-            return "\(price)\(self.symbol())"
-        case .Usd:
-            return "\(self.symbol())\(price)"
-        case .Gbp:
-            return "\(self.symbol())\(price)"
-        case .Ars:
-            return "\(self.symbol())\(price)"
-        case .Brl:
-            return "\(self.symbol())\(price)"
+        case .Electronics:
+            return UIImage(named: "categories_electronics")!
+        case .CarsAndMotors:
+            return UIImage(named: "categories_cars")!
+        case .SportsLeisureAndGames:
+            return UIImage(named: "categories_sports")!
+        case .HomeAndGarden:
+            return UIImage(named: "categories_homes")!
+        case .MoviesBooksAndMusic:
+            return UIImage(named: "categories_music")!
+        case .FashionAndAccesories:
+            return UIImage(named: "categories_fashion")!
+        case .BabyAndChild:
+            return UIImage(named: "categories_babies")!
+        case .Other:
+            return UIImage(named: "categories_others")!
         default:
-            return "\(price)"
-        }
-    }
-    
-    static func defaultCurrency() -> Currency { return .Usd }
-    static func allCurrencies() -> [Currency] { return [.Eur, .Usd, .Gbp, .Ars, .Brl] }
-    
-    func symbol() -> String {
-        switch (self) {
-        case .Eur:
-            return "€"
-        case .Usd:
-            return "$"
-        case .Gbp:
-            return "£"
-        case .Ars:
-            return "A$"
-        case .Brl:
-            return "R$"
-        default:
-            return ""
+            return nil
         }
     }
 }

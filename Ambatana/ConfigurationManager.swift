@@ -98,7 +98,7 @@ class ConfigurationManager: NSObject {
                     }
                     if oauthSessionExpired { // logout
                         PFUser.logOut()
-                        NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: kAmbatanaSessionInvalidatedNotification, object: nil))
+                        NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaSessionInvalidatedNotification, object: nil)
                     } else { // notify error
                         NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaInvalidCredentialsNotification, object: nil)
                     }
@@ -141,6 +141,8 @@ class ConfigurationManager: NSObject {
         if installationModified {
             PFInstallation.currentInstallation().saveInBackgroundWithBlock(nil)
         }
+        // once we know that we have been logged in and we have updated the user data, is a good moment for retrieving the currency list.
+        CurrencyManager.sharedInstance.refreshCurrenciesFromBackend()
     }
     
     // loads the picture from a URL

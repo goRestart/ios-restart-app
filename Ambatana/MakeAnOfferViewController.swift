@@ -16,7 +16,7 @@ class MakeAnOfferViewController: UIViewController {
     @IBOutlet weak var makeAnOfferButton: UIButton!
     
     // data
-    var offerCurrency = Currency.defaultCurrency()
+    var offerCurrency = CurrencyManager.sharedInstance.defaultCurrency
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +41,10 @@ class MakeAnOfferViewController: UIViewController {
     
     @IBAction func changeCurrency(sender: AnyObject) {
         let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
-        for currency in Currency.allCurrencies() {
-            alert.addAction(UIAlertAction(title: currency.rawValue, style: .Default, handler: { (action) -> Void in
+        for currency in CurrencyManager.sharedInstance.allCurrencies() {
+            alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (action) -> Void in
                 self.offerCurrency = currency
-                self.currencyButton.setTitle(currency.symbol(), forState: .Normal)
+                self.currencyButton.setTitle(currency.currencyCode, forState: .Normal)
             }))
         }
         self.presentViewController(alert, animated: true, completion: nil)

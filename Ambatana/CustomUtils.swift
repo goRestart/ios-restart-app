@@ -102,7 +102,12 @@ func favoriteCategoriesQuery() -> PFQuery {
     return query
 }
 
-
-
+/**
+ * Gets the height of the status bar
+ */
+func statusBarHeight() -> CGFloat {
+    let statusBarSize = UIApplication.sharedApplication().statusBarFrame.size
+    return Swift.min(statusBarSize.width, statusBarSize.height)
+}
 
 

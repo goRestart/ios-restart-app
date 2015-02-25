@@ -11,6 +11,14 @@ import MapKit
 import MessageUI
 import Social
 
+protocol ShowProductViewControllerDelegate {
+    func ambatanaProduct(product: PFObject, statusUpdatedTo newStatus: ProductStatus)
+}
+
+/**
+ * This ViewController is in charge of showing a single product selected from the ProductList view controller. Depending on the ownership of the product, the user would be allowed
+ * to modify the object if he/she owns it, or make offers/chat with the owner.
+ */
 class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate {
     // outlets & buttons
     @IBOutlet weak var imagesScrollView: UIScrollView!
@@ -30,19 +38,23 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var shareMoreButton: UIButton!
     @IBOutlet weak var markSoldButton: UIButton!
     @IBOutlet weak var imagesPageControl: UIPageControl!
+    @IBOutlet weak var markAsSoldActivityIndicator: UIActivityIndicatorView!
     
     // data
     var productObject: PFObject!
     var productImages: [UIImage] = []
     var productImageURLStrings: [String] = []
     var productUser: PFUser!
+    var productStatus: ProductStatus?
     var scrollViewOffset: CGFloat = 0.0
     var pageControlBeingUsed = false
+    var delegate: ShowProductViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // UX/UI
+        self.markAsSoldActivityIndicator.hidden = true
         self.imagesPageControl.numberOfPages = 0
-        // image circled
         self.userAvatarImageView.layer.cornerRadius = self.userAvatarImageView.frame.size.width / 2.0
         self.userAvatarImageView.clipsToBounds = true
         
@@ -54,6 +66,17 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             self.askQuestionButton.hidden = thisProductIsMine
             self.makeOfferButton.hidden = thisProductIsMine
             self.markSoldButton.hidden = !thisProductIsMine
+            // if product is sold, disable markAsSold button.
+            if let statusCode = productObject["status"] as? Int {
+                productStatus = ProductStatus(rawValue: statusCode)
+                if productStatus == .Sold {
+                    markSoldButton.enabled = false
+                    //self.markSoldButton.setTitle(translate("marked_as_sold"), forState: .Normal)
+                    self.markSoldButton.hidden = true
+                } else {
+                    markSoldButton.setTitle(translate("mark_as_sold"), forState: .Normal)
+                }
+            }
 
             // load owner user information
             let userQuery = PFUser.query()
@@ -108,11 +131,14 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // product price
             if let price = productObject["price"] as? Double {
-                let currencyString = productObject["currency"] as? String ?? "EUR"
-                if let currency = Currency(rawValue: currencyString) {
+                let currencyString = productObject["currency"] as? String ?? CurrencyManager.sharedInstance.defaultCurrency.iso4217Code
+                if let currency = CurrencyManager.sharedInstance.currencyForISO4217Symbol(currencyString) {
                     priceLabel.text = currency.formattedCurrency(price)
                     priceLabel.hidden = false
-                } else { priceLabel.hidden = true }
+                } else { // fallback to just the price.
+                    priceLabel.text = "\(price)"
+                    priceLabel.hidden = false
+                }
             } else { priceLabel.hidden = true }
             
             // product description
@@ -145,7 +171,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         }
         
         // internationalization
-        markSoldButton.setTitle(translate("mark_as_sold"), forState: .Normal)
         makeOfferButton.setTitle(translate("make_an_offer"), forState: .Normal)
         askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
         shareThisLabel.text = translate("share_this_item")
@@ -165,7 +190,56 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
-        
+        let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: translate("mark_as_sold"), style: .Default, handler: { (markAction) -> Void in
+            self.enableMarkAsSoldLoadingInterface()
+            self.productObject["status"] = ProductStatus.Sold.rawValue
+            self.productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
+                if success {
+                    self.productStatus = .Sold
+                    // animated hiding of the button, restore alpha once hidden.
+                    UIView.animateWithDuration(0.5, animations: { () -> Void in
+                        self.markSoldButton.alpha = 0.0
+                    }, completion: { (success) -> Void in
+                        self.markSoldButton.hidden = true
+                        self.markSoldButton.alpha = 1.0
+                    })
+                    //self.markSoldButton.setTitle(translate("marked_as_sold"), forState: .Normal)
+                    //self.markSoldButton.enabled = false
+                    self.delegate?.ambatanaProduct(self.productObject, statusUpdatedTo: self.productStatus!)
+                } else {
+                    self.markSoldButton.enabled = true
+                    self.showAutoFadingOutMessageAlert("error_marking_as_sold")
+                }
+                self.disableMarkAsSoldLoadingInterface()
+            })
+        }))
+        alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    // MARK: - Mark as sold UI/UX
+    
+    func enableMarkAsSoldLoadingInterface() {
+        self.markSoldButton.userInteractionEnabled = false
+        self.markAsSoldActivityIndicator.startAnimating()
+        self.markAsSoldActivityIndicator.hidden = false
+        self.markSoldButton.setTitle("", forState: .Normal)
+        self.markSoldButton.setImage(nil, forState: .Normal)
+    }
+    
+    func disableMarkAsSoldLoadingInterface() {
+        self.markAsSoldActivityIndicator.hidden = true
+        self.markAsSoldActivityIndicator.stopAnimating()
+        if productStatus == .Sold {
+            // markSoldButton.setTitle(translate("marked_as_sold"), forState: .Normal)
+            // remove all buttons
+            markSoldButton.hidden = true
+        } else {
+            markSoldButton.setTitle(translate("mark_as_sold"), forState: .Normal)
+        }
+        self.markSoldButton.setImage(UIImage(named: "item_offer"), forState: .Normal)
+        self.markSoldButton.userInteractionEnabled = true
     }
     
     // MARK: - Sharing buttons and sharing actions.

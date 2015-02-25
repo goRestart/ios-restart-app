@@ -72,7 +72,8 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    private func updateLocationTimerTriggered() {
+    /** This function is called by the locationTimer to update the location of the user. It should not be called outside LocationManager. */
+    internal func updateLocationTimerTriggered() {
         if (!self.updatingLocation) {
             self.updatingLocation = true
             self.clLocationManager.startUpdatingLocation()
@@ -172,9 +173,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         clLocationManager.stopUpdatingLocation()
         if (locations?.count > 0) {
             if let lastLocation = locations.last as? CLLocation {
-                // TODO: Change this
-                //self.lastKnownLocation = lastLocation.coordinate
-                self.lastKnownLocation = CLLocationCoordinate2DMake(40.416947, -3.703528)
+                // TODO: Change this debug
+                #if (arch(i386) || arch(x86_64)) && os(iOS) // we are in the simulator.
+                    self.lastKnownLocation = CLLocationCoordinate2DMake(40.416947, -3.703528)
+                #else
+                    self.lastKnownLocation = lastLocation.coordinate
+                #endif
             }
         }
     }

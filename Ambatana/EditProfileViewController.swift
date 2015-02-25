@@ -60,7 +60,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         setAmbatanaNavigationBarStyle(title: "", includeBackArrow: true)
         
         // cell size
-        let cellWidth = (kAmbatanaTableScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0
+        let cellWidth = (kAmbatanaFullScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0
         let cellHeight = cellWidth * kAmbatanaEditProfileCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
 
@@ -329,12 +329,15 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         if let priceLabel = cell.viewWithTag(2) as? UILabel {
             priceLabel.hidden = true
             if let price = productObject["price"] as? Double {
-                let currencyString = productObject["currency"] as? String ?? "EUR"
-                if let currency = Currency(rawValue: currencyString) {
+                let currencyString = productObject["currency"] as? String ?? CurrencyManager.sharedInstance.defaultCurrency.iso4217Code
+                if let currency = CurrencyManager.sharedInstance.currencyForISO4217Symbol(currencyString) {
                     priceLabel.text = currency.formattedCurrency(price)
                     priceLabel.hidden = false
+                } else { // fallback to just price.
+                    priceLabel.text = "\(price)"
+                    priceLabel.hidden = false
                 }
-            }
+            } else { priceLabel.hidden = true }
         }
         
         // image

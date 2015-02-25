@@ -52,10 +52,18 @@ enum AmbatanaUserSettings: Int {
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     // outlets & buttons
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var settingProfileImageView: UIView!
+    @IBOutlet weak var settingProfileImageLabel: UILabel!
+    @IBOutlet weak var settingProfileImageProgressView: UIProgressView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // internationalization
+        settingProfileImageLabel.text = translate("setting_profile_image")
+        
+        // appearance
+        settingProfileImageView.hidden = true
         setAmbatanaNavigationBarStyle(title: translate("settings"), includeBackArrow: true)
     }
 
@@ -98,12 +106,17 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         case .ChangeLocation:
             performSegueWithIdentifier("ChangeLocation", sender: nil)
         case .ChangePassword:
+/*
+            // Only users that actually have a password should be able to change it.
             if PFFacebookUtils.isLinkedWithUser(PFUser.currentUser()) {
                 // we are linked with Facebook, so we don't actually have a password.
                 self.showAutoFadingOutMessageAlert(translate("cant_change_facebook_password"))
             } else {
                 performSegueWithIdentifier("ChangePassword", sender: nil)
             }
+*/
+            // Update: Allow even FB users to change their passwords.
+            performSegueWithIdentifier("ChangePassword", sender: nil)
         case .FavoriteCategories:
             performSegueWithIdentifier("SetFavoriteCategories", sender: nil)
         case .LogOut:
@@ -142,11 +155,16 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         var imageFile: PFFile? = nil
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
+
+        // update loading UI
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.settingProfileImageProgressView.progress = 0.0
+        self.settingProfileImageView.hidden = false
         
-        self.showLoadingMessageAlert(customMessage: translate("setting_profile_image"))
+        // generate cropped image to 1024x1024 at most.
         if image != nil {
-            if let croppedImage = image!.cropToSquare() {
-                if let resizedImage = croppedImage.resize(CGSizeMake(kAmbatanaUserImageSquareSize, kAmbatanaUserImageSquareSize), contentMode: .ScaleAspectFill) {
+            if let croppedImage = image!.croppedCenteredImage() {
+                if let resizedImage = croppedImage.resizedImage(CGSizeMake(kAmbatanaUserImageSquareSize, kAmbatanaUserImageSquareSize), interpolationQuality: kCGInterpolationHigh) {
                     // update parse DDBB
                     let imageData = UIImageJPEGRepresentation(croppedImage, 0.9)
                     imageFile = PFFile(data: imageData)
@@ -154,24 +172,34 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
 
+        // upload image.
         if imageFile == nil { // we were unable to generate the image file.
-            self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                self.showAutoFadingOutMessageAlert(translate("error_setting_profile_image"))
-            })
+            self.settingProfileImageView.hidden = true
+            self.showAutoFadingOutMessageAlert(translate("error_setting_profile_image"))
         } else { // we have a valid image PFFile, now update current user's avatar with it.
-            PFUser.currentUser()["avatar"] = imageFile
-            PFUser.currentUser().saveInBackgroundWithBlock({ (success, error) -> Void in
-                if success {
-                    // save local user image
-                    ConfigurationManager.sharedInstance.userProfileImage = UIImage(data: imageFile!.getData())
-                    self.tableView.reloadData()
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                } else {
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.showAutoFadingOutMessageAlert(translate("error_setting_profile_image"))
+            imageFile?.saveInBackgroundWithBlock({ (success, error) -> Void in
+                if success { // successfully uploaded image. Now assign it to the user and save him/her.
+                    PFUser.currentUser()["avatar"] = imageFile
+                    PFUser.currentUser().saveInBackgroundWithBlock({ (success, error) -> Void in
+                        if success {
+                            // save local user image
+                            ConfigurationManager.sharedInstance.userProfileImage = UIImage(data: imageFile!.getData())
+                            self.tableView.reloadData()
+                            self.settingProfileImageView.hidden = true
+                        } else { // unable save user with new avatar.
+                            self.settingProfileImageView.hidden = true
+                            self.showAutoFadingOutMessageAlert(translate("error_setting_profile_image"))
+                        }
                     })
+                } else { // error uploading new user image.
+                    self.settingProfileImageView.hidden = true
+                    self.showAutoFadingOutMessageAlert(translate("error_setting_profile_image"))
                 }
+            }, progressBlock: { (progressAsInt) -> Void in
+                self.settingProfileImageProgressView.setProgress(Float(progressAsInt)/100.0, animated: true)
             })
+            
+            
         }
         
     }
