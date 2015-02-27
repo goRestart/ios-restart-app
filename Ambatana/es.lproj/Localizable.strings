@@ -167,8 +167,12 @@
 "are_you_sure_mark_sold" = "¿Estás seguro que quieres marcar el producto como vendido?";
 "marked_as_sold" = "Marcado como vendido";
 "error_marking_as_sold" = "Hubo un error marcando el producto como vendido. Por favor, inténtalo más tarde.";
-
-
+"loading_conversations" = "Cargando conversaciones...";
+"product" = "Producto";
+"unable_show_conversation" = "Hubo un problema recuperando los datos del chat. Por favor, inténtalo de nuevo más tarde.";
+"unable_start_conversation" = "Hubo un problema creando la conversación. Por favor, inténtalo de nuevo más tarde.";
+"loading_messages" = "Cargando mensajes...";
+"unable_send_message" = "Imposible enviar mensaje. Inténtalo de nuevo más tarde.";
 
 
 

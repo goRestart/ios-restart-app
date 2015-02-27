@@ -39,6 +39,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var markSoldButton: UIButton!
     @IBOutlet weak var imagesPageControl: UIPageControl!
     @IBOutlet weak var markAsSoldActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var askQuestionActivityIndicator: UIActivityIndicatorView!
     
     // data
     var productObject: PFObject!
@@ -54,6 +55,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         super.viewDidLoad()
         // UX/UI
         self.markAsSoldActivityIndicator.hidden = true
+        self.askQuestionActivityIndicator.hidden = true
         self.imagesPageControl.numberOfPages = 0
         self.userAvatarImageView.layer.cornerRadius = self.userAvatarImageView.frame.size.width / 2.0
         self.userAvatarImageView.clipsToBounds = true
@@ -139,7 +141,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // product published date.
             if productObject.createdAt != nil {
-                publishedTimeLabel.text = translate("published") + " " + productObject.createdAt.relativeTimeToString().lowercaseString
+                publishedTimeLabel.text = translate("published") + " " + productObject.createdAt.relativeTimeString().lowercaseString
                 publishedTimeLabel.hidden = false
             } else { publishedTimeLabel.hidden = true }
             
@@ -227,6 +229,48 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
 
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
+        // safety checks
+        if productUser == nil || productObject == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
+        
+        // loading interface...
+        enableAskQuestionLoadingInterface()
+        
+        // check if we have some current conversation with the user
+        ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser!, aboutProduct: productObject!) { (success, conversation) -> Void in
+            if success { // we have a conversation.
+                self.launchChatWithConversation(conversation!)
+            } else { // we need to create a conversation and pass it.
+                ChatManager.sharedInstance.createConversationWithUser(self.productUser!, aboutProduct: self.productObject!, completion: { (success, conversation) -> Void in
+                    if success { self.launchChatWithConversation(conversation!) }
+                    else { self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+                })
+            }
+        }
+    }
+    
+    func launchChatWithConversation(conversation: PFObject) {
+        disableAskQuestionLoadingInterface()
+        
+        if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
+            chatVC.ambatanaConversationData = AmbatanaConversation(conversationObject: conversation)
+            chatVC.conversationObject = conversation
+            self.navigationController?.pushViewController(chatVC, animated: true) ?? showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+        } else { showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+    }
+    
+    func enableAskQuestionLoadingInterface() {
+        askQuestionActivityIndicator.center = askQuestionButton.center
+        askQuestionActivityIndicator.startAnimating()
+        askQuestionActivityIndicator.hidden = false
+        askQuestionButton.setTitle("", forState: .Normal)
+        askQuestionButton.setImage(nil, forState: .Normal)
+    }
+    
+    func disableAskQuestionLoadingInterface() {
+        askQuestionActivityIndicator.hidden = true
+        askQuestionActivityIndicator.stopAnimating()
+        askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
+        askQuestionButton.setImage(UIImage(named: "item_chat")!, forState: .Normal)
     }
     
     @IBAction func makeOffer(sender: AnyObject) {

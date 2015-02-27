@@ -44,6 +44,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var geocoder = CLGeocoder()
     var currenciesFromBackend: [PFObject]?
     var imageCounter = 0
+    var imageUploadBackgroundTask = UIBackgroundTaskInvalid // used for allowing the App to keep on uploading an image if we go into background.
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -315,6 +316,12 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             disableAddPhotoLoadingInterface()
             showAutoFadingOutMessageAlert(translate("unable_upload_photo"))
         } else { // we have a valid image PFFile, now update current user's avatar with it.
+            // first we define a background task so we can continue on uploading the image even if we go into background.
+            imageUploadBackgroundTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({ () -> Void in
+                UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
+                self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
+            })
+            // then we start the upload process
             imageFile?.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if success {
                     // store locally
@@ -323,9 +330,13 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                     // add some visual clue to the user
                     self.disableAddPhotoLoadingInterface()
                     self.collectionView.reloadSections(NSIndexSet(index: 0))
+                    UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
+                    self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
                 } else {
                     self.disableAddPhotoLoadingInterface()
                     self.showAutoFadingOutMessageAlert(translate("unable_upload_photo"))
+                    UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
+                    self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
                 }
             }, progressBlock: { (progress) -> Void in
                 self.uploadingImageProgressView.setProgress(Float(progress)/100.0, animated: true)

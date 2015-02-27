@@ -10,7 +10,7 @@ import UIKit
 
 extension NSDate {
     
-    func relativeTimeToString() -> String
+    func relativeTimeString() -> String
     {
         let time = self.timeIntervalSince1970
         let now = NSDate().timeIntervalSince1970
@@ -53,11 +53,11 @@ extension NSDate {
             }
         }
         
-        if weeks < 4 {
+        if weeks <= 4 {
             if weeks == 1 {
                 return translate("a_week_ago")
             } else {
-                return translateWithFormat("x_weeks_ago", [Int(days)])
+                return translateWithFormat("x_weeks_ago", [Int(weeks)])
             }
         }
         

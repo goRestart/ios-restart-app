@@ -167,8 +167,12 @@
 "are_you_sure_mark_sold" = "Are you sure you want to mark this item as sold?";
 "marked_as_sold" = "Marked as sold";
 "error_marking_as_sold" = "There was an error while marking the product as sold. Please, try again later.";
-
-
+"loading_conversations" = "Loading conversations...";
+"product" = "Product";
+"unable_show_conversation" = "An error occurred while retrieving your conversation data. Please try again later.";
+"unable_start_conversation" = "An error occurred while starting the conversation. Please try again later.";
+"loading_messages" = "Loading messages...";
+"unable_send_message" = "There was an error sending the message. Please, try again later.";
 
 
 

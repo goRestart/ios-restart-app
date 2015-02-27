@@ -281,11 +281,11 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
-        // TODO
+        performSegueWithIdentifier("SellProducts", sender: sender)
     }
     
     @IBAction func startSearchingNow(sender: AnyObject) {
-        // TODO
+        performSegueWithIdentifier("SearchProducts", sender: sender)
     }
     
     // MARK: - UICollectionViewDataSource and Delegate methods
