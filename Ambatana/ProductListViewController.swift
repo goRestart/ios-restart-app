@@ -222,15 +222,13 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     func retrieveImageFile(imageFile: PFFile, andAssignToImageView imageView: UIImageView) {
-        imageFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
-            if error == nil {
-                imageView.image = UIImage(data: data)
+        ImageManager.sharedInstance.retrieveImageFromParsePFFile(imageFile, completion: { (success, image) -> Void in
+            if success {
+                imageView.image = image
                 imageView.contentMode = .ScaleAspectFill
                 imageView.clipsToBounds = true
-            } else {
-                println("Unable to get image data for image \(imageFile.name)")
             }
-        })
+        }, andAddToCache: true)
     }
     
     // MARK: - UICollectionViewDelegate methods

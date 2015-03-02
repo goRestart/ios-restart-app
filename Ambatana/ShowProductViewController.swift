@@ -89,11 +89,11 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                     let usernamePublic = retrievedUser["username_public"] as? String ?? translate("unknown")
                     self.usernameLabel.text = translate("by") + " " + usernamePublic
                     if let avatarFile = retrievedUser["avatar"] as? PFFile {
-                        avatarFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                            if data != nil {
-                                self.userAvatarImageView.setImage(UIImage(data: data), forState: .Normal)
-                            } else { self.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
-                        })
+                        ImageManager.sharedInstance.retrieveImageFromParsePFFile(avatarFile, completion: { (success, image) -> Void in
+                                if success {
+                                    self.userAvatarImageView.setImage(image, forState: .Normal)
+                                } else { self.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
+                            }, andAddToCache: true)
                     } else { self.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
                 } else {
                     println("Error retrieving user object: \(error.localizedDescription)")
@@ -181,8 +181,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         // iterate and retrieve all images.
         for imageKey in kAmbatanaProductImageKeys {
             if let imageFile = self.productObject[imageKey] as? PFFile {
-                
-                if let data = imageFile.getData(nil) {
+                if let data = imageFile.getData(nil) { // retrieve from parse synchronously
                     if let retrievedImage = UIImage(data: data) {
                         retrievedImages.append(retrievedImage)
                         retrievedImageURLS.append(imageFile.url!)
@@ -252,8 +251,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         disableAskQuestionLoadingInterface()
         
         if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
-            chatVC.ambatanaConversationData = AmbatanaConversation(conversationObject: conversation)
-            chatVC.conversationObject = conversation
+            chatVC.ambatanaConversation = AmbatanaConversation(parseConversationObject: conversation)
             self.navigationController?.pushViewController(chatVC, animated: true) ?? showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
         } else { showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
     }

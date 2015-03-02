@@ -17,25 +17,30 @@ private let _singletonInstance = ChatManager()
 
 /** A representation of an Ambatana chat conversation with another user */
 struct AmbatanaConversation {
+    // conversation object
+    let conversationObject: PFObject
+    // Extracted metadata about the conversation for performance and utility reasons
     let userAvatarURL: String       // String containing the URL of the image of the user I'm having this conversation with
-    var userAvatarImage: UIImage?    // Image from the userAvatarURL
+    var userAvatarImage: UIImage?   // Image from the userAvatarURL
     let userName: String            // name of the user I'm having this conversation with
     let totalMessages: Int          // total number of messages in the conversations.
-    let myMessages: Int             // number of messages I have sent in this conversation
-    let otherMessages: Int          // number of messages the user I'm having this conversation with has sent
+    let myUnreadMessages: Int       // number of messages I have sent in this conversation
+    let otherUnreadMessages: Int    // number of messages the user I'm having this conversation with has sent
     let lastUpdated: NSDate         // date of the last message sent belonging to this conversation.
     let productName: String         // name of the product this conversation's all about
+    let amISellingTheProduct: Bool  // Am I selling (user_to = me) or buying (user_from = me) the product this conversation belongs to?
     
     // Generates an AmbatanaConversation from a PFObject of class "Conversations".
-    init(conversationObject: PFObject) {
-        // extract the target user, the one in user_from & user_to that's not me!
-        var targetUser: PFUser?
-        var iAmUserTo = false // Am I user_to or user_from ?
-        
+    init(parseConversationObject: PFObject) {
+        conversationObject = parseConversationObject
+        conversationObject.fetchIfNeeded()
+
+        // distinguish who's the selling/buying user
         let userFrom = conversationObject["user_from"] as? PFUser
         let userTo = conversationObject["user_to"] as? PFUser
-        if userFrom?.objectId == PFUser.currentUser().objectId { targetUser = userTo }
-        if userTo?.objectId == PFUser.currentUser().objectId { targetUser = userFrom; iAmUserTo = true }
+        if userFrom?.objectId == PFUser.currentUser().objectId { amISellingTheProduct = false } // I am buying/making an offer for this product.
+        else { amISellingTheProduct = true }    // I Am selling the product.
+        var targetUser: PFUser? = amISellingTheProduct ? userFrom : userTo
         
         // if we have a valid target user, fill the name, and avatar.
         if targetUser != nil {
@@ -54,9 +59,9 @@ struct AmbatanaConversation {
         
         // initialize conversation values.
         totalMessages = conversationObject["nr_messages"] as? Int ?? 0
-        myMessages = iAmUserTo ? conversationObject["nr_msg_to_read_to"] as? Int ?? 0 : conversationObject["nr_messages_to_read_from"] as? Int ?? 0
-        otherMessages = iAmUserTo ? conversationObject["nr_msg_to_read_from"] as? Int ?? 0 : conversationObject["nr_messages_to_read_to"] as? Int ?? 0
-        lastUpdated = conversationObject.createdAt ?? conversationObject.updatedAt ?? NSDate()
+        myUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_to"] as? Int ?? 0 : conversationObject["nr_messages_to_read_from"] as? Int ?? 0
+        otherUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_from"] as? Int ?? 0 : conversationObject["nr_messages_to_read_to"] as? Int ?? 0
+        lastUpdated = conversationObject.updatedAt
     }
 }
 
@@ -95,9 +100,45 @@ class ChatManager: NSObject {
 
     }
     
-    /** Retrieves the first conversation found about a concrete product by the currentUser (currentUser matches user_from or user_to in DDBB) */
+    /** Retrieves the first conversation found about a concrete product by the currentUser, defining which user to look for the product depending on its ownership, for performance reasons */
     func retrieveMyConversationWithUser(otherUser: PFUser, aboutProduct productObject: PFObject, completion: (success: Bool, conversation: PFObject?) -> Void) {
-        // perform query on conversations.
+        // According to the specification, user_from is always the buyer, so if the product belongs to me, I am user_to, else I am user_from
+        // supposedly, the product will be in fetched at this point, however, we'll fetch it if needed, just in case.
+        productObject.fetchIfNeededInBackgroundWithBlock { (retrievedProduct, error) -> Void in
+            if error == nil && retrievedProduct != nil {
+                // initialize query common fields
+                var query = PFQuery(className: "Conversations")
+                query.whereKey("product", equalTo: productObject)
+                query.includeKey("product")
+                query.includeKey("user_to")
+                query.includeKey("user_from")
+
+                let productOwner = retrievedProduct["user"] as PFObject
+                if productOwner.objectId == PFUser.currentUser().objectId { // I am the owner (me = user_to)
+                    query.whereKey("user_from", equalTo: otherUser)
+                    query.whereKey("user_to", equalTo: PFUser.currentUser())
+                } else { // I want to buy or make an offer about this product (me = user_from)
+                    query.whereKey("user_from", equalTo: PFUser.currentUser()) // I am the user that started the conversation
+                    query.whereKey("user_to", equalTo: otherUser)
+                }
+                query.findObjectsInBackgroundWithBlock { (objectsFound, error) -> Void in
+                    println("My conversations results: \(objectsFound), error = \(error)")
+                    if objectsFound?.count > 0 {
+                        dispatch_async(dispatch_get_main_queue(), { completion(success: true, conversation: objectsFound!.first as? PFObject) })
+                    } else {
+                        dispatch_async(dispatch_get_main_queue(), { completion(success: false, conversation: nil) })
+                    }
+                }
+            } else { // unable to determine the ownership of the object. Do a fallback search on all conversations where I am user_from or user_to.
+                self.fallbackSearchOfMyConversationWithUser(otherUser, aboutProduct: productObject, completion: completion)
+            }
+        }
+        
+    }
+    
+    /** This fallback method retrieves the first conversation found about a concrete product by the currentUser, looking all fields user_from/user_to for a match */
+    internal func fallbackSearchOfMyConversationWithUser(otherUser: PFUser, aboutProduct productObject: PFObject, completion: (success: Bool, conversation: PFObject?) -> Void) {
+        // perform query on all conversations, from or two.
         let conversationsFrom = PFQuery(className: "Conversations")
         conversationsFrom.whereKey("user_from", equalTo: PFUser.currentUser()) // I am the user that started the conversation
         conversationsFrom.whereKey("user_to", equalTo: otherUser)
@@ -115,7 +156,7 @@ class ChatManager: NSObject {
         query.includeKey("user_from")
 
         query.findObjectsInBackgroundWithBlock { (objectsFound, error) -> Void in
-            println("results: \(objectsFound), error = \(error)")
+            println("FALLBACK My conversations results: \(objectsFound), error = \(error)")
             if objectsFound?.count > 0 {
                 dispatch_async(dispatch_get_main_queue(), { completion(success: true, conversation: objectsFound!.first as? PFObject) })
             } else {
@@ -127,8 +168,8 @@ class ChatManager: NSObject {
     /** Creates a new conversation with a user about a concrete object */
     func createConversationWithUser(otherUser: PFUser, aboutProduct productObject: PFObject, completion: (success: Bool, conversation: PFObject?) -> Void) {
         let newConversation = PFObject(className: "Conversations")
-        newConversation["user_from"] = PFUser.currentUser()
-        newConversation["user_to"] = otherUser
+        newConversation["user_from"] = otherUser // If I create a conversation to buy/make an offer for a product, I am always user_from according to the specification.
+        newConversation["user_to"] = PFUser.currentUser() // If I create a conversation to buy/make an offer for a product, the other user is always user_from according to the specification.
         newConversation["product"] = productObject
         newConversation["nr_messages"] = 0
         newConversation["nr_msg_to_read_to"] = 0
@@ -151,7 +192,7 @@ class ChatManager: NSObject {
     func ambatanaConversationsFromParseObjects(conversationObjects: [PFObject]) -> [AmbatanaConversation] {
         var conversations: [AmbatanaConversation] = []
         for conversationObj in conversationObjects {
-            conversations.append(AmbatanaConversation(conversationObject: conversationObj))
+            conversations.append(AmbatanaConversation(parseConversationObject: conversationObj))
         }
         return conversations
     }
@@ -190,10 +231,10 @@ class ChatManager: NSObject {
                     conversation["nr_messages"] = totalMessages + 1
                 }
                 // add 1 to the unread messages of my user.
-                var fieldToAddOneMoreUnreadMessage = "user_to"
+                var fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_from" // let's suppose we are the buyer of the object, not the owner (me = user_from)
                 if let fromUserInConversation = conversation["user_from"] as? PFObject {
-                    if fromUserInConversation.objectId  == PFUser.currentUser().objectId {
-                        fieldToAddOneMoreUnreadMessage = "user_from"
+                    if fromUserInConversation.objectId  == PFUser.currentUser().objectId { // if I am actually the owner of the user, not the buyer (me = user_to)
+                        fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_to" // change destination field.
                     }
                 }
                 if let unreadMessages = conversation[fieldToAddOneMoreUnreadMessage] as? Int {

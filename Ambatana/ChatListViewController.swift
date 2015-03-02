@@ -40,6 +40,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     // data
     var conversations: [AmbatanaConversation]?
     var lastTimeConversationsWhereRetrieved: NSDate?
+    var selectedAmbatanaConversation: AmbatanaConversation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,15 +156,14 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         performSegueWithIdentifier("SellProduct", sender: sender)
     }
     
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if let cvc = segue.destinationViewController as? ChatViewController {
+            cvc.ambatanaConversation = self.selectedAmbatanaConversation
+        }
     }
-    */
 
     // MARK: - UITableViewDelegate & DataSource methods
     
@@ -173,6 +173,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath) as UITableViewCell
+        cell.selectionStyle = .None
         
         // configure cell
         if var conversation = conversations?[indexPath.row] {
@@ -219,6 +220,9 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        // TODO
+        if let ambatanaConversation = self.conversations?[indexPath.row] {
+            self.selectedAmbatanaConversation = ambatanaConversation
+            self.performSegueWithIdentifier("OpenChat", sender: nil)
+        }
     }
 }

@@ -86,11 +86,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         if userObject != nil {
             userObject!.fetchIfNeededInBackgroundWithBlock({ (retrievedObject, error) -> Void in
                 if let userImageFile = retrievedObject?["avatar"] as? PFFile {
-                    userImageFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                        if data != nil {
-                            self.userImageView.image = UIImage(data: data)
-                        }
-                    })
+                    ImageManager.sharedInstance.retrieveImageFromParsePFFile(userImageFile, completion: { (success, image) -> Void in
+                        if success { self.userImageView.image = image }
+                    }, andAddToCache: true)
                 }
                 if let userName = retrievedObject?["username_public"] as? String {
                     self.userNameLabel.text = userName
@@ -341,19 +339,17 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         
         // image
-        // TODO: Implement a image cache for images...?
         if let imageView = cell.viewWithTag(3) as? UIImageView {
             if productObject[kAmbatanaProductFirstImageKey] != nil {
                 let imageFile = productObject[kAmbatanaProductFirstImageKey] as PFFile
-                imageFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
-                    if error == nil {
-                        imageView.image = UIImage(data: data)
+                ImageManager.sharedInstance.retrieveImageFromParsePFFile(imageFile, completion: { (success, image) -> Void in
+                    if success {
+                        imageView.image = image
                         imageView.contentMode = .ScaleAspectFill
                         imageView.clipsToBounds = true
-                    } else {
-                        println("Unable to get image data for image \(productObject.objectId): \(error.localizedDescription)")
                     }
-                })
+
+                }, andAddToCache: true)
             }
         }
         

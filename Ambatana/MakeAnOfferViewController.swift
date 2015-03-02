@@ -37,6 +37,8 @@ class MakeAnOfferViewController: UIViewController {
     // MARK: - Button actions
     
     @IBAction func makeAnOffer(sender: AnyObject) {
+        // safety checks
+        
     }
     
     @IBAction func changeCurrency(sender: AnyObject) {

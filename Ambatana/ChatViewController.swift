@@ -41,8 +41,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var loadingMessagesLabel: UILabel!
     
     // data
-    var ambatanaConversationData: AmbatanaConversation?
-    var conversationObject: PFObject?
+    var ambatanaConversation: AmbatanaConversation?
     var messages: [PFObject]?
     var otherUser: PFUser?
     var productObject: PFObject?
@@ -75,10 +74,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // appearance
         self.productImageView.image = UIImage.randomImageGradientOfSize(self.productImageView.frame.size)
         
-        if conversationObject != nil {
+        if ambatanaConversation != nil {
+            let conversationObject = ambatanaConversation!.conversationObject
             enableLoadingMessagesInterface()
             // load previous messages
-            ChatManager.sharedInstance.loadMessagesFromConversation(conversationObject!, completion: { (success, messages) -> Void in
+            ChatManager.sharedInstance.loadMessagesFromConversation(conversationObject, completion: { (success, messages) -> Void in
                 if success {
                     self.messages = messages!
                 } else { // no messages yet. Empty conversation view.
@@ -91,18 +91,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             })
             
             // load the other user.
-            var otherUserField = "user_from"
-            if let fromUserInConversation = self.conversationObject!["user_from"] as? PFObject { // try to get the user_from to check if it's me
-                if fromUserInConversation.objectId  == PFUser.currentUser().objectId { // if it's me...
-                    otherUserField = "user_to" // then the other user is the user_to
-                }
-            } // else, the other user is the user_from
-            self.otherUser = conversationObject![otherUserField] as? PFUser
+            // According to specification, if I am selling the product, I am the user_to, and the other user is the user_from
+            var otherUserField = self.ambatanaConversation!.amISellingTheProduct ? "user_from" : "user_to"
+            self.otherUser = conversationObject[otherUserField] as? PFUser
             // now try to fetch it in the background.
             self.otherUser?.fetchIfNeededInBackgroundWithBlock(nil)
             
             // load product information
-            if let productObject = conversationObject?["product"] as? PFObject {
+            if let productObject = conversationObject["product"] as? PFObject {
                 self.productObject = productObject
                 productObject.fetchIfNeededInBackgroundWithBlock({ (retrievedObject, error) -> Void in
                     if retrievedObject != nil && error == nil { // OK, we do have a valid, filled object.
@@ -116,7 +112,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.popBackViewController()
                 })
             }
-            
+                        
         } else { // no conversation object? notify the error and get back.
             self.showAutoFadingOutMessageAlert(translate("unable_show_conversation"), completionBlock: { () -> Void in
                 self.popBackViewController()
@@ -204,13 +200,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // safety checks
         if isSendingMessage { return }
         if countElements(self.messageTextfield.text) < 1 { return }
-        if self.otherUser == nil || self.conversationObject == nil || self.productObject == nil { showAutoFadingOutMessageAlert(translate("unable_send_message")); return }
+        if self.otherUser == nil || self.ambatanaConversation?.conversationObject == nil || self.productObject == nil { showAutoFadingOutMessageAlert(translate("unable_send_message")); return }
         
         // enable loading interface.
         self.isSendingMessage = true
         
         // send message
-        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text, toUser: self.otherUser!, inConversation: conversationObject!, fromProduct: self.productObject!) { (success, newlyCreatedMessageObject) -> Void in
+        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text, toUser: self.otherUser!, inConversation: ambatanaConversation!.conversationObject, fromProduct: self.productObject!) { (success, newlyCreatedMessageObject) -> Void in
             if success {
                 self.messages!.append(newlyCreatedMessageObject!)
                 
