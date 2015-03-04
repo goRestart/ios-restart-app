@@ -25,24 +25,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         
         // Registering for push notifications && Installation
-        let userNotificationTypes = (UIUserNotificationType.Alert |
-            UIUserNotificationType.Badge |
-            UIUserNotificationType.Sound);
-        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
-        application.registerUserNotificationSettings(settings)
-        application.registerForRemoteNotifications()
+        if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
+            let userNotificationTypes = (UIUserNotificationType.Alert |
+                UIUserNotificationType.Badge |
+                UIUserNotificationType.Sound)
+            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+            application.registerUserNotificationSettings(settings)
+            application.registerForRemoteNotifications()
+        } else { // we're on ios < 8, use the old way
+            UIApplication.sharedApplication().registerForRemoteNotificationTypes(UIRemoteNotificationType.Alert|UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound)
+        }
         
         // responding to push notifications received while in background.
+        println("Launch options: \(launchOptions)")
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
-            // TODO: Do something and finally clear the badge.
-            
+            NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserBadgeChangedNotification, object: nil)
+            self.openChatListViewController()
         }
-        application.applicationIconBadgeNumber = 0
         
         // initialize location services
         LocationManager.sharedInstance
         
         return true
+    }
+    
+    func openChatListViewController() {
+        if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
+            if let navigationController = rootViewController.contentViewController as? AmbatanaNavigationController { // we are logged in. Check that we have a valid ambatana navigation controller
+                if let chatListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("conversationsViewController") as? ChatListViewController { // ... and that we can instantiate the chat controller.
+                    navigationController.pushViewController(chatListVC, animated: true)
+                }
+            }
+        }
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
@@ -72,6 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
+        installation["deviceTokenLastModified"] = NSDate().timeIntervalSince1970
         installation.channels = [""]
         if PFUser.currentUser() != nil {
             installation["user_objectId"] = PFUser.currentUser().objectId
@@ -84,8 +99,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         PFPush.handlePush(userInfo)
-        // TODO: Do something like going to chat window... and clear badge.
-        application.applicationIconBadgeNumber = 0
+        // notify any observer
+        NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserBadgeChangedNotification, object: nil)
+        
+        // push a chat list to see the messages.
+        self.openChatListViewController() // Not really nice when we are using the App?
     }
     
     func applicationWillTerminate(application: UIApplication) {

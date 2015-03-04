@@ -29,7 +29,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
 
         // UX/UI & Appearance
         setAmbatanaNavigationBarStyle(title: translate("categories"), includeBackArrow: true)
-        setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProducts", "conversations"])
+        setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProducts", "conversations"], badgeButtonPosition: 1)
         
         // cell size
         let cellWidth = kAmbatanaFullScreenWidth * 0.45 // width/2.0 (2 cells per row) - 0.5*width(span)*2 cells

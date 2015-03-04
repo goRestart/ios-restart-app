@@ -11,6 +11,7 @@ import UIKit
 private let kAmbatanaMenuOptionCellName = "AmbatanaMenuOptionCell"
 private let kAmbatanaMenuOptionCellTitleTag = 1
 private let kAmbatanaMenuOptionCellImageTag = 2
+private let kAmbatanaMenuOptionCellBadgeTag = 3
 
 
 enum AmbatanaMenuOptions : Int {
@@ -76,6 +77,11 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tableView.reloadData()
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -133,10 +139,13 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kAmbatanaMenuOptionCellName, forIndexPath: indexPath) as UITableViewCell
         // configure cell
-        cell.layoutMargins = UIEdgeInsetsZero
+        if iOSVersionAtLeast("8.0") { cell.layoutMargins = UIEdgeInsetsZero }
+        else { cell.separatorInset = UIEdgeInsetsZero }
+        
         if let menuOption = AmbatanaMenuOptions(rawValue: indexPath.row) {
             let titleLabel = cell.viewWithTag(kAmbatanaMenuOptionCellTitleTag) as? UILabel
             let imageView = cell.viewWithTag(kAmbatanaMenuOptionCellImageTag) as? UIImageView
+            let badgeView = cell.viewWithTag(kAmbatanaMenuOptionCellBadgeTag) as? UILabel
             
             // selectable?
             if menuOption == .Help { cell.selectionStyle = .None }
@@ -144,6 +153,13 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             titleLabel?.text = menuOption.titleForMenuOption()
             imageView?.image = menuOption.iconForMenuOption()
+            // badge?
+            if menuOption == .Conversations {
+                badgeView?.hidden = false
+                badgeView?.text = "\(PFInstallation.currentInstallation().badge)"
+                badgeView?.layer.cornerRadius = badgeView!.frame.size.height / 2.0
+                badgeView?.clipsToBounds = true
+            } else { badgeView?.hidden = true }
         }
         return cell
     }

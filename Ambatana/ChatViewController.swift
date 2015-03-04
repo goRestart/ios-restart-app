@@ -10,8 +10,6 @@ import UIKit
 
 private let kAmbatanaConversationMyMessagesCell = "MyMessagesCell"
 private let kAmbatanaConversationOthersMessagesCell = "OthersMessagesCell"
-private let kAmbatanaEstimatedHeightForChatCells: CGFloat = 120.0
-private let kAmbatanaChatScrollingOffsetSpan: CGFloat = 72 // 20 (status bar height) + 44 (navigation controller height) + 8 (small span to leave some space)
 private let kAmbatanaChatBubbleCornerRadius: CGFloat = 4.0
 
 private let kAmbatanaConversationProductImageTag = 1
@@ -25,6 +23,10 @@ private let kAmbatanaConversationCellTextTag = 2
 private let kAmbatanaConversationCellRelativeTimeTag = 3
 private let kAmbatanaConversationCellAvatarTag = 4
 
+
+enum AmbatanaConversationCellTypes: Int {
+    case MyMessages = 0, OtherMessages = 1
+}
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     // outlets & buttons
@@ -48,19 +50,26 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var otherUserImage: UIImage?
     var isSendingMessage: Bool = false {
         didSet {
-            self.messageTextfield.userInteractionEnabled = !isSendingMessage
             self.sendButton.tintColor = isSendingMessage ? UIColor.lightGrayColor() : UIColor.blackColor()
-            self.sendButton.userInteractionEnabled = !isSendingMessage
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // appearance.
+        productImageView.clipsToBounds = true
+        productImageView.contentMode = .ScaleAspectFill
+        
+        // tap the messages table view to restore frame.
+        let restoreTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "resignRespondingTextfield")
+        self.tableView.addGestureRecognizer(restoreTapGestureRecognizer)
+        
         // internationalization
         sendButton.setTitle(translate("send"), forState: .Normal)
         messageTextfield.placeholder = translate("type_your_message_here")
         loadingMessagesLabel.text = translate("loading_messages")
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -88,6 +97,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.tableView.reloadData()
                 // scroll to the last message.
                 self.scrollToBottomOfMessagesList(false)
+                self.tableView.reloadData()
+                
+                // now that we have loaded the messages (and are sure the user can read them) we can mark them as read in the conversation.
+                ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: self.ambatanaConversation!.conversationObject, completion: nil)
             })
             
             // load the other user.
@@ -123,6 +136,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        // save original table view frame for restoring later.
+        originalTableViewFrame = self.tableView.frame
+        // reload data because of auto-height calculation
+        tableView.reloadData()
     }
     
     // Loads the fields referred to the product object in view's header.
@@ -213,6 +234,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 // update UI and scroll to the bottom of the messages list
                 self.tableView.reloadData()
                 self.scrollToBottomOfMessagesList(false)
+                //self.tableView.reloadData()
                 self.messageTextfield.text = ""
             } else {
                 self.showAutoFadingOutMessageAlert(translate("unable_send_message"))
@@ -235,14 +257,49 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // cell elements
         var cell: UITableViewCell?
+        var type = AmbatanaConversationCellTypes.MyMessages
         
         if userFrom.objectId == PFUser.currentUser().objectId { // message from me
             cell = tableView.dequeueReusableCellWithIdentifier(kAmbatanaConversationMyMessagesCell, forIndexPath: indexPath) as? UITableViewCell
         } else {
             cell = tableView.dequeueReusableCellWithIdentifier(kAmbatanaConversationOthersMessagesCell, forIndexPath: indexPath) as? UITableViewCell
+            type = .OtherMessages
+        }
+        
+        // configure common cell elements
+        if cell != nil { self.configureCell(cell!, fromTableView: tableView, withMessageObject: msgObject, type: type) }
 
+        return cell ?? UITableViewCell()
+
+    }
+
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+
+    func configureCell(cell: UITableViewCell, fromTableView tableView: UITableView, withMessageObject msgObject: PFObject, type: AmbatanaConversationCellTypes) {
+        // message
+        if let msgLabel = cell.viewWithTag(kAmbatanaConversationCellTextTag) as? UILabel {
+            msgLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+            msgLabel.text = msgObject["message"] as? String ?? ""
+        }
+        // configure date
+        if let dateLabel = cell.viewWithTag(kAmbatanaConversationCellRelativeTimeTag) as? UILabel {
+            dateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
+            dateLabel.text = msgObject.createdAt.relativeTimeString()
+        }
+        // bubble appearance
+        if let bubbleLabel = cell.viewWithTag(kAmbatanaConversationCellBubbleTag) {
+            bubbleLabel.layer.cornerRadius = kAmbatanaChatBubbleCornerRadius
+        }
+        
+        // If this is a message from the other user, we should include his/her avatar picture at the left of the message.
+        if type == .OtherMessages {
             // configure other user's avatar.
-            if let userAvatarView = cell?.viewWithTag(kAmbatanaConversationCellAvatarTag) as? UIImageView {
+            let userFrom = msgObject["user_from"] as PFUser
+            if let userAvatarView = cell.viewWithTag(kAmbatanaConversationCellAvatarTag) as? UIImageView {
+                userAvatarView.layer.cornerRadius = userAvatarView.frame.size.width / 2.0
+                userAvatarView.clipsToBounds = true
                 userAvatarView.image = self.otherUserImage
                 if self.otherUserImage == nil { // lazily load the other user's pic, only when needed!
                     userFrom.fetchIfNeededInBackgroundWithBlock({ (retrievedUserFrom, error) -> Void in
@@ -251,62 +308,32 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                                 if success { userAvatarView.image = image; self.otherUserImage = image }
                                 else { userAvatarView.image = UIImage(named: "no_photo"); self.otherUserImage = userAvatarView.image }
                                 // image appearance
-                                userAvatarView.layer.cornerRadius = userAvatarView.frame.size.width / 2.0
-                                userAvatarView.clipsToBounds = true
                                 }, andAddToCache: true)
                         }
                     })
-                }
-                
-            }
-        }
-        
-        // configure common cell elements
-        
-        // bubble appearance
-        if let bubbleLabel = cell?.viewWithTag(kAmbatanaConversationCellBubbleTag) {
-            bubbleLabel.layer.cornerRadius = kAmbatanaChatBubbleCornerRadius
-        }
-        // message
-        if let msgLabel = cell?.viewWithTag(kAmbatanaConversationCellTextTag) as? UILabel {
-            msgLabel.text = msgObject["message"] as? String ?? ""
-        }
-        // configure date
-        if let dateLabel = cell?.viewWithTag(kAmbatanaConversationCellRelativeTimeTag) as? UILabel {
-            dateLabel.text = msgObject.createdAt.relativeTimeString()
-        }
-            
-        // adjust cell size to fit the contents
-        cell?.setNeedsUpdateConstraints()
-        cell?.updateConstraintsIfNeeded()
-        
-        // adjust multi-line labels
-        if let multilineLabel = cell?.viewWithTag(kAmbatanaConversationCellTextTag) as? UILabel {
-            multilineLabel.preferredMaxLayoutWidth = CGRectGetWidth(tableView.bounds)
-        }
-        
-        return cell ?? UITableViewCell()
-
+                } // end if self.otherUserImage == nil...
+            } // end if let userAvatarView...
+        } // end if type == .OtherMessages.
     }
     
-    /*
+    // MARK: - Cell height estimation
+    
+    var prototypeCell: UITableViewCell!
+    
+    // Because we are supporting iOS 7, we need to perform a calculation of the cell content view size using autolayout.
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
+        let msgObject = messages![indexPath.row]
+        // lazily instanciate the prototype cell
+        if prototypeCell == nil { prototypeCell = tableView.dequeueReusableCellWithIdentifier(kAmbatanaConversationOthersMessagesCell) as? UITableViewCell }
+        self.configureCell(prototypeCell, fromTableView: tableView, withMessageObject: msgObject, type: .MyMessages) // no need to configure the image.
+        prototypeCell.layoutIfNeeded()
+        let size = prototypeCell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+        return size.height + 1
     }
-    */
 
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return kAmbatanaEstimatedHeightForChatCells
-    }
-    
     // MARK: - UI/UX Scrolling responding to UITextField edition
     
     var originalTableViewFrame = CGRectZero
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        originalTableViewFrame = self.tableView.frame
-    }
     
     func scrollToBottomOfMessagesList(animated: Bool) {
         self.tableView.scrollRectToVisible(CGRectMake(0, self.tableView.contentSize.height - self.tableView.bounds.size.height, self.tableView.bounds.size.width, self.tableView.bounds.size.height), animated: animated)
@@ -328,26 +355,27 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func moveViewInResponseToKeyboardAppearing(appearing: Bool, withNotification notification: NSNotification) {
         if !appearing {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.bottomView.transform = CGAffineTransformIdentity
-                self.tableView.frame = self.originalTableViewFrame
+                self.view.transform = CGAffineTransformIdentity
             })
-            println("restoring frame!")
         } else {
             let userInfo = notification.userInfo!
             var keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue ?? NSValue(CGRect: CGRectZero)).CGRectValue().size
             UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.bottomView.transform = CGAffineTransformMakeTranslation(0, -keyboardSize.height)
-                self.tableView.frame.size.height -= keyboardSize.height
+                self.view.transform = CGAffineTransformMakeTranslation(0, -keyboardSize.height)
             }, completion: { (success) -> Void in
                 self.scrollToBottomOfMessagesList(false)
             })
         }
         
     }
-
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    
+    func resignRespondingTextfield() {
         self.view.resignFirstResponder()
         self.view.endEditing(true)
+    }
+
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.resignRespondingTextfield()
     }
 }
 

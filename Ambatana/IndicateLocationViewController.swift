@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 import MapKit
 
-class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate {
+class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, UIAlertViewDelegate {
     // outlets & buttons
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -85,9 +85,14 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
             enableLoadingStatus()
             LocationManager.sharedInstance.userSpecifiedLocationDirectly(locationInMap)
         } else {
-            let alert = UIAlertController(title: translate("error"), message: translate("select_valid_location"), preferredStyle:.Alert)
-            alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            if iOSVersionAtLeast("8.0") {
+                let alert = UIAlertController(title: translate("error"), message: translate("select_valid_location"), preferredStyle:.Alert)
+                alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
+                self.presentViewController(alert, animated: true, completion: nil)
+            } else {
+                let alert = UIAlertView(title: translate("error"), message: translate("select_valid_location"), delegate: nil, cancelButtonTitle: translate("ok"))
+                alert.show()
+            }
         }
     }
     
@@ -156,21 +161,34 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     // MARK: - Notifications for listening to the user's revese geolocation attempt.
     
     func unableToSetUserLocation(notification: NSNotification) {
-        let alert = UIAlertController(title: translate("error"), message: translate("unable_set_location"), preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("error"), message: translate("unable_set_location"), preferredStyle:.Alert)
+            alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertView(title: translate("error"), message: translate("unable_set_location"), delegate: nil, cancelButtonTitle: translate("ok"))
+            alert.show()
+        }
+        
         disableLoadingStatus()
     }
     
     func userLocationSet(notification: NSNotification) {
         disableLoadingStatus()
-        let alert = UIAlertController(title: translate("success"), message: translate("stored_your_location"), preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: translate("ok"), style: .Default, handler: { (action) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("success"), message: translate("stored_your_location"), preferredStyle:.Alert)
+            alert.addAction(UIAlertAction(title: translate("ok"), style: .Default, handler: { (action) -> Void in
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertView(title: translate("error"), message: translate("stored_your_location"), delegate: self, cancelButtonTitle: translate("ok"))
+            alert.show()
+        }
         
     }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { self.dismissViewControllerAnimated(true, completion: nil) }
 }
 
 

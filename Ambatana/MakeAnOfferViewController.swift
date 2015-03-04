@@ -8,25 +8,35 @@
 
 import UIKit
 
-class MakeAnOfferViewController: UIViewController {
+class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UITextViewDelegate, UITextFieldDelegate {
     // outlets & buttons
     @IBOutlet weak var currencyButton: UIButton!
     @IBOutlet weak var priceTextField: UITextField!
     @IBOutlet weak var commentsTextView: PlaceholderTextView!
     @IBOutlet weak var makeAnOfferButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // data
     var offerCurrency = CurrencyManager.sharedInstance.defaultCurrency
+    var productUser: PFUser?
+    var productObject: PFObject?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // appearance
         setAmbatanaNavigationBarStyle(title: translate("make_an_offer"), includeBackArrow: true)
+        self.currencyButton.layer.cornerRadius = 6.0
+        self.activityIndicator.hidden = true
         
         // internationalization
         priceTextField.placeholder = translate("price")
         commentsTextView.placeholder = translate("comments_optional")
         makeAnOfferButton.setTitle(translate("send"), forState: .Normal)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,22 +44,100 @@ class MakeAnOfferViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func enableLoadingInterface() {
+        activityIndicator.startAnimating()
+        activityIndicator.hidden = false
+        makeAnOfferButton.setTitle("", forState: .Normal)
+    }
+    
+    func disableLoadingInterface() {
+        activityIndicator.hidden = true
+        activityIndicator.stopAnimating()
+        makeAnOfferButton.setTitle("send", forState: .Normal)
+    }
+    
     // MARK: - Button actions
     
     @IBAction func makeAnOffer(sender: AnyObject) {
         // safety checks
+        let productPrice = priceTextField?.text.toInt()
+        if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); return }
+        var offerText = self.generateOfferText(productPrice!)
+        if commentsTextView.text != nil && countElements(commentsTextView.text) > 0 { offerText += "\n\n" + commentsTextView.text! }
+
+        // enable loading interface
+        enableLoadingInterface()
         
+        // check if we have some current conversation with the user
+        ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser!, aboutProduct: productObject!) { (success, conversation) -> Void in
+            if success { // we have a conversation.
+                // try to add the offer text first.
+                ChatManager.sharedInstance.addTextMessage(offerText, toUser: self.productUser!, inConversation: conversation!, fromProduct: self.productObject!, completion: { (success, newlyCreatedMessageObject) -> Void in
+                    if success { self.launchChatWithConversation(conversation!) }
+                    else { self.disableLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
+                })
+            } else { // we need to create a conversation and pass it.
+                ChatManager.sharedInstance.createConversationWithUser(self.productUser!, aboutProduct: self.productObject!, completion: { (success, conversation) -> Void in
+                    if success {
+                        ChatManager.sharedInstance.addTextMessage(offerText, toUser: self.productUser!, inConversation: conversation!, fromProduct: self.productObject!, completion: { (success, newlyCreatedMessageObject) -> Void in
+                            if success { self.launchChatWithConversation(conversation!) }
+                            else { self.disableLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
+                        })
+                    }
+                    else { self.disableLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+                })
+            }
+        }
+    }
+    
+    func generateOfferText(price: Int) -> String {
+        return translate("new_offer_of") + self.offerCurrency.formattedCurrency(Double(price), decimals: 0)
+    }
+    
+    func launchChatWithConversation(conversation: PFObject) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
+            let ambatanaConversation = AmbatanaConversation(parseConversationObject: conversation)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.disableLoadingInterface()
+                if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
+                    chatVC.ambatanaConversation = ambatanaConversation
+                    if var controllers = self.navigationController?.viewControllers as? [UIViewController] {
+                        controllers.removeLast()
+                        controllers.append(chatVC)
+                        self.navigationController!.viewControllers = controllers
+                    } else { self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+                } else { self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+            })
+        })
     }
     
     @IBAction func changeCurrency(sender: AnyObject) {
-        let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
-        for currency in CurrencyManager.sharedInstance.allCurrencies() {
-            alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (action) -> Void in
-                self.offerCurrency = currency
-                self.currencyButton.setTitle(currency.currencyCode, forState: .Normal)
-            }))
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
+            for currency in CurrencyManager.sharedInstance.allCurrencies() {
+                alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (action) -> Void in
+                    self.offerCurrency = currency
+                    self.currencyButton.setTitle(currency.currencyCode, forState: .Normal)
+                }))
+            }
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else { // ios7 fallback
+            let actionSheet = UIActionSheet()
+            actionSheet.title = translate("choose_currency")
+            actionSheet.delegate = self
+            for currency in CurrencyManager.sharedInstance.allCurrencies() {
+                actionSheet.addButtonWithTitle(currency.currencyCode)
+            }
+            actionSheet.showInView(self.view)
         }
-        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    // iOS 7 Fallback for currency selection
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
+        let buttonCurrency = allCurrencies[buttonIndex]
+        self.offerCurrency = buttonCurrency
+        self.currencyButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
     }
 
     /*
@@ -62,4 +150,18 @@ class MakeAnOfferViewController: UIViewController {
     }
     */
 
+    // MARK: - UITextField/UITextView delegate methods for navigating through the fields.
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.commentsTextView.becomeFirstResponder()
+        return false
+    }
+
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if text == text.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet()) { return true }
+        else { textView.resignFirstResponder(); return false }
+    }
+
 }
+
+

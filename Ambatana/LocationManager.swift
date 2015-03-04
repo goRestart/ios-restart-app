@@ -54,6 +54,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    func logOutUser() {
+        lastKnownLocation = kCLLocationCoordinate2DInvalid
+        lastRegisteredLocation = kCLLocationCoordinate2DInvalid
+    }
+    
     /** Terminates the location manager, flushing all resources and stopping all timers. */
     func terminate() {
         locationTimer?.invalidate()

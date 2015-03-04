@@ -15,7 +15,7 @@ import UIKit
     optional func loginDelegateRecoverPassword(email: String)
 }
 
-class LoginViewController: UIViewController, LoginAndSigninDelegate {
+class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertViewDelegate {
     // outlets && buttons
     @IBOutlet weak var facebookLoginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
@@ -24,6 +24,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate {
     @IBOutlet weak var orUseEmailLabel: UILabel!
     
     // vars & data
+    var recoveryEmail: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,12 +36,9 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate {
         loginButton.setTitle(translate("login"), forState: .Normal)
         orUseEmailLabel.text = translate("or_use_your_email").uppercaseString
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // UI
-        self.view.alpha = 0.0
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         // register for notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "oauthSessionExpired:", name: kAmbatanaSessionInvalidatedNotification, object: nil)
@@ -56,13 +54,6 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate {
             }
         }
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.view.alpha = 1.0
-        })
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -72,16 +63,25 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate {
     // MARK: - reacting to login notifications
     
     func oauthSessionExpired(notification: NSNotification) {
-        let alert = UIAlertController(title: translate("session_expired"), message: translate("your_session_has_expired"), preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("session_expired"), message: translate("your_session_has_expired"), preferredStyle:.Alert)
+            alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertView(title: translate("session_expired"), message: translate("your_session_has_expired"), delegate: nil, cancelButtonTitle: translate("ok"))
+            alert.show()
+        }
     }
     
     func authenticationError(notification: NSNotification) {
-        let alert = UIAlertController(title: translate("authentication_error"), message: translate("unable_access_system"), preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler:nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("authentication_error"), message: translate("unable_access_system"), preferredStyle:.Alert)
+            alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler:nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertView(title: translate("authentication_error"), message: translate("unable_access_system"), delegate: nil, cancelButtonTitle: translate("ok"))
+            alert.show()
+        }
     }
     
     // MARK: - Button actions
@@ -100,9 +100,14 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate {
                 
                 self.performSegueWithIdentifier("StartApp", sender: nil)
             } else { // error login
-                let alert = UIAlertController(title: translate("unable_login"), message: translate("login_canceled"), preferredStyle:.Alert)
-                alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
-                self.presentViewController(alert, animated: true, completion: nil)
+                if iOSVersionAtLeast("8.0") {
+                    let alert = UIAlertController(title: translate("unable_login"), message: translate("login_canceled"), preferredStyle:.Alert)
+                    alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                } else {
+                    let alert = UIAlertView(title: translate("unable_login"), message: translate("login_canceled"), delegate: nil, cancelButtonTitle: translate("ok"))
+                    alert.show()
+                }
             }
         })
         
@@ -110,11 +115,11 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate {
     }
     
     @IBAction func signUp(sender: UIButton) {
-        // DO NOTHING.
+        // DO NOTHING, SEGUE IS PERFORMED IN IB.
     }
     
     @IBAction func login(sender: UIButton) {
-        // DO NOTHING.
+        // DO NOTHING, SEGUE IS PERFORMED IN IB.
     }
     
     // MARK: - Navigation
@@ -152,20 +157,40 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate {
     func loginDelegateRecoverPassword(email: String) {
         println("Recovery password")
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            let alert = UIAlertController(title: translate("password_recovery"), message: translate("send_recovery_email_question"), preferredStyle:.Alert)
-            alert.addAction(UIAlertAction(title: translate("cancel"), style:.Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: translate("ok"), style: .Default, handler: { (alertAction) -> Void in
-                PFUser.requestPasswordResetForEmailInBackground(email, block: { (success, error) -> Void in
-                    if success {
-                        self.showAutoFadingOutMessageAlert(translate("password_recovery_email_sent"))
-                    } else {
-                        self.showAutoFadingOutMessageAlert(translate("password_recovery_email_error"))
-                    }
-                })
-            }))
-            self.presentViewController(alert, animated: true, completion: nil)
+            if iOSVersionAtLeast("8.0") {
+                let alert = UIAlertController(title: translate("password_recovery"), message: translate("send_recovery_email_question"), preferredStyle:.Alert)
+                alert.addAction(UIAlertAction(title: translate("cancel"), style:.Cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: translate("ok"), style: .Default, handler: { (alertAction) -> Void in
+                    PFUser.requestPasswordResetForEmailInBackground(email, block: { (success, error) -> Void in
+                        if success {
+                            self.showAutoFadingOutMessageAlert(translate("password_recovery_email_sent"))
+                        } else {
+                            self.showAutoFadingOutMessageAlert(translate("password_recovery_email_error"))
+                        }
+                    })
+                }))
+                self.presentViewController(alert, animated: true, completion: nil)
+            } else {
+                self.recoveryEmail = email
+                let alert = UIAlertView(title: translate("password_recovery"), message: translate("send_recovery_email_question"), delegate: self, cancelButtonTitle: translate("cancel"), otherButtonTitles: translate("ok"))
+                alert.show()
+            }
+            
 
         })
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        println("Opcion chosen: \(buttonIndex)")
+        if buttonIndex == 1 { // user clicked "ok".
+            PFUser.requestPasswordResetForEmailInBackground(recoveryEmail ?? "", block: { (success, error) -> Void in
+                if success {
+                    self.showAutoFadingOutMessageAlert(translate("password_recovery_email_sent"))
+                } else {
+                    self.showAutoFadingOutMessageAlert(translate("password_recovery_email_error"))
+                }
+            })
+        }
     }
     
 }

@@ -64,6 +64,13 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         
         // update conversations
         updateConversations()
+        
+        // clean badge and notifications.
+        PFInstallation.currentInstallation().badge = 0
+        PFInstallation.currentInstallation().saveInBackgroundWithBlock({ (success, error) -> Void in
+            if error != nil { PFInstallation.currentInstallation().saveEventually(nil) }
+            else { NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserBadgeChangedNotification, object: nil) }
+        })
     }
     
     // MARK: - Conversation management
@@ -200,16 +207,19 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
 
             // 2. product name
             if let productNameLabel = cell.viewWithTag(kAmbatanaConversationCellProductNameTag) as? UILabel {
+                productNameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
                 productNameLabel.text = conversation.productName
             }
             
             // 3. user name
             if let userNameLabel = cell.viewWithTag(kAmbatanaConversationCellUserNameTag) as? UILabel {
+                userNameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
                 userNameLabel.text = translate("by") + " " + conversation.userName
             }
             
             // 4. relative time
             if let relativeTimeLabel = cell.viewWithTag(kAmbatanaConversationCellRelativeDateTag) as? UILabel {
+                relativeTimeLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
                 relativeTimeLabel.text = translate("published") + " " + conversation.lastUpdated.relativeTimeString()
             }
             

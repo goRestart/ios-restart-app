@@ -11,7 +11,7 @@ import UIKit
 private let kAmbatanaProductListCellFactor: CGFloat = 190.0 / 145.0
 private let kAmbatanaMaxWaitingTimeForLocation: NSTimeInterval = 30 // seconds
 
-class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, ShowProductViewControllerDelegate, UISearchBarDelegate {
+class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, ShowProductViewControllerDelegate, UISearchBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate {
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -53,13 +53,15 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
         // Navigation bar & items
         self.setAmbatanaNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
-        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat", "actionbar_filter"], andSelectors: ["searchProduct", "conversations", "showFilters"])
+        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat", "actionbar_filter"], andSelectors: ["searchProduct", "conversations", "showFilters"], badgeButtonPosition: 1)
 
         // register for notifications.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableSetLocation:", name: kAmbatanaUnableToSetUserLocationNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableGetLocation:", name: kAmbatanaUnableToGetUserLocationNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationReady:", name: kAmbatanaUserLocationSuccessfullySetNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kAmbatanaUserLocationSuccessfullyChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged", name: UIContentSizeCategoryDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kAmbatanaUserBadgeChangedNotification, object: nil)
         
         // check current location status.
         if (CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation)) { // we have a valid registered location.
@@ -132,6 +134,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         let productName = productObject["name"] as? String ?? ""
         if let nameLabel = cell.viewWithTag(1) as? UILabel {
             nameLabel.text = productName
+            nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         }
         // price
         if let priceLabel = cell.viewWithTag(2) as? UILabel {
@@ -145,6 +148,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                     priceLabel.text = "\(price)"
                     priceLabel.hidden = false
                 }
+                let boldBodyDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody).fontDescriptorWithSymbolicTraits(.TraitBold)
+                priceLabel.font = UIFont(descriptor: boldBodyDescriptor, size: 0.0)
             }
         }
         
@@ -310,17 +315,30 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                     }
                 } else { // error
                     // TODO: Better management of this error.
-                    let alert = UIAlertController(title: translate("error"), message: translate("unable_get_products"), preferredStyle:.Alert)
-                    alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { (action) -> Void in
-                        self.queryingProducts = false
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                            self.queryProducts()
-                        })
-                    }))
-                    self.presentViewController(alert, animated: true, completion: nil)
+                    if iOSVersionAtLeast("8.0") {
+                        let alert = UIAlertController(title: translate("error"), message: translate("unable_get_products"), preferredStyle:.Alert)
+                        alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { (action) -> Void in
+                            self.queryingProducts = false
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                                self.queryProducts()
+                            })
+                        }))
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    } else {
+                        let alert = UIAlertView(title: translate("error"), message: translate("unable_get_products"), delegate: self, cancelButtonTitle: translate("try_again"))
+                        alert.show()
+                    }
+                    
                 }
             })
         }
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { // Error: unable to get products message. Try again tries to reload the products until success.
+        self.queryingProducts = false
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+            self.queryProducts()
+        })
     }
 
     func askForNextBunchOfProducts() {
@@ -388,11 +406,20 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         self.queryProducts()
     }
 
+    func dynamicTypeChanged() {
+        self.collectionView.reloadSections(NSIndexSet(index: 0))
+    }
+    
     /** Reset product list and start query again */
     func userLocationUpdated(notification: NSNotification) {
         unableToRetrieveLocationTimer?.invalidate()
         unableToRetrieveLocationTimer = nil
         self.resetProductList()
+    }
+    
+    /** Respond to change in badge number */
+    func badgeChanged(notification: NSNotification) {
+        self.refreshBadgeButton()
     }
     
     func nextKmOffset(kmOffset: Int) -> Int {
@@ -462,20 +489,48 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     func showFilters() {
-        let alert = UIAlertController(title: translate("order_by"), message: nil, preferredStyle: .ActionSheet)
-        alert.addAction(UIAlertAction(title: translate("latest_published"), style: .Default, handler: { (action) -> Void in
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("order_by"), message: nil, preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: translate("latest_published"), style: .Default, handler: { (action) -> Void in
+                self.changeFilterTo("createdAt", order: .OrderedDescending)
+            }))
+            alert.addAction(UIAlertAction(title: translate("highest_price"), style: .Default, handler: { (action) -> Void in
+                self.changeFilterTo("price", order: .OrderedDescending)
+            }))
+            alert.addAction(UIAlertAction(title: translate("lowest_price"), style: .Default, handler: { (action) -> Void in
+                self.changeFilterTo("price", order: .OrderedAscending)
+            }))
+            alert.addAction(UIAlertAction(title: translate("proximity"), style: .Default, handler: { (action) -> Void in
+                self.changeFilterTo(nil, order: .OrderedDescending)
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        } else { // iOS 7 fallback
+            let actionSheet = UIActionSheet()
+            actionSheet.title = translate("order_by")
+            actionSheet.delegate = self
+            actionSheet.addButtonWithTitle(translate("latest_published"))
+            actionSheet.addButtonWithTitle(translate("highest_price"))
+            actionSheet.addButtonWithTitle(translate("lowest_price"))
+            actionSheet.addButtonWithTitle(translate("proximity"))
+            actionSheet.showInView(self.view)
+        }
+    }
+    
+    // filter selection for iOS 7 action sheet.
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        switch (buttonIndex) {
+        case 0:
             self.changeFilterTo("createdAt", order: .OrderedDescending)
-        }))
-        alert.addAction(UIAlertAction(title: translate("highest_price"), style: .Default, handler: { (action) -> Void in
+        case 1:
             self.changeFilterTo("price", order: .OrderedDescending)
-        }))
-        alert.addAction(UIAlertAction(title: translate("lowest_price"), style: .Default, handler: { (action) -> Void in
+        case 2:
             self.changeFilterTo("price", order: .OrderedAscending)
-        }))
-        alert.addAction(UIAlertAction(title: translate("proximity"), style: .Default, handler: { (action) -> Void in
+        case 3:
             self.changeFilterTo(nil, order: .OrderedDescending)
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        default:
+            break
+        }
     }
     
     func changeFilterTo(filter: String?, order: NSComparisonResult) {

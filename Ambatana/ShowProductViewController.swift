@@ -19,7 +19,7 @@ protocol ShowProductViewControllerDelegate {
  * This ViewController is in charge of showing a single product selected from the ProductList view controller. Depending on the ownership of the product, the user would be allowed
  * to modify the object if he/she owns it, or make offers/chat with the owner.
  */
-class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate {
+class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate {
     // outlets & buttons
     @IBOutlet weak var imagesScrollView: UIScrollView!
     @IBOutlet weak var askQuestionButton: UIButton!
@@ -241,19 +241,22 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             } else { // we need to create a conversation and pass it.
                 ChatManager.sharedInstance.createConversationWithUser(self.productUser!, aboutProduct: self.productObject!, completion: { (success, conversation) -> Void in
                     if success { self.launchChatWithConversation(conversation!) }
-                    else { self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+                    else { self.disableAskQuestionLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
                 })
             }
         }
     }
     
     func launchChatWithConversation(conversation: PFObject) {
-        disableAskQuestionLoadingInterface()
-        
         if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
-            chatVC.ambatanaConversation = AmbatanaConversation(parseConversationObject: conversation)
-            self.navigationController?.pushViewController(chatVC, animated: true) ?? showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
-        } else { showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
+                chatVC.ambatanaConversation = AmbatanaConversation(parseConversationObject: conversation)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.disableAskQuestionLoadingInterface()
+                    self.navigationController?.pushViewController(chatVC, animated: true) ?? self.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                })
+            })
+        } else { disableAskQuestionLoadingInterface(); showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
     }
     
     func enableAskQuestionLoadingInterface() {
@@ -276,32 +279,50 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
-        let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: translate("mark_as_sold"), style: .Default, handler: { (markAction) -> Void in
-            self.enableMarkAsSoldLoadingInterface()
-            self.productObject["status"] = ProductStatus.Sold.rawValue
-            self.productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
-                if success {
-                    self.productStatus = .Sold
-                    // animated hiding of the button, restore alpha once hidden.
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        self.markSoldButton.alpha = 0.0
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: translate("mark_as_sold"), style: .Default, handler: { (markAction) -> Void in
+                self.definitelyMarkProductAsSold()
+            }))
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else { // ios7 fallback --> ActionSheet.
+            let alert = UIAlertView(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), delegate: self, cancelButtonTitle: translate("cancel"))
+            alert.addButtonWithTitle(translate("mark_as_sold"))
+            alert.show()
+        }
+        
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if buttonIndex == 1 {
+            self.definitelyMarkProductAsSold()
+        }
+    }
+    
+    // if user answered "yes" to the question: "Do you really want to mark this product as sold?"...
+    func definitelyMarkProductAsSold() {
+        self.enableMarkAsSoldLoadingInterface()
+        self.productObject["status"] = ProductStatus.Sold.rawValue
+        self.productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
+            if success {
+                self.productStatus = .Sold
+                // animated hiding of the button, restore alpha once hidden.
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    self.markSoldButton.alpha = 0.0
                     }, completion: { (success) -> Void in
                         self.markSoldButton.hidden = true
                         self.markSoldButton.alpha = 1.0
-                    })
-                    //self.markSoldButton.setTitle(translate("marked_as_sold"), forState: .Normal)
-                    //self.markSoldButton.enabled = false
-                    self.delegate?.ambatanaProduct(self.productObject, statusUpdatedTo: self.productStatus!)
-                } else {
-                    self.markSoldButton.enabled = true
-                    self.showAutoFadingOutMessageAlert("error_marking_as_sold")
-                }
-                self.disableMarkAsSoldLoadingInterface()
-            })
-        }))
-        alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+                })
+                //self.markSoldButton.setTitle(translate("marked_as_sold"), forState: .Normal)
+                //self.markSoldButton.enabled = false
+                self.delegate?.ambatanaProduct(self.productObject, statusUpdatedTo: self.productStatus!)
+            } else {
+                self.markSoldButton.enabled = true
+                self.showAutoFadingOutMessageAlert("error_marking_as_sold")
+            }
+            self.disableMarkAsSoldLoadingInterface()
+        })
     }
     
     // MARK: - Mark as sold UI/UX
@@ -526,14 +547,15 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             pdvc.productName = nameLabel.text!
         } else if let epvc = segue.destinationViewController as? EditProfileViewController {
             epvc.userObject = self.productUser
-            
+        } else if let movc = segue.destinationViewController as? MakeAnOfferViewController {
+            movc.productObject = self.productObject
+            movc.productUser = self.productUser
         }
     }
     
     @IBAction func showProductUser(sender: AnyObject) {
         self.performSegueWithIdentifier("ShowProductUser", sender: sender)
     }
-    
 }
 
 

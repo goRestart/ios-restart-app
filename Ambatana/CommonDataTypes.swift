@@ -31,6 +31,7 @@ let kAmbatanaUnableToGetUserLocationNotification                = "AmbatanaUnabl
 let kAmbatanaUnableToSetUserLocationNotification                = "AmbatanaUnableToSetUserLocationNotification"
 let kAmbatanaUserLocationSuccessfullySetNotification            = "AmbatanaUserLocationSuccessfullySetNotification"
 let kAmbatanaUserLocationSuccessfullyChangedNotification        = "AmbatanaUserLocationSuccessfullyChangedNotification"
+let kAmbatanaUserBadgeChangedNotification                       = "AmbatanaUserBadgeChangedNotification"
 
 /** Product list categories */
 enum ProductListCategory: Int {

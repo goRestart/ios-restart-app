@@ -14,7 +14,12 @@ private let kAmbatanaAlreadyUploadedImageCellName = "AlreadyUploadedImageCell"
 private let kAmbatanaAlreadyUploadedImageCellBigImageTag = 1
 private let kAmbatanaTextfieldScrollingOffsetSpan: CGFloat = 72 // 20 (status bar height) + 44 (navigation controller height) + 8 (small span to leave some space)
 
-class SellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+private let kAmbatanaSellProductActionSheetTagCurrencyType = 100 // for currency selection
+private let kAmbatanaSellProductActionSheetTagCategoryType = 101 // for category selection
+private let kAmbatanaSellProductActionSheetTagImageSourceType = 102 // for image source selection
+private let kAmbatanaSellProductActionSheetTagActionType = 103 // for image action selection
+
+class SellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate {
     // outlets & buttons
     @IBOutlet weak var productTitleTextField: UITextField!
     @IBOutlet weak var productPriceTextfield: UITextField!
@@ -45,6 +50,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var currenciesFromBackend: [PFObject]?
     var imageCounter = 0
     var imageUploadBackgroundTask = UIBackgroundTaskInvalid // used for allowing the App to keep on uploading an image if we go into background.
+    var imageSelectedIndex = 0 // for actions (delete, save to disk...) in iOS7 and prior
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,38 +97,85 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - iOS 7 Action Sheet deprecated selections for compatibility.
+    
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if actionSheet.tag == kAmbatanaSellProductActionSheetTagCurrencyType { // currency type selection
+            let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
+            let buttonCurrency = allCurrencies[buttonIndex]
+            self.currentCurrency = buttonCurrency
+            self.currencyTypeButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
+        } else if actionSheet.tag == kAmbatanaSellProductActionSheetTagCategoryType { // category selection
+            let category = ProductListCategory.allCategories()[buttonIndex]
+            self.currentCategory = category
+            self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
+        } else if actionSheet.tag == kAmbatanaSellProductActionSheetTagImageSourceType { // choose source for the images
+            if buttonIndex == 0 { self.openImagePickerWithSource(.Camera) }
+            else { self.openImagePickerWithSource(.PhotoLibrary) }
+        } else if actionSheet.tag == kAmbatanaSellProductActionSheetTagActionType { // action type for uploaded image (download to disk? delete?...)
+            if buttonIndex == 0 { self.deleteAlreadyUploadedImageWithIndex(imageSelectedIndex) }
+            else { self.saveProductImageToDiskAtIndex(imageSelectedIndex) }
+        }
+    }
+    
     // MARK: - Button actions
     
     @IBAction func changeCurrencyType(sender: AnyObject) {
         restoreOriginalPosition()
-        // show alert controller for currency selection
-        let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
         
-        // iterate and add all currencies.
-        for currency in CurrencyManager.sharedInstance.allCurrencies() {
-            alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (currencyAction) -> Void in
-                self.currentCurrency = currency
-                self.currencyTypeButton.setTitle(currency.currencyCode, forState: .Normal)
-            }))
+        if iOSVersionAtLeast("8.0") {
+            // show alert controller for currency selection
+            let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
+            
+            // iterate and add all currencies.
+            for currency in CurrencyManager.sharedInstance.allCurrencies() {
+                alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (currencyAction) -> Void in
+                    self.currentCurrency = currency
+                    self.currencyTypeButton.setTitle(currency.currencyCode, forState: .Normal)
+                }))
+            }
+            
+            // complete alert and show.
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else { // ios7 fallback
+            let actionSheet = UIActionSheet()
+            actionSheet.title = translate("choose_currency")
+            actionSheet.delegate = self
+            actionSheet.tag = kAmbatanaSellProductActionSheetTagCurrencyType
+            for currency in CurrencyManager.sharedInstance.allCurrencies() {
+                actionSheet.addButtonWithTitle(currency.currencyCode)
+            }
+            actionSheet.showInView(self.view)
         }
-
-        // complete alert and show.
-        alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
     }
-    
+
     @IBAction func chooseCategory(sender: AnyObject) {
         restoreOriginalPosition()
-        // show alert controller for category selection
-        let alert = UIAlertController(title: translate("choose_a_category"), message: nil, preferredStyle: .ActionSheet)
-        for category in ProductListCategory.allCategories() {
-            alert.addAction(UIAlertAction(title: category.getName(), style: .Default, handler: { (categoryAction) -> Void in
-                self.currentCategory = category
-                self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
-            }))
+        
+        if iOSVersionAtLeast("8.0") {
+            // show alert controller for category selection
+            let alert = UIAlertController(title: translate("choose_a_category"), message: nil, preferredStyle: .ActionSheet)
+            for category in ProductListCategory.allCategories() {
+                alert.addAction(UIAlertAction(title: category.getName(), style: .Default, handler: { (categoryAction) -> Void in
+                    self.currentCategory = category
+                    self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
+                }))
+            }
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+
+        } else {
+            let actionSheet = UIActionSheet()
+            actionSheet.delegate = self
+            actionSheet.title = translate("choose_a_category")
+            actionSheet.tag = kAmbatanaSellProductActionSheetTagCategoryType
+            for category in ProductListCategory.allCategories() {
+                actionSheet.addButtonWithTitle(category.getName())
+            }
+            actionSheet.showInView(self.view)
         }
-        alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        
     }
     
     @IBAction func shareInFacebookSwitchChanged(sender: AnyObject) {
@@ -193,7 +246,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             }
             
             // save the object.
-            // TODO: Una barra de progreso aquí o cuando se suben imágenes???
             productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
                 self.disableLoadingWhileSellingObjectInterface()
                 if success {
@@ -274,15 +326,26 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     // MARK: - UIImagePickerControllerDelegate methods
     
     func showImageSourceSelection() {
-        let alert = UIAlertController(title: translate("choose_image_source"), message: nil, preferredStyle: .ActionSheet)
-        alert.addAction(UIAlertAction(title: translate("camera"), style: .Default, handler: { (alertAction) -> Void in
-            self.openImagePickerWithSource(.Camera)
-        }))
-        alert.addAction(UIAlertAction(title: translate("photo_library"), style: .Default, handler: { (alertAction) -> Void in
-            self.openImagePickerWithSource(.PhotoLibrary)
-        }))
-        alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("choose_image_source"), message: nil, preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: translate("camera"), style: .Default, handler: { (alertAction) -> Void in
+                self.openImagePickerWithSource(.Camera)
+            }))
+            alert.addAction(UIAlertAction(title: translate("photo_library"), style: .Default, handler: { (alertAction) -> Void in
+                self.openImagePickerWithSource(.PhotoLibrary)
+            }))
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            let actionSheet = UIActionSheet()
+            actionSheet.delegate = self
+            actionSheet.title = translate("choose_image_source")
+            actionSheet.tag = kAmbatanaSellProductActionSheetTagImageSourceType
+            actionSheet.addButtonWithTitle(translate("camera"))
+            actionSheet.addButtonWithTitle(translate("photo_library"))
+            actionSheet.showInView(self.view)
+        }
+        
     }
     
     func openImagePickerWithSource(source: UIImagePickerControllerSourceType) {
@@ -440,17 +503,29 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row < images.count {
-            let alert = UIAlertController(title: translate("choose_action"), message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: translate("delete"), style: .Destructive, handler: { (deleteAction) -> Void in
-                self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
-            }))
-            alert.addAction(UIAlertAction(title: translate("save_to_disk"), style: .Default, handler: { (saveAction) -> Void in
-                self.saveProductImageToDiskAtIndex(indexPath.row)
-            }))
-            alert.addAction(UIAlertAction(title: "cancel", style: .Cancel, handler: nil))
+        if indexPath.row < images.count { // choose action for currently uploaded image (save to disk? delete?...)
+            if iOSVersionAtLeast("8.0") {
+                let alert = UIAlertController(title: translate("choose_action"), message: nil, preferredStyle: .ActionSheet)
+                alert.addAction(UIAlertAction(title: translate("delete"), style: .Destructive, handler: { (deleteAction) -> Void in
+                    self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
+                }))
+                alert.addAction(UIAlertAction(title: translate("save_to_disk"), style: .Default, handler: { (saveAction) -> Void in
+                    self.saveProductImageToDiskAtIndex(indexPath.row)
+                }))
+                alert.addAction(UIAlertAction(title: "cancel", style: .Cancel, handler: nil))
+                
+                self.presentViewController(alert, animated: true, completion: nil)
+            } else {
+                let actionSheet = UIActionSheet()
+                actionSheet.delegate = self
+                actionSheet.title = translate("choose_action")
+                actionSheet.tag = kAmbatanaSellProductActionSheetTagActionType
+                actionSheet.addButtonWithTitle(translate("delete"))
+                actionSheet.addButtonWithTitle(translate("save_to_disk"))
+                self.imageSelectedIndex = indexPath.row
+                actionSheet.showInView(self.view)
+            }
             
-            self.presentViewController(alert, animated: true, completion: nil)
         } else { // add photo button.
             // check number of photos.
             if images.count >= kAmbatanaProductImageKeys.count {
@@ -480,7 +555,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func image(image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismissLoadingMessageAlert(completion: { () -> Void in
             if error == nil { // success
                 self.showAutoFadingOutMessageAlert(translate("successfully_saved_to_disk"));
             } else {

@@ -49,7 +49,7 @@ enum AmbatanaUserSettings: Int {
     }
 }
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate {
     // outlets & buttons
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var settingProfileImageView: UIView!
@@ -115,7 +115,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                 performSegueWithIdentifier("ChangePassword", sender: nil)
             }
 */
-            // Update: Allow even FB users to change their passwords.
+            // Update: As per specifications, allow even FB users to change their passwords.
             performSegueWithIdentifier("ChangePassword", sender: nil)
         case .FavoriteCategories:
             performSegueWithIdentifier("SetFavoriteCategories", sender: nil)
@@ -126,21 +126,39 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func logoutUser() {
         PFUser.logOut()
+        ConfigurationManager.sharedInstance.logOutUser()
+        LocationManager.sharedInstance.logOutUser()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: - UIImagePickerControllerDelegate methods
     
     func showImageSourceSelection() {
-        let alert = UIAlertController(title: translate("choose_image_source"), message: translate("choose_image_source_description"), preferredStyle: .ActionSheet)
-        alert.addAction(UIAlertAction(title: translate("camera"), style: .Default, handler: { (alertAction) -> Void in
-            self.openImagePickerWithSource(.Camera)
-        }))
-        alert.addAction(UIAlertAction(title: translate("photo_library"), style: .Default, handler: { (alertAction) -> Void in
-            self.openImagePickerWithSource(.PhotoLibrary)
-        }))
-        alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("choose_image_source"), message: translate("choose_image_source_description"), preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: translate("camera"), style: .Default, handler: { (alertAction) -> Void in
+                self.openImagePickerWithSource(.Camera)
+            }))
+            alert.addAction(UIAlertAction(title: translate("photo_library"), style: .Default, handler: { (alertAction) -> Void in
+                self.openImagePickerWithSource(.PhotoLibrary)
+            }))
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else {
+            let actionSheet = UIActionSheet()
+            actionSheet.delegate = self
+            actionSheet.title = translate("choose_image_source")
+            actionSheet.addButtonWithTitle(translate("camera"))
+            actionSheet.addButtonWithTitle(translate("photo_library"))
+            actionSheet.showInView(self.view)
+        }
+        
+    }
+    
+    // iOS 7 compatibility action sheet for image source selection
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if buttonIndex == 0 { self.openImagePickerWithSource(.Camera) }
+        else { self.openImagePickerWithSource(.PhotoLibrary) }
     }
     
     func openImagePickerWithSource(source: UIImagePickerControllerSourceType) {

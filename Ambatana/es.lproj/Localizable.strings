@@ -173,8 +173,9 @@
 "unable_start_conversation" = "Hubo un problema creando la conversación. Por favor, inténtalo de nuevo más tarde.";
 "loading_messages" = "Cargando mensajes...";
 "unable_send_message" = "Imposible enviar mensaje. Inténtalo de nuevo más tarde.";
-
-
+"new_offer_of" = "Nueva oferta de ";
+"error_making_offer" = "Error haciendo una oferta por el producto. Por favor, inténtalo más tarde.";
+"message" = "Mensaje";
 
 
 

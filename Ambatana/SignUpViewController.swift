@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController, UITextFieldDelegate {
+class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDelegate {
     // outlets && buttons
     @IBOutlet weak var nameTextfield: UITextField!
     @IBOutlet weak var emailTextfield: UITextField!
@@ -108,17 +108,26 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             self.activityIndicator.stopAnimating()
             self.activityIndicator.hidden = true
             if success {
-                let alert = UIAlertController(title: translate("success"), message: translate("user_created_successfully"), preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: translate("login_now"), style: .Default, handler: { (alertAction) -> Void in
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }))
-                self.presentViewController(alert, animated: true, completion: nil)
+                if iOSVersionAtLeast("8.0") {
+                    let alert = UIAlertController(title: translate("success"), message: translate("user_created_successfully"), preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: translate("login_now"), style: .Default, handler: { (alertAction) -> Void in
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }))
+                    self.presentViewController(alert, animated: true, completion: nil)
+                } else { // fallback to iOS7 AlertView style
+                    let alert = UIAlertView(title: translate("success"), message: translate("user_created_successfully"), delegate: self, cancelButtonTitle: translate("login_now"))
+                    alert.show()
+                }
             } else {
                 let errorMessage = error?.localizedDescription ?? translate("try_again")
                 self.showAutoFadingOutMessageAlert(translate("error_creating_user") + ": " + errorMessage)
             }
             self.view.userInteractionEnabled = true
         }
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func useFacebook(sender: AnyObject) {

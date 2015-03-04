@@ -34,8 +34,10 @@ class ImageManager: NSObject {
     }
     
     override init() {
-        let queueAttributes = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0)
-        imageDispatchQueue = dispatch_queue_create("com.Ignacio-Nieto-Carvajal.AmbatanaImageManagerQueue", queueAttributes)
+        if iOSVersionAtLeast("8.0") {
+            let queueAttributes = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0)
+            imageDispatchQueue = dispatch_queue_create("com.Ignacio-Nieto-Carvajal.AmbatanaImageManagerQueue", queueAttributes)
+        } else { imageDispatchQueue = dispatch_queue_create("com.Ignacio-Nieto-Carvajal.AmbatanaImageManagerQueue", 0) }
         super.init()
     }
     

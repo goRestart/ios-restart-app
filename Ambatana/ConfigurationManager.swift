@@ -25,7 +25,6 @@ class ConfigurationManager: NSObject {
     var currentFilterForSearch: String? = "createdAt"
     var currentFilterOrderForSearch: NSComparisonResult = .OrderedDescending
     
-    
     /** Shared instance */
     class var sharedInstance: ConfigurationManager {
         return _singletonInstance
@@ -104,6 +103,13 @@ class ConfigurationManager: NSObject {
                 }
             })
         }
+    }
+    
+    func logOutUser() {
+        userName = translate("user")
+        userLocation = ""
+        userEmail = ""
+        userProfileImage = nil
     }
     
     // loads the user data from the already configured & authenticated PFUser

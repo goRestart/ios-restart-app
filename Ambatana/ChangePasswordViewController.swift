@@ -47,7 +47,7 @@ class ChangePasswordViewController: UIViewController {
             PFUser.currentUser().password = passwordTextfield.text
             PFUser.currentUser().saveInBackgroundWithBlock({ (success, error) -> Void in
                 if success {
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.dismissLoadingMessageAlert(completion: { () -> Void in
                         // clean fields
                         self.passwordTextfield.text = ""
                         self.confirmPasswordTextfield.text = ""
@@ -55,9 +55,10 @@ class ChangePasswordViewController: UIViewController {
                         self.showAutoFadingOutMessageAlert(translate("password_successfully_changed"), completionBlock: { (_) -> Void in
                             self.popBackViewController()
                         })
+
                     })
                 } else {
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    self.dismissLoadingMessageAlert(completion: { () -> Void in
                         self.showAutoFadingOutMessageAlert(translate("error_changing_password"))
                     })
                 }
