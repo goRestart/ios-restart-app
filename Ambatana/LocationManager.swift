@@ -129,14 +129,14 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         
     }
     
-    func userSpecifiedLocationDirectly(directLocation: CLLocationCoordinate2D) {
+    func userSpecifiedLocationDirectly(directLocation: CLLocationCoordinate2D, mustNotifyObservers: Bool) {
         self.lastKnownLocation = directLocation
         let latestLocation = CLLocation(coordinate: directLocation, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
         NSUserDefaults.standardUserDefaults().setObject(kAmbatanaUserWantsToSpecifyLocationDirectly, forKey: kAmbatanaUserWantsToSpecifyLocationDirectly)
-        updateRegisteredLocation(latestLocation)
+        updateRegisteredLocation(latestLocation, notifyObservers: mustNotifyObservers)
     }
     
-    private func updateRegisteredLocation(latestLocation: CLLocation) {
+    private func updateRegisteredLocation(latestLocation: CLLocation, notifyObservers: Bool = true) {
         // get the reverse geocoding location of the user from his/her coordinates.
         geocoder.reverseGeocodeLocation(latestLocation, completionHandler: { (placemarks, error) -> Void in
             let geoPoint = PFGeoPoint(latitude: latestLocation.coordinate.latitude, longitude: latestLocation.coordinate.longitude)
@@ -161,10 +161,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 if (success) {
                     println("*** Updated registered user location successfully")
                     self.lastRegisteredLocation = latestLocation.coordinate
-                    NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserLocationSuccessfullyChangedNotification, object: latestLocation)
+                    if notifyObservers { NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserLocationSuccessfullyChangedNotification, object: latestLocation) }
                 } else {
                     println("*** Error setting registered user's location")
-                    NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUnableToSetUserLocationNotification, object: nil)
+                    if notifyObservers { NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUnableToSetUserLocationNotification, object: nil) }
                 }
             })
         })
@@ -178,7 +178,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         clLocationManager.stopUpdatingLocation()
         if (locations?.count > 0) {
             if let lastLocation = locations.last as? CLLocation {
-                // TODO: Change this debug
+                // Just for testing purposes. Uncomment to set a specific location in the simulator, normal location on an actual device.
                 #if (arch(i386) || arch(x86_64)) && os(iOS) // we are in the simulator.
                     self.lastKnownLocation = CLLocationCoordinate2DMake(40.416947, -3.703528)
                 #else
@@ -207,13 +207,16 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             if let directLocation = NSUserDefaults.standardUserDefaults().objectForKey(kAmbatanaUserWantsToSpecifyLocationDirectly) as? String {
                 // try to get location for the current user from parse, and use it as the .
                 if let registeredLocationObject = PFUser.currentUser()["gpscoords"] as? PFGeoPoint {
+                    println("Location retrieved from previously registered entry in backend")
                     // use this registered location as the current location.
                     self.lastRegisteredLocation = CLLocationCoordinate2DMake(registeredLocationObject.latitude, registeredLocationObject.longitude)
                     self.lastKnownLocation = self.lastRegisteredLocation
                 } else {
+                    println("Unable to get location")
                     NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUnableToGetUserLocationNotification, object: nil)
                 }
             } else {
+                println("Unable to get location")
                 NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUnableToGetUserLocationNotification, object: nil)
             }
             updatingLocation = false

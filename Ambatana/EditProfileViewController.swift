@@ -382,4 +382,21 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         
         return cell
     }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        // get the type of product depending on the selected button.
+        var productObject: PFObject!
+        switch (currentType) {
+        case .Sell:
+            productObject = sellEntries![indexPath.row]
+        case .Sold:
+            productObject = soldEntries![indexPath.row]
+        case .Favorite:
+            productObject = favoriteEntries![indexPath.row]
+        }
+        if let spvc = self.storyboard?.instantiateViewControllerWithIdentifier("showProductViewController") as? ShowProductViewController {
+            spvc.productObject = productObject
+            self.navigationController?.pushViewController(spvc, animated: true)
+        }
+    }
 }

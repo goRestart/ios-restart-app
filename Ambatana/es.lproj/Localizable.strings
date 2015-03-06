@@ -176,6 +176,7 @@
 "new_offer_of" = "Nueva oferta de ";
 "error_making_offer" = "Error haciendo una oferta por el producto. Por favor, inténtalo más tarde.";
 "message" = "Mensaje";
+"pull_to_refresh" = "Tira para recargar";
 
 
 

@@ -41,6 +41,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var loadingMessageActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var loadingMessagesLabel: UILabel!
+    var refreshControl: UIRefreshControl!
     
     // data
     var ambatanaConversation: AmbatanaConversation?
@@ -69,7 +70,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         sendButton.setTitle(translate("send"), forState: .Normal)
         messageTextfield.placeholder = translate("type_your_message_here")
         loadingMessagesLabel.text = translate("loading_messages")
-
+        
+        // add a pull to refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
+        self.refreshControl.addTarget(self, action: "refreshMessages", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -87,21 +93,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             let conversationObject = ambatanaConversation!.conversationObject
             enableLoadingMessagesInterface()
             // load previous messages
-            ChatManager.sharedInstance.loadMessagesFromConversation(conversationObject, completion: { (success, messages) -> Void in
-                if success {
-                    self.messages = messages!
-                } else { // no messages yet. Empty conversation view.
-                    self.messages = []
-                }
-                self.disableLoadingMessagesInterface()
-                self.tableView.reloadData()
-                // scroll to the last message.
-                self.scrollToBottomOfMessagesList(false)
-                self.tableView.reloadData()
-                
-                // now that we have loaded the messages (and are sure the user can read them) we can mark them as read in the conversation.
-                ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: self.ambatanaConversation!.conversationObject, completion: nil)
-            })
+            loadMessages(conversationObject)
             
             // load the other user.
             // According to specification, if I am selling the product, I am the user_to, and the other user is the user_from
@@ -130,6 +122,32 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.showAutoFadingOutMessageAlert(translate("unable_show_conversation"), completionBlock: { () -> Void in
                 self.popBackViewController()
             })
+        }
+    }
+    
+    func loadMessages(conversationObject: PFObject) {
+        ChatManager.sharedInstance.loadMessagesFromConversation(conversationObject, completion: { (success, messages) -> Void in
+            if success {
+                self.messages = messages!
+            } else { // no messages yet. Empty conversation view.
+                self.messages = []
+            }
+            self.disableLoadingMessagesInterface()
+            self.tableView.reloadData()
+            // scroll to the last message.
+            self.scrollToBottomOfMessagesList(false)
+            self.tableView.reloadData()
+            // release the refresh control
+            self.refreshControl.endRefreshing()
+            
+            // now that we have loaded the messages (and are sure the user can read them) we can mark them as read in the conversation.
+            ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: self.ambatanaConversation!.conversationObject, completion: nil)
+        })
+    }
+    
+    func refreshMessages() {
+        if let conversationObject = self.ambatanaConversation?.conversationObject {
+            loadMessages(conversationObject)
         }
     }
     

@@ -83,7 +83,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     @IBAction func setLocation(sender: AnyObject) {
         if CLLocationCoordinate2DIsValid(locationInMap) {
             enableLoadingStatus()
-            LocationManager.sharedInstance.userSpecifiedLocationDirectly(locationInMap)
+            LocationManager.sharedInstance.userSpecifiedLocationDirectly(locationInMap, mustNotifyObservers: allowGoingBack)
         } else {
             if iOSVersionAtLeast("8.0") {
                 let alert = UIAlertController(title: translate("error"), message: translate("select_valid_location"), preferredStyle:.Alert)
@@ -178,17 +178,17 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         if iOSVersionAtLeast("8.0") {
             let alert = UIAlertController(title: translate("success"), message: translate("stored_your_location"), preferredStyle:.Alert)
             alert.addAction(UIAlertAction(title: translate("ok"), style: .Default, handler: { (action) -> Void in
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.popBackViewController()
             }))
             self.presentViewController(alert, animated: true, completion: nil)
         } else {
-            let alert = UIAlertView(title: translate("error"), message: translate("stored_your_location"), delegate: self, cancelButtonTitle: translate("ok"))
+            let alert = UIAlertView(title: translate("message"), message: translate("stored_your_location"), delegate: self, cancelButtonTitle: translate("ok"))
             alert.show()
         }
         
     }
     
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { self.dismissViewControllerAnimated(true, completion: nil) }
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { self.popBackViewController() }
 }
 
 

@@ -117,6 +117,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         case .Categories:
             segueName = "Categories"
         default:
+            UIApplication.sharedApplication().openURL(NSURL(string: kAmbatanaWebsiteURL)!)
             segueName = nil
             break;
         }

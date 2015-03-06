@@ -121,7 +121,7 @@ extension UIViewController {
     // Shows a loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert()
     func showLoadingMessageAlert(customMessage: String? = translate("loading")) {
         if iOSVersionAtLeast("8.0") {
-            let finalMessage = (customMessage ?? translate("loading"))+"\n\n"
+            let finalMessage = (customMessage ?? translate("loading"))+"\n\n\n"
             let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .Alert)
             let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
             activityIndicator.color = UIColor.blackColor()
@@ -135,12 +135,7 @@ extension UIViewController {
                 iOS7LoadingAlertView?.dismissWithClickedButtonIndex(0, animated: true)
                 iOS7LoadingAlertView = nil
             }
-            iOS7LoadingAlertView = UIAlertView(title: (customMessage ?? translate("loading"))+"\n\n", message: nil, delegate: nil, cancelButtonTitle: nil)
-            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-            activityIndicator.color = UIColor.blackColor()
-            activityIndicator.center = CGPointMake(130.5, 85.5)
-            iOS7LoadingAlertView!.addSubview(activityIndicator)
-            activityIndicator.startAnimating()
+            iOS7LoadingAlertView = UIAlertView(title: (customMessage ?? translate("loading")), message: nil, delegate: nil, cancelButtonTitle: nil)
             iOS7LoadingAlertView!.show()
         }
     }

@@ -9,7 +9,7 @@
 import UIKit
 
 private let kAmbatanaProductListCellFactor: CGFloat = 190.0 / 145.0
-private let kAmbatanaMaxWaitingTimeForLocation: NSTimeInterval = 30 // seconds
+private let kAmbatanaMaxWaitingTimeForLocation: NSTimeInterval = 15 // seconds
 
 class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, ShowProductViewControllerDelegate, UISearchBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate {
     // outlets & buttons
@@ -19,6 +19,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     @IBOutlet weak var noProductsFoundButton: UIButton!
     @IBOutlet weak var sellButton: UIButton!
     weak var searchButton: UIButton!
+    var refreshControl: UIRefreshControl!
     
     // data
     var currentKmOffset = 1
@@ -45,6 +46,12 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         //let cellWidth = (kAmbatanaFullScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0 (margen más fino).
         let cellHeight = cellWidth * kAmbatanaProductListCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
+        
+        // add a pull to refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
+        self.refreshControl.addTarget(self, action: "refreshProductList", forControlEvents: UIControlEvents.ValueChanged)
+        self.collectionView.addSubview(refreshControl)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -78,8 +85,12 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                 } else { // segue to ask user about his/her location directly
                     self.performSegueWithIdentifier("IndicateLocation", sender: nil)
                 }
+            } else { // else we just wait for the notification to arrive.
+                // enable a timer to fallback
+                if unableToRetrieveLocationTimer == nil {
+                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kAmbatanaMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(name: kAmbatanaUnableToGetUserLocationNotification, object: nil), repeats: false)
+                }
             }
-            // else we just wait for the notification to arrive.
         }
     }
     
@@ -330,8 +341,14 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                     }
                     
                 }
+                // if refresh control was used, release it
+                self.refreshControl.endRefreshing()
             })
         }
+    }
+    
+    func refreshProductList() {
+        self.queryProducts(force: true)
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { // Error: unable to get products message. Try again tries to reload the products until success.

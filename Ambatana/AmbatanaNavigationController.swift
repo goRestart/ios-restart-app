@@ -25,7 +25,7 @@ class AmbatanaNavigationController: UINavigationController {
         self.view.endEditing(true)
         self.frostedViewController.view.endEditing(true)
         
-        // pass gesture to frosted view controller.
+        // pass gesture to hamburguer view controller.
         self.frostedViewController.panGestureRecognized(sender)
     }
     

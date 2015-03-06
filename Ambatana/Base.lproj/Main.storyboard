@@ -1528,7 +1528,7 @@
         <!--Show Product View Controller-->
         <scene sceneID="bkE-jm-x8n">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="KjO-ho-cvR" customClass="ShowProductViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="showProductViewController" automaticallyAdjustsScrollViewInsets="NO" id="KjO-ho-cvR" customClass="ShowProductViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tLK-bU-3B3"/>
                         <viewControllerLayoutGuide type="bottom" id="2RO-Af-8gB"/>
@@ -2017,7 +2017,7 @@
                                     <action selector="startSellingNow:" destination="avJ-VO-bKh" eventType="touchUpInside" id="nmE-nV-nrp"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You still don't have any published or favorited product" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="5uH-sb-gMJ">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You still don't have any published or favorited product" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="5uH-sb-gMJ">
                                 <rect key="frame" x="8" y="213" width="304" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="twl-qi-u8l"/>
@@ -2835,7 +2835,7 @@
         <segue reference="UIK-Ry-K1T"/>
         <segue reference="HOf-mn-VEJ"/>
         <segue reference="VFl-zA-Skv"/>
-        <segue reference="12S-md-pjw"/>
-        <segue reference="GO5-BN-lJQ"/>
+        <segue reference="xtI-1Y-BpB"/>
+        <segue reference="cTm-ep-i6s"/>
     </inferredMetricsTieBreakers>
 </document>

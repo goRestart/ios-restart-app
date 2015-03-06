@@ -22,6 +22,7 @@ let kAmbatanaMaxProductImageSide: CGFloat = 1024
 let kAmbatanaMaxProductImageJPEGQuality: CGFloat = 1.0
 let kAmbatanaProductImageKeys = ["image_0", "image_1", "image_2", "image_3", "image_4"]
 let kAmbatanaProductFirstImageKey = kAmbatanaProductImageKeys.first!
+let kAmbatanaWebsiteURL = "http://ambatana.com"
 
 // notifications
 let kAmbatanaUserPictureUpdatedNotification                     = "AmbatanaUserPictureUpdated"

@@ -36,6 +36,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     // loading conversations
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var loadingConversationsLabel: UILabel!
+    var refreshControl: UIRefreshControl!
     
     // data
     var conversations: [AmbatanaConversation]?
@@ -52,6 +53,12 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         noConversationsYet.text = translate("no_conversations_yet")
         startSellingOrBuyingLabel.text = translate("start_selling_or_buying")
         loadingConversationsLabel.text = translate("loading_conversations")
+        
+        // add a pull to refresh control
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
+        self.refreshControl.addTarget(self, action: "refreshConversations", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,15 +82,17 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: - Conversation management
     
-    func updateConversations() {
+    func updateConversations(force: Bool = false) {
         // retrieve conversations
-        if conversations == nil || itsAboutTimeToRefreshConversations() {
-            enableLoadingConversationsInterface()
+        if force || (conversations == nil || itsAboutTimeToRefreshConversations()) {
+            if conversations == nil { enableLoadingConversationsInterface() }
             ChatManager.sharedInstance.retrieveMyConversationsWithCompletion({ (success, conversations) -> Void in
                 if success && conversations?.count > 0 {
                     self.conversations = conversations
                     self.enableConversationsInterface()
                 } else { self.enableNoConversationsInterface() }
+                // release pull to refresh
+                self.refreshControl.endRefreshing()
                 // register that we have updated our conversation records.
                 self.lastTimeConversationsWhereRetrieved = NSDate()
             })
@@ -93,9 +102,13 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             } else { // no conversations.
                 enableNoConversationsInterface()
             }
+            // release pull to refresh
+            self.refreshControl.endRefreshing()
         }
         
     }
+    
+    func refreshConversations() { updateConversations(force: true) }
     
     // Determines if we should refresh the conversations.
     func itsAboutTimeToRefreshConversations() -> Bool {
@@ -214,7 +227,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             // 3. user name
             if let userNameLabel = cell.viewWithTag(kAmbatanaConversationCellUserNameTag) as? UILabel {
                 userNameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-                userNameLabel.text = translate("by") + " " + conversation.userName
+                userNameLabel.text = conversation.userName
             }
             
             // 4. relative time
