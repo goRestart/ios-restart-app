@@ -109,10 +109,10 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     @IBAction func toggleMenu(sender: AnyObject) {
         // clear edition & dismiss keyboard
         self.view.endEditing(true)
-        self.frostedViewController?.view.endEditing(true)
+        self.findHamburguerViewController()?.view.endEditing(true)
         
         // open menu
-        self.frostedViewController?.presentMenuViewController()
+        self.findHamburguerViewController()?.showMenuViewController()
     }
     
     @IBAction func reloadProducts(sender: UIButton) {

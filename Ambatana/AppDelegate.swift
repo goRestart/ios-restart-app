@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func openChatListViewController() {
         if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
-            if let navigationController = rootViewController.contentViewController as? AmbatanaNavigationController { // we are logged in. Check that we have a valid ambatana navigation controller
+            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController { // we are logged in. Check that we have a valid ambatana navigation controller
                 if let chatListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("conversationsViewController") as? ChatListViewController { // ... and that we can instantiate the chat controller.
                     navigationController.pushViewController(chatListVC, animated: true)
                 }

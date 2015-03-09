@@ -76,8 +76,8 @@
 "your_session_has_expired" = "It seems that your session has expired. Please try again.";
 "authentication_error" = "Authentication error";
 "unable_access_system" = "I was unable to access the system. Please try again.";
-"unable_login" = "Imposible acceder al sistema";
-"login_canceled " = "Login was canceled by the user or an unknown error happened.";
+"unable_login" = "Unable to login.";
+"login_canceled" = "Login was canceled by the user or an unknown error happened.";
 "password_recovery" = "Password recovery";
 "send_recovery_email_question" = "Would you like to receive an email for recovering your password?";
 "password_recovery_email_sent" = "Password recovery email successfully sent. Please, check your email and follow the instructions.";

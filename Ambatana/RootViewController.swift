@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RootViewController: REFrostedViewController {
+class RootViewController: DLHamburguerViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -11,9 +11,6 @@
 // Crypto functions
 #import <CommonCrypto/CommonCrypto.h>
 
-// Sidebar menu
-#import "REFrostedViewController.h"
-
 // Parse
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>

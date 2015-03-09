@@ -2622,10 +2622,10 @@
             </objects>
             <point key="canvasLocation" x="2249" y="-615"/>
         </scene>
-        <!--Ambatana Navigation Controller-->
+        <!--Hamburguer Navigation Controller-->
         <scene sceneID="lut-On-nci">
             <objects>
-                <navigationController storyboardIdentifier="navigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="dPf-WV-Vw6" customClass="AmbatanaNavigationController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="navigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="dPf-WV-Vw6" customClass="DLHamburguerNavigationController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ujy-n4-xph">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

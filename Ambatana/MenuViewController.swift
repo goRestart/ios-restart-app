@@ -124,12 +124,11 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         // collapse menu.
         if segueName != nil {
-            let navigationController = self.frostedViewController.contentViewController as AmbatanaNavigationController
-            let visibleViewController = navigationController.visibleViewController
-            
-            visibleViewController.performSegueWithIdentifier(segueName, sender: nil)
+            let navigationController = self.mainNavigationController()
+            navigationController.visibleViewController.performSegueWithIdentifier(segueName, sender: nil)
+            self.findHamburguerViewController()?.contentViewController = navigationController
         }
-        self.frostedViewController.hideMenuViewController()
+        self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
     }
     
     // MARK: - UITableViewDataSource methods
@@ -167,8 +166,8 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: - Navigation methods
     
-    func mainNavigationController() -> AmbatanaNavigationController {
-        return self.storyboard?.instantiateViewControllerWithIdentifier("navigationViewController") as AmbatanaNavigationController
+    func mainNavigationController() -> DLHamburguerNavigationController {
+        return self.storyboard?.instantiateViewControllerWithIdentifier("navigationViewController") as DLHamburguerNavigationController
     }
     
     // MARK: - Notifications

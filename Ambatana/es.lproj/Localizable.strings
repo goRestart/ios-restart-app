@@ -76,8 +76,8 @@
 "your_session_has_expired" = "Parece que la sesión ha caducado. Inténtalo de nuevo.";
 "authentication_error" = "Error de autenticación";
 "unable_access_system" = "Imposible acceder al sistema. Por favor, inténtalo de nuevo.";
-"unable_login" = "Unable to login";
-"login_canceled " = "Login was canceled by the user or an unknown error happened.";
+"unable_login" = "Imposible acceder al sistema.";
+"login_canceled" = "Login was canceled by the user or an unknown error happened.";
 "password_recovery" = "Recuperar contraseña";
 "send_recovery_email_question" = "¿Necesitas que te enviémos un email para recuperar tu contraseña?";
 "password_recovery_email_sent" = "Se ha enviado un email de recuperación de contraseña. Por favor, comprueba tu correo y sigue las instrucciones.";

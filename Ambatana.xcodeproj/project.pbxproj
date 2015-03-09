@@ -14,6 +14,9 @@
 		6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
 		6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0441A820FBD005895ED /* LaunchScreen.xib */; };
 		6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6622AD951A9F471A00C357DE /* ChatManager.swift */; };
+		66349B511AACAD2200AE0FDF /* DLHamburguerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66349B4E1AACAD2200AE0FDF /* DLHamburguerViewController.swift */; };
+		66349B521AACAD2200AE0FDF /* DLHamburguerContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66349B4F1AACAD2200AE0FDF /* DLHamburguerContainerViewController.swift */; };
+		66349B531AACAD2200AE0FDF /* DLHamburguerNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66349B501AACAD2200AE0FDF /* DLHamburguerNavigationController.swift */; };
 		66362F541A8B4DE500EC145E /* ShowProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F531A8B4DE500EC145E /* ShowProductViewController.swift */; };
 		66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */; };
 		66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */; };
@@ -33,15 +36,8 @@
 		66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */; };
 		669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */; };
 		669A0FAD1A8D0CF000B96EC8 /* CommonDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A0FAC1A8D0CF000B96EC8 /* CommonDataTypes.swift */; };
-		66A0CFAC1A82533600FAADF0 /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFA11A82533600FAADF0 /* RECommonFunctions.m */; };
-		66A0CFAD1A82533600FAADF0 /* REFrostedContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFA31A82533600FAADF0 /* REFrostedContainerViewController.m */; };
-		66A0CFAE1A82533600FAADF0 /* REFrostedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFA51A82533600FAADF0 /* REFrostedViewController.m */; };
-		66A0CFAF1A82533600FAADF0 /* UIImage+REFrostedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFA71A82533600FAADF0 /* UIImage+REFrostedViewController.m */; };
-		66A0CFB01A82533600FAADF0 /* UIView+REFrostedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFA91A82533600FAADF0 /* UIView+REFrostedViewController.m */; };
-		66A0CFB11A82533600FAADF0 /* UIViewController+REFrostedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFAB1A82533600FAADF0 /* UIViewController+REFrostedViewController.m */; };
 		66A0CFB31A82548C00FAADF0 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFB21A82548C00FAADF0 /* RootViewController.swift */; };
 		66A0CFB51A8262BB00FAADF0 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFB41A8262BB00FAADF0 /* MenuViewController.swift */; };
-		66A0CFB91A827E7000FAADF0 /* AmbatanaNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFB81A827E7000FAADF0 /* AmbatanaNavigationController.swift */; };
 		66A0CFC01A83608900FAADF0 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFBB1A83608900FAADF0 /* Bolts.framework */; };
 		66A0CFC11A83608900FAADF0 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFBC1A83608900FAADF0 /* Parse.framework */; };
 		66A0CFC21A83608900FAADF0 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFBD1A83608900FAADF0 /* ParseCrashReporting.framework */; };
@@ -84,6 +80,9 @@
 		6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Launchers.xcassets"; sourceTree = "<group>"; };
 		6608E0451A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		6622AD951A9F471A00C357DE /* ChatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
+		66349B4E1AACAD2200AE0FDF /* DLHamburguerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLHamburguerViewController.swift; sourceTree = "<group>"; };
+		66349B4F1AACAD2200AE0FDF /* DLHamburguerContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLHamburguerContainerViewController.swift; sourceTree = "<group>"; };
+		66349B501AACAD2200AE0FDF /* DLHamburguerNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLHamburguerNavigationController.swift; sourceTree = "<group>"; };
 		66362F531A8B4DE500EC145E /* ShowProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowProductViewController.swift; sourceTree = "<group>"; };
 		66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+RelativeTime.swift"; sourceTree = "<group>"; };
 		66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMapView+ProductPin.swift"; sourceTree = "<group>"; };
@@ -107,21 +106,8 @@
 		669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosInDetailViewController.swift; sourceTree = "<group>"; };
 		669A0FAC1A8D0CF000B96EC8 /* CommonDataTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonDataTypes.swift; sourceTree = "<group>"; };
 		66A0CF9F1A82533500FAADF0 /* Ambatana-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ambatana-Bridging-Header.h"; sourceTree = "<group>"; };
-		66A0CFA01A82533600FAADF0 /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
-		66A0CFA11A82533600FAADF0 /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
-		66A0CFA21A82533600FAADF0 /* REFrostedContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REFrostedContainerViewController.h; sourceTree = "<group>"; };
-		66A0CFA31A82533600FAADF0 /* REFrostedContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REFrostedContainerViewController.m; sourceTree = "<group>"; };
-		66A0CFA41A82533600FAADF0 /* REFrostedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REFrostedViewController.h; sourceTree = "<group>"; };
-		66A0CFA51A82533600FAADF0 /* REFrostedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REFrostedViewController.m; sourceTree = "<group>"; };
-		66A0CFA61A82533600FAADF0 /* UIImage+REFrostedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+REFrostedViewController.h"; sourceTree = "<group>"; };
-		66A0CFA71A82533600FAADF0 /* UIImage+REFrostedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+REFrostedViewController.m"; sourceTree = "<group>"; };
-		66A0CFA81A82533600FAADF0 /* UIView+REFrostedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+REFrostedViewController.h"; sourceTree = "<group>"; };
-		66A0CFA91A82533600FAADF0 /* UIView+REFrostedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+REFrostedViewController.m"; sourceTree = "<group>"; };
-		66A0CFAA1A82533600FAADF0 /* UIViewController+REFrostedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+REFrostedViewController.h"; sourceTree = "<group>"; };
-		66A0CFAB1A82533600FAADF0 /* UIViewController+REFrostedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+REFrostedViewController.m"; sourceTree = "<group>"; };
 		66A0CFB21A82548C00FAADF0 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		66A0CFB41A8262BB00FAADF0 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		66A0CFB81A827E7000FAADF0 /* AmbatanaNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmbatanaNavigationController.swift; sourceTree = "<group>"; };
 		66A0CFBB1A83608900FAADF0 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		66A0CFBC1A83608900FAADF0 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		66A0CFBD1A83608900FAADF0 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -232,6 +218,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		66349B4D1AACAD0D00AE0FDF /* DLHamburguer */ = {
+			isa = PBXGroup;
+			children = (
+				66349B4E1AACAD2200AE0FDF /* DLHamburguerViewController.swift */,
+				66349B4F1AACAD2200AE0FDF /* DLHamburguerContainerViewController.swift */,
+				66349B501AACAD2200AE0FDF /* DLHamburguerNavigationController.swift */,
+			);
+			name = DLHamburguer;
+			sourceTree = "<group>";
+		};
 		6649D1651A8210A6000F6966 /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,12 +240,12 @@
 		6649D1661A8210AD000F6966 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				66349B4D1AACAD0D00AE0FDF /* DLHamburguer */,
 				66C0D0021AA5E9990070F311 /* Custom Badge */,
 				66FF4D711A94F2280095CBD6 /* Image resizing */,
 				66A0CFDC1A83637B00FAADF0 /* Facebook */,
 				66A0CFDB1A83616100FAADF0 /* Frameworks */,
 				66A0CFBA1A83608900FAADF0 /* parse-library-1.6.2 */,
-				66A0CF9E1A82532700FAADF0 /* REFrostedMenuController */,
 			);
 			name = "3rd Party";
 			sourceTree = "<group>";
@@ -319,7 +315,6 @@
 			children = (
 				66A0CFB21A82548C00FAADF0 /* RootViewController.swift */,
 				66A0CFB41A8262BB00FAADF0 /* MenuViewController.swift */,
-				66A0CFB81A827E7000FAADF0 /* AmbatanaNavigationController.swift */,
 			);
 			name = Structure;
 			sourceTree = "<group>";
@@ -344,25 +339,6 @@
 				6667972D1A9E321100D8E831 /* CryptoUtils.swift */,
 			);
 			name = Extensions;
-			sourceTree = "<group>";
-		};
-		66A0CF9E1A82532700FAADF0 /* REFrostedMenuController */ = {
-			isa = PBXGroup;
-			children = (
-				66A0CFA01A82533600FAADF0 /* RECommonFunctions.h */,
-				66A0CFA11A82533600FAADF0 /* RECommonFunctions.m */,
-				66A0CFA21A82533600FAADF0 /* REFrostedContainerViewController.h */,
-				66A0CFA31A82533600FAADF0 /* REFrostedContainerViewController.m */,
-				66A0CFA41A82533600FAADF0 /* REFrostedViewController.h */,
-				66A0CFA51A82533600FAADF0 /* REFrostedViewController.m */,
-				66A0CFA61A82533600FAADF0 /* UIImage+REFrostedViewController.h */,
-				66A0CFA71A82533600FAADF0 /* UIImage+REFrostedViewController.m */,
-				66A0CFA81A82533600FAADF0 /* UIView+REFrostedViewController.h */,
-				66A0CFA91A82533600FAADF0 /* UIView+REFrostedViewController.m */,
-				66A0CFAA1A82533600FAADF0 /* UIViewController+REFrostedViewController.h */,
-				66A0CFAB1A82533600FAADF0 /* UIViewController+REFrostedViewController.m */,
-			);
-			name = REFrostedMenuController;
 			sourceTree = "<group>";
 		};
 		66A0CFBA1A83608900FAADF0 /* parse-library-1.6.2 */ = {
@@ -530,16 +506,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66349B511AACAD2200AE0FDF /* DLHamburguerViewController.swift in Sources */,
 				6674FF7F1A9CA217006321C2 /* CurrencyManager.swift in Sources */,
 				66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */,
 				667562AF1A96380E00039151 /* ImageManager.swift in Sources */,
 				6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */,
 				66C056D71A97900800F7EEA8 /* PlaceholderTextView.swift in Sources */,
 				6674FF871A9CF060006321C2 /* UIImage+Resize.m in Sources */,
-				66A0CFAD1A82533600FAADF0 /* REFrostedContainerViewController.m in Sources */,
 				6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */,
 				667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */,
-				66A0CFB91A827E7000FAADF0 /* AmbatanaNavigationController.swift in Sources */,
 				6649D1701A822232000F6966 /* ProductListViewController.swift in Sources */,
 				66A0CFB31A82548C00FAADF0 /* RootViewController.swift in Sources */,
 				6674FF861A9CF060006321C2 /* UIImage+Alpha.m in Sources */,
@@ -548,10 +523,9 @@
 				665BAB511A97D7B5005A8E19 /* MakeAnOfferViewController.swift in Sources */,
 				66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */,
 				66A0CFB51A8262BB00FAADF0 /* MenuViewController.swift in Sources */,
-				66A0CFB11A82533600FAADF0 /* UIViewController+REFrostedViewController.m in Sources */,
 				66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */,
+				66349B531AACAD2200AE0FDF /* DLHamburguerNavigationController.swift in Sources */,
 				66911D8E1A84B95C006CFBE1 /* LocationManager.swift in Sources */,
-				66A0CFAF1A82533600FAADF0 /* UIImage+REFrostedViewController.m in Sources */,
 				66E3D0A91A89073B00BC283C /* UIViewController+Ambatana.swift in Sources */,
 				66362F541A8B4DE500EC145E /* ShowProductViewController.swift in Sources */,
 				669A0FAD1A8D0CF000B96EC8 /* CommonDataTypes.swift in Sources */,
@@ -561,15 +535,13 @@
 				66911D931A853A46006CFBE1 /* IndicateLocationViewController.swift in Sources */,
 				6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */,
 				6667972E1A9E321100D8E831 /* CryptoUtils.swift in Sources */,
-				66A0CFB01A82533600FAADF0 /* UIView+REFrostedViewController.m in Sources */,
 				66FC91171A921C700008AFAD /* LoginByEmailViewController.swift in Sources */,
-				66A0CFAC1A82533600FAADF0 /* RECommonFunctions.m in Sources */,
 				66A0CFE51A83740D00FAADF0 /* ChatViewController.swift in Sources */,
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
+				66349B521AACAD2200AE0FDF /* DLHamburguerContainerViewController.swift in Sources */,
 				66C0D0041AA5E9BB0070F311 /* CustomBadge.swift in Sources */,
 				6674FF881A9CF060006321C2 /* UIImage+RoundedCorner.m in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
-				66A0CFAE1A82533600FAADF0 /* REFrostedViewController.m in Sources */,
 				6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */,
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
@@ -645,6 +617,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
+				PROVISIONING_PROFILE = "0cf781f0-880d-4661-922c-af00cc183c39";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -681,6 +654,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "093db6d2-7b55-41e0-a6bc-50850a3cc9dd";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -692,8 +666,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.Ignacio-Nieto-Carvajal.Ambatana";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.Ignacio-Nieto-Carvajal.Ambatana";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ignacio Nieto Carvajal (ED48S4293Z)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ignacio Nieto Carvajal (ED48S4293Z)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.2",
@@ -715,8 +689,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.Ignacio-Nieto-Carvajal.Ambatana";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.Ignacio-Nieto-Carvajal.Ambatana";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ignacio Nieto Carvajal (ED48S4293Z)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ignacio Nieto Carvajal (ED48S4293Z)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/parse-library-1.6.2",
@@ -726,7 +700,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0cf781f0-880d-4661-922c-af00cc183c39";
+				PROVISIONING_PROFILE = "093db6d2-7b55-41e0-a6bc-50850a3cc9dd";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 			};
 			name = Release;
