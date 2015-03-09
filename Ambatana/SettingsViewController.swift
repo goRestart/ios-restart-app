@@ -182,7 +182,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         // generate cropped image to 1024x1024 at most.
         if image != nil {
             if let croppedImage = image!.croppedCenteredImage() {
-                if let resizedImage = croppedImage.resizedImage(CGSizeMake(kAmbatanaUserImageSquareSize, kAmbatanaUserImageSquareSize), interpolationQuality: kCGInterpolationHigh) {
+                if let resizedImage = croppedImage.resizedImageToSize(CGSizeMake(kAmbatanaUserImageSquareSize, kAmbatanaUserImageSquareSize), interpolationQuality: kCGInterpolationHigh) {
                     // update parse DDBB
                     let imageData = UIImageJPEGRepresentation(croppedImage, 0.9)
                     imageFile = PFFile(data: imageData)

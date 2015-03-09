@@ -365,7 +365,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         var resizedImage: UIImage?
         if image != nil {
             let newHeight = kAmbatanaMaxProductImageSide * image!.size.height / image!.size.width
-            resizedImage = image!.resizedImage(CGSizeMake(kAmbatanaMaxProductImageSide, newHeight), interpolationQuality: kCGInterpolationHigh)
+            resizedImage = image!.resizedImageToSize(CGSizeMake(kAmbatanaMaxProductImageSide, newHeight), interpolationQuality: kCGInterpolationHigh)
             if resizedImage != nil {
                 // update parse DDBB
                 let imageData = UIImageJPEGRepresentation(resizedImage, kAmbatanaMaxProductImageJPEGQuality)

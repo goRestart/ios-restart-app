@@ -21,12 +21,10 @@
 		66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */; };
 		66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */; };
 		6649D1701A822232000F6966 /* ProductListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6649D16F1A822232000F6966 /* ProductListViewController.swift */; };
+		665713E91AADF15800B4721C /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665713E81AADF15800B4721C /* DLImageResizing.swift */; };
 		665BAB511A97D7B5005A8E19 /* MakeAnOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665BAB501A97D7B5005A8E19 /* MakeAnOfferViewController.swift */; };
 		6667972E1A9E321100D8E831 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6667972D1A9E321100D8E831 /* CryptoUtils.swift */; };
 		6674FF7F1A9CA217006321C2 /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6674FF7E1A9CA217006321C2 /* CurrencyManager.swift */; };
-		6674FF861A9CF060006321C2 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674FF811A9CF060006321C2 /* UIImage+Alpha.m */; };
-		6674FF871A9CF060006321C2 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674FF831A9CF060006321C2 /* UIImage+Resize.m */; };
-		6674FF881A9CF060006321C2 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674FF851A9CF060006321C2 /* UIImage+RoundedCorner.m */; };
 		6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */; };
 		667562AF1A96380E00039151 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667562AE1A96380E00039151 /* ImageManager.swift */; };
 		667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667562B01A9749AE00039151 /* ChatListViewController.swift */; };
@@ -87,15 +85,10 @@
 		66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+RelativeTime.swift"; sourceTree = "<group>"; };
 		66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMapView+ProductPin.swift"; sourceTree = "<group>"; };
 		6649D16F1A822232000F6966 /* ProductListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewController.swift; sourceTree = "<group>"; };
+		665713E81AADF15800B4721C /* DLImageResizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLImageResizing.swift; sourceTree = "<group>"; };
 		665BAB501A97D7B5005A8E19 /* MakeAnOfferViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MakeAnOfferViewController.swift; sourceTree = "<group>"; };
 		6667972D1A9E321100D8E831 /* CryptoUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
 		6674FF7E1A9CA217006321C2 /* CurrencyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
-		6674FF801A9CF060006321C2 /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
-		6674FF811A9CF060006321C2 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
-		6674FF821A9CF060006321C2 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
-		6674FF831A9CF060006321C2 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
-		6674FF841A9CF060006321C2 /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
-		6674FF851A9CF060006321C2 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gradients.swift"; sourceTree = "<group>"; };
 		667562AE1A96380E00039151 /* ImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		667562B01A9749AE00039151 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
@@ -240,9 +233,9 @@
 		6649D1661A8210AD000F6966 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				665713E71AADF14100B4721C /* DLImageResize */,
 				66349B4D1AACAD0D00AE0FDF /* DLHamburguer */,
 				66C0D0021AA5E9990070F311 /* Custom Badge */,
-				66FF4D711A94F2280095CBD6 /* Image resizing */,
 				66A0CFDC1A83637B00FAADF0 /* Facebook */,
 				66A0CFDB1A83616100FAADF0 /* Frameworks */,
 				66A0CFBA1A83608900FAADF0 /* parse-library-1.6.2 */,
@@ -317,6 +310,14 @@
 				66A0CFB41A8262BB00FAADF0 /* MenuViewController.swift */,
 			);
 			name = Structure;
+			sourceTree = "<group>";
+		};
+		665713E71AADF14100B4721C /* DLImageResize */ = {
+			isa = PBXGroup;
+			children = (
+				665713E81AADF15800B4721C /* DLImageResizing.swift */,
+			);
+			name = DLImageResize;
 			sourceTree = "<group>";
 		};
 		66911D911A853A2E006CFBE1 /* Location */ = {
@@ -413,19 +414,6 @@
 			name = "Sell Product";
 			sourceTree = "<group>";
 		};
-		66FF4D711A94F2280095CBD6 /* Image resizing */ = {
-			isa = PBXGroup;
-			children = (
-				6674FF801A9CF060006321C2 /* UIImage+Alpha.h */,
-				6674FF811A9CF060006321C2 /* UIImage+Alpha.m */,
-				6674FF821A9CF060006321C2 /* UIImage+Resize.h */,
-				6674FF831A9CF060006321C2 /* UIImage+Resize.m */,
-				6674FF841A9CF060006321C2 /* UIImage+RoundedCorner.h */,
-				6674FF851A9CF060006321C2 /* UIImage+RoundedCorner.m */,
-			);
-			name = "Image resizing";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -512,12 +500,11 @@
 				667562AF1A96380E00039151 /* ImageManager.swift in Sources */,
 				6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */,
 				66C056D71A97900800F7EEA8 /* PlaceholderTextView.swift in Sources */,
-				6674FF871A9CF060006321C2 /* UIImage+Resize.m in Sources */,
 				6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */,
 				667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */,
 				6649D1701A822232000F6966 /* ProductListViewController.swift in Sources */,
 				66A0CFB31A82548C00FAADF0 /* RootViewController.swift in Sources */,
-				6674FF861A9CF060006321C2 /* UIImage+Alpha.m in Sources */,
+				665713E91AADF15800B4721C /* DLImageResizing.swift in Sources */,
 				66FF4D791A95F5520095CBD6 /* SetFavoriteCategoriesViewController.swift in Sources */,
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
 				665BAB511A97D7B5005A8E19 /* MakeAnOfferViewController.swift in Sources */,
@@ -540,7 +527,6 @@
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				66349B521AACAD2200AE0FDF /* DLHamburguerContainerViewController.swift in Sources */,
 				66C0D0041AA5E9BB0070F311 /* CustomBadge.swift in Sources */,
-				6674FF881A9CF060006321C2 /* UIImage+RoundedCorner.m in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
 				6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */,
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
