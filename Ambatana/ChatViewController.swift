@@ -238,7 +238,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func sendMessage(sender: AnyObject) {
         // safety checks
         if isSendingMessage { return }
-        if countElements(self.messageTextfield.text) < 1 { return }
+        if countElements(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 { return }
         if self.otherUser == nil || self.ambatanaConversation?.conversationObject == nil || self.productObject == nil { showAutoFadingOutMessageAlert(translate("unable_send_message")); return }
         
         // enable loading interface.

@@ -114,6 +114,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     @IBAction func changeCurrency(sender: AnyObject) {
         if iOSVersionAtLeast("8.0") {
             let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
             for currency in CurrencyManager.sharedInstance.allCurrencies() {
                 alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (action) -> Void in
                     self.offerCurrency = currency
@@ -122,9 +123,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             }
             self.presentViewController(alert, animated: true, completion: nil)
         } else { // ios7 fallback
-            let actionSheet = UIActionSheet()
-            actionSheet.title = translate("choose_currency")
-            actionSheet.delegate = self
+            let actionSheet = UIActionSheet(title: translate("choose_currency"), delegate: self, cancelButtonTitle: translate("cancel"), destructiveButtonTitle: nil)
             for currency in CurrencyManager.sharedInstance.allCurrencies() {
                 actionSheet.addButtonWithTitle(currency.currencyCode)
             }
@@ -134,10 +133,12 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     // iOS 7 Fallback for currency selection
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
-        let buttonCurrency = allCurrencies[buttonIndex]
-        self.offerCurrency = buttonCurrency
-        self.currencyButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
+        if buttonIndex > 0 { // 0 is cancel.
+            let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
+            let buttonCurrency = allCurrencies[buttonIndex - 1]
+            self.offerCurrency = buttonCurrency
+            self.currencyButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
+        }
     }
 
     /*

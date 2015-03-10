@@ -92,6 +92,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // register for user profile picture update notifications.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userPictureUpdated:", name: kAmbatanaUserPictureUpdatedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kAmbatanaUserBadgeChangedNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -156,6 +157,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             // badge?
             if menuOption == .Conversations {
                 badgeView?.hidden = false
+                println("El badge es \(PFInstallation.currentInstallation().badge)")
                 badgeView?.text = "\(PFInstallation.currentInstallation().badge)"
                 badgeView?.layer.cornerRadius = badgeView!.frame.size.height / 2.0
                 badgeView?.clipsToBounds = true
@@ -178,6 +180,11 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             self.userImageView.image = ConfigurationManager.sharedInstance.userProfileImage ?? UIImage(named: kAmbatanaDefaultUserImageName)
         }
+    }
+    
+    func badgeChanged (notification: NSNotification) {
+        self.tableView.reloadData()
+        println("Badge changed!")
     }
 }
 

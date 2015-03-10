@@ -409,16 +409,20 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     @IBAction func shareMail(sender: AnyObject) {
-        // build and show a mail controller
-        let mailComposerController: MFMailComposeViewController! = MFMailComposeViewController()
-        
-        mailComposerController.mailComposeDelegate = self
-        mailComposerController.setSubject(translate("have_a_look"))
-        
-        let mailBody = ambatanaTextForSharingBody(productObject?["name"] as? String ?? "", andObjectId: productObject!.objectId)
-        mailComposerController.setMessageBody(mailBody, isHTML: false)
-        
-        self.presentViewController(mailComposerController, animated: true, completion: nil)
+        if MFMailComposeViewController.canSendMail() {
+            // build and show a mail controller
+            let mailComposerController: MFMailComposeViewController! = MFMailComposeViewController()
+            
+            mailComposerController.mailComposeDelegate = self
+            mailComposerController.setSubject(translate("have_a_look"))
+            
+            let mailBody = ambatanaTextForSharingBody(productObject?["name"] as? String ?? "", andObjectId: productObject!.objectId)
+            mailComposerController.setMessageBody(mailBody, isHTML: false)
+            
+            self.presentViewController(mailComposerController, animated: true, completion: nil)
+        } else {
+            showAutoFadingOutMessageAlert(translate("unable_send_message"), completionBlock: nil)
+        }
     }
     
     @IBAction func shareMore(sender: AnyObject) {

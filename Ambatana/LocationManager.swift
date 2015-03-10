@@ -90,7 +90,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func appIsAuthorizedToUseLocationServices() -> Bool {
-        if (authorizationStatus == .Authorized || authorizationStatus == .AuthorizedWhenInUse) { return true }
+        if (authorizationStatus == CLAuthorizationStatus.AuthorizedAlways || authorizationStatus == CLAuthorizationStatus.AuthorizedWhenInUse) { return true }
         else { return false }
     }
     

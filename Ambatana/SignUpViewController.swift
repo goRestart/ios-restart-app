@@ -120,7 +120,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
                 }
             } else {
                 let errorMessage = error?.localizedDescription ?? translate("try_again")
-                self.showAutoFadingOutMessageAlert(translate("error_creating_user") + ": " + errorMessage)
+                self.showAutoFadingOutMessageAlert(translate("error_creating_user"))
             }
             self.view.userInteractionEnabled = true
         }

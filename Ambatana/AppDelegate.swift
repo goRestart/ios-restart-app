@@ -98,12 +98,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        PFPush.handlePush(userInfo)
-        // notify any observer
+        // if the App is already running, don't show an alert or open the chatListViewController.
+        if application.applicationState == .Active {
+            // just update the badge
+            if let newBadge = self.getBadgeNumberFromNotification(userInfo) {
+                UIApplication.sharedApplication().applicationIconBadgeNumber = newBadge
+                PFInstallation.currentInstallation().badge = newBadge
+                PFInstallation.currentInstallation().saveInBackgroundWithBlock({ (success, error) -> Void in
+                    if !success { PFInstallation.currentInstallation().saveEventually(nil) }
+                })
+            }
+        } else {
+            // Fully respond to the notification.
+            PFPush.handlePush(userInfo)
+            // push a chat list to see the messages.
+            self.openChatListViewController() // Not really nice when we are using the App?
+        }
+        // notify any observers
         NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserBadgeChangedNotification, object: nil)
         
-        // push a chat list to see the messages.
-        self.openChatListViewController() // Not really nice when we are using the App?
+    }
+    
+    func getBadgeNumberFromNotification(userInfo: [NSObject: AnyObject]) -> Int? {
+        if let aps = userInfo["aps"] as? [String: AnyObject] {
+            if let newBadge = aps["badge"] as? Int {
+                return newBadge
+            }
+        }
+        return nil
     }
     
     func applicationWillTerminate(application: UIApplication) {

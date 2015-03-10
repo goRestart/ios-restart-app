@@ -52,6 +52,8 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
             dispatch_after(delayTime, dispatch_get_main_queue()) {
                 self.performSegueWithIdentifier("StartApp", sender: nil)
             }
+        } else {
+            self.view.hidden = false
         }
     }
 
@@ -60,6 +62,11 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
         // Dispose of any resources that can be recreated.
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.view.hidden = true
+    }
+    
     // MARK: - reacting to login notifications
     
     func oauthSessionExpired(notification: NSNotification) {

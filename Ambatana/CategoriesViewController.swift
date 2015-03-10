@@ -17,6 +17,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var sellButton: UIButton!
+    var searchBar: UISearchBar!
     
     // data
     var categories: [PFObject]?
@@ -48,6 +49,12 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         // load initial categories. First try to load from the user device's language. If none found, fallback to "en".
         let allCategoriesQuery = allCategoriesQueryForLanguage(initialLanguage)
         performCategoriesQuery(allCategoriesQuery, isDefaultLanguage: initialLanguage == kAmbatanaDefaultCategoriesLanguage)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // hide search bar (if showing)
+        if ambatanaSearchBar != nil { self.dismissSearchBar(ambatanaSearchBar!, animated: true, searchBarCompletion: nil) }
     }
     
     // MARK: - UISearchBarDelegate methods

@@ -57,10 +57,17 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         hideNoProductsFoundInterface()
-    
+        
         // Navigation bar & items
         self.setAmbatanaNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
-        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat", "actionbar_filter"], andSelectors: ["searchProduct", "conversations", "showFilters"], badgeButtonPosition: 1)
+        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_filter"], andSelectors: ["searchProduct", "showFilters"])
+
+        // Ambatana issue #2. Menu should only be visible from the main screen. Disable sliding unless we are the only active vc.
+        let vcNumber = self.navigationController?.viewControllers.count
+        if vcNumber == 1 { // I am the first, main view controller
+            self.findHamburguerViewController()?.gestureEnabled = true // enable sliding.
+        } else { self.findHamburguerViewController()?.gestureEnabled = false } // otherwise, don't allow the pan gesture.
+        
 
         // register for notifications.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableSetLocation:", name: kAmbatanaUnableToSetUserLocationNotification, object: nil)
@@ -68,7 +75,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationReady:", name: kAmbatanaUserLocationSuccessfullySetNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kAmbatanaUserLocationSuccessfullyChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged", name: UIContentSizeCategoryDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kAmbatanaUserBadgeChangedNotification, object: nil)
         
         // check current location status.
         if (CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation)) { // we have a valid registered location.
@@ -97,6 +103,11 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+        // disable menu
+        self.findHamburguerViewController()?.gestureEnabled = false
+        // hide search bar (if showing)
+        if ambatanaSearchBar != nil { self.dismissSearchBar(ambatanaSearchBar!, animated: true, searchBarCompletion: nil) }
     }
     
     override func didReceiveMemoryWarning() {
@@ -169,7 +180,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if let imageView = cell.viewWithTag(3) as? UIImageView {
             // clean image first
             imageView.image = nil
-            //if imageView.image == nil { imageView.image = UIImage.randomImageGradientOfSize(CGSizeMake(640, 480)) }
+            imageView.setNeedsDisplay()
             
             // get image from object
             if productObject[kAmbatanaProductFirstImageKey] != nil {
@@ -434,11 +445,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         self.resetProductList()
     }
     
-    /** Respond to change in badge number */
-    func badgeChanged(notification: NSNotification) {
-        self.refreshBadgeButton()
-    }
-    
     func nextKmOffset(kmOffset: Int) -> Int {
         if (kmOffset <= 1) { return 5 }
         else if (kmOffset <= 5) { return 10 }
@@ -508,6 +514,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     func showFilters() {
         if iOSVersionAtLeast("8.0") {
             let alert = UIAlertController(title: translate("order_by"), message: nil, preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
             alert.addAction(UIAlertAction(title: translate("latest_published"), style: .Default, handler: { (action) -> Void in
                 self.changeFilterTo("createdAt", order: .OrderedDescending)
             }))
@@ -523,9 +530,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             self.presentViewController(alert, animated: true, completion: nil)
             
         } else { // iOS 7 fallback
-            let actionSheet = UIActionSheet()
-            actionSheet.title = translate("order_by")
-            actionSheet.delegate = self
+            let actionSheet = UIActionSheet(title: translate("order_by"), delegate: self, cancelButtonTitle: translate("cancel"), destructiveButtonTitle: nil)
             actionSheet.addButtonWithTitle(translate("latest_published"))
             actionSheet.addButtonWithTitle(translate("highest_price"))
             actionSheet.addButtonWithTitle(translate("lowest_price"))
@@ -538,12 +543,14 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         switch (buttonIndex) {
         case 0:
-            self.changeFilterTo("createdAt", order: .OrderedDescending)
+            break;
         case 1:
-            self.changeFilterTo("price", order: .OrderedDescending)
+            self.changeFilterTo("createdAt", order: .OrderedDescending)
         case 2:
-            self.changeFilterTo("price", order: .OrderedAscending)
+            self.changeFilterTo("price", order: .OrderedDescending)
         case 3:
+            self.changeFilterTo("price", order: .OrderedAscending)
+        case 4:
             self.changeFilterTo(nil, order: .OrderedDescending)
         default:
             break

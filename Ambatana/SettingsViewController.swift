@@ -14,9 +14,9 @@ private let kAmbatanaSettingsTableCellTitleTag = 2
 private let kAmbatanaUserImageSquareSize: CGFloat = 1024
 
 enum AmbatanaUserSettings: Int {
-    case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, FavoriteCategories = 3, LogOut = 4
+    case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, LogOut = 3 // FavoriteCategories = 3, LogOut = 4
     
-    static func numberOfOptions() -> Int { return 5 }
+    static func numberOfOptions() -> Int { return 4 }
     
     func titleForSetting() -> String {
         switch (self) {
@@ -26,8 +26,8 @@ enum AmbatanaUserSettings: Int {
             return translate("change_my_location")
         case .ChangePassword:
             return translate("change_password")
-        case .FavoriteCategories:
-            return translate("favorite_categories")
+        //case .FavoriteCategories:
+        //    return translate("favorite_categories")
         case .LogOut:
             return translate("logout")
         }
@@ -41,8 +41,8 @@ enum AmbatanaUserSettings: Int {
             return UIImage(named: "edit_profile_location")
         case .ChangePassword:
             return UIImage(named: "edit_profile_password")
-        case .FavoriteCategories:
-            return UIImage(named: "edit_profile_favorited")
+        //case .FavoriteCategories:
+        //    return UIImage(named: "edit_profile_favorited")
         case .LogOut:
             return UIImage(named: "edit_profile_logout")
         }
@@ -117,8 +117,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 */
             // Update: As per specifications, allow even FB users to change their passwords.
             performSegueWithIdentifier("ChangePassword", sender: nil)
-        case .FavoriteCategories:
-            performSegueWithIdentifier("SetFavoriteCategories", sender: nil)
+        //case .FavoriteCategories:
+        //    performSegueWithIdentifier("SetFavoriteCategories", sender: nil)
         case .LogOut:
             logoutUser()
         }
@@ -182,7 +182,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         // generate cropped image to 1024x1024 at most.
         if image != nil {
             if let croppedImage = image!.croppedCenteredImage() {
-                if let resizedImage = croppedImage.resizedImageToSize(CGSizeMake(kAmbatanaUserImageSquareSize, kAmbatanaUserImageSquareSize), interpolationQuality: kCGInterpolationHigh) {
+                if let resizedImage = croppedImage.resizedImageToSize(CGSizeMake(kAmbatanaUserImageSquareSize, kAmbatanaUserImageSquareSize), interpolationQuality: kCGInterpolationMedium) {
                     // update parse DDBB
                     let imageData = UIImageJPEGRepresentation(croppedImage, 0.9)
                     imageFile = PFFile(data: imageData)

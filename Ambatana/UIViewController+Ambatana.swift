@@ -12,8 +12,12 @@ private let kAmbatanaFadingAlertDismissalTime: Double = 3.0
 private let kAmbatanaSearchBarHeight: CGFloat = 44
 private let kAmbatanaBadgeContainerViewTag = 500
 private let kAmbatanaBadgeViewTag = 501
+private let kAmbatanaBarButtonSide: CGFloat = 32.0
+private let kAmbatanaBarButtonSideSpan: CGFloat = 8.0
+private let kAmbatanaBarButtonHorizontalSpace: CGFloat = 3.0
 
 var iOS7LoadingAlertView: UIAlertView?
+var ambatanaSearchBar: UISearchBar?
 
 extension UIViewController {
     
@@ -31,7 +35,7 @@ extension UIViewController {
 
         // back button
         if includeBackArrow {
-            let backButton = UIButton(frame: CGRectMake(0, 0, 32, 32))
+            let backButton = UIButton(frame: CGRectMake(0, 0, kAmbatanaBarButtonSide, kAmbatanaBarButtonSide)) // Issue #63: Add some span in width for better access to button.
             backButton.setImage(UIImage(named: "actionbar_chevron"), forState: .Normal)
             backButton.addTarget(self, action: "popBackViewController", forControlEvents: .TouchUpInside)
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
@@ -48,13 +52,13 @@ extension UIViewController {
         if (images.count != selectors.count) { return } // we need as many images as selectors and viceversa
         
         let numberOfButtons = images.count
-        let totalSize: CGFloat = CGFloat(numberOfButtons) * 35.0
+        let totalSize: CGFloat = CGFloat(numberOfButtons) * (kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan + kAmbatanaBarButtonHorizontalSpace)
         let buttonsView = UIView(frame: CGRectMake(0, 0, totalSize, 32))
         var offset: CGFloat = 0.0
         
         for (var i = 0; i < numberOfButtons; i++) {
             // create and set button.
-            let button = UIButton(frame: CGRectMake(offset, 0, 32, 32))
+            let button = UIButton(frame: CGRectMake(offset, 0, kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan, 32))
             button.setImage(UIImage(named: images[i]), forState: .Normal)
             button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
             buttonsView.addSubview(button)
@@ -69,7 +73,7 @@ extension UIViewController {
             }
             
             // update offset
-            offset += 35
+            offset += kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan + kAmbatanaBarButtonHorizontalSpace
         }
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
     }
@@ -153,24 +157,28 @@ extension UIViewController {
     
     // Creates and shows a searching bar, that will be placed just below the UINavigationController, and allow the user to look for products.
     func showSearchBarAnimated(animated: Bool, delegate: UISearchBarDelegate) {
+        // safety check
+        if ambatanaSearchBar != nil { return }
+        
         // generate the search bar.
         let originY = statusBarHeight() + (self.navigationController?.navigationBar.frame.size.height ?? 0)
-        let searchBar = UISearchBar(frame: CGRectMake(0, animated ? -kAmbatanaSearchBarHeight : originY, kAmbatanaFullScreenWidth, kAmbatanaSearchBarHeight))
-        searchBar.showsCancelButton = true
-        searchBar.backgroundColor = UIColor.whiteColor()
-        searchBar.delegate = delegate
-        searchBar.becomeFirstResponder()
-        
+        ambatanaSearchBar = UISearchBar(frame: CGRectMake(0, animated ? -kAmbatanaSearchBarHeight : originY, kAmbatanaFullScreenWidth, kAmbatanaSearchBarHeight))
+        ambatanaSearchBar!.showsCancelButton = true
+        ambatanaSearchBar!.backgroundColor = UIColor.whiteColor()
+        ambatanaSearchBar!.delegate = delegate
+        ambatanaSearchBar!.becomeFirstResponder()
+
         // add it to current view
-        self.view.addSubview(searchBar)
+        self.view.addSubview(ambatanaSearchBar!)
         if animated {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
-                searchBar.frame.origin.y = originY
+                ambatanaSearchBar!.frame.origin.y = originY
             })
         }
     }
     
     func dismissSearchBar(searchBar: UISearchBar, animated: Bool, searchBarCompletion: ((Void) -> Void)?) {
+        if ambatanaSearchBar == nil { return }
         if animated {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 searchBar.frame.origin.y = -kAmbatanaSearchBarHeight
@@ -178,12 +186,14 @@ extension UIViewController {
                 searchBar.resignFirstResponder()
                 self.view.endEditing(true)
                 searchBar.removeFromSuperview()
+                ambatanaSearchBar = nil
                 searchBarCompletion?()
             })
         } else {
             searchBar.resignFirstResponder()
             self.view.endEditing(true)
             searchBar.removeFromSuperview()
+            ambatanaSearchBar = nil
             searchBarCompletion?()
         }
     }

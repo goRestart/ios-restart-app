@@ -87,6 +87,7 @@ class ChatManager: NSObject {
         
         // perform combined query.
         let query = PFQuery.orQueryWithSubqueries([conversationsFrom, conversationsTo])
+        query.orderByDescending("updatedAt")
         query.includeKey("product") // make sure we retrieve the product for checking product name.
         query.includeKey("user_to") // if we are the user_from, retrieve the user_to object to get username_public of the other user.
         query.includeKey("user_from") // if we are the user_to, retrieve the user_from object to get username_public of the other user.

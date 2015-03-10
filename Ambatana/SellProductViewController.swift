@@ -98,17 +98,20 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     // MARK: - iOS 7 Action Sheet deprecated selections for compatibility.
-    
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if actionSheet.tag == kAmbatanaSellProductActionSheetTagCurrencyType { // currency type selection
-            let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
-            let buttonCurrency = allCurrencies[buttonIndex]
-            self.currentCurrency = buttonCurrency
-            self.currencyTypeButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
+            if buttonIndex > 0 { // 0 is cancel
+                let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
+                let buttonCurrency = allCurrencies[buttonIndex - 1]
+                self.currentCurrency = buttonCurrency
+                self.currencyTypeButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
+            }
         } else if actionSheet.tag == kAmbatanaSellProductActionSheetTagCategoryType { // category selection
-            let category = ProductListCategory.allCategories()[buttonIndex]
-            self.currentCategory = category
-            self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
+            if buttonIndex > 0 { // 0 is cancel
+                let category = ProductListCategory.allCategories()[buttonIndex - 1]
+                self.currentCategory = category
+                self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
+            }
         } else if actionSheet.tag == kAmbatanaSellProductActionSheetTagImageSourceType { // choose source for the images
             if buttonIndex == 0 { self.openImagePickerWithSource(.Camera) }
             else { self.openImagePickerWithSource(.PhotoLibrary) }
@@ -126,7 +129,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if iOSVersionAtLeast("8.0") {
             // show alert controller for currency selection
             let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
-            
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
             // iterate and add all currencies.
             for currency in CurrencyManager.sharedInstance.allCurrencies() {
                 alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (currencyAction) -> Void in
@@ -136,16 +139,14 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             }
             
             // complete alert and show.
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         } else { // ios7 fallback
-            let actionSheet = UIActionSheet()
-            actionSheet.title = translate("choose_currency")
-            actionSheet.delegate = self
+            let actionSheet = UIActionSheet(title: translate("choose_currency"), delegate: self, cancelButtonTitle: translate("cancel"), destructiveButtonTitle: nil)
             actionSheet.tag = kAmbatanaSellProductActionSheetTagCurrencyType
             for currency in CurrencyManager.sharedInstance.allCurrencies() {
                 actionSheet.addButtonWithTitle(currency.currencyCode)
             }
+            actionSheet.cancelButtonIndex = 0
             actionSheet.showInView(self.view)
         }
     }
@@ -166,13 +167,12 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             self.presentViewController(alert, animated: true, completion: nil)
 
         } else {
-            let actionSheet = UIActionSheet()
-            actionSheet.delegate = self
-            actionSheet.title = translate("choose_a_category")
+            let actionSheet = UIActionSheet(title: translate("choose_a_category"), delegate: self, cancelButtonTitle: translate("cancel"), destructiveButtonTitle: nil)
             actionSheet.tag = kAmbatanaSellProductActionSheetTagCategoryType
             for category in ProductListCategory.allCategories() {
                 actionSheet.addButtonWithTitle(category.getName())
             }
+            actionSheet.cancelButtonIndex = 0
             actionSheet.showInView(self.view)
         }
         
@@ -365,7 +365,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         var resizedImage: UIImage?
         if image != nil {
             let newHeight = kAmbatanaMaxProductImageSide * image!.size.height / image!.size.width
-            resizedImage = image!.resizedImageToSize(CGSizeMake(kAmbatanaMaxProductImageSide, newHeight), interpolationQuality: kCGInterpolationHigh)
+            resizedImage = image!.resizedImageToSize(CGSizeMake(kAmbatanaMaxProductImageSide, newHeight), interpolationQuality: kCGInterpolationMedium)
             if resizedImage != nil {
                 // update parse DDBB
                 let imageData = UIImageJPEGRepresentation(resizedImage, kAmbatanaMaxProductImageJPEGQuality)
