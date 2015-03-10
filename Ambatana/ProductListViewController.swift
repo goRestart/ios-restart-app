@@ -67,7 +67,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if vcNumber == 1 { // I am the first, main view controller
             self.findHamburguerViewController()?.gestureEnabled = true // enable sliding.
         } else { self.findHamburguerViewController()?.gestureEnabled = false } // otherwise, don't allow the pan gesture.
-        
+        println("Gesture enabled? \(self.findHamburguerViewController()?.gestureEnabled)")        
 
         // register for notifications.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableSetLocation:", name: kAmbatanaUnableToSetUserLocationNotification, object: nil)
@@ -106,6 +106,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         
         // disable menu
         self.findHamburguerViewController()?.gestureEnabled = false
+        println("Gesture enabled? \(self.findHamburguerViewController()?.gestureEnabled)")
         // hide search bar (if showing)
         if ambatanaSearchBar != nil { self.dismissSearchBar(ambatanaSearchBar!, animated: true, searchBarCompletion: nil) }
     }

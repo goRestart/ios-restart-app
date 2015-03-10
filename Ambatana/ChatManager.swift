@@ -175,7 +175,7 @@ class ChatManager: NSObject {
         let query = PFQuery(className: "Messages")
         query.whereKey("conversation", equalTo: conversation)
         query.includeKey("conversation")
-        query.orderByAscending("createdAt")
+        query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock { (results, error) -> Void in
             if error == nil && results?.count > 0 {
                 dispatch_async(dispatch_get_main_queue(), { completion(success: true, messages: results! as? [PFObject]) })

@@ -41,7 +41,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var loadingMessageActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var loadingMessagesLabel: UILabel!
-    var refreshControl: UIRefreshControl!
+    @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var topViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
     
     // data
     var ambatanaConversation: AmbatanaConversation?
@@ -70,12 +72,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         sendButton.setTitle(translate("send"), forState: .Normal)
         messageTextfield.placeholder = translate("type_your_message_here")
         loadingMessagesLabel.text = translate("loading_messages")
-        
-        // add a pull to refresh control
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
-        self.refreshControl.addTarget(self, action: "refreshMessages", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -88,6 +84,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // appearance
         self.productImageView.image = UIImage.randomImageGradientOfSize(self.productImageView.frame.size)
+        self.tableView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI)) // 180 º
         
         if ambatanaConversation != nil {
             let conversationObject = ambatanaConversation!.conversationObject
@@ -135,10 +132,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.disableLoadingMessagesInterface()
             self.tableView.reloadData()
             // scroll to the last message.
-            self.scrollToBottomOfMessagesList(false)
+            self.scrollToTopOfMessagesList(false)
             self.tableView.reloadData()
-            // release the refresh control
-            self.refreshControl.endRefreshing()
             
             // now that we have loaded the messages (and are sure the user can read them) we can mark them as read in the conversation.
             ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: self.ambatanaConversation!.conversationObject, completion: nil)
@@ -160,6 +155,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidAppear(animated)
         // save original table view frame for restoring later.
         originalTableViewFrame = self.tableView.frame
+        originalTopViewFrame = self.topView.frame
+        originalBottomViewFrame = self.bottomView.frame
         // reload data because of auto-height calculation
         tableView.reloadData()
     }
@@ -247,11 +244,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // send message
         ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text, toUser: self.otherUser!, inConversation: ambatanaConversation!.conversationObject, fromProduct: self.productObject!) { (success, newlyCreatedMessageObject) -> Void in
             if success {
-                self.messages!.append(newlyCreatedMessageObject!)
+                self.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)
                 
                 // update UI and scroll to the bottom of the messages list
                 self.tableView.reloadData()
-                self.scrollToBottomOfMessagesList(false)
+                self.scrollToTopOfMessagesList(false)
                 //self.tableView.reloadData()
                 self.messageTextfield.text = ""
             } else {
@@ -287,6 +284,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // configure common cell elements
         if cell != nil { self.configureCell(cell!, fromTableView: tableView, withMessageObject: msgObject, type: type) }
 
+        cell!.transform = CGAffineTransformMakeRotation(CGFloat(M_PI)) // 180 º
         return cell ?? UITableViewCell()
 
     }
@@ -352,9 +350,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - UI/UX Scrolling responding to UITextField edition
     
     var originalTableViewFrame = CGRectZero
+    var originalTopViewFrame = CGRectZero
+    var originalBottomViewFrame = CGRectZero
     
     func scrollToBottomOfMessagesList(animated: Bool) {
         self.tableView.scrollRectToVisible(CGRectMake(0, self.tableView.contentSize.height - self.tableView.bounds.size.height, self.tableView.bounds.size.width, self.tableView.bounds.size.height), animated: animated)
+    }
+    
+    func scrollToTopOfMessagesList(animated: Bool) {
+        self.tableView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: true)
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -371,17 +375,24 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func moveViewInResponseToKeyboardAppearing(appearing: Bool, withNotification notification: NSNotification) {
+        let userInfo = notification.userInfo!
+        var keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue ?? NSValue(CGRect: CGRectZero)).CGRectValue().size
         if !appearing {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.view.transform = CGAffineTransformIdentity
+            // restore autolayout.
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                self.topViewTopConstraint.constant = 0
+                self.bottomViewBottomConstraint.constant = 0
+                self.view.setNeedsUpdateConstraints()
+                self.view.setNeedsLayout()
             })
+
         } else {
-            let userInfo = notification.userInfo!
-            var keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue ?? NSValue(CGRect: CGRectZero)).CGRectValue().size
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.view.transform = CGAffineTransformMakeTranslation(0, -keyboardSize.height)
-            }, completion: { (success) -> Void in
-                self.scrollToBottomOfMessagesList(false)
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                // avoid autolayout messing with our animations.
+                self.topViewTopConstraint.constant = -keyboardSize.height + 64
+                self.bottomViewBottomConstraint.constant = keyboardSize.height
+                self.view.setNeedsUpdateConstraints()
+                self.view.setNeedsLayout()
             })
         }
         

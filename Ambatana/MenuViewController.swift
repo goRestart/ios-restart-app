@@ -125,6 +125,11 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         // collapse menu.
         if segueName != nil {
+            // disable sliding menu for pushed controllers
+            self.findHamburguerViewController()?.gestureEnabled = false
+            println("Gesture enabled? \(self.findHamburguerViewController()?.gestureEnabled)")
+            
+            // perform segue
             let navigationController = self.mainNavigationController()
             navigationController.visibleViewController.performSegueWithIdentifier(segueName, sender: nil)
             self.findHamburguerViewController()?.contentViewController = navigationController
@@ -157,7 +162,6 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             // badge?
             if menuOption == .Conversations {
                 badgeView?.hidden = false
-                println("El badge es \(PFInstallation.currentInstallation().badge)")
                 badgeView?.text = "\(PFInstallation.currentInstallation().badge)"
                 badgeView?.layer.cornerRadius = badgeView!.frame.size.height / 2.0
                 badgeView?.clipsToBounds = true
