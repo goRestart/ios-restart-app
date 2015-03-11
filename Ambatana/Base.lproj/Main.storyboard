@@ -2240,7 +2240,6 @@
                         <outlet property="settingProfileImageView" destination="jgo-jO-M44" id="8Ph-Fj-dZd"/>
                         <outlet property="tableView" destination="N9r-VC-GyP" id="bgM-4s-tE3"/>
                         <segue destination="g21-fO-ZoM" kind="push" identifier="ChangePassword" id="bBi-fs-q53"/>
-                        <segue destination="oEJ-30-gQs" kind="push" identifier="SetFavoriteCategories" id="Lf6-mA-OzA"/>
                         <segue destination="5CA-LF-pUD" kind="push" identifier="ChangeLocation" id="UwZ-4i-G61"/>
                     </connections>
                 </viewController>
@@ -2291,98 +2290,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h6O-nj-IHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3852" y="-9"/>
-        </scene>
-        <!--Set Favorite Categories View Controller-->
-        <scene sceneID="b0M-Ps-Ipf">
-            <objects>
-                <viewController id="oEJ-30-gQs" customClass="SetFavoriteCategoriesViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="MJr-mi-70t"/>
-                        <viewControllerLayoutGuide type="bottom" id="O24-ga-NE7"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="B5T-Oi-JYQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="NQ8-ca-4Gh">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="FavoriteCategoriesCell" rowHeight="44" id="ieN-11-zCC">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ieN-11-zCC" id="wTL-YL-R5c">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" alpha="0.0" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="actionbar_save" translatesAutoresizingMaskIntoConstraints="NO" id="T2a-gf-C6W">
-                                                    <rect key="frame" x="284" y="8" width="28" height="28"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="28" id="Vwx-s7-ZM5"/>
-                                                        <constraint firstAttribute="width" constant="28" id="ncV-EN-tQN"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <activityIndicatorView hidden="YES" opaque="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="RHj-UO-mo8">
-                                                    <rect key="frame" x="288" y="12" width="20" height="20"/>
-                                                </activityIndicatorView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gty-Ix-xD4">
-                                                    <rect key="frame" x="16" y="11" width="260" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="RHj-UO-mo8" firstAttribute="centerX" secondItem="T2a-gf-C6W" secondAttribute="centerX" id="3dr-HJ-Qkl"/>
-                                                <constraint firstAttribute="centerY" secondItem="T2a-gf-C6W" secondAttribute="centerY" id="6pG-zJ-zTF"/>
-                                                <constraint firstItem="T2a-gf-C6W" firstAttribute="leading" secondItem="gty-Ix-xD4" secondAttribute="trailing" constant="8" id="ETN-mK-VUu"/>
-                                                <constraint firstItem="T2a-gf-C6W" firstAttribute="trailing" secondItem="wTL-YL-R5c" secondAttribute="trailingMargin" id="GiC-wq-jmQ"/>
-                                                <constraint firstItem="gty-Ix-xD4" firstAttribute="leading" secondItem="wTL-YL-R5c" secondAttribute="leadingMargin" constant="8" id="bDU-Mk-KKN"/>
-                                                <constraint firstItem="RHj-UO-mo8" firstAttribute="centerY" secondItem="T2a-gf-C6W" secondAttribute="centerY" id="roh-XI-09l"/>
-                                                <constraint firstAttribute="centerY" secondItem="gty-Ix-xD4" secondAttribute="centerY" id="wD9-lm-zPW"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="0.0" reuseIdentifier="LoadingFavoriteCategoriesCell" textLabel="zDA-T3-ozh" rowHeight="44" style="IBUITableViewCellStyleDefault" id="QAL-Ge-vZv">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QAL-Ge-vZv" id="WD4-zo-BcK">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Loading..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zDA-T3-ozh">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="oEJ-30-gQs" id="XMq-nn-nln"/>
-                                    <outlet property="delegate" destination="oEJ-30-gQs" id="Dy6-FF-thP"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="NQ8-ca-4Gh" secondAttribute="trailing" constant="-16" id="FfM-5G-zgz"/>
-                            <constraint firstItem="NQ8-ca-4Gh" firstAttribute="top" secondItem="B5T-Oi-JYQ" secondAttribute="topMargin" id="PeU-Ab-gIU"/>
-                            <constraint firstItem="O24-ga-NE7" firstAttribute="top" secondItem="NQ8-ca-4Gh" secondAttribute="bottom" id="Tpf-FE-emt"/>
-                            <constraint firstItem="NQ8-ca-4Gh" firstAttribute="leading" secondItem="B5T-Oi-JYQ" secondAttribute="leadingMargin" constant="-16" id="d1R-KW-gkb"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="nKQ-ky-Ama"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-                    <connections>
-                        <outlet property="tableView" destination="NQ8-ca-4Gh" id="roo-Zm-reh"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UqN-cc-ltG" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3852" y="1012"/>
         </scene>
         <!--Photos In Detail View Controller-->
         <scene sceneID="Isz-iK-SAk">

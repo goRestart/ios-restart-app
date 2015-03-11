@@ -65,7 +65,6 @@
 		66FC91191A921C970008AFAD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FC91181A921C970008AFAD /* SignUpViewController.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
-		66FF4D791A95F5520095CBD6 /* SetFavoriteCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D781A95F5520095CBD6 /* SetFavoriteCategoriesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,7 +130,6 @@
 		66FC91181A921C970008AFAD /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		66FF4D781A95F5520095CBD6 /* SetFavoriteCategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetFavoriteCategoriesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,7 +164,6 @@
 			children = (
 				6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */,
 				66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */,
-				66FF4D781A95F5520095CBD6 /* SetFavoriteCategoriesViewController.swift */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -505,7 +502,6 @@
 				6649D1701A822232000F6966 /* ProductListViewController.swift in Sources */,
 				66A0CFB31A82548C00FAADF0 /* RootViewController.swift in Sources */,
 				665713E91AADF15800B4721C /* DLImageResizing.swift in Sources */,
-				66FF4D791A95F5520095CBD6 /* SetFavoriteCategoriesViewController.swift in Sources */,
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
 				665BAB511A97D7B5005A8E19 /* MakeAnOfferViewController.swift in Sources */,
 				66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */,
