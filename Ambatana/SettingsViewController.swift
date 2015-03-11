@@ -14,7 +14,7 @@ private let kAmbatanaSettingsTableCellTitleTag = 2
 private let kAmbatanaUserImageSquareSize: CGFloat = 1024
 
 enum AmbatanaUserSettings: Int {
-    case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, LogOut = 3 
+    case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, LogOut = 3
     
     static func numberOfOptions() -> Int { return 4 }
     
