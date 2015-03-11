@@ -178,13 +178,8 @@
 "message" = "Message";
 "pull_to_refresh" = "Pull to refresh";
 "item_location" = "Location";
-
-
-
-
-
-
-
+"user_already_exists" = "User already exists.";
+"some_fields_missing" = "Some fields empty or missing.";
 
 
 

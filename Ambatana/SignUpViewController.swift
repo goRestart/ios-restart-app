@@ -8,6 +8,22 @@
 
 import UIKit
 
+/* Error codes for Parse signup process. This enum exists to show the user a proper error message when signing up goes wrong.
+UsernameMissing	200	Error code indicating that the username is missing or empty.
+PasswordMissing	201	Error code indicating that the password is missing or empty.
+UsernameTaken	202	Error code indicating that the username has already been taken.
+EmailTaken	203	Error code indicating that the email has already been taken.
+EmailMissing	204	Error code indicating that the email is missing, but must be specified.
+EmailNotFound	205	Error code indicating that a user with the specified email was not found.
+*/
+enum ParseSignupErrorCodes: Int {
+    case UsernameMissing = 200, PasswordMissing = 201, UsernameTaken = 202, EmailTaken = 203, EmailMissing = 204, EmailNotFound = 205
+    func errorMessageForCode() -> String {
+        if self == .UsernameTaken { return translate("user_already_exists") }
+        else { return translate("some_fields_missing") }
+    }
+}
+
 class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDelegate {
     // outlets && buttons
     @IBOutlet weak var nameTextfield: UITextField!
@@ -119,8 +135,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
                     alert.show()
                 }
             } else {
-                let errorMessage = error?.localizedDescription ?? translate("try_again")
-                self.showAutoFadingOutMessageAlert(translate("error_creating_user"))
+                // try to return a friendly error message based on Parse signup response code.
+                if let errorCode = ParseSignupErrorCodes(rawValue: error.code) {
+                    self.showAutoFadingOutMessageAlert(translate("error_creating_user") + " " + errorCode.errorMessageForCode())
+                } else { self.showAutoFadingOutMessageAlert(translate("error_creating_user")) }
             }
             self.view.userInteractionEnabled = true
         }
