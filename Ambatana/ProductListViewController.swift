@@ -273,7 +273,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if queryingProducts && !force { return } // exit if already querying products
         queryingProducts = true
         
-        if let userGeo = PFUser.currentUser()["gpscoords"] as? PFGeoPoint {
+        if let userGeo = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
             // query in the products table
             var query = PFQuery(className: "Products")
             
