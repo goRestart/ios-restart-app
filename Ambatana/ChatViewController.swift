@@ -242,7 +242,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.isSendingMessage = true
         
         // send message
-        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text, toUser: self.otherUser!, inConversation: ambatanaConversation!.conversationObject, fromProduct: self.productObject!) { (success, newlyCreatedMessageObject) -> Void in
+        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: ambatanaConversation!.conversationObject, fromProduct: self.productObject!) { (success, newlyCreatedMessageObject) -> Void in
             if success {
                 self.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)
                 
