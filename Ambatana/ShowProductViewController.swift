@@ -47,6 +47,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     var productImageURLStrings: [String] = []
     var productUser: PFUser!
     var productStatus: ProductStatus?
+    var productLocation: PFGeoPoint?
     var scrollViewOffset: CGFloat = 0.0
     var pageControlBeingUsed = false
     var delegate: ShowProductViewControllerDelegate?
@@ -146,14 +147,18 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             } else { publishedTimeLabel.hidden = true }
             
             // location in map
-            if let location = productObject["gpscoords"] as? PFGeoPoint {
+            productLocation = productObject["gpscoords"] as? PFGeoPoint
+            if let location = productLocation {
                 // set map region
                 let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
                 let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000)
                 itemLocationMapView.setRegion(region, animated: true)
                 // add pin
                 itemLocationMapView.setPinInTheMapAtCoordinate(coordinate)
-
+                
+                // map tap gesture to open map details
+                let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("mapViewPressed:"))
+                itemLocationMapView.addGestureRecognizer(tapRecognizer)
             }
             
         } else { // hide all buttons
@@ -293,7 +298,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         }
         
     }
-    
+
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if buttonIndex == 1 {
             self.definitelyMarkProductAsSold()
@@ -323,6 +328,20 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             }
             self.disableMarkAsSoldLoadingInterface()
         })
+    }
+    
+    // Called when The MapView is tapped
+    func mapViewPressed(tapRecognizer: UITapGestureRecognizer) {
+        // if gesture hasn't finished do nothing
+        if tapRecognizer.state != UIGestureRecognizerState.Ended {
+            return
+        }
+        // push the location controller if there's a location
+        if let location = productLocation {
+            let coords = CLLocationCoordinate2DMake(location.latitude, location.longitude)
+            let productLocationVC = ProductLocationViewController(location: coords)
+            navigationController?.pushViewController(productLocationVC, animated: true)
+        }
     }
     
     // MARK: - Mark as sold UI/UX
