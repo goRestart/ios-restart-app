@@ -20,7 +20,9 @@ protocol ShowProductViewControllerDelegate {
  * to modify the object if he/she owns it, or make offers/chat with the owner.
  */
 class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate {
+
     // outlets & buttons
+    let favButton: UIButton
     @IBOutlet weak var imagesScrollView: UIScrollView!
     @IBOutlet weak var askQuestionButton: UIButton!
     @IBOutlet weak var makeOfferButton: UIButton!
@@ -41,8 +43,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var markAsSoldActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var askQuestionActivityIndicator: UIActivityIndicatorView!
     
-    // data
+    // Data
     var productObject: PFObject!
+    var isFavourite: Bool
     var productImages: [UIImage] = []
     var productImageURLStrings: [String] = []
     var productUser: PFUser!
@@ -52,8 +55,24 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     var pageControlBeingUsed = false
     var delegate: ShowProductViewControllerDelegate?
     
+    // MARK: - Lifecycle
+    
+    required init(coder aDecoder: NSCoder) {
+        let favButtonSize: CGSize! = UIImage(named: "item_fav_off")?.size
+        favButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        favButton.frame = CGRect(x: 0, y: 0, width: favButtonSize.width, height: favButtonSize.height)
+        isFavourite = false
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Navbar
+        favButton.addTarget(self, action: Selector("favButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: favButton)
+        updateFavButtonWithFavourited(false) // when loading it's marked as non-favourited
+        retrieveProductFavourited()
+        
         // UX/UI
         self.markAsSoldActivityIndicator.hidden = true
         self.askQuestionActivityIndicator.hidden = true
@@ -344,6 +363,39 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         }
     }
     
+    // MARK: - Navigation bar items
+    
+    func updateFavButtonWithFavourited(isFavourited: Bool) {
+        let bgImage = isFavourited ? UIImage(named: "item_fav_on") : UIImage(named: "item_fav_off")
+        favButton.setImage(bgImage, forState: UIControlState.Normal)
+    }
+    
+    func favButtonPressed() {
+        self.favButton.userInteractionEnabled = false
+        
+        // UI update for quick user feedback + Request
+        self.updateFavButtonWithFavourited(!self.isFavourite)
+        
+        if self.isFavourite {
+            ShowProductViewController.deleteFavouriteProductForUser(PFUser.currentUser(),
+                product: self.productObject,
+                { (success) -> Void in
+                    self.favButton.userInteractionEnabled = true
+                    self.isFavourite = !success
+                    self.updateFavButtonWithFavourited(self.isFavourite)
+            })
+        }
+        else {
+            ShowProductViewController.saveFavouriteProductForUser(PFUser.currentUser(),
+                product: self.productObject,
+                { (success) -> Void in
+                    self.favButton.userInteractionEnabled = true
+                    self.isFavourite = success
+                    self.updateFavButtonWithFavourited(self.isFavourite)
+            })
+        }
+    }
+    
     // MARK: - Mark as sold UI/UX
     
     func enableMarkAsSoldLoadingInterface() {
@@ -470,6 +522,85 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             presentationController?.sourceView = sender as? UIButton ?? self.view
         }
         self.presentViewController(activityVC, animated: true, completion: nil)
+    }
+    
+    // MARK: - Favourite Requests & helpers
+    
+    func retrieveProductFavourited() {
+        self.favButton.userInteractionEnabled = false
+        ShowProductViewController.retrieveFavouriteProductForUser(
+            PFUser.currentUser(),
+            product: productObject,
+            { (success, favProduct) -> Void in
+                self.favButton.userInteractionEnabled = true
+                
+                if success {
+                    self.isFavourite = favProduct != nil
+                }
+                self.updateFavButtonWithFavourited(self.isFavourite)
+            })
+    }
+    
+    class func retrieveFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool, PFObject?) -> (Void)) {
+        if let actualUser = user {
+            if let actualProduct = product {
+                let favQuery = PFQuery(className: "UserFavoriteProducts")
+                favQuery.whereKey("user", equalTo: actualUser)
+                favQuery.whereKey("product", equalTo: actualProduct)
+                favQuery.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+                    let favProduct = objects.first as? PFObject
+                    let success = error == nil
+                    completion(success, favProduct)
+                })
+            }
+            else {
+                completion(false, nil)
+            }
+        }
+        else {
+            completion(false, nil)
+        }
+    }
+    
+    class func saveFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool) -> (Void)) {
+        if let favProduct = newFavProductForUser(user, product: product) {
+            favProduct.saveInBackgroundWithBlock({ (success, error) -> Void in
+                completion(success)
+            })
+        }
+        else {
+            completion(false)
+        }
+    }
+    
+    class func deleteFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool) -> (Void)) {
+        retrieveFavouriteProductForUser(user, product: product, completion: { (success, favProduct) -> Void in
+            if success && favProduct != nil {
+                favProduct!.deleteInBackgroundWithBlock({ (success, error) -> Void in
+                    if success {
+                        completion(true)
+                    }
+                    else {
+                        completion(false)
+                    }
+                })
+            }
+            else {
+                completion(false)
+            }
+        })
+    }
+    
+    class func newFavProductForUser(user: PFUser?, product: PFObject?) -> PFObject? {
+        if let actualUser = user {
+            if let actualProduct = product {
+                let favProduct = PFObject(className: "UserFavoriteProducts")
+                favProduct?["user"] = actualUser
+                favProduct?["product"] = actualProduct
+                return favProduct
+            }
+        }
+        return nil
     }
     
     // MARK: - Mail Composer Delegate methods
