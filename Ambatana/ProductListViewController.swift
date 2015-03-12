@@ -31,6 +31,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     var queryingProducts = false
     var currentCategory: ProductListCategory?
     var currentSearchString: String?
+    var currentFilterName = translate("proximity")
     
     var entries: [PFObject] = []
     var cellSize = CGSizeMake(145.0, 190.0)
@@ -67,7 +68,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if vcNumber == 1 { // I am the first, main view controller
             self.findHamburguerViewController()?.gestureEnabled = true // enable sliding.
         } else { self.findHamburguerViewController()?.gestureEnabled = false } // otherwise, don't allow the pan gesture.
-        println("Gesture enabled? \(self.findHamburguerViewController()?.gestureEnabled)")        
 
         // register for notifications.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableSetLocation:", name: kAmbatanaUnableToSetUserLocationNotification, object: nil)
@@ -75,6 +75,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationReady:", name: kAmbatanaUserLocationSuccessfullySetNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kAmbatanaUserLocationSuccessfullyChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged", name: UIContentSizeCategoryDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logoutImminent", name: kAmbatanaLogoutImminentNotification, object: nil)
         
         // check current location status.
         if (CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation)) { // we have a valid registered location.
@@ -106,7 +107,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         
         // disable menu
         self.findHamburguerViewController()?.gestureEnabled = false
-        println("Gesture enabled? \(self.findHamburguerViewController()?.gestureEnabled)")
         // hide search bar (if showing)
         if ambatanaSearchBar != nil { self.dismissSearchBar(ambatanaSearchBar!, animated: true, searchBarCompletion: nil) }
     }
@@ -262,9 +262,24 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     // MARK: - UICollectionViewDelegate methods
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        self.view.userInteractionEnabled = false
+        // prepare unrefreshed object
         self.productToShow = self.entries[indexPath.row]
-        if (self.productToShow != nil) { performSegueWithIdentifier("ShowProduct", sender: nil) }
-        else { showAutoFadingOutMessageAlert(translate("unable_show_product")) }
+        if self.productToShow != nil {
+            self.productToShow!.fetchInBackgroundWithBlock({ (refreshedObject, error) -> Void in
+                self.view.userInteractionEnabled = true
+                if refreshedObject != nil {
+                    println("refreshed")
+                    self.productToShow = refreshedObject
+                    self.performSegueWithIdentifier("ShowProduct", sender: nil)
+                }
+                else { // fallback to showing the "unrefreshed" product
+                    println("not refreshed")
+                    self.performSegueWithIdentifier("ShowProduct", sender: nil)
+                }
+            })
+        } else { self.view.userInteractionEnabled = true; showAutoFadingOutMessageAlert(translate("unable_show_product")) }
+        
     }
     
     // MARK: - Product queries.
@@ -355,12 +370,18 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                 }
                 // if refresh control was used, release it
                 self.refreshControl.endRefreshing()
+                self.collectionView.userInteractionEnabled = true
             })
         }
     }
     
     func refreshProductList() {
-        self.queryProducts(force: true)
+        // reset query values
+        self.collectionView.userInteractionEnabled = false
+        self.resetQueryValues()
+
+        // perform query
+        self.queryProducts(force: false)
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { // Error: unable to get products message. Try again tries to reload the products until success.
@@ -390,6 +411,12 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         enableLoadingInterface()
         hideNoProductsFoundInterface()
         
+        // perform query
+        self.resetQueryValues()
+        self.queryProducts(force: false)
+    }
+    
+    func resetQueryValues() {
         // reset query values
         self.queryingProducts = false
         self.currentKmOffset = 1
@@ -397,8 +424,11 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         self.alreadyRetrievedProductIds = []
         self.entries = []
         
-        // perform query
-        self.queryProducts(force: false)
+    }
+    
+    
+    func logoutImminent() {
+        self.resetQueryValues()
     }
     
     // MARK: - Navigation & segues
@@ -514,24 +544,28 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     func showFilters() {
         if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: translate("order_by"), message: nil, preferredStyle: .ActionSheet)
+            let alert = UIAlertController(title: translate("order_by") + ": " + self.currentFilterName, message: nil, preferredStyle: .ActionSheet)
             alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
             alert.addAction(UIAlertAction(title: translate("latest_published"), style: .Default, handler: { (action) -> Void in
+                self.currentFilterName = translate("latest_published")
                 self.changeFilterTo("createdAt", order: .OrderedDescending)
             }))
             alert.addAction(UIAlertAction(title: translate("highest_price"), style: .Default, handler: { (action) -> Void in
+                self.currentFilterName = translate("highest_price")
                 self.changeFilterTo("price", order: .OrderedDescending)
             }))
             alert.addAction(UIAlertAction(title: translate("lowest_price"), style: .Default, handler: { (action) -> Void in
+                self.currentFilterName = translate("lowest_price")
                 self.changeFilterTo("price", order: .OrderedAscending)
             }))
             alert.addAction(UIAlertAction(title: translate("proximity"), style: .Default, handler: { (action) -> Void in
+                self.currentFilterName = translate("proximity")
                 self.changeFilterTo(nil, order: .OrderedDescending)
             }))
             self.presentViewController(alert, animated: true, completion: nil)
             
         } else { // iOS 7 fallback
-            let actionSheet = UIActionSheet(title: translate("order_by"), delegate: self, cancelButtonTitle: translate("cancel"), destructiveButtonTitle: nil)
+            let actionSheet = UIActionSheet(title: translate("order_by") + ": " + self.currentFilterName, delegate: self, cancelButtonTitle: translate("cancel"), destructiveButtonTitle: nil)
             actionSheet.addButtonWithTitle(translate("latest_published"))
             actionSheet.addButtonWithTitle(translate("highest_price"))
             actionSheet.addButtonWithTitle(translate("lowest_price"))
@@ -546,12 +580,16 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         case 0:
             break;
         case 1:
+            self.currentFilterName = translate("latest_published")
             self.changeFilterTo("createdAt", order: .OrderedDescending)
         case 2:
+            self.currentFilterName = translate("highest_price")
             self.changeFilterTo("price", order: .OrderedDescending)
         case 3:
+            self.currentFilterName = translate("lowest_price")
             self.changeFilterTo("price", order: .OrderedAscending)
         case 4:
+            self.currentFilterName = translate("proximity")
             self.changeFilterTo(nil, order: .OrderedDescending)
         default:
             break

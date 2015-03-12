@@ -57,6 +57,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         self.userImageView.clipsToBounds = true
         
         // UX/UI and Appearance.
+        userLocationLabel.text = ""
+        userNameLabel.text = ""
         setAmbatanaNavigationBarStyle(title: "", includeBackArrow: true)
         
         // cell size

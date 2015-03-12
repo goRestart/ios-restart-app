@@ -29,7 +29,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     @IBOutlet weak var shareInFacebookSwitch: UISwitch!
     @IBOutlet weak var shareInFacebookLabel: UILabel!
     @IBOutlet weak var sellItButton: UIButton!
-    @IBOutlet weak var sellItActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var addUpToLabel: UILabel!
     @IBOutlet weak var uploadingImageView: UIView!
@@ -38,12 +37,14 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var originalFrame: CGRect!
     
     // data
-    var images: [UIImage] = []
-    var imageFiles: [PFFile] = [] {
+    var images: [UIImage] = [] {
         didSet { // hide "Add up to X photos" label if we have uploaded one or more photos.
-            addUpToLabel.hidden = imageFiles.count > 0
+            addUpToLabel.hidden = images.count > 0
         }
     }
+    var imageFiles: [PFFile]? = nil
+
+    let sellQueue = dispatch_queue_create("com.ambatana.SellProduct", DISPATCH_QUEUE_SERIAL) // we want the images to load sequentially.
     var currentCategory: ProductListCategory?
     var currentCurrency = CurrencyManager.sharedInstance.defaultCurrency
     var geocoder = CLGeocoder()
@@ -64,11 +65,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         chooseCategoryButton.setTitle(translate("choose_a_category"), forState: .Normal)
         shareInFacebookLabel.text = translate("share_product_facebook")
         sellItButton.setTitle(translate("sell_it"), forState: .Normal)
-        uploadingImageLabel.text = translate("uploading_image_please_wait")
+        uploadingImageLabel.text = translate("uploading_product_please_wait")
         
         // UX/UI & appearance.
         uploadingImageView.hidden = true
-        sellItActivityIndicator.hidden = true
         currencyTypeButton.layer.cornerRadius = kAmbatanaSellProductControlsCornerRadius
         descriptionTextView.layer.cornerRadius = kAmbatanaSellProductControlsCornerRadius
         chooseCategoryButton.layer.cornerRadius = kAmbatanaSellProductControlsCornerRadius
@@ -83,8 +83,13 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         super.viewWillAppear(animated)
         // force a location update
         LocationManager.sharedInstance.startUpdatingLocation()
-        // retrieve currencies, fallback to locally defined ones meanwhile
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
 
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -96,6 +101,8 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func keyboardWillHide(notification: NSNotification) { self.restoreOriginalPosition() }
     
     // MARK: - iOS 7 Action Sheet deprecated selections for compatibility.
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
@@ -185,7 +192,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     @IBAction func sellProduct(sender: AnyObject) {
         // safety checks first (and we have a lot to check here...)
         // 1. do we have at least one image?
-        if imageFiles.count < 1 { showAutoFadingOutMessageAlert(translate("upload_at_least_one_image")); return }
+        if images.count < 1 { showAutoFadingOutMessageAlert(translate("upload_at_least_one_image")); return }
         // 2. do we have a product title?
         if productTitleTextField == nil || countElements(productTitleTextField.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_title")); return }
         // 3. do we have a price?
@@ -198,66 +205,159 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         // 6. do we have a valid location?
         let currentLocationCoordinate = LocationManager.sharedInstance.currentLocation()
         if !CLLocationCoordinate2DIsValid(currentLocationCoordinate) { showAutoFadingOutMessageAlert(translate("unable_sell_product_location")); return }
-        
-        // Ok, if we reached this point we are ready to sell! Now let's build the new product object.
-        let productObject = PFObject(className: "Products") // product to sell
-        enableLoadingWhileSellingObjectInterface()
-        // fill in all product fields
-        productObject["category_id"] = currentCategory!.rawValue
-        productObject["currency"] = currentCurrency.iso4217Code
-        productObject["description"] = descriptionTextView.text
-        productObject["gpscoords"] = PFGeoPoint(latitude: currentLocationCoordinate.latitude, longitude: currentLocationCoordinate.longitude)
-        productObject["processed"] = false
-        productObject["language_code"] = NSLocale.preferredLanguages().first as? String ?? kAmbatanaDefaultCategoriesLanguage
-        productObject["name"] = productTitleTextField.text
-        productObject["name_dirify"] = productTitleTextField.text
-        productObject["price"] = productPrice
-        productObject["status"] = ProductStatus.Pending.rawValue
-        productObject["user"] = PFUser.currentUser()
-        
-        // images
-        for (var i = 0; i < imageFiles.count; i++) {
-            let imageKey = kAmbatanaProductImageKeys[i]
-            productObject[imageKey] = imageFiles[i]
-        }
-        
-        // ACL status
-        productObject.ACL = globalReadAccessACL()
-        
-        // Last (but not least) try to extract the geolocation address for the object based on the current coordinates
-        let currentLocation = CLLocation(coordinate: currentLocationCoordinate, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
-        geocoder.reverseGeocodeLocation(currentLocation, completionHandler: { (placemarks, error) -> Void in
-            if placemarks?.count > 0 {
-                var addressString = ""
+
+        // enable loading interface.
+        enableLoadingInterface()
+
+        // Let's use our pretty sell queue for uploading everything in sequence and in order ;)
+        dispatch_async(sellQueue, { () -> Void in
+            // Ok, if we reached this point we are ready to sell! Now let's build the new product object.
+            let productObject = PFObject(className: "Products") // product to sell
+            
+            // fill in all product fields
+            productObject["category_id"] = self.currentCategory!.rawValue
+            productObject["currency"] = self.currentCurrency.iso4217Code
+            productObject["description"] = self.descriptionTextView.text
+            productObject["gpscoords"] = PFGeoPoint(latitude: currentLocationCoordinate.latitude, longitude: currentLocationCoordinate.longitude)
+            productObject["processed"] = false
+            productObject["language_code"] = NSLocale.preferredLanguages().first as? String ?? kAmbatanaDefaultCategoriesLanguage
+            productObject["name"] = self.productTitleTextField.text
+            productObject["name_dirify"] = self.productTitleTextField.text
+            productObject["price"] = productPrice
+            productObject["status"] = ProductStatus.Pending.rawValue
+            productObject["user"] = PFUser.currentUser()
+            // We want the upload process to continue even if the user suspends the App or opens another, that's why we define a background task.
+            self.imageUploadBackgroundTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({ () -> Void in
+                UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
+                self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
+                self.disableLoadingInterface()
+            })
+            
+            // generate image files
+            self.generateParseImageFiles()
+            if self.imageFiles == nil || self.imageFiles?.count == 0 { // If we were unable to get at least one valid picture of the item as PFFile...
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.showAutoFadingOutMessageAlert(translate("error_uploading_product") + translate("unable_upload_photo"), completionBlock: nil)
+                    self.disableLoadingInterface()
+                    UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
+                    self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
+                    return
+                })
+            }
+            
+            // upload images and give feedback to the user of the uploading process.
+            for imageFile in self.imageFiles! {
+                // We'll prepare a counter of images.count + 1, so the process is divided among uploading the images and finally uploading the product.
+                let totalSteps = self.imageFiles!.count + 1
+                let percentagePerImage = 1.0/Float(totalSteps)
                 
-                if let placemark = placemarks?.first as? CLPlacemark {
-                    // extract elements and update user.
-                    if placemark.locality != nil {
-                        productObject["city"] = placemark.locality
-                        ConfigurationManager.sharedInstance.userLocation = placemark.locality
-                    }
-                    if placemark.postalCode != nil { productObject["zip_code"] = placemark.postalCode }
-                    if placemark.ISOcountryCode != nil { productObject["country_code"] = placemark.ISOcountryCode }
-                    if placemark.addressDictionary != nil {
-                        addressString = ABCreateStringWithAddressDictionary(placemark.addressDictionary, false)
-                        productObject["address"] = addressString
-                    }
+                // the saving process is synchronous, because we want a "full upload", so it doesn't make sense to allow the user to perform any other activity while we are uploading the item.
+                if imageFile.save() { // saving was successful
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.uploadingImageProgressView.progress += percentagePerImage
+                    })
+                } else { // try to save the image eventually later.
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        // show an error and stop the uploading process completely.
+                        self.showAutoFadingOutMessageAlert(translate("error_uploading_product") + translate("unable_upload_photo"), completionBlock: nil)
+                        self.disableLoadingInterface()
+                        self.imageFiles = nil
+                        UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
+                        self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
+                        return
+                        // alternatively: continue and try to save it eventually later.
+                        // imageFile.saveInBackgroundWithBlock(nil)
+                    })
                 }
             }
             
-            // save the object.
-            productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
-                self.disableLoadingWhileSellingObjectInterface()
-                if success {
-                    if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId) }
-                    else { self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
-                        self.popBackViewController()
-                    }) }
-                } else {
-                    self.showAutoFadingOutMessageAlert(translate("error_uploading_product"))
+            // assign images to product images
+            for (var i = 0; i < self.imageFiles!.count; i++) {
+                let imageKey = kAmbatanaProductImageKeys[i]
+                productObject[imageKey] = self.imageFiles![i]
+            }
+            
+            // ACL status
+            productObject.ACL = globalReadAccessACL()
+            
+            // Last (but not least) try to extract the geolocation address for the object based on the current coordinates
+            let currentLocation = CLLocation(coordinate: currentLocationCoordinate, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
+            self.geocoder.reverseGeocodeLocation(currentLocation, completionHandler: { (placemarks, error) -> Void in
+                if placemarks?.count > 0 {
+                    var addressString = ""
+                    
+                    if let placemark = placemarks?.first as? CLPlacemark {
+                        // extract elements and update user.
+                        if placemark.locality != nil {
+                            productObject["city"] = placemark.locality
+                            ConfigurationManager.sharedInstance.userLocation = placemark.locality
+                        }
+                        if placemark.postalCode != nil { productObject["zip_code"] = placemark.postalCode }
+                        if placemark.ISOcountryCode != nil { productObject["country_code"] = placemark.ISOcountryCode }
+                        if placemark.addressDictionary != nil {
+                            addressString = ABCreateStringWithAddressDictionary(placemark.addressDictionary, false)
+                            productObject["address"] = addressString
+                        }
+                    }
                 }
+                
+                // last step of the saving process.
+                self.uploadingImageProgressView.progress = 1.0
+                
+                // finally save the object.
+                productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
+                    // at this point we consider our background task finished.
+                    UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
+                    self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
+                    
+                    // disable loading interface and inform about the results
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.disableLoadingInterface()
+                        if success {
+                            if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId) }
+                            else { self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
+                                self.popBackViewController()
+                            }) }
+                        } else {
+                            self.showAutoFadingOutMessageAlert(translate("error_uploading_product"))
+                        }
+                    })
+                    
+                })
             })
+
         })
+        
+    }
+    
+    /** Generates the parse image files from the array of images and uploads it to parse. */
+    func generateParseImageFiles() {
+        var result: [PFFile] = []
+
+        // iterate through all the images
+        for image in images {
+            var imageFile: PFFile? = nil
+            var resizedImage: UIImage? = image.resizedImageToMaxSide(kAmbatanaMaxProductImageSide, interpolationQuality: kCGInterpolationMedium)
+            if resizedImage != nil {
+                // update parse DDBB
+                let imageData = UIImageJPEGRepresentation(resizedImage, kAmbatanaMaxProductImageJPEGQuality)
+                let imageName = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "", options: nil, range: nil) + "_\(imageCounter++).jpg"
+                
+                imageFile = PFFile(name: imageName, data: imageData)
+            }
+            
+            if imageFile == nil { // we were unable to generate the image file.  We inform about the error and return nil, because we suppose we want all images to upload at once or none.
+                imageFiles = nil
+                return
+                // in case you want to continue with the uploading process without that image, just substitute the above code with this line:
+                // continue
+            } else { // we have a valid image PFFile, now update current user's avatar with it.
+                result.append(imageFile!)
+            }
+        }
+        
+        // store the successfully uploaded image files.
+        imageFiles = result
     }
     
     // MARK: - Share in facebook.
@@ -279,7 +379,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         let fbSharingParams = FBLinkShareParams()
         fbSharingParams.link = NSURL(string: ambatanaWebLinkForObjectId(objectId))!
         fbSharingParams.linkDescription = productTitleTextField.text
-        if imageFiles.count > 0 { fbSharingParams.picture = NSURL(string: imageFiles.first!.url) }
+        if imageFiles?.count > 0 { fbSharingParams.picture = NSURL(string: imageFiles!.first!.url) }
         // check if we can present the dialog.
         if FBDialogs.canPresentShareDialogWithParams(fbSharingParams) {
             FBDialogs.presentShareDialogWithParams(fbSharingParams, clientState: nil, handler: { (call, result, error) -> Void in
@@ -299,7 +399,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             shareParamsForBrowserFallback["name"] = productTitleTextField.text
             shareParamsForBrowserFallback["caption"] = translate("have_a_look")
             shareParamsForBrowserFallback["description"] = translate("have_a_look")
-            if imageFiles.count > 0 { shareParamsForBrowserFallback["picture"] = imageFiles.first!.url }
+            if imageFiles?.count > 0 { shareParamsForBrowserFallback["picture"] = imageFiles!.first!.url }
             // show dialog
             FBWebDialogs.presentFeedDialogModallyWithSession(nil, parameters: shareParamsForBrowserFallback, handler: { (result, url, error) -> Void in
                 if error != nil { // error
@@ -361,91 +461,43 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
         
         self.dismissViewControllerAnimated(true, completion: nil)
-        enableAddPhotoLoadingInterface()
-        var resizedImage: UIImage?
+        // safety check.
         if image != nil {
-            let newHeight = kAmbatanaMaxProductImageSide * image!.size.height / image!.size.width
-            resizedImage = image!.resizedImageToSize(CGSizeMake(kAmbatanaMaxProductImageSide, newHeight), interpolationQuality: kCGInterpolationMedium)
-            if resizedImage != nil {
-                // update parse DDBB
-                let imageData = UIImageJPEGRepresentation(resizedImage, kAmbatanaMaxProductImageJPEGQuality)
-                let imageName = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "", options: nil, range: nil) + "_\(imageCounter++).jpg"
-
-                imageFile = PFFile(name: imageName, data: imageData)
-            }
+            self.images.append(image!)
+            self.collectionView.reloadSections(NSIndexSet(index: 0))
+        } else { // this shouldn't happen, but just in case have a beautiful message ready for the user...
+            self.showAutoFadingOutMessageAlert(translate("unable_upload_photo"))
         }
-        
-        if imageFile == nil { // we were unable to generate the image file.
-            disableAddPhotoLoadingInterface()
-            showAutoFadingOutMessageAlert(translate("unable_upload_photo"))
-        } else { // we have a valid image PFFile, now update current user's avatar with it.
-            // first we define a background task so we can continue on uploading the image even if we go into background.
-            imageUploadBackgroundTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({ () -> Void in
-                UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
-                self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
-            })
-            // then we start the upload process
-            imageFile?.saveInBackgroundWithBlock({ (success, error) -> Void in
-                if success {
-                    // store locally
-                    self.images.append(resizedImage!)
-                    self.imageFiles.append(imageFile!)
-                    // add some visual clue to the user
-                    self.disableAddPhotoLoadingInterface()
-                    self.collectionView.reloadSections(NSIndexSet(index: 0))
-                    UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
-                    self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
-                } else {
-                    self.disableAddPhotoLoadingInterface()
-                    self.showAutoFadingOutMessageAlert(translate("unable_upload_photo"))
-                    UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
-                    self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
-                }
-            }, progressBlock: { (progress) -> Void in
-                self.uploadingImageProgressView.setProgress(Float(progress)/100.0, animated: true)
-            })
-
-        }
-        
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
-    func enableAddPhotoLoadingInterface() {
+    func enableLoadingInterface() {
+        // show loading progress indicator.
+        uploadingImageView.hidden = false
+        uploadingImageProgressView.setProgress(0.0, animated: false)
+        uploadingImageView.setNeedsDisplay()
+        
+        // disable back navigation.
+        self.navigationItem.backBarButtonItem?.enabled = false
         // disable collection view and sell button
         collectionView.userInteractionEnabled = false
         sellItButton.userInteractionEnabled = false
 
-        // show loading progress indicator.
-        uploadingImageProgressView.setProgress(0.0, animated: false)
-        uploadingImageView.hidden = false
     }
     
-    func disableAddPhotoLoadingInterface() {
+    func disableLoadingInterface() {
+        // disable back navigation.
+        self.navigationItem.backBarButtonItem?.enabled = true
         // hide loading progress indicator
         uploadingImageView.hidden = true
-        
+        uploadingImageView.setNeedsDisplay()
+
         // restore collection view and sell button
         sellItButton.userInteractionEnabled = true
         collectionView.userInteractionEnabled = true
-    }
-    
-    func enableLoadingWhileSellingObjectInterface() {
-        self.navigationItem.backBarButtonItem?.enabled = false
-        self.view.userInteractionEnabled = false
-        self.sellItButton.setTitle("", forState: .Normal)
-        self.sellItActivityIndicator.startAnimating()
-        self.sellItActivityIndicator.hidden = false
-    }
-    
-    func disableLoadingWhileSellingObjectInterface() {
-        self.sellItActivityIndicator.hidden = true
-        self.sellItActivityIndicator.stopAnimating()
-        sellItButton.setTitle(translate("sell_it"), forState: .Normal)
-        self.view.userInteractionEnabled = true
-        self.navigationItem.backBarButtonItem?.enabled = true
     }
     
     // MARK: - keyboard reaction in textfields and textareas.
@@ -541,7 +593,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func deleteAlreadyUploadedImageWithIndex(index: Int) {
         // delete the image file locally
         images.removeAtIndex(index)
-        imageFiles.removeAtIndex(index)
         
         // reload collection view
         collectionView.reloadSections(NSIndexSet(index: 0))
@@ -576,6 +627,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        println("hello!")
         restoreOriginalPosition()
     }
 

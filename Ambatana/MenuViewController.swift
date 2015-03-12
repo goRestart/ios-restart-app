@@ -15,7 +15,7 @@ private let kAmbatanaMenuOptionCellBadgeTag = 3
 
 
 enum AmbatanaMenuOptions : Int {
-    case MyProfile = 0, Conversations = 1, Sell = 2, Categories = 3, Help = 4
+    case MyProfile = 0, Conversations = 1, Sell = 2, Categories = 3
     /** Returns the title for the menu option */
     func titleForMenuOption() -> String {
         switch (self) {
@@ -27,12 +27,10 @@ enum AmbatanaMenuOptions : Int {
             return translate("sell_something")
         case .Categories:
             return translate("categories")
-        case .Help:
-            return translate("help")
         }
     }
     
-    static let numOptions = 5
+    static let numOptions = 4
     
     /** Returns the icon for the menu option */
     func iconForMenuOption() -> UIImage {
@@ -45,8 +43,6 @@ enum AmbatanaMenuOptions : Int {
             return UIImage(named: "menu_sell")!
         case .Categories:
             return UIImage(named: "menu_categories")!
-        case .Help:
-            return UIImage(named: "menu_help")!
         }
     }
 }
@@ -63,7 +59,10 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         // appearance
+        userNameLabel.text = ""
+        userLocationLabel.text = ""
         tableView.separatorInset = UIEdgeInsetsZero
+        tableView.tableFooterView = UIView(frame: CGRectZero)
         if iOSVersionAtLeast("8.0") {
             tableView.layoutMargins = UIEdgeInsetsZero
             tableView.preservesSuperviewLayoutMargins = false
@@ -109,7 +108,6 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         switch (menuOption!) {
         case .MyProfile:
-            // hacer esto? o un popToRootViewController.
             segueName = "EditProfile"
         case .Conversations:
             segueName = "Conversations"
@@ -127,7 +125,6 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         if segueName != nil {
             // disable sliding menu for pushed controllers
             self.findHamburguerViewController()?.gestureEnabled = false
-            println("Gesture enabled? \(self.findHamburguerViewController()?.gestureEnabled)")
             
             // perform segue
             let navigationController = self.mainNavigationController()
@@ -154,17 +151,19 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             let badgeView = cell.viewWithTag(kAmbatanaMenuOptionCellBadgeTag) as? UILabel
             
             // selectable?
-            if menuOption == .Help { cell.selectionStyle = .None }
-            else { cell.selectionStyle = .Default }
+            cell.selectionStyle = .Default
             
             titleLabel?.text = menuOption.titleForMenuOption()
             imageView?.image = menuOption.iconForMenuOption()
             // badge?
             if menuOption == .Conversations {
-                badgeView?.hidden = false
-                badgeView?.text = "\(PFInstallation.currentInstallation().badge)"
-                badgeView?.layer.cornerRadius = badgeView!.frame.size.height / 2.0
-                badgeView?.clipsToBounds = true
+                let badgeNumber = PFInstallation.currentInstallation().badge
+                if badgeNumber > 0 {
+                    badgeView?.hidden = false
+                    badgeView?.text = "\(PFInstallation.currentInstallation().badge)"
+                    badgeView?.layer.cornerRadius = badgeView!.frame.size.height / 2.0
+                    badgeView?.clipsToBounds = true
+                } else { badgeView?.hidden = true }
             } else { badgeView?.hidden = true }
         }
         return cell

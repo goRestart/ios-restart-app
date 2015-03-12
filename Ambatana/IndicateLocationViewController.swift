@@ -52,20 +52,22 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         disableLoadingStatus()
-        self.setLocationBarButtonItem.enabled = false
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableToSetUserLocation:", name: kAmbatanaUnableToSetUserLocationNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kAmbatanaUserLocationSuccessfullySetNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kAmbatanaUserLocationSuccessfullyChangedNotification, object: nil)
-        
+
         // if we have a current location (we are accessing through the "Change my location" option in settings, start with that location.
         var initialLocation: CLLocationCoordinate2D?
         if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastKnownLocation) { initialLocation = LocationManager.sharedInstance.lastKnownLocation }
         else if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation) { initialLocation = LocationManager.sharedInstance.lastRegisteredLocation }
+
         // do we have an initial location?
         if initialLocation != nil && CLLocationCoordinate2DIsValid(initialLocation!) {
-            self.centerMapInLocation(initialLocation!, andIncludePin: false)
+            self.locationInMap = initialLocation!
+            self.centerMapInLocation(initialLocation!, andIncludePin: true)
         }
+        self.setLocationBarButtonItem.enabled = false // force a change in location to enable accept button.
     }
     
     override func viewWillDisappear(animated: Bool) {

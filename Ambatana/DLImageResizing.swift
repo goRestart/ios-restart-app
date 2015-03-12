@@ -45,6 +45,22 @@ extension UIImage {
         return finalImage?.roundedCornersImageOfSize(CGFloat(cornerRadius), borderSize: borderSize) ?? nil
     }
     
+    // Returns a copy of the image, resized proportionally to a max side.
+    func resizedImageToMaxSide(side: CGFloat, interpolationQuality: CGInterpolationQuality) -> UIImage? {
+        var w = self.size.width
+        var h = self.size.height
+        // resize to max size = kAmbatanaMaxProductImageSide
+        if w <= kAmbatanaMaxProductImageSide && h <= kAmbatanaMaxProductImageSide { return self }
+        else if w > h { // cut width to kAmbatanaMaxProductImageSide and calculate height
+            h = h * kAmbatanaMaxProductImageSide / w
+            w = kAmbatanaMaxProductImageSide
+        } else { // cut height to kAmbatanaMaxProductImageSide and calculate width
+            w = w * kAmbatanaMaxProductImageSide / h
+            h = kAmbatanaMaxProductImageSide
+        }
+        return self.resizedImageToSize(CGSizeMake(w, h), interpolationQuality: kCGInterpolationMedium)
+    }
+    
     // Returns a copy of the image, resized to a new size with certain interpolation quality.
     func resizedImageToSize(size: CGSize, interpolationQuality: CGInterpolationQuality) -> UIImage? {
         var needsToBeTransposed = false
