@@ -41,6 +41,11 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var markAsSoldActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var askQuestionActivityIndicator: UIActivityIndicatorView!
     
+    // constraints
+    @IBOutlet weak var makeOfferToImageConstraint: NSLayoutConstraint!
+    @IBOutlet weak var askQuestionToImageConstraint: NSLayoutConstraint!
+    @IBOutlet weak var pageControlToBottomConstraint: NSLayoutConstraint!
+    
     // data
     var productObject: PFObject!
     var productImages: [UIImage] = []
@@ -54,6 +59,14 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // appearance
+        priceLabel.text = ""
+        nameLabel.text = ""
+        descriptionLabel.text = ""
+        publishedTimeLabel.text = ""
+        usernameLabel.text = ""
+        
         // UX/UI
         self.markAsSoldActivityIndicator.hidden = true
         self.askQuestionActivityIndicator.hidden = true
@@ -73,9 +86,16 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             if let statusCode = productObject["status"] as? Int {
                 productStatus = ProductStatus(rawValue: statusCode)
                 if productStatus == .Sold {
+                    // update appearance
                     markSoldButton.enabled = false
-                    //self.markSoldButton.setTitle(translate("marked_as_sold"), forState: .Normal)
                     self.markSoldButton.hidden = true
+                    makeOfferButton.hidden = true
+                    askQuestionButton.hidden = true
+                    
+                    // update constraints
+                    makeOfferToImageConstraint.constant -= self.makeOfferButton.frame.size.height
+                    askQuestionToImageConstraint.constant -= self.askQuestionButton.frame.size.height
+                    pageControlToBottomConstraint.constant -= self.askQuestionButton.frame.size.height
                 } else {
                     markSoldButton.setTitle(translate("mark_as_sold"), forState: .Normal)
                 }
@@ -265,18 +285,32 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     func enableAskQuestionLoadingInterface() {
+        // disable back navigation.
+        self.navigationItem.backBarButtonItem?.enabled = false
+        self.navigationItem.leftBarButtonItem?.enabled = false
+        // disable interaction
+        self.view.userInteractionEnabled = false
+        // appearance
         askQuestionActivityIndicator.center = askQuestionButton.center
         askQuestionActivityIndicator.startAnimating()
         askQuestionActivityIndicator.hidden = false
         askQuestionButton.setTitle("", forState: .Normal)
         askQuestionButton.setImage(nil, forState: .Normal)
+        askQuestionButton.enabled = false
     }
     
     func disableAskQuestionLoadingInterface() {
+        // appearance
         askQuestionActivityIndicator.hidden = true
         askQuestionActivityIndicator.stopAnimating()
         askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
         askQuestionButton.setImage(UIImage(named: "item_chat")!, forState: .Normal)
+        askQuestionButton.enabled = true
+        // re-enable back navigation.
+        self.navigationItem.backBarButtonItem?.enabled = true
+        self.navigationItem.leftBarButtonItem?.enabled = true
+        // re-enable interaction
+        self.view.userInteractionEnabled = true
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
@@ -318,13 +352,17 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                     }, completion: { (success) -> Void in
                         self.markSoldButton.hidden = true
                         self.markSoldButton.alpha = 1.0
+                        self.showAutoFadingOutMessageAlert(translate("marked_as_sold"), completionBlock: nil)
                 })
-                //self.markSoldButton.setTitle(translate("marked_as_sold"), forState: .Normal)
-                //self.markSoldButton.enabled = false
+                // update constraints
+                self.makeOfferToImageConstraint.constant -= self.makeOfferButton.frame.size.height
+                self.askQuestionToImageConstraint.constant -= self.askQuestionButton.frame.size.height
+                self.view.setNeedsLayout()
+                
                 self.delegate?.ambatanaProduct(self.productObject, statusUpdatedTo: self.productStatus!)
             } else {
                 self.markSoldButton.enabled = true
-                self.showAutoFadingOutMessageAlert("error_marking_as_sold")
+                self.showAutoFadingOutMessageAlert(translate("error_marking_as_sold"))
             }
             self.disableMarkAsSoldLoadingInterface()
         })
@@ -387,11 +425,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         // check if we can present the dialog.
         if FBDialogs.canPresentShareDialogWithParams(fbSharingParams) {
             FBDialogs.presentShareDialogWithParams(fbSharingParams, clientState: nil, handler: { (call, result, error) -> Void in
-                if error == nil {
-                    self.showAutoFadingOutMessageAlert(translate("completed"))
-                } else {
+                if error != nil { // no success feedback
                     self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"))
-                    println("Error: \(error.localizedDescription): \(error)")
                 }
             })
         } else { // Present a fallback HTML dialog.
@@ -404,13 +439,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             FBWebDialogs.presentFeedDialogModallyWithSession(nil, parameters: shareParamsForBrowserFallback, handler: { (result, url, error) -> Void in
                 if error != nil { // error
                     self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"))
-                } else { // check result status
-                    if result == FBWebDialogResult.DialogNotCompleted { // user cancelled
-                        self.showAutoFadingOutMessageAlert(translate("canceled_by_user"))
-                    } else { // success
-                        self.showAutoFadingOutMessageAlert(translate("completed"))
-                    }
-                }
+                } // No feedback for success
             })
         }
         
@@ -474,15 +503,14 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     
     // MARK: - Mail Composer Delegate methods
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
-        var message = NSLocalizedString("ok", comment: "")
-        if result.value == MFMailComposeResultCancelled.value { message = NSLocalizedString("mailcancelled", comment: "") }
-        else if result.value == MFMailComposeResultSaved.value { message = NSLocalizedString("mailsaved", comment: "") }
-        else if result.value == MFMailComposeResultSent.value { message = NSLocalizedString("thanksforcontact", comment: "") }
-        else if result.value == MFMailComposeResultFailed.value { message = NSLocalizedString("errorsendingmail", comment: "") }
-        
+        var message: String? = nil
+        if result.value == MFMailComposeResultFailed.value { // we just give feedback if something nasty happened.
+            message = NSLocalizedString("errorsendingmail", comment: "")
+        }
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            self.showAutoFadingOutMessageAlert(message)
+            if message != nil { self.showAutoFadingOutMessageAlert(message!) }
         })
+        
     }
     
     // MARK: - Images, pagination and scrollview.

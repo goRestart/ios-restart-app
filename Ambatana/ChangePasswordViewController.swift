@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChangePasswordViewController: UIViewController {
+class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
     // outlets & buttons
     @IBOutlet weak var passwordTextfield: UITextField!
     @IBOutlet weak var confirmPasswordTextfield: UITextField!
@@ -18,6 +18,8 @@ class ChangePasswordViewController: UIViewController {
         super.viewDidLoad()
 
         // UI/UX & Appearance
+        passwordTextfield.delegate = self
+        confirmPasswordTextfield.delegate = self
         setAmbatanaNavigationBarStyle(title: translate("change_password"), includeBackArrow: true)
         setAmbatanaRightButtonsWithImageNames(["actionbar_save"], andSelectors: ["changePassword"])
         
@@ -66,6 +68,15 @@ class ChangePasswordViewController: UIViewController {
         }
     }
 
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField == self.passwordTextfield {
+            self.confirmPasswordTextfield.becomeFirstResponder()
+        } else if textField == self.confirmPasswordTextfield {
+            changePassword()
+        }
+        return false
+    }
+    
     /*
     // MARK: - Navigation
 

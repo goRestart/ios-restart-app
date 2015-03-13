@@ -19,7 +19,7 @@ let kAmbatanaDefaultUserImageName = "no_photo"
 let kAmbatanaContentScrollingDownThreshold: CGFloat = 20.0
 let kAmbatanaContentScrollingUpThreshold: CGFloat = -20.0
 let kAmbatanaMaxProductImageSide: CGFloat = 1024
-let kAmbatanaMaxProductImageJPEGQuality: CGFloat = 1.0
+let kAmbatanaMaxProductImageJPEGQuality: CGFloat = 0.9
 let kAmbatanaProductImageKeys = ["image_0", "image_1", "image_2", "image_3", "image_4"]
 let kAmbatanaProductFirstImageKey = kAmbatanaProductImageKeys.first!
 let kAmbatanaWebsiteURL = "http://ambatana.com"
@@ -32,6 +32,7 @@ let kAmbatanaUnableToGetUserLocationNotification                = "AmbatanaUnabl
 let kAmbatanaUnableToSetUserLocationNotification                = "AmbatanaUnableToSetUserLocationNotification"
 let kAmbatanaUserLocationSuccessfullySetNotification            = "AmbatanaUserLocationSuccessfullySetNotification"
 let kAmbatanaUserLocationSuccessfullyChangedNotification        = "AmbatanaUserLocationSuccessfullyChangedNotification"
+let kAmbatanaLogoutImminentNotification                         = "AmbatanaLogoutImminentNotification"
 let kAmbatanaUserBadgeChangedNotification                       = "AmbatanaUserBadgeChangedNotification"
 
 /** Product list categories */

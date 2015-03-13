@@ -161,7 +161,7 @@
 "unable_sell_product_location" = "I was unable to find your current location. For selling the product, I need to be able to find it. Please, try again later.";
 "successfully_uploaded_product" = "Product was successfully registered for selling. It will appear in Ambatana as soon as it's approved.";
 "uploading_image_please_wait" = "Uploading image, please wait...";
-"error_uploading_product" = "An error happened while registering your product. Please, try again later.";
+"error_uploading_product" = "An error happened while registering your product. ";
 "here" = "Here";
 "mark_as_sold" = "Mark as sold";
 "are_you_sure_mark_sold" = "Are you sure you want to mark this item as sold?";
@@ -180,6 +180,7 @@
 "item_location" = "Location";
 "user_already_exists" = "User already exists.";
 "some_fields_missing" = "Some fields empty or missing.";
+"uploading_product_please_wait" = "Uploading product. Please wait...";
 
 
 

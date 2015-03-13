@@ -141,29 +141,25 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
     // MARK: - Login and SignIn delegate methods
     
     func loginDelegateSignIn() {
-        println("Going to sign in!")
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismissViewControllerAnimated(false, completion: { () -> Void in
             self.performSegueWithIdentifier("LoginByEmail", sender: nil)
         })
     }
     
     func loginDelegateSignUp() {
-        println("Going to sign up!")
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismissViewControllerAnimated(false, completion: { () -> Void in
             self.performSegueWithIdentifier("SignUp", sender: nil)
         })
     }
     
     func loginDelegateConnectWithFacebook() {
-        println("Connecting with facebook!")
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismissViewControllerAnimated(false, completion: { () -> Void in
             self.connectWithFacebook(self.facebookLoginButton)
         })
     }
     
     func loginDelegateRecoverPassword(email: String) {
-        println("Recovery password")
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+        self.dismissViewControllerAnimated(false, completion: { () -> Void in
             if iOSVersionAtLeast("8.0") {
                 let alert = UIAlertController(title: translate("password_recovery"), message: translate("send_recovery_email_question"), preferredStyle:.Alert)
                 alert.addAction(UIAlertAction(title: translate("cancel"), style:.Cancel, handler: nil))
@@ -188,7 +184,6 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
-        println("Opcion chosen: \(buttonIndex)")
         if buttonIndex == 1 { // user clicked "ok".
             PFUser.requestPasswordResetForEmailInBackground(recoveryEmail ?? "", block: { (success, error) -> Void in
                 if success {

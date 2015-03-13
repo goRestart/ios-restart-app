@@ -54,6 +54,7 @@ private let kPlaceholderTextViewInsetSpan: CGFloat = 8
     func setup() {
         // appearance.
         self.layer.cornerRadius = 6.0
+        self.scrollIndicatorInsets = UIEdgeInsetsZero
         
         // listen for notifications when starting edition
         listenForTextChangedNotifications()

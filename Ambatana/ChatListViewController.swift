@@ -193,7 +193,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath) as UITableViewCell
-        cell.selectionStyle = .None
+        cell.selectionStyle = .Default
         
         // configure cell
         if var conversation = conversations?[indexPath.row] {

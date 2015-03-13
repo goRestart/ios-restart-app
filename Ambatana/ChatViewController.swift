@@ -61,6 +61,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         // appearance.
+        usernameLabel.text = ""
+        productNameLabel.text = ""
+        publishedDateLabel.text = ""
+        priceLabel.text = ""
         productImageView.clipsToBounds = true
         productImageView.contentMode = .ScaleAspectFill
         
@@ -83,7 +87,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
         // appearance
-        self.productImageView.image = UIImage.randomImageGradientOfSize(self.productImageView.frame.size)
+        self.productImageView.image = nil
         self.tableView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI)) // 180 º
         
         if ambatanaConversation != nil {
@@ -282,7 +286,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         // configure common cell elements
-        if cell != nil { self.configureCell(cell!, fromTableView: tableView, withMessageObject: msgObject, type: type) }
+        if cell != nil { self.configureCell(cell!, fromTableView: tableView, atIndexPath: indexPath, withMessageObject: msgObject, type: type) }
 
         cell!.transform = CGAffineTransformMakeRotation(CGFloat(M_PI)) // 180 º
         return cell ?? UITableViewCell()
@@ -293,7 +297,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         return UITableViewAutomaticDimension
     }
 
-    func configureCell(cell: UITableViewCell, fromTableView tableView: UITableView, withMessageObject msgObject: PFObject, type: AmbatanaConversationCellTypes) {
+    func configureCell(cell: UITableViewCell, fromTableView tableView: UITableView, atIndexPath indexPath: NSIndexPath, withMessageObject msgObject: PFObject, type: AmbatanaConversationCellTypes) {
         // message
         if let msgLabel = cell.viewWithTag(kAmbatanaConversationCellTextTag) as? UILabel {
             msgLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
@@ -305,8 +309,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             dateLabel.text = msgObject.createdAt.relativeTimeString()
         }
         // bubble appearance
-        if let bubbleLabel = cell.viewWithTag(kAmbatanaConversationCellBubbleTag) {
-            bubbleLabel.layer.cornerRadius = kAmbatanaChatBubbleCornerRadius
+        if let bubbleView = cell.viewWithTag(kAmbatanaConversationCellBubbleTag) {
+            bubbleView.layer.cornerRadius = kAmbatanaChatBubbleCornerRadius
         }
         
         // If this is a message from the other user, we should include his/her avatar picture at the left of the message.
@@ -341,10 +345,24 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         let msgObject = messages![indexPath.row]
         // lazily instanciate the prototype cell
         if prototypeCell == nil { prototypeCell = tableView.dequeueReusableCellWithIdentifier(kAmbatanaConversationOthersMessagesCell) as? UITableViewCell }
-        self.configureCell(prototypeCell, fromTableView: tableView, withMessageObject: msgObject, type: .MyMessages) // no need to configure the image.
+        self.configureCell(prototypeCell, fromTableView: tableView, atIndexPath: indexPath, withMessageObject: msgObject, type: .MyMessages) // no need to configure the image.
         prototypeCell.layoutIfNeeded()
         let size = prototypeCell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
         return size.height + 1
+    }
+
+    // MARK: - Allow copying text / highlighted state in cells
+    
+    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool { return true }
+    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject) -> Bool { return action == "copy:" }
+    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject!) {
+        if action == "copy:" {
+            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+                if let textLabel = cell.viewWithTag(kAmbatanaConversationCellTextTag) as? UILabel {
+                    UIPasteboard.generalPasteboard().string = textLabel.text
+                }
+            }
+        }
     }
 
     // MARK: - UI/UX Scrolling responding to UITextField edition
@@ -384,15 +402,19 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.bottomViewBottomConstraint.constant = 0
                 self.view.setNeedsUpdateConstraints()
                 self.view.setNeedsLayout()
+                }, completion: { (success) -> Void in
+                    self.topView.hidden = false
             })
 
         } else {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 // avoid autolayout messing with our animations.
-                self.topViewTopConstraint.constant = -keyboardSize.height + 64
+                self.topViewTopConstraint.constant = -keyboardSize.height + self.topView.frame.size.height + 20 // (20 = statusbar span)
                 self.bottomViewBottomConstraint.constant = keyboardSize.height
                 self.view.setNeedsUpdateConstraints()
                 self.view.setNeedsLayout()
+                }, completion: { (success) -> Void in
+                    self.topView.hidden = true
             })
         }
         

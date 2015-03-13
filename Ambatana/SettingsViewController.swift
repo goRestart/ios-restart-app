@@ -95,6 +95,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: - UITableViewDelegate methods
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let setting = AmbatanaUserSettings(rawValue: indexPath.row)!
         switch (setting) {
         case .ChangePhoto:
@@ -105,6 +106,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             // As per specifications, allow even FB users to change their passwords.
             performSegueWithIdentifier("ChangePassword", sender: nil)
         case .LogOut:
+            NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaLogoutImminentNotification, object: nil)
             logoutUser()
         }
     }

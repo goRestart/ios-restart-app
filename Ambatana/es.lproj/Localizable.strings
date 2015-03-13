@@ -161,7 +161,7 @@
 "unable_sell_product_location" = "Me ha sido imposible obtener tu localización actual. Para vender el producto, necesito encontrarla. Por favor, inténtalo más tarde.";
 "successfully_uploaded_product" = "Producto correctamente dado de alta. Aparecerá en Ambatana tan pronto como sea aprobado.";
 "uploading_image_please_wait" = "Cargando imagen, por favor, espere...";
-"error_uploading_product" = "Se produjo un error dando de alta el producto. Por favor, inténtalo más tarde.";
+"error_uploading_product" = "Se produjo un error dando de alta el producto. ";
 "here" = "Aquí";
 "mark_as_sold" = "Marcar como vendido";
 "are_you_sure_mark_sold" = "¿Estás seguro que quieres marcar el producto como vendido?";
@@ -180,6 +180,7 @@
 "item_location" = "Ubicación";
 "user_already_exists" = "El usuario ya existe.";
 "some_fields_missing" = "Algunos campos faltan o están vacíos.";
+"uploading_product_please_wait" = "Cargando producto. Por favor, espere...";
 
 
 

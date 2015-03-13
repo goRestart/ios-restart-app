@@ -22,7 +22,7 @@ class ConfigurationManager: NSObject {
     var userLocation: String = ""
     var userEmail: String = ""
     var userProfileImage: UIImage?
-    var currentFilterForSearch: String? = "createdAt"
+    var currentFilterForSearch: String? = nil // set to "createdAt" to order for creation date by default.
     var currentFilterOrderForSearch: NSComparisonResult = .OrderedDescending
     
     /** Shared instance */

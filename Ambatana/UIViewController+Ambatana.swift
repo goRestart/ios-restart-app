@@ -37,6 +37,7 @@ extension UIViewController {
         if includeBackArrow {
             let backButton = UIButton(frame: CGRectMake(0, 0, kAmbatanaBarButtonSide, kAmbatanaBarButtonSide)) // Issue #63: Add some span in width for better access to button.
             backButton.setImage(UIImage(named: "actionbar_chevron"), forState: .Normal)
+            backButton.imageEdgeInsets = UIEdgeInsetsMake(0.0, -16, 0, 0) // adjust chevron to the left.
             backButton.addTarget(self, action: "popBackViewController", forControlEvents: .TouchUpInside)
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
             self.navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
@@ -58,13 +59,14 @@ extension UIViewController {
         
         for (var i = 0; i < numberOfButtons; i++) {
             // create and set button.
-            let button = UIButton(frame: CGRectMake(offset, 0, kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan, 32))
+            var button = UIButton.buttonWithType(UIButtonType.System) as UIButton
+            button.frame = CGRectMake(offset, 0, kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan, 32)
             button.setImage(UIImage(named: images[i]), forState: .Normal)
             button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
             buttonsView.addSubview(button)
             
             // custom badge?
-            if badgeButtonPosition == i { // && PFInstallation.currentInstallation().badge > 0 {
+            if badgeButtonPosition == i && PFInstallation.currentInstallation().badge > 0 {
                 let badgeView = CustomBadge.customBadgeWithString("\(PFInstallation.currentInstallation().badge)", withStringColor: UIColor.whiteColor(), withInsetColor: UIColor.redColor(), withBadgeFrame: false, withBadgeFrameColor: UIColor.clearColor(), withScale: 1.0, withShining: false)
                 badgeView.center = CGPointMake(button.frame.size.width - 3, 0)
                 badgeView.tag = kAmbatanaBadgeViewTag
