@@ -151,6 +151,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductListCell", forIndexPath: indexPath) as UICollectionViewCell
         
         // configure cell
+        if entries.count == 0 { return cell } // safety check for p2r
         let productObject = entries[indexPath.row]
         
         // name
