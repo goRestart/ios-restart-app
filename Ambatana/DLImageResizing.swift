@@ -58,7 +58,7 @@ extension UIImage {
             w = w * kAmbatanaMaxProductImageSide / h
             h = kAmbatanaMaxProductImageSide
         }
-        return self.resizedImageToSize(CGSizeMake(w, h), interpolationQuality: kCGInterpolationMedium)
+        return self.resizedImageToSize(CGSizeMake(w, h), interpolationQuality: interpolationQuality)
     }
     
     // Returns a copy of the image, resized to a new size with certain interpolation quality.

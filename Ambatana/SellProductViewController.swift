@@ -627,7 +627,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        println("hello!")
         restoreOriginalPosition()
     }
 

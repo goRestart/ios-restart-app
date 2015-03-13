@@ -2751,11 +2751,11 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="VFl-zA-Skv"/>
         <segue reference="UIK-Ry-K1T"/>
         <segue reference="b6L-hI-Q4s"/>
         <segue reference="HOf-mn-VEJ"/>
-        <segue reference="n3G-ME-bRv"/>
-        <segue reference="V6S-hJ-EVB"/>
+        <segue reference="GO5-BN-lJQ"/>
+        <segue reference="12S-md-pjw"/>
+        <segue reference="VFl-zA-Skv"/>
     </inferredMetricsTieBreakers>
 </document>
