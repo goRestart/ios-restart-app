@@ -53,6 +53,10 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
         self.refreshControl.addTarget(self, action: "refreshProductList", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
+        
+//        UINib *nib = [UINib nibWithNibName:@"MyCell" bundle: nil];
+        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
+        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -148,98 +152,42 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductListCell", forIndexPath: indexPath) as UICollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as ProductCell
         
-        // configure cell
-        let productObject = entries[indexPath.row]
+        let product = entries[indexPath.row]
+        cell.setupCellWithProduct(product)
         
-        // name
-        let productName = productObject["name"] as? String ?? ""
-        if let nameLabel = cell.viewWithTag(1) as? UILabel {
-            nameLabel.text = productName
-            nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        }
-        // price
-        if let priceLabel = cell.viewWithTag(2) as? UILabel {
-            priceLabel.hidden = true
-            if let price = productObject["price"] as? Double {
-                let currencyString = productObject["currency"] as? String ?? CurrencyManager.sharedInstance.defaultCurrency.iso4217Code
-                if let currency = CurrencyManager.sharedInstance.currencyForISO4217Symbol(currencyString) {
-                    priceLabel.text = currency.formattedCurrency(price)
-                    priceLabel.hidden = false
-                } else { // fallback to just price.
-                    priceLabel.text = "\(price)"
-                    priceLabel.hidden = false
-                }
-                let boldBodyDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody).fontDescriptorWithSymbolicTraits(.TraitBold)
-                priceLabel.font = UIFont(descriptor: boldBodyDescriptor, size: 0.0)
-            }
-        }
-        
-        // image
-        // TODO: Implement a image cache for images...?
-        if let imageView = cell.viewWithTag(3) as? UIImageView {
-            // clean image first
-            imageView.image = nil
-            imageView.setNeedsDisplay()
-            
-            // get image from object
-            if productObject[kAmbatanaProductFirstImageKey] != nil {
-                let imageFile = productObject[kAmbatanaProductFirstImageKey] as PFFile
-                // if processed == true, we try to retrieve the previously generated thumbnail images.
-                var useThumbnails = false
-                if let processed = productObject["processed"] as? Bool {
-                    useThumbnails = processed
-                }
-                
-                if useThumbnails { // can we try to download the image from the generated thumbnail?
-                    let thumbnailURL = ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(productObject.objectId, imageURL: imageFile.url)
-                    ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image) -> Void in
-                        if success {
-                            imageView.image = image
-                            imageView.contentMode = .ScaleAspectFill
-                            imageView.clipsToBounds = true
-                        } else { // failure, fallback to parse PFFile for the image.
-                            self.retrieveImageFile(imageFile, andAssignToImageView: imageView)
-                        }
-                    })
-                } else { // stick to the Parse big fat old image...
-                    self.retrieveImageFile(imageFile, andAssignToImageView: imageView)
-                }
-            }
-        }
-        
-        // distance
-        // TODO: Check if there's a better way of getting the distance in km. Maybe in the query?
-        if let distanceLabel = cell.viewWithTag(4) as? UILabel {
-            if let productGeoPoint = productObject["gpscoords"] as? PFGeoPoint {
-                let distance = productGeoPoint.distanceInKilometersTo(PFUser.currentUser()["gpscoords"] as PFGeoPoint)
-                if distance > 1.0 { distanceLabel.text = NSString(format: "%.1fK", distance) }
-                else {
-                    let metres: Int = Int(distance * 1000)
-                    if metres > 1 { distanceLabel.text = NSString(format: "%dM", metres) }
-                    else { distanceLabel.text = translate("here") }
-                }
-                distanceLabel.hidden = false
-            } else { distanceLabel.hidden = true }
-        }
+//        // distance
+//        // TODO: Check if there's a better way of getting the distance in km. Maybe in the query?
+//        if let distanceLabel = cell.viewWithTag(4) as? UILabel {
+//            if let productGeoPoint = productObject["gpscoords"] as? PFGeoPoint {
+//                let distance = productGeoPoint.distanceInKilometersTo(PFUser.currentUser()["gpscoords"] as PFGeoPoint)
+//                if distance > 1.0 { distanceLabel.text = NSString(format: "%.1fK", distance) }
+//                else {
+//                    let metres: Int = Int(distance * 1000)
+//                    if metres > 1 { distanceLabel.text = NSString(format: "%dM", metres) }
+//                    else { distanceLabel.text = translate("here") }
+//                }
+//                distanceLabel.hidden = false
+//            } else { distanceLabel.hidden = true }
+//        }
 
-        // status
-        if let tagView = cell.viewWithTag(5) as? UIImageView { // product status
-            if let statusValue = productObject["status"] as? Int {
-                if let status = ProductStatus(rawValue: productObject["status"].integerValue) {
-                    if (status == .Sold) {
-                        tagView.image = UIImage(named: "label_sold")
-                        tagView.hidden = false
-                    } else if productObject.createdAt != nil && NSDate().timeIntervalSinceDate(productObject.createdAt!) < 60*60*24 {
-                        tagView.image = UIImage(named: "label_new")
-                        tagView.hidden = false
-                    } else {
-                        tagView.hidden = true
-                    }
-                } else { tagView.hidden = true }
-            } else { tagView.hidden = true }
-        }
+//        // status
+//        if let tagView = cell.viewWithTag(5) as? UIImageView { // product status
+//            if let statusValue = productObject["status"] as? Int {
+//                if let status = ProductStatus(rawValue: productObject["status"].integerValue) {
+//                    if (status == .Sold) {
+//                        tagView.image = UIImage(named: "label_sold")
+//                        tagView.hidden = false
+//                    } else if productObject.createdAt != nil && NSDate().timeIntervalSinceDate(productObject.createdAt!) < 60*60*24 {
+//                        tagView.image = UIImage(named: "label_new")
+//                        tagView.hidden = false
+//                    } else {
+//                        tagView.hidden = true
+//                    }
+//                } else { tagView.hidden = true }
+//            } else { tagView.hidden = true }
+//        }
         
         // If we are close to the end (last cells) query the next products...
         if (indexPath.row > entries.count - 3) {
@@ -247,16 +195,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         }
         
         return cell
-    }
-    
-    func retrieveImageFile(imageFile: PFFile, andAssignToImageView imageView: UIImageView) {
-        ImageManager.sharedInstance.retrieveImageFromParsePFFile(imageFile, completion: { (success, image) -> Void in
-            if success {
-                imageView.image = image
-                imageView.contentMode = .ScaleAspectFill
-                imageView.clipsToBounds = true
-            }
-        }, andAddToCache: true)
     }
     
     // MARK: - UICollectionViewDelegate methods
@@ -610,11 +548,16 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         let diff = scrollView.contentOffset.y - self.lastContentOffset
         if diff > kAmbatanaContentScrollingDownThreshold {
             UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
+                println("AAAAAAAAAAAAAAAAAAAAAA22222")
                 self.sellButton.transform = CGAffineTransformMakeTranslation(0, 3*self.sellButton.frame.size.height)
+                println("BBBBBBBBBBBBBBBBBBBBBB22222")
+                
             }, completion: nil)
         } else if diff < kAmbatanaContentScrollingUpThreshold {
             UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.6, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
+                println("AAAAAAAAAAAAAAAAAAAAAA33333")
                 self.sellButton.transform = CGAffineTransformIdentity
+                println("BBBBBBBBBBBBBBBBBBBBBB333333")
             }, completion: nil)
         }
         self.lastContentOffset = scrollView.contentOffset.y
@@ -622,7 +565,9 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     func scrollViewDidScrollToTop(scrollView: UIScrollView) {
         UIView.animateWithDuration(0.30, animations: { () -> Void in
+            println("AAAAAAAAAAAAAAAAAAAAAA")
             self.sellButton.transform = CGAffineTransformIdentity
+            println("BBBBBBBBBBBBBBBBBBBBBB")
         })
     }
 

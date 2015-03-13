@@ -65,9 +65,10 @@
 		66FC91191A921C970008AFAD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FC91181A921C970008AFAD /* SignUpViewController.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
-		66FF4D791A95F5520095CBD6 /* SetFavoriteCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D781A95F5520095CBD6 /* SetFavoriteCategoriesViewController.swift */; };
 		D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43FF0241AB0737400757EED /* ProductLocationViewController.swift */; };
 		D43FF0271AB073C200757EED /* ProductLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D43FF0261AB073C100757EED /* ProductLocationViewController.xib */; };
+		D48183F71AB2FEBE00229DBF /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48183F51AB2FEBE00229DBF /* ProductCell.swift */; };
+		D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48183F61AB2FEBE00229DBF /* ProductCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,9 +134,10 @@
 		66FC91181A921C970008AFAD /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		66FF4D781A95F5520095CBD6 /* SetFavoriteCategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetFavoriteCategoriesViewController.swift; sourceTree = "<group>"; };
 		D43FF0241AB0737400757EED /* ProductLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLocationViewController.swift; sourceTree = "<group>"; };
 		D43FF0261AB073C100757EED /* ProductLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLocationViewController.xib; sourceTree = "<group>"; };
+		D48183F51AB2FEBE00229DBF /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
+		D48183F61AB2FEBE00229DBF /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -304,6 +306,8 @@
 				669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */,
 				D43FF0241AB0737400757EED /* ProductLocationViewController.swift */,
 				D43FF0261AB073C100757EED /* ProductLocationViewController.xib */,
+				D48183F51AB2FEBE00229DBF /* ProductCell.swift */,
+				D48183F61AB2FEBE00229DBF /* ProductCell.xib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -484,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
+				D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */,
 				66A509D71A947CAA001EECE9 /* Localizable.strings in Resources */,
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
 				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
@@ -515,6 +520,7 @@
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
 				665BAB511A97D7B5005A8E19 /* MakeAnOfferViewController.swift in Sources */,
 				66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */,
+				D48183F71AB2FEBE00229DBF /* ProductCell.swift in Sources */,
 				66A0CFB51A8262BB00FAADF0 /* MenuViewController.swift in Sources */,
 				66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */,
 				66349B531AACAD2200AE0FDF /* DLHamburguerNavigationController.swift in Sources */,
