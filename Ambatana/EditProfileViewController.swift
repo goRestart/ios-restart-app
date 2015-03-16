@@ -8,10 +8,6 @@
 
 import UIKit
 
-enum UserProductsListType: Int {
-    case Sell = 0, Sold, Favorite
-}
-
 private let kAmbatanaDisabledButtonBackgroundColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1.0)
 private let kAmbatanaDisabledButtonForegroundColor = UIColor.lightGrayColor()
 private let kAmbatanaEnabledButtonBackgroundColor = UIColor.whiteColor()
@@ -20,6 +16,12 @@ private let kAmbatanaEditProfileCellFactor: CGFloat = 190.0 / 145.0
 
 
 class EditProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    enum ProfileTab {
+        case Product(ProductStatus) // sell / sold
+        case ProductFavourite       // fav
+    }
+    
     // outlets && buttons
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -38,17 +40,16 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     // data
     var userObject: PFUser?
-    var currentType: UserProductsListType = .Sell {
-        didSet {
-            if (oldValue != currentType) {
-                collectionView.reloadSections(NSIndexSet(index: 0))
-                selectButton(selectedButtonForProductsListType(currentType))
-            }
-        }
-    }
-    var sellEntries: [PFObject]?
-    var soldEntries: [PFObject]?
-    var favoriteEntries: [PFObject]?
+    var selectedTab: ProfileTab = .Product(ProductStatus.Approved) /* sell */
+    
+    private var sellProducts: [Product] = []
+    private var soldProducts: [Product] = []
+    private var favProducts: [Product] = []
+    
+    private var loadingSellProducts: Bool = false
+    private var loadingSoldProducts: Bool = false
+    private var loadingFavProducts: Bool = false
+    
     var cellSize = CGSizeMake(145.0, 190.0)
     
     override func viewDidLoad() {
@@ -70,15 +71,20 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         sellButton.setTitle(translate("selling_button"), forState: .Normal)
         soldButton.setTitle(translate("sold"), forState: .Normal)
         favoriteButton.setTitle(translate("favorited"), forState: .Normal)
-    }
-    
-    func goToSettings() {
-        performSegueWithIdentifier("Settings", sender: nil)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
+        // ui
+        collectionView.hidden = true
+        activityIndicator.hidden = false
+        activityIndicator.startAnimating()
+        
+        // load
+        retrieveProductsForTab(ProfileTab.Product(ProductStatus.Approved))
+        retrieveProductsForTab(ProfileTab.Product(ProductStatus.Sold))
+        retrieveProductsForTab(ProfileTab.ProductFavourite)
+        
+        // register ProductCell
+        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
+        collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -105,179 +111,29 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             // Current user has the option of editing his/her settings
             if userObject!.objectId == PFUser.currentUser().objectId { setAmbatanaRightButtonsWithImageNames(["actionbar_edit"], andSelectors: ["goToSettings"]) }
         }
-        
-        // check products
-        if sellEntries == nil || soldEntries == nil || favoriteEntries == nil {
-            collectionView.hidden = true
-            activityIndicator.hidden = false
-            activityIndicator.startAnimating()
-            loadInitialProductsForUser()
-        } else if sellEntries!.count + soldEntries!.count + favoriteEntries!.count == 0 { // Unable to get any products.
-            noProductsAvailableToShow()
-        } else { // we do have some products to show.
-            collectionView.hidden = false
-            activityIndicator.hidden = true
-            activityIndicator.stopAnimating()
-            collectionView.reloadSections(NSIndexSet(index: 0))
-        }
     }
     
-    func loadInitialProductsForUser() {
-        println("Loading initial products...")
-        if userObject == nil {
-            noProductsAvailableToShow()
-        } else {
-            // query for all user favorited products
-            let innerQuery = PFQuery(className: "UserFavoriteProducts")
-            innerQuery.whereKey("user", equalTo: userObject)
-            let favoriteProductsQuery = PFQuery(className: "Products")
-            favoriteProductsQuery.whereKey("user", matchesKey: "user", inQuery: innerQuery)
-            
-            // query for all user products
-            let userProductsQuery = PFQuery(className: "Products")
-            userProductsQuery.whereKey("user", equalTo: userObject)
-            
-            // perform global query query.
-            let query = PFQuery.orQueryWithSubqueries([favoriteProductsQuery, userProductsQuery])
-            query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
-                if error == nil && objects?.count > 0 {
-                    self.handleRetrievedProducts(objects as [PFObject])
-                } else {
-                    self.noProductsAvailableToShow()
-                }
-            })
-        }
-    }
+    // MARK: - Actions
     
-    func handleRetrievedProducts(products: [PFObject]) {
-        // sanity check
-        if userObject == nil { return }
-        println("Found some items... analyzing")
-        
-        // initialize product arrays
-        sellEntries = []
-        soldEntries = []
-        favoriteEntries = []
-        
-        for product in products {
-            let ownerOfTheProduct = product["user"] as PFUser
-            if ownerOfTheProduct.objectId == userObject!.objectId { // watched user is the owner of this product. Either sell it or sold it.
-                if let status = ProductStatus(rawValue: product.objectForKey("status") as? Int ?? -1) {
-                    if status == .Sold {
-                        soldEntries!.append(product)
-                    } else if status == .Approved {
-                        sellEntries!.append(product)
-                    }
-                }
-            } else { // user favorited the product
-                favoriteEntries!.append(product)
-            }
-            println("Processed product: \(product)")
-        }
-        
-        if sellEntries!.count + soldEntries!.count + favoriteEntries!.count == 0 { // Unable to get any products.
-            noProductsAvailableToShow()
-        } else { // We have some really cool products to show here, so go ahead!
-            collectionView.hidden = false
-            youDontHaveSubtitleLabel.hidden = true
-            youDontHaveTitleLabel.hidden = true
-            startSearchingNowButton.hidden = true
-            startSearchingNowButton.hidden = true
-            
-            activityIndicator.hidden = true
-            activityIndicator.stopAnimating()
-            collectionView.reloadSections(NSIndexSet(index: 0))
-        }
-        
+    func goToSettings() {
+        performSegueWithIdentifier("Settings", sender: nil)
     }
-    
-    func noProductsAvailableToShow() {
-        println("No products were found for user \(userObject)")
-        collectionView.hidden = true
-        youDontHaveTitleLabel.hidden = false
-        activityIndicator.hidden = true
-        activityIndicator.stopAnimating()
-        sellButton.hidden = true
-        soldButton.hidden = true
-        favoriteButton.hidden = true
-        sellEntries = []
-        soldEntries = []
-        favoriteEntries = []
-        
-        // set text depending on if we are the user being shown or not.
-        if userObject?.objectId == PFUser.currentUser()?.objectId { // user is me!
-            youDontHaveSubtitleLabel.hidden = false
-            youDontHaveTitleLabel.text = translate("no_published_favorited_products")
-            startSearchingNowButton.hidden = false
-            startSellingNowButton.hidden = false
-        } else {
-            youDontHaveSubtitleLabel.hidden = true
-            youDontHaveTitleLabel.text = translate("this_user_no_published_favorited_products")
-            startSearchingNowButton.hidden = true
-            startSellingNowButton.hidden = true
-        }
-    }
-    
-    // MARK: - Button actions
     
     @IBAction func showSellProducts(sender: AnyObject) {
-        currentType = .Sell
-        checkEntriesForSelectedProductList(sellEntries)
+        selectedTab = .Product(ProductStatus.Approved)
+        updateUIForCurrentTab()
     }
 
     @IBAction func showSoldProducts(sender: AnyObject) {
-        currentType = .Sold
-        checkEntriesForSelectedProductList(soldEntries)
+        selectedTab = .Product(ProductStatus.Sold)
+        updateUIForCurrentTab()
     }
     
     @IBAction func showFavoritedProducts(sender: AnyObject) {
-        currentType = .Favorite
-        checkEntriesForSelectedProductList(favoriteEntries)
+        selectedTab = .ProductFavourite
+        updateUIForCurrentTab()
     }
     
-    func checkEntriesForSelectedProductList(entries: [AnyObject]?) {
-        // check entries.
-        if entries == nil {
-            
-        } else if entries!.count > 0 {
-            youDontHaveTitleLabel.hidden = true
-            collectionView.hidden = false
-            collectionView.reloadSections(NSIndexSet(index: 0))
-        } else {
-            youDontHaveTitleLabel.hidden = false
-            youDontHaveTitleLabel.text = translate("no_items_in_this_section")
-            collectionView.hidden = true
-        }
-    }
-    
-    func selectedButtonForProductsListType(type: UserProductsListType) -> UIButton {
-        switch (type) {
-        case .Sell:
-            return sellButton
-        case .Sold:
-            return soldButton
-        case .Favorite:
-            return favoriteButton
-        }
-    }
-    
-    func selectButton(button: UIButton) {
-        button.backgroundColor = kAmbatanaEnabledButtonBackgroundColor
-        button.setTitleColor(kAmbatanaEnabledButtonForegroundColor, forState: .Normal)
-        if button != sellButton {
-            sellButton.backgroundColor = kAmbatanaDisabledButtonBackgroundColor
-            sellButton.setTitleColor(kAmbatanaDisabledButtonForegroundColor, forState: .Normal)
-        }
-        if button != soldButton {
-            soldButton.backgroundColor = kAmbatanaDisabledButtonBackgroundColor
-            soldButton.setTitleColor(kAmbatanaDisabledButtonForegroundColor, forState: .Normal)
-        }
-        if button != favoriteButton {
-            favoriteButton.backgroundColor = kAmbatanaDisabledButtonBackgroundColor
-            favoriteButton.setTitleColor(kAmbatanaDisabledButtonForegroundColor, forState: .Normal)
-        }
-    }
-
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
@@ -297,108 +153,214 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch (currentType) {
-        case .Sell:
-            return sellEntries?.count ?? 0
-        case .Sold:
-            return soldEntries?.count ?? 0
-        case .Favorite:
-            return favoriteEntries?.count ?? 0
+        switch selectedTab {
+        case .Product(let status):
+            switch status {
+            case .Approved: // Selling
+                return sellProducts.count
+            case .Sold:
+                return soldProducts.count
+            default:
+                println("not handled!")
+            }
+        case .ProductFavourite:
+            return favProducts.count
         }
+        return 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductListCell", forIndexPath: indexPath) as UICollectionViewCell
-
-        // get the type of product depending on the selected button.
-        var productObject: PFObject!
-        switch (currentType) {
-        case .Sell:
-            productObject = sellEntries![indexPath.row]
-        case .Sold:
-            productObject = soldEntries![indexPath.row]
-        case .Favorite:
-            productObject = favoriteEntries![indexPath.row]
-        }
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as ProductCell
+        cell.tag = indexPath.hash
         
-        // name
-        if let nameLabel = cell.viewWithTag(1) as? UILabel {
-            nameLabel.text = productObject["name"] as? String ?? ""
-        }
-        // price
-        if let priceLabel = cell.viewWithTag(2) as? UILabel {
-            priceLabel.hidden = true
-            if let price = productObject["price"] as? Double {
-                let currencyString = productObject["currency"] as? String ?? CurrencyManager.sharedInstance.defaultCurrency.iso4217Code
-                if let currency = CurrencyManager.sharedInstance.currencyForISO4217Symbol(currencyString) {
-                    priceLabel.text = currency.formattedCurrency(price)
-                    priceLabel.hidden = false
-                } else { // fallback to just price.
-                    priceLabel.text = "\(price)"
-                    priceLabel.hidden = false
-                }
-            } else { priceLabel.hidden = true }
-        }
-        
-        // image
-        if let imageView = cell.viewWithTag(3) as? UIImageView {
-            if productObject[kAmbatanaProductFirstImageKey] != nil {
-                let imageFile = productObject[kAmbatanaProductFirstImageKey] as PFFile
-                ImageManager.sharedInstance.retrieveImageFromParsePFFile(imageFile, completion: { (success, image) -> Void in
-                    if success {
-                        imageView.image = image
-                        imageView.contentMode = .ScaleAspectFill
-                        imageView.clipsToBounds = true
-                    }
-
-                }, andAddToCache: true)
-            }
-        }
-        
-        // distance
-        // TODO: Check if there's a better way of getting the distance in km. Maybe in the query?
-        if let distanceLabel = cell.viewWithTag(4) as? UILabel {
-            if let productGeoPoint = productObject["gpscoords"] as? PFGeoPoint {
-                let distance = productGeoPoint.distanceInKilometersTo(PFUser.currentUser()["gpscoords"] as PFGeoPoint)
-                distanceLabel.text = NSString(format: "%.1fK", distance)
-                distanceLabel.hidden = false
-            } else { distanceLabel.hidden = true }
-        }
-        
-        // status
-        if let tagView = cell.viewWithTag(5) as? UIImageView { // product status
-            if let statusValue = productObject["status"] as? Int {
-                if let status = ProductStatus(rawValue: productObject["status"].integerValue) {
-                    if (status == .Sold) {
-                        tagView.image = UIImage(named: "label_sold")
-                        tagView.hidden = false
-                    } else if productObject.createdAt != nil && NSDate().timeIntervalSinceDate(productObject.createdAt!) < 60*60*24 {
-                        tagView.image = UIImage(named: "label_new")
-                        tagView.hidden = false
-                    } else {
-                        tagView.hidden = true
-                    }
-                } else { tagView.hidden = true }
-            } else { tagView.hidden = true }
-        }
+        // TODO: Refactor the cell to use Product instead of PFObject/PFProduct and remove this cast
+        var product = self.productAtIndexPath(indexPath)! as PFProduct
+        cell.setupCellWithProduct(product, indexPath: indexPath)
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // get the type of product depending on the selected button.
-        var productObject: PFObject!
-        switch (currentType) {
-        case .Sell:
-            productObject = sellEntries![indexPath.row]
-        case .Sold:
-            productObject = soldEntries![indexPath.row]
-        case .Favorite:
-            productObject = favoriteEntries![indexPath.row]
-        }
+        var product = self.productAtIndexPath(indexPath)
+        
         if let spvc = self.storyboard?.instantiateViewControllerWithIdentifier("showProductViewController") as? ShowProductViewController {
-            spvc.productObject = productObject
+            spvc.productObject = product as? PFProduct
             self.navigationController?.pushViewController(spvc, animated: true)
         }
+    }
+    
+    // MARK: - UI
+    
+    func selectButton(button: UIButton) {
+        button.backgroundColor = kAmbatanaEnabledButtonBackgroundColor
+        button.setTitleColor(kAmbatanaEnabledButtonForegroundColor, forState: .Normal)
+        if button != sellButton {
+            sellButton.backgroundColor = kAmbatanaDisabledButtonBackgroundColor
+            sellButton.setTitleColor(kAmbatanaDisabledButtonForegroundColor, forState: .Normal)
+        }
+        if button != soldButton {
+            soldButton.backgroundColor = kAmbatanaDisabledButtonBackgroundColor
+            soldButton.setTitleColor(kAmbatanaDisabledButtonForegroundColor, forState: .Normal)
+        }
+        if button != favoriteButton {
+            favoriteButton.backgroundColor = kAmbatanaDisabledButtonBackgroundColor
+            favoriteButton.setTitleColor(kAmbatanaDisabledButtonForegroundColor, forState: .Normal)
+        }
+    }
+    
+    func updateUIForCurrentTab() {
+        var products: [AnyObject] = []
+        switch selectedTab {
+        case .Product(let status):
+            switch status {
+            case .Approved: // Selling
+                products = sellProducts
+            case .Sold:
+                products = soldProducts
+            default:
+                println("not handled!")
+            }
+        case .ProductFavourite:
+            products = favProducts
+        }
+        
+        if products.isEmpty {
+            youDontHaveTitleLabel.hidden = false
+            youDontHaveTitleLabel.text = translate("no_items_in_this_section")
+            collectionView.hidden = true
+        }
+        else {
+            youDontHaveTitleLabel.hidden = true
+            collectionView.hidden = false
+            collectionView.reloadSections(NSIndexSet(index: 0))
+        }
+        
+        switch selectedTab {
+        case .Product(let status):
+            switch status {
+            case .Approved: // Selling
+                selectButton(sellButton)
+            case .Sold:
+                selectButton(soldButton)
+            default:
+                println("not handled!")
+            }
+        case .ProductFavourite:
+            selectButton(favoriteButton)
+        }
+    }
+    
+    // MARK: - Requests
+    
+    func retrieveProductsForTab(tab: ProfileTab) {
+        switch tab {
+        case .Product(let status):
+            switch status {
+            case .Approved: // Selling
+                loadingSellProducts = true
+                
+                PFProductManager.retrieveProductsForUserId(userObject?.objectId, status: status, completion: {
+                    [weak self] (products, error) -> Void in
+                    if error == nil && products.count > 0 {
+                        self?.sellProducts = products
+                    }
+                    self?.loadingSellProducts = false
+                    self?.retrievalFinishedForProductsAtTab(tab)
+                })
+            case .Sold:
+                loadingSoldProducts = true
+                
+                PFProductManager.retrieveProductsForUserId(userObject?.objectId, status: status, completion: {
+                    [weak self] (products, error) -> Void in
+                    if error == nil && products.count > 0 {
+                        self?.soldProducts = products
+                    }
+                    self?.loadingSoldProducts = false
+                    self?.retrievalFinishedForProductsAtTab(tab)
+                })
+            default:
+                println("not handled!")
+            }
+        case .ProductFavourite:
+            loadingFavProducts = true
+            
+            PFProductManager.retrieveFavouriteProductsForUserId(userObject?.objectId, completion: {
+                [weak self] (products, error) -> Void in
+                if error == nil && products.count > 0 {
+                    self?.favProducts = products
+                }
+                self?.loadingFavProducts = false
+                self?.retrievalFinishedForProductsAtTab(tab)
+            })
+        }
+    }
+    
+    func retrievalFinishedForProductsAtTab(tab: ProfileTab) {
+        // If any tab is loading, then quit this function
+        if loadingSellProducts || loadingSoldProducts || loadingFavProducts {
+            return
+        }
+        
+        activityIndicator.hidden = true
+        activityIndicator.stopAnimating()
+        
+        // If the 3 tabs are empty then display update UI with "no products available"
+        if sellProducts.isEmpty && soldProducts.isEmpty && favProducts.isEmpty {
+            
+            collectionView.hidden = true
+            youDontHaveTitleLabel.hidden = false
+            sellButton.hidden = true
+            soldButton.hidden = true
+            favoriteButton.hidden = true
+            
+            // set text depending on if we are the user being shown or not
+            if userObject?.objectId == PFUser.currentUser()?.objectId { // user is me!
+                youDontHaveTitleLabel.text = translate("no_published_favorited_products")
+                youDontHaveSubtitleLabel.hidden = false
+                
+                startSearchingNowButton.hidden = false
+                startSellingNowButton.hidden = false
+            }
+            else {
+                youDontHaveTitleLabel.text = translate("this_user_no_published_favorited_products")
+                youDontHaveSubtitleLabel.hidden = true
+                
+                startSearchingNowButton.hidden = true
+                startSellingNowButton.hidden = true
+            }
+        }
+        // Else, update the UI and refresh the collection view
+        else {
+            collectionView.hidden = false
+            
+            youDontHaveTitleLabel.hidden = true
+            youDontHaveSubtitleLabel.hidden = true
+            
+            startSearchingNowButton.hidden = true
+            startSellingNowButton.hidden = true
+            
+            updateUIForCurrentTab()
+        }
+    }
+    
+    // MARK: Helper
+    
+    func productAtIndexPath(indexPath: NSIndexPath) -> Product? {
+        let row = indexPath.row
+        var product: Product?
+        switch selectedTab {
+        case .Product(let status):
+            switch status {
+            case .Approved: // Selling
+                product = sellProducts[row]
+            case .Sold:
+                product = soldProducts[row]
+            default:
+                println("not handled!")
+            }
+        case .ProductFavourite:
+            product = favProducts[row]
+        }
+        return product
     }
 }

@@ -36,11 +36,6 @@
 		669A0FAD1A8D0CF000B96EC8 /* CommonDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A0FAC1A8D0CF000B96EC8 /* CommonDataTypes.swift */; };
 		66A0CFB31A82548C00FAADF0 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFB21A82548C00FAADF0 /* RootViewController.swift */; };
 		66A0CFB51A8262BB00FAADF0 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFB41A8262BB00FAADF0 /* MenuViewController.swift */; };
-		66A0CFC01A83608900FAADF0 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFBB1A83608900FAADF0 /* Bolts.framework */; };
-		66A0CFC11A83608900FAADF0 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFBC1A83608900FAADF0 /* Parse.framework */; };
-		66A0CFC21A83608900FAADF0 /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFBD1A83608900FAADF0 /* ParseCrashReporting.framework */; };
-		66A0CFC31A83608900FAADF0 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFBE1A83608900FAADF0 /* ParseFacebookUtils.framework */; };
-		66A0CFC41A83608900FAADF0 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFBF1A83608900FAADF0 /* ParseUI.framework */; };
 		66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */; };
 		66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC61A83612500FAADF0 /* CFNetwork.framework */; };
 		66A0CFD21A83612500FAADF0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC71A83612500FAADF0 /* CoreGraphics.framework */; };
@@ -51,7 +46,6 @@
 		66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */; };
 		66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCD1A83612500FAADF0 /* Security.framework */; };
 		66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCF1A83612500FAADF0 /* SystemConfiguration.framework */; };
-		66A0CFDE1A83638500FAADF0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFDD1A83638500FAADF0 /* FacebookSDK.framework */; };
 		66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFE21A8373F800FAADF0 /* EditProfileViewController.swift */; };
 		66A0CFE51A83740D00FAADF0 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFE41A83740D00FAADF0 /* ChatViewController.swift */; };
 		66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFE71A83742900FAADF0 /* CategoriesViewController.swift */; };
@@ -65,11 +59,18 @@
 		66FC91191A921C970008AFAD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FC91181A921C970008AFAD /* SignUpViewController.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
+		B21B3B6956F8367C5A52D277 /* libPods-Ambatana.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */; };
 		D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43FF0241AB0737400757EED /* ProductLocationViewController.swift */; };
 		D43FF0271AB073C200757EED /* ProductLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D43FF0261AB073C100757EED /* ProductLocationViewController.xib */; };
+		D48183F71AB2FEBE00229DBF /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48183F51AB2FEBE00229DBF /* ProductCell.swift */; };
+		D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48183F61AB2FEBE00229DBF /* ProductCell.xib */; };
+		D48ACCC01AB6D5BA00F2CDAC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48ACCBF1AB6D5BA00F2CDAC /* Product.swift */; };
+		D48ACCC21AB6E9B900F2CDAC /* MyProductsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48ACCC11AB6E9B900F2CDAC /* MyProductsManager.swift */; };
+		D4FBAEC81AB72999001C6D10 /* FavProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FBAEC71AB72999001C6D10 /* FavProduct.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.debug.xcconfig"; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* Ambatana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ambatana.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -102,11 +103,6 @@
 		66A0CF9F1A82533500FAADF0 /* Ambatana-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ambatana-Bridging-Header.h"; sourceTree = "<group>"; };
 		66A0CFB21A82548C00FAADF0 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		66A0CFB41A8262BB00FAADF0 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		66A0CFBB1A83608900FAADF0 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		66A0CFBC1A83608900FAADF0 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		66A0CFBD1A83608900FAADF0 /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
-		66A0CFBE1A83608900FAADF0 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
-		66A0CFBF1A83608900FAADF0 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		66A0CFC61A83612500FAADF0 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		66A0CFC71A83612500FAADF0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -117,7 +113,6 @@
 		66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		66A0CFCD1A83612500FAADF0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		66A0CFCF1A83612500FAADF0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		66A0CFDD1A83638500FAADF0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		66A0CFE21A8373F800FAADF0 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		66A0CFE41A83740D00FAADF0 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		66A0CFE71A83742900FAADF0 /* CategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
@@ -132,8 +127,15 @@
 		66FC91181A921C970008AFAD /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ambatana.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43FF0241AB0737400757EED /* ProductLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLocationViewController.swift; sourceTree = "<group>"; };
 		D43FF0261AB073C100757EED /* ProductLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLocationViewController.xib; sourceTree = "<group>"; };
+		D48183F51AB2FEBE00229DBF /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
+		D48183F61AB2FEBE00229DBF /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
+		D48ACCBF1AB6D5BA00F2CDAC /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Product.swift; path = Model/Product.swift; sourceTree = "<group>"; };
+		D48ACCC11AB6E9B900F2CDAC /* MyProductsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProductsManager.swift; sourceTree = "<group>"; };
+		D4FBAEC71AB72999001C6D10 /* FavProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavProduct.swift; sourceTree = "<group>"; };
+		DCE9C67541895BFFB3F852AD /* Pods-Ambatana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,20 +151,24 @@
 				66A0CFD51A83612500FAADF0 /* libz.dylib in Frameworks */,
 				66A0CFD61A83612500FAADF0 /* MobileCoreServices.framework in Frameworks */,
 				66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */,
-				66A0CFDE1A83638500FAADF0 /* FacebookSDK.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
-				66A0CFC11A83608900FAADF0 /* Parse.framework in Frameworks */,
-				66A0CFC21A83608900FAADF0 /* ParseCrashReporting.framework in Frameworks */,
-				66A0CFC41A83608900FAADF0 /* ParseUI.framework in Frameworks */,
-				66A0CFC31A83608900FAADF0 /* ParseFacebookUtils.framework in Frameworks */,
-				66A0CFC01A83608900FAADF0 /* Bolts.framework in Frameworks */,
+				B21B3B6956F8367C5A52D277 /* libPods-Ambatana.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64C1081049FDC4ED543B1297 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */,
+				DCE9C67541895BFFB3F852AD /* Pods-Ambatana.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6601BFBF1A8E5A7400A2C60B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +183,8 @@
 			children = (
 				6608E0381A820FBD005895ED /* Ambatana */,
 				6608E0371A820FBD005895ED /* Products */,
+				64C1081049FDC4ED543B1297 /* Pods */,
+				ABA47C14BB52140048297810 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -237,9 +245,7 @@
 				665713E71AADF14100B4721C /* DLImageResize */,
 				66349B4D1AACAD0D00AE0FDF /* DLHamburguer */,
 				66C0D0021AA5E9990070F311 /* Custom Badge */,
-				66A0CFDC1A83637B00FAADF0 /* Facebook */,
 				66A0CFDB1A83616100FAADF0 /* Frameworks */,
-				66A0CFBA1A83608900FAADF0 /* parse-library-1.6.2 */,
 			);
 			name = "3rd Party";
 			sourceTree = "<group>";
@@ -279,6 +285,9 @@
 				667562AE1A96380E00039151 /* ImageManager.swift */,
 				6674FF7E1A9CA217006321C2 /* CurrencyManager.swift */,
 				6622AD951A9F471A00C357DE /* ChatManager.swift */,
+				D48ACCBF1AB6D5BA00F2CDAC /* Product.swift */,
+				D4FBAEC71AB72999001C6D10 /* FavProduct.swift */,
+				D48ACCC11AB6E9B900F2CDAC /* MyProductsManager.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -302,6 +311,8 @@
 				669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */,
 				D43FF0241AB0737400757EED /* ProductLocationViewController.swift */,
 				D43FF0261AB073C100757EED /* ProductLocationViewController.xib */,
+				D48183F51AB2FEBE00229DBF /* ProductCell.swift */,
+				D48183F61AB2FEBE00229DBF /* ProductCell.xib */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -345,19 +356,6 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
-		66A0CFBA1A83608900FAADF0 /* parse-library-1.6.2 */ = {
-			isa = PBXGroup;
-			children = (
-				66A0CFBB1A83608900FAADF0 /* Bolts.framework */,
-				66A0CFBC1A83608900FAADF0 /* Parse.framework */,
-				66A0CFBD1A83608900FAADF0 /* ParseCrashReporting.framework */,
-				66A0CFBE1A83608900FAADF0 /* ParseFacebookUtils.framework */,
-				66A0CFBF1A83608900FAADF0 /* ParseUI.framework */,
-			);
-			name = "parse-library-1.6.2";
-			path = "../parse-library-1.6.2";
-			sourceTree = "<group>";
-		};
 		66A0CFDB1A83616100FAADF0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,14 +371,6 @@
 				66A0CFCF1A83612500FAADF0 /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		66A0CFDC1A83637B00FAADF0 /* Facebook */ = {
-			isa = PBXGroup;
-			children = (
-				66A0CFDD1A83638500FAADF0 /* FacebookSDK.framework */,
-			);
-			name = Facebook;
 			sourceTree = "<group>";
 		};
 		66A0CFDF1A8372CC00FAADF0 /* Profile */ = {
@@ -417,6 +407,14 @@
 			name = "Sell Product";
 			sourceTree = "<group>";
 		};
+		ABA47C14BB52140048297810 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -424,9 +422,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "Ambatana" */;
 			buildPhases = (
+				B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */,
 				6608E0321A820FBD005895ED /* Sources */,
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
+				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -443,12 +443,12 @@
 		6608E02E1A820FBD005895ED /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = Ambatana;
 				TargetAttributes = {
 					6608E0351A820FBD005895ED = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = 97P9DZHP78;
+						DevelopmentTeam = 4936NV9Q2W;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -482,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
+				D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */,
 				66A509D71A947CAA001EECE9 /* Localizable.strings in Resources */,
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
 				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
@@ -492,6 +493,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6608E0321A820FBD005895ED /* Sources */ = {
@@ -505,6 +539,7 @@
 				667562AF1A96380E00039151 /* ImageManager.swift in Sources */,
 				6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */,
 				66C056D71A97900800F7EEA8 /* PlaceholderTextView.swift in Sources */,
+				D48ACCC21AB6E9B900F2CDAC /* MyProductsManager.swift in Sources */,
 				6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */,
 				667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */,
 				6649D1701A822232000F6966 /* ProductListViewController.swift in Sources */,
@@ -513,6 +548,7 @@
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
 				665BAB511A97D7B5005A8E19 /* MakeAnOfferViewController.swift in Sources */,
 				66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */,
+				D48183F71AB2FEBE00229DBF /* ProductCell.swift in Sources */,
 				66A0CFB51A8262BB00FAADF0 /* MenuViewController.swift in Sources */,
 				66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */,
 				66349B531AACAD2200AE0FDF /* DLHamburguerNavigationController.swift in Sources */,
@@ -530,11 +566,13 @@
 				66A0CFE51A83740D00FAADF0 /* ChatViewController.swift in Sources */,
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				66349B521AACAD2200AE0FDF /* DLHamburguerContainerViewController.swift in Sources */,
+				D4FBAEC81AB72999001C6D10 /* FavProduct.swift in Sources */,
 				66C0D0041AA5E9BB0070F311 /* CustomBadge.swift in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
 				6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */,
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
+				D48ACCC01AB6D5BA00F2CDAC /* Product.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,7 +642,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -646,6 +684,7 @@
 		};
 		6608E0561A820FBD005895ED /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -653,7 +692,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/parse-library-1.6.2",
 					"$(PROJECT_DIR)/Ambatana",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
@@ -667,6 +705,7 @@
 		};
 		6608E0571A820FBD005895ED /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCE9C67541895BFFB3F852AD /* Pods-Ambatana.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -674,7 +713,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/parse-library-1.6.2",
 					"$(PROJECT_DIR)/Ambatana",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
