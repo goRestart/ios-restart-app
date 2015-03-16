@@ -54,7 +54,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         self.refreshControl.addTarget(self, action: "refreshProductList", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
         
-//        UINib *nib = [UINib nibWithNibName:@"MyCell" bundle: nil];
+        // register ProductCell
         let cellNib = UINib(nibName: "ProductCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
     }
@@ -152,42 +152,13 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as ProductCell
         
         let product = entries[indexPath.row]
-        cell.setupCellWithProduct(product)
         
-//        // distance
-//        // TODO: Check if there's a better way of getting the distance in km. Maybe in the query?
-//        if let distanceLabel = cell.viewWithTag(4) as? UILabel {
-//            if let productGeoPoint = productObject["gpscoords"] as? PFGeoPoint {
-//                let distance = productGeoPoint.distanceInKilometersTo(PFUser.currentUser()["gpscoords"] as PFGeoPoint)
-//                if distance > 1.0 { distanceLabel.text = NSString(format: "%.1fK", distance) }
-//                else {
-//                    let metres: Int = Int(distance * 1000)
-//                    if metres > 1 { distanceLabel.text = NSString(format: "%dM", metres) }
-//                    else { distanceLabel.text = translate("here") }
-//                }
-//                distanceLabel.hidden = false
-//            } else { distanceLabel.hidden = true }
-//        }
-
-//        // status
-//        if let tagView = cell.viewWithTag(5) as? UIImageView { // product status
-//            if let statusValue = productObject["status"] as? Int {
-//                if let status = ProductStatus(rawValue: productObject["status"].integerValue) {
-//                    if (status == .Sold) {
-//                        tagView.image = UIImage(named: "label_sold")
-//                        tagView.hidden = false
-//                    } else if productObject.createdAt != nil && NSDate().timeIntervalSinceDate(productObject.createdAt!) < 60*60*24 {
-//                        tagView.image = UIImage(named: "label_new")
-//                        tagView.hidden = false
-//                    } else {
-//                        tagView.hidden = true
-//                    }
-//                } else { tagView.hidden = true }
-//            } else { tagView.hidden = true }
-//        }
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as ProductCell
+        cell.tag = indexPath.hash
+        
+        cell.setupCellWithProduct(product, indexPath: indexPath)
         
         // If we are close to the end (last cells) query the next products...
         if (indexPath.row > entries.count - 3) {
@@ -274,14 +245,17 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                         
                         // append results and register already retrieved IDs
                         var ids = ""
+                        var indexPaths: [AnyObject] = []
                         for retrievedObject in objects {
                             if let retrievedProduct = retrievedObject as? PFObject {
                                 self.entries.append(retrievedProduct)
                                 self.alreadyRetrievedProductIds.append(retrievedProduct.objectId)
                                 ids += "\(retrievedProduct.objectId), "
+                                indexPaths.append(NSIndexPath(forRow: self.entries.count, inSection: 0))
                             }
                         }
                         // Update UI
+//                        self.collectionView.insertItemsAtIndexPaths(indexPaths)
                         self.collectionView.reloadSections(NSIndexSet(index: 0))
                         self.disableLoadingInterface()
                     } else if (objects.count == 0) { // no more items found. Time to next bunch of products.
@@ -548,16 +522,16 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         let diff = scrollView.contentOffset.y - self.lastContentOffset
         if diff > kAmbatanaContentScrollingDownThreshold {
             UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                println("AAAAAAAAAAAAAAAAAAAAAA22222")
+//                println("AAAAAAAAAAAAAAAAAAAAAA22222")
                 self.sellButton.transform = CGAffineTransformMakeTranslation(0, 3*self.sellButton.frame.size.height)
-                println("BBBBBBBBBBBBBBBBBBBBBB22222")
+//                println("BBBBBBBBBBBBBBBBBBBBBB22222")
                 
             }, completion: nil)
         } else if diff < kAmbatanaContentScrollingUpThreshold {
             UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.6, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                println("AAAAAAAAAAAAAAAAAAAAAA33333")
-                self.sellButton.transform = CGAffineTransformIdentity
-                println("BBBBBBBBBBBBBBBBBBBBBB333333")
+//                println("AAAAAAAAAAAAAAAAAAAAAA33333")
+                self.sellButton.transform = CGAffineTransformIdentity   // AQUI HAY CRASH!
+//                println("BBBBBBBBBBBBBBBBBBBBBB333333")
             }, completion: nil)
         }
         self.lastContentOffset = scrollView.contentOffset.y
@@ -565,9 +539,9 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     func scrollViewDidScrollToTop(scrollView: UIScrollView) {
         UIView.animateWithDuration(0.30, animations: { () -> Void in
-            println("AAAAAAAAAAAAAAAAAAAAAA")
+//            println("AAAAAAAAAAAAAAAAAAAAAA")
             self.sellButton.transform = CGAffineTransformIdentity
-            println("BBBBBBBBBBBBBBBBBBBBBB")
+//            println("BBBBBBBBBBBBBBBBBBBBBB")
         })
     }
 

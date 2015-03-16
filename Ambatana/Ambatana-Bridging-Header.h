@@ -12,3 +12,6 @@
 #import <Parse/Parse.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import <FacebookSDK/FacebookSDK.h>
+
+// Image loading
+#import <SDWebImage/UIImageView+WebCache.h>

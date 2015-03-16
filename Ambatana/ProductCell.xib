@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
                         <rect key="frame" x="1" y="1" width="143" height="143"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -24,25 +24,25 @@
                             <constraint firstAttribute="width" secondItem="afm-Cf-H6I" secondAttribute="height" multiplier="1:1" id="GpM-h0-BaZ"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="label_new" translatesAutoresizingMaskIntoConstraints="NO" id="YS2-LS-u1b">
+                    <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="label_new" translatesAutoresizingMaskIntoConstraints="NO" id="YS2-LS-u1b" userLabel="Status Image View">
                         <rect key="frame" x="85" y="0.0" width="60" height="60"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="60" id="1ZD-GA-i5a"/>
                             <constraint firstAttribute="width" constant="60" id="nQn-a6-FqG"/>
                         </constraints>
                     </imageView>
-                    <view tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hG7-Tv-XZV">
+                    <view tag="6" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hG7-Tv-XZV" userLabel="Distance View">
                         <rect key="frame" x="84" y="124" width="60" height="20"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="listing_location" translatesAutoresizingMaskIntoConstraints="NO" id="jol-Oq-sqC">
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="listing_location" translatesAutoresizingMaskIntoConstraints="NO" id="jol-Oq-sqC" userLabel="Distance Icon Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="86V-1H-fhM"/>
                                     <constraint firstAttribute="height" constant="20" id="HiF-tx-oCg"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.9KM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WU3-Nn-oJh">
-                                <rect key="frame" x="17" y="0.0" width="40" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.9KM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WU3-Nn-oJh" userLabel="Distance Label">
+                                <rect key="frame" x="20" y="0.0" width="37" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -50,24 +50,23 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="60" id="Hni-0W-W0A"/>
                             <constraint firstAttribute="bottom" secondItem="jol-Oq-sqC" secondAttribute="bottom" id="Nd1-UJ-0DQ"/>
                             <constraint firstItem="WU3-Nn-oJh" firstAttribute="top" secondItem="hG7-Tv-XZV" secondAttribute="top" id="VD7-Pw-M02"/>
                             <constraint firstAttribute="bottom" secondItem="WU3-Nn-oJh" secondAttribute="bottom" id="eJC-eh-iT2"/>
                             <constraint firstAttribute="trailing" secondItem="WU3-Nn-oJh" secondAttribute="trailing" constant="3" id="hwx-pb-wba"/>
                             <constraint firstAttribute="height" constant="20" id="jwn-D0-fI3"/>
-                            <constraint firstItem="WU3-Nn-oJh" firstAttribute="leading" secondItem="jol-Oq-sqC" secondAttribute="trailing" constant="-3" id="n6w-X9-7J8"/>
+                            <constraint firstItem="WU3-Nn-oJh" firstAttribute="leading" secondItem="jol-Oq-sqC" secondAttribute="trailing" id="n6w-X9-7J8"/>
                             <constraint firstItem="jol-Oq-sqC" firstAttribute="top" secondItem="hG7-Tv-XZV" secondAttribute="top" id="pk3-Ab-TP9"/>
                             <constraint firstItem="jol-Oq-sqC" firstAttribute="leading" secondItem="hG7-Tv-XZV" secondAttribute="leading" id="x6h-A2-6T9"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123 €" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q3S-98-0Z1">
+                    <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123 €" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q3S-98-0Z1" userLabel="Price Label">
                         <rect key="frame" x="0.0" y="148" width="145" height="22"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iPad 4 Retina" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucl-Xb-lH0">
+                    <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iPad 4 Retina" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucl-Xb-lH0" userLabel="Name Label">
                         <rect key="frame" x="0.0" y="170" width="145" height="19"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -76,6 +75,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="afm-Cf-H6I" secondAttribute="trailing" constant="-7" id="1bM-Z0-r25"/>
+                    <constraint firstItem="afm-Cf-H6I" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hG7-Tv-XZV" secondAttribute="leading" priority="250" id="1d0-7s-W8N"/>
                     <constraint firstItem="Q3S-98-0Z1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="6cp-ij-IaM"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="YS2-LS-u1b" secondAttribute="top" constant="1" id="74f-Zr-Tgt"/>
                     <constraint firstItem="Q3S-98-0Z1" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="top" constant="-20" id="CFL-li-Trk"/>
@@ -98,8 +98,11 @@
                 </variation>
             </tableViewCellContentView>
             <connections>
+                <outlet property="distanceLabel" destination="WU3-Nn-oJh" id="I0q-O2-Fex"/>
+                <outlet property="distanceView" destination="hG7-Tv-XZV" id="01T-7b-p2N"/>
                 <outlet property="nameLabel" destination="ucl-Xb-lH0" id="qRB-zq-qvM"/>
                 <outlet property="priceLabel" destination="Q3S-98-0Z1" id="gsi-wX-8gC"/>
+                <outlet property="statusImageView" destination="YS2-LS-u1b" id="KxS-wa-Txg"/>
                 <outlet property="thumbnailImageView" destination="afm-Cf-H6I" id="GKb-WF-YGs"/>
             </connections>
             <point key="canvasLocation" x="204.5" y="63"/>

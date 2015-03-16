@@ -10,33 +10,37 @@ import UIKit
 
 class ProductCell: UICollectionViewCell {
 
-    @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var distanceView: UIView!
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var statusImageView: UIImageView!
+    
+    // MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        
-        let boldBodyDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody).fontDescriptorWithSymbolicTraits(.TraitBold)
-        priceLabel.font = UIFont(descriptor: boldBodyDescriptor, size: 0.0)
+        self.setupUI()
+        self.resetUI()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-        thumbnailImageView.image = nil
-        nameLabel.text = ""
-        priceLabel.text = ""
+        self.resetUI()
     }
     
-    func setupCellWithProduct(product: PFObject) {
-
-        // name
+    // MARK: - Public / internal methods
+    
+    // Configures the cell with the given product for the given index path
+    func setupCellWithProduct(product: PFObject, indexPath: NSIndexPath) {
+        let tag = indexPath.hash
+        
+        // Name
         let name = product["name"] as? String ?? ""
         nameLabel.text = name
         
-        // price
+        // Price
         if let price = product["price"] as? Double {
             let currencyString = product["currency"] as? String ?? CurrencyManager.sharedInstance.defaultCurrency.iso4217Code
             
@@ -48,7 +52,7 @@ class ProductCell: UICollectionViewCell {
             }
         }
         
-        // thumb
+        // Thumb
         if let imageFile = product[kAmbatanaProductFirstImageKey] as? PFFile {
             var shouldUseThumbs: Bool
             if let isProcessed = product["processed"] as? Bool {
@@ -58,67 +62,89 @@ class ProductCell: UICollectionViewCell {
                 shouldUseThumbs = false
             }
             
-            if shouldUseThumbs { // can we try to download the image from the generated thumbnail?
-                let thumbnailURL = ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(product.objectId, imageURL: imageFile.url)
-                ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image) -> Void in
-                    if success {
-                        self.thumbnailImageView.image = image
-                        self.thumbnailImageView.contentMode = .ScaleAspectFill
-                        self.thumbnailImageView.clipsToBounds = true
-                    } else { // failure, fallback to parse PFFile for the image.
-                        self.retrieveImageFile(imageFile, andAssignToImageView: self.thumbnailImageView)
+            // Try downloading thumbnail
+            if shouldUseThumbs {
+                let thumbURL = NSURL(string: ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(product.objectId, imageURL: imageFile.url))
+                
+                thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
+                    [weak self] (image, error, cacheType, url) -> Void in
+                    if error == nil {
+                        self?.thumbnailImageView.image = image
+//                        self?.thumbnailImageView.setNeedsLayout()
+                    }
+                    // If there's an error then force the download from Parse
+                    else {
+                        shouldUseThumbs = false
                     }
                 })
             }
-            else { // stick to the Parse big fat old image...
-                self.retrieveImageFile(imageFile, andAssignToImageView: thumbnailImageView)
+            
+            // Download from Parse
+            if !shouldUseThumbs {
+                imageFile.getDataInBackgroundWithBlock({
+                    [weak self] (data, error) -> Void in
+                    // tag check to prevent wrong image placement cos' of recycling
+                    if (error == nil && self?.tag == tag) {
+                        self?.thumbnailImageView.image = UIImage(data: data)
+//                        self?.thumbnailImageView.setNeedsLayout()
+                    }
+                })
             }
         }
         
-//        // distance
-//        // TODO: Check if there's a better way of getting the distance in km. Maybe in the query?
-//        if let distanceLabel = cell.viewWithTag(4) as? UILabel {
-//            if let productGeoPoint = productObject["gpscoords"] as? PFGeoPoint {
-//                let distance = productGeoPoint.distanceInKilometersTo(PFUser.currentUser()["gpscoords"] as PFGeoPoint)
-//                if distance > 1.0 { distanceLabel.text = NSString(format: "%.1fK", distance) }
-//                else {
-//                    let metres: Int = Int(distance * 1000)
-//                    if metres > 1 { distanceLabel.text = NSString(format: "%dM", metres) }
-//                    else { distanceLabel.text = translate("here") }
-//                }
-//                distanceLabel.hidden = false
-//            } else { distanceLabel.hidden = true }
-//        }
-//        
-//        // status
-//        if let tagView = cell.viewWithTag(5) as? UIImageView { // product status
-//            if let statusValue = productObject["status"] as? Int {
-//                if let status = ProductStatus(rawValue: productObject["status"].integerValue) {
-//                    if (status == .Sold) {
-//                        tagView.image = UIImage(named: "label_sold")
-//                        tagView.hidden = false
-//                    } else if productObject.createdAt != nil && NSDate().timeIntervalSinceDate(productObject.createdAt!) < 60*60*24 {
-//                        tagView.image = UIImage(named: "label_new")
-//                        tagView.hidden = false
-//                    } else {
-//                        tagView.hidden = true
-//                    }
-//                } else { tagView.hidden = true }
-//            } else { tagView.hidden = true }
-//        }
+        // Distance
+        if let productGeoPoint = product["gpscoords"] as? PFGeoPoint {
+            if let currentUserGeoPoint = PFUser.currentUser()["gpscoords"] as? PFGeoPoint {
+                distanceView.hidden = false
+                
+                let km = productGeoPoint.distanceInKilometersTo(currentUserGeoPoint)
+                if km > 1.0 {
+                    distanceLabel.text = NSString(format: "%.1fK", km)
+                }
+                else {
+                    let m: Int = Int(km * 1000)
+                    if m > 1 {
+                        distanceLabel.text = "\(m)M"
+                    }
+                    else {
+                        distanceLabel.text = translate("here")
+                    }
+                }
+            }
+        }
 
+        // Status
+        if let statusValue = product["status"] as? Int {
+            if let status = ProductStatus(rawValue: statusValue) {
+                if (status == .Sold) {
+                    statusImageView.image = UIImage(named: "label_sold")
+                }
+                else if product.createdAt != nil &&
+                    NSDate().timeIntervalSinceDate(product.createdAt!) < 60*60*24 {
+                    statusImageView.image = UIImage(named: "label_new")
+                }
+            }
+        }
     }
     
-    func retrieveImageFile(imageFile: PFFile, andAssignToImageView imageView: UIImageView) {
-        ImageManager.sharedInstance.retrieveImageFromParsePFFile(imageFile, completion: { (success, image) -> Void in
-            if success {
-                imageView.image = image
-                imageView.contentMode = .ScaleAspectFill
-                imageView.clipsToBounds = true
-            }
-            }, andAddToCache: true)
+    // MARK: - Private methods
+    
+    // Sets up the UI
+    private func setupUI() {
+        nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+        
+        let boldBodyDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody).fontDescriptorWithSymbolicTraits(.TraitBold)
+        priceLabel.font = UIFont(descriptor: boldBodyDescriptor, size: 0.0)
+    }
+    
+    // Resets the UI to the initial state
+    private func resetUI() {
+        nameLabel.text = ""
+        priceLabel.text = ""
+        thumbnailImageView.image = nil
+        distanceView.hidden = true
+        distanceLabel.text = ""
+        statusImageView.image = nil
     }
     
 }
-
-
