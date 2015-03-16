@@ -153,11 +153,12 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as ProductCell
+        
+        if entries.count == 0 { return cell } // safety check for p2r
         let product = entries[indexPath.row]
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as ProductCell
         cell.tag = indexPath.hash
-        
         cell.setupCellWithProduct(product, indexPath: indexPath)
         
         // If we are close to the end (last cells) query the next products...
