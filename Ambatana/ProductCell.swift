@@ -94,7 +94,7 @@ class ProductCell: UICollectionViewCell {
         
         // Distance
         if let productGeoPoint = product["gpscoords"] as? PFGeoPoint {
-            if let currentUserGeoPoint = PFUser.currentUser()["gpscoords"] as? PFGeoPoint {
+            if let currentUserGeoPoint = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
                 distanceView.hidden = false
                 
                 let km = productGeoPoint.distanceInKilometersTo(currentUserGeoPoint)

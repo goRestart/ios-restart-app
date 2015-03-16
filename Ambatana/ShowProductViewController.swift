@@ -740,19 +740,3 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
