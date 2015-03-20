@@ -18,7 +18,8 @@ private let kAmbatanaEditProfileCellFactor: CGFloat = 190.0 / 145.0
 class EditProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     enum ProfileTab {
-        case MyProduct(ProductStatus) // sell / sold
+        case ProductImSelling
+        case ProductISold
         case ProductFavourite       // fav
     }
     
@@ -40,7 +41,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     // data
     var userObject: PFUser?
-    var selectedTab: ProfileTab = .MyProduct(ProductStatus.Approved) /* sell */
+    var selectedTab: ProfileTab = .ProductImSelling
     
     private var sellProducts: [PFObject] = []
     private var soldProducts: [PFObject] = []
@@ -78,8 +79,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         activityIndicator.startAnimating()
         
         // load
-        retrieveProductsForTab(ProfileTab.MyProduct(ProductStatus.Approved))
-        retrieveProductsForTab(ProfileTab.MyProduct(ProductStatus.Sold))
+        retrieveProductsForTab(ProfileTab.ProductImSelling)
+        retrieveProductsForTab(ProfileTab.ProductISold)
         retrieveProductsForTab(ProfileTab.ProductFavourite)
         
         // register ProductCell
@@ -120,12 +121,12 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     @IBAction func showSellProducts(sender: AnyObject) {
-        selectedTab = .MyProduct(ProductStatus.Approved)
+        selectedTab = .ProductImSelling
         updateUIForCurrentTab()
     }
 
     @IBAction func showSoldProducts(sender: AnyObject) {
-        selectedTab = .MyProduct(ProductStatus.Sold)
+        selectedTab = .ProductISold
         updateUIForCurrentTab()
     }
     
@@ -154,19 +155,13 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch selectedTab {
-        case .MyProduct(let status):
-            switch status {
-            case .Approved: // Selling
-                return sellProducts.count
-            case .Sold:
-                return soldProducts.count
-            default:
-                println("not handled!")
-            }
+        case .ProductImSelling:
+            return sellProducts.count
+        case .ProductISold:
+            return soldProducts.count
         case .ProductFavourite:
             return favProducts.count
         }
-        return 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -209,15 +204,10 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     func updateUIForCurrentTab() {
         var products: [AnyObject] = []
         switch selectedTab {
-        case .MyProduct(let status):
-            switch status {
-            case .Approved: // Selling
-                products = sellProducts
-            case .Sold:
-                products = soldProducts
-            default:
-                println("not handled!")
-            }
+        case .ProductImSelling:
+            products = sellProducts
+        case .ProductISold:
+            products = soldProducts
         case .ProductFavourite:
             products = favProducts
         }
@@ -234,15 +224,10 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         
         switch selectedTab {
-        case .MyProduct(let status):
-            switch status {
-            case .Approved: // Selling
-                selectButton(sellButton)
-            case .Sold:
-                selectButton(soldButton)
-            default:
-                println("not handled!")
-            }
+        case .ProductImSelling:
+            selectButton(sellButton)
+        case .ProductISold:
+            selectButton(soldButton)
         case .ProductFavourite:
             selectButton(favoriteButton)
         }
@@ -252,31 +237,27 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func retrieveProductsForTab(tab: ProfileTab) {
         switch tab {
-        case .MyProduct(let status):
-            switch status {
-            case .Approved: // Selling
-                loadingSellProducts = true
-                self.retrieveProductsForUserId(userObject?.objectId, status: status, completion: { (products, error) -> (Void) in
-                    if error == nil && products.count > 0 {
-                        self.sellProducts = products
-                    }
-                    self.loadingSellProducts = false
-                    self.retrievalFinishedForProductsAtTab(tab)
-                })
-            case .Sold:
-                loadingSoldProducts = true
-                
-                self.retrieveProductsForUserId(userObject?.objectId, status: status, completion: {
-                    (products, error) -> Void in
-                    if error == nil && products.count > 0 {
-                        self.soldProducts = products
-                    }
-                    self.loadingSoldProducts = false
-                    self.retrievalFinishedForProductsAtTab(tab)
-                })
-            default:
-                println("not handled!")
-            }
+        case .ProductImSelling:
+            loadingSellProducts = true
+            self.retrieveProductsForUserId(userObject?.objectId, status: .Approved, completion: { (products, error) -> (Void) in
+                if error == nil && products.count > 0 {
+                    self.sellProducts = products
+                }
+                self.loadingSellProducts = false
+                self.retrievalFinishedForProductsAtTab(tab)
+            })
+        case .ProductISold:
+            loadingSoldProducts = true
+            
+            self.retrieveProductsForUserId(userObject?.objectId, status: .Sold, completion: {
+                (products, error) -> Void in
+                if error == nil && products.count > 0 {
+                    self.soldProducts = products
+                }
+                self.loadingSoldProducts = false
+                self.retrievalFinishedForProductsAtTab(tab)
+            })
+            
         case .ProductFavourite:
             loadingFavProducts = true
             
@@ -376,15 +357,10 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         let row = indexPath.row
         var product: PFObject?
         switch selectedTab {
-        case .MyProduct(let status):
-            switch status {
-            case .Approved: // Selling
-                product = sellProducts[row]
-            case .Sold:
-                product = soldProducts[row]
-            default:
-                println("not handled!")
-            }
+        case .ProductImSelling:
+            product = sellProducts[row]
+        case .ProductISold:
+            product = soldProducts[row]
         case .ProductFavourite:
             product = favProducts[row]
         }
