@@ -42,9 +42,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     var userObject: PFUser?
     var selectedTab: ProfileTab = .Product(ProductStatus.Approved) /* sell */
     
-    private var sellProducts: [Product] = []
-    private var soldProducts: [Product] = []
-    private var favProducts: [Product] = []
+    private var sellProducts: [PFObject] = []
+    private var soldProducts: [PFObject] = []
+    private var favProducts: [PFObject] = []
     
     private var loadingSellProducts: Bool = false
     private var loadingSoldProducts: Bool = false
@@ -173,18 +173,16 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as ProductCell
         cell.tag = indexPath.hash
         
-        // TODO: Refactor the cell to use Product instead of PFObject/PFProduct and remove this cast
-        var product = self.productAtIndexPath(indexPath)! as PFProduct
-        cell.setupCellWithProduct(product, indexPath: indexPath)
+        if let product = self.productAtIndexPath(indexPath) {
+            cell.setupCellWithProduct(product, indexPath: indexPath)
+        }
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var product = self.productAtIndexPath(indexPath)
-        
         if let spvc = self.storyboard?.instantiateViewControllerWithIdentifier("showProductViewController") as? ShowProductViewController {
-            spvc.productObject = product as? PFProduct
+            spvc.productObject = self.productAtIndexPath(indexPath)
             self.navigationController?.pushViewController(spvc, animated: true)
         }
     }
@@ -293,31 +291,33 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         }
     }
     
-    func retrieveProductsForUserId(userId: String?, status: ProductStatus, completion: (products: [Product]!, error: NSError!) -> (Void)) {
+    func retrieveProductsForUserId(userId: String?, status: ProductStatus, completion: (products: [PFObject]!, error: NSError!) -> (Void)) {
         let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
-        let query = PFQuery(className: PFProduct.parseClassName())
+        let query = PFQuery(className: "Products")
         query.whereKey("user", equalTo: user)
         query.whereKey("status", equalTo: status.rawValue)
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
-            let products = objects as [PFProduct]!
+            let products = objects as [PFObject]!
             completion(products: products, error: error)
         })
     }
     
-    func retrieveFavouriteProductsForUserId(userId: String?, completion: (favProducts: [Product]!, error: NSError!) -> (Void)) {
+    func retrieveFavouriteProductsForUserId(userId: String?, completion: (favProducts: [PFObject]!, error: NSError!) -> (Void)) {
         let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
-        let query = PFQuery(className: PFFavProduct.parseClassName())
+        let query = PFQuery(className: "UserFavoriteProducts")
         query.whereKey("user", equalTo: user)
         query.orderByDescending("createdAt")
         query.includeKey("product")
         query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
-            var favProducts = objects as [PFFavProduct]!
-            var products: [Product]! = []
-            for favProduct in favProducts {
-                products.append(favProduct.product!)
+            let favorites = objects as [PFObject]!
+            var productList: [PFObject] = []
+            for favorite in favorites {
+                if let product = favorite["product"] as? PFObject {
+                    productList.append(product)
+                }
             }
-            completion(favProducts: products, error: error)
+            completion(favProducts: productList, error: error)
         })
     }
     
@@ -372,9 +372,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     // MARK: Helper
     
-    func productAtIndexPath(indexPath: NSIndexPath) -> Product? {
+    func productAtIndexPath(indexPath: NSIndexPath) -> PFObject? {
         let row = indexPath.row
-        var product: Product?
+        var product: PFObject?
         switch selectedTab {
         case .Product(let status):
             switch status {

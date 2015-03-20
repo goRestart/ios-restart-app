@@ -2636,7 +2636,7 @@
         <image name="gradientImage" width="195" height="156"/>
         <image name="home_facebook" width="15" height="29"/>
         <image name="item_chat" width="19" height="20"/>
-        <image name="item_fav_off" width="26" height="26"/>
+        <image name="item_fav_off" width="37" height="37"/>
         <image name="item_offer" width="19" height="20"/>
         <image name="item_share-facebook" width="39" height="39"/>
         <image name="item_share-mail" width="39" height="39"/>
