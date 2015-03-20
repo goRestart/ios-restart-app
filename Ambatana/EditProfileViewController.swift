@@ -258,25 +258,23 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             switch status {
             case .Approved: // Selling
                 loadingSellProducts = true
-                
-                PFProductManager.retrieveProductsForUserId(userObject?.objectId, status: status, completion: {
-                    [weak self] (products, error) -> Void in
+                self.retrieveProductsForUserId(userObject?.objectId, status: status, completion: { (products, error) -> (Void) in
                     if error == nil && products.count > 0 {
-                        self?.sellProducts = products
+                        self.sellProducts = products
                     }
-                    self?.loadingSellProducts = false
-                    self?.retrievalFinishedForProductsAtTab(tab)
+                    self.loadingSellProducts = false
+                    self.retrievalFinishedForProductsAtTab(tab)
                 })
             case .Sold:
                 loadingSoldProducts = true
                 
-                PFProductManager.retrieveProductsForUserId(userObject?.objectId, status: status, completion: {
-                    [weak self] (products, error) -> Void in
+                self.retrieveProductsForUserId(userObject?.objectId, status: status, completion: {
+                    (products, error) -> Void in
                     if error == nil && products.count > 0 {
-                        self?.soldProducts = products
+                        self.soldProducts = products
                     }
-                    self?.loadingSoldProducts = false
-                    self?.retrievalFinishedForProductsAtTab(tab)
+                    self.loadingSoldProducts = false
+                    self.retrievalFinishedForProductsAtTab(tab)
                 })
             default:
                 println("not handled!")
@@ -284,16 +282,45 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         case .ProductFavourite:
             loadingFavProducts = true
             
-            PFProductManager.retrieveFavouriteProductsForUserId(userObject?.objectId, completion: {
-                [weak self] (products, error) -> Void in
+            self.retrieveFavouriteProductsForUserId(userObject?.objectId, completion: {
+                (products, error) -> Void in
                 if error == nil && products.count > 0 {
-                    self?.favProducts = products
+                    self.favProducts = products
                 }
-                self?.loadingFavProducts = false
-                self?.retrievalFinishedForProductsAtTab(tab)
+                self.loadingFavProducts = false
+                self.retrievalFinishedForProductsAtTab(tab)
             })
         }
     }
+    
+    func retrieveProductsForUserId(userId: String?, status: ProductStatus, completion: (products: [Product]!, error: NSError!) -> (Void)) {
+        let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
+        let query = PFQuery(className: PFProduct.parseClassName())
+        query.whereKey("user", equalTo: user)
+        query.whereKey("status", equalTo: status.rawValue)
+        query.orderByDescending("createdAt")
+        query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
+            let products = objects as [PFProduct]!
+            completion(products: products, error: error)
+        })
+    }
+    
+    func retrieveFavouriteProductsForUserId(userId: String?, completion: (favProducts: [Product]!, error: NSError!) -> (Void)) {
+        let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
+        let query = PFQuery(className: PFFavProduct.parseClassName())
+        query.whereKey("user", equalTo: user)
+        query.orderByDescending("createdAt")
+        query.includeKey("product")
+        query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
+            var favProducts = objects as [PFFavProduct]!
+            var products: [Product]! = []
+            for favProduct in favProducts {
+                products.append(favProduct.product!)
+            }
+            completion(favProducts: products, error: error)
+        })
+    }
+    
     
     func retrievalFinishedForProductsAtTab(tab: ProfileTab) {
         // If any tab is loading, then quit this function

@@ -237,7 +237,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             }
             
             // perform query.
-            //println("Performing query with currentKmOffset=\(currentKmOffset), current offset: \(lastRetrievedProductsCount)")
             query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
                 if error == nil { // success
                     self.queryingProducts = false
@@ -256,7 +255,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                             }
                         }
                         // Update UI
-//                        self.collectionView.insertItemsAtIndexPaths(indexPaths)
                         self.collectionView.reloadSections(NSIndexSet(index: 0))
                         self.disableLoadingInterface()
                     } else if (objects.count == 0) { // no more items found. Time to next bunch of products.
