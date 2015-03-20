@@ -523,16 +523,12 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         let diff = scrollView.contentOffset.y - self.lastContentOffset
         if diff > kAmbatanaContentScrollingDownThreshold {
             UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-//                println("AAAAAAAAAAAAAAAAAAAAAA22222")
                 self.sellButton.transform = CGAffineTransformMakeTranslation(0, 3*self.sellButton.frame.size.height)
-//                println("BBBBBBBBBBBBBBBBBBBBBB22222")
                 
             }, completion: nil)
         } else if diff < kAmbatanaContentScrollingUpThreshold {
             UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.6, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-//                println("AAAAAAAAAAAAAAAAAAAAAA33333")
-                self.sellButton.transform = CGAffineTransformIdentity   // AQUI HAY CRASH!
-//                println("BBBBBBBBBBBBBBBBBBBBBB333333")
+                self.sellButton.transform = CGAffineTransformIdentity  
             }, completion: nil)
         }
         self.lastContentOffset = scrollView.contentOffset.y
@@ -540,9 +536,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     func scrollViewDidScrollToTop(scrollView: UIScrollView) {
         UIView.animateWithDuration(0.30, animations: { () -> Void in
-//            println("AAAAAAAAAAAAAAAAAAAAAA")
             self.sellButton.transform = CGAffineTransformIdentity
-//            println("BBBBBBBBBBBBBBBBBBBBBB")
         })
     }
 

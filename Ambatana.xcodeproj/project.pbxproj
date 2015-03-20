@@ -61,7 +61,6 @@
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
 		B21B3B6956F8367C5A52D277 /* libPods-Ambatana.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */; };
 		D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43FF0241AB0737400757EED /* ProductLocationViewController.swift */; };
-		D43FF0271AB073C200757EED /* ProductLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D43FF0261AB073C100757EED /* ProductLocationViewController.xib */; };
 		D48183F71AB2FEBE00229DBF /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48183F51AB2FEBE00229DBF /* ProductCell.swift */; };
 		D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48183F61AB2FEBE00229DBF /* ProductCell.xib */; };
 		D48ACCC01AB6D5BA00F2CDAC /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48ACCBF1AB6D5BA00F2CDAC /* Product.swift */; };
@@ -129,7 +128,6 @@
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ambatana.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D43FF0241AB0737400757EED /* ProductLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLocationViewController.swift; sourceTree = "<group>"; };
-		D43FF0261AB073C100757EED /* ProductLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLocationViewController.xib; sourceTree = "<group>"; };
 		D48183F51AB2FEBE00229DBF /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		D48183F61AB2FEBE00229DBF /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		D48ACCBF1AB6D5BA00F2CDAC /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Product.swift; path = Model/Product.swift; sourceTree = "<group>"; };
@@ -310,7 +308,6 @@
 				66362F531A8B4DE500EC145E /* ShowProductViewController.swift */,
 				669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */,
 				D43FF0241AB0737400757EED /* ProductLocationViewController.swift */,
-				D43FF0261AB073C100757EED /* ProductLocationViewController.xib */,
 				D48183F51AB2FEBE00229DBF /* ProductCell.swift */,
 				D48183F61AB2FEBE00229DBF /* ProductCell.xib */,
 			);
@@ -488,7 +485,6 @@
 				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
-				D43FF0271AB073C200757EED /* ProductLocationViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

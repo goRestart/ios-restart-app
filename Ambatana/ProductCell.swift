@@ -70,7 +70,6 @@ class ProductCell: UICollectionViewCell {
                     [weak self] (image, error, cacheType, url) -> Void in
                     if error == nil {
                         self?.thumbnailImageView.image = image
-//                        self?.thumbnailImageView.setNeedsLayout()
                     }
                     // If there's an error then force the download from Parse
                     else {
@@ -86,7 +85,6 @@ class ProductCell: UICollectionViewCell {
                     // tag check to prevent wrong image placement cos' of recycling
                     if (error == nil && self?.tag == tag) {
                         self?.thumbnailImageView.image = UIImage(data: data)
-//                        self?.thumbnailImageView.setNeedsLayout()
                     }
                 })
             }

@@ -16,19 +16,9 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     
     // Data
-    let location: CLLocationCoordinate2D?
+    var location: CLLocationCoordinate2D?
     
     // MARK: - Lifecycle
-    
-    init(location: CLLocationCoordinate2D) {
-        self.location = location
-        super.init(nibName: "ProductLocationViewController", bundle: nil)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setAmbatanaNavigationBarStyle(title: translate("item_location"), includeBackArrow: true)
@@ -50,9 +40,9 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if overlay is MKCircle {
             let renderer = MKCircleRenderer(overlay: overlay)
-            renderer.fillColor = UIColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 0.5)
+            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.20)
             renderer.strokeColor = UIColor.redColor()
-            renderer.lineWidth = 1 * UIScreen.mainScreen().scale
+            renderer.lineWidth = 1
             return renderer
         }
         return nil;

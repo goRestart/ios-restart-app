@@ -22,7 +22,6 @@ protocol ShowProductViewControllerDelegate {
 class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate {
 
     // outlets & buttons
-    let favButton: UIButton
     @IBOutlet weak var imagesScrollView: UIScrollView!
     @IBOutlet weak var askQuestionButton: UIButton!
     @IBOutlet weak var makeOfferButton: UIButton!
@@ -42,6 +41,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var imagesPageControl: UIPageControl!
     @IBOutlet weak var markAsSoldActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var askQuestionActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var showMapButton: UIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
     
     // constraints
     @IBOutlet weak var makeOfferToImageConstraint: NSLayoutConstraint!
@@ -50,7 +51,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
 
     // Data
     var productObject: PFObject!
-    var isFavourite: Bool
+    var isFavourite = false
     var productImages: [UIImage] = []
     var productImageURLStrings: [String] = []
     var productUser: PFUser!
@@ -62,22 +63,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     
     // MARK: - Lifecycle
     
-    required init(coder aDecoder: NSCoder) {
-        let favButtonSize: CGSize! = UIImage(named: "item_fav_off")?.size
-        favButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
-        favButton.frame = CGRect(x: 0, y: 0, width: favButtonSize.width, height: favButtonSize.height)
-        isFavourite = false
-        super.init(coder: aDecoder)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Navbar
-        favButton.addTarget(self, action: Selector("favButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: favButton)
-        updateFavButtonWithFavourited(false) // when loading it's marked as non-favourited
-        retrieveProductFavourited()
 
         // appearance
         priceLabel.text = ""
@@ -95,6 +82,10 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         
         // initialize product UI.
         if productObject != nil {
+            // check if this is a favorite product
+            initializeFavoriteButtonAnimations()
+            checkFavoriteProduct()
+            
             // check if this is our product
             productUser = productObject["user"] as PFUser
             let thisProductIsMine = productUser.objectId == PFUser.currentUser().objectId
@@ -194,10 +185,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 itemLocationMapView.setRegion(region, animated: true)
                 // add pin
                 itemLocationMapView.setPinInTheMapAtCoordinate(coordinate)
-                
-                // map tap gesture to open map details
-                let tapRecognizer = UITapGestureRecognizer(target: self, action: Selector("mapViewPressed:"))
-                itemLocationMapView.addGestureRecognizer(tapRecognizer)
             }
             
         } else { // hide all buttons
@@ -229,7 +216,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                     if let retrievedImage = UIImage(data: data) {
                         retrievedImages.append(retrievedImage)
                         retrievedImageURLS.append(imageFile.url!)
-                        println("Object \(productObject.objectId): Retrieved image from PARSE file \(imageFile.name)")
                     }
                 }
             }
@@ -252,7 +238,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 if let image = ImageManager.sharedInstance.retrieveImageSynchronouslyFromURLString(bigImageURL, andAddToCache: true) {
                     retrievedImages.append(image)
                     retrievedImageURLS.append(bigImageURL)
-                    println("Object \(self.productObject.objectId): Retrieved image from processed URL \(bigImageURL) successfully")
                 }
             }
         }
@@ -332,6 +317,15 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         self.view.userInteractionEnabled = true
     }
     
+    @IBAction func showProductLocation(sender: AnyObject) {
+        // push the location controller if there's a location
+        if productLocation != nil {
+            let coords = CLLocationCoordinate2DMake(productLocation!.latitude, productLocation!.longitude)
+            self.performSegueWithIdentifier("ShowProductLocation", sender: sender)
+        }
+    }
+    
+    
     @IBAction func makeOffer(sender: AnyObject) {
         self.performSegueWithIdentifier("MakeAnOffer", sender: sender)
     }
@@ -385,53 +379,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             }
             self.disableMarkAsSoldLoadingInterface()
         })
-    }
-    
-    // Called when The MapView is tapped
-    func mapViewPressed(tapRecognizer: UITapGestureRecognizer) {
-        // if gesture hasn't finished do nothing
-        if tapRecognizer.state != UIGestureRecognizerState.Ended {
-            return
-        }
-        // push the location controller if there's a location
-        if let location = productLocation {
-            let coords = CLLocationCoordinate2DMake(location.latitude, location.longitude)
-            let productLocationVC = ProductLocationViewController(location: coords)
-            navigationController?.pushViewController(productLocationVC, animated: true)
-        }
-    }
-    
-    // MARK: - Navigation bar items
-    
-    func updateFavButtonWithFavourited(isFavourited: Bool) {
-        let bgImage = isFavourited ? UIImage(named: "item_fav_on") : UIImage(named: "item_fav_off")
-        favButton.setImage(bgImage, forState: UIControlState.Normal)
-    }
-    
-    func favButtonPressed() {
-        self.favButton.userInteractionEnabled = false
-        
-        // UI update for quick user feedback + Request
-        self.updateFavButtonWithFavourited(!self.isFavourite)
-        
-        if self.isFavourite {
-            ShowProductViewController.deleteFavouriteProductForUser(PFUser.currentUser(),
-                product: self.productObject,
-                { (success) -> Void in
-                    self.favButton.userInteractionEnabled = true
-                    self.isFavourite = !success
-                    self.updateFavButtonWithFavourited(self.isFavourite)
-            })
-        }
-        else {
-            ShowProductViewController.saveFavouriteProductForUser(PFUser.currentUser(),
-                product: self.productObject,
-                { (success) -> Void in
-                    self.favButton.userInteractionEnabled = true
-                    self.isFavourite = success
-                    self.updateFavButtonWithFavourited(self.isFavourite)
-            })
-        }
     }
     
     // MARK: - Mark as sold UI/UX
@@ -555,22 +502,59 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     
     // MARK: - Favourite Requests & helpers
     
-    func retrieveProductFavourited() {
-        self.favButton.userInteractionEnabled = false
-        ShowProductViewController.retrieveFavouriteProductForUser(
+    func initializeFavoriteButtonAnimations() {
+        // save link animations
+        let animatingImages = [UIImage(named: "item_fav_on")!, UIImage(named: "item_fav_off")!]
+        self.favoriteButton.imageView!.animationImages = animatingImages
+        self.favoriteButton.imageView!.animationDuration = 0.50
+        self.favoriteButton.imageView!.animationRepeatCount = 0
+        
+    }
+    
+    @IBAction func markOrUnmarkAsFavorite(sender: AnyObject) {
+        self.favoriteButton.userInteractionEnabled = false
+        
+        // UI update for quick user feedback + Request
+        self.favoriteButton.imageView!.startAnimating()
+        
+        if self.isFavourite {
+            deleteFavouriteProductForUser(PFUser.currentUser(),
+                product: self.productObject,
+                { (success) -> Void in
+                    self.favoriteButton.userInteractionEnabled = true
+                    self.isFavourite = !success
+                    self.favoriteButton.imageView!.stopAnimating()
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")! : UIImage(named: "item_fav_off")!, forState: .Normal)
+            })
+        }
+        else {
+            saveFavouriteProductForUser(PFUser.currentUser(),
+                product: self.productObject,
+                { (success) -> Void in
+                    self.favoriteButton.userInteractionEnabled = true
+                    self.isFavourite = success
+                    self.favoriteButton.imageView!.stopAnimating()
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")! : UIImage(named: "item_fav_off")!, forState: .Normal)
+            })
+        }
+    }
+    
+    func checkFavoriteProduct() {
+        self.favoriteButton.userInteractionEnabled = false
+        retrieveFavouriteProductForUser(
             PFUser.currentUser(),
             product: productObject,
             { (success, favProduct) -> Void in
-                self.favButton.userInteractionEnabled = true
+                self.favoriteButton.userInteractionEnabled = true
                 
                 if success {
                     self.isFavourite = favProduct != nil
                 }
-                self.updateFavButtonWithFavourited(self.isFavourite)
+                self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")! : UIImage(named: "item_fav_off")!, forState: .Normal)
             })
     }
     
-    class func retrieveFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool, PFObject?) -> (Void)) {
+    func retrieveFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool, PFObject?) -> (Void)) {
         if let actualUser = user {
             if let actualProduct = product {
                 let favQuery = PFQuery(className: "UserFavoriteProducts")
@@ -591,7 +575,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         }
     }
     
-    class func saveFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool) -> (Void)) {
+    func saveFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool) -> (Void)) {
         if let favProduct = newFavProductForUser(user, product: product) {
             favProduct.saveInBackgroundWithBlock({ (success, error) -> Void in
                 completion(success)
@@ -602,7 +586,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         }
     }
     
-    class func deleteFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool) -> (Void)) {
+    func deleteFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool) -> (Void)) {
         retrieveFavouriteProductForUser(user, product: product, completion: { (success, favProduct) -> Void in
             if success && favProduct != nil {
                 favProduct!.deleteInBackgroundWithBlock({ (success, error) -> Void in
@@ -620,7 +604,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         })
     }
     
-    class func newFavProductForUser(user: PFUser?, product: PFObject?) -> PFObject? {
+    func newFavProductForUser(user: PFUser?, product: PFObject?) -> PFObject? {
         if let actualUser = user {
             if let actualProduct = product {
                 let favProduct = PFObject(className: "UserFavoriteProducts")
@@ -732,6 +716,11 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         } else if let movc = segue.destinationViewController as? MakeAnOfferViewController {
             movc.productObject = self.productObject
             movc.productUser = self.productUser
+        } else if let plvc = segue.destinationViewController as? ProductLocationViewController {
+            if productLocation != nil {
+                let coordinate = CLLocationCoordinate2DMake(productLocation!.latitude, productLocation!.longitude)
+                plvc.location = coordinate
+            }
         }
     }
     
