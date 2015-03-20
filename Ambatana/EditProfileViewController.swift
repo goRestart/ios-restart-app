@@ -18,7 +18,7 @@ private let kAmbatanaEditProfileCellFactor: CGFloat = 190.0 / 145.0
 class EditProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
     enum ProfileTab {
-        case Product(ProductStatus) // sell / sold
+        case MyProduct(ProductStatus) // sell / sold
         case ProductFavourite       // fav
     }
     
@@ -40,7 +40,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     // data
     var userObject: PFUser?
-    var selectedTab: ProfileTab = .Product(ProductStatus.Approved) /* sell */
+    var selectedTab: ProfileTab = .MyProduct(ProductStatus.Approved) /* sell */
     
     private var sellProducts: [PFObject] = []
     private var soldProducts: [PFObject] = []
@@ -78,8 +78,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         activityIndicator.startAnimating()
         
         // load
-        retrieveProductsForTab(ProfileTab.Product(ProductStatus.Approved))
-        retrieveProductsForTab(ProfileTab.Product(ProductStatus.Sold))
+        retrieveProductsForTab(ProfileTab.MyProduct(ProductStatus.Approved))
+        retrieveProductsForTab(ProfileTab.MyProduct(ProductStatus.Sold))
         retrieveProductsForTab(ProfileTab.ProductFavourite)
         
         // register ProductCell
@@ -120,12 +120,12 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     @IBAction func showSellProducts(sender: AnyObject) {
-        selectedTab = .Product(ProductStatus.Approved)
+        selectedTab = .MyProduct(ProductStatus.Approved)
         updateUIForCurrentTab()
     }
 
     @IBAction func showSoldProducts(sender: AnyObject) {
-        selectedTab = .Product(ProductStatus.Sold)
+        selectedTab = .MyProduct(ProductStatus.Sold)
         updateUIForCurrentTab()
     }
     
@@ -154,7 +154,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch selectedTab {
-        case .Product(let status):
+        case .MyProduct(let status):
             switch status {
             case .Approved: // Selling
                 return sellProducts.count
@@ -209,7 +209,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     func updateUIForCurrentTab() {
         var products: [AnyObject] = []
         switch selectedTab {
-        case .Product(let status):
+        case .MyProduct(let status):
             switch status {
             case .Approved: // Selling
                 products = sellProducts
@@ -234,7 +234,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         
         switch selectedTab {
-        case .Product(let status):
+        case .MyProduct(let status):
             switch status {
             case .Approved: // Selling
                 selectButton(sellButton)
@@ -252,7 +252,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func retrieveProductsForTab(tab: ProfileTab) {
         switch tab {
-        case .Product(let status):
+        case .MyProduct(let status):
             switch status {
             case .Approved: // Selling
                 loadingSellProducts = true
@@ -376,7 +376,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         let row = indexPath.row
         var product: PFObject?
         switch selectedTab {
-        case .Product(let status):
+        case .MyProduct(let status):
             switch status {
             case .Approved: // Selling
                 product = sellProducts[row]
