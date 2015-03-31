@@ -179,12 +179,10 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             self.productToShow!.fetchInBackgroundWithBlock({ (refreshedObject, error) -> Void in
                 self.view.userInteractionEnabled = true
                 if refreshedObject != nil {
-                    println("refreshed")
                     self.productToShow = refreshedObject
                     self.performSegueWithIdentifier("ShowProduct", sender: nil)
                 }
                 else { // fallback to showing the "unrefreshed" product
-                    println("not refreshed")
                     self.performSegueWithIdentifier("ShowProduct", sender: nil)
                 }
             })
