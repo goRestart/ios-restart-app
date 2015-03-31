@@ -1596,13 +1596,13 @@
                                         </connections>
                                     </mapView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh." lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qeP-Ju-Lg7">
-                                        <rect key="frame" x="16" y="423" width="208" height="99"/>
+                                        <rect key="frame" x="16" y="423" width="200" height="99"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="from you" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WiX-8L-R53">
-                                        <rect key="frame" x="232" y="459" width="72" height="28"/>
+                                        <rect key="frame" x="224" y="459" width="80" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="mCO-YB-Ouy"/>
                                         </constraints>
@@ -1686,7 +1686,7 @@
                                     <constraint firstItem="WiX-8L-R53" firstAttribute="top" secondItem="Xfw-hQ-0XG" secondAttribute="bottom" constant="-17" id="7QA-rD-AoS"/>
                                     <constraint firstItem="Xfw-hQ-0XG" firstAttribute="leading" secondItem="FTT-zL-geS" secondAttribute="leading" id="8Qz-4T-Qk6"/>
                                     <constraint firstAttribute="bottom" secondItem="KpP-q4-Y6Q" secondAttribute="bottom" id="Acg-d4-xkB"/>
-                                    <constraint firstItem="Xfw-hQ-0XG" firstAttribute="leading" secondItem="qeP-Ju-Lg7" secondAttribute="trailing" constant="8" id="BtV-dS-qRi"/>
+                                    <constraint firstItem="Xfw-hQ-0XG" firstAttribute="leading" secondItem="qeP-Ju-Lg7" secondAttribute="trailing" constant="16" id="BtV-dS-qRi"/>
                                     <constraint firstAttribute="trailing" secondItem="AWr-r7-MLG" secondAttribute="trailing" id="D2M-qM-xvU"/>
                                     <constraint firstAttribute="trailing" secondItem="X9o-KA-S7j" secondAttribute="trailing" constant="8" id="FIt-zz-ZWn"/>
                                     <constraint firstAttribute="trailing" secondItem="Xfw-hQ-0XG" secondAttribute="trailing" constant="16" id="Gq0-Rd-DCT"/>
