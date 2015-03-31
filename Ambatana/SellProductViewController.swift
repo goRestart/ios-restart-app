@@ -98,15 +98,15 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     // MARK: - iOS 7 Action Sheet deprecated selections for compatibility.
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if actionSheet.tag == kAmbatanaSellProductActionSheetTagCurrencyType { // currency type selection
-            if buttonIndex > 0 { // 0 is cancel
+            if buttonIndex != actionSheet.cancelButtonIndex { // 0 is cancel
                 let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
-                let buttonCurrency = allCurrencies[buttonIndex - 1]
+                let buttonCurrency = allCurrencies[buttonIndex]
                 self.currentCurrency = buttonCurrency
                 self.currencyTypeButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
             }
         } else if actionSheet.tag == kAmbatanaSellProductActionSheetTagCategoryType { // category selection
-            if buttonIndex > 0 { // 0 is cancel
-                let category = ProductListCategory.allCategories()[buttonIndex - 1]
+            if buttonIndex != actionSheet.cancelButtonIndex { // 0 is cancel
+                let category = ProductListCategory.allCategories()[buttonIndex]
                 self.currentCategory = category
                 self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
             }
@@ -139,12 +139,12 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             // complete alert and show.
             self.presentViewController(alert, animated: true, completion: nil)
         } else { // ios7 fallback
-            let actionSheet = UIActionSheet(title: translate("choose_currency"), delegate: self, cancelButtonTitle: translate("cancel"), destructiveButtonTitle: nil)
+            let actionSheet = UIActionSheet(title: translate("choose_currency"), delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
             actionSheet.tag = kAmbatanaSellProductActionSheetTagCurrencyType
             for currency in CurrencyManager.sharedInstance.allCurrencies() {
                 actionSheet.addButtonWithTitle(currency.currencyCode)
             }
-            actionSheet.cancelButtonIndex = 0
+            actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(translate("cancel"))
             actionSheet.showInView(self.view)
         }
     }
@@ -165,12 +165,12 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             self.presentViewController(alert, animated: true, completion: nil)
 
         } else {
-            let actionSheet = UIActionSheet(title: translate("choose_a_category"), delegate: self, cancelButtonTitle: translate("cancel"), destructiveButtonTitle: nil)
+            let actionSheet = UIActionSheet(title: translate("choose_a_category"), delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
             actionSheet.tag = kAmbatanaSellProductActionSheetTagCategoryType
             for category in ProductListCategory.allCategories() {
                 actionSheet.addButtonWithTitle(category.getName())
             }
-            actionSheet.cancelButtonIndex = 0
+            actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(translate("cancel"))
             actionSheet.showInView(self.view)
         }
         
