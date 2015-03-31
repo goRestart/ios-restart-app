@@ -92,23 +92,8 @@ class ProductCell: UICollectionViewCell {
         
         // Distance
         if let productGeoPoint = product["gpscoords"] as? PFGeoPoint {
-            if let currentUserGeoPoint = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
-                distanceView.hidden = false
-                
-                let km = productGeoPoint.distanceInKilometersTo(currentUserGeoPoint)
-                if km > 1.0 {
-                    distanceLabel.text = NSString(format: "%.1fK", km)
-                }
-                else {
-                    let m: Int = Int(km * 1000)
-                    if m > 1 {
-                        distanceLabel.text = "\(m)M"
-                    }
-                    else {
-                        distanceLabel.text = translate("here")
-                    }
-                }
-            }
+            distanceLabel.text = distanceStringToGeoPoint(productGeoPoint)
+            distanceLabel.hidden = false
         }
 
         // Status

@@ -181,6 +181,7 @@
 "user_already_exists" = "User already exists.";
 "some_fields_missing" = "Some fields empty or missing.";
 "uploading_product_please_wait" = "Uploading product. Please wait...";
-
+"from_you" = "from you";
+"unknown_distance" = "unknown distance";
 
 

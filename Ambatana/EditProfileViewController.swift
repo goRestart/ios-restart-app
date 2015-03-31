@@ -20,7 +20,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     enum ProfileTab {
         case ProductImSelling
         case ProductISold
-        case ProductFavourite       // fav
+        case ProductFavourite
     }
     
     // outlets && buttons

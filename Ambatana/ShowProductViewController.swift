@@ -19,7 +19,7 @@ protocol ShowProductViewControllerDelegate {
  * This ViewController is in charge of showing a single product selected from the ProductList view controller. Depending on the ownership of the product, the user would be allowed
  * to modify the object if he/she owns it, or make offers/chat with the owner.
  */
-class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate {
+class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate {
 
     // outlets & buttons
     @IBOutlet weak var imagesScrollView: UIScrollView!
@@ -32,23 +32,19 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var publishedTimeLabel: UILabel!
     @IBOutlet weak var itemLocationMapView: MKMapView!
-    @IBOutlet weak var shareThisLabel: UILabel!
-    @IBOutlet weak var shareFacebookButton: UIButton!
-    @IBOutlet weak var shareWhatsappButton: UIButton!
-    @IBOutlet weak var shareMailButton: UIButton!
-    @IBOutlet weak var shareMoreButton: UIButton!
     @IBOutlet weak var markSoldButton: UIButton!
     @IBOutlet weak var imagesPageControl: UIPageControl!
     @IBOutlet weak var markAsSoldActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var askQuestionActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var showMapButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var fromYouLabel: UILabel!
     
-    // constraints
-    @IBOutlet weak var makeOfferToImageConstraint: NSLayoutConstraint!
-    @IBOutlet weak var askQuestionToImageConstraint: NSLayoutConstraint!
-    @IBOutlet weak var pageControlToBottomConstraint: NSLayoutConstraint!
-
+    @IBOutlet weak var bottomGuideLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
+    
     // Data
     var productObject: PFObject!
     var isFavourite = false
@@ -72,6 +68,15 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         descriptionLabel.text = ""
         publishedTimeLabel.text = ""
         usernameLabel.text = ""
+        
+        // Scrollview content.
+        let svSize = self.scrollView.bounds.size
+        scrollView.contentSize = svSize
+        heightConstraint.active = false
+        bottomGuideLayoutConstraint.priority = 1000
+        
+        // right button
+        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "item_share-generic"], andSelectors: ["searchProduct", "shareItem"])
         
         // UX/UI
         self.markAsSoldActivityIndicator.hidden = true
@@ -102,10 +107,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                     makeOfferButton.hidden = true
                     askQuestionButton.hidden = true
                     
-                    // update constraints
-                    makeOfferToImageConstraint.constant -= self.makeOfferButton.frame.size.height
-                    askQuestionToImageConstraint.constant -= self.askQuestionButton.frame.size.height
-                    pageControlToBottomConstraint.constant -= self.askQuestionButton.frame.size.height
                 } else {
                     markSoldButton.setTitle(translate("mark_as_sold"), forState: .Normal)
                 }
@@ -177,14 +178,16 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             } else { publishedTimeLabel.hidden = true }
             
             // location in map
-            productLocation = productObject["gpscoords"] as? PFGeoPoint
-            if let location = productLocation {
+            if let productLocation = productObject["gpscoords"] as? PFGeoPoint {
+                self.productLocation = productLocation
                 // set map region
-                let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                let coordinate = CLLocationCoordinate2D(latitude: productLocation.latitude, longitude: productLocation.longitude)
                 let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000)
                 itemLocationMapView.setRegion(region, animated: true)
                 // add pin
                 itemLocationMapView.setPinInTheMapAtCoordinate(coordinate)
+                // set location label
+                locationLabel.text = distanceStringToGeoPoint(productLocation)
             }
             
         } else { // hide all buttons
@@ -196,12 +199,36 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         // internationalization
         makeOfferButton.setTitle(translate("make_an_offer"), forState: .Normal)
         askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
-        shareThisLabel.text = translate("share_this_item")
+        fromYouLabel.text = translate("from_you")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        // hide search bar (if showing)
+        if ambatanaSearchBar != nil { self.dismissSearchBar(ambatanaSearchBar!, animated: true, searchBarCompletion: nil) }
+    }
+    
+    // MARK: - UISearchBarDelegate methods
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        dismissSearchBar(searchBar, animated: true, searchBarCompletion: nil)
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        let searchString = searchBar.text
+        dismissSearchBar(searchBar, animated: true) { () -> Void in
+            // analyze search string
+            if searchString != nil && countElements(searchString) > 0 {
+                let newProductListVC = self.storyboard?.instantiateViewControllerWithIdentifier("productListViewController") as ProductListViewController
+                newProductListVC.currentSearchString = searchString
+                self.navigationController?.pushViewController(newProductListVC, animated: true)
+            }
+        }
+        
     }
     
     // MARK: - Image retrieval
@@ -325,7 +352,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         }
     }
     
-    
     @IBAction func makeOffer(sender: AnyObject) {
         self.performSegueWithIdentifier("MakeAnOffer", sender: sender)
     }
@@ -367,10 +393,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                         self.markSoldButton.alpha = 1.0
                         self.showAutoFadingOutMessageAlert(translate("marked_as_sold"), completionBlock: nil)
                 })
-                // update constraints
-                self.makeOfferToImageConstraint.constant -= self.makeOfferButton.frame.size.height
-                self.askQuestionToImageConstraint.constant -= self.askQuestionButton.frame.size.height
-                self.view.setNeedsLayout()
                 
                 self.delegate?.ambatanaProduct(self.productObject, statusUpdatedTo: self.productStatus!)
             } else {
@@ -405,74 +427,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         self.markSoldButton.userInteractionEnabled = true
     }
     
-    // MARK: - Sharing buttons and sharing actions.
-        
-    @IBAction func shareFacebook(sender: AnyObject) {
-        // first we need to check that the current FBSession is valid.
-        if FBSession.activeSession().state != FBSessionState.Open {
-            if FBSession.openActiveSessionWithAllowLoginUI(false) {
-                shareCurrentProductInFacebook()
-            } else { showAutoFadingOutMessageAlert(translate("error_sharing_facebook")) }
-        } else { shareCurrentProductInFacebook() }
-    }
+    // MARK: - Sharing & searching...
     
-    func shareCurrentProductInFacebook() {
-        let fbSharingParams = FBLinkShareParams()
-        fbSharingParams.link = NSURL(string: ambatanaWebLinkForObjectId(productObject.objectId))!
-        fbSharingParams.linkDescription = productObject["name"] as? String ?? translate("ambatana_product")
-        if productImageURLStrings.count > 0 { fbSharingParams.picture = NSURL(string: productImageURLStrings.first!) }
-        // check if we can present the dialog.
-        if FBDialogs.canPresentShareDialogWithParams(fbSharingParams) {
-            FBDialogs.presentShareDialogWithParams(fbSharingParams, clientState: nil, handler: { (call, result, error) -> Void in
-                if error != nil { // no success feedback
-                    self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"))
-                }
-            })
-        } else { // Present a fallback HTML dialog.
-            var shareParamsForBrowserFallback: [String: AnyObject] = [:]
-            if let productName = productObject["name"] as? String { shareParamsForBrowserFallback["name"] = productName }
-            shareParamsForBrowserFallback["caption"] = translate("have_a_look")
-            shareParamsForBrowserFallback["description"] = translate("have_a_look")
-            if productImageURLStrings.count > 0 { shareParamsForBrowserFallback["picture"] = productImageURLStrings.first }
-            // show dialog
-            FBWebDialogs.presentFeedDialogModallyWithSession(nil, parameters: shareParamsForBrowserFallback, handler: { (result, url, error) -> Void in
-                if error != nil { // error
-                    self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"))
-                } // No feedback for success
-            })
-        }
-        
-    }
-    
-    @IBAction func shareWhatsapp(sender: AnyObject) {
-        let sharingMessage = translate("have_a_look") + ambatanaWebLinkForObjectId(productObject.objectId)
-        let encodedSharingMessage = "whatsapp://send?text=" + sharingMessage.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-        if let whatsAppURL = NSURL(string: encodedSharingMessage) {
-            if UIApplication.sharedApplication().canOpenURL(whatsAppURL) {
-                UIApplication.sharedApplication().openURL(whatsAppURL)
-            } else { self.showAutoFadingOutMessageAlert(translate("whatsapp_not_configured")) }
-        } else { showAutoFadingOutMessageAlert(translate("error_sharing_whatsapp")) }
-
-    }
-    
-    @IBAction func shareMail(sender: AnyObject) {
-        if MFMailComposeViewController.canSendMail() {
-            // build and show a mail controller
-            let mailComposerController: MFMailComposeViewController! = MFMailComposeViewController()
-            
-            mailComposerController.mailComposeDelegate = self
-            mailComposerController.setSubject(translate("have_a_look"))
-            
-            let mailBody = ambatanaTextForSharingBody(productObject?["name"] as? String ?? "", andObjectId: productObject!.objectId)
-            mailComposerController.setMessageBody(mailBody, isHTML: false)
-            
-            self.presentViewController(mailComposerController, animated: true, completion: nil)
-        } else {
-            showAutoFadingOutMessageAlert(translate("unable_send_message"), completionBlock: nil)
-        }
-    }
-    
-    @IBAction func shareMore(sender: AnyObject) {
+    func shareItem() {
         // build items to share
         var itemsToShare: [AnyObject] = []
         
@@ -489,17 +446,21 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         
         // show activity view controller.
         let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
-        activityVC.excludedActivityTypes = [UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypeAirDrop, UIActivityTypeSaveToCameraRoll] // we don't want those to show in the sharing dialog.
+        activityVC.excludedActivityTypes = [UIActivityTypePrint, UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypeAirDrop, UIActivityTypeSaveToCameraRoll] // we don't want those to show in the sharing dialog.
         activityVC.setValue(translate("have_a_look"), forKey: "subject") // for email.
 
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         if activityVC.respondsToSelector("popoverPresentationController") {
             let presentationController = activityVC.popoverPresentationController
-            presentationController?.sourceView = sender as? UIButton ?? self.view
+            presentationController?.sourceView = self.view
         }
         self.presentViewController(activityVC, animated: true, completion: nil)
     }
-    
+
+    func searchProduct() {
+        showSearchBarAnimated(true, delegate: self)
+    }
+
     // MARK: - Favourite Requests & helpers
     
     func initializeFavoriteButtonAnimations() {

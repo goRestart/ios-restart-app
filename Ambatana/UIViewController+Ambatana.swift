@@ -23,12 +23,13 @@ extension UIViewController {
     
     // Sets the Ambatana navigation bar style. Should be called by every VC embedded in a UINavigationController.
     func setAmbatanaNavigationBarStyle(title: AnyObject? = nil, includeBackArrow: Bool = true) {
-        self.navigationController?.navigationBar.backgroundColor = UIColor.whiteColor()
+        //self.navigationController?.navigationBar.backgroundColor = UIColor.whiteColor()
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
         
         // title
         if let titleString = title as? String {
             self.navigationItem.title = titleString
-            self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.redColor()];
         } else if let titleImage = title as? UIImage {
             self.navigationItem.titleView = UIImageView(image: titleImage)
         }

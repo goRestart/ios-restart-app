@@ -37,7 +37,7 @@ func ambatanaWebLinkForObjectId(objectId: String) -> String {
  * Text for the message body when sharing a product in Ambatana.
  */
 func ambatanaTextForSharingBody(productName: String, andObjectId objectId: String) -> String {
-    return translate("have_a_look") + productName + "\n" + ambatanaWebLinkForObjectId(objectId)
+    return translate("have_a_look") + productName // + "\n" + ambatanaWebLinkForObjectId(objectId)
 }
 
 /**
@@ -110,4 +110,25 @@ func statusBarHeight() -> CGFloat {
     return Swift.min(statusBarSize.width, statusBarSize.height)
 }
 
+/**
+ * Returns a string containing the distance of the current user to a given point from a PFGeoPoint
+ */
+func distanceStringToGeoPoint(geoPoint: PFGeoPoint) -> String {
+    if let currentUserGeoPoint = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
+        let km = geoPoint.distanceInKilometersTo(currentUserGeoPoint)
+        if km > 1.0 {
+            return NSString(format: "%.1fKm", km)
+        }
+        else {
+            let m: Int = Int(km * 1000)
+            if m > 1 {
+                return "\(m)m"
+            }
+            else {
+                return translate("here")
+            }
+        }
+    } else { return translate("unknown_distance") }
+
+}
 
