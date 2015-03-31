@@ -183,8 +183,9 @@
 "uploading_product_please_wait" = "Cargando producto. Por favor, espere...";
 "from_you" = "de ti";
 "unknown_distance" = "distancia desconocida";
-
-
+"insert" = "Introduce";
+"category" = "Categoría";
+"photo" = "Foto";
 
 
 

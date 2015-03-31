@@ -69,11 +69,12 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         publishedTimeLabel.text = ""
         usernameLabel.text = ""
         
-        // Scrollview content.
+        // set scrollview content size.
         let svSize = self.scrollView.bounds.size
         scrollView.contentSize = svSize
-        heightConstraint.active = false
-        bottomGuideLayoutConstraint.priority = 1000
+        // disable the height constraint and prioritize the bottom layout constraint so scrollview adjust itself to the view bounds.
+        if heightConstraint != nil { if iOSVersionAtLeast("8.0") { heightConstraint.active = false } else { heightConstraint.priority = 1 } }
+        if bottomGuideLayoutConstraint != nil { bottomGuideLayoutConstraint.priority = 1000 }
         
         // right button
         self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "item_share-generic"], andSelectors: ["searchProduct", "shareItem"])
