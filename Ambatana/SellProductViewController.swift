@@ -11,7 +11,10 @@ import AddressBookUI
 
 private let kAmbatanaSellProductControlsCornerRadius: CGFloat = 6.0
 private let kAmbatanaAlreadyUploadedImageCellName = "AlreadyUploadedImageCell"
+private let kAmbatanaUploadFirstImageCellName = "UploadFirstImageCell"
+private let kAmbatanaUploadOtherImageCellName = "UploadOtherImageCell"
 private let kAmbatanaAlreadyUploadedImageCellBigImageTag = 1
+private let kAmbatanaUploadFirstImageCellLabelTag = 2
 private let kAmbatanaTextfieldScrollingOffsetSpan: CGFloat = 72 // 20 (status bar height) + 44 (navigation controller height) + 8 (small span to leave some space)
 
 private let kAmbatanaSellProductActionSheetTagCurrencyType = 100 // for currency selection
@@ -30,18 +33,13 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     @IBOutlet weak var shareInFacebookLabel: UILabel!
     @IBOutlet weak var sellItButton: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var addUpToLabel: UILabel!
     @IBOutlet weak var uploadingImageView: UIView!
     @IBOutlet weak var uploadingImageLabel: UILabel!
     @IBOutlet weak var uploadingImageProgressView: UIProgressView!
     var originalFrame: CGRect!
     
     // data
-    var images: [UIImage] = [] {
-        didSet { // hide "Add up to X photos" label if we have uploaded one or more photos.
-            addUpToLabel.hidden = images.count > 0
-        }
-    }
+    var images: [UIImage] = []
     var imageFiles: [PFFile]? = nil
 
     let sellQueue = dispatch_queue_create("com.ambatana.SellProduct", DISPATCH_QUEUE_SERIAL) // we want the images to load sequentially.
@@ -58,7 +56,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         setAmbatanaNavigationBarStyle(title: translate("sell"), includeBackArrow: true)
         
         // internationalization
-        addUpToLabel.text = translateWithFormat("add_up_to_x_photos", [kAmbatanaProductImageKeys.count]).uppercaseString
         productTitleTextField.placeholder = translate("product_title")
         productPriceTextfield.placeholder = translate("price")
         descriptionTextView.placeholder = translate("description")
@@ -69,14 +66,8 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         // UX/UI & appearance.
         uploadingImageView.hidden = true
-        currencyTypeButton.layer.cornerRadius = kAmbatanaSellProductControlsCornerRadius
-        descriptionTextView.layer.cornerRadius = kAmbatanaSellProductControlsCornerRadius
-        chooseCategoryButton.layer.cornerRadius = kAmbatanaSellProductControlsCornerRadius
-        sellItButton.layer.cornerRadius = kAmbatanaSellProductControlsCornerRadius
         // force 1-row horizontal layout.
-        if let flowLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.scrollDirection = .Horizontal
-        }
+        if let flowLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout { flowLayout.scrollDirection = .Horizontal }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -529,29 +520,37 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     // MARK: - Add Photo & Already uploaded images collection view DataSource & Delegate methods
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count + 1
+        return kAmbatanaProductImageKeys.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(kAmbatanaAlreadyUploadedImageCellName, forIndexPath: indexPath) as UICollectionViewCell
-        
-        if indexPath.row < images.count { // already uploaded image
-            // set image
-            if let uploadedImageView = cell.viewWithTag(kAmbatanaAlreadyUploadedImageCellBigImageTag) as? UIImageView {
-                uploadedImageView.image = images[indexPath.row]
-                uploadedImageView.clipsToBounds = true
-                uploadedImageView.contentMode = .ScaleAspectFill
-                uploadedImageView.layer.cornerRadius = kAmbatanaSellProductControlsCornerRadius
-            }
-        } else { // add photo "button".
-            if let addPhotoImageView = cell.viewWithTag(kAmbatanaAlreadyUploadedImageCellBigImageTag) as? UIImageView {
-                addPhotoImageView.image = UIImage(named: "publish_add-photo")
-                addPhotoImageView.layer.cornerRadius = addPhotoImageView.frame.size.width / 2.0
-                addPhotoImageView.clipsToBounds = true
-            }
-        }
+        var cell: UICollectionViewCell!
 
+        // let's try to find out which kind of cell is this
+        if indexPath.row == images.count { // "first upload image" case.
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kAmbatanaUploadFirstImageCellName, forIndexPath: indexPath) as UICollectionViewCell
+            self.configureFirstUploadImageCell(cell, indexPath: indexPath)
+        } else if indexPath.row < images.count { // already uploaded image case
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kAmbatanaAlreadyUploadedImageCellName, forIndexPath: indexPath) as UICollectionViewCell
+            self.configureAlreadyUploadedImageCell(cell, indexPath: indexPath)
+        } else { // "upload other image" case.
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kAmbatanaUploadOtherImageCellName, forIndexPath: indexPath) as UICollectionViewCell
+        }
         return cell
+    }
+    
+    func configureAlreadyUploadedImageCell(cell: UICollectionViewCell!, indexPath: NSIndexPath) {
+        if let uploadedImageView = cell?.viewWithTag(kAmbatanaAlreadyUploadedImageCellBigImageTag) as? UIImageView {
+            uploadedImageView.image = images[indexPath.row]
+            uploadedImageView.clipsToBounds = true
+            uploadedImageView.contentMode = .ScaleAspectFill
+        }
+    }
+    
+    func configureFirstUploadImageCell(cell: UICollectionViewCell!, indexPath: NSIndexPath) {
+        if let firstUploadLabel = cell?.viewWithTag(kAmbatanaUploadFirstImageCellLabelTag) as? UILabel {
+            firstUploadLabel.text = translate("photo")
+        }
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -579,12 +578,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             }
             
         } else { // add photo button.
-            // check number of photos.
-            if images.count >= kAmbatanaProductImageKeys.count {
-                showAutoFadingOutMessageAlert(translate("max_images_reached"))
-            } else {
-                showImageSourceSelection()
-            }
+            showImageSourceSelection()
         }
     }
     
