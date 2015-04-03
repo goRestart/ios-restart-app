@@ -50,8 +50,9 @@ extension UIViewController {
     
     // Used to set right buttons in the Ambatana style and link them with proper actions.
     // if badgeButtonPosition is specified, a badge number bubble will be added to the button in that position
-    func setAmbatanaRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], badgeButtonPosition: Int = -1) {
-        if (images.count != selectors.count) { return } // we need as many images as selectors and viceversa
+    func setAmbatanaRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], withTags tags: [Int]? = nil, badgeButtonPosition: Int = -1) -> [UIButton] {
+        if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
+        var resultButtons: [UIButton] = []
         
         let numberOfButtons = images.count
         let totalSize: CGFloat = CGFloat(numberOfButtons) * (kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan + kAmbatanaBarButtonHorizontalSpace)
@@ -62,9 +63,11 @@ extension UIViewController {
             // create and set button.
             var button = UIButton.buttonWithType(UIButtonType.System) as UIButton
             button.frame = CGRectMake(offset, 0, kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan, 32)
+            button.tag = tags != nil ? tags![i] : i
             button.setImage(UIImage(named: images[i]), forState: .Normal)
             button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
             buttonsView.addSubview(button)
+            resultButtons.append(button)
             
             // custom badge?
             if badgeButtonPosition == i && PFInstallation.currentInstallation().badge > 0 {
@@ -79,6 +82,7 @@ extension UIViewController {
             offset += kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan + kAmbatanaBarButtonHorizontalSpace
         }
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
+        return resultButtons
     }
     
     // Finds for a button containing a badge in the current Right bar button item and updates the results.

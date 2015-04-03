@@ -85,6 +85,7 @@ func allCategoriesQueryForLanguage(language: String) -> PFQuery {
     // the external query will retrieve all favorite categories where the category number matches the inner query.
     let query = PFQuery(className: "Categories")
     query.whereKey("language_code", equalTo: language)
+    query.orderByAscending("category_id")
     return query
 }
 

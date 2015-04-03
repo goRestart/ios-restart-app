@@ -13,7 +13,6 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var distanceView: UIView!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var statusImageView: UIImageView!
     
@@ -125,7 +124,6 @@ class ProductCell: UICollectionViewCell {
         nameLabel.text = ""
         priceLabel.text = ""
         thumbnailImageView.image = nil
-        distanceView.hidden = true
         distanceLabel.text = ""
         statusImageView.image = nil
     }

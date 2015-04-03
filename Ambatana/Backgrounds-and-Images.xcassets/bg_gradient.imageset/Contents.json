@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "edit_profile_favorited.png"
+      "filename" : "bg_gradient.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "edit_profile_favorited@2x.png"
+      "filename" : "bg_gradient@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "edit_profile_favorited@3x.png"
+      "filename" : "bg_gradient@3x.png"
     }
   ],
   "info" : {

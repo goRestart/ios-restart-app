@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let kAmbatanaProductListCellFactor: CGFloat = 190.0 / 145.0
+private let kAmbatanaProductListCellFactor: CGFloat = 210.0 / 160.0
 private let kAmbatanaMaxWaitingTimeForLocation: NSTimeInterval = 15 // seconds
 
 class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, ShowProductViewControllerDelegate, UISearchBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate {
@@ -34,7 +34,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     var currentFilterName = translate("proximity")
     
     var entries: [PFObject] = []
-    var cellSize = CGSizeMake(145.0, 190.0)
+    var cellSize = CGSizeMake(160.0, 210.0)
     var lastContentOffset: CGFloat = 0.0
     
     var unableToRetrieveLocationTimer: NSTimer?
@@ -43,14 +43,13 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         super.viewDidLoad()
         
         // cell size
-        let cellWidth = kAmbatanaFullScreenWidth * 0.45 // width/2.0 (2 cells per row) - 0.5*width(span)*2 cells
-        //let cellWidth = (kAmbatanaFullScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0 (margen más fino).
+        let cellWidth = kAmbatanaFullScreenWidth * 0.50
         let cellHeight = cellWidth * kAmbatanaProductListCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
         
         // add a pull to refresh control
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
+        //self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
         self.refreshControl.addTarget(self, action: "refreshProductList", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
         
@@ -65,7 +64,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         
         // Navigation bar & items
         self.setAmbatanaNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
-        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_filter"], andSelectors: ["searchProduct", "showFilters"])
+        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchProduct"])
 
         // Ambatana issue #2. Menu should only be visible from the main screen. Disable sliding unless we are the only active vc.
         let vcNumber = self.navigationController?.viewControllers.count
@@ -511,6 +510,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         self.resetProductList()
     }
 
+    /*
     // MARK: - ScrollView delegate methods
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let overflow = scrollView.contentOffset.y + scrollView.frame.size.height - scrollView.contentSize.height
@@ -535,6 +535,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             self.sellButton.transform = CGAffineTransformIdentity
         })
     }
+    */
 
     // MARK: - ShowProductViewControllerDelegate methods
     

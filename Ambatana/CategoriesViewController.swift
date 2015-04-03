@@ -11,7 +11,7 @@ import UIKit
 private let kAmbatanaCategoryCellRealImageTag = 1
 private let kAmbatanaCategoryCellGradientImageTag = 2
 private let kAmbatanaCategoryCellNameTag = 3
-private let kAmbatanaCategoriesCellFactor: CGFloat = 115.0 / 145.0
+private let kAmbatanaCategoriesCellFactor: CGFloat = 150.0 / 160.0
 
 class CategoriesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     // outlets & buttons
@@ -21,7 +21,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     
     // data
     var categories: [PFObject]?
-    var cellSize: CGSize?
+    var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     var lastContentOffset: CGFloat = 0.0
     var selectedCategory: ProductListCategory?
     
@@ -33,7 +33,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProducts", "conversations"], badgeButtonPosition: 1)
         
         // cell size
-        let cellWidth = kAmbatanaFullScreenWidth * 0.45 // width/2.0 (2 cells per row) - 0.5*width(span)*2 cells
+        let cellWidth = kAmbatanaFullScreenWidth * 0.50
         let cellHeight = cellWidth * kAmbatanaCategoriesCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
     }
@@ -137,7 +137,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return cellSize!
+            return cellSize
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -157,6 +157,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             
             // category image
             if let categoryImage = cell.viewWithTag(kAmbatanaCategoryCellRealImageTag) as? UIImageView {
+                categoryImage.clipsToBounds = true
                 // first we try to retrieve it locally.
                 var imageRetrievedLocally = false
                 if let categoryId = categoryObject["category_id"] as? Int {
@@ -191,6 +192,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    /*
     // MARK: - ScrollView delegate methods
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let overflow = scrollView.contentOffset.y + scrollView.frame.size.height - scrollView.contentSize.height
@@ -214,5 +216,5 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             self.sellButton.transform = CGAffineTransformIdentity
         })
     }
-
+    */
 }

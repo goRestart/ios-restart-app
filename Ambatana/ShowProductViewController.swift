@@ -19,7 +19,7 @@ protocol ShowProductViewControllerDelegate {
  * This ViewController is in charge of showing a single product selected from the ProductList view controller. Depending on the ownership of the product, the user would be allowed
  * to modify the object if he/she owns it, or make offers/chat with the owner.
  */
-class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate, UISearchBarDelegate {
+class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate {
 
     // outlets & buttons
     @IBOutlet weak var imagesScrollView: UIScrollView!
@@ -37,10 +37,10 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var markAsSoldActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var askQuestionActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var showMapButton: UIButton!
-    @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var fromYouLabel: UILabel!
+    var favoriteButton: UIButton!
     
     @IBOutlet weak var bottomGuideLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
@@ -76,8 +76,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         if heightConstraint != nil { if iOSVersionAtLeast("8.0") { heightConstraint.active = false } else { heightConstraint.priority = 1 } }
         if bottomGuideLayoutConstraint != nil { bottomGuideLayoutConstraint.priority = 1000 }
         
-        // right button
-        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search", "item_share-generic"], andSelectors: ["searchProduct", "shareItem"])
+        // set rights buttons and locate favorite button.
+        let buttons = self.setAmbatanaRightButtonsWithImageNames(["item_share-generic", "item_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
+        for button in buttons { if button.tag == 1 { self.favoriteButton = button } }
         
         // UX/UI
         self.markAsSoldActivityIndicator.hidden = true
@@ -120,7 +121,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 // user name
                 if error == nil {
                     let usernamePublic = retrievedUser["username_public"] as? String ?? translate("unknown")
-                    self.usernameLabel.text = translate("by") + " " + usernamePublic
+                    self.usernameLabel.text = usernamePublic
                     if let avatarFile = retrievedUser["avatar"] as? PFFile {
                         ImageManager.sharedInstance.retrieveImageFromParsePFFile(avatarFile, completion: { (success, image) -> Void in
                                 if success {
@@ -174,7 +175,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // product published date.
             if productObject.createdAt != nil {
-                publishedTimeLabel.text = translate("published") + " " + productObject.createdAt.relativeTimeString().lowercaseString
+                publishedTimeLabel.text = productObject.createdAt.relativeTimeString().lowercaseString
                 publishedTimeLabel.hidden = false
             } else { publishedTimeLabel.hidden = true }
             
@@ -206,30 +207,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        // hide search bar (if showing)
-        if ambatanaSearchBar != nil { self.dismissSearchBar(ambatanaSearchBar!, animated: true, searchBarCompletion: nil) }
-    }
-    
-    // MARK: - UISearchBarDelegate methods
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        dismissSearchBar(searchBar, animated: true, searchBarCompletion: nil)
-    }
-    
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        let searchString = searchBar.text
-        dismissSearchBar(searchBar, animated: true) { () -> Void in
-            // analyze search string
-            if searchString != nil && countElements(searchString) > 0 {
-                let newProductListVC = self.storyboard?.instantiateViewControllerWithIdentifier("productListViewController") as ProductListViewController
-                newProductListVC.currentSearchString = searchString
-                self.navigationController?.pushViewController(newProductListVC, animated: true)
-            }
-        }
-        
     }
     
     // MARK: - Image retrieval
@@ -458,10 +435,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         self.presentViewController(activityVC, animated: true, completion: nil)
     }
 
-    func searchProduct() {
-        showSearchBarAnimated(true, delegate: self)
-    }
-
     // MARK: - Favourite Requests & helpers
     
     func initializeFavoriteButtonAnimations() {
@@ -473,7 +446,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         
     }
     
-    @IBAction func markOrUnmarkAsFavorite(sender: AnyObject) {
+    //@IBAction func markOrUnmarkAsFavorite(sender: AnyObject) {
+    func markOrUnmarkAsFavorite() {
         self.favoriteButton.userInteractionEnabled = false
         
         // UI update for quick user feedback + Request
@@ -523,7 +497,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 favQuery.whereKey("user", equalTo: actualUser)
                 favQuery.whereKey("product", equalTo: actualProduct)
                 favQuery.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
-                    let favProduct = objects.first as? PFObject
+                    let favProduct = objects?.first as? PFObject
                     let success = error == nil
                     completion(success, favProduct)
                 })
