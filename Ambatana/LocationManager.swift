@@ -1,6 +1,6 @@
 //
 //  LocationManager.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 06/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -9,8 +9,8 @@
 import UIKit
 import AddressBookUI
 
-private let kAmbatanaLocationTimerUpdateInterval: NSTimeInterval = 300
-private let kAmbatanaUserWantsToSpecifyLocationDirectly = "AmbatanaUserWantsToSpecifyLocationDirectly"
+private let kLetGoLocationTimerUpdateInterval: NSTimeInterval = 300
+private let kLetGoUserWantsToSpecifyLocationDirectly = "LetGoUserWantsToSpecifyLocationDirectly"
 
 // private singleton instance
 private let _singletonInstance = LocationManager()
@@ -73,7 +73,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         self.clLocationManager.startUpdatingLocation()
         self.updatingLocation = true
         if locationTimer == nil { // clear previous timer
-            locationTimer = NSTimer.scheduledTimerWithTimeInterval(kAmbatanaLocationTimerUpdateInterval, target: self, selector: "updateLocationTimerTriggered", userInfo: nil, repeats: true)
+            locationTimer = NSTimer.scheduledTimerWithTimeInterval(kLetGoLocationTimerUpdateInterval, target: self, selector: "updateLocationTimerTriggered", userInfo: nil, repeats: true)
         }
     }
     
@@ -124,7 +124,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             println("Registering new location: \(latestLocation)")
             updateRegisteredLocation(latestLocation)
         } else {
-            NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserLocationSuccessfullySetNotification, object: latestLocation)
+            NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserLocationSuccessfullySetNotification, object: latestLocation)
         }
         
     }
@@ -132,7 +132,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func userSpecifiedLocationDirectly(directLocation: CLLocationCoordinate2D, mustNotifyObservers: Bool) {
         self.lastKnownLocation = directLocation
         let latestLocation = CLLocation(coordinate: directLocation, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
-        NSUserDefaults.standardUserDefaults().setObject(kAmbatanaUserWantsToSpecifyLocationDirectly, forKey: kAmbatanaUserWantsToSpecifyLocationDirectly)
+        NSUserDefaults.standardUserDefaults().setObject(kLetGoUserWantsToSpecifyLocationDirectly, forKey: kLetGoUserWantsToSpecifyLocationDirectly)
         updateRegisteredLocation(latestLocation, notifyObservers: mustNotifyObservers)
     }
     
@@ -161,10 +161,10 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                 if (success) {
                     println("*** Updated registered user location successfully")
                     self.lastRegisteredLocation = latestLocation.coordinate
-                    if notifyObservers { NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserLocationSuccessfullyChangedNotification, object: latestLocation) }
+                    if notifyObservers { NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserLocationSuccessfullyChangedNotification, object: latestLocation) }
                 } else {
                     println("*** Error setting registered user's location")
-                    if notifyObservers { NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUnableToSetUserLocationNotification, object: nil) }
+                    if notifyObservers { NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUnableToSetUserLocationNotification, object: nil) }
                 }
             })
         })
@@ -194,7 +194,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         // check if user is allowed to use location services.
         if appIsAuthorizedToUseLocationServices() { // start updating location
             println("We are authorized, so start updating location!")
-            NSUserDefaults.standardUserDefaults().removeObjectForKey(kAmbatanaUserWantsToSpecifyLocationDirectly)
+            NSUserDefaults.standardUserDefaults().removeObjectForKey(kLetGoUserWantsToSpecifyLocationDirectly)
             self.startUpdatingLocation()
         } else { // ask the user to enter his/her location.
             if (PFUser.currentUser() == nil) { return }
@@ -204,7 +204,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             
             // check if the user has explicitly indicated his/her location because can't/doesn't want it to be retrieved from the device.
             let defaults = NSUserDefaults.standardUserDefaults()
-            if let directLocation = NSUserDefaults.standardUserDefaults().objectForKey(kAmbatanaUserWantsToSpecifyLocationDirectly) as? String {
+            if let directLocation = NSUserDefaults.standardUserDefaults().objectForKey(kLetGoUserWantsToSpecifyLocationDirectly) as? String {
                 // try to get location for the current user from parse, and use it as the .
                 if let registeredLocationObject = PFUser.currentUser()["gpscoords"] as? PFGeoPoint {
                     println("Location retrieved from previously registered entry in backend")
@@ -213,11 +213,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
                     self.lastKnownLocation = self.lastRegisteredLocation
                 } else {
                     println("Unable to get location")
-                    NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUnableToGetUserLocationNotification, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUnableToGetUserLocationNotification, object: nil)
                 }
             } else {
                 println("Unable to get location")
-                NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUnableToGetUserLocationNotification, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUnableToGetUserLocationNotification, object: nil)
             }
             updatingLocation = false
         }

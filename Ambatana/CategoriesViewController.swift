@@ -1,6 +1,6 @@
 //
 //  CategoriesViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 05/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-private let kAmbatanaCategoryCellRealImageTag = 1
-private let kAmbatanaCategoryCellGradientImageTag = 2
-private let kAmbatanaCategoryCellNameTag = 3
-private let kAmbatanaCategoriesCellFactor: CGFloat = 150.0 / 160.0
+private let kLetGoCategoryCellRealImageTag = 1
+private let kLetGoCategoryCellGradientImageTag = 2
+private let kLetGoCategoryCellNameTag = 3
+private let kLetGoCategoriesCellFactor: CGFloat = 150.0 / 160.0
 
 class CategoriesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     // outlets & buttons
@@ -29,12 +29,12 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         super.viewDidLoad()
 
         // UX/UI & Appearance
-        setAmbatanaNavigationBarStyle(title: translate("categories"), includeBackArrow: true)
-        setAmbatanaRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProducts", "conversations"], badgeButtonPosition: 1)
+        setLetGoNavigationBarStyle(title: translate("categories"), includeBackArrow: true)
+        setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProducts", "conversations"], badgeButtonPosition: 1)
         
         // cell size
-        let cellWidth = kAmbatanaFullScreenWidth * 0.50
-        let cellHeight = cellWidth * kAmbatanaCategoriesCellFactor
+        let cellWidth = kLetGoFullScreenWidth * 0.50
+        let cellHeight = cellWidth * kLetGoCategoriesCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
     }
 
@@ -45,16 +45,16 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        let initialLanguage = NSLocale.preferredLanguages().first as? String ?? kAmbatanaDefaultCategoriesLanguage
+        let initialLanguage = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
         // load initial categories. First try to load from the user device's language. If none found, fallback to "en".
         let allCategoriesQuery = allCategoriesQueryForLanguage(initialLanguage)
-        performCategoriesQuery(allCategoriesQuery, isDefaultLanguage: initialLanguage == kAmbatanaDefaultCategoriesLanguage)
+        performCategoriesQuery(allCategoriesQuery, isDefaultLanguage: initialLanguage == kLetGoDefaultCategoriesLanguage)
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         // hide search bar (if showing)
-        if ambatanaSearchBar != nil { self.dismissSearchBar(ambatanaSearchBar!, animated: true, searchBarCompletion: nil) }
+        if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
     }
     
     // MARK: - UISearchBarDelegate methods
@@ -126,7 +126,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             self.categories = []
         } else { // we have another chance. Fallback to default language.
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                let fallbackQuery = allCategoriesQueryForLanguage(kAmbatanaDefaultCategoriesLanguage)
+                let fallbackQuery = allCategoriesQueryForLanguage(kLetGoDefaultCategoriesLanguage)
                 self.performCategoriesQuery(fallbackQuery, isDefaultLanguage: true)
             }
         }
@@ -151,12 +151,12 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             // configure cell
             
             // category name
-            if let nameLabel = cell.viewWithTag(kAmbatanaCategoryCellNameTag) as? UILabel {
+            if let nameLabel = cell.viewWithTag(kLetGoCategoryCellNameTag) as? UILabel {
                 nameLabel.text = categoryObject["name"] as? String ?? translate("unknown")
             }
             
             // category image
-            if let categoryImage = cell.viewWithTag(kAmbatanaCategoryCellRealImageTag) as? UIImageView {
+            if let categoryImage = cell.viewWithTag(kLetGoCategoryCellRealImageTag) as? UIImageView {
                 categoryImage.clipsToBounds = true
                 // first we try to retrieve it locally.
                 var imageRetrievedLocally = false
@@ -199,11 +199,11 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         
         // Determine if we need to hide the sell button.
         let diff = scrollView.contentOffset.y - self.lastContentOffset
-        if diff > kAmbatanaContentScrollingDownThreshold {
+        if diff > kLetGoContentScrollingDownThreshold {
             UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
                 self.sellButton.transform = CGAffineTransformMakeTranslation(0, 3*self.sellButton.frame.size.height)
                 }, completion: nil)
-        } else if diff < kAmbatanaContentScrollingUpThreshold {
+        } else if diff < kLetGoContentScrollingUpThreshold {
             UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.6, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
                 self.sellButton.transform = CGAffineTransformIdentity
                 }, completion: nil)

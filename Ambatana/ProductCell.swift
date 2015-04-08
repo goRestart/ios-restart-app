@@ -1,9 +1,9 @@
 //
 //  ProductCell.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by AHL on 13/3/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
+//  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
 import UIKit
@@ -52,7 +52,7 @@ class ProductCell: UICollectionViewCell {
         }
         
         // Thumb
-        if let imageFile = product[kAmbatanaProductFirstImageKey] as? PFFile {
+        if let imageFile = product[kLetGoProductFirstImageKey] as? PFFile {
             var shouldUseThumbs: Bool
             if let isProcessed = product["processed"] as? Bool {
                 shouldUseThumbs = isProcessed

@@ -1,6 +1,6 @@
 //
 //  ChatListViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 20/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-private let kAmbatanaConversationCellImageTag = 1
-private let kAmbatanaConversationCellUserNameTag = 2
-private let kAmbatanaConversationCellProductNameTag = 3
-private let kAmbatanaConversationCellRelativeDateTag = 4
+private let kLetGoConversationCellImageTag = 1
+private let kLetGoConversationCellUserNameTag = 2
+private let kLetGoConversationCellProductNameTag = 3
+private let kLetGoConversationCellRelativeDateTag = 4
 
-private let kAmbatanaConversationsRefreshTimeout: NSTimeInterval = 300 // seconds.
+private let kLetGoConversationsRefreshTimeout: NSTimeInterval = 300 // seconds.
 
 /**
  * The ChatListViewController manages all the conversations of the user. It reads the list of PFObjects
@@ -39,15 +39,15 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     var refreshControl: UIRefreshControl!
     
     // data
-    var conversations: [AmbatanaConversation]?
+    var conversations: [LetGoConversation]?
     var lastTimeConversationsWhereRetrieved: NSDate?
-    var selectedAmbatanaConversation: AmbatanaConversation?
+    var selectedLetGoConversation: LetGoConversation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // appearance
-        setAmbatanaNavigationBarStyle(title: translate("conversations"), includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: translate("conversations"), includeBackArrow: true)
         
         // internationalization
         noConversationsYet.text = translate("no_conversations_yet")
@@ -76,7 +76,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         PFInstallation.currentInstallation().badge = 0
         PFInstallation.currentInstallation().saveInBackgroundWithBlock({ (success, error) -> Void in
             if error != nil { PFInstallation.currentInstallation().saveEventually(nil) }
-            else { NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserBadgeChangedNotification, object: nil) }
+            else { NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil) }
         })
     }
     
@@ -113,7 +113,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     // Determines if we should refresh the conversations.
     func itsAboutTimeToRefreshConversations() -> Bool {
         if lastTimeConversationsWhereRetrieved == nil { return true }
-        else { return NSDate().timeIntervalSinceDate(lastTimeConversationsWhereRetrieved!) > kAmbatanaConversationsRefreshTimeout }
+        else { return NSDate().timeIntervalSinceDate(lastTimeConversationsWhereRetrieved!) > kLetGoConversationsRefreshTimeout }
     }
     
     // MARK: - Appearance & different contexts interfaces
@@ -181,7 +181,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if let cvc = segue.destinationViewController as? ChatViewController {
-            cvc.ambatanaConversation = self.selectedAmbatanaConversation
+            cvc.letgoConversation = self.selectedLetGoConversation
         }
     }
 
@@ -198,7 +198,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         // configure cell
         if var conversation = conversations?[indexPath.row] {
             // 1.image
-            if let imageView = cell.viewWithTag(kAmbatanaConversationCellImageTag) as? UIImageView {
+            if let imageView = cell.viewWithTag(kLetGoConversationCellImageTag) as? UIImageView {
                 // do we have an image downloaded yet?
                 if conversation.userAvatarImage != nil {
                     imageView.image = conversation.userAvatarImage
@@ -219,19 +219,19 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             }
 
             // 2. product name
-            if let productNameLabel = cell.viewWithTag(kAmbatanaConversationCellProductNameTag) as? UILabel {
+            if let productNameLabel = cell.viewWithTag(kLetGoConversationCellProductNameTag) as? UILabel {
                 productNameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
                 productNameLabel.text = conversation.productName
             }
             
             // 3. user name
-            if let userNameLabel = cell.viewWithTag(kAmbatanaConversationCellUserNameTag) as? UILabel {
+            if let userNameLabel = cell.viewWithTag(kLetGoConversationCellUserNameTag) as? UILabel {
                 userNameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
                 userNameLabel.text = conversation.userName
             }
             
             // 4. relative time
-            if let relativeTimeLabel = cell.viewWithTag(kAmbatanaConversationCellRelativeDateTag) as? UILabel {
+            if let relativeTimeLabel = cell.viewWithTag(kLetGoConversationCellRelativeDateTag) as? UILabel {
                 relativeTimeLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
                 relativeTimeLabel.text = translate("published") + " " + conversation.lastUpdated.relativeTimeString()
             }
@@ -243,8 +243,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let ambatanaConversation = self.conversations?[indexPath.row] {
-            self.selectedAmbatanaConversation = ambatanaConversation
+        if let letgoConversation = self.conversations?[indexPath.row] {
+            self.selectedLetGoConversation = letgoConversation
             self.performSegueWithIdentifier("OpenChat", sender: nil)
         }
     }

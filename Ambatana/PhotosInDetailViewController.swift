@@ -1,6 +1,6 @@
 //
 //  PhotosInDetailViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 12/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-private let kAmbatanaPhotoDetailsInnerImageViewTag = 100
+private let kLetGoPhotoDetailsInnerImageViewTag = 100
 
 class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
     // outlets & buttons
@@ -23,7 +23,7 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setAmbatanaNavigationBarStyle(title: productName, includeBackArrow: true)
+        self.setLetGoNavigationBarStyle(title: productName, includeBackArrow: true)
         self.pageControl.numberOfPages = 0
     }
 
@@ -58,7 +58,7 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
                 let imageView = UIImageView(image: image)
                 imageView.contentMode = .ScaleAspectFit
                 imageView.clipsToBounds = true
-                imageView.tag = kAmbatanaPhotoDetailsInnerImageViewTag
+                imageView.tag = kLetGoPhotoDetailsInnerImageViewTag
                 imageView.backgroundColor = UIColor.yellowColor()
 
                 let innerFrame = CGRectMake(offset, 0, self.scrollView.frame.size.width, self.scrollView.frame.size.height)
@@ -96,7 +96,7 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func centerScrollViewContents(scrollView: UIScrollView) {
         let boundsSize = scrollView.frame.size
-        if let imageView = scrollView.viewWithTag(kAmbatanaPhotoDetailsInnerImageViewTag) as? UIImageView {
+        if let imageView = scrollView.viewWithTag(kLetGoPhotoDetailsInnerImageViewTag) as? UIImageView {
             var contentsFrame = imageView.frame
             
             if contentsFrame.size.width < boundsSize.width {
@@ -117,7 +117,7 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         if scrollView == self.scrollView { return nil }
-        return scrollView.viewWithTag(kAmbatanaPhotoDetailsInnerImageViewTag)
+        return scrollView.viewWithTag(kLetGoPhotoDetailsInnerImageViewTag)
     }
 
     func scrollViewDidScroll(scrollView: UIScrollView) {

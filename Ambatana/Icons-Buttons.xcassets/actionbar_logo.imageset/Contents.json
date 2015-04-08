@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "actionbar_logo.png"
+      "filename" : "letgo-solo-logo.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "actionbar_logo@2x.png"
+      "filename" : "letgo-solo-logo@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "actionbar_logo@3x.png"
+      "filename" : "letgo-solo-logo@3x.png"
     }
   ],
   "info" : {

@@ -1,6 +1,6 @@
 //
 //  MenuViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 04/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-private let kAmbatanaMenuOptionCellName = "AmbatanaMenuOptionCell"
-private let kAmbatanaMenuOptionCellTitleTag = 1
-private let kAmbatanaMenuOptionCellImageTag = 2
-private let kAmbatanaMenuOptionCellBadgeTag = 3
+private let kLetGoMenuOptionCellName = "LetGoMenuOptionCell"
+private let kLetGoMenuOptionCellTitleTag = 1
+private let kLetGoMenuOptionCellImageTag = 2
+private let kLetGoMenuOptionCellBadgeTag = 3
 
 
-enum AmbatanaMenuOptions : Int {
+enum LetGoMenuOptions : Int {
     case MyProfile = 0, Conversations = 1, Sell = 2, Categories = 3
     /** Returns the title for the menu option */
     func titleForMenuOption() -> String {
@@ -85,13 +85,13 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewWillAppear(animated)
         
         // set user data
-        userImageView.image = ConfigurationManager.sharedInstance.userProfileImage ?? UIImage(named: kAmbatanaDefaultUserImageName)
+        userImageView.image = ConfigurationManager.sharedInstance.userProfileImage ?? UIImage(named: kLetGoDefaultUserImageName)
         userLocationLabel.text = ConfigurationManager.sharedInstance.userLocation
         userNameLabel.text = ConfigurationManager.sharedInstance.userName
         
         // register for user profile picture update notifications.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userPictureUpdated:", name: kAmbatanaUserPictureUpdatedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kAmbatanaUserBadgeChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userPictureUpdated:", name: kLetGoUserPictureUpdatedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -103,7 +103,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     // MARK: - UITableViewDelegate methods
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let menuOption = AmbatanaMenuOptions(rawValue: indexPath.row)
+        let menuOption = LetGoMenuOptions(rawValue: indexPath.row)
         var segueName: String?
 
         switch (menuOption!) {
@@ -116,7 +116,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         case .Categories:
             segueName = "Categories"
         default:
-            UIApplication.sharedApplication().openURL(NSURL(string: kAmbatanaWebsiteURL)!)
+            UIApplication.sharedApplication().openURL(NSURL(string: kLetGoWebsiteURL)!)
             segueName = nil
             break;
         }
@@ -136,19 +136,19 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // MARK: - UITableViewDataSource methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AmbatanaMenuOptions.numOptions
+        return LetGoMenuOptions.numOptions
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kAmbatanaMenuOptionCellName, forIndexPath: indexPath) as UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kLetGoMenuOptionCellName, forIndexPath: indexPath) as UITableViewCell
         // configure cell
         if iOSVersionAtLeast("8.0") { cell.layoutMargins = UIEdgeInsetsZero }
         else { cell.separatorInset = UIEdgeInsetsZero }
         
-        if let menuOption = AmbatanaMenuOptions(rawValue: indexPath.row) {
-            let titleLabel = cell.viewWithTag(kAmbatanaMenuOptionCellTitleTag) as? UILabel
-            let imageView = cell.viewWithTag(kAmbatanaMenuOptionCellImageTag) as? UIImageView
-            let badgeView = cell.viewWithTag(kAmbatanaMenuOptionCellBadgeTag) as? UILabel
+        if let menuOption = LetGoMenuOptions(rawValue: indexPath.row) {
+            let titleLabel = cell.viewWithTag(kLetGoMenuOptionCellTitleTag) as? UILabel
+            let imageView = cell.viewWithTag(kLetGoMenuOptionCellImageTag) as? UIImageView
+            let badgeView = cell.viewWithTag(kLetGoMenuOptionCellBadgeTag) as? UILabel
             
             // selectable?
             cell.selectionStyle = .Default
@@ -181,7 +181,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let updatedImage = notification.object as? UIImage {
             self.userImageView.image = updatedImage
         } else {
-            self.userImageView.image = ConfigurationManager.sharedInstance.userProfileImage ?? UIImage(named: kAmbatanaDefaultUserImageName)
+            self.userImageView.image = ConfigurationManager.sharedInstance.userProfileImage ?? UIImage(named: kLetGoDefaultUserImageName)
         }
     }
     

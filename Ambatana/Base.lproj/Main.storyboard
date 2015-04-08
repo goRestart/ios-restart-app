@@ -62,10 +62,9 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A fun and unique way to shop and sell second hand items" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="iDt-xE-jbk">
-                                <rect key="frame" x="35" y="228" width="250" height="48"/>
+                                <rect key="frame" x="16" y="217" width="288" height="48"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="OYw-Nf-OjY"/>
-                                    <constraint firstAttribute="width" constant="250" id="Z5K-AU-ikw"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="48" id="t07-JG-sDc"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -80,20 +79,6 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ambatana_white" translatesAutoresizingMaskIntoConstraints="NO" id="TiW-kT-zwe">
-                                <rect key="frame" x="86" y="44" width="148" height="128"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="148" id="L6z-nb-TEz"/>
-                                    <constraint firstAttribute="height" constant="128" id="cbK-p4-F3P"/>
-                                </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ambatana_logo_white" translatesAutoresizingMaskIntoConstraints="NO" id="j2Q-Np-7CX">
-                                <rect key="frame" x="50" y="180" width="220" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="220" id="Ifo-fN-e6c"/>
-                                    <constraint firstAttribute="height" constant="40" id="wnJ-y6-Hmt"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zjm-VB-hw0">
                                 <rect key="frame" x="35" y="333" width="250" height="63"/>
                                 <color key="backgroundColor" red="0.13725490870000001" green="0.4784313738" blue="0.72941178080000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -112,6 +97,12 @@
                                     <action selector="connectWithFacebook:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="72g-EN-T94"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="letgo-logo-white" translatesAutoresizingMaskIntoConstraints="NO" id="5pO-ei-Lsx">
+                                <rect key="frame" x="66" y="20" width="189" height="189"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="5pO-ei-Lsx" secondAttribute="height" multiplier="1:1" id="iTp-Cp-rXe"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -119,9 +110,9 @@
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="bYw-6q-79F" secondAttribute="bottom" id="0Kl-md-djd"/>
                             <constraint firstItem="cb3-VP-RH9" firstAttribute="height" secondItem="NId-Cf-Gzr" secondAttribute="height" id="1vg-nS-h6F"/>
                             <constraint firstItem="NId-Cf-Gzr" firstAttribute="leading" secondItem="hId-Ce-ZtL" secondAttribute="trailing" id="4jp-DP-qYD"/>
-                            <constraint firstItem="TiW-kT-zwe" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="24" id="61x-oU-eJc"/>
-                            <constraint firstAttribute="centerX" secondItem="j2Q-Np-7CX" secondAttribute="centerX" id="6hK-RR-aFm"/>
+                            <constraint firstItem="iDt-xE-jbk" firstAttribute="top" secondItem="5pO-ei-Lsx" secondAttribute="bottom" constant="8" id="7ho-8f-i8Q"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="cb3-VP-RH9" secondAttribute="bottom" constant="24" id="8OW-AC-0tE"/>
+                            <constraint firstAttribute="trailing" secondItem="iDt-xE-jbk" secondAttribute="trailing" constant="16" id="9ZU-O2-oDm"/>
                             <constraint firstItem="bYw-6q-79F" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="CEq-7e-XCp"/>
                             <constraint firstItem="bYw-6q-79F" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="FRy-uD-VG1"/>
                             <constraint firstItem="Zjm-VB-hw0" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" constant="80" id="HbC-F2-Gws"/>
@@ -129,20 +120,21 @@
                             <constraint firstAttribute="centerX" secondItem="Zjm-VB-hw0" secondAttribute="centerX" id="Jtn-lN-VPd"/>
                             <constraint firstItem="cb3-VP-RH9" firstAttribute="centerY" secondItem="NId-Cf-Gzr" secondAttribute="centerY" id="M3k-G9-W8d"/>
                             <constraint firstItem="cb3-VP-RH9" firstAttribute="width" secondItem="NId-Cf-Gzr" secondAttribute="width" id="MIj-uc-cux"/>
-                            <constraint firstItem="j2Q-Np-7CX" firstAttribute="top" secondItem="TiW-kT-zwe" secondAttribute="bottom" constant="8" id="So9-Fn-ITP"/>
                             <constraint firstAttribute="centerX" secondItem="iDt-xE-jbk" secondAttribute="centerX" id="TO1-WT-8OV"/>
-                            <constraint firstItem="iDt-xE-jbk" firstAttribute="top" secondItem="j2Q-Np-7CX" secondAttribute="bottom" constant="8" id="XEY-v8-dWQ"/>
                             <constraint firstItem="hId-Ce-ZtL" firstAttribute="leading" secondItem="cb3-VP-RH9" secondAttribute="trailing" id="ed6-xR-MGU"/>
+                            <constraint firstItem="5pO-ei-Lsx" firstAttribute="height" secondItem="bYw-6q-79F" secondAttribute="height" multiplier="1:3" id="g8T-4s-Ipl"/>
+                            <constraint firstItem="5pO-ei-Lsx" firstAttribute="top" secondItem="bYw-6q-79F" secondAttribute="top" constant="20" id="gnX-w4-Zwu"/>
                             <constraint firstAttribute="centerX" secondItem="CuJ-ul-btB" secondAttribute="centerX" id="mOn-nz-8St"/>
                             <constraint firstItem="NId-Cf-Gzr" firstAttribute="top" secondItem="CuJ-ul-btB" secondAttribute="bottom" constant="12" id="nXf-SN-pKe"/>
-                            <constraint firstAttribute="centerX" secondItem="TiW-kT-zwe" secondAttribute="centerX" id="ogK-cV-UdC"/>
+                            <constraint firstItem="iDt-xE-jbk" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="sTq-rb-tZj"/>
                             <constraint firstAttribute="trailing" secondItem="bYw-6q-79F" secondAttribute="trailing" id="utP-Kn-VoN"/>
+                            <constraint firstItem="5pO-ei-Lsx" firstAttribute="centerX" secondItem="bYw-6q-79F" secondAttribute="centerX" id="yMY-ni-adw"/>
                             <constraint firstItem="hId-Ce-ZtL" firstAttribute="centerY" secondItem="NId-Cf-Gzr" secondAttribute="centerY" id="zKN-RU-hGH"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="ambatanaLoginLabel" destination="iDt-xE-jbk" id="a7f-EW-BpF"/>
                         <outlet property="facebookLoginButton" destination="Zjm-VB-hw0" id="URN-IE-v4l"/>
+                        <outlet property="letgoLoginLabel" destination="iDt-xE-jbk" id="1VE-1F-6HK"/>
                         <outlet property="loginButton" destination="NId-Cf-Gzr" id="zaS-em-Bc4"/>
                         <outlet property="orUseEmailLabel" destination="CuJ-ul-btB" id="1IJ-d8-oRe"/>
                         <outlet property="signupButton" destination="cb3-VP-RH9" id="ibV-tf-qtG"/>
@@ -271,7 +263,7 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Ambatana" id="lVT-4n-md0"/>
+                                    <navigationItem title="LetGo" id="lVT-4n-md0"/>
                                 </items>
                             </navigationBar>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5W9-ZS-C4O">
@@ -1422,7 +1414,7 @@
                                 <rect key="frame" x="0.0" y="116" width="320" height="452"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AmbatanaMenuOptionCell" rowHeight="60" id="x9q-hv-Qv8">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LetGoMenuOptionCell" rowHeight="60" id="x9q-hv-Qv8">
                                         <rect key="frame" x="0.0" y="0.0" width="246" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x9q-hv-Qv8" id="OzL-9i-WlX">
@@ -1951,14 +1943,14 @@
                                     <constraint firstAttribute="height" constant="1" id="e6J-z5-3Hz"/>
                                 </constraints>
                             </view>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Zw3-pi-2tu">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Zw3-pi-2tu">
                                 <rect key="frame" x="0.0" y="197" width="320" height="307"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="izp-um-00g">
-                                    <size key="itemSize" width="145" height="190"/>
+                                <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="izp-um-00g">
+                                    <size key="itemSize" width="160" height="210"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                                 <connections>
@@ -2112,7 +2104,7 @@
                                 <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AmbatanaSettingsCell" rowHeight="80" id="xWd-bO-owp">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="LetGoSettingsCell" rowHeight="80" id="xWd-bO-owp">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xWd-bO-owp" id="toh-9Z-dJJ">
@@ -2617,7 +2609,7 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </textAttributes>
                                 <items>
-                                    <navigationItem title="Ambatana account" id="Cjb-Go-yBs"/>
+                                    <navigationItem title="LetGo account" id="Cjb-Go-yBs"/>
                                 </items>
                             </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ovn-wL-oa7">
@@ -2730,8 +2722,6 @@
         <image name="actionbar_burger" width="26" height="26"/>
         <image name="actionbar_save" width="26" height="26"/>
         <image name="actionbar_search" width="26" height="26"/>
-        <image name="ambatana_logo_white" width="147" height="23"/>
-        <image name="ambatana_white" width="235" height="203"/>
         <image name="bg_gradient" width="414" height="715"/>
         <image name="button_icon_sell" width="30" height="28"/>
         <image name="down_chevron" width="32" height="32"/>
@@ -2741,6 +2731,7 @@
         <image name="home_facebook" width="15" height="29"/>
         <image name="item_chat" width="19" height="20"/>
         <image name="item_offer" width="19" height="20"/>
+        <image name="letgo-logo-white" width="682" height="682"/>
         <image name="menu_sell" width="29" height="29"/>
         <image name="no_photo" width="128" height="128"/>
     </resources>
@@ -2750,11 +2741,11 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="HOf-mn-VEJ"/>
         <segue reference="dvE-TI-lJz"/>
-        <segue reference="n3G-ME-bRv"/>
-        <segue reference="e5c-cf-hjl"/>
-        <segue reference="Sov-YY-7s5"/>
+        <segue reference="xtI-1Y-BpB"/>
         <segue reference="G4e-Db-NKc"/>
+        <segue reference="cTm-ep-i6s"/>
+        <segue reference="UwZ-4i-G61"/>
+        <segue reference="Sov-YY-7s5"/>
     </inferredMetricsTieBreakers>
 </document>

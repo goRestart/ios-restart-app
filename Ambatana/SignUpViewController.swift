@@ -1,6 +1,6 @@
 //
 //  SignUpViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 16/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -103,7 +103,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
             showAutoFadingOutMessageAlert(translate("insert_valid_email"))
             return
         }
-        if countElements(self.passwordTextfield.text) < kAmbatanaMinPasswordLength {
+        if countElements(self.passwordTextfield.text) < kLetGoMinPasswordLength {
             showAutoFadingOutMessageAlert(translate("insert_valid_password"))
             return
         }

@@ -1,9 +1,9 @@
 //
 //  ProductLocationViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by AHL on 11/3/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
+//  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
 import Foundation
@@ -21,7 +21,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setAmbatanaNavigationBarStyle(title: translate("item_location"), includeBackArrow: true)
+        self.setLetGoNavigationBarStyle(title: translate("item_location"), includeBackArrow: true)
         
         if location != nil {
             // set map region

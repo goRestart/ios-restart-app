@@ -1,6 +1,6 @@
 //
 //  MakeAnOfferViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 20/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -25,7 +25,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         super.viewDidLoad()
 
         // appearance
-        setAmbatanaNavigationBarStyle(title: translate("make_an_offer"), includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: translate("make_an_offer"), includeBackArrow: true)
         self.currencyButton.layer.cornerRadius = 6.0
         self.activityIndicator.hidden = true
         
@@ -96,11 +96,11 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     func launchChatWithConversation(conversation: PFObject) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
-            let ambatanaConversation = AmbatanaConversation(parseConversationObject: conversation)
+            let letgoConversation = LetGoConversation(parseConversationObject: conversation)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.disableLoadingInterface()
                 if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
-                    chatVC.ambatanaConversation = ambatanaConversation
+                    chatVC.letgoConversation = letgoConversation
                     if var controllers = self.navigationController?.viewControllers as? [UIViewController] {
                         controllers.removeLast()
                         controllers.append(chatVC)

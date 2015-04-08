@@ -1,6 +1,6 @@
 //
 //  ConfigurationManager.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 05/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -96,9 +96,9 @@ class ConfigurationManager: NSObject {
                     }
                     if oauthSessionExpired { // logout
                         PFUser.logOut()
-                        NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaSessionInvalidatedNotification, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(kLetGoSessionInvalidatedNotification, object: nil)
                     } else { // notify error
-                        NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaInvalidCredentialsNotification, object: nil)
+                        NSNotificationCenter.defaultCenter().postNotificationName(kLetGoInvalidCredentialsNotification, object: nil)
                     }
                 }
             })
@@ -126,7 +126,7 @@ class ConfigurationManager: NSObject {
                 if error == nil && data != nil { // success
                     let updatedImage = UIImage(data: data)
                     self.userProfileImage = updatedImage
-                    NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserPictureUpdatedNotification, object: updatedImage)
+                    NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserPictureUpdatedNotification, object: updatedImage)
                 }
             })
         }
@@ -165,7 +165,7 @@ class ConfigurationManager: NSObject {
                     
                     // update image in local interface.
                     self.userProfileImage = updatedImage
-                    NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserPictureUpdatedNotification, object: updatedImage)
+                    NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserPictureUpdatedNotification, object: updatedImage)
                     
                     
                 }

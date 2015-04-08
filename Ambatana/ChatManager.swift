@@ -1,6 +1,6 @@
 //
 //  ChatManager.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Nacho on 26/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -9,15 +9,15 @@
 import UIKit
 
 // constants
-private let kAmbatanaChatMessageTypeNormalMessage = 0
-private let kAmbatanaChatMessageTypeOfferMessage = 1
-private let kAmbatanaPushNotificationMaxPayloadSpaceForText = 180
+private let kLetGoChatMessageTypeNormalMessage = 0
+private let kLetGoChatMessageTypeOfferMessage = 1
+private let kLetGoPushNotificationMaxPayloadSpaceForText = 180
 
 // private singleton instance
 private let _singletonInstance = ChatManager()
 
-/** A representation of an Ambatana chat conversation with another user */
-struct AmbatanaConversation {
+/** A representation of an LetGo chat conversation with another user */
+struct LetGoConversation {
     // conversation object
     let conversationObject: PFObject
     // Extracted metadata about the conversation for performance and utility reasons
@@ -31,7 +31,7 @@ struct AmbatanaConversation {
     let productName: String         // name of the product this conversation's all about
     let amISellingTheProduct: Bool  // Am I selling (user_to = me) or buying (user_from = me) the product this conversation belongs to?
     
-    // Generates an AmbatanaConversation from a PFObject of class "Conversations".
+    // Generates an LetGoConversation from a PFObject of class "Conversations".
     init(parseConversationObject: PFObject) {
         conversationObject = parseConversationObject
         conversationObject.fetchIfNeeded()
@@ -78,7 +78,7 @@ class ChatManager: NSObject {
     }
     
     /** Retrieve all the conversations of a user, including all products, where user_from or user_to matches our currentUser */
-    func retrieveMyConversationsWithCompletion(completion: (success: Bool, conversations: [AmbatanaConversation]?) -> Void) {
+    func retrieveMyConversationsWithCompletion(completion: (success: Bool, conversations: [LetGoConversation]?) -> Void) {
         // perform query on conversations.
         let conversationsFrom = PFQuery(className: "Conversations")
         conversationsFrom.whereKey("user_from", equalTo: PFUser.currentUser()) // I am the user that started the conversation
@@ -95,7 +95,7 @@ class ChatManager: NSObject {
         query.findObjectsInBackgroundWithBlock({ (results, error) -> Void in
             if error == nil && results?.count > 0 { // we got some comversations.
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
-                    let conversations = self.ambatanaConversationsFromParseObjects(results! as [PFObject])
+                    let conversations = self.letgoConversationsFromParseObjects(results! as [PFObject])
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         completion(success: true, conversations: conversations)
                     })
@@ -161,11 +161,11 @@ class ChatManager: NSObject {
         }
     }
     
-    /** Processes the conversation PFObjects retrieved from Parse and turn them into valid AmbatanaConversations, setting the conversations var if successfull */
-    func ambatanaConversationsFromParseObjects(conversationObjects: [PFObject]) -> [AmbatanaConversation] {
-        var conversations: [AmbatanaConversation] = []
+    /** Processes the conversation PFObjects retrieved from Parse and turn them into valid LetGoConversations, setting the conversations var if successfull */
+    func letgoConversationsFromParseObjects(conversationObjects: [PFObject]) -> [LetGoConversation] {
+        var conversations: [LetGoConversation] = []
         for conversationObj in conversationObjects {
-            conversations.append(AmbatanaConversation(parseConversationObject: conversationObj))
+            conversations.append(LetGoConversation(parseConversationObject: conversationObj))
         }
         return conversations
     }
@@ -192,7 +192,7 @@ class ChatManager: NSObject {
         newMessage["is_media"] = false
         newMessage["is_read"] = false
         newMessage["message"] = text
-        newMessage["type"] = kAmbatanaChatMessageTypeNormalMessage
+        newMessage["type"] = kLetGoChatMessageTypeNormalMessage
         newMessage["product"] = productObject
         newMessage.ACL = globalReadAccessACL()
 
@@ -234,7 +234,7 @@ class ChatManager: NSObject {
         let push = PFPush()
         push.setQuery(pushQuery)
         var shortString = (sourceUser["username_public"] as? String ?? translate("message")) + ": " + message
-        shortString = countElements(shortString) > kAmbatanaPushNotificationMaxPayloadSpaceForText ? shortString.substringToIndex(advance(shortString.startIndex, kAmbatanaPushNotificationMaxPayloadSpaceForText)) : shortString
+        shortString = countElements(shortString) > kLetGoPushNotificationMaxPayloadSpaceForText ? shortString.substringToIndex(advance(shortString.startIndex, kLetGoPushNotificationMaxPayloadSpaceForText)) : shortString
         push.setData(["badge": "Increment", "alert": shortString])
         push.sendPushInBackgroundWithBlock { (success, error) -> Void in
             if !success { // try to send again in 1 minute

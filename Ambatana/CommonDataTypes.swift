@@ -1,6 +1,6 @@
 //
 //  CommonDataTypes.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 12/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -9,31 +9,31 @@
 import Foundation
 
 // constants
-let kAmbatanaMinPasswordLength = 6
-let kAmbatanaDefaultCategoriesLanguage = "en"
-let kAmbatanaFullScreenWidth = UIScreen.mainScreen().bounds.size.width
-let kAmbatanaProductCellSpan: CGFloat = 10.0
-let kAmbatanaProductListOffsetLoadingOffsetInc = 10 // Load 20 products each time.
-let kAmbatanaProductListMaxKmDistance = 10000
-let kAmbatanaDefaultUserImageName = "no_photo"
-let kAmbatanaContentScrollingDownThreshold: CGFloat = 20.0
-let kAmbatanaContentScrollingUpThreshold: CGFloat = -20.0
-let kAmbatanaMaxProductImageSide: CGFloat = 1024
-let kAmbatanaMaxProductImageJPEGQuality: CGFloat = 0.9
-let kAmbatanaProductImageKeys = ["image_0", "image_1", "image_2", "image_3", "image_4"]
-let kAmbatanaProductFirstImageKey = kAmbatanaProductImageKeys.first!
-let kAmbatanaWebsiteURL = "http://ambatana.com"
+let kLetGoMinPasswordLength = 6
+let kLetGoDefaultCategoriesLanguage = "en"
+let kLetGoFullScreenWidth = UIScreen.mainScreen().bounds.size.width
+let kLetGoProductCellSpan: CGFloat = 10.0
+let kLetGoProductListOffsetLoadingOffsetInc = 10 // Load 20 products each time.
+let kLetGoProductListMaxKmDistance = 10000
+let kLetGoDefaultUserImageName = "no_photo"
+let kLetGoContentScrollingDownThreshold: CGFloat = 20.0
+let kLetGoContentScrollingUpThreshold: CGFloat = -20.0
+let kLetGoMaxProductImageSide: CGFloat = 1024
+let kLetGoMaxProductImageJPEGQuality: CGFloat = 0.9
+let kLetGoProductImageKeys = ["image_0", "image_1", "image_2", "image_3", "image_4"]
+let kLetGoProductFirstImageKey = kLetGoProductImageKeys.first!
+let kLetGoWebsiteURL = "http://ambatana.com"
 
 // notifications
-let kAmbatanaUserPictureUpdatedNotification                     = "AmbatanaUserPictureUpdated"
-let kAmbatanaSessionInvalidatedNotification                     = "AmbatanaSessionInvalidated"
-let kAmbatanaInvalidCredentialsNotification                     = "AmbatanaInvalidCredentialsNotification"
-let kAmbatanaUnableToGetUserLocationNotification                = "AmbatanaUnableToGetUserLocation"
-let kAmbatanaUnableToSetUserLocationNotification                = "AmbatanaUnableToSetUserLocationNotification"
-let kAmbatanaUserLocationSuccessfullySetNotification            = "AmbatanaUserLocationSuccessfullySetNotification"
-let kAmbatanaUserLocationSuccessfullyChangedNotification        = "AmbatanaUserLocationSuccessfullyChangedNotification"
-let kAmbatanaLogoutImminentNotification                         = "AmbatanaLogoutImminentNotification"
-let kAmbatanaUserBadgeChangedNotification                       = "AmbatanaUserBadgeChangedNotification"
+let kLetGoUserPictureUpdatedNotification                     = "LetGoUserPictureUpdated"
+let kLetGoSessionInvalidatedNotification                     = "LetGoSessionInvalidated"
+let kLetGoInvalidCredentialsNotification                     = "LetGoInvalidCredentialsNotification"
+let kLetGoUnableToGetUserLocationNotification                = "LetGoUnableToGetUserLocation"
+let kLetGoUnableToSetUserLocationNotification                = "LetGoUnableToSetUserLocationNotification"
+let kLetGoUserLocationSuccessfullySetNotification            = "LetGoUserLocationSuccessfullySetNotification"
+let kLetGoUserLocationSuccessfullyChangedNotification        = "LetGoUserLocationSuccessfullyChangedNotification"
+let kLetGoLogoutImminentNotification                         = "LetGoLogoutImminentNotification"
+let kLetGoUserBadgeChangedNotification                       = "LetGoUserBadgeChangedNotification"
 
 /** Product list categories */
 enum ProductListCategory: Int {

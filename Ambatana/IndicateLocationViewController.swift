@@ -1,6 +1,6 @@
 //
 //  IndicateLocationViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 06/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -33,7 +33,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         self.searchTextField.delegate = self
         
         // UX/UI
-        self.setAmbatanaNavigationBarStyle(title: translate("change_your_location"), includeBackArrow: allowGoingBack)
+        self.setLetGoNavigationBarStyle(title: translate("change_your_location"), includeBackArrow: allowGoingBack)
         searchContentView.layer.shadowColor = UIColor.grayColor().CGColor
         searchContentView.layer.shadowOffset = CGSizeMake(0, 2)
         searchContentView.layer.shadowOpacity = 0.75
@@ -53,9 +53,9 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         super.viewWillAppear(animated)
         disableLoadingStatus()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableToSetUserLocation:", name: kAmbatanaUnableToSetUserLocationNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kAmbatanaUserLocationSuccessfullySetNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kAmbatanaUserLocationSuccessfullyChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableToSetUserLocation:", name: kLetGoUnableToSetUserLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kLetGoUserLocationSuccessfullySetNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kLetGoUserLocationSuccessfullyChangedNotification, object: nil)
 
         // if we have a current location (we are accessing through the "Change my location" option in settings, start with that location.
         var initialLocation: CLLocationCoordinate2D?

@@ -1,6 +1,6 @@
 //
 //  CryptoUtils.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Nacho on 25/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.

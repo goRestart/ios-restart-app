@@ -1,6 +1,6 @@
 //
 //  ImageManager.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 19/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -12,9 +12,9 @@ import UIKit
 private let _singletonInstance = ImageManager()
 
 // constants
-private let kAmbatanaMaxImageCacheSize = 104857600.0 // 100 MB
-private let kAmbatanaThumbnailBaseURL = "http://3rdparty.ambatana.com/images/"
-private let kAmbatanaImageCacheEnabledByDefault = true
+private let kLetGoMaxImageCacheSize = 104857600.0 // 100 MB
+private let kLetGoThumbnailBaseURL = "http://3rdparty.ambatana.com/images/"
+private let kLetGoImageCacheEnabledByDefault = true
 
 /**
  * The ImageManager class is in charge of retrieving and caching images from URLs.
@@ -36,8 +36,8 @@ class ImageManager: NSObject {
     override init() {
         if iOSVersionAtLeast("8.0") {
             let queueAttributes = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0)
-            imageDispatchQueue = dispatch_queue_create("com.ambatana.AmbatanaImageManagerQueue", queueAttributes)
-        } else { imageDispatchQueue = dispatch_queue_create("com.ambatana.AmbatanaImageManagerQueue", 0) }
+            imageDispatchQueue = dispatch_queue_create("com.letgo.LetGoImageManagerQueue", queueAttributes)
+        } else { imageDispatchQueue = dispatch_queue_create("com.letgo.LetGoImageManagerQueue", 0) }
         super.init()
     }
     
@@ -45,7 +45,7 @@ class ImageManager: NSObject {
     
     func storeImage(newImage: UIImage, ofSize size: Int, inCacheForURL urlString: String) {
         // store in the cache if enough space and cache is enabled
-        if self.currentCacheSize + Double(size) < kAmbatanaMaxImageCacheSize {
+        if self.currentCacheSize + Double(size) < kLetGoMaxImageCacheSize {
             self.currentCacheSize += Double(size)
             self.imageCache[urlString] = newImage
         }
@@ -60,7 +60,7 @@ class ImageManager: NSObject {
     // MARK: - Downloading of images
     
     /** Retrieves an image from a PFFile in background and executes a block uplon completion */
-    func retrieveImageFromParsePFFile(imageFile: PFFile, completion: (success:Bool, image: UIImage?) -> Void, andAddToCache addToCache: Bool = kAmbatanaImageCacheEnabledByDefault) {
+    func retrieveImageFromParsePFFile(imageFile: PFFile, completion: (success:Bool, image: UIImage?) -> Void, andAddToCache addToCache: Bool = kLetGoImageCacheEnabledByDefault) {
         dispatch_async(imageDispatchQueue, { () -> Void in
             // try the cache first
             if let cachedImage = self.imageCache[imageFile.url] {
@@ -85,7 +85,7 @@ class ImageManager: NSObject {
     }
     
     /** Asynchronously retrieves a image from a URL. If the image is in the cache, it retrieves if from the cache first */
-    func retrieveImageFromURLString(urlString: String, completion: (success: Bool, image: UIImage?) -> Void, andAddToCache addToCache: Bool = kAmbatanaImageCacheEnabledByDefault) {
+    func retrieveImageFromURLString(urlString: String, completion: (success: Bool, image: UIImage?) -> Void, andAddToCache addToCache: Bool = kLetGoImageCacheEnabledByDefault) {
         dispatch_async(imageDispatchQueue, { () -> Void in
             // try the cache first
             if let cachedImage = self.imageCache[urlString] {
@@ -113,7 +113,7 @@ class ImageManager: NSObject {
     }
     
     /** SYNCHRONOUSLY retrieves a image from a URL. If the image is in the cache, it retrieves if from the cache first */
-    func retrieveImageSynchronouslyFromURLString(urlString: String, andAddToCache addToCache: Bool = kAmbatanaImageCacheEnabledByDefault) -> UIImage? {
+    func retrieveImageSynchronouslyFromURLString(urlString: String, andAddToCache addToCache: Bool = kLetGoImageCacheEnabledByDefault) -> UIImage? {
         // try the cache first
         if let cachedImage = self.imageCache[urlString] {
             return cachedImage
@@ -163,7 +163,7 @@ class ImageManager: NSObject {
         // 3. generate the filename with the imageURL
         let filename = imageURL.md5()
         // 4. return the base url
-        return "\(kAmbatanaThumbnailBaseURL)\(folderStructure)\(filename)"
+        return "\(kLetGoThumbnailBaseURL)\(folderStructure)\(filename)"
     }
     
     // get the big image URL from a given image file of a product object

@@ -1,6 +1,6 @@
 //
 //  ViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 04/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -20,7 +20,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
     @IBOutlet weak var facebookLoginButton: UIButton!
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var ambatanaLoginLabel: UILabel!
+    @IBOutlet weak var letgoLoginLabel: UILabel!
     @IBOutlet weak var orUseEmailLabel: UILabel!
     
     // vars & data
@@ -30,7 +30,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
         super.viewDidLoad()
 
         // internationalization
-        ambatanaLoginLabel.text = translate("fun_unique_way")
+        letgoLoginLabel.text = translate("fun_unique_way")
         facebookLoginButton.setTitle(translate("connect_with_facebook"), forState: .Normal)
         signupButton.setTitle(translate("signup"), forState: .Normal)
         loginButton.setTitle(translate("login"), forState: .Normal)
@@ -41,8 +41,8 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
         super.viewDidAppear(animated)
         
         // register for notifications
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "oauthSessionExpired:", name: kAmbatanaSessionInvalidatedNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "authenticationError:", name: kAmbatanaInvalidCredentialsNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "oauthSessionExpired:", name: kLetGoSessionInvalidatedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "authenticationError:", name: kLetGoInvalidCredentialsNotification, object: nil)
         
         // check current login status
         if (PFUser.currentUser() != nil) { // && PFFacebookUtils.isLinkedWithUser(PFUser.currentUser())) {

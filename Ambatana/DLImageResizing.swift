@@ -49,14 +49,14 @@ extension UIImage {
     func resizedImageToMaxSide(side: CGFloat, interpolationQuality: CGInterpolationQuality) -> UIImage? {
         var w = self.size.width
         var h = self.size.height
-        // resize to max size = kAmbatanaMaxProductImageSide
-        if w <= kAmbatanaMaxProductImageSide && h <= kAmbatanaMaxProductImageSide { return self }
-        else if w > h { // cut width to kAmbatanaMaxProductImageSide and calculate height
-            h = h * kAmbatanaMaxProductImageSide / w
-            w = kAmbatanaMaxProductImageSide
-        } else { // cut height to kAmbatanaMaxProductImageSide and calculate width
-            w = w * kAmbatanaMaxProductImageSide / h
-            h = kAmbatanaMaxProductImageSide
+        // resize to max size = kLetGoMaxProductImageSide
+        if w <= kLetGoMaxProductImageSide && h <= kLetGoMaxProductImageSide { return self }
+        else if w > h { // cut width to kLetGoMaxProductImageSide and calculate height
+            h = h * kLetGoMaxProductImageSide / w
+            w = kLetGoMaxProductImageSide
+        } else { // cut height to kLetGoMaxProductImageSide and calculate width
+            w = w * kLetGoMaxProductImageSide / h
+            h = kLetGoMaxProductImageSide
         }
         return self.resizedImageToSize(CGSizeMake(w, h), interpolationQuality: interpolationQuality)
     }

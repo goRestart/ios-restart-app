@@ -1,6 +1,6 @@
 //
 //  EditProfileViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 05/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-private let kAmbatanaDisabledButtonBackgroundColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1.0)
-private let kAmbatanaDisabledButtonForegroundColor = UIColor.lightGrayColor()
-private let kAmbatanaEnabledButtonBackgroundColor = UIColor.whiteColor()
-private let kAmbatanaEnabledButtonForegroundColor = UIColor(red: 0.949, green: 0.361, blue: 0.376, alpha: 1.0)
-private let kAmbatanaEditProfileCellFactor: CGFloat = 190.0 / 145.0
+private let kLetGoDisabledButtonBackgroundColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1.0)
+private let kLetGoDisabledButtonForegroundColor = UIColor.lightGrayColor()
+private let kLetGoEnabledButtonBackgroundColor = UIColor.whiteColor()
+private let kLetGoEnabledButtonForegroundColor = UIColor(red: 0.949, green: 0.361, blue: 0.376, alpha: 1.0)
+private let kLetGoEditProfileCellFactor: CGFloat = 210.0 / 160.0
 
 
 class EditProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -51,7 +51,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     private var loadingSoldProducts: Bool = false
     private var loadingFavProducts: Bool = false
     
-    var cellSize = CGSizeMake(145.0, 190.0)
+    var cellSize = CGSizeMake(160.0, 210.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,13 +61,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         // UX/UI and Appearance.
         userLocationLabel.text = ""
         userNameLabel.text = ""
-        setAmbatanaNavigationBarStyle(title: "", includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: "", includeBackArrow: true)
         
-        // cell size
-        let cellWidth = (kAmbatanaFullScreenWidth - (3*kAmbatanaProductCellSpan)) / 2.0
-        let cellHeight = cellWidth * kAmbatanaEditProfileCellFactor
-        cellSize = CGSizeMake(cellWidth, cellHeight)
-
         // internationalization
         sellButton.setTitle(translate("selling_button"), forState: .Normal)
         soldButton.setTitle(translate("sold"), forState: .Normal)
@@ -101,7 +96,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
                 }
                 if let userName = retrievedObject?["username_public"] as? String {
                     self.userNameLabel.text = userName
-                    self.setAmbatanaNavigationBarStyle(title: userName, includeBackArrow: true)
+                    self.setLetGoNavigationBarStyle(title: userName, includeBackArrow: true)
                 }
                 if let userLocation = retrievedObject?["city"] as? String {
                     self.userLocationLabel.text = userLocation
@@ -110,8 +105,16 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             })
             
             // Current user has the option of editing his/her settings
-            if userObject!.objectId == PFUser.currentUser().objectId { setAmbatanaRightButtonsWithImageNames(["actionbar_edit"], andSelectors: ["goToSettings"]) }
+            if userObject!.objectId == PFUser.currentUser().objectId { setLetGoRightButtonsWithImageNames(["actionbar_edit"], andSelectors: ["goToSettings"]) }
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // cell size
+        let cellWidth = kLetGoFullScreenWidth * 0.50
+        let cellHeight = cellWidth * kLetGoEditProfileCellFactor
+        cellSize = CGSizeMake(cellWidth, cellHeight)
     }
     
     // MARK: - Actions
@@ -185,19 +188,19 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - UI
     
     func selectButton(button: UIButton) {
-        button.backgroundColor = kAmbatanaEnabledButtonBackgroundColor
-        button.setTitleColor(kAmbatanaEnabledButtonForegroundColor, forState: .Normal)
+        button.backgroundColor = kLetGoEnabledButtonBackgroundColor
+        button.setTitleColor(kLetGoEnabledButtonForegroundColor, forState: .Normal)
         if button != sellButton {
-            sellButton.backgroundColor = kAmbatanaDisabledButtonBackgroundColor
-            sellButton.setTitleColor(kAmbatanaDisabledButtonForegroundColor, forState: .Normal)
+            sellButton.backgroundColor = kLetGoDisabledButtonBackgroundColor
+            sellButton.setTitleColor(kLetGoDisabledButtonForegroundColor, forState: .Normal)
         }
         if button != soldButton {
-            soldButton.backgroundColor = kAmbatanaDisabledButtonBackgroundColor
-            soldButton.setTitleColor(kAmbatanaDisabledButtonForegroundColor, forState: .Normal)
+            soldButton.backgroundColor = kLetGoDisabledButtonBackgroundColor
+            soldButton.setTitleColor(kLetGoDisabledButtonForegroundColor, forState: .Normal)
         }
         if button != favoriteButton {
-            favoriteButton.backgroundColor = kAmbatanaDisabledButtonBackgroundColor
-            favoriteButton.setTitleColor(kAmbatanaDisabledButtonForegroundColor, forState: .Normal)
+            favoriteButton.backgroundColor = kLetGoDisabledButtonBackgroundColor
+            favoriteButton.setTitleColor(kLetGoDisabledButtonForegroundColor, forState: .Normal)
         }
     }
     

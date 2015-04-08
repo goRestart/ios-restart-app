@@ -1,6 +1,6 @@
 //
 //  ChatViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 05/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,23 +8,23 @@
 
 import UIKit
 
-private let kAmbatanaConversationMyMessagesCell = "MyMessagesCell"
-private let kAmbatanaConversationOthersMessagesCell = "OthersMessagesCell"
-private let kAmbatanaChatBubbleCornerRadius: CGFloat = 4.0
+private let kLetGoConversationMyMessagesCell = "MyMessagesCell"
+private let kLetGoConversationOthersMessagesCell = "OthersMessagesCell"
+private let kLetGoChatBubbleCornerRadius: CGFloat = 4.0
 
-private let kAmbatanaConversationProductImageTag = 1
-private let kAmbatanaConversationProductUserNameTag = 2
-private let kAmbatanaConversationProductProductNameTag = 3
-private let kAmbatanaConversationProductRelativeDateTag = 4
-private let kAmbatanaConversationProductPriceTag = 5
+private let kLetGoConversationProductImageTag = 1
+private let kLetGoConversationProductUserNameTag = 2
+private let kLetGoConversationProductProductNameTag = 3
+private let kLetGoConversationProductRelativeDateTag = 4
+private let kLetGoConversationProductPriceTag = 5
 
-private let kAmbatanaConversationCellBubbleTag = 1
-private let kAmbatanaConversationCellTextTag = 2
-private let kAmbatanaConversationCellRelativeTimeTag = 3
-private let kAmbatanaConversationCellAvatarTag = 4
+private let kLetGoConversationCellBubbleTag = 1
+private let kLetGoConversationCellTextTag = 2
+private let kLetGoConversationCellRelativeTimeTag = 3
+private let kLetGoConversationCellAvatarTag = 4
 
 
-enum AmbatanaConversationCellTypes: Int {
+enum LetGoConversationCellTypes: Int {
     case MyMessages = 0, OtherMessages = 1
 }
 
@@ -46,7 +46,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
     
     // data
-    var ambatanaConversation: AmbatanaConversation?
+    var letgoConversation: LetGoConversation?
     var messages: [PFObject]?
     var otherUser: PFUser?
     var productObject: PFObject?
@@ -90,15 +90,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.productImageView.image = nil
         self.tableView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI)) // 180 º
         
-        if ambatanaConversation != nil {
-            let conversationObject = ambatanaConversation!.conversationObject
+        if letgoConversation != nil {
+            let conversationObject = letgoConversation!.conversationObject
             enableLoadingMessagesInterface()
             // load previous messages
             loadMessages(conversationObject)
             
             // load the other user.
             // According to specification, if I am selling the product, I am the user_to, and the other user is the user_from
-            var otherUserField = self.ambatanaConversation!.amISellingTheProduct ? "user_from" : "user_to"
+            var otherUserField = self.letgoConversation!.amISellingTheProduct ? "user_from" : "user_to"
             self.otherUser = conversationObject[otherUserField] as? PFUser
             // now try to fetch it in the background.
             self.otherUser?.fetchIfNeededInBackgroundWithBlock(nil)
@@ -140,12 +140,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.tableView.reloadData()
             
             // now that we have loaded the messages (and are sure the user can read them) we can mark them as read in the conversation.
-            ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: self.ambatanaConversation!.conversationObject, completion: nil)
+            ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: self.letgoConversation!.conversationObject, completion: nil)
         })
     }
     
     func refreshMessages() {
-        if let conversationObject = self.ambatanaConversation?.conversationObject {
+        if let conversationObject = self.letgoConversation?.conversationObject {
             loadMessages(conversationObject)
         }
     }
@@ -168,7 +168,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     // Loads the fields referred to the product object in view's header.
     func loadInformationFromProductObject(retrievedObject: PFObject!) {
         // product image
-        if let imageFile = retrievedObject?[kAmbatanaProductFirstImageKey] as? PFFile {
+        if let imageFile = retrievedObject?[kLetGoProductFirstImageKey] as? PFFile {
             // try to retrieve image from thumbnail first.
             let thumbnailURL = ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(retrievedObject.objectId, imageURL: imageFile.url)
             ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image) -> Void in
@@ -185,7 +185,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // product name
         self.productNameLabel.text = retrievedObject?["name"] as? String ?? translate("product")
-        self.setAmbatanaNavigationBarStyle(title: self.productNameLabel.text, includeBackArrow: true)
+        self.setLetGoNavigationBarStyle(title: self.productNameLabel.text, includeBackArrow: true)
         
         // publish date
         let publishedDate = retrievedObject?.createdAt ?? retrievedObject?.updatedAt ?? NSDate()
@@ -240,13 +240,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // safety checks
         if isSendingMessage { return }
         if countElements(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 { return }
-        if self.otherUser == nil || self.ambatanaConversation?.conversationObject == nil || self.productObject == nil { showAutoFadingOutMessageAlert(translate("unable_send_message")); return }
+        if self.otherUser == nil || self.letgoConversation?.conversationObject == nil || self.productObject == nil { showAutoFadingOutMessageAlert(translate("unable_send_message")); return }
         
         // enable loading interface.
         self.isSendingMessage = true
         
         // send message
-        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: ambatanaConversation!.conversationObject, fromProduct: self.productObject!) { (success, newlyCreatedMessageObject) -> Void in
+        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.productObject!) { (success, newlyCreatedMessageObject) -> Void in
             if success {
                 self.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)
                 
@@ -276,12 +276,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // cell elements
         var cell: UITableViewCell?
-        var type = AmbatanaConversationCellTypes.MyMessages
+        var type = LetGoConversationCellTypes.MyMessages
         
         if userFrom.objectId == PFUser.currentUser().objectId { // message from me
-            cell = tableView.dequeueReusableCellWithIdentifier(kAmbatanaConversationMyMessagesCell, forIndexPath: indexPath) as? UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationMyMessagesCell, forIndexPath: indexPath) as? UITableViewCell
         } else {
-            cell = tableView.dequeueReusableCellWithIdentifier(kAmbatanaConversationOthersMessagesCell, forIndexPath: indexPath) as? UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationOthersMessagesCell, forIndexPath: indexPath) as? UITableViewCell
             type = .OtherMessages
         }
         
@@ -297,27 +297,27 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         return UITableViewAutomaticDimension
     }
 
-    func configureCell(cell: UITableViewCell, fromTableView tableView: UITableView, atIndexPath indexPath: NSIndexPath, withMessageObject msgObject: PFObject, type: AmbatanaConversationCellTypes) {
+    func configureCell(cell: UITableViewCell, fromTableView tableView: UITableView, atIndexPath indexPath: NSIndexPath, withMessageObject msgObject: PFObject, type: LetGoConversationCellTypes) {
         // message
-        if let msgLabel = cell.viewWithTag(kAmbatanaConversationCellTextTag) as? UILabel {
+        if let msgLabel = cell.viewWithTag(kLetGoConversationCellTextTag) as? UILabel {
             msgLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
             msgLabel.text = msgObject["message"] as? String ?? ""
         }
         // configure date
-        if let dateLabel = cell.viewWithTag(kAmbatanaConversationCellRelativeTimeTag) as? UILabel {
+        if let dateLabel = cell.viewWithTag(kLetGoConversationCellRelativeTimeTag) as? UILabel {
             dateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
             dateLabel.text = msgObject.createdAt.relativeTimeString()
         }
         // bubble appearance
-        if let bubbleView = cell.viewWithTag(kAmbatanaConversationCellBubbleTag) {
-            bubbleView.layer.cornerRadius = kAmbatanaChatBubbleCornerRadius
+        if let bubbleView = cell.viewWithTag(kLetGoConversationCellBubbleTag) {
+            bubbleView.layer.cornerRadius = kLetGoChatBubbleCornerRadius
         }
         
         // If this is a message from the other user, we should include his/her avatar picture at the left of the message.
         if type == .OtherMessages {
             // configure other user's avatar.
             let userFrom = msgObject["user_from"] as PFUser
-            if let userAvatarView = cell.viewWithTag(kAmbatanaConversationCellAvatarTag) as? UIImageView {
+            if let userAvatarView = cell.viewWithTag(kLetGoConversationCellAvatarTag) as? UIImageView {
                 userAvatarView.layer.cornerRadius = userAvatarView.frame.size.width / 2.0
                 userAvatarView.clipsToBounds = true
                 userAvatarView.image = self.otherUserImage
@@ -344,7 +344,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let msgObject = messages![indexPath.row]
         // lazily instanciate the prototype cell
-        if prototypeCell == nil { prototypeCell = tableView.dequeueReusableCellWithIdentifier(kAmbatanaConversationOthersMessagesCell) as? UITableViewCell }
+        if prototypeCell == nil { prototypeCell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationOthersMessagesCell) as? UITableViewCell }
         self.configureCell(prototypeCell, fromTableView: tableView, atIndexPath: indexPath, withMessageObject: msgObject, type: .MyMessages) // no need to configure the image.
         prototypeCell.layoutIfNeeded()
         let size = prototypeCell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
@@ -358,7 +358,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject!) {
         if action == "copy:" {
             if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-                if let textLabel = cell.viewWithTag(kAmbatanaConversationCellTextTag) as? UILabel {
+                if let textLabel = cell.viewWithTag(kLetGoConversationCellTextTag) as? UILabel {
                     UIPasteboard.generalPasteboard().string = textLabel.text
                 }
             }
@@ -397,24 +397,22 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         var keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue ?? NSValue(CGRect: CGRectZero)).CGRectValue().size
         if !appearing {
             // restore autolayout.
+            self.topViewTopConstraint.constant = 0
+            self.bottomViewBottomConstraint.constant = 0
+            self.view.setNeedsUpdateConstraints()
             UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.topViewTopConstraint.constant = 0
-                self.bottomViewBottomConstraint.constant = 0
-                self.view.setNeedsUpdateConstraints()
-                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
                 }, completion: { (success) -> Void in
-                    self.topView.hidden = false
             })
 
         } else {
+            // avoid autolayout messing with our animations.
+            self.topViewTopConstraint.constant = -keyboardSize.height + self.topView.frame.size.height + 20 // (20 = statusbar span)
+            self.bottomViewBottomConstraint.constant = keyboardSize.height
+            self.view.setNeedsUpdateConstraints()
             UIView.animateWithDuration(0.3, animations: { () -> Void in
-                // avoid autolayout messing with our animations.
-                self.topViewTopConstraint.constant = -keyboardSize.height + self.topView.frame.size.height + 20 // (20 = statusbar span)
-                self.bottomViewBottomConstraint.constant = keyboardSize.height
-                self.view.setNeedsUpdateConstraints()
-                self.view.setNeedsLayout()
+                self.view.layoutIfNeeded()
                 }, completion: { (success) -> Void in
-                    self.topView.hidden = true
             })
         }
         

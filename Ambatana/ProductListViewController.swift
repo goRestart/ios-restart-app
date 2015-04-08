@@ -1,6 +1,6 @@
 //
 //  ProductListViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 04/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-private let kAmbatanaProductListCellFactor: CGFloat = 210.0 / 160.0
-private let kAmbatanaMaxWaitingTimeForLocation: NSTimeInterval = 15 // seconds
+private let kLetGoProductListCellFactor: CGFloat = 210.0 / 160.0
+private let kLetGoMaxWaitingTimeForLocation: NSTimeInterval = 15 // seconds
 
 class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, ShowProductViewControllerDelegate, UISearchBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate {
     // outlets & buttons
@@ -27,7 +27,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     var alreadyRetrievedProductIds: [String] = []
     var productToShow: PFObject?
     
-    var lastRetrievedProductsCount = kAmbatanaProductListOffsetLoadingOffsetInc
+    var lastRetrievedProductsCount = kLetGoProductListOffsetLoadingOffsetInc
     var queryingProducts = false
     var currentCategory: ProductListCategory?
     var currentSearchString: String?
@@ -43,8 +43,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         super.viewDidLoad()
         
         // cell size
-        let cellWidth = kAmbatanaFullScreenWidth * 0.50
-        let cellHeight = cellWidth * kAmbatanaProductListCellFactor
+        let cellWidth = kLetGoFullScreenWidth * 0.50
+        let cellHeight = cellWidth * kLetGoProductListCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
         
         // add a pull to refresh control
@@ -63,22 +63,22 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         hideNoProductsFoundInterface()
         
         // Navigation bar & items
-        self.setAmbatanaNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
-        self.setAmbatanaRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchProduct"])
+        self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
+        self.setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchProduct"])
 
-        // Ambatana issue #2. Menu should only be visible from the main screen. Disable sliding unless we are the only active vc.
+        // Menu should only be visible from the main screen. Disable sliding unless we are the only active vc.
         let vcNumber = self.navigationController?.viewControllers.count
         if vcNumber == 1 { // I am the first, main view controller
             self.findHamburguerViewController()?.gestureEnabled = true // enable sliding.
         } else { self.findHamburguerViewController()?.gestureEnabled = false } // otherwise, don't allow the pan gesture.
 
         // register for notifications.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableSetLocation:", name: kAmbatanaUnableToSetUserLocationNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableGetLocation:", name: kAmbatanaUnableToGetUserLocationNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationReady:", name: kAmbatanaUserLocationSuccessfullySetNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kAmbatanaUserLocationSuccessfullyChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableSetLocation:", name: kLetGoUnableToSetUserLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableGetLocation:", name: kLetGoUnableToGetUserLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationReady:", name: kLetGoUserLocationSuccessfullySetNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kLetGoUserLocationSuccessfullyChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged", name: UIContentSizeCategoryDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logoutImminent", name: kAmbatanaLogoutImminentNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logoutImminent", name: kLetGoLogoutImminentNotification, object: nil)
         
         // check current location status.
         if (CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation)) { // we have a valid registered location.
@@ -89,7 +89,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             if (!LocationManager.sharedInstance.updatingLocation) { // if we are not already updating our location...
                 if (LocationManager.sharedInstance.appIsAuthorizedToUseLocationServices()) { // ... and we have permission for updating it.
                     // enable a timer to fallback
-                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kAmbatanaMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(name: kAmbatanaUnableToGetUserLocationNotification, object: nil), repeats: false)
+                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kLetGoMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(name: kLetGoUnableToGetUserLocationNotification, object: nil), repeats: false)
                     // update our location.
                     LocationManager.sharedInstance.startUpdatingLocation()
                 } else { // segue to ask user about his/her location directly
@@ -98,7 +98,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             } else { // else we just wait for the notification to arrive.
                 // enable a timer to fallback
                 if unableToRetrieveLocationTimer == nil {
-                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kAmbatanaMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(name: kAmbatanaUnableToGetUserLocationNotification, object: nil), repeats: false)
+                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kLetGoMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(name: kLetGoUnableToGetUserLocationNotification, object: nil), repeats: false)
                 }
             }
         }
@@ -111,7 +111,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         // disable menu
         self.findHamburguerViewController()?.gestureEnabled = false
         // hide search bar (if showing)
-        if ambatanaSearchBar != nil { self.dismissSearchBar(ambatanaSearchBar!, animated: true, searchBarCompletion: nil) }
+        if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
     }
     
     override func didReceiveMemoryWarning() {
@@ -205,8 +205,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             // do not include approval pending items or discarded items
             query.whereKey("status", notContainedIn: [ProductStatus.Discarded.rawValue, ProductStatus.Pending.rawValue])
             
-            // paginate in groups of kAmbatanaProductListOffsetLoadingOffsetInc
-            query.limit = kAmbatanaProductListOffsetLoadingOffsetInc
+            // paginate in groups of kLetGoProductListOffsetLoadingOffsetInc
+            query.limit = kLetGoProductListOffsetLoadingOffsetInc
             
             // order by current filter (default, creation date).
             if ConfigurationManager.sharedInstance.currentFilterForSearch != nil {
@@ -300,7 +300,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     func askForNextBunchOfProducts() {
-        if (self.currentKmOffset < kAmbatanaProductListMaxKmDistance) {
+        if (self.currentKmOffset < kLetGoProductListMaxKmDistance) {
             if (self.lastRetrievedProductsCount == 0) {
                 self.currentKmOffset = nextKmOffset(self.currentKmOffset)
             }
@@ -328,7 +328,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         // reset query values
         self.queryingProducts = false
         self.currentKmOffset = 1
-        self.lastRetrievedProductsCount = kAmbatanaProductListOffsetLoadingOffsetInc
+        self.lastRetrievedProductsCount = kLetGoProductListOffsetLoadingOffsetInc
         self.alreadyRetrievedProductIds = []
         self.entries = []
         
@@ -510,37 +510,10 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         self.resetProductList()
     }
 
-    /*
-    // MARK: - ScrollView delegate methods
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        let overflow = scrollView.contentOffset.y + scrollView.frame.size.height - scrollView.contentSize.height
-
-        // Determine if we need to hide the sell button.
-        let diff = scrollView.contentOffset.y - self.lastContentOffset
-        if diff > kAmbatanaContentScrollingDownThreshold {
-            UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.sellButton.transform = CGAffineTransformMakeTranslation(0, 3*self.sellButton.frame.size.height)
-                
-            }, completion: nil)
-        } else if diff < kAmbatanaContentScrollingUpThreshold {
-            UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.6, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                self.sellButton.transform = CGAffineTransformIdentity  
-            }, completion: nil)
-        }
-        self.lastContentOffset = scrollView.contentOffset.y
-    }
-    
-    func scrollViewDidScrollToTop(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.30, animations: { () -> Void in
-            self.sellButton.transform = CGAffineTransformIdentity
-        })
-    }
-    */
-
     // MARK: - ShowProductViewControllerDelegate methods
     
     // update status of a product (i.e: if it gets marked as sold).
-    func ambatanaProduct(product: PFObject, statusUpdatedTo newStatus: ProductStatus) {
+    func letgoProduct(product: PFObject, statusUpdatedTo newStatus: ProductStatus) {
         if let found = find(entries, product) {
             entries[found]["status"] = newStatus.rawValue
             collectionView.reloadSections(NSIndexSet(index: 0))

@@ -1,6 +1,6 @@
 //
 //  ShowProductViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 11/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -12,7 +12,7 @@ import MessageUI
 import Social
 
 protocol ShowProductViewControllerDelegate {
-    func ambatanaProduct(product: PFObject, statusUpdatedTo newStatus: ProductStatus)
+    func letgoProduct(product: PFObject, statusUpdatedTo newStatus: ProductStatus)
 }
 
 /**
@@ -77,7 +77,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         if bottomGuideLayoutConstraint != nil { bottomGuideLayoutConstraint.priority = 1000 }
         
         // set rights buttons and locate favorite button.
-        let buttons = self.setAmbatanaRightButtonsWithImageNames(["item_share-generic", "item_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
+        let buttons = self.setLetGoRightButtonsWithImageNames(["item_share-generic", "item_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
         for button in buttons { if button.tag == 1 { self.favoriteButton = button } }
         
         // UX/UI
@@ -153,7 +153,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // product name
             nameLabel.text = productObject["name"] as? String ?? ""
-            self.setAmbatanaNavigationBarStyle(title: nameLabel.text, includeBackArrow: true)
+            self.setLetGoNavigationBarStyle(title: nameLabel.text, includeBackArrow: true)
             
             // product price
             if let price = productObject["price"] as? Double {
@@ -215,7 +215,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         var retrievedImages: [UIImage] = []
         var retrievedImageURLS: [String] = []
         // iterate and retrieve all images.
-        for imageKey in kAmbatanaProductImageKeys {
+        for imageKey in kLetGoProductImageKeys {
             if let imageFile = self.productObject[imageKey] as? PFFile {
                 if let data = imageFile.getData(nil) { // retrieve from parse synchronously
                     if let retrievedImage = UIImage(data: data) {
@@ -237,7 +237,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         var retrievedImages: [UIImage] = []
         var retrievedImageURLS: [String] = []
         // iterate and retrieve all images.
-        for imageKey in kAmbatanaProductImageKeys {
+        for imageKey in kLetGoProductImageKeys {
             if let imageFile = self.productObject[imageKey] as? PFFile {
                 let bigImageURL = ImageManager.sharedInstance.calculateBigImageURLForProductImage(self.productObject.objectId, imageURL: imageFile.url)
                 if let image = ImageManager.sharedInstance.retrieveImageSynchronouslyFromURLString(bigImageURL, andAddToCache: true) {
@@ -284,7 +284,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     func launchChatWithConversation(conversation: PFObject) {
         if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
-                chatVC.ambatanaConversation = AmbatanaConversation(parseConversationObject: conversation)
+                chatVC.letgoConversation = LetGoConversation(parseConversationObject: conversation)
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.disableAskQuestionLoadingInterface()
                     self.navigationController?.pushViewController(chatVC, animated: true) ?? self.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
@@ -372,7 +372,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                         self.showAutoFadingOutMessageAlert(translate("marked_as_sold"), completionBlock: nil)
                 })
                 
-                self.delegate?.ambatanaProduct(self.productObject, statusUpdatedTo: self.productStatus!)
+                self.delegate?.letgoProduct(self.productObject, statusUpdatedTo: self.productStatus!)
             } else {
                 self.markSoldButton.enabled = true
                 self.showAutoFadingOutMessageAlert(translate("error_marking_as_sold"))
@@ -412,7 +412,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         var itemsToShare: [AnyObject] = []
         
         // text
-        let textToShare = ambatanaTextForSharingBody(productObject?["name"] as? String ?? "", andObjectId: productObject!.objectId)
+        let textToShare = letgoTextForSharingBody(productObject?["name"] as? String ?? "", andObjectId: productObject!.objectId)
         itemsToShare.append(textToShare)
         // image
         if productImages.count > 0 {
@@ -420,7 +420,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             itemsToShare.append(firstImage)
         }
         // url
-        itemsToShare.append(ambatanaWebLinkForObjectId(productObject!.objectId))
+        itemsToShare.append(letgoWebLinkForObjectId(productObject!.objectId))
         
         // show activity view controller.
         let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
@@ -632,9 +632,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     // MARK: - MKMapViewDelegate methods
     
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        var productPin = mapView.dequeueReusableAnnotationViewWithIdentifier("com.ambatana.productpin")
+        var productPin = mapView.dequeueReusableAnnotationViewWithIdentifier("com.letgo.productpin")
         if productPin == nil {
-            productPin = MKAnnotationView(annotation: annotation, reuseIdentifier: "com.ambatana.productpin")
+            productPin = MKAnnotationView(annotation: annotation, reuseIdentifier: "com.letgo.productpin")
             productPin.canShowCallout = true
             productPin.image = UIImage(named: "map_circle")
         }

@@ -1,6 +1,6 @@
 //
 //  ChangePasswordViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 19/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -20,8 +20,8 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
         // UI/UX & Appearance
         passwordTextfield.delegate = self
         confirmPasswordTextfield.delegate = self
-        setAmbatanaNavigationBarStyle(title: translate("change_password"), includeBackArrow: true)
-        setAmbatanaRightButtonsWithImageNames(["actionbar_save"], andSelectors: ["changePassword"])
+        setLetGoNavigationBarStyle(title: translate("change_password"), includeBackArrow: true)
+        setLetGoRightButtonsWithImageNames(["actionbar_save"], andSelectors: ["changePassword"])
         
         // internationalization
         passwordTextfield.placeholder = translate("password")
@@ -35,7 +35,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
     
     func changePassword() {
         // safety checks
-        if countElements(passwordTextfield.text) < kAmbatanaMinPasswordLength || countElements(confirmPasswordTextfield.text) < kAmbatanaMinPasswordLength { // min length not fulfilled
+        if countElements(passwordTextfield.text) < kLetGoMinPasswordLength || countElements(confirmPasswordTextfield.text) < kLetGoMinPasswordLength { // min length not fulfilled
             showAutoFadingOutMessageAlert(translate("insert_valid_password"))
         } else if passwordTextfield.text != confirmPasswordTextfield.text { // passwords do not match.
             showAutoFadingOutMessageAlert(translate("passwords_dont_match"))

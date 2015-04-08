@@ -1,11 +1,11 @@
 /* 
   Localizable.strings
-  Ambatana
+  LetGo
 
   Created by Ignacio Nieto Carvajal on 18/2/15.
   Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 */
-"have_a_look" = "Échale un vistazo a este producto en Ambatana. ";
+"have_a_look" = "Échale un vistazo a este producto en LetGo. ";
 "loading" = "Cargando...";
 "just_now" = "Justo ahora";
 "x_seconds_ago" = "Hace %d segundos";
@@ -63,7 +63,7 @@
 "lowest_price" = "Precio más bajo";
 "proximity" = "Proximidad";
 "error_sharing_facebook" = "Error compartiendo el contenido en Facebook. Por favor, inténtalo más tarde.";
-"ambatana_product" = "Producto de Ambatana";
+"letgo_product" = "Producto de LetGo";
 "completed" = "Completado";
 "canceled_by_user" = "Cancelado por el usuario";
 "whatsapp_not_configured" = "WhatsApp no parece estar configurado en el dispositivo.";
@@ -126,7 +126,7 @@
 "error_setting_profile_image" = "Se produjo un error cambiando la imagen de perfil";
 "confirm_password" = "Confirmar contraseña";
 "passwords_dont_match" = "Las contraseñas no coinciden. Por favor, inténtalo de nuevo.";
-"cant_change_facebook_password" = "Tu perfil de Ambatana está ligado a tu cuenta de Facebook, así que no tienes contraseña que cambiar.";
+"cant_change_facebook_password" = "Tu perfil de LetGo está ligado a tu cuenta de Facebook, así que no tienes contraseña que cambiar.";
 "password_successfully_changed" = "Contraseña cambiada con éxito.";
 "error_changing_password" = "Hubo un error cambiando la contraseña. Por favor, inténtalo de nuevo.";
 "no_categories_found" = "No se encontraron categorías";
@@ -151,7 +151,7 @@
 "save_to_disk" = "Guardar en carrete";
 "saving_to_disk" = "Guardando imagen en carrete...";
 "successfully_saved_to_disk" = "Imagen guardada con éxito en el carrete.";
-"error_saving_to_disk" = "Se produjo un error guardando la imagen en el carrete. Por favor, comprueba que Ambatana tiene permisos para acceder a tus fotos.";
+"error_saving_to_disk" = "Se produjo un error guardando la imagen en el carrete. Por favor, comprueba que LetGo tiene permisos para acceder a tus fotos.";
 "error_deleting_photo" = "Se produjo un error borrando la foto. Por favor, inténtalo más tarde.";
 "upload_at_least_one_image" = "Debes añadir al menos una imagen para el producto.";
 "insert_valid_title" = "Por favor, introduce un título válido para el producto.";
@@ -159,7 +159,7 @@
 "insert_valid_description" = "Por favor, introduce una descripción válida para el producto.";
 "insert_valid_category" = "Por favor, elige una categoría para el producto.";
 "unable_sell_product_location" = "Me ha sido imposible obtener tu localización actual. Para vender el producto, necesito encontrarla. Por favor, inténtalo más tarde.";
-"successfully_uploaded_product" = "Producto correctamente dado de alta. Aparecerá en Ambatana tan pronto como sea aprobado.";
+"successfully_uploaded_product" = "Producto correctamente dado de alta. Aparecerá en LetGo tan pronto como sea aprobado.";
 "uploading_image_please_wait" = "Cargando imagen, por favor, espere...";
 "error_uploading_product" = "Se produjo un error dando de alta el producto. ";
 "here" = "Aquí";

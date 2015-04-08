@@ -1,6 +1,6 @@
 //
 //  SettingsViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 13/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-private let kAmbatanaSettingsTableCellImageTag = 1
-private let kAmbatanaSettingsTableCellTitleTag = 2
+private let kLetGoSettingsTableCellImageTag = 1
+private let kLetGoSettingsTableCellTitleTag = 2
 
-private let kAmbatanaUserImageSquareSize: CGFloat = 1024
+private let kLetGoUserImageSquareSize: CGFloat = 1024
 
-enum AmbatanaUserSettings: Int {
+enum LetGoUserSettings: Int {
     case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, LogOut = 3
     
     static func numberOfOptions() -> Int { return 4 }
@@ -60,7 +60,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         // appearance
         settingProfileImageView.hidden = true
-        setAmbatanaNavigationBarStyle(title: translate("settings"), includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: translate("settings"), includeBackArrow: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,20 +70,20 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: - UITableViewDataSource methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return AmbatanaUserSettings.numberOfOptions()
+        return LetGoUserSettings.numberOfOptions()
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("AmbatanaSettingsCell", forIndexPath: indexPath) as UITableViewCell
-        let setting = AmbatanaUserSettings(rawValue: indexPath.row)!
+        let cell = tableView.dequeueReusableCellWithIdentifier("LetGoSettingsCell", forIndexPath: indexPath) as UITableViewCell
+        let setting = LetGoUserSettings(rawValue: indexPath.row)!
         
         // configure cell
-        if let titleLabel = cell.viewWithTag(kAmbatanaSettingsTableCellTitleTag) as? UILabel {
+        if let titleLabel = cell.viewWithTag(kLetGoSettingsTableCellTitleTag) as? UILabel {
             titleLabel.text = setting.titleForSetting()
             titleLabel.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
         }
         
-        if let imageView = cell.viewWithTag(kAmbatanaSettingsTableCellImageTag) as? UIImageView {
+        if let imageView = cell.viewWithTag(kLetGoSettingsTableCellImageTag) as? UIImageView {
             imageView.image = setting.imageForSetting()
             imageView.contentMode = setting == .ChangePhoto ? .ScaleAspectFill : .Center
             imageView.layer.cornerRadius = setting == .ChangePhoto ? imageView.frame.size.width / 2.0 : 0.0
@@ -96,7 +96,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - UITableViewDelegate methods
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let setting = AmbatanaUserSettings(rawValue: indexPath.row)!
+        let setting = LetGoUserSettings(rawValue: indexPath.row)!
         switch (setting) {
         case .ChangePhoto:
             showImageSourceSelection()
@@ -106,7 +106,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             // As per specifications, allow even FB users to change their passwords.
             performSegueWithIdentifier("ChangePassword", sender: nil)
         case .LogOut:
-            NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaLogoutImminentNotification, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(kLetGoLogoutImminentNotification, object: nil)
             logoutUser()
         }
     }
@@ -169,7 +169,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         // generate cropped image to 1024x1024 at most.
         if image != nil {
             if let croppedImage = image!.croppedCenteredImage() {
-                if let resizedImage = croppedImage.resizedImageToSize(CGSizeMake(kAmbatanaUserImageSquareSize, kAmbatanaUserImageSquareSize), interpolationQuality: kCGInterpolationMedium) {
+                if let resizedImage = croppedImage.resizedImageToSize(CGSizeMake(kLetGoUserImageSquareSize, kLetGoUserImageSquareSize), interpolationQuality: kCGInterpolationMedium) {
                     // update parse DDBB
                     let imageData = UIImageJPEGRepresentation(croppedImage, 0.9)
                     imageFile = PFFile(data: imageData)

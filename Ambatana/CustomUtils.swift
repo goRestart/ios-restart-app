@@ -1,6 +1,6 @@
 //
 //  CustomUtils.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 06/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -27,17 +27,17 @@ extension String {
 }
 
 /**
- * Link for an Ambatana product in the website.
+ * Link for an LetGo product in the website.
  */
-func ambatanaWebLinkForObjectId(objectId: String) -> String {
+func letgoWebLinkForObjectId(objectId: String) -> String {
     return "http://www.ambatana.com/product/\(objectId)"
 }
 
 /**
- * Text for the message body when sharing a product in Ambatana.
+ * Text for the message body when sharing a product in LetGo.
  */
-func ambatanaTextForSharingBody(productName: String, andObjectId objectId: String) -> String {
-    return translate("have_a_look") + productName // + "\n" + ambatanaWebLinkForObjectId(objectId)
+func letgoTextForSharingBody(productName: String, andObjectId objectId: String) -> String {
+    return translate("have_a_look") + productName // + "\n" + letgoWebLinkForObjectId(objectId)
 }
 
 /**

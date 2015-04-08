@@ -1,6 +1,6 @@
 //
-//  UIViewController+Ambatana.swift
-//  Ambatana
+//  UIViewController+LetGo.swift
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 09/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,21 +8,21 @@
 
 import UIKit
 
-private let kAmbatanaFadingAlertDismissalTime: Double = 3.0
-private let kAmbatanaSearchBarHeight: CGFloat = 44
-private let kAmbatanaBadgeContainerViewTag = 500
-private let kAmbatanaBadgeViewTag = 501
-private let kAmbatanaBarButtonSide: CGFloat = 32.0
-private let kAmbatanaBarButtonSideSpan: CGFloat = 8.0
-private let kAmbatanaBarButtonHorizontalSpace: CGFloat = 3.0
+private let kLetGoFadingAlertDismissalTime: Double = 3.0
+private let kLetGoSearchBarHeight: CGFloat = 44
+private let kLetGoBadgeContainerViewTag = 500
+private let kLetGoBadgeViewTag = 501
+private let kLetGoBarButtonSide: CGFloat = 32.0
+private let kLetGoBarButtonSideSpan: CGFloat = 8.0
+private let kLetGoBarButtonHorizontalSpace: CGFloat = 3.0
 
 var iOS7LoadingAlertView: UIAlertView?
-var ambatanaSearchBar: UISearchBar?
+var letGoSearchBar: UISearchBar?
 
 extension UIViewController {
     
-    // Sets the Ambatana navigation bar style. Should be called by every VC embedded in a UINavigationController.
-    func setAmbatanaNavigationBarStyle(title: AnyObject? = nil, includeBackArrow: Bool = true) {
+    // Sets the LetGo navigation bar style. Should be called by every VC embedded in a UINavigationController.
+    func setLetGoNavigationBarStyle(title: AnyObject? = nil, includeBackArrow: Bool = true) {
         //self.navigationController?.navigationBar.backgroundColor = UIColor.whiteColor()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
@@ -36,7 +36,7 @@ extension UIViewController {
 
         // back button
         if includeBackArrow {
-            let backButton = UIButton(frame: CGRectMake(0, 0, kAmbatanaBarButtonSide, kAmbatanaBarButtonSide)) // Issue #63: Add some span in width for better access to button.
+            let backButton = UIButton(frame: CGRectMake(0, 0, kLetGoBarButtonSide, kLetGoBarButtonSide)) // Issue #63: Add some span in width for better access to button.
             backButton.setImage(UIImage(named: "actionbar_chevron"), forState: .Normal)
             backButton.imageEdgeInsets = UIEdgeInsetsMake(0.0, -16, 0, 0) // adjust chevron to the left.
             backButton.addTarget(self, action: "popBackViewController", forControlEvents: .TouchUpInside)
@@ -48,21 +48,21 @@ extension UIViewController {
         }
     }
     
-    // Used to set right buttons in the Ambatana style and link them with proper actions.
+    // Used to set right buttons in the LetGo style and link them with proper actions.
     // if badgeButtonPosition is specified, a badge number bubble will be added to the button in that position
-    func setAmbatanaRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], withTags tags: [Int]? = nil, badgeButtonPosition: Int = -1) -> [UIButton] {
+    func setLetGoRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], withTags tags: [Int]? = nil, badgeButtonPosition: Int = -1) -> [UIButton] {
         if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
         var resultButtons: [UIButton] = []
         
         let numberOfButtons = images.count
-        let totalSize: CGFloat = CGFloat(numberOfButtons) * (kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan + kAmbatanaBarButtonHorizontalSpace)
+        let totalSize: CGFloat = CGFloat(numberOfButtons) * (kLetGoBarButtonSide + kLetGoBarButtonSideSpan + kLetGoBarButtonHorizontalSpace)
         let buttonsView = UIView(frame: CGRectMake(0, 0, totalSize, 32))
         var offset: CGFloat = 0.0
         
         for (var i = 0; i < numberOfButtons; i++) {
             // create and set button.
             var button = UIButton.buttonWithType(UIButtonType.System) as UIButton
-            button.frame = CGRectMake(offset, 0, kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan, 32)
+            button.frame = CGRectMake(offset, 0, kLetGoBarButtonSide + kLetGoBarButtonSideSpan, 32)
             button.tag = tags != nil ? tags![i] : i
             button.setImage(UIImage(named: images[i]), forState: .Normal)
             button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
@@ -73,13 +73,13 @@ extension UIViewController {
             if badgeButtonPosition == i && PFInstallation.currentInstallation().badge > 0 {
                 let badgeView = CustomBadge.customBadgeWithString("\(PFInstallation.currentInstallation().badge)", withStringColor: UIColor.whiteColor(), withInsetColor: UIColor.redColor(), withBadgeFrame: false, withBadgeFrameColor: UIColor.clearColor(), withScale: 1.0, withShining: false)
                 badgeView.center = CGPointMake(button.frame.size.width - 3, 0)
-                badgeView.tag = kAmbatanaBadgeViewTag
-                button.tag = kAmbatanaBadgeContainerViewTag
+                badgeView.tag = kLetGoBadgeViewTag
+                button.tag = kLetGoBadgeContainerViewTag
                 button.addSubview(badgeView)
             }
             
             // update offset
-            offset += kAmbatanaBarButtonSide + kAmbatanaBarButtonSideSpan + kAmbatanaBarButtonHorizontalSpace
+            offset += kLetGoBarButtonSide + kLetGoBarButtonSideSpan + kLetGoBarButtonHorizontalSpace
         }
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
         return resultButtons
@@ -90,7 +90,7 @@ extension UIViewController {
         if let customView = self.navigationItem.rightBarButtonItem?.customView {
             for subview in customView.subviews {
                 if let button = subview as? UIButton {
-                    if button.tag == kAmbatanaBadgeContainerViewTag {
+                    if button.tag == kLetGoBadgeContainerViewTag {
                         for buttonSubview in button.subviews {
                             if let badgeView = buttonSubview as? CustomBadge {
                                 badgeView.badgeText = "\(PFInstallation.currentInstallation().badge)"
@@ -108,13 +108,13 @@ extension UIViewController {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    // Shows an alert message that fades out after kAmbatanaFadingAlertDismissalTime seconds
+    // Shows an alert message that fades out after kLetGoFadingAlertDismissalTime seconds
     func showAutoFadingOutMessageAlert(message: String, completionBlock: ((Void) -> Void)? = nil) {
         if iOSVersionAtLeast("8.0") { // Use the new UIAlertController.
             let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
             self.presentViewController(alert, animated: true, completion: nil)
             // Schedule auto fading out of alert message
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kAmbatanaFadingAlertDismissalTime * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kLetGoFadingAlertDismissalTime * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in
                     if completionBlock != nil { completionBlock!() }
                 })
@@ -122,7 +122,7 @@ extension UIViewController {
         } else { // fallback to ios 7 UIAlertView
             let alert = UIAlertView(title: nil, message: message, delegate: nil, cancelButtonTitle: nil)
             alert.show()
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kAmbatanaFadingAlertDismissalTime * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kLetGoFadingAlertDismissalTime * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                 alert.dismissWithClickedButtonIndex(0, animated: false)
                 if completionBlock != nil { completionBlock!() }
             }
@@ -165,42 +165,42 @@ extension UIViewController {
     // Creates and shows a searching bar, that will be placed just below the UINavigationController, and allow the user to look for products.
     func showSearchBarAnimated(animated: Bool, delegate: UISearchBarDelegate) {
         // safety check
-        if ambatanaSearchBar != nil { return }
+        if letGoSearchBar != nil { return }
         
         // generate the search bar.
         let originY = statusBarHeight() + (self.navigationController?.navigationBar.frame.size.height ?? 0)
-        ambatanaSearchBar = UISearchBar(frame: CGRectMake(0, animated ? -kAmbatanaSearchBarHeight : originY, kAmbatanaFullScreenWidth, kAmbatanaSearchBarHeight))
-        ambatanaSearchBar!.showsCancelButton = true
-        ambatanaSearchBar!.backgroundColor = UIColor.whiteColor()
-        ambatanaSearchBar!.delegate = delegate
-        ambatanaSearchBar!.becomeFirstResponder()
+        letGoSearchBar = UISearchBar(frame: CGRectMake(0, animated ? -kLetGoSearchBarHeight : originY, kLetGoFullScreenWidth, kLetGoSearchBarHeight))
+        letGoSearchBar!.showsCancelButton = true
+        letGoSearchBar!.backgroundColor = UIColor.whiteColor()
+        letGoSearchBar!.delegate = delegate
+        letGoSearchBar!.becomeFirstResponder()
 
         // add it to current view
-        self.view.addSubview(ambatanaSearchBar!)
+        self.view.addSubview(letGoSearchBar!)
         if animated {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
-                ambatanaSearchBar!.frame.origin.y = originY
+                letGoSearchBar!.frame.origin.y = originY
             })
         }
     }
     
     func dismissSearchBar(searchBar: UISearchBar, animated: Bool, searchBarCompletion: ((Void) -> Void)?) {
-        if ambatanaSearchBar == nil { return }
+        if letGoSearchBar == nil { return }
         if animated {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
-                searchBar.frame.origin.y = -kAmbatanaSearchBarHeight
+                searchBar.frame.origin.y = -kLetGoSearchBarHeight
             }, completion: { (success) -> Void in
                 searchBar.resignFirstResponder()
                 self.view.endEditing(true)
                 searchBar.removeFromSuperview()
-                ambatanaSearchBar = nil
+                letGoSearchBar = nil
                 searchBarCompletion?()
             })
         } else {
             searchBar.resignFirstResponder()
             self.view.endEditing(true)
             searchBar.removeFromSuperview()
-            ambatanaSearchBar = nil
+            letGoSearchBar = nil
             searchBarCompletion?()
         }
     }

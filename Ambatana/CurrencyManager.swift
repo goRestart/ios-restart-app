@@ -1,6 +1,6 @@
 //
 //  CurrencyManager.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 24/2/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -11,7 +11,7 @@ import UIKit
 // private singleton instance
 private let _singletonInstance = CurrencyManager()
 
-struct AmbatanaCurrency {
+struct LetGoCurrency {
     var currencyCode: String
     var currencyName: String
     var iso4217Code: String
@@ -52,16 +52,16 @@ struct AmbatanaCurrency {
  */
 class CurrencyManager: NSObject {
     // data
-    var currencies: [AmbatanaCurrency]?
+    var currencies: [LetGoCurrency]?
     
-    let defaultCurrency = AmbatanaCurrency(currencyCode: "$", currencyName: "United States dollar", iso4217Code: "USD", country: "United States of America", countryCode: "US", symbolPosition: "left")
+    let defaultCurrency = LetGoCurrency(currencyCode: "$", currencyName: "United States dollar", iso4217Code: "USD", country: "United States of America", countryCode: "US", symbolPosition: "left")
     
-    lazy var fallbackCurrencies: [AmbatanaCurrency] = {
-        let usd = AmbatanaCurrency(currencyCode: "$", currencyName: "United States dollar", iso4217Code: "USD", country: "United States of America", countryCode: "US", symbolPosition: "left")
-        let eur = AmbatanaCurrency(currencyCode: "€", currencyName: "European euro", iso4217Code: "EUR", country: "Europe", countryCode: "EU", symbolPosition: "right")
-        let gbp = AmbatanaCurrency(currencyCode: "£", currencyName: "British pound", iso4217Code: "GBP", country: "United Kingdom", countryCode: "UK", symbolPosition: "left")
-        let ars = AmbatanaCurrency(currencyCode: "$a", currencyName: "Argentine peso", iso4217Code: "ARS", country: "Argentina", countryCode: "AR", symbolPosition: "left")
-        let brl = AmbatanaCurrency(currencyCode: "R$", currencyName: "Brazilian real", iso4217Code: "BRL", country: "Brazil", countryCode: "BR", symbolPosition: "left")
+    lazy var fallbackCurrencies: [LetGoCurrency] = {
+        let usd = LetGoCurrency(currencyCode: "$", currencyName: "United States dollar", iso4217Code: "USD", country: "United States of America", countryCode: "US", symbolPosition: "left")
+        let eur = LetGoCurrency(currencyCode: "€", currencyName: "European euro", iso4217Code: "EUR", country: "Europe", countryCode: "EU", symbolPosition: "right")
+        let gbp = LetGoCurrency(currencyCode: "£", currencyName: "British pound", iso4217Code: "GBP", country: "United Kingdom", countryCode: "UK", symbolPosition: "left")
+        let ars = LetGoCurrency(currencyCode: "$a", currencyName: "Argentine peso", iso4217Code: "ARS", country: "Argentina", countryCode: "AR", symbolPosition: "left")
+        let brl = LetGoCurrency(currencyCode: "R$", currencyName: "Brazilian real", iso4217Code: "BRL", country: "Brazil", countryCode: "BR", symbolPosition: "left")
         return [usd, eur, gbp, ars, brl]
     }()
     
@@ -76,7 +76,7 @@ class CurrencyManager: NSObject {
         pfquery.findObjectsInBackgroundWithBlock { (results, error) -> Void in
             println("Retrieved currencies from the backend")
             if let currencies = results as? [PFObject] {
-                var retrievedCurrencies: [AmbatanaCurrency] = []
+                var retrievedCurrencies: [LetGoCurrency] = []
                 // iterate and add valid retrieved currencies.
                 for currencyObject in currencies {
                     let currencyCode = currencyObject["currency_code"] as? String
@@ -86,7 +86,7 @@ class CurrencyManager: NSObject {
                     let countryCode = currencyObject["country_code"] as? String
                     let symbolPosition = currencyObject["position"] as? String ?? "unknown"
                     if currencyCode != nil && currencyName != nil && iso4217Code != nil && country != nil && countryCode != nil {
-                        retrievedCurrencies.append(AmbatanaCurrency(currencyCode: currencyCode!, currencyName: currencyName!, iso4217Code: iso4217Code!, country: country!, countryCode: countryCode!, symbolPosition: symbolPosition))
+                        retrievedCurrencies.append(LetGoCurrency(currencyCode: currencyCode!, currencyName: currencyName!, iso4217Code: iso4217Code!, country: country!, countryCode: countryCode!, symbolPosition: symbolPosition))
                     }
                 }
                 self.currencies = retrievedCurrencies
@@ -94,11 +94,11 @@ class CurrencyManager: NSObject {
         }
     }
     
-    func allCurrencies() -> [AmbatanaCurrency] {
+    func allCurrencies() -> [LetGoCurrency] {
         return currencies ?? fallbackCurrencies
     }
     
-    func currencyForISO4217Symbol(symbol: String) -> AmbatanaCurrency? {
+    func currencyForISO4217Symbol(symbol: String) -> LetGoCurrency? {
         for currency in allCurrencies() {
             if currency.iso4217Code == symbol { return currency }
         }

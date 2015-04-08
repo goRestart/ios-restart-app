@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 04/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -8,8 +8,8 @@
 
 import UIKit
 
-private let kAmbatanaParseApplicationID = "Kzeem57zMsUao8Jx9aUppsUOQBJbvg54FPEJAP35"
-private let kAmbatanaParseClientKey = "cBWwdoHgdi0zW0oQI2WxF9krCH4B1I2cVGyWldJ3"
+private let kLetGoParseApplicationID = "Kzeem57zMsUao8Jx9aUppsUOQBJbvg54FPEJAP35"
+private let kLetGoParseClientKey = "cBWwdoHgdi0zW0oQI2WxF9krCH4B1I2cVGyWldJ3"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // initializate parse
         //Parse.enableLocalDatastore()
-        Parse.setApplicationId(kAmbatanaParseApplicationID, clientKey: kAmbatanaParseClientKey)
+        Parse.setApplicationId(kLetGoParseApplicationID, clientKey: kLetGoParseClientKey)
         PFFacebookUtils.initializeFacebook()
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // responding to push notifications received while in background.
         println("Launch options: \(launchOptions)")
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
-            NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserBadgeChangedNotification, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil)
             self.openChatListViewController()
         }
         
@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func openChatListViewController() {
         if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
-            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController { // we are logged in. Check that we have a valid ambatana navigation controller
+            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController { // we are logged in. Check that we have a valid LetGo navigation controller
                 if let chatListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("conversationsViewController") as? ChatListViewController { // ... and that we can instantiate the chat controller.
                     navigationController.pushViewController(chatListVC, animated: true)
                 }
@@ -115,7 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.openChatListViewController() // Not really nice when we are using the App?
         }
         // notify any observers
-        NSNotificationCenter.defaultCenter().postNotificationName(kAmbatanaUserBadgeChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil)
         
     }
     

@@ -1,6 +1,6 @@
 //
 //  SellProductViewController.swift
-//  Ambatana
+//  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 10/02/15.
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
@@ -9,18 +9,18 @@
 import UIKit
 import AddressBookUI
 
-private let kAmbatanaSellProductControlsCornerRadius: CGFloat = 6.0
-private let kAmbatanaAlreadyUploadedImageCellName = "AlreadyUploadedImageCell"
-private let kAmbatanaUploadFirstImageCellName = "UploadFirstImageCell"
-private let kAmbatanaUploadOtherImageCellName = "UploadOtherImageCell"
-private let kAmbatanaAlreadyUploadedImageCellBigImageTag = 1
-private let kAmbatanaUploadFirstImageCellLabelTag = 2
-private let kAmbatanaTextfieldScrollingOffsetSpan: CGFloat = 72 // 20 (status bar height) + 44 (navigation controller height) + 8 (small span to leave some space)
+private let kLetGoSellProductControlsCornerRadius: CGFloat = 6.0
+private let kLetGoAlreadyUploadedImageCellName = "AlreadyUploadedImageCell"
+private let kLetGoUploadFirstImageCellName = "UploadFirstImageCell"
+private let kLetGoUploadOtherImageCellName = "UploadOtherImageCell"
+private let kLetGoAlreadyUploadedImageCellBigImageTag = 1
+private let kLetGoUploadFirstImageCellLabelTag = 2
+private let kLetGoTextfieldScrollingOffsetSpan: CGFloat = 72 // 20 (status bar height) + 44 (navigation controller height) + 8 (small span to leave some space)
 
-private let kAmbatanaSellProductActionSheetTagCurrencyType = 100 // for currency selection
-private let kAmbatanaSellProductActionSheetTagCategoryType = 101 // for category selection
-private let kAmbatanaSellProductActionSheetTagImageSourceType = 102 // for image source selection
-private let kAmbatanaSellProductActionSheetTagActionType = 103 // for image action selection
+private let kLetGoSellProductActionSheetTagCurrencyType = 100 // for currency selection
+private let kLetGoSellProductActionSheetTagCategoryType = 101 // for category selection
+private let kLetGoSellProductActionSheetTagImageSourceType = 102 // for image source selection
+private let kLetGoSellProductActionSheetTagActionType = 103 // for image action selection
 
 class SellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate {
     // outlets & buttons
@@ -42,7 +42,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var images: [UIImage] = []
     var imageFiles: [PFFile]? = nil
 
-    let sellQueue = dispatch_queue_create("com.ambatana.SellProduct", DISPATCH_QUEUE_SERIAL) // we want the images to load sequentially.
+    let sellQueue = dispatch_queue_create("com.letgo.SellProduct", DISPATCH_QUEUE_SERIAL) // we want the images to load sequentially.
     var currentCategory: ProductListCategory?
     var currentCurrency = CurrencyManager.sharedInstance.defaultCurrency
     var geocoder = CLGeocoder()
@@ -53,7 +53,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setAmbatanaNavigationBarStyle(title: translate("sell"), includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: translate("sell"), includeBackArrow: true)
         
         // internationalization
         productTitleTextField.placeholder = translate("product_title")
@@ -97,23 +97,23 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     // MARK: - iOS 7 Action Sheet deprecated selections for compatibility.
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if actionSheet.tag == kAmbatanaSellProductActionSheetTagCurrencyType { // currency type selection
+        if actionSheet.tag == kLetGoSellProductActionSheetTagCurrencyType { // currency type selection
             if buttonIndex != actionSheet.cancelButtonIndex { // 0 is cancel
                 let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
                 let buttonCurrency = allCurrencies[buttonIndex]
                 self.currentCurrency = buttonCurrency
                 self.currencyTypeButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
             }
-        } else if actionSheet.tag == kAmbatanaSellProductActionSheetTagCategoryType { // category selection
+        } else if actionSheet.tag == kLetGoSellProductActionSheetTagCategoryType { // category selection
             if buttonIndex != actionSheet.cancelButtonIndex { // 0 is cancel
                 let category = ProductListCategory.allCategories()[buttonIndex]
                 self.currentCategory = category
                 self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
             }
-        } else if actionSheet.tag == kAmbatanaSellProductActionSheetTagImageSourceType { // choose source for the images
+        } else if actionSheet.tag == kLetGoSellProductActionSheetTagImageSourceType { // choose source for the images
             if buttonIndex == 0 { self.openImagePickerWithSource(.Camera) }
             else { self.openImagePickerWithSource(.PhotoLibrary) }
-        } else if actionSheet.tag == kAmbatanaSellProductActionSheetTagActionType { // action type for uploaded image (download to disk? delete?...)
+        } else if actionSheet.tag == kLetGoSellProductActionSheetTagActionType { // action type for uploaded image (download to disk? delete?...)
             if buttonIndex == 0 { self.deleteAlreadyUploadedImageWithIndex(imageSelectedIndex) }
             else { self.saveProductImageToDiskAtIndex(imageSelectedIndex) }
         }
@@ -140,7 +140,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             self.presentViewController(alert, animated: true, completion: nil)
         } else { // ios7 fallback
             let actionSheet = UIActionSheet(title: translate("choose_currency"), delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-            actionSheet.tag = kAmbatanaSellProductActionSheetTagCurrencyType
+            actionSheet.tag = kLetGoSellProductActionSheetTagCurrencyType
             for currency in CurrencyManager.sharedInstance.allCurrencies() {
                 actionSheet.addButtonWithTitle(currency.currencyCode)
             }
@@ -166,7 +166,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
 
         } else {
             let actionSheet = UIActionSheet(title: translate("choose_a_category"), delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-            actionSheet.tag = kAmbatanaSellProductActionSheetTagCategoryType
+            actionSheet.tag = kLetGoSellProductActionSheetTagCategoryType
             for category in ProductListCategory.allCategories() {
                 actionSheet.addButtonWithTitle(category.getName())
             }
@@ -211,7 +211,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             productObject["description"] = self.descriptionTextView.text
             productObject["gpscoords"] = PFGeoPoint(latitude: currentLocationCoordinate.latitude, longitude: currentLocationCoordinate.longitude)
             productObject["processed"] = false
-            productObject["language_code"] = NSLocale.preferredLanguages().first as? String ?? kAmbatanaDefaultCategoriesLanguage
+            productObject["language_code"] = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
             productObject["name"] = self.productTitleTextField.text
             productObject["name_dirify"] = self.productTitleTextField.text
             productObject["price"] = productPrice
@@ -264,7 +264,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             
             // assign images to product images
             for (var i = 0; i < self.imageFiles!.count; i++) {
-                let imageKey = kAmbatanaProductImageKeys[i]
+                let imageKey = kLetGoProductImageKeys[i]
                 productObject[imageKey] = self.imageFiles![i]
             }
             
@@ -328,10 +328,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         // iterate through all the images
         for image in images {
             var imageFile: PFFile? = nil
-            var resizedImage: UIImage? = image.resizedImageToMaxSide(kAmbatanaMaxProductImageSide, interpolationQuality: kCGInterpolationMedium)
+            var resizedImage: UIImage? = image.resizedImageToMaxSide(kLetGoMaxProductImageSide, interpolationQuality: kCGInterpolationMedium)
             if resizedImage != nil {
                 // update parse DDBB
-                let imageData = UIImageJPEGRepresentation(resizedImage, kAmbatanaMaxProductImageJPEGQuality)
+                let imageData = UIImageJPEGRepresentation(resizedImage, kLetGoMaxProductImageJPEGQuality)
                 let imageName = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "", options: nil, range: nil) + "_\(imageCounter++).jpg"
                 
                 imageFile = PFFile(name: imageName, data: imageData)
@@ -368,7 +368,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     func shareCurrentProductInFacebook(objectId: String) {
         let fbSharingParams = FBLinkShareParams()
-        fbSharingParams.link = NSURL(string: ambatanaWebLinkForObjectId(objectId))!
+        fbSharingParams.link = NSURL(string: letgoWebLinkForObjectId(objectId))!
         fbSharingParams.linkDescription = productTitleTextField.text
         if imageFiles?.count > 0 { fbSharingParams.picture = NSURL(string: imageFiles!.first!.url) }
         // check if we can present the dialog.
@@ -431,7 +431,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             let actionSheet = UIActionSheet()
             actionSheet.delegate = self
             actionSheet.title = translate("choose_image_source")
-            actionSheet.tag = kAmbatanaSellProductActionSheetTagImageSourceType
+            actionSheet.tag = kLetGoSellProductActionSheetTagImageSourceType
             actionSheet.addButtonWithTitle(translate("camera"))
             actionSheet.addButtonWithTitle(translate("photo_library"))
             actionSheet.showInView(self.view)
@@ -504,14 +504,14 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     // animate view to put textfield at the top.
     func textFieldDidBeginEditing(textField: UITextField) {
-        let newFrame = self.originalFrame.rectByOffsetting(dx: 0, dy: -textField.frame.origin.y +  kAmbatanaTextfieldScrollingOffsetSpan)
+        let newFrame = self.originalFrame.rectByOffsetting(dx: 0, dy: -textField.frame.origin.y +  kLetGoTextfieldScrollingOffsetSpan)
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.view.frame = newFrame
         })
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-        let newFrame = self.originalFrame.rectByOffsetting(dx: 0, dy: -textView.frame.origin.y + kAmbatanaTextfieldScrollingOffsetSpan)
+        let newFrame = self.originalFrame.rectByOffsetting(dx: 0, dy: -textView.frame.origin.y + kLetGoTextfieldScrollingOffsetSpan)
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.view.frame = newFrame
         })
@@ -520,7 +520,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     // MARK: - Add Photo & Already uploaded images collection view DataSource & Delegate methods
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return kAmbatanaProductImageKeys.count
+        return kLetGoProductImageKeys.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -528,19 +528,19 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
 
         // let's try to find out which kind of cell is this
         if indexPath.row == images.count { // "first upload image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kAmbatanaUploadFirstImageCellName, forIndexPath: indexPath) as UICollectionViewCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoUploadFirstImageCellName, forIndexPath: indexPath) as UICollectionViewCell
             self.configureFirstUploadImageCell(cell, indexPath: indexPath)
         } else if indexPath.row < images.count { // already uploaded image case
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kAmbatanaAlreadyUploadedImageCellName, forIndexPath: indexPath) as UICollectionViewCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoAlreadyUploadedImageCellName, forIndexPath: indexPath) as UICollectionViewCell
             self.configureAlreadyUploadedImageCell(cell, indexPath: indexPath)
         } else { // "upload other image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kAmbatanaUploadOtherImageCellName, forIndexPath: indexPath) as UICollectionViewCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoUploadOtherImageCellName, forIndexPath: indexPath) as UICollectionViewCell
         }
         return cell
     }
     
     func configureAlreadyUploadedImageCell(cell: UICollectionViewCell!, indexPath: NSIndexPath) {
-        if let uploadedImageView = cell?.viewWithTag(kAmbatanaAlreadyUploadedImageCellBigImageTag) as? UIImageView {
+        if let uploadedImageView = cell?.viewWithTag(kLetGoAlreadyUploadedImageCellBigImageTag) as? UIImageView {
             uploadedImageView.image = images[indexPath.row]
             uploadedImageView.clipsToBounds = true
             uploadedImageView.contentMode = .ScaleAspectFill
@@ -548,7 +548,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func configureFirstUploadImageCell(cell: UICollectionViewCell!, indexPath: NSIndexPath) {
-        if let firstUploadLabel = cell?.viewWithTag(kAmbatanaUploadFirstImageCellLabelTag) as? UILabel {
+        if let firstUploadLabel = cell?.viewWithTag(kLetGoUploadFirstImageCellLabelTag) as? UILabel {
             firstUploadLabel.text = translate("photo")
         }
     }
@@ -570,7 +570,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                 let actionSheet = UIActionSheet()
                 actionSheet.delegate = self
                 actionSheet.title = translate("choose_action")
-                actionSheet.tag = kAmbatanaSellProductActionSheetTagActionType
+                actionSheet.tag = kLetGoSellProductActionSheetTagActionType
                 actionSheet.addButtonWithTitle(translate("delete"))
                 actionSheet.addButtonWithTitle(translate("save_to_disk"))
                 self.imageSelectedIndex = indexPath.row
