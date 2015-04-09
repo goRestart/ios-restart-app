@@ -39,14 +39,14 @@ struct LetGoConversation {
         // distinguish who's the selling/buying user
         let userFrom = conversationObject["user_from"] as? PFUser
         let userTo = conversationObject["user_to"] as? PFUser
-        if userFrom?.objectId == PFUser.currentUser().objectId { amISellingTheProduct = false } // I am buying/making an offer for this product.
+        if userFrom?.objectId == PFUser.currentUser()!.objectId { amISellingTheProduct = false } // I am buying/making an offer for this product.
         else { amISellingTheProduct = true }    // I Am selling the product.
         var targetUser: PFUser? = amISellingTheProduct ? userFrom : userTo
         
         // if we have a valid target user, fill the name, and avatar.
         if targetUser != nil {
             targetUser!.fetchIfNeeded()
-            if let userAvatarFile = targetUser?["avatar"] as? PFFile { userAvatarURL = userAvatarFile.url }
+            if let userAvatarFile = targetUser?["avatar"] as? PFFile { userAvatarURL = userAvatarFile.url! }
             else { userAvatarURL = ""; userAvatarImage = UIImage(named: "no_photo")! }
             userName = targetUser!["username_public"] as? String ?? translate("user")
         } else { // else, put some default values
@@ -63,7 +63,7 @@ struct LetGoConversation {
         totalMessages = conversationObject["nr_messages"] as? Int ?? 0
         myUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_to"] as? Int ?? 0 : conversationObject["nr_messages_to_read_from"] as? Int ?? 0
         otherUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_from"] as? Int ?? 0 : conversationObject["nr_messages_to_read_to"] as? Int ?? 0
-        lastUpdated = conversationObject.updatedAt
+        lastUpdated = conversationObject.updatedAt!
     }
 }
 
@@ -81,9 +81,9 @@ class ChatManager: NSObject {
     func retrieveMyConversationsWithCompletion(completion: (success: Bool, conversations: [LetGoConversation]?) -> Void) {
         // perform query on conversations.
         let conversationsFrom = PFQuery(className: "Conversations")
-        conversationsFrom.whereKey("user_from", equalTo: PFUser.currentUser()) // I am the user that started the conversation
+        conversationsFrom.whereKey("user_from", equalTo: PFUser.currentUser()!) // I am the user that started the conversation
         let conversationsTo = PFQuery(className: "Conversations")
-        conversationsTo.whereKey("user_to", equalTo: PFUser.currentUser()) // I am the user that received the conversation.
+        conversationsTo.whereKey("user_to", equalTo: PFUser.currentUser()!) // I am the user that received the conversation.
         
         // perform combined query.
         let query = PFQuery.orQueryWithSubqueries([conversationsFrom, conversationsTo])
@@ -95,7 +95,7 @@ class ChatManager: NSObject {
         query.findObjectsInBackgroundWithBlock({ (results, error) -> Void in
             if error == nil && results?.count > 0 { // we got some comversations.
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
-                    let conversations = self.letgoConversationsFromParseObjects(results! as [PFObject])
+                    let conversations = self.letgoConversationsFromParseObjects(results! as! [PFObject])
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         completion(success: true, conversations: conversations)
                     })
@@ -113,13 +113,13 @@ class ChatManager: NSObject {
         // supposedly, the product will be in fetched at this point, however, we'll fetch it if needed, just in case.
         // perform query on all conversations, from or two.
         let conversationsFrom = PFQuery(className: "Conversations")
-        conversationsFrom.whereKey("user_from", equalTo: PFUser.currentUser()) // I am the user that started the conversation
+        conversationsFrom.whereKey("user_from", equalTo: PFUser.currentUser()!) // I am the user that started the conversation
         conversationsFrom.whereKey("user_to", equalTo: otherUser)
         conversationsFrom.whereKey("product", equalTo: productObject)
         
         let conversationsTo = PFQuery(className: "Conversations")
         conversationsTo.whereKey("user_from", equalTo: otherUser)
-        conversationsTo.whereKey("user_to", equalTo: PFUser.currentUser()) // I am the user that received the conversation.
+        conversationsTo.whereKey("user_to", equalTo: PFUser.currentUser()!) // I am the user that received the conversation.
         conversationsTo.whereKey("product", equalTo: productObject)
 
         // perform combined query.
@@ -206,7 +206,7 @@ class ChatManager: NSObject {
                 // add 1 to the unread messages of my user.
                 var fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_from" // let's suppose we are the buyer of the object, not the owner (me = user_from)
                 if let fromUserInConversation = conversation["user_from"] as? PFObject {
-                    if fromUserInConversation.objectId  == PFUser.currentUser().objectId { // if I am actually the owner of the user, not the buyer (me = user_to)
+                    if fromUserInConversation.objectId  == PFUser.currentUser()!.objectId { // if I am actually the owner of the user, not the buyer (me = user_to)
                         fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_to" // change destination field.
                     }
                 }
@@ -216,7 +216,7 @@ class ChatManager: NSObject {
                 conversation.saveInBackgroundWithBlock({ (success, error) -> Void in
                     if !success { conversation.saveEventually(nil) }
                 })
-                self.sendPushNotificationWithMessage(text, toUser: destinationUser, fromUser: PFUser.currentUser())
+                self.sendPushNotificationWithMessage(text, toUser: destinationUser, fromUser: PFUser.currentUser()!)
                 
                 // inform the handler of the successfull completion.
                 dispatch_async(dispatch_get_main_queue(), { completion(success: true, newlyCreatedMessageObject: newMessage) })
@@ -230,11 +230,11 @@ class ChatManager: NSObject {
     internal func sendPushNotificationWithMessage(message: String, toUser user: PFUser, fromUser sourceUser: PFUser) {
         // send a push notification.
         let pushQuery = PFInstallation.query()
-        pushQuery.whereKey("user_objectId", equalTo: user.objectId)
+        pushQuery!.whereKey("user_objectId", equalTo: user.objectId!)
         let push = PFPush()
         push.setQuery(pushQuery)
         var shortString = (sourceUser["username_public"] as? String ?? translate("message")) + ": " + message
-        shortString = countElements(shortString) > kLetGoPushNotificationMaxPayloadSpaceForText ? shortString.substringToIndex(advance(shortString.startIndex, kLetGoPushNotificationMaxPayloadSpaceForText)) : shortString
+        shortString = count(shortString) > kLetGoPushNotificationMaxPayloadSpaceForText ? shortString.substringToIndex(advance(shortString.startIndex, kLetGoPushNotificationMaxPayloadSpaceForText)) : shortString
         push.setData(["badge": "Increment", "alert": shortString])
         push.sendPushInBackgroundWithBlock { (success, error) -> Void in
             if !success { // try to send again in 1 minute
@@ -251,7 +251,7 @@ class ChatManager: NSObject {
         // define which field to mark as read depending on which interlocutor are we.
         var fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_from" // let's suppose we are the buyer of the object, not the owner (me = user_from)
         if let fromUserInConversation = conversation["user_from"] as? PFObject {
-            if fromUserInConversation.objectId  == PFUser.currentUser().objectId { // if I am actually the owner of the user, not the buyer (me = user_to)
+            if fromUserInConversation.objectId  == PFUser.currentUser()!.objectId { // if I am actually the owner of the user, not the buyer (me = user_to)
                 fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_to" // change destination field.
             }
         }

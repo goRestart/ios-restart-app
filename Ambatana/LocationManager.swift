@@ -103,7 +103,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         // if we don't have a recorded location, we should try to retrieve it from Parse first.
         if (!CLLocationCoordinate2DIsValid(self.lastRegisteredLocation)) {
             println("Trying to retrieve last registered location...")
-            if let registeredLocationObject = PFUser.currentUser()["gpscoords"] as? PFGeoPoint {
+            if let registeredLocationObject = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
                 println("Previous information found \(registeredLocationObject)")
                 // Create a new local last registered location object
                 self.lastRegisteredLocation = CLLocationCoordinate2DMake(registeredLocationObject.latitude, registeredLocationObject.longitude)
@@ -140,24 +140,24 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         // get the reverse geocoding location of the user from his/her coordinates.
         geocoder.reverseGeocodeLocation(latestLocation, completionHandler: { (placemarks, error) -> Void in
             let geoPoint = PFGeoPoint(latitude: latestLocation.coordinate.latitude, longitude: latestLocation.coordinate.longitude)
-            PFUser.currentUser()["gpscoords"] = geoPoint
+            PFUser.currentUser()?["gpscoords"] = geoPoint
             println("Updating user location to \(latestLocation.description)...")
             
             if placemarks?.count > 0 {
                 if let placemark = placemarks?.first as? CLPlacemark {
                     // extract elements and update user.
                     if placemark.locality != nil {
-                        PFUser.currentUser()["city"] = placemark.locality
+                        PFUser.currentUser()?["city"] = placemark.locality
                         ConfigurationManager.sharedInstance.userLocation = placemark.locality
                     }
-                    if placemark.ISOcountryCode != nil { PFUser.currentUser()["country_code"] = placemark.ISOcountryCode }
+                    if placemark.ISOcountryCode != nil { PFUser.currentUser()?["country_code"] = placemark.ISOcountryCode }
                     if placemark.addressDictionary != nil {
                         let addressString = ABCreateStringWithAddressDictionary(placemark.addressDictionary, false)
-                        if addressString != nil { PFUser.currentUser()["address"] = addressString }
+                        if addressString != nil { PFUser.currentUser()?["address"] = addressString }
                     }
                 }
             }
-            PFUser.currentUser().saveInBackgroundWithBlock({ (success, error) -> Void in
+            PFUser.currentUser()!.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if (success) {
                     println("*** Updated registered user location successfully")
                     self.lastRegisteredLocation = latestLocation.coordinate
@@ -206,7 +206,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             let defaults = NSUserDefaults.standardUserDefaults()
             if let directLocation = NSUserDefaults.standardUserDefaults().objectForKey(kLetGoUserWantsToSpecifyLocationDirectly) as? String {
                 // try to get location for the current user from parse, and use it as the .
-                if let registeredLocationObject = PFUser.currentUser()["gpscoords"] as? PFGeoPoint {
+                if let registeredLocationObject = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
                     println("Location retrieved from previously registered entry in backend")
                     // use this registered location as the current location.
                     self.lastRegisteredLocation = CLLocationCoordinate2DMake(registeredLocationObject.latitude, registeredLocationObject.longitude)

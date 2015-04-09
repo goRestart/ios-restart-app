@@ -63,7 +63,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         let productPrice = priceTextField?.text.toInt()
         if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); return }
         var offerText = self.generateOfferText(productPrice!)
-        if commentsTextView.text != nil && countElements(commentsTextView.text) > 0 { offerText += "\n\n" + commentsTextView.text! }
+        if commentsTextView.text != nil && count(commentsTextView.text) > 0 { offerText += "\n\n" + commentsTextView.text! }
 
         // enable loading interface
         enableLoadingInterface()

@@ -80,8 +80,8 @@ class CustomBadge: UIView {
     let stringSize = (badgeText as NSString).sizeWithAttributes(
       [NSFontAttributeName:UIFont.boldSystemFontOfSize(12)])
     
-    if countElements(badgeText) >= 2 {
-      let flexSpace:CGFloat = CGFloat(countElements(badgeText))
+    if count(badgeText) >= 2 {
+      let flexSpace:CGFloat = CGFloat(count(badgeText))
       let rectWidth:CGFloat = initialSize + (stringSize.width + flexSpace)
       let rectHeight:CGFloat = initialSize
       
@@ -188,7 +188,7 @@ class CustomBadge: UIView {
     if !badgeText.isEmpty {
       var sizeOfFont = 13.5 * badgeScaleFactor
     
-      if countElements(badgeText) < 2 {
+      if count(badgeText) < 2 {
         sizeOfFont += sizeOfFont * 0.20
       }
     

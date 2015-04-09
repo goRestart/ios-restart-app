@@ -111,18 +111,23 @@ class DLHamburguerViewController: UIViewController {
     
     // MARK: - Lifecycle
     
-    override init() {
-        super.init()
+    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: NSBundle!) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setupHamburguerViewController()
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupHamburguerViewController()
     }
     
-    init(contentViewController: UIViewController, menuViewController: UIViewController) {
-        super.init()
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        setupHamburguerViewController()
+    }
+    
+    convenience init(contentViewController: UIViewController, menuViewController: UIViewController) {
+        self.init()
         self.contentViewController = contentViewController
         self.menuViewController = menuViewController
     }

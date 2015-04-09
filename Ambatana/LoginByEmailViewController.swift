@@ -74,7 +74,7 @@ class LoginByEmailViewController: UIViewController, UITextFieldDelegate {
             showAutoFadingOutMessageAlert(translate("insert_valid_email"))
             return
         }
-        if countElements(self.passwordTextfield.text) < 6 {
+        if count(self.passwordTextfield.text) < 6 {
             showAutoFadingOutMessageAlert(translate("insert_valid_password"))
             return
         }
@@ -130,7 +130,7 @@ class LoginByEmailViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - UX
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.resignFirstResponder()
         self.view.endEditing(true)
     }

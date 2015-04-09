@@ -60,10 +60,10 @@ class ImageManager: NSObject {
     // MARK: - Downloading of images
     
     /** Retrieves an image from a PFFile in background and executes a block uplon completion */
-    func retrieveImageFromParsePFFile(imageFile: PFFile, completion: (success:Bool, image: UIImage?) -> Void, andAddToCache addToCache: Bool = kLetGoImageCacheEnabledByDefault) {
+    func retrieveImageFromParsePFFile(imageFile: PFFile, completion: ((success:Bool, image: UIImage?) -> Void), andAddToCache addToCache: Bool = kLetGoImageCacheEnabledByDefault) {
         dispatch_async(imageDispatchQueue, { () -> Void in
             // try the cache first
-            if let cachedImage = self.imageCache[imageFile.url] {
+            if let cachedImage = self.imageCache[imageFile.url!] {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     completion(success: true, image: cachedImage)
                 })
@@ -85,7 +85,7 @@ class ImageManager: NSObject {
     }
     
     /** Asynchronously retrieves a image from a URL. If the image is in the cache, it retrieves if from the cache first */
-    func retrieveImageFromURLString(urlString: String, completion: (success: Bool, image: UIImage?) -> Void, andAddToCache addToCache: Bool = kLetGoImageCacheEnabledByDefault) {
+    func retrieveImageFromURLString(urlString: String, completion: ((success: Bool, image: UIImage?) -> Void), andAddToCache addToCache: Bool = kLetGoImageCacheEnabledByDefault) {
         dispatch_async(imageDispatchQueue, { () -> Void in
             // try the cache first
             if let cachedImage = self.imageCache[urlString] {
@@ -138,7 +138,7 @@ class ImageManager: NSObject {
     
     internal func getFolderStructureForString(string: String, inGroupsOf group: Int, numberOfGroups numGroups: Int) -> String {
         // safety check
-        if countElements(string) < group * numGroups { return "/" }
+        if count(string) < group * numGroups { return "/" }
         // initialize structures
         var result = ""
         var startIndex = string.startIndex

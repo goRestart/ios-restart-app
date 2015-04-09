@@ -74,7 +74,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("LetGoSettingsCell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("LetGoSettingsCell", forIndexPath: indexPath) as! UITableViewCell
         let setting = LetGoUserSettings(rawValue: indexPath.row)!
         
         // configure cell
@@ -184,11 +184,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         } else { // we have a valid image PFFile, now update current user's avatar with it.
             imageFile?.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if success { // successfully uploaded image. Now assign it to the user and save him/her.
-                    PFUser.currentUser()["avatar"] = imageFile
-                    PFUser.currentUser().saveInBackgroundWithBlock({ (success, error) -> Void in
+                    PFUser.currentUser()!["avatar"] = imageFile
+                    PFUser.currentUser()!.saveInBackgroundWithBlock({ (success, error) -> Void in
                         if success {
                             // save local user image
-                            ConfigurationManager.sharedInstance.userProfileImage = UIImage(data: imageFile!.getData())
+                            ConfigurationManager.sharedInstance.userProfileImage = UIImage(data: imageFile!.getData()!)
                             self.tableView.reloadData()
                             self.settingProfileImageView.hidden = true
                         } else { // unable save user with new avatar.

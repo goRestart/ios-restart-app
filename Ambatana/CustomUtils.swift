@@ -22,7 +22,7 @@ func iOSVersionAtLeast(version: String) -> Bool {
 extension String {
     func isEmail() -> Bool {
         let regex = NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+$", options: .CaseInsensitive, error: nil)
-        return regex?.firstMatchInString(self, options: nil, range: NSMakeRange(0, countElements(self))) != nil
+        return regex?.firstMatchInString(self, options: nil, range: NSMakeRange(0, count(self))) != nil
     }
 }
 
@@ -61,7 +61,7 @@ func translateWithFormat(text: String, parameters: [CVarArgType]) -> String {
  * Generates a Parse PFACL object giving all permissions to the current user and global read access.
  */
 func globalReadAccessACL() -> PFACL {
-    let acl = PFACL(user: PFUser.currentUser())
+    let acl = PFACL(user: PFUser.currentUser()!)
     acl.setPublicReadAccess(true)
     return acl
 }
@@ -95,7 +95,7 @@ func allCategoriesQueryForLanguage(language: String) -> PFQuery {
 func favoriteCategoriesQuery() -> PFQuery {
     // inner query. Get all favorite category identifiers.
     let innerQuery = PFQuery(className: "UserFavoriteCategories")
-    innerQuery.whereKey("user", equalTo: PFUser.currentUser())
+    innerQuery.whereKey("user", equalTo: PFUser.currentUser()!)
     
     // the external query will retrieve all favorite categories where the category number matches the inner query.
     let query = PFQuery(className: "Categories")
@@ -118,7 +118,7 @@ func distanceStringToGeoPoint(geoPoint: PFGeoPoint) -> String {
     if let currentUserGeoPoint = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
         let km = geoPoint.distanceInKilometersTo(currentUserGeoPoint)
         if km > 1.0 {
-            return NSString(format: "%.1fKm", km)
+            return NSString(format: "%.1fKm", km) as String
         }
         else {
             let m: Int = Int(km * 1000)

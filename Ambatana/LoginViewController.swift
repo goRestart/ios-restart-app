@@ -97,7 +97,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
         let permissionsArray = ["user_about_me", "user_location", "email", "public_profile"]
         PFFacebookUtils.logInWithPermissions(permissionsArray, block: { (user, error) -> Void in
             if user != nil { // login succeed
-                if user.isNew { // if we have just created the new user we need to set the Facebook
+                if user!.isNew { // if we have just created the new user we need to set the Facebook
                     // load facebook data into profile.
                     println("User created for the first time by Facebook.")
                     ConfigurationManager.sharedInstance.loadInitialFacebookProfileData()

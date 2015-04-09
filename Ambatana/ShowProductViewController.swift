@@ -94,8 +94,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             checkFavoriteProduct()
             
             // check if this is our product
-            productUser = productObject["user"] as PFUser
-            let thisProductIsMine = productUser.objectId == PFUser.currentUser().objectId
+            productUser = productObject["user"] as! PFUser
+            let thisProductIsMine = productUser.objectId == PFUser.currentUser()!.objectId
             self.askQuestionButton.hidden = thisProductIsMine
             self.makeOfferButton.hidden = thisProductIsMine
             self.markSoldButton.hidden = !thisProductIsMine
@@ -116,13 +116,13 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
 
             // load owner user information
             let userQuery = PFUser.query()
-            userQuery.whereKey("objectId", equalTo: productUser.objectId)
-            userQuery.getFirstObjectInBackgroundWithBlock({ (retrievedUser, error) -> Void in
+            userQuery!.whereKey("objectId", equalTo: productUser.objectId!)
+            userQuery!.getFirstObjectInBackgroundWithBlock({ (retrievedUser, error) -> Void in
                 // user name
                 if error == nil {
-                    let usernamePublic = retrievedUser["username_public"] as? String ?? translate("unknown")
+                    let usernamePublic = retrievedUser?["username_public"] as? String ?? translate("unknown")
                     self.usernameLabel.text = usernamePublic
-                    if let avatarFile = retrievedUser["avatar"] as? PFFile {
+                    if let avatarFile = retrievedUser?["avatar"] as? PFFile {
                         ImageManager.sharedInstance.retrieveImageFromParsePFFile(avatarFile, completion: { (success, image) -> Void in
                                 if success {
                                     self.userAvatarImageView.setImage(image, forState: .Normal)
@@ -130,7 +130,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                             }, andAddToCache: true)
                     } else { self.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
                 } else {
-                    println("Error retrieving user object: \(error.localizedDescription)")
+                    println("Error retrieving user object: \(error!.localizedDescription)")
                     self.usernameLabel.hidden = true
                     self.userAvatarImageView.hidden = true
                 }
@@ -175,7 +175,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // product published date.
             if productObject.createdAt != nil {
-                publishedTimeLabel.text = productObject.createdAt.relativeTimeString().lowercaseString
+                publishedTimeLabel.text = productObject.createdAt!.relativeTimeString().lowercaseString
                 publishedTimeLabel.hidden = false
             } else { publishedTimeLabel.hidden = true }
             
@@ -189,7 +189,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 // add pin
                 itemLocationMapView.setPinInTheMapAtCoordinate(coordinate)
                 // set location label
-                locationLabel.text = distanceStringToGeoPoint(productLocation)
+                let locationString = distanceStringToGeoPoint(productLocation)
+                locationLabel.text = locationString
+                if locationString == translate("here") { fromYouLabel.hidden = true } else { fromYouLabel.hidden = false }
             }
             
         } else { // hide all buttons
@@ -239,7 +241,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         // iterate and retrieve all images.
         for imageKey in kLetGoProductImageKeys {
             if let imageFile = self.productObject[imageKey] as? PFFile {
-                let bigImageURL = ImageManager.sharedInstance.calculateBigImageURLForProductImage(self.productObject.objectId, imageURL: imageFile.url)
+                let bigImageURL = ImageManager.sharedInstance.calculateBigImageURLForProductImage(self.productObject.objectId!, imageURL: imageFile.url!)
                 if let image = ImageManager.sharedInstance.retrieveImageSynchronouslyFromURLString(bigImageURL, andAddToCache: true) {
                     retrievedImages.append(image)
                     retrievedImageURLS.append(bigImageURL)
@@ -412,7 +414,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         var itemsToShare: [AnyObject] = []
         
         // text
-        let textToShare = letgoTextForSharingBody(productObject?["name"] as? String ?? "", andObjectId: productObject!.objectId)
+        let textToShare = letgoTextForSharingBody(productObject?["name"] as? String ?? "", andObjectId: productObject!.objectId!)
         itemsToShare.append(textToShare)
         // image
         if productImages.count > 0 {
@@ -420,7 +422,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             itemsToShare.append(firstImage)
         }
         // url
-        itemsToShare.append(letgoWebLinkForObjectId(productObject!.objectId))
+        itemsToShare.append(letgoWebLinkForObjectId(productObject!.objectId!))
         
         // show activity view controller.
         let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
@@ -439,7 +441,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     
     func initializeFavoriteButtonAnimations() {
         // save link animations
-        let animatingImages = [UIImage(named: "item_fav_on")!, UIImage(named: "item_fav_off")!]
+        let animatingImages = [UIImage(named: "item_fav_on")!.imageWithRenderingMode(.AlwaysOriginal), UIImage(named: "item_fav_off")!.imageWithRenderingMode(.AlwaysOriginal)]
         self.favoriteButton.imageView!.animationImages = animatingImages
         self.favoriteButton.imageView!.animationDuration = 0.50
         self.favoriteButton.imageView!.animationRepeatCount = 0
@@ -456,21 +458,21 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         if self.isFavourite {
             deleteFavouriteProductForUser(PFUser.currentUser(),
                 product: self.productObject,
-                { (success) -> Void in
+                completion: { (success) -> Void in
                     self.favoriteButton.userInteractionEnabled = true
                     self.isFavourite = !success
                     self.favoriteButton.imageView!.stopAnimating()
-                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")! : UIImage(named: "item_fav_off")!, forState: .Normal)
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "item_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             })
         }
         else {
             saveFavouriteProductForUser(PFUser.currentUser(),
                 product: self.productObject,
-                { (success) -> Void in
+                completion: { (success) -> Void in
                     self.favoriteButton.userInteractionEnabled = true
                     self.isFavourite = success
                     self.favoriteButton.imageView!.stopAnimating()
-                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")! : UIImage(named: "item_fav_off")!, forState: .Normal)
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "item_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             })
         }
     }
@@ -480,13 +482,13 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         retrieveFavouriteProductForUser(
             PFUser.currentUser(),
             product: productObject,
-            { (success, favProduct) -> Void in
+            completion: { (success, favProduct) -> Void in
                 self.favoriteButton.userInteractionEnabled = true
                 
                 if success {
                     self.isFavourite = favProduct != nil
                 }
-                self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")! : UIImage(named: "item_fav_off")!, forState: .Normal)
+                self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "item_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             })
     }
     
@@ -544,8 +546,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         if let actualUser = user {
             if let actualProduct = product {
                 let favProduct = PFObject(className: "UserFavoriteProducts")
-                favProduct?["user"] = actualUser
-                favProduct?["product"] = actualProduct
+                favProduct["user"] = actualUser
+                favProduct["product"] = actualProduct
                 return favProduct
             }
         }

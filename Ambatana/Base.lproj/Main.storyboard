@@ -1521,7 +1521,7 @@
                         <viewControllerLayoutGuide type="bottom" id="2RO-Af-8gB"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1iQ-Mm-fuM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7jO-VV-RrQ">
@@ -1718,7 +1718,7 @@
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfj-Kg-TFJ">
-                                <rect key="frame" x="0.0" y="504" width="320" height="64"/>
+                                <rect key="frame" x="0.0" y="440" width="320" height="64"/>
                                 <color key="backgroundColor" red="1" green="0.24642416834831238" blue="0.33341389894485474" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="450-ba-KBm"/>
@@ -1735,11 +1735,11 @@
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rlZ-lr-5mc">
-                                <rect key="frame" x="150" y="526" width="20" height="20"/>
+                                <rect key="frame" x="150" y="462" width="20" height="20"/>
                                 <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hi5-pL-eip">
-                                <rect key="frame" x="0.0" y="504" width="161" height="64"/>
+                                <rect key="frame" x="0.0" y="440" width="161" height="64"/>
                                 <color key="backgroundColor" red="0.94901961089999998" green="0.36078432199999999" blue="0.37647059560000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="AMI-Mm-eYa"/>
@@ -1756,7 +1756,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aLe-pd-buA">
-                                <rect key="frame" x="159" y="504" width="161" height="64"/>
+                                <rect key="frame" x="159" y="440" width="161" height="64"/>
                                 <color key="backgroundColor" red="1" green="0.36355292797088623" blue="0.38490483164787292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="SbA-Zh-wyc"/>
@@ -1773,7 +1773,7 @@
                                 </connections>
                             </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="l6g-dT-dXN">
-                                <rect key="frame" x="70" y="526" width="20" height="20"/>
+                                <rect key="frame" x="70" y="462" width="20" height="20"/>
                                 <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                         </subviews>
@@ -1799,7 +1799,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YPH-Rq-55C"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="askQuestionActivityIndicator" destination="l6g-dT-dXN" id="uY5-nW-vfB"/>
                         <outlet property="askQuestionButton" destination="hi5-pL-eip" id="Sbo-RZ-oVd"/>
@@ -2744,8 +2744,8 @@
         <segue reference="dvE-TI-lJz"/>
         <segue reference="n3G-ME-bRv"/>
         <segue reference="b6L-hI-Q4s"/>
-        <segue reference="G4e-Db-NKc"/>
         <segue reference="HOf-mn-VEJ"/>
         <segue reference="V6S-hJ-EVB"/>
+        <segue reference="VFl-zA-Skv"/>
     </inferredMetricsTieBreakers>
 </document>

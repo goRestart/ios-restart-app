@@ -105,7 +105,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             })
             
             // Current user has the option of editing his/her settings
-            if userObject!.objectId == PFUser.currentUser().objectId { setLetGoRightButtonsWithImageNames(["actionbar_edit"], andSelectors: ["goToSettings"]) }
+            if userObject!.objectId == PFUser.currentUser()!.objectId { setLetGoRightButtonsWithImageNames(["actionbar_edit"], andSelectors: ["goToSettings"]) }
         }
     }
     
@@ -168,7 +168,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as ProductCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
         cell.tag = indexPath.hash
         
         if let product = self.productAtIndexPath(indexPath) {
@@ -282,7 +282,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         query.whereKey("status", equalTo: status.rawValue)
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
-            let products = objects as [PFObject]!
+            let products = objects as! [PFObject]!
             completion(products: products, error: error)
         })
     }
@@ -294,7 +294,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         query.orderByDescending("createdAt")
         query.includeKey("product")
         query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
-            let favorites = objects as [PFObject]!
+            let favorites = objects as! [PFObject]!
             var productList: [PFObject] = []
             for favorite in favorites {
                 if let product = favorite["product"] as? PFObject {

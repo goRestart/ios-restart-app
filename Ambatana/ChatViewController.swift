@@ -170,7 +170,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // product image
         if let imageFile = retrievedObject?[kLetGoProductFirstImageKey] as? PFFile {
             // try to retrieve image from thumbnail first.
-            let thumbnailURL = ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(retrievedObject.objectId, imageURL: imageFile.url)
+            let thumbnailURL = ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(retrievedObject.objectId!, imageURL: imageFile.url!)
             ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image) -> Void in
                 if success {
                     self.productImageView.image = image
@@ -239,7 +239,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func sendMessage(sender: AnyObject) {
         // safety checks
         if isSendingMessage { return }
-        if countElements(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 { return }
+        if count(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 { return }
         if self.otherUser == nil || self.letgoConversation?.conversationObject == nil || self.productObject == nil { showAutoFadingOutMessageAlert(translate("unable_send_message")); return }
         
         // enable loading interface.
@@ -272,13 +272,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // data
         let msgObject = messages![indexPath.row]
-        let userFrom = msgObject["user_from"] as PFUser
+        let userFrom = msgObject["user_from"] as! PFUser
         
         // cell elements
         var cell: UITableViewCell?
         var type = LetGoConversationCellTypes.MyMessages
         
-        if userFrom.objectId == PFUser.currentUser().objectId { // message from me
+        if userFrom.objectId == PFUser.currentUser()!.objectId { // message from me
             cell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationMyMessagesCell, forIndexPath: indexPath) as? UITableViewCell
         } else {
             cell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationOthersMessagesCell, forIndexPath: indexPath) as? UITableViewCell
@@ -306,7 +306,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // configure date
         if let dateLabel = cell.viewWithTag(kLetGoConversationCellRelativeTimeTag) as? UILabel {
             dateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
-            dateLabel.text = msgObject.createdAt.relativeTimeString()
+            dateLabel.text = msgObject.createdAt!.relativeTimeString()
         }
         // bubble appearance
         if let bubbleView = cell.viewWithTag(kLetGoConversationCellBubbleTag) {
@@ -316,14 +316,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // If this is a message from the other user, we should include his/her avatar picture at the left of the message.
         if type == .OtherMessages {
             // configure other user's avatar.
-            let userFrom = msgObject["user_from"] as PFUser
+            let userFrom = msgObject["user_from"] as! PFUser
             if let userAvatarView = cell.viewWithTag(kLetGoConversationCellAvatarTag) as? UIImageView {
                 userAvatarView.layer.cornerRadius = userAvatarView.frame.size.width / 2.0
                 userAvatarView.clipsToBounds = true
                 userAvatarView.image = self.otherUserImage
                 if self.otherUserImage == nil { // lazily load the other user's pic, only when needed!
                     userFrom.fetchIfNeededInBackgroundWithBlock({ (retrievedUserFrom, error) -> Void in
-                        if let avatarFile = retrievedUserFrom["avatar"] as? PFFile {
+                        if let avatarFile = retrievedUserFrom?["avatar"] as? PFFile {
                             ImageManager.sharedInstance.retrieveImageFromParsePFFile(avatarFile, completion: { (success, image) -> Void in
                                 if success { userAvatarView.image = image; self.otherUserImage = image }
                                 else { userAvatarView.image = UIImage(named: "no_photo"); self.otherUserImage = userAvatarView.image }
@@ -380,7 +380,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if countElements(textField.text) > 0 { self.sendMessage(self.sendButton) }
+        if count(textField.text) > 0 { self.sendMessage(self.sendButton) }
         return true
     }
     
@@ -423,7 +423,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.view.endEditing(true)
     }
 
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.resignRespondingTextfield()
     }
 }

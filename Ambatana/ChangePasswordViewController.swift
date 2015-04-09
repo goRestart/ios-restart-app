@@ -35,7 +35,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
     
     func changePassword() {
         // safety checks
-        if countElements(passwordTextfield.text) < kLetGoMinPasswordLength || countElements(confirmPasswordTextfield.text) < kLetGoMinPasswordLength { // min length not fulfilled
+        if count(passwordTextfield.text) < kLetGoMinPasswordLength || count(confirmPasswordTextfield.text) < kLetGoMinPasswordLength { // min length not fulfilled
             showAutoFadingOutMessageAlert(translate("insert_valid_password"))
         } else if passwordTextfield.text != confirmPasswordTextfield.text { // passwords do not match.
             showAutoFadingOutMessageAlert(translate("passwords_dont_match"))
@@ -46,8 +46,8 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
             
             // change password
             showLoadingMessageAlert()
-            PFUser.currentUser().password = passwordTextfield.text
-            PFUser.currentUser().saveInBackgroundWithBlock({ (success, error) -> Void in
+            PFUser.currentUser()!.password = passwordTextfield.text
+            PFUser.currentUser()!.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if success {
                     self.dismissLoadingMessageAlert(completion: { () -> Void in
                         // clean fields

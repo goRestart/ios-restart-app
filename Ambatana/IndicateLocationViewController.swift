@@ -111,13 +111,13 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.view.endEditing(true)
-        if countElements(textField.text) < 1 { return true }
+        if count(textField.text) < 1 { return true }
         
         self.enableLoadingStatus()
         geocoder.geocodeAddressString(textField.text, completionHandler: { (placemarks, error) -> Void in
             var coordinate: CLLocationCoordinate2D?
             if (placemarks != nil && placemarks.count > 0) {
-                let placemark = placemarks.first as CLPlacemark
+                let placemark = placemarks.first as! CLPlacemark
                 if placemark.location != nil {
                     coordinate = placemark.location.coordinate
                 }

@@ -45,13 +45,13 @@ class ConfigurationManager: NSObject {
                     let firstName = userData["first_name"] as? String
                     let lastName = userData["last_name"] as? String
                     if firstName != nil && lastName != nil {
-                        let lastNameInitial: String = countElements(lastName!) > 0 ? lastName!.substringToIndex(advance(lastName!.startIndex, 1)) : ""
+                        let lastNameInitial: String = count(lastName!) > 0 ? lastName!.substringToIndex(advance(lastName!.startIndex, 1)) : ""
                         currentUser["username_public"] = "\(firstName!) \(lastNameInitial)."
                         self.userName = "\(firstName!) \(lastNameInitial)."
                     } else {
                         if let userName = userData["name"] as? NSString {
                             currentUser["username_public"] = userName
-                            self.userName = userName
+                            self.userName = userName as String
                         }
                     }
                     
@@ -72,11 +72,11 @@ class ConfigurationManager: NSObject {
                     if let userEmail = userData["email"] as? NSString {
                         currentUser["username"] = userEmail
                         currentUser["email"] = userEmail
-                        self.userEmail = userEmail
+                        self.userEmail = userEmail as String
                     }
                     
                     // user picture & facebookID
-                    let facebookId: String = userData["id"] as String
+                    let facebookId: String = userData["id"] as! String
                     let userPictureURL = "https://graph.facebook.com/\(facebookId)/picture?type=large&return_ssl_resources=1"
                     self.setUserPictureFromURL(userPictureURL)
                     
@@ -115,16 +115,16 @@ class ConfigurationManager: NSObject {
     // loads the user data from the already configured & authenticated PFUser
     func loadDataFromCurrentUser() {
         // name
-        if let userName = PFUser.currentUser()["username_public"] as? String { self.userName = userName }
+        if let userName = PFUser.currentUser()?["username_public"] as? String { self.userName = userName }
         // user email
-        if let userEmail = PFUser.currentUser()["email"] as? String { self.userEmail = userEmail }
+        if let userEmail = PFUser.currentUser()?["email"] as? String { self.userEmail = userEmail }
         // user location
-        if let userLocation = PFUser.currentUser()["city"] as? String { self.userLocation = userLocation }
+        if let userLocation = PFUser.currentUser()?["city"] as? String { self.userLocation = userLocation }
         // profile picture
-        if let avatarFile = PFUser.currentUser()["avatar"] as? PFFile {
+        if let avatarFile = PFUser.currentUser()?["avatar"] as? PFFile {
             avatarFile.getDataInBackgroundWithBlock({ (data, error) -> Void in
                 if error == nil && data != nil { // success
-                    let updatedImage = UIImage(data: data)
+                    let updatedImage = UIImage(data: data!)
                     self.userProfileImage = updatedImage
                     NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserPictureUpdatedNotification, object: updatedImage)
                 }
@@ -136,9 +136,9 @@ class ConfigurationManager: NSObject {
     // checks if we need to update the installation data, linking it with our current user information.
     func checkIfInstallationNeedsToBeUpdatedWithCurrentUserData() {
         var installationModified = false
-        if PFUser.currentUser() != nil && PFInstallation.currentInstallation() != nil { // associate installation and user.
-            PFInstallation.currentInstallation()["user_objectId"] = PFUser.currentUser().objectId
-            if let installationUsername = PFUser.currentUser()["username"] as? String {
+        if PFUser.currentUser() != nil { // associate installation and user.
+            PFInstallation.currentInstallation()["user_objectId"] = PFUser.currentUser()!.objectId
+            if let installationUsername = PFUser.currentUser()!["username"] as? String {
                 PFInstallation.currentInstallation()["username"] = installationUsername
             }
             installationModified = true
@@ -160,8 +160,8 @@ class ConfigurationManager: NSObject {
                     
                     // update user image in Parse
                     let parseImage: PFFile = PFFile(data: data)
-                    PFUser.currentUser()["avatar"] = parseImage
-                    PFUser.currentUser().saveInBackgroundWithBlock(nil)
+                    PFUser.currentUser()?["avatar"] = parseImage
+                    PFUser.currentUser()?.saveInBackgroundWithBlock(nil)
                     
                     // update image in local interface.
                     self.userProfileImage = updatedImage

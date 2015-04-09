@@ -61,11 +61,10 @@ extension UIViewController {
         
         for (var i = 0; i < numberOfButtons; i++) {
             // create and set button.
-            let buttonType: UIButtonType = iOSVersionAtLeast("8.0") ? .System : .Custom
-            var button = UIButton.buttonWithType(buttonType) as UIButton
+            var button = UIButton.buttonWithType(.System) as! UIButton
             button.frame = CGRectMake(offset, 0, kLetGoBarButtonSide + kLetGoBarButtonSideSpan, 32)
             button.tag = tags != nil ? tags![i] : i
-            button.setImage(UIImage(named: images[i])!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+            button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
             buttonsView.addSubview(button)
             resultButtons.append(button)

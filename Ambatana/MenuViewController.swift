@@ -140,7 +140,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kLetGoMenuOptionCellName, forIndexPath: indexPath) as UITableViewCell
+        let cell: UITableViewCell = tableView.dequeueReusableCellWithIdentifier(kLetGoMenuOptionCellName, forIndexPath: indexPath) as! UITableViewCell
         // configure cell
         if iOSVersionAtLeast("8.0") { cell.layoutMargins = UIEdgeInsetsZero }
         else { cell.separatorInset = UIEdgeInsetsZero }
@@ -172,7 +172,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - Navigation methods
     
     func mainNavigationController() -> DLHamburguerNavigationController {
-        return self.storyboard?.instantiateViewControllerWithIdentifier("navigationViewController") as DLHamburguerNavigationController
+        return self.storyboard?.instantiateViewControllerWithIdentifier("navigationViewController") as! DLHamburguerNavigationController
     }
     
     // MARK: - Notifications

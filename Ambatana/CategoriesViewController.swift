@@ -66,8 +66,8 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         let searchString = searchBar.text
         dismissSearchBar(searchBar, animated: true) { () -> Void in
             // analyze search string
-            if searchString != nil && countElements(searchString) > 0 {
-                let newProductListVC = self.storyboard?.instantiateViewControllerWithIdentifier("productListViewController") as ProductListViewController
+            if searchString != nil && count(searchString) > 0 {
+                let newProductListVC = self.storyboard?.instantiateViewControllerWithIdentifier("productListViewController") as! ProductListViewController
                 newProductListVC.currentSearchString = searchString
                 self.navigationController?.pushViewController(newProductListVC, animated: true)
             }
@@ -90,7 +90,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "ProductListByCategory" {
-            let plvc = segue.destinationViewController as ProductListViewController
+            let plvc = segue.destinationViewController as! ProductListViewController
             plvc.currentCategory = selectedCategory
         }
     }
@@ -109,7 +109,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         query.findObjectsInBackgroundWithBlock { (results, error) -> Void in
             if error == nil { // check if there are results for that language or we need to fallback to "en".
                 if results?.count > 0 { // alright, we do have some categories for that language.
-                    self.categories = results as [PFObject]? ?? []
+                    self.categories = results as! [PFObject]? ?? []
                     self.collectionView.reloadSections(NSIndexSet(index: 0))
                 } else { // fallback
                     self.fallbackForCategoriesQuery(defaultLanguage: defaultLanguage)
@@ -145,7 +145,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoriesCollectionCell", forIndexPath: indexPath) as UICollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoriesCollectionCell", forIndexPath: indexPath) as! UICollectionViewCell
         
         if let categoryObject = categories?[indexPath.row] {
             // configure cell
@@ -171,7 +171,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
                 
                 // if we don't have an image for that category locally, we must retrieve it from the network using the "image" URL String from the backend.
                 if !imageRetrievedLocally {
-                    ImageManager.sharedInstance.retrieveImageFromURLString(categoryObject["image"] as String, completion: { (success, image) -> Void in
+                    ImageManager.sharedInstance.retrieveImageFromURLString(categoryObject["image"] as! String, completion: { (success, image) -> Void in
                         if success { categoryImage.image = image }
                         // TODO: else? try again?
                     })
@@ -185,7 +185,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if let categoryObject = categories?[indexPath.row] {
-            if let category = ProductListCategory(rawValue: categoryObject["category_id"] as Int) {
+            if let category = ProductListCategory(rawValue: categoryObject["category_id"] as! Int) {
                 selectedCategory = category
                 performSegueWithIdentifier("ProductListByCategory", sender: nil)
             }

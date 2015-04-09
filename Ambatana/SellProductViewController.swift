@@ -185,12 +185,12 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         // 1. do we have at least one image?
         if images.count < 1 { showAutoFadingOutMessageAlert(translate("upload_at_least_one_image")); return }
         // 2. do we have a product title?
-        if productTitleTextField == nil || countElements(productTitleTextField.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_title")); return }
+        if productTitleTextField == nil || count(productTitleTextField.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_title")); return }
         // 3. do we have a price?
         let productPrice = productPriceTextfield?.text.toInt()
         if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); return }
         // 4. do we have a description?
-        if descriptionTextView == nil || countElements(descriptionTextView.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_description")); return }
+        if descriptionTextView == nil || count(descriptionTextView.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_description")); return }
         // 5. do we have a category?
         if currentCategory == nil { showAutoFadingOutMessageAlert(translate("insert_valid_category")); return }
         // 6. do we have a valid location?
@@ -305,7 +305,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.disableLoadingInterface()
                         if success {
-                            if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId) }
+                            if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId!) }
                             else { self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
                                 self.popBackViewController()
                             }) }
@@ -370,7 +370,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         let fbSharingParams = FBLinkShareParams()
         fbSharingParams.link = NSURL(string: letgoWebLinkForObjectId(objectId))!
         fbSharingParams.linkDescription = productTitleTextField.text
-        if imageFiles?.count > 0 { fbSharingParams.picture = NSURL(string: imageFiles!.first!.url) }
+        if imageFiles?.count > 0 { fbSharingParams.picture = NSURL(string: imageFiles!.first!.url!) }
         // check if we can present the dialog.
         if FBDialogs.canPresentShareDialogWithParams(fbSharingParams) {
             FBDialogs.presentShareDialogWithParams(fbSharingParams, clientState: nil, handler: { (call, result, error) -> Void in
@@ -528,13 +528,13 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
 
         // let's try to find out which kind of cell is this
         if indexPath.row == images.count { // "first upload image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoUploadFirstImageCellName, forIndexPath: indexPath) as UICollectionViewCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoUploadFirstImageCellName, forIndexPath: indexPath) as! UICollectionViewCell
             self.configureFirstUploadImageCell(cell, indexPath: indexPath)
         } else if indexPath.row < images.count { // already uploaded image case
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoAlreadyUploadedImageCellName, forIndexPath: indexPath) as UICollectionViewCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoAlreadyUploadedImageCellName, forIndexPath: indexPath) as! UICollectionViewCell
             self.configureAlreadyUploadedImageCell(cell, indexPath: indexPath)
         } else { // "upload other image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoUploadOtherImageCellName, forIndexPath: indexPath) as UICollectionViewCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoUploadOtherImageCellName, forIndexPath: indexPath) as! UICollectionViewCell
         }
         return cell
     }
@@ -620,7 +620,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         })
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         restoreOriginalPosition()
     }
 

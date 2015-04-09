@@ -95,7 +95,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
     
     @IBAction func signUp(sender: AnyObject) {
         // sanity checks
-        if countElements(self.nameTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 {
+        if count(self.nameTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 {
             showAutoFadingOutMessageAlert(translate("insert_valid_name"))
             return
         }
@@ -103,7 +103,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
             showAutoFadingOutMessageAlert(translate("insert_valid_email"))
             return
         }
-        if countElements(self.passwordTextfield.text) < kLetGoMinPasswordLength {
+        if count(self.passwordTextfield.text) < kLetGoMinPasswordLength {
             showAutoFadingOutMessageAlert(translate("insert_valid_password"))
             return
         }
@@ -136,7 +136,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
                 }
             } else {
                 // try to return a friendly error message based on Parse signup response code.
-                if let errorCode = ParseSignupErrorCodes(rawValue: error.code) {
+                if let errorCode = ParseSignupErrorCodes(rawValue: error!.code) {
                     self.showAutoFadingOutMessageAlert(translate("error_creating_user") + " " + errorCode.errorMessageForCode())
                 } else { self.showAutoFadingOutMessageAlert(translate("error_creating_user")) }
             }
@@ -174,7 +174,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
     
     // MARK: - UX
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.resignFirstResponder()
         self.view.endEditing(true)
     }

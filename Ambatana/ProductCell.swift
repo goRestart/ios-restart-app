@@ -63,7 +63,7 @@ class ProductCell: UICollectionViewCell {
             
             // Try downloading thumbnail
             if shouldUseThumbs {
-                let thumbURL = NSURL(string: ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(product.objectId, imageURL: imageFile.url))
+                let thumbURL = NSURL(string: ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(product.objectId!, imageURL: imageFile.url!))
                 
                 thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
                     [weak self] (image, error, cacheType, url) -> Void in
@@ -83,7 +83,7 @@ class ProductCell: UICollectionViewCell {
                     [weak self] (data, error) -> Void in
                     // tag check to prevent wrong image placement cos' of recycling
                     if (error == nil && self?.tag == tag) {
-                        self?.thumbnailImageView.image = UIImage(data: data)
+                        self?.thumbnailImageView.image = UIImage(data: data!)
                     }
                 })
             }
@@ -116,7 +116,7 @@ class ProductCell: UICollectionViewCell {
         nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         
         let boldBodyDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody).fontDescriptorWithSymbolicTraits(.TraitBold)
-        priceLabel.font = UIFont(descriptor: boldBodyDescriptor, size: 0.0)
+        priceLabel.font = UIFont(descriptor: boldBodyDescriptor!, size: 0.0)
     }
     
     // Resets the UI to the initial state

@@ -152,7 +152,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as ProductCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
         
         if entries.count == 0 { return cell } // safety check for p2r
         let product = entries[indexPath.row]
@@ -211,8 +211,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             // order by current filter (default, creation date).
             if ConfigurationManager.sharedInstance.currentFilterForSearch != nil {
                 if (ConfigurationManager.sharedInstance.currentFilterOrderForSearch == .OrderedDescending) {
-                    query.orderByDescending(ConfigurationManager.sharedInstance.currentFilterForSearch)
-                } else { query.orderByAscending(ConfigurationManager.sharedInstance.currentFilterForSearch) }
+                    query.orderByDescending(ConfigurationManager.sharedInstance.currentFilterForSearch!)
+                } else { query.orderByAscending(ConfigurationManager.sharedInstance.currentFilterForSearch!) }
             }
             
             // do not include currently downloaded items
@@ -226,9 +226,9 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             // search for name or description containing search string (if set...)
             if currentSearchString != nil {
                 let nameQuery = PFQuery(className: "Products")
-                nameQuery.whereKey("name", matchesRegex: currentSearchString, modifiers: "i")
+                nameQuery.whereKey("name", matchesRegex: currentSearchString!, modifiers: "i")
                 let descriptionQuery = PFQuery(className: "Products")
-                descriptionQuery.whereKey("description", matchesRegex: currentSearchString, modifiers: "i")
+                descriptionQuery.whereKey("description", matchesRegex: currentSearchString!, modifiers: "i")
                 let innerQuery = PFQuery.orQueryWithSubqueries([nameQuery, descriptionQuery])
                 query.whereKey("objectId", matchesKey: "objectId", inQuery: innerQuery)
             }
@@ -237,16 +237,16 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
                 if error == nil { // success
                     self.queryingProducts = false
-                    self.lastRetrievedProductsCount = objects.count
-                    if (objects != nil && objects.count > 0) {
+                    self.lastRetrievedProductsCount = objects!.count
+                    if (objects != nil && objects!.count > 0) {
                         
                         // append results and register already retrieved IDs
                         var ids = ""
                         var indexPaths: [AnyObject] = []
-                        for retrievedObject in objects {
+                        for retrievedObject in objects! {
                             if let retrievedProduct = retrievedObject as? PFObject {
                                 self.entries.append(retrievedProduct)
-                                self.alreadyRetrievedProductIds.append(retrievedProduct.objectId)
+                                self.alreadyRetrievedProductIds.append(retrievedProduct.objectId!)
                                 ids += "\(retrievedProduct.objectId), "
                                 indexPaths.append(NSIndexPath(forRow: self.entries.count, inSection: 0))
                             }
@@ -254,7 +254,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                         // Update UI
                         self.collectionView.reloadSections(NSIndexSet(index: 0))
                         self.disableLoadingInterface()
-                    } else if (objects.count == 0) { // no more items found. Time to next bunch of products.
+                    } else if (objects?.count == 0) { // no more items found. Time to next bunch of products.
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
                             self.askForNextBunchOfProducts()
                         })
@@ -431,8 +431,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         let searchString = searchBar.text
         dismissSearchBar(searchBar, animated: true) { () -> Void in
             // analyze search string
-            if searchString != nil && countElements(searchString) > 0 {
-                let newProductListVC = self.storyboard?.instantiateViewControllerWithIdentifier("productListViewController") as ProductListViewController
+            if searchString != nil && count(searchString) > 0 {
+                let newProductListVC = self.storyboard?.instantiateViewControllerWithIdentifier("productListViewController") as! ProductListViewController
                 newProductListVC.currentSearchString = searchString
                 self.navigationController?.pushViewController(newProductListVC, animated: true)
             }

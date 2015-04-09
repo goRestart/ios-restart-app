@@ -89,8 +89,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         installation["deviceTokenLastModified"] = NSDate().timeIntervalSince1970
         installation.channels = [""]
         if PFUser.currentUser() != nil {
-            installation["user_objectId"] = PFUser.currentUser().objectId
-            installation["username"] = PFUser.currentUser()["username"]
+            installation["user_objectId"] = PFUser.currentUser()!.objectId
+            installation["username"] = PFUser.currentUser()!["username"]
         }
         installation.saveInBackgroundWithBlock { (success, error) -> Void in
             println("Installation saved. Success: \(success), error: \(error)")
@@ -130,7 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(application: UIApplication) {
         // Close facebook session
-        PFFacebookUtils.session().close()
+        PFFacebookUtils.session()!.close()
         
         // stop location services (if any).
         LocationManager.sharedInstance.terminate()

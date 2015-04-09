@@ -59,7 +59,7 @@
  must be complete id<FBGraphUser> objects (i.e., fetched from a Graph query or from a
  previous picker's selection, with id and appropriate name fields).
  */
-@property (nonatomic, copy, readwrite) NSArray *selection;
+//@property (nonatomic, copy, readwrite) NSArray *selection;
 
 /*!
  @abstract

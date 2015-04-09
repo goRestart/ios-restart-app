@@ -66,7 +66,7 @@ typedef NS_ENUM(NSUInteger, FBFriendDisplayOrdering) {
  @abstract
  A Boolean value that specifies whether multi-select is enabled.
  */
-@property (nonatomic) BOOL allowsMultipleSelection;
+//@property (nonatomic) BOOL allowsMultipleSelection;
 
 /*!
  @abstract

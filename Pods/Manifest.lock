@@ -1,12 +1,12 @@
 PODS:
   - Bolts (1.1.4)
-  - Facebook-iOS-SDK (3.23.0):
+  - Facebook-iOS-SDK (3.23.2):
     - Bolts (~> 1.0)
-  - Parse (1.6.4):
+  - Parse (1.7.1):
     - Bolts (~> 1.1)
-  - ParseFacebookUtils (1.6.4):
-    - Facebook-iOS-SDK (~> 3.20)
-    - Parse (~> 1.6.4)
+  - ParseFacebookUtils (1.7.1):
+    - Facebook-iOS-SDK (~> 3.23)
+    - Parse (~> 1.7.1)
   - SDWebImage (3.7.1):
     - SDWebImage/Core (= 3.7.1)
   - SDWebImage/Core (3.7.1)
@@ -18,10 +18,10 @@ DEPENDENCIES:
   - SDWebImage (= 3.7.1)
 
 SPEC CHECKSUMS:
-  Bolts: dd9fb8433d67f5acc3b6b4d1379bbc5513d716c1
-  Facebook-iOS-SDK: 3d65f685348b789e46a9aacf92bfa85b60b63755
-  Parse: c2610f7a12ad0defc974803b819c4efe7746e6db
-  ParseFacebookUtils: 00833ccf6fec7d6429e2403fe457496a5089358b
-  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+  Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
+  Facebook-iOS-SDK: cd87f0b2f0c1d9574b44e8fa2baacc275524bac3
+  Parse: fa8ec29de6d82035635986c11946299fb1b38316
+  ParseFacebookUtils: fa09adf78372b589163b5a71a34d6ebc7eb83395
+  SDWebImage: ed3095af2ff88b436426037444979b917f6c5575
 
-COCOAPODS: 0.36.0
+COCOAPODS: 0.36.3
