@@ -468,8 +468,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wUP-Se-tsp">
-                                <rect key="frame" x="0.0" y="-64" width="320" height="568"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wUP-Se-tsp">
+                                <rect key="frame" x="0.0" y="-64" width="320" height="519"/>
                                 <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="1nx-oF-oce">
                                     <size key="itemSize" width="145" height="190"/>
@@ -537,7 +537,7 @@
                             <constraint firstAttribute="trailing" secondItem="jSu-rz-ubC" secondAttribute="trailing" id="f1O-Cw-Mr8"/>
                             <constraint firstAttribute="centerX" secondItem="18W-ac-Xh1" secondAttribute="centerX" id="jVV-Pr-nhs"/>
                             <constraint firstItem="wUP-Se-tsp" firstAttribute="leading" secondItem="gCj-if-cnX" secondAttribute="leading" id="lNK-NJ-jL8"/>
-                            <constraint firstItem="OQT-Wb-g3z" firstAttribute="top" secondItem="wUP-Se-tsp" secondAttribute="bottom" id="tmS-tn-x1N"/>
+                            <constraint firstItem="OQT-Wb-g3z" firstAttribute="top" secondItem="wUP-Se-tsp" secondAttribute="bottom" constant="48" id="tmS-tn-x1N"/>
                             <constraint firstItem="OQT-Wb-g3z" firstAttribute="top" secondItem="jSu-rz-ubC" secondAttribute="bottom" id="v7e-6O-yNc"/>
                         </constraints>
                     </view>
@@ -2407,8 +2407,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hYn-Rg-ZVn">
-                                <rect key="frame" x="0.0" y="-64" width="320" height="568"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hYn-Rg-ZVn">
+                                <rect key="frame" x="0.0" y="-64" width="320" height="521"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="BDf-xh-omQ">
                                     <size key="itemSize" width="160" height="150"/>
@@ -2510,13 +2510,13 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="7yK-Gx-ogn" firstAttribute="leading" secondItem="9Kr-tk-bvD" secondAttribute="leading" id="3io-Ub-i79"/>
                             <constraint firstItem="hYn-Rg-ZVn" firstAttribute="top" secondItem="sQm-Hl-F4g" secondAttribute="bottom" constant="-64" id="Izo-SM-vwP"/>
                             <constraint firstAttribute="bottom" secondItem="7yK-Gx-ogn" secondAttribute="bottom" id="gFQ-F1-LLh"/>
-                            <constraint firstItem="jns-Mx-M1E" firstAttribute="top" secondItem="hYn-Rg-ZVn" secondAttribute="bottom" id="h3p-1z-C6u"/>
+                            <constraint firstItem="jns-Mx-M1E" firstAttribute="top" secondItem="hYn-Rg-ZVn" secondAttribute="bottom" constant="48" id="h3p-1z-C6u"/>
                             <constraint firstItem="hYn-Rg-ZVn" firstAttribute="leading" secondItem="9Kr-tk-bvD" secondAttribute="leading" id="mXD-Qf-dGE"/>
                             <constraint firstAttribute="trailing" secondItem="7yK-Gx-ogn" secondAttribute="trailing" id="wzn-rJ-A3n"/>
                             <constraint firstAttribute="trailing" secondItem="hYn-Rg-ZVn" secondAttribute="trailing" id="za3-N9-Lek"/>
@@ -2742,10 +2742,10 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="dvE-TI-lJz"/>
-        <segue reference="xtI-1Y-BpB"/>
+        <segue reference="n3G-ME-bRv"/>
+        <segue reference="b6L-hI-Q4s"/>
         <segue reference="G4e-Db-NKc"/>
-        <segue reference="cTm-ep-i6s"/>
-        <segue reference="UwZ-4i-G61"/>
-        <segue reference="Sov-YY-7s5"/>
+        <segue reference="HOf-mn-VEJ"/>
+        <segue reference="V6S-hJ-EVB"/>
     </inferredMetricsTieBreakers>
 </document>
