@@ -68,7 +68,7 @@
 /* Begin PBXFileReference section */
 		2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.debug.xcconfig"; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		6608E0361A820FBD005895ED /* Ambatana.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ambatana.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6608E03B1A820FBD005895ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6608E03D1A820FBD005895ED /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -183,7 +183,7 @@
 		6608E0371A820FBD005895ED /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6608E0361A820FBD005895ED /* Ambatana.app */,
+				6608E0361A820FBD005895ED /* LetGo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -407,9 +407,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6608E0351A820FBD005895ED /* Ambatana */ = {
+		6608E0351A820FBD005895ED /* LetGo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "Ambatana" */;
+			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "LetGo" */;
 			buildPhases = (
 				B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */,
 				6608E0321A820FBD005895ED /* Sources */,
@@ -421,9 +421,9 @@
 			);
 			dependencies = (
 			);
-			name = Ambatana;
+			name = LetGo;
 			productName = Ambatana;
-			productReference = 6608E0361A820FBD005895ED /* Ambatana.app */;
+			productReference = 6608E0361A820FBD005895ED /* LetGo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -446,7 +446,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6608E0311A820FBD005895ED /* Build configuration list for PBXProject "Ambatana" */;
+			buildConfigurationList = 6608E0311A820FBD005895ED /* Build configuration list for PBXProject "LetGo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -460,7 +460,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6608E0351A820FBD005895ED /* Ambatana */,
+				6608E0351A820FBD005895ED /* LetGo */,
 			);
 		};
 /* End PBXProject section */
@@ -682,7 +682,7 @@
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -703,7 +703,7 @@
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 			};
 			name = Release;
@@ -711,7 +711,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6608E0311A820FBD005895ED /* Build configuration list for PBXProject "Ambatana" */ = {
+		6608E0311A820FBD005895ED /* Build configuration list for PBXProject "LetGo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6608E0531A820FBD005895ED /* Debug */,
@@ -720,7 +720,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "Ambatana" */ = {
+		6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "LetGo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6608E0561A820FBD005895ED /* Debug */,
