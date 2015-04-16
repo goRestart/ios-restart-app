@@ -97,7 +97,7 @@ class ProductCell: UICollectionViewCell {
 
         // Status
         if let statusValue = product["status"] as? Int {
-            if let status = ProductStatus(rawValue: statusValue) {
+            if let status = LetGoProductStatus(rawValue: statusValue) {
                 if (status == .Sold) {
                     statusImageView.image = UIImage(named: "label_sold")
                 }

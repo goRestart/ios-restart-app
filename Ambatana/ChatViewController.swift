@@ -81,6 +81,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
+        // track conversation update.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkUpdatedConversation:", name: kLetGoUserBadgeChangedNotification, object: nil)
+        
         // track keyboard appearance and size change
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardDidShowNotification, object: nil)
@@ -365,6 +368,20 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
+    // MARK: - Check changes in conversation.
+    func checkUpdatedConversation(notification: NSNotification) {
+        // Analyze push notification object.
+        if let userInfo = notification.object as? [NSObject: AnyObject] {
+            if let conversationId = userInfo["c_id"] as? String {
+                // check if we need to update the conversation.
+                if self.letgoConversation?.conversationObject.objectId == conversationId {
+                    self.refreshMessages()
+                }
+            }
+        }
+    }
+    
+    
     // MARK: - UI/UX Scrolling responding to UITextField edition
     
     var originalTableViewFrame = CGRectZero

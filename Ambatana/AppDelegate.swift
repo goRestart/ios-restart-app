@@ -8,8 +8,8 @@
 
 import UIKit
 
-private let kLetGoParseApplicationID = "Kzeem57zMsUao8Jx9aUppsUOQBJbvg54FPEJAP35"
-private let kLetGoParseClientKey = "cBWwdoHgdi0zW0oQI2WxF9krCH4B1I2cVGyWldJ3"
+private let kLetGoParseApplicationID = "3zW8RQIC7yEoG9WhWjNduehap6csBrHQ2whOebiz"
+private let kLetGoParseClientKey = "4dmYjzpoyMbAdDdmCTBG6s7TTHtNTAaQaJN6YOAk"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // responding to push notifications received while in background.
         println("Launch options: \(launchOptions)")
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
-            NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: remoteNotification)
             self.openChatListViewController()
         }
         
@@ -51,7 +51,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func openChatListViewController() {
         if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
-            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController { // we are logged in. Check that we have a valid LetGo navigation controller
+            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController {
+                // don't open the chat view controller if it's the current chat view controller already.
+                if navigationController.viewControllers?.last is ChatListViewController { return }
+                // we are logged in. Check that we have a valid LetGo navigation controller
                 if let chatListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("conversationsViewController") as? ChatListViewController { // ... and that we can instantiate the chat controller.
                     navigationController.pushViewController(chatListVC, animated: true)
                 }
@@ -100,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         // if the App is already running, don't show an alert or open the chatListViewController.
         if application.applicationState == .Active {
-            // just update the badge
+            // update the badge
             if let newBadge = self.getBadgeNumberFromNotification(userInfo) {
                 UIApplication.sharedApplication().applicationIconBadgeNumber = newBadge
                 PFInstallation.currentInstallation().badge = newBadge
@@ -115,7 +118,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.openChatListViewController() // Not really nice when we are using the App?
         }
         // notify any observers
-        NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil)
+        println("Received push notification: \(userInfo)")
+        NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: userInfo)
         
     }
     

@@ -12,7 +12,7 @@ import MessageUI
 import Social
 
 protocol ShowProductViewControllerDelegate {
-    func letgoProduct(product: PFObject, statusUpdatedTo newStatus: ProductStatus)
+    func letgoProduct(product: PFObject, statusUpdatedTo newStatus: LetGoProductStatus)
 }
 
 /**
@@ -51,7 +51,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     var productImages: [UIImage] = []
     var productImageURLStrings: [String] = []
     var productUser: PFUser!
-    var productStatus: ProductStatus?
+    var productStatus: LetGoProductStatus?
     var productLocation: PFGeoPoint?
     var scrollViewOffset: CGFloat = 0.0
     var pageControlBeingUsed = false
@@ -101,7 +101,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             self.markSoldButton.hidden = !thisProductIsMine
             // if product is sold, disable markAsSold button.
             if let statusCode = productObject["status"] as? Int {
-                productStatus = ProductStatus(rawValue: statusCode)
+                productStatus = LetGoProductStatus(rawValue: statusCode)
                 if productStatus == .Sold {
                     // update appearance
                     markSoldButton.enabled = false
@@ -339,10 +339,10 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBAction func markProductAsSold(sender: AnyObject) {
         if iOSVersionAtLeast("8.0") {
             let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
             alert.addAction(UIAlertAction(title: translate("mark_as_sold"), style: .Default, handler: { (markAction) -> Void in
                 self.definitelyMarkProductAsSold()
             }))
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         } else { // ios7 fallback --> ActionSheet.
             let alert = UIAlertView(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), delegate: self, cancelButtonTitle: translate("cancel"))
@@ -361,7 +361,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     // if user answered "yes" to the question: "Do you really want to mark this product as sold?"...
     func definitelyMarkProductAsSold() {
         self.enableMarkAsSoldLoadingInterface()
-        self.productObject["status"] = ProductStatus.Sold.rawValue
+        self.productObject["status"] = LetGoProductStatus.Sold.rawValue
         self.productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
             if success {
                 self.productStatus = .Sold
@@ -554,11 +554,11 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         return nil
     }
     
-    // MARK: - Mail Composer Delegate methods
+    // MARK: - Mail Composer Delegate methods    
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         var message: String? = nil
         if result.value == MFMailComposeResultFailed.value { // we just give feedback if something nasty happened.
-            message = NSLocalizedString("errorsendingmail", comment: "")
+            message = translate("errorsendingmail")
         }
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             if message != nil { self.showAutoFadingOutMessageAlert(message!) }

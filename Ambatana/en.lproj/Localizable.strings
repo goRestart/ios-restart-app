@@ -186,5 +186,9 @@
 "insert" = "Insert";
 "category" = "Category";
 "photo" = "Photo";
-
-
+"feedback_letgo_user" = "Feedback from a LetGo user";
+"contact" = "Contact";
+"be_the_first_to_start_selling" = "There are no items in your neighborhood. Be the first to start selling";
+"no_products_found" = "No products found";
+"reload_products" = "Reload products";
+"max_256_chars_description" = "The max length for the description of the product is 256 characters.";

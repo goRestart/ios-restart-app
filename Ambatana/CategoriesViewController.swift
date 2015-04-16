@@ -23,7 +23,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     var categories: [PFObject]?
     var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     var lastContentOffset: CGFloat = 0.0
-    var selectedCategory: ProductListCategory?
+    var selectedCategory: LetGoProductCategory?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,7 +161,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
                 // first we try to retrieve it locally.
                 var imageRetrievedLocally = false
                 if let categoryId = categoryObject["category_id"] as? Int {
-                    if let category = ProductListCategory(rawValue: categoryId) {
+                    if let category = LetGoProductCategory(rawValue: categoryId) {
                         if let localImage = category.imageForCategory() {
                             categoryImage.image = localImage
                             imageRetrievedLocally = true
@@ -185,7 +185,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if let categoryObject = categories?[indexPath.row] {
-            if let category = ProductListCategory(rawValue: categoryObject["category_id"] as! Int) {
+            if let category = LetGoProductCategory(rawValue: categoryObject["category_id"] as! Int) {
                 selectedCategory = category
                 performSegueWithIdentifier("ProductListByCategory", sender: nil)
             }

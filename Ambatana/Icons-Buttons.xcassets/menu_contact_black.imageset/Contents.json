@@ -3,22 +3,21 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "UIBarButtonAction.png"
+      "filename" : "menu_contact_black.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "UIBarButtonAction_2x.png"
+      "filename" : "menu_contact_black@2x.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "UIBarButtonAction_3x.png"
+      "filename" : "menu_contact_black@3x.png"
     }
   ],
   "info" : {
     "version" : 1,
-    "author" : "xcode",
-    "template-rendering-intent" : "original"
+    "author" : "xcode"
   }
 }

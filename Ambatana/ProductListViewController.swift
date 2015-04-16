@@ -29,7 +29,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     var lastRetrievedProductsCount = kLetGoProductListOffsetLoadingOffsetInc
     var queryingProducts = false
-    var currentCategory: ProductListCategory?
+    var currentCategory: LetGoProductCategory?
     var currentSearchString: String?
     var currentFilterName = translate("proximity")
     
@@ -60,6 +60,14 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        // appearance
+        if self.currentSearchString == nil {
+            self.noProductsFoundLabel.text = translate("be_the_first_to_start_selling")
+            self.noProductsFoundButton.setTitle(translate("sell_something"), forState: .Normal)
+        } else {
+            self.noProductsFoundLabel.text = translate("no_products_found")
+            self.noProductsFoundButton.setTitle(translate("reload_products"), forState: .Normal)
+        }
         hideNoProductsFoundInterface()
         
         // Navigation bar & items
@@ -131,7 +139,12 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     @IBAction func reloadProducts(sender: UIButton) {
-        resetProductList()
+        // if we are not looking for an object, then we invite the user to sell something
+        if self.currentSearchString == nil {
+            performSegueWithIdentifier("SellProduct", sender: sender)
+        } else { // else, we reload the products.
+            resetProductList()
+        }
     }
     
     @IBAction func sellNewProduct(sender: AnyObject) {
@@ -172,18 +185,21 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.view.userInteractionEnabled = false
+        self.showLoadingMessageAlert()
         // prepare unrefreshed object
         self.productToShow = self.entries[indexPath.row]
         if self.productToShow != nil {
             self.productToShow!.fetchInBackgroundWithBlock({ (refreshedObject, error) -> Void in
-                self.view.userInteractionEnabled = true
-                if refreshedObject != nil {
-                    self.productToShow = refreshedObject
-                    self.performSegueWithIdentifier("ShowProduct", sender: nil)
-                }
-                else { // fallback to showing the "unrefreshed" product
-                    self.performSegueWithIdentifier("ShowProduct", sender: nil)
-                }
+                self.dismissLoadingMessageAlert(completion: { (_) -> Void in
+                    self.view.userInteractionEnabled = true
+                    if refreshedObject != nil {
+                        self.productToShow = refreshedObject
+                        self.performSegueWithIdentifier("ShowProduct", sender: nil)
+                    }
+                    else { // fallback to showing the "unrefreshed" product
+                        self.performSegueWithIdentifier("ShowProduct", sender: nil)
+                    }
+                })
             })
         } else { self.view.userInteractionEnabled = true; showAutoFadingOutMessageAlert(translate("unable_show_product")) }
         
@@ -201,18 +217,27 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             
             // current distance below currentKmOffset kms.
             query.whereKey("gpscoords", nearGeoPoint: userGeo, withinKilometers: Double(currentKmOffset))
+            // *********** NEW API
+            let latitude = userGeo.latitude
+            let longitude = userGeo.longitude
+            let currentLocation = CLLocationCoordinate2DMake(latitude, longitude)
             
             // do not include approval pending items or discarded items
-            query.whereKey("status", notContainedIn: [ProductStatus.Discarded.rawValue, ProductStatus.Pending.rawValue])
+            query.whereKey("status", notContainedIn: [LetGoProductStatus.Discarded.rawValue, LetGoProductStatus.Pending.rawValue])
             
             // paginate in groups of kLetGoProductListOffsetLoadingOffsetInc
             query.limit = kLetGoProductListOffsetLoadingOffsetInc
             
             // order by current filter (default, creation date).
-            if ConfigurationManager.sharedInstance.currentFilterForSearch != nil {
-                if (ConfigurationManager.sharedInstance.currentFilterOrderForSearch == .OrderedDescending) {
-                    query.orderByDescending(ConfigurationManager.sharedInstance.currentFilterForSearch!)
-                } else { query.orderByAscending(ConfigurationManager.sharedInstance.currentFilterForSearch!) }
+            switch (ConfigurationManager.sharedInstance.userFilterForProducts) {
+            case .Proximity:
+                break;
+            case .MinPrice:
+                query.orderByAscending("price")
+            case .MaxPrice:
+                query.orderByDescending("price")
+            case .CreationDate:
+                query.orderByDescending("createdAt")
             }
             
             // do not include currently downloaded items
@@ -232,6 +257,11 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                 let innerQuery = PFQuery.orQueryWithSubqueries([nameQuery, descriptionQuery])
                 query.whereKey("objectId", matchesKey: "objectId", inQuery: innerQuery)
             }
+            
+            // Call to LetGo backend API.
+            RESTManager.sharedInstance.getListOfProducts(currentSearchString, location: currentLocation, categoryId: currentCategory, sortBy: ConfigurationManager.sharedInstance.userFilterForProducts, offset: self.entries.count, status: nil, maxPrice: nil, distanceRadius: nil, minPrice: nil, fromUser: nil, completion: { (success, products) -> Void in
+                println("Retrieved list of products: \(products)")
+            })
             
             // perform query.
             query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
@@ -387,11 +417,14 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     func nextKmOffset(kmOffset: Int) -> Int {
         if (kmOffset <= 1) { return 5 }
         else if (kmOffset <= 5) { return 10 }
-        else if (kmOffset <= 10) { return 50 }
+        else if (kmOffset <= 10) { return 20 }
+        else if (kmOffset <= 20) { return 50 }
         else if (kmOffset <= 50) { return 100 }
-        else if (kmOffset <= 100) { return 500 }
+        else if (kmOffset <= 100) { return 200 }
+        else if (kmOffset <= 200) { return 500 }
         else if (kmOffset <= 500) { return 1000 }
-        else if (kmOffset <= 1000) { return 5000 }
+        else if (kmOffset <= 1000) { return 2000 }
+        else if (kmOffset <= 2000) { return 5000 }
         else { return 10000 }
     }
     
@@ -456,19 +489,19 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
             alert.addAction(UIAlertAction(title: translate("latest_published"), style: .Default, handler: { (action) -> Void in
                 self.currentFilterName = translate("latest_published")
-                self.changeFilterTo("createdAt", order: .OrderedDescending)
+                self.changeFilterTo(.CreationDate)
             }))
             alert.addAction(UIAlertAction(title: translate("highest_price"), style: .Default, handler: { (action) -> Void in
                 self.currentFilterName = translate("highest_price")
-                self.changeFilterTo("price", order: .OrderedDescending)
+                self.changeFilterTo(.MaxPrice)
             }))
             alert.addAction(UIAlertAction(title: translate("lowest_price"), style: .Default, handler: { (action) -> Void in
                 self.currentFilterName = translate("lowest_price")
-                self.changeFilterTo("price", order: .OrderedAscending)
+                self.changeFilterTo(.MinPrice)
             }))
             alert.addAction(UIAlertAction(title: translate("proximity"), style: .Default, handler: { (action) -> Void in
                 self.currentFilterName = translate("proximity")
-                self.changeFilterTo(nil, order: .OrderedDescending)
+                self.changeFilterTo(.Proximity)
             }))
             self.presentViewController(alert, animated: true, completion: nil)
             
@@ -489,31 +522,33 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
             break;
         case 1:
             self.currentFilterName = translate("latest_published")
-            self.changeFilterTo("createdAt", order: .OrderedDescending)
+            self.changeFilterTo(.CreationDate)
         case 2:
             self.currentFilterName = translate("highest_price")
-            self.changeFilterTo("price", order: .OrderedDescending)
+            self.changeFilterTo(.MaxPrice)
         case 3:
             self.currentFilterName = translate("lowest_price")
-            self.changeFilterTo("price", order: .OrderedAscending)
+            self.changeFilterTo(.MinPrice)
         case 4:
             self.currentFilterName = translate("proximity")
-            self.changeFilterTo(nil, order: .OrderedDescending)
+            self.changeFilterTo(.Proximity)
         default:
             break
         }
     }
     
-    func changeFilterTo(filter: String?, order: NSComparisonResult) {
-        ConfigurationManager.sharedInstance.currentFilterForSearch = filter
-        ConfigurationManager.sharedInstance.currentFilterOrderForSearch = order
+    
+    
+    // TODO: Ditch this function when
+    func changeFilterTo(newFilter: LetGoUserFilterForProducts) {
+        ConfigurationManager.sharedInstance.userFilterForProducts = newFilter
         self.resetProductList()
     }
 
     // MARK: - ShowProductViewControllerDelegate methods
     
     // update status of a product (i.e: if it gets marked as sold).
-    func letgoProduct(product: PFObject, statusUpdatedTo newStatus: ProductStatus) {
+    func letgoProduct(product: PFObject, statusUpdatedTo newStatus: LetGoProductStatus) {
         if let found = find(entries, product) {
             entries[found]["status"] = newStatus.rawValue
             collectionView.reloadSections(NSIndexSet(index: 0))

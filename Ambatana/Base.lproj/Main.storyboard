@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -11,7 +11,7 @@
         <!--Login View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController modalTransitionStyle="crossDissolve" id="vXZ-lx-hvc" customClass="LoginViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalTransitionStyle="crossDissolve" id="vXZ-lx-hvc" customClass="LoginViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -148,7 +148,7 @@
         <!--Sign Up View Controller-->
         <scene sceneID="n2r-ey-y53">
             <objects>
-                <viewController id="fax-lr-Nt5" customClass="SignUpViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="fax-lr-Nt5" customClass="SignUpViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CxE-gU-Czq"/>
                         <viewControllerLayoutGuide type="bottom" id="kvd-Lb-ns7"/>
@@ -353,7 +353,7 @@
         <!--Indicate Location View Controller-->
         <scene sceneID="8wD-ES-8A2">
             <objects>
-                <viewController id="5CA-LF-pUD" customClass="IndicateLocationViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5CA-LF-pUD" customClass="IndicateLocationViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uXr-Sf-A0b"/>
                         <viewControllerLayoutGuide type="bottom" id="g8a-eB-Spm"/>
@@ -420,10 +420,10 @@
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="vv1-2O-dIn" secondAttribute="centerX" id="1Wq-4h-9MA"/>
                             <constraint firstItem="vv1-2O-dIn" firstAttribute="leading" secondItem="7cM-9y-CJu" secondAttribute="leading" constant="-3" id="41z-bK-SKO"/>
-                            <constraint firstItem="Zu0-wm-AKo" firstAttribute="leading" secondItem="QUF-Fe-jef" secondAttribute="leadingMargin" constant="-16" id="4AV-Bk-uTP"/>
+                            <constraint firstItem="Zu0-wm-AKo" firstAttribute="leading" secondItem="QUF-Fe-jef" secondAttribute="leading" id="4AV-Bk-uTP"/>
                             <constraint firstAttribute="centerX" secondItem="foc-PS-ynI" secondAttribute="centerX" id="B3T-iI-VF8"/>
                             <constraint firstItem="g8a-eB-Spm" firstAttribute="top" secondItem="Zu0-wm-AKo" secondAttribute="bottom" id="COI-Ru-frk"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Zu0-wm-AKo" secondAttribute="trailing" constant="-16" id="EWL-qV-HSU"/>
+                            <constraint firstAttribute="trailing" secondItem="Zu0-wm-AKo" secondAttribute="trailing" id="EWL-qV-HSU"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vv1-2O-dIn" secondAttribute="trailing" constant="-3" id="I6x-Gg-UAg"/>
                             <constraint firstItem="vv1-2O-dIn" firstAttribute="leading" secondItem="QUF-Fe-jef" secondAttribute="leadingMargin" constant="-3" id="K6k-Uc-7jB"/>
                             <constraint firstItem="7cM-9y-CJu" firstAttribute="top" secondItem="vv1-2O-dIn" secondAttribute="bottom" id="UYP-Uw-l1Z"/>
@@ -459,7 +459,7 @@
         <!--Product List View Controller-->
         <scene sceneID="D9k-NI-ghG">
             <objects>
-                <viewController storyboardIdentifier="productListViewController" id="EcC-Xj-x5y" customClass="ProductListViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="productListViewController" id="EcC-Xj-x5y" customClass="ProductListViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="H82-Em-5NK"/>
                         <viewControllerLayoutGuide type="bottom" id="OQT-Wb-g3z"/>
@@ -468,8 +468,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wUP-Se-tsp">
-                                <rect key="frame" x="0.0" y="-64" width="320" height="519"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="wUP-Se-tsp">
+                                <rect key="frame" x="0.0" y="-64" width="320" height="520"/>
                                 <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="1nx-oF-oce">
                                     <size key="itemSize" width="145" height="190"/>
@@ -487,8 +487,8 @@
                                 <rect key="frame" x="142" y="233" width="37" height="37"/>
                                 <color key="color" red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4QV-bC-ev8">
-                                <rect key="frame" x="61" y="283" width="197" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4QV-bC-ev8">
+                                <rect key="frame" x="62" y="283" width="197" height="40"/>
                                 <color key="backgroundColor" red="1" green="0.36355292797088623" blue="0.38490483164787292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Pzk-70-1Kp"/>
@@ -502,9 +502,9 @@
                                     <action selector="reloadProducts:" destination="EcC-Xj-x5y" eventType="touchUpInside" id="u4c-z6-N3Y"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No products found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZ0-Y2-fYN">
-                                <rect key="frame" x="84" y="241" width="152" height="22"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="No products found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZZ0-Y2-fYN">
+                                <rect key="frame" x="36" y="241" width="248" height="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -526,17 +526,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerX" secondItem="ZZ0-Y2-fYN" secondAttribute="centerX" id="2cN-PQ-gqr"/>
                             <constraint firstItem="jSu-rz-ubC" firstAttribute="leading" secondItem="gCj-if-cnX" secondAttribute="leading" id="72Z-9p-OBB"/>
                             <constraint firstItem="4QV-bC-ev8" firstAttribute="centerX" secondItem="ZZ0-Y2-fYN" secondAttribute="centerX" id="Fco-EN-ImM"/>
                             <constraint firstAttribute="trailing" secondItem="wUP-Se-tsp" secondAttribute="trailing" id="J06-dQ-5gn"/>
                             <constraint firstAttribute="centerY" secondItem="ZZ0-Y2-fYN" secondAttribute="centerY" id="Moa-KX-ptQ"/>
                             <constraint firstAttribute="centerY" secondItem="18W-ac-Xh1" secondAttribute="centerY" id="Veq-BF-rjj"/>
                             <constraint firstItem="4QV-bC-ev8" firstAttribute="top" secondItem="ZZ0-Y2-fYN" secondAttribute="bottom" constant="20" id="WUM-LQ-Lnb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZZ0-Y2-fYN" secondAttribute="trailing" constant="20" id="aJ7-yq-9Tl"/>
                             <constraint firstItem="wUP-Se-tsp" firstAttribute="top" secondItem="H82-Em-5NK" secondAttribute="bottom" constant="-64" id="eoA-Kj-JAN"/>
                             <constraint firstAttribute="trailing" secondItem="jSu-rz-ubC" secondAttribute="trailing" id="f1O-Cw-Mr8"/>
                             <constraint firstAttribute="centerX" secondItem="18W-ac-Xh1" secondAttribute="centerX" id="jVV-Pr-nhs"/>
                             <constraint firstItem="wUP-Se-tsp" firstAttribute="leading" secondItem="gCj-if-cnX" secondAttribute="leading" id="lNK-NJ-jL8"/>
+                            <constraint firstItem="ZZ0-Y2-fYN" firstAttribute="leading" secondItem="gCj-if-cnX" secondAttribute="leadingMargin" constant="20" id="s5Q-TC-NRX"/>
                             <constraint firstItem="OQT-Wb-g3z" firstAttribute="top" secondItem="wUP-Se-tsp" secondAttribute="bottom" constant="48" id="tmS-tn-x1N"/>
                             <constraint firstItem="OQT-Wb-g3z" firstAttribute="top" secondItem="jSu-rz-ubC" secondAttribute="bottom" id="v7e-6O-yNc"/>
                         </constraints>
@@ -571,7 +572,7 @@
         <!--Chat List View Controller-->
         <scene sceneID="BQj-Ab-1Gr">
             <objects>
-                <viewController storyboardIdentifier="conversationsViewController" id="CuD-LG-jgD" customClass="ChatListViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="conversationsViewController" id="CuD-LG-jgD" customClass="ChatListViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5qi-Yl-G4q"/>
                         <viewControllerLayoutGuide type="bottom" id="heD-U1-cX3"/>
@@ -770,7 +771,7 @@
         <!--Chat View Controller-->
         <scene sceneID="18A-eE-Rhw">
             <objects>
-                <viewController storyboardIdentifier="productChatConversationVC" id="wh8-aC-pf6" customClass="ChatViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="productChatConversationVC" id="wh8-aC-pf6" customClass="ChatViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b47-Br-3mD"/>
                         <viewControllerLayoutGuide type="bottom" id="Z9m-14-QAn"/>
@@ -1053,7 +1054,7 @@
         <!--Sell Product View Controller-->
         <scene sceneID="yte-s5-Ch8">
             <objects>
-                <viewController storyboardIdentifier="myProfileViewController" id="FxN-lI-6ec" customClass="SellProductViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="myProfileViewController" id="FxN-lI-6ec" customClass="SellProductViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gVO-WN-lAf"/>
                         <viewControllerLayoutGuide type="bottom" id="Jxs-s1-kxb"/>
@@ -1108,8 +1109,8 @@
                                     <outlet property="delegate" destination="FxN-lI-6ec" id="RYC-I5-Ook"/>
                                 </connections>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VLm-FR-PvF" customClass="PlaceholderTextView" customModule="Ambatana" customModuleProvider="target">
-                                <rect key="frame" x="11" y="223" width="293" height="114"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VLm-FR-PvF" customClass="PlaceholderTextView" customModule="LetGo" customModuleProvider="target">
+                                <rect key="frame" x="11" y="223" width="277" height="114"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -1265,11 +1266,11 @@
                                     <constraint firstAttribute="height" constant="1" id="ykH-k2-Dsd"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NZL-Ii-bRn">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NZL-Ii-bRn">
+                                <rect key="frame" x="0.0" y="354" width="320" height="150"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2m5-zi-7iN">
-                                        <rect key="frame" x="33" y="200" width="254" height="40"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="2m5-zi-7iN">
+                                        <rect key="frame" x="33" y="-154" width="254" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="cfA-IP-vzg"/>
                                         </constraints>
@@ -1277,8 +1278,8 @@
                                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xiE-r8-qjw">
-                                        <rect key="frame" x="85" y="251" width="150" height="2"/>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xiE-r8-qjw">
+                                        <rect key="frame" x="85" y="-103" width="150" height="2"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="2" id="Fzc-8h-rBn"/>
                                             <constraint firstAttribute="width" constant="150" id="eaL-ih-gjV"/>
@@ -1294,6 +1295,12 @@
                                     <constraint firstItem="xiE-r8-qjw" firstAttribute="top" secondItem="2m5-zi-7iN" secondAttribute="bottom" constant="11" id="bWj-36-S6K"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="256" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fiX-JF-mOU">
+                                <rect key="frame" x="280" y="320" width="24" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -1309,7 +1316,7 @@
                             <constraint firstItem="UMR-rE-lTt" firstAttribute="bottom" secondItem="o5y-dA-vQa" secondAttribute="bottom" id="Fex-1u-taU"/>
                             <constraint firstItem="CmI-8k-TmH" firstAttribute="leading" secondItem="dCv-5h-DCQ" secondAttribute="leading" constant="16" id="HsT-FC-eGG"/>
                             <constraint firstAttribute="trailing" secondItem="5O7-pW-Vdi" secondAttribute="trailing" constant="16" id="JsU-Wi-4Oo"/>
-                            <constraint firstItem="VLm-FR-PvF" firstAttribute="trailing" secondItem="8es-uP-WxL" secondAttribute="trailing" id="KlM-7X-mCJ"/>
+                            <constraint firstItem="VLm-FR-PvF" firstAttribute="trailing" secondItem="8es-uP-WxL" secondAttribute="trailing" constant="-16" id="KlM-7X-mCJ"/>
                             <constraint firstItem="5O7-pW-Vdi" firstAttribute="centerY" secondItem="CDk-Cw-aCM" secondAttribute="centerY" id="LYC-Hf-2e3"/>
                             <constraint firstItem="NZL-Ii-bRn" firstAttribute="top" secondItem="gVO-WN-lAf" secondAttribute="bottom" id="MMz-xZ-Hdn"/>
                             <constraint firstItem="5O7-pW-Vdi" firstAttribute="leading" secondItem="dCv-5h-DCQ" secondAttribute="leading" constant="16" id="MVc-OJ-kGW"/>
@@ -1325,6 +1332,7 @@
                             <constraint firstItem="VLm-FR-PvF" firstAttribute="leading" secondItem="8es-uP-WxL" secondAttribute="leading" constant="-5" id="ZyX-f5-nSp"/>
                             <constraint firstAttribute="trailing" secondItem="j0D-XM-yOA" secondAttribute="trailing" constant="16" id="azH-p6-kVg"/>
                             <constraint firstItem="VLm-FR-PvF" firstAttribute="top" secondItem="u2V-a7-2EC" secondAttribute="bottom" constant="8" id="blt-hS-O5s"/>
+                            <constraint firstItem="fiX-JF-mOU" firstAttribute="bottom" secondItem="VLm-FR-PvF" secondAttribute="bottom" id="caS-kG-xuQ"/>
                             <constraint firstAttribute="trailing" secondItem="K05-kb-v7m" secondAttribute="trailing" id="dSQ-Cn-PF8"/>
                             <constraint firstItem="K05-kb-v7m" firstAttribute="top" secondItem="gVO-WN-lAf" secondAttribute="bottom" id="dkj-Eq-dfY"/>
                             <constraint firstAttribute="trailing" secondItem="CDk-Cw-aCM" secondAttribute="trailing" constant="16" id="e1O-Vb-AwV"/>
@@ -1340,6 +1348,7 @@
                             <constraint firstItem="yR5-3v-of3" firstAttribute="top" secondItem="5O7-pW-Vdi" secondAttribute="bottom" constant="8" id="rQ1-K3-WHT"/>
                             <constraint firstItem="YG9-GS-sMq" firstAttribute="leading" secondItem="dCv-5h-DCQ" secondAttribute="leading" constant="16" id="s9E-t0-rr3"/>
                             <constraint firstItem="o5y-dA-vQa" firstAttribute="leading" secondItem="dCv-5h-DCQ" secondAttribute="leading" constant="16" id="u0M-N7-3f9"/>
+                            <constraint firstAttribute="trailing" secondItem="fiX-JF-mOU" secondAttribute="trailing" constant="16" id="u12-My-4aA"/>
                             <constraint firstItem="o5y-dA-vQa" firstAttribute="top" secondItem="YG9-GS-sMq" secondAttribute="bottom" constant="16" id="wte-Jl-Y2C"/>
                             <constraint firstItem="8es-uP-WxL" firstAttribute="top" secondItem="VLm-FR-PvF" secondAttribute="bottom" constant="8" id="x6d-VU-kOr"/>
                             <constraint firstItem="UMR-rE-lTt" firstAttribute="top" secondItem="o5y-dA-vQa" secondAttribute="top" id="xIA-d7-EOO"/>
@@ -1349,6 +1358,7 @@
                     <navigationItem key="navigationItem" id="T9o-rO-gz4"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
+                        <outlet property="characterCounterLabel" destination="fiX-JF-mOU" id="rgg-mP-Ntc"/>
                         <outlet property="chooseCategoryButton" destination="5O7-pW-Vdi" id="zKM-rz-Qos"/>
                         <outlet property="collectionView" destination="K05-kb-v7m" id="mPe-De-P4x"/>
                         <outlet property="currencyTypeButton" destination="o5y-dA-vQa" id="63i-Jj-nT0"/>
@@ -1370,7 +1380,7 @@
         <!--Root View Controller-->
         <scene sceneID="S5N-4A-ghv">
             <objects>
-                <viewController storyboardIdentifier="rootViewController" id="UTE-Ho-EUo" customClass="RootViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="rootViewController" id="UTE-Ho-EUo" customClass="RootViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rtX-l4-v7W"/>
                         <viewControllerLayoutGuide type="bottom" id="Alq-8U-Z0X"/>
@@ -1389,7 +1399,7 @@
         <!--Menu View Controller-->
         <scene sceneID="O3b-Qb-VSt">
             <objects>
-                <viewController storyboardIdentifier="menuViewController" id="eqz-0u-FEy" customClass="MenuViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="menuViewController" id="eqz-0u-FEy" customClass="MenuViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="T5W-gt-yyy"/>
                         <viewControllerLayoutGuide type="bottom" id="2ph-qo-pfF"/>
@@ -1477,6 +1487,15 @@
                                     <constraint firstAttribute="height" constant="1" id="uAm-FP-RHc"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cz4-qh-abC">
+                                <rect key="frame" x="16" y="36" width="64" height="64"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="goToUserProfile:" destination="eqz-0u-FEy" eventType="touchUpInside" id="qou-Vm-NMT"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -1484,6 +1503,7 @@
                             <constraint firstItem="eKc-iU-R6F" firstAttribute="trailing" secondItem="reb-tj-8xD" secondAttribute="trailingMargin" id="0Ul-Id-FPG"/>
                             <constraint firstItem="1E5-lR-XUk" firstAttribute="centerY" secondItem="eKc-iU-R6F" secondAttribute="centerY" constant="20" id="222-SO-5Ed"/>
                             <constraint firstAttribute="trailing" secondItem="mTd-o2-aqf" secondAttribute="trailing" id="26a-iH-j8b"/>
+                            <constraint firstItem="Cz4-qh-abC" firstAttribute="trailing" secondItem="1E5-lR-XUk" secondAttribute="trailing" id="3Ku-rg-UNf"/>
                             <constraint firstItem="2ph-qo-pfF" firstAttribute="top" secondItem="mTd-o2-aqf" secondAttribute="bottom" id="3Y6-Kn-AjX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4yR-Aw-nmq" secondAttribute="trailing" constant="-16" id="58l-8s-yQV"/>
                             <constraint firstItem="mTd-o2-aqf" firstAttribute="top" secondItem="4yR-Aw-nmq" secondAttribute="bottom" constant="-1" id="5b2-Ch-imE"/>
@@ -1493,6 +1513,9 @@
                             <constraint firstItem="4yR-Aw-nmq" firstAttribute="top" secondItem="1E5-lR-XUk" secondAttribute="bottom" constant="16" id="Clb-tk-2Yf"/>
                             <constraint firstItem="1E5-lR-XUk" firstAttribute="leading" secondItem="reb-tj-8xD" secondAttribute="leadingMargin" id="MTt-BH-qHN"/>
                             <constraint firstItem="Ilz-5W-Fbt" firstAttribute="leading" secondItem="1E5-lR-XUk" secondAttribute="trailing" constant="16" id="WjW-5f-0j4"/>
+                            <constraint firstItem="Cz4-qh-abC" firstAttribute="leading" secondItem="1E5-lR-XUk" secondAttribute="leading" id="XX6-zB-mu8"/>
+                            <constraint firstItem="Cz4-qh-abC" firstAttribute="bottom" secondItem="1E5-lR-XUk" secondAttribute="bottom" id="geI-r1-59u"/>
+                            <constraint firstItem="Cz4-qh-abC" firstAttribute="top" secondItem="1E5-lR-XUk" secondAttribute="top" id="lYb-cq-8wK"/>
                             <constraint firstItem="4yR-Aw-nmq" firstAttribute="leading" secondItem="reb-tj-8xD" secondAttribute="leadingMargin" constant="-16" id="nmo-0t-49x"/>
                             <constraint firstItem="Ilz-5W-Fbt" firstAttribute="centerY" secondItem="1E5-lR-XUk" secondAttribute="centerY" constant="9.5" id="qSe-2P-pqi"/>
                             <constraint firstItem="mTd-o2-aqf" firstAttribute="leading" secondItem="reb-tj-8xD" secondAttribute="leading" id="uTd-Kq-pbC"/>
@@ -1515,7 +1538,7 @@
         <!--Show Product View Controller-->
         <scene sceneID="bkE-jm-x8n">
             <objects>
-                <viewController storyboardIdentifier="showProductViewController" automaticallyAdjustsScrollViewInsets="NO" id="KjO-ho-cvR" customClass="ShowProductViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="showProductViewController" automaticallyAdjustsScrollViewInsets="NO" id="KjO-ho-cvR" customClass="ShowProductViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tLK-bU-3B3"/>
                         <viewControllerLayoutGuide type="bottom" id="2RO-Af-8gB"/>
@@ -1572,7 +1595,7 @@
                                         </connections>
                                     </mapView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh." lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qeP-Ju-Lg7">
-                                        <rect key="frame" x="16" y="316" width="208" height="108"/>
+                                        <rect key="frame" x="16" y="326" width="208" height="88"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1638,7 +1661,7 @@
                                         <rect key="frame" x="0.0" y="422" width="320" height="2"/>
                                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="2" id="3Fq-up-eyF"/>
+                                            <constraint firstAttribute="height" constant="2" id="3Fq-up-eyF"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pai-Pb-9vq">
@@ -1664,6 +1687,7 @@
                                     <constraint firstItem="kAV-qD-LNG" firstAttribute="bottom" secondItem="ZO0-1Q-Sau" secondAttribute="bottom" id="2vl-TQ-7Lw"/>
                                     <constraint firstAttribute="trailing" secondItem="ZO0-1Q-Sau" secondAttribute="trailing" id="3Py-TI-6hc"/>
                                     <constraint firstItem="KpP-q4-Y6Q" firstAttribute="leading" secondItem="7jO-VV-RrQ" secondAttribute="leading" id="47x-mG-IcS"/>
+                                    <constraint firstItem="dB2-uE-dD8" firstAttribute="top" secondItem="qeP-Ju-Lg7" secondAttribute="bottom" constant="8" id="5vQ-As-OuE"/>
                                     <constraint firstItem="cWM-41-VNu" firstAttribute="top" secondItem="ZO0-1Q-Sau" secondAttribute="bottom" constant="8" id="6Sy-0c-Djr"/>
                                     <constraint firstItem="dB2-uE-dD8" firstAttribute="top" secondItem="WiX-8L-R53" secondAttribute="bottom" constant="21" id="6wL-KO-hLm"/>
                                     <constraint firstItem="pai-Pb-9vq" firstAttribute="leading" secondItem="x1x-2Y-omp" secondAttribute="leading" id="7S6-52-KJj"/>
@@ -1688,10 +1712,9 @@
                                     <constraint firstItem="KpP-q4-Y6Q" firstAttribute="top" secondItem="vk6-rJ-eLj" secondAttribute="bottom" constant="8" id="S8G-No-b7o"/>
                                     <constraint firstItem="qeP-Ju-Lg7" firstAttribute="trailing" secondItem="cWM-41-VNu" secondAttribute="trailing" id="SDW-er-4TI"/>
                                     <constraint firstItem="FTT-zL-geS" firstAttribute="leading" secondItem="Xfw-hQ-0XG" secondAttribute="leading" id="SXH-c4-ltu"/>
-                                    <constraint firstItem="qeP-Ju-Lg7" firstAttribute="top" secondItem="cWM-41-VNu" secondAttribute="bottom" constant="8" id="TFT-9P-xjh"/>
                                     <constraint firstAttribute="trailing" secondItem="Xfw-hQ-0XG" secondAttribute="trailing" constant="16" id="Us8-2s-Xyq"/>
-                                    <constraint firstItem="pai-Pb-9vq" firstAttribute="top" secondItem="qeP-Ju-Lg7" secondAttribute="bottom" constant="8" id="Vmb-2k-ZPy"/>
                                     <constraint firstItem="AWr-r7-MLG" firstAttribute="leading" secondItem="7jO-VV-RrQ" secondAttribute="leading" id="Vp1-zk-jmp"/>
+                                    <constraint firstItem="qeP-Ju-Lg7" firstAttribute="top" secondItem="AWr-r7-MLG" secondAttribute="bottom" constant="8" id="WvW-eg-QPn"/>
                                     <constraint firstItem="ZO0-1Q-Sau" firstAttribute="centerX" secondItem="7jO-VV-RrQ" secondAttribute="centerX" id="X81-o8-jdY"/>
                                     <constraint firstItem="FTT-zL-geS" firstAttribute="bottom" secondItem="cWM-41-VNu" secondAttribute="bottom" constant="1" id="Yp2-cN-23E"/>
                                     <constraint firstItem="cpz-9B-T73" firstAttribute="top" secondItem="X9o-KA-S7j" secondAttribute="bottom" constant="-20" id="ZJ1-CM-vYs"/>
@@ -1834,7 +1857,7 @@
         <!--Product Location View Controller-->
         <scene sceneID="vNb-LX-MCG">
             <objects>
-                <viewController id="1e2-Pe-z0n" customClass="ProductLocationViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1e2-Pe-z0n" customClass="ProductLocationViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gjm-Ym-0Fu"/>
                         <viewControllerLayoutGuide type="bottom" id="PZ5-gl-Z4d"/>
@@ -1870,7 +1893,7 @@
         <!--Edit Profile View Controller-->
         <scene sceneID="JPC-Xf-hGz">
             <objects>
-                <viewController storyboardIdentifier="editProfileViewController" id="avJ-VO-bKh" customClass="EditProfileViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="editProfileViewController" id="avJ-VO-bKh" customClass="EditProfileViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ftm-Q7-SHG"/>
                         <viewControllerLayoutGuide type="bottom" id="93T-Kh-dTv"/>
@@ -2090,7 +2113,7 @@
         <!--Settings View Controller-->
         <scene sceneID="itM-kq-Mh2">
             <objects>
-                <viewController id="iM4-wd-rDd" customClass="SettingsViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="iM4-wd-rDd" customClass="SettingsViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q3K-zA-ZdS"/>
                         <viewControllerLayoutGuide type="bottom" id="Ine-l0-AyB"/>
@@ -2175,12 +2198,12 @@
                         <color key="backgroundColor" red="0.80000001192092896" green="0.80000001192092896" blue="0.80000001192092896" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="jgo-jO-M44" firstAttribute="top" secondItem="Q3K-zA-ZdS" secondAttribute="bottom" id="1Hn-cv-USU"/>
-                            <constraint firstItem="N9r-VC-GyP" firstAttribute="leading" secondItem="ASp-yl-4Mq" secondAttribute="leadingMargin" constant="-16" id="8vE-6Y-Imk"/>
+                            <constraint firstItem="N9r-VC-GyP" firstAttribute="leading" secondItem="ASp-yl-4Mq" secondAttribute="leading" id="8vE-6Y-Imk"/>
                             <constraint firstItem="Ine-l0-AyB" firstAttribute="top" secondItem="jgo-jO-M44" secondAttribute="bottom" id="KL3-bw-uTR"/>
                             <constraint firstItem="N9r-VC-GyP" firstAttribute="top" secondItem="ASp-yl-4Mq" secondAttribute="topMargin" id="iRm-kN-oTF"/>
                             <constraint firstItem="Ine-l0-AyB" firstAttribute="top" secondItem="N9r-VC-GyP" secondAttribute="bottom" id="q7R-Hh-eHX"/>
                             <constraint firstItem="jgo-jO-M44" firstAttribute="leading" secondItem="ASp-yl-4Mq" secondAttribute="leading" id="uNB-Pb-jwU"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="N9r-VC-GyP" secondAttribute="trailing" constant="-16" id="uRN-fH-ekU"/>
+                            <constraint firstAttribute="trailing" secondItem="N9r-VC-GyP" secondAttribute="trailing" id="uRN-fH-ekU"/>
                             <constraint firstAttribute="trailing" secondItem="jgo-jO-M44" secondAttribute="trailing" id="ztg-T4-sgP"/>
                         </constraints>
                     </view>
@@ -2202,7 +2225,7 @@
         <!--Change Password View Controller-->
         <scene sceneID="FeY-Kc-QZX">
             <objects>
-                <viewController id="g21-fO-ZoM" customClass="ChangePasswordViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="g21-fO-ZoM" customClass="ChangePasswordViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vEd-Qd-7EW"/>
                         <viewControllerLayoutGuide type="bottom" id="GwX-P7-YSE"/>
@@ -2246,7 +2269,7 @@
         <!--Photos In Detail View Controller-->
         <scene sceneID="Isz-iK-SAk">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="9k4-lE-YS1" customClass="PhotosInDetailViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="9k4-lE-YS1" customClass="PhotosInDetailViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BV3-Pw-rsh"/>
                         <viewControllerLayoutGuide type="bottom" id="xOF-5t-A4I"/>
@@ -2295,7 +2318,7 @@
         <!--Make An Offer View Controller-->
         <scene sceneID="po5-LC-h9F">
             <objects>
-                <viewController id="J7x-I7-tMF" customClass="MakeAnOfferViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="J7x-I7-tMF" customClass="MakeAnOfferViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BSA-5S-iSX"/>
                         <viewControllerLayoutGuide type="bottom" id="aRi-FC-vhU"/>
@@ -2327,7 +2350,7 @@
                                     <outlet property="delegate" destination="J7x-I7-tMF" id="oLg-WZ-u4V"/>
                                 </connections>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLH-LV-aYs" customClass="PlaceholderTextView" customModule="Ambatana" customModuleProvider="target">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLH-LV-aYs" customClass="PlaceholderTextView" customModule="LetGo" customModuleProvider="target">
                                 <rect key="frame" x="16" y="50" width="288" height="154"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -2398,7 +2421,7 @@
         <!--Categories View Controller-->
         <scene sceneID="dtm-Wz-vxI">
             <objects>
-                <viewController storyboardIdentifier="categoriesViewController" id="bQV-Z5-ynm" customClass="CategoriesViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="categoriesViewController" id="bQV-Z5-ynm" customClass="CategoriesViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="sQm-Hl-F4g"/>
                         <viewControllerLayoutGuide type="bottom" id="jns-Mx-M1E"/>
@@ -2539,7 +2562,7 @@
         <!--Hamburguer Navigation Controller-->
         <scene sceneID="lut-On-nci">
             <objects>
-                <navigationController storyboardIdentifier="navigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="dPf-WV-Vw6" customClass="DLHamburguerNavigationController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="navigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="dPf-WV-Vw6" customClass="DLHamburguerNavigationController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ujy-n4-xph">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -2557,7 +2580,7 @@
         <!--Login By Email View Controller-->
         <scene sceneID="6yc-I2-YLk">
             <objects>
-                <viewController id="pVP-Wm-ymp" customClass="LoginByEmailViewController" customModule="Ambatana" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pVP-Wm-ymp" customClass="LoginByEmailViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cOB-f9-MS3"/>
                         <viewControllerLayoutGuide type="bottom" id="q3S-ko-GA9"/>
@@ -2743,9 +2766,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="dvE-TI-lJz"/>
         <segue reference="n3G-ME-bRv"/>
-        <segue reference="b6L-hI-Q4s"/>
         <segue reference="HOf-mn-VEJ"/>
         <segue reference="V6S-hJ-EVB"/>
-        <segue reference="VFl-zA-Skv"/>
+        <segue reference="b6L-hI-Q4s"/>
+        <segue reference="G4e-Db-NKc"/>
     </inferredMetricsTieBreakers>
 </document>

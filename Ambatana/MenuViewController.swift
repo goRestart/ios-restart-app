@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 private let kLetGoMenuOptionCellName = "LetGoMenuOptionCell"
 private let kLetGoMenuOptionCellTitleTag = 1
@@ -15,7 +16,7 @@ private let kLetGoMenuOptionCellBadgeTag = 3
 
 
 enum LetGoMenuOptions : Int {
-    case MyProfile = 0, Conversations = 1, Sell = 2, Categories = 3
+    case Sell = 0, Conversations = 1, Categories = 2, Contact = 3, MyProfile = 4
     /** Returns the title for the menu option */
     func titleForMenuOption() -> String {
         switch (self) {
@@ -27,10 +28,12 @@ enum LetGoMenuOptions : Int {
             return translate("sell_something")
         case .Categories:
             return translate("categories")
+        case .Contact:
+            return translate("contact")
         }
     }
     
-    static let numOptions = 4
+    static let numOptions = 5
     
     /** Returns the icon for the menu option */
     func iconForMenuOption() -> UIImage {
@@ -43,11 +46,13 @@ enum LetGoMenuOptions : Int {
             return UIImage(named: "menu_sell")!
         case .Categories:
             return UIImage(named: "menu_categories")!
+        case .Contact:
+            return UIImage(named: "menu_contact_black")!
         }
     }
 }
 
-class MenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate {
     // outlets & buttons
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -115,10 +120,13 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             segueName = "SellProduct"
         case .Categories:
             segueName = "Categories"
+        case .Contact:
+            contactUs()
+            return
         default:
             UIApplication.sharedApplication().openURL(NSURL(string: kLetGoWebsiteURL)!)
             segueName = nil
-            break;
+            break
         }
 
         // collapse menu.
@@ -167,6 +175,49 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             } else { badgeView?.hidden = true }
         }
         return cell
+    }
+    
+    // MARK: - Button actions
+    
+    @IBAction func goToUserProfile(sender: AnyObject) {
+        // disable sliding menu for pushed controllers
+        self.findHamburguerViewController()?.gestureEnabled = false
+        
+        // perform segue
+        let navigationController = self.mainNavigationController()
+        navigationController.visibleViewController.performSegueWithIdentifier("EditProfile", sender: nil)
+        self.findHamburguerViewController()?.contentViewController = navigationController
+        self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
+    }
+    
+    // MARK: - Mail Composer Delegate methods
+    
+    func contactUs() {
+        if MFMailComposeViewController.canSendMail() {
+            let mailComposerController: MFMailComposeViewController! = MFMailComposeViewController()
+            mailComposerController.mailComposeDelegate = self
+            mailComposerController.setToRecipients(["barbara@ambatana.com"])
+            mailComposerController.setSubject(translate("feedback_letgo_user"))
+            mailComposerController.setMessageBody(translate("type_your_message_here"), isHTML: true)
+            self.presentViewController(mailComposerController, animated: true, completion: nil)
+        } else {
+            self.showAutoFadingOutMessageAlert(translate("errorsendingmail"), completionBlock: { (_) -> Void in
+                self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
+            })
+
+        }
+    }
+    
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        var message: String? = nil
+        if result.value == MFMailComposeResultFailed.value { // we just give feedback if something nasty happened.
+            message = translate("errorsendingmail")
+        }
+        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
+            if message != nil { self.showAutoFadingOutMessageAlert(message!) }
+        })
+        
     }
     
     // MARK: - Navigation methods

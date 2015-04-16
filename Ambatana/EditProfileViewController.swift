@@ -275,7 +275,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         }
     }
     
-    func retrieveProductsForUserId(userId: String?, status: ProductStatus, completion: (products: [PFObject]!, error: NSError!) -> (Void)) {
+    func retrieveProductsForUserId(userId: String?, status: LetGoProductStatus, completion: (products: [PFObject]!, error: NSError!) -> (Void)) {
         let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
         let query = PFQuery(className: "Products")
         query.whereKey("user", equalTo: user)

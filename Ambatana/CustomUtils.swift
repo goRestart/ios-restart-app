@@ -133,3 +133,10 @@ func distanceStringToGeoPoint(geoPoint: PFGeoPoint) -> String {
 
 }
 
+/**
+ * Returns a valid dispatch_time of secs seconds.
+ */
+func dispatchTimeForSeconds(secs: Double) -> dispatch_time_t {
+    return dispatch_time(DISPATCH_TIME_NOW, Int64(secs * Double(NSEC_PER_SEC)))
+}
+

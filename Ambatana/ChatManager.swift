@@ -216,7 +216,7 @@ class ChatManager: NSObject {
                 conversation.saveInBackgroundWithBlock({ (success, error) -> Void in
                     if !success { conversation.saveEventually(nil) }
                 })
-                self.sendPushNotificationWithMessage(text, toUser: destinationUser, fromUser: PFUser.currentUser()!)
+                self.sendPushNotificationWithMessage(text, toUser: destinationUser, fromUser: PFUser.currentUser()!, conversationId: conversation.objectId)
                 
                 // inform the handler of the successfull completion.
                 dispatch_async(dispatch_get_main_queue(), { completion(success: true, newlyCreatedMessageObject: newMessage) })
@@ -227,7 +227,7 @@ class ChatManager: NSObject {
     }
     
     /** Sends a push notification to a user with a (shortened to max length) text */
-    internal func sendPushNotificationWithMessage(message: String, toUser user: PFUser, fromUser sourceUser: PFUser) {
+    internal func sendPushNotificationWithMessage(message: String, toUser user: PFUser, fromUser sourceUser: PFUser, conversationId: String?) {
         // send a push notification.
         let pushQuery = PFInstallation.query()
         pushQuery!.whereKey("user_objectId", equalTo: user.objectId!)
@@ -235,7 +235,9 @@ class ChatManager: NSObject {
         push.setQuery(pushQuery)
         var shortString = (sourceUser["username_public"] as? String ?? translate("message")) + ": " + message
         shortString = count(shortString) > kLetGoPushNotificationMaxPayloadSpaceForText ? shortString.substringToIndex(advance(shortString.startIndex, kLetGoPushNotificationMaxPayloadSpaceForText)) : shortString
-        push.setData(["badge": "Increment", "alert": shortString])
+        var messageData = ["badge": "Increment", "alert": shortString]
+        if conversationId != nil { messageData["c_id"] = conversationId! }
+        push.setData(messageData)
         push.sendPushInBackgroundWithBlock { (success, error) -> Void in
             if !success { // try to send again in 1 minute
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(60.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {

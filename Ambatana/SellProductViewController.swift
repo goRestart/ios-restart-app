@@ -16,7 +16,8 @@ private let kLetGoUploadOtherImageCellName = "UploadOtherImageCell"
 private let kLetGoAlreadyUploadedImageCellBigImageTag = 1
 private let kLetGoUploadFirstImageCellLabelTag = 2
 private let kLetGoTextfieldScrollingOffsetSpan: CGFloat = 72 // 20 (status bar height) + 44 (navigation controller height) + 8 (small span to leave some space)
-
+private let kLetGoSellingItemTextViewMaxCharacterPassedColor = UIColor(red: 0.682, green: 0.098, blue: 0.098, alpha: 1.0)
+private let kLetGoSellingItemTextViewMaxCharacterNumber = 256
 private let kLetGoSellProductActionSheetTagCurrencyType = 100 // for currency selection
 private let kLetGoSellProductActionSheetTagCategoryType = 101 // for category selection
 private let kLetGoSellProductActionSheetTagImageSourceType = 102 // for image source selection
@@ -36,14 +37,16 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     @IBOutlet weak var uploadingImageView: UIView!
     @IBOutlet weak var uploadingImageLabel: UILabel!
     @IBOutlet weak var uploadingImageProgressView: UIProgressView!
+    @IBOutlet weak var characterCounterLabel: UILabel!
     var originalFrame: CGRect!
     
     // data
     var images: [UIImage] = []
     var imageFiles: [PFFile]? = nil
+    var charactersRemaining = kLetGoSellingItemTextViewMaxCharacterNumber
 
     let sellQueue = dispatch_queue_create("com.letgo.SellProduct", DISPATCH_QUEUE_SERIAL) // we want the images to load sequentially.
-    var currentCategory: ProductListCategory?
+    var currentCategory: LetGoProductCategory?
     var currentCurrency = CurrencyManager.sharedInstance.defaultCurrency
     var geocoder = CLGeocoder()
     var currenciesFromBackend: [PFObject]?
@@ -106,7 +109,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             }
         } else if actionSheet.tag == kLetGoSellProductActionSheetTagCategoryType { // category selection
             if buttonIndex != actionSheet.cancelButtonIndex { // 0 is cancel
-                let category = ProductListCategory.allCategories()[buttonIndex]
+                let category = LetGoProductCategory.allCategories()[buttonIndex]
                 self.currentCategory = category
                 self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
             }
@@ -155,7 +158,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if iOSVersionAtLeast("8.0") {
             // show alert controller for category selection
             let alert = UIAlertController(title: translate("choose_a_category"), message: nil, preferredStyle: .ActionSheet)
-            for category in ProductListCategory.allCategories() {
+            for category in LetGoProductCategory.allCategories() {
                 alert.addAction(UIAlertAction(title: category.getName(), style: .Default, handler: { (categoryAction) -> Void in
                     self.currentCategory = category
                     self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
@@ -167,7 +170,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         } else {
             let actionSheet = UIActionSheet(title: translate("choose_a_category"), delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
             actionSheet.tag = kLetGoSellProductActionSheetTagCategoryType
-            for category in ProductListCategory.allCategories() {
+            for category in LetGoProductCategory.allCategories() {
                 actionSheet.addButtonWithTitle(category.getName())
             }
             actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(translate("cancel"))
@@ -189,8 +192,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         // 3. do we have a price?
         let productPrice = productPriceTextfield?.text.toInt()
         if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); return }
-        // 4. do we have a description?
+        // 4. do we have a valid description?
         if descriptionTextView == nil || count(descriptionTextView.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_description")); return }
+        if self.charactersRemaining < 0 { showAutoFadingOutMessageAlert(translate("max_256_chars_description"), completionBlock: nil); return }
         // 5. do we have a category?
         if currentCategory == nil { showAutoFadingOutMessageAlert(translate("insert_valid_category")); return }
         // 6. do we have a valid location?
@@ -215,7 +219,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             productObject["name"] = self.productTitleTextField.text
             productObject["name_dirify"] = self.productTitleTextField.text
             productObject["price"] = productPrice
-            productObject["status"] = ProductStatus.Pending.rawValue
+            productObject["status"] = LetGoProductStatus.Pending.rawValue
             productObject["user"] = PFUser.currentUser()
             // We want the upload process to continue even if the user suspends the App or opens another, that's why we define a background task.
             self.imageUploadBackgroundTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({ () -> Void in
@@ -375,7 +379,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if FBDialogs.canPresentShareDialogWithParams(fbSharingParams) {
             FBDialogs.presentShareDialogWithParams(fbSharingParams, clientState: nil, handler: { (call, result, error) -> Void in
                 if error == nil {
-                    self.showAutoFadingOutMessageAlert(translate("completed"), completionBlock: { () -> Void in
+                    self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
                         self.popBackViewController()
                     })
                 } else {
@@ -403,7 +407,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                             self.popBackViewController()
                         })
                     } else { // success
-                        self.showAutoFadingOutMessageAlert(translate("completed"), completionBlock: { () -> Void in
+                        self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
                             self.popBackViewController()
                         })
                     }
@@ -515,6 +519,23 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.view.frame = newFrame
         })
+    }
+    
+    // MARK: - TextView character count.
+    
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        self.charactersRemaining = kLetGoSellingItemTextViewMaxCharacterNumber - (count(textView.text) - range.length + count(text))
+        self.characterCounterLabel.text = "\(self.charactersRemaining)"
+        if self.charactersRemaining < 0 {
+            self.characterCounterLabel.textColor = kLetGoSellingItemTextViewMaxCharacterPassedColor
+            self.sellItButton.enabled = false
+            UIView.animateWithDuration(0.3, animations: { self.sellItButton.alpha = 0.5 })
+        } else {
+            self.characterCounterLabel.textColor = UIColor.lightGrayColor()
+            self.sellItButton.enabled = true
+            UIView.animateWithDuration(0.3, animations: { self.sellItButton.alpha = 1.0 })
+        }
+        return true
     }
     
     // MARK: - Add Photo & Already uploaded images collection view DataSource & Delegate methods

@@ -13,7 +13,7 @@ private let kLetGoSearchBarHeight: CGFloat = 44
 private let kLetGoBadgeContainerViewTag = 500
 private let kLetGoBadgeViewTag = 501
 private let kLetGoBarButtonSide: CGFloat = 32.0
-private let kLetGoBarButtonSideSpan: CGFloat = 8.0
+private let kLetGoBarButtonSideSpan: CGFloat = 0.0 //8.0
 private let kLetGoBarButtonHorizontalSpace: CGFloat = 3.0
 
 var iOS7LoadingAlertView: UIAlertView?

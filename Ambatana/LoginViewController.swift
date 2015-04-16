@@ -97,6 +97,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
         let permissionsArray = ["user_about_me", "user_location", "email", "public_profile"]
         PFFacebookUtils.logInWithPermissions(permissionsArray, block: { (user, error) -> Void in
             if user != nil { // login succeed
+                println("Success!")
                 if user!.isNew { // if we have just created the new user we need to set the Facebook
                     // load facebook data into profile.
                     println("User created for the first time by Facebook.")
@@ -107,6 +108,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
                 
                 self.performSegueWithIdentifier("StartApp", sender: nil)
             } else { // error login
+                println("Error: \(error)")
                 if iOSVersionAtLeast("8.0") {
                     let alert = UIAlertController(title: translate("unable_login"), message: translate("login_canceled"), preferredStyle:.Alert)
                     alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
