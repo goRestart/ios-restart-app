@@ -12,7 +12,13 @@ import UIKit
 private let _singletonInstance = RESTManager()
 
 // API global constants
-let kLetGoRestAPIBaseURL                            = "http://vps122602.ovh.net"
+
+// Note: using old endpoint cos' oauth is not in place
+//let kLetGoRestAPIBaseURL                            = "http://api.letgo.com"          // new PROD
+let kLetGoRestAPIBaseURL                            = "http://3rdparty.ambatana.com"    // old PROD
+//let kLetGoRestAPIBaseURL                            = "http://devel.api.letgo.com"      // new DEV
+//let kLetGoRestAPIBaseURL                            = "http://vps122602.ovh.net"      // old DEV
+
 private let kLetGoRestAPIEndpoint                           = "/api"
 private let kLetGoRestAPIImagesPath                         = "/images"
 private let kLetGoRestAPIJSONFormatSuffix                   = ".json"

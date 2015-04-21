@@ -8,8 +8,14 @@
 
 import UIKit
 
-private let kLetGoParseApplicationID = "3zW8RQIC7yEoG9WhWjNduehap6csBrHQ2whOebiz"
-private let kLetGoParseClientKey = "4dmYjzpoyMbAdDdmCTBG6s7TTHtNTAaQaJN6YOAk"
+// DEV
+//private let kLetGoParseApplicationID = "3zW8RQIC7yEoG9WhWjNduehap6csBrHQ2whOebiz"
+//private let kLetGoParseClientKey = "4dmYjzpoyMbAdDdmCTBG6s7TTHtNTAaQaJN6YOAk"
+
+// PROD
+private let kLetGoParseApplicationID = "fMjDVvxiMjuSxciNF67JrB9XQLm6mLuvQ2pjIniu"
+private let kLetGoParseClientKey = "VcGL3kgBEqleDz77pPEwd48SROpMu15XVosoqdbv"
+
 private let kLetGoVersionNumberKey = "com.letgo.LetGoVersionNumberKey"
 
 @UIApplicationMain

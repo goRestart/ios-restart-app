@@ -536,7 +536,7 @@
 				TargetAttributes = {
 					6608E0351A820FBD005895ED = {
 						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = 97P9DZHP78;
+						DevelopmentTeam = 3MAE68NKQE;
 						SystemCapabilities = {
 							com.apple.InAppPurchase = {
 								enabled = 0;
@@ -781,7 +781,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Carles Grau Molto (68TLR78WYR)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
@@ -795,7 +795,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 				);
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "bf50ad52-4ea3-4d2f-b831-c4248bd631a4";
+				PROVISIONING_PROFILE = "dca3d0e1-99b8-48c9-bc31-fd2da71873e7";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -808,7 +808,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ignacio Nieto Carvajal (97P9DZHP78)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana INC (3MAE68NKQE)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
@@ -822,7 +822,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 				);
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "a3a893c5-fdb4-49be-80a9-9e2b9a133744";
+				PROVISIONING_PROFILE = "c59af2b6-aca4-44a5-b726-5b389865c5d0";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 			};
 			name = Release;
