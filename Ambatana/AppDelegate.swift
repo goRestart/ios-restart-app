@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Fabric
+import Crashlytics
 
 // DEV
 //private let kLetGoParseApplicationID = "3zW8RQIC7yEoG9WhWjNduehap6csBrHQ2whOebiz"
@@ -70,6 +72,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         if newInstall { TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLetGoInstall, eventParameter: nil, eventValue: nil) }
+        
+        // Crashlytics
+        Fabric.with([Crashlytics()])
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }

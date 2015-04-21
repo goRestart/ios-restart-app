@@ -73,6 +73,8 @@
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
 		A0525AFF9E3A4F2E486AC795 /* libPods-LetGo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EAC8884324D3A36C15E5A6D /* libPods-LetGo.a */; };
 		D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43FF0241AB0737400757EED /* ProductLocationViewController.swift */; };
+		D44E06621AE701D900A7D3CA /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44E06601AE701D900A7D3CA /* Crashlytics.framework */; };
+		D44E06631AE701D900A7D3CA /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D44E06611AE701D900A7D3CA /* Fabric.framework */; };
 		D48183F71AB2FEBE00229DBF /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48183F51AB2FEBE00229DBF /* ProductCell.swift */; };
 		D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48183F61AB2FEBE00229DBF /* ProductCell.xib */; };
 /* End PBXBuildFile section */
@@ -155,6 +157,8 @@
 		7B6E57E60751EEA425E34814 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
 		95C4EAFE6C88BD48CEFBCCB5 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		D43FF0241AB0737400757EED /* ProductLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLocationViewController.swift; sourceTree = "<group>"; };
+		D44E06601AE701D900A7D3CA /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
+		D44E06611AE701D900A7D3CA /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		D48183F51AB2FEBE00229DBF /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		D48183F61AB2FEBE00229DBF /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		DCE9C67541895BFFB3F852AD /* Pods-Ambatana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.release.xcconfig"; sourceTree = "<group>"; };
@@ -171,10 +175,12 @@
 				66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */,
 				66A0CFD21A83612500FAADF0 /* CoreGraphics.framework in Frameworks */,
 				66A0CFD31A83612500FAADF0 /* CoreLocation.framework in Frameworks */,
+				D44E06621AE701D900A7D3CA /* Crashlytics.framework in Frameworks */,
 				66A0CFD41A83612500FAADF0 /* libsqlite3.dylib in Frameworks */,
 				66A0CFD51A83612500FAADF0 /* libz.dylib in Frameworks */,
 				66A0CFD61A83612500FAADF0 /* MobileCoreServices.framework in Frameworks */,
 				66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */,
+				D44E06631AE701D900A7D3CA /* Fabric.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
 				A0525AFF9E3A4F2E486AC795 /* libPods-LetGo.a in Frameworks */,
@@ -281,6 +287,8 @@
 		6649D1661A8210AD000F6966 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				D44E06601AE701D900A7D3CA /* Crashlytics.framework */,
+				D44E06611AE701D900A7D3CA /* Fabric.framework */,
 				66E50FAC1AE15D09000A7D44 /* CHTCollectionViewWaterfallLayout */,
 				6640F0431AE142C900004556 /* Google Conversion Tracking */,
 				66C834B21ADBD670002FF142 /* Alamofire */,
@@ -515,6 +523,7 @@
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
 				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
+				D44E065F1AE7017E00A7D3CA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -597,6 +606,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		D44E065F1AE7017E00A7D3CA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 8fde945cd2c0d97ba33c9f1dd8a33b6b0433ed9b 3278ecd3e0992f0494ad0488027964d0bb2ef6818671e0928a91ed41c9b8e791";
 		};
 		F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -785,6 +807,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -811,6 +834,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -870,6 +894,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
