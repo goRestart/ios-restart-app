@@ -256,7 +256,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         switch tab {
         case .ProductImSelling:
             loadingSellProducts = true
-            self.retrieveProductsForUserId(userObject?.objectId, status: .Approved, completion: { (products, error) -> (Void) in
+            var statuses: [LetGoProductStatus] = [.Approved]
+            if userObject?.objectId == PFUser.currentUser()?.objectId { statuses.append(.Pending) }
+            self.retrieveProductsForUserId(userObject?.objectId, statuses: statuses, completion: { (products, error) -> (Void) in
                 if error == nil && products.count > 0 {
                     self.sellProducts = products
                 }
@@ -266,7 +268,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         case .ProductISold:
             loadingSoldProducts = true
             
-            self.retrieveProductsForUserId(userObject?.objectId, status: .Sold, completion: {
+            self.retrieveProductsForUserId(userObject?.objectId, statuses: [.Sold], completion: {
                 (products, error) -> Void in
                 if error == nil && products.count > 0 {
                     self.soldProducts = products
@@ -289,11 +291,16 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         }
     }
     
-    func retrieveProductsForUserId(userId: String?, status: LetGoProductStatus, completion: (products: [PFObject]!, error: NSError!) -> (Void)) {
+    func retrieveProductsForUserId(userId: String?, statuses: [LetGoProductStatus], completion: (products: [PFObject]!, error: NSError!) -> (Void)) {
         let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
         let query = PFQuery(className: "Products")
         query.whereKey("user", equalTo: user)
-        query.whereKey("status", equalTo: status.rawValue)
+        // statuses
+        var statusesIncluded: [Int] = []
+        for status in statuses { statusesIncluded.append(status.rawValue) }
+        
+        //query.whereKey("status", equalTo: status.rawValue)
+        query.whereKey("status", containedIn: statusesIncluded)
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
             let products = objects as! [PFObject]!
