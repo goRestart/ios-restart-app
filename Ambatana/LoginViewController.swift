@@ -39,6 +39,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPublic, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "login-initial")
         
         // register for notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "oauthSessionExpired:", name: kLetGoSessionInvalidatedNotification, object: nil)
@@ -95,20 +96,23 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
     
     @IBAction func connectWithFacebook(sender: UIButton) {
         let permissionsArray = ["user_about_me", "user_location", "email", "public_profile"]
-        PFFacebookUtils.logInWithPermissions(permissionsArray, block: { (user, error) -> Void in
+        
+        PFFacebookUtils.logInInBackgroundWithReadPermissions(permissionsArray, block: { (user, error) -> Void in
             if user != nil { // login succeed
-                println("Success!")
                 if user!.isNew { // if we have just created the new user we need to set the Facebook
                     // load facebook data into profile.
-                    println("User created for the first time by Facebook.")
+                    //println("User created for the first time by Facebook.")
                     ConfigurationManager.sharedInstance.loadInitialFacebookProfileData()
                 } else { // load configuration from previous user
                     ConfigurationManager.sharedInstance.loadDataFromCurrentUser()
                 }
+                // track user login/signing with facebook
+                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLoginFacebook, eventParameter: nil, eventValue: nil)
                 
+                // perform initial segue
                 self.performSegueWithIdentifier("StartApp", sender: nil)
             } else { // error login
-                println("Error: \(error)")
+                //println("Error: \(error)")
                 if iOSVersionAtLeast("8.0") {
                     let alert = UIAlertController(title: translate("unable_login"), message: translate("login_canceled"), preferredStyle:.Alert)
                     alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))

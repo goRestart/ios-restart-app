@@ -34,11 +34,16 @@ class ConfigurationManager: NSObject {
     // loads the initial facebook profile data in the user's profile
     func loadInitialFacebookProfileData() {
         if let currentUser = PFUser.currentUser() {
-            let fbRequest = FBRequest.requestForMe()
+            // enable notification of changes in access token and profile info.
+            FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "facebookAccessTokenAndRelatedInfoChanged:", name: FBSDKProfileDidChangeNotification, object: nil)
+            
+            // get current prodile data:
+            let fbRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
             fbRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
                 if let userData = result as? NSDictionary {
                     // start filling user profile data.
-                    //println("Datos de Facebook: \(userData)")
+                    println("Datos de Facebook: \(userData)")
                     
                     // user name
                     let firstName = userData["first_name"] as? String
@@ -53,19 +58,6 @@ class ConfigurationManager: NSObject {
                             self.userName = userName as String
                         }
                     }
-                    
-                    // user location
-                    /*
-                    if let userLocation = userData.objectForKey("location") as? NSDictionary {
-                        if let userLocationName = userLocation.objectForKey("name") as? NSString {
-                            let components = userLocationName.componentsSeparatedByString(",")
-                            if let first = components[0] as? NSString {
-                                currentUser["city"] = first
-                                self.userLocation = first
-                            }
-                        }
-                    }
-                    */
                     
                     // user email
                     if let userEmail = userData["email"] as? NSString {
@@ -101,6 +93,13 @@ class ConfigurationManager: NSObject {
                     }
                 }
             })
+        }
+    }
+    
+    /** Observes changes in Facebook access token and user related info */
+    func facebookAccessTokenAndRelatedInfoChanged(notification: NSNotification) {
+        if let newProfile = notification.userInfo?["FBSDKProfileNew"] as? FBSDKProfile {
+            // TODO: Update data with profile info ?
         }
     }
     

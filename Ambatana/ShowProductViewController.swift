@@ -12,7 +12,7 @@ import MessageUI
 import Social
 
 protocol ShowProductViewControllerDelegate {
-    func letgoProduct(product: PFObject, statusUpdatedTo newStatus: LetGoProductStatus)
+    func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus)
 }
 
 /**
@@ -41,6 +41,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var fromYouLabel: UILabel!
     var favoriteButton: UIButton!
+    @IBOutlet weak var errorLoadingPhotosLabel: UILabel!
     
     @IBOutlet weak var bottomGuideLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
@@ -86,6 +87,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         self.imagesPageControl.numberOfPages = 0
         self.userAvatarImageView.layer.cornerRadius = self.userAvatarImageView.frame.size.width / 2.0
         self.userAvatarImageView.clipsToBounds = true
+        self.errorLoadingPhotosLabel.hidden = true
         
         // initialize product UI.
         if productObject != nil {
@@ -153,6 +155,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // product name
             nameLabel.text = productObject["name"] as? String ?? ""
+            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: productObject["name"] as? String)
             self.setLetGoNavigationBarStyle(title: nameLabel.text, includeBackArrow: true)
             
             // product price
@@ -204,8 +207,15 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         makeOfferButton.setTitle(translate("make_an_offer"), forState: .Normal)
         askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
         fromYouLabel.text = translate("from_you")
+        errorLoadingPhotosLabel.text = translate("error_loading_photos_product")
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "show-product")
+
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -266,6 +276,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBAction func askQuestion(sender: AnyObject) {
         // safety checks
         if productUser == nil || productObject == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
+        
+        // Tracking
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailAskQuestion, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: productObject?["name"] as? String)
         
         // loading interface...
         enableAskQuestionLoadingInterface()
@@ -333,10 +346,12 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: productObject?["name"] as? String)
         self.performSegueWithIdentifier("MakeAnOffer", sender: sender)
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailSold, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: productObject?["name"] as? String)
         if iOSVersionAtLeast("8.0") {
             let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
@@ -374,7 +389,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                         self.showAutoFadingOutMessageAlert(translate("marked_as_sold"), completionBlock: nil)
                 })
                 
-                self.delegate?.letgoProduct(self.productObject, statusUpdatedTo: self.productStatus!)
+                self.delegate?.letgoProduct(self.productObject.objectId!, statusUpdatedTo: self.productStatus!)
             } else {
                 self.markSoldButton.enabled = true
                 self.showAutoFadingOutMessageAlert(translate("error_marking_as_sold"))
@@ -571,6 +586,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     func setProductMainImages() {
         if self.productImages.count > 0 {
             self.imagesScrollView.alpha = 0
+            self.errorLoadingPhotosLabel.hidden = true
+            self.imagesScrollView.hidden = false
             var offset: CGFloat = 0
             var pageNumber = 0
             
@@ -602,6 +619,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.imagesScrollView.alpha = 1.0
             })
+        } else {
+            self.imagesScrollView.hidden = true
+            self.errorLoadingPhotosLabel.hidden = false
         }
     }
     

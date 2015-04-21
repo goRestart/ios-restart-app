@@ -3,7 +3,7 @@
 //  LetGo
 //
 //  Created by Nacho on 13/4/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
+//  Copyright (c) 2015 LetGo. All rights reserved.
 //
 
 import UIKit
@@ -13,7 +13,7 @@ class LetGoProduct: NSObject, Printable {
     var objectId: String!
     var category: LetGoProductCategory!
     var name: String!
-    var price: Int!
+    var price: Double!
     var currency: LetGoCurrency!
     var creationDate: NSDate!
     var status: LetGoProductStatus!
@@ -33,15 +33,15 @@ class LetGoProduct: NSObject, Printable {
     var location: CLLocationCoordinate2D?
     //var updatedAt: NSDate
     var imageURLs: [String]?
-    var images: [UIImage]?
+    var images: [UIImage] = []
     var thumbnailURLs: [String]?
-    var thumbnails: [UIImage]?
+    var thumbnails: [UIImage] = []
     
     
     // Lifecycle
     
     /** Designated initializer. Used to initialize the object by specifying all the variables */
-    init(objectId: String, category: LetGoProductCategory, name: String, price: Int, currency: LetGoCurrency, creationDate: NSDate, status: LetGoProductStatus, thumbnailURL: String, thumbnailSize: CGSize, distanceType: LetGoDistanceMeasurementSystem, distanceToUser: Double, loadThumbnailImage: Bool = true) {
+    init(objectId: String, category: LetGoProductCategory, name: String, price: Double, currency: LetGoCurrency, creationDate: NSDate, status: LetGoProductStatus, thumbnailURL: String, thumbnailSize: CGSize, distanceType: LetGoDistanceMeasurementSystem, distanceToUser: Double, loadThumbnailImage: Bool = true) {
         // assign variables
         self.objectId = objectId
         self.category = category
@@ -83,7 +83,7 @@ class LetGoProduct: NSObject, Printable {
             self.name = name
         } else { return nil }
         // price
-        if let price = dictionary[kLetGoRestAPIParameterPrice]?.integerValue {
+        if let price = dictionary[kLetGoRestAPIParameterPrice]?.doubleValue {
             self.price = price
         } else { return nil }
         // currency
@@ -114,15 +114,15 @@ class LetGoProduct: NSObject, Printable {
         } else { return nil }
         // thumbnail URL
         if let thumbnailURL = dictionary[kLetGoRestAPIParameterImgURLThumb] as? String {
-            self.thumbnailURL = thumbnailURL
+            self.thumbnailURL = ImageManager.sharedInstance.fullImagePathForRelativePath(thumbnailURL)
         } else { // try to get image from image0
             if let image0URL = dictionary[kLetGoRestAPIParameterInitialThumb] as? String {
-                self.thumbnailURL = image0URL
+                self.thumbnailURL = ImageManager.sharedInstance.fullImagePathForRelativePath(image0URL)
             } else { return nil }
         }
         if loadThumbnailImage {
-            ImageManager.sharedInstance.retrieveImageFromURLString(self.thumbnailURL, completion: { (success, image) -> Void in
-                if success { self.thumbnailImage = image }
+            ImageManager.sharedInstance.retrieveImageFromURLString(self.thumbnailURL, completion: { (success, image, fromURL) -> Void in
+                if success && fromURL == self.thumbnailURL { self.thumbnailImage = image }
             })
         }
         
@@ -178,21 +178,23 @@ class LetGoProduct: NSObject, Printable {
                 thumbnails = []
                 images = []
                 for productImage in productImages {
-                    if let thumbnailURL = productImage[kLetGoRestAPIParameterImageThumb] as? String {
+                    if let relativeThumbnailURL = productImage[kLetGoRestAPIParameterImageThumb] as? String {
+                        let thumbnailURL = ImageManager.sharedInstance.fullImagePathForRelativePath(relativeThumbnailURL)
                         self.thumbnailURLs!.append(thumbnailURL)
                         // load thumbnail from URL
                         if loadImages {
-                            ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image) -> Void in
-                                if success { self.thumbnails!.append(image!) }
+                            ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image, fromURL) -> Void in
+                                if success && fromURL == self.thumbnailURL { self.thumbnails.append(image!) }
                             })
                         }
                     }
-                    if let originalURL = productImage[kLetGoRestAPIParameterImageOriginal] as? String {
+                    if let relativeOriginalURL = productImage[kLetGoRestAPIParameterImageOriginal] as? String {
+                        let originalURL = ImageManager.sharedInstance.fullImagePathForRelativePath(relativeOriginalURL)
                         self.imageURLs!.append(originalURL)
                         // load original image from URL
                         if loadImages {
-                            ImageManager.sharedInstance.retrieveImageFromURLString(originalURL, completion: { (success, image) -> Void in
-                                if success { self.images!.append(image!) }
+                            ImageManager.sharedInstance.retrieveImageFromURLString(originalURL, completion: { (success, image, fromURL) -> Void in
+                                if success && fromURL == self.thumbnailURL { self.images.append(image!) }
                             })
                         }
                     }
@@ -207,8 +209,16 @@ class LetGoProduct: NSObject, Printable {
         return "* LetGo Product [\(objectId)]. \n\tName: \(name), \n\tcategory: \(category.getName()), \n\tprice: \(price), \n\tcurrency: \(currency.iso4217Code), \n\tcreationDate: \(creationDate), \n\tstatus: \(status.rawValue), \n\tthumbnailURL: \(thumbnailURL), \n\tthumbnailSize: \(thumbnailSize), \n\tdistanceType: \(distanceType?.distanceMeasurementStringForRestAPI()), \n\tdistanceToUser: \(distanceToUser)\n- Optional Values: \n\tdescription: \(productDescription)\n\tcity: \(city),\n\tcountryCode: \(countryCode),\n\tnameDirify: \(nameDirify),\n\tlanguageCode: \(languageCode),\n\tuserID: \(userId),\n\tlocation: \(location)\n\timageURLs: \(imageURLs)\n\tthumbnailURLs: \(thumbnailURLs)\n\n"
     }
     
+    // MARK: - Equality and searching.
+    override var hashValue: Int {
+        return objectId.hash
+    }
+    
 }
 
+func == (lhs: LetGoProduct, rhs: LetGoProduct) -> Bool {
+    return (lhs.objectId == rhs.objectId)
+}
 
 
 

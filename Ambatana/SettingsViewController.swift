@@ -14,16 +14,17 @@ private let kLetGoSettingsTableCellTitleTag = 2
 private let kLetGoUserImageSquareSize: CGFloat = 1024
 
 enum LetGoUserSettings: Int {
-    case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, LogOut = 3
+    //case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, LogOut = 3
+    case ChangePhoto = 0, ChangePassword = 1, LogOut = 2
     
-    static func numberOfOptions() -> Int { return 4 }
+    static func numberOfOptions() -> Int { return 3 }
     
     func titleForSetting() -> String {
         switch (self) {
         case .ChangePhoto:
             return translate("change_photo")
-        case .ChangeLocation:
-            return translate("change_my_location")
+        //case .ChangeLocation:
+        //    return translate("change_my_location")
         case .ChangePassword:
             return translate("change_password")
         case .LogOut:
@@ -35,8 +36,8 @@ enum LetGoUserSettings: Int {
         switch (self) {
         case .ChangePhoto:
             return ConfigurationManager.sharedInstance.userProfileImage ?? UIImage(named: "no_photo")
-        case .ChangeLocation:
-            return UIImage(named: "edit_profile_location")
+        //case .ChangeLocation:
+        //    return UIImage(named: "edit_profile_location")
         case .ChangePassword:
             return UIImage(named: "edit_profile_password")
         case .LogOut:
@@ -63,6 +64,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         setLetGoNavigationBarStyle(title: translate("settings"), includeBackArrow: true)
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "settings-screen")
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -100,8 +106,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         switch (setting) {
         case .ChangePhoto:
             showImageSourceSelection()
-        case .ChangeLocation:
-            performSegueWithIdentifier("ChangeLocation", sender: nil)
+        //case .ChangeLocation:
+        //    performSegueWithIdentifier("ChangeLocation", sender: nil)
         case .ChangePassword:
             // As per specifications, allow even FB users to change their passwords.
             performSegueWithIdentifier("ChangePassword", sender: nil)
@@ -112,6 +118,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func logoutUser() {
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLogout, eventParameter: nil, eventValue: nil)
         PFUser.logOut()
         ConfigurationManager.sharedInstance.logOutUser()
         LocationManager.sharedInstance.logOutUser()

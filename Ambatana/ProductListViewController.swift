@@ -10,8 +10,9 @@ import UIKit
 
 private let kLetGoProductListCellFactor: CGFloat = 210.0 / 160.0
 private let kLetGoMaxWaitingTimeForLocation: NSTimeInterval = 15 // seconds
+private let kLetGoMinProductListCellHeight: CGFloat = 160
 
-class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, ShowProductViewControllerDelegate, UISearchBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate {
+class ProductListViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, ShowProductViewControllerDelegate, UISearchBarDelegate, UIAlertViewDelegate, UIActionSheetDelegate, CHTCollectionViewDelegateWaterfallLayout {
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -22,19 +23,16 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     var refreshControl: UIRefreshControl!
     
     // data
-    var currentKmOffset = 1
-    var currentProductOffset = 0
-    var alreadyRetrievedProductIds: [String] = []
     var productToShow: PFObject?
-    
+    var offset = 0
     var lastRetrievedProductsCount = kLetGoProductListOffsetLoadingOffsetInc
     var queryingProducts = false
     var currentCategory: LetGoProductCategory?
     var currentSearchString: String?
     var currentFilterName = translate("proximity")
     
-    var entries: [PFObject] = []
-    var cellSize = CGSizeMake(160.0, 210.0)
+    var entries: [LetGoProduct] = []
+    var defaultCellSize = CGSizeMake(160.0, 210.0)
     var lastContentOffset: CGFloat = 0.0
     
     var unableToRetrieveLocationTimer: NSTimer?
@@ -45,7 +43,15 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         // cell size
         let cellWidth = kLetGoFullScreenWidth * 0.50
         let cellHeight = cellWidth * kLetGoProductListCellFactor
-        cellSize = CGSizeMake(cellWidth, cellHeight)
+        defaultCellSize = CGSizeMake(cellWidth, cellHeight)
+        
+        // collection view.
+        var layout = CHTCollectionViewWaterfallLayout()
+        layout.minimumColumnSpacing = 0.0
+        layout.minimumInteritemSpacing = 0.0
+        self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
+        self.collectionView.alwaysBounceVertical = true
+        self.collectionView.collectionViewLayout = layout
         
         // add a pull to refresh control
         self.refreshControl = UIRefreshControl()
@@ -110,6 +116,9 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                 }
             }
         }
+        // tracking
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductList, eventParameter: kLetGoTrackingParameterNameCategoryName, eventValue: currentCategory?.getName())
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "product-list")
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -152,13 +161,24 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     }
     
     // MARK: - UICollectionViewDataSource methods
-    
-    func collectionView(collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return cellSize
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        // calculate size
+        let selectedProduct = self.entries[indexPath.row]
+        if let thumbnailSize = selectedProduct.thumbnailSize {
+            if thumbnailSize.height != 0 && thumbnailSize.width != 0 {
+                let thumbFactor = thumbnailSize.height / thumbnailSize.width
+                var baseSize = defaultCellSize
+                baseSize.height = max(kLetGoMinProductListCellHeight, round(baseSize.height * thumbFactor))
+                return baseSize
+            }
+        }
+        return defaultCellSize
     }
-    
+
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, columnCountForSection section: Int) -> Int {
+        return 2
+    }
+
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return entries.count
     }
@@ -171,10 +191,10 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         let product = entries[indexPath.row]
         
         cell.tag = indexPath.hash
-        cell.setupCellWithProduct(product, indexPath: indexPath)
+        cell.setupCellWithLetGoProduct(product, indexPath: indexPath)
         
         // If we are close to the end (last cells) query the next products...
-        if (indexPath.row > entries.count - 3) {
+        if (indexPath.row > entries.count - 2) {
             askForNextBunchOfProducts()
         }
         
@@ -186,23 +206,19 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.view.userInteractionEnabled = false
         self.showLoadingMessageAlert()
-        // prepare unrefreshed object
-        self.productToShow = self.entries[indexPath.row]
-        if self.productToShow != nil {
-            self.productToShow!.fetchInBackgroundWithBlock({ (refreshedObject, error) -> Void in
-                self.dismissLoadingMessageAlert(completion: { (_) -> Void in
-                    self.view.userInteractionEnabled = true
-                    if refreshedObject != nil {
-                        self.productToShow = refreshedObject
-                        self.performSegueWithIdentifier("ShowProduct", sender: nil)
-                    }
-                    else { // fallback to showing the "unrefreshed" product
-                        self.performSegueWithIdentifier("ShowProduct", sender: nil)
-                    }
-                })
+        // prepare basic object
+        let selectedProduct = self.entries[indexPath.row]
+        RESTManager.sharedInstance.retrieveParseObjectWithId(selectedProduct.objectId, className: "Products") { (success, parseObject) -> Void in
+            self.view.userInteractionEnabled = true
+            self.dismissLoadingMessageAlert(completion: { (_) -> Void in
+                if success {
+                    self.productToShow = parseObject
+                    self.performSegueWithIdentifier("ShowProduct", sender: nil)
+                } else {
+                    self.showAutoFadingOutMessageAlert(translate("unable_show_product"))
+                }
             })
-        } else { self.view.userInteractionEnabled = true; showAutoFadingOutMessageAlert(translate("unable_show_product")) }
-        
+        }
     }
     
     // MARK: - Product queries.
@@ -210,87 +226,33 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     func queryProducts(force: Bool = false) {
         if queryingProducts && !force { return } // exit if already querying products
         queryingProducts = true
-        
-        if let userGeo = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
-            // query in the products table
-            var query = PFQuery(className: "Products")
-            
-            // current distance below currentKmOffset kms.
-            query.whereKey("gpscoords", nearGeoPoint: userGeo, withinKilometers: Double(currentKmOffset))
-            // *********** NEW API
-            let latitude = userGeo.latitude
-            let longitude = userGeo.longitude
-            let currentLocation = CLLocationCoordinate2DMake(latitude, longitude)
-            
-            // do not include approval pending items or discarded items
-            query.whereKey("status", notContainedIn: [LetGoProductStatus.Discarded.rawValue, LetGoProductStatus.Pending.rawValue])
-            
-            // paginate in groups of kLetGoProductListOffsetLoadingOffsetInc
-            query.limit = kLetGoProductListOffsetLoadingOffsetInc
-            
-            // order by current filter (default, creation date).
-            switch (ConfigurationManager.sharedInstance.userFilterForProducts) {
-            case .Proximity:
-                break;
-            case .MinPrice:
-                query.orderByAscending("price")
-            case .MaxPrice:
-                query.orderByDescending("price")
-            case .CreationDate:
-                query.orderByDescending("createdAt")
-            }
-            
-            // do not include currently downloaded items
-            query.whereKey("objectId", notContainedIn: alreadyRetrievedProductIds)
-            
-            // search only in category (if set...)
-            if currentCategory != nil { // if we have specified a category, retrieve only items in that category.
-                query.whereKey("category_id", equalTo: currentCategory!.rawValue)
-            }
-            
-            // search for name or description containing search string (if set...)
-            if currentSearchString != nil {
-                let nameQuery = PFQuery(className: "Products")
-                nameQuery.whereKey("name", matchesRegex: currentSearchString!, modifiers: "i")
-                let descriptionQuery = PFQuery(className: "Products")
-                descriptionQuery.whereKey("description", matchesRegex: currentSearchString!, modifiers: "i")
-                let innerQuery = PFQuery.orQueryWithSubqueries([nameQuery, descriptionQuery])
-                query.whereKey("objectId", matchesKey: "objectId", inQuery: innerQuery)
-            }
-            
+
+        var currentLocation = kCLLocationCoordinate2DInvalid
+        if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastKnownLocation) { currentLocation = LocationManager.sharedInstance.lastKnownLocation }
+        else if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation) { currentLocation = LocationManager.sharedInstance.lastRegisteredLocation }
+        else if let userGeo = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint { currentLocation = CLLocationCoordinate2DMake(userGeo.latitude, userGeo.longitude) }
+        if CLLocationCoordinate2DIsValid(currentLocation) {
             // Call to LetGo backend API.
-            RESTManager.sharedInstance.getListOfProducts(currentSearchString, location: currentLocation, categoryId: currentCategory, sortBy: ConfigurationManager.sharedInstance.userFilterForProducts, offset: self.entries.count, status: nil, maxPrice: nil, distanceRadius: nil, minPrice: nil, fromUser: nil, completion: { (success, products) -> Void in
-                println("Retrieved list of products: \(products)")
-            })
-            
-            // perform query.
-            query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
-                if error == nil { // success
+            RESTManager.sharedInstance.getListOfProducts(currentSearchString, location: currentLocation, categoryId: currentCategory, sortBy: ConfigurationManager.sharedInstance.userFilterForProducts, offset: self.offset, status: nil, maxPrice: nil, distanceRadius: nil, minPrice: nil, fromUser: nil, completion: { (success, products, retrievedItems, successfullyParsedItems) -> Void in
+                if success {
+                    //println("Retrieved products: \(products)")
+                    // update counters and management variables.
                     self.queryingProducts = false
-                    self.lastRetrievedProductsCount = objects!.count
-                    if (objects != nil && objects!.count > 0) {
-                        
-                        // append results and register already retrieved IDs
-                        var ids = ""
-                        var indexPaths: [AnyObject] = []
-                        for retrievedObject in objects! {
-                            if let retrievedProduct = retrievedObject as? PFObject {
-                                self.entries.append(retrievedProduct)
-                                self.alreadyRetrievedProductIds.append(retrievedProduct.objectId!)
-                                ids += "\(retrievedProduct.objectId), "
-                                indexPaths.append(NSIndexPath(forRow: self.entries.count, inSection: 0))
-                            }
-                        }
+                    self.lastRetrievedProductsCount = retrievedItems
+                    self.offset += retrievedItems
+                    
+                    // update entries
+                    if (products != nil && successfullyParsedItems > 0) {
+                        self.entries += products!
                         // Update UI
                         self.collectionView.reloadSections(NSIndexSet(index: 0))
                         self.disableLoadingInterface()
-                    } else if (objects?.count == 0) { // no more items found. Time to next bunch of products.
+                    } else if (products?.count == 0) { // no more items found. Time to next bunch of products.
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
                             self.askForNextBunchOfProducts()
                         })
                     }
-                } else { // error
-                    // TODO: Better management of this error.
+                } else { // error retrieving products.
                     if iOSVersionAtLeast("8.0") {
                         let alert = UIAlertController(title: translate("error"), message: translate("unable_get_products"), preferredStyle:.Alert)
                         alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { (action) -> Void in
@@ -310,6 +272,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                 self.refreshControl.endRefreshing()
                 self.collectionView.userInteractionEnabled = true
             })
+            
         }
     }
     
@@ -330,17 +293,16 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     }
 
     func askForNextBunchOfProducts() {
-        if (self.currentKmOffset < kLetGoProductListMaxKmDistance) {
-            if (self.lastRetrievedProductsCount == 0) {
-                self.currentKmOffset = nextKmOffset(self.currentKmOffset)
-            }
-            queryProducts(force: false)
-        } else { // at end.
-            self.queryingProducts = false
+        if self.lastRetrievedProductsCount == 0 {
+            // no entries at all?
             if (entries.count == 0) {
                 disableLoadingInterface()
                 showNoProductsFoundInterface()
             }
+            return
+        }
+        else {
+            queryProducts(force: false)
         }
     }
     
@@ -357,9 +319,8 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     func resetQueryValues() {
         // reset query values
         self.queryingProducts = false
-        self.currentKmOffset = 1
+        self.offset = 0
         self.lastRetrievedProductsCount = kLetGoProductListOffsetLoadingOffsetInc
-        self.alreadyRetrievedProductIds = []
         self.entries = []
         
     }
@@ -412,20 +373,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         unableToRetrieveLocationTimer?.invalidate()
         unableToRetrieveLocationTimer = nil
         self.resetProductList()
-    }
-    
-    func nextKmOffset(kmOffset: Int) -> Int {
-        if (kmOffset <= 1) { return 5 }
-        else if (kmOffset <= 5) { return 10 }
-        else if (kmOffset <= 10) { return 20 }
-        else if (kmOffset <= 20) { return 50 }
-        else if (kmOffset <= 50) { return 100 }
-        else if (kmOffset <= 100) { return 200 }
-        else if (kmOffset <= 200) { return 500 }
-        else if (kmOffset <= 500) { return 1000 }
-        else if (kmOffset <= 1000) { return 2000 }
-        else if (kmOffset <= 2000) { return 5000 }
-        else { return 10000 }
     }
     
     // MARK: - UI Enable/Disable
@@ -537,9 +484,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         }
     }
     
-    
-    
-    // TODO: Ditch this function when
+    /** Sets the filter based on user's selection */
     func changeFilterTo(newFilter: LetGoUserFilterForProducts) {
         ConfigurationManager.sharedInstance.userFilterForProducts = newFilter
         self.resetProductList()
@@ -548,10 +493,13 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     // MARK: - ShowProductViewControllerDelegate methods
     
     // update status of a product (i.e: if it gets marked as sold).
-    func letgoProduct(product: PFObject, statusUpdatedTo newStatus: LetGoProductStatus) {
-        if let found = find(entries, product) {
-            entries[found]["status"] = newStatus.rawValue
-            collectionView.reloadSections(NSIndexSet(index: 0))
+    func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus) {
+        for product in self.entries {
+            if product.objectId == productId {
+                product.status = newStatus
+                self.collectionView.reloadSections(NSIndexSet(index: 0))
+                return
+            }
         }
     }
     

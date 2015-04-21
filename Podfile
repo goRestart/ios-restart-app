@@ -2,9 +2,11 @@
 platform :ios, '7.0'
 
 target 'LetGo' do
-    pod 'Facebook-iOS-SDK'
-    pod 'Parse'
-    pod 'ParseFacebookUtils'
-    pod 'SDWebImage', '3.7.1'
+   pod 'Parse','1.7.1'
+   pod 'ParseFacebookUtilsV4','1.7.1'
+   pod 'SDWebImage'
+   pod 'Facebook-iOS-SDK', '4.0.1'
+   pod 'AppsFlyer-SDK'
+   pod 'Amplitude-iOS', '~> 2.4'
 end
 

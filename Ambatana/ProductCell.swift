@@ -31,8 +31,43 @@ class ProductCell: UICollectionViewCell {
     
     // MARK: - Public / internal methods
     
+    // Configures the cell with the given LetGo Product for the given path.
+    func setupCellWithLetGoProduct(product: LetGoProduct, indexPath: NSIndexPath) {
+        let tag = indexPath.hash
+        
+        // Name
+        nameLabel.text = product.name
+        
+        // Price
+        let currency = product.currency ?? CurrencyManager.sharedInstance.defaultCurrency
+        priceLabel.text = currency.formattedCurrency(product.price)
+
+        // Thumb
+        let thumbURL = NSURL(string: product.thumbnailURL)
+        thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
+            [weak self] (image, error, cacheType, url) -> Void in
+            if error == nil {
+                self?.thumbnailImageView.image = image
+            }
+        })
+        
+        // Distance
+        distanceLabel.text = distanceStringToProduct(product)
+        
+        // Status
+        if let status = product.status {
+            if (status == .Sold) {
+                statusImageView.image = UIImage(named: "label_sold")
+            }
+            else if product.creationDate != nil &&
+                NSDate().timeIntervalSinceDate(product.creationDate!) < 60*60*24 {
+                    statusImageView.image = UIImage(named: "label_new")
+            }
+        }
+    }
+    
     // Configures the cell with the given product for the given index path
-    func setupCellWithProduct(product: PFObject, indexPath: NSIndexPath) {
+    func setupCellWithParseProductObject(product: PFObject, indexPath: NSIndexPath) {
         let tag = indexPath.hash
         
         // Name
@@ -64,7 +99,6 @@ class ProductCell: UICollectionViewCell {
             // Try downloading thumbnail
             if shouldUseThumbs {
                 let thumbURL = NSURL(string: ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(product.objectId!, imageURL: imageFile.url!))
-                
                 thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
                     [weak self] (image, error, cacheType, url) -> Void in
                     if error == nil {

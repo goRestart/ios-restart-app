@@ -49,6 +49,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         // load initial categories. First try to load from the user device's language. If none found, fallback to "en".
         let allCategoriesQuery = allCategoriesQueryForLanguage(initialLanguage)
         performCategoriesQuery(allCategoriesQuery, isDefaultLanguage: initialLanguage == kLetGoDefaultCategoriesLanguage)
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "categories-list")
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -171,10 +172,12 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
                 
                 // if we don't have an image for that category locally, we must retrieve it from the network using the "image" URL String from the backend.
                 if !imageRetrievedLocally {
-                    ImageManager.sharedInstance.retrieveImageFromURLString(categoryObject["image"] as! String, completion: { (success, image) -> Void in
-                        if success { categoryImage.image = image }
-                        // TODO: else? try again?
-                    })
+                    if let imageURLString = categoryObject["image"] as? String {
+                        ImageManager.sharedInstance.retrieveImageFromURLString(imageURLString, completion: { (success, image, fromURL) -> Void in
+                            if success && fromURL == imageURLString { categoryImage.image = image }
+                            // TODO: else? try again?
+                        })
+                    }
                 }
             }
         }

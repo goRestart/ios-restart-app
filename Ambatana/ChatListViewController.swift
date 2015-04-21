@@ -78,6 +78,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             if error != nil { PFInstallation.currentInstallation().saveEventually(nil) }
             else { NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil) }
         })
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "chat-list")
     }
     
     // MARK: - Conversation management
@@ -206,8 +207,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
                     imageView.layer.cornerRadius = imageView.frame.size.width / 2.0
                     imageView.clipsToBounds = true
                 } else { // download the image and set it also in the conversation record when
-                    ImageManager.sharedInstance.retrieveImageFromURLString(conversation.userAvatarURL, completion: { (success, image) -> Void in
-                        if success {
+                    ImageManager.sharedInstance.retrieveImageFromURLString(conversation.userAvatarURL, completion: { (success, image, fromURL) -> Void in
+                        if success && fromURL == conversation.userAvatarURL {
                             conversation.userAvatarImage = image
                             imageView.image = image
                             // configure image appearance (circle)

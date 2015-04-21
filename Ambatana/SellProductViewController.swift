@@ -23,7 +23,7 @@ private let kLetGoSellProductActionSheetTagCategoryType = 101 // for category se
 private let kLetGoSellProductActionSheetTagImageSourceType = 102 // for image source selection
 private let kLetGoSellProductActionSheetTagActionType = 103 // for image action selection
 
-class SellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate {
+class SellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, FBSDKSharingDelegate {
     // outlets & buttons
     @IBOutlet weak var productTitleTextField: UITextField!
     @IBOutlet weak var productPriceTextfield: UITextField!
@@ -53,6 +53,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var imageCounter = 0
     var imageUploadBackgroundTask = UIBackgroundTaskInvalid // used for allowing the App to keep on uploading an image if we go into background.
     var imageSelectedIndex = 0 // for actions (delete, save to disk...) in iOS7 and prior
+    var productWasSold = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,17 +79,23 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         // force a location update
         LocationManager.sharedInstance.startUpdatingLocation()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "sell-product")
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        if (productWasSold) {
+            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellComplete, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: self.productTitleTextField.text)
+        } else {
+            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellAbandon, eventParameter: nil, eventValue: nil)
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         originalFrame = self.view.frame
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellStart, eventParameter: nil, eventValue: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -112,6 +119,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                 let category = LetGoProductCategory.allCategories()[buttonIndex]
                 self.currentCategory = category
                 self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
+                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditCategory, eventParameter: kLetGoTrackingParameterNameCategoryName, eventValue: category.getName())
             }
         } else if actionSheet.tag == kLetGoSellProductActionSheetTagImageSourceType { // choose source for the images
             if buttonIndex == 0 { self.openImagePickerWithSource(.Camera) }
@@ -150,6 +158,8 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(translate("cancel"))
             actionSheet.showInView(self.view)
         }
+        // Tracking
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditCurrency, eventParameter: nil, eventValue: nil)
     }
 
     @IBAction func chooseCategory(sender: AnyObject) {
@@ -162,6 +172,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                 alert.addAction(UIAlertAction(title: category.getName(), style: .Default, handler: { (categoryAction) -> Void in
                     self.currentCategory = category
                     self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
+                    TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditCategory, eventParameter: kLetGoTrackingParameterNameCategoryName, eventValue: category.getName())
                 }))
             }
             alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
@@ -180,27 +191,38 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBAction func shareInFacebookSwitchChanged(sender: AnyObject) {
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditShareFB, eventParameter: kLetGoTrackingParameterNameEnabled, eventValue: self.shareInFacebookSwitch.on ? "true" : "false")
         restoreOriginalPosition()
     }
     
     @IBAction func sellProduct(sender: AnyObject) {
         // safety checks first (and we have a lot to check here...)
+        var validationFailureReason: String? = nil
         // 1. do we have at least one image?
-        if images.count < 1 { showAutoFadingOutMessageAlert(translate("upload_at_least_one_image")); return }
+        if images.count < 1 { showAutoFadingOutMessageAlert(translate("upload_at_least_one_image")); validationFailureReason = "no images present" }
         // 2. do we have a product title?
-        if productTitleTextField == nil || count(productTitleTextField.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_title")); return }
+        if productTitleTextField == nil || count(productTitleTextField.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_title")); validationFailureReason = "no title" }
         // 3. do we have a price?
         let productPrice = productPriceTextfield?.text.toInt()
-        if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); return }
+        if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); validationFailureReason = "invalid price" }
         // 4. do we have a valid description?
-        if descriptionTextView == nil || count(descriptionTextView.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_description")); return }
-        if self.charactersRemaining < 0 { showAutoFadingOutMessageAlert(translate("max_256_chars_description"), completionBlock: nil); return }
+        if descriptionTextView == nil || count(descriptionTextView.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_description")); validationFailureReason = "no description" }
+        if self.charactersRemaining < 0 { showAutoFadingOutMessageAlert(translate("max_256_chars_description"), completionBlock: nil); validationFailureReason = "description longer than 256 characters" }
         // 5. do we have a category?
-        if currentCategory == nil { showAutoFadingOutMessageAlert(translate("insert_valid_category")); return }
+        if currentCategory == nil { showAutoFadingOutMessageAlert(translate("insert_valid_category")); validationFailureReason = "no category selected" }
         // 6. do we have a valid location?
         let currentLocationCoordinate = LocationManager.sharedInstance.currentLocation()
-        if !CLLocationCoordinate2DIsValid(currentLocationCoordinate) { showAutoFadingOutMessageAlert(translate("unable_sell_product_location")); return }
+        if !CLLocationCoordinate2DIsValid(currentLocationCoordinate) {
+            showAutoFadingOutMessageAlert(translate("unable_sell_product_location"));
+            validationFailureReason = "unable find location"
+        }
 
+        if validationFailureReason != nil {
+            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellFormValidationFailed, eventParameter: kLetGoTrackingParameterNameDescription, eventValue: validationFailureReason)
+            return
+        }
+        
+        
         // enable loading interface.
         enableLoadingInterface()
 
@@ -221,6 +243,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             productObject["price"] = productPrice
             productObject["status"] = LetGoProductStatus.Pending.rawValue
             productObject["user"] = PFUser.currentUser()
+            productObject["user_id"] = PFUser.currentUser()?.objectId ?? ""
             // We want the upload process to continue even if the user suspends the App or opens another, that's why we define a background task.
             self.imageUploadBackgroundTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({ () -> Void in
                 UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
@@ -309,10 +332,19 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.disableLoadingInterface()
                         if success {
+                            // for tracking purposes
+                            self.productWasSold = true
+
+                            // update product in LetGo backend
+                            RESTManager.sharedInstance.synchronizeProductFromParse(productObject.objectId!, attempt: 0, completion: nil)
+                            
+                            // check facebook sharing
                             if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId!) }
-                            else { self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
-                                self.popBackViewController()
-                            }) }
+                            else {
+                                self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
+                                    self.popBackViewController()
+                                })
+                            }
                         } else {
                             self.showAutoFadingOutMessageAlert(translate("error_uploading_product"))
                         }
@@ -359,64 +391,45 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     func checkFacebookSharing(objectId: String) {
         // first we need to check that the current FBSession is valid.
-        if FBSession.activeSession().state != FBSessionState.Open {
-            if FBSession.openActiveSessionWithAllowLoginUI(false) {
-                shareCurrentProductInFacebook(objectId)
-            } else { // Unable to share in Facebook. Just pop out
-                showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
-                    self.popBackViewController()
-                })
-            }
-        } else { shareCurrentProductInFacebook(objectId) }
+        if FBSDKAccessToken.currentAccessToken() != nil { // we have a valid token session.
+            shareCurrentProductInFacebook(objectId)
+        } else {
+            showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
+                self.popBackViewController()
+            })
+        }
     }
     
     func shareCurrentProductInFacebook(objectId: String) {
-        let fbSharingParams = FBLinkShareParams()
-        fbSharingParams.link = NSURL(string: letgoWebLinkForObjectId(objectId))!
-        fbSharingParams.linkDescription = productTitleTextField.text
-        if imageFiles?.count > 0 { fbSharingParams.picture = NSURL(string: imageFiles!.first!.url!) }
-        // check if we can present the dialog.
-        if FBDialogs.canPresentShareDialogWithParams(fbSharingParams) {
-            FBDialogs.presentShareDialogWithParams(fbSharingParams, clientState: nil, handler: { (call, result, error) -> Void in
-                if error == nil {
-                    self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
-                        self.popBackViewController()
-                    })
-                } else {
-                    self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
-                        self.popBackViewController()
-                    })
-                    println("Error: \(error.localizedDescription): \(error)")
-                }
-            })
-        } else { // Present a fallback HTML dialog.
-            var shareParamsForBrowserFallback: [String: AnyObject] = [:]
-            shareParamsForBrowserFallback["name"] = productTitleTextField.text
-            shareParamsForBrowserFallback["caption"] = translate("have_a_look")
-            shareParamsForBrowserFallback["description"] = translate("have_a_look")
-            if imageFiles?.count > 0 { shareParamsForBrowserFallback["picture"] = imageFiles!.first!.url }
-            // show dialog
-            FBWebDialogs.presentFeedDialogModallyWithSession(nil, parameters: shareParamsForBrowserFallback, handler: { (result, url, error) -> Void in
-                if error != nil { // error
-                    self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
-                        self.popBackViewController()
-                    })
-                } else { // check result status
-                    if result == FBWebDialogResult.DialogNotCompleted { // user cancelled
-                        self.showAutoFadingOutMessageAlert(translate("canceled_by_user"), completionBlock: { () -> Void in
-                            self.popBackViewController()
-                        })
-                    } else { // success
-                        self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
-                            self.popBackViewController()
-                        })
-                    }
-                }
-            })
-        }
+        // build the sharing content.
+        let fbSharingContent = FBSDKShareLinkContent()
+        fbSharingContent.contentTitle = translate("have_a_look")
+        fbSharingContent.contentURL = NSURL(string: letgoWebLinkForObjectId(objectId))
+        fbSharingContent.contentDescription = productTitleTextField.text
+        if imageFiles?.count > 0 { fbSharingContent.imageURL = NSURL(string: imageFiles!.first!.url!) }
         
+        // share it.
+        FBSDKShareDialog.showFromViewController(self, withContent: fbSharingContent, delegate: self)
     }
     
+    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
+            self.popBackViewController()
+        })
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellSharedFB, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: productTitleTextField.text)
+    }
+    
+    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+        self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
+            self.popBackViewController()
+        })
+    }
+    
+    func sharerDidCancel(sharer: FBSDKSharing!) {
+        self.showAutoFadingOutMessageAlert(translate("canceled_by_user"), completionBlock: { () -> Void in
+            self.popBackViewController()
+        })
+    }
 
     // MARK: - UIImagePickerControllerDelegate methods
     
@@ -440,7 +453,8 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             actionSheet.addButtonWithTitle(translate("photo_library"))
             actionSheet.showInView(self.view)
         }
-        
+        //Tracking
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellAddPicture, eventParameter: kLetGoTrackingParameterNameNumber, eventValue: "\(self.images.count)")
     }
     
     func openImagePickerWithSource(source: UIImagePickerControllerSourceType) {
@@ -500,8 +514,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == productTitleTextField {
             productPriceTextfield.becomeFirstResponder()
+            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditTitle, eventParameter: nil, eventValue: nil)
         } else if textField == productPriceTextfield {
             descriptionTextView.becomeFirstResponder()
+            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditPrice, eventParameter: nil, eventValue: nil)
         }
         return false
     }
@@ -519,6 +535,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.view.frame = newFrame
         })
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditDesc, eventParameter: nil, eventValue: nil)
     }
     
     // MARK: - TextView character count.

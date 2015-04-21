@@ -22,7 +22,7 @@ let kLetGoMaxProductImageSide: CGFloat = 1024
 let kLetGoMaxProductImageJPEGQuality: CGFloat = 0.9
 let kLetGoProductImageKeys = ["image_0", "image_1", "image_2", "image_3", "image_4"]
 let kLetGoProductFirstImageKey = kLetGoProductImageKeys.first!
-let kLetGoWebsiteURL = "http://ambatana.com"
+let kLetGoWebsiteURL = "http://letgo.com"
 
 // notifications
 let kLetGoUserPictureUpdatedNotification                     = "LetGoUserPictureUpdated"

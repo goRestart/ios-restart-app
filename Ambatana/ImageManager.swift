@@ -13,7 +13,7 @@ private let _singletonInstance = ImageManager()
 
 // constants
 private let kLetGoMaxImageCacheSize = 104857600.0 // 100 MB
-private let kLetGoThumbnailBaseURL = "http://3rdparty.ambatana.com/images/"
+private let kLetGoThumbnailBaseURL = "http://3rdparty.letgo.com/images/"
 private let kLetGoImageCacheEnabledByDefault = true
 
 /**
@@ -85,12 +85,12 @@ class ImageManager: NSObject {
     }
     
     /** Asynchronously retrieves a image from a URL. If the image is in the cache, it retrieves if from the cache first */
-    func retrieveImageFromURLString(urlString: String, completion: ((success: Bool, image: UIImage?) -> Void), andAddToCache addToCache: Bool = kLetGoImageCacheEnabledByDefault) {
+    func retrieveImageFromURLString(urlString: String, completion: ((success: Bool, image: UIImage?, fromURL: String?) -> Void), andAddToCache addToCache: Bool = kLetGoImageCacheEnabledByDefault) {
         dispatch_async(imageDispatchQueue, { () -> Void in
             // try the cache first
             if let cachedImage = self.imageCache[urlString] {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    completion(success: true, image: cachedImage)
+                    completion(success: true, image: cachedImage, fromURL: nil)
                 })
             }
             // if the image is not in the cache, retrieve it.
@@ -103,11 +103,11 @@ class ImageManager: NSObject {
                             if addToCache { self.storeImage(newImage, ofSize: imageData.length, inCacheForURL: urlString) }
                             // call the completion handler
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                completion(success: true, image: newImage)
+                                completion(success: true, image: newImage, fromURL: urlString)
                             })
-                        } else { dispatch_async(dispatch_get_main_queue(), { completion(success: false, image: nil) }) } // error. Malformed image data.
-                    } else { dispatch_async(dispatch_get_main_queue(), { completion(success: false, image: nil) }) } // error. Unable to retrieve image.
-                } else { dispatch_async(dispatch_get_main_queue(), { completion(success: false, image: nil) })  } // error, malformed URL.
+                        } else { dispatch_async(dispatch_get_main_queue(), { completion(success: false, image: nil, fromURL: nil) }) } // error. Malformed image data.
+                    } else { dispatch_async(dispatch_get_main_queue(), { completion(success: false, image: nil, fromURL: nil) }) } // error. Unable to retrieve image.
+                } else { dispatch_async(dispatch_get_main_queue(), { completion(success: false, image: nil, fromURL: nil) })  } // error, malformed URL.
             }
         })
     }
@@ -175,4 +175,6 @@ class ImageManager: NSObject {
     func calculateThumnbailImageURLForProductImage(productId: String, imageURL: String) -> String {
         return self.calculateBaseURLForProductImage(productId, imageURL: imageURL) + "_thumb.jpg"
     }
+    
+    func fullImagePathForRelativePath(relativePath: String) -> String { return kLetGoRestAPIBaseURL + "/images" + relativePath }
 }

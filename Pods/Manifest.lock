@@ -1,27 +1,47 @@
 PODS:
+  - Amplitude-iOS (2.4.0)
+  - AppsFlyer-SDK (2.5.3.14)
   - Bolts (1.1.4)
-  - Facebook-iOS-SDK (3.23.2):
+  - Facebook-iOS-SDK (4.0.1):
     - Bolts (~> 1.0)
+    - Facebook-iOS-SDK/CoreKit (= 4.0.1)
+    - Facebook-iOS-SDK/LoginKit (= 4.0.1)
+    - Facebook-iOS-SDK/ShareKit (= 4.0.1)
+  - Facebook-iOS-SDK/CoreKit (4.0.1):
+    - Bolts (~> 1.0)
+    - Facebook-iOS-SDK/CoreKit/no-arc (= 4.0.1)
+  - Facebook-iOS-SDK/CoreKit/no-arc (4.0.1):
+    - Bolts (~> 1.0)
+  - Facebook-iOS-SDK/LoginKit (4.0.1):
+    - Bolts (~> 1.0)
+    - Facebook-iOS-SDK/CoreKit
+  - Facebook-iOS-SDK/ShareKit (4.0.1):
+    - Bolts (~> 1.0)
+    - Facebook-iOS-SDK/CoreKit
   - Parse (1.7.1):
     - Bolts (~> 1.1)
-  - ParseFacebookUtils (1.7.1):
-    - Facebook-iOS-SDK (~> 3.23)
+  - ParseFacebookUtilsV4 (1.7.1):
+    - Facebook-iOS-SDK/LoginKit (~> 4.0)
     - Parse (~> 1.7.1)
-  - SDWebImage (3.7.1):
-    - SDWebImage/Core (= 3.7.1)
-  - SDWebImage/Core (3.7.1)
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
 
 DEPENDENCIES:
-  - Facebook-iOS-SDK
-  - Parse
-  - ParseFacebookUtils
-  - SDWebImage (= 3.7.1)
+  - Amplitude-iOS (~> 2.4)
+  - AppsFlyer-SDK
+  - Facebook-iOS-SDK (= 4.0.1)
+  - Parse (= 1.7.1)
+  - ParseFacebookUtilsV4 (= 1.7.1)
+  - SDWebImage
 
 SPEC CHECKSUMS:
+  Amplitude-iOS: b5a2643ed7ce861cc65c8de437c7b4d9bc1708eb
+  AppsFlyer-SDK: 692ddd12c430e5e541fd351ad0452eaef63a353e
   Bolts: f8e2f94edbf9fec7bb8de5ecaaa3aa6b7de6f64e
-  Facebook-iOS-SDK: cd87f0b2f0c1d9574b44e8fa2baacc275524bac3
+  Facebook-iOS-SDK: 6d05532c97e9c542f8d87f94b7f6ee217493d00b
   Parse: fa8ec29de6d82035635986c11946299fb1b38316
-  ParseFacebookUtils: fa09adf78372b589163b5a71a34d6ebc7eb83395
-  SDWebImage: ed3095af2ff88b436426037444979b917f6c5575
+  ParseFacebookUtilsV4: fc44a339e38513fb6fc0bafbef34f69df6559e06
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
 
-COCOAPODS: 0.36.3
+COCOAPODS: 0.36.4

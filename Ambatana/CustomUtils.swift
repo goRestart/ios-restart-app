@@ -30,7 +30,7 @@ extension String {
  * Link for an LetGo product in the website.
  */
 func letgoWebLinkForObjectId(objectId: String) -> String {
-    return "http://www.ambatana.com/product/\(objectId)"
+    return "http://www.letgo.com/product/\(objectId)"
 }
 
 /**
@@ -131,6 +131,22 @@ func distanceStringToGeoPoint(geoPoint: PFGeoPoint) -> String {
         }
     } else { return translate("unknown_distance") }
 
+}
+
+/** Gets a user-friendly distance string from an object */
+func distanceStringToProduct(productObject: LetGoProduct!) -> String {
+    // safety check
+    if productObject == nil { return translate("unknown_distance") }
+    // calculate distance + measurement unit
+    if let distance = productObject.distanceToUser {
+        if distance < 0.01 { // here.
+            return translate("here")
+        } else {
+            let formattedDistance = String(format: "%.1f", distance)
+            let formattedMeasurementUnit = productObject.distanceType?.distanceMeasurementStringForRestAPI() ?? LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
+            return formattedDistance + formattedMeasurementUnit
+        }
+    } else { return translate("unknown_distance") }
 }
 
 /**

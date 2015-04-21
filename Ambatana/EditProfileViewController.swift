@@ -15,7 +15,7 @@ private let kLetGoEnabledButtonForegroundColor = UIColor(red: 0.949, green: 0.36
 private let kLetGoEditProfileCellFactor: CGFloat = 210.0 / 160.0
 
 
-class EditProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+class EditProfileViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     enum ProfileTab {
         case ProductImSelling
@@ -37,7 +37,6 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var youDontHaveSubtitleLabel: UILabel!
     @IBOutlet weak var startSellingNowButton: UIButton!
     @IBOutlet weak var startSearchingNowButton: UIButton!
-    
     
     // data
     var userObject: PFUser?
@@ -73,6 +72,14 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         activityIndicator.hidden = false
         activityIndicator.startAnimating()
         
+        // collection view.
+        var layout = CHTCollectionViewWaterfallLayout()
+        layout.minimumColumnSpacing = 0.0
+        layout.minimumInteritemSpacing = 0.0
+        self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
+        self.collectionView.alwaysBounceVertical = true
+        self.collectionView.collectionViewLayout = layout
+        
         // load
         retrieveProductsForTab(ProfileTab.ProductImSelling)
         retrieveProductsForTab(ProfileTab.ProductISold)
@@ -107,6 +114,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             // Current user has the option of editing his/her settings
             if userObject!.objectId == PFUser.currentUser()!.objectId { setLetGoRightButtonsWithImageNames(["actionbar_edit"], andSelectors: ["goToSettings"]) }
         }
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "profile-screen")
     }
     
     override func viewDidLayoutSubviews() {
@@ -153,7 +161,12 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return cellSize
+        // TODO: Calculate size in the future when using thumbnail sizes from REST API.
+        return cellSize
+    }
+    
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, columnCountForSection section: Int) -> Int {
+        return 2
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -172,15 +185,16 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         cell.tag = indexPath.hash
         
         if let product = self.productAtIndexPath(indexPath) {
-            cell.setupCellWithProduct(product, indexPath: indexPath)
+            //cell.setupCellWithProduct(product, indexPath: indexPath)
+            cell.setupCellWithParseProductObject(product, indexPath: indexPath)
         }
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if let spvc = self.storyboard?.instantiateViewControllerWithIdentifier("showProductViewController") as? ShowProductViewController {
-            spvc.productObject = self.productAtIndexPath(indexPath)
+        if let spvc = self.storyboard?.instantiateViewControllerWithIdentifier("showProductViewController") as? ShowProductViewController, selectedProduct = self.productAtIndexPath(indexPath) {
+            spvc.productObject = selectedProduct
             self.navigationController?.pushViewController(spvc, animated: true)
         }
     }

@@ -3,7 +3,7 @@
 //  LetGo
 //
 //  Created by Nacho on 13/4/15.
-//  Copyright (c) 2015 Ambatana. All rights reserved.
+//  Copyright (c) 2015 LetGo. All rights reserved.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ import UIKit
 private let _singletonInstance = RESTManager()
 
 // API global constants
-private let kLetGoRestAPIBaseURL                            = "http://vps122602.ovh.net"
+let kLetGoRestAPIBaseURL                            = "http://vps122602.ovh.net"
 private let kLetGoRestAPIEndpoint                           = "/api"
 private let kLetGoRestAPIImagesPath                         = "/images"
 private let kLetGoRestAPIJSONFormatSuffix                   = ".json"
@@ -131,11 +131,11 @@ class RESTManager: NSObject {
     /**
      * Requests a list of products to the backend and calls the completion handler. On success, returns an array of LetGoProduct instances.
      */
-    func getListOfProducts(queryString: String?, location: CLLocationCoordinate2D, categoryId: LetGoProductCategory?, sortBy: LetGoUserFilterForProducts, offset: Int, status: [LetGoProductStatus]?, maxPrice: Int?, distanceRadius: Int?, minPrice: Int?, fromUser: String?, completion: ((success: Bool, products: [LetGoProduct]?) -> Void)?) -> Void {
+    func getListOfProducts(queryString: String?, location: CLLocationCoordinate2D, categoryId: LetGoProductCategory?, sortBy: LetGoUserFilterForProducts, offset: Int, status: [LetGoProductStatus]?, maxPrice: Int?, distanceRadius: Int?, minPrice: Int?, fromUser: String?, completion: ((success: Bool, products: [LetGoProduct]?, retrievedItems: Int, successfullyParsedItems: Int) -> Void)?) -> Void {
         let urlString = kLetGoRestAPIBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIListItemsURL + kLetGoRestAPIJSONFormatSuffix
         if let url = NSURL(string: urlString) {
             // build list request parameters
-            var parameters: [String: AnyObject] = [:]
+            var parameters: [String: AnyObject] = [kLetGoRestAPIParameterNumberOfProducts:kLetGoRestAPIParameterDefaultNumberOfProducts]
             if queryString != nil { parameters[kLetGoRestAPIParameterQueryString] = queryString! }
             if CLLocationCoordinate2DIsValid(location) {
                 parameters[kLetGoRestAPIParameterLatitude] = location.latitude
@@ -154,7 +154,7 @@ class RESTManager: NSObject {
             // perform request.
             request(.GET, url, parameters: parameters).responseJSON(completionHandler: { (request, response, json, error) -> Void in
                 if (error != nil) { // request failed
-                    completion?(success: false, products: nil)
+                    completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0)
                 } else { // success. Analyze response.
                     if let jsonDict = json as? [String: AnyObject] {
                         if let productsData = jsonDict[kLetGoRestAPIParameterData] as? [[String: AnyObject]] {
@@ -164,14 +164,14 @@ class RESTManager: NSObject {
                                     products.append(newProduct)
                                 }
                             }
-                            completion?(success: true, products: products)
+                            completion?(success: true, products: products, retrievedItems: productsData.count, successfullyParsedItems: products.count)
                             return
                         }
                     }
-                    completion?(success: false, products: nil)
+                    completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0)
                 }
             })
-        } else { completion?(success: false, products: nil) }
+        } else { completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0) }
     }
     
     /** Request data about a concrete product based on product id */
@@ -339,6 +339,25 @@ class RESTManager: NSObject {
             })
         } else { completion?(success: false, geolocation: nil) }
     }
+
+    // MARK: - Parse legacy methods
+    func retrieveParseObjectWithId (parseObjectId: String, className: String, completion: ((success: Bool, parseObject: PFObject?) -> Void)? ) -> Void {
+        let query = PFQuery(className: className)
+        query.getObjectInBackgroundWithId(parseObjectId, block: { (parseObject, error) -> Void in
+            if error == nil && parseObject != nil { completion?(success: true, parseObject: parseObject) }
+            else { completion?(success: false, parseObject: nil) }
+        })
+    }
+    
+    func retrieveParseUserWithId (parseObjectId: String, completion: ((success: Bool, parseObject: PFUser?) -> Void)? ) -> Void {
+        if let query = PFUser.query() {
+            query.getObjectInBackgroundWithId(parseObjectId, block: { (userObject, error) -> Void in
+                if let user = userObject as? PFUser { completion?(success: true, parseObject: user) }
+                else { completion?(success: false, parseObject: nil) }
+            })
+        } else { completion?(success: false, parseObject: nil) }
+    }
+    
 }
 
 

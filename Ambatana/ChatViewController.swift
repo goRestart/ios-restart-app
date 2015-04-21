@@ -127,6 +127,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.popBackViewController()
             })
         }
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "chat-screen")
+
     }
     
     func loadMessages(conversationObject: PFObject) {
@@ -174,8 +176,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let imageFile = retrievedObject?[kLetGoProductFirstImageKey] as? PFFile {
             // try to retrieve image from thumbnail first.
             let thumbnailURL = ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(retrievedObject.objectId!, imageURL: imageFile.url!)
-            ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image) -> Void in
-                if success {
+            ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image, fromURL) -> Void in
+                if success && fromURL == thumbnailURL {
                     self.productImageView.image = image
                 } else { // failure, fallback to parse PFFile for the image.
                     ImageManager.sharedInstance.retrieveImageFromParsePFFile(imageFile, completion: { (success, image) -> Void in
@@ -210,7 +212,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let storedOwner = retrievedObject?["user"] as? PFObject {
             storedOwner.fetchIfNeededInBackgroundWithBlock({ (retrievedOwner, error) -> Void in
                 if error == nil && retrievedOwner != nil {
-                    self.usernameLabel.text = translate("by") + " " + (retrievedOwner!["username_public"] as? String ?? translate("user"))
+                    // "by you" or "by other-user-name"
+                    if retrievedOwner!.objectId == PFUser.currentUser()?.objectId { // hello me!
+                        translate("by") + " " + translate("you")
+                    } else { // some other guy...
+                        self.usernameLabel.text = translate("by") + " " + (retrievedOwner!["username_public"] as? String ?? translate("user"))
+                    }
                 } else { self.usernameLabel.text = translate("user") }
             })
         } else { self.usernameLabel.text = translate("user") }
@@ -258,6 +265,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.scrollToTopOfMessagesList(false)
                 //self.tableView.reloadData()
                 self.messageTextfield.text = ""
+                
+                // tracking
+                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameUserSentMessage, eventParameter: nil, eventValue: nil)
             } else {
                 self.showAutoFadingOutMessageAlert(translate("unable_send_message"))
             }

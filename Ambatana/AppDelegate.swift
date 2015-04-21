@@ -10,6 +10,7 @@ import UIKit
 
 private let kLetGoParseApplicationID = "3zW8RQIC7yEoG9WhWjNduehap6csBrHQ2whOebiz"
 private let kLetGoParseClientKey = "4dmYjzpoyMbAdDdmCTBG6s7TTHtNTAaQaJN6YOAk"
+private let kLetGoVersionNumberKey = "com.letgo.LetGoVersionNumberKey"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // initializate parse
         //Parse.enableLocalDatastore()
         Parse.setApplicationId(kLetGoParseApplicationID, clientKey: kLetGoParseClientKey)
-        PFFacebookUtils.initializeFacebook()
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         
         // Registering for push notifications && Installation
@@ -37,16 +38,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // responding to push notifications received while in background.
-        println("Launch options: \(launchOptions)")
+        //println("Launch options: \(launchOptions)")
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
             NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: remoteNotification)
             self.openChatListViewController()
         }
         
         // initialize location services
-        LocationManager.sharedInstance
+        let locationManager = LocationManager.sharedInstance
         
-        return true
+        // Tracking & other nasty things...
+        let trackingManager = TrackingManager.sharedInstance
+        // check version and track if new install
+        var newInstall = false
+        if let letgoVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"]?.floatValue {
+            if let storedVersion = NSUserDefaults.standardUserDefaults().objectForKey(kLetGoVersionNumberKey)?.floatValue {
+                // check if stored version is the same as our version.
+                if letgoVersion != storedVersion {
+                    newInstall = true
+                    NSUserDefaults.standardUserDefaults().setObject("\(letgoVersion)", forKey: kLetGoVersionNumberKey)
+                }
+            } else { // no stored version. This is a new install. Store our version now.
+                newInstall = true
+                NSUserDefaults.standardUserDefaults().setObject("\(letgoVersion)", forKey: kLetGoVersionNumberKey)
+            }
+        }
+        if newInstall { TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLetGoInstall, eventParameter: nil, eventValue: nil) }
+        
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     func openChatListViewController() {
@@ -63,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
-        return FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication, withSession: PFFacebookUtils.session())
+        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -82,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
+        FBSDKAppEvents.activateApp()
     }
 
     // receive push notifications.
@@ -133,9 +152,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(application: UIApplication) {
-        // Close facebook session
-        PFFacebookUtils.session()!.close()
-        
         // stop location services (if any).
         LocationManager.sharedInstance.terminate()
     }
