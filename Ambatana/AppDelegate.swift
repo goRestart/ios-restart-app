@@ -114,7 +114,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-        installation["deviceTokenLastModified"] = NSDate().timeIntervalSince1970
+        // @ahl: this is not allowed in production environment (makes installation not to save), Parse says we're modifying the table
+//        installation["deviceTokenLastModified"] = NSDate().timeIntervalSince1970
         installation.channels = [""]
         if PFUser.currentUser() != nil {
             installation["user_objectId"] = PFUser.currentUser()!.objectId
