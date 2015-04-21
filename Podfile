@@ -1,5 +1,7 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '7.0'
+platform :ios, '8.0'
+
+xcodeproj 'LetGo.xcodeproj' # TODO Remove this line & Ambatana.xcodeproj
 
 target 'LetGo' do
    pod 'Parse','1.7.1'
