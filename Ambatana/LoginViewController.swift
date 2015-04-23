@@ -39,7 +39,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPublic, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "login-initial")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPublic, eventParameters: [kLetGoTrackingParameterNameScreenName: "login-initial"])
         
         // register for notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "oauthSessionExpired:", name: kLetGoSessionInvalidatedNotification, object: nil)
@@ -107,7 +107,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
                     ConfigurationManager.sharedInstance.loadDataFromCurrentUser()
                 }
                 // track user login/signing with facebook
-                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLoginFacebook, eventParameter: nil, eventValue: nil)
+                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLoginFacebook, eventParameters: nil)
                 
                 // perform initial segue
                 self.performSegueWithIdentifier("StartApp", sender: nil)

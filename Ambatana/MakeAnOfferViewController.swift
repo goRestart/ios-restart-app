@@ -37,7 +37,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "make-offer")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "make-offer"])
     }
 
     override func didReceiveMemoryWarning() {

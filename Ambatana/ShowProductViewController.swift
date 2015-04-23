@@ -155,7 +155,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // product name
             nameLabel.text = productObject["name"] as? String ?? ""
-            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: productObject["name"] as? String)
+            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameters: self.getPropertiesForProductDetailTracking())
             self.setLetGoNavigationBarStyle(title: nameLabel.text, includeBackArrow: true)
             
             // product price
@@ -212,7 +212,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "show-product")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "show-product"])
 
     }
     
@@ -220,6 +220,24 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: - Product detail tracking event properties
+    
+    /** Generates the properties for the product-detail tracking event. NOTE: This would probably change once Parse is not used anymore */
+    func getPropertiesForProductDetailTracking() -> [String: AnyObject] {
+        var properties: [String: AnyObject] = [:]
+        if productObject != nil {
+            if let productCity = productObject[kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameProductCity] = productCity }
+            if let productCountry = productObject[kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameProductCountry] = productCountry }
+            if let productZipCode = productObject[kLetGoRestAPIParameterZipCode] as? String { properties[kLetGoTrackingParameterNameProductZipCode] = productZipCode }
+            if let productCategoryId = productObject[kLetGoRestAPIParameterCategoryId] as? String { properties[kLetGoTrackingParameterNameCategoryId] = productCategoryId }
+            if let productName = productObject[kLetGoRestAPIParameterName] as? String { properties[kLetGoTrackingParameterNameProductName] = productName }
+            properties[kLetGoTrackingParameterNameItemType] = TrackingManager.sharedInstance.userIsDummyUser(whichUser: self.productUser) ? "dummy" : "real"
+        }
+        
+        return properties
+    }
+    
     
     // MARK: - Image retrieval
     
@@ -278,7 +296,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         if productUser == nil || productObject == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
         
         // Tracking
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailAskQuestion, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: productObject?["name"] as? String)
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailAskQuestion, eventParameters: self.getPropertiesForProductDetailTracking())
         
         // loading interface...
         enableAskQuestionLoadingInterface()
@@ -346,12 +364,12 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: productObject?["name"] as? String)
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameters: self.getPropertiesForProductDetailTracking())
         self.performSegueWithIdentifier("MakeAnOffer", sender: sender)
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailSold, eventParameter: kLetGoTrackingParameterNameProductName, eventValue: productObject?["name"] as? String)
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailSold, eventParameters: self.getPropertiesForProductDetailTracking())
         if iOSVersionAtLeast("8.0") {
             let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))

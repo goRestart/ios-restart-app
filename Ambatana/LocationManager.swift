@@ -179,9 +179,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         if (locations?.count > 0) {
             if let lastLocation = locations.last as? CLLocation {
                 // Just for testing purposes. Uncomment to set a specific location in the simulator, normal location on an actual device.
-                #if (arch(i386) || arch(x86_64)) && os(iOS) // we are in the simulator.
+                #if (arch(i386) || arch(x86_64)) && os(iOS)
+                    // we are in the simulator. Use some testing coordinate.
                     self.lastKnownLocation = CLLocationCoordinate2DMake(40.416947, -3.703528)
                 #else
+                    // This is a real device. Set the right coordinate.
                     self.lastKnownLocation = lastLocation.coordinate
                 #endif
             }

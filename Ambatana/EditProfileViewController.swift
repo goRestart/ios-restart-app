@@ -114,7 +114,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             // Current user has the option of editing his/her settings
             if userObject!.objectId == PFUser.currentUser()!.objectId { setLetGoRightButtonsWithImageNames(["actionbar_edit"], andSelectors: ["goToSettings"]) }
         }
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "profile-screen")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "profile-screen"])
     }
     
     override func viewDidLayoutSubviews() {

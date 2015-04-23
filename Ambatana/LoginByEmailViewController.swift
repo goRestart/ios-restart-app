@@ -54,7 +54,7 @@ class LoginByEmailViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         activityIndicator.stopAnimating()
         activityIndicator.hidden = true
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPublic, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "login-email")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPublic, eventParameters: [kLetGoTrackingParameterNameScreenName: "login-email"])
     }
 
     /*
@@ -91,7 +91,7 @@ class LoginByEmailViewController: UIViewController, UITextFieldDelegate {
             self.activityIndicator.stopAnimating()
             self.activityIndicator.hidden = true
             if error == nil && user != nil { // success login with email.
-                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLoginEmail, eventParameter: nil, eventValue: nil)
+                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLoginEmail, eventParameters: nil)
                 self.dismissViewControllerAnimated(true, completion: nil)
             } else {
                 self.showAutoFadingOutMessageAlert(translate("incorrect_credentials"))

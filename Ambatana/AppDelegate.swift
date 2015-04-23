@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 NSUserDefaults.standardUserDefaults().setObject("\(letgoVersion)", forKey: kLetGoVersionNumberKey)
             }
         }
-        if newInstall { TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLetGoInstall, eventParameter: nil, eventValue: nil) }
+        if newInstall { TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLetGoInstall, eventParameters: nil) }
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }

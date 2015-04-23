@@ -62,6 +62,8 @@ let kLetGoRestAPIParameterHeight                    = "height"
 
 let kLetGoRestAPIParameterProductDescription        = "description"
 let kLetGoRestAPIParameterCity                      = "city"
+let kLetGoRestAPIParameterCountry                   = "country"
+let kLetGoRestAPIParameterZipCode                   = "zip_code"
 let kLetGoRestAPIParameterCountryCode               = "country_code"
 let kLetGoRestAPIParameterCountryCodeAlt            = "country_code3"
 let kLetGoRestAPIParameterCountryName               = "country_name"

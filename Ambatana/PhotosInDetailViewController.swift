@@ -33,7 +33,7 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
         if productImages.count > 0 {
             showImages()
         }
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "product-photos-detail")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "product-photos-detail"])
     }
     
     override func didReceiveMemoryWarning() {

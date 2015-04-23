@@ -127,7 +127,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.popBackViewController()
             })
         }
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "chat-screen")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "chat-screen"])
 
     }
     
@@ -267,13 +267,25 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.messageTextfield.text = ""
                 
                 // tracking
-                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameUserSentMessage, eventParameter: nil, eventValue: nil)
+                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameUserSentMessage, eventParameters: self.getPropertiesForUserSentMessageTracking())
             } else {
                 self.showAutoFadingOutMessageAlert(translate("unable_send_message"))
             }
             // disable loading interface
             self.isSendingMessage = false
         }
+    }
+    
+    /** Generates the properties for the user-sent-message tracking event. NOTE: This would probably change once Parse is not used anymore */
+    func getPropertiesForUserSentMessageTracking() -> [String: AnyObject] {
+        var properties: [String: AnyObject] = [:]
+        if productObject != nil {
+            if let productCity = productObject![kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameProductCity] = productCity }
+            if let productCountry = productObject![kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameProductCountry] = productCountry }
+            if let productZipCode = productObject![kLetGoRestAPIParameterZipCode] as? String { properties[kLetGoTrackingParameterNameProductZipCode] = productZipCode }
+            if let productCategoryId = productObject![kLetGoRestAPIParameterCategoryId] as? String { properties[kLetGoTrackingParameterNameCategoryId] = productCategoryId }
+        }
+        return properties
     }
     
     // MARK: - UITableViewDelegate & DataSource methods
