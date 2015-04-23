@@ -35,6 +35,8 @@
 		6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */; };
 		667562AF1A96380E00039151 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667562AE1A96380E00039151 /* ImageManager.swift */; };
 		667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667562B01A9749AE00039151 /* ChatListViewController.swift */; };
+		668C05291AE8E3CE00F68FC3 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668C05271AE8E3CE00F68FC3 /* Crashlytics.framework */; };
+		668C052A1AE8E3CE00F68FC3 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668C05281AE8E3CE00F68FC3 /* Fabric.framework */; };
 		66911D8E1A84B95C006CFBE1 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D8D1A84B95C006CFBE1 /* LocationManager.swift */; };
 		66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */; };
 		66911D931A853A46006CFBE1 /* IndicateLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D921A853A46006CFBE1 /* IndicateLocationViewController.swift */; };
@@ -111,6 +113,8 @@
 		6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gradients.swift"; sourceTree = "<group>"; };
 		667562AE1A96380E00039151 /* ImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		667562B01A9749AE00039151 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
+		668C05271AE8E3CE00F68FC3 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
+		668C05281AE8E3CE00F68FC3 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		66911D8D1A84B95C006CFBE1 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUtils.swift; sourceTree = "<group>"; };
 		66911D921A853A46006CFBE1 /* IndicateLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicateLocationViewController.swift; sourceTree = "<group>"; };
@@ -171,10 +175,12 @@
 				66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */,
 				66A0CFD21A83612500FAADF0 /* CoreGraphics.framework in Frameworks */,
 				66A0CFD31A83612500FAADF0 /* CoreLocation.framework in Frameworks */,
+				668C05291AE8E3CE00F68FC3 /* Crashlytics.framework in Frameworks */,
 				66A0CFD41A83612500FAADF0 /* libsqlite3.dylib in Frameworks */,
 				66A0CFD51A83612500FAADF0 /* libz.dylib in Frameworks */,
 				66A0CFD61A83612500FAADF0 /* MobileCoreServices.framework in Frameworks */,
 				66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */,
+				668C052A1AE8E3CE00F68FC3 /* Fabric.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
 				A0525AFF9E3A4F2E486AC795 /* libPods-LetGo.a in Frameworks */,
@@ -281,6 +287,8 @@
 		6649D1661A8210AD000F6966 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				668C05271AE8E3CE00F68FC3 /* Crashlytics.framework */,
+				668C05281AE8E3CE00F68FC3 /* Fabric.framework */,
 				66E50FAC1AE15D09000A7D44 /* CHTCollectionViewWaterfallLayout */,
 				6640F0431AE142C900004556 /* Google Conversion Tracking */,
 				66C834B21ADBD670002FF142 /* Alamofire */,
@@ -515,6 +523,7 @@
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
 				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
+				668C05261AE8E31E00F68FC3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -583,6 +592,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		668C05261AE8E31E00F68FC3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run ee74dba1f064973d3771e82b15b2c0228005315c 9de6d83fff44853c081801755366a42787d7bb378bdc9bec3e4553fa2cade282    ";
+		};
 		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -785,6 +807,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -812,6 +835,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

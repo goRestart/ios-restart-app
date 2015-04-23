@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Fabric
+import Crashlytics
 
 private let kLetGoParseApplicationID = "3zW8RQIC7yEoG9WhWjNduehap6csBrHQ2whOebiz"
 private let kLetGoParseClientKey = "4dmYjzpoyMbAdDdmCTBG6s7TTHtNTAaQaJN6YOAk"
@@ -24,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.setApplicationId(kLetGoParseApplicationID, clientKey: kLetGoParseClientKey)
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
+        
+        // Crashlytics
+        Fabric.with([Crashlytics()])
         
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
@@ -108,7 +113,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-        installation["deviceTokenLastModified"] = NSDate().timeIntervalSince1970
         installation.channels = [""]
         if PFUser.currentUser() != nil {
             installation["user_objectId"] = PFUser.currentUser()!.objectId

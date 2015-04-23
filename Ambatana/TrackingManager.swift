@@ -34,13 +34,23 @@ let kLetGoTrackingEventNameProductSellComplete      = "product-sell-complete"
 let kLetGoTrackingEventNameUserSentMessage          = "user-sent-message"
 let kLetGoTrackingEventNameScreenPublic             = "screen-public"
 let kLetGoTrackingEventNameScreenPrivate            = "screen-private"
+let kLetGoTrackingEventDummyModifier                = "dummy-"
+let kLetGoTrackingEventDummyUser                    = "usercontent"
 
 let kLetGoTrackingParameterNameUserEmail            = "user-email"
-let kLetGoTrackingParameterNameCategoryName         = "category-email"
+let kLetGoTrackingParameterNameCategoryId           = "category-id"
+let kLetGoTrackingParameterNameCategoryName         = "category-name"
+let kLetGoTrackingParameterNameProductCity          = "product-city"
+let kLetGoTrackingParameterNameProductCountry       = "product-country"
+let kLetGoTrackingParameterNameProductZipCode       = "product-zipcode"
 let kLetGoTrackingParameterNameProductName          = "product-name"
-let kLetGoTrackingParameterNameNumber               = "number"
-let kLetGoTrackingParameterNameEnabled              = "enabled"
-let kLetGoTrackingParameterNameDescription          = "description"
+let kLetGoTrackingParameterNameUserCity             = "user-city"
+let kLetGoTrackingParameterNameUserCountry          = "user-country"
+let kLetGoTrackingParameterNameUserZipcode          = "user-zipcode"
+let kLetGoTrackingParameterNameNumber               = "number"              // the number (index) of the picture
+let kLetGoTrackingParameterNameEnabled              = "enabled"             // if a checkbox / switch is changed to enabled or disabled
+let kLetGoTrackingParameterNameDescription          = "description"         // error description of the cause for form validation failure.
+let kLetGoTrackingParameterNameItemType             = "item-type"           // real / dummy.
 let kLetGoTrackingParameterNameScreenName           = "screen-name"
 
 // IDs for tracking systems.
@@ -107,7 +117,32 @@ class TrackingManager: NSObject {
             kLetGoTrackingEventNameProductSellComplete: "aNaiCIawqVsQ__6fyQM",
             kLetGoTrackingEventNameUserSentMessage: "6grCCKm0qVsQ__6fyQM",
             kLetGoTrackingEventNameScreenPublic: "Ito0CITbsVsQ__6fyQM",
-            kLetGoTrackingEventNameScreenPrivate: "SvhRCI6yqVsQ__6fyQM"
+            kLetGoTrackingEventNameScreenPrivate: "SvhRCI6yqVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameLoginFacebook: "zwVTCMunxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameLoginEmail: "r-7WCLb1xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameSignupEmail: "IfaNCMj1xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameLogout: "A-yYCIPJzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductList: "jdzqCPHIzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductDetailVisit: "Sf4hCIvCzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductDetailOffer: "p8aeCJzHzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductDetailAskQuestion: "VCC-CJPHzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductDetailSold: "CjBcCKymxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellStart: "NonZCNOpxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellAddPicture: "7hAGCISoxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditTitle: "AImZCIz1xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditPrice: "kbuMCLmkxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditDesc: "kyEqCMv4xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditCurrency: "ngBqCN3JzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditCategory: "XGXWCL73xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditShareFB: "ijsRCKypxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellFormValidationFailed: "H0HOCLynxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellSharedFB: "7Z-ICPv4xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellAbandon: "KY1bCP3IzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellComplete: "7IWHCM7JzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameUserSentMessage: "yyz4CJD5xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameScreenPublic: "tvXiCKX8xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameScreenPrivate: "LkyLCN7KzVsQ__6fyQM"
+            
         ];
     }
     
