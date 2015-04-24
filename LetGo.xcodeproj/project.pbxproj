@@ -817,7 +817,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 				);
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "dca3d0e1-99b8-48c9-bc31-fd2da71873e7";
+				PROVISIONING_PROFILE = "a7df612b-14d8-46e2-b99c-f534aae3dd59";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -844,7 +844,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 				);
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "e13980f7-f8f6-4434-82d2-b9a28b75285d";
+				PROVISIONING_PROFILE = "c3b0f41f-17bf-4f21-8e0b-6e4610ac6111";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 			};
 			name = Release;
@@ -904,7 +904,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 				);
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "c59af2b6-aca4-44a5-b726-5b389865c5d0";
+				PROVISIONING_PROFILE = "1621abf8-b291-4c58-b5e0-98bf8ae6df26";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 			};
 			name = Adhoc;
