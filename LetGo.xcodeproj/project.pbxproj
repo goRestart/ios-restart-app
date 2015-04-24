@@ -35,8 +35,6 @@
 		6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */; };
 		667562AF1A96380E00039151 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667562AE1A96380E00039151 /* ImageManager.swift */; };
 		667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667562B01A9749AE00039151 /* ChatListViewController.swift */; };
-		668C05291AE8E3CE00F68FC3 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668C05271AE8E3CE00F68FC3 /* Crashlytics.framework */; };
-		668C052A1AE8E3CE00F68FC3 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 668C05281AE8E3CE00F68FC3 /* Fabric.framework */; };
 		66911D8E1A84B95C006CFBE1 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D8D1A84B95C006CFBE1 /* LocationManager.swift */; };
 		66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */; };
 		66911D931A853A46006CFBE1 /* IndicateLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D921A853A46006CFBE1 /* IndicateLocationViewController.swift */; };
@@ -115,8 +113,6 @@
 		6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gradients.swift"; sourceTree = "<group>"; };
 		667562AE1A96380E00039151 /* ImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		667562B01A9749AE00039151 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
-		668C05271AE8E3CE00F68FC3 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = SOURCE_ROOT; };
-		668C05281AE8E3CE00F68FC3 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = SOURCE_ROOT; };
 		66911D8D1A84B95C006CFBE1 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUtils.swift; sourceTree = "<group>"; };
 		66911D921A853A46006CFBE1 /* IndicateLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicateLocationViewController.swift; sourceTree = "<group>"; };
@@ -814,7 +810,6 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -841,7 +836,6 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -901,7 +895,6 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
