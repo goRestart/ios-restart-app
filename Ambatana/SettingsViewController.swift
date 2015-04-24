@@ -66,7 +66,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "settings-screen")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "settings-screen"])
     }
     
     override func didReceiveMemoryWarning() {
@@ -118,7 +118,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func logoutUser() {
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLogout, eventParameter: nil, eventValue: nil)
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLogout, eventParameters: nil)
         PFUser.logOut()
         ConfigurationManager.sharedInstance.logOutUser()
         LocationManager.sharedInstance.logOutUser()

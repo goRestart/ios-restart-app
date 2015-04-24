@@ -30,7 +30,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "change-password")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "change-password"])
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

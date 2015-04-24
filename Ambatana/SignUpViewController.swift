@@ -79,7 +79,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
         super.viewWillAppear(animated)
         activityIndicator.stopAnimating()
         activityIndicator.hidden = true
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPublic, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "signup-email")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPublic, eventParameters: [kLetGoTrackingParameterNameScreenName: "signup-email"])
     }
 
     /*
@@ -125,7 +125,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
             self.activityIndicator.stopAnimating()
             self.activityIndicator.hidden = true
             if success { // successfully signed up with email
-                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameSignupEmail, eventParameter: kLetGoTrackingParameterNameUserEmail, eventValue: user.email)
+                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameSignupEmail, eventParameters: [kLetGoTrackingParameterNameUserEmail: user.email!])
                 if iOSVersionAtLeast("8.0") {
                     let alert = UIAlertController(title: translate("success"), message: translate("user_created_successfully"), preferredStyle: .Alert)
                     alert.addAction(UIAlertAction(title: translate("login_now"), style: .Default, handler: { (alertAction) -> Void in

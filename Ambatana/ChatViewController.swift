@@ -127,7 +127,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.popBackViewController()
             })
         }
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "chat-screen")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "chat-screen"])
 
     }
     
@@ -256,7 +256,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.isSendingMessage = true
         
         // send message
-        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.productObject!) { (success, newlyCreatedMessageObject) -> Void in
+        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.productObject!, isOffer: false) { (success, newlyCreatedMessageObject) -> Void in
             if success {
                 self.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)
                 
@@ -267,13 +267,25 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.messageTextfield.text = ""
                 
                 // tracking
-                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameUserSentMessage, eventParameter: nil, eventValue: nil)
+                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameUserSentMessage, eventParameters: self.getPropertiesForUserSentMessageTracking())
             } else {
                 self.showAutoFadingOutMessageAlert(translate("unable_send_message"))
             }
             // disable loading interface
             self.isSendingMessage = false
         }
+    }
+    
+    /** Generates the properties for the user-sent-message tracking event. NOTE: This would probably change once Parse is not used anymore */
+    func getPropertiesForUserSentMessageTracking() -> [String: AnyObject] {
+        var properties: [String: AnyObject] = [:]
+        if productObject != nil {
+            if let productCity = productObject![kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameProductCity] = productCity }
+            if let productCountry = productObject![kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameProductCountry] = productCountry }
+            if let productZipCode = productObject![kLetGoRestAPIParameterZipCode] as? String { properties[kLetGoTrackingParameterNameProductZipCode] = productZipCode }
+            if let productCategoryId = productObject![kLetGoRestAPIParameterCategoryId] as? String { properties[kLetGoTrackingParameterNameCategoryId] = productCategoryId }
+        }
+        return properties
     }
     
     // MARK: - UITableViewDelegate & DataSource methods
@@ -382,7 +394,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func checkUpdatedConversation(notification: NSNotification) {
         // Analyze push notification object.
         if let userInfo = notification.object as? [NSObject: AnyObject] {
-            if let conversationId = userInfo["c_id"] as? String {
+            // added support for Android push notifications compatibility.
+            var info = userInfo
+            if let aps = info["aps"] as? [String: AnyObject] { info = aps }
+            if let conversationId = info["c_id"] as? String {
                 // check if we need to update the conversation.
                 if self.letgoConversation?.conversationObject.objectId == conversationId {
                     self.refreshMessages()

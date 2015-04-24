@@ -5,7 +5,7 @@
   Created by Ignacio Nieto Carvajal on 18/2/15.
   Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 */
-"have_a_look" = "Have a look at this product in LetGo. ";
+"have_a_look" = "Have a look at this product in letgo. ";
 "loading" = "Loading...";
 "just_now" = "Just now";
 "x_seconds_ago" = "%d seconds ago";
@@ -63,7 +63,7 @@
 "lowest_price" = "Lowest price";
 "proximity" = "Proximity";
 "error_sharing_facebook" = "An error happened while sharing in Facebook. Please, try again later.";
-"letgo_product" = "LetGo product";
+"letgo_product" = "letgo product";
 "completed" = "Completed";
 "canceled_by_user" = "Canceled by user";
 "whatsapp_not_configured" = "WhatsApp doesn't seem to be configured in your device.";
@@ -126,7 +126,7 @@
 "error_setting_profile_image" = "There was an error setting the profile picture";
 "confirm_password" = "Confirm password";
 "passwords_dont_match" = "Passwords do not match. Please try again.";
-"cant_change_facebook_password" = "Your LetGo profile is linked with your Facebook account, so you don't have a password to change.";
+"cant_change_facebook_password" = "Your letgo profile is linked with your Facebook account, so you don't have a password to change.";
 "password_successfully_changed" = "Password changed successfully.";
 "error_changing_password" = "An error occurred when changing the password. Please, try again later.";
 "no_categories_found" = "No categories found";
@@ -151,7 +151,7 @@
 "save_to_disk" = "Save to disk";
 "saving_to_disk" = "Saving image in photo library...";
 "successfully_saved_to_disk" = "Successfully saved image to photo library.";
-"error_saving_to_disk" = "An error occurred while saving the image in your photo library. Please, make sure LetGo is allowed to access your photos in the Settings App.";
+"error_saving_to_disk" = "An error occurred while saving the image in your photo library. Please, make sure letgo is allowed to access your photos in the Settings App.";
 "error_deleting_photo" = "Error deleting photo, please try again later.";
 "upload_at_least_one_image" = "At least one photo is required for selling a product.";
 "insert_valid_title" = "Please, insert a valid title for the product.";
@@ -159,7 +159,7 @@
 "insert_valid_description" = "Please, insert a valid description for the product.";
 "insert_valid_category" = "Please, choose a category for the product.";
 "unable_sell_product_location" = "I was unable to find your current location. For selling the product, I need to be able to find it. Please, try again later.";
-"successfully_uploaded_product" = "Product was successfully registered for selling. It will appear in LetGo as soon as it's approved.";
+"successfully_uploaded_product" = "Product was successfully registered for selling. It will appear in letgo as soon as it's approved.";
 "uploading_image_please_wait" = "Uploading image, please wait...";
 "error_uploading_product" = "An error happened while registering your product. ";
 "here" = "Here";
@@ -186,14 +186,15 @@
 "insert" = "Insert";
 "category" = "Category";
 "photo" = "Photo";
-"feedback_letgo_user" = "Feedback from a LetGo user";
+"feedback_letgo_user" = "Feedback from a letgo user";
 "contact" = "Contact";
 "be_the_first_to_start_selling" = "There are no items in your neighborhood. Be the first to start selling";
 "no_products_found" = "No products found";
 "reload_products" = "Reload products";
-"max_256_chars_description" = "The max length for the description of the product is 256 characters.";
+"max_256_chars_description" = "Max length for the description of the product is 256 characters.";
 "error_loading_photos_product" = "Error loading photos of the product";
 "you" = "You";
+"new_message" = "New message";
 
 
 

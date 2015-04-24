@@ -33,6 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         
+        // Crashlytics
+        Fabric.with([Crashlytics()])
+        
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
             let userNotificationTypes = (UIUserNotificationType.Alert |
@@ -45,11 +48,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UIApplication.sharedApplication().registerForRemoteNotificationTypes(UIRemoteNotificationType.Alert|UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound)
         }
         
-        // responding to push notifications received while in background.
-        //println("Launch options: \(launchOptions)")
+        // responding to push notifications received while app not launched.
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
-            NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: remoteNotification)
-            self.openChatListViewController()
+            //println("Opened app because of push notification: \(remoteNotification)")
+            if let notificationType = self.getNotificationType(remoteNotification as [NSObject : AnyObject]) {
+                if notificationType == .Offer || notificationType == .Message {
+                    NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: remoteNotification)
+                    self.openChatListViewController()
+                } else {
+                    // Do nothing. As per specifications, we should not show an alert of anything if the user opens the app responding to a push notification.
+                }
+            }
         }
         
         // initialize location services
@@ -71,7 +80,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 NSUserDefaults.standardUserDefaults().setObject("\(letgoVersion)", forKey: kLetGoVersionNumberKey)
             }
         }
-        if newInstall { TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLetGoInstall, eventParameter: nil, eventValue: nil) }
+        if newInstall { TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLetGoInstall, eventParameters: nil) }
         
         // Crashlytics
         Fabric.with([Crashlytics()])
@@ -88,6 +97,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let chatListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("conversationsViewController") as? ChatListViewController { // ... and that we can instantiate the chat controller.
                     navigationController.pushViewController(chatListVC, animated: true)
                 }
+            }
+        }
+    }
+    
+    func showMarketingAlertWithNotificationMessage(message: String) {
+        if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
+            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController {
+                navigationController.showAutoFadingOutMessageAlert(message)
             }
         }
     }
@@ -119,15 +136,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-        // @ahl: this is not allowed in production environment (makes installation not to save), Parse says we're modifying the table
-//        installation["deviceTokenLastModified"] = NSDate().timeIntervalSince1970
         installation.channels = [""]
         if PFUser.currentUser() != nil {
             installation["user_objectId"] = PFUser.currentUser()!.objectId
             installation["username"] = PFUser.currentUser()!["username"]
         }
         installation.saveInBackgroundWithBlock { (success, error) -> Void in
-            println("Installation saved. Success: \(success), error: \(error)")
+            //println("Installation saved. Success: \(success), error: \(error)")
         }
     }
     
@@ -142,25 +157,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if !success { PFInstallation.currentInstallation().saveEventually(nil) }
                 })
             }
+            // show an alert only if this is a marketing message.
+            if let notificationType = self.getNotificationType(userInfo), let notificationMsg = self.getNotificationAlertMessage(userInfo) {
+                if notificationType == .Marketing { // marketing.
+                    self.showMarketingAlertWithNotificationMessage(notificationMsg)
+                }
+            }
         } else {
             // Fully respond to the notification.
             PFPush.handlePush(userInfo)
-            // push a chat list to see the messages.
-            self.openChatListViewController() // Not really nice when we are using the App?
+            if let notificationType = self.getNotificationType(userInfo), let notificationMsg = self.getNotificationAlertMessage(userInfo) {
+                //println("Notification type: \(notificationType.rawValue)")
+                if notificationType == .Offer || notificationType == .Message { // message/offer
+                    NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: userInfo)
+                    // push a chat list to see the messages.
+                    self.openChatListViewController()
+                } else { // marketing
+                    self.showMarketingAlertWithNotificationMessage(notificationMsg)
+                }
+            }
         }
         // notify any observers
-        println("Received push notification: \(userInfo)")
-        NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: userInfo)
+        //println("Received push notification: \(userInfo)")
         
     }
     
     func getBadgeNumberFromNotification(userInfo: [NSObject: AnyObject]) -> Int? {
-        if let aps = userInfo["aps"] as? [String: AnyObject] {
-            if let newBadge = aps["badge"] as? Int {
-                return newBadge
-            }
-        }
-        return nil
+        if let newBadge = userInfo["badge"] as? Int { return newBadge }
+        else if let aps = userInfo["aps"] as? [NSObject: AnyObject] { return self.getBadgeNumberFromNotification(aps) } // compatibility with iOS APS push notification & android.
+        else { return nil }
+    }
+    
+    func getNotificationType(userInfo: [NSObject: AnyObject]) -> LetGoChatNotificationType? {
+        if let oldNotificationType = userInfo["notification_type"]?.integerValue { return LetGoChatNotificationType(rawValue: oldNotificationType) }
+        else if let newNotificationType = userInfo["n_t"]?.integerValue { return LetGoChatNotificationType(rawValue: newNotificationType) }
+        else if let aps = userInfo["aps"] as? [NSObject: AnyObject] { return self.getNotificationType(aps) } // compatibility with iOS APS push notification & android.
+        else { return nil }
+    }
+    
+    func getNotificationAlertMessage(userInfo: [NSObject: AnyObject]) -> String? {
+        if let msg = userInfo["alert"] as? String { return msg }
+        else if let aps = userInfo["aps"] as? [String: AnyObject] { // compatibility with iOS APS push notification & android
+            return aps["alert"] as? String
+        } else { return nil }
     }
     
     func applicationWillTerminate(application: UIApplication) {

@@ -37,7 +37,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameter: kLetGoTrackingParameterNameScreenName, eventValue: "make-offer")
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "make-offer"])
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,14 +73,14 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser!, aboutProduct: productObject!) { (success, conversation) -> Void in
             if success { // we have a conversation.
                 // try to add the offer text first.
-                ChatManager.sharedInstance.addTextMessage(offerText, toUser: self.productUser!, inConversation: conversation!, fromProduct: self.productObject!, completion: { (success, newlyCreatedMessageObject) -> Void in
+                ChatManager.sharedInstance.addTextMessage(offerText, toUser: self.productUser!, inConversation: conversation!, fromProduct: self.productObject!, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
                     if success { self.launchChatWithConversation(conversation!) }
                     else { self.disableLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
                 })
             } else { // we need to create a conversation and pass it.
                 ChatManager.sharedInstance.createConversationWithUser(self.productUser!, aboutProduct: self.productObject!, completion: { (success, conversation) -> Void in
                     if success {
-                        ChatManager.sharedInstance.addTextMessage(offerText, toUser: self.productUser!, inConversation: conversation!, fromProduct: self.productObject!, completion: { (success, newlyCreatedMessageObject) -> Void in
+                        ChatManager.sharedInstance.addTextMessage(offerText, toUser: self.productUser!, inConversation: conversation!, fromProduct: self.productObject!, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
                             if success { self.launchChatWithConversation(conversation!) }
                             else { self.disableLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
                         })

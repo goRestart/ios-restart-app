@@ -34,13 +34,23 @@ let kLetGoTrackingEventNameProductSellComplete      = "product-sell-complete"
 let kLetGoTrackingEventNameUserSentMessage          = "user-sent-message"
 let kLetGoTrackingEventNameScreenPublic             = "screen-public"
 let kLetGoTrackingEventNameScreenPrivate            = "screen-private"
+let kLetGoTrackingEventDummyModifier                = "dummy-"
+let kLetGoTrackingEventDummyUser                    = "usercontent"
 
 let kLetGoTrackingParameterNameUserEmail            = "user-email"
-let kLetGoTrackingParameterNameCategoryName         = "category-email"
+let kLetGoTrackingParameterNameCategoryId           = "category-id"
+let kLetGoTrackingParameterNameCategoryName         = "category-name"
+let kLetGoTrackingParameterNameProductCity          = "product-city"
+let kLetGoTrackingParameterNameProductCountry       = "product-country"
+let kLetGoTrackingParameterNameProductZipCode       = "product-zipcode"
 let kLetGoTrackingParameterNameProductName          = "product-name"
-let kLetGoTrackingParameterNameNumber               = "number"
-let kLetGoTrackingParameterNameEnabled              = "enabled"
-let kLetGoTrackingParameterNameDescription          = "description"
+let kLetGoTrackingParameterNameUserCity             = "user-city"
+let kLetGoTrackingParameterNameUserCountry          = "user-country"
+let kLetGoTrackingParameterNameUserZipcode          = "user-zipcode"
+let kLetGoTrackingParameterNameNumber               = "number"              // the number (index) of the picture
+let kLetGoTrackingParameterNameEnabled              = "enabled"             // if a checkbox / switch is changed to enabled or disabled
+let kLetGoTrackingParameterNameDescription          = "description"         // error description of the cause for form validation failure.
+let kLetGoTrackingParameterNameItemType             = "item-type"           // real / dummy.
 let kLetGoTrackingParameterNameScreenName           = "screen-name"
 
 // IDs for tracking systems.
@@ -64,6 +74,8 @@ class TrackingManager: NSObject {
     // data
     // A map between an event name and the Google Conversion Tracker label parameter
     var actLabelMap: [String: String] = [:]
+    // The queue for the tracking operations.
+    var trackingDispatchQueue: dispatch_queue_t
     
     /** Shared instance */
     class var sharedInstance: TrackingManager {
@@ -71,7 +83,16 @@ class TrackingManager: NSObject {
     }
     
     override init() {
+        // initialize tracking queue
+        if iOSVersionAtLeast("8.0") {
+            let queueAttributes = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0)
+            trackingDispatchQueue = dispatch_queue_create("com.letgo.LetGoTrackingManagerQueue", queueAttributes)
+        } else { trackingDispatchQueue = dispatch_queue_create("com.letgo.LetGoTrackingManagerQueue", 0) }
+        
+        // call supper
         super.init()
+        
+        // now initialize all tracking systems
         // Apps Flyer
         AppsFlyerTracker.sharedTracker().appsFlyerDevKey = kLetGoAppsFlyerDevKey
         AppsFlyerTracker.sharedTracker().appleAppID = kLetGoAppsFlyerAppleAppId
@@ -107,27 +128,91 @@ class TrackingManager: NSObject {
             kLetGoTrackingEventNameProductSellComplete: "aNaiCIawqVsQ__6fyQM",
             kLetGoTrackingEventNameUserSentMessage: "6grCCKm0qVsQ__6fyQM",
             kLetGoTrackingEventNameScreenPublic: "Ito0CITbsVsQ__6fyQM",
-            kLetGoTrackingEventNameScreenPrivate: "SvhRCI6yqVsQ__6fyQM"
+            kLetGoTrackingEventNameScreenPrivate: "SvhRCI6yqVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameLoginFacebook: "zwVTCMunxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameLoginEmail: "r-7WCLb1xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameSignupEmail: "IfaNCMj1xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameLogout: "A-yYCIPJzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductList: "jdzqCPHIzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductDetailVisit: "Sf4hCIvCzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductDetailOffer: "p8aeCJzHzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductDetailAskQuestion: "VCC-CJPHzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductDetailSold: "CjBcCKymxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellStart: "NonZCNOpxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellAddPicture: "7hAGCISoxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditTitle: "AImZCIz1xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditPrice: "kbuMCLmkxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditDesc: "kyEqCMv4xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditCurrency: "ngBqCN3JzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditCategory: "XGXWCL73xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellEditShareFB: "ijsRCKypxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellFormValidationFailed: "H0HOCLynxVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellSharedFB: "7Z-ICPv4xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellAbandon: "KY1bCP3IzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameProductSellComplete: "7IWHCM7JzVsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameUserSentMessage: "yyz4CJD5xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameScreenPublic: "tvXiCKX8xFsQ__6fyQM",
+            kLetGoTrackingEventDummyModifier + kLetGoTrackingEventNameScreenPrivate: "LkyLCN7KzVsQ__6fyQM"
+            
         ];
     }
     
-    func trackEvent(eventName: String, eventParameter: String?, eventValue: String?) {
-        // Track in Apps Flyer
-        if eventParameter != nil && eventValue != nil {
-            AppsFlyerTracker.sharedTracker().trackEvent(eventName, withValues: [eventParameter! : eventValue!])
-        } else { AppsFlyerTracker.sharedTracker().trackEvent(eventName, withValue: "") }
-        
-        // Track in Amplitude
-        if eventParameter != nil && eventValue != nil {
-            Amplitude.instance().logEvent(eventName, withEventProperties: [eventParameter! : eventValue!])
-        } else { Amplitude.instance().logEvent(eventName) }
-        
-        // Track in Facebook Events
-        if eventParameter != nil && eventValue != nil {
-            FBSDKAppEvents.logEvent(eventName, parameters: [eventParameter! : eventValue!])
-        } else { FBSDKAppEvents.logEvent(eventName) }
-        
-        // Track in Google Conversion Analytics.
-        ACTConversionReporter.reportWithConversionID(kLetGoGoogleConversionTrackingId, label: actLabelMap[eventName] ?? "", value: "0.00", isRepeatable: true)
+    func trackEvent(eventName: String, var eventParameters: [String: AnyObject]?) {
+        dispatch_async(trackingDispatchQueue) { () -> Void in
+            // is this a dummy user? If so, we need to add the "dummy-" modifier to the event name.
+            let isDummyUser = self.userIsDummyUser(PFUser.currentUser())
+            // build final event name
+            var eventFinalName = isDummyUser ? kLetGoTrackingEventDummyModifier + eventName : eventName
+            
+            // Track events with parameters.
+            if eventParameters != nil && eventParameters?.count > 0 {
+                // modify parameter item-type if dummy user (only if present).
+                if let itemTypePresent = eventParameters![kLetGoTrackingParameterNameItemType] as? String {
+                    eventParameters![kLetGoTrackingParameterNameItemType] = isDummyUser ? "dummy" : "real"
+                }
+
+                // Track in Apps Flyer
+                AppsFlyerTracker.sharedTracker().trackEvent(eventFinalName, withValues: eventParameters!)
+                // Track in Amplitude.
+                Amplitude.instance().logEvent(eventFinalName, withEventProperties: eventParameters!)
+                // Track in Facebook Events
+                FBSDKAppEvents.logEvent(eventFinalName, parameters: eventParameters!)
+            } else {
+                // Track in Apps Flyer
+                AppsFlyerTracker.sharedTracker().trackEvent(eventFinalName, withValue: "")
+                // Track in Amplitude.
+                Amplitude.instance().logEvent(eventFinalName)
+                // Track in Facebook Events
+                FBSDKAppEvents.logEvent(eventFinalName)
+            }
+            
+            // in Amplitude, if user is dummy, we need to setUserProperties with a property of "UserType":"Dummy"
+            if isDummyUser { Amplitude.instance().setUserProperties(["UserType":"Dummy"]) }
+
+            // ACT likes to run in main queue.
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                // Track in Google Conversion Analytics.
+                if let actEventName = self.actLabelMap[eventFinalName] {
+                    ACTConversionReporter.reportWithConversionID(kLetGoGoogleConversionTrackingId, label: actEventName, value: "0.00", isRepeatable: true)
+                }
+            })
+            
+        }
+    }
+    
+    func userIsDummyUser(whichUser: PFUser?) -> Bool {
+        if whichUser == nil { return false }
+        let retrievedUser = whichUser!.fetchIfNeeded()
+        if let username = retrievedUser!["username"] as? String {
+            if startsWith(username, kLetGoTrackingEventDummyUser) { return true } // dummy user
+        }
+        // if we have no username (not logged in?) we can't really tell this is a dummy user, so...
+        return false
     }
 }
+
+
+
+
+
+

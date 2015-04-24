@@ -72,9 +72,21 @@ struct LetGoConversation {
 * LocationManager follows the Singleton pattern, so it's accessed by means of the shared method sharedInstance().
 */
 class ChatManager: NSObject {
+    /** Async queue for dispatching push notifications */
+    var pushNotificationsDispatchQueue: dispatch_queue_t
+    
     /** Shared instance */
     class var sharedInstance: ChatManager {
         return _singletonInstance
+    }
+
+    /** Initializes the ChatManager, creating the push notification dispatch queue */
+    override init() {
+        if iOSVersionAtLeast("8.0") {
+            let queueAttributes = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0)
+            pushNotificationsDispatchQueue = dispatch_queue_create("com.letgo.LetGoChatManagerQueue", queueAttributes)
+        } else { pushNotificationsDispatchQueue = dispatch_queue_create("com.letgo.LetGoChatManagerQueue", 0) }
+        super.init()
     }
     
     /** Retrieve all the conversations of a user, including all products, where user_from or user_to matches our currentUser */
@@ -129,7 +141,7 @@ class ChatManager: NSObject {
         query.includeKey("user_from")
 
         query.findObjectsInBackgroundWithBlock { (objectsFound, error) -> Void in
-            println("My conversations results: \(objectsFound), error = \(error)")
+            //println("My conversations results: \(objectsFound), error = \(error)")
             if objectsFound?.count > 0 {
                 dispatch_async(dispatch_get_main_queue(), { completion(success: true, conversation: objectsFound!.first as? PFObject) })
             } else {
@@ -184,7 +196,7 @@ class ChatManager: NSObject {
     }
     
     /** Adds a new text message to a conversation object. The message will contain only text (a message string), no media. */
-    func addTextMessage(text: String, toUser destinationUser: PFUser, inConversation conversation: PFObject, fromProduct productObject: PFObject, completion: (success: Bool, newlyCreatedMessageObject: PFObject!) -> Void) {
+    func addTextMessage(text: String, toUser destinationUser: PFUser, inConversation conversation: PFObject, fromProduct productObject: PFObject, isOffer: Bool, completion: (success: Bool, newlyCreatedMessageObject: PFObject!) -> Void) {
         let newMessage = PFObject(className: "Messages")
         newMessage["conversation"] = conversation
         newMessage["user_from"] = PFUser.currentUser()
@@ -216,8 +228,12 @@ class ChatManager: NSObject {
                 conversation.saveInBackgroundWithBlock({ (success, error) -> Void in
                     if !success { conversation.saveEventually(nil) }
                 })
-                self.sendPushNotificationWithMessage(text, toUser: destinationUser, fromUser: PFUser.currentUser()!, conversationId: conversation.objectId)
                 
+                // Send a push notification, in background
+                dispatch_async(self.pushNotificationsDispatchQueue, { () -> Void in
+                    self.sendPushNotificationWithMessage(newMessage, toUser: destinationUser, fromUser: PFUser.currentUser()!, conversation: conversation, product: productObject, type: isOffer ? .Offer : .Message)
+                })
+
                 // inform the handler of the successfull completion.
                 dispatch_async(dispatch_get_main_queue(), { completion(success: true, newlyCreatedMessageObject: newMessage) })
             } else {
@@ -227,16 +243,59 @@ class ChatManager: NSObject {
     }
     
     /** Sends a push notification to a user with a (shortened to max length) text */
-    internal func sendPushNotificationWithMessage(message: String, toUser user: PFUser, fromUser sourceUser: PFUser, conversationId: String?) {
-        // send a push notification.
+    internal func sendPushNotificationWithMessage(messageObject: PFObject, toUser user: PFUser, fromUser sourceUser: PFUser, conversation: PFObject, product: PFObject, type: LetGoChatNotificationType) {
+        //Prepare the PFPush query for the target device.
         let pushQuery = PFInstallation.query()
         pushQuery!.whereKey("user_objectId", equalTo: user.objectId!)
         let push = PFPush()
         push.setQuery(pushQuery)
+        
+        // set mandatory iOS element: badge and alert.
+        let message = messageObject["message"] as! String
         var shortString = (sourceUser["username_public"] as? String ?? translate("message")) + ": " + message
-        shortString = count(shortString) > kLetGoPushNotificationMaxPayloadSpaceForText ? shortString.substringToIndex(advance(shortString.startIndex, kLetGoPushNotificationMaxPayloadSpaceForText)) : shortString
-        var messageData = ["badge": "Increment", "alert": shortString]
-        if conversationId != nil { messageData["c_id"] = conversationId! }
+        // TODO: Ignore alert message size limitations for iOS 8 only. Restore checks when support for iOS 7 is added again.
+        // shortString = count(shortString) > kLetGoPushNotificationMaxPayloadSpaceForText ? shortString.substringToIndex(advance(shortString.startIndex, kLetGoPushNotificationMaxPayloadSpaceForText)) : shortString
+        var messageData: [String: AnyObject] = ["badge": "Increment"]
+        
+        /////// set other parameters (include Android compatibility).
+        // product ID
+        if product.objectId != nil { messageData["product"] = product.objectId! }
+        else { messageData["product"] = "" }
+        
+        // titulo
+        if let productTitle = product["name"] as? String {
+            messageData["t"] = translate("new_message") + " - " + productTitle
+            messageData["titulo"] = translate("new_message") + " - " + productTitle
+        } else { messageData["t"] = ""; messageData["titulo"] = "" }
+        
+        // conversation id.
+        if conversation.objectId != nil {
+            messageData["c_id"] = conversation.objectId!
+            messageData["conversationObjectId"] = conversation.objectId!
+        } else { messageData["c_id"] = ""; messageData["conversationObjectId"] = "" }
+        
+        // alert/a
+        messageData["alerta"] = shortString
+        messageData["alert"] = shortString
+        
+        // notification type
+        messageData["notification_type"] = type.rawValue
+        messageData["n_t"] = type.rawValue
+        
+        // action para que no pete android ;)
+        messageData["action"] = "com.abtnprojects.ambatana.utils.AmbatanaBroadcastPushReceiver.NEW_MESSAGE"
+        
+        // message object id.
+        if messageObject.objectId != nil { messageData["messageObjectId"] = messageObject.objectId! }
+        else { messageData["messageObjectId"] = "" }
+        
+        // Img URL from user: we can retrieve the user contents (if needed) directly because we are running in a background thread.
+        let fetchedUser = user.fetchIfNeeded() ?? user
+        if let toUserAvatarFile = fetchedUser["avatar"] as? PFFile {
+            if toUserAvatarFile.url != nil { messageData["img"] = toUserAvatarFile.url! } else { messageData["img"] = "" }
+        } else { messageData["img"] = "" }
+        
+        // send push notification data.
         push.setData(messageData)
         push.sendPushInBackgroundWithBlock { (success, error) -> Void in
             if !success { // try to send again in 1 minute

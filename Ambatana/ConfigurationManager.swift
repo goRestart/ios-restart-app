@@ -43,7 +43,7 @@ class ConfigurationManager: NSObject {
             fbRequest.startWithCompletionHandler({ (connection, result, error) -> Void in
                 if let userData = result as? NSDictionary {
                     // start filling user profile data.
-                    println("Datos de Facebook: \(userData)")
+                    //println("Datos de Facebook: \(userData)")
                     
                     // user name
                     let firstName = userData["first_name"] as? String
