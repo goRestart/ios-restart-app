@@ -95,20 +95,20 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     private func evaluateChangeInUserPosition() {
-        println("Evaluating changes in user position...")
+        //println("Evaluating changes in user position...")
         // sanity check
         if PFUser.currentUser() == nil { return } // we are not logged in yet.
         if (!CLLocationCoordinate2DIsValid(self.lastKnownLocation)) { return } // we don't have a valid location coordinate.
         
         // if we don't have a recorded location, we should try to retrieve it from Parse first.
         if (!CLLocationCoordinate2DIsValid(self.lastRegisteredLocation)) {
-            println("Trying to retrieve last registered location...")
+            //println("Trying to retrieve last registered location...")
             if let registeredLocationObject = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
-                println("Previous information found \(registeredLocationObject)")
+                //println("Previous information found \(registeredLocationObject)")
                 // Create a new local last registered location object
                 self.lastRegisteredLocation = CLLocationCoordinate2DMake(registeredLocationObject.latitude, registeredLocationObject.longitude)
             } else { // no previous information, register current position as the valid position and exit
-                println("No previous information found")
+                //println("No previous information found")
                 self.lastRegisteredLocation = self.lastKnownLocation
                 let initialLocation = CLLocation(coordinate: self.lastKnownLocation, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
                 updateRegisteredLocation(initialLocation)
@@ -121,7 +121,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         let registeredLocation = CLLocation(coordinate: self.lastRegisteredLocation, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
         
         if (latestLocation.distanceFromLocation(registeredLocation) > 1000) { // if new location is more than 1km away from last registered location...
-            println("Registering new location: \(latestLocation)")
+            //println("Registering new location: \(latestLocation)")
             updateRegisteredLocation(latestLocation)
         } else {
             NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserLocationSuccessfullySetNotification, object: latestLocation)
@@ -141,7 +141,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         geocoder.reverseGeocodeLocation(latestLocation, completionHandler: { (placemarks, error) -> Void in
             let geoPoint = PFGeoPoint(latitude: latestLocation.coordinate.latitude, longitude: latestLocation.coordinate.longitude)
             PFUser.currentUser()?["gpscoords"] = geoPoint
-            println("Updating user location to \(latestLocation.description)...")
+            //println("Updating user location to \(latestLocation.description)...")
             
             if placemarks?.count > 0 {
                 if let placemark = placemarks?.first as? CLPlacemark {
@@ -159,11 +159,11 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             }
             PFUser.currentUser()!.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if (success) {
-                    println("*** Updated registered user location successfully")
+                    //println("*** Updated registered user location successfully")
                     self.lastRegisteredLocation = latestLocation.coordinate
                     if notifyObservers { NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserLocationSuccessfullyChangedNotification, object: latestLocation) }
                 } else {
-                    println("*** Error setting registered user's location")
+                    //println("*** Error setting registered user's location")
                     if notifyObservers { NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUnableToSetUserLocationNotification, object: nil) }
                 }
             })
@@ -173,7 +173,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     // MARK: - CLLocationManagerDelegate methods
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        println("Location manager received locations: \(locations)")
+        //println("Location manager received locations: \(locations)")
         self.updatingLocation = false
         clLocationManager.stopUpdatingLocation()
         if (locations?.count > 0) {
@@ -191,16 +191,16 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        println("Location manager status changed to \(status.rawValue)")
+        //println("Location manager status changed to \(status.rawValue)")
         self.authorizationStatus = status
         // check if user is allowed to use location services.
         if appIsAuthorizedToUseLocationServices() { // start updating location
-            println("We are authorized, so start updating location!")
+            //println("We are authorized, so start updating location!")
             NSUserDefaults.standardUserDefaults().removeObjectForKey(kLetGoUserWantsToSpecifyLocationDirectly)
             self.startUpdatingLocation()
         } else { // ask the user to enter his/her location.
             if (PFUser.currentUser() == nil) { return }
-            println("We are NOT authorized, falling back to registered location or ask user for its location.")
+            //println("We are NOT authorized, falling back to registered location or ask user for its location.")
             // invalidate the timer.
             if (locationTimer != nil) { locationTimer.invalidate() }
             
@@ -209,16 +209,16 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             if let directLocation = NSUserDefaults.standardUserDefaults().objectForKey(kLetGoUserWantsToSpecifyLocationDirectly) as? String {
                 // try to get location for the current user from parse, and use it as the .
                 if let registeredLocationObject = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
-                    println("Location retrieved from previously registered entry in backend")
+                    //println("Location retrieved from previously registered entry in backend")
                     // use this registered location as the current location.
                     self.lastRegisteredLocation = CLLocationCoordinate2DMake(registeredLocationObject.latitude, registeredLocationObject.longitude)
                     self.lastKnownLocation = self.lastRegisteredLocation
                 } else {
-                    println("Unable to get location")
+                    //println("Unable to get location")
                     NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUnableToGetUserLocationNotification, object: nil)
                 }
             } else {
-                println("Unable to get location")
+                //println("Unable to get location")
                 NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUnableToGetUserLocationNotification, object: nil)
             }
             updatingLocation = false

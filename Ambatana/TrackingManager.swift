@@ -74,6 +74,8 @@ class TrackingManager: NSObject {
     // data
     // A map between an event name and the Google Conversion Tracker label parameter
     var actLabelMap: [String: String] = [:]
+    // The queue for the tracking operations.
+    var trackingDispatchQueue: dispatch_queue_t
     
     /** Shared instance */
     class var sharedInstance: TrackingManager {
@@ -81,7 +83,16 @@ class TrackingManager: NSObject {
     }
     
     override init() {
+        // initialize tracking queue
+        if iOSVersionAtLeast("8.0") {
+            let queueAttributes = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0)
+            trackingDispatchQueue = dispatch_queue_create("com.letgo.LetGoTrackingManagerQueue", queueAttributes)
+        } else { trackingDispatchQueue = dispatch_queue_create("com.letgo.LetGoTrackingManagerQueue", 0) }
+        
+        // call supper
         super.init()
+        
+        // now initialize all tracking systems
         // Apps Flyer
         AppsFlyerTracker.sharedTracker().appsFlyerDevKey = kLetGoAppsFlyerDevKey
         AppsFlyerTracker.sharedTracker().appleAppID = kLetGoAppsFlyerAppleAppId
@@ -146,40 +157,53 @@ class TrackingManager: NSObject {
         ];
     }
     
-    func trackEvent(eventName: String, eventParameters: [String: AnyObject]?) {
-        // is this a dummy user? If so, we need to add the "dummy-" modifier to the event name.
-        let isDummyUser = self.userIsDummyUser()
-        // build final event name
-        var eventFinalName = isDummyUser ? kLetGoTrackingEventDummyModifier + eventName : eventName
+    func trackEvent(eventName: String, var eventParameters: [String: AnyObject]?) {
+        dispatch_async(trackingDispatchQueue) { () -> Void in
+            // is this a dummy user? If so, we need to add the "dummy-" modifier to the event name.
+            let isDummyUser = self.userIsDummyUser(PFUser.currentUser())
+            // build final event name
+            var eventFinalName = isDummyUser ? kLetGoTrackingEventDummyModifier + eventName : eventName
+            
+            // Track events with parameters.
+            if eventParameters != nil && eventParameters?.count > 0 {
+                // modify parameter item-type if dummy user (only if present).
+                if let itemTypePresent = eventParameters![kLetGoTrackingParameterNameItemType] as? String {
+                    eventParameters![kLetGoTrackingParameterNameItemType] = isDummyUser ? "dummy" : "real"
+                }
 
-        // Track events with parameters.
-        if eventParameters != nil && eventParameters?.count > 0 {
-            // Track in Apps Flyer
-            AppsFlyerTracker.sharedTracker().trackEvent(eventFinalName, withValues: eventParameters!)
-            // Track in Amplitude.
-            Amplitude.instance().logEvent(eventFinalName, withEventProperties: eventParameters!)
-            // Track in Facebook Events
-            FBSDKAppEvents.logEvent(eventFinalName, parameters: eventParameters!)
-        } else {
-            // Track in Apps Flyer
-            AppsFlyerTracker.sharedTracker().trackEvent(eventFinalName, withValue: "")
-            // Track in Amplitude.
-            Amplitude.instance().logEvent(eventFinalName)
-            // Track in Facebook Events
-            FBSDKAppEvents.logEvent(eventFinalName)
-        }
-        
-        // in Amplitude, if user is dummy, we need to setUserProperties with a property of "UserType":"Dummy"
-        if isDummyUser { Amplitude.instance().setUserProperties(["UserType":"Dummy"]) }
+                // Track in Apps Flyer
+                AppsFlyerTracker.sharedTracker().trackEvent(eventFinalName, withValues: eventParameters!)
+                // Track in Amplitude.
+                Amplitude.instance().logEvent(eventFinalName, withEventProperties: eventParameters!)
+                // Track in Facebook Events
+                FBSDKAppEvents.logEvent(eventFinalName, parameters: eventParameters!)
+            } else {
+                // Track in Apps Flyer
+                AppsFlyerTracker.sharedTracker().trackEvent(eventFinalName, withValue: "")
+                // Track in Amplitude.
+                Amplitude.instance().logEvent(eventFinalName)
+                // Track in Facebook Events
+                FBSDKAppEvents.logEvent(eventFinalName)
+            }
+            
+            // in Amplitude, if user is dummy, we need to setUserProperties with a property of "UserType":"Dummy"
+            if isDummyUser { Amplitude.instance().setUserProperties(["UserType":"Dummy"]) }
 
-        // Track in Google Conversion Analytics.
-        if let actEventName = actLabelMap[eventFinalName] {
-            ACTConversionReporter.reportWithConversionID(kLetGoGoogleConversionTrackingId, label: actEventName, value: "0.00", isRepeatable: true)
+            // ACT likes to run in main queue.
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                // Track in Google Conversion Analytics.
+                if let actEventName = self.actLabelMap[eventFinalName] {
+                    ACTConversionReporter.reportWithConversionID(kLetGoGoogleConversionTrackingId, label: actEventName, value: "0.00", isRepeatable: true)
+                }
+            })
+            
         }
     }
     
-    func userIsDummyUser(whichUser: PFUser? = PFUser.currentUser()) -> Bool {
-        if let username = whichUser?["username"] as? String {
+    func userIsDummyUser(whichUser: PFUser?) -> Bool {
+        if whichUser == nil { return false }
+        let retrievedUser = whichUser!.fetchIfNeeded()
+        if let username = retrievedUser!["username"] as? String {
             if startsWith(username, kLetGoTrackingEventDummyUser) { return true } // dummy user
         }
         // if we have no username (not logged in?) we can't really tell this is a dummy user, so...

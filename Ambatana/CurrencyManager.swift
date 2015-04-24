@@ -40,7 +40,7 @@ class CurrencyManager: NSObject {
     func refreshCurrenciesFromBackend() {
         let pfquery = PFQuery(className: "Currencies")
         pfquery.findObjectsInBackgroundWithBlock { (results, error) -> Void in
-            println("Retrieved currencies from the backend")
+            //println("Retrieved currencies from the backend")
             if let currencies = results as? [PFObject] {
                 var retrievedCurrencies: [LetGoCurrency] = []
                 // iterate and add valid retrieved currencies.

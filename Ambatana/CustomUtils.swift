@@ -10,6 +10,9 @@ import UIKit
 
 /** Checks if the iOS version is at least "version" */
 func iOSVersionAtLeast(version: String) -> Bool {
+    // TODO: Revert the iOS 7 method when supporting it back.
+    return true
+    
     switch UIDevice.currentDevice().systemVersion.compare(version, options: NSStringCompareOptions.NumericSearch) {
     case .OrderedSame, .OrderedDescending:
         return true

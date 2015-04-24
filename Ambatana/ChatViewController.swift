@@ -256,7 +256,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.isSendingMessage = true
         
         // send message
-        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.productObject!) { (success, newlyCreatedMessageObject) -> Void in
+        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.productObject!, isOffer: false) { (success, newlyCreatedMessageObject) -> Void in
             if success {
                 self.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)
                 
@@ -394,7 +394,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func checkUpdatedConversation(notification: NSNotification) {
         // Analyze push notification object.
         if let userInfo = notification.object as? [NSObject: AnyObject] {
-            if let conversationId = userInfo["c_id"] as? String {
+            // added support for Android push notifications compatibility.
+            var info = userInfo
+            if let aps = info["aps"] as? [String: AnyObject] { info = aps }
+            if let conversationId = info["c_id"] as? String {
                 // check if we need to update the conversation.
                 if self.letgoConversation?.conversationObject.objectId == conversationId {
                     self.refreshMessages()

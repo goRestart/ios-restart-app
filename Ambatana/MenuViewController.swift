@@ -238,7 +238,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func badgeChanged (notification: NSNotification) {
         self.tableView.reloadData()
-        println("Badge changed!")
+        //println("Badge changed!")
     }
 }
 

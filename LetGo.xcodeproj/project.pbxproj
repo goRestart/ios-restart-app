@@ -523,7 +523,6 @@
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
 				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
-				668C05261AE8E31E00F68FC3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -592,19 +591,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		668C05261AE8E31E00F68FC3 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run ee74dba1f064973d3771e82b15b2c0228005315c 9de6d83fff44853c081801755366a42787d7bb378bdc9bec3e4553fa2cade282    ";
-		};
 		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -810,7 +796,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -838,7 +824,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

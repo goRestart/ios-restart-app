@@ -132,7 +132,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                             }, andAddToCache: true)
                     } else { self.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
                 } else {
-                    println("Error retrieving user object: \(error!.localizedDescription)")
+                    //println("Error retrieving user object: \(error!.localizedDescription)")
                     self.usernameLabel.hidden = true
                     self.userAvatarImageView.hidden = true
                 }
@@ -232,7 +232,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             if let productZipCode = productObject[kLetGoRestAPIParameterZipCode] as? String { properties[kLetGoTrackingParameterNameProductZipCode] = productZipCode }
             if let productCategoryId = productObject[kLetGoRestAPIParameterCategoryId] as? String { properties[kLetGoTrackingParameterNameCategoryId] = productCategoryId }
             if let productName = productObject[kLetGoRestAPIParameterName] as? String { properties[kLetGoTrackingParameterNameProductName] = productName }
-            properties[kLetGoTrackingParameterNameItemType] = TrackingManager.sharedInstance.userIsDummyUser(whichUser: self.productUser) ? "dummy" : "real"
+            properties[kLetGoTrackingParameterNameItemType] = "real" // we suppose it's real unless TrackingManager says otherwise.
         }
         
         return properties
