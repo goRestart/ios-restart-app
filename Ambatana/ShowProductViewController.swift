@@ -46,6 +46,11 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var bottomGuideLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var lineDivider: UIView!
+    @IBOutlet weak var butProductReport: UIButton!
+    
+    @IBOutlet weak var butProductReportHeightConstraint: NSLayoutConstraint!
+    
     // Data
     var productObject: PFObject!
     var isFavourite = false
@@ -197,10 +202,36 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 if locationString == translate("here") { fromYouLabel.hidden = true } else { fromYouLabel.hidden = false }
             }
             
+            // fraud report
+            if thisProductIsMine {
+                if let statusCode = productObject["status"] as? Int {
+                    self.lineDivider.hidden = true
+                    self.butProductReport.hidden = true
+                    
+                    productStatus = LetGoProductStatus(rawValue: statusCode)
+                    if productStatus == .Sold {
+                        self.butProductReportHeightConstraint.constant = 0
+                    }
+                    else {
+                        self.butProductReportHeightConstraint.constant = 20
+                    }
+                }
+                else {
+                    self.butProductReportHeightConstraint.constant = 20
+                }
+            }
+            else {
+                self.lineDivider.hidden = false
+                self.butProductReport.hidden = false
+                self.butProductReportHeightConstraint.constant = 80
+            }
+            
         } else { // hide all buttons
             self.markSoldButton.hidden = true
             self.askQuestionButton.hidden = true
             self.makeOfferButton.hidden = true
+            self.lineDivider.hidden = true
+            self.butProductReport.hidden = true
         }
         
         // internationalization
@@ -208,6 +239,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
         fromYouLabel.text = translate("from_you")
         errorLoadingPhotosLabel.text = translate("error_loading_photos_product")
+        butProductReport.setTitle(translate("report_product"), forState: .Normal)
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -385,6 +417,34 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         
     }
 
+    @IBAction func reportProductButtonPressed(sender: AnyObject) {
+
+        if let product = productObject, let myUser = PFUser.currentUser(), let productOwner = productUser {
+            
+            butProductReport.enabled = false
+            butProductReport.setTitle(translate("reporting_product"), forState: .Normal)
+            
+            let report = PFObject(className: "UserReports")
+            report["product_reported"] = productObject
+            report["user_reporter"] = PFUser.currentUser()
+            report["user_reported"] = productUser
+            
+            report.saveInBackgroundWithBlock({ [weak self] (success, error) -> Void in
+                if let strongSelf = self {
+                    
+                    strongSelf.butProductReport.enabled = true
+                    
+                    if success {
+                        strongSelf.butProductReport.setTitle(translate("reported_product"), forState: .Normal)
+                    }
+                    else {
+                        strongSelf.butProductReport.setTitle(translate("report_product"), forState: .Normal)
+                    }
+                }
+                })
+        }
+    }
+    
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if buttonIndex == 1 {
             self.definitelyMarkProductAsSold()

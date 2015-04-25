@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -1650,19 +1650,6 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vk6-rJ-eLj">
-                                        <rect key="frame" x="18" y="560" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="dtB-uX-Ai2"/>
-                                            <constraint firstAttribute="width" secondItem="vk6-rJ-eLj" secondAttribute="height" multiplier="1:1" id="hbD-AT-EZV"/>
-                                        </constraints>
-                                        <state key="normal" image="no_photo">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="showProductUser:" destination="KjO-ho-cvR" eventType="touchUpInside" id="6sU-Cg-gCr"/>
-                                        </connections>
-                                    </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dB2-uE-dD8">
                                         <rect key="frame" x="0.0" y="422" width="320" height="2"/>
                                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -1680,12 +1667,45 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KpP-q4-Y6Q">
-                                        <rect key="frame" x="0.0" y="616" width="320" height="72"/>
+                                        <rect key="frame" x="0.0" y="680" width="320" height="72"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="72" id="S6P-QZ-u1R"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vk6-rJ-eLj">
+                                        <rect key="frame" x="18" y="560" width="48" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="48" id="dtB-uX-Ai2"/>
+                                            <constraint firstAttribute="width" secondItem="vk6-rJ-eLj" secondAttribute="height" multiplier="1:1" id="hbD-AT-EZV"/>
+                                        </constraints>
+                                        <state key="normal" image="no_photo">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="showProductUser:" destination="KjO-ho-cvR" eventType="touchUpInside" id="6sU-Cg-gCr"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AoY-jI-yix">
+                                        <rect key="frame" x="0.0" y="616" width="320" height="2"/>
+                                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="L6o-lg-Xqc"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N3M-Vz-7Ev" userLabel="butReportProduct">
+                                        <rect key="frame" x="0.0" y="608" width="320" height="80"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="80" id="0OM-0S-8im"/>
+                                        </constraints>
+                                        <state key="normal" title="Report Product">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="reportProductButtonPressed:" destination="KjO-ho-cvR" eventType="touchUpInside" id="N4q-qy-b8S"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1694,13 +1714,16 @@
                                     <constraint firstItem="kAV-qD-LNG" firstAttribute="bottom" secondItem="ZO0-1Q-Sau" secondAttribute="bottom" id="2vl-TQ-7Lw"/>
                                     <constraint firstAttribute="trailing" secondItem="ZO0-1Q-Sau" secondAttribute="trailing" id="3Py-TI-6hc"/>
                                     <constraint firstItem="KpP-q4-Y6Q" firstAttribute="leading" secondItem="7jO-VV-RrQ" secondAttribute="leading" id="47x-mG-IcS"/>
+                                    <constraint firstItem="N3M-Vz-7Ev" firstAttribute="leading" secondItem="7jO-VV-RrQ" secondAttribute="leading" id="5cP-76-nWb"/>
                                     <constraint firstItem="dB2-uE-dD8" firstAttribute="top" secondItem="qeP-Ju-Lg7" secondAttribute="bottom" constant="8" id="5vQ-As-OuE"/>
+                                    <constraint firstItem="AoY-jI-yix" firstAttribute="top" secondItem="vk6-rJ-eLj" secondAttribute="bottom" constant="8" id="611-NE-ybx"/>
                                     <constraint firstItem="cWM-41-VNu" firstAttribute="top" secondItem="ZO0-1Q-Sau" secondAttribute="bottom" constant="8" id="6Sy-0c-Djr"/>
                                     <constraint firstItem="dB2-uE-dD8" firstAttribute="top" secondItem="WiX-8L-R53" secondAttribute="bottom" constant="21" id="6wL-KO-hLm"/>
                                     <constraint firstItem="pai-Pb-9vq" firstAttribute="leading" secondItem="x1x-2Y-omp" secondAttribute="leading" id="7S6-52-KJj"/>
                                     <constraint firstAttribute="bottom" secondItem="KpP-q4-Y6Q" secondAttribute="bottom" id="Acg-d4-xkB"/>
                                     <constraint firstItem="pai-Pb-9vq" firstAttribute="leading" secondItem="uO5-sX-W6n" secondAttribute="trailing" constant="-310" id="CYU-3X-2uv"/>
                                     <constraint firstAttribute="trailing" secondItem="AWr-r7-MLG" secondAttribute="trailing" id="D2M-qM-xvU"/>
+                                    <constraint firstItem="AoY-jI-yix" firstAttribute="leading" secondItem="7jO-VV-RrQ" secondAttribute="leading" id="Dxh-bN-IDj"/>
                                     <constraint firstAttribute="trailing" secondItem="X9o-KA-S7j" secondAttribute="trailing" constant="40" id="FIt-zz-ZWn"/>
                                     <constraint firstItem="pai-Pb-9vq" firstAttribute="trailing" secondItem="x1x-2Y-omp" secondAttribute="trailing" id="FaC-lt-DJg"/>
                                     <constraint firstItem="uO5-sX-W6n" firstAttribute="top" secondItem="pai-Pb-9vq" secondAttribute="bottom" constant="8" id="Gnx-ks-Da4"/>
@@ -1717,8 +1740,8 @@
                                     <constraint firstItem="sH9-bi-e3z" firstAttribute="top" secondItem="ZO0-1Q-Sau" secondAttribute="top" id="QLu-UF-m4l"/>
                                     <constraint firstItem="dB2-uE-dD8" firstAttribute="top" secondItem="Xfw-hQ-0XG" secondAttribute="bottom" constant="32" id="QXQ-vV-Iut"/>
                                     <constraint firstItem="cpz-9B-T73" firstAttribute="centerY" secondItem="vk6-rJ-eLj" secondAttribute="centerY" constant="10.5" id="QhU-EH-HI8"/>
+                                    <constraint firstAttribute="trailing" secondItem="AoY-jI-yix" secondAttribute="trailing" id="Qqi-YT-rzn"/>
                                     <constraint firstItem="sH9-bi-e3z" firstAttribute="leading" secondItem="ZO0-1Q-Sau" secondAttribute="leading" id="RBX-Xh-DWw"/>
-                                    <constraint firstItem="KpP-q4-Y6Q" firstAttribute="top" secondItem="vk6-rJ-eLj" secondAttribute="bottom" constant="8" id="S8G-No-b7o"/>
                                     <constraint firstItem="qeP-Ju-Lg7" firstAttribute="trailing" secondItem="cWM-41-VNu" secondAttribute="trailing" id="SDW-er-4TI"/>
                                     <constraint firstItem="FTT-zL-geS" firstAttribute="leading" secondItem="Xfw-hQ-0XG" secondAttribute="leading" id="SXH-c4-ltu"/>
                                     <constraint firstAttribute="trailing" secondItem="Xfw-hQ-0XG" secondAttribute="trailing" constant="16" id="Us8-2s-Xyq"/>
@@ -1741,12 +1764,15 @@
                                     <constraint firstAttribute="trailing" secondItem="uO5-sX-W6n" secondAttribute="trailing" id="lhF-cz-f28"/>
                                     <constraint firstItem="WiX-8L-R53" firstAttribute="top" secondItem="AWr-r7-MLG" secondAttribute="bottom" constant="55" id="m73-Xr-ksX"/>
                                     <constraint firstAttribute="trailing" secondItem="KpP-q4-Y6Q" secondAttribute="trailing" id="mDe-Qr-haf"/>
+                                    <constraint firstItem="N3M-Vz-7Ev" firstAttribute="top" secondItem="vk6-rJ-eLj" secondAttribute="bottom" id="nhV-iQ-Kei"/>
+                                    <constraint firstAttribute="trailing" secondItem="N3M-Vz-7Ev" secondAttribute="trailing" id="oiq-nQ-3ra"/>
                                     <constraint firstItem="dB2-uE-dD8" firstAttribute="leading" secondItem="7jO-VV-RrQ" secondAttribute="leading" id="qgK-2Q-1ci"/>
                                     <constraint firstItem="vk6-rJ-eLj" firstAttribute="top" secondItem="uO5-sX-W6n" secondAttribute="bottom" constant="8" id="rcw-QM-QjI"/>
                                     <constraint firstItem="X9o-KA-S7j" firstAttribute="leading" secondItem="vk6-rJ-eLj" secondAttribute="trailing" constant="8" id="uQA-Ee-a1h"/>
                                     <constraint firstItem="FTT-zL-geS" firstAttribute="top" secondItem="ZO0-1Q-Sau" secondAttribute="bottom" constant="8" id="uqR-PQ-CjO"/>
                                     <constraint firstItem="qeP-Ju-Lg7" firstAttribute="leading" secondItem="7jO-VV-RrQ" secondAttribute="leading" constant="16" id="wNt-hP-VWz"/>
                                     <constraint firstAttribute="trailing" secondItem="pai-Pb-9vq" secondAttribute="trailing" constant="10" id="y4t-lS-fYw"/>
+                                    <constraint firstAttribute="bottom" secondItem="N3M-Vz-7Ev" secondAttribute="bottom" constant="64" id="yuZ-4a-d0d"/>
                                     <constraint firstItem="AWr-r7-MLG" firstAttribute="top" secondItem="cWM-41-VNu" secondAttribute="bottom" constant="8" id="yvI-US-7qJ"/>
                                 </constraints>
                             </scrollView>
@@ -1837,6 +1863,8 @@
                         <outlet property="askQuestionActivityIndicator" destination="l6g-dT-dXN" id="uY5-nW-vfB"/>
                         <outlet property="askQuestionButton" destination="hi5-pL-eip" id="Sbo-RZ-oVd"/>
                         <outlet property="bottomGuideLayoutConstraint" destination="7D2-h1-kBk" id="SYG-TV-rwB"/>
+                        <outlet property="butProductReport" destination="N3M-Vz-7Ev" id="WWa-lD-HbG"/>
+                        <outlet property="butProductReportHeightConstraint" destination="0OM-0S-8im" id="BP2-ND-LhA"/>
                         <outlet property="descriptionLabel" destination="qeP-Ju-Lg7" id="1KK-RV-Laj"/>
                         <outlet property="errorLoadingPhotosLabel" destination="sH9-bi-e3z" id="lbA-qX-dqr"/>
                         <outlet property="fromYouLabel" destination="WiX-8L-R53" id="12m-MB-rze"/>
@@ -1844,6 +1872,7 @@
                         <outlet property="imagesPageControl" destination="kAV-qD-LNG" id="n2Y-OC-Keg"/>
                         <outlet property="imagesScrollView" destination="ZO0-1Q-Sau" id="jM4-yY-hte"/>
                         <outlet property="itemLocationMapView" destination="x1x-2Y-omp" id="Rya-sj-GXj"/>
+                        <outlet property="lineDivider" destination="AoY-jI-yix" id="mZA-AB-o29"/>
                         <outlet property="locationLabel" destination="Xfw-hQ-0XG" id="ev8-yu-4Q7"/>
                         <outlet property="makeOfferButton" destination="aLe-pd-buA" id="03t-ym-n8h"/>
                         <outlet property="markAsSoldActivityIndicator" destination="rlZ-lr-5mc" id="45a-W6-4o0"/>
@@ -2778,8 +2807,8 @@
         <segue reference="dvE-TI-lJz"/>
         <segue reference="n3G-ME-bRv"/>
         <segue reference="V6S-hJ-EVB"/>
-        <segue reference="b6L-hI-Q4s"/>
-        <segue reference="G4e-Db-NKc"/>
         <segue reference="HOf-mn-VEJ"/>
+        <segue reference="b6L-hI-Q4s"/>
+        <segue reference="VFl-zA-Skv"/>
     </inferredMetricsTieBreakers>
 </document>

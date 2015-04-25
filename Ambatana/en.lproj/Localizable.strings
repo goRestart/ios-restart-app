@@ -195,6 +195,9 @@
 "error_loading_photos_product" = "Error loading photos of the product";
 "you" = "You";
 "new_message" = "New message";
+"report_product"= "Report Product";
+"reporting_product" = "Reporting Product...";
+"reported_product" = "The product has been reported";
 
 
 
