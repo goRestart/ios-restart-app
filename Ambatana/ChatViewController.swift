@@ -347,13 +347,19 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 userAvatarView.clipsToBounds = true
                 userAvatarView.image = self.otherUserImage
                 if self.otherUserImage == nil { // lazily load the other user's pic, only when needed!
-                    userFrom.fetchIfNeededInBackgroundWithBlock({ (retrievedUserFrom, error) -> Void in
-                        if let avatarFile = retrievedUserFrom?["avatar"] as? PFFile {
-                            ImageManager.sharedInstance.retrieveImageFromParsePFFile(avatarFile, completion: { (success, image) -> Void in
-                                if success { userAvatarView.image = image; self.otherUserImage = image }
-                                else { userAvatarView.image = UIImage(named: "no_photo"); self.otherUserImage = userAvatarView.image }
-                                // image appearance
-                                }, andAddToCache: true)
+                    userAvatarView.image = UIImage(named: "no_photo")
+                    userFrom.fetchIfNeededInBackgroundWithBlock({ [weak self] (retrievedUserFrom, error) -> Void in
+                        if let strongSelf = self,
+                           let avatarFile = retrievedUserFrom?["avatar"] as? PFFile,
+                           let thumbURL = NSURL(string: avatarFile.url!) {
+                            
+                            userAvatarView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo"), completed: {
+                                [weak self] (image, error, cacheType, url) -> Void in
+                                if (error == nil) {
+                                    userAvatarView.image = image
+                                    strongSelf.otherUserImage = image
+                                }
+                            })
                         }
                     })
                 } // end if self.otherUserImage == nil...
