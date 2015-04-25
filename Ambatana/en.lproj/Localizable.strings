@@ -70,7 +70,7 @@
 "error_sharing_whatsapp" = "There was an error sharing this product in WhatsApp.";
 "mailcancelled" = "Mail cancelled";
 "mailsaved" = "Mail saved";
-"errorsendingmail" = "Error sending mail";
+"errorsendingmail" = "Oops, it seems that you haven't set up an account in the Mail app";
 "thanksforcontact" = "Thanks for contacting us!";
 "session_expired" = "Session expired";
 "your_session_has_expired" = "It seems that your session has expired. Please try again.";
