@@ -78,7 +78,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         
         // Navigation bar & items
         self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
-        self.setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchProduct"])
+        setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProduct", "conversations"], badgeButtonPosition: 1)
 
         // Menu should only be visible from the main screen. Disable sliding unless we are the only active vc.
         let vcNumber = self.navigationController?.viewControllers.count
