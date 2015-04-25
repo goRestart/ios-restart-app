@@ -55,8 +55,8 @@
 "sell_something" = "Sell something";
 "categories" = "Categories";
 "help" = "Help";
-"unable_show_product" = "Unable to show product information. Please, try again.";
-"unable_get_products" = "Unable to retrieve the list of products. Please try again.";
+"unable_show_product" = "Hey there! You don't have connection! Come on, connect yourself!";
+"unable_get_products" = "Hey there! You don't have connection! Come on, connect yourself!";
 "try_again" = "Try again";
 "order_by" = "Order products by";
 "latest_published" = "Latest published";
