@@ -39,8 +39,8 @@ func letgoWebLinkForObjectId(objectId: String) -> String {
 /**
  * Text for the message body when sharing a product in LetGo.
  */
-func letgoTextForSharingBody(productName: String, andObjectId objectId: String) -> String {
-    return translate("have_a_look") + productName // + "\n" + letgoWebLinkForObjectId(objectId)
+func letgoTextForSharingBody(productName: String, userName: String, andObjectId objectId: String) -> String {
+    return translate("product_share_intro") + "\n" + userName + " - " + productName + ":"// + "\n" + letgoWebLinkForObjectId(objectId)
 }
 
 /**

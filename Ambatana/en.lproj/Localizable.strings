@@ -5,7 +5,8 @@
   Created by Ignacio Nieto Carvajal on 18/2/15.
   Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 */
-"have_a_look" = "Have a look at this product in letgo. ";
+"product_share_email_subject_intro" = "Look what I just found on letgo!";
+"product_share_intro" = "Look what I just found on letgo!";
 "loading" = "Loading...";
 "just_now" = "Just now";
 "x_seconds_ago" = "%d seconds ago";

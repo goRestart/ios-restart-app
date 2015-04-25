@@ -124,22 +124,25 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             // load owner user information
             let userQuery = PFUser.query()
             userQuery!.whereKey("objectId", equalTo: productUser.objectId!)
-            userQuery!.getFirstObjectInBackgroundWithBlock({ (retrievedUser, error) -> Void in
-                // user name
-                if error == nil {
-                    let usernamePublic = retrievedUser?["username_public"] as? String ?? translate("unknown")
-                    self.usernameLabel.text = usernamePublic
-                    if let avatarFile = retrievedUser?["avatar"] as? PFFile {
-                        ImageManager.sharedInstance.retrieveImageFromParsePFFile(avatarFile, completion: { (success, image) -> Void in
+            userQuery!.getFirstObjectInBackgroundWithBlock({
+                [weak self] (retrievedUser, error) -> Void in
+                if let strongSelf = self {
+                    // user name
+                    if error == nil {
+                        let usernamePublic = retrievedUser?["username_public"] as? String ?? translate("unknown")
+                        strongSelf.usernameLabel.text = usernamePublic
+                        if let avatarFile = retrievedUser?["avatar"] as? PFFile {
+                            ImageManager.sharedInstance.retrieveImageFromParsePFFile(avatarFile, completion: { (success, image) -> Void in
                                 if success {
-                                    self.userAvatarImageView.setImage(image, forState: .Normal)
-                                } else { self.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
-                            }, andAddToCache: true)
-                    } else { self.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
-                } else {
-                    //println("Error retrieving user object: \(error!.localizedDescription)")
-                    self.usernameLabel.hidden = true
-                    self.userAvatarImageView.hidden = true
+                                    strongSelf.userAvatarImageView.setImage(image, forState: .Normal)
+                                } else { strongSelf.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
+                                }, andAddToCache: true)
+                        } else { strongSelf.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
+                    } else {
+                        //println("Error retrieving user object: \(error!.localizedDescription)")
+                        strongSelf.usernameLabel.hidden = true
+                        strongSelf.userAvatarImageView.hidden = true
+                    }
                 }
             })
             
@@ -507,7 +510,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         var itemsToShare: [AnyObject] = []
         
         // text
-        let textToShare = letgoTextForSharingBody(productObject?["name"] as? String ?? "", andObjectId: productObject!.objectId!)
+        let productName = productObject?["name"] as? String ?? ""
+        let userName = usernameLabel.text!
+        let textToShare = letgoTextForSharingBody(productName, userName, andObjectId: productObject!.objectId!)
         itemsToShare.append(textToShare)
         // image
         if productImages.count > 0 {
@@ -520,8 +525,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         // show activity view controller.
         let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [UIActivityTypePrint, UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypeAirDrop, UIActivityTypeSaveToCameraRoll] // we don't want those to show in the sharing dialog.
-        activityVC.setValue(translate("have_a_look"), forKey: "subject") // for email.
-
+//        activityVC.setValue(translate("product_share_email_subject_intro"), forKey: "subject") // for email.
+        
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         if activityVC.respondsToSelector("popoverPresentationController") {
             let presentationController = activityVC.popoverPresentationController
