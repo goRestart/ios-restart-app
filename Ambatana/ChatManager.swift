@@ -17,7 +17,7 @@ private let kLetGoPushNotificationMaxPayloadSpaceForText = 180
 private let _singletonInstance = ChatManager()
 
 /** A representation of an LetGo chat conversation with another user */
-struct LetGoConversation {
+public struct LetGoConversation {
     // conversation object
     let conversationObject: PFObject
     // Extracted metadata about the conversation for performance and utility reasons

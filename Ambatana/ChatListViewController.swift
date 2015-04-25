@@ -59,6 +59,10 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
         self.refreshControl.addTarget(self, action: "refreshConversations", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
+        
+        // register cell
+        let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
+        tableView.registerNib(cellNib, forCellReuseIdentifier: "ConversationCell")
     }
 
     override func didReceiveMemoryWarning() {
@@ -193,54 +197,15 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath) as! UITableViewCell
-        cell.selectionStyle = .Default
         
-        // configure cell
-        if var conversation = conversations?[indexPath.row] {
-            // 1.image
-            if let imageView = cell.viewWithTag(kLetGoConversationCellImageTag) as? UIImageView {
-                // do we have an image downloaded yet?
-                if conversation.userAvatarImage != nil {
-                    imageView.image = conversation.userAvatarImage
-                    // configure image appearance (circle)
-                    imageView.layer.cornerRadius = imageView.frame.size.width / 2.0
-                    imageView.clipsToBounds = true
-                } else { // download the image and set it also in the conversation record when
-                    ImageManager.sharedInstance.retrieveImageFromURLString(conversation.userAvatarURL, completion: { (success, image, fromURL) -> Void in
-                        if success && fromURL == conversation.userAvatarURL {
-                            conversation.userAvatarImage = image
-                            imageView.image = image
-                            // configure image appearance (circle)
-                            imageView.layer.cornerRadius = imageView.frame.size.width / 2.0
-                            imageView.clipsToBounds = true
-                        }
-                    }, andAddToCache: true)
-                }
-            }
-
-            // 2. product name
-            if let productNameLabel = cell.viewWithTag(kLetGoConversationCellProductNameTag) as? UILabel {
-                productNameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-                productNameLabel.text = conversation.productName
-            }
-            
-            // 3. user name
-            if let userNameLabel = cell.viewWithTag(kLetGoConversationCellUserNameTag) as? UILabel {
-                userNameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-                userNameLabel.text = conversation.userName
-            }
-            
-            // 4. relative time
-            if let relativeTimeLabel = cell.viewWithTag(kLetGoConversationCellRelativeDateTag) as? UILabel {
-                relativeTimeLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
-                relativeTimeLabel.text = translate("published") + " " + conversation.lastUpdated.relativeTimeString()
-            }
-            
+        let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath) as! ConversationCell
+        
+        cell.tag = indexPath.hash
+        if let conversation = conversations?[indexPath.row] {
+            cell.setupCellWithConversation(conversation, indexPath: indexPath)
         }
-        
-        
         return cell
+
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
