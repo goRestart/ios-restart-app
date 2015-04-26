@@ -30,7 +30,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
 
         // UX/UI & Appearance
         setLetGoNavigationBarStyle(title: translate("categories"), includeBackArrow: true)
-        setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProducts", "conversations"], badgeButtonPosition: 1)
         
         // cell size
         let cellWidth = kLetGoFullScreenWidth * 0.50
@@ -45,15 +44,27 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        // UX/UI & Appearance
+        setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProducts", "conversations"], badgeButtonPosition: 1)
+        
+        // NSNotificationCenter register
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
+        
         let initialLanguage = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
         // load initial categories. First try to load from the user device's language. If none found, fallback to "en".
         let allCategoriesQuery = allCategoriesQueryForLanguage(initialLanguage)
         performCategoriesQuery(allCategoriesQuery, isDefaultLanguage: initialLanguage == kLetGoDefaultCategoriesLanguage)
+        
+        // Tracking
         TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "categories-list"])
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+
+        // NSNotificationCenter deregister
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        
         // hide search bar (if showing)
         if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
     }
@@ -220,4 +231,10 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         })
     }
     */
+    
+    // MARK: - NSNotificationCenter
+    
+    func badgeChanged (notification: NSNotification) {
+        refreshBadgeButton()
+    }
 }

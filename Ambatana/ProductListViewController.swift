@@ -98,6 +98,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kLetGoUserLocationSuccessfullyChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged", name: UIContentSizeCategoryDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logoutImminent", name: kLetGoLogoutImminentNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
         
         // check current location status.
         if (CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation)) { // we have a valid registered location.
@@ -525,5 +526,10 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         }
     }
     
+    // MARK: - NSNotificationCenter
+    
+    func badgeChanged (notification: NSNotification) {
+        refreshBadgeButton()
+    }
 }
 

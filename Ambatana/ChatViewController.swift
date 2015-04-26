@@ -132,20 +132,23 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func loadMessages(conversationObject: PFObject) {
-        ChatManager.sharedInstance.loadMessagesFromConversation(conversationObject, completion: { (success, messages) -> Void in
-            if success {
-                self.messages = messages!
-            } else { // no messages yet. Empty conversation view.
-                self.messages = []
+        ChatManager.sharedInstance.loadMessagesFromConversation(conversationObject, completion: { [weak self] (success, messages) -> Void in
+            if let strongSelf = self {
+                if success {
+                    strongSelf.messages = messages!
+                } else { // no messages yet. Empty conversation view.
+                    strongSelf.messages = []
+                }
+                strongSelf.disableLoadingMessagesInterface()
+                strongSelf.tableView.reloadData()
+                // scroll to the last message.
+                strongSelf.scrollToTopOfMessagesList(false)
+                strongSelf.tableView.reloadData()
+                
+                // now that we have loaded the messages (and are sure the user can read them) we can mark them as read in the conversation.
+                let conversation = strongSelf.letgoConversation!.conversationObject
+                ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: conversation, completion: nil)
             }
-            self.disableLoadingMessagesInterface()
-            self.tableView.reloadData()
-            // scroll to the last message.
-            self.scrollToTopOfMessagesList(false)
-            self.tableView.reloadData()
-            
-            // now that we have loaded the messages (and are sure the user can read them) we can mark them as read in the conversation.
-            ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: self.letgoConversation!.conversationObject, completion: nil)
         })
     }
     
@@ -256,23 +259,25 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.isSendingMessage = true
         
         // send message
-        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.productObject!, isOffer: false) { (success, newlyCreatedMessageObject) -> Void in
-            if success {
-                self.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)
-                
-                // update UI and scroll to the bottom of the messages list
-                self.tableView.reloadData()
-                self.scrollToTopOfMessagesList(false)
-                //self.tableView.reloadData()
-                self.messageTextfield.text = ""
-                
-                // tracking
-                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameUserSentMessage, eventParameters: self.getPropertiesForUserSentMessageTracking())
-            } else {
-                self.showAutoFadingOutMessageAlert(translate("unable_send_message"))
+        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.productObject!, isOffer: false) { [weak self] (success, newlyCreatedMessageObject) -> Void in
+            if let strongSelf = self {
+                if success {
+                    strongSelf.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)
+                    
+                    // update UI and scroll to the bottom of the messages list
+                    strongSelf.tableView.reloadData()
+                    strongSelf.scrollToTopOfMessagesList(false)
+                    //self.tableView.reloadData()
+                    strongSelf.messageTextfield.text = ""
+                    
+                    // tracking
+                    TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameUserSentMessage, eventParameters: strongSelf.getPropertiesForUserSentMessageTracking())
+                } else {
+                    strongSelf.showAutoFadingOutMessageAlert(translate("unable_send_message"))
+                }
+                // disable loading interface
+                strongSelf.isSendingMessage = false
             }
-            // disable loading interface
-            self.isSendingMessage = false
         }
     }
     

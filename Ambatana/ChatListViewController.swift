@@ -73,8 +73,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // update conversations
-        updateConversations()
+        // update conversations (always forced, so the badges are updated)
+        updateConversations(force: true)
         
         // clean badge and notifications.
         PFInstallation.currentInstallation().badge = 0
@@ -82,6 +82,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             if error != nil { PFInstallation.currentInstallation().saveEventually(nil) }
             else { NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil) }
         })
+        
+        // Tracking
         TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "chat-list"])
     }
     

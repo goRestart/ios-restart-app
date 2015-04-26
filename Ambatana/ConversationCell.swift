@@ -14,6 +14,8 @@ public class ConversationCell: UITableViewCell {
     @IBOutlet weak var userLabel: UILabel!
     @IBOutlet weak var productLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak var badgeView: UIView!
+    @IBOutlet weak var badgeLabel: UILabel!
     
     // MARK: - Lifecycle
     
@@ -52,6 +54,12 @@ public class ConversationCell: UITableViewCell {
         
         // time
         timeLabel.text = translate("published") + " " + conversation.lastUpdated.relativeTimeString()
+        
+        // badge
+        if conversation.myUnreadMessages > 0 {
+            badgeView.hidden = false
+            badgeLabel.text = String(conversation.myUnreadMessages)
+        }
     }
     
     // MARK: - Private methods
@@ -62,6 +70,7 @@ public class ConversationCell: UITableViewCell {
         productLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         userLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         timeLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
+        badgeView.layer.cornerRadius = 5//thumbnailImageView.frame.size.height / 2.0
     }
     
     // Resets the UI to the initial state
@@ -70,6 +79,8 @@ public class ConversationCell: UITableViewCell {
         productLabel.text = ""
         userLabel.text = ""
         timeLabel.text = ""
+        badgeView.hidden = true
+        badgeLabel.text = ""
     }
     
 }

@@ -26,7 +26,7 @@ public struct LetGoConversation {
     let userName: String            // name of the user I'm having this conversation with
     let totalMessages: Int          // total number of messages in the conversations.
     let myUnreadMessages: Int       // number of messages I have sent in this conversation
-    let otherUnreadMessages: Int    // number of messages the user I'm having this conversation with has sent
+//    let otherUnreadMessages: Int    // number of messages the user I'm having this conversation with has sent
     let lastUpdated: NSDate         // date of the last message sent belonging to this conversation.
     let productName: String         // name of the product this conversation's all about
     let amISellingTheProduct: Bool  // Am I selling (user_to = me) or buying (user_from = me) the product this conversation belongs to?
@@ -61,8 +61,10 @@ public struct LetGoConversation {
         
         // initialize conversation values.
         totalMessages = conversationObject["nr_messages"] as? Int ?? 0
-        myUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_to"] as? Int ?? 0 : conversationObject["nr_messages_to_read_from"] as? Int ?? 0
-        otherUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_from"] as? Int ?? 0 : conversationObject["nr_messages_to_read_to"] as? Int ?? 0
+
+        // TODO: Refactor, this is hard to follow & prone to error
+        myUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_to"] as? Int ?? 0 : conversationObject["nr_msg_to_read_from"] as? Int ?? 0
+//        otherUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_from"] as? Int ?? 0 : conversationObject["nr_messages_to_read_to"] as? Int ?? 0
         lastUpdated = conversationObject.updatedAt!
     }
 }
@@ -153,8 +155,8 @@ class ChatManager: NSObject {
     /** Creates a new conversation with a user about a concrete object */
     func createConversationWithUser(otherUser: PFUser, aboutProduct productObject: PFObject, completion: (success: Bool, conversation: PFObject?) -> Void) {
         let newConversation = PFObject(className: "Conversations")
-        newConversation["user_from"] = otherUser // If I create a conversation to buy/make an offer for a product, I am always user_from according to the specification.
-        newConversation["user_to"] = PFUser.currentUser() // If I create a conversation to buy/make an offer for a product, the other user is always user_from according to the specification.
+        newConversation["user_from"] = PFUser.currentUser() // I'm the buyer
+        newConversation["user_to"] = otherUser // The other guy is the seller
         newConversation["product"] = productObject
         newConversation["nr_messages"] = 0
         newConversation["nr_msg_to_read_to"] = 0
@@ -210,21 +212,20 @@ class ChatManager: NSObject {
 
         newMessage.saveInBackgroundWithBlock { (saved, savingError) -> Void in
             if saved {
-                // Besides, we need to update the conversation values
-                // add 1 to total number of messages in conversation
-                if let totalMessages = conversation["nr_messages"] as? Int {
-                    conversation["nr_messages"] = totalMessages + 1
-                }
-                // add 1 to the unread messages of my user.
-                var fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_from" // let's suppose we are the buyer of the object, not the owner (me = user_from)
-                if let fromUserInConversation = conversation["user_from"] as? PFObject {
-                    if fromUserInConversation.objectId  == PFUser.currentUser()!.objectId { // if I am actually the owner of the user, not the buyer (me = user_to)
-                        fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_to" // change destination field.
+                // increment conversation total nr of msgs
+                conversation.incrementKey("nr_messages")
+                
+                // update the unread messages of the recipient
+                if let productOwner = productObject["user"] as? PFObject,
+                   let myUser = PFUser.currentUser() {
+                    if productOwner.objectId == myUser.objectId {
+                        conversation.incrementKey("nr_msg_to_read_from")
+                    }
+                    else {
+                        conversation.incrementKey("nr_msg_to_read_to")
                     }
                 }
-                if let unreadMessages = conversation[fieldToAddOneMoreUnreadMessage] as? Int {
-                    conversation[fieldToAddOneMoreUnreadMessage] = unreadMessages + 1
-                }
+                // save the conversation
                 conversation.saveInBackgroundWithBlock({ (success, error) -> Void in
                     if !success { conversation.saveEventually(nil) }
                 })
@@ -309,16 +310,24 @@ class ChatManager: NSObject {
     
     /** Marks the messages from a user as read in a conversation. */
     func markMessagesAsReadFromUser(user: PFUser, inConversation conversation: PFObject, completion: ((success: Bool) -> Void)?) {
-        // define which field to mark as read depending on which interlocutor are we.
-        var fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_from" // let's suppose we are the buyer of the object, not the owner (me = user_from)
-        if let fromUserInConversation = conversation["user_from"] as? PFObject {
-            if fromUserInConversation.objectId  == PFUser.currentUser()!.objectId { // if I am actually the owner of the user, not the buyer (me = user_to)
-                fieldToAddOneMoreUnreadMessage = "nr_msg_to_read_to" // change destination field.
-            }
+        
+        // update the unread messages of the recipient
+        var shouldSave = false
+        if let userFrom = conversation["user_from"] as? PFObject,
+           let userTo = conversation["user_to"] as? PFObject {
+                if userFrom.objectId == user.objectId {
+                    shouldSave = true
+                    conversation["nr_msg_to_read_from"] = 0
+                }
+                else if userTo.objectId == user.objectId {
+                    shouldSave = true
+                    conversation["nr_msg_to_read_to"] = 0
+                }
         }
-        conversation[fieldToAddOneMoreUnreadMessage] = 0
-        conversation.saveEventually { (success, error) -> Void in
-            if completion != nil { completion!(success: success) }
+        if shouldSave {
+            conversation.saveEventually { (success, error) -> Void in
+                if completion != nil { completion!(success: success) }
+            }
         }
     }
 }
