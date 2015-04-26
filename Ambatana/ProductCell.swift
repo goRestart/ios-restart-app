@@ -101,6 +101,8 @@ class ProductCell: UICollectionViewCell {
                 let thumbURL = NSURL(string: ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(product.objectId!, imageURL: imageFile.url!))
                 thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
                     [weak self] (image, error, cacheType, url) -> Void in
+                    println(url.description)
+                    
                     if error == nil {
                         self?.thumbnailImageView.image = image
                     }

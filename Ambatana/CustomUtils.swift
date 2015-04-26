@@ -119,19 +119,26 @@ func statusBarHeight() -> CGFloat {
  */
 func distanceStringToGeoPoint(geoPoint: PFGeoPoint) -> String {
     if let currentUserGeoPoint = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
-        let km = geoPoint.distanceInKilometersTo(currentUserGeoPoint)
-        if km > 1.0 {
-            return NSString(format: "%.1fKm", km) as String
+        let ml = geoPoint.distanceInMilesTo(currentUserGeoPoint)
+        if ml < 0.01 {  // around 16m
+            return translate("here")
         }
         else {
-            let m: Int = Int(km * 1000)
-            if m > 1 {
-                return "\(m)m"
-            }
-            else {
-                return translate("here")
-            }
+            return NSString(format: "%.1fML", ml) as String
         }
+//        let km = geoPoint.distanceInKilometersTo(currentUserGeoPoint)
+//        if km > 1.0 {
+//            return NSString(format: "%.1fKm", km) as String
+//        }
+//        else {
+//            let m: Int = Int(km * 1000)
+//            if m > 1 {
+//                return "\(m)m"
+//            }
+//            else {
+//                return translate("here")
+//            }
+//        }
     } else { return translate("unknown_distance") }
 
 }

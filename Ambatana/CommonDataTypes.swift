@@ -120,11 +120,11 @@ let kLetGoUserBadgeChangedNotification                       = "LetGoUserBadgeCh
         }
     }
     
-    static func retrieveDistanceMeasurementSystemForLocale(locale: NSLocale)  -> LetGoDistanceMeasurementSystem {
-        if let usesMetric = locale.objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
-            return usesMetric ? .Metric : .American
-        } else { return .Metric }
-    }
+//    static func retrieveDistanceMeasurementSystemForLocale(locale: NSLocale)  -> LetGoDistanceMeasurementSystem {
+//        if let usesMetric = locale.objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
+//            return usesMetric ? .Metric : .American
+//        } else { return .Metric }
+//    }
     
     static func retrieveCurrentDistanceMeasurementSystem() -> LetGoDistanceMeasurementSystem {
         if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {

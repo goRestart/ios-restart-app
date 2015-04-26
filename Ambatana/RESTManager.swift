@@ -151,7 +151,8 @@ class RESTManager: NSObject {
             }
             if categoryId != nil { parameters[kLetGoRestAPIParameterCategoryId] = categoryId!.rawValue }
             if let sortByParameter = sortBy.filterStringForRestAPI() { parameters[kLetGoRestAPIParameterSortBy] = sortByParameter }
-            parameters[kLetGoRestAPIParameterDistanceType] = LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
+            parameters[kLetGoRestAPIParameterDistanceType] = LetGoDistanceMeasurementSystem.American.distanceMeasurementStringForRestAPI()
+//            parameters[kLetGoRestAPIParameterDistanceType] = LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
             parameters[kLetGoRestAPIParameterOffset] = offset
             if status?.count > 0 { parameters[kLetGoRestAPIParameterStatus] = ",".join(status!.map { $0.description }) }
             if maxPrice != nil { parameters[kLetGoRestAPIParameterMaxPrice] = maxPrice! }
@@ -215,7 +216,8 @@ class RESTManager: NSObject {
             // build parameters (request full object with all images in an array)
             let parameters: [String: AnyObject] = [
                 kLetGoRestAPIParameterOffset: offset,
-                kLetGoRestAPIParameterDistanceType: LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
+                kLetGoRestAPIParameterDistanceType: LetGoDistanceMeasurementSystem.American.distanceMeasurementStringForRestAPI()
+//            LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
             ]
             
             // perform request
