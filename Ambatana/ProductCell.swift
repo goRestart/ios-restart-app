@@ -36,7 +36,7 @@ class ProductCell: UICollectionViewCell {
         let tag = indexPath.hash
         
         // Name
-        nameLabel.text = product.name
+        nameLabel.text = product.name.lg_capitalizedWords()
         
         // Price
         let currency = product.currency ?? CurrencyManager.sharedInstance.defaultCurrency
@@ -72,7 +72,7 @@ class ProductCell: UICollectionViewCell {
         
         // Name
         let name = product["name"] as? String ?? ""
-        nameLabel.text = name
+        nameLabel.text = name.lg_capitalizedWords()
         
         // Price
         if let price = product["price"] as? Double {

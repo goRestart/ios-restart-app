@@ -162,7 +162,12 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             })
             
             // product name
-            nameLabel.text = productObject["name"] as? String ?? ""
+            if let productName = productObject["name"] as? String {
+                nameLabel.text = productName.lg_capitalizedWords()
+            }
+            else {
+                nameLabel.text = ""
+            }
             TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameters: self.getPropertiesForProductDetailTracking())
             self.setLetGoNavigationBarStyle(title: "", includeBackArrow: true)
             
@@ -180,9 +185,12 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // product description
             if let description = productObject["description"] as? String {
-                descriptionLabel.text = description
+                descriptionLabel.text = description.lg_capitalizedParagraph()
                 descriptionLabel.hidden = false
-            } else { descriptionLabel.hidden = true }
+            }
+            else {
+                descriptionLabel.hidden = true
+            }
             
             // product published date.
             if productObject.createdAt != nil {
