@@ -164,7 +164,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             // product name
             nameLabel.text = productObject["name"] as? String ?? ""
             TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameters: self.getPropertiesForProductDetailTracking())
-            self.setLetGoNavigationBarStyle(title: nameLabel.text, includeBackArrow: true)
+            self.setLetGoNavigationBarStyle(title: "", includeBackArrow: true)
             
             // product price
             if let price = productObject["price"] as? Double {
