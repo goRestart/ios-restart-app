@@ -13,7 +13,7 @@ private let _singletonInstance = ImageManager()
 
 // constants
 private let kLetGoMaxImageCacheSize = 104857600.0 // 100 MB
-private let kLetGoThumbnailBaseURL = "http://3rdparty.letgo.com/images/"
+private let kLetGoThumbnailBaseURL = kLetGoRestAPIBaseURL + "/images/"
 private let kLetGoImageCacheEnabledByDefault = true
 
 /**
