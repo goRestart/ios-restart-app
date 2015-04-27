@@ -123,7 +123,7 @@ class CustomBadge: UIView {
     
     drawArc(context, withRect: rect)
     
-    CGContextSetShadowWithColor(context, CGSizeMake(1.0,1.0), 3, UIColor.blackColor().CGColor)
+//    CGContextSetShadowWithColor(context, CGSizeMake(1.0,1.0), 3, UIColor.blackColor().CGColor)
     CGContextFillPath(context)
     
     CGContextRestoreGState(context)

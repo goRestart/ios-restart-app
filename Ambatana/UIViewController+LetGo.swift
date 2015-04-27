@@ -70,12 +70,20 @@ extension UIViewController {
             resultButtons.append(button)
             
             // custom badge?
-            if badgeButtonPosition == i && PFInstallation.currentInstallation().badge > 0 {
+            if badgeButtonPosition == i {
                 let badgeView = CustomBadge.customBadgeWithString("\(PFInstallation.currentInstallation().badge)", withStringColor: UIColor.whiteColor(), withInsetColor: UIColor.redColor(), withBadgeFrame: false, withBadgeFrameColor: UIColor.clearColor(), withScale: 1.0, withShining: false)
                 badgeView.center = CGPointMake(button.frame.size.width - 3, 0)
                 badgeView.tag = kLetGoBadgeViewTag
                 button.tag = kLetGoBadgeContainerViewTag
                 button.addSubview(badgeView)
+                
+                if PFInstallation.currentInstallation().badge > 0 {
+                    badgeView.hidden = false
+                    badgeView.badgeText = "\(PFInstallation.currentInstallation().badge)"
+                }
+                else {
+                    badgeView.hidden = true
+                }
             }
             
             // update offset
@@ -93,7 +101,15 @@ extension UIViewController {
                     if button.tag == kLetGoBadgeContainerViewTag {
                         for buttonSubview in button.subviews {
                             if let badgeView = buttonSubview as? CustomBadge {
-                                badgeView.badgeText = "\(PFInstallation.currentInstallation().badge)"
+                                let badgeCount = PFInstallation.currentInstallation().badge
+                                if badgeCount > 0 {
+                                    badgeView.hidden = false
+                                    badgeView.badgeText = "\(PFInstallation.currentInstallation().badge)"
+                                }
+                                else {
+                                    badgeView.hidden = true
+                                }
+                                
                                 badgeView.setNeedsDisplay()
                             }
                         }

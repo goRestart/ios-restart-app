@@ -159,7 +159,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             // show an alert only if this is a marketing message.
             if let notificationType = self.getNotificationType(userInfo), let notificationMsg = self.getNotificationAlertMessage(userInfo) {
-                if notificationType == .Marketing { // marketing.
+                if notificationType == .Offer || notificationType == .Message { // message/offer
+                    NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: userInfo)
+                } else if notificationType == .Marketing { // marketing.
                     self.showMarketingAlertWithNotificationMessage(notificationMsg)
                 }
             }

@@ -39,15 +39,27 @@ public struct LetGoConversation {
         // distinguish who's the selling/buying user
         let userFrom = conversationObject["user_from"] as? PFUser
         let userTo = conversationObject["user_to"] as? PFUser
-        if userFrom?.objectId == PFUser.currentUser()!.objectId { amISellingTheProduct = false } // I am buying/making an offer for this product.
-        else { amISellingTheProduct = true }    // I Am selling the product.
+        
+        // I am selling
+        if userFrom?.objectId == PFUser.currentUser()!.objectId {
+            amISellingTheProduct = false
+        }
+        // I am buying/making an offer for this product.
+        else {
+            amISellingTheProduct = true
+        }
         var targetUser: PFUser? = amISellingTheProduct ? userFrom : userTo
         
         // if we have a valid target user, fill the name, and avatar.
         if targetUser != nil {
             targetUser!.fetchIfNeeded()
-            if let userAvatarFile = targetUser?["avatar"] as? PFFile { userAvatarURL = userAvatarFile.url! }
-            else { userAvatarURL = ""; userAvatarImage = UIImage(named: "no_photo")! }
+            if let userAvatarFile = targetUser?["avatar"] as? PFFile {
+                userAvatarURL = userAvatarFile.url!
+            }
+            else {
+                userAvatarURL = "";
+                userAvatarImage = UIImage(named: "no_photo")!
+            }
             userName = targetUser!["username_public"] as? String ?? translate("user")
         } else { // else, put some default values
             userAvatarURL = ""
@@ -214,11 +226,9 @@ class ChatManager: NSObject {
             if saved {
                 // increment conversation total nr of msgs
                 conversation.incrementKey("nr_messages")
-                
                 // update the unread messages of the recipient
-                if let productOwner = productObject["user"] as? PFObject,
-                   let myUser = PFUser.currentUser() {
-                    if productOwner.objectId == myUser.objectId {
+                if let productOwner = productObject["user"] as? PFObject {
+                    if productOwner.objectId == destinationUser.objectId {
                         conversation.incrementKey("nr_msg_to_read_from")
                     }
                     else {
