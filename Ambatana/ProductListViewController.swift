@@ -277,7 +277,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                     }
                 } else { // error retrieving products.
                     if iOSVersionAtLeast("8.0") {
-                        let alert = UIAlertController(title: translate("error"), message: translate("unable_get_products"), preferredStyle:.Alert)
+                        let alert = UIAlertController(title: nil, message: translate("unable_get_products"), preferredStyle:.Alert)
                         alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { (action) -> Void in
                             self.queryingProducts = false
                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
@@ -286,7 +286,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                         }))
                         self.presentViewController(alert, animated: true, completion: nil)
                     } else {
-                        let alert = UIAlertView(title: translate("error"), message: translate("unable_get_products"), delegate: self, cancelButtonTitle: translate("try_again"))
+                        let alert = UIAlertView(title: nil, message: translate("unable_get_products"), delegate: self, cancelButtonTitle: translate("try_again"))
                         alert.show()
                     }
                     

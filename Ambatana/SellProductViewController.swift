@@ -435,7 +435,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func shareCurrentProductInFacebook(objectId: String) {
         // build the sharing content.
         let fbSharingContent = FBSDKShareLinkContent()
-        fbSharingContent.contentTitle = translate("have_a_look")
+        fbSharingContent.contentTitle = translate("product_share_intro")
         fbSharingContent.contentURL = NSURL(string: letgoWebLinkForObjectId(objectId))
         fbSharingContent.contentDescription = productTitleTextField.text
         if imageFiles?.count > 0 { fbSharingContent.imageURL = NSURL(string: imageFiles!.first!.url!) }
