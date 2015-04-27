@@ -72,6 +72,7 @@
 "mailcancelled" = "Mail cancelled";
 "mailsaved" = "Mail saved";
 "errorsendingmail" = "Oops, it seems that you haven't set up an account in the Mail app";
+"errorsendingmail_contact" = "Oops, it seems that we can't see your email. Please contact Barbara to barbara@letgo.com to help you.";
 "thanksforcontact" = "Thanks for contacting us!";
 "session_expired" = "Session expired";
 "your_session_has_expired" = "It seems that your session has expired. Please try again.";
