@@ -9,6 +9,7 @@
 import UIKit
 import Fabric
 import Crashlytics
+import LGCoreKit
 
 private let kLetGoVersionNumberKey = "com.letgo.LetGoVersionNumberKey"
 
@@ -26,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
+        
+        let a = LGPrueba()
         
         // Crashlytics
         Fabric.with([Crashlytics()])
