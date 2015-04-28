@@ -10,14 +10,6 @@ import UIKit
 import Fabric
 import Crashlytics
 
-// DEV
-//private let kLetGoParseApplicationID = "3zW8RQIC7yEoG9WhWjNduehap6csBrHQ2whOebiz"
-//private let kLetGoParseClientKey = "4dmYjzpoyMbAdDdmCTBG6s7TTHtNTAaQaJN6YOAk"
-
-// PROD
-private let kLetGoParseApplicationID = "fMjDVvxiMjuSxciNF67JrB9XQLm6mLuvQ2pjIniu"
-private let kLetGoParseClientKey = "VcGL3kgBEqleDz77pPEwd48SROpMu15XVosoqdbv"
-
 private let kLetGoVersionNumberKey = "com.letgo.LetGoVersionNumberKey"
 
 @UIApplicationMain
@@ -29,7 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // initializate parse
         //Parse.enableLocalDatastore()
-        Parse.setApplicationId(kLetGoParseApplicationID, clientKey: kLetGoParseClientKey)
+        Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId,
+                               clientKey: EnvironmentProxy.sharedInstance.parseClientId)
+        
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         

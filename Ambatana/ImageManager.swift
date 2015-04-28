@@ -13,7 +13,7 @@ private let _singletonInstance = ImageManager()
 
 // constants
 private let kLetGoMaxImageCacheSize = 104857600.0 // 100 MB
-private let kLetGoThumbnailBaseURL = kLetGoRestAPIBaseURL + "/images/"
+private let kLetGoThumbnailBaseURL = EnvironmentProxy.sharedInstance.apiBaseURL + "/images/"
 private let kLetGoImageCacheEnabledByDefault = true
 
 /**
@@ -176,5 +176,5 @@ class ImageManager: NSObject {
         return self.calculateBaseURLForProductImage(productId, imageURL: imageURL) + "_thumb.jpg"
     }
     
-    func fullImagePathForRelativePath(relativePath: String) -> String { return kLetGoRestAPIBaseURL + "/images" + relativePath }
+    func fullImagePathForRelativePath(relativePath: String) -> String { return EnvironmentProxy.sharedInstance.apiBaseURL + "/images" + relativePath }
 }

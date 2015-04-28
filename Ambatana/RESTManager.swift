@@ -11,14 +11,6 @@ import UIKit
 // private singleton instance
 private let _singletonInstance = RESTManager()
 
-// API global constants
-
-// Note: using old endpoint cos' oauth is not in place
-//let kLetGoRestAPIBaseURL                            = "http://api.letgo.com"          // new PROD
-let kLetGoRestAPIBaseURL                            = "http://3rdparty.ambatana.com"    // old PROD
-//let kLetGoRestAPIBaseURL                            = "http://devel.api.letgo.com"      // new DEV
-//let kLetGoRestAPIBaseURL                            = "http://vps122602.ovh.net"      // old DEV
-
 private let kLetGoRestAPIEndpoint                           = "/api"
 private let kLetGoRestAPIImagesPath                         = "/images"
 private let kLetGoRestAPIJSONFormatSuffix                   = ".json"
@@ -140,7 +132,7 @@ class RESTManager: NSObject {
      * Requests a list of products to the backend and calls the completion handler. On success, returns an array of LetGoProduct instances.
      */
     func getListOfProducts(queryString: String?, location: CLLocationCoordinate2D, categoryId: LetGoProductCategory?, sortBy: LetGoUserFilterForProducts, offset: Int, status: [LetGoProductStatus]?, maxPrice: Int?, distanceRadius: Int?, minPrice: Int?, fromUser: String?, completion: ((success: Bool, products: [LetGoProduct]?, retrievedItems: Int, successfullyParsedItems: Int) -> Void)?) -> Void {
-        let urlString = kLetGoRestAPIBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIListItemsURL + kLetGoRestAPIJSONFormatSuffix
+        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIListItemsURL + kLetGoRestAPIJSONFormatSuffix
         if let url = NSURL(string: urlString) {
             // build list request parameters
             var parameters: [String: AnyObject] = [kLetGoRestAPIParameterNumberOfProducts:kLetGoRestAPIParameterDefaultNumberOfProducts]
@@ -185,7 +177,7 @@ class RESTManager: NSObject {
     
     /** Request data about a concrete product based on product id */
     func retrieveProductWithId(productId: String, completion: ((success: Bool, product: LetGoProduct?) -> Void)? ) -> Void {
-        let urlString = kLetGoRestAPIBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIProductDataURL + kLetGoRestAPIPathSeparator + productId + kLetGoRestAPIJSONFormatSuffix
+        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIProductDataURL + kLetGoRestAPIPathSeparator + productId + kLetGoRestAPIJSONFormatSuffix
         if let url = NSURL(string: urlString) {
             // build parameters (request full object with all images in an array)
             let parameters = [kLetGoRestAPIParameterFullObjectData: "true"]
@@ -211,7 +203,7 @@ class RESTManager: NSObject {
     
     /** Retrieves the products related to a product with a given id */
     func retrieveProductsRelatedToProductWithId(productId: String, offset: Int, distance_type: LetGoDistanceMeasurementSystem?, completion: ((success: Bool, products: [LetGoProduct]?) -> Void)? ) -> Void {
-        let urlString = kLetGoRestAPIBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIRelatedProductURL + kLetGoRestAPIJSONFormatSuffix
+        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIRelatedProductURL + kLetGoRestAPIJSONFormatSuffix
         if let url = NSURL(string: urlString) {
             // build parameters (request full object with all images in an array)
             let parameters: [String: AnyObject] = [
@@ -249,7 +241,7 @@ class RESTManager: NSObject {
         if attempt > kLetGoRestAPISynchronizeProductMaxAttempts { completion?(success: false) }
         
         // build URL request.
-        let urlString = kLetGoRestAPIBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPISynchronizeProductURL + kLetGoRestAPIJSONFormatSuffix
+        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPISynchronizeProductURL + kLetGoRestAPIJSONFormatSuffix
         if let url = NSURL(string: urlString) {
             request(.GET, url, parameters: nil).response({ (request, response, data, error) -> Void in
                 if error == nil && (response?.statusCode >= 200 && response?.statusCode < 300) { // success
@@ -271,7 +263,7 @@ class RESTManager: NSObject {
      * Requests a geolocation to the backend based on IP address. Returns a LetGoIPGeoLocation object.
      */
     func getGeoLocationBasedOnIPAddress(ipAddress: String, completion: ((success: Bool, geolocation: LetGoIPGeoLocation?) -> Void)? ) -> Void {
-        let urlString = kLetGoRestAPIBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIIPLookupURL + kLetGoRestAPIJSONFormatSuffix + kLetGoRestAPIParameterIPAddress + ipAddress
+        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIIPLookupURL + kLetGoRestAPIJSONFormatSuffix + kLetGoRestAPIParameterIPAddress + ipAddress
         if let url = NSURL(string: urlString) {
             // perform request.
             request(.GET, url, parameters: nil).responseJSON(completionHandler: { (request, response, json, error) -> Void in
@@ -292,7 +284,7 @@ class RESTManager: NSObject {
      */
     func predictUserLocationBasedOnLocationString(locationString: String, completion: ((success: Bool, geolocation: LetGoGoogleGeoLocation?) -> Void)? ) -> Void {
         let encodedLocationString = locationString.stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet()) ?? locationString
-        let urlString = kLetGoRestAPIBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPILocationsURL + kLetGoRestAPIPathSeparator + encodedLocationString + kLetGoRestAPIJSONFormatSuffix
+        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPILocationsURL + kLetGoRestAPIPathSeparator + encodedLocationString + kLetGoRestAPIJSONFormatSuffix
         if let url = NSURL(string: urlString) {
             // perform request.
             request(.GET, url, parameters: nil).responseJSON(completionHandler: { (request, response, json, error) -> Void in
@@ -326,7 +318,7 @@ class RESTManager: NSObject {
     
     /** Retrieves a LetGoGoogleGeoLocation from a place_id. */
     func retrieveGeoLocationFromPlaceId(placeId: String, completion: ((success: Bool, geolocation: LetGoGoogleGeoLocation?) -> Void)? ) -> Void {
-        let urlString = kLetGoRestAPIBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPILocationsURL + kLetGoRestAPILocationDetailsURL + kLetGoRestAPIPathSeparator + placeId + kLetGoRestAPIJSONFormatSuffix
+        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPILocationsURL + kLetGoRestAPILocationDetailsURL + kLetGoRestAPIPathSeparator + placeId + kLetGoRestAPIJSONFormatSuffix
         if let url = NSURL(string: urlString) {
             // perform request.
             request(.GET, url, parameters: nil).responseJSON(completionHandler: { (request, response, json, error) -> Void in

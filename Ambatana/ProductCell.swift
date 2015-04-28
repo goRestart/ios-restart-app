@@ -160,7 +160,7 @@ class ProductCell: UICollectionViewCell {
         nameLabel.text = ""
         priceLabel.text = ""
         thumbnailImageView.image = nil
-        thumbnailImageView.backgroundColor = StyleHelper.getProductCellBgColor()
+        thumbnailImageView.backgroundColor = StyleHelper.productCellBgColor()
         distanceLabel.text = ""
         statusImageView.image = nil
     }
