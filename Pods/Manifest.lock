@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (1.2.1)
   - Amplitude-iOS (2.4.0)
   - AppsFlyer-SDK (2.5.3.14)
   - Bolts (1.1.5):
@@ -23,30 +24,44 @@ PODS:
   - Facebook-iOS-SDK/ShareKit (4.0.1):
     - Bolts (~> 1.0)
     - Facebook-iOS-SDK/CoreKit
+  - Nimble (0.4.2)
   - Parse (1.7.1):
     - Bolts (~> 1.1)
   - ParseFacebookUtilsV4 (1.7.1):
     - Facebook-iOS-SDK/LoginKit (~> 4.0)
     - Parse (~> 1.7.1)
+  - Quick (0.3.1)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
+  - SwiftyJSON (2.2.0)
+  - Timepiece (0.2.2)
 
 DEPENDENCIES:
+  - Alamofire (~> 1.2)
   - Amplitude-iOS (~> 2.4)
   - AppsFlyer-SDK
   - Facebook-iOS-SDK (= 4.0.1)
+  - Nimble
   - Parse (= 1.7.1)
   - ParseFacebookUtilsV4 (= 1.7.1)
+  - Quick
   - SDWebImage
+  - SwiftyJSON (>= 2.2)
+  - Timepiece (>= 0.2)
 
 SPEC CHECKSUMS:
+  Alamofire: 1acfdf179aff68b41a48dff70c1ac7fa263e2bcb
   Amplitude-iOS: b5a2643ed7ce861cc65c8de437c7b4d9bc1708eb
   AppsFlyer-SDK: 692ddd12c430e5e541fd351ad0452eaef63a353e
   Bolts: aac24961496d504aa56fc267cde95162a71bac39
   Facebook-iOS-SDK: 6d05532c97e9c542f8d87f94b7f6ee217493d00b
+  Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Parse: fa8ec29de6d82035635986c11946299fb1b38316
   ParseFacebookUtilsV4: fc44a339e38513fb6fc0bafbef34f69df6559e06
+  Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
+  Timepiece: 00090b9e6ffd684a631265922fdabcae4f802109
 
 COCOAPODS: 0.36.4

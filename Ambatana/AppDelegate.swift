@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         
-        let a = LGPrueba()
+//        let a = LGPrueba()
         
         // Crashlytics
         Fabric.with([Crashlytics()])

@@ -7,10 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B51D4F983DB61A29D88459E /* Pods_LGCoreKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		BD7C9160182B35B31759F441 /* Pods_LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D420C96F1AEFE91A003C9E0D /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C96E1AEFE91A003C9E0D /* SessionService.swift */; };
+		D420C9711AEFEA13003C9E0D /* LGSessionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9701AEFEA13003C9E0D /* LGSessionToken.swift */; };
+		D420C9741AEFEA80003C9E0D /* LGError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9731AEFEA80003C9E0D /* LGError.swift */; };
+		D420C9771AEFEB00003C9E0D /* LGSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9761AEFEB00003C9E0D /* LGSessionService.swift */; };
+		D420C9851AF00173003C9E0D /* LGSessionServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9841AF00173003C9E0D /* LGSessionServiceSpec.swift */; };
+		D420C9881AF0C074003C9E0D /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9871AF0C074003C9E0D /* SessionManager.swift */; };
+		D420C98A1AF0CB0E003C9E0D /* LGSessionTokenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9891AF0CB0E003C9E0D /* LGSessionTokenSpec.swift */; };
+		D420C98C1AF0CB57003C9E0D /* SessionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C98B1AF0CB57003C9E0D /* SessionToken.swift */; };
+		D47E22701AF0F192009F4839 /* LGSessionServiceErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E226F1AF0F192009F4839 /* LGSessionServiceErrorResponse.swift */; };
+		D47E22721AF110D0009F4839 /* SessionManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22711AF110D0009F4839 /* SessionManagerSpec.swift */; };
+		D47E227B1AF1176B009F4839 /* DevelopmentEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22771AF1176B009F4839 /* DevelopmentEnvironment.swift */; };
+		D47E227C1AF1176B009F4839 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22781AF1176B009F4839 /* Environment.swift */; };
+		D47E227D1AF1176B009F4839 /* EnvironmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22791AF1176B009F4839 /* EnvironmentProxy.swift */; };
+		D47E227E1AF1176B009F4839 /* ProductionEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E227A1AF1176B009F4839 /* ProductionEnvironment.swift */; };
 		D4B546711AEFE1540062D183 /* LGCoreKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D4B546701AEFE1540062D183 /* LGCoreKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4B546771AEFE1540062D183 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B5466B1AEFE1540062D183 /* LGCoreKit.framework */; };
-		D4B5467E1AEFE1540062D183 /* LGCoreKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B5467D1AEFE1540062D183 /* LGCoreKitTests.swift */; };
-		D4B5468A1AEFE1E40062D183 /* LGPrueba.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B546891AEFE1E40062D183 /* LGPrueba.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,13 +38,31 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		28451D2813CEB8622330D4B5 /* Pods-LGCoreKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKit/Pods-LGCoreKit.release.xcconfig"; sourceTree = "<group>"; };
+		829C8DF76F0C3124AC16500A /* Pods-LGCoreKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKitTests/Pods-LGCoreKitTests.release.xcconfig"; sourceTree = "<group>"; };
+		A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGCoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGCoreKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D420C96E1AEFE91A003C9E0D /* SessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
+		D420C9701AEFEA13003C9E0D /* LGSessionToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionToken.swift; sourceTree = "<group>"; };
+		D420C9731AEFEA80003C9E0D /* LGError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGError.swift; sourceTree = "<group>"; };
+		D420C9761AEFEB00003C9E0D /* LGSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionService.swift; sourceTree = "<group>"; };
+		D420C9841AF00173003C9E0D /* LGSessionServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionServiceSpec.swift; sourceTree = "<group>"; };
+		D420C9871AF0C074003C9E0D /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		D420C9891AF0CB0E003C9E0D /* LGSessionTokenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionTokenSpec.swift; sourceTree = "<group>"; };
+		D420C98B1AF0CB57003C9E0D /* SessionToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionToken.swift; sourceTree = "<group>"; };
+		D47E226F1AF0F192009F4839 /* LGSessionServiceErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionServiceErrorResponse.swift; sourceTree = "<group>"; };
+		D47E22711AF110D0009F4839 /* SessionManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManagerSpec.swift; sourceTree = "<group>"; };
+		D47E22771AF1176B009F4839 /* DevelopmentEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentEnvironment.swift; sourceTree = "<group>"; };
+		D47E22781AF1176B009F4839 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		D47E22791AF1176B009F4839 /* EnvironmentProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentProxy.swift; sourceTree = "<group>"; };
+		D47E227A1AF1176B009F4839 /* ProductionEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductionEnvironment.swift; sourceTree = "<group>"; };
 		D4B5466B1AEFE1540062D183 /* LGCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LGCoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B5466F1AEFE1540062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4B546701AEFE1540062D183 /* LGCoreKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LGCoreKit.h; sourceTree = "<group>"; };
 		D4B546761AEFE1540062D183 /* LGCoreKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGCoreKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B5467C1AEFE1540062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4B5467D1AEFE1540062D183 /* LGCoreKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LGCoreKitTests.swift; sourceTree = "<group>"; };
-		D4B546891AEFE1E40062D183 /* LGPrueba.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGPrueba.swift; sourceTree = "<group>"; };
+		DEFB3CA2696E5C3ED6CC56CA /* Pods-LGCoreKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKit/Pods-LGCoreKit.debug.xcconfig"; sourceTree = "<group>"; };
+		F2B6957461D5C34B6BF9D2D6 /* Pods-LGCoreKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKitTests/Pods-LGCoreKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD7C9160182B35B31759F441 /* Pods_LGCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,18 +79,111 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4B546771AEFE1540062D183 /* LGCoreKit.framework in Frameworks */,
+				6B51D4F983DB61A29D88459E /* Pods_LGCoreKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BEA8E394DD265FC2464B94E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */,
+				A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8207F67B39327F3FE7F2E41C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DEFB3CA2696E5C3ED6CC56CA /* Pods-LGCoreKit.debug.xcconfig */,
+				28451D2813CEB8622330D4B5 /* Pods-LGCoreKit.release.xcconfig */,
+				F2B6957461D5C34B6BF9D2D6 /* Pods-LGCoreKitTests.debug.xcconfig */,
+				829C8DF76F0C3124AC16500A /* Pods-LGCoreKitTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D420C96C1AEFE886003C9E0D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D420C9751AEFEAE4003C9E0D /* API */,
+				D420C96E1AEFE91A003C9E0D /* SessionService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D420C96D1AEFE886003C9E0D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D47E226E1AF0F178009F4839 /* API Response */,
+				D420C9721AEFEA69003C9E0D /* Error */,
+				D420C9701AEFEA13003C9E0D /* LGSessionToken.swift */,
+				D420C98B1AF0CB57003C9E0D /* SessionToken.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D420C9721AEFEA69003C9E0D /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				D420C9731AEFEA80003C9E0D /* LGError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
+		D420C9751AEFEAE4003C9E0D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				D420C9761AEFEB00003C9E0D /* LGSessionService.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		D420C9861AF0C056003C9E0D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				D420C9871AF0C074003C9E0D /* SessionManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		D47E226E1AF0F178009F4839 /* API Response */ = {
+			isa = PBXGroup;
+			children = (
+				D47E226F1AF0F192009F4839 /* LGSessionServiceErrorResponse.swift */,
+			);
+			path = "API Response";
+			sourceTree = "<group>";
+		};
+		D47E22731AF111BA009F4839 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		D47E22761AF1176B009F4839 /* Environment */ = {
+			isa = PBXGroup;
+			children = (
+				D47E22771AF1176B009F4839 /* DevelopmentEnvironment.swift */,
+				D47E22781AF1176B009F4839 /* Environment.swift */,
+				D47E22791AF1176B009F4839 /* EnvironmentProxy.swift */,
+				D47E227A1AF1176B009F4839 /* ProductionEnvironment.swift */,
+			);
+			path = Environment;
+			sourceTree = "<group>";
+		};
 		D4B546611AEFE1540062D183 = {
 			isa = PBXGroup;
 			children = (
 				D4B5466D1AEFE1540062D183 /* LGCoreKit */,
 				D4B5467A1AEFE1540062D183 /* LGCoreKitTests */,
 				D4B5466C1AEFE1540062D183 /* Products */,
+				8207F67B39327F3FE7F2E41C /* Pods */,
+				2BEA8E394DD265FC2464B94E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,8 +200,12 @@
 			isa = PBXGroup;
 			children = (
 				D4B546701AEFE1540062D183 /* LGCoreKit.h */,
+				D47E22731AF111BA009F4839 /* Constants */,
+				D47E22761AF1176B009F4839 /* Environment */,
+				D420C96C1AEFE886003C9E0D /* Services */,
+				D420C9861AF0C056003C9E0D /* Manager */,
+				D420C96D1AEFE886003C9E0D /* Model */,
 				D4B5466E1AEFE1540062D183 /* Supporting Files */,
-				D4B546891AEFE1E40062D183 /* LGPrueba.swift */,
 			);
 			path = LGCoreKit;
 			sourceTree = "<group>";
@@ -91,7 +221,9 @@
 		D4B5467A1AEFE1540062D183 /* LGCoreKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				D4B5467D1AEFE1540062D183 /* LGCoreKitTests.swift */,
+				D420C9891AF0CB0E003C9E0D /* LGSessionTokenSpec.swift */,
+				D420C9841AF00173003C9E0D /* LGSessionServiceSpec.swift */,
+				D47E22711AF110D0009F4839 /* SessionManagerSpec.swift */,
 				D4B5467B1AEFE1540062D183 /* Supporting Files */,
 			);
 			path = LGCoreKitTests;
@@ -123,10 +255,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4B546811AEFE1540062D183 /* Build configuration list for PBXNativeTarget "LGCoreKit" */;
 			buildPhases = (
+				E83586BA9BBA67E4F91C1416 /* Check Pods Manifest.lock */,
 				D4B546661AEFE1540062D183 /* Sources */,
 				D4B546671AEFE1540062D183 /* Frameworks */,
 				D4B546681AEFE1540062D183 /* Headers */,
 				D4B546691AEFE1540062D183 /* Resources */,
+				726524B7D78572C3703CF228 /* Embed Pods Frameworks */,
+				4CB89B39D3E9920E8A3468C9 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -141,9 +276,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4B546841AEFE1540062D183 /* Build configuration list for PBXNativeTarget "LGCoreKitTests" */;
 			buildPhases = (
+				ADD32658AD096A57A5D22CAE /* Check Pods Manifest.lock */,
 				D4B546721AEFE1540062D183 /* Sources */,
 				D4B546731AEFE1540062D183 /* Frameworks */,
 				D4B546741AEFE1540062D183 /* Resources */,
+				312DD72D1BD6C5DE4F7069F7 /* Embed Pods Frameworks */,
+				35C334D91FFAE1CEEE46C6FF /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -207,12 +345,115 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		312DD72D1BD6C5DE4F7069F7 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGCoreKitTests/Pods-LGCoreKitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		35C334D91FFAE1CEEE46C6FF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGCoreKitTests/Pods-LGCoreKitTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4CB89B39D3E9920E8A3468C9 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGCoreKit/Pods-LGCoreKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		726524B7D78572C3703CF228 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LGCoreKit/Pods-LGCoreKit-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ADD32658AD096A57A5D22CAE /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E83586BA9BBA67E4F91C1416 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D4B546661AEFE1540062D183 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4B5468A1AEFE1E40062D183 /* LGPrueba.swift in Sources */,
+				D47E227B1AF1176B009F4839 /* DevelopmentEnvironment.swift in Sources */,
+				D420C9771AEFEB00003C9E0D /* LGSessionService.swift in Sources */,
+				D420C9741AEFEA80003C9E0D /* LGError.swift in Sources */,
+				D420C9711AEFEA13003C9E0D /* LGSessionToken.swift in Sources */,
+				D47E227D1AF1176B009F4839 /* EnvironmentProxy.swift in Sources */,
+				D420C9881AF0C074003C9E0D /* SessionManager.swift in Sources */,
+				D47E227E1AF1176B009F4839 /* ProductionEnvironment.swift in Sources */,
+				D420C98C1AF0CB57003C9E0D /* SessionToken.swift in Sources */,
+				D47E22701AF0F192009F4839 /* LGSessionServiceErrorResponse.swift in Sources */,
+				D420C96F1AEFE91A003C9E0D /* SessionService.swift in Sources */,
+				D47E227C1AF1176B009F4839 /* Environment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +461,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4B5467E1AEFE1540062D183 /* LGCoreKitTests.swift in Sources */,
+				D47E22721AF110D0009F4839 /* SessionManagerSpec.swift in Sources */,
+				D420C98A1AF0CB0E003C9E0D /* LGSessionTokenSpec.swift in Sources */,
+				D420C9851AF00173003C9E0D /* LGSessionServiceSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +569,7 @@
 		};
 		D4B546821AEFE1540062D183 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DEFB3CA2696E5C3ED6CC56CA /* Pods-LGCoreKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -344,6 +588,7 @@
 		};
 		D4B546831AEFE1540062D183 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 28451D2813CEB8622330D4B5 /* Pods-LGCoreKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -361,6 +606,7 @@
 		};
 		D4B546851AEFE1540062D183 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F2B6957461D5C34B6BF9D2D6 /* Pods-LGCoreKitTests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -378,6 +624,7 @@
 		};
 		D4B546861AEFE1540062D183 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 829C8DF76F0C3124AC16500A /* Pods-LGCoreKitTests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
