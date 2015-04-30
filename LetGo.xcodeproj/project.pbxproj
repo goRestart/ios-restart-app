@@ -85,7 +85,6 @@
 		D48C3E051AEBD165005BD0EF /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48C3E031AEBD165005BD0EF /* ConversationCell.swift */; };
 		D48C3E061AEBD165005BD0EF /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48C3E041AEBD165005BD0EF /* ConversationCell.xib */; };
 		D4B546341AEFDD920062D183 /* letgoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B546331AEFDD920062D183 /* letgoTests.swift */; };
-		D4B546881AEFE1B60062D183 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B546871AEFE1B60062D183 /* LGCoreKit.framework */; };
 		D4FBDDBD1AEF68BB00D8EE49 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FBDDBC1AEF68BB00D8EE49 /* Environment.swift */; };
 		D4FBDDBF1AEF6B0000D8EE49 /* ProductionEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FBDDBE1AEF6B0000D8EE49 /* ProductionEnvironment.swift */; };
 		D4FBDDC21AEF6B6A00D8EE49 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FBDDC11AEF6B6A00D8EE49 /* Constants.swift */; };
@@ -211,7 +210,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4B546881AEFE1B60062D183 /* LGCoreKit.framework in Frameworks */,
 				6640F04A1AE142D800004556 /* libGoogleConversionTracking.a in Frameworks */,
 				6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */,
 				66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */,

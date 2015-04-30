@@ -3331,6 +3331,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0510;
+				TargetAttributes = {
+					7577252A65538E8A1E1057B1 = {
+						DevelopmentTeam = 3MAE68NKQE;
+					};
+				};
 			};
 			buildConfigurationList = 987123F175FC670111DC313A /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -4547,6 +4552,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82866F7B385C53F33D73BEE5 /* Pods-LGCoreKit-SwiftyJSON-Private.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -4562,6 +4568,7 @@
 				MODULEMAP_FILE = "Target Support Files/Pods-LGCoreKit-SwiftyJSON/Pods-LGCoreKit-SwiftyJSON.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = SwiftyJSON;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -4945,6 +4952,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82866F7B385C53F33D73BEE5 /* Pods-LGCoreKit-SwiftyJSON-Private.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -4960,6 +4968,7 @@
 				MODULEMAP_FILE = "Target Support Files/Pods-LGCoreKit-SwiftyJSON/Pods-LGCoreKit-SwiftyJSON.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = SwiftyJSON;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5448,6 +5457,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 82866F7B385C53F33D73BEE5 /* Pods-LGCoreKit-SwiftyJSON-Private.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -5463,6 +5473,7 @@
 				MODULEMAP_FILE = "Target Support Files/Pods-LGCoreKit-SwiftyJSON/Pods-LGCoreKit-SwiftyJSON.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = SwiftyJSON;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
