@@ -157,6 +157,7 @@ class RESTManager: NSObject {
             
             // perform request.
             request(.GET, url, parameters: parameters).responseJSON(completionHandler: { (request, response, json, error) -> Void in
+                println(request)
                 if (error != nil) { // request failed
                     completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0)
                 } else { // success. Analyze response.

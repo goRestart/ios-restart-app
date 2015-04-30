@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-// MARK: - Completion block definitions
+// MARK: - Completion closure definitions
 
 public typealias RetrieveTokenCompletion = (token: SessionToken?, error: LGError?) -> Void
 

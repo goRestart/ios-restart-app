@@ -68,6 +68,13 @@ final public class SessionManager {
         return true
     }
     
+    public func isSessionValid() -> Bool {
+        if let token = sessionToken {
+            return !token.isExpired()
+        }
+        return false
+    }
+    
     // MARK: - Private methods
     
     private func saveSessionToken(token: SessionToken) {
