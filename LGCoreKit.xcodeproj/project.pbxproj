@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		501578C51AF25E0B00648B4A /* LGSessionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501578C41AF25E0B00648B4A /* LGSessionToken.swift */; };
 		6B51D4F983DB61A29D88459E /* Pods_LGCoreKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		BD7C9160182B35B31759F441 /* Pods_LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D420C96F1AEFE91A003C9E0D /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C96E1AEFE91A003C9E0D /* SessionService.swift */; };
-		D420C9711AEFEA13003C9E0D /* LGSessionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9701AEFEA13003C9E0D /* LGSessionToken.swift */; };
 		D420C9741AEFEA80003C9E0D /* LGError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9731AEFEA80003C9E0D /* LGError.swift */; };
 		D420C9771AEFEB00003C9E0D /* LGSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9761AEFEB00003C9E0D /* LGSessionService.swift */; };
 		D420C9851AF00173003C9E0D /* LGSessionServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9841AF00173003C9E0D /* LGSessionServiceSpec.swift */; };
@@ -39,11 +39,11 @@
 
 /* Begin PBXFileReference section */
 		28451D2813CEB8622330D4B5 /* Pods-LGCoreKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKit/Pods-LGCoreKit.release.xcconfig"; sourceTree = "<group>"; };
+		501578C41AF25E0B00648B4A /* LGSessionToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionToken.swift; sourceTree = "<group>"; };
 		829C8DF76F0C3124AC16500A /* Pods-LGCoreKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKitTests/Pods-LGCoreKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGCoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGCoreKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D420C96E1AEFE91A003C9E0D /* SessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
-		D420C9701AEFEA13003C9E0D /* LGSessionToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionToken.swift; sourceTree = "<group>"; };
 		D420C9731AEFEA80003C9E0D /* LGError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGError.swift; sourceTree = "<group>"; };
 		D420C9761AEFEB00003C9E0D /* LGSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionService.swift; sourceTree = "<group>"; };
 		D420C9841AF00173003C9E0D /* LGSessionServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionServiceSpec.swift; sourceTree = "<group>"; };
@@ -95,6 +95,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		501578C31AF25E0B00648B4A /* API */ = {
+			isa = PBXGroup;
+			children = (
+				501578C41AF25E0B00648B4A /* LGSessionToken.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		8207F67B39327F3FE7F2E41C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,9 +126,9 @@
 		D420C96D1AEFE886003C9E0D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				501578C31AF25E0B00648B4A /* API */,
 				D47E226E1AF0F178009F4839 /* API Response */,
 				D420C9721AEFEA69003C9E0D /* Error */,
-				D420C9701AEFEA13003C9E0D /* LGSessionToken.swift */,
 				D420C98B1AF0CB57003C9E0D /* SessionToken.swift */,
 			);
 			path = Model;
@@ -446,7 +454,7 @@
 				D47E227B1AF1176B009F4839 /* DevelopmentEnvironment.swift in Sources */,
 				D420C9771AEFEB00003C9E0D /* LGSessionService.swift in Sources */,
 				D420C9741AEFEA80003C9E0D /* LGError.swift in Sources */,
-				D420C9711AEFEA13003C9E0D /* LGSessionToken.swift in Sources */,
+				501578C51AF25E0B00648B4A /* LGSessionToken.swift in Sources */,
 				D47E227D1AF1176B009F4839 /* EnvironmentProxy.swift in Sources */,
 				D420C9881AF0C074003C9E0D /* SessionManager.swift in Sources */,
 				D47E227E1AF1176B009F4839 /* ProductionEnvironment.swift in Sources */,
