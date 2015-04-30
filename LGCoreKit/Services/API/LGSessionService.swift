@@ -12,7 +12,7 @@ import SwiftyJSON
 final public class LGSessionService: SessionService {
 
     // Constants
-    static let endpoint = "/oauth/v2/token"
+    public static let endpoint = "/oauth/v2/token"
     
     // iVars
     var url: String

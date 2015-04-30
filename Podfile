@@ -52,4 +52,7 @@ target "LGCoreKitTests" do
     # Testing
     pod "Quick"
     pod "Nimble"
+    
+    # Mocking
+    pod "Mockingjay"    # HTTP
 end

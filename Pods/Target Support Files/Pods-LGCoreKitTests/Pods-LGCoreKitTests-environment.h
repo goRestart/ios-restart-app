@@ -12,6 +12,30 @@
 #define COCOAPODS_VERSION_MINOR_Alamofire 2
 #define COCOAPODS_VERSION_PATCH_Alamofire 1
 
+// Mockingjay
+#define COCOAPODS_POD_AVAILABLE_Mockingjay
+#define COCOAPODS_VERSION_MAJOR_Mockingjay 0
+#define COCOAPODS_VERSION_MINOR_Mockingjay 2
+#define COCOAPODS_VERSION_PATCH_Mockingjay 0
+
+// Mockingjay/Core
+#define COCOAPODS_POD_AVAILABLE_Mockingjay_Core
+#define COCOAPODS_VERSION_MAJOR_Mockingjay_Core 0
+#define COCOAPODS_VERSION_MINOR_Mockingjay_Core 2
+#define COCOAPODS_VERSION_PATCH_Mockingjay_Core 0
+
+// Mockingjay/Session
+#define COCOAPODS_POD_AVAILABLE_Mockingjay_Session
+#define COCOAPODS_VERSION_MAJOR_Mockingjay_Session 0
+#define COCOAPODS_VERSION_MINOR_Mockingjay_Session 2
+#define COCOAPODS_VERSION_PATCH_Mockingjay_Session 0
+
+// Mockingjay/XCTest
+#define COCOAPODS_POD_AVAILABLE_Mockingjay_XCTest
+#define COCOAPODS_VERSION_MAJOR_Mockingjay_XCTest 0
+#define COCOAPODS_VERSION_MINOR_Mockingjay_XCTest 2
+#define COCOAPODS_VERSION_PATCH_Mockingjay_XCTest 0
+
 // Nimble
 #define COCOAPODS_POD_AVAILABLE_Nimble
 #define COCOAPODS_VERSION_MAJOR_Nimble 0
@@ -35,4 +59,10 @@
 #define COCOAPODS_VERSION_MAJOR_Timepiece 0
 #define COCOAPODS_VERSION_MINOR_Timepiece 2
 #define COCOAPODS_VERSION_PATCH_Timepiece 2
+
+// URITemplate
+#define COCOAPODS_POD_AVAILABLE_URITemplate
+#define COCOAPODS_VERSION_MAJOR_URITemplate 1
+#define COCOAPODS_VERSION_MINOR_URITemplate 2
+#define COCOAPODS_VERSION_PATCH_URITemplate 0
 

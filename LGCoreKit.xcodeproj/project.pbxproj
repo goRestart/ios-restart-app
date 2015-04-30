@@ -18,6 +18,7 @@
 		504B376B1AF279DD00710306 /* LGProductServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504B376A1AF279DD00710306 /* LGProductServiceSpec.swift */; };
 		6B51D4F983DB61A29D88459E /* Pods_LGCoreKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		BD7C9160182B35B31759F441 /* Pods_LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D4160BF61AF2E667005A9775 /* MockSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4160BF51AF2E667005A9775 /* MockSessionService.swift */; };
 		D420C96F1AEFE91A003C9E0D /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C96E1AEFE91A003C9E0D /* SessionService.swift */; };
 		D420C9741AEFEA80003C9E0D /* LGError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9731AEFEA80003C9E0D /* LGError.swift */; };
 		D420C9771AEFEB00003C9E0D /* LGSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9761AEFEB00003C9E0D /* LGSessionService.swift */; };
@@ -59,6 +60,7 @@
 		829C8DF76F0C3124AC16500A /* Pods-LGCoreKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKitTests/Pods-LGCoreKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGCoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGCoreKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4160BF51AF2E667005A9775 /* MockSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSessionService.swift; sourceTree = "<group>"; };
 		D420C96E1AEFE91A003C9E0D /* SessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
 		D420C9731AEFEA80003C9E0D /* LGError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGError.swift; sourceTree = "<group>"; };
 		D420C9761AEFEB00003C9E0D /* LGSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionService.swift; sourceTree = "<group>"; };
@@ -129,6 +131,14 @@
 				829C8DF76F0C3124AC16500A /* Pods-LGCoreKitTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D4160BF41AF2E577005A9775 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				D4160BF51AF2E667005A9775 /* MockSessionService.swift */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		D420C96C1AEFE886003C9E0D /* Services */ = {
@@ -252,6 +262,7 @@
 		D4B5467A1AEFE1540062D183 /* LGCoreKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				D4160BF41AF2E577005A9775 /* Mock */,
 				504B376A1AF279DD00710306 /* LGProductServiceSpec.swift */,
 				D420C9891AF0CB0E003C9E0D /* LGSessionTokenSpec.swift */,
 				D420C9841AF00173003C9E0D /* LGSessionServiceSpec.swift */,
@@ -502,6 +513,7 @@
 			files = (
 				D47E22721AF110D0009F4839 /* SessionManagerSpec.swift in Sources */,
 				504B376B1AF279DD00710306 /* LGProductServiceSpec.swift in Sources */,
+				D4160BF61AF2E667005A9775 /* MockSessionService.swift in Sources */,
 				D420C98A1AF0CB0E003C9E0D /* LGSessionTokenSpec.swift in Sources */,
 				D420C9851AF00173003C9E0D /* LGSessionServiceSpec.swift in Sources */,
 			);
