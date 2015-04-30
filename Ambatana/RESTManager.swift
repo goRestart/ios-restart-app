@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import LGCoreKit
 import Parse
 import UIKit
 

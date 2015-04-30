@@ -14,8 +14,8 @@ public struct ProductionEnvironment: Environment {
     public let parseClientId = "VcGL3kgBEqleDz77pPEwd48SROpMu15XVosoqdbv"
 
     // API
-//    public let apiBaseURL: String = "http://3rdparty.ambatana.com"     // old PROD
-    public let apiBaseURL = "http://api.letgo.com"             // new PROD
+    public let apiBaseURL: String = "http://3rdparty.ambatana.com"     // old PROD
+//    public let apiBaseURL = "http://api.letgo.com"             // new PROD
     public let apiClientId = "2_4iqtxcwybj8k08o8ssw4wkc0c408o8o4g8go8ogok0ss4g48oo"
     public let apiClientSecret = "4hbpw71kl8u80sw8gww44gs0ww8c44kc4wwssw0k08sw4k4ssc"
 }

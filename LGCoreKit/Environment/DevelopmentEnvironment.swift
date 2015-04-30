@@ -14,8 +14,8 @@ public struct DevelopmentEnvironment: Environment {
     public let parseClientId = "4dmYjzpoyMbAdDdmCTBG6s7TTHtNTAaQaJN6YOAk"
 
     // API
-//    public let apiBaseURL = "http://vps122602.ovh.net"     // old DEV
-    public let apiBaseURL = "http://devel.api.letgo.com"     // new DEV (requires OAuth)
+    public let apiBaseURL = "http://vps122602.ovh.net"     // old DEV
+//    public let apiBaseURL = "http://devel.api.letgo.com"     // new DEV (requires OAuth)
     public let apiClientId = "2_63roc3zwvhc0cgkkcs0wg0ogkwks0wcg8kgswcswsggg8ogokk"
     public let apiClientSecret = "64szvwjvm1wkwgogswsgccoco4ggckkwg444kswccg0404g040"
 }
