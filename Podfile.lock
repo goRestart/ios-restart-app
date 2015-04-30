@@ -32,8 +32,8 @@ PODS:
   - Timepiece (0.2.2)
 
 DEPENDENCIES:
-  - Alamofire (~> 1.2)
-  - Amplitude-iOS (~> 2.4)
+  - Alamofire (>= 1.2)
+  - Amplitude-iOS (>= 2.4)
   - AppsFlyer-SDK
   - FBSDKCoreKit (from `https://github.com/facebook/facebook-ios-sdk.git`, branch
     `dev`)
