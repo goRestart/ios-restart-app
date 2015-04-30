@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DD65AA99208A05D029379B /* Pods_LetGo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
 		6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03D1A820FBD005895ED /* LoginViewController.swift */; };
@@ -71,7 +72,6 @@
 		66FC91191A921C970008AFAD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FC91181A921C970008AFAD /* SignUpViewController.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
-		A0525AFF9E3A4F2E486AC795 /* libPods-LetGo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EAC8884324D3A36C15E5A6D /* libPods-LetGo.a */; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
 		D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28C1AEE2B2900B64CE1 /* LanguageHelper.swift */; };
@@ -91,6 +91,7 @@
 		D4FBDDC21AEF6B6A00D8EE49 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FBDDC11AEF6B6A00D8EE49 /* Constants.swift */; };
 		D4FBDDC41AEF6C1600D8EE49 /* DevelopmentEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FBDDC31AEF6C1600D8EE49 /* DevelopmentEnvironment.swift */; };
 		D4FBDDC61AEF6D5F00D8EE49 /* EnvironmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FBDDC51AEF6D5F00D8EE49 /* EnvironmentProxy.swift */; };
+		D4FE33571AF2183300088532 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4FE33561AF2183300088532 /* ParseFacebookUtilsV4.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,9 +177,9 @@
 		66FC91181A921C970008AFAD /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		6EAC8884324D3A36C15E5A6D /* libPods-LetGo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-LetGo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ambatana.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B6E57E60751EEA425E34814 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
+		90DD65AA99208A05D029379B /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95C4EAFE6C88BD48CEFBCCB5 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -201,6 +202,7 @@
 		D4FBDDC11AEF6B6A00D8EE49 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D4FBDDC31AEF6C1600D8EE49 /* DevelopmentEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentEnvironment.swift; sourceTree = "<group>"; };
 		D4FBDDC51AEF6D5F00D8EE49 /* EnvironmentProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentProxy.swift; sourceTree = "<group>"; };
+		D4FE33561AF2183300088532 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		DCE9C67541895BFFB3F852AD /* Pods-Ambatana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -223,8 +225,9 @@
 				66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */,
 				D44E06631AE701D900A7D3CA /* Fabric.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
+				D4FE33571AF2183300088532 /* ParseFacebookUtilsV4.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
-				A0525AFF9E3A4F2E486AC795 /* libPods-LetGo.a in Frameworks */,
+				3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +264,7 @@
 		6608E02D1A820FBD005895ED = {
 			isa = PBXGroup;
 			children = (
+				D4FE33521AF2166800088532 /* 3rd Party */,
 				6608E0381A820FBD005895ED /* LetGo */,
 				D4B546301AEFDD920062D183 /* letgoTests */,
 				6608E0371A820FBD005895ED /* Products */,
@@ -563,7 +567,7 @@
 				6640F0411AE141A800004556 /* libGoogleConversionTracking.a */,
 				6640F03F1AE13EBE00004556 /* AdSupport.framework */,
 				75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */,
-				6EAC8884324D3A36C15E5A6D /* libPods-LetGo.a */,
+				90DD65AA99208A05D029379B /* Pods_LetGo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -663,6 +667,23 @@
 			path = constants;
 			sourceTree = "<group>";
 		};
+		D4FE33521AF2166800088532 /* 3rd Party */ = {
+			isa = PBXGroup;
+			children = (
+				D4FE33531AF2168300088532 /* parse-library-1.7.2 */,
+			);
+			name = "3rd Party";
+			sourceTree = "<group>";
+		};
+		D4FE33531AF2168300088532 /* parse-library-1.7.2 */ = {
+			isa = PBXGroup;
+			children = (
+				D4FE33561AF2183300088532 /* ParseFacebookUtilsV4.framework */,
+			);
+			name = "parse-library-1.7.2";
+			path = "3rd-Party/parse-library-1.7.2";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -676,6 +697,7 @@
 				6608E0341A820FBD005895ED /* Resources */,
 				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
 				D44E065F1AE7017E00A7D3CA /* ShellScript */,
+				2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -729,7 +751,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 6608E0311A820FBD005895ED /* Build configuration list for PBXProject "LetGo" */;
+			buildConfigurationList = 6608E0311A820FBD005895ED /* Build configuration list for PBXProject "letgo" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -777,6 +799,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -951,6 +988,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Carles Grau Molto (68TLR78WYR)";
 				COPY_PHASE_STRIP = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -994,6 +1032,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana INC (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1023,12 +1062,14 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/3rd-Party/**",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
+					"$(PROJECT_DIR)/3rd-Party/**",
 				);
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
@@ -1048,12 +1089,14 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/3rd-Party/**",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
+					"$(PROJECT_DIR)/3rd-Party/**",
 				);
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
@@ -1079,6 +1122,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana INC (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1108,12 +1152,14 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/3rd-Party/**",
 				);
 				INFOPLIST_FILE = Ambatana/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
+					"$(PROJECT_DIR)/3rd-Party/**",
 				);
 				PRODUCT_NAME = LetGo;
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
@@ -1192,7 +1238,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6608E0311A820FBD005895ED /* Build configuration list for PBXProject "LetGo" */ = {
+		6608E0311A820FBD005895ED /* Build configuration list for PBXProject "letgo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6608E0531A820FBD005895ED /* Debug */,
@@ -1220,6 +1266,7 @@
 				D4B546391AEFDD920062D183 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

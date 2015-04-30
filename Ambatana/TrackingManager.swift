@@ -6,7 +6,14 @@
 //  Copyright (c) 2015 LetGo. All rights reserved.
 //
 
+import Amplitude_iOS
+import AppsFlyer_SDK
+import FBSDKCoreKit
+//import FBSDKShareKit
+//import FBSDKLoginKit
+import Parse
 import UIKit
+
 
 // tracking Events
 let kLetGoTrackingEventNameLetGoInstall             = "letgo-install"

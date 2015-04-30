@@ -6,8 +6,11 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import UIKit
 import AddressBookUI
+import CoreLocation
+import FBSDKShareKit
+import Parse
+import UIKit
 
 private let kLetGoSellProductControlsCornerRadius: CGFloat = 6.0
 private let kLetGoAlreadyUploadedImageCellName = "AlreadyUploadedImageCell"

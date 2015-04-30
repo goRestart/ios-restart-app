@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 // constants
 private let kLetGoChatMessageTypeNormalMessage = 0

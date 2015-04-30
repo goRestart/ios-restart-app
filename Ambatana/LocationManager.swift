@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import UIKit
 import AddressBookUI
+import CoreLocation
+import Parse
+import UIKit
 
 private let kLetGoLocationTimerUpdateInterval: NSTimeInterval = 300
 private let kLetGoUserWantsToSpecifyLocationDirectly = "LetGoUserWantsToSpecifyLocationDirectly"

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class LetGoProduct: NSObject, Printable {
     // global variables every object must have (retrieved in product list).

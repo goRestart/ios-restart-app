@@ -17,7 +17,7 @@
                BlueprintIdentifier = "6608E0351A820FBD005895ED"
                BuildableName = "LetGo.app"
                BlueprintName = "LetGo"
-               ReferencedContainer = "container:LetGo.xcodeproj">
+               ReferencedContainer = "container:letgo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
             BlueprintIdentifier = "6608E0351A820FBD005895ED"
             BuildableName = "LetGo.app"
             BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
+            ReferencedContainer = "container:letgo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -55,7 +55,7 @@
             BlueprintIdentifier = "6608E0351A820FBD005895ED"
             BuildableName = "LetGo.app"
             BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
+            ReferencedContainer = "container:letgo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -74,7 +74,7 @@
             BlueprintIdentifier = "6608E0351A820FBD005895ED"
             BuildableName = "LetGo.app"
             BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
+            ReferencedContainer = "container:letgo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

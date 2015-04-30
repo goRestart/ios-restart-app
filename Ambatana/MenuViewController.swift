@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import UIKit
+import Parse
 import MessageUI
+import UIKit
 
 private let kLetGoMenuOptionCellName = "LetGoMenuOptionCell"
 private let kLetGoMenuOptionCellTitleTag = 1

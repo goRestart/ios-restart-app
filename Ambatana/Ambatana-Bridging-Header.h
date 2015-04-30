@@ -12,16 +12,16 @@
 #import <CommonCrypto/CommonCrypto.h>
 
 // Parse
-#import <Parse/Parse.h>
+//#import <Parse/Parse.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <FBSDKShareKit/FBSDKShareKit.h>
-#import <FBSDKLoginKit/FBSDKLoginKit.h>
+//#import <FBSDKCoreKit/FBSDKCoreKit.h>
+//#import <FBSDKShareKit/FBSDKShareKit.h>
+//#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 // Cache image
-#import <SDWebImage/UIImageView+WebCache.h>
+//#import <SDWebImage/UIImageView+WebCache.h>
 
 // Tracking
-#import "AppsFlyerTracker.h"
-#import "Amplitude.h"
+//#import "AppsFlyerTracker.h"
+//#import "Amplitude.h"
 #import "ACTReporter.h"
