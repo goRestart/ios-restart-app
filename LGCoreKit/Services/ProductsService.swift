@@ -40,23 +40,25 @@ public class RetrieveProductsParams: Printable {
     public var categoryIds: [Int]?
     public var sortCriteria: ProductSortCriteria?
     public var distanceType: DistanceType?
-    
     public var offset: Int?                 // skip results
     public var numProducts: Int?            // number products to return
-    public var statuses: [ProductStatus]?  // Default 1,3
+    public var statuses: [ProductStatus]?   // Default 1,3
     public var maxPrice: Int?
     public var minPrice: Int?
     public var distanceRadius: Int?
     public var userObjectId: String?
     
-    public init?(coordinates: CLLocationCoordinate2D) {
+    public var accessToken: String
+    
+    public init?(coordinates: CLLocationCoordinate2D, accessToken: String) {
         self.coordinates = coordinates
+        self.accessToken = accessToken
         if !CLLocationCoordinate2DIsValid(coordinates) { return nil }
     }
     
     // MARK: - Printable
     
-    public var description: String { return "queryString: \(queryString); latitude: \(coordinates.latitude); longitude: \(coordinates.longitude); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); distanceType: \(distanceType); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); userObjectId: \(userObjectId)" }
+    public var description: String { return "queryString: \(queryString); latitude: \(coordinates.latitude); longitude: \(coordinates.longitude); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); distanceType: \(distanceType); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); userObjectId: \(userObjectId); accessToken: \(accessToken)" }
 }
 
 // MARK: - ProductsService

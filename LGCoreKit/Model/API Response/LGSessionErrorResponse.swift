@@ -1,5 +1,5 @@
 //
-//  LGSessionServiceErrorResponse.swift
+//  LGSessionErrorResponse.swift
 //  LGCoreKit
 //
 //  Created by AHL on 29/4/15.
@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-public class LGSessionServiceErrorResponse {
+public class LGSessionErrorResponse {
     
     // Constant
     // > JSON keys
@@ -17,7 +17,7 @@ public class LGSessionServiceErrorResponse {
     private static let errorDescriptionJSONKey = "error_description"
     
     // iVars
-    public var error: String = ""
+    public var error: String
     public var errorDescription: String?
     
     // MARK: - Lifecycle
@@ -27,12 +27,13 @@ public class LGSessionServiceErrorResponse {
     //    "error_description": "The client credentials are invalid"
     //}
     public init?(json: JSON) {
-        if let error = json[LGSessionServiceErrorResponse.errorJSONKey].string {
+        if let error = json[LGSessionErrorResponse.errorJSONKey].string {
             self.error = error
         }
         else {
+            self.error = ""
             return nil
         }
-        self.errorDescription = json[LGSessionServiceErrorResponse.errorDescriptionJSONKey].string
+        self.errorDescription = json[LGSessionErrorResponse.errorDescriptionJSONKey].string
     }
 }

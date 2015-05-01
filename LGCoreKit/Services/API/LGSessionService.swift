@@ -42,7 +42,7 @@ final public class LGSessionService: SessionService {
                         let json = JSON(actualData)
                         let myError: LGError
                         
-                        if let errorResponse = LGSessionServiceErrorResponse(json: json) {
+                        if let errorResponse = LGSessionErrorResponse(json: json) {
                             myError = LGError(type: .Server(.Session), explanation: errorResponse.error)
                         }
                         else {

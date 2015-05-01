@@ -14,85 +14,65 @@ final public class LGProductsService: ProductsService {
     // Constants
 //    GET /api/list.{_format}
 //    http://devel.api.letgo.com/api/list.json?distance_type=ML&latitude=40.416947&longitude=-3.703528&nr_products=20&offset=0
-    static let endpoint = "/api/list.json"
+    public static let endpoint = "/api/list.json"
 
     // iVars
     var url: String
-    var sessionManager: SessionManager
     
     // MARK: - Lifecycle
     
-    public init(baseURL: String, sessionManager: SessionManager) {
+    public init(baseURL: String) {
         self.url = baseURL + LGSessionService.endpoint
-        self.sessionManager = sessionManager
     }
     
     public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL, sessionManager: SessionManager.sharedInstance)
+        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
     }
     
     public func retrieveProductsWithParams(params: RetrieveProductsParams, completion: RetrieveProductsCompletion) {
         
-        let tokenCompletion: (token: SessionToken?, error: LGError?) -> Void = { [weak self] (_, error) -> Void in
-            if let strongSelf = self {
-                let parameters = params.letgoApiParams
-                Alamofire.request(.GET, strongSelf.url, parameters: parameters)
-                    .validate(statusCode: 200..<300)
-                    .responseJSON(options: nil, completionHandler: { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
+        let parameters = params.letgoApiParams
+        Alamofire.request(.GET, url, parameters: parameters)
+            .validate(statusCode: 200..<300)
+            .responseJSON(options: nil, completionHandler: { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
+                
+                // Error
+                if let actualError = error {
+                    if let actualData: AnyObject = data {
+                        let json = JSON(actualData)
+                        let myError: LGError
                         
-                        
-//                        // Error
-//                        if let actualError = error {
-//                            if let actualData: AnyObject = data {
-//                                let json = JSON(actualData)
-//                                let myError: LGError
-//                                
-//                                if let errorResponse = LGSessionServiceErrorResponse(json: json) {
-//                                    myError = LGError(type: .Server(.Session), explanation: errorResponse.error)
-//                                }
-//                                else {
-//                                    myError = LGError(type: .Internal(.Parsing), explanation: "Unexpected JSON format")
-//                                }
-//                                completion(token: nil, error: myError)
-//                            }
-//                            else if actualError.domain == NSURLErrorDomain {
-//                                let myError: LGError = LGError(type: .Network, explanation: actualError.localizedDescription)
-//                                completion(token: nil, error: myError)
-//                            }
-//                        }
-//                            // Success
-//                        else if let actualData: AnyObject = data {
-//                            let json = JSON(actualData)
-//                            if let token = LGSessionToken(json: json) {
-//                                completion(token: token, error: nil)
-//                            }
-//                            else {
-//                                let myError: LGError = LGError(type: .Internal(.Parsing))
-//                                completion(token: nil, error: myError)
-//                            }
-//                        }
-                    })
-            }
-        }
-        
-        if sessionManager.isSessionValid() {
-            tokenCompletion(token: nil, error: nil)
-        }
-        else {
-            sessionManager.retrieveSessionTokenWithCompletion(tokenCompletion)
-        }
-        
-//        if !(sessionManager.sessionToken?.isExpired() != nil) {
-//            
-//        }
-//        sessionManager.sessionToken
-        
-        
-        
+                        if let errorResponse = LGSessionErrorResponse(json: json) {
+                            myError = LGError(type: .Server(.Session), explanation: errorResponse.error)
+                        }
+                        else {
+                            myError = LGError(type: .Internal(.Parsing), explanation: "Unexpected JSON format")
+                        }
+                        completion(products: nil, error: myError)
+                    }
+                    else if actualError.domain == NSURLErrorDomain {
+                        let myError: LGError = LGError(type: .Network, explanation: actualError.localizedDescription)
+                        completion(products: nil, error: myError)
+                    }
+                    else {
+                        let myError: LGError = LGError(type: .Internal(LGInternalErrorCode.Unexpected), explanation: actualError.localizedDescription)
+                        completion(products: nil, error: myError)
+                    }
+                }
+                // Success
+                else if let actualData: AnyObject = data {
+                    let json = JSON(actualData)
+//                    if let token = LGSessionToken(json: json) {
+//                        completion(token: token, error: nil)
+//                    }
+//                    else {
+//                        let myError: LGError = LGError(type: .Internal(.Parsing))
+//                        completion(token: nil, error: myError)
+//                    }
+                }
+            })
     }
 }
-
-
 
 extension RetrieveProductsParams {
     var letgoApiParams: Dictionary<String, AnyObject> {
@@ -149,6 +129,8 @@ extension RetrieveProductsParams {
             if let userObjectId = self.userObjectId {
                 params["user_object_id"] = userObjectId
             }
+            
+            params["access_token"] = accessToken
             
             return params
         }

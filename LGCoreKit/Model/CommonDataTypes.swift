@@ -8,14 +8,18 @@
 
 import Foundation
 
-@objc public class LGSize {
-    public var width: CGFloat
-    public var height: CGFloat
+@objc public class LGSize: Equatable {
+    public var width: Float
+    public var height: Float
     
-    public init(width: CGFloat, height: CGFloat) {
+    public init(width: Float, height: Float) {
         self.width = width
         self.height = height
     }
+}
+
+public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
+    return lhs.width == rhs.width && lhs.height == rhs.height
 }
 
 @objc public enum DistanceType: Int, Printable {
@@ -30,6 +34,18 @@ import Foundation
             }
         }
     }
+    
+    public static func fromString(string: String) -> DistanceType? {
+        switch string {
+        case "ML":
+            return .Mi
+        case "KM":
+            return .Km
+        default:
+            return nil
+        }
+    }
+    
     public var description: String { return "\(string)" }
 }
 
@@ -49,6 +65,7 @@ import Foundation
             }
         }
     }
+    
     public var description: String { return "\(string)" }
 }
 
@@ -64,6 +81,18 @@ import Foundation
             }
         }
     }
+
+    public static func fromString(string: String) -> Currency? {
+        switch string {
+        case "EUR":
+            return .EUR
+        case "USD":
+            return .USD
+        default:
+            return nil
+        }
+    }
+    
     public var description: String { return "\(string)" }
 }
 

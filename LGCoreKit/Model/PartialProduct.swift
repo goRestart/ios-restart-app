@@ -13,13 +13,13 @@ public protocol PartialProduct {
     var objectId: String? { get set }
     var createdAt: NSDate? { get set }
     
-    var name: String? { get set }
+    var name: String { get set }
     var price: Float? { get set }
     var currency: Currency? { get set }
-    var distance: String? { get set }
+    var distance: Float? { get set }
     var distanceType: DistanceType? { get set }
     
-    var categoryId: String? { get set }
+    var categoryId: Int? { get set }
     var status: ProductStatus? { get set }
     
     var thumbnailURL: String? { get set }
