@@ -10,7 +10,6 @@ import Quick
 import LGCoreKit
 import Nimble
 import SwiftyJSON
-//import Timepiece
 
 class LGPartialProductSpec: QuickSpec {
     
