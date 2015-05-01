@@ -62,6 +62,43 @@ class LGProductsResponseSpec: QuickSpec {
                         expect(sut.offset).to(equal(0))
                     }
                 }
+                
+                context("with wrong paging info") {
+                    context("without info") {
+                        beforeEach {
+                            let jsonString = "{\"data\":[]}"
+                            let jsonData: NSData! = jsonString.dataUsingEncoding(NSUTF8StringEncoding)
+                            let json = JSON(data: jsonData)
+                            sut = LGProductsResponse(json: json)
+                        }
+                    }
+                    
+                    context("with info but total products") {
+                        beforeEach {
+                            let jsonString = "{\"data\":[],\"info\":{\"offset\":\"0\"}}"
+                            let jsonData: NSData! = jsonString.dataUsingEncoding(NSUTF8StringEncoding)
+                            let json = JSON(data: jsonData)
+                            sut = LGProductsResponse(json: json)
+                        }
+                        
+                        it("should return a nil object") {
+                            expect(sut).to(beNil())
+                        }
+                    }
+                    
+                    context("with info but offset") {
+                        beforeEach {
+                            let jsonString = "{\"data\":[],\"info\":{\"total_products\":\"475\"}}"
+                            let jsonData: NSData! = jsonString.dataUsingEncoding(NSUTF8StringEncoding)
+                            let json = JSON(data: jsonData)
+                            sut = LGProductsResponse(json: json)
+                        }
+                        
+                        it("should return a nil object") {
+                            expect(sut).to(beNil())
+                        }
+                    }
+                }
             }
         }
     }

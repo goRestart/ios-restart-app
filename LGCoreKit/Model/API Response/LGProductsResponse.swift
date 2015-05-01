@@ -19,8 +19,8 @@ public struct LGProductsResponse {
     
     // iVars
     public var products: [LGPartialProduct]
-    public var totalProducts: Int?
-    public var offset: Int?
+    public var totalProducts: Int
+    public var offset: Int
     
     // MARK: - Lifecycle
     
@@ -48,14 +48,24 @@ public struct LGProductsResponse {
     //  }
     //}
     public init?(json: JSON) {
-        
         self.products = []
         if let data = json[LGProductsResponse.dataJSONKey].array {
             for productJson in data {
                 self.products.append(LGPartialProduct(json: productJson))
             }
         }
-        self.totalProducts = json[LGProductsResponse.infoJSONKey][LGProductsResponse.totalProductsJSONKey].string?.toInt()
-        self.offset = json[LGProductsResponse.infoJSONKey][LGProductsResponse.offsetJSONKey].string?.toInt()
+        let pagingInfo = json[LGProductsResponse.infoJSONKey]
+        if let totalProducts = pagingInfo[LGProductsResponse.totalProductsJSONKey].string?.toInt() {
+            self.totalProducts = totalProducts
+        }
+        else {
+            return nil
+        }
+        if let offset = pagingInfo[LGProductsResponse.offsetJSONKey].string?.toInt() {
+            self.offset = offset
+        }
+        else {
+            return nil
+        }
     }
 }
