@@ -54,6 +54,10 @@ final public class LGSessionService: SessionService {
                         let myError: LGError = LGError(type: .Network, explanation: actualError.localizedDescription)
                         completion(token: nil, error: myError)
                     }
+                    else {
+                        let myError: LGError = LGError(type: .Internal(LGInternalErrorCode.Unexpected), explanation: actualError.localizedDescription)
+                        completion(token: nil, error: myError)
+                    }
                 }
                 // Success
                 else if let actualData: AnyObject = data {

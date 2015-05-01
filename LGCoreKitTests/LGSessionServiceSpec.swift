@@ -69,6 +69,42 @@ class LGSessionServiceSpec: QuickSpec {
                     expect(receivedError).toEventuallyNot(beNil())
                 }
             }
+            
+            context("unexpected json server response") {
+                beforeEach {
+                    let body = [ "whatever": "whatever" ]
+                    self.stub(uri(LGSessionService.endpoint), builder: json(body, status: 500))
+                    
+                    let params = RetrieveTokenParams(clientId: "whatever", clientSecret: "whatever")
+                    sut.retrieveTokenWithParams(params, completion: completion)
+                }
+                
+                it("should receive no session token") {
+                    expect(receivedToken).toEventually(beNil())
+                }
+                it("should receive an error") {
+                    expect(receivedError).toEventuallyNot(beNil())
+                    println("\(receivedError)")
+                }
+            }
+            
+            context("unexpected response") {
+                beforeEach {
+                    let error = NSError()
+                    self.stub(uri(LGSessionService.endpoint), builder: http(status: 500))
+                    
+                    let params = RetrieveTokenParams(clientId: "whatever", clientSecret: "whatever")
+                    sut.retrieveTokenWithParams(params, completion: completion)
+                }
+                
+                it("should receive no session token") {
+                    expect(receivedToken).toEventually(beNil())
+                }
+                it("should receive an error") {
+                    expect(receivedError).toEventuallyNot(beNil())
+                    println("\(receivedError)")
+                }
+            }
         }
     }
 }
