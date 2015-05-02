@@ -15,29 +15,29 @@
 		504B37651AF2682400710306 /* LGPartialProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504B37641AF2682400710306 /* LGPartialProduct.swift */; };
 		504B37671AF2693500710306 /* ProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504B37661AF2693500710306 /* ProductsService.swift */; };
 		504B37691AF2735500710306 /* LGProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504B37681AF2735500710306 /* LGProductsService.swift */; };
-		504B376B1AF279DD00710306 /* LGProductsServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504B376A1AF279DD00710306 /* LGProductsServiceSpec.swift */; };
 		6B51D4F983DB61A29D88459E /* Pods_LGCoreKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		BD7C9160182B35B31759F441 /* Pods_LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4160BF61AF2E667005A9775 /* MockSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4160BF51AF2E667005A9775 /* MockSessionService.swift */; };
 		D420C96F1AEFE91A003C9E0D /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C96E1AEFE91A003C9E0D /* SessionService.swift */; };
 		D420C9741AEFEA80003C9E0D /* LGError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9731AEFEA80003C9E0D /* LGError.swift */; };
 		D420C9771AEFEB00003C9E0D /* LGSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9761AEFEB00003C9E0D /* LGSessionService.swift */; };
-		D420C9851AF00173003C9E0D /* LGSessionServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9841AF00173003C9E0D /* LGSessionServiceSpec.swift */; };
 		D420C9881AF0C074003C9E0D /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9871AF0C074003C9E0D /* SessionManager.swift */; };
-		D420C98A1AF0CB0E003C9E0D /* LGSessionTokenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9891AF0CB0E003C9E0D /* LGSessionTokenSpec.swift */; };
 		D420C98C1AF0CB57003C9E0D /* SessionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C98B1AF0CB57003C9E0D /* SessionToken.swift */; };
 		D46AA6A21AF51230007AED5B /* ProductsOK_FirstPage.json in Resources */ = {isa = PBXBuildFile; fileRef = D46AA6A11AF51230007AED5B /* ProductsOK_FirstPage.json */; };
 		D46AA6A41AF514D3007AED5B /* ProductsKO_TokenExpired.json in Resources */ = {isa = PBXBuildFile; fileRef = D46AA6A31AF514D3007AED5B /* ProductsKO_TokenExpired.json */; };
 		D46AA6A61AF5162B007AED5B /* ProductsOK_LastPage.json in Resources */ = {isa = PBXBuildFile; fileRef = D46AA6A51AF5162B007AED5B /* ProductsOK_LastPage.json */; };
+		D46AA6C11AF517A3007AED5B /* SessionManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6B91AF517A3007AED5B /* SessionManagerSpec.swift */; };
+		D46AA6C21AF517A3007AED5B /* LGPartialProductSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6BB1AF517A3007AED5B /* LGPartialProductSpec.swift */; };
+		D46AA6C31AF517A3007AED5B /* LGProductsResponseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6BC1AF517A3007AED5B /* LGProductsResponseSpec.swift */; };
+		D46AA6C41AF517A3007AED5B /* LGSessionTokenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6BD1AF517A3007AED5B /* LGSessionTokenSpec.swift */; };
+		D46AA6C51AF517A3007AED5B /* LGProductsServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6BF1AF517A3007AED5B /* LGProductsServiceSpec.swift */; };
+		D46AA6C61AF517A3007AED5B /* LGSessionServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6C01AF517A3007AED5B /* LGSessionServiceSpec.swift */; };
 		D47CCAC71AF37B0A00D795BD /* LGProductsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47CCAC61AF37B0A00D795BD /* LGProductsResponse.swift */; };
-		D47CCAC91AF3800700D795BD /* LGProductsResponseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47CCAC81AF3800700D795BD /* LGProductsResponseSpec.swift */; };
 		D47E22701AF0F192009F4839 /* LGSessionErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E226F1AF0F192009F4839 /* LGSessionErrorResponse.swift */; };
-		D47E22721AF110D0009F4839 /* SessionManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22711AF110D0009F4839 /* SessionManagerSpec.swift */; };
 		D47E227B1AF1176B009F4839 /* DevelopmentEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22771AF1176B009F4839 /* DevelopmentEnvironment.swift */; };
 		D47E227C1AF1176B009F4839 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22781AF1176B009F4839 /* Environment.swift */; };
 		D47E227D1AF1176B009F4839 /* EnvironmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22791AF1176B009F4839 /* EnvironmentProxy.swift */; };
 		D47E227E1AF1176B009F4839 /* ProductionEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E227A1AF1176B009F4839 /* ProductionEnvironment.swift */; };
-		D48F64051AF3104700E80A8D /* LGPartialProductSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48F64041AF3104700E80A8D /* LGPartialProductSpec.swift */; };
 		D4B546711AEFE1540062D183 /* LGCoreKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D4B546701AEFE1540062D183 /* LGCoreKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4B546771AEFE1540062D183 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B5466B1AEFE1540062D183 /* LGCoreKit.framework */; };
 /* End PBXBuildFile section */
@@ -62,7 +62,6 @@
 		504B37641AF2682400710306 /* LGPartialProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGPartialProduct.swift; sourceTree = "<group>"; };
 		504B37661AF2693500710306 /* ProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsService.swift; sourceTree = "<group>"; };
 		504B37681AF2735500710306 /* LGProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGProductsService.swift; sourceTree = "<group>"; };
-		504B376A1AF279DD00710306 /* LGProductsServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGProductsServiceSpec.swift; sourceTree = "<group>"; };
 		829C8DF76F0C3124AC16500A /* Pods-LGCoreKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKitTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKitTests/Pods-LGCoreKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGCoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGCoreKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,22 +69,23 @@
 		D420C96E1AEFE91A003C9E0D /* SessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
 		D420C9731AEFEA80003C9E0D /* LGError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGError.swift; sourceTree = "<group>"; };
 		D420C9761AEFEB00003C9E0D /* LGSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionService.swift; sourceTree = "<group>"; };
-		D420C9841AF00173003C9E0D /* LGSessionServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionServiceSpec.swift; sourceTree = "<group>"; };
 		D420C9871AF0C074003C9E0D /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
-		D420C9891AF0CB0E003C9E0D /* LGSessionTokenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionTokenSpec.swift; sourceTree = "<group>"; };
 		D420C98B1AF0CB57003C9E0D /* SessionToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionToken.swift; sourceTree = "<group>"; };
 		D46AA6A11AF51230007AED5B /* ProductsOK_FirstPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ProductsOK_FirstPage.json; sourceTree = "<group>"; };
 		D46AA6A31AF514D3007AED5B /* ProductsKO_TokenExpired.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ProductsKO_TokenExpired.json; sourceTree = "<group>"; };
 		D46AA6A51AF5162B007AED5B /* ProductsOK_LastPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ProductsOK_LastPage.json; sourceTree = "<group>"; };
+		D46AA6B91AF517A3007AED5B /* SessionManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManagerSpec.swift; sourceTree = "<group>"; };
+		D46AA6BB1AF517A3007AED5B /* LGPartialProductSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGPartialProductSpec.swift; sourceTree = "<group>"; };
+		D46AA6BC1AF517A3007AED5B /* LGProductsResponseSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGProductsResponseSpec.swift; sourceTree = "<group>"; };
+		D46AA6BD1AF517A3007AED5B /* LGSessionTokenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionTokenSpec.swift; sourceTree = "<group>"; };
+		D46AA6BF1AF517A3007AED5B /* LGProductsServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGProductsServiceSpec.swift; sourceTree = "<group>"; };
+		D46AA6C01AF517A3007AED5B /* LGSessionServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionServiceSpec.swift; sourceTree = "<group>"; };
 		D47CCAC61AF37B0A00D795BD /* LGProductsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGProductsResponse.swift; sourceTree = "<group>"; };
-		D47CCAC81AF3800700D795BD /* LGProductsResponseSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGProductsResponseSpec.swift; sourceTree = "<group>"; };
 		D47E226F1AF0F192009F4839 /* LGSessionErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionErrorResponse.swift; sourceTree = "<group>"; };
-		D47E22711AF110D0009F4839 /* SessionManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManagerSpec.swift; sourceTree = "<group>"; };
 		D47E22771AF1176B009F4839 /* DevelopmentEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentEnvironment.swift; sourceTree = "<group>"; };
 		D47E22781AF1176B009F4839 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		D47E22791AF1176B009F4839 /* EnvironmentProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentProxy.swift; sourceTree = "<group>"; };
 		D47E227A1AF1176B009F4839 /* ProductionEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductionEnvironment.swift; sourceTree = "<group>"; };
-		D48F64041AF3104700E80A8D /* LGPartialProductSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGPartialProductSpec.swift; sourceTree = "<group>"; };
 		D4B5466B1AEFE1540062D183 /* LGCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LGCoreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B5466F1AEFE1540062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4B546701AEFE1540062D183 /* LGCoreKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LGCoreKit.h; sourceTree = "<group>"; };
@@ -213,6 +213,43 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
+		D46AA6B71AF517A3007AED5B /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				D46AA6B81AF517A3007AED5B /* Manager */,
+				D46AA6BA1AF517A3007AED5B /* Model */,
+				D46AA6BE1AF517A3007AED5B /* Services */,
+			);
+			path = Unit;
+			sourceTree = "<group>";
+		};
+		D46AA6B81AF517A3007AED5B /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				D46AA6B91AF517A3007AED5B /* SessionManagerSpec.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		D46AA6BA1AF517A3007AED5B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D46AA6BB1AF517A3007AED5B /* LGPartialProductSpec.swift */,
+				D46AA6BC1AF517A3007AED5B /* LGProductsResponseSpec.swift */,
+				D46AA6BD1AF517A3007AED5B /* LGSessionTokenSpec.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D46AA6BE1AF517A3007AED5B /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D46AA6BF1AF517A3007AED5B /* LGProductsServiceSpec.swift */,
+				D46AA6C01AF517A3007AED5B /* LGSessionServiceSpec.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		D47E226E1AF0F178009F4839 /* API Response */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,15 +322,10 @@
 		D4B5467A1AEFE1540062D183 /* LGCoreKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				D46AA6A01AF511B5007AED5B /* Responses */,
 				D4160BF41AF2E577005A9775 /* Mock */,
-				D48F64041AF3104700E80A8D /* LGPartialProductSpec.swift */,
-				D47CCAC81AF3800700D795BD /* LGProductsResponseSpec.swift */,
-				504B376A1AF279DD00710306 /* LGProductsServiceSpec.swift */,
-				D420C9891AF0CB0E003C9E0D /* LGSessionTokenSpec.swift */,
-				D420C9841AF00173003C9E0D /* LGSessionServiceSpec.swift */,
-				D47E22711AF110D0009F4839 /* SessionManagerSpec.swift */,
+				D46AA6A01AF511B5007AED5B /* Responses */,
 				D4B5467B1AEFE1540062D183 /* Supporting Files */,
+				D46AA6B71AF517A3007AED5B /* Unit */,
 			);
 			path = LGCoreKitTests;
 			sourceTree = "<group>";
@@ -541,13 +573,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D47E22721AF110D0009F4839 /* SessionManagerSpec.swift in Sources */,
-				504B376B1AF279DD00710306 /* LGProductsServiceSpec.swift in Sources */,
+				D46AA6C31AF517A3007AED5B /* LGProductsResponseSpec.swift in Sources */,
 				D4160BF61AF2E667005A9775 /* MockSessionService.swift in Sources */,
-				D420C98A1AF0CB0E003C9E0D /* LGSessionTokenSpec.swift in Sources */,
-				D47CCAC91AF3800700D795BD /* LGProductsResponseSpec.swift in Sources */,
-				D420C9851AF00173003C9E0D /* LGSessionServiceSpec.swift in Sources */,
-				D48F64051AF3104700E80A8D /* LGPartialProductSpec.swift in Sources */,
+				D46AA6C11AF517A3007AED5B /* SessionManagerSpec.swift in Sources */,
+				D46AA6C61AF517A3007AED5B /* LGSessionServiceSpec.swift in Sources */,
+				D46AA6C21AF517A3007AED5B /* LGPartialProductSpec.swift in Sources */,
+				D46AA6C41AF517A3007AED5B /* LGSessionTokenSpec.swift in Sources */,
+				D46AA6C51AF517A3007AED5B /* LGProductsServiceSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
