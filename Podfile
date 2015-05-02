@@ -27,6 +27,7 @@ target "LetGo" do
     pod "Alamofire",            ">= 1.2"
     pod "SwiftyJSON",           ">= 2.2"
     pod "Timepiece",            ">= 0.2"
+    pod "Bolts",                ">= 1.1"
 end
 
 # letgo core
@@ -38,6 +39,7 @@ target "LGCoreKit" do
     pod "Alamofire",            ">= 1.2"
     pod "SwiftyJSON",           ">= 2.2"
     pod "Timepiece",            ">= 0.2"
+    pod "Bolts",                ">= 1.1"
 end
 
 target "LGCoreKitTests" do
@@ -48,6 +50,7 @@ target "LGCoreKitTests" do
     pod "Alamofire",            ">= 1.2"
     pod "SwiftyJSON",           ">= 2.2"
     pod "Timepiece",            ">= 0.2"
+    pod "Bolts",                ">= 1.1"
     
     # Testing
     pod "Quick"

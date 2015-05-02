@@ -46,6 +46,7 @@ DEPENDENCIES:
   - Alamofire (>= 1.2)
   - Amplitude-iOS (>= 2.4)
   - AppsFlyer-SDK
+  - Bolts
   - FBSDKCoreKit (from `https://github.com/facebook/facebook-ios-sdk.git`, branch
     `dev`)
   - FBSDKLoginKit (from `https://github.com/facebook/facebook-ios-sdk.git`, branch
