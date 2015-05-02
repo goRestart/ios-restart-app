@@ -32,6 +32,8 @@
 		D46AA6C41AF517A3007AED5B /* LGSessionTokenSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6BD1AF517A3007AED5B /* LGSessionTokenSpec.swift */; };
 		D46AA6C51AF517A3007AED5B /* LGProductsServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6BF1AF517A3007AED5B /* LGProductsServiceSpec.swift */; };
 		D46AA6C61AF517A3007AED5B /* LGSessionServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6C01AF517A3007AED5B /* LGSessionServiceSpec.swift */; };
+		D46AA6C81AF517FB007AED5B /* ProductsManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6C71AF517FB007AED5B /* ProductsManagerSpec.swift */; };
+		D46AA6CA1AF5185B007AED5B /* ProductsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6C91AF5185B007AED5B /* ProductsManager.swift */; };
 		D47CCAC71AF37B0A00D795BD /* LGProductsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47CCAC61AF37B0A00D795BD /* LGProductsResponse.swift */; };
 		D47E22701AF0F192009F4839 /* LGSessionErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E226F1AF0F192009F4839 /* LGSessionErrorResponse.swift */; };
 		D47E227B1AF1176B009F4839 /* DevelopmentEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22771AF1176B009F4839 /* DevelopmentEnvironment.swift */; };
@@ -80,6 +82,8 @@
 		D46AA6BD1AF517A3007AED5B /* LGSessionTokenSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionTokenSpec.swift; sourceTree = "<group>"; };
 		D46AA6BF1AF517A3007AED5B /* LGProductsServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGProductsServiceSpec.swift; sourceTree = "<group>"; };
 		D46AA6C01AF517A3007AED5B /* LGSessionServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionServiceSpec.swift; sourceTree = "<group>"; };
+		D46AA6C71AF517FB007AED5B /* ProductsManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsManagerSpec.swift; sourceTree = "<group>"; };
+		D46AA6C91AF5185B007AED5B /* ProductsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsManager.swift; sourceTree = "<group>"; };
 		D47CCAC61AF37B0A00D795BD /* LGProductsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGProductsResponse.swift; sourceTree = "<group>"; };
 		D47E226F1AF0F192009F4839 /* LGSessionErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionErrorResponse.swift; sourceTree = "<group>"; };
 		D47E22771AF1176B009F4839 /* DevelopmentEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentEnvironment.swift; sourceTree = "<group>"; };
@@ -198,6 +202,7 @@
 		D420C9861AF0C056003C9E0D /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				D46AA6C91AF5185B007AED5B /* ProductsManager.swift */,
 				D420C9871AF0C074003C9E0D /* SessionManager.swift */,
 			);
 			path = Manager;
@@ -226,6 +231,7 @@
 		D46AA6B81AF517A3007AED5B /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				D46AA6C71AF517FB007AED5B /* ProductsManagerSpec.swift */,
 				D46AA6B91AF517A3007AED5B /* SessionManagerSpec.swift */,
 			);
 			path = Manager;
@@ -562,6 +568,7 @@
 				D47CCAC71AF37B0A00D795BD /* LGProductsResponse.swift in Sources */,
 				504B37631AF264BC00710306 /* CommonDataTypes.swift in Sources */,
 				D47E22701AF0F192009F4839 /* LGSessionErrorResponse.swift in Sources */,
+				D46AA6CA1AF5185B007AED5B /* ProductsManager.swift in Sources */,
 				504B37671AF2693500710306 /* ProductsService.swift in Sources */,
 				D420C96F1AEFE91A003C9E0D /* SessionService.swift in Sources */,
 				D47E227C1AF1176B009F4839 /* Environment.swift in Sources */,
@@ -579,6 +586,7 @@
 				D46AA6C61AF517A3007AED5B /* LGSessionServiceSpec.swift in Sources */,
 				D46AA6C21AF517A3007AED5B /* LGPartialProductSpec.swift in Sources */,
 				D46AA6C41AF517A3007AED5B /* LGSessionTokenSpec.swift in Sources */,
+				D46AA6C81AF517FB007AED5B /* ProductsManagerSpec.swift in Sources */,
 				D46AA6C51AF517A3007AED5B /* LGProductsServiceSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

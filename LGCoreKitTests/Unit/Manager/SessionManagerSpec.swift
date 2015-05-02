@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Foundation
-
 import Quick
 import LGCoreKit
 import Nimble
