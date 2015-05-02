@@ -10,7 +10,7 @@ import CoreLocation
 
 // MARK: - Completion closure definitions
 
-public typealias RetrieveProductsCompletion = (products: [PartialProduct]?, error: LGError?) -> Void
+public typealias RetrieveProductsCompletion = (products: [PartialProduct]?, lastPage: Bool?, error: LGError?) -> Void
 
 //public typealias 
 

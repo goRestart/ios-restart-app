@@ -18,9 +18,15 @@ public struct LGProductsResponse {
     private static let offsetJSONKey = "offset"
     
     // iVars
-    public var products: [LGPartialProduct]
+    public var products: [PartialProduct]
     public var totalProducts: Int
     public var offset: Int
+    
+    public var lastPage: Bool {
+        get {
+            return products.count + offset >= totalProducts
+        }
+    }
     
     // MARK: - Lifecycle
     

@@ -101,5 +101,33 @@ class LGProductsResponseSpec: QuickSpec {
                 }
             }
         }
+        describe("last page check") {
+            context("is not the last") {
+                beforeEach {
+                    let totalProducts = 475
+                    let offset = 0
+                    let jsonString = "{\"data\":[{\"object_id\":\"Ie920Go2QX\",\"category_id\":\"4\",\"name\":\"Stainless Steel coffee pot\",\"price\":\"15\",\"currency\":\"USD\",\"created_at\":\"2015-04-21 14:39:17\",\"status\":\"1\",\"img_url_thumb\":\"/50/a2/f4/5f/b8ede3d0f6afacde9f0001f2a2753c6b_thumb.jpg\",\"distance_type\":\"KM\",\"image_dimensions\":{\"width\":200,\"height\":267}}],\"info\":{\"total_products\":\"\(totalProducts)\",\"offset\":\"\(offset)\"}}"
+                    let jsonData: NSData! = jsonString.dataUsingEncoding(NSUTF8StringEncoding)
+                    let json = JSON(data: jsonData)
+                    sut = LGProductsResponse(json: json)
+                }
+                it("should not be the last page") {
+                    expect(sut.lastPage).to(beFalse())
+                }
+            }
+            context("is the last") {
+                beforeEach {
+                    let totalProducts = 401 // last page with just one item
+                    let offset = 400
+                    let jsonString = "{\"data\":[{\"object_id\":\"Ie920Go2QX\",\"category_id\":\"4\",\"name\":\"Stainless Steel coffee pot\",\"price\":\"15\",\"currency\":\"USD\",\"created_at\":\"2015-04-21 14:39:17\",\"status\":\"1\",\"img_url_thumb\":\"/50/a2/f4/5f/b8ede3d0f6afacde9f0001f2a2753c6b_thumb.jpg\",\"distance_type\":\"KM\",\"image_dimensions\":{\"width\":200,\"height\":267}}],\"info\":{\"total_products\":\"\(totalProducts)\",\"offset\":\"\(offset)\"}}"
+                    let jsonData: NSData! = jsonString.dataUsingEncoding(NSUTF8StringEncoding)
+                    let json = JSON(data: jsonData)
+                    sut = LGProductsResponse(json: json)
+                }
+                it("should be the last page") {
+                    expect(sut.lastPage).to(beTrue())
+                }
+            }
+        }
     }
 }

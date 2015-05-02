@@ -26,7 +26,7 @@ class LGSessionServiceSpec: QuickSpec {
         
         describe("token retrieval") {
             beforeEach {
-                sut = LGSessionService(baseURL: "http://api.letgo.com")
+                sut = LGSessionService(baseURL: "http://devel.api.letgo.com")
                 receivedToken = nil
                 receivedError = nil
                 self.removeAllStubs()

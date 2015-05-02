@@ -22,7 +22,7 @@ final public class LGProductsService: ProductsService {
     // MARK: - Lifecycle
     
     public init(baseURL: String) {
-        self.url = baseURL + LGSessionService.endpoint
+        self.url = baseURL + LGProductsService.endpoint
     }
     
     public convenience init() {
@@ -48,27 +48,27 @@ final public class LGProductsService: ProductsService {
                         else {
                             myError = LGError(type: .Internal(.Parsing), explanation: "Unexpected JSON format")
                         }
-                        completion(products: nil, error: myError)
+                        completion(products: nil, lastPage: nil, error: myError)
                     }
                     else if actualError.domain == NSURLErrorDomain {
                         let myError: LGError = LGError(type: .Network, explanation: actualError.localizedDescription)
-                        completion(products: nil, error: myError)
+                        completion(products: nil, lastPage: nil, error: myError)
                     }
                     else {
                         let myError: LGError = LGError(type: .Internal(LGInternalErrorCode.Unexpected), explanation: actualError.localizedDescription)
-                        completion(products: nil, error: myError)
+                        completion(products: nil, lastPage: nil, error: myError)
                     }
                 }
                 // Success
                 else if let actualData: AnyObject = data {
                     let json = JSON(actualData)
-//                    if let token = LGSessionToken(json: json) {
-//                        completion(token: token, error: nil)
-//                    }
-//                    else {
-//                        let myError: LGError = LGError(type: .Internal(.Parsing))
-//                        completion(token: nil, error: myError)
-//                    }
+                    if let productsResponse = LGProductsResponse(json: json) {
+                        completion(products: productsResponse.products, lastPage: productsResponse.lastPage, error: nil)
+                    }
+                    else {
+                        let myError: LGError = LGError(type: .Internal(.Parsing))
+                        completion(products: nil, lastPage: nil, error: myError)
+                    }
                 }
             })
     }
