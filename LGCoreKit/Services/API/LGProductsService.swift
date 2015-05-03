@@ -38,24 +38,25 @@ final public class LGProductsService: ProductsService {
                 
                 // Error
                 if let actualError = error {
+                    let myError: NSError
+                    
                     if let actualData: AnyObject = data {
                         let json = JSON(actualData)
-                        let myError: LGError
                         
                         if let errorResponse = LGSessionErrorResponse(json: json) {
-                            myError = LGError(type: .Server(.Session), explanation: errorResponse.error)
+                            myError = NSError(code: LGErrorCode.SessionExpired)
                         }
                         else {
-                            myError = LGError(type: .Internal(.Parsing), explanation: "Unexpected JSON format")
+                            myError = NSError(code: LGErrorCode.Parsing)
                         }
                         completion(products: nil, lastPage: nil, error: myError)
                     }
                     else if actualError.domain == NSURLErrorDomain {
-                        let myError: LGError = LGError(type: .Network, explanation: actualError.localizedDescription)
+                        myError = NSError(code: LGErrorCode.Network)
                         completion(products: nil, lastPage: nil, error: myError)
                     }
                     else {
-                        let myError: LGError = LGError(type: .Internal(LGInternalErrorCode.Unexpected), explanation: actualError.localizedDescription)
+                        myError = NSError(code: LGErrorCode.Internal)
                         completion(products: nil, lastPage: nil, error: myError)
                     }
                 }
@@ -66,7 +67,7 @@ final public class LGProductsService: ProductsService {
                         completion(products: productsResponse.products, lastPage: productsResponse.lastPage, error: nil)
                     }
                     else {
-                        let myError: LGError = LGError(type: .Internal(.Parsing))
+                        let myError = NSError(code: LGErrorCode.Parsing)
                         completion(products: nil, lastPage: nil, error: myError)
                     }
                 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol SessionToken {
+public protocol SessionToken: class {
     var accessToken: String { get set }
     var expirationDate: NSDate { get set }
     func isExpired() -> Bool

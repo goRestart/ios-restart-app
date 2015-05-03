@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-public struct LGPartialProduct: PartialProduct {
+@objc public class LGPartialProduct: PartialProduct {
     
     // Constant
     // > JSON keys
@@ -30,9 +30,6 @@ public struct LGPartialProduct: PartialProduct {
     private static let widthJSONKey = "width"
     private static let heightJSONKey = "height"
     
-    // iVars
-    let dateFormatter: NSDateFormatter
-    
     // PartialProduct iVars
     public var objectId: String?
     public var createdAt: NSDate?
@@ -51,6 +48,15 @@ public struct LGPartialProduct: PartialProduct {
     
     // MARK: - Lifecycle
     
+    public init(name: String?) {
+        if let actualName = name {
+            self.name = actualName
+        }
+        else {
+            self.name = ""
+        }
+    }
+    
     //{
     //    "object_id": "fYAHyLsEVf",
     //    "category_id": "4",
@@ -67,23 +73,21 @@ public struct LGPartialProduct: PartialProduct {
     //        "height": 150
     //    }
     //}
-    public init(json: JSON) {
-        self.dateFormatter = NSDateFormatter()
+    public convenience init(json: JSON) {
+        let name = json[LGPartialProduct.nameJSONKey].string
+        self.init(name: name)
+
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-
+        
         if let objectId = json[LGPartialProduct.objectIdJSONKey].string {
             self.objectId = objectId
         }
         if let createdAtStr = json[LGPartialProduct.createdAtJSONKey].string {
             self.createdAt = dateFormatter.dateFromString(createdAtStr)
         }
-        if let name = json[LGPartialProduct.nameJSONKey].string {
-            self.name = name
-        }
-        else {
-            self.name = ""
-        }
+
         if let price = json[LGPartialProduct.priceJSONKey].string {
             self.price = (price as NSString).floatValue
         }
@@ -100,16 +104,16 @@ public struct LGPartialProduct: PartialProduct {
             self.categoryId = categoryIdStr.toInt()
         }
         if let statusStr = json[LGPartialProduct.statusJSONKey].string,
-           let statusRaw = statusStr.toInt(),
-           let status = ProductStatus(rawValue: statusRaw) {
-            self.status = status
+            let statusRaw = statusStr.toInt(),
+            let status = ProductStatus(rawValue: statusRaw) {
+                self.status = status
         }
         if let thumbURL = json[LGPartialProduct.thumbnailURLJSONKey].string {
             self.thumbnailURL = thumbURL
         }
         if let width = json[LGPartialProduct.thumbnailSizeJSONKey][LGPartialProduct.widthJSONKey].int,
-           let height = json[LGPartialProduct.thumbnailSizeJSONKey][LGPartialProduct.heightJSONKey].int {
-            self.thumbnailSize = LGSize(width: Float(width), height: Float(height))
+            let height = json[LGPartialProduct.thumbnailSizeJSONKey][LGPartialProduct.heightJSONKey].int {
+                self.thumbnailSize = LGSize(width: Float(width), height: Float(height))
         }
     }
 }

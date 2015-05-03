@@ -17,9 +17,9 @@ class LGSessionServiceSpec: QuickSpec {
         var sut: SessionService!
         
         var receivedToken: SessionToken?
-        var receivedError: LGError?
+        var receivedError: NSError?
         
-        let completion = { (token: SessionToken?, error: LGError?) -> Void in
+        let completion = { (token: SessionToken?, error: NSError?) -> Void in
             receivedToken = token
             receivedError = error
         }

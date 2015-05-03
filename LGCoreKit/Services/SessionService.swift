@@ -8,7 +8,7 @@
 
 // MARK: - Completion closure definitions
 
-public typealias RetrieveTokenCompletion = (token: SessionToken?, error: LGError?) -> Void
+public typealias RetrieveTokenCompletion = (token: SessionToken?, error: NSError?) -> Void
 
 // MARK: - Enums & Structs
 

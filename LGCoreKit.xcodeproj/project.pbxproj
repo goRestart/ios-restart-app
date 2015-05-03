@@ -19,10 +19,10 @@
 		BD7C9160182B35B31759F441 /* Pods_LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A769F6C51087A47877FDC994 /* Pods_LGCoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D4160BF61AF2E667005A9775 /* MockSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4160BF51AF2E667005A9775 /* MockSessionService.swift */; };
 		D420C96F1AEFE91A003C9E0D /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C96E1AEFE91A003C9E0D /* SessionService.swift */; };
-		D420C9741AEFEA80003C9E0D /* LGError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9731AEFEA80003C9E0D /* LGError.swift */; };
 		D420C9771AEFEB00003C9E0D /* LGSessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9761AEFEB00003C9E0D /* LGSessionService.swift */; };
 		D420C9881AF0C074003C9E0D /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C9871AF0C074003C9E0D /* SessionManager.swift */; };
 		D420C98C1AF0CB57003C9E0D /* SessionToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = D420C98B1AF0CB57003C9E0D /* SessionToken.swift */; };
+		D44C94C71AF571020066A760 /* MockSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44C94C61AF571020066A760 /* MockSessionManager.swift */; };
 		D46AA6A21AF51230007AED5B /* ProductsOK_FirstPage.json in Resources */ = {isa = PBXBuildFile; fileRef = D46AA6A11AF51230007AED5B /* ProductsOK_FirstPage.json */; };
 		D46AA6A41AF514D3007AED5B /* ProductsKO_TokenExpired.json in Resources */ = {isa = PBXBuildFile; fileRef = D46AA6A31AF514D3007AED5B /* ProductsKO_TokenExpired.json */; };
 		D46AA6A61AF5162B007AED5B /* ProductsOK_LastPage.json in Resources */ = {isa = PBXBuildFile; fileRef = D46AA6A51AF5162B007AED5B /* ProductsOK_LastPage.json */; };
@@ -34,6 +34,9 @@
 		D46AA6C61AF517A3007AED5B /* LGSessionServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6C01AF517A3007AED5B /* LGSessionServiceSpec.swift */; };
 		D46AA6C81AF517FB007AED5B /* ProductsManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6C71AF517FB007AED5B /* ProductsManagerSpec.swift */; };
 		D46AA6CA1AF5185B007AED5B /* ProductsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6C91AF5185B007AED5B /* ProductsManager.swift */; };
+		D46AA6CD1AF52E82007AED5B /* NSError+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6CC1AF52E82007AED5B /* NSError+LG.swift */; };
+		D46AA6CF1AF54CF6007AED5B /* MockProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6CE1AF54CF6007AED5B /* MockProductsService.swift */; };
+		D46AA6D51AF550C6007AED5B /* LGPartialProduct+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46AA6D41AF550C6007AED5B /* LGPartialProduct+Mock.swift */; };
 		D47CCAC71AF37B0A00D795BD /* LGProductsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47CCAC61AF37B0A00D795BD /* LGProductsResponse.swift */; };
 		D47E22701AF0F192009F4839 /* LGSessionErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E226F1AF0F192009F4839 /* LGSessionErrorResponse.swift */; };
 		D47E227B1AF1176B009F4839 /* DevelopmentEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E22771AF1176B009F4839 /* DevelopmentEnvironment.swift */; };
@@ -42,6 +45,7 @@
 		D47E227E1AF1176B009F4839 /* ProductionEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E227A1AF1176B009F4839 /* ProductionEnvironment.swift */; };
 		D4B546711AEFE1540062D183 /* LGCoreKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D4B546701AEFE1540062D183 /* LGCoreKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4B546771AEFE1540062D183 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B5466B1AEFE1540062D183 /* LGCoreKit.framework */; };
+		D4B9AF7E1AF596FC00D88A30 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9AF7D1AF596FB00D88A30 /* GlobalFunctions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,10 +73,10 @@
 		A9C8ECFDF1B37240863CC97E /* Pods_LGCoreKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LGCoreKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4160BF51AF2E667005A9775 /* MockSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSessionService.swift; sourceTree = "<group>"; };
 		D420C96E1AEFE91A003C9E0D /* SessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
-		D420C9731AEFEA80003C9E0D /* LGError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGError.swift; sourceTree = "<group>"; };
 		D420C9761AEFEB00003C9E0D /* LGSessionService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionService.swift; sourceTree = "<group>"; };
 		D420C9871AF0C074003C9E0D /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		D420C98B1AF0CB57003C9E0D /* SessionToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionToken.swift; sourceTree = "<group>"; };
+		D44C94C61AF571020066A760 /* MockSessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSessionManager.swift; sourceTree = "<group>"; };
 		D46AA6A11AF51230007AED5B /* ProductsOK_FirstPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ProductsOK_FirstPage.json; sourceTree = "<group>"; };
 		D46AA6A31AF514D3007AED5B /* ProductsKO_TokenExpired.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ProductsKO_TokenExpired.json; sourceTree = "<group>"; };
 		D46AA6A51AF5162B007AED5B /* ProductsOK_LastPage.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ProductsOK_LastPage.json; sourceTree = "<group>"; };
@@ -84,6 +88,9 @@
 		D46AA6C01AF517A3007AED5B /* LGSessionServiceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionServiceSpec.swift; sourceTree = "<group>"; };
 		D46AA6C71AF517FB007AED5B /* ProductsManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsManagerSpec.swift; sourceTree = "<group>"; };
 		D46AA6C91AF5185B007AED5B /* ProductsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsManager.swift; sourceTree = "<group>"; };
+		D46AA6CC1AF52E82007AED5B /* NSError+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+LG.swift"; sourceTree = "<group>"; };
+		D46AA6CE1AF54CF6007AED5B /* MockProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockProductsService.swift; sourceTree = "<group>"; };
+		D46AA6D41AF550C6007AED5B /* LGPartialProduct+Mock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGPartialProduct+Mock.swift"; sourceTree = "<group>"; };
 		D47CCAC61AF37B0A00D795BD /* LGProductsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGProductsResponse.swift; sourceTree = "<group>"; };
 		D47E226F1AF0F192009F4839 /* LGSessionErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGSessionErrorResponse.swift; sourceTree = "<group>"; };
 		D47E22771AF1176B009F4839 /* DevelopmentEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevelopmentEnvironment.swift; sourceTree = "<group>"; };
@@ -95,6 +102,7 @@
 		D4B546701AEFE1540062D183 /* LGCoreKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LGCoreKit.h; sourceTree = "<group>"; };
 		D4B546761AEFE1540062D183 /* LGCoreKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGCoreKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B5467C1AEFE1540062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4B9AF7D1AF596FB00D88A30 /* GlobalFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		DEFB3CA2696E5C3ED6CC56CA /* Pods-LGCoreKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKit/Pods-LGCoreKit.debug.xcconfig"; sourceTree = "<group>"; };
 		F2B6957461D5C34B6BF9D2D6 /* Pods-LGCoreKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKitTests/Pods-LGCoreKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -152,7 +160,10 @@
 		D4160BF41AF2E577005A9775 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
+				D46AA6D41AF550C6007AED5B /* LGPartialProduct+Mock.swift */,
 				D4160BF51AF2E667005A9775 /* MockSessionService.swift */,
+				D46AA6CE1AF54CF6007AED5B /* MockProductsService.swift */,
+				D44C94C61AF571020066A760 /* MockSessionManager.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -173,21 +184,12 @@
 				504B37621AF264BC00710306 /* CommonDataTypes.swift */,
 				501578C31AF25E0B00648B4A /* API */,
 				D47E226E1AF0F178009F4839 /* API Response */,
-				D420C9721AEFEA69003C9E0D /* Error */,
 				501578CA1AF25E5900648B4A /* BaseModel.swift */,
 				504B37601AF262C800710306 /* PartialProduct.swift */,
 				501578CC1AF25E9400648B4A /* Product.swift */,
 				D420C98B1AF0CB57003C9E0D /* SessionToken.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		D420C9721AEFEA69003C9E0D /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				D420C9731AEFEA80003C9E0D /* LGError.swift */,
-			);
-			path = Error;
 			sourceTree = "<group>";
 		};
 		D420C9751AEFEAE4003C9E0D /* API */ = {
@@ -256,6 +258,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		D46AA6CB1AF52E82007AED5B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D46AA6CC1AF52E82007AED5B /* NSError+LG.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		D47E226E1AF0F178009F4839 /* API Response */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,7 +319,9 @@
 				D4B546701AEFE1540062D183 /* LGCoreKit.h */,
 				D47E22731AF111BA009F4839 /* Constants */,
 				D47E22761AF1176B009F4839 /* Environment */,
+				D46AA6CB1AF52E82007AED5B /* Extensions */,
 				D420C96C1AEFE886003C9E0D /* Services */,
+				D4B9AF7C1AF596AE00D88A30 /* Utils */,
 				D420C9861AF0C056003C9E0D /* Manager */,
 				D420C96D1AEFE886003C9E0D /* Model */,
 				D4B5466E1AEFE1540062D183 /* Supporting Files */,
@@ -342,6 +354,14 @@
 				D4B5467C1AEFE1540062D183 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D4B9AF7C1AF596AE00D88A30 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				D4B9AF7D1AF596FB00D88A30 /* GlobalFunctions.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -555,8 +575,9 @@
 			files = (
 				D47E227B1AF1176B009F4839 /* DevelopmentEnvironment.swift in Sources */,
 				D420C9771AEFEB00003C9E0D /* LGSessionService.swift in Sources */,
+				D4B9AF7E1AF596FC00D88A30 /* GlobalFunctions.swift in Sources */,
 				504B37651AF2682400710306 /* LGPartialProduct.swift in Sources */,
-				D420C9741AEFEA80003C9E0D /* LGError.swift in Sources */,
+				D46AA6CD1AF52E82007AED5B /* NSError+LG.swift in Sources */,
 				504B37611AF262C800710306 /* PartialProduct.swift in Sources */,
 				501578C51AF25E0B00648B4A /* LGSessionToken.swift in Sources */,
 				D47E227D1AF1176B009F4839 /* EnvironmentProxy.swift in Sources */,
@@ -581,8 +602,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				D46AA6C31AF517A3007AED5B /* LGProductsResponseSpec.swift in Sources */,
+				D44C94C71AF571020066A760 /* MockSessionManager.swift in Sources */,
+				D46AA6CF1AF54CF6007AED5B /* MockProductsService.swift in Sources */,
 				D4160BF61AF2E667005A9775 /* MockSessionService.swift in Sources */,
 				D46AA6C11AF517A3007AED5B /* SessionManagerSpec.swift in Sources */,
+				D46AA6D51AF550C6007AED5B /* LGPartialProduct+Mock.swift in Sources */,
 				D46AA6C61AF517A3007AED5B /* LGSessionServiceSpec.swift in Sources */,
 				D46AA6C21AF517A3007AED5B /* LGPartialProductSpec.swift in Sources */,
 				D46AA6C41AF517A3007AED5B /* LGSessionTokenSpec.swift in Sources */,

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+import Bolts
 import Quick
 import LGCoreKit
 import Nimble
@@ -17,10 +18,22 @@ class SessionManagerSpec: QuickSpec {
         var sessionService: MockSessionService!
         var userDefaults: NSUserDefaults!
         
+        var receivedToken: SessionToken?
+        var receivedError: NSError?
+        
+        let completion = { (task: BFTask!) -> AnyObject! in
+            receivedToken = task.result as? SessionToken
+            receivedError = task.error
+            return nil
+        }
+        
         beforeEach {
             sessionService = MockSessionService()
             userDefaults = NSUserDefaults(suiteName: "test")!
             sut = SessionManager(sessionService: sessionService, userDefaults: userDefaults)
+            
+            receivedToken = nil
+            receivedError = nil
         }
         
         afterEach {
@@ -35,29 +48,43 @@ class SessionManagerSpec: QuickSpec {
             it("has no token") {
                 expect(sut.sessionToken).to(beNil())
             }
-            it("is not loading") {
-                expect(sut.isLoading).to(beFalse())
-            }
         }
         
         describe("token retrieval") {
-            it("is loading and eventually not loading") {
-                sut.retrieveSessionTokenWithCompletion(nil)
-                expect(sut.isLoading).to(beTrue())
-                expect(sut.isLoading).toEventually(beFalse())
-            }
-            it("updates the token") {
-                sessionService.sessionToken = LGSessionToken(accessToken: "", expirationDate: NSDate())
+            
+            context("successful response") {
+                beforeEach {
+                    sessionService.sessionToken = LGSessionToken(accessToken: "", expirationDate: NSDate())
+                    sut.retrieveSessionToken().continueWithBlock(completion)
+                }
                 
-                sut.retrieveSessionTokenWithCompletion(nil)
-                expect(sut.sessionToken).toEventuallyNot(beNil())
+                it("updates the token") {
+                    expect(sut.sessionToken).toEventuallyNot(beNil())
+                }
+                
+                it("receives the token as result") {
+                    expect(receivedToken).toEventuallyNot(beNil())
+                }
+            }
+            
+            context("error response") {
+                beforeEach {
+                    sessionService.error = NSError(code: LGErrorCode.UnexpectedServerResponse)
+                    sut.retrieveSessionToken().continueWithBlock(completion)
+                }
+                
+                it("receives an error and does not update the token") {
+                    expect(receivedError).toEventuallyNot(beNil())
+                    expect(sut.sessionToken).toEventually(beNil())
+                }
             }
         }
         
         describe("initialization after first retrieval") {
             it("has token") {
                 sessionService.sessionToken = LGSessionToken(accessToken: "", expirationDate: NSDate())
-                sut.retrieveSessionTokenWithCompletion(nil)
+
+                sut.retrieveSessionToken()
                 expect(sut.sessionToken).toEventuallyNot(beNil())
                 
                 sut = SessionManager(sessionService: sessionService, userDefaults: userDefaults)

@@ -18,7 +18,7 @@ public struct LGProductsResponse {
     private static let offsetJSONKey = "offset"
     
     // iVars
-    public var products: [PartialProduct]
+    public var products: NSArray
     public var totalProducts: Int
     public var offset: Int
     
@@ -56,9 +56,11 @@ public struct LGProductsResponse {
     public init?(json: JSON) {
         self.products = []
         if let data = json[LGProductsResponse.dataJSONKey].array {
+            let products = NSMutableArray()
             for productJson in data {
-                self.products.append(LGPartialProduct(json: productJson))
+                products.addObject(LGPartialProduct(json: productJson))
             }
+            self.products = products
         }
         let pagingInfo = json[LGProductsResponse.infoJSONKey]
         if let totalProducts = pagingInfo[LGProductsResponse.totalProductsJSONKey].string?.toInt() {

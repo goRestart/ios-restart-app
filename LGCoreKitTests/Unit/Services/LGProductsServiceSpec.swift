@@ -18,11 +18,11 @@ class LGProductsServiceSpec: QuickSpec {
     override func spec() {
         var sut: ProductsService!
         
-        var receivedProducts: [PartialProduct]?
-        var receivedError: LGError?
+        var receivedProducts: NSArray?
+        var receivedError: NSError?
         var receivedIsLastPage: Bool?
         
-        let completion = { (products: [PartialProduct]?, isLastPage: Bool?, error: LGError?) -> Void in
+        let completion = { (products: NSArray?, isLastPage: Bool?, error: NSError?) -> Void in
             receivedProducts = products
             receivedIsLastPage = isLastPage
             receivedError = error
@@ -44,7 +44,7 @@ class LGProductsServiceSpec: QuickSpec {
                     let body : AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)
                     self.stub(uri(LGProductsService.endpoint), builder: json(body, status: 200))
 
-                    let coordinates = CLLocationCoordinate2D(latitude: 41.404819, longitude: 2.154288)
+                    let coordinates = LGLocationCoordinates2D(latitude: 41.404819, longitude: 2.154288)
                     let accessToken = "NDMyNGU2ODhiZTk3YjdhZWZhNmY0YTRmYzY4NGNmMDY2NmVkYjJlMTNiYTAxYjBhYjM4Mjg2ZTJlODBhOTUwMg"
 
                     let params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)!
@@ -70,7 +70,7 @@ class LGProductsServiceSpec: QuickSpec {
                     let body : AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)
                     self.stub(uri(LGProductsService.endpoint), builder: json(body, status: 200))
                     
-                    let coordinates = CLLocationCoordinate2D(latitude: 41.404819, longitude: 2.154288)
+                    let coordinates = LGLocationCoordinates2D(latitude: 41.404819, longitude: 2.154288)
                     let accessToken = "NDMyNGU2ODhiZTk3YjdhZWZhNmY0YTRmYzY4NGNmMDY2NmVkYjJlMTNiYTAxYjBhYjM4Mjg2ZTJlODBhOTUwMg"
                     
                     let params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)!
@@ -96,7 +96,7 @@ class LGProductsServiceSpec: QuickSpec {
                     let body : AnyObject! = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)
                     self.stub(uri(LGProductsService.endpoint), builder: json(body, status: 401))
                     
-                    let coordinates = CLLocationCoordinate2D(latitude: 41.404819, longitude: 2.154288)
+                    let coordinates = LGLocationCoordinates2D(latitude: 41.404819, longitude: 2.154288)
                     let accessToken = "NDMyNGU2ODhiZTk3YjdhZWZhNmY0YTRmYzY4NGNmMDY2NmVkYjJlMTNiYTAxYjBhYjM4Mjg2ZTJlODBhOTUwMg"
                     
                     let params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)!

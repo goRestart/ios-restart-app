@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+import Bolts
+
 final public class ProductsManager {
 
     private var sessionManager: SessionManager
@@ -13,7 +15,7 @@ final public class ProductsManager {
     
     public private(set) var currentParams: RetrieveProductsParams?
     
-    public private(set) var products: [PartialProduct]
+    public private(set) var products: NSArray
     public private(set) var lastPage: Bool
     
     public private(set) var isLoading: Bool
@@ -30,27 +32,118 @@ final public class ProductsManager {
     }
 
     // MARK: - Public methods
+    
+    /**
+        Returns if it can retrieve the first page of products.
+    
+        :returns: If it can retrieve the first page of products. Returns false if already loading.
+    */
+    public var canRetrieveProducts: Bool {
+        get {
+            return !isLoading
+        }
+    }
+    
+    /**
+        Returns if it can retrieve the next page of products.
+    
+        :returns: If it can retrieve the next page of products. Returns false if already loading, is the last page or
+                  we didn't retrieve the first page.
+    */
+    public var canRetrieveProductsNextPage: Bool {
+        get {
+            if (isLoading || lastPage || currentParams == nil) {
+                return false
+            }
+            else {
+                return true
+            }
+        }
+    }
+    
+    /**
+        Retrieves the products with the given parameters.
 
-    public func retrieveProductsWithParams(params: RetrieveProductsParams, completion: RetrieveProductsCompletion) -> Bool {
-        if isLoading {
-            return false
+        :param: params The parameters to
+        :returns: The task that runs the operation. Can be nil, if already loading.
+    */
+    public func retrieveProductsWithParams(params: RetrieveProductsParams) -> BFTask? {
+        if !canRetrieveProducts {
+            return nil
         }
         
+        // Initial state
         products = []
         lastPage = true
         isLoading = true
         
-        // Store the params so can be reused on next page calls
-        currentParams = params
-        
-        let myCompletion = { [weak self] (products: [PartialProduct]?, lastPage: Bool?, error: LGError?) -> Void in
-            if let strongSelf = self {
-                // Error
-                if let actualError = error {
-                    strongSelf.currentParams = nil
+        // If the session is valid, just retrieve the products
+        if sessionManager.isSessionValid() {
+            return retrieveProductsTaskWithParams(params)
+        }
+        // Otherwise, retrieve the session token and then the products
+        else {
+            return sessionManager.retrieveSessionToken().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
+                if let strongSelf = self {
+                    if task.error != nil {
+                        strongSelf.isLoading = false
+                        return nil
+                    }
+                    return strongSelf.retrieveProductsTaskWithParams(params)
                 }
+                return nil
+            }
+        }
+    }
+    
+    /**
+        Retrieves the next products page.
+
+        :returns: The task that runs the operation. Can be nil, if already loading, we didn't request the first page 
+                  or we're already in the last page.
+    */
+    public func retrieveProductsNextPage() -> BFTask? {
+        if !canRetrieveProductsNextPage {
+            return nil
+        }
+        
+        isLoading = true
+        
+        // If the session is valid, just retrieve the products
+        if sessionManager.isSessionValid() {
+            return retrieveProductsNextPageTask()
+        }
+        // Otherwise, retrieve the session token and then the products
+        else {
+            return sessionManager.retrieveSessionToken().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
+                if let strongSelf = self {
+                    if task.error != nil {
+                        strongSelf.isLoading = false
+                        return nil
+                    }
+                    return strongSelf.retrieveProductsNextPageTask()
+                }
+                return nil
+            }
+        }
+    }
+    
+    // MARK: - Private methods
+    
+    private func retrieveProductsTaskWithParams(params: RetrieveProductsParams) -> BFTask {
+        
+        var task = BFTaskCompletionSource()
+        productsService.retrieveProductsWithParams(params) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
+            
+            // Manager
+            if let strongSelf = self {
+                
+                strongSelf.isLoading = false
+                
                 // Success
-                else {
+                if error == nil {
+                    strongSelf.currentParams = params
+                    
                     if let newProducts = products {
                         strongSelf.products = newProducts
                     }
@@ -59,56 +152,64 @@ final public class ProductsManager {
                     }
                 }
             }
-            completion(products: products, lastPage: lastPage, error: error)
+            
+            // Task
+            if let actualError = error {
+                task.setError(error)
+            }
+            else if let newProducts = products {
+                task.setResult(newProducts)
+            }
+            else {
+                task.setError(NSError(code: LGErrorCode.Internal))
+            }
         }
         
-        productsService.retrieveProductsWithParams(params, completion: myCompletion)
-        return true
+        return task.task
     }
     
-    public func retrieveProductsNextPageWithCompletion(completion: RetrieveProductsCompletion) -> Bool {
-        // If loading, is the last page or we didn't retrieve the first page
-        if isLoading || lastPage || currentParams == nil {
-            return false
-        }
+    private func retrieveProductsNextPageTask() -> BFTask {
         
-        isLoading = true
+        // Increase the offset
+        var newParams: RetrieveProductsParams = currentParams!
+        newParams.offset = products.count
         
-        let myCompletion = { [weak self] (products: [PartialProduct]?, lastPage: Bool?, error: LGError?) -> Void in
+        var task = BFTaskCompletionSource()
+        productsService.retrieveProductsWithParams(currentParams!) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
+            
+            // Manager
             if let strongSelf = self {
-                // Success
-                if error != nil {
+                
+                strongSelf.isLoading = false
+                
+                // Error
+                if error == nil {
+                    strongSelf.currentParams = newParams
+                    
                     if let newProducts = products {
-                        strongSelf.products += newProducts
+                        strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     }
                     if let newLastPage = lastPage {
                         strongSelf.lastPage = newLastPage
                     }
                 }
+                else {
+                    println()
+                }
             }
-            completion(products: products, lastPage: lastPage, error: error)
+            
+            // Task
+            if let actualError = error {
+                task.setError(error)
+            }
+            else if let newProducts = products {
+                task.setResult(newProducts)
+            }
+            else {
+                task.setError(NSError(code: LGErrorCode.Internal))
+            }
         }
         
-        return true
+        return task.task
     }
-    
-    // MARK: - Private methods
-    
-//    private func kk() {
-//        let completion = { [weak self] (token: SessionToken?, error: LGError?) -> Void in
-//            if let strongSelf = self {
-//                
-//            }
-//            if let actualError = error {
-//                
-//            }
-//        }
-//        
-//        if sessionManager.isSessionValid() {
-//            // go
-//        }
-//        else {
-//            //sessionManager.retrieveSessionTokenWithCompletion(<#completion: RetrieveTokenCompletion?##(token: SessionToken?, error: LGError?) -> Void#>)
-//        }
-//    }
 }

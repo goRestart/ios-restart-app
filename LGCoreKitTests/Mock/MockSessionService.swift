@@ -7,12 +7,11 @@
 //
 
 import LGCoreKit
-import UIKit
 
 class MockSessionService: SessionService {
     
     var sessionToken: LGSessionToken?
-    var error: LGError?
+    var error: NSError?
     
     func retrieveTokenWithParams(params: RetrieveTokenParams, completion: RetrieveTokenCompletion) {
         let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.05 * Double(NSEC_PER_SEC)))

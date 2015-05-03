@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import UIKit
+import Bolts
 
-final public class SessionManager {
+public class SessionManager {
 
     // Constants
     private static let userDefaultsKeyAccessToken = "accessToken"
@@ -21,16 +21,14 @@ final public class SessionManager {
     private var sessionService: SessionService
     private var userDefaults: NSUserDefaults
 
-    public private(set) var isLoading: Bool
-    public private(set) var sessionToken: SessionToken?
+    public var sessionToken: SessionToken?
     
     // MARK: - Lifecycle
     
     public init(sessionService: SessionService, userDefaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()) {
         self.sessionService = sessionService
         self.userDefaults = userDefaults
-        
-        self.isLoading = false
+
         if let accessToken = userDefaults.stringForKey(SessionManager.userDefaultsKeyAccessToken),
            let expirationDate = userDefaults.objectForKey(SessionManager.userDefaultsKeyExpirationDate) as? NSDate {
             self.sessionToken = LGSessionToken(accessToken: accessToken, expirationDate: expirationDate)
@@ -39,34 +37,35 @@ final public class SessionManager {
     
     // MARK: - Public methods
     
-    public func retrieveSessionTokenWithCompletion(completion: RetrieveTokenCompletion?) -> Bool {
-        if isLoading {
-            return false
-        }
-        isLoading = true
+    public func retrieveSessionToken() -> BFTask {
+        var task = BFTaskCompletionSource()
         
         let clientId = EnvironmentProxy.sharedInstance.apiClientId
         let clientSecret = EnvironmentProxy.sharedInstance.apiClientSecret
-        
         let params = RetrieveTokenParams(clientId: clientId, clientSecret: clientSecret)
-        let myCompletion = { [weak self] (token: SessionToken?, error: LGError?) -> Void in
+        
+        sessionService.retrieveTokenWithParams(params) { [weak self] (token: SessionToken?, error: NSError?) -> Void in
+            
             if let strongSelf = self {
-                strongSelf.isLoading = false
-                
                 if let newToken = token {
                     strongSelf.sessionToken = newToken
                     strongSelf.saveSessionToken(newToken)
                 }
             }
             
-            if let completionBlock = completion {
-                completionBlock(token: token, error: error)
+            if let actualError = error {
+                task.setError(error)
+            }
+            else if let actualToken = token {
+                task.setResult(actualToken)
+            }
+            else {
+                task.setError(NSError(code: LGErrorCode.Internal))
             }
         }
-        
-        sessionService.retrieveTokenWithParams(params, completion: myCompletion)
-        return true
+        return task.task
     }
+
     
     public func isSessionValid() -> Bool {
         if let token = sessionToken {

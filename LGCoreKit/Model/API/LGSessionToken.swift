@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 import Timepiece
 
-public struct LGSessionToken: SessionToken {
+public class LGSessionToken: SessionToken {
     
     // Constant
     // > JSON keys
@@ -43,6 +43,8 @@ public struct LGSessionToken: SessionToken {
             self.expirationDate = now + expiresIn.seconds
         }
         else {
+            self.accessToken = ""
+            self.expirationDate = NSDate()
             return nil
         }
     }

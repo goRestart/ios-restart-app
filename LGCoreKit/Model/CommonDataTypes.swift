@@ -22,6 +22,20 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
     return lhs.width == rhs.width && lhs.height == rhs.height
 }
 
+public struct LGLocationCoordinates2D: Equatable {
+    public var latitude: Float
+    public var longitude: Float
+    
+    public init(latitude: Float , longitude: Float) {
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+}
+
+public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bool {
+    return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
+}
+
 @objc public enum DistanceType: Int, Printable {
     case Mi, Km
     var string: String {
