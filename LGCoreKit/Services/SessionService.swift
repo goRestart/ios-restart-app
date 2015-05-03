@@ -6,23 +6,13 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-// MARK: - Completion closure definitions
-
-public typealias RetrieveTokenCompletion = (token: SessionToken?, error: NSError?) -> Void
-
-// MARK: - Enums & Structs
-
-public struct RetrieveTokenParams {
-    private(set) var clientId: String
-    private(set) var clientSecret: String
-    public init(clientId: String, clientSecret: String) {
-        self.clientId = clientId
-        self.clientSecret = clientSecret
-    }
-}
-
-// MARK: - SessionService
-
 public protocol SessionService {
+    
+    /**
+        Retrieves the session token with the given parameters.
+    
+        :param: params The session token retrieval parameters.
+        :param: completion The completion closure.
+    */
     func retrieveTokenWithParams(params: RetrieveTokenParams, completion: RetrieveTokenCompletion)
 }

@@ -46,6 +46,7 @@
 		D4B546711AEFE1540062D183 /* LGCoreKit.h in Headers */ = {isa = PBXBuildFile; fileRef = D4B546701AEFE1540062D183 /* LGCoreKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4B546771AEFE1540062D183 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B5466B1AEFE1540062D183 /* LGCoreKit.framework */; };
 		D4B9AF7E1AF596FC00D88A30 /* GlobalFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9AF7D1AF596FB00D88A30 /* GlobalFunctions.swift */; };
+		D4B9AF801AF6890A00D88A30 /* ServiceDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9AF7F1AF6890A00D88A30 /* ServiceDataTypes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 		D4B546761AEFE1540062D183 /* LGCoreKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LGCoreKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B5467C1AEFE1540062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4B9AF7D1AF596FB00D88A30 /* GlobalFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
+		D4B9AF7F1AF6890A00D88A30 /* ServiceDataTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceDataTypes.swift; sourceTree = "<group>"; };
 		DEFB3CA2696E5C3ED6CC56CA /* Pods-LGCoreKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKit/Pods-LGCoreKit.debug.xcconfig"; sourceTree = "<group>"; };
 		F2B6957461D5C34B6BF9D2D6 /* Pods-LGCoreKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LGCoreKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LGCoreKitTests/Pods-LGCoreKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,6 +173,7 @@
 		D420C96C1AEFE886003C9E0D /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				D4B9AF7F1AF6890A00D88A30 /* ServiceDataTypes.swift */,
 				D420C9751AEFEAE4003C9E0D /* API */,
 				504B37661AF2693500710306 /* ProductsService.swift */,
 				D420C96E1AEFE91A003C9E0D /* SessionService.swift */,
@@ -594,6 +597,7 @@
 				D420C96F1AEFE91A003C9E0D /* SessionService.swift in Sources */,
 				D47E227C1AF1176B009F4839 /* Environment.swift in Sources */,
 				501578CD1AF25E9400648B4A /* Product.swift in Sources */,
+				D4B9AF801AF6890A00D88A30 /* ServiceDataTypes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,8 +12,6 @@ import SwiftyJSON
 final public class LGProductsService: ProductsService {
 
     // Constants
-//    GET /api/list.{_format}
-//    http://devel.api.letgo.com/api/list.json?distance_type=ML&latitude=40.416947&longitude=-3.703528&nr_products=20&offset=0
     public static let endpoint = "/api/list.json"
 
     // iVars

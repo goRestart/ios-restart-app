@@ -130,6 +130,12 @@ final public class ProductsManager {
     
     // MARK: - Private methods
     
+    /**
+        Runs & returns the product retrieval task with the given parameters.
+    
+        :param:   The product retrieval parameters.
+        :returns: The product retrieval task.
+    */
     private func retrieveProductsTaskWithParams(params: RetrieveProductsParams) -> BFTask {
         
         var task = BFTaskCompletionSource()
@@ -142,9 +148,11 @@ final public class ProductsManager {
                 
                 // Success
                 if error == nil {
+                    // Update the params as soon as succeeded, for correct handling in subsequent calls
                     strongSelf.currentParams = params
                     
                     if let newProducts = products {
+                        // Assign the new products
                         strongSelf.products = newProducts
                     }
                     if let newLastPage = lastPage {
@@ -168,6 +176,11 @@ final public class ProductsManager {
         return task.task
     }
     
+    /**
+        Runs & returns the next page product retrieval task with the given parameters.
+    
+        :returns: The product retrieval task.
+    */
     private func retrieveProductsNextPageTask() -> BFTask {
         
         // Increase the offset
@@ -184,9 +197,11 @@ final public class ProductsManager {
                 
                 // Error
                 if error == nil {
+                    // Update the params as soon as succeeded, for correct handling in subsequent calls
                     strongSelf.currentParams = newParams
                     
                     if let newProducts = products {
+                        // Add the new products
                         strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     }
                     if let newLastPage = lastPage {
