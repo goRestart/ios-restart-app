@@ -188,7 +188,7 @@ final public class ProductsManager {
         newParams.offset = products.count
         
         var task = BFTaskCompletionSource()
-        productsService.retrieveProductsWithParams(currentParams!) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
+        productsService.retrieveProductsWithParams(newParams) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
             
             // Manager
             if let strongSelf = self {
