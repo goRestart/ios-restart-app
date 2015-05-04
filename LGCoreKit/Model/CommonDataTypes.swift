@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Foundation
+import CoreLocation
 
 @objc public class LGSize: Equatable {
     public var width: Float
@@ -23,12 +23,22 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
 }
 
 public struct LGLocationCoordinates2D: Equatable {
-    public var latitude: Float
-    public var longitude: Float
+    public var latitude: Double
+    public var longitude: Double
     
-    public init(latitude: Float , longitude: Float) {
+    public init(latitude: Double , longitude: Double) {
         self.latitude = latitude
         self.longitude = longitude
+    }
+    
+    public init?(coordinates: CLLocationCoordinate2D) {
+        if !CLLocationCoordinate2DIsValid(coordinates) {
+            return nil
+        }
+        else {
+            self.latitude = coordinates.latitude
+            self.longitude = coordinates.longitude
+        }
     }
 }
 
@@ -60,6 +70,10 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
         }
     }
     
+    public func formatDistance(distance: Float) -> String {
+        return NSString(format: "%.1fML", distance) as String
+    }
+    
     public var description: String { return "\(string)" }
 }
 
@@ -84,7 +98,7 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 }
 
 @objc public enum Currency: Int, Printable {
-    case EUR, USD
+    case EUR, USD, GBP, ARS, BRL
     public var string: String {
         get {
             switch self {
@@ -92,21 +106,53 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
                 return "EUR"
             case .USD:
                 return "USD"
+            case .GBP:
+                return "GBP"
+            case .ARS:
+                return "ARS"
+            case .BRL:
+                return "BRL"
             }
         }
     }
-
+    
     public static func fromString(string: String) -> Currency? {
         switch string {
         case "EUR":
             return .EUR
         case "USD":
             return .USD
+        case "GBP":
+            return .GBP
+        case "ARS":
+            return .ARS
+        case "BRL":
+            return .BRL
         default:
             return nil
         }
     }
     
+    public func formatPrice(price: Float, decimals: Int = 0) -> String {
+        let formatter = NSNumberFormatter()
+        formatter.minimumFractionDigits = decimals
+        formatter.maximumFractionDigits = decimals
+        let priceWithDecimals = "\(formatter.stringFromNumber(price)!)" ?? "\(price)"
+        
+        switch self {
+        case .EUR:
+            return "\(priceWithDecimals)€"
+        case .USD:
+            return "$\(priceWithDecimals)"
+        case .GBP:
+            return "£\(priceWithDecimals)"
+        case .ARS:
+            return "$a\(priceWithDecimals)"
+        case .BRL:
+            return "R$\(priceWithDecimals)"
+        }
+    }
+   
     public var description: String { return "\(string)" }
 }
 

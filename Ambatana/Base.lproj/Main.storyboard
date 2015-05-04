@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -351,7 +351,7 @@
         <!--Indicate Location View Controller-->
         <scene sceneID="8wD-ES-8A2">
             <objects>
-                <viewController id="5CA-LF-pUD" customClass="IndicateLocationViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="indicateLocationViewController" id="5CA-LF-pUD" customClass="IndicateLocationViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uXr-Sf-A0b"/>
                         <viewControllerLayoutGuide type="bottom" id="g8a-eB-Spm"/>
@@ -560,7 +560,6 @@
                         <segue destination="bQV-Z5-ynm" kind="push" identifier="Categories" id="n3G-ME-bRv"/>
                         <segue destination="FxN-lI-6ec" kind="push" identifier="SellProduct" id="V6S-hJ-EVB"/>
                         <segue destination="5CA-LF-pUD" kind="push" identifier="IndicateLocation" id="HOf-mn-VEJ"/>
-                        <segue destination="KjO-ho-cvR" kind="push" identifier="ShowProduct" id="LHw-EZ-CK9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5K-lz-4xe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1882,11 +1881,11 @@
                         <viewControllerLayoutGuide type="bottom" id="PZ5-gl-Z4d"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hM0-Dh-jwJ">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="KtE-CT-aYO">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <connections>
                                     <outlet property="delegate" destination="1e2-Pe-z0n" id="sA0-wm-i7d"/>
                                 </connections>
@@ -2765,10 +2764,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="b6L-hI-Q4s"/>
-        <segue reference="n3G-ME-bRv"/>
-        <segue reference="V6S-hJ-EVB"/>
-        <segue reference="G4e-Db-NKc"/>
         <segue reference="HOf-mn-VEJ"/>
+        <segue reference="n3G-ME-bRv"/>
+        <segue reference="b6L-hI-Q4s"/>
+        <segue reference="G4e-Db-NKc"/>
+        <segue reference="V6S-hJ-EVB"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,23 +8,28 @@
 
 import CoreLocation
 import LGCoreKit
+import Parse
 import UIKit
 
-class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfallLayout, ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfallLayout, ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, ShowProductViewControllerDelegate {
 
     // Constants
-    private static let cellAspectRatio: CGFloat = 210.0 / 160.0
-    private static let cellWidth: CGFloat = UIScreen.mainScreen().bounds.size.width * 0.5
-    
-    private static let itemsPercentagePaging: Float = 0.9    // when we should start ask for a new page
+    // TODO: move to ProductsViewModel or Constants (if shared const)
+    private static let locationRetrievalTimeout: NSTimeInterval = 15
     
     // Enums
     private enum UIState {
-        case Loading, Loaded, Refreshing, Paging, NoProducts
+        case Loading, Loaded, NoProducts
     }
     
     // ViewModel
     var viewModel: ProductsViewModel!
+
+    // Data
+    // TODO: Move to ProductsViewModel
+    var unableToRetrieveLocationTimer: NSTimer?
+    var currentCategory: LetGoProductCategory?
+    var currentSearchString: String?
     
     // UI
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -36,8 +41,6 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     @IBOutlet weak var reloadButton: UIButton!
     
     @IBOutlet weak var sellButton: UIButton!
-    
-    private var defaultCellSize: CGSize!
     
     // MARK: Lifecycle
     
@@ -61,11 +64,17 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         self.viewModel.delegate = self
         
         // UI
-        // cell size
-        let cellHeight = ProductsViewController.cellWidth * ProductsViewController.cellAspectRatio
-        defaultCellSize = CGSizeMake(ProductsViewController.cellWidth, cellHeight)
+        // No results
+        if self.currentSearchString == nil {
+            self.noProductsFoundLabel.text = translate("be_the_first_to_start_selling")
+            self.reloadButton.hidden = true
+        } else {
+            self.noProductsFoundLabel.text = translate("no_products_found")
+            self.reloadButton.hidden = false
+        }
+        self.reloadButton.setTitle(translate("reload_products"), forState: .Normal)
         
-        // collection view.
+        // Collection view
         var layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = 0.0
         layout.minimumInteritemSpacing = 0.0
@@ -73,87 +82,96 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         self.collectionView.alwaysBounceVertical = true
         self.collectionView.collectionViewLayout = layout
         
-        // add a pull to refresh control
+        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
+        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
+        
+        // Pull to refresh
         self.refreshControl = UIRefreshControl()
         //self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
         self.refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
         
-        // register ProductCell
-        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
-        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
-        
+        // Start as loading
         setUIState(.Loading)
-        refresh()
     }
-
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//        // appearance
-//        if self.currentSearchString == nil {
-//            self.noProductsFoundLabel.text = translate("be_the_first_to_start_selling")
-//            self.noProductsFoundButton.setTitle(translate("sell_something"), forState: .Normal)
-//        } else {
-//            self.noProductsFoundLabel.text = translate("no_products_found")
-//            self.noProductsFoundButton.setTitle(translate("reload_products"), forState: .Normal)
-//        }
-//        hideNoProductsFoundInterface()
         
-        // Toggle menu
+        // UI
+        // Navigation bar
         let menuButton = UIBarButtonItem(image: UIImage(named: "actionbar_burger"), style: .Plain, target: self, action: Selector("toggleMenu:"))
         menuButton.tintColor = UIColor.blackColor()
         self.navigationItem.leftBarButtonItem = menuButton
         
-        // Navigation bar & items
-        self.setLetGoNavigationBarStyle(title: UIImage(named: "actionbar_logo"), includeBackArrow: false)
-//        self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
-//        if let searchString = currentSearchString {
-//            setLetGoRightButtonsWithImageNames(["actionbar_chat"], andSelectors: ["conversations"], badgeButtonPosition: 0)
-//        }
-//        else {
-            setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProduct", "conversations"], badgeButtonPosition: 1)
-//        }
+        self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
+        if let searchString = currentSearchString {
+            setLetGoRightButtonsWithImageNames(["actionbar_chat"], andSelectors: ["conversationsButtonPressed:"], badgeButtonPosition: 0)
+        }
+        else {
+            setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchButtonPressed:", "conversationsButtonPressed:"], badgeButtonPosition: 1)
+        }
         
         // Menu should only be visible from the main screen. Disable sliding unless we are the only active vc.
         let vcNumber = self.navigationController?.viewControllers.count
         if vcNumber == 1 { // I am the first, main view controller
             self.findHamburguerViewController()?.gestureEnabled = true // enable sliding.
         } else { self.findHamburguerViewController()?.gestureEnabled = false } // otherwise, don't allow the pan gesture.
-        
-//        // register for notifications.
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableSetLocation:", name: kLetGoUnableToSetUserLocationNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableGetLocation:", name: kLetGoUnableToGetUserLocationNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationReady:", name: kLetGoUserLocationSuccessfullySetNotification, object: nil)
+
+        // Register for notifications.
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToSetUserLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToGetUserLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSucceedRetrievingLocation:", name: kLetGoUserLocationSuccessfullySetNotification, object: nil)
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kLetGoUserLocationSuccessfullyChangedNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged", name: UIContentSizeCategoryDidChangeNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logoutImminent", name: kLetGoLogoutImminentNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged:", name: UIContentSizeCategoryDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
         
-//        // check current location status.
-//        if (CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation)) { // we have a valid registered location.
-//            if entries.count > 0 { disableLoadingInterface() } // we have some entries, so show them.
-//            else { enableLoadingInterface(); queryProducts() } // query entries from Parse.
-//        } else { // we need a location.
-//            enableLoadingInterface()
-//            if (!LocationManager.sharedInstance.updatingLocation) { // if we are not already updating our location...
-//                if (LocationManager.sharedInstance.appIsAuthorizedToUseLocationServices()) { // ... and we have permission for updating it.
-//                    // enable a timer to fallback
-//                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kLetGoMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(name: kLetGoUnableToGetUserLocationNotification, object: nil), repeats: false)
-//                    // update our location.
-//                    LocationManager.sharedInstance.startUpdatingLocation()
-//                } else { // segue to ask user about his/her location directly
-//                    self.performSegueWithIdentifier("IndicateLocation", sender: nil)
-//                }
-//            } else { // else we just wait for the notification to arrive.
-//                // enable a timer to fallback
-//                if unableToRetrieveLocationTimer == nil {
-//                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(kLetGoMaxWaitingTimeForLocation, target: self, selector: "unableGetLocation:", userInfo: NSNotification(name: kLetGoUnableToGetUserLocationNotification, object: nil), repeats: false)
-//                }
-//            }
-//        }
-//        // tracking
-//        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductList, eventParameters: self.getPropertiesForProductListTracking())
-//        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "product-list"])
+        // If we've a location
+        if (CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation)) {
+
+            // If we have some entries, so show them.
+            if viewModel.numberOfProducts > 0 {
+                setUIState(.Loaded)
+            }
+            // Otherwise, request new
+            else {
+                setUIState(.Loading)
+                refresh()
+            }
+        }
+        // Otherwise
+        else {
+            
+            setUIState(.Loading)
+
+            // If we are not already updating our location
+            if (!LocationManager.sharedInstance.updatingLocation) {
+                
+                // If we have permission for location
+                if (LocationManager.sharedInstance.appIsAuthorizedToUseLocationServices()) {
+                    // enable a timer to fallback
+                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewController.locationRetrievalTimeout, target: self, selector: "didFailRetrievingLocation:", userInfo: NSNotification(name: kLetGoUnableToGetUserLocationNotification, object: nil), repeats: false)
+                    
+                    // update our location.
+                    LocationManager.sharedInstance.startUpdatingLocation()
+                    
+                }
+                // Else, we don't have permission for location the go to set manual location
+                else {
+                    pushIndicateLocationViewController()
+                }
+            }
+            // Otherwise, wait for the notification to arrive.
+            else {
+                if unableToRetrieveLocationTimer == nil {
+                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewController.locationRetrievalTimeout, target: self, selector: "didFailRetrievingLocation:", userInfo: NSNotification(name: kLetGoUnableToGetUserLocationNotification, object: nil), repeats: false)
+                }
+            }
+        }
+        
+        // Tracking
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductList, eventParameters: self.getPropertiesForProductListTracking())
+        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "product-list"])
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -162,10 +180,11 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         
         // disable menu
         self.findHamburguerViewController()?.gestureEnabled = false
-//        // hide search bar (if showing)
-//        if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
+        // hide search bar (if showing)
+        if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
     }
     
+   
     // MARK: - Private methods
     
     // MARK: > UI
@@ -173,23 +192,19 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     private func setUIState(state: UIState) {
         switch (state) {
         case .Loading:
-            activityIndicator.startAnimating()
-            collectionView.hidden = true
-            refreshControl.endRefreshing()
-            noProductsFoundLabel.hidden = true
-            reloadButton.hidden = true
-        case .Refreshing:
-            activityIndicator.stopAnimating()
-            collectionView.hidden = false
+            let isDisplayingProducts = viewModel.numberOfProducts > 0
+            if isDisplayingProducts {
+                activityIndicator.stopAnimating()
+                collectionView.hidden = false
+                refreshControl.endRefreshing()
+            }
+            else {
+                activityIndicator.startAnimating()
+                collectionView.hidden = true
+            }
             noProductsFoundLabel.hidden = true
             reloadButton.hidden = true
         case .Loaded:
-            activityIndicator.stopAnimating()
-            collectionView.hidden = false
-            refreshControl.endRefreshing()
-            noProductsFoundLabel.hidden = true
-            reloadButton.hidden = true
-        case .Paging:
             activityIndicator.stopAnimating()
             collectionView.hidden = false
             refreshControl.endRefreshing()
@@ -201,14 +216,20 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
             refreshControl.endRefreshing()
             noProductsFoundLabel.hidden = false
             reloadButton.hidden = false
-            
         }
-//        InitialLoading, Loading, Paging, NoProducts
     }
     
     // MARK: > Actions
     
-    func toggleMenu(sender: UIBarButtonItem) {
+    @IBAction func reloadButtonPressed(sender: AnyObject) {
+        refresh()
+    }
+    
+    @IBAction func sellButtonPressed(sender: AnyObject) {
+        pushSellProductViewController()
+    }
+    
+    func toggleMenu(sender: AnyObject) {
         // clear edition & dismiss keyboard
         self.view.endEditing(true)
         self.findHamburguerViewController()?.view.endEditing(true)
@@ -217,25 +238,137 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         self.findHamburguerViewController()?.showMenuViewController()
     }
     
+    func conversationsButtonPressed(sender: AnyObject) {
+        pushConversationsViewController()
+    }
+    
+    func searchButtonPressed(sender: AnyObject) {
+        showSearchBarAnimated(true, delegate: self)
+    }
+    
     func refresh() {
-        // reset query values
-//        collectionView.userInteractionEnabled = false
-//        self.resetQueryValues()
-
-        let coordinates = LGLocationCoordinates2D(latitude: 41.404819, longitude: 2.154288)
-        viewModel.retrieveProductsWithQueryString(nil, coordinates: coordinates, categoryIds: nil, sortCriteria: nil, maxPrice: nil, minPrice: nil, userObjectId: nil)
-        // perform query
-//        self.queryProducts(force: false)
+        let coordinates = viewModel.currentLocationCoordinates()
+        if coordinates != nil && viewModel.canRetrieveProducts {
+            let categoryIds: [Int]?
+            if let category = currentCategory {
+                categoryIds = [category.rawValue]
+            }
+            else {
+                categoryIds = nil
+            }
+            viewModel.retrieveProductsWithQueryString(currentSearchString, coordinates: coordinates!, categoryIds: categoryIds, sortCriteria: nil, maxPrice: nil, minPrice: nil, userObjectId: nil)
+        }
+        else {
+            refreshControl.endRefreshing()
+        }
+    }
+    
+    func retrieveNextPage() {
+        
+        // If we can retrieve a next page then do it
+        if viewModel.canRetrieveProductsNextPage {
+            viewModel.retrieveProductsNextPage()
+        }
+    }
+    
+    // MARK: > Navigation
+    
+    func pushProductsViewControllerWithSearchQuery(searchQuery: String) {
+        let vc = ProductsViewController()
+        vc.currentSearchString = searchQuery
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func pushProductViewController(product: PFObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("showProductViewController") as! ShowProductViewController
+        vc.productObject = product
+        vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func pushIndicateLocationViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func pushConversationsViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("conversationsViewController") as! ChatListViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func pushCategoriesViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("categoriesViewController") as! CategoriesViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func pushSellProductViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("myProfileViewController") as! SellProductViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func pushEditProfileViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("editProfileViewController") as! EditProfileViewController
+        vc.userObject = PFUser.currentUser()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
+    // MARK: - NSNotificationCenter
+    
+    func didFailRetrievingLocation(notification: NSNotification) {
+        unableToRetrieveLocationTimer?.invalidate()
+        unableToRetrieveLocationTimer = nil
+        
+        pushIndicateLocationViewController()
+    }
+    
+    func didSucceedRetrievingLocation(notification: NSNotification) {
+        refresh()
+    }
+    
+    func dynamicTypeChanged(notification: NSNotification) {
+        self.collectionView.reloadSections(NSIndexSet(index: 0))
+    }
+    
+    func badgeChanged (notification: NSNotification) {
+        refreshBadgeButton()
+    }
+    
     // MARK: - ProductsViewModelDelegate
     
+    func didStartRetrievingFirstPageProducts() {
+        setUIState(.Loading)
+    }
+    
     func didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
-        collectionView.reloadSections(NSIndexSet(index: 0))
-        setUIState(.Loaded)
+        if indexPaths.isEmpty {
+            setUIState(.NoProducts)
+        }
+        else {
+            collectionView.reloadSections(NSIndexSet(index: 0))
+            setUIState(.Loaded)
+        }
     }
 
     func didFailRetrievingFirstPageProducts(error: NSError) {
+        
+        let alert = UIAlertController(title: nil, message: translate("unable_get_products"), preferredStyle:.Alert)
+        alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { [weak self] (action) -> Void in
+            if let strongSelf = self {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                    strongSelf.refresh()
+                })
+            }
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func didStartRetrievingNextPageProducts() {
         
     }
     
@@ -245,26 +378,25 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
 
     func didFailRetrievingNextPageProducts(error: NSError) {
         
+        let alert = UIAlertController(title: nil, message: translate("unable_get_products"), preferredStyle:.Alert)
+        alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { [weak self] (action) -> Void in
+            if let strongSelf = self {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                    strongSelf.retrieveNextPage()
+                })
+            }
+            }))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     // MARK: - UICollectionViewDataSource
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        // calculate size
-//        let selectedProduct = self.entries[indexPath.row]
-//        if let thumbnailSize = selectedProduct.thumbnailSize {
-//            if thumbnailSize.height != 0 && thumbnailSize.width != 0 {
-//                let thumbFactor = thumbnailSize.height / thumbnailSize.width
-//                var baseSize = defaultCellSize
-//                baseSize.height = max(kLetGoMinProductListCellHeight, round(baseSize.height * thumbFactor))
-//                return baseSize
-//            }
-//        }
-        return defaultCellSize
+        return viewModel.sizeForCellAtIndex(indexPath.row)
     }
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, columnCountForSection section: Int) -> Int {
-        return 2
+        return viewModel.numberOfColumns
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -273,18 +405,14 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
-        
-//        if entries.count == 0 { return cell } // safety check for p2r
         let product = viewModel.productAtIndex(indexPath.row)
         
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
         cell.tag = indexPath.hash
         cell.setupCellWithPartialProduct(product, indexPath: indexPath)
-//        cell.setupCellWithLetGoProduct(product, indexPath: indexPath)
         
-//        // If we are close to the end (last cells) query the next products...
-        let threshold = Int(Float(viewModel.numberOfProducts) * ProductsViewController.itemsPercentagePaging)
-        if indexPath.row >= threshold {
+        // If we can retrieve a next page & we should, then retrieve it
+        if viewModel.canRetrieveProductsNextPage && viewModel.shouldRetrieveProductsNextPageWhenAtIndex(indexPath.row) {
             viewModel.retrieveProductsNextPage()
         }
         
@@ -296,19 +424,72 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.view.userInteractionEnabled = false
         self.showLoadingMessageAlert()
-//        // prepare basic object
-//        let selectedProduct = self.entries[indexPath.row]
-//        RESTManager.sharedInstance.retrieveParseObjectWithId(selectedProduct.objectId, className: "Products") { (success, parseObject) -> Void in
-//            self.view.userInteractionEnabled = true
-//            self.dismissLoadingMessageAlert(completion: { (_) -> Void in
-//                if success {
-//                    self.productToShow = parseObject
-//                    self.performSegueWithIdentifier("ShowProduct", sender: nil)
-//                } else {
-//                    self.showAutoFadingOutMessageAlert(translate("unable_show_product"))
-//                }
-//            })
+        
+        // TODO: Refactor product id retrieval
+        if let productObjectId = viewModel.productObjectIdForProductAtIndex(indexPath.row) {
+            RESTManager.sharedInstance.retrieveParseObjectWithId(productObjectId, className: "Products") { (success, productObject) -> Void in
+                self.view.userInteractionEnabled = true
+                self.dismissLoadingMessageAlert(completion: { [weak self] (_) -> Void in
+                    if let strongSelf = self {
+                        if success {
+                            strongSelf.pushProductViewController(productObject!)
+                        }
+                        else {
+                            strongSelf.showAutoFadingOutMessageAlert(translate("unable_show_product"))
+                        }
+                    }
+                })
+            }
+        }
+    }
+    
+    // MARK: - UISearchBarDelegate
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        dismissSearchBar(searchBar, animated: true, searchBarCompletion: nil)
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        dismissSearchBar(searchBar, animated: true) { [weak self] () -> Void in
+            if let strongSelf = self {
+                let searchString = searchBar.text
+                if searchString != nil && count(searchString) > 0 {
+                    strongSelf.pushProductsViewControllerWithSearchQuery(searchString)
+                }
+            }
+        }
+    }
+    
+    
+    // MARK: - LEGACY (TO REFACTOR)
+    
+    // MARK: ShowProductViewControllerDelegate
+    
+    // update status of a product (i.e: if it gets marked as sold).
+    func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus) {
+//        for product in self.entries {
+//            if product.objectId == productId {
+//                product.status = newStatus
+//                self.collectionView.reloadSections(NSIndexSet(index: 0))
+//                return
+//            }
 //        }
     }
-
+    
+    /** Generates the properties for the product-list tracking event. NOTE: This would probably change once Parse is not used anymore */
+    func getPropertiesForProductListTracking() -> [String: AnyObject] {
+        var properties: [String: AnyObject] = [:]
+        // current category data
+        if currentCategory != nil {
+            properties[kLetGoTrackingParameterNameCategoryId] = currentCategory!.rawValue
+            properties[kLetGoTrackingParameterNameCategoryName] = currentCategory!.getName()
+        }
+        // current user data
+        if let currentUser = PFUser.currentUser() {
+            if let userCity = currentUser[kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameUserCity] = userCity }
+            if let userCountry = currentUser[kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameUserCountry] = userCountry }
+            // We don't have a zip_code in the user class in Parse, and doing a reverse geolocation here would be an overkill. TODO: When not using parse...
+        }
+        return properties
+    }
 }

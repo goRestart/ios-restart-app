@@ -267,7 +267,7 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
 
         if CLLocationCoordinate2DIsValid(currentLocation) {
             // Call to LetGo backend API.
-            let coordinates = LGLocationCoordinates2D(latitude: Float(currentLocation.latitude), longitude: Float(currentLocation.longitude))
+            let coordinates = LGLocationCoordinates2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
             let accessToken: String
             if let sessionToken = SessionManager.sharedInstance.sessionToken {
                 accessToken = sessionToken.accessToken

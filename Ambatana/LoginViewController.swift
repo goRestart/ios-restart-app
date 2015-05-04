@@ -208,7 +208,6 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
         
         // navVC contains productListVC as its root
         let productsVC = ProductsViewController()
-//        let productsVC = storyboard.instantiateViewControllerWithIdentifier("productListViewController") as! UIViewController
         let navVC = DLHamburguerNavigationController(rootViewController: productsVC)
         
         // rootVC has navVC as content and 

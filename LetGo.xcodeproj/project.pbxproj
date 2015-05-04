@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DD65AA99208A05D029379B /* Pods_LetGo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		50CE389C1AF7572800F48769 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5089D2841AF2489F009F587F /* LGCoreKit.framework */; };
+		50CE389D1AF7572800F48769 /* LGCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5089D2841AF2489F009F587F /* LGCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
 		6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03D1A820FBD005895ED /* LoginViewController.swift */; };
@@ -84,8 +86,6 @@
 		D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48183F61AB2FEBE00229DBF /* ProductCell.xib */; };
 		D48C3E051AEBD165005BD0EF /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48C3E031AEBD165005BD0EF /* ConversationCell.swift */; };
 		D48C3E061AEBD165005BD0EF /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48C3E041AEBD165005BD0EF /* ConversationCell.xib */; };
-		D4B121F51AF6EE05007FA903 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4B121F41AF6EE05007FA903 /* LGCoreKit.framework */; };
-		D4B121F61AF6EE05007FA903 /* LGCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4B121F41AF6EE05007FA903 /* LGCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D4B546341AEFDD920062D183 /* letgoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B546331AEFDD920062D183 /* letgoTests.swift */; };
 		D4B9AF971AF69FB500D88A30 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9AF961AF69FB500D88A30 /* ProductsViewModel.swift */; };
 		D4B9AF9F1AF6A03800D88A30 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B9AF9D1AF6A03800D88A30 /* ProductsViewController.swift */; };
@@ -104,13 +104,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D4B121F31AF6EDE0007FA903 /* Embed Frameworks */ = {
+		50CE389E1AF7572800F48769 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D4B121F61AF6EE05007FA903 /* LGCoreKit.framework in Embed Frameworks */,
+				50CE389D1AF7572800F48769 /* LGCoreKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,7 +207,6 @@
 		D48183F61AB2FEBE00229DBF /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		D48C3E031AEBD165005BD0EF /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		D48C3E041AEBD165005BD0EF /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
-		D4B121F41AF6EE05007FA903 /* LGCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = LGCoreKit.framework; path = "/Users/ahernandez/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<absolute>"; };
 		D4B5462F1AEFDD920062D183 /* letgoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = letgoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B546321AEFDD920062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4B546331AEFDD920062D183 /* letgoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = letgoTests.swift; sourceTree = "<group>"; };
@@ -225,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6640F04A1AE142D800004556 /* libGoogleConversionTracking.a in Frameworks */,
+				50CE389C1AF7572800F48769 /* LGCoreKit.framework in Frameworks */,
 				6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */,
 				66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */,
 				66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */,
@@ -238,7 +238,6 @@
 				D44E06631AE701D900A7D3CA /* Fabric.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
 				D4FE33571AF2183300088532 /* ParseFacebookUtilsV4.framework in Frameworks */,
-				D4B121F51AF6EE05007FA903 /* LGCoreKit.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
 				3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */,
 			);
@@ -277,7 +276,6 @@
 		6608E02D1A820FBD005895ED = {
 			isa = PBXGroup;
 			children = (
-				D4B121F41AF6EE05007FA903 /* LGCoreKit.framework */,
 				D4FE33521AF2166800088532 /* 3rd Party */,
 				6608E0381A820FBD005895ED /* LetGo */,
 				D4B546301AEFDD920062D183 /* letgoTests */,
@@ -695,7 +693,7 @@
 				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
 				D44E065F1AE7017E00A7D3CA /* ShellScript */,
 				2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */,
-				D4B121F31AF6EDE0007FA903 /* Embed Frameworks */,
+				50CE389E1AF7572800F48769 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

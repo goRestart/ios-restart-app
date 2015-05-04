@@ -24,7 +24,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     var categories: [PFObject]?
     var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     var lastContentOffset: CGFloat = 0.0
-    var selectedCategory: LetGoProductCategory?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,9 +79,9 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         dismissSearchBar(searchBar, animated: true) { () -> Void in
             // analyze search string
             if searchString != nil && count(searchString) > 0 {
-                let newProductListVC = self.storyboard?.instantiateViewControllerWithIdentifier("productListViewController") as! ProductListViewController
-                newProductListVC.currentSearchString = searchString
-                self.navigationController?.pushViewController(newProductListVC, animated: true)
+                let productsVC = ProductsViewController()
+                productsVC.currentSearchString = searchString
+                self.navigationController?.pushViewController(productsVC, animated: true)
             }
         }
         
@@ -95,22 +94,16 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func conversations() {
-        performSegueWithIdentifier("Conversations", sender: nil)
-    }
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "ProductListByCategory" {
-            let plvc = segue.destinationViewController as! ProductListViewController
-            plvc.currentCategory = selectedCategory
-        }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("conversationsViewController") as! ChatListViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - Button actions
     @IBAction func sellNewProduct(sender: AnyObject) {
-        performSegueWithIdentifier("SellProduct", sender: sender)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("myProfileViewController") as! SellProductViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     // MARK: - Queries and categories methods
@@ -201,8 +194,9 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if let categoryObject = categories?[indexPath.row] {
             if let category = LetGoProductCategory(rawValue: categoryObject["category_id"] as! Int) {
-                selectedCategory = category
-                performSegueWithIdentifier("ProductListByCategory", sender: nil)
+                let productsVC = ProductsViewController()
+                productsVC.currentCategory = category
+                self.navigationController?.pushViewController(productsVC, animated: true)
             }
         }
     }
