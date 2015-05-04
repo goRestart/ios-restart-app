@@ -122,6 +122,7 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToSetUserLocationNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToGetUserLocationNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSucceedRetrievingLocation:", name: kLetGoUserLocationSuccessfullySetNotification, object: nil)
+        // @ahl: not used (last location handled automatically when refreshing)
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kLetGoUserLocationSuccessfullyChangedNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged:", name: UIContentSizeCategoryDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
@@ -271,6 +272,25 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         }
     }
     
+    // MARK: > Tracking
+    
+    /** Generates the properties for the product-list tracking event. NOTE: This would probably change once Parse is not used anymore */
+    func getPropertiesForProductListTracking() -> [String: AnyObject] {
+        var properties: [String: AnyObject] = [:]
+        // current category data
+        if currentCategory != nil {
+            properties[kLetGoTrackingParameterNameCategoryId] = currentCategory!.rawValue
+            properties[kLetGoTrackingParameterNameCategoryName] = currentCategory!.getName()
+        }
+        // current user data
+        if let currentUser = PFUser.currentUser() {
+            if let userCity = currentUser[kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameUserCity] = userCity }
+            if let userCountry = currentUser[kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameUserCountry] = userCountry }
+            // We don't have a zip_code in the user class in Parse, and doing a reverse geolocation here would be an overkill. TODO: When not using parse...
+        }
+        return properties
+    }
+    
     // MARK: > Navigation
     
     func pushProductsViewControllerWithSearchQuery(searchQuery: String) {
@@ -409,6 +429,7 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
         cell.tag = indexPath.hash
+        // TODO: VC should not handle data -> ask to VM about title etc etc...
         cell.setupCellWithPartialProduct(product, indexPath: indexPath)
         
         // If we can retrieve a next page & we should, then retrieve it
@@ -467,6 +488,8 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     
     // update status of a product (i.e: if it gets marked as sold).
     func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus) {
+        // @ahl: skipped feature for now...
+        
 //        for product in self.entries {
 //            if product.objectId == productId {
 //                product.status = newStatus
@@ -474,22 +497,5 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
 //                return
 //            }
 //        }
-    }
-    
-    /** Generates the properties for the product-list tracking event. NOTE: This would probably change once Parse is not used anymore */
-    func getPropertiesForProductListTracking() -> [String: AnyObject] {
-        var properties: [String: AnyObject] = [:]
-        // current category data
-        if currentCategory != nil {
-            properties[kLetGoTrackingParameterNameCategoryId] = currentCategory!.rawValue
-            properties[kLetGoTrackingParameterNameCategoryName] = currentCategory!.getName()
-        }
-        // current user data
-        if let currentUser = PFUser.currentUser() {
-            if let userCity = currentUser[kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameUserCity] = userCity }
-            if let userCountry = currentUser[kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameUserCountry] = userCountry }
-            // We don't have a zip_code in the user class in Parse, and doing a reverse geolocation here would be an overkill. TODO: When not using parse...
-        }
-        return properties
     }
 }
