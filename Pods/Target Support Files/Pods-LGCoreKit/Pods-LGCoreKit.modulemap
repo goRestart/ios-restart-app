@@ -1,0 +1,6 @@
+framework module Pods_LGCoreKit {
+  umbrella header "Pods-LGCoreKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

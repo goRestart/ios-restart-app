@@ -6,10 +6,11 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import UIKit
 import MapKit
 import MessageUI
+import Parse
 import Social
+import UIKit
 
 protocol ShowProductViewControllerDelegate {
     func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus)

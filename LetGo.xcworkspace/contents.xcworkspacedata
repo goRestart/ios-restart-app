@@ -5,6 +5,9 @@
       location = "group:LetGo.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:LGCoreKit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

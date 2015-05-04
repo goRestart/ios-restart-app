@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import Parse
 import UIKit
 
 private let kLetGoConversationMyMessagesCell = "MyMessagesCell"

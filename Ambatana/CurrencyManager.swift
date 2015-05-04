@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 // private singleton instance
 private let _singletonInstance = CurrencyManager()

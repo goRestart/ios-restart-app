@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
+import Parse
 import UIKit
 
 class ProductCell: UICollectionViewCell {
@@ -62,6 +64,54 @@ class ProductCell: UICollectionViewCell {
             else if product.creationDate != nil &&
                 NSDate().timeIntervalSinceDate(product.creationDate!) < 60*60*24 {
                     statusImageView.image = UIImage(named: "label_new")
+            }
+        }
+    }
+    
+    func setupCellWithPartialProduct(product: PartialProduct, indexPath: NSIndexPath) {
+        let tag = indexPath.hash
+        
+        // Name
+        nameLabel.text = product.name.lg_capitalizedWords()
+        
+        // Price
+        let currency = product.currency ?? .USD
+        priceLabel.text = currency.formatPrice(product.price ?? 0)
+        
+        
+        // Thumb
+        if let thumbURLStr = product.thumbnailURL,
+           let thumbURL = NSURL(string: thumbURLStr) {
+            thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
+                [weak self] (image, error, cacheType, url) -> Void in
+                if error == nil {
+                    self?.thumbnailImageView.image = image
+                }
+            })
+        }
+        
+        // Distance
+        if let distance = product.distance, let distanceType = product.distanceType {
+            if distance < 0.01 {  // around 16m
+                distanceLabel.text = translate("here")
+            }
+            else {
+                distanceLabel.text = distanceType.formatDistance(distance)
+            }
+        }
+        else {
+            distanceLabel.text = translate("unknown_distance")
+        }
+        
+        // Status
+        if let status = product.status {
+            if (status == .Sold) {
+                statusImageView.image = UIImage(named: "label_sold")
+            }
+            else if let createdAt = product.createdAt {
+                if NSDate().timeIntervalSinceDate(createdAt) < 60*60*24 {
+                    statusImageView.image = UIImage(named: "label_new")
+                }
             }
         }
     }
@@ -149,10 +199,10 @@ class ProductCell: UICollectionViewCell {
     
     // Sets up the UI
     private func setupUI() {
-        nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        
-        let boldBodyDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody).fontDescriptorWithSymbolicTraits(.TraitBold)
-        priceLabel.font = UIFont(descriptor: boldBodyDescriptor!, size: 0.0)
+//        nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
+//
+//        let boldBodyDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody).fontDescriptorWithSymbolicTraits(.TraitBold)
+//        priceLabel.font = UIFont(descriptor: boldBodyDescriptor!, size: 0.0)
     }
     
     // Resets the UI to the initial state

@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import Bolts
+import LGCoreKit
+import Parse
 import UIKit
 
 private let kLetGoProductListCellFactor: CGFloat = 210.0 / 160.0
@@ -36,6 +39,14 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     var lastContentOffset: CGFloat = 0.0
     
     var unableToRetrieveLocationTimer: NSTimer?
+    
+    // MARK: Lifecycle
+    
+    required init(coder aDecoder: NSCoder) {
+        let sessionManager = SessionManager.sharedInstance
+        let productsService = LGProductsService()
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,11 +165,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // MARK: - Button actions.
     
     @IBAction func toggleMenu(sender: AnyObject) {
@@ -254,8 +260,27 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastKnownLocation) { currentLocation = LocationManager.sharedInstance.lastKnownLocation }
         else if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation) { currentLocation = LocationManager.sharedInstance.lastRegisteredLocation }
         else if let userGeo = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint { currentLocation = CLLocationCoordinate2DMake(userGeo.latitude, userGeo.longitude) }
+
         if CLLocationCoordinate2DIsValid(currentLocation) {
             // Call to LetGo backend API.
+            let coordinates = LGLocationCoordinates2D(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+            let accessToken: String
+            if let sessionToken = SessionManager.sharedInstance.sessionToken {
+                accessToken = sessionToken.accessToken
+            }
+            else {
+                accessToken = ""
+            }
+            var params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)
+            if let queryString = currentSearchString {
+                params.queryString = queryString
+            }
+            if let categoryId = currentCategory {
+                params.categoryIds = [categoryId.rawValue]
+            }
+            params.sortCriteria = .Distance
+            
+            
             RESTManager.sharedInstance.getListOfProducts(currentSearchString, location: currentLocation, categoryId: currentCategory, sortBy: ConfigurationManager.sharedInstance.userFilterForProducts, offset: self.offset, status: nil, maxPrice: nil, distanceRadius: nil, minPrice: nil, fromUser: nil, completion: { (success, products, retrievedItems, successfullyParsedItems) -> Void in
                 if success {
                     //println("Retrieved products: \(products)")
@@ -289,13 +314,11 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                         let alert = UIAlertView(title: nil, message: translate("unable_get_products"), delegate: self, cancelButtonTitle: translate("try_again"))
                         alert.show()
                     }
-                    
                 }
                 // if refresh control was used, release it
                 self.refreshControl.endRefreshing()
                 self.collectionView.userInteractionEnabled = true
             })
-            
         }
     }
     

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 /** Checks if the iOS version is at least "version" */
 func iOSVersionAtLeast(version: String) -> Bool {

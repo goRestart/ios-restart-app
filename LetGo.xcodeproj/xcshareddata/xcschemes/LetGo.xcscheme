@@ -17,7 +17,21 @@
                BlueprintIdentifier = "6608E0351A820FBD005895ED"
                BuildableName = "LetGo.app"
                BlueprintName = "LetGo"
-               ReferencedContainer = "container:LetGo.xcodeproj">
+               ReferencedContainer = "container:letgo.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D4B5462E1AEFDD920062D183"
+               BuildableName = "letgoTests.xctest"
+               BlueprintName = "letgoTests"
+               ReferencedContainer = "container:letgo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,6 +42,16 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D4B5462E1AEFDD920062D183"
+               BuildableName = "letgoTests.xctest"
+               BlueprintName = "letgoTests"
+               ReferencedContainer = "container:letgo.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
@@ -35,7 +59,7 @@
             BlueprintIdentifier = "6608E0351A820FBD005895ED"
             BuildableName = "LetGo.app"
             BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
+            ReferencedContainer = "container:letgo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -55,9 +79,15 @@
             BlueprintIdentifier = "6608E0351A820FBD005895ED"
             BuildableName = "LetGo.app"
             BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
+            ReferencedContainer = "container:letgo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-environment-prod"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -74,7 +104,7 @@
             BlueprintIdentifier = "6608E0351A820FBD005895ED"
             BuildableName = "LetGo.app"
             BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
+            ReferencedContainer = "container:letgo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

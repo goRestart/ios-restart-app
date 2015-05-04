@@ -6,8 +6,9 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import UIKit
+import Parse
 import MessageUI
+import UIKit
 
 private let kLetGoMenuOptionCellName = "LetGoMenuOptionCell"
 private let kLetGoMenuOptionCellTitleTag = 1
@@ -107,39 +108,52 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     // MARK: - UITableViewDelegate methods
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let menuOption = LetGoMenuOptions(rawValue: indexPath.row)
         var segueName: String?
 
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: UIViewController?
+        var shouldHideHamburguerMenu = true
+        
         switch (menuOption!) {
         case .MyProfile:
-            segueName = "EditProfile"
+            let epvc = storyboard.instantiateViewControllerWithIdentifier("editProfileViewController") as! EditProfileViewController
+            epvc.userObject = PFUser.currentUser()
+            vc = epvc
         case .Conversations:
-            segueName = "Conversations"
+            let clvc = storyboard.instantiateViewControllerWithIdentifier("conversationsViewController") as! ChatListViewController
+            vc = clvc
         case .Sell:
-            segueName = "SellProduct"
+            let mpvc = storyboard.instantiateViewControllerWithIdentifier("myProfileViewController") as! SellProductViewController
+            vc = mpvc
         case .Categories:
-            segueName = "Categories"
+            let cvc = storyboard.instantiateViewControllerWithIdentifier("categoriesViewController") as! CategoriesViewController
+            vc = cvc
         case .Contact:
+            vc = nil
+            shouldHideHamburguerMenu = false
             contactUs()
-            return
-        default:
-            UIApplication.sharedApplication().openURL(NSURL(string: kLetGoWebsiteURL)!)
-            segueName = nil
-            break
         }
 
-        // collapse menu.
-        if segueName != nil {
+        if let viewController = vc {
             // disable sliding menu for pushed controllers
             self.findHamburguerViewController()?.gestureEnabled = false
             
-            // perform segue
+            // push vc
             let navigationController = self.mainNavigationController()
-            navigationController.visibleViewController.performSegueWithIdentifier(segueName, sender: nil)
+            navigationController.visibleViewController.navigationController?.pushViewController(viewController, animated: true)
+            
+            
+//            navigationController.visibleViewController.pushViewController(viewController, animated: true)
+            
+            
             self.findHamburguerViewController()?.contentViewController = navigationController
         }
-        self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
+        if shouldHideHamburguerMenu {
+            self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
+        }
     }
     
     // MARK: - UITableViewDataSource methods
@@ -183,9 +197,14 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         // disable sliding menu for pushed controllers
         self.findHamburguerViewController()?.gestureEnabled = false
         
-        // perform segue
+        // push vc
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let epvc = storyboard.instantiateViewControllerWithIdentifier("editProfileViewController") as! EditProfileViewController
+        epvc.userObject = PFUser.currentUser()
+
         let navigationController = self.mainNavigationController()
-        navigationController.visibleViewController.performSegueWithIdentifier("EditProfile", sender: nil)
+        navigationController.visibleViewController.navigationController?.pushViewController(epvc, animated: true)
+        
         self.findHamburguerViewController()?.contentViewController = navigationController
         self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
     }
@@ -223,7 +242,8 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     // MARK: - Navigation methods
     
     func mainNavigationController() -> DLHamburguerNavigationController {
-        return self.storyboard?.instantiateViewControllerWithIdentifier("navigationViewController") as! DLHamburguerNavigationController
+        let productsVC = ProductsViewController()
+        return DLHamburguerNavigationController(rootViewController: productsVC)
     }
     
     // MARK: - Notifications

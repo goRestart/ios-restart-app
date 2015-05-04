@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import Parse
 import UIKit
 
 /* Error codes for Parse signup process. This enum exists to show the user a proper error message when signing up goes wrong.

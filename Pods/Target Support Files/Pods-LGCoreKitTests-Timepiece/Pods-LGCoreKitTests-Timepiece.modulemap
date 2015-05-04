@@ -1,0 +1,6 @@
+framework module Timepiece {
+  umbrella header "Pods-LGCoreKitTests-Timepiece-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,14 +1,61 @@
-# Uncomment this line to define a global platform for your project
-platform :ios, '8.0'
+platform :ios, "8.0"
 
-xcodeproj 'LetGo.xcodeproj' # TODO Remove this line & Ambatana.xcodeproj
+# workspace & projects
+workspace "LetGo"
+xcodeproj "LetGo.xcodeproj"
+xcodeproj "LGCoreKit.xcodeproj"
 
-target 'LetGo' do
-   pod 'Parse','1.7.1'
-   pod 'ParseFacebookUtilsV4','1.7.1'
-   pod 'SDWebImage'
-   pod 'Facebook-iOS-SDK', '4.0.1'
-   pod 'AppsFlyer-SDK'
-   pod 'Amplitude-iOS', '~> 2.4'
+# app
+target "LetGo" do
+    xcodeproj "letgo.xcodeproj"
+    
+    use_frameworks!
+    
+    pod "Parse",                ">= 1.7"
+    #pod "ParseFacebookUtilsV4", ">= 1.7"
+    pod "SDWebImage"
+    #pod "Facebook-iOS-SDK",     ">= 4.0"
+    #Should be fixed in a future release
+    #https://github.com/facebook/facebook-ios-sdk/issues/725
+    pod "FBSDKCoreKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
+    pod "FBSDKShareKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
+    pod "FBSDKLoginKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
+    
+    pod "AppsFlyer-SDK"
+    pod "Amplitude-iOS",        ">= 2.4"
+    
+    pod "Alamofire",            ">= 1.2"
+    pod "SwiftyJSON",           ">= 2.2"
+    pod "Timepiece",            ">= 0.2"
+    pod "Bolts",                ">= 1.1"
 end
 
+# letgo core
+target "LGCoreKit" do
+    xcodeproj "LGCoreKit.xcodeproj"
+    
+    use_frameworks!
+    
+    pod "Alamofire",            ">= 1.2"
+    pod "SwiftyJSON",           ">= 2.2"
+    pod "Timepiece",            ">= 0.2"
+    pod "Bolts",                ">= 1.1"
+end
+
+target "LGCoreKitTests" do
+    xcodeproj "LGCoreKit.xcodeproj"
+    
+    use_frameworks!
+    
+    pod "Alamofire",            ">= 1.2"
+    pod "SwiftyJSON",           ">= 2.2"
+    pod "Timepiece",            ">= 0.2"
+    pod "Bolts",                ">= 1.1"
+    
+    # Testing
+    pod "Quick"
+    pod "Nimble"
+    
+    # Mocking
+    pod "Mockingjay"    # HTTP
+end

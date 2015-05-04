@@ -67,7 +67,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
             self.locationInMap = initialLocation!
             self.centerMapInLocation(initialLocation!, andIncludePin: true)
         }
-        self.setLocationBarButtonItem.enabled = false // force a change in location to enable accept button.
+//        self.setLocationBarButtonItem.enabled = false // force a change in location to enable accept button.
         TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "indicate-location"])
     }
     

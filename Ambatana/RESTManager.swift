@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 LetGo. All rights reserved.
 //
 
+import CoreLocation
+import LGCoreKit
+import Parse
 import UIKit
 
 // private singleton instance

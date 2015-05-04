@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -137,7 +137,6 @@
                         <outlet property="loginButton" destination="NId-Cf-Gzr" id="zaS-em-Bc4"/>
                         <outlet property="orUseEmailLabel" destination="CuJ-ul-btB" id="1IJ-d8-oRe"/>
                         <outlet property="signupButton" destination="cb3-VP-RH9" id="ibV-tf-qtG"/>
-                        <segue destination="UTE-Ho-EUo" kind="modal" identifier="StartApp" modalTransitionStyle="crossDissolve" id="vse-HD-Ab6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -352,7 +351,7 @@
         <!--Indicate Location View Controller-->
         <scene sceneID="8wD-ES-8A2">
             <objects>
-                <viewController id="5CA-LF-pUD" customClass="IndicateLocationViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="indicateLocationViewController" id="5CA-LF-pUD" customClass="IndicateLocationViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uXr-Sf-A0b"/>
                         <viewControllerLayoutGuide type="bottom" id="g8a-eB-Spm"/>
@@ -453,7 +452,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZfI-5A-UOj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3774" y="-2071"/>
+            <point key="canvasLocation" x="3598" y="-1331"/>
         </scene>
         <!--Product List View Controller-->
         <scene sceneID="D9k-NI-ghG">
@@ -527,18 +526,18 @@
                         <constraints>
                             <constraint firstItem="jSu-rz-ubC" firstAttribute="leading" secondItem="gCj-if-cnX" secondAttribute="leading" id="72Z-9p-OBB"/>
                             <constraint firstItem="4QV-bC-ev8" firstAttribute="centerX" secondItem="ZZ0-Y2-fYN" secondAttribute="centerX" id="Fco-EN-ImM"/>
+                            <constraint firstItem="wUP-Se-tsp" firstAttribute="top" secondItem="H82-Em-5NK" secondAttribute="bottom" constant="-64" id="IMs-bW-Jkh"/>
                             <constraint firstAttribute="trailing" secondItem="wUP-Se-tsp" secondAttribute="trailing" id="J06-dQ-5gn"/>
+                            <constraint firstItem="OQT-Wb-g3z" firstAttribute="top" secondItem="jSu-rz-ubC" secondAttribute="bottom" id="Leg-At-V27"/>
                             <constraint firstAttribute="centerY" secondItem="ZZ0-Y2-fYN" secondAttribute="centerY" id="Moa-KX-ptQ"/>
                             <constraint firstAttribute="centerY" secondItem="18W-ac-Xh1" secondAttribute="centerY" id="Veq-BF-rjj"/>
                             <constraint firstItem="4QV-bC-ev8" firstAttribute="top" secondItem="ZZ0-Y2-fYN" secondAttribute="bottom" constant="20" id="WUM-LQ-Lnb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ZZ0-Y2-fYN" secondAttribute="trailing" constant="20" id="aJ7-yq-9Tl"/>
-                            <constraint firstItem="wUP-Se-tsp" firstAttribute="top" secondItem="H82-Em-5NK" secondAttribute="bottom" constant="-64" id="eoA-Kj-JAN"/>
                             <constraint firstAttribute="trailing" secondItem="jSu-rz-ubC" secondAttribute="trailing" id="f1O-Cw-Mr8"/>
                             <constraint firstAttribute="centerX" secondItem="18W-ac-Xh1" secondAttribute="centerX" id="jVV-Pr-nhs"/>
                             <constraint firstItem="wUP-Se-tsp" firstAttribute="leading" secondItem="gCj-if-cnX" secondAttribute="leading" id="lNK-NJ-jL8"/>
                             <constraint firstItem="ZZ0-Y2-fYN" firstAttribute="leading" secondItem="gCj-if-cnX" secondAttribute="leadingMargin" constant="20" id="s5Q-TC-NRX"/>
-                            <constraint firstItem="OQT-Wb-g3z" firstAttribute="top" secondItem="wUP-Se-tsp" secondAttribute="bottom" constant="48" id="tmS-tn-x1N"/>
-                            <constraint firstItem="OQT-Wb-g3z" firstAttribute="top" secondItem="jSu-rz-ubC" secondAttribute="bottom" id="v7e-6O-yNc"/>
+                            <constraint firstItem="OQT-Wb-g3z" firstAttribute="top" secondItem="wUP-Se-tsp" secondAttribute="bottom" constant="48" id="tek-SC-FaA"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="3tj-GR-AGF">
@@ -561,12 +560,11 @@
                         <segue destination="bQV-Z5-ynm" kind="push" identifier="Categories" id="n3G-ME-bRv"/>
                         <segue destination="FxN-lI-6ec" kind="push" identifier="SellProduct" id="V6S-hJ-EVB"/>
                         <segue destination="5CA-LF-pUD" kind="push" identifier="IndicateLocation" id="HOf-mn-VEJ"/>
-                        <segue destination="KjO-ho-cvR" kind="push" identifier="ShowProduct" id="LHw-EZ-CK9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5K-lz-4xe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1439" y="-693"/>
+            <point key="canvasLocation" x="1511" y="-769"/>
         </scene>
         <!--Chat List View Controller-->
         <scene sceneID="BQj-Ab-1Gr">
@@ -765,7 +763,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dB1-e9-7bz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2249" y="205"/>
+            <point key="canvasLocation" x="1833" y="361"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="18A-eE-Rhw">
@@ -1048,7 +1046,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o53-zd-trT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2776" y="213"/>
+            <point key="canvasLocation" x="2448" y="297"/>
         </scene>
         <!--Sell Product View Controller-->
         <scene sceneID="yte-s5-Ch8">
@@ -1373,26 +1371,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tco-7f-4dW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3125" y="-1187"/>
-        </scene>
-        <!--Root View Controller-->
-        <scene sceneID="S5N-4A-ghv">
-            <objects>
-                <viewController storyboardIdentifier="rootViewController" id="UTE-Ho-EUo" customClass="RootViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="rtX-l4-v7W"/>
-                        <viewControllerLayoutGuide type="bottom" id="Alq-8U-Z0X"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="zdf-Oa-C7R">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Cu8-nk-saa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="262" y="-693"/>
+            <point key="canvasLocation" x="3089" y="-769"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="O3b-Qb-VSt">
@@ -1531,7 +1510,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4jc-gC-CZY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="854" y="163"/>
+            <point key="canvasLocation" x="622" y="-129"/>
         </scene>
         <!--Show Product View Controller-->
         <scene sceneID="bkE-jm-x8n">
@@ -1891,7 +1870,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cFa-1s-inp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1439" y="292"/>
+            <point key="canvasLocation" x="1155" y="316"/>
         </scene>
         <!--Product Location View Controller-->
         <scene sceneID="vNb-LX-MCG">
@@ -1902,11 +1881,11 @@
                         <viewControllerLayoutGuide type="bottom" id="PZ5-gl-Z4d"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hM0-Dh-jwJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="KtE-CT-aYO">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <connections>
                                     <outlet property="delegate" destination="1e2-Pe-z0n" id="sA0-wm-i7d"/>
                                 </connections>
@@ -2147,7 +2126,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wUK-Qc-0Xi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2249" y="1427"/>
+            <point key="canvasLocation" x="2329" y="1427"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="itM-kq-Mh2">
@@ -2259,7 +2238,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dOh-T2-16w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3197" y="497"/>
+            <point key="canvasLocation" x="2869" y="1427"/>
         </scene>
         <!--Change Password View Controller-->
         <scene sceneID="FeY-Kc-QZX">
@@ -2303,7 +2282,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h6O-nj-IHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3852" y="-9"/>
+            <point key="canvasLocation" x="3492" y="1427"/>
         </scene>
         <!--Photos In Detail View Controller-->
         <scene sceneID="Isz-iK-SAk">
@@ -2596,25 +2575,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yhs-sG-cXm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2179" y="-723"/>
-        </scene>
-        <!--Hamburguer Navigation Controller-->
-        <scene sceneID="lut-On-nci">
-            <objects>
-                <navigationController storyboardIdentifier="navigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="dPf-WV-Vw6" customClass="DLHamburguerNavigationController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ujy-n4-xph">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="EcC-Xj-x5y" kind="relationship" relationship="rootViewController" id="UIK-Ry-K1T"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="50v-eK-AFU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="854" y="-693"/>
+            <point key="canvasLocation" x="2191" y="-475"/>
         </scene>
         <!--Login By Email View Controller-->
         <scene sceneID="6yc-I2-YLk">
@@ -2804,10 +2765,9 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="HOf-mn-VEJ"/>
-        <segue reference="dvE-TI-lJz"/>
-        <segue reference="12S-md-pjw"/>
+        <segue reference="n3G-ME-bRv"/>
         <segue reference="b6L-hI-Q4s"/>
-        <segue reference="GO5-BN-lJQ"/>
-        <segue reference="VFl-zA-Skv"/>
+        <segue reference="G4e-Db-NKc"/>
+        <segue reference="V6S-hJ-EVB"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import FBSDKCoreKit
+import Parse
 import UIKit
 
 // private singleton instance
