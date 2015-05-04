@@ -48,7 +48,7 @@ class LGPartialProductSpec: QuickSpec {
                 expect(sut.distanceType).to(equal(DistanceType.Mi))
                 expect(sut.categoryId).to(equal(4))
                 expect(sut.status).to(equal(ProductStatus.Approved))
-                expect(sut.thumbnailURL).to(equal("/50/a2/f4/5f/b8ede3d0f6afacde9f0001f2a2753c6b_thumb.jpg"))
+                expect(sut.thumbnailURL).to(contain("/50/a2/f4/5f/b8ede3d0f6afacde9f0001f2a2753c6b_thumb.jpg"))
                 expect(sut.thumbnailSize).to(equal(LGSize(width: 200, height: 150)))
             }
         }

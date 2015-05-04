@@ -108,8 +108,8 @@ import SwiftyJSON
             let status = ProductStatus(rawValue: statusRaw) {
                 self.status = status
         }
-        if let thumbURL = json[LGPartialProduct.thumbnailURLJSONKey].string {
-            self.thumbnailURL = thumbURL
+        if let path = json[LGPartialProduct.thumbnailURLJSONKey].string {
+            self.thumbnailURL = EnvironmentProxy.sharedInstance.apiBaseURL + "/images" + path
         }
         if let width = json[LGPartialProduct.thumbnailSizeJSONKey][LGPartialProduct.widthJSONKey].int,
             let height = json[LGPartialProduct.thumbnailSizeJSONKey][LGPartialProduct.heightJSONKey].int {
