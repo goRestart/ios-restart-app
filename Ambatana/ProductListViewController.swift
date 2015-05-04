@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import Bolts
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -23,6 +25,9 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     weak var searchButton: UIButton!
     var refreshControl: UIRefreshControl!
     
+    // Manager
+    let productsManager: ProductsManager
+    
     // data
     var productToShow: PFObject?
     var offset = 0
@@ -37,6 +42,15 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
     var lastContentOffset: CGFloat = 0.0
     
     var unableToRetrieveLocationTimer: NSTimer?
+    
+    // MARK: Lifecycle
+    
+    required init(coder aDecoder: NSCoder) {
+        let sessionManager = SessionManager.sharedInstance
+        let productsService = LGProductsService()
+        self.productsManager = ProductsManager(sessionManager: sessionManager, productsService: productsService)
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,11 +169,6 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // MARK: - Button actions.
     
     @IBAction func toggleMenu(sender: AnyObject) {
@@ -255,8 +264,64 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
         if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastKnownLocation) { currentLocation = LocationManager.sharedInstance.lastKnownLocation }
         else if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation) { currentLocation = LocationManager.sharedInstance.lastRegisteredLocation }
         else if let userGeo = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint { currentLocation = CLLocationCoordinate2DMake(userGeo.latitude, userGeo.longitude) }
+
         if CLLocationCoordinate2DIsValid(currentLocation) {
             // Call to LetGo backend API.
+            let coordinates = LGLocationCoordinates2D(latitude: Float(currentLocation.latitude), longitude: Float(currentLocation.longitude))
+            let accessToken: String
+            if let sessionToken = SessionManager.sharedInstance.sessionToken {
+                accessToken = sessionToken.accessToken
+            }
+            else {
+                accessToken = ""
+            }
+            var params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)
+            if let queryString = currentSearchString {
+                params.queryString = queryString
+            }
+            if let categoryId = currentCategory {
+                params.categoryIds = [categoryId.rawValue]
+            }
+            params.sortCriteria = .Distance
+//            productsManager.retrieveProductsWithParams(params)?.continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
+//                if let strongSelf = self {
+//                    if task.error == nil {
+//                        let products = task.result as? NSArray
+//                        
+//                        strongSelf.queryingProducts = false
+////                        strongSelf.lastRetrievedProductsCount = retrievedItems
+////                        strongSelf.offset += retrievedItems
+////                        
+////                        // update entries
+////                        if (products != nil && successfullyParsedItems > 0) {
+////                            strongSelf.entries += products!
+////                            // Update UI
+////                            strongSelf.collectionView.reloadSections(NSIndexSet(index: 0))
+////                            strongSelf.disableLoadingInterface()
+////                        } else if (products?.count == 0) { // no more items found. Time to next bunch of products.
+////                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+////                                self.askForNextBunchOfProducts()
+////                            })
+////                        }
+//                    }
+//                    else {
+//                        
+//                    }
+//                }
+//                
+//                
+////                receivedProducts = task.result as? NSArray
+////                receivedError = task.error
+////                return nil
+//                return nil
+//            }
+            
+            
+            
+            
+            
+            
+            
             RESTManager.sharedInstance.getListOfProducts(currentSearchString, location: currentLocation, categoryId: currentCategory, sortBy: ConfigurationManager.sharedInstance.userFilterForProducts, offset: self.offset, status: nil, maxPrice: nil, distanceRadius: nil, minPrice: nil, fromUser: nil, completion: { (success, products, retrievedItems, successfullyParsedItems) -> Void in
                 if success {
                     //println("Retrieved products: \(products)")
@@ -277,19 +342,19 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                         })
                     }
                 } else { // error retrieving products.
-                    if iOSVersionAtLeast("8.0") {
-                        let alert = UIAlertController(title: nil, message: translate("unable_get_products"), preferredStyle:.Alert)
-                        alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { (action) -> Void in
-                            self.queryingProducts = false
-                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                                self.queryProducts()
-                            })
-                        }))
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    } else {
-                        let alert = UIAlertView(title: nil, message: translate("unable_get_products"), delegate: self, cancelButtonTitle: translate("try_again"))
-                        alert.show()
-                    }
+//                    if iOSVersionAtLeast("8.0") {
+//                        let alert = UIAlertController(title: nil, message: translate("unable_get_products"), preferredStyle:.Alert)
+//                        alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { (action) -> Void in
+//                            self.queryingProducts = false
+//                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+//                                self.queryProducts()
+//                            })
+//                        }))
+//                        self.presentViewController(alert, animated: true, completion: nil)
+//                    } else {
+//                        let alert = UIAlertView(title: nil, message: translate("unable_get_products"), delegate: self, cancelButtonTitle: translate("try_again"))
+//                        alert.show()
+//                    }
                     
                 }
                 // if refresh control was used, release it

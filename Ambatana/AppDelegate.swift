@@ -31,7 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
                
         // Crashlytics
+#if DEBUG
+#else
         Fabric.with([Crashlytics()])
+#endif
         
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.

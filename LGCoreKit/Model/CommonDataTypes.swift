@@ -38,7 +38,7 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 
 @objc public enum DistanceType: Int, Printable {
     case Mi, Km
-    var string: String {
+    public var string: String {
         get {
             switch self {
             case .Mi:
@@ -65,7 +65,7 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 
 @objc public enum ProductStatus: Int, Printable {
     case Pending = 0, Approved = 1, Discarded = 2, Sold = 3
-    var string: String {
+    public var string: String {
         get {
             switch self {
             case .Pending:
@@ -85,7 +85,7 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 
 @objc public enum Currency: Int, Printable {
     case EUR, USD
-    var string: String {
+    public var string: String {
         get {
             switch self {
             case .EUR:

@@ -60,14 +60,23 @@ final public class LGProductsService: ProductsService {
                 }
                 // Success
                 else if let actualData: AnyObject = data {
-                    let json = JSON(actualData)
-                    if let productsResponse = LGProductsResponse(json: json) {
-                        completion(products: productsResponse.products, lastPage: productsResponse.lastPage, error: nil)
-                    }
-                    else {
-                        let myError = NSError(code: LGErrorCode.Parsing)
-                        completion(products: nil, lastPage: nil, error: myError)
-                    }
+                    // TODO: Refactor this bg parsing with custom response handle in Alamofire
+                    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+                        
+                        let json = JSON(actualData)
+                        if let productsResponse = LGProductsResponse(json: json) {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                completion(products: productsResponse.products, lastPage: productsResponse.lastPage, error: nil)
+                            })
+                            
+                        }
+                        else {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                let myError = NSError(code: LGErrorCode.Parsing)
+                                completion(products: nil, lastPage: nil, error: myError)
+                            })
+                        }
+                    })
                 }
             })
     }

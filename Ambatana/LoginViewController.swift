@@ -52,7 +52,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
             let delayTime = dispatch_time(DISPATCH_TIME_NOW,
                 Int64(0.01 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {
-                self.performSegueWithIdentifier("StartApp", sender: nil)
+                self.openRootViewController()
             }
         } else {
             self.view.hidden = false
@@ -110,8 +110,8 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
                 // track user login/signing with facebook
                 TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLoginFacebook, eventParameters: nil)
                 
-                // perform initial segue
-                self.performSegueWithIdentifier("StartApp", sender: nil)
+                // go to root
+                self.openRootViewController()
             } else { // error login
                 //println("Error: \(error)")
                 if iOSVersionAtLeast("8.0") {
@@ -200,6 +200,21 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
                 }
             })
         }
+    }
+    
+    
+    func openRootViewController() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        // navVC contains productListVC as its root
+        let productsVC = ProductsViewController()
+//        let productsVC = storyboard.instantiateViewControllerWithIdentifier("productListViewController") as! UIViewController
+        let navVC = DLHamburguerNavigationController(rootViewController: productsVC)
+        
+        // rootVC has navVC as content and 
+        let menuVC = storyboard.instantiateViewControllerWithIdentifier("menuViewController") as! UIViewController
+        let rootVC = RootViewController(contentViewController: navVC, menuViewController: menuVC)
+        self.presentViewController(rootVC, animated: false, completion: nil)
     }
     
 }

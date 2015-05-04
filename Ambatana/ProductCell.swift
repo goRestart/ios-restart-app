@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -65,6 +66,40 @@ class ProductCell: UICollectionViewCell {
                     statusImageView.image = UIImage(named: "label_new")
             }
         }
+    }
+    
+    func setupCellWithPartialProduct(product: PartialProduct, indexPath: NSIndexPath) {
+        let tag = indexPath.hash
+        
+        // Name
+        nameLabel.text = product.name.lg_capitalizedWords()
+        
+        // Price
+//        let currency = product.currency ?? .USD
+//        priceLabel.text = currency.formattedCurrency(product.price)
+//        
+//        // Thumb
+//        let thumbURL = NSURL(string: product.thumbnailURL)
+//        thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
+//            [weak self] (image, error, cacheType, url) -> Void in
+//            if error == nil {
+//                self?.thumbnailImageView.image = image
+//            }
+//            })
+//        
+//        // Distance
+//        distanceLabel.text = distanceStringToProduct(product)
+//        
+//        // Status
+//        if let status = product.status {
+//            if (status == .Sold) {
+//                statusImageView.image = UIImage(named: "label_sold")
+//            }
+//            else if product.creationDate != nil &&
+//                NSDate().timeIntervalSinceDate(product.creationDate!) < 60*60*24 {
+//                    statusImageView.image = UIImage(named: "label_new")
+//            }
+//        }
     }
     
     // Configures the cell with the given product for the given index path

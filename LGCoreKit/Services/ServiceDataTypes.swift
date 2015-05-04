@@ -38,7 +38,7 @@ public struct RetrieveProductsParams: Printable, Equatable {
     
     public var accessToken: String
     
-    public init?(coordinates: LGLocationCoordinates2D, accessToken: String) {
+    public init(coordinates: LGLocationCoordinates2D, accessToken: String) {
         self.coordinates = coordinates
         self.accessToken = accessToken
     }

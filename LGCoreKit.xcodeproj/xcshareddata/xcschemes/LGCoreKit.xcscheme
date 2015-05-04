@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6608E0351A820FBD005895ED"
-               BuildableName = "LetGo.app"
-               BlueprintName = "LetGo"
-               ReferencedContainer = "container:LetGo.xcodeproj">
+               BlueprintIdentifier = "D4B5466A1AEFE1540062D183"
+               BuildableName = "LGCoreKit.framework"
+               BlueprintName = "LGCoreKit"
+               ReferencedContainer = "container:LGCoreKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -28,10 +28,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4B5462E1AEFDD920062D183"
-               BuildableName = "letgoTests.xctest"
-               BlueprintName = "letgoTests"
-               ReferencedContainer = "container:LetGo.xcodeproj">
+               BlueprintIdentifier = "D4B546751AEFE1540062D183"
+               BuildableName = "LGCoreKitTests.xctest"
+               BlueprintName = "LGCoreKitTests"
+               ReferencedContainer = "container:LGCoreKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -46,20 +46,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4B5462E1AEFDD920062D183"
-               BuildableName = "letgoTests.xctest"
-               BlueprintName = "letgoTests"
-               ReferencedContainer = "container:LetGo.xcodeproj">
+               BlueprintIdentifier = "D4B546751AEFE1540062D183"
+               BuildableName = "LGCoreKitTests.xctest"
+               BlueprintName = "LGCoreKitTests"
+               ReferencedContainer = "container:LGCoreKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6608E0351A820FBD005895ED"
-            BuildableName = "LetGo.app"
-            BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
+            BlueprintIdentifier = "D4B5466A1AEFE1540062D183"
+            BuildableName = "LGCoreKit.framework"
+            BlueprintName = "LGCoreKit"
+            ReferencedContainer = "container:LGCoreKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -72,22 +72,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6608E0351A820FBD005895ED"
-            BuildableName = "LetGo.app"
-            BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
+            BlueprintIdentifier = "D4B5466A1AEFE1540062D183"
+            BuildableName = "LGCoreKit.framework"
+            BlueprintName = "LGCoreKit"
+            ReferencedContainer = "container:LGCoreKit.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "-environment-dev"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -97,16 +90,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6608E0351A820FBD005895ED"
-            BuildableName = "LetGo.app"
-            BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
+            BlueprintIdentifier = "D4B5466A1AEFE1540062D183"
+            BuildableName = "LGCoreKit.framework"
+            BlueprintName = "LGCoreKit"
+            ReferencedContainer = "container:LGCoreKit.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

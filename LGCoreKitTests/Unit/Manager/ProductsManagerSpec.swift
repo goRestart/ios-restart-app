@@ -40,7 +40,7 @@ class EdibleSharedExamplesConfiguration: QuickConfiguration {
             }
             
             describe("first page retrieval") {
-                let params = RetrieveProductsParams(coordinates: LGLocationCoordinates2D(latitude: 0, longitude: 0), accessToken: "")!
+                let params = RetrieveProductsParams(coordinates: LGLocationCoordinates2D(latitude: 0, longitude: 0), accessToken: "")
                 
                 describe("a last page response") {
                     let products = LGPartialProduct.mocks(5)
@@ -130,9 +130,8 @@ class EdibleSharedExamplesConfiguration: QuickConfiguration {
             }
             
             describe("next page retrieval after a first page one") {
-                let params = RetrieveProductsParams(coordinates: LGLocationCoordinates2D(latitude: 0, longitude: 0), accessToken: "")!
-                
-                
+                let params = RetrieveProductsParams(coordinates: LGLocationCoordinates2D(latitude: 0, longitude: 0), accessToken: "")
+                                
                 beforeEach {
                     productsService.products = LGPartialProduct.mocks(20)
                     productsService.lastPage = false
@@ -246,7 +245,7 @@ class EdibleSharedExamplesConfiguration: QuickConfiguration {
             }
             
             describe("first page retrieval") {
-                let params = RetrieveProductsParams(coordinates: LGLocationCoordinates2D(latitude: 0, longitude: 0), accessToken: "")!
+                let params = RetrieveProductsParams(coordinates: LGLocationCoordinates2D(latitude: 0, longitude: 0), accessToken: "")
                 
                 beforeEach {
                     sut.retrieveProductsWithParams(params)?.continueWithBlock(completion)
@@ -267,7 +266,7 @@ class EdibleSharedExamplesConfiguration: QuickConfiguration {
             }
             
             describe("next page retrieval, when first succeeded") {
-                let params = RetrieveProductsParams(coordinates: LGLocationCoordinates2D(latitude: 0, longitude: 0), accessToken: "")!
+                let params = RetrieveProductsParams(coordinates: LGLocationCoordinates2D(latitude: 0, longitude: 0), accessToken: "")
 
                 beforeEach {
                     let expiredToken = LGSessionToken(accessToken: "", expirationDate: NSDate(timeIntervalSinceNow: -3600))

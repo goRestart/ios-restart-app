@@ -47,7 +47,7 @@ class LGProductsServiceSpec: QuickSpec {
                     let coordinates = LGLocationCoordinates2D(latitude: 41.404819, longitude: 2.154288)
                     let accessToken = "NDMyNGU2ODhiZTk3YjdhZWZhNmY0YTRmYzY4NGNmMDY2NmVkYjJlMTNiYTAxYjBhYjM4Mjg2ZTJlODBhOTUwMg"
 
-                    let params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)!
+                    let params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)
                     sut.retrieveProductsWithParams(params, completion: completion)
                 }
                 it("should receive products") {
@@ -73,7 +73,7 @@ class LGProductsServiceSpec: QuickSpec {
                     let coordinates = LGLocationCoordinates2D(latitude: 41.404819, longitude: 2.154288)
                     let accessToken = "NDMyNGU2ODhiZTk3YjdhZWZhNmY0YTRmYzY4NGNmMDY2NmVkYjJlMTNiYTAxYjBhYjM4Mjg2ZTJlODBhOTUwMg"
                     
-                    let params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)!
+                    let params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)
                     sut.retrieveProductsWithParams(params, completion: completion)
                 }
                 it("should receive products") {
@@ -99,7 +99,7 @@ class LGProductsServiceSpec: QuickSpec {
                     let coordinates = LGLocationCoordinates2D(latitude: 41.404819, longitude: 2.154288)
                     let accessToken = "NDMyNGU2ODhiZTk3YjdhZWZhNmY0YTRmYzY4NGNmMDY2NmVkYjJlMTNiYTAxYjBhYjM4Mjg2ZTJlODBhOTUwMg"
                     
-                    let params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)!
+                    let params = RetrieveProductsParams(coordinates: coordinates, accessToken: accessToken)
                     sut.retrieveProductsWithParams(params, completion: completion)
                 }
                 it("should not receive products") {

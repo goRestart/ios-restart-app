@@ -84,7 +84,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-environment-dev"
+            argument = "-environment-prod"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
