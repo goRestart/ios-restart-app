@@ -31,7 +31,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var userAvatarImageView: UIButton!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var publishedTimeLabel: UILabel!
     @IBOutlet weak var itemLocationMapView: MKMapView!
     @IBOutlet weak var markSoldButton: UIButton!
     @IBOutlet weak var imagesPageControl: UIPageControl!
@@ -73,7 +72,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         priceLabel.text = ""
         nameLabel.text = ""
         descriptionLabel.text = ""
-        publishedTimeLabel.text = ""
         usernameLabel.text = ""
         
         // set scrollview content size.
@@ -192,12 +190,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             else {
                 descriptionLabel.hidden = true
             }
-            
-            // product published date.
-            if productObject.createdAt != nil {
-                publishedTimeLabel.text = productObject.createdAt!.relativeTimeString().lowercaseString
-                publishedTimeLabel.hidden = false
-            } else { publishedTimeLabel.hidden = true }
             
             // location in map
             if let productLocation = productObject["gpscoords"] as? PFGeoPoint {
