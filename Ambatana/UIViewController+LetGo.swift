@@ -9,7 +9,7 @@
 import Parse
 import UIKit
 
-private let kLetGoFadingAlertDismissalTime: Double = 3.0
+private let kLetGoFadingAlertDismissalTime: Double = 1.5
 private let kLetGoSearchBarHeight: CGFloat = 44
 private let kLetGoBadgeContainerViewTag = 500
 private let kLetGoBadgeViewTag = 501
@@ -125,13 +125,17 @@ extension UIViewController {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    // Shows an alert message that fades out after kLetGoFadingAlertDismissalTime seconds
     func showAutoFadingOutMessageAlert(message: String, completionBlock: ((Void) -> Void)? = nil) {
+        showAutoFadingOutMessageAlert(message, time: kLetGoFadingAlertDismissalTime, completionBlock: completionBlock)
+    }
+    
+    // Shows an alert message that fades out after kLetGoFadingAlertDismissalTime seconds
+    func showAutoFadingOutMessageAlert(message: String, time: Double, completionBlock: ((Void) -> Void)? = nil) {
         if iOSVersionAtLeast("8.0") { // Use the new UIAlertController.
             let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
             self.presentViewController(alert, animated: true, completion: nil)
             // Schedule auto fading out of alert message
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kLetGoFadingAlertDismissalTime * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in
                     if completionBlock != nil { completionBlock!() }
                 })
@@ -139,7 +143,7 @@ extension UIViewController {
         } else { // fallback to ios 7 UIAlertView
             let alert = UIAlertView(title: nil, message: message, delegate: nil, cancelButtonTitle: nil)
             alert.show()
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(kLetGoFadingAlertDismissalTime * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                 alert.dismissWithClickedButtonIndex(0, animated: false)
                 if completionBlock != nil { completionBlock!() }
             }
