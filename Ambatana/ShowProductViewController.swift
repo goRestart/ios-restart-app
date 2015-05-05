@@ -41,7 +41,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var fromYouLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var zipCodelLabel: UILabel!
+    @IBOutlet weak var zipCodelLabel: UILabel!   
     
     var favoriteButton: UIButton!
     @IBOutlet weak var errorLoadingPhotosLabel: UILabel!

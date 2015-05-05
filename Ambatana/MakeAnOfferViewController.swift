@@ -71,23 +71,29 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         enableLoadingInterface()
         
         // check if we have some current conversation with the user
-        ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser!, aboutProduct: productObject!) { (success, conversation) -> Void in
-            if success { // we have a conversation.
-                // try to add the offer text first.
-                ChatManager.sharedInstance.addTextMessage(offerText, toUser: self.productUser!, inConversation: conversation!, fromProduct: self.productObject!, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
-                    if success { self.launchChatWithConversation(conversation!) }
-                    else { self.disableLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
-                })
-            } else { // we need to create a conversation and pass it.
-                ChatManager.sharedInstance.createConversationWithUser(self.productUser!, aboutProduct: self.productObject!, completion: { (success, conversation) -> Void in
-                    if success {
-                        ChatManager.sharedInstance.addTextMessage(offerText, toUser: self.productUser!, inConversation: conversation!, fromProduct: self.productObject!, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
-                            if success { self.launchChatWithConversation(conversation!) }
-                            else { self.disableLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
-                        })
-                    }
-                    else { self.disableLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
-                })
+        ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser!, aboutProduct: productObject!) { [weak self] (success, conversation) -> Void in
+            if let strongSelf = self {
+                if success { // we have a conversation.
+                    // try to add the offer text first.
+                    ChatManager.sharedInstance.addTextMessage(offerText, toUser: strongSelf.productUser!, inConversation: conversation!, fromProduct: strongSelf.productObject!, isOffer: true, completion: { [weak self] (success, newlyCreatedMessageObject) -> Void in
+                        if let strongSelf = self {
+                            if success { strongSelf.launchChatWithConversation(conversation!) }
+                            else { strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
+                        }
+                    })
+                } else { // we need to create a conversation and pass it.
+                    ChatManager.sharedInstance.createConversationWithUser(strongSelf.productUser!, aboutProduct: strongSelf.productObject!, completion: { [weak self] (success, conversation) -> Void in
+                        if let strongSelf = self {
+                            if success {
+                                ChatManager.sharedInstance.addTextMessage(offerText, toUser: strongSelf.productUser!, inConversation: conversation!, fromProduct: strongSelf.productObject!, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
+                                    if success { strongSelf.launchChatWithConversation(conversation!) }
+                                    else { strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
+                                })
+                            }
+                            else { strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+                        }
+                    })
+                }
             }
         }
     }

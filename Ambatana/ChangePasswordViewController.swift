@@ -52,22 +52,24 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
             // change password
             showLoadingMessageAlert()
             PFUser.currentUser()!.password = passwordTextfield.text
-            PFUser.currentUser()!.saveInBackgroundWithBlock({ (success, error) -> Void in
-                if success {
-                    self.dismissLoadingMessageAlert(completion: { () -> Void in
-                        // clean fields
-                        self.passwordTextfield.text = ""
-                        self.confirmPasswordTextfield.text = ""
-                        // show alert message and pop back to settings after finished.
-                        self.showAutoFadingOutMessageAlert(translate("password_successfully_changed"), completionBlock: { (_) -> Void in
-                            self.popBackViewController()
+            PFUser.currentUser()!.saveInBackgroundWithBlock({ [weak self] (success, error) -> Void in
+                if let strongSelf = self {
+                    if success {
+                        strongSelf.dismissLoadingMessageAlert(completion: { () -> Void in
+                            // clean fields
+                            strongSelf.passwordTextfield.text = ""
+                            strongSelf.confirmPasswordTextfield.text = ""
+                            // show alert message and pop back to settings after finished.
+                            strongSelf.showAutoFadingOutMessageAlert(translate("password_successfully_changed"), completionBlock: { (_) -> Void in
+                                strongSelf.popBackViewController()
+                            })
+                            
                         })
-
-                    })
-                } else {
-                    self.dismissLoadingMessageAlert(completion: { () -> Void in
-                        self.showAutoFadingOutMessageAlert(translate("error_changing_password"))
-                    })
+                    } else {
+                        strongSelf.dismissLoadingMessageAlert(completion: { () -> Void in
+                            strongSelf.showAutoFadingOutMessageAlert(translate("error_changing_password"))
+                        })
+                    }
                 }
             })
         }

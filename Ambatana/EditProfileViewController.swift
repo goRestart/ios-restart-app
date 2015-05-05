@@ -259,35 +259,39 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             loadingSellProducts = true
             var statuses: [LetGoProductStatus] = [.Approved]
             if userObject?.objectId == PFUser.currentUser()?.objectId { statuses.append(.Pending) }
-            self.retrieveProductsForUserId(userObject?.objectId, statuses: statuses, completion: { (products, error) -> (Void) in
-                if error == nil && products.count > 0 {
-                    self.sellProducts = products
+            self.retrieveProductsForUserId(userObject?.objectId, statuses: statuses, completion: { [weak self] (products, error) -> (Void) in
+                if let strongSelf = self {
+                    if error == nil && products.count > 0 {
+                        strongSelf.sellProducts = products
+                    }
+                    strongSelf.loadingSellProducts = false
+                    strongSelf.retrievalFinishedForProductsAtTab(tab)
                 }
-                self.loadingSellProducts = false
-                self.retrievalFinishedForProductsAtTab(tab)
             })
         case .ProductISold:
             loadingSoldProducts = true
             
-            self.retrieveProductsForUserId(userObject?.objectId, statuses: [.Sold], completion: {
-                (products, error) -> Void in
-                if error == nil && products.count > 0 {
-                    self.soldProducts = products
+            self.retrieveProductsForUserId(userObject?.objectId, statuses: [.Sold], completion: { [weak self] (products, error) -> Void in
+                if let strongSelf = self {
+                    if error == nil && products.count > 0 {
+                        strongSelf.soldProducts = products
+                    }
+                    strongSelf.loadingSoldProducts = false
+                    strongSelf.retrievalFinishedForProductsAtTab(tab)
                 }
-                self.loadingSoldProducts = false
-                self.retrievalFinishedForProductsAtTab(tab)
             })
             
         case .ProductFavourite:
             loadingFavProducts = true
             
-            self.retrieveFavouriteProductsForUserId(userObject?.objectId, completion: {
-                (products, error) -> Void in
-                if error == nil && products.count > 0 {
-                    self.favProducts = products
+            self.retrieveFavouriteProductsForUserId(userObject?.objectId, completion: { [weak self] (products, error) -> Void in
+                if let strongSelf = self {
+                    if error == nil && products.count > 0 {
+                        strongSelf.favProducts = products
+                    }
+                    strongSelf.loadingFavProducts = false
+                    strongSelf.retrievalFinishedForProductsAtTab(tab)
                 }
-                self.loadingFavProducts = false
-                self.retrievalFinishedForProductsAtTab(tab)
             })
         }
     }
