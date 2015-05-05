@@ -520,33 +520,36 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     // MARK: - Sharing & searching...
     
     func shareItem() {
-        // build items to share
-        var itemsToShare: [AnyObject] = []
-        
-        // text
-        let productName = productObject?["name"] as? String ?? ""
-        let userName = usernameLabel.text!
-        let textToShare = letgoTextForSharingBody(productName, userName, andObjectId: productObject!.objectId!)
-        itemsToShare.append(textToShare)
-        // image
-        if productImages.count > 0 {
-            let firstImage = productImages.first!
-            itemsToShare.append(firstImage)
+        if let product = productObject, let objectId = product.objectId {
+            // build items to share
+            var itemsToShare: [AnyObject] = []
+            
+            // text
+            let productName = product["name"] as? String ?? ""
+            let userName = usernameLabel.text!
+            let textToShare = letgoTextForSharingBody(productName, userName, andObjectId: objectId)
+            itemsToShare.append(textToShare)
+            
+            // image
+            if !productImages.isEmpty {
+                let firstImage = productImages.first!
+                itemsToShare.append(firstImage)
+            }
+            
+            // show activity view controller.
+            let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
+
+            activityVC.excludedActivityTypes = [UIActivityTypePrint, UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypeAirDrop, UIActivityTypeSaveToCameraRoll] // we don't want those to show in the sharing dialog.
+//            activityVC.setValue(translate("product_share_email_subject_intro"), forKey: "subject") // for email.
+            
+            // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
+            // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
+            if activityVC.respondsToSelector("popoverPresentationController") {
+                let presentationController = activityVC.popoverPresentationController
+                presentationController?.sourceView = self.view
+            }
+            self.presentViewController(activityVC, animated: true, completion: nil)
         }
-        // url
-        itemsToShare.append(letgoWebLinkForObjectId(productObject!.objectId!))
-        
-        // show activity view controller.
-        let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
-        activityVC.excludedActivityTypes = [UIActivityTypePrint, UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypeAirDrop, UIActivityTypeSaveToCameraRoll] // we don't want those to show in the sharing dialog.
-//        activityVC.setValue(translate("product_share_email_subject_intro"), forKey: "subject") // for email.
-        
-        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
-        if activityVC.respondsToSelector("popoverPresentationController") {
-            let presentationController = activityVC.popoverPresentationController
-            presentationController?.sourceView = self.view
-        }
-        self.presentViewController(activityVC, animated: true, completion: nil)
     }
 
     // MARK: - Favourite Requests & helpers
