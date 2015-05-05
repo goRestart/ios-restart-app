@@ -108,9 +108,9 @@
 "unknown" = "Unknown";
 "by" = "By";
 "published" = "Published";
-"mark_as_sold" = "Mark as sold";
-"make_an_offer" = "Make an offer";
-"ask_a_question" = "Ask a question";
+"mark_as_sold" = "Mark as Sold";
+"make_an_offer" = "Make an Offer";
+"ask_a_question" = "Ask a Question";
 "share_this_item" = "Share this item on";
 "sell" = "Sell";
 "selling_button" = "Sell";
@@ -165,9 +165,8 @@
 "uploading_image_please_wait" = "Uploading image, please wait...";
 "error_uploading_product" = "An error happened while registering your product. ";
 "here" = "Here";
-"mark_as_sold" = "Mark as sold";
 "are_you_sure_mark_sold" = "Are you sure you want to mark this item as sold?";
-"marked_as_sold" = "Marked as sold";
+"marked_as_sold" = "Marked as Sold";
 "error_marking_as_sold" = "There was an error while marking the product as sold. Please, try again later.";
 "loading_conversations" = "Loading conversations...";
 "product" = "Product";
