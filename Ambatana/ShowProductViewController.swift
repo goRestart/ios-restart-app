@@ -40,6 +40,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var fromYouLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var zipCodelLabel: UILabel!
+    
     var favoriteButton: UIButton!
     @IBOutlet weak var errorLoadingPhotosLabel: UILabel!
     
@@ -73,6 +76,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         nameLabel.text = ""
         descriptionLabel.text = ""
         usernameLabel.text = ""
+        cityLabel.text = ""
+        zipCodelLabel.text = ""
         
         // set scrollview content size.
         let svSize = self.scrollView.bounds.size
@@ -189,6 +194,14 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             }
             else {
                 descriptionLabel.hidden = true
+            }
+            
+            // city & zip code
+            if let city = productObject["city"] as? String {
+                cityLabel.text = city.lg_capitalizedWord()
+            }
+            if let zipCode = productObject["zip_code"] as? String {
+                zipCodelLabel.text = "(" + zipCode + ")"
             }
             
             // location in map
