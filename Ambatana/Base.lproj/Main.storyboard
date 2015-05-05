@@ -1873,9 +1873,6 @@
                         <outlet property="userAvatarImageView" destination="vk6-rJ-eLj" id="GrN-AG-oIs"/>
                         <outlet property="usernameLabel" destination="X9o-KA-S7j" id="JyU-Za-DhG"/>
                         <outlet property="zipCodelLabel" destination="Yzo-YQ-yLa" id="2fn-0U-0ma"/>
-                        <outletCollection property="separatorViews" destination="AWr-r7-MLG" collectionClass="NSMutableArray" id="pMe-w6-XZG"/>
-                        <outletCollection property="separatorViews" destination="uO5-sX-W6n" collectionClass="NSMutableArray" id="MOX-Eq-kCW"/>
-                        <outletCollection property="separatorViews" destination="AoY-jI-yix" collectionClass="NSMutableArray" id="laB-3u-rCX"/>
                         <segue destination="9k4-lE-YS1" kind="push" identifier="ShowPhotosInDetail" id="9Ou-RJ-pDE"/>
                         <segue destination="avJ-VO-bKh" kind="push" identifier="ShowProductUser" id="VFl-zA-Skv"/>
                         <segue destination="J7x-I7-tMF" kind="push" identifier="MakeAnOffer" id="UKH-Lx-VXM"/>

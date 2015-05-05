@@ -214,22 +214,19 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // product owner information.
         if let storedOwner = retrievedObject?["user"] as? PFObject {
-            storedOwner.fetchIfNeededInBackgroundWithBlock({ (retrievedOwner, error) -> Void in
-                if error == nil && retrievedOwner != nil {
-                    // "by you" or "by other-user-name"
-                    if retrievedOwner!.objectId == PFUser.currentUser()?.objectId { // hello me!
-                        translate("by") + " " + translate("you")
-                    } else { // some other guy...
-                        self.usernameLabel.text = translate("by") + " " + (retrievedOwner!["username_public"] as? String ?? translate("user"))
-                    }
-                } else { self.usernameLabel.text = translate("user") }
+            storedOwner.fetchIfNeededInBackgroundWithBlock({ [weak self] (retrievedOwner, error) -> Void in
+                if let strongSelf = self {
+                    if error == nil && retrievedOwner != nil {
+                        // "by you" or "by other-user-name"
+                        if retrievedOwner!.objectId == PFUser.currentUser()?.objectId { // hello me!
+                            translate("by") + " " + translate("you")
+                        } else { // some other guy...
+                            strongSelf.usernameLabel.text = translate("by") + " " + (retrievedOwner!["username_public"] as? String ?? translate("user"))
+                        }
+                    } else { strongSelf.usernameLabel.text = translate("user") }
+                }
             })
         } else { self.usernameLabel.text = translate("user") }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Loading interface

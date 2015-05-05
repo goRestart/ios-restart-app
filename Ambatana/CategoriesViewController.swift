@@ -112,16 +112,18 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     * Performs a query of the (favorite) categories for the current user. On failure, tries to fallback to the default language (if not on it already).
     */
     func performCategoriesQuery(query: PFQuery, isDefaultLanguage defaultLanguage: Bool) {
-        query.findObjectsInBackgroundWithBlock { (results, error) -> Void in
-            if error == nil { // check if there are results for that language or we need to fallback to "en".
-                if results?.count > 0 { // alright, we do have some categories for that language.
-                    self.categories = results as! [PFObject]? ?? []
-                    self.collectionView.reloadSections(NSIndexSet(index: 0))
-                } else { // fallback
-                    self.fallbackForCategoriesQuery(defaultLanguage: defaultLanguage)
+        query.findObjectsInBackgroundWithBlock { [weak self] (results, error) -> Void in
+            if let strongSelf = self {
+                if error == nil { // check if there are results for that language or we need to fallback to "en".
+                    if results?.count > 0 { // alright, we do have some categories for that language.
+                        strongSelf.categories = results as! [PFObject]? ?? []
+                        strongSelf.collectionView.reloadSections(NSIndexSet(index: 0))
+                    } else { // fallback
+                        strongSelf.fallbackForCategoriesQuery(defaultLanguage: defaultLanguage)
+                    }
+                } else { // error. fallback
+                    strongSelf.fallbackForCategoriesQuery(defaultLanguage: defaultLanguage)
                 }
-            } else { // error. fallback
-                self.fallbackForCategoriesQuery(defaultLanguage: defaultLanguage)
             }
         }
         

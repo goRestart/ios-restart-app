@@ -65,11 +65,6 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: "ConversationCell")
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -80,8 +75,12 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         // clean badge and notifications.
         PFInstallation.currentInstallation().badge = 0
         PFInstallation.currentInstallation().saveInBackgroundWithBlock({ (success, error) -> Void in
-            if error != nil { PFInstallation.currentInstallation().saveEventually(nil) }
-            else { NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil) }
+            if error != nil {
+                PFInstallation.currentInstallation().saveEventually(nil)
+            }
+            else {
+                NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil)
+            }
         })
         
         // Tracking
@@ -94,20 +93,26 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         // retrieve conversations
         if force || (conversations == nil || itsAboutTimeToRefreshConversations()) {
             if conversations == nil { enableLoadingConversationsInterface() }
-            ChatManager.sharedInstance.retrieveMyConversationsWithCompletion({ (success, conversations) -> Void in
-                if success && conversations?.count > 0 {
-                    self.conversations = conversations
-                    self.enableConversationsInterface()
-                } else { self.enableNoConversationsInterface() }
-                // release pull to refresh
-                self.refreshControl.endRefreshing()
-                // register that we have updated our conversation records.
-                self.lastTimeConversationsWhereRetrieved = NSDate()
+            ChatManager.sharedInstance.retrieveMyConversationsWithCompletion({ [weak self] (success, conversations) -> Void in
+                if let strongSelf = self {
+                    if success && conversations?.count > 0 {
+                        strongSelf.conversations = conversations
+                        strongSelf.enableConversationsInterface()
+                    }
+                    else {
+                        strongSelf.enableNoConversationsInterface()
+                    }
+                    // release pull to refresh
+                    strongSelf.refreshControl.endRefreshing()
+                    // register that we have updated our conversation records.
+                    strongSelf.lastTimeConversationsWhereRetrieved = NSDate()
+                }
             })
         } else { // we already tried to load some conversations.
             if conversations!.count > 0 { // we do have some conversations
                 enableConversationsInterface()
-            } else { // no conversations.
+            }
+            else { // no conversations.
                 enableNoConversationsInterface()
             }
             // release pull to refresh
