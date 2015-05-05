@@ -18,6 +18,8 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var statusImageView: UIImageView!
     
+    
+    
     // MARK: - Lifecycle
     
     override func awakeFromNib() {
@@ -199,6 +201,8 @@ class ProductCell: UICollectionViewCell {
     
     // Sets up the UI
     private func setupUI() {
+        self.contentView.layer.borderColor = UIColor(white: 229.0/255.0, alpha: 1).CGColor
+        self.contentView.layer.borderWidth = 0.5;
 //        nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
 //
 //        let boldBodyDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody).fontDescriptorWithSymbolicTraits(.TraitBold)
