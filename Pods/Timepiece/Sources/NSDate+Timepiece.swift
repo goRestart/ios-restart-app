@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Calculation
+
 public func + (lhs: NSDate, rhs: Duration) -> NSDate {
     return NSCalendar.currentCalendar().dateByAddingDuration(rhs, toDate: lhs, options: .SearchBackwards)!
 }
@@ -15,6 +17,24 @@ public func + (lhs: NSDate, rhs: Duration) -> NSDate {
 public func - (lhs: NSDate, rhs: Duration) -> NSDate {
     return NSCalendar.currentCalendar().dateByAddingDuration(-rhs, toDate: lhs, options: .SearchBackwards)!
 }
+
+// MARK: - Equatable
+
+extension NSDate: Equatable {}
+
+public func == (lhs: NSDate, rhs: NSDate) -> Bool {
+    return lhs.isEqualToDate(rhs)
+}
+
+// MARK: - Comparable
+
+extension NSDate: Comparable {}
+
+public func < (lhs: NSDate, rhs: NSDate) -> Bool {
+    return lhs.compare(rhs) == .OrderedAscending
+}
+
+// MARK: -
 
 public extension NSDate {
     // MARK: - Get components

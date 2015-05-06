@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 LetGo. All rights reserved.
 //
 
+import Alamofire
 import CoreLocation
 import LGCoreKit
 import Parse

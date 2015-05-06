@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DD65AA99208A05D029379B /* Pods_LetGo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		50CE389C1AF7572800F48769 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5089D2841AF2489F009F587F /* LGCoreKit.framework */; };
-		50CE389D1AF7572800F48769 /* LGCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5089D2841AF2489F009F587F /* LGCoreKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
 		6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03D1A820FBD005895ED /* LoginViewController.swift */; };
@@ -65,7 +63,6 @@
 		66C056D71A97900800F7EEA8 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C056D61A97900800F7EEA8 /* PlaceholderTextView.swift */; };
 		66C0D0041AA5E9BB0070F311 /* CustomBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C0D0031AA5E9BB0070F311 /* CustomBadge.swift */; };
 		66C834B11ADBC5DB002FF142 /* RESTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C834B01ADBC5DB002FF142 /* RESTManager.swift */; };
-		66C834B51ADBD68A002FF142 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C834B41ADBD68A002FF142 /* Alamofire.swift */; };
 		66C834B71ADBEA4E002FF142 /* LetGoProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C834B61ADBEA4E002FF142 /* LetGoProduct.swift */; };
 		66E3D0A91A89073B00BC283C /* UIViewController+LetGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */; };
 		66E50FAF1AE15D32000A7D44 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E50FAE1AE15D32000A7D44 /* CHTCollectionViewWaterfallLayout.m */; };
@@ -103,23 +100,8 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		50CE389E1AF7572800F48769 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				50CE389D1AF7572800F48769 /* LGCoreKit.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.debug.xcconfig"; sourceTree = "<group>"; };
-		5089D2841AF2489F009F587F /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "../../../../Library/Developer/Xcode/DerivedData/LetGo-ccjfgelbffbkkccablixitukzsvt/Build/Products/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -180,8 +162,6 @@
 		66C056D61A97900800F7EEA8 /* PlaceholderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
 		66C0D0031AA5E9BB0070F311 /* CustomBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBadge.swift; sourceTree = "<group>"; };
 		66C834B01ADBC5DB002FF142 /* RESTManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RESTManager.swift; sourceTree = "<group>"; };
-		66C834B31ADBD68A002FF142 /* Alamofire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Alamofire.h; sourceTree = "<group>"; };
-		66C834B41ADBD68A002FF142 /* Alamofire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		66C834B61ADBEA4E002FF142 /* LetGoProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetGoProduct.swift; sourceTree = "<group>"; };
 		66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+LetGo.swift"; sourceTree = "<group>"; };
 		66E50FAD1AE15D32000A7D44 /* CHTCollectionViewWaterfallLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTCollectionViewWaterfallLayout.h; sourceTree = "<group>"; };
@@ -210,7 +190,6 @@
 		D4B5462F1AEFDD920062D183 /* letgoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = letgoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B546321AEFDD920062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4B546331AEFDD920062D183 /* letgoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = letgoTests.swift; sourceTree = "<group>"; };
-		D4B546871AEFE1B60062D183 /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "build/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		D4B9AF961AF69FB500D88A30 /* ProductsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
 		D4B9AF9D1AF6A03800D88A30 /* ProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
 		D4B9AF9E1AF6A03800D88A30 /* ProductsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductsViewController.xib; sourceTree = "<group>"; };
@@ -224,7 +203,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6640F04A1AE142D800004556 /* libGoogleConversionTracking.a in Frameworks */,
-				50CE389C1AF7572800F48769 /* LGCoreKit.framework in Frameworks */,
 				6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */,
 				66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */,
 				66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */,
@@ -359,7 +337,6 @@
 				D44E06611AE701D900A7D3CA /* Fabric.framework */,
 				66E50FAC1AE15D09000A7D44 /* CHTCollectionViewWaterfallLayout */,
 				6640F0431AE142C900004556 /* Google Conversion Tracking */,
-				66C834B21ADBD670002FF142 /* Alamofire */,
 				665713E71AADF14100B4721C /* DLImageResize */,
 				66349B4D1AACAD0D00AE0FDF /* DLHamburguer */,
 				66C0D0021AA5E9990070F311 /* Custom Badge */,
@@ -538,15 +515,6 @@
 			name = "Custom Badge";
 			sourceTree = "<group>";
 		};
-		66C834B21ADBD670002FF142 /* Alamofire */ = {
-			isa = PBXGroup;
-			children = (
-				66C834B31ADBD68A002FF142 /* Alamofire.h */,
-				66C834B41ADBD68A002FF142 /* Alamofire.swift */,
-			);
-			name = Alamofire;
-			sourceTree = "<group>";
-		};
 		66DCEDF61ADBBE43006FDFD8 /* RESTManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -575,8 +543,6 @@
 		ABA47C14BB52140048297810 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5089D2841AF2489F009F587F /* LGCoreKit.framework */,
-				D4B546871AEFE1B60062D183 /* LGCoreKit.framework */,
 				6640F0411AE141A800004556 /* libGoogleConversionTracking.a */,
 				6640F03F1AE13EBE00004556 /* AdSupport.framework */,
 				75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */,
@@ -693,7 +659,6 @@
 				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
 				D44E065F1AE7017E00A7D3CA /* ShellScript */,
 				2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */,
-				50CE389E1AF7572800F48769 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -894,7 +859,6 @@
 				66FC91191A921C970008AFAD /* SignUpViewController.swift in Sources */,
 				665D5ADC1ADE846F006A567A /* LetGoGoogleGeoLocation.swift in Sources */,
 				D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */,
-				66C834B51ADBD68A002FF142 /* Alamofire.swift in Sources */,
 				66A0CFEA1A8386A800FAADF0 /* ConfigurationManager.swift in Sources */,
 				66911D931A853A46006CFBE1 /* IndicateLocationViewController.swift in Sources */,
 				6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */,

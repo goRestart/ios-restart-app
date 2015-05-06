@@ -1,6 +1,0 @@
-framework module Mockingjay {
-  umbrella header "Pods-LGCoreKitTests-Mockingjay-umbrella.h"
-
-  export *
-  module * { export * }
-}

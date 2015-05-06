@@ -1,4 +1,0 @@
-{
-    "error": "invalid_grant",
-    "error_description": "The access token provided has expired."
-}
