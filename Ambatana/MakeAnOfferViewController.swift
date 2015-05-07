@@ -36,11 +36,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         makeAnOfferButton.setTitle(translate("send"), forState: .Normal)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "make-offer"])
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -77,8 +72,16 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                     // try to add the offer text first.
                     ChatManager.sharedInstance.addTextMessage(offerText, toUser: strongSelf.productUser!, inConversation: conversation!, fromProduct: strongSelf.productObject!, isOffer: true, completion: { [weak self] (success, newlyCreatedMessageObject) -> Void in
                         if let strongSelf = self {
-                            if success { strongSelf.launchChatWithConversation(conversation!) }
-                            else { strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
+                            if success {
+                                strongSelf.launchChatWithConversation(conversation!)
+                                
+                                // Tracking
+                                TrackingHelper.trackEvent(.ProductOffer, parameters: strongSelf.trackingParams)
+                                TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
+                            }
+                            else {
+                                strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer"))
+                            }
                         }
                     })
                 } else { // we need to create a conversation and pass it.
@@ -86,8 +89,16 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                         if let strongSelf = self {
                             if success {
                                 ChatManager.sharedInstance.addTextMessage(offerText, toUser: strongSelf.productUser!, inConversation: conversation!, fromProduct: strongSelf.productObject!, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
-                                    if success { strongSelf.launchChatWithConversation(conversation!) }
-                                    else { strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer")) }
+                                    if success {
+                                        strongSelf.launchChatWithConversation(conversation!)
+                                        
+                                        // Tracking
+                                        TrackingHelper.trackEvent(.ProductOffer, parameters: strongSelf.trackingParams)
+                                        TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
+                                    }
+                                    else {
+                                        strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer"))
+                                    }
                                 })
                             }
                             else { strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
@@ -109,6 +120,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                 self.disableLoadingInterface()
                 if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
                     chatVC.letgoConversation = letgoConversation
+                    
                     if var controllers = self.navigationController?.viewControllers as? [UIViewController] {
                         controllers.removeLast()
                         controllers.append(chatVC)
@@ -169,6 +181,38 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         if text == text.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet()) { return true }
         else { textView.resignFirstResponder(); return false }
+    }
+    
+    // MARK: - Tracking
+    
+    private var trackingParams: [TrackingParameter: AnyObject] {
+        get {
+            var properties: [TrackingParameter: AnyObject] = [:]
+            if let product = productObject {
+                if let city = product["city"] as? String {
+                    properties[.ProductCity] = city
+                }
+                if let country = product["country"] as? String {
+                    properties[.ProductCountry] = country
+                }
+                if let zipCode = product["zip_code"] as? String {
+                    properties[.ProductZipCode] = zipCode
+                }
+                if let categoryId = product["category_id"] as? Int {
+                    properties[.CategoryId] = String(categoryId)
+                }
+                if let name = product["name"] as? String {
+                    properties[.ProductName] = name
+                }
+            }
+            if let prodUser = productUser {
+                if let isDummy = TrackingHelper.isDummyUser(prodUser) {
+                    properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
+                }
+            }
+            
+            return properties
+        }
     }
 
 }

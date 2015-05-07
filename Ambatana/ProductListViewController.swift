@@ -133,24 +133,34 @@ class ProductListViewController: UIViewController, UICollectionViewDataSource, U
                 }
             }
         }
-        // tracking
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductList, eventParameters: self.getPropertiesForProductListTracking())
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "product-list"])
+        // Tracking
+        TrackingHelper.trackEvent(.ProductList, parameters: getPropertiesForProductListTracking())
     }
     
     /** Generates the properties for the product-list tracking event. NOTE: This would probably change once Parse is not used anymore */
-    func getPropertiesForProductListTracking() -> [String: AnyObject] {
-        var properties: [String: AnyObject] = [:]
+    func getPropertiesForProductListTracking() -> [TrackingParameter: AnyObject] {
+        var properties: [TrackingParameter: AnyObject] = [:]
+        
         // current category data
         if currentCategory != nil {
-            properties[kLetGoTrackingParameterNameCategoryId] = currentCategory!.rawValue
-            properties[kLetGoTrackingParameterNameCategoryName] = currentCategory!.getName()
+            properties[.CategoryId] = currentCategory!.rawValue ?? 0
+            properties[.CategoryName] = currentCategory!.getName() ?? "none"
+        }
+        else {
+            properties[.CategoryId] = 0
+            properties[.CategoryName] = "none"
         }
         // current user data
         if let currentUser = PFUser.currentUser() {
-            if let userCity = currentUser[kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameUserCity] = userCity }
-            if let userCountry = currentUser[kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameUserCountry] = userCountry }
-            // We don't have a zip_code in the user class in Parse, and doing a reverse geolocation here would be an overkill. TODO: When not using parse...
+            if let userCity = currentUser["city"] as? String {
+                properties[.UserCity] = userCity
+            }
+            if let userCountry = currentUser["country_code"] as? String {
+                properties[.UserCountry] = userCountry
+            }
+            if let userZipCode = currentUser["zipcode"] as? String {
+                properties[.UserZipCode] = userZipCode
+            }
         }
         return properties
     }

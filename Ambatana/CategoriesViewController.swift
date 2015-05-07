@@ -54,9 +54,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         // load initial categories. First try to load from the user device's language. If none found, fallback to "en".
         let allCategoriesQuery = allCategoriesQueryForLanguage(initialLanguage)
         performCategoriesQuery(allCategoriesQuery, isDefaultLanguage: initialLanguage == kLetGoDefaultCategoriesLanguage)
-        
-        // Tracking
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "categories-list"])
     }
     
     override func viewWillDisappear(animated: Bool) {

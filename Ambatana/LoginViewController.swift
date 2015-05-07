@@ -45,11 +45,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
         
         // Retrieve the token and when done...
         SessionManager.sharedInstance.retrieveSessionToken().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
-            if let strongSelf = self {
-
-                // Tracking
-                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPublic, eventParameters: [kLetGoTrackingParameterNameScreenName: "login-initial"])
-                
+            if let strongSelf = self {                
                 // register for notifications
                 NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "oauthSessionExpired:", name: kLetGoSessionInvalidatedNotification, object: nil)
                 NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "authenticationError:", name: kLetGoInvalidCredentialsNotification, object: nil)
@@ -118,7 +114,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
                     ConfigurationManager.sharedInstance.loadDataFromCurrentUser()
                 }
                 // track user login/signing with facebook
-                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLoginFacebook, eventParameters: nil)
+                TrackingHelper.trackEvent(.LoginFB, parameters: nil)
                 
                 // go to root
                 self.openRootViewController()

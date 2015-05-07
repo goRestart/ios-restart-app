@@ -64,12 +64,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         settingProfileImageView.hidden = true
         setLetGoNavigationBarStyle(title: translate("settings"), includeBackArrow: true)
     }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "settings-screen"])
-    }
-    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -119,11 +114,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func logoutUser() {
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLogout, eventParameters: nil)
+        
         PFUser.logOut()
         ConfigurationManager.sharedInstance.logOutUser()
         LocationManager.sharedInstance.logOutUser()
         self.dismissViewControllerAnimated(true, completion: nil)
+        
+        // Tracking
+        TrackingHelper.trackEvent(.Logout, parameters: nil)
     }
     
     // MARK: - UIImagePickerControllerDelegate methods

@@ -12,6 +12,7 @@
 		50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */; };
 		50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */; };
 		50261B231AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */; };
+		50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
 		6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03D1A820FBD005895ED /* LoginViewController.swift */; };
@@ -25,7 +26,6 @@
 		66362F541A8B4DE500EC145E /* ShowProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F531A8B4DE500EC145E /* ShowProductViewController.swift */; };
 		66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */; };
 		66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */; };
-		6640F03B1AE13C3200004556 /* TrackingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6640F03A1AE13C3200004556 /* TrackingManager.swift */; };
 		6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; };
 		6640F0481AE142D800004556 /* Deprecated in Resources */ = {isa = PBXBuildFile; fileRef = 6640F0451AE142D800004556 /* Deprecated */; };
 		6640F0491AE142D800004556 /* DoubleClick in Resources */ = {isa = PBXBuildFile; fileRef = 6640F0461AE142D800004556 /* DoubleClick */; };
@@ -110,6 +110,7 @@
 		50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DevelopmentEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductionEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentProxy+AppEnvironment.swift"; sourceTree = "<group>"; };
+		50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingHelper.swift; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -125,7 +126,6 @@
 		66362F531A8B4DE500EC145E /* ShowProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowProductViewController.swift; sourceTree = "<group>"; };
 		66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+RelativeTime.swift"; sourceTree = "<group>"; };
 		66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMapView+ProductPin.swift"; sourceTree = "<group>"; };
-		6640F03A1AE13C3200004556 /* TrackingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingManager.swift; sourceTree = "<group>"; };
 		6640F03F1AE13EBE00004556 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		6640F0411AE141A800004556 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = "Ambatana/GoogleConversionTrackingSDK-iOS-3.2.0/libGoogleConversionTracking.a"; sourceTree = "<group>"; };
 		6640F0441AE142D800004556 /* ACTReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACTReporter.h; sourceTree = "<group>"; };
@@ -510,7 +510,6 @@
 				667562AE1A96380E00039151 /* ImageManager.swift */,
 				6674FF7E1A9CA217006321C2 /* CurrencyManager.swift */,
 				6622AD951A9F471A00C357DE /* ChatManager.swift */,
-				6640F03A1AE13C3200004556 /* TrackingManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -593,6 +592,7 @@
 				D4B9AF9C1AF6A03800D88A30 /* ViewControllers */,
 				D4B9AF951AF69FAA00D88A30 /* ViewModels */,
 				D458383C1AEE6A9100B5F181 /* ui */,
+				50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -892,10 +892,10 @@
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */,
 				66349B521AACAD2200AE0FDF /* DLHamburguerContainerViewController.swift in Sources */,
+				50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */,
 				D4B9AF971AF69FB500D88A30 /* ProductsViewModel.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColorExtensions.swift in Sources */,
 				66C0D0041AA5E9BB0070F311 /* CustomBadge.swift in Sources */,
-				6640F03B1AE13C3200004556 /* TrackingManager.swift in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
 				6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */,
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
