@@ -16,7 +16,7 @@ public class EnvironmentProxy: Environment {
     
     public static let sharedInstance = EnvironmentProxy()
     
-    private var environment: Environment
+    public private(set) var environment: Environment
     
     // MARK: - Lifecycle
     

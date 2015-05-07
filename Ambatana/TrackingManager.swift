@@ -9,8 +9,7 @@
 import Amplitude_iOS
 import AppsFlyer_SDK
 import FBSDKCoreKit
-//import FBSDKShareKit
-//import FBSDKLoginKit
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -94,22 +93,24 @@ class TrackingManager: NSObject {
         if iOSVersionAtLeast("8.0") {
             let queueAttributes = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_CONCURRENT, QOS_CLASS_USER_INITIATED, 0)
             trackingDispatchQueue = dispatch_queue_create("com.letgo.LetGoTrackingManagerQueue", queueAttributes)
-        } else { trackingDispatchQueue = dispatch_queue_create("com.letgo.LetGoTrackingManagerQueue", 0) }
+        }
+        else {
+            trackingDispatchQueue = dispatch_queue_create("com.letgo.LetGoTrackingManagerQueue", 0)
+        }
         
-        // call supper
         super.init()
         
         // now initialize all tracking systems
         // Apps Flyer
-        AppsFlyerTracker.sharedTracker().appsFlyerDevKey = kLetGoAppsFlyerDevKey
-        AppsFlyerTracker.sharedTracker().appleAppID = kLetGoAppsFlyerAppleAppId
+        AppsFlyerTracker.sharedTracker().appsFlyerDevKey = EnvironmentProxy.sharedInstance.appsFlyerAPIKey
+        AppsFlyerTracker.sharedTracker().appleAppID = EnvironmentProxy.sharedInstance.appleAppId
         AppsFlyerTracker.sharedTracker().customerUserID = ConfigurationManager.sharedInstance.userEmail
         // Amplitude
-        Amplitude.initializeApiKey(kLetGoAmplitudeApiKey) // TODO: cambiar esto a Producción.
+        Amplitude.initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
         Amplitude.instance().setUserId(ConfigurationManager.sharedInstance.userEmail)
         // FB: nothing needed here.
         // Google Conversion Analytics.
-        ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(kLetGoGoogleConversionTrackingId)
+        ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId)
         actLabelMap = [ // this maps between event names and ACT labels.
             kLetGoTrackingEventNameLetGoInstall: "p6XRCNq1qVsQ__6fyQM",
             kLetGoTrackingEventNameLoginFacebook: "cCIQCMywqVsQ__6fyQM",
