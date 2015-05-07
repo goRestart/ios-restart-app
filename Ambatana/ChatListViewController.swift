@@ -82,9 +82,6 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
                 NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil)
             }
         })
-        
-        // Tracking
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "chat-list"])
     }
     
     // MARK: - Conversation management

@@ -28,16 +28,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
         passwordTextfield.placeholder = translate("password")
         confirmPasswordTextfield.placeholder = translate("confirm_password")
     }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "change-password"])
-    }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+   
     func changePassword() {
         // safety checks
         if count(passwordTextfield.text) < kLetGoMinPasswordLength || count(confirmPasswordTextfield.text) < kLetGoMinPasswordLength { // min length not fulfilled

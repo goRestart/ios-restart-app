@@ -64,9 +64,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // initialize location services
         let locationManager = LocationManager.sharedInstance
         
-        // Tracking & other nasty things...
-        let trackingManager = TrackingManager.sharedInstance
-        // check version and track if new install
+        // Tracking
+        TrackingHelper.appDidFinishLaunching()
+        
+        // > check version and track if new install
         var newInstall = false
         if let letgoVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"]?.floatValue {
             if let storedVersion = NSUserDefaults.standardUserDefaults().objectForKey(kLetGoVersionNumberKey)?.floatValue {
@@ -80,10 +81,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 NSUserDefaults.standardUserDefaults().setObject("\(letgoVersion)", forKey: kLetGoVersionNumberKey)
             }
         }
-        if newInstall { TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameLetGoInstall, eventParameters: nil) }
-        
-        // Crashlytics
-        Fabric.with([Crashlytics()])
+        if newInstall {
+            TrackingHelper.trackEvent(.Install, parameters: nil)
+        }
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
@@ -132,7 +132,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        FBSDKAppEvents.activateApp()
+        
+        // Tracking
+        TrackingHelper.appDidBecomeActive()
     }
 
     // receive push notifications.

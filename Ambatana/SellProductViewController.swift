@@ -82,63 +82,74 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         // force a location update
         LocationManager.sharedInstance.startUpdatingLocation()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "sell-product"])
+
+        // Tracking
+        let event: TrackingEvent = .ProductSellStart
+        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+        // Tracking
         if (productWasSold) {
-            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellComplete, eventParameters: self.getPropertiesForProductSellTracking(includeProductName: true, includeProductCategoryId: true))
+            let event: TrackingEvent = .ProductSellComplete
+            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
         } else {
-            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellAbandon, eventParameters: self.getPropertiesForProductSellTracking())
+            let event: TrackingEvent = .ProductSellAbandon
+            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
         }
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         originalFrame = self.view.frame
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellStart, eventParameters: self.getPropertiesForProductSellTracking())
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func keyboardWillHide(notification: NSNotification) { self.restoreOriginalPosition() }
     
     // MARK: - Tracking parameters
     
-    /** Generates the properties for the product-sell tracking event. NOTE: This would probably change once Parse is not used anymore 
-     * The basic properties only include info about the current user. Additional properties can be added, by setting to true /proper value the needed field.
-     */
-    func getPropertiesForProductSellTracking( // additional properties follow:
-                                             includeProductName needsProductName: Bool = false,
-                                             includeProductCategoryId: Bool = false,
-                                             includeProductCategoryName: Bool = false,
-                                             includeFacebookState: Bool = false,
-                                             includeFormValidationFailureDescription formValidationError: String? = nil,
-                                             includeAddedPhotoNumber photoNumber: Int? = nil) -> [String: AnyObject] {
-        var properties: [String: AnyObject] = [:]
-        // current user data (common to all tracking events).
+    func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject]? {
+        var params: [TrackingParameter: AnyObject] = [:]
+
+        // Common
         if let currentUser = PFUser.currentUser() {
-            if let userCity = currentUser[kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameUserCity] = userCity }
-            if let userCountry = currentUser[kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameUserCountry] = userCountry }
-            // We don't have a zip_code in the user class in Parse, and doing a reverse geolocation here would be an overkill. TODO: When not using parse...
+            if let userCity = currentUser["city"] as? String {
+                params[.UserCity] = userCity
+            }
+            if let userCountry = currentUser["country_code"] as? String {
+                params[.UserCountry] = userCountry
+            }
+            if let userZipCode = currentUser["zipcode"] as? String {
+                params[.UserZipCode] = userZipCode
+            }
         }
-        // additional properties (when appliable).
-        if needsProductName { properties[kLetGoTrackingParameterNameProductName] = self.productTitleTextField.text ?? "none" }
-        if includeProductCategoryId { properties[kLetGoTrackingParameterNameCategoryId] = self.currentCategory?.rawValue ?? 0 }
-        if includeProductCategoryName { properties[kLetGoTrackingParameterNameCategoryName] = self.currentCategory?.getName() ?? "" }
-        if includeFacebookState { properties[kLetGoTrackingParameterNameEnabled] = self.shareInFacebookSwitch.on }
-        if formValidationError != nil { properties[kLetGoTrackingParameterNameDescription] = formValidationError! }
-        if photoNumber != nil { properties[kLetGoTrackingParameterNameNumber] = photoNumber! }
         
-        return properties
+        // Non-common
+        if eventType == .ProductSellAddPicture {
+            params[.Number] = images.count
+        }
+        
+        if eventType == .ProductSellSharedFB || eventType == .ProductSellComplete {
+            params[.ProductName] = productTitleTextField.text ?? "none"
+        }
+        
+        if eventType == .ProductSellFormValidationFailed {
+            params[.Description] = value
+        }
+        
+        if eventType == .ProductSellEditShareFB {
+            params[.Enabled] = self.shareInFacebookSwitch.on
+        }
+        
+        if eventType == .ProductSellEditCategory || eventType == .ProductSellComplete {
+            params[.CategoryId] = currentCategory?.rawValue ?? 0
+            params[.CategoryName] = currentCategory?.getName() ?? "none"
+        }
+        return params
     }
-    
-    
     
     // MARK: - iOS 7 Action Sheet deprecated selections for compatibility.
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
@@ -148,13 +159,20 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                 let buttonCurrency = allCurrencies[buttonIndex]
                 self.currentCurrency = buttonCurrency
                 self.currencyTypeButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
+                
+                // Tracking
+                let event: TrackingEvent = .ProductSellEditCurrency
+                TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
             }
         } else if actionSheet.tag == kLetGoSellProductActionSheetTagCategoryType { // category selection
             if buttonIndex != actionSheet.cancelButtonIndex { // 0 is cancel
                 let category = LetGoProductCategory.allCategories()[buttonIndex]
                 self.currentCategory = category
                 self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
-                TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditCategory, eventParameters: self.getPropertiesForProductSellTracking(includeProductCategoryId: true, includeProductCategoryName: true))
+                
+                // Tracking
+                let event: TrackingEvent = .ProductSellEditCategory
+                TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
             }
         } else if actionSheet.tag == kLetGoSellProductActionSheetTagImageSourceType { // choose source for the images
             if buttonIndex == 0 { self.openImagePickerWithSource(.Camera) }
@@ -179,6 +197,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                 alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (currencyAction) -> Void in
                     self.currentCurrency = currency
                     self.currencyTypeButton.setTitle(currency.currencyCode, forState: .Normal)
+                    
+                    // Tracking
+                    let event: TrackingEvent = .ProductSellEditCurrency
+                    TrackingHelper.trackEvent(event, parameters: self.trackingParamsForEventType(event))
                 }))
             }
             
@@ -193,8 +215,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(translate("cancel"))
             actionSheet.showInView(self.view)
         }
-        // Tracking
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditCurrency, eventParameters: self.getPropertiesForProductSellTracking())
     }
 
     @IBAction func chooseCategory(sender: AnyObject) {
@@ -207,7 +227,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                 alert.addAction(UIAlertAction(title: category.getName(), style: .Default, handler: { (categoryAction) -> Void in
                     self.currentCategory = category
                     self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
-                    TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditCategory, eventParameters: self.getPropertiesForProductSellTracking(includeProductCategoryId: true, includeProductCategoryName: true))
+                    
+                    // Tracking
+                    let event: TrackingEvent = .ProductSellEditCategory
+                    TrackingHelper.trackEvent(event, parameters: self.trackingParamsForEventType(event))
                 }))
             }
             alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
@@ -226,8 +249,11 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBAction func shareInFacebookSwitchChanged(sender: AnyObject) {
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditShareFB, eventParameters: self.getPropertiesForProductSellTracking(includeFacebookState: true))
         restoreOriginalPosition()
+        
+        // Tracking
+        let event: TrackingEvent = .ProductSellEditShareFB
+        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
     }
     
     @IBAction func sellProduct(sender: AnyObject) {
@@ -252,8 +278,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             validationFailureReason = "unable find location"
         }
 
-        if validationFailureReason != nil {
-            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellFormValidationFailed, eventParameters: self.getPropertiesForProductSellTracking(includeFormValidationFailureDescription: validationFailureReason))
+        if let failureReason = validationFailureReason {
+            // Tracking
+            let event: TrackingEvent = .ProductSellFormValidationFailed
+            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event, value: failureReason))
             return
         }
         
@@ -451,7 +479,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
             self.popBackViewController()
         })
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellSharedFB, eventParameters: self.getPropertiesForProductSellTracking(includeProductName: true))
+
+        // Tracking
+        let event: TrackingEvent = .ProductSellSharedFB
+        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
     }
     
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
@@ -488,8 +519,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             actionSheet.addButtonWithTitle(translate("photo_library"))
             actionSheet.showInView(self.view)
         }
-        //Tracking
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellAddPicture, eventParameters: self.getPropertiesForProductSellTracking(includeAddedPhotoNumber: self.images.count))
     }
     
     func openImagePickerWithSource(source: UIImagePickerControllerSourceType) {
@@ -503,6 +532,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         var imageFile: PFFile? = nil
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
+        
+        // Tracking
+        let event: TrackingEvent = .ProductSellAddPicture
+        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
         
         self.dismissViewControllerAnimated(true, completion: nil)
         // safety check.
@@ -549,10 +582,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == productTitleTextField {
             productPriceTextfield.becomeFirstResponder()
-            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditTitle, eventParameters: self.getPropertiesForProductSellTracking())
-        } else if textField == productPriceTextfield {
+        }
+        else if textField == productPriceTextfield {
             descriptionTextView.becomeFirstResponder()
-            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditPrice, eventParameters: self.getPropertiesForProductSellTracking())
         }
         return false
     }
@@ -563,14 +595,30 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.view.frame = newFrame
         })
+        
+        // Tracking
+        if textField == productTitleTextField {
+            let event: TrackingEvent = .ProductSellEditTitle
+            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        }
+        else if textField == productPriceTextfield {
+            let event: TrackingEvent = .ProductSellEditPrice
+            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        }
     }
+    
+    
+    // MARK: - UITextViewDelegate
     
     func textViewDidBeginEditing(textView: UITextView) {
         let newFrame = self.originalFrame.rectByOffsetting(dx: 0, dy: -textView.frame.origin.y + kLetGoTextfieldScrollingOffsetSpan)
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.view.frame = newFrame
         })
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductSellEditDesc, eventParameters: self.getPropertiesForProductSellTracking())
+
+        // Tracking
+        let event: TrackingEvent = .ProductSellEditDescription
+        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
     }
     
     // MARK: - TextView character count.

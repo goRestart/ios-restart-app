@@ -66,6 +66,9 @@ class ConfigurationManager: NSObject {
                         currentUser["username"] = userEmail
                         currentUser["email"] = userEmail
                         self.userEmail = userEmail as String
+                        
+                        // Tracking
+                        TrackingHelper.setUserId(userEmail as String)
                     }
                     
                     // user picture & facebookID

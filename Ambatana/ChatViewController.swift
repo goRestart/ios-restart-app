@@ -57,6 +57,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.sendButton.tintColor = isSendingMessage ? UIColor.lightGrayColor() : UIColor.blackColor()
         }
     }
+    var askQuestion: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,8 +129,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.popBackViewController()
             })
         }
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "chat-screen"])
-
     }
     
     func loadMessages(conversationObject: PFObject) {
@@ -268,9 +267,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     //self.tableView.reloadData()
                     strongSelf.messageTextfield.text = ""
                     
-                    // tracking
-                    TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameUserSentMessage, eventParameters: strongSelf.getPropertiesForUserSentMessageTracking())
-                } else {
+                    // Tracking
+                    if strongSelf.askQuestion {
+                        TrackingHelper.trackEvent(.ProductAskQuestion, parameters: strongSelf.trackingParams)
+                    }
+                    TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
+                }
+                else {
                     strongSelf.showAutoFadingOutMessageAlert(translate("unable_send_message"))
                 }
                 // disable loading interface
@@ -279,16 +282,49 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    /** Generates the properties for the user-sent-message tracking event. NOTE: This would probably change once Parse is not used anymore */
-    func getPropertiesForUserSentMessageTracking() -> [String: AnyObject] {
-        var properties: [String: AnyObject] = [:]
-        if productObject != nil {
-            if let productCity = productObject![kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameProductCity] = productCity }
-            if let productCountry = productObject![kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameProductCountry] = productCountry }
-            if let productZipCode = productObject![kLetGoRestAPIParameterZipCode] as? String { properties[kLetGoTrackingParameterNameProductZipCode] = productZipCode }
-            if let productCategoryId = productObject![kLetGoRestAPIParameterCategoryId] as? String { properties[kLetGoTrackingParameterNameCategoryId] = productCategoryId }
+    // MARK: > Tracking
+    
+    private var trackingParams: [TrackingParameter: AnyObject] {
+        get {
+            var properties: [TrackingParameter: AnyObject] = [:]
+
+            // product data
+            if let product = productObject {
+                if let productCity = product["city"] as? String {
+                    properties[.ProductCity] = productCity
+                }
+                if let productCountry = product["country_code"] as? String {
+                    properties[.ProductCountry] = productCountry
+                }
+                if let productZipCode = product["zip_code"] as? String {
+                    properties[.ProductZipCode] = productZipCode
+                }
+                if let productCategoryId = product["category_id"] as? Int {
+                    properties[.CategoryId] = String(productCategoryId)
+                }
+                if let productName = product["name"] as? String {
+                    properties[.ProductName] = productName
+                }
+                if let productUserId = product["user_id"] as? String, let currentUser = PFUser.currentUser(), let currentUserId = currentUser.objectId,
+                    let otherUsr = otherUser, let otherUserId = otherUsr.objectId  {
+                    
+                    // If the product is mine, check if i'm dummy
+                    if productUserId == currentUserId {
+                        if let isDummy = TrackingHelper.isDummyUser(currentUser) {
+                            properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
+                        }
+                    }
+                    // If the product is the other's guy, check if dummy
+                    else if productUserId == otherUserId {
+                        if let isDummy = TrackingHelper.isDummyUser(otherUsr) {
+                            properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
+                        }
+                    }
+                }
+            }
+            
+            return properties
         }
-        return properties
     }
     
     // MARK: - UITableViewDelegate & DataSource methods

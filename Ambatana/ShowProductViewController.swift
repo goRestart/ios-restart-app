@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import MapKit
 import MessageUI
 import Parse
@@ -106,6 +107,15 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // check if this is our product
             productUser = productObject["user"] as! PFUser
+            productUser.fetchIfNeededInBackgroundWithBlock { [weak self] (user: PFObject?, error: NSError?) -> Void in
+                if error == nil {
+                    if let strongSelf = self {
+                        // Tracking
+                        TrackingHelper.trackEvent(.ProductDetailVisit, parameters: strongSelf.trackingParams)
+                    }
+                }
+            }
+            
             let thisProductIsMine = productUser.objectId == PFUser.currentUser()!.objectId
             self.askQuestionButton.hidden = thisProductIsMine
             self.makeOfferButton.hidden = thisProductIsMine
@@ -172,7 +182,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             else {
                 nameLabel.text = ""
             }
-            TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameters: self.getPropertiesForProductDetailTracking())
+            
             self.setLetGoNavigationBarStyle(title: "", includeBackArrow: true)
             
             // product price
@@ -258,35 +268,39 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         errorLoadingPhotosLabel.text = translate("error_loading_photos_product")
         butProductReport.setTitle(translate("report_product"), forState: .Normal)
     }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameScreenPrivate, eventParameters: [kLetGoTrackingParameterNameScreenName: "show-product"])
-
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     // MARK: - Product detail tracking event properties
     
-    /** Generates the properties for the product-detail tracking event. NOTE: This would probably change once Parse is not used anymore */
-    func getPropertiesForProductDetailTracking() -> [String: AnyObject] {
-        var properties: [String: AnyObject] = [:]
-        if productObject != nil {
-            if let productCity = productObject[kLetGoRestAPIParameterCity] as? String { properties[kLetGoTrackingParameterNameProductCity] = productCity }
-            if let productCountry = productObject[kLetGoRestAPIParameterCountryCode] as? String { properties[kLetGoTrackingParameterNameProductCountry] = productCountry }
-            if let productZipCode = productObject[kLetGoRestAPIParameterZipCode] as? String { properties[kLetGoTrackingParameterNameProductZipCode] = productZipCode }
-            if let productCategoryId = productObject[kLetGoRestAPIParameterCategoryId] as? String { properties[kLetGoTrackingParameterNameCategoryId] = productCategoryId }
-            if let productName = productObject[kLetGoRestAPIParameterName] as? String { properties[kLetGoTrackingParameterNameProductName] = productName }
-            properties[kLetGoTrackingParameterNameItemType] = "real" // we suppose it's real unless TrackingManager says otherwise.
+    private var trackingParams: [TrackingParameter: AnyObject] {
+        get {
+            var properties: [TrackingParameter: AnyObject] = [:]
+            if let product = productObject {
+                if let city = product["city"] as? String {
+                    properties[.ProductCity] = city
+                }
+                if let country = product["country"] as? String {
+                    properties[.ProductCountry] = country
+                }
+                if let zipCode = product["zip_code"] as? String {
+                    properties[.ProductZipCode] = zipCode
+                }
+                if let categoryId = product["category_id"] as? Int {
+                    properties[.CategoryId] = String(categoryId)
+                }
+                if let name = product["name"] as? String {
+                    properties[.ProductName] = name
+                }
+            }
+            if let prodUser = productUser {
+                if let isDummy = TrackingHelper.isDummyUser(prodUser) {
+                    properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
+                }
+            }
+            
+            return properties
         }
-        
-        return properties
     }
-    
+   
     
     // MARK: - Image retrieval
     
@@ -344,9 +358,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         // safety checks
         if productUser == nil || productObject == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
         
-        // Tracking
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailAskQuestion, eventParameters: self.getPropertiesForProductDetailTracking())
-        
         // loading interface...
         enableAskQuestionLoadingInterface()
         
@@ -354,7 +365,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser!, aboutProduct: productObject!) { (success, conversation) -> Void in
             if success { // we have a conversation.
                 self.launchChatWithConversation(conversation!)
-            } else { // we need to create a conversation and pass it.
+            }
+            else { // we need to create a conversation and pass it.
                 ChatManager.sharedInstance.createConversationWithUser(self.productUser!, aboutProduct: self.productObject!, completion: { (success, conversation) -> Void in
                     if success { self.launchChatWithConversation(conversation!) }
                     else { self.disableAskQuestionLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
@@ -367,6 +379,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
                 chatVC.letgoConversation = LetGoConversation(parseConversationObject: conversation)
+                chatVC.askQuestion = true
+                
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.disableAskQuestionLoadingInterface()
                     self.navigationController?.pushViewController(chatVC, animated: true) ?? self.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
@@ -413,12 +427,10 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailVisit, eventParameters: self.getPropertiesForProductDetailTracking())
         self.performSegueWithIdentifier("MakeAnOffer", sender: sender)
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
-        TrackingManager.sharedInstance.trackEvent(kLetGoTrackingEventNameProductDetailSold, eventParameters: self.getPropertiesForProductDetailTracking())
         if iOSVersionAtLeast("8.0") {
             let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
