@@ -79,21 +79,20 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    /** This function is called by the locationTimer to update the location of the user. It should not be called outside LocationManager. */
-    internal func updateLocationTimerTriggered() {
-        if (!self.updatingLocation) {
-            self.updatingLocation = true
-            self.clLocationManager.startUpdatingLocation()
-        }
-    }
+//    /** This function is called by the locationTimer to update the location of the user. It should not be called outside LocationManager. */
+//    internal func updateLocationTimerTriggered() {
+//        if (!self.updatingLocation) {
+//            self.updatingLocation = true
+//            self.clLocationManager.startUpdatingLocation()
+//        }
+//    }
     
     func currentLocation() -> CLLocationCoordinate2D {
         return clLocationManager.location?.coordinate ?? lastKnownLocation
     }
     
     func appIsAuthorizedToUseLocationServices() -> Bool {
-        if (authorizationStatus == CLAuthorizationStatus.AuthorizedAlways || authorizationStatus == CLAuthorizationStatus.AuthorizedWhenInUse) { return true }
-        else { return false }
+        return (authorizationStatus == CLAuthorizationStatus.AuthorizedAlways || authorizationStatus == CLAuthorizationStatus.AuthorizedWhenInUse)
     }
     
     private func evaluateChangeInUserPosition() {
