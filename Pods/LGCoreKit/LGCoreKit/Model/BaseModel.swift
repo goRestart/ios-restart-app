@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc protocol BaseModel {
+@objc public protocol BaseModel {
     var objectId: String! { get }
     var updatedAt: NSDate! { get }
     var createdAt: NSDate! { get }

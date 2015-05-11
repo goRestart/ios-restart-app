@@ -6,10 +6,16 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+import CoreLocation
+
 // MARK: - COMPLETION CLOSURES
+
+public typealias NoOutputDataCompletion = (success: Bool, error: NSError?) -> Void
 
 public typealias RetrieveTokenCompletion = (token: SessionToken?, error: NSError?) -> Void
 public typealias RetrieveProductsCompletion = (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void
+public typealias UserSaveCompletion = NoOutputDataCompletion
+public typealias PostalAddressRetrievalCompletion = (address: PostalAddress?, error: NSError?) -> Void
 
 // MARK: - PARAMS
 

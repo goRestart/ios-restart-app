@@ -7,7 +7,6 @@ use_frameworks!
 
 workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
-#xcodeproj "LGCoreKit.xcodeproj"
 
 # app
 target "LetGo" do
@@ -18,21 +17,21 @@ target "LetGo" do
 
     #Should be fixed in a future release
     #https://github.com/facebook/facebook-ios-sdk/issues/725
-    #pod "Facebook-iOS-SDK",     ">= 4.0"
-    pod "FBSDKCoreKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
-    pod "FBSDKShareKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
-    pod "FBSDKLoginKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
+    #pod "Facebook-iOS-SDK",     ">= 4.1"
+    pod "FBSDKCoreKit",         ">= 4.1"
+    pod "FBSDKShareKit",        ">= 4.1"
+    pod "FBSDKLoginKit",        ">= 4.1"
+    #pod "FBSDKCoreKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
+    #pod "FBSDKShareKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
+    #pod "FBSDKLoginKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
     
     # Tracking
     pod "AppsFlyer-SDK"
     pod "Amplitude-iOS",        ">= 2.4"
     
     # letgo Core
-    pod 'LGCoreKit',            "0.0.2"
+    pod 'LGCoreKit',            "0.0.3"
     
     # Networking (to be removed when migrating to LGCoreKit)
     pod "Alamofire",            ">= 1.2"
-#    pod "SwiftyJSON",           ">= 2.2"
-#    pod "Timepiece",            ">= 0.2"
-#    pod "Bolts",                ">= 1.1"
 end
