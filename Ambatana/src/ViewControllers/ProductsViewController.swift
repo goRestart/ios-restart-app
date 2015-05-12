@@ -189,6 +189,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     
     /** Called when the reload button is pressed. */
     @IBAction func reloadButtonPressed(sender: AnyObject) {
+        setUIState(.Loading)
         refresh()
     }
     
