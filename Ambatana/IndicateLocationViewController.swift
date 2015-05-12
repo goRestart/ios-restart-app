@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import Bolts
 import LGCoreKit
 import UIKit
 import QuartzCore
@@ -77,9 +78,16 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     
     @IBAction func setLocation(sender: AnyObject) {
         if CLLocationCoordinate2DIsValid(locationInMap) {
+            // Save the user coordinates / address in the backend and when finished the pop
             enableLoadingStatus()
-            delegate?.userDidManuallySetCoordinates(locationInMap)
-            self.popBackViewController()
+            MyUserManager.sharedInstance.saveUserCoordinates(locationInMap)?.continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
+                if let strongSelf = self {
+                    strongSelf.delegate?.userDidManuallySetCoordinates(strongSelf.locationInMap)
+                    strongSelf.popBackViewController()
+                    strongSelf.disableLoadingStatus()
+                }
+                return nil
+            }
         }
         else {
             if iOSVersionAtLeast("8.0") {

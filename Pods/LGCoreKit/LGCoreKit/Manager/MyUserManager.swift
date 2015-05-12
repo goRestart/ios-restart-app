@@ -42,6 +42,10 @@ public class MyUserManager {
         return PFUser.currentUser()
     }
     
+    public func saveUserCoordinates(coordinates: CLLocationCoordinate2D) -> BFTask? {
+        return saveLocationAndRetrieveAddress(CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude))
+    }
+    
     // MARK: - Private methods
     
     // MARK: > Helper
@@ -77,18 +81,13 @@ public class MyUserManager {
         return task.task
     }
     
-    // MARK: > NSNotificationCenter
-    
-    @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
-
-        if let location = notification.object as? CLLocation, let myUser = myUser() {
-            
-            // Save the user with the received coordinates
+    private func saveLocationAndRetrieveAddress(location: CLLocation) -> BFTask? {
+        if let myUser = myUser() {
             myUser.gpsCoordinates = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             save()
             
             // Retrieve the address for the received location, and then save the user again
-            retrieveAddressForLocation(location).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
+            return retrieveAddressForLocation(location).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
                 if let postalAddress = task.result as? PostalAddress {
                     myUser.address = postalAddress.address
                     myUser.city = postalAddress.city
@@ -98,6 +97,16 @@ public class MyUserManager {
                 }
                 return nil
             }
+        }
+        return nil
+    }
+    
+    // MARK: > NSNotificationCenter
+    
+    @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
+
+        if let location = notification.object as? CLLocation {
+            saveLocationAndRetrieveAddress(location)
         }
     }
 }
