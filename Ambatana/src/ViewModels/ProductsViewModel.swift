@@ -195,7 +195,7 @@ class ProductsViewModel: BaseViewModel {
                             let products = task.result as! NSArray
                             strongSelf.products = products
                             
-                            var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsForRange(currentCount...products.count)
+                            var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: products.count)
                             delegate?.didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths)
                         }
                         // Error
@@ -231,7 +231,7 @@ class ProductsViewModel: BaseViewModel {
                         let newProducts = task.result as! NSArray
                         strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                         
-                        var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsForRange(currentCount...newProducts.count)
+                        var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: newProducts.count)
                         delegate?.didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths)
                     }
                     // Error
@@ -332,12 +332,13 @@ class ProductsViewModel: BaseViewModel {
     /**
         Returns the index paths for the given range.
     
-        :param: range The range.
+        :param: index Starting index
+        :param: count How many items
         :returns: An index paths array.
     */
-    private static func indexPathsForRange(range: Range<Int>) -> [NSIndexPath] {
+    private static func indexPathsFromIndex(index: Int, count: Int) -> [NSIndexPath] {
         var indexPaths: [NSIndexPath] = []
-        for i in range {
+        for i in index..<index + count {
             indexPaths.append(NSIndexPath(forItem: i, inSection: 0))
         }
         return indexPaths
