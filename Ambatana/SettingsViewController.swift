@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -117,7 +118,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         PFUser.logOut()
         ConfigurationManager.sharedInstance.logOutUser()
-        LocationManager.sharedInstance.logOutUser()
+        LocationManager.sharedInstance.stopLocationUpdates()
         self.dismissViewControllerAnimated(true, completion: nil)
         
         // Tracking

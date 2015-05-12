@@ -40,7 +40,6 @@
 		6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */; };
 		667562AF1A96380E00039151 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667562AE1A96380E00039151 /* ImageManager.swift */; };
 		667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667562B01A9749AE00039151 /* ChatListViewController.swift */; };
-		66911D8E1A84B95C006CFBE1 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D8D1A84B95C006CFBE1 /* LocationManager.swift */; };
 		66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */; };
 		66911D931A853A46006CFBE1 /* IndicateLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D921A853A46006CFBE1 /* IndicateLocationViewController.swift */; };
 		66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */; };
@@ -142,7 +141,6 @@
 		6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gradients.swift"; sourceTree = "<group>"; };
 		667562AE1A96380E00039151 /* ImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		667562B01A9749AE00039151 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
-		66911D8D1A84B95C006CFBE1 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUtils.swift; sourceTree = "<group>"; };
 		66911D921A853A46006CFBE1 /* IndicateLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicateLocationViewController.swift; sourceTree = "<group>"; };
 		66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Backgrounds-and-Images.xcassets"; sourceTree = "<group>"; };
@@ -506,7 +504,6 @@
 			isa = PBXGroup;
 			children = (
 				66A0CFE91A8386A800FAADF0 /* ConfigurationManager.swift */,
-				66911D8D1A84B95C006CFBE1 /* LocationManager.swift */,
 				667562AE1A96380E00039151 /* ImageManager.swift */,
 				6674FF7E1A9CA217006321C2 /* CurrencyManager.swift */,
 				6622AD951A9F471A00C357DE /* ChatManager.swift */,
@@ -871,7 +868,6 @@
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */,
 				66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */,
 				66349B531AACAD2200AE0FDF /* DLHamburguerNavigationController.swift in Sources */,
-				66911D8E1A84B95C006CFBE1 /* LocationManager.swift in Sources */,
 				66E50FAF1AE15D32000A7D44 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				66E3D0A91A89073B00BC283C /* UIViewController+LetGo.swift in Sources */,
 				D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */,

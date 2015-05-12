@@ -61,7 +61,13 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         super.viewDidLoad()
 
         // ViewModel
-        self.viewModel.delegate = self
+        viewModel.delegate = self
+        if let queryString = currentSearchString {
+            viewModel.queryString = queryString
+        }
+        if let category = currentCategory {
+            viewModel.categoryIds = [category.rawValue]
+        }
         
         // UI
         // No results
@@ -91,8 +97,8 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         self.refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
         
-        // Start as loading
-        setUIState(.Loading)
+//        // Start as loading
+//        setUIState(.Loading)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -119,66 +125,32 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         } else { self.findHamburguerViewController()?.gestureEnabled = false } // otherwise, don't allow the pan gesture.
 
         // Register for notifications.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToSetUserLocationNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToGetUserLocationNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSucceedRetrievingLocation:", name: kLetGoUserLocationSuccessfullySetNotification, object: nil)
+
+        // FIXME: Listen to notifications in VM
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToSetUserLocationNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToGetUserLocationNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSucceedRetrievingLocation:", name: kLetGoUserLocationSuccessfullySetNotification, object: nil)
         // @ahl: not used (last location handled automatically when refreshing)
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kLetGoUserLocationSuccessfullyChangedNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveLocationWithNotification:", name: LocationManager.DidReceiveLocationNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged:", name: UIContentSizeCategoryDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
         
-        // If we've a location
-        if (CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation)) {
-
-            // If we have some entries, so show them.
-            if viewModel.numberOfProducts > 0 {
-                setUIState(.Loaded)
-            }
-            // Otherwise, request new
-            else {
-                setUIState(.Loading)
-                refresh()
-            }
-        }
-        // Otherwise
-        else {
-            
-            setUIState(.Loading)
-
-            // If we are not already updating our location
-            if (!LocationManager.sharedInstance.updatingLocation) {
-                
-                // If we have permission for location
-                if (LocationManager.sharedInstance.appIsAuthorizedToUseLocationServices()) {
-                    // enable a timer to fallback
-                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewController.locationRetrievalTimeout, target: self, selector: "didFailRetrievingLocation:", userInfo: NSNotification(name: kLetGoUnableToGetUserLocationNotification, object: nil), repeats: false)
-                    
-                    // update our location.
-                    LocationManager.sharedInstance.startUpdatingLocation()
-                    
-                }
-                // Else, we don't have permission for location the go to set manual location
-                else {
-                    pushIndicateLocationViewController()
-                }
-            }
-            // Otherwise, wait for the notification to arrive.
-            else {
-                if unableToRetrieveLocationTimer == nil {
-                    unableToRetrieveLocationTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewController.locationRetrievalTimeout, target: self, selector: "didFailRetrievingLocation:", userInfo: NSNotification(name: kLetGoUnableToGetUserLocationNotification, object: nil), repeats: false)
-                }
-            }
-        }
+        viewModel.active = true
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        // UI
+        // Disable menu
+        self.findHamburguerViewController()?.gestureEnabled = false
+        // Hide search bar (if showing)
+        if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
+        
         NSNotificationCenter.defaultCenter().removeObserver(self)
         
-        // disable menu
-        self.findHamburguerViewController()?.gestureEnabled = false
-        // hide search bar (if showing)
-        if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
+        viewModel.active = false
     }
     
    
@@ -244,27 +216,11 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     }
     
     func refresh() {
-        let coordinates = viewModel.currentLocationCoordinates()
-        if coordinates != nil && viewModel.canRetrieveProducts {
-            let categoryIds: [Int]?
-            if let category = currentCategory {
-                categoryIds = [category.rawValue]
-            }
-            else {
-                categoryIds = nil
-            }
-            viewModel.retrieveProductsWithQueryString(currentSearchString, coordinates: coordinates!, categoryIds: categoryIds, sortCriteria: nil, maxPrice: nil, minPrice: nil, userObjectId: nil)
+        if viewModel.canRetrieveProducts {
+            viewModel.retrieveProductsFirstPage()
         }
         else {
             refreshControl.endRefreshing()
-        }
-    }
-    
-    func retrieveNextPage() {
-        
-        // If we can retrieve a next page then do it
-        if viewModel.canRetrieveProductsNextPage {
-            viewModel.retrieveProductsNextPage()
         }
     }
     
@@ -344,16 +300,16 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
 
     // MARK: - NSNotificationCenter
     
-    func didFailRetrievingLocation(notification: NSNotification) {
-        unableToRetrieveLocationTimer?.invalidate()
-        unableToRetrieveLocationTimer = nil
-        
-        pushIndicateLocationViewController()
-    }
-    
-    func didSucceedRetrievingLocation(notification: NSNotification) {
-        refresh()
-    }
+//    func didFailRetrievingLocation(notification: NSNotification) {
+//        unableToRetrieveLocationTimer?.invalidate()
+//        unableToRetrieveLocationTimer = nil
+//        
+//        pushIndicateLocationViewController()
+//    }
+//    
+//    func didSucceedRetrievingLocation(notification: NSNotification) {
+//        refresh()
+//    }
     
     func dynamicTypeChanged(notification: NSNotification) {
         self.collectionView.reloadSections(NSIndexSet(index: 0))
@@ -364,6 +320,14 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     }
     
     // MARK: - ProductsViewModelDelegate
+    
+    func didStartRetrievingLocation() {
+        setUIState(.Loading)
+    }
+    
+    func didFailRetrievingLocation() {
+        // ERROR!
+    }
     
     func didStartRetrievingFirstPageProducts() {
         setUIState(.Loading)
@@ -388,7 +352,8 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { [weak self] (action) -> Void in
             if let strongSelf = self {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                    strongSelf.refresh()
+                    // TODO: Warning
+//                    strongSelf.refresh()
                 })
             }
         }))
@@ -412,7 +377,8 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { [weak self] (action) -> Void in
             if let strongSelf = self {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                    strongSelf.retrieveNextPage()
+                    // TODO: Warning
+//                    strongSelf.retrieveNextPage()
                 })
             }
             }))
@@ -439,13 +405,11 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
         cell.tag = indexPath.hash
+        
         // TODO: VC should not handle data -> ask to VM about title etc etc...
         cell.setupCellWithPartialProduct(product, indexPath: indexPath)
         
-        // If we can retrieve a next page & we should, then retrieve it
-        if viewModel.canRetrieveProductsNextPage && viewModel.shouldRetrieveProductsNextPageWhenAtIndex(indexPath.row) {
-            viewModel.retrieveProductsNextPage()
-        }
+        viewModel.setCurrentItemIndex(indexPath.row)
         
         return cell
     }

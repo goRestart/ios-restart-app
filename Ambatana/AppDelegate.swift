@@ -62,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // initialize location services
-        let locationManager = LocationManager.sharedInstance
+        LocationManager.sharedInstance.startLocationUpdates()
         
         // Tracking
         TrackingHelper.appDidFinishLaunching()
@@ -211,7 +211,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(application: UIApplication) {
         // stop location services (if any).
-        LocationManager.sharedInstance.terminate()
+//        LocationManager.sharedInstance.terminate()
     }
 
 

@@ -9,6 +9,7 @@
 import AddressBookUI
 import CoreLocation
 import FBSDKShareKit
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -80,7 +81,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         // force a location update
-        LocationManager.sharedInstance.startUpdatingLocation()
+        LocationManager.sharedInstance.startLocationUpdates()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
 
         // Tracking
@@ -272,8 +273,8 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         // 5. do we have a category?
         if currentCategory == nil { showAutoFadingOutMessageAlert(translate("insert_valid_category")); validationFailureReason = "no category selected" }
         // 6. do we have a valid location?
-        let currentLocationCoordinate = LocationManager.sharedInstance.currentLocation()
-        if !CLLocationCoordinate2DIsValid(currentLocationCoordinate) {
+        let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation
+        if lastKnownLocation == nil {
             showAutoFadingOutMessageAlert(translate("unable_sell_product_location"));
             validationFailureReason = "unable find location"
         }
@@ -298,7 +299,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             productObject["category_id"] = self.currentCategory!.rawValue
             productObject["currency"] = self.currentCurrency.iso4217Code
             productObject["description"] = self.descriptionTextView.text
-            productObject["gpscoords"] = PFGeoPoint(latitude: currentLocationCoordinate.latitude, longitude: currentLocationCoordinate.longitude)
+            productObject["gpscoords"] = PFGeoPoint(latitude: lastKnownLocation!.coordinate.latitude, longitude: lastKnownLocation!.coordinate.longitude)
             productObject["processed"] = false
             productObject["language_code"] = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
             productObject["name"] = self.productTitleTextField.text
@@ -362,7 +363,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             productObject.ACL = globalReadAccessACL()
             
             // Last (but not least) try to extract the geolocation address for the object based on the current coordinates
-            let currentLocation = CLLocation(coordinate: currentLocationCoordinate, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
+            let currentLocation = CLLocation(coordinate: lastKnownLocation!.coordinate, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
             self.geocoder.reverseGeocodeLocation(currentLocation, completionHandler: { (placemarks, error) -> Void in
                 if placemarks?.count > 0 {
                     var addressString = ""

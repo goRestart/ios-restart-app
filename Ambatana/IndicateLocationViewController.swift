@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import UIKit
 import QuartzCore
 import MapKit
@@ -59,8 +60,9 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
 
         // if we have a current location (we are accessing through the "Change my location" option in settings, start with that location.
         var initialLocation: CLLocationCoordinate2D?
-        if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastKnownLocation) { initialLocation = LocationManager.sharedInstance.lastKnownLocation }
-        else if CLLocationCoordinate2DIsValid(LocationManager.sharedInstance.lastRegisteredLocation) { initialLocation = LocationManager.sharedInstance.lastRegisteredLocation }
+        if LocationManager.sharedInstance.lastKnownLocation != nil {
+            initialLocation = LocationManager.sharedInstance.lastKnownLocation!.coordinate
+        }
 
         // do we have an initial location?
         if initialLocation != nil && CLLocationCoordinate2DIsValid(initialLocation!) {
@@ -85,7 +87,8 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     @IBAction func setLocation(sender: AnyObject) {
         if CLLocationCoordinate2DIsValid(locationInMap) {
             enableLoadingStatus()
-            LocationManager.sharedInstance.userSpecifiedLocationDirectly(locationInMap, mustNotifyObservers: allowGoingBack)
+            // FIXME: !!!
+//            LocationManager.sharedInstance.userSpecifiedLocationDirectly(locationInMap, mustNotifyObservers: allowGoingBack)
         } else {
             if iOSVersionAtLeast("8.0") {
                 let alert = UIAlertController(title: translate("error"), message: translate("select_valid_location"), preferredStyle:.Alert)
