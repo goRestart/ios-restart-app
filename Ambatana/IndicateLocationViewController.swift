@@ -11,6 +11,10 @@ import UIKit
 import QuartzCore
 import MapKit
 
+protocol IndicateLocationViewControllerDelegate: class {
+    func userDidManuallySetCoordinates(coordinates: CLLocationCoordinate2D)
+}
+
 class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGestureRecognizerDelegate, UITextFieldDelegate, UIAlertViewDelegate {
     // outlets & buttons
     @IBOutlet weak var mapView: MKMapView!
@@ -19,6 +23,8 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var setLocationBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var keepFingerPressedLabel: UILabel!
+    
+    weak var delegate: IndicateLocationViewControllerDelegate?
     
     // data
     var locationInMap: CLLocationCoordinate2D = kCLLocationCoordinate2DInvalid {
@@ -54,10 +60,6 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         super.viewWillAppear(animated)
         disableLoadingStatus()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unableToSetUserLocation:", name: kLetGoUnableToSetUserLocationNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kLetGoUserLocationSuccessfullySetNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationSet:", name: kLetGoUserLocationSuccessfullyChangedNotification, object: nil)
-
         // if we have a current location (we are accessing through the "Change my location" option in settings, start with that location.
         var initialLocation: CLLocationCoordinate2D?
         if LocationManager.sharedInstance.lastKnownLocation != nil {
@@ -69,17 +71,6 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
             self.locationInMap = initialLocation!
             self.centerMapInLocation(initialLocation!, andIncludePin: true)
         }
-//        self.setLocationBarButtonItem.enabled = false // force a change in location to enable accept button.
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     // MARK: - Buttons and touch interactions
@@ -87,9 +78,10 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     @IBAction func setLocation(sender: AnyObject) {
         if CLLocationCoordinate2DIsValid(locationInMap) {
             enableLoadingStatus()
-            // FIXME: !!!
-//            LocationManager.sharedInstance.userSpecifiedLocationDirectly(locationInMap, mustNotifyObservers: allowGoingBack)
-        } else {
+            delegate?.userDidManuallySetCoordinates(locationInMap)
+            self.popBackViewController()
+        }
+        else {
             if iOSVersionAtLeast("8.0") {
                 let alert = UIAlertController(title: translate("error"), message: translate("select_valid_location"), preferredStyle:.Alert)
                 alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
@@ -163,35 +155,35 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         activityIndicator.hidden = true
     }
     
-    // MARK: - Notifications for listening to the user's revese geolocation attempt.
-    
-    func unableToSetUserLocation(notification: NSNotification) {
-        if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: translate("error"), message: translate("unable_set_location"), preferredStyle:.Alert)
-            alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        } else {
-            let alert = UIAlertView(title: translate("error"), message: translate("unable_set_location"), delegate: nil, cancelButtonTitle: translate("ok"))
-            alert.show()
-        }
-        
-        disableLoadingStatus()
-    }
-    
-    func userLocationSet(notification: NSNotification) {
-        disableLoadingStatus()
-        if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: translate("success"), message: translate("stored_your_location"), preferredStyle:.Alert)
-            alert.addAction(UIAlertAction(title: translate("ok"), style: .Default, handler: { (action) -> Void in
-                self.popBackViewController()
-            }))
-            self.presentViewController(alert, animated: true, completion: nil)
-        } else {
-            let alert = UIAlertView(title: translate("message"), message: translate("stored_your_location"), delegate: self, cancelButtonTitle: translate("ok"))
-            alert.show()
-        }
-        
-    }
+//    // MARK: - Notifications for listening to the user's revese geolocation attempt.
+//    
+//    func unableToSetUserLocation(notification: NSNotification) {
+//        if iOSVersionAtLeast("8.0") {
+//            let alert = UIAlertController(title: translate("error"), message: translate("unable_set_location"), preferredStyle:.Alert)
+//            alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        } else {
+//            let alert = UIAlertView(title: translate("error"), message: translate("unable_set_location"), delegate: nil, cancelButtonTitle: translate("ok"))
+//            alert.show()
+//        }
+//        
+//        disableLoadingStatus()
+//    }
+//    
+//    func userLocationSet(notification: NSNotification) {
+//        disableLoadingStatus()
+//        if iOSVersionAtLeast("8.0") {
+//            let alert = UIAlertController(title: translate("success"), message: translate("stored_your_location"), preferredStyle:.Alert)
+//            alert.addAction(UIAlertAction(title: translate("ok"), style: .Default, handler: { (action) -> Void in
+//                self.popBackViewController()
+//            }))
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        } else {
+//            let alert = UIAlertView(title: translate("message"), message: translate("stored_your_location"), delegate: self, cancelButtonTitle: translate("ok"))
+//            alert.show()
+//        }
+//        
+//    }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { self.popBackViewController() }
 }

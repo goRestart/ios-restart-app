@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DD65AA99208A05D029379B /* Pods_LetGo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		500A1F161B02311400C545F6 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A1F151B02311400C545F6 /* BaseViewModel.swift */; };
+		500A1F181B0231DF00C545F6 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A1F171B0231DF00C545F6 /* BaseViewController.swift */; };
 		50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */; };
 		50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */; };
 		50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */; };
@@ -105,6 +107,8 @@
 
 /* Begin PBXFileReference section */
 		2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.debug.xcconfig"; sourceTree = "<group>"; };
+		500A1F151B02311400C545F6 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		500A1F171B0231DF00C545F6 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DevelopmentEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductionEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
@@ -631,6 +635,7 @@
 		D4B9AF951AF69FAA00D88A30 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				500A1F151B02311400C545F6 /* BaseViewModel.swift */,
 				D4B9AF961AF69FB500D88A30 /* ProductsViewModel.swift */,
 			);
 			path = ViewModels;
@@ -639,6 +644,7 @@
 		D4B9AF9C1AF6A03800D88A30 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				500A1F171B0231DF00C545F6 /* BaseViewController.swift */,
 				D4B9AF9D1AF6A03800D88A30 /* ProductsViewController.swift */,
 				D4B9AF9E1AF6A03800D88A30 /* ProductsViewController.xib */,
 			);
@@ -866,6 +872,7 @@
 				D48183F71AB2FEBE00229DBF /* ProductCell.swift in Sources */,
 				66A0CFB51A8262BB00FAADF0 /* MenuViewController.swift in Sources */,
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */,
+				500A1F181B0231DF00C545F6 /* BaseViewController.swift in Sources */,
 				66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */,
 				66349B531AACAD2200AE0FDF /* DLHamburguerNavigationController.swift in Sources */,
 				66E50FAF1AE15D32000A7D44 /* CHTCollectionViewWaterfallLayout.m in Sources */,
@@ -888,6 +895,7 @@
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */,
 				66349B521AACAD2200AE0FDF /* DLHamburguerContainerViewController.swift in Sources */,
+				500A1F161B02311400C545F6 /* BaseViewModel.swift in Sources */,
 				50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */,
 				D4B9AF971AF69FB500D88A30 /* ProductsViewModel.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColorExtensions.swift in Sources */,

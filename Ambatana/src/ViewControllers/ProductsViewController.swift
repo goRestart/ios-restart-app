@@ -11,12 +11,8 @@ import LGCoreKit
 import Parse
 import UIKit
 
-class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfallLayout, ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, ShowProductViewControllerDelegate {
+class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWaterfallLayout, IndicateLocationViewControllerDelegate, ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, ShowProductViewControllerDelegate {
 
-    // Constants
-    // TODO: move to ProductsViewModel or Constants (if shared const)
-    private static let locationRetrievalTimeout: NSTimeInterval = 15
-    
     // Enums
     private enum UIState {
         case Loading, Loaded, NoProducts
@@ -26,8 +22,6 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     var viewModel: ProductsViewModel!
 
     // Data
-    // TODO: Move to ProductsViewModel
-    var unableToRetrieveLocationTimer: NSTimer?
     var currentCategory: LetGoProductCategory?
     var currentSearchString: String?
     
@@ -42,19 +36,19 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     
     @IBOutlet weak var sellButton: UIButton!
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
     
     convenience init() {
-        self.init(viewModel: ProductsViewModel())
+        self.init(viewModel: ProductsViewModel(), nibName: "ProductsViewController")
     }
-    
-    init(viewModel: ProductsViewModel) {
+
+    required init(viewModel: ProductsViewModel, nibName nibNameOrNil: String?) {
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
-        super.init(nibName: "ProductsViewController", bundle: nil)
     }
     
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
     
     override func viewDidLoad() {
@@ -70,7 +64,7 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         }
         
         // UI
-        // No results
+        // > No results
         if self.currentSearchString == nil {
             self.noProductsFoundLabel.text = translate("be_the_first_to_start_selling")
             self.reloadButton.hidden = true
@@ -80,7 +74,7 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         }
         self.reloadButton.setTitle(translate("reload_products"), forState: .Normal)
         
-        // Collection view
+        // > Collection view
         var layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = 0.0
         layout.minimumInteritemSpacing = 0.0
@@ -91,21 +85,20 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         let cellNib = UINib(nibName: "ProductCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
         
-        // Pull to refresh
+        // > Pull to refresh
         self.refreshControl = UIRefreshControl()
-        //self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
+//        self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
         self.refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
-        
-//        // Start as loading
-//        setUIState(.Loading)
+
+        // Initial UI state is Loading (by xib)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         // UI
-        // Navigation bar
+        // > Navigation bar
         let menuButton = UIBarButtonItem(image: UIImage(named: "actionbar_burger"), style: .Plain, target: self, action: Selector("toggleMenu:"))
         menuButton.tintColor = UIColor.blackColor()
         self.navigationItem.leftBarButtonItem = menuButton
@@ -118,25 +111,15 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
             setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchButtonPressed:", "conversationsButtonPressed:"], badgeButtonPosition: 1)
         }
         
-        // Menu should only be visible from the main screen. Disable sliding unless we are the only active vc.
+        // > Menu should only be visible from the main screen. Disable sliding unless we are the only active vc.
         let vcNumber = self.navigationController?.viewControllers.count
         if vcNumber == 1 { // I am the first, main view controller
             self.findHamburguerViewController()?.gestureEnabled = true // enable sliding.
         } else { self.findHamburguerViewController()?.gestureEnabled = false } // otherwise, don't allow the pan gesture.
 
-        // Register for notifications.
-
-        // FIXME: Listen to notifications in VM
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToSetUserLocationNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didFailRetrievingLocation:", name: kLetGoUnableToGetUserLocationNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didSucceedRetrievingLocation:", name: kLetGoUserLocationSuccessfullySetNotification, object: nil)
-        // @ahl: not used (last location handled automatically when refreshing)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLocationUpdated:", name: kLetGoUserLocationSuccessfullyChangedNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveLocationWithNotification:", name: LocationManager.DidReceiveLocationNotification, object: nil)
+        // NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged:", name: UIContentSizeCategoryDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
-        
-        viewModel.active = true
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -148,9 +131,8 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         // Hide search bar (if showing)
         if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
         
+        // NSNotificationCenter
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        
-        viewModel.active = false
     }
     
    
@@ -158,6 +140,11 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     
     // MARK: > UI
     
+    /**
+        Sets up the UI state.
+    
+        :param: state The UI state to set the view to.
+    */
     private func setUIState(state: UIState) {
         switch (state) {
         case .Loading:
@@ -190,14 +177,7 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     
     // MARK: > Actions
     
-    @IBAction func reloadButtonPressed(sender: AnyObject) {
-        refresh()
-    }
-    
-    @IBAction func sellButtonPressed(sender: AnyObject) {
-        pushSellProductViewController()
-    }
-    
+    /** Called when the hamburguer menu button is pressed. */
     func toggleMenu(sender: AnyObject) {
         // clear edition & dismiss keyboard
         self.view.endEditing(true)
@@ -207,13 +187,27 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         self.findHamburguerViewController()?.showMenuViewController()
     }
     
+    /** Called when the reload button is pressed. */
+    @IBAction func reloadButtonPressed(sender: AnyObject) {
+        refresh()
+    }
+    
+    /** Called when the sell button is pressed. */
+    @IBAction func sellButtonPressed(sender: AnyObject) {
+        pushSellProductViewController()
+    }
+    
+    /** Called when the conversations button is pressed. */
     func conversationsButtonPressed(sender: AnyObject) {
         pushConversationsViewController()
     }
     
+    /** Called when the search button is pressed. */
     func searchButtonPressed(sender: AnyObject) {
         showSearchBarAnimated(true, delegate: self)
     }
+    
+    // MARK: > Action view model interaction
     
     func refresh() {
         if viewModel.canRetrieveProducts {
@@ -270,6 +264,7 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
     func pushIndicateLocationViewController() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
+        vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -300,17 +295,6 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
 
     // MARK: - NSNotificationCenter
     
-//    func didFailRetrievingLocation(notification: NSNotification) {
-//        unableToRetrieveLocationTimer?.invalidate()
-//        unableToRetrieveLocationTimer = nil
-//        
-//        pushIndicateLocationViewController()
-//    }
-//    
-//    func didSucceedRetrievingLocation(notification: NSNotification) {
-//        refresh()
-//    }
-    
     func dynamicTypeChanged(notification: NSNotification) {
         self.collectionView.reloadSections(NSIndexSet(index: 0))
     }
@@ -319,14 +303,48 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         refreshBadgeButton()
     }
     
+    // MARK: - IndicateLocationViewControllerDelegate
+    
+    func userDidManuallySetCoordinates(coordinates: CLLocationCoordinate2D) {
+        viewModel.coordinates = LGLocationCoordinates2D(coordinates: coordinates)
+    }
+    
     // MARK: - ProductsViewModelDelegate
+    
+    func didFailRequestingLocationServices(status: LocationServiceStatus) {
+        var alertMessage: String?
+        var alertButtonTitle: String?
+        
+        switch status {
+        case .Disabled:
+            alertMessage = translate("location_disabled_message")
+            alertButtonTitle = translate("location_disabled_settings")
+        case .Enabled(let authStatus):
+            if authStatus == .Restricted || authStatus == .Denied {
+                alertMessage = translate("location_unauthorized_message")
+                alertButtonTitle = translate("location_unauthorized_settings")
+            }
+        }
+
+        if let alertMsg = alertMessage, let alertButTitle = alertButtonTitle {
+            let alert = UIAlertController(title: nil, message: alertMsg, preferredStyle:.Alert)
+            alert.addAction(UIAlertAction(title: alertButTitle, style:.Default, handler: { (action) -> Void in
+                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func didTimeoutRetrievingLocation() {
+        pushIndicateLocationViewController()
+    }
     
     func didStartRetrievingLocation() {
         setUIState(.Loading)
     }
     
     func didFailRetrievingLocation() {
-        // ERROR!
+        pushIndicateLocationViewController()
     }
     
     func didStartRetrievingFirstPageProducts() {
@@ -352,8 +370,7 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { [weak self] (action) -> Void in
             if let strongSelf = self {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                    // TODO: Warning
-//                    strongSelf.refresh()
+                    strongSelf.refresh()
                 })
             }
         }))
@@ -377,8 +394,7 @@ class ProductsViewController: UIViewController, CHTCollectionViewDelegateWaterfa
         alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { [weak self] (action) -> Void in
             if let strongSelf = self {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                    // TODO: Warning
-//                    strongSelf.retrieveNextPage()
+                    strongSelf.viewModel.retrieveProductsNextPage()
                 })
             }
             }))

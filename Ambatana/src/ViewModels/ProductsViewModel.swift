@@ -12,15 +12,8 @@ import LGCoreKit
 import Parse
 
 protocol ProductsViewModelDelegate: class {
-//    func didStartLoading()
-//    func didFailLoading()
-
-//    func didStartRefreshing()
-//    func didFailRefreshing()
-//    func didSucceedRefreshing()
-//    
-//    func didStartRetrievingLocation()
-//    func didFailRetrievingLocation()
+    func didFailRequestingLocationServices(status: LocationServiceStatus)
+    func didTimeoutRetrievingLocation()
     
     func didStartRetrievingFirstPageProducts()
     func didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths: [NSIndexPath])
@@ -31,9 +24,9 @@ protocol ProductsViewModelDelegate: class {
     func didFailRetrievingNextPageProducts(error: NSError)
 }
 
-class ProductsViewModel {
+class ProductsViewModel: BaseViewModel {
     
-    // Constants
+    // MARK: - Constants
     private static let columnCount: CGFloat = 2.0
     
     private static let cellMinHeight: CGFloat = 160.0
@@ -42,49 +35,13 @@ class ProductsViewModel {
     
     private static let itemsPagingThresholdPercentage: Float = 0.9    // when we should start ask for a new page
     
-    // Manager
-    private let productsManager: ProductsManager
-    private let myUserManager: MyUserManager
-    private let locationManager: LocationManager
+    private static let locationRetrievalTimeout: NSTimeInterval = 15    // seconds
     
-    // iVars
-    var active: Bool {
-        didSet {
-            if active {
-                setActive()
-            }
-            else {
-                setInactive()
-            }
-        }
-    }
+    // MARK: - iVars
+    // > Delegate
+    weak var delegate: ProductsViewModelDelegate?
     
-    var canRetrieveProducts: Bool {
-        get {
-            // If we've valid query coordinates, then ask the products manager about it
-            if let coords = queryCoordinates {
-                return productsManager.canRetrieveProducts
-            }
-            
-            return false
-        }
-    }
-    
-    private var products: NSArray
-    private(set) var defaultCellSize: CGSize!
-    
-    var numberOfProducts: Int {
-        get {
-            return products.count
-        }
-    }
-    var numberOfColumns: Int {
-        get {
-            return Int(ProductsViewModel.columnCount)
-        }
-    }
-    
-    // Input
+    // > Input
     var queryString: String?
     var coordinates: LGLocationCoordinates2D?
     var categoryIds: [Int]?
@@ -93,12 +50,64 @@ class ProductsViewModel {
     var minPrice: Int?
     var userObjectId: String?
     
-    // Delegate
-    weak var delegate: ProductsViewModelDelegate?
+    // > Manager
+    private let productsManager: ProductsManager
+    private let myUserManager: MyUserManager
+    private let locationManager: LocationManager
+    private var locationRetrievalTimeoutTimer: NSTimer?
+    
+    // > Data
+    private var products: NSArray
+    
+    // > UI
+    private(set) var defaultCellSize: CGSize!
+    
+    // MARK: - Computed iVars
+    var numberOfProducts: Int {
+        return products.count
+    }
+    
+    var numberOfColumns: Int {
+        return Int(ProductsViewModel.columnCount)
+    }
+    
+    var canRetrieveProducts: Bool {
+        // If we've valid query coordinates, then ask the products manager about it
+        if let coords = queryCoordinates {
+            return productsManager.canRetrieveProducts
+        }
+        
+        return false
+    }
+    
+    private var canRetrieveProductsNextPage: Bool {
+        return productsManager.canRetrieveProductsNextPage
+    }
+    
+    private var queryCoordinates: LGLocationCoordinates2D? {
+        let coords: LGLocationCoordinates2D?
+        // If we had specified coordinates
+        if let specifiedCoordinates = coordinates {
+            coords = specifiedCoordinates
+        }
+            // Else if possible try to use last LocationManager location
+        else if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
+            coords = LGLocationCoordinates2D(coordinates: lastKnownLocation.coordinate)
+        }
+        // @ahl: Currently we're not gonna use the last user saved location as might have changed
+//        // Else if possible try to use last user saved location
+//        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
+//            coords = LGLocationCoordinates2D(coordinates: userCoordinates)
+//        }
+        else {
+            coords = nil
+        }
+        return coords
+    }
     
     // MARK: - Lifecycle
     
-    init() {
+    override init() {
         let sessionManager = SessionManager.sharedInstance
         let productsService = LGProductsService()
         self.productsManager = ProductsManager(sessionManager: sessionManager, productsService: productsService)
@@ -109,34 +118,58 @@ class ProductsViewModel {
         
         let cellHeight = ProductsViewModel.cellWidth * ProductsViewModel.cellAspectRatio
         self.defaultCellSize = CGSizeMake(ProductsViewModel.cellWidth, cellHeight)
-
-        self.active = false
+    }
+    
+    // MARK: > Overriden methods
+    
+    internal override func didSetActive(isActive: Bool) {
+        super.didSetActive(isActive)
+        if isActive {
+            // Observe when receiving new locations and when location services requests fails
+            let notificationCenter = NSNotificationCenter.defaultCenter()
+            notificationCenter.addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: LocationManager.didReceiveLocationNotification, object: nil)
+            notificationCenter.addObserver(self, selector: Selector("didFailRequestingLocationServicesWithNotification:"), name: LocationManager.didFailRequestingLocationServices, object: nil)
+            
+            // If there are no products
+            if numberOfProducts == 0 {
+                // Reload if possible
+                if canRetrieveProducts {
+                    retrieveProductsFirstPage()
+                }
+                // Check access to location and notify delegate if needed
+                else {
+                    // If no location access, then notify the delegate
+                    let locationStatus = locationManager.locationServiceStatus
+                    if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
+                        delegate?.didFailRequestingLocationServices(locationStatus)
+                    }
+                    // If we've location access but we don't have a location yet, run a timer
+                    else if queryCoordinates == nil {
+                        if let timer = locationRetrievalTimeoutTimer {
+                            timer.invalidate()
+                        }
+                        locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
+                    }
+                }
+            }
+        }
+        else {
+            NSNotificationCenter.defaultCenter().removeObserver(self)
+        }
     }
     
     // MARK: - Internal methods
     
     // MARK: > Requests
     
+    /**
+        Retrieve the products first page, with the current query parameters.
+    
+        :returns: If the operation started.
+    */
     func retrieveProductsFirstPage() -> Bool {
         
         let accessToken = SessionManager.sharedInstance.sessionToken?.accessToken ?? ""
-        
-        // If we had specified coordinates
-        let coords: LGLocationCoordinates2D?
-        if let specifiedCoordinates = coordinates {
-            coords = specifiedCoordinates
-        }
-            // Else if possible try to use last LocationManager location
-        else if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            coords = LGLocationCoordinates2D(coordinates: lastKnownLocation.coordinate)
-        }
-            // Else if possible try to use last user saved location
-        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
-            coords = LGLocationCoordinates2D(coordinates: userCoordinates)
-        }
-        else {
-            coords = nil
-        }
         
         if let actualCoordinates = queryCoordinates {
             var params: RetrieveProductsParams = RetrieveProductsParams(coordinates: actualCoordinates, accessToken: accessToken)
@@ -162,10 +195,10 @@ class ProductsViewModel {
                             let products = task.result as! NSArray
                             strongSelf.products = products
                             
-                            var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: products.count)
+                            var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsForRange(currentCount...products.count)
                             delegate?.didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths)
                         }
-                            // Error
+                        // Error
                         else {
                             let error = task.error
                             delegate?.didFailRetrievingFirstPageProducts(error)
@@ -179,6 +212,9 @@ class ProductsViewModel {
         return false
     }
     
+    /**
+        Retrieve the products next page, with the last query parameters.
+    */
     func retrieveProductsNextPage() {
         
         if let task = productsManager.retrieveProductsNextPage() {
@@ -195,10 +231,10 @@ class ProductsViewModel {
                         let newProducts = task.result as! NSArray
                         strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                         
-                        var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: newProducts.count)
+                        var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsForRange(currentCount...newProducts.count)
                         delegate?.didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths)
                     }
-                        // Error
+                    // Error
                     else {
                         let error = task.error
                         delegate?.didFailRetrievingNextPageProducts(error)
@@ -209,29 +245,34 @@ class ProductsViewModel {
         }
     }
     
-    // MARK: > Active
-    
-    func setActive() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveLocationWithNotification:", name: LocationManager.didReceiveLocationNotification, object: nil)
-        if numberOfProducts == 0 {
-            retrieveProductsFirstPage()
-        }
-    }
-    
-    func setInactive() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
     // MARK: > UI
     
+    /**
+        Returns the product at the given index.
+    
+        :param: index The index of the product.
+        :returns: The product.
+    */
     func productAtIndex(index: Int) -> PartialProduct {
         return products.objectAtIndex(index) as! PartialProduct
     }
     
+    /**
+        Returns the product object id for the product at the given index.
+    
+        :param: index The index of the product.
+        :returns: The product object id.
+    */
     func productObjectIdForProductAtIndex(index: Int) -> String? {
         return productAtIndex(index).objectId
     }
     
+    /**
+        Returns the size of the cell at the given index path.
+    
+        :param: index The index of the product.
+        :returns: The cell size.
+    */
     func sizeForCellAtIndex(index: Int) -> CGSize {
         let product = products.objectAtIndex(index) as! PartialProduct
         if let thumbnailSize = product.thumbnailSize {
@@ -245,8 +286,15 @@ class ProductsViewModel {
         return defaultCellSize
     }
     
+    /**
+        Sets which item is currently visible on screen. If it exceeds a certain threshold then it loads next page, if possible.
+    
+        :param: index The index of the product currently visible on screen.
+    */
     func setCurrentItemIndex(index: Int) {
-        if shouldRetrieveProductsNextPageWhenAtIndex(index) && canRetrieveProductsNextPage {
+        let threshold = Int(Float(numberOfProducts) * ProductsViewModel.itemsPagingThresholdPercentage)
+        let shouldRetrieveProductsNextPage = index >= threshold
+        if shouldRetrieveProductsNextPage && canRetrieveProductsNextPage {
             retrieveProductsNextPage()
         }
     }
@@ -255,55 +303,43 @@ class ProductsViewModel {
     
     // MARK: > NSNotificationCenter
     
+    /** Called when a new location is received. */
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
-        // If we don't have specified coordinates, and there are no products the reload
-        if coordinates == nil && numberOfProducts == 0 {
+        // If there are no products then reload if possible
+        if numberOfProducts == 0 && canRetrieveProducts {
             retrieveProductsFirstPage()
         }
     }
     
-    @objc private func didFailRequestingLocationServices(notification: NSNotification) {
-//        delegate?.
+    /** Called when a location services request fails. */
+    @objc private func didFailRequestingLocationServicesWithNotification(notification: NSNotification) {
+        // If no location access, then notify the delegate
+        let locationStatus = locationManager.locationServiceStatus
+        if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
+            delegate?.didFailRequestingLocationServices(locationStatus)
+        }
+    }
+    
+    // MARK: > Timer
+    
+    /** Called when a location retrieval times out. */
+    @objc func locationRetrievalTimedOut() {
+        delegate?.didTimeoutRetrievingLocation()
     }
     
     // MARK: > Helper
     
-    private var queryCoordinates: LGLocationCoordinates2D? {
-        let coords: LGLocationCoordinates2D?
-        // If we had specified coordinates
-        if let specifiedCoordinates = coordinates {
-            coords = specifiedCoordinates
-        }
-            // Else if possible try to use last LocationManager location
-        else if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            coords = LGLocationCoordinates2D(coordinates: lastKnownLocation.coordinate)
-        }
-            // Else if possible try to use last user saved location
-        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
-            coords = LGLocationCoordinates2D(coordinates: userCoordinates)
-        }
-        else {
-            coords = nil
-        }
-        return coords
-    }
+    /**
+        Returns the index paths for the given range.
     
-    private static func indexPathsFromIndex(index: Int, count: Int) -> [NSIndexPath] {
+        :param: range The range.
+        :returns: An index paths array.
+    */
+    private static func indexPathsForRange(range: Range<Int>) -> [NSIndexPath] {
         var indexPaths: [NSIndexPath] = []
-        for i in index..<index + count {
+        for i in range {
             indexPaths.append(NSIndexPath(forItem: i, inSection: 0))
         }
         return indexPaths
-    }
-    
-    private func shouldRetrieveProductsNextPageWhenAtIndex(index: Int) -> Bool {
-        let threshold = Int(Float(numberOfProducts) * ProductsViewModel.itemsPagingThresholdPercentage)
-        return index >= threshold
-    }
-    
-    private var canRetrieveProductsNextPage: Bool {
-        get {
-            return productsManager.canRetrieveProductsNextPage
-        }
     }
 }

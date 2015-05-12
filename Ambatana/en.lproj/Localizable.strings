@@ -200,5 +200,8 @@
 "reporting_product" = "Reporting Product...";
 "reported_product" = "The product has been reported";
 
-
+"location_disabled_message" = "Location is disabled. Please, enable it in:\n Settings > Privacy > Location Services.";
+"location_disabled_settings" = "Settings";
+"location_unauthorized_message" = "Please, let us retrieve the current location in settings.";
+"location_unauthorized_settings" = "Settings";
 
