@@ -89,10 +89,10 @@ public class MyUserManager {
             // Retrieve the address for the received location, and then save the user again
             return retrieveAddressForLocation(location).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
                 if let postalAddress = task.result as? PostalAddress {
-                    myUser.address = postalAddress.address
-                    myUser.city = postalAddress.city
-                    myUser.countryCode = postalAddress.countryCode
-                    myUser.zipCode = postalAddress.zipCode
+                    myUser.address = postalAddress.address ?? ""
+                    myUser.city = postalAddress.city ?? ""
+                    myUser.countryCode = postalAddress.countryCode ?? ""
+                    myUser.zipCode = postalAddress.zipCode ?? ""
                     return self.save()
                 }
                 return nil
