@@ -147,6 +147,7 @@ class ProductsViewModel: BaseViewModel {
                     else if queryCoordinates == nil {
                         if let timer = locationRetrievalTimeoutTimer {
                             timer.invalidate()
+                            timer = nil
                         }
                         locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
                     }
@@ -305,6 +306,12 @@ class ProductsViewModel: BaseViewModel {
     
     /** Called when a new location is received. */
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
+        // If we had a timer running, kill it
+        if let timer = locationRetrievalTimeoutTimer {
+            timer.invalidate()
+            timer = nil
+        }
+        
         // If there are no products then reload if possible
         if numberOfProducts == 0 && canRetrieveProducts {
             retrieveProductsFirstPage()
@@ -324,7 +331,9 @@ class ProductsViewModel: BaseViewModel {
     
     /** Called when a location retrieval times out. */
     @objc func locationRetrievalTimedOut() {
-        delegate?.didTimeoutRetrievingLocation()
+        if queryCoordinates == nil {
+            delegate?.didTimeoutRetrievingLocation()
+        }
     }
     
     // MARK: > Helper
