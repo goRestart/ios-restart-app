@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import MessageUI
 import UIKit
@@ -92,8 +93,8 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // set user data
         userImageView.image = ConfigurationManager.sharedInstance.userProfileImage ?? UIImage(named: kLetGoDefaultUserImageName)
-        userLocationLabel.text = ConfigurationManager.sharedInstance.userLocation
-        userNameLabel.text = ConfigurationManager.sharedInstance.userName
+        userLocationLabel.text = MyUserManager.sharedInstance.myUser()?.city ?? ""
+        userNameLabel.text = MyUserManager.sharedInstance.myUser()?.publicUsername ?? ""
         
         // register for user profile picture update notifications.
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "userPictureUpdated:", name: kLetGoUserPictureUpdatedNotification, object: nil)
