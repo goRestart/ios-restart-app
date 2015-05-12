@@ -145,9 +145,9 @@ class ProductsViewModel: BaseViewModel {
                     }
                     // If we've location access but we don't have a location yet, run a timer
                     else if queryCoordinates == nil {
-                        if let timer = locationRetrievalTimeoutTimer {
-                            timer.invalidate()
-                            timer = nil
+                        if locationRetrievalTimeoutTimer != nil {
+                            locationRetrievalTimeoutTimer!.invalidate()
+                            locationRetrievalTimeoutTimer = nil
                         }
                         locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
                     }
@@ -307,9 +307,9 @@ class ProductsViewModel: BaseViewModel {
     /** Called when a new location is received. */
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
         // If we had a timer running, kill it
-        if let timer = locationRetrievalTimeoutTimer {
-            timer.invalidate()
-            timer = nil
+        if locationRetrievalTimeoutTimer != nil {
+            locationRetrievalTimeoutTimer!.invalidate()
+            locationRetrievalTimeoutTimer = nil
         }
         
         // If there are no products then reload if possible
