@@ -22,9 +22,6 @@ protocol ProductsViewModelDelegate: class {
 //    func didStartRetrievingLocation()
 //    func didFailRetrievingLocation()
     
-    
-    
-    
     func didStartRetrievingFirstPageProducts()
     func didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths: [NSIndexPath])
     func didFailRetrievingFirstPageProducts(error: NSError)
@@ -215,7 +212,7 @@ class ProductsViewModel {
     // MARK: > Active
     
     func setActive() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveLocationWithNotification:", name: LocationManager.DidReceiveLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveLocationWithNotification:", name: LocationManager.didReceiveLocationNotification, object: nil)
         if numberOfProducts == 0 {
             retrieveProductsFirstPage()
         }
@@ -263,6 +260,10 @@ class ProductsViewModel {
         if coordinates == nil && numberOfProducts == 0 {
             retrieveProductsFirstPage()
         }
+    }
+    
+    @objc private func didFailRequestingLocationServices(notification: NSNotification) {
+//        delegate?.
     }
     
     // MARK: > Helper

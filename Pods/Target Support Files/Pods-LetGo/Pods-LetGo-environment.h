@@ -77,14 +77,14 @@
 #define COCOAPODS_POD_AVAILABLE_LGCoreKit
 #define COCOAPODS_VERSION_MAJOR_LGCoreKit 0
 #define COCOAPODS_VERSION_MINOR_LGCoreKit 0
-#define COCOAPODS_VERSION_PATCH_LGCoreKit 3
+#define COCOAPODS_VERSION_PATCH_LGCoreKit 4
 
 // Parse
 #define COCOAPODS_POD_AVAILABLE_Parse
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 1.7.2.1.
+// Version: 1.7.2.2.
 
 // SDWebImage
 #define COCOAPODS_POD_AVAILABLE_SDWebImage

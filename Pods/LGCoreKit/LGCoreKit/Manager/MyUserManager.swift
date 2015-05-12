@@ -13,7 +13,7 @@ import Parse
 public class MyUserManager {
     
     // Constants
-    public static let DidReceiveAddressNotification = "MyUserManagerDidReceiveAddressNotification"
+    public static let didReceiveAddressNotification = "MyUserManager.didReceiveAddressNotification"
     
     // iVars
     private var userSaveService: UserSaveService
@@ -28,7 +28,7 @@ public class MyUserManager {
         self.userSaveService = userSaveService
         self.postalAddressRetrivalService = postalAddressRetrivalService
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveLocationWithNotification:", name: LocationManager.DidReceiveLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveLocationWithNotification:", name: LocationManager.didReceiveLocationNotification, object: nil)
     }
     
     deinit {
@@ -79,7 +79,7 @@ public class MyUserManager {
     
     // MARK: > NSNotificationCenter
     
-    private func didReceiveLocationWithNotification(notification: NSNotification) {
+    @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
 
         if let location = notification.object as? CLLocation, let myUser = myUser() {
             

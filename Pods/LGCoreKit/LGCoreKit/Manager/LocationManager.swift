@@ -57,7 +57,13 @@ public func ==(lhs: LocationServiceStatus, rhs: LocationServiceStatus) -> Bool {
 public class LocationManager: NSObject, CLLocationManagerDelegate {
 
     // Constants
-    public static let DidReceiveLocationNotification = "LocationManagerDidReceiveLocationNotification"
+    // > Notifications
+    public static let didReceiveLocationNotification = "LocationManager.didReceiveLocationNotification"
+    public static let didFailRequestingLocationServices = "LocationManager.didFailRequestingLocationServices"
+    
+    // > Location Service setup
+    public static let distanceFilter: CLLocationDistance = 250
+    public static let desiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
     
     // Singleton
     public static let sharedInstance: LocationManager = LocationManager()
@@ -85,15 +91,26 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         super.init()
         
         // Setup
-        self.locationService.distance = 250
-        self.locationService.accuracy = kCLLocationAccuracyHundredMeters
+        self.locationService.distance = LocationManager.distanceFilter
+        self.locationService.accuracy = LocationManager.desiredAccuracy
         self.locationService.locationManagerDelegate = self
     }
     
     // MARK: - Public methods
     
+    /**
+        Starts updating location.
+    
+        :returns: The current location service status.
+    */
     public func startLocationUpdates() -> LocationServiceStatus {
         
+        // If LBS are not enabled then notify about it
+        if !self.locationService.locationEnabled() {
+            NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didFailRequestingLocationServices, object: nil)
+        }
+        
+        // Check the current status, then if iOS 8 we should request permissions
         let status = locationServiceStatus
         switch status {
         case .Enabled(let authStatus):
@@ -102,11 +119,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
                 if UIDevice.isOSAtLeast(OSVersion.iOS8_0_0) {
                     self.locationService.requestWhenInUseAuthorization()
                 }
-                else {
-                    self.locationService.startUpdatingLocation()
-                }
-            case .Authorized:
-                self.locationService.startUpdatingLocation()
             default:
                 break
             }
@@ -114,9 +126,15 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             break
         }
         
+        // Start updating the location
+        self.locationService.startUpdatingLocation()
+        
         return status
     }
     
+    /**
+        Stops updating location.
+    */
     public func stopLocationUpdates() {
         self.locationService.stopUpdatingLocation()
     }
@@ -126,16 +144,11 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     public func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         let locationStatus = LocationServiceStatus(enabled: self.locationService.locationEnabled(), authStatus: self.locationService.authorizationStatus())
         
-        switch locationStatus {
-        case .Enabled(let authStatus):
-            switch authStatus {
-            case .Authorized:
-                self.locationService.startUpdatingLocation()
-            default:
-                break
-            }
-        default:
-            break
+        if locationStatus == .Enabled(LocationServicesAuthStatus.Authorized) {
+            self.locationService.startUpdatingLocation()
+        }
+        else {
+            NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didFailRequestingLocationServices, object: nil)
         }
     }
     
@@ -143,7 +156,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         if let actualLocations = locations, let lastLocation = actualLocations.last as? CLLocation {
             self.lastKnownLocation = lastLocation
             
-            NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.DidReceiveLocationNotification, object: lastLocation)
+            NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didReceiveLocationNotification, object: lastLocation)
         }
     }
 }

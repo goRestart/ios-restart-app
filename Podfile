@@ -10,7 +10,7 @@ xcodeproj "LetGo.xcodeproj"
 
 # app
 target "LetGo" do
-    pod "Parse",                ">= 1.7"
+    #pod "Parse",                ">= 1.7"
     #It's added manually, as it's fucked up by Facebook/Parse...
     #pod "ParseFacebookUtilsV4", ">= 1.7"
     pod "SDWebImage"
@@ -30,7 +30,7 @@ target "LetGo" do
     pod "Amplitude-iOS",        ">= 2.4"
     
     # letgo Core
-    pod 'LGCoreKit',            "0.0.3"
+    pod 'LGCoreKit',            "0.0.4"
     
     # Networking (to be removed when migrating to LGCoreKit)
     pod "Alamofire",            ">= 1.2"
