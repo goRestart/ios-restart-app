@@ -18,15 +18,5 @@ class BaseViewModel {
     
     internal func didSetActive(isActive: Bool) {
         
-    }
-    
-    // MARK: - Private methods
-    
-    @objc private func applicationDidEnterBackground(notification: NSNotification) {
-        active = false
-    }
-    
-    @objc private func applicationWillEnterForeground(notification: NSNotification) {
-        active = true
-    }
+    }   
 }

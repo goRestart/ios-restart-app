@@ -26,10 +26,28 @@ class BaseViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         viewModel.active = true
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidEnterBackground:"), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // MARK: - Private methods
+    
+    // MARK: > NSNotificationCenter
+    
+    @objc private func applicationDidEnterBackground(notification: NSNotification) {
+        viewModel.active = false
+    }
+    
+    @objc private func applicationWillEnterForeground(notification: NSNotification) {
+        viewModel.active = true
     }
 }
