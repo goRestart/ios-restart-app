@@ -165,7 +165,7 @@
 "uploading_image_please_wait" = "Uploading image, please wait...";
 "error_uploading_product" = "An error happened while registering your product. ";
 "here" = "Here";
-"are_you_sure_mark_sold" = "Are you sure you want to mark this item as sold?";
+"are_you_sure_mark_sold" = "Congratulations, you got it! Are you sure you want to mark it as sold?";
 "marked_as_sold" = "Marked as Sold";
 "error_marking_as_sold" = "There was an error while marking the product as sold. Please, try again later.";
 "loading_conversations" = "Loading conversations...";
@@ -200,8 +200,8 @@
 "reporting_product" = "Reporting Product...";
 "reported_product" = "The product has been reported";
 
-"location_disabled_message" = "Location is disabled. Please, enable it in:\n Settings > Privacy > Location Services.";
+"location_disabled_message" = "Oops! Your location is turned off. To turn it on, go to:\n Settings > Privacy > Location Services.";
 "location_disabled_settings" = "Settings";
-"location_unauthorized_message" = "Please, let us retrieve the current location in settings.";
+"location_unauthorized_message" = "Please, allow us to access your location.";
 "location_unauthorized_settings" = "Settings";
 
