@@ -61,9 +61,9 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
     
     public static func fromString(string: String) -> DistanceType? {
         switch string {
-        case "ML":
+        case "ML", "Ml", "ml", "MI", "Mi", "mi":
             return .Mi
-        case "KM":
+        case "KM", "Km", "km":
             return .Km
         default:
             return nil
@@ -71,7 +71,16 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
     }
     
     public func formatDistance(distance: Float) -> String {
-        return NSString(format: "%.1fML", distance) as String
+        var format: String
+        switch self {
+        case .Mi:
+            format = "%.1f mi"
+        case .Km:
+            format = "%.1f km"
+        default:
+            format = "%.1f mi"
+        }
+        return NSString(format: format, distance) as String
     }
     
     public var description: String { return "\(string)" }
@@ -98,7 +107,7 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 }
 
 @objc public enum Currency: Int, Printable {
-    case EUR, USD, GBP, ARS, BRL
+    case EUR, USD, GBP, ARS, BRL, AUD
     public var string: String {
         get {
             switch self {
@@ -112,6 +121,8 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
                 return "ARS"
             case .BRL:
                 return "BRL"
+            case .AUD:
+                return "AUD"
             }
         }
     }
@@ -128,6 +139,8 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
             return .ARS
         case "BRL":
             return .BRL
+        case "AUD":
+            return .AUD
         default:
             return nil
         }
@@ -150,6 +163,8 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
             return "$a\(priceWithDecimals)"
         case .BRL:
             return "R$\(priceWithDecimals)"
+        case .AUD:
+            return "A$\(priceWithDecimals)"
         }
     }
    

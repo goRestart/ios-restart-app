@@ -21,7 +21,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.1.0):
     - FBSDKCoreKit
-  - LGCoreKit (0.0.8):
+  - LGCoreKit (0.0.9):
     - Alamofire (~> 1.2)
     - Bolts (~> 1.1)
     - Parse (~> 1.7)
@@ -42,7 +42,7 @@ DEPENDENCIES:
   - FBSDKCoreKit (>= 4.1)
   - FBSDKLoginKit (>= 4.1)
   - FBSDKShareKit (>= 4.1)
-  - LGCoreKit (= 0.0.8)
+  - LGCoreKit (= 0.0.9)
   - SDWebImage
 
 SPEC CHECKSUMS:
@@ -53,7 +53,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 469ed167195f860dbd2b4c4bbaa33d2e90598db9
   FBSDKLoginKit: ff6224762732e3698f30942e4544321b8c7a23e6
   FBSDKShareKit: 8002faf0c564ff3625eadd16e506b0b0fbf3adef
-  LGCoreKit: d507e4be198e51aa3d6823d484db9f1dd400e228
+  LGCoreKit: f257ac43345295e2bee30a58e1abf703fe58149b
   Parse: 6187586a80eb7b4960d755f85e1353148a611f87
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
