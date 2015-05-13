@@ -2,7 +2,7 @@
 //  AppsFlyerTracker.h
 //  AppsFlyerLib
 //
-//  AppsFlyer iOS SDK v2.5.3.14
+//  AppsFlyer iOS SDK v2.5.3.15
 //  08-Mar-2015
 //  Copyright (c) 2013 AppsFlyer Ltd. All rights reserved.
 //
@@ -26,6 +26,7 @@
 #define AFEventSpentCredits             @"af_spent_credits"
 #define AFEventAchievementUnlocked      @"af_achievement_unlocked"
 #define AFEventContentView              @"af_content_view"
+#define AFEventListView                 @"af_list_view"
 #define AFEventTravelBooking            @"af_travel_booking"
 #define AFEventShare                    @"af_share"
 #define AFEventInvite                   @"af_invite"
@@ -41,6 +42,7 @@
 #define AFEventParamPrice                  @"af_price"
 #define AFEventParamContentType            @"af_content_type"
 #define AFEventParamContentId              @"af_content_id"
+#define AFEventParamContentList            @"ad_content_list"
 #define AFEventParamCurrency               @"af_currency"
 #define AFEventParamQuantity               @"af_quantity" //quantity
 #define AFEventParamRegistrationMethod     @"af_registration_method"
@@ -174,7 +176,7 @@
                              withValue:(NSString *)value
                            withProduct:(NSString *)productIdentifier
                                  price:(NSDecimalNumber *)price
-                                 currency:(NSDecimalNumber *)currency
+                                 currency:(NSString *)currency
                                success:(void (^)(NSDictionary *response))successBlock
                                failure:(void (^)(NSError *error, id reponse)) failedBlock;
 

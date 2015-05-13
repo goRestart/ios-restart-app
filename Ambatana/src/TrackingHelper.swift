@@ -7,7 +7,7 @@
 //
 
 import Amplitude_iOS
-import AppsFlyer_SDK
+//import AppsFlyer_SDK
 import FBSDKCoreKit
 import LGCoreKit
 import Parse

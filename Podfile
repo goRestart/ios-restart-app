@@ -26,7 +26,7 @@ target "LetGo" do
     #pod "FBSDKLoginKit", :git => "https://github.com/facebook/facebook-ios-sdk.git", :branch => "dev"
     
     # Tracking
-    pod "AppsFlyer-SDK"
+#    pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
     pod "Amplitude-iOS",        ">= 2.4"
     
     # letgo Core

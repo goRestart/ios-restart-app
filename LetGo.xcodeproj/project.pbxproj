@@ -10,6 +10,7 @@
 		3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DD65AA99208A05D029379B /* Pods_LetGo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		500A1F161B02311400C545F6 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A1F151B02311400C545F6 /* BaseViewModel.swift */; };
 		500A1F181B0231DF00C545F6 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A1F171B0231DF00C545F6 /* BaseViewController.swift */; };
+		5013AA841B03A30200B7A5D3 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5013AA831B03A30200B7A5D3 /* libAppsFlyerLib.a */; };
 		50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */; };
 		50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */; };
 		50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */; };
@@ -108,6 +109,8 @@
 		2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.debug.xcconfig"; sourceTree = "<group>"; };
 		500A1F151B02311400C545F6 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		500A1F171B0231DF00C545F6 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		5013AA821B03A30200B7A5D3 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
+		5013AA831B03A30200B7A5D3 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DevelopmentEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductionEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
@@ -223,6 +226,7 @@
 				66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */,
 				D44E06631AE701D900A7D3CA /* Fabric.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
+				5013AA841B03A30200B7A5D3 /* libAppsFlyerLib.a in Frameworks */,
 				D4FE33571AF2183300088532 /* ParseFacebookUtilsV4.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
 				3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */,
@@ -239,6 +243,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5013AA811B03A30200B7A5D3 /* AF-iOS-SDK-v2.5.3.15 */ = {
+			isa = PBXGroup;
+			children = (
+				5013AA821B03A30200B7A5D3 /* AppsFlyerTracker.h */,
+				5013AA831B03A30200B7A5D3 /* libAppsFlyerLib.a */,
+			);
+			name = "AF-iOS-SDK-v2.5.3.15";
+			path = "3rd-Party/AF-iOS-SDK-v2.5.3.15";
+			sourceTree = "<group>";
+		};
 		50261B191AFB4873006E88E0 /* Environment */ = {
 			isa = PBXGroup;
 			children = (
@@ -651,6 +665,7 @@
 		D4FE33521AF2166800088532 /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
+				5013AA811B03A30200B7A5D3 /* AF-iOS-SDK-v2.5.3.15 */,
 				D4FE33531AF2168300088532 /* parse-library-1.7.2 */,
 			);
 			name = "3rd Party";
@@ -1055,6 +1070,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
+					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v2.5.3.15",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_NAME = LetGo;
@@ -1086,6 +1102,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
+					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v2.5.3.15",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_NAME = LetGo;
@@ -1153,6 +1170,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
+					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v2.5.3.15",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_NAME = LetGo;

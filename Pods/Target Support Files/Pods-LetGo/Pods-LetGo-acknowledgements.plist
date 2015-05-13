@@ -71,15 +71,6 @@ THE SOFTWARE.</string>
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2014 AppsFlyer Ltd. All rights reserved.
-</string>
-			<key>Title</key>
-			<string>AppsFlyer-SDK</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
 			<string>BSD License
 
 For Bolts software

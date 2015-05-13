@@ -22,6 +22,6 @@
 //#import <SDWebImage/UIImageView+WebCache.h>
 
 // Tracking
-//#import "AppsFlyerTracker.h"
+#import "AppsFlyerTracker.h"
 //#import "Amplitude.h"
 #import "ACTReporter.h"

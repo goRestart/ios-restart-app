@@ -1,7 +1,6 @@
 PODS:
   - Alamofire (1.2.1)
   - Amplitude-iOS (2.4.0)
-  - AppsFlyer-SDK (2.5.3.14)
   - Bolts (1.1.5):
     - Bolts/AppLinks (= 1.1.5)
     - Bolts/Tasks (= 1.1.5)
@@ -38,7 +37,6 @@ PODS:
 DEPENDENCIES:
   - Alamofire (>= 1.2)
   - Amplitude-iOS (>= 2.4)
-  - AppsFlyer-SDK
   - FBSDKCoreKit (>= 4.1)
   - FBSDKLoginKit (>= 4.1)
   - FBSDKShareKit (>= 4.1)
@@ -48,7 +46,6 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: 1acfdf179aff68b41a48dff70c1ac7fa263e2bcb
   Amplitude-iOS: b5a2643ed7ce861cc65c8de437c7b4d9bc1708eb
-  AppsFlyer-SDK: 692ddd12c430e5e541fd351ad0452eaef63a353e
   Bolts: aac24961496d504aa56fc267cde95162a71bac39
   FBSDKCoreKit: 469ed167195f860dbd2b4c4bbaa33d2e90598db9
   FBSDKLoginKit: ff6224762732e3698f30942e4544321b8c7a23e6
