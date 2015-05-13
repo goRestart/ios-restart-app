@@ -37,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #endif
         // LGCoreKit
         LGCoreKit.initialize()
+        // > Retrieve a session token
+        SessionManager.sharedInstance.retrieveSessionToken()
         
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.

@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import Bolts
-import LGCoreKit
 import Parse
 import UIKit
 
@@ -43,25 +41,16 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Retrieve the token and when done...
-        SessionManager.sharedInstance.retrieveSessionToken().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
-            if let strongSelf = self {                
-                // register for notifications
-                NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "oauthSessionExpired:", name: kLetGoSessionInvalidatedNotification, object: nil)
-                NSNotificationCenter.defaultCenter().addObserver(strongSelf, selector: "authenticationError:", name: kLetGoInvalidCredentialsNotification, object: nil)
-                
-                // check current login status
-                if (PFUser.currentUser() != nil) { // && PFFacebookUtils.isLinkedWithUser(PFUser.currentUser())) {
-                    ConfigurationManager.sharedInstance.loadDataFromCurrentUser()
-                    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC)))
-                    dispatch_after(delayTime, dispatch_get_main_queue()) {
-                        strongSelf.openRootViewController()
-                    }
-                } else {
-                    strongSelf.view.hidden = false
-                }
+        // check current login status
+        if (PFUser.currentUser() != nil) { // && PFFacebookUtils.isLinkedWithUser(PFUser.currentUser())) {
+            ConfigurationManager.sharedInstance.loadDataFromCurrentUser()
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW,
+                Int64(0.01 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                self.openRootViewController()
             }
-            return nil
+        } else {
+            self.view.hidden = false
         }
     }
 
