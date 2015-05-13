@@ -25,11 +25,18 @@ class CurrencyManager: NSObject {
     
     lazy var fallbackCurrencies: [LetGoCurrency] = {
         let usd = LetGoCurrency(currencyCode: "$", currencyName: "United States dollar", iso4217Code: "USD", country: "United States of America", countryCode: "US", symbolPosition: "left")
-        let eur = LetGoCurrency(currencyCode: "€", currencyName: "European euro", iso4217Code: "EUR", country: "Europe", countryCode: "EU", symbolPosition: "right")
-        let gbp = LetGoCurrency(currencyCode: "£", currencyName: "British pound", iso4217Code: "GBP", country: "United Kingdom", countryCode: "UK", symbolPosition: "left")
+        let aud = LetGoCurrency(currencyCode: "A$", currencyName: "Australian dollar", iso4217Code: "AUD", country: "Australia", countryCode: "AU", symbolPosition: "left")
+        let cad = LetGoCurrency(currencyCode: "C$", currencyName: "Canadian dollar", iso4217Code: "CAD", country: "Canada", countryCode: "CA", symbolPosition: "left")
         let ars = LetGoCurrency(currencyCode: "$a", currencyName: "Argentine peso", iso4217Code: "ARS", country: "Argentina", countryCode: "AR", symbolPosition: "left")
+
+        let gbp = LetGoCurrency(currencyCode: "£", currencyName: "British pound", iso4217Code: "GBP", country: "United Kingdom", countryCode: "UK", symbolPosition: "left")
+        let iep = LetGoCurrency(currencyCode: "IR£", currencyName: "Irish pound", iso4217Code: "IEP", country: "Ireland", countryCode: "IE", symbolPosition: "left")
+        
+        let eur = LetGoCurrency(currencyCode: "€", currencyName: "European euro", iso4217Code: "EUR", country: "Europe", countryCode: "EU", symbolPosition: "right")
+        
         let brl = LetGoCurrency(currencyCode: "R$", currencyName: "Brazilian real", iso4217Code: "BRL", country: "Brazil", countryCode: "BR", symbolPosition: "left")
-        return [usd, eur, gbp, ars, brl]
+        
+        return [usd, aud, cad, ars, gbp, iep, eur, brl]
     }()
     
     /** Shared instance */
@@ -71,5 +78,14 @@ class CurrencyManager: NSObject {
         }
         return nil
     }
+    
+    func currencyForCountryCode(countryCode: String) -> LetGoCurrency {
+        if let actualCurrencies = currencies {
+            let currenciesByCountryCode = actualCurrencies.filter { $0.countryCode == countryCode }
+            return currenciesByCountryCode.first ?? defaultCurrency
+        }
+        return defaultCurrency
+    }
+    
 
 }

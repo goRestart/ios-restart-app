@@ -35,41 +35,6 @@ class ProductCell: UICollectionViewCell {
     
     // MARK: - Public / internal methods
     
-    // Configures the cell with the given LetGo Product for the given path.
-    func setupCellWithLetGoProduct(product: LetGoProduct, indexPath: NSIndexPath) {
-        let tag = indexPath.hash
-        
-        // Name
-        nameLabel.text = product.name.lg_capitalizedWords()
-        
-        // Price
-        let currency = product.currency ?? CurrencyManager.sharedInstance.defaultCurrency
-        priceLabel.text = currency.formattedCurrency(product.price)
-
-        // Thumb
-        let thumbURL = NSURL(string: product.thumbnailURL)
-        thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
-            [weak self] (image, error, cacheType, url) -> Void in
-            if error == nil {
-                self?.thumbnailImageView.image = image
-            }
-        })
-        
-        // Distance
-        distanceLabel.text = distanceStringToProduct(product)
-        
-        // Status
-        if let status = product.status {
-            if (status == .Sold) {
-                statusImageView.image = UIImage(named: "label_sold")
-            }
-            else if product.creationDate != nil &&
-                NSDate().timeIntervalSinceDate(product.creationDate!) < 60*60*24 {
-                    statusImageView.image = UIImage(named: "label_new")
-            }
-        }
-    }
-    
     func setupCellWithPartialProduct(product: PartialProduct, indexPath: NSIndexPath) {
         let tag = indexPath.hash
         
@@ -94,12 +59,7 @@ class ProductCell: UICollectionViewCell {
         
         // Distance
         if let distance = product.distance, let distanceType = product.distanceType {
-            if distance < 0.01 {  // around 16m
-                distanceLabel.text = translate("here")
-            }
-            else {
-                distanceLabel.text = distanceType.formatDistance(distance)
-            }
+            distanceLabel.text = distanceType.formatDistance(distance)
         }
         else {
             distanceLabel.text = translate("unknown_distance")

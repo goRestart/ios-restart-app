@@ -226,7 +226,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 // set location label
                 let locationString = distanceStringToGeoPoint(productLocation)
                 locationLabel.text = locationString
-                if locationString == translate("here") { fromYouLabel.hidden = true } else { fromYouLabel.hidden = false }
             }
             
             // fraud report

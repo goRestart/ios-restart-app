@@ -65,6 +65,11 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         // internationalization
         productTitleTextField.placeholder = translate("product_title")
+        // > if the user has a country then select an appropiate currency (otherwise is set to the default one)
+        if let countryCode = MyUserManager.sharedInstance.myUser()?.countryCode {
+            currentCurrency = CurrencyManager.sharedInstance.currencyForCountryCode(countryCode)
+        }
+        currencyTypeButton.setTitle(currentCurrency.currencyCode, forState: .Normal)
         productPriceTextfield.placeholder = translate("price")
         descriptionTextView.placeholder = translate("description")
         chooseCategoryButton.setTitle(translate("choose_a_category"), forState: .Normal)
@@ -193,6 +198,8 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             // show alert controller for currency selection
             let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
             alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+
+            
             // iterate and add all currencies.
             for currency in CurrencyManager.sharedInstance.allCurrencies() {
                 alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (currencyAction) -> Void in

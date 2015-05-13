@@ -180,6 +180,9 @@ class ProductsViewModel: BaseViewModel {
             params.maxPrice = maxPrice
             params.minPrice = minPrice
             params.userObjectId = userObjectId
+            if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
+                params.distanceType = usesMetric ? .Km : .Mi
+            }
             
             if let task = productsManager.retrieveProductsWithParams(params) {
                 

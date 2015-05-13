@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import UIKit
 import Parse
 
@@ -120,44 +121,25 @@ func statusBarHeight() -> CGFloat {
  */
 func distanceStringToGeoPoint(geoPoint: PFGeoPoint) -> String {
     if let currentUserGeoPoint = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
-        let ml = geoPoint.distanceInMilesTo(currentUserGeoPoint)
-        if ml < 0.01 {  // around 16m
-            return translate("here")
+        let distanceType: DistanceType
+        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
+            distanceType = usesMetric ? .Km : .Mi
         }
         else {
-            return NSString(format: "%.1fML", ml) as String
+            distanceType = .Km
         }
-//        let km = geoPoint.distanceInKilometersTo(currentUserGeoPoint)
-//        if km > 1.0 {
-//            return NSString(format: "%.1fKm", km) as String
-//        }
-//        else {
-//            let m: Int = Int(km * 1000)
-//            if m > 1 {
-//                return "\(m)m"
-//            }
-//            else {
-//                return translate("here")
-//            }
-//        }
-    } else { return translate("unknown_distance") }
-
-}
-
-/** Gets a user-friendly distance string from an object */
-func distanceStringToProduct(productObject: LetGoProduct!) -> String {
-    // safety check
-    if productObject == nil { return translate("unknown_distance") }
-    // calculate distance + measurement unit
-    if let distance = productObject.distanceToUser {
-        if distance < 0.01 { // here.
-            return translate("here")
-        } else {
-            let formattedDistance = String(format: "%.1f", distance)
-            let formattedMeasurementUnit = productObject.distanceType?.distanceMeasurementStringForRestAPI() ?? LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
-            return formattedDistance + formattedMeasurementUnit
+        
+        let distance: Float
+        switch distanceType {
+        case .Mi:
+            distance = Float(geoPoint.distanceInMilesTo(currentUserGeoPoint))
+        case .Km:
+            distance = Float(geoPoint.distanceInKilometersTo(currentUserGeoPoint))
         }
-    } else { return translate("unknown_distance") }
+        return distanceType.formatDistance(distance)
+    }
+    
+    return translate("unknown_distance")
 }
 
 /**
