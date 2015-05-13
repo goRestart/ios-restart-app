@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-class LGCoreKit {
-    static func initialize() {
-        
+public class LGCoreKit {
+    public static func initialize() {
+        MyUserManager.sharedInstance
     }
 }

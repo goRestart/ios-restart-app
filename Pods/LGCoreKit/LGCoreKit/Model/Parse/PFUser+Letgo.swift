@@ -11,7 +11,7 @@ import Parse
 extension PFUser: User {
     
     enum FieldKey: String {
-        case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", /*Radius = "radius",*/ PublicUsername = "username_public", ZipCode = "zip_code"
+        case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", /*Radius = "radius",*/ PublicUsername = "username_public", ZipCode = "zipcode"
         case ObjectId = "objectId", CreatedAt = "createdAt", UpdatedAt = "updatedAt"
     }
     
