@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #else
         Fabric.with([Crashlytics()])
 #endif
+        // LGCoreKit
+        LGCoreKit.initialize()
         
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
