@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -102,6 +103,12 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
                 } else { // load configuration from previous user
                     ConfigurationManager.sharedInstance.loadDataFromCurrentUser()
                 }
+                
+                // If we already have a location, then save it into my user
+                if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
+                    MyUserManager.sharedInstance.saveUserCoordinates(lastKnownLocation.coordinate)
+                }
+                
                 // track user login/signing with facebook
                 TrackingHelper.trackEvent(.LoginFB, parameters: nil)
                 

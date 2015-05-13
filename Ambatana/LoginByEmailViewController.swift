@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -92,6 +93,11 @@ class LoginByEmailViewController: UIViewController, UITextFieldDelegate {
             self.activityIndicator.stopAnimating()
             self.activityIndicator.hidden = true
             if error == nil && user != nil { // success login with email.
+                
+                // If we already have a location, then save it into my user
+                if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
+                    MyUserManager.sharedInstance.saveUserCoordinates(lastKnownLocation.coordinate)
+                }
                 
                 // Tracking
                 TrackingHelper.trackEvent(.LoginEmail, parameters: nil)

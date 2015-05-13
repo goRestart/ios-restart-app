@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -125,6 +126,13 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
             self.activityIndicator.stopAnimating()
             self.activityIndicator.hidden = true
             if success { // successfully signed up with email
+                
+                // If we already have a location, then save it into my user
+                if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
+                    MyUserManager.sharedInstance.saveUserCoordinates(lastKnownLocation.coordinate)
+                }
+
+                // Login
                 if iOSVersionAtLeast("8.0") {
                     let alert = UIAlertController(title: translate("success"), message: translate("user_created_successfully"), preferredStyle: .Alert)
                     alert.addAction(UIAlertAction(title: translate("login_now"), style: .Default, handler: { (alertAction) -> Void in
