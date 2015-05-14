@@ -98,9 +98,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // don't open the chat view controller if it's the current chat view controller already.
                 if navigationController.viewControllers?.last is ChatListViewController { return }
                 // we are logged in. Check that we have a valid LetGo navigation controller
-                if let chatListVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("conversationsViewController") as? ChatListViewController { // ... and that we can instantiate the chat controller.
-                    navigationController.pushViewController(chatListVC, animated: true)
-                }
+                let clvc = ChatListViewController()
+                navigationController.pushViewController(clvc, animated: true)
             }
         }
     }

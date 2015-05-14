@@ -124,7 +124,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             epvc.userObject = PFUser.currentUser()
             vc = epvc
         case .Conversations:
-            let clvc = storyboard.instantiateViewControllerWithIdentifier("conversationsViewController") as! ChatListViewController
+            let clvc = ChatListViewController()
             vc = clvc
         case .Sell:
             let mpvc = storyboard.instantiateViewControllerWithIdentifier("myProfileViewController") as! SellProductViewController

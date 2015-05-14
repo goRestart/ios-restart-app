@@ -270,8 +270,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     }
     
     func pushConversationsViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("conversationsViewController") as! ChatListViewController
+        let vc = ChatListViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

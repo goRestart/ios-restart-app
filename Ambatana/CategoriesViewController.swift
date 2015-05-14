@@ -103,8 +103,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func conversations() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("conversationsViewController") as! ChatListViewController
+        let vc = ChatListViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -158,7 +157,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        println("categories count: \(categories?.count)")
         return categories?.count ?? 0
     }
     

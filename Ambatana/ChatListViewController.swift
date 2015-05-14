@@ -44,6 +44,14 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     var lastTimeConversationsWhereRetrieved: NSDate?
     var selectedLetGoConversation: LetGoConversation?
     
+    init() {
+        super.init(nibName: "ChatListViewController", bundle: nil)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -184,7 +192,10 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @IBAction func sellProducts(sender: AnyObject) {
-        performSegueWithIdentifier("SellProduct", sender: sender)
+        
+        if let sellVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("myProfileViewController") as? SellProductViewController {
+            self.navigationController?.pushViewController(sellVC, animated: true)
+        }
     }
     
     // MARK: - Navigation
@@ -199,6 +210,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - UITableViewDelegate & DataSource methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        println("count: \(conversations?.count)")
         return conversations?.count ?? 0
     }
     
