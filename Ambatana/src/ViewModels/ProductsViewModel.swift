@@ -195,17 +195,18 @@ class ProductsViewModel: BaseViewModel {
                         let delegate = strongSelf.delegate
                         
                         // Success
-                        if task.error == nil {
-                            let products = task.result as! NSArray
+                        if let products = task.result as? NSArray {
                             strongSelf.products = products
                             
                             var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: products.count)
                             delegate?.didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths)
                         }
                         // Error
-                        else {
-                            let error = task.error
+                        else if let error = task.error {
                             delegate?.didFailRetrievingFirstPageProducts(error)
+                        }
+                        else {
+                            delegate?.didFailRetrievingFirstPageProducts(NSError(code: LGErrorCode.Internal))
                         }
                     }
                     return nil
@@ -231,17 +232,18 @@ class ProductsViewModel: BaseViewModel {
                     let delegate = strongSelf.delegate
                     
                     // Success
-                    if task.error == nil {
-                        let newProducts = task.result as! NSArray
+                    if let newProducts = task.result as? NSArray {
                         strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                         
                         var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: newProducts.count)
                         delegate?.didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths)
                     }
                     // Error
-                    else {
-                        let error = task.error
+                    else if let error = task.error {
                         delegate?.didFailRetrievingNextPageProducts(error)
+                    }
+                    else {
+                        delegate?.didFailRetrievingNextPageProducts(NSError(code: LGErrorCode.Internal))
                     }
                 }
                 return nil
