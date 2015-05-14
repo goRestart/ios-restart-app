@@ -179,7 +179,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - Button actions
     
     @IBAction func searchProducts(sender: AnyObject) {
-        performSegueWithIdentifier("ShowCategories", sender: sender)
+        let cvc = CategoriesViewController()
+        self.navigationController?.pushViewController(cvc, animated: true)
     }
 
     @IBAction func sellProducts(sender: AnyObject) {

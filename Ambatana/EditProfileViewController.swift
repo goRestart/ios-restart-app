@@ -153,7 +153,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     @IBAction func startSearchingNow(sender: AnyObject) {
-        performSegueWithIdentifier("SearchProducts", sender: sender)
+        let cvc = CategoriesViewController()
+        self.navigationController?.pushViewController(cvc, animated: true)
     }
     
     // MARK: - UICollectionViewDataSource and Delegate methods

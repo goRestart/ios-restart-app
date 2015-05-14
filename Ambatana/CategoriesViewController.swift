@@ -25,11 +25,23 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     var lastContentOffset: CGFloat = 0.0
     
+    init() {
+        super.init(nibName: "CategoriesViewController", bundle: nil)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // UX/UI & Appearance
         setLetGoNavigationBarStyle(title: translate("categories"), includeBackArrow: true)
+        
+        // CollectionView
+        let cellNib = UINib(nibName: "CategoryCell", bundle: nil)
+        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "CategoryCell")
         
         // cell size
         let cellWidth = kLetGoFullScreenWidth * 0.50
@@ -146,11 +158,12 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        println("categories count: \(categories?.count)")
         return categories?.count ?? 0
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoriesCollectionCell", forIndexPath: indexPath) as! UICollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) as! UICollectionViewCell
         
         if let categoryObject = categories?[indexPath.row] {
             // configure cell

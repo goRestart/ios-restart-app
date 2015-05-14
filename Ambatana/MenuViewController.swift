@@ -130,7 +130,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             let mpvc = storyboard.instantiateViewControllerWithIdentifier("myProfileViewController") as! SellProductViewController
             vc = mpvc
         case .Categories:
-            let cvc = storyboard.instantiateViewControllerWithIdentifier("categoriesViewController") as! CategoriesViewController
+            let cvc = CategoriesViewController()
             vc = cvc
         case .Contact:
             vc = nil
