@@ -170,10 +170,8 @@ class ProductsViewModel: BaseViewModel {
     */
     func retrieveProductsFirstPage() -> Bool {
         
-        let accessToken = SessionManager.sharedInstance.sessionToken?.accessToken ?? ""
-        
         if let actualCoordinates = queryCoordinates {
-            var params: RetrieveProductsParams = RetrieveProductsParams(coordinates: actualCoordinates, accessToken: accessToken)
+            var params: RetrieveProductsParams = RetrieveProductsParams(coordinates: actualCoordinates)
             params.queryString = queryString
             params.categoryIds = categoryIds
             params.sortCriteria = sortCriteria
