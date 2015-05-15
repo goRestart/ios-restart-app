@@ -221,7 +221,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             mailComposerController.setMessageBody(translate("type_your_message_here"), isHTML: true)
             self.presentViewController(mailComposerController, animated: true, completion: nil)
         } else {
-            self.showAutoFadingOutMessageAlert(translate("errorsendingmail_contact"), completionBlock: { (_) -> Void in
+            self.showAutoFadingOutMessageAlert(translate("errorsendingmail_contact"), time: 3, completionBlock: { (_) -> Void in
                 self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
             })
 
