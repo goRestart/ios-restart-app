@@ -216,7 +216,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         if MFMailComposeViewController.canSendMail() {
             let mailComposerController: MFMailComposeViewController! = MFMailComposeViewController()
             mailComposerController.mailComposeDelegate = self
-            mailComposerController.setToRecipients(["info@letgo.com"])
+            mailComposerController.setToRecipients(["support@letgo.com"])
             mailComposerController.setSubject(translate("feedback_letgo_user"))
             mailComposerController.setMessageBody(translate("type_your_message_here"), isHTML: true)
             self.presentViewController(mailComposerController, animated: true, completion: nil)
