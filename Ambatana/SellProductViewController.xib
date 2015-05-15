@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SellProductViewController" customModule="LetGo" customModuleProvider="target">
@@ -240,8 +241,74 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <point key="canvasLocation" x="925" y="452"/>
         </view>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlreadyUploadedImageCell" id="8Xv-as-4Ug">
+            <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DcC-j3-CRw">
+                        <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailingMargin" secondItem="DcC-j3-CRw" secondAttribute="trailing" constant="-8" id="RAf-LO-NnT"/>
+                <constraint firstItem="DcC-j3-CRw" firstAttribute="top" secondItem="8Xv-as-4Ug" secondAttribute="topMargin" constant="-8" id="RsG-BK-fsT"/>
+                <constraint firstItem="DcC-j3-CRw" firstAttribute="leading" secondItem="8Xv-as-4Ug" secondAttribute="leadingMargin" constant="-8" id="UDY-nv-WhA"/>
+                <constraint firstAttribute="bottomMargin" secondItem="DcC-j3-CRw" secondAttribute="bottom" constant="-8" id="ctM-IJ-M5Y"/>
+            </constraints>
+            <point key="canvasLocation" x="567" y="253"/>
+        </collectionViewCell>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UploadFirstImageCell" id="jQB-gd-tf7">
+            <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="button_icon_sell" translatesAutoresizingMaskIntoConstraints="NO" id="71W-0h-tOS">
+                        <rect key="frame" x="33" y="21" width="30" height="28"/>
+                        <color key="tintColor" red="1" green="0.363552928" blue="0.3849048316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="Kka-gP-xjX"/>
+                            <constraint firstAttribute="height" constant="28" id="wJy-Yp-Muk"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rIO-FK-H9C">
+                        <rect key="frame" x="27" y="55" width="44" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="1" green="0.363552928" blue="0.3849048316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="centerX" secondItem="rIO-FK-H9C" secondAttribute="centerX" constant="-0.5" id="2r6-2c-t9A"/>
+                <constraint firstAttribute="centerY" secondItem="71W-0h-tOS" secondAttribute="centerY" constant="12.5" id="4m2-gD-DfK"/>
+                <constraint firstAttribute="centerX" secondItem="71W-0h-tOS" secondAttribute="centerX" constant="-0.5" id="9Ih-wf-KcL"/>
+                <constraint firstAttribute="centerY" secondItem="rIO-FK-H9C" secondAttribute="centerY" constant="-16.5" id="lW0-X1-m4U"/>
+            </constraints>
+            <point key="canvasLocation" x="641" y="402"/>
+        </collectionViewCell>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="UploadOtherImageCell" id="NMT-p2-InC">
+            <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="96" height="96"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <color key="backgroundColor" red="0.90588235289999997" green="0.90588235289999997" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <point key="canvasLocation" x="483" y="397"/>
+        </collectionViewCell>
     </objects>
     <resources>
+        <image name="button_icon_sell" width="30" height="28"/>
         <image name="down_chevron" width="32" height="32"/>
     </resources>
 </document>
