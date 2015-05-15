@@ -216,12 +216,12 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         if MFMailComposeViewController.canSendMail() {
             let mailComposerController: MFMailComposeViewController! = MFMailComposeViewController()
             mailComposerController.mailComposeDelegate = self
-            mailComposerController.setToRecipients(["info+ios@letgo.com"])
+            mailComposerController.setToRecipients(["support@letgo.com"])
             mailComposerController.setSubject(translate("feedback_letgo_user"))
             mailComposerController.setMessageBody(translate("type_your_message_here"), isHTML: true)
             self.presentViewController(mailComposerController, animated: true, completion: nil)
         } else {
-            self.showAutoFadingOutMessageAlert(translate("errorsendingmail_contact"), completionBlock: { (_) -> Void in
+            self.showAutoFadingOutMessageAlert(translate("errorsendingmail_contact"), time: 3, completionBlock: { (_) -> Void in
                 self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
             })
 

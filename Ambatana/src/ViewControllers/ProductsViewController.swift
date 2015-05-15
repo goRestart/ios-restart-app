@@ -312,6 +312,12 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     // MARK: - ProductsViewModelDelegate
     
     func didFailRequestingLocationServices(status: LocationServiceStatus) {
+        
+        // If there are no products, then do not notify...
+        if viewModel.numberOfProducts > 0 {
+            return
+        }
+        
         var alertMessage: String?
         var alertButtonTitle: String?
         
@@ -341,10 +347,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     
     func didStartRetrievingLocation() {
         setUIState(.Loading)
-    }
-    
-    func didFailRetrievingLocation() {
-        pushIndicateLocationViewController()
     }
     
     func didStartRetrievingFirstPageProducts() {

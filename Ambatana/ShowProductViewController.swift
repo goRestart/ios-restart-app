@@ -211,7 +211,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 cityLabel.text = city.lg_capitalizedWord()
             }
             if let zipCode = productObject["zip_code"] as? String {
-                zipCodelLabel.text = "(" + zipCode + ")"
+                if !zipCode.isEmpty {
+                    zipCodelLabel.text = "(" +  zipCode + ")"
+                }
             }
             
             // location in map

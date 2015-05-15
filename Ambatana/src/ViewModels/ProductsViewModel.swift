@@ -94,11 +94,10 @@ class ProductsViewModel: BaseViewModel {
         else if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
             coords = LGLocationCoordinates2D(coordinates: lastKnownLocation.coordinate)
         }
-        // @ahl: Currently we're not gonna use the last user saved location as might have changed
-//        // Else if possible try to use last user saved location
-//        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
-//            coords = LGLocationCoordinates2D(coordinates: userCoordinates)
-//        }
+        // Else if possible try to use last user saved location
+        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
+            coords = LGLocationCoordinates2D(coordinates: userCoordinates)
+        }
         else {
             coords = nil
         }
@@ -130,27 +129,28 @@ class ProductsViewModel: BaseViewModel {
             notificationCenter.addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: LocationManager.didReceiveLocationNotification, object: nil)
             notificationCenter.addObserver(self, selector: Selector("didFailRequestingLocationServicesWithNotification:"), name: LocationManager.didFailRequestingLocationServices, object: nil)
             
-            // If there are no products
+            // If there are no products, then reload if possible
             if numberOfProducts == 0 {
                 // Reload if possible
                 if canRetrieveProducts {
                     retrieveProductsFirstPage()
                 }
+            }
+            // If it's not loading
+            else if !productsManager.isLoading {
                 // Check access to location and notify delegate if needed
-                else {
-                    // If no location access, then notify the delegate
-                    let locationStatus = locationManager.locationServiceStatus
-                    if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
-                        delegate?.didFailRequestingLocationServices(locationStatus)
-                    }
+                // If no location access, then notify the delegate
+                let locationStatus = locationManager.locationServiceStatus
+                if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
+                    delegate?.didFailRequestingLocationServices(locationStatus)
+                }
                     // If we've location access but we don't have a location yet, run a timer
-                    else if queryCoordinates == nil {
-                        if locationRetrievalTimeoutTimer != nil {
-                            locationRetrievalTimeoutTimer!.invalidate()
-                            locationRetrievalTimeoutTimer = nil
-                        }
-                        locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
+                else if queryCoordinates == nil {
+                    if locationRetrievalTimeoutTimer != nil {
+                        locationRetrievalTimeoutTimer!.invalidate()
+                        locationRetrievalTimeoutTimer = nil
                     }
+                    locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
                 }
             }
         }
@@ -170,10 +170,8 @@ class ProductsViewModel: BaseViewModel {
     */
     func retrieveProductsFirstPage() -> Bool {
         
-        let accessToken = SessionManager.sharedInstance.sessionToken?.accessToken ?? ""
-        
         if let actualCoordinates = queryCoordinates {
-            var params: RetrieveProductsParams = RetrieveProductsParams(coordinates: actualCoordinates, accessToken: accessToken)
+            var params: RetrieveProductsParams = RetrieveProductsParams(coordinates: actualCoordinates)
             params.queryString = queryString
             params.categoryIds = categoryIds
             params.sortCriteria = sortCriteria
@@ -325,7 +323,7 @@ class ProductsViewModel: BaseViewModel {
     
     /** Called when a location services request fails. */
     @objc private func didFailRequestingLocationServicesWithNotification(notification: NSNotification) {
-        // If no location access, then notify the delegate
+        // no location access, then notify the delegate
         let locationStatus = locationManager.locationServiceStatus
         if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
             delegate?.didFailRequestingLocationServices(locationStatus)

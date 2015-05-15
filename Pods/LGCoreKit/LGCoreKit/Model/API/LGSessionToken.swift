@@ -13,6 +13,8 @@ import Timepiece
 public class LGSessionToken: SessionToken {
     
     // Constant
+    private static let expiralThresholdPercentage: Float = 0.95  // We consider that the token is expired if it passed 95% of the time specified by the API
+    
     // > JSON keys
     private static let accessTokenJSONKey = "access_token"
     private static let expiresInJSONKey = "expires_in"
@@ -40,7 +42,8 @@ public class LGSessionToken: SessionToken {
             self.accessToken = accessToken
             
             let now = NSDate()
-            self.expirationDate = now + expiresIn.seconds
+            let secondsToExpire = Int(Float(expiresIn) * 0.95).seconds
+            self.expirationDate = now + secondsToExpire
         }
         else {
             self.accessToken = ""

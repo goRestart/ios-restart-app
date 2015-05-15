@@ -37,8 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #endif
         // LGCoreKit
         LGCoreKit.initialize()
-        // > Retrieve a session token
-        SessionManager.sharedInstance.retrieveSessionToken()
+
+        // Tracking
+        TrackingHelper.appDidFinishLaunching()
         
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
@@ -64,12 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        
-        // initialize location services
-        LocationManager.sharedInstance.startLocationUpdates()
-        
-        // Tracking
-        TrackingHelper.appDidFinishLaunching()
         
         // > check version and track if new install
         var newInstall = false
@@ -119,24 +114,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
-
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
         // Location
         LocationManager.sharedInstance.stopLocationUpdates()
     }
 
+    func applicationDidEnterBackground(application: UIApplication) {
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    }
+
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-
-        // Update the session token
-        SessionManager.sharedInstance.retrieveSessionToken()
-        
-        // Location
-        LocationManager.sharedInstance.startLocationUpdates()
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
@@ -144,6 +133,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Tracking
         TrackingHelper.appDidBecomeActive()
+        
+        // Location
+        LocationManager.sharedInstance.startLocationUpdates()
     }
 
     // receive push notifications.
