@@ -129,27 +129,28 @@ class ProductsViewModel: BaseViewModel {
             notificationCenter.addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: LocationManager.didReceiveLocationNotification, object: nil)
             notificationCenter.addObserver(self, selector: Selector("didFailRequestingLocationServicesWithNotification:"), name: LocationManager.didFailRequestingLocationServices, object: nil)
             
-            // If there are no products
+            // If there are no products, then reload if possible
             if numberOfProducts == 0 {
                 // Reload if possible
                 if canRetrieveProducts {
                     retrieveProductsFirstPage()
                 }
+            }
+            // If it's not loading
+            else if !productsManager.isLoading {
                 // Check access to location and notify delegate if needed
-                else {
-                    // If no location access, then notify the delegate
-                    let locationStatus = locationManager.locationServiceStatus
-                    if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
-                        delegate?.didFailRequestingLocationServices(locationStatus)
-                    }
+                // If no location access, then notify the delegate
+                let locationStatus = locationManager.locationServiceStatus
+                if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
+                    delegate?.didFailRequestingLocationServices(locationStatus)
+                }
                     // If we've location access but we don't have a location yet, run a timer
-                    else if queryCoordinates == nil {
-                        if locationRetrievalTimeoutTimer != nil {
-                            locationRetrievalTimeoutTimer!.invalidate()
-                            locationRetrievalTimeoutTimer = nil
-                        }
-                        locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
+                else if queryCoordinates == nil {
+                    if locationRetrievalTimeoutTimer != nil {
+                        locationRetrievalTimeoutTimer!.invalidate()
+                        locationRetrievalTimeoutTimer = nil
                     }
+                    locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
                 }
             }
         }
@@ -324,7 +325,7 @@ class ProductsViewModel: BaseViewModel {
     
     /** Called when a location services request fails. */
     @objc private func didFailRequestingLocationServicesWithNotification(notification: NSNotification) {
-        // If no location access, then notify the delegate
+        // no location access, then notify the delegate
         let locationStatus = locationManager.locationServiceStatus
         if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
             delegate?.didFailRequestingLocationServices(locationStatus)
