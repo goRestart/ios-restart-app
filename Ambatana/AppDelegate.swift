@@ -37,8 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #endif
         // LGCoreKit
         LGCoreKit.initialize()
-        // > Retrieve a session token
-        SessionManager.sharedInstance.retrieveSessionToken()
         
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
@@ -133,9 +131,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 
-        // Update the session token
-        SessionManager.sharedInstance.retrieveSessionToken()
-        
         // Location
         LocationManager.sharedInstance.startLocationUpdates()
     }

@@ -94,11 +94,10 @@ class ProductsViewModel: BaseViewModel {
         else if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
             coords = LGLocationCoordinates2D(coordinates: lastKnownLocation.coordinate)
         }
-        // @ahl: Currently we're not gonna use the last user saved location as might have changed
-//        // Else if possible try to use last user saved location
-//        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
-//            coords = LGLocationCoordinates2D(coordinates: userCoordinates)
-//        }
+        // Else if possible try to use last user saved location
+        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
+            coords = LGLocationCoordinates2D(coordinates: userCoordinates)
+        }
         else {
             coords = nil
         }
