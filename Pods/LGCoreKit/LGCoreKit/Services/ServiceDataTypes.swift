@@ -42,11 +42,10 @@ public struct RetrieveProductsParams: Printable, Equatable {
     public var distanceRadius: Int?
     public var userObjectId: String?
     
-    public var accessToken: String
+    public var accessToken: String?
     
-    public init(coordinates: LGLocationCoordinates2D, accessToken: String) {
+    public init(coordinates: LGLocationCoordinates2D) {
         self.coordinates = coordinates
-        self.accessToken = accessToken
     }
     
     public var description: String { return "queryString: \(queryString); latitude: \(coordinates.latitude); longitude: \(coordinates.longitude); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); distanceType: \(distanceType); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); userObjectId: \(userObjectId); accessToken: \(accessToken)" }

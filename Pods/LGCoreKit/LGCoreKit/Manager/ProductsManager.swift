@@ -138,8 +138,12 @@ final public class ProductsManager {
     */
     private func retrieveProductsTaskWithParams(params: RetrieveProductsParams) -> BFTask {
         
+        // Override the access token
+        var actualParams: RetrieveProductsParams = params
+        actualParams.accessToken = SessionManager.sharedInstance.sessionToken?.accessToken ?? ""
+        
         var task = BFTaskCompletionSource()
-        productsService.retrieveProductsWithParams(params) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
+        productsService.retrieveProductsWithParams(actualParams) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
             
             // Manager
             if let strongSelf = self {
@@ -149,7 +153,7 @@ final public class ProductsManager {
                 // Success
                 if error == nil {
                     // Update the params as soon as succeeded, for correct handling in subsequent calls
-                    strongSelf.currentParams = params
+                    strongSelf.currentParams = actualParams
                     
                     if let newProducts = products {
                         // Assign the new products
@@ -183,8 +187,9 @@ final public class ProductsManager {
     */
     private func retrieveProductsNextPageTask() -> BFTask {
         
-        // Increase the offset
+        // Increase the offset & override the access token
         var newParams: RetrieveProductsParams = currentParams!
+        newParams.accessToken = SessionManager.sharedInstance.sessionToken?.accessToken ?? ""
         newParams.offset = products.count
         
         var task = BFTaskCompletionSource()
