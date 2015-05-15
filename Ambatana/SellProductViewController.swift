@@ -59,6 +59,14 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var imageSelectedIndex = 0 // for actions (delete, save to disk...) in iOS7 and prior
     var productWasSold = false
     
+    init() {
+        super.init(nibName: "SellProductViewController", bundle: nil)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setLetGoNavigationBarStyle(title: translate("sell"), includeBackArrow: true)

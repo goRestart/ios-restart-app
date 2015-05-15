@@ -11,6 +11,7 @@
 		500391B71B04EFE60081C141 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500391B51B04EFE60081C141 /* CategoryCell.swift */; };
 		500391B81B04EFE60081C141 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B61B04EFE60081C141 /* CategoryCell.xib */; };
 		500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B91B04F4F70081C141 /* ChatListViewController.xib */; };
+		5004BDFC1B06182E00D302F3 /* SellProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5004BDFB1B06182E00D302F3 /* SellProductViewController.xib */; };
 		500A1F161B02311400C545F6 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A1F151B02311400C545F6 /* BaseViewModel.swift */; };
 		500A1F181B0231DF00C545F6 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A1F171B0231DF00C545F6 /* BaseViewController.swift */; };
 		5013AA841B03A30200B7A5D3 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5013AA831B03A30200B7A5D3 /* libAppsFlyerLib.a */; };
@@ -19,9 +20,9 @@
 		50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */; };
 		50261B231AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */; };
 		50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */; };
-		50DFABE21B04E5A700A3F049 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */; };
 		5026B0A91B05E307006858BB /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5026B0A71B05E307006858BB /* Fabric.framework */; };
 		5026B0AA1B05E307006858BB /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5026B0A81B05E307006858BB /* Crashlytics.framework */; };
+		50DFABE21B04E5A700A3F049 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
 		6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03D1A820FBD005895ED /* LoginViewController.swift */; };
@@ -114,6 +115,7 @@
 		500391B51B04EFE60081C141 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		500391B61B04EFE60081C141 /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
 		500391B91B04F4F70081C141 /* ChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatListViewController.xib; sourceTree = "<group>"; };
+		5004BDFB1B06182E00D302F3 /* SellProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SellProductViewController.xib; sourceTree = "<group>"; };
 		500A1F151B02311400C545F6 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		500A1F171B0231DF00C545F6 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		5013AA821B03A30200B7A5D3 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
@@ -123,9 +125,9 @@
 		50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductionEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentProxy+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingHelper.swift; sourceTree = "<group>"; };
-		50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesViewController.xib; sourceTree = "<group>"; };
 		5026B0A71B05E307006858BB /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		5026B0A81B05E307006858BB /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesViewController.xib; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -576,6 +578,7 @@
 			isa = PBXGroup;
 			children = (
 				66EF4AD01A8A046000D6F4D2 /* SellProductViewController.swift */,
+				5004BDFB1B06182E00D302F3 /* SellProductViewController.xib */,
 			);
 			name = "Sell Product";
 			sourceTree = "<group>";
@@ -797,6 +800,7 @@
 				D4B9AFA01AF6A03800D88A30 /* ProductsViewController.xib in Resources */,
 				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
+				5004BDFC1B06182E00D302F3 /* SellProductViewController.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

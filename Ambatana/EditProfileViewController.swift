@@ -149,7 +149,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
-        performSegueWithIdentifier("SellProducts", sender: sender)
+        let vc = SellProductViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func startSearchingNow(sender: AnyObject) {

@@ -42,7 +42,6 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     // data
     var conversations: [LetGoConversation]?
     var lastTimeConversationsWhereRetrieved: NSDate?
-    var selectedLetGoConversation: LetGoConversation?
     
     init() {
         super.init(nibName: "ChatListViewController", bundle: nil)
@@ -192,19 +191,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @IBAction func sellProducts(sender: AnyObject) {
-        
-        if let sellVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("myProfileViewController") as? SellProductViewController {
-            self.navigationController?.pushViewController(sellVC, animated: true)
-        }
-    }
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let cvc = segue.destinationViewController as? ChatViewController {
-            cvc.letgoConversation = self.selectedLetGoConversation
-        }
+        let sellVC = SellProductViewController()
+        self.navigationController?.pushViewController(sellVC, animated: true)
     }
 
     // MARK: - UITableViewDelegate & DataSource methods
@@ -228,8 +216,11 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let letgoConversation = self.conversations?[indexPath.row] {
-            self.selectedLetGoConversation = letgoConversation
-            self.performSegueWithIdentifier("OpenChat", sender: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let chatVC = storyboard.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
+                chatVC.letgoConversation = letgoConversation
+                self.navigationController?.pushViewController(chatVC, animated: true)
+            }
         }
     }
 }

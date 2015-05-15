@@ -127,8 +127,8 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             let clvc = ChatListViewController()
             vc = clvc
         case .Sell:
-            let mpvc = storyboard.instantiateViewControllerWithIdentifier("myProfileViewController") as! SellProductViewController
-            vc = mpvc
+            let sellVC = SellProductViewController()
+            vc = sellVC
         case .Categories:
             let cvc = CategoriesViewController()
             vc = cvc

@@ -275,14 +275,12 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     }
     
     func pushCategoriesViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("categoriesViewController") as! CategoriesViewController
+        let vc = CategoriesViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func pushSellProductViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("myProfileViewController") as! SellProductViewController
+        let vc = SellProductViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

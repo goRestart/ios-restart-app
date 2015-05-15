@@ -109,8 +109,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     
     // MARK: - Button actions
     @IBAction func sellNewProduct(sender: AnyObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("myProfileViewController") as! SellProductViewController
+        let vc = SellProductViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
