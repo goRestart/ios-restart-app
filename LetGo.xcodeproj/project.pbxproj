@@ -93,6 +93,7 @@
 		D48C3E061AEBD165005BD0EF /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48C3E041AEBD165005BD0EF /* ConversationCell.xib */; };
 		D4A478891B08B0240046D301 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478871B08B0240046D301 /* Crashlytics.framework */; };
 		D4A4788A1B08B0240046D301 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478881B08B0240046D301 /* Fabric.framework */; };
+		D4A478901B08CA500046D301 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4A4788F1B08CA500046D301 /* EditProfileViewController.xib */; };
 		D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF741B07307000A61E1A /* SellAddPictureCell.swift */; };
 		D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4B0CF751B07307000A61E1A /* SellAddPictureCell.xib */; };
 		D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF781B07308800A61E1A /* SellPictureCell.swift */; };
@@ -214,6 +215,7 @@
 		D48C3E041AEBD165005BD0EF /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
 		D4A478871B08B0240046D301 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		D4A478881B08B0240046D301 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		D4A4788F1B08CA500046D301 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
 		D4B0CF741B07307000A61E1A /* SellAddPictureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellAddPictureCell.swift; sourceTree = "<group>"; };
 		D4B0CF751B07307000A61E1A /* SellAddPictureCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SellAddPictureCell.xib; sourceTree = "<group>"; };
 		D4B0CF781B07308800A61E1A /* SellPictureCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellPictureCell.swift; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 			isa = PBXGroup;
 			children = (
 				66A0CFE21A8373F800FAADF0 /* EditProfileViewController.swift */,
+				D4A4788F1B08CA500046D301 /* EditProfileViewController.xib */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -816,6 +819,7 @@
 				500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */,
 				6640F0481AE142D800004556 /* Deprecated in Resources */,
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
+				D4A478901B08CA500046D301 /* EditProfileViewController.xib in Resources */,
 				D4B9AFA01AF6A03800D88A30 /* ProductsViewController.xib in Resources */,
 				D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */,
 				D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */,

@@ -782,8 +782,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             pdvc.productImages = self.productImages
             pdvc.initialImageToShow = self.imagesPageControl.currentPage
             pdvc.productName = nameLabel.text!
-        } else if let epvc = segue.destinationViewController as? EditProfileViewController {
-            epvc.userObject = self.productUser
         } else if let movc = segue.destinationViewController as? MakeAnOfferViewController {
             movc.productObject = self.productObject
             movc.productUser = self.productUser
@@ -796,7 +794,9 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     @IBAction func showProductUser(sender: AnyObject) {
-        self.performSegueWithIdentifier("ShowProductUser", sender: sender)
+        let vc = EditProfileViewController()
+        vc.userObject = self.productUser
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

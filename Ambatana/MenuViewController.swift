@@ -120,7 +120,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         switch (menuOption!) {
         case .MyProfile:
-            let epvc = storyboard.instantiateViewControllerWithIdentifier("editProfileViewController") as! EditProfileViewController
+            let epvc = EditProfileViewController()
             epvc.userObject = PFUser.currentUser()
             vc = epvc
         case .Conversations:
@@ -199,8 +199,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.findHamburguerViewController()?.gestureEnabled = false
         
         // push vc
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let epvc = storyboard.instantiateViewControllerWithIdentifier("editProfileViewController") as! EditProfileViewController
+        let epvc = EditProfileViewController()
         epvc.userObject = PFUser.currentUser()
 
         let navigationController = self.mainNavigationController()

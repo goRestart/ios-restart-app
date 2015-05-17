@@ -53,6 +53,14 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     var cellSize = CGSizeMake(160.0, 210.0)
     
+    init() {
+        super.init(nibName: "EditProfileViewController", bundle: nil)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2.0

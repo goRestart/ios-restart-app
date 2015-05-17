@@ -285,8 +285,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     }
     
     func pushEditProfileViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("editProfileViewController") as! EditProfileViewController
+        let vc = EditProfileViewController()
         vc.userObject = PFUser.currentUser()
         self.navigationController?.pushViewController(vc, animated: true)
     }
