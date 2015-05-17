@@ -25,8 +25,8 @@ extension UIViewController {
     // Sets the LetGo navigation bar style. Should be called by every VC embedded in a UINavigationController.
     func setLetGoNavigationBarStyle(title: AnyObject? = nil, includeBackArrow: Bool = true) {
         //self.navigationController?.navigationBar.backgroundColor = UIColor.whiteColor()
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
+//        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
         
         // title
         if let titleString = title as? String {

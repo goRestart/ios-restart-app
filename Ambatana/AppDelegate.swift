@@ -88,23 +88,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func openChatListViewController() {
-        if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
-            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController {
-                // don't open the chat view controller if it's the current chat view controller already.
-                if navigationController.viewControllers?.last is ChatListViewController { return }
-                // we are logged in. Check that we have a valid LetGo navigation controller
-                let clvc = ChatListViewController()
-                navigationController.pushViewController(clvc, animated: true)
-            }
-        }
+        // FIXME: Open chat list vc
+//        if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
+//            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController {
+//                // don't open the chat view controller if it's the current chat view controller already.
+//                if navigationController.viewControllers?.last is ChatListViewController { return }
+//                // we are logged in. Check that we have a valid LetGo navigation controller
+//                let clvc = ChatListViewController()
+//                navigationController.pushViewController(clvc, animated: true)
+//            }
+//        }
     }
     
     func showMarketingAlertWithNotificationMessage(message: String) {
-        if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
-            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController {
-                navigationController.showAutoFadingOutMessageAlert(message)
-            }
-        }
+        // FIXME: Show alert
+//        if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
+//            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController {
+//                navigationController.showAutoFadingOutMessageAlert(message)
+//            }
+//        }
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {

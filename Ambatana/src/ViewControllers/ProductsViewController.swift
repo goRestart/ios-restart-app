@@ -99,10 +99,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         
         // UI
         // > Navigation bar
-        let menuButton = UIBarButtonItem(image: UIImage(named: "actionbar_burger"), style: .Plain, target: self, action: Selector("toggleMenu:"))
-        menuButton.tintColor = UIColor.blackColor()
-        self.navigationItem.leftBarButtonItem = menuButton
-        
         self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
         if let searchString = currentSearchString {
             setLetGoRightButtonsWithImageNames(["actionbar_chat"], andSelectors: ["conversationsButtonPressed:"], badgeButtonPosition: 0)
@@ -111,12 +107,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
             setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchButtonPressed:", "conversationsButtonPressed:"], badgeButtonPosition: 1)
         }
         
-        // > Menu should only be visible from the main screen. Disable sliding unless we are the only active vc.
-        let vcNumber = self.navigationController?.viewControllers.count
-        if vcNumber == 1 { // I am the first, main view controller
-            self.findHamburguerViewController()?.gestureEnabled = true // enable sliding.
-        } else { self.findHamburguerViewController()?.gestureEnabled = false } // otherwise, don't allow the pan gesture.
-
         // NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged:", name: UIContentSizeCategoryDidChangeNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
@@ -126,8 +116,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         super.viewWillDisappear(animated)
         
         // UI
-        // Disable menu
-        self.findHamburguerViewController()?.gestureEnabled = false
         // Hide search bar (if showing)
         if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
         
@@ -176,16 +164,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     }
     
     // MARK: > Actions
-    
-    /** Called when the hamburguer menu button is pressed. */
-    func toggleMenu(sender: AnyObject) {
-        // clear edition & dismiss keyboard
-        self.view.endEditing(true)
-        self.findHamburguerViewController()?.view.endEditing(true)
-        
-        // open menu
-        self.findHamburguerViewController()?.showMenuViewController()
-    }
     
     /** Called when the reload button is pressed. */
     @IBAction func reloadButtonPressed(sender: AnyObject) {

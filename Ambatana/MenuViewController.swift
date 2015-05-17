@@ -137,24 +137,6 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             shouldHideHamburguerMenu = false
             contactUs()
         }
-
-        if let viewController = vc {
-            // disable sliding menu for pushed controllers
-            self.findHamburguerViewController()?.gestureEnabled = false
-            
-            // push vc
-            let navigationController = self.mainNavigationController()
-            navigationController.visibleViewController.navigationController?.pushViewController(viewController, animated: true)
-            
-            
-//            navigationController.visibleViewController.pushViewController(viewController, animated: true)
-            
-            
-            self.findHamburguerViewController()?.contentViewController = navigationController
-        }
-        if shouldHideHamburguerMenu {
-            self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
-        }
     }
     
     // MARK: - UITableViewDataSource methods
@@ -196,17 +178,10 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func goToUserProfile(sender: AnyObject) {
         // disable sliding menu for pushed controllers
-        self.findHamburguerViewController()?.gestureEnabled = false
         
         // push vc
         let epvc = EditProfileViewController()
         epvc.userObject = PFUser.currentUser()
-
-        let navigationController = self.mainNavigationController()
-        navigationController.visibleViewController.navigationController?.pushViewController(epvc, animated: true)
-        
-        self.findHamburguerViewController()?.contentViewController = navigationController
-        self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
     }
     
     // MARK: - Mail Composer Delegate methods
@@ -221,7 +196,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.presentViewController(mailComposerController, animated: true, completion: nil)
         } else {
             self.showAutoFadingOutMessageAlert(translate("errorsendingmail_contact"), time: 3, completionBlock: { (_) -> Void in
-                self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
+//                self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
             })
 
         }
@@ -233,17 +208,10 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             message = translate("errorsendingmail")
         }
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
+//            self.findHamburguerViewController()?.hideMenuViewControllerWithCompletion(nil)
             if message != nil { self.showAutoFadingOutMessageAlert(message!) }
         })
         
-    }
-    
-    // MARK: - Navigation methods
-    
-    func mainNavigationController() -> DLHamburguerNavigationController {
-        let productsVC = ProductsViewController()
-        return DLHamburguerNavigationController(rootViewController: productsVC)
     }
     
     // MARK: - Notifications

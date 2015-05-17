@@ -210,12 +210,21 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
         
         // navVC contains productListVC as its root
         let productsVC = ProductsViewController()
-        let navVC = DLHamburguerNavigationController(rootViewController: productsVC)
+        let productsNav = UINavigationController(rootViewController: productsVC)
+        let categoriesVC = CategoriesViewController()
+        let categoriesNav = UINavigationController(rootViewController: categoriesVC)
+        let sellVC = SellProductViewController()
+        let sellNav = UINavigationController(rootViewController: sellVC)
+        let chatsVC = ChatListViewController()
+        let chatsNav = UINavigationController(rootViewController: chatsVC)
+        let profileVC = EditProfileViewController()
+        profileVC.userObject = PFUser.currentUser()
+        let profileNav = UINavigationController(rootViewController: profileVC)
         
-        // rootVC has navVC as content and 
-        let menuVC = storyboard.instantiateViewControllerWithIdentifier("menuViewController") as! UIViewController
-        let rootVC = RootViewController(contentViewController: navVC, menuViewController: menuVC)
-        self.presentViewController(rootVC, animated: false, completion: nil)
+        let tabVC = UITabBarController()
+        tabVC.viewControllers = [productsNav, categoriesNav, sellNav, chatsNav, profileNav]
+
+        self.presentViewController(tabVC, animated: false, completion: nil)
     }
     
 }
