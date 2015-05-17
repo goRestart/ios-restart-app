@@ -26,5 +26,6 @@
 //#import "Amplitude.h"
 #import "ACTReporter.h"
 
-// Appereance
+// UI
 #import "UIView+Appereance.h"
+#import "UIImage+ImageEffects.h"

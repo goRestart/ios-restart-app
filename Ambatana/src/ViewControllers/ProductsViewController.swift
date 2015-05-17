@@ -34,8 +34,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     @IBOutlet weak var noProductsFoundLabel: UILabel!
     @IBOutlet weak var reloadButton: UIButton!
     
-    @IBOutlet weak var sellButton: UIButton!
-    
     // MARK: - Lifecycle
     
     convenience init() {
@@ -100,11 +98,9 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         // UI
         // > Navigation bar
         self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"), includeBackArrow: currentCategory != nil || currentSearchString != nil)
-        if let searchString = currentSearchString {
-            setLetGoRightButtonsWithImageNames(["actionbar_chat"], andSelectors: ["conversationsButtonPressed:"], badgeButtonPosition: 0)
-        }
-        else {
-            setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchButtonPressed:", "conversationsButtonPressed:"], badgeButtonPosition: 1)
+
+        if currentSearchString == nil {
+            setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"], badgeButtonPosition: 0)
         }
         
         // NSNotificationCenter
@@ -171,16 +167,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         refresh()
     }
     
-    /** Called when the sell button is pressed. */
-    @IBAction func sellButtonPressed(sender: AnyObject) {
-        pushSellProductViewController()
-    }
-    
-    /** Called when the conversations button is pressed. */
-    func conversationsButtonPressed(sender: AnyObject) {
-        pushConversationsViewController()
-    }
-    
     /** Called when the search button is pressed. */
     func searchButtonPressed(sender: AnyObject) {
         showSearchBarAnimated(true, delegate: self)
@@ -228,6 +214,9 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     
     func pushProductsViewControllerWithSearchQuery(searchQuery: String) {
         let vc = ProductsViewController()
+        if let category = currentCategory {
+            vc.currentCategory = category
+        }
         vc.currentSearchString = searchQuery
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -244,27 +233,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
         vc.delegate = self
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func pushConversationsViewController() {
-        let vc = ChatListViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func pushCategoriesViewController() {
-        let vc = CategoriesViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func pushSellProductViewController() {
-        let vc = SellProductViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func pushEditProfileViewController() {
-        let vc = EditProfileViewController()
-        vc.userObject = PFUser.currentUser()
         self.navigationController?.pushViewController(vc, animated: true)
     }
 

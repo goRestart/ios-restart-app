@@ -60,8 +60,8 @@ class TabBarController: UITabBarController {
         profileTabBarItem.imageInsets = iconInsets
         profileNav.tabBarItem = profileTabBarItem
         
-        // Set the VCs
-        self.viewControllers = [productsNav, categoriesNav, sellNav, chatsNav, profileNav]
+        // Setup
+        viewControllers = [productsNav, categoriesNav, sellNav, chatsNav, profileNav]
         
         // Customize the selected appereance
         for item in [productsTabBarItem, categoriesTabBarItem, sellTabBarItem, chatsTabBarItem, profileTabBarItem] {

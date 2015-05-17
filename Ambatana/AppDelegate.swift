@@ -42,7 +42,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TrackingHelper.appDidFinishLaunching()
         
         // Appereance
+        UINavigationBar.appearance().tintColor = StyleHelper.navBarBgColor
+//        UINavigationBar.appearance().barTintColor = StyleHelper.navBarBgColor
+//        UINavigationBar.appearance().setBackgroundImage(StyleHelper.navBarBgImage, forBarMetrics: UIBarMetrics.Default)
+//        UINavigationBar.appearance().shadowImage = StyleHelper.navBarShadowImage
+
         UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
+//        UITabBar.appearance().barTintColor = StyleHelper.navBarBgColor
+//        UITabBar.appearance().backgroundImage = UIImage()
         
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.

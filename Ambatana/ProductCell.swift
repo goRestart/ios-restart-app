@@ -161,12 +161,8 @@ class ProductCell: UICollectionViewCell {
     
     // Sets up the UI
     private func setupUI() {
-        self.contentView.layer.borderColor = UIColor(white: 229.0/255.0, alpha: 1).CGColor
+        self.contentView.layer.borderColor = StyleHelper.lineColor.CGColor
         self.contentView.layer.borderWidth = 0.5;
-//        nameLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-//
-//        let boldBodyDescriptor = UIFontDescriptor.preferredFontDescriptorWithTextStyle(UIFontTextStyleBody).fontDescriptorWithSymbolicTraits(.TraitBold)
-//        priceLabel.font = UIFont(descriptor: boldBodyDescriptor!, size: 0.0)
     }
     
     // Resets the UI to the initial state

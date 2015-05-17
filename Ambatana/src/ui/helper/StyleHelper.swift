@@ -22,8 +22,37 @@ class StyleHelper {
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray72 = UIColor(rgb: 0x727272)
     private static let gray182 = UIColor(rgb: 0xB6B6B6)
+    private static let gray213 = UIColor(rgb: 0xD5D5D5)
     
     private static let palette = [darkPink, lightPink, ultraLightPink, white, brown, gray72, gray182]
+    
+    // MARK: - Common
+    
+    static var lineColor: UIColor {
+        return gray213
+    }
+    
+    // MARK: - NavBar
+    
+    static var navBarBgColor: UIColor {
+        return white
+    }
+    
+    static var navBarBgImage: UIImage {
+        return white.imageWithSize(CGSize(width: 1, height: 1)).applyBlurWithRadius(10, tintColor: nil, saturationDeltaFactor: 0, maskImage: nil)
+    }
+    
+    static var navBarShadowImage: UIImage {
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale);
+        let context = UIGraphicsGetCurrentContext();
+        CGContextSetFillColorWithColor(context, lineColor.CGColor);
+        let fillRect = CGRect(x: 0, y: 0, width: 1, height: 1)  // height: 0.5)
+        CGContextFillRect(context, fillRect);
+        let image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return image;
+    }
     
     // MARK: - TabBar
     

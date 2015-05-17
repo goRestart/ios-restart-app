@@ -68,6 +68,11 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     var delegate: ShowProductViewControllerDelegate?
     
     // MARK: - Lifecycle
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        hidesBottomBarWhenPushed = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

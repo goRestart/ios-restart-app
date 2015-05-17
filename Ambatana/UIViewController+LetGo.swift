@@ -42,7 +42,7 @@ extension UIViewController {
             backButton.imageEdgeInsets = UIEdgeInsetsMake(0.0, -16, 0, 0) // adjust chevron to the left.
             backButton.addTarget(self, action: "popBackViewController", forControlEvents: .TouchUpInside)
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-            self.navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
+//            self.navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
             self.navigationItem.hidesBackButton = false
         } else {
             self.navigationItem.hidesBackButton = true
