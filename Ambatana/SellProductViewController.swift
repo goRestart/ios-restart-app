@@ -28,6 +28,12 @@ private let kLetGoSellProductActionSheetTagImageSourceType = 102 // for image so
 private let kLetGoSellProductActionSheetTagActionType = 103 // for image action selection
 
 class SellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, FBSDKSharingDelegate {
+    
+    // constants
+    private static let addPictureCellIdentifier = "SellAddPictureCell"
+    private static let pictureCellIdentifier = "SellPictureCell"
+    private static let emptyCellIdentifier = "SellEmptyCell"
+    
     // outlets & buttons
     @IBOutlet weak var productTitleTextField: UITextField!
     @IBOutlet weak var productPriceTextfield: UITextField!
@@ -84,6 +90,14 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         shareInFacebookLabel.text = translate("share_product_facebook")
         sellItButton.setTitle(translate("sell_it"), forState: .Normal)
         uploadingImageLabel.text = translate("uploading_product_please_wait")
+        
+        // CollectionView
+        let addPictureCellNib = UINib(nibName: "SellAddPictureCell", bundle: nil)
+        self.collectionView.registerNib(addPictureCellNib, forCellWithReuseIdentifier: SellProductViewController.addPictureCellIdentifier)
+        let pictureCellNib = UINib(nibName: "SellPictureCell", bundle: nil)
+        self.collectionView.registerNib(pictureCellNib, forCellWithReuseIdentifier: SellProductViewController.pictureCellIdentifier)
+        let emptyCellNib = UINib(nibName: "SellEmptyCell", bundle: nil)
+        self.collectionView.registerNib(emptyCellNib, forCellWithReuseIdentifier: SellProductViewController.emptyCellIdentifier)
         
         // UX/UI & appearance.
         uploadingImageView.hidden = true
@@ -665,29 +679,15 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
 
         // let's try to find out which kind of cell is this
         if indexPath.row == images.count { // "first upload image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoUploadFirstImageCellName, forIndexPath: indexPath) as! UICollectionViewCell
-            self.configureFirstUploadImageCell(cell, indexPath: indexPath)
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductViewController.addPictureCellIdentifier, forIndexPath: indexPath) as! SellAddPictureCell
         } else if indexPath.row < images.count { // already uploaded image case
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoAlreadyUploadedImageCellName, forIndexPath: indexPath) as! UICollectionViewCell
-            self.configureAlreadyUploadedImageCell(cell, indexPath: indexPath)
+            let pictureCell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductViewController.pictureCellIdentifier, forIndexPath: indexPath) as! SellPictureCell
+            pictureCell.imageView.image = images[indexPath.row]
+            cell = pictureCell
         } else { // "upload other image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(kLetGoUploadOtherImageCellName, forIndexPath: indexPath) as! UICollectionViewCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductViewController.emptyCellIdentifier, forIndexPath: indexPath) as! SellEmptyCell
         }
         return cell
-    }
-    
-    func configureAlreadyUploadedImageCell(cell: UICollectionViewCell!, indexPath: NSIndexPath) {
-        if let uploadedImageView = cell?.viewWithTag(kLetGoAlreadyUploadedImageCellBigImageTag) as? UIImageView {
-            uploadedImageView.image = images[indexPath.row]
-            uploadedImageView.clipsToBounds = true
-            uploadedImageView.contentMode = .ScaleAspectFill
-        }
-    }
-    
-    func configureFirstUploadImageCell(cell: UICollectionViewCell!, indexPath: NSIndexPath) {
-        if let firstUploadLabel = cell?.viewWithTag(kLetGoUploadFirstImageCellLabelTag) as? UILabel {
-            firstUploadLabel.text = translate("photo")
-        }
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
