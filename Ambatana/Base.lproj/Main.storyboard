@@ -1285,7 +1285,7 @@
         <!--Settings View Controller-->
         <scene sceneID="itM-kq-Mh2">
             <objects>
-                <viewController id="iM4-wd-rDd" customClass="SettingsViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="iM4-wd-rDd" customClass="SettingsViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Q3K-zA-ZdS"/>
                         <viewControllerLayoutGuide type="bottom" id="Ine-l0-AyB"/>

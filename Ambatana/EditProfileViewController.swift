@@ -136,7 +136,10 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - Actions
     
     func goToSettings() {
-        performSegueWithIdentifier("Settings", sender: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let vc = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as? SettingsViewController {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @IBAction func showSellProducts(sender: AnyObject) {
