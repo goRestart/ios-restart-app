@@ -11,21 +11,24 @@ import Foundation
 
 class StyleHelper {
 
-    static let CELL_BG_COLOR = [UIColor(rgb: 0xC2185B), UIColor(rgb: 0xE91E63), UIColor(rgb: 0xF8BBD0),
-                                UIColor(rgb: 0xFFFFFF), UIColor(rgb: 0x795548), UIColor(rgb: 0x727272),
-                                UIColor(rgb: 0xB6B6B6)]
+    // Colors
+    private static let red = UIColor(rgb: 0xFB2444)
+    private static let darkPink = UIColor(rgb: 0xC2185B)
+    private static let lightPink = UIColor(rgb: 0xE91E63)
+    private static let ultraLightPink = UIColor(rgb: 0xF8BBD0)
+    private static let brown = UIColor(rgb: 0x795548)
     
-    private static let redColor = UIColor(rgb: 0xFB2444)
+    private static let white = UIColor(rgb: 0xFFFFFF)
     private static let gray21 = UIColor(rgb: 0x212121)
+    private static let gray72 = UIColor(rgb: 0x727272)
+    private static let gray182 = UIColor(rgb: 0xB6B6B6)
     
-    static func productCellBgColor() -> UIColor {
-        return CELL_BG_COLOR[Int(arc4random_uniform(UInt32(CELL_BG_COLOR.count)))]
-    }
+    private static let palette = [darkPink, lightPink, ultraLightPink, white, brown, gray72, gray182]
     
     // MARK: - TabBar
     
     static var tabBarIconSelectedColor: UIColor {
-        return redColor
+        return red
     }
     
     static var tabBarIconUnselectedColor: UIColor {
@@ -33,6 +36,12 @@ class StyleHelper {
     }
     
     static var tabBarSellIconBgColor: UIColor {
-        return redColor
+        return red
+    }
+    
+    // MARK: - Product Cell
+    
+    static var productCellBgColor: UIColor {
+        return palette[Int(arc4random_uniform(UInt32(palette.count)))]
     }
 }
