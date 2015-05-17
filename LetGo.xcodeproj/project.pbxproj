@@ -87,6 +87,9 @@
 		D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48183F61AB2FEBE00229DBF /* ProductCell.xib */; };
 		D48C3E051AEBD165005BD0EF /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48C3E031AEBD165005BD0EF /* ConversationCell.swift */; };
 		D48C3E061AEBD165005BD0EF /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48C3E041AEBD165005BD0EF /* ConversationCell.xib */; };
+		D4912A811B08DDA400DACD5A /* UIView+Appereance.m in Sources */ = {isa = PBXBuildFile; fileRef = D4912A801B08DDA400DACD5A /* UIView+Appereance.m */; };
+		D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */; };
+		D4912A861B08E98200DACD5A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A851B08E98200DACD5A /* TabBarController.swift */; };
 		D4A478891B08B0240046D301 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478871B08B0240046D301 /* Crashlytics.framework */; };
 		D4A4788A1B08B0240046D301 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478881B08B0240046D301 /* Fabric.framework */; };
 		D4A478901B08CA500046D301 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4A4788F1B08CA500046D301 /* EditProfileViewController.xib */; };
@@ -205,6 +208,10 @@
 		D48183F61AB2FEBE00229DBF /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		D48C3E031AEBD165005BD0EF /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		D48C3E041AEBD165005BD0EF /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
+		D4912A7F1B08DDA400DACD5A /* UIView+Appereance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Appereance.h"; sourceTree = "<group>"; };
+		D4912A801B08DDA400DACD5A /* UIView+Appereance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Appereance.m"; sourceTree = "<group>"; };
+		D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Tint.swift"; sourceTree = "<group>"; };
+		D4912A851B08E98200DACD5A /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		D4A478871B08B0240046D301 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		D4A478881B08B0240046D301 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		D4A4788F1B08CA500046D301 /* EditProfileViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditProfileViewController.xib; sourceTree = "<group>"; };
@@ -636,8 +643,19 @@
 			children = (
 				D45838401AEE6AB100B5F181 /* StyleHelper.swift */,
 				D45838421AEE6B9300B5F181 /* UIColorExtensions.swift */,
+				D4912A821B08E12C00DACD5A /* UIImage+Tint.swift */,
+				D4912A7F1B08DDA400DACD5A /* UIView+Appereance.h */,
+				D4912A801B08DDA400DACD5A /* UIView+Appereance.m */,
 			);
 			path = helper;
+			sourceTree = "<group>";
+		};
+		D4912A841B08E93200DACD5A /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				D4912A851B08E98200DACD5A /* TabBarController.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		D4B546301AEFDD920062D183 /* letgoTests */ = {
@@ -669,6 +687,7 @@
 		D4B9AF9C1AF6A03800D88A30 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				D4912A841B08E93200DACD5A /* Navigation */,
 				500A1F171B0231DF00C545F6 /* BaseViewController.swift */,
 				D4B9AF9D1AF6A03800D88A30 /* ProductsViewController.swift */,
 				D4B9AF9E1AF6A03800D88A30 /* ProductsViewController.xib */,
@@ -931,13 +950,16 @@
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */,
 				500A1F161B02311400C545F6 /* BaseViewModel.swift in Sources */,
+				D4912A861B08E98200DACD5A /* TabBarController.swift in Sources */,
 				50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */,
 				D4B9AF971AF69FB500D88A30 /* ProductsViewModel.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColorExtensions.swift in Sources */,
 				66C0D0041AA5E9BB0070F311 /* CustomBadge.swift in Sources */,
+				D4912A811B08DDA400DACD5A /* UIView+Appereance.m in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
 				6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */,
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
+				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				66A5B56E1ADE4D7A00C18E8B /* LetGoIPGeoLocation.swift in Sources */,
 				D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */,

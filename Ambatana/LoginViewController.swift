@@ -48,7 +48,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
             let delayTime = dispatch_time(DISPATCH_TIME_NOW,
                 Int64(0.01 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {
-                self.openRootViewController()
+                self.openTabBarController()
             }
         } else {
             self.view.hidden = false
@@ -113,7 +113,7 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
                 TrackingHelper.trackEvent(.LoginFB, parameters: nil)
                 
                 // go to root
-                self.openRootViewController()
+                self.openTabBarController()
             } else { // error login
                 //println("Error: \(error)")
                 if iOSVersionAtLeast("8.0") {
@@ -203,30 +203,11 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
             })
         }
     }
-    
-    
-    func openRootViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        // navVC contains productListVC as its root
-        let productsVC = ProductsViewController()
-        let productsNav = UINavigationController(rootViewController: productsVC)
-        let categoriesVC = CategoriesViewController()
-        let categoriesNav = UINavigationController(rootViewController: categoriesVC)
-        let sellVC = SellProductViewController()
-        let sellNav = UINavigationController(rootViewController: sellVC)
-        let chatsVC = ChatListViewController()
-        let chatsNav = UINavigationController(rootViewController: chatsVC)
-        let profileVC = EditProfileViewController()
-        profileVC.userObject = PFUser.currentUser()
-        let profileNav = UINavigationController(rootViewController: profileVC)
-        
-        let tabVC = UITabBarController()
-        tabVC.viewControllers = [productsNav, categoriesNav, sellNav, chatsNav, profileNav]
 
-        self.presentViewController(tabVC, animated: false, completion: nil)
+    func openTabBarController() {
+        let tabCtl = TabBarController()
+        self.presentViewController(tabCtl, animated: false, completion: nil)
     }
-    
 }
 
 

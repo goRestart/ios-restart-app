@@ -75,7 +75,11 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setLetGoNavigationBarStyle(title: translate("sell"), includeBackArrow: true)
+
+        // Navigation bar
+        setLetGoNavigationBarStyle(title: translate("sell"), includeBackArrow: false)
+        let closeButton = UIBarButtonItem(title: translate("close"), style: UIBarButtonItemStyle.Done, target: self, action: Selector("closeButtonPressed"))
+        self.navigationItem.leftBarButtonItem = closeButton;
         
         // internationalization
         productTitleTextField.placeholder = translate("product_title")
@@ -212,6 +216,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     // MARK: - Button actions
+    
+    func closeButtonPressed() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     @IBAction func changeCurrencyType(sender: AnyObject) {
         restoreOriginalPosition()

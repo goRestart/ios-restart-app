@@ -15,7 +15,24 @@ class StyleHelper {
                                 UIColor(rgb: 0xFFFFFF), UIColor(rgb: 0x795548), UIColor(rgb: 0x727272),
                                 UIColor(rgb: 0xB6B6B6)]
     
+    private static let redColor = UIColor(rgb: 0xFB2444)
+    private static let gray21 = UIColor(rgb: 0x212121)
+    
     static func productCellBgColor() -> UIColor {
         return CELL_BG_COLOR[Int(arc4random_uniform(UInt32(CELL_BG_COLOR.count)))]
+    }
+    
+    // MARK: - TabBar
+    
+    static var tabBarIconSelectedColor: UIColor {
+        return redColor
+    }
+    
+    static var tabBarIconUnselectedColor: UIColor {
+        return gray21
+    }
+    
+    static var tabBarSellIconBgColor: UIColor {
+        return redColor
     }
 }

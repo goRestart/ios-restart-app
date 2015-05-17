@@ -41,6 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Tracking
         TrackingHelper.appDidFinishLaunching()
         
+        // Appereance
+        UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
+        
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
             let userNotificationTypes = (UIUserNotificationType.Alert |

@@ -25,3 +25,6 @@
 #import "AppsFlyerTracker.h"
 //#import "Amplitude.h"
 #import "ACTReporter.h"
+
+// Appereance
+#import "UIView+Appereance.h"
