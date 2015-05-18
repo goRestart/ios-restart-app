@@ -223,8 +223,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     }
     
     func pushProductViewController(product: PFObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("showProductViewController") as! ShowProductViewController
+        let vc = ShowProductViewController()
         vc.productObject = product
         vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)

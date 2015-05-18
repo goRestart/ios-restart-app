@@ -69,11 +69,17 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     
     // MARK: - Lifecycle
 
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    init() {
+        super.init(nibName: "ShowProductViewController", bundle: nil)
+        automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = true
+
     }
-    
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+       
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -352,7 +358,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 self.productImages = retrievedImages
                 self.setProductMainImages()
                 self.productImageURLStrings = retrievedImageURLS
-            })
+            })  
         } else { // fallback to Parse images.
             retrieveImagesFromParse()
         }
@@ -382,17 +388,17 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     func launchChatWithConversation(conversation: PFObject) {
-        if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
-                chatVC.letgoConversation = LetGoConversation(parseConversationObject: conversation)
-                chatVC.askQuestion = true
-                
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.disableAskQuestionLoadingInterface()
-                    self.navigationController?.pushViewController(chatVC, animated: true) ?? self.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
-                })
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let chatVC = storyboard.instantiateViewControllerWithIdentifier("productChatConversationVC") as! ChatViewController
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
+            chatVC.letgoConversation = LetGoConversation(parseConversationObject: conversation)
+            chatVC.askQuestion = true
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.disableAskQuestionLoadingInterface()
+                self.navigationController?.pushViewController(chatVC, animated: true) ?? self.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
             })
-        } else { disableAskQuestionLoadingInterface(); showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+        })
     }
     
     func enableAskQuestionLoadingInterface() {
@@ -427,13 +433,22 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBAction func showProductLocation(sender: AnyObject) {
         // push the location controller if there's a location
         if productLocation != nil {
-            let coords = CLLocationCoordinate2DMake(productLocation!.latitude, productLocation!.longitude)
-            self.performSegueWithIdentifier("ShowProductLocation", sender: sender)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController") as! ProductLocationViewController
+            let coordinate = CLLocationCoordinate2DMake(productLocation!.latitude, productLocation!.longitude)
+            vc.location = coordinate
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
-        self.performSegueWithIdentifier("MakeAnOffer", sender: sender)
+        if let product = productObject, let user = productUser {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
+            vc.productObject = product
+            vc.productUser = user
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
@@ -766,7 +781,12 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     func showImageInDetail(gestureRecognizer: UITapGestureRecognizer) {
-        self.performSegueWithIdentifier("ShowPhotosInDetail", sender: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as! PhotosInDetailViewController
+        vc.productImages = self.productImages
+        vc.initialImageToShow = self.imagesPageControl.currentPage
+        vc.productName = nameLabel.text!
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - MKMapViewDelegate methods
@@ -779,23 +799,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             productPin.image = UIImage(named: "map_circle")
         }
         return productPin
-    }
-    
-    // MARK: - Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let pdvc = segue.destinationViewController as? PhotosInDetailViewController {
-            pdvc.productImages = self.productImages
-            pdvc.initialImageToShow = self.imagesPageControl.currentPage
-            pdvc.productName = nameLabel.text!
-        } else if let movc = segue.destinationViewController as? MakeAnOfferViewController {
-            movc.productObject = self.productObject
-            movc.productUser = self.productUser
-        } else if let plvc = segue.destinationViewController as? ProductLocationViewController {
-            if productLocation != nil {
-                let coordinate = CLLocationCoordinate2DMake(productLocation!.latitude, productLocation!.longitude)
-                plvc.location = coordinate
-            }
-        }
     }
     
     @IBAction func showProductUser(sender: AnyObject) {

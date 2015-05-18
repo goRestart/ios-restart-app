@@ -118,7 +118,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             let letgoConversation = LetGoConversation(parseConversationObject: conversation)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.disableLoadingInterface()
-                if let chatVC = self.storyboard?.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                if let let chatVC = storyboard.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
                     chatVC.letgoConversation = letgoConversation
                     
                     if var controllers = self.navigationController?.viewControllers as? [UIViewController] {
@@ -160,16 +161,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             self.currencyButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     // MARK: - UITextField/UITextView delegate methods for navigating through the fields.
     

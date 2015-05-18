@@ -205,8 +205,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if let selectedProduct = self.productAtIndexPath(indexPath) {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("showProductViewController") as! ShowProductViewController
+            let vc = ShowProductViewController()
             vc.productObject = selectedProduct
             self.navigationController?.pushViewController(vc, animated: true)
         }

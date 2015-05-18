@@ -59,6 +59,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     var askQuestion: Bool = false
     
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        automaticallyAdjustsScrollViewInsets = false
+        hidesBottomBarWhenPushed = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

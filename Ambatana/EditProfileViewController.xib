@@ -93,7 +93,7 @@
                     </constraints>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9sf-0u-A85">
-                    <rect key="frame" x="0.0" y="261" width="600" height="290"/>
+                    <rect key="frame" x="0.0" y="261" width="600" height="339"/>
                     <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="rUD-Xq-ZO3">
                         <size key="itemSize" width="160" height="210"/>
@@ -108,7 +108,7 @@
                     </connections>
                 </collectionView>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EoZ-nJ-vTD">
-                    <rect key="frame" x="184" y="407" width="80" height="80"/>
+                    <rect key="frame" x="184" y="434" width="80" height="80"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="elS-6y-u6f"/>
                         <constraint firstAttribute="height" constant="80" id="xHF-VA-8un"/>
@@ -121,7 +121,7 @@
                     </connections>
                 </button>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9cF-lQ-uJP">
-                    <rect key="frame" x="337" y="407" width="80" height="80"/>
+                    <rect key="frame" x="337" y="434" width="80" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="Ptu-Xv-agS"/>
                         <constraint firstAttribute="width" constant="80" id="fbZ-bE-DHw"/>
@@ -143,17 +143,17 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What are you waiting for?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5M9-8b-cgo">
-                    <rect key="frame" x="8" y="329" width="584" height="20"/>
+                    <rect key="frame" x="8" y="329" width="584" height="45"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="bDu-cY-Jfb">
-                    <rect key="frame" x="282" y="388" width="37" height="37"/>
+                    <rect key="frame" x="282" y="412" width="37" height="37"/>
                     <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                 </activityIndicatorView>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bnz-d1-Ttf">
-                    <rect key="frame" x="300" y="407" width="1" height="74"/>
+                    <rect key="frame" x="300" y="434" width="1" height="74"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="1" id="Fia-6n-Kjk"/>
@@ -175,7 +175,7 @@
                 <constraint firstItem="9cF-lQ-uJP" firstAttribute="top" relation="lessThanOrEqual" secondItem="5M9-8b-cgo" secondAttribute="bottom" constant="60" id="CqW-p5-Kea"/>
                 <constraint firstItem="y1y-go-fHr" firstAttribute="leading" secondItem="GV1-ae-Qp0" secondAttribute="leading" constant="8" id="DTa-0C-QqE"/>
                 <constraint firstItem="bEj-Cr-Pcg" firstAttribute="trailing" secondItem="g30-x1-Lhs" secondAttribute="trailing" id="Dmf-z4-uvA"/>
-                <constraint firstAttribute="bottom" secondItem="9sf-0u-A85" secondAttribute="bottom" constant="49" id="DxO-mq-n4X"/>
+                <constraint firstAttribute="bottom" secondItem="9sf-0u-A85" secondAttribute="bottom" id="DxO-mq-n4X"/>
                 <constraint firstAttribute="trailing" secondItem="y1y-go-fHr" secondAttribute="trailing" constant="8" id="EP6-ib-nKL"/>
                 <constraint firstItem="bDu-cY-Jfb" firstAttribute="centerX" secondItem="9sf-0u-A85" secondAttribute="centerX" id="ERM-5U-Obs"/>
                 <constraint firstItem="sYg-bw-iiC" firstAttribute="top" secondItem="GV1-ae-Qp0" secondAttribute="top" constant="88" id="FbS-tf-f3n"/>
@@ -212,7 +212,7 @@
                 <constraint firstItem="ZUC-Ot-PHp" firstAttribute="height" secondItem="ViZ-5n-dRr" secondAttribute="height" id="tex-WJ-DU9"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
         </view>
     </objects>
     <resources>
