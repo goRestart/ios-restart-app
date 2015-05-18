@@ -44,11 +44,12 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
     }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
+   
     override func viewDidLoad() {
         super.viewDidLoad()
 
