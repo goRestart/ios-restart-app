@@ -452,7 +452,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZfI-5A-UOj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2408" y="1363"/>
+            <point key="canvasLocation" x="2164" y="1310"/>
         </scene>
         <!--Chat View Controller-->
         <scene sceneID="18A-eE-Rhw">
@@ -1185,7 +1185,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h6O-nj-IHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2796" y="1363"/>
+            <point key="canvasLocation" x="2548" y="1310"/>
         </scene>
         <!--Photos In Detail View Controller-->
         <scene sceneID="Isz-iK-SAk">

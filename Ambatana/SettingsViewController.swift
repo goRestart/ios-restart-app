@@ -61,7 +61,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     init() {
         super.init(nibName: "SettingsViewController", bundle: nil)
-//        automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = true
     }
 
