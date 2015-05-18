@@ -193,7 +193,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // product name
         self.productNameLabel.text = retrievedObject?["name"] as? String ?? translate("product")
-        self.setLetGoNavigationBarStyle(title: self.productNameLabel.text, includeBackArrow: true)
+        self.setLetGoNavigationBarStyle(title: self.productNameLabel.text)
         
         // publish date
         let publishedDate = retrievedObject?.createdAt ?? retrievedObject?.updatedAt ?? NSDate()

@@ -63,7 +63,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         // appearance
         settingProfileImageView.hidden = true
-        setLetGoNavigationBarStyle(title: translate("settings"), includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: translate("settings"))
     }
    
     override func didReceiveMemoryWarning() {

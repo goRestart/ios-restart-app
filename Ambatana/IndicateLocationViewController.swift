@@ -41,7 +41,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         self.searchTextField.delegate = self
         
         // UX/UI
-        self.setLetGoNavigationBarStyle(title: translate("change_your_location"), includeBackArrow: allowGoingBack)
+        self.setLetGoNavigationBarStyle(title: translate("change_your_location"))
         searchContentView.layer.shadowColor = UIColor.grayColor().CGColor
         searchContentView.layer.shadowOffset = CGSizeMake(0, 2)
         searchContentView.layer.shadowOpacity = 0.75

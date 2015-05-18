@@ -77,7 +77,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         super.viewDidLoad()
 
         // Navigation bar
-        setLetGoNavigationBarStyle(title: translate("sell"), includeBackArrow: false)
+        setLetGoNavigationBarStyle(title: translate("sell"))
         let closeButton = UIBarButtonItem(title: translate("close"), style: UIBarButtonItemStyle.Done, target: self, action: Selector("closeButtonPressed"))
         self.navigationItem.leftBarButtonItem = closeButton;
         

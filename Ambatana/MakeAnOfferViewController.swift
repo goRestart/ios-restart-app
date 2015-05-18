@@ -26,7 +26,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         super.viewDidLoad()
 
         // appearance
-        setLetGoNavigationBarStyle(title: translate("make_an_offer"), includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: translate("make_an_offer"))
         self.currencyButton.layer.cornerRadius = 6.0
         self.activityIndicator.hidden = true
         

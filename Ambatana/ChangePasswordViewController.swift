@@ -21,7 +21,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
         // UI/UX & Appearance
         passwordTextfield.delegate = self
         confirmPasswordTextfield.delegate = self
-        setLetGoNavigationBarStyle(title: translate("change_password"), includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: translate("change_password"))
         setLetGoRightButtonsWithImageNames(["actionbar_save"], andSelectors: ["changePassword"])
         
         // internationalization

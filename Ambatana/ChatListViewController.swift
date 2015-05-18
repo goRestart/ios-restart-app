@@ -55,7 +55,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
 
         // appearance
-        setLetGoNavigationBarStyle(title: translate("conversations"), includeBackArrow: false)
+        setLetGoNavigationBarStyle(title: translate("conversations"))
         
         // internationalization
         noConversationsYet.text = translate("no_conversations_yet")

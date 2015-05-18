@@ -23,11 +23,7 @@ var letGoSearchBar: UISearchBar?
 extension UIViewController {
     
     // Sets the LetGo navigation bar style. Should be called by every VC embedded in a UINavigationController.
-    func setLetGoNavigationBarStyle(title: AnyObject? = nil, includeBackArrow: Bool = true) {
-        //self.navigationController?.navigationBar.backgroundColor = UIColor.whiteColor()
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
-//        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "nav_bar_bg")!, forBarMetrics: .Default)
-        
+    func setLetGoNavigationBarStyle(title: AnyObject? = nil) {       
         // title
         if let titleString = title as? String {
             self.navigationItem.title = titleString
@@ -36,6 +32,7 @@ extension UIViewController {
         }
 
         // back button
+        let includeBackArrow = self.navigationController?.viewControllers.count > 1
         if includeBackArrow {
             let backButton = UIButton(frame: CGRectMake(0, 0, kLetGoBarButtonSide, kLetGoBarButtonSide)) // Issue #63: Add some span in width for better access to button.
             backButton.setImage(UIImage(named: "actionbar_chevron"), forState: .Normal)

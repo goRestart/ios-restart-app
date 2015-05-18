@@ -23,7 +23,7 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setLetGoNavigationBarStyle(title: productName, includeBackArrow: true)
+        self.setLetGoNavigationBarStyle(title: productName)
         self.pageControl.numberOfPages = 0
     }
 

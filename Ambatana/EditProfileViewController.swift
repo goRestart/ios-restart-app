@@ -69,7 +69,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         // UX/UI and Appearance.
         userLocationLabel.text = ""
         userNameLabel.text = ""
-        setLetGoNavigationBarStyle(title: "", includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: "")
         
         // internationalization
         sellButton.setTitle(translate("selling_button"), forState: .Normal)
@@ -112,7 +112,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
                 }
                 if let userName = retrievedObject?["username_public"] as? String {
                     self.userNameLabel.text = userName
-                    self.setLetGoNavigationBarStyle(title: userName, includeBackArrow: true)
+                    self.setLetGoNavigationBarStyle(title: userName)
                 }
                 if let userLocation = retrievedObject?["city"] as? String {
                     self.userLocationLabel.text = userLocation

@@ -188,7 +188,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 nameLabel.text = ""
             }
             
-            self.setLetGoNavigationBarStyle(title: "", includeBackArrow: true)
+            self.setLetGoNavigationBarStyle(title: "")
             
             // product price
             if let price = productObject["price"] as? Double {
