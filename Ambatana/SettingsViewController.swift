@@ -49,12 +49,26 @@ enum LetGoUserSettings: Int {
 }
 
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate {
+
+    // constants
+    private static let cellIdentifier = "SettingsCell"
+    
     // outlets & buttons
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var settingProfileImageView: UIView!
     @IBOutlet weak var settingProfileImageLabel: UILabel!
     @IBOutlet weak var settingProfileImageProgressView: UIProgressView!
     
+    init() {
+        super.init(nibName: "SettingsViewController", bundle: nil)
+//        automaticallyAdjustsScrollViewInsets = false
+        hidesBottomBarWhenPushed = true
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -64,6 +78,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         // appearance
         settingProfileImageView.hidden = true
         setLetGoNavigationBarStyle(title: translate("settings"))
+        
+        // tableview
+        let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
+//        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsViewController.cellIdentifier)
+        tableView.rowHeight = 60
     }
    
     override func didReceiveMemoryWarning() {
@@ -77,37 +97,36 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("LetGoSettingsCell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(SettingsViewController.cellIdentifier, forIndexPath: indexPath) as! SettingsCell
         let setting = LetGoUserSettings(rawValue: indexPath.row)!
         
-        // configure cell
-        if let titleLabel = cell.viewWithTag(kLetGoSettingsTableCellTitleTag) as? UILabel {
-            titleLabel.text = setting.titleForSetting()
-            titleLabel.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
-        }
+        cell.label.text = setting.titleForSetting()
+        cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
         
-        if let imageView = cell.viewWithTag(kLetGoSettingsTableCellImageTag) as? UIImageView {
-            imageView.image = setting.imageForSetting()
-            imageView.contentMode = setting == .ChangePhoto ? .ScaleAspectFill : .Center
-            imageView.layer.cornerRadius = setting == .ChangePhoto ? imageView.frame.size.width / 2.0 : 0.0
-            imageView.clipsToBounds = true
-        }
+        cell.iconImageView.image = setting.imageForSetting()
+        cell.iconImageView.contentMode = setting == .ChangePhoto ? .ScaleAspectFill : .Center
+        cell.iconImageView.layer.cornerRadius = setting == .ChangePhoto ? cell.iconImageView.frame.size.width / 2.0 : 0.0
+        cell.iconImageView.clipsToBounds = true
         
         return cell
     }
     
     // MARK: - UITableViewDelegate methods
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let setting = LetGoUserSettings(rawValue: indexPath.row)!
         switch (setting) {
         case .ChangePhoto:
             showImageSourceSelection()
-        //case .ChangeLocation:
-        //    performSegueWithIdentifier("ChangeLocation", sender: nil)
+//        case .ChangeLocation:
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
+//            self.navigationController?.pushViewController(vc, animated: true)
         case .ChangePassword:
-            // As per specifications, allow even FB users to change their passwords.
-            performSegueWithIdentifier("ChangePassword", sender: nil)
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("ChangePasswordViewController") as! ChangePasswordViewController
+            self.navigationController?.pushViewController(vc, animated: true)
         case .LogOut:
             NSNotificationCenter.defaultCenter().postNotificationName(kLetGoLogoutImminentNotification, object: nil)
             logoutUser()

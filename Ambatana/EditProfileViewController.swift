@@ -136,10 +136,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - Actions
     
     func goToSettings() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let vc = storyboard.instantiateViewControllerWithIdentifier("SettingsViewController") as? SettingsViewController {
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        let vc = SettingsViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func showSellProducts(sender: AnyObject) {
@@ -206,9 +204,11 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if let spvc = self.storyboard?.instantiateViewControllerWithIdentifier("showProductViewController") as? ShowProductViewController, selectedProduct = self.productAtIndexPath(indexPath) {
-            spvc.productObject = selectedProduct
-            self.navigationController?.pushViewController(spvc, animated: true)
+        if let selectedProduct = self.productAtIndexPath(indexPath) {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewControllerWithIdentifier("showProductViewController") as! ShowProductViewController
+            vc.productObject = selectedProduct
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     

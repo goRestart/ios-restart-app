@@ -23,7 +23,7 @@ var letGoSearchBar: UISearchBar?
 extension UIViewController {
     
     // Sets the LetGo navigation bar style. Should be called by every VC embedded in a UINavigationController.
-    func setLetGoNavigationBarStyle(title: AnyObject? = nil) {       
+    func setLetGoNavigationBarStyle(title: AnyObject? = nil) {
         // title
         if let titleString = title as? String {
             self.navigationItem.title = titleString

@@ -21,6 +21,9 @@
 		50261B231AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */; };
 		50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */; };
 		50DFABE21B04E5A700A3F049 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */; };
+		50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F241B09D24A00544DE3 /* SettingsViewController.xib */; };
+		50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E64F261B09D36500544DE3 /* SettingsCell.swift */; };
+		50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F271B09D36500544DE3 /* SettingsCell.xib */; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
 		6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03D1A820FBD005895ED /* LoginViewController.swift */; };
@@ -136,6 +139,9 @@
 		50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentProxy+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingHelper.swift; sourceTree = "<group>"; };
 		50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesViewController.xib; sourceTree = "<group>"; };
+		50E64F241B09D24A00544DE3 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		50E64F261B09D36500544DE3 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		50E64F271B09D36500544DE3 /* SettingsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -311,6 +317,9 @@
 			isa = PBXGroup;
 			children = (
 				6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */,
+				50E64F241B09D24A00544DE3 /* SettingsViewController.xib */,
+				50E64F261B09D36500544DE3 /* SettingsCell.swift */,
+				50E64F271B09D36500544DE3 /* SettingsCell.xib */,
 				66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */,
 			);
 			name = Settings;
@@ -834,11 +843,13 @@
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
 				D4A478901B08CA500046D301 /* EditProfileViewController.xib in Resources */,
 				D4B9AFA01AF6A03800D88A30 /* ProductsViewController.xib in Resources */,
+				50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */,
 				D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */,
 				D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */,
 				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				5004BDFC1B06182E00D302F3 /* SellProductViewController.xib in Resources */,
+				50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -980,6 +991,7 @@
 				D4912A8D1B09111B00DACD5A /* UIImage+ImageEffects.m in Sources */,
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				66A5B56E1ADE4D7A00C18E8B /* LetGoIPGeoLocation.swift in Sources */,
+				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
 				D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
