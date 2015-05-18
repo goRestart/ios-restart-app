@@ -37,7 +37,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         super.viewDidLoad()
 
         // UX/UI & Appearance
-        setLetGoNavigationBarStyle(title: translate("categories"), includeBackArrow: true)
+        setLetGoNavigationBarStyle(title: translate("categories"), includeBackArrow: false)
         
         // CollectionView
         let cellNib = UINib(nibName: "CategoryCell", bundle: nil)
@@ -56,12 +56,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // UX/UI & Appearance
-        setLetGoRightButtonsWithImageNames(["actionbar_search", "actionbar_chat"], andSelectors: ["searchProducts", "conversations"], badgeButtonPosition: 1)
-        
-        // NSNotificationCenter register
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
-        
         let initialLanguage = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
         // load initial categories. First try to load from the user device's language. If none found, fallback to "en".
         let allCategoriesQuery = allCategoriesQueryForLanguage(initialLanguage)
@@ -79,6 +73,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     // MARK: - UISearchBarDelegate methods
+    
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
         dismissSearchBar(searchBar, animated: true, searchBarCompletion: nil)
     }
@@ -235,10 +230,4 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         })
     }
     */
-    
-    // MARK: - NSNotificationCenter
-    
-    func badgeChanged (notification: NSNotification) {
-        refreshBadgeButton()
-    }
 }

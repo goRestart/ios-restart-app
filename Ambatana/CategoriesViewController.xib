@@ -7,7 +7,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoriesViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="E41-Qa-T7P" id="Bre-wA-Z9V"/>
-                <outlet property="sellButton" destination="hNz-mu-SJ5" id="AQn-s6-5Wj"/>
                 <outlet property="view" destination="F3o-yS-RBE" id="8Hn-Bt-Jb5"/>
             </connections>
         </placeholder>
@@ -17,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="E41-Qa-T7P">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="552"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="g14-up-For">
                         <size key="itemSize" width="160" height="150"/>
@@ -31,35 +30,17 @@
                         <outlet property="delegate" destination="-1" id="FNR-Ij-1wm"/>
                     </connections>
                 </collectionView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hNz-mu-SJ5">
-                    <rect key="frame" x="0.0" y="552" width="600" height="48"/>
-                    <color key="backgroundColor" red="1" green="0.363552928" blue="0.3849048316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="48" id="m7G-0n-WlK"/>
-                    </constraints>
-                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                    <state key="normal" title="SELL" image="menu_sell"/>
-                    <connections>
-                        <action selector="sellNewProduct:" destination="-1" eventType="touchUpInside" id="3qB-8R-6cW"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="hNz-mu-SJ5" firstAttribute="leading" secondItem="F3o-yS-RBE" secondAttribute="leading" id="ID1-ym-Oah"/>
-                <constraint firstAttribute="bottom" secondItem="hNz-mu-SJ5" secondAttribute="bottom" id="QLZ-q7-PYr"/>
+                <constraint firstAttribute="bottom" secondItem="E41-Qa-T7P" secondAttribute="bottom" id="ClV-C5-oZk"/>
                 <constraint firstAttribute="trailing" secondItem="E41-Qa-T7P" secondAttribute="trailing" id="Y7v-fR-oMi"/>
                 <constraint firstItem="E41-Qa-T7P" firstAttribute="leading" secondItem="F3o-yS-RBE" secondAttribute="leading" id="bpB-bj-4rx"/>
-                <constraint firstAttribute="trailing" secondItem="hNz-mu-SJ5" secondAttribute="trailing" id="frq-hT-O33"/>
-                <constraint firstItem="hNz-mu-SJ5" firstAttribute="top" secondItem="E41-Qa-T7P" secondAttribute="bottom" id="gwf-gb-HJU"/>
                 <constraint firstItem="E41-Qa-T7P" firstAttribute="top" secondItem="F3o-yS-RBE" secondAttribute="top" id="tHy-9Y-4fR"/>
             </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
         </view>
     </objects>
-    <resources>
-        <image name="menu_sell" width="29" height="29"/>
-    </resources>
 </document>
