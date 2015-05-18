@@ -32,6 +32,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var soldButton: UIButton!
     @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var collectionView: UICollectionView!
+    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var youDontHaveTitleLabel: UILabel!
@@ -88,6 +89,16 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
         self.collectionView.alwaysBounceVertical = true
         self.collectionView.collectionViewLayout = layout
+        
+        // Add bottom inset (tabbar) if tabbar visible
+        let bottomInset: CGFloat
+        if let tabBarCtl = self.tabBarController {
+            bottomInset = tabBarCtl.tabBar.hidden ? 0 : tabBarCtl.tabBar.frame.height
+        }
+        else {
+            bottomInset = 0
+        }
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
         
         // load
         retrieveProductsForTab(ProfileTab.ProductImSelling)
