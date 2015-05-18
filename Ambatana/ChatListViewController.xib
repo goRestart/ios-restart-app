@@ -98,7 +98,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZxO-PJ-aaK">
-                    <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                    <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <connections>
@@ -110,7 +110,6 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="ZxO-PJ-aaK" secondAttribute="bottom" id="0D1-2L-q8e"/>
                 <constraint firstAttribute="centerX" secondItem="bfc-WF-4vf" secondAttribute="centerX" id="4Pr-Tx-RFl"/>
                 <constraint firstAttribute="trailing" secondItem="ZxO-PJ-aaK" secondAttribute="trailing" id="ANh-9C-p86"/>
                 <constraint firstItem="ONy-8Q-fHY" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" constant="16" id="Bsc-Fj-zwz"/>
@@ -128,6 +127,7 @@
                 <constraint firstItem="ZxO-PJ-aaK" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="eYH-SJ-d6d"/>
                 <constraint firstItem="ds1-sv-nHc" firstAttribute="trailing" secondItem="ONy-8Q-fHY" secondAttribute="trailing" id="f8X-At-5Tc"/>
                 <constraint firstItem="Vfs-fo-vuB" firstAttribute="leading" secondItem="Sfi-nB-VxD" secondAttribute="trailing" constant="12" id="fuh-vc-irX"/>
+                <constraint firstAttribute="bottom" secondItem="ZxO-PJ-aaK" secondAttribute="bottom" constant="49" id="lI0-7V-9u9"/>
                 <constraint firstItem="ONy-8Q-fHY" firstAttribute="top" secondItem="VVM-cM-dgj" secondAttribute="bottom" constant="8" id="mfG-o5-CnY"/>
                 <constraint firstItem="c2P-Hi-R6Q" firstAttribute="top" secondItem="qHt-Cr-9Ns" secondAttribute="bottom" constant="8" id="nts-L2-duS"/>
                 <constraint firstAttribute="centerX" secondItem="Vfs-fo-vuB" secondAttribute="centerX" id="soV-KZ-fJa"/>
@@ -138,6 +138,7 @@
                 <constraint firstItem="3Da-Gb-MUC" firstAttribute="leading" secondItem="Vfs-fo-vuB" secondAttribute="trailing" constant="12" id="zAt-qZ-Mav"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
         </view>
     </objects>
     <resources>
