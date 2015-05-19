@@ -13,50 +13,36 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
-                        <rect key="frame" x="12" y="12" width="136" height="120"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="252" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
+                        <rect key="frame" x="12" y="12" width="136" height="148"/>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123 €" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q3S-98-0Z1" userLabel="Price Label">
-                        <rect key="frame" x="12" y="168" width="75" height="29"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="934-Rj-X2s"/>
-                            <constraint firstAttribute="height" constant="29" id="oLE-HN-iLt"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                        <color key="textColor" red="1" green="0.36355292797088623" blue="0.38490483164787292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="934-Rj-X2s"/>
-                            </mask>
-                        </variation>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="1.9KM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WU3-Nn-oJh" userLabel="Distance Label">
-                        <rect key="frame" x="95" y="168" width="53" height="29"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="29" id="RAR-DS-8Nf"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="752" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q3S-98-0Z1" userLabel="Price Label">
+                        <rect key="frame" x="12" y="184" width="89" height="17"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" red="1" green="0.24705882352941178" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iPad 4 Retina" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucl-Xb-lH0" userLabel="Name Label">
-                        <rect key="frame" x="12" y="140" width="140" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="TJM-xv-8hf"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="0.0 mi" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="WU3-Nn-oJh" userLabel="Distance Label">
+                        <rect key="frame" x="109" y="184" width="39" height="17"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="label_new" translatesAutoresizingMaskIntoConstraints="NO" id="YS2-LS-u1b" userLabel="Status Image View">
+                    <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Monja Álcantara" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucl-Xb-lH0" userLabel="Name Label">
+                        <rect key="frame" x="12" y="166" width="136" height="16"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
+                        <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="label_new" translatesAutoresizingMaskIntoConstraints="NO" id="YS2-LS-u1b" userLabel="Status Image View">
                         <rect key="frame" x="99" y="11" width="50" height="50"/>
                     </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" constant="12" id="4GS-QM-xGy"/>
-                    <constraint firstAttribute="trailing" secondItem="ucl-Xb-lH0" secondAttribute="trailing" constant="8" id="9g4-Ww-Rve"/>
+                    <constraint firstAttribute="trailing" secondItem="ucl-Xb-lH0" secondAttribute="trailing" constant="12" id="9g4-Ww-Rve"/>
                     <constraint firstItem="Q3S-98-0Z1" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="top" constant="-20" id="CFL-li-Trk"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="DfC-p5-5xj"/>
                     <constraint firstItem="WU3-Nn-oJh" firstAttribute="leading" secondItem="Q3S-98-0Z1" secondAttribute="trailing" constant="8" id="FUh-AZ-waa"/>
@@ -64,13 +50,13 @@
                     <constraint firstAttribute="trailing" secondItem="WU3-Nn-oJh" secondAttribute="trailing" constant="12" id="MDq-gm-65I"/>
                     <constraint firstItem="Q3S-98-0Z1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="MIy-4h-hXI"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="trailing" secondItem="YS2-LS-u1b" secondAttribute="trailing" constant="-1" id="Z2k-V8-822"/>
-                    <constraint firstItem="ucl-Xb-lH0" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" constant="8" id="dky-rq-fd1"/>
+                    <constraint firstItem="ucl-Xb-lH0" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" constant="6" id="dky-rq-fd1"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="YS2-LS-u1b" secondAttribute="top" constant="1" id="eK6-Zn-Mk2"/>
-                    <constraint firstItem="Q3S-98-0Z1" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="bottom" constant="8" id="ghB-TU-iZd"/>
-                    <constraint firstAttribute="bottom" secondItem="Q3S-98-0Z1" secondAttribute="bottom" constant="12" id="msX-QH-MAR"/>
-                    <constraint firstItem="WU3-Nn-oJh" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="bottom" constant="8" id="nhh-qS-Nqi"/>
+                    <constraint firstItem="Q3S-98-0Z1" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="bottom" constant="2" id="ghB-TU-iZd"/>
+                    <constraint firstAttribute="bottom" secondItem="Q3S-98-0Z1" secondAttribute="bottom" constant="8" id="msX-QH-MAR"/>
+                    <constraint firstItem="WU3-Nn-oJh" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="bottom" constant="2" id="nhh-qS-Nqi"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="sCB-Us-wZq"/>
-                    <constraint firstAttribute="bottom" secondItem="WU3-Nn-oJh" secondAttribute="bottom" constant="12" id="ylS-t4-sSg"/>
+                    <constraint firstAttribute="bottom" secondItem="WU3-Nn-oJh" secondAttribute="bottom" constant="8" id="ylS-t4-sSg"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
