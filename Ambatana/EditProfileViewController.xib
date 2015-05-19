@@ -9,6 +9,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditProfileViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="activityIndicator" destination="bDu-cY-Jfb" id="ao7-WI-0BT"/>
+                <outlet property="activityIndicatorCenterYConstraint" destination="L0E-fi-Kns" id="aMH-Bl-T0F"/>
                 <outlet property="collectionView" destination="9sf-0u-A85" id="rEu-Gc-gCo"/>
                 <outlet property="favoriteButton" destination="ViZ-5n-dRr" id="zup-gT-9NV"/>
                 <outlet property="sellButton" destination="ZUC-Ot-PHp" id="l25-Tb-7xk"/>

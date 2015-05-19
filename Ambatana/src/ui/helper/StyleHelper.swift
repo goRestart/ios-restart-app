@@ -23,6 +23,7 @@ class StyleHelper {
     private static let gray72 = UIColor(rgb: 0x727272)
     private static let gray182 = UIColor(rgb: 0xB6B6B6)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
+    private static let black = UIColor(rgb: 0x000000)
     
     private static let palette = [darkPink, lightPink, ultraLightPink, white, brown, gray72, gray182]
     
@@ -34,8 +35,8 @@ class StyleHelper {
     
     // MARK: - NavBar
     
-    static var navBarBgColor: UIColor {
-        return white
+    static var navBarButtonsColor: UIColor {
+        return black
     }
     
     static var navBarBgImage: UIImage {

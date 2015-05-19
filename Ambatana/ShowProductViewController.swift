@@ -99,7 +99,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         if bottomGuideLayoutConstraint != nil { bottomGuideLayoutConstraint.priority = 1000 }
         
         // set rights buttons and locate favorite button.
-        let buttons = self.setLetGoRightButtonsWithImageNames(["item_share-generic", "item_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
+        let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
         for button in buttons { if button.tag == 1 { self.favoriteButton = button } }
         
         // UX/UI
@@ -588,7 +588,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     
     func initializeFavoriteButtonAnimations() {
         // save link animations
-        let animatingImages = [UIImage(named: "item_fav_on")!.imageWithRenderingMode(.AlwaysOriginal), UIImage(named: "item_fav_off")!.imageWithRenderingMode(.AlwaysOriginal)]
+        let animatingImages = [UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal), UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal)]
         self.favoriteButton.imageView!.animationImages = animatingImages
         self.favoriteButton.imageView!.animationDuration = 0.50
         self.favoriteButton.imageView!.animationRepeatCount = 0
@@ -609,7 +609,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                     self.favoriteButton.userInteractionEnabled = true
                     self.isFavourite = !success
                     self.favoriteButton.imageView!.stopAnimating()
-                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "item_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             })
         }
         else {
@@ -619,7 +619,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                     self.favoriteButton.userInteractionEnabled = true
                     self.isFavourite = success
                     self.favoriteButton.imageView!.stopAnimating()
-                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "item_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             })
         }
     }
@@ -635,7 +635,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                 if success {
                     self.isFavourite = favProduct != nil
                 }
-                self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "item_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "item_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+                self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             })
     }
     

@@ -34,7 +34,7 @@ extension UIViewController {
         let includeBackArrow = self.navigationController?.viewControllers.count > 1
         if includeBackArrow {
             let backButton = UIButton(frame: CGRectMake(0, 0, kLetGoBarButtonSide, kLetGoBarButtonSide)) // Issue #63: Add some span in width for better access to button.
-            backButton.setImage(UIImage(named: "actionbar_chevron"), forState: .Normal)
+            backButton.setImage(UIImage(named: "navbar_back"), forState: .Normal)
             backButton.imageEdgeInsets = UIEdgeInsetsMake(0.0, -16, 0, 0) // adjust chevron to the left.
             backButton.addTarget(self, action: "popBackViewController", forControlEvents: .TouchUpInside)
             self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)

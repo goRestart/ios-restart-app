@@ -34,6 +34,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var activityIndicatorCenterYConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var youDontHaveTitleLabel: UILabel!
     @IBOutlet weak var youDontHaveSubtitleLabel: UILabel!
@@ -81,6 +82,16 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         collectionView.hidden = true
         activityIndicator.hidden = false
         activityIndicator.startAnimating()
+        
+        // center activity indicator (if there's a tabbar)
+        let bottomMargin: CGFloat
+        if let tabBarCtl = self.tabBarController {
+            bottomMargin = tabBarCtl.tabBar.hidden ? 0 : -tabBarCtl.tabBar.frame.size.height/2
+        }
+        else {
+            bottomMargin = 0
+        }
+        activityIndicatorCenterYConstraint.constant = bottomMargin
         
         // collection view.
         var layout = CHTCollectionViewWaterfallLayout()
@@ -132,7 +143,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             })
             
             // Current user has the option of editing his/her settings
-            if userObject!.objectId == PFUser.currentUser()!.objectId { setLetGoRightButtonsWithImageNames(["actionbar_edit"], andSelectors: ["goToSettings"]) }
+            if userObject!.objectId == PFUser.currentUser()!.objectId { setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"]) }
         }
     }
     
@@ -276,49 +287,52 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - Requests
     
     func retrieveProductsForTab(tab: ProfileTab) {
-        switch tab {
-        case .ProductImSelling:
-            loadingSellProducts = true
-            var statuses: [LetGoProductStatus] = [.Approved]
-            if userObject?.objectId == PFUser.currentUser()?.objectId { statuses.append(.Pending) }
-            self.retrieveProductsForUserId(userObject?.objectId, statuses: statuses, completion: { [weak self] (products, error) -> (Void) in
-                if let strongSelf = self {
-                    if error == nil && products.count > 0 {
-                        strongSelf.sellProducts = products
+        if let userId = userObject?.objectId {
+            switch tab {
+            case .ProductImSelling:
+                loadingSellProducts = true
+                var statuses: [LetGoProductStatus] = [.Approved]
+                
+                if userId == PFUser.currentUser()?.objectId { statuses.append(.Pending) }
+                self.retrieveProductsForUserId(userId, statuses: statuses, completion: { [weak self] (products, error) -> (Void) in
+                    if let strongSelf = self {
+                        if error == nil && products.count > 0 {
+                            strongSelf.sellProducts = products
+                        }
+                        strongSelf.loadingSellProducts = false
+                        strongSelf.retrievalFinishedForProductsAtTab(tab)
                     }
-                    strongSelf.loadingSellProducts = false
-                    strongSelf.retrievalFinishedForProductsAtTab(tab)
-                }
-            })
-        case .ProductISold:
-            loadingSoldProducts = true
-            
-            self.retrieveProductsForUserId(userObject?.objectId, statuses: [.Sold], completion: { [weak self] (products, error) -> Void in
-                if let strongSelf = self {
-                    if error == nil && products.count > 0 {
-                        strongSelf.soldProducts = products
+                    })
+            case .ProductISold:
+                loadingSoldProducts = true
+                
+                self.retrieveProductsForUserId(userId, statuses: [.Sold], completion: { [weak self] (products, error) -> Void in
+                    if let strongSelf = self {
+                        if error == nil && products.count > 0 {
+                            strongSelf.soldProducts = products
+                        }
+                        strongSelf.loadingSoldProducts = false
+                        strongSelf.retrievalFinishedForProductsAtTab(tab)
                     }
-                    strongSelf.loadingSoldProducts = false
-                    strongSelf.retrievalFinishedForProductsAtTab(tab)
-                }
-            })
-            
-        case .ProductFavourite:
-            loadingFavProducts = true
-            
-            self.retrieveFavouriteProductsForUserId(userObject?.objectId, completion: { [weak self] (products, error) -> Void in
-                if let strongSelf = self {
-                    if error == nil && products.count > 0 {
-                        strongSelf.favProducts = products
+                    })
+                
+            case .ProductFavourite:
+                loadingFavProducts = true
+                
+                self.retrieveFavouriteProductsForUserId(userId, completion: { [weak self] (products, error) -> Void in
+                    if let strongSelf = self {
+                        if error == nil && products.count > 0 {
+                            strongSelf.favProducts = products
+                        }
+                        strongSelf.loadingFavProducts = false
+                        strongSelf.retrievalFinishedForProductsAtTab(tab)
                     }
-                    strongSelf.loadingFavProducts = false
-                    strongSelf.retrievalFinishedForProductsAtTab(tab)
-                }
-            })
+                    })
+            }
         }
     }
     
-    func retrieveProductsForUserId(userId: String?, statuses: [LetGoProductStatus], completion: (products: [PFObject]!, error: NSError!) -> (Void)) {
+    func retrieveProductsForUserId(userId: String, statuses: [LetGoProductStatus], completion: (products: [PFObject]!, error: NSError!) -> (Void)) {
         let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
         let query = PFQuery(className: "Products")
         query.whereKey("user", equalTo: user)
