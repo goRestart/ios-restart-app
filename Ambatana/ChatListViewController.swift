@@ -216,11 +216,9 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let letgoConversation = self.conversations?[indexPath.row] {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let chatVC = storyboard.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
-                chatVC.letgoConversation = letgoConversation
-                self.navigationController?.pushViewController(chatVC, animated: true)
-            }
+            let chatVC = ChatViewController()
+            chatVC.letgoConversation = letgoConversation
+            self.navigationController?.pushViewController(chatVC, animated: true)
         }
     }
 }

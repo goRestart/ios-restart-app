@@ -118,16 +118,17 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             let letgoConversation = LetGoConversation(parseConversationObject: conversation)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.disableLoadingInterface()
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                if let let chatVC = storyboard.instantiateViewControllerWithIdentifier("productChatConversationVC") as? ChatViewController {
-                    chatVC.letgoConversation = letgoConversation
+                let chatVC = ChatViewController()
+                chatVC.letgoConversation = letgoConversation
                     
-                    if var controllers = self.navigationController?.viewControllers as? [UIViewController] {
-                        controllers.removeLast()
-                        controllers.append(chatVC)
-                        self.navigationController!.viewControllers = controllers
-                    } else { self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
-                } else { self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+                if var controllers = self.navigationController?.viewControllers as? [UIViewController] {
+                   controllers.removeLast()
+                   controllers.append(chatVC)
+                   self.navigationController!.viewControllers = controllers
+                }
+                else {
+                    self.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                }
             })
         })
     }

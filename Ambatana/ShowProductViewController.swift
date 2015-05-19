@@ -388,8 +388,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     }
     
     func launchChatWithConversation(conversation: PFObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let chatVC = storyboard.instantiateViewControllerWithIdentifier("productChatConversationVC") as! ChatViewController
+        let chatVC = ChatViewController()
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
             chatVC.letgoConversation = LetGoConversation(parseConversationObject: conversation)
             chatVC.askQuestion = true

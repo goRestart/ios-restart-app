@@ -25,11 +25,12 @@ private let kLetGoConversationCellRelativeTimeTag = 3
 private let kLetGoConversationCellAvatarTag = 4
 
 
-enum LetGoConversationCellTypes: Int {
-    case MyMessages = 0, OtherMessages = 1
-}
-
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+    
+    // Constants
+    private static let myMessageCellIdentifier = "ChatMyMessageCell"
+    private static let othersMessageCellIdentifier = "ChatOthersMessageCell"
+    
     // outlets & buttons
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var productNameLabel: UILabel!
@@ -59,10 +60,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     var askQuestion: Bool = false
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    init() {
+        super.init(nibName: "ChatViewController", bundle: nil)
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = true
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -75,10 +80,19 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         priceLabel.text = ""
         productImageView.clipsToBounds = true
         productImageView.contentMode = .ScaleAspectFill
-        
+
+        // FIXME: Esto es automatico con el scrollvview
         // tap the messages table view to restore frame.
         let restoreTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "resignRespondingTextfield")
         self.tableView.addGestureRecognizer(restoreTapGestureRecognizer)
+        
+        tableView.estimatedRowHeight = 120
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        let myMessageCellNib = UINib(nibName: "ChatMyMessageCell", bundle: nil)
+        tableView.registerNib(myMessageCellNib, forCellReuseIdentifier: ChatViewController.myMessageCellIdentifier)
+        let othersMessageCellNib = UINib(nibName: "ChatOthersMessageCell", bundle: nil)
+        tableView.registerNib(othersMessageCellNib, forCellReuseIdentifier: ChatViewController.othersMessageCellIdentifier)
         
         // internationalization
         sendButton.setTitle(translate("send"), forState: .Normal)
@@ -344,20 +358,18 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         let msgObject = messages![indexPath.row]
         let userFrom = msgObject["user_from"] as! PFUser
         
-        // cell elements
         var cell: UITableViewCell?
-        var type = LetGoConversationCellTypes.MyMessages
-        
         if userFrom.objectId == PFUser.currentUser()!.objectId { // message from me
-            cell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationMyMessagesCell, forIndexPath: indexPath) as? UITableViewCell
-        } else {
-            cell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationOthersMessagesCell, forIndexPath: indexPath) as? UITableViewCell
-            type = .OtherMessages
+            let myMessageCell = tableView.dequeueReusableCellWithIdentifier(ChatViewController.myMessageCellIdentifier, forIndexPath: indexPath) as! ChatMyMessageCell
+            configureMyMessageCell(myMessageCell, atIndexPath: indexPath)
+            cell = myMessageCell
+        }
+        else {
+            let otherMessageCell = tableView.dequeueReusableCellWithIdentifier(ChatViewController.othersMessageCellIdentifier, forIndexPath: indexPath) as! ChatOthersMessageCell
+            configureOthersMessageCell(otherMessageCell, atIndexPath: indexPath)
+            cell = otherMessageCell
         }
         
-        // configure common cell elements
-        if cell != nil { self.configureCell(cell!, fromTableView: tableView, atIndexPath: indexPath, withMessageObject: msgObject, type: type) }
-
         cell!.transform = CGAffineTransformMakeRotation(CGFloat(M_PI)) // 180 º
         return cell ?? UITableViewCell()
 
@@ -367,79 +379,73 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         return UITableViewAutomaticDimension
     }
 
-    func configureCell(cell: UITableViewCell, fromTableView tableView: UITableView, atIndexPath indexPath: NSIndexPath, withMessageObject msgObject: PFObject, type: LetGoConversationCellTypes) {
-        // message
-        if let msgLabel = cell.viewWithTag(kLetGoConversationCellTextTag) as? UILabel {
-            msgLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-            msgLabel.text = msgObject["message"] as? String ?? ""
+    func configureMyMessageCell(cell: ChatMyMessageCell, atIndexPath indexPath: NSIndexPath) {
+        if let message = messages?[indexPath.row] {
+            cell.messageLabel.text = message["message"] as? String ?? ""
+            cell.dateLabel.text = message.createdAt!.relativeTimeString()
         }
-        // configure date
-        if let dateLabel = cell.viewWithTag(kLetGoConversationCellRelativeTimeTag) as? UILabel {
-            dateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
-            dateLabel.text = msgObject.createdAt!.relativeTimeString()
-        }
-        // bubble appearance
-        if let bubbleView = cell.viewWithTag(kLetGoConversationCellBubbleTag) {
-            bubbleView.layer.cornerRadius = kLetGoChatBubbleCornerRadius
-        }
-        
-        // If this is a message from the other user, we should include his/her avatar picture at the left of the message.
-        if type == .OtherMessages {
-            // configure other user's avatar.
-            let userFrom = msgObject["user_from"] as! PFUser
-            if let userAvatarView = cell.viewWithTag(kLetGoConversationCellAvatarTag) as? UIImageView {
-                userAvatarView.layer.cornerRadius = userAvatarView.frame.size.width / 2.0
-                userAvatarView.clipsToBounds = true
-                userAvatarView.image = self.otherUserImage
-                if self.otherUserImage == nil { // lazily load the other user's pic, only when needed!
-                    userAvatarView.image = UIImage(named: "no_photo")
-                    userFrom.fetchIfNeededInBackgroundWithBlock({ [weak self] (retrievedUserFrom, error) -> Void in
+    }
+    
+    func configureOthersMessageCell(cell: ChatOthersMessageCell, atIndexPath indexPath: NSIndexPath) {
+        if let message = messages?[indexPath.row] {
+            cell.messageLabel.text = message["message"] as? String ?? ""
+            cell.dateLabel.text = message.createdAt!.relativeTimeString()
+            
+            if let user = message["user_from"] as? PFUser {
+                
+                
+                if let otherUsrImage = otherUserImage {
+                    cell.avatarImageView.image = otherUserImage
+                }
+                else {
+                    cell.avatarImageView.image = UIImage(named: "no_photo")
+                    user.fetchIfNeededInBackgroundWithBlock({ [weak self] (retrievedUser, error) -> Void in
                         if let strongSelf = self,
-                           let avatarFile = retrievedUserFrom?["avatar"] as? PFFile,
-                           let thumbURL = NSURL(string: avatarFile.url!) {
-                            
-                            userAvatarView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo"), completed: {
-                                [weak self] (image, error, cacheType, url) -> Void in
-                                if (error == nil) {
-                                    userAvatarView.image = image
-                                    strongSelf.otherUserImage = image
-                                }
-                            })
+                            let avatarFile = retrievedUser?["avatar"] as? PFFile,
+                            let thumbURL = NSURL(string: avatarFile.url!) {
+                                
+                                cell.avatarImageView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo"), completed: {
+                                    [weak self] (image, error, cacheType, url) -> Void in
+                                    if (error == nil) {
+                                        cell.avatarImageView.image = image
+                                        strongSelf.otherUserImage = image
+                                    }
+                                })
                         }
                     })
-                } // end if self.otherUserImage == nil...
-            } // end if let userAvatarView...
-        } // end if type == .OtherMessages.
+                }
+            }
+        }
     }
     
     // MARK: - Cell height estimation
     
-    var prototypeCell: UITableViewCell!
-    
-    // Because we are supporting iOS 7, we need to perform a calculation of the cell content view size using autolayout.
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let msgObject = messages![indexPath.row]
-        // lazily instanciate the prototype cell
-        if prototypeCell == nil { prototypeCell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationOthersMessagesCell) as? UITableViewCell }
-        self.configureCell(prototypeCell, fromTableView: tableView, atIndexPath: indexPath, withMessageObject: msgObject, type: .MyMessages) // no need to configure the image.
-        prototypeCell.layoutIfNeeded()
-        let size = prototypeCell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
-        return size.height + 1
-    }
+//    var prototypeCell: UITableViewCell!
+//    
+//    // Because we are supporting iOS 7, we need to perform a calculation of the cell content view size using autolayout.
+//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        let msgObject = messages![indexPath.row]
+//        // lazily instanciate the prototype cell
+//        if prototypeCell == nil { prototypeCell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationOthersMessagesCell) as? UITableViewCell }
+//        self.configureCell(prototypeCell, fromTableView: tableView, atIndexPath: indexPath, withMessageObject: msgObject, type: .MyMessages) // no need to configure the image.
+//        prototypeCell.layoutIfNeeded()
+//        let size = prototypeCell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
+//        return size.height + 1
+//    }
 
     // MARK: - Allow copying text / highlighted state in cells
     
     func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool { return true }
     func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject) -> Bool { return action == "copy:" }
-    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject!) {
-        if action == "copy:" {
-            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-                if let textLabel = cell.viewWithTag(kLetGoConversationCellTextTag) as? UILabel {
-                    UIPasteboard.generalPasteboard().string = textLabel.text
-                }
-            }
-        }
-    }
+//    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject!) {
+//        if action == "copy:" {
+//            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
+//                if let textLabel = cell.viewWithTag(kLetGoConversationCellTextTag) as? UILabel {
+//                    UIPasteboard.generalPasteboard().string = textLabel.text
+//                }
+//            }
+//        }
+//    }
 
     // MARK: - Check changes in conversation.
     func checkUpdatedConversation(notification: NSNotification) {
@@ -488,9 +494,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func moveViewInResponseToKeyboardAppearing(appearing: Bool, withNotification notification: NSNotification) {
         let userInfo = notification.userInfo!
         var keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue ?? NSValue(CGRect: CGRectZero)).CGRectValue().size
+        let kbHeight = keyboardSize.height
         if !appearing {
             // restore autolayout.
-            self.topViewTopConstraint.constant = 0
+            self.topViewTopConstraint.constant = 64
             self.bottomViewBottomConstraint.constant = 0
             self.view.setNeedsUpdateConstraints()
             UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -500,8 +507,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         } else {
             // avoid autolayout messing with our animations.
-            self.topViewTopConstraint.constant = -keyboardSize.height + self.topView.frame.size.height + 20 // (20 = statusbar span)
-            self.bottomViewBottomConstraint.constant = keyboardSize.height
+            self.topViewTopConstraint.constant = 64 - kbHeight
+            self.bottomViewBottomConstraint.constant = kbHeight
             self.view.setNeedsUpdateConstraints()
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.view.layoutIfNeeded()

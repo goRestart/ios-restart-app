@@ -25,6 +25,11 @@
 		50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E64F261B09D36500544DE3 /* SettingsCell.swift */; };
 		50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F271B09D36500544DE3 /* SettingsCell.xib */; };
 		50E64F2B1B09E8AB00544DE3 /* ShowProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F2A1B09E8AB00544DE3 /* ShowProductViewController.xib */; };
+		50E81CF51B0B1A2000807D1B /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CF41B0B1A2000807D1B /* ChatViewController.xib */; };
+		50E81CF81B0B2D0100807D1B /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E81CF61B0B2D0100807D1B /* ChatMyMessageCell.swift */; };
+		50E81CF91B0B2D0100807D1B /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */; };
+		50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */; };
+		50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
 		6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03D1A820FBD005895ED /* LoginViewController.swift */; };
@@ -143,6 +148,11 @@
 		50E64F261B09D36500544DE3 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		50E64F271B09D36500544DE3 /* SettingsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
 		50E64F2A1B09E8AB00544DE3 /* ShowProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowProductViewController.xib; sourceTree = "<group>"; };
+		50E81CF41B0B1A2000807D1B /* ChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatViewController.xib; sourceTree = "<group>"; };
+		50E81CF61B0B2D0100807D1B /* ChatMyMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMyMessageCell.swift; sourceTree = "<group>"; };
+		50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMyMessageCell.xib; sourceTree = "<group>"; };
+		50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOthersMessageCell.swift; sourceTree = "<group>"; };
+		50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatOthersMessageCell.xib; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -538,6 +548,11 @@
 			isa = PBXGroup;
 			children = (
 				66A0CFE41A83740D00FAADF0 /* ChatViewController.swift */,
+				50E81CF41B0B1A2000807D1B /* ChatViewController.xib */,
+				50E81CF61B0B2D0100807D1B /* ChatMyMessageCell.swift */,
+				50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */,
+				50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */,
+				50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */,
 				667562B01A9749AE00039151 /* ChatListViewController.swift */,
 				500391B91B04F4F70081C141 /* ChatListViewController.xib */,
 				665BAB501A97D7B5005A8E19 /* MakeAnOfferViewController.swift */,
@@ -835,6 +850,7 @@
 				6640F0491AE142D800004556 /* DoubleClick in Resources */,
 				D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */,
 				66A509D71A947CAA001EECE9 /* Localizable.strings in Resources */,
+				50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */,
 				50DFABE21B04E5A700A3F049 /* CategoriesViewController.xib in Resources */,
 				D48C3E061AEBD165005BD0EF /* ConversationCell.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
@@ -843,6 +859,8 @@
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
 				D4A478901B08CA500046D301 /* EditProfileViewController.xib in Resources */,
 				D4B9AFA01AF6A03800D88A30 /* ProductsViewController.xib in Resources */,
+				50E81CF91B0B2D0100807D1B /* ChatMyMessageCell.xib in Resources */,
+				50E81CF51B0B1A2000807D1B /* ChatViewController.xib in Resources */,
 				50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */,
 				D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */,
 				D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */,
@@ -982,6 +1000,7 @@
 				D4B9AF971AF69FB500D88A30 /* ProductsViewModel.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
+				50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */,
 				66C0D0041AA5E9BB0070F311 /* CustomBadge.swift in Sources */,
 				D4912A811B08DDA400DACD5A /* UIView+Appereance.m in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
@@ -991,6 +1010,7 @@
 				D4912A8D1B09111B00DACD5A /* UIImage+ImageEffects.m in Sources */,
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				66A5B56E1ADE4D7A00C18E8B /* LetGoIPGeoLocation.swift in Sources */,
+				50E81CF81B0B2D0100807D1B /* ChatMyMessageCell.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
 				D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */,
 			);
