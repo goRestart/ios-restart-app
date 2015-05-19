@@ -101,12 +101,11 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"))
 
         if currentSearchString == nil {
-            setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"], badgeButtonPosition: 0)
+            setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
         }
         
         // NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged:", name: UIContentSizeCategoryDidChangeNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -241,11 +240,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     func dynamicTypeChanged(notification: NSNotification) {
         self.collectionView.reloadSections(NSIndexSet(index: 0))
     }
-    
-    func badgeChanged (notification: NSNotification) {
-        refreshBadgeButton()
-    }
-    
+        
     // MARK: - IndicateLocationViewControllerDelegate
     
     func userDidManuallySetCoordinates(coordinates: CLLocationCoordinate2D) {

@@ -18,38 +18,17 @@ private let kLetGoVersionNumberKey = "com.letgo.LetGoVersionNumberKey"
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    // iVars
     var window: UIWindow?
 
-
+    // MARK: - UIApplicationDelegate
+    
+    // MARK: > Lifecycle
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // initializate parse
-        //Parse.enableLocalDatastore()
-        Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId,
-                               clientKey: EnvironmentProxy.sharedInstance.parseClientId)
-        
-        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
-        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
-               
-        // Crashlytics
-#if DEBUG
-#else
-        Fabric.with([Crashlytics()])
-#endif
-        // LGCoreKit
-        LGCoreKit.initialize()
 
-        // Tracking
-        TrackingHelper.appDidFinishLaunching()
-        
-        // Appereance
-        UINavigationBar.appearance().tintColor = StyleHelper.navBarBgColor
-//        UINavigationBar.appearance().barTintColor = StyleHelper.navBarBgColor
-//        UINavigationBar.appearance().setBackgroundImage(StyleHelper.navBarBgImage, forBarMetrics: UIBarMetrics.Default)
-//        UINavigationBar.appearance().shadowImage = StyleHelper.navBarShadowImage
-
-        UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
-//        UITabBar.appearance().barTintColor = StyleHelper.navBarBgColor
-//        UITabBar.appearance().backgroundImage = UIImage()
+        setupLibraries(launchOptions)
+        setupAppereance()
         
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
@@ -97,28 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    func openChatListViewController() {
-        // FIXME: Open chat list vc
-//        if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
-//            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController {
-//                // don't open the chat view controller if it's the current chat view controller already.
-//                if navigationController.viewControllers?.last is ChatListViewController { return }
-//                // we are logged in. Check that we have a valid LetGo navigation controller
-//                let clvc = ChatListViewController()
-//                navigationController.pushViewController(clvc, animated: true)
-//            }
-//        }
-    }
-    
-    func showMarketingAlertWithNotificationMessage(message: String) {
-        // FIXME: Show alert
-//        if let rootViewController = self.window?.rootViewController?.presentedViewController as? RootViewController { // make sure we are logged in and everything's in its place
-//            if let navigationController = rootViewController.contentViewController as? DLHamburguerNavigationController {
-//                navigationController.showAutoFadingOutMessageAlert(message)
-//            }
-//        }
-    }
-    
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
@@ -149,8 +106,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Location
         LocationManager.sharedInstance.startLocationUpdates()
     }
+    
+    func applicationWillTerminate(application: UIApplication) {
 
-    // receive push notifications.
+    }
+
+    // MARK: > Push notification
+    
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         let installation = PFInstallation.currentInstallation()
         installation.setDeviceTokenFromData(deviceToken)
@@ -197,10 +159,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
         }
-        // notify any observers
-        //println("Received push notification: \(userInfo)")
-        
     }
+    
+    // MARK: - Private methods
+    
+    // MARK: > Setup
+    
+    private func setupLibraries(launchOptions: [NSObject: AnyObject]?) {
+
+        // Parse
+        Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId,
+            clientKey: EnvironmentProxy.sharedInstance.parseClientId)
+        
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
+        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
+        
+        // Crashlytics
+#if DEBUG
+#else
+            Fabric.with([Crashlytics()])
+#endif
+        // LGCoreKit
+        LGCoreKit.initialize()
+        
+        // Tracking
+        TrackingHelper.appDidFinishLaunching()
+    }
+    
+    private func setupAppereance() {
+        UINavigationBar.appearance().tintColor = StyleHelper.navBarBgColor
+//        UINavigationBar.appearance().barTintColor = StyleHelper.navBarBgColor
+//        UINavigationBar.appearance().setBackgroundImage(StyleHelper.navBarBgImage, forBarMetrics: UIBarMetrics.Default)
+//        UINavigationBar.appearance().shadowImage = StyleHelper.navBarShadowImage
+        
+        UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
+//        UITabBar.appearance().barTintColor = StyleHelper.navBarBgColor
+//        UITabBar.appearance().backgroundImage = UIImage()
+    }
+    
+    // MARK: > Actions
+    
+    private func openChatListViewController() {
+        if let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController {
+            tabBarCtl.openChats()
+        }
+    }
+    
+    private func showMarketingAlertWithNotificationMessage(message: String) {
+        if let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController {
+            tabBarCtl.displayMessage(message)
+        }
+    }
+    
+    // MARK: > Push notification
     
     func getBadgeNumberFromNotification(userInfo: [NSObject: AnyObject]) -> Int? {
         if let newBadge = userInfo["badge"] as? Int { return newBadge }
@@ -221,12 +232,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return aps["alert"] as? String
         } else { return nil }
     }
-    
-    func applicationWillTerminate(application: UIApplication) {
-        // stop location services (if any).
-//        LocationManager.sharedInstance.terminate()
-    }
-
-
 }
 

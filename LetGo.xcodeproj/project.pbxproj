@@ -75,7 +75,6 @@
 		66A509D71A947CAA001EECE9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66A509D91A947CAA001EECE9 /* Localizable.strings */; };
 		66A5B56E1ADE4D7A00C18E8B /* LetGoIPGeoLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A5B56D1ADE4D7A00C18E8B /* LetGoIPGeoLocation.swift */; };
 		66C056D71A97900800F7EEA8 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C056D61A97900800F7EEA8 /* PlaceholderTextView.swift */; };
-		66C0D0041AA5E9BB0070F311 /* CustomBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C0D0031AA5E9BB0070F311 /* CustomBadge.swift */; };
 		66C834B11ADBC5DB002FF142 /* RESTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C834B01ADBC5DB002FF142 /* RESTManager.swift */; };
 		66C834B71ADBEA4E002FF142 /* LetGoProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C834B61ADBEA4E002FF142 /* LetGoProduct.swift */; };
 		66E3D0A91A89073B00BC283C /* UIViewController+LetGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */; };
@@ -203,7 +202,6 @@
 		66A509DB1A947CC9001EECE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		66A5B56D1ADE4D7A00C18E8B /* LetGoIPGeoLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetGoIPGeoLocation.swift; sourceTree = "<group>"; };
 		66C056D61A97900800F7EEA8 /* PlaceholderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
-		66C0D0031AA5E9BB0070F311 /* CustomBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomBadge.swift; sourceTree = "<group>"; };
 		66C834B01ADBC5DB002FF142 /* RESTManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RESTManager.swift; sourceTree = "<group>"; };
 		66C834B61ADBEA4E002FF142 /* LetGoProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetGoProduct.swift; sourceTree = "<group>"; };
 		66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+LetGo.swift"; sourceTree = "<group>"; };
@@ -410,7 +408,6 @@
 				66E50FAC1AE15D09000A7D44 /* CHTCollectionViewWaterfallLayout */,
 				6640F0431AE142C900004556 /* Google Conversion Tracking */,
 				665713E71AADF14100B4721C /* DLImageResize */,
-				66C0D0021AA5E9990070F311 /* Custom Badge */,
 				66A0CFDB1A83616100FAADF0 /* Frameworks */,
 			);
 			name = "3rd Party";
@@ -582,14 +579,6 @@
 				665D5ADD1ADE84C5006A567A /* LetGoGoogleAddressComponent.swift */,
 			);
 			name = Entities;
-			sourceTree = "<group>";
-		};
-		66C0D0021AA5E9990070F311 /* Custom Badge */ = {
-			isa = PBXGroup;
-			children = (
-				66C0D0031AA5E9BB0070F311 /* CustomBadge.swift */,
-			);
-			name = "Custom Badge";
 			sourceTree = "<group>";
 		};
 		66DCEDF61ADBBE43006FDFD8 /* RESTManager */ = {
@@ -1001,7 +990,6 @@
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */,
-				66C0D0041AA5E9BB0070F311 /* CustomBadge.swift in Sources */,
 				D4912A811B08DDA400DACD5A /* UIView+Appereance.m in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
 				6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */,

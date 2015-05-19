@@ -12,7 +12,6 @@ import UIKit
 private let kLetGoFadingAlertDismissalTime: Double = 1.5
 private let kLetGoSearchBarHeight: CGFloat = 44
 private let kLetGoBadgeContainerViewTag = 500
-private let kLetGoBadgeViewTag = 501
 private let kLetGoBarButtonSide: CGFloat = 32.0
 private let kLetGoBarButtonSideSpan: CGFloat = 0.0 //8.0
 private let kLetGoBarButtonHorizontalSpace: CGFloat = 3.0
@@ -48,7 +47,7 @@ extension UIViewController {
     
     // Used to set right buttons in the LetGo style and link them with proper actions.
     // if badgeButtonPosition is specified, a badge number bubble will be added to the button in that position
-    func setLetGoRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], withTags tags: [Int]? = nil, badgeButtonPosition: Int = -1) -> [UIButton] {
+    func setLetGoRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], withTags tags: [Int]? = nil) -> [UIButton] {
         if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
         var resultButtons: [UIButton] = []
         
@@ -67,54 +66,11 @@ extension UIViewController {
             buttonsView.addSubview(button)
             resultButtons.append(button)
             
-            // custom badge?
-            if badgeButtonPosition == i {
-                let badgeView = CustomBadge.customBadgeWithString("\(PFInstallation.currentInstallation().badge)", withStringColor: UIColor.whiteColor(), withInsetColor: UIColor.redColor(), withBadgeFrame: false, withBadgeFrameColor: UIColor.clearColor(), withScale: 1.0, withShining: false)
-                badgeView.center = CGPointMake(button.frame.size.width - 3, 0)
-                badgeView.tag = kLetGoBadgeViewTag
-                button.tag = kLetGoBadgeContainerViewTag
-                button.addSubview(badgeView)
-                
-                if PFInstallation.currentInstallation().badge > 0 {
-                    badgeView.hidden = false
-                    badgeView.badgeText = "\(PFInstallation.currentInstallation().badge)"
-                }
-                else {
-                    badgeView.hidden = true
-                }
-            }
-            
             // update offset
             offset += kLetGoBarButtonSide + kLetGoBarButtonSideSpan + kLetGoBarButtonHorizontalSpace
         }
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
         return resultButtons
-    }
-    
-    // Finds for a button containing a badge in the current Right bar button item and updates the results.
-    func refreshBadgeButton() {
-        if let customView = self.navigationItem.rightBarButtonItem?.customView {
-            for subview in customView.subviews {
-                if let button = subview as? UIButton {
-                    if button.tag == kLetGoBadgeContainerViewTag {
-                        for buttonSubview in button.subviews {
-                            if let badgeView = buttonSubview as? CustomBadge {
-                                let badgeCount = PFInstallation.currentInstallation().badge
-                                if badgeCount > 0 {
-                                    badgeView.hidden = false
-                                    badgeView.badgeText = "\(PFInstallation.currentInstallation().badge)"
-                                }
-                                else {
-                                    badgeView.hidden = true
-                                }
-                                
-                                badgeView.setNeedsDisplay()
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
     
     // gets back one VC from the stack.
