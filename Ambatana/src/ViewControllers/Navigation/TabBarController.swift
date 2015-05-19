@@ -10,7 +10,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-class TabBarController: UITabBarController {
+class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     // Constants
     private static let customSellButtonIndex: CGFloat = 2
@@ -62,6 +62,7 @@ class TabBarController: UITabBarController {
         
         // Setup
         viewControllers = [productsNav, categoriesNav, sellNav, chatsNav, profileNav]
+        delegate = self
         
         // Customize the selected appereance
         for item in [productsTabBarItem, categoriesTabBarItem, sellTabBarItem, chatsTabBarItem, profileTabBarItem] {
@@ -88,6 +89,22 @@ class TabBarController: UITabBarController {
         let itemIndex = TabBarController.customSellButtonIndex
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
         sellButton.frame = CGRect(x: itemWidth * itemIndex, y: 0, width: itemWidth, height: tabBar.frame.height)
+    }
+    
+    // MARK: - UITabBarControllerDelegate
+    
+    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+        // If SellVC is contained in a NavCtl, then do not allow selecting it
+        if let navVC = viewController as? UINavigationController {
+            if let sellVC = navVC.topViewController as? SellProductViewController {
+                return false
+            }
+        }
+        // Or, its the SellVC perse, then do not allow selecting it
+        else if let sellVC = viewController as? SellProductViewController {
+            return false
+        }
+        return true
     }
     
     // MARK: - Internal methods
