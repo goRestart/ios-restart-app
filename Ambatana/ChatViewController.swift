@@ -80,6 +80,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         priceLabel.text = ""
         productImageView.clipsToBounds = true
         productImageView.contentMode = .ScaleAspectFill
+        topView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
 
         // FIXME: Esto es automatico con el scrollvview
         // tap the messages table view to restore frame.
@@ -497,7 +498,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         let kbHeight = keyboardSize.height
         if !appearing {
             // restore autolayout.
-            self.topViewTopConstraint.constant = 64
+            self.topViewTopConstraint.constant = 0
             self.bottomViewBottomConstraint.constant = 0
             self.view.setNeedsUpdateConstraints()
             UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -507,7 +508,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         } else {
             // avoid autolayout messing with our animations.
-            self.topViewTopConstraint.constant = 64 - kbHeight
+            self.topViewTopConstraint.constant = -kbHeight
             self.bottomViewBottomConstraint.constant = kbHeight
             self.view.setNeedsUpdateConstraints()
             UIView.animateWithDuration(0.3, animations: { () -> Void in
