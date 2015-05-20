@@ -238,7 +238,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         // Hide tip when dragging
         if let tabBarCtl = tabBarController as? TabBarController {
-            tabBarCtl.dismissTooltip()
+            tabBarCtl.dismissTooltip(animated: true)
         }
     }
     

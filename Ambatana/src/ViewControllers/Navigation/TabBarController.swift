@@ -11,7 +11,7 @@ import Parse
 import pop
 import UIKit
 
-class TabBarController: UITabBarController, UITabBarControllerDelegate {
+class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Constants & enums
     private static let tooltipVerticalSpacingAnimBottom: CGFloat = 10
@@ -161,12 +161,21 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
-    func dismissTooltip() {
-        tooltipPressed()
+    func dismissTooltip(#animated: Bool) {
+        fadeOutTooltip(animated: animated)
     }
     
     func displayMessage(message: String) {
         showAutoFadingOutMessageAlert(message)
+    }
+    
+    // MARK: - UINavigationControllerDelegate
+    
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+        // dismisses the tooltip when pushing a vc
+        if navigationController.viewControllers.count > 1 {
+            fadeOutTooltip(animated: false)
+        }
     }
     
     // MARK: - UITabBarControllerDelegate
@@ -190,13 +199,16 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     // MARK: > Setup
     
     private func controllerForTab(tab: Tab) -> UIViewController {
-        let iconInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
         let vc = tab.viewController
         let navCtl = UINavigationController(rootViewController: vc)
+        navCtl.delegate = self
+        
         let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
+
         // Customize the selected appereance
         tabBarItem.image = tabBarItem.selectedImage.imageWithColor(StyleHelper.tabBarIconUnselectedColor).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        tabBarItem.imageInsets = iconInsets
+        tabBarItem.imageInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
+        
         navCtl.tabBarItem = tabBarItem
         return navCtl
     }
@@ -204,7 +216,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     // MARK: > Action
     
     dynamic private func sellButtonPressed() {
-        dismissTooltip()
+        fadeOutTooltip(animated: true)
         
         let vc = Tab.Sell.viewController
         let navCtl = UINavigationController(rootViewController: vc)
@@ -212,15 +224,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     dynamic private func tooltipPressed() {
-        // Kill all current animations
-        tooltip.pop_removeAllAnimations()
-        
-        // Fade it out and remove from superview when done
-        startTooltipFadeOut({ [weak self] in
-            if let strongSelf = self {
-                strongSelf.tooltip.removeFromSuperview()
-            }
-        })
+        fadeOutTooltip(animated: true)
     }
     
     // MARK: > Animation
@@ -279,6 +283,24 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
         tooltip.pop_addAnimation(down, forKey: "down")
     }
+    
+    private func fadeOutTooltip(#animated: Bool) {
+        // Kill all current animations
+        tooltip.pop_removeAllAnimations()
+        
+        if animated {
+            // Fade it out and remove from superview when done
+            startTooltipFadeOut({ [weak self] in
+                if let strongSelf = self {
+                    strongSelf.tooltip.removeFromSuperview()
+                }
+            })
+        }
+        else {
+            tooltip.removeFromSuperview()
+        }
+    }
+    
     
     private func startTooltipFadeOut(completion: () -> Void) {
         if tooltip == nil || tooltip.superview == nil {
