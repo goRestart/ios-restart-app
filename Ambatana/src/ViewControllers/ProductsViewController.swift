@@ -11,7 +11,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWaterfallLayout, IndicateLocationViewControllerDelegate, ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, ShowProductViewControllerDelegate {
+class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWaterfallLayout, IndicateLocationViewControllerDelegate, ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UIScrollViewDelegate, ShowProductViewControllerDelegate {
 
     // Enums
     private enum UIState {
@@ -411,6 +411,14 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         }
     }
     
+    // MARK: - UIScrollViewDelegate
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        // Hide tip when dragging
+        if let tabBarCtl = tabBarController as? TabBarController {
+            tabBarCtl.dismissTooltip()
+        }
+    }
     
     // MARK: - LEGACY (TO REFACTOR)
     

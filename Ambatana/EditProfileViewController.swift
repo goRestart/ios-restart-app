@@ -233,6 +233,15 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         }
     }
     
+    // MARK: - UIScrollViewDelegate
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        // Hide tip when dragging
+        if let tabBarCtl = tabBarController as? TabBarController {
+            tabBarCtl.dismissTooltip()
+        }
+    }
+    
     // MARK: - UI
     
     func selectButton(button: UIButton) {

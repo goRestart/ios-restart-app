@@ -14,6 +14,8 @@ import UIKit
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     // Constants & enums
+    private static let tooltipVerticalSpacingAnimBottom: CGFloat = 10
+    private static let tooltipVerticalSpacingAnimTop: CGFloat = 30
     
     /**
      Defines the tabs contained in the TabBarController
@@ -159,6 +161,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
+    func dismissTooltip() {
+        tooltipPressed()
+    }
+    
     func displayMessage(message: String) {
         showAutoFadingOutMessageAlert(message)
     }
@@ -197,13 +203,15 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     // MARK: > Action
     
-    func sellButtonPressed() {
+    dynamic private func sellButtonPressed() {
+        dismissTooltip()
+        
         let vc = Tab.Sell.viewController
         let navCtl = UINavigationController(rootViewController: vc)
         presentViewController(navCtl, animated: true, completion: nil)
     }
     
-    func tooltipPressed() {
+    dynamic private func tooltipPressed() {
         // Kill all current animations
         tooltip.pop_removeAllAnimations()
         
@@ -239,12 +247,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             return
         }
         
-        let centerUp = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.75 * tooltip.frame.size.height)
-        let centerDown = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height)
+        let centerUp = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimTop)
+        let centerDown = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimBottom)
         
         let up = POPBasicAnimation(propertyNamed: kPOPViewCenter)
-        up.fromValue = NSValue(CGPoint: centerDown)
-        up.toValue = NSValue(CGPoint: centerUp)
+        up.fromValue = NSValue(CGPoint: tooltipAnimBottomCenter)
+        up.toValue = NSValue(CGPoint: tooltipAnimTopCenter)
         up.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
         up.completionBlock = { (animation: POPAnimation!, finished: Bool) -> Void in
             if finished {
@@ -260,12 +268,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             return
         }
         
-        let centerUp = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.75 * tooltip.frame.size.height)
-        let centerDown = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height)
-        
         let down = POPBasicAnimation(propertyNamed: kPOPViewCenter)
-        down.fromValue = NSValue(CGPoint: centerUp)
-        down.toValue = NSValue(CGPoint: centerDown)
+        down.fromValue = NSValue(CGPoint: tooltipAnimTopCenter)
+        down.toValue = NSValue(CGPoint: tooltipAnimBottomCenter)
         down.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         down.completionBlock = { [weak self] (animation: POPAnimation!, finished: Bool) -> Void in
             if finished {
@@ -288,6 +293,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
         
         tooltip.pop_addAnimation(alphaAnimation, forKey: "alphaAnimation")
+    }
+
+    private var tooltipAnimTopCenter: CGPoint {
+        return CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimTop)
+    }
+    
+    private var tooltipAnimBottomCenter: CGPoint {
+        return CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimBottom)
     }
     
     // MARK: > Badge

@@ -199,6 +199,15 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         }
     }
     
+    // MARK: - UIScrollViewDelegate
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        // Hide tip when dragging
+        if let tabBarCtl = tabBarController as? TabBarController {
+            tabBarCtl.dismissTooltip()
+        }
+    }
+    
     /*
     // MARK: - ScrollView delegate methods
     func scrollViewDidScroll(scrollView: UIScrollView) {
