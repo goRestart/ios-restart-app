@@ -12,9 +12,6 @@ import UIKit
 private let kLetGoFadingAlertDismissalTime: Double = 1.5
 private let kLetGoSearchBarHeight: CGFloat = 44
 private let kLetGoBadgeContainerViewTag = 500
-private let kLetGoBarButtonSide: CGFloat = 32.0
-private let kLetGoBarButtonSideSpan: CGFloat = 0.0 //8.0
-private let kLetGoBarButtonHorizontalSpace: CGFloat = 3.0
 
 var iOS7LoadingAlertView: UIAlertView?
 var letGoSearchBar: UISearchBar?
@@ -40,34 +37,44 @@ extension UIViewController {
     }
     
     // Used to set right buttons in the LetGo style and link them with proper actions.
-    // if badgeButtonPosition is specified, a badge number bubble will be added to the button in that position
     func setLetGoRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], withTags tags: [Int]? = nil) -> [UIButton] {
         if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
+
         var resultButtons: [UIButton] = []
+        let hSpacing: CGFloat = 12
+
+        var x: CGFloat = 0
+        var height: CGFloat = 0
+        var width: CGFloat = 0
         
-        let numberOfButtons = images.count
-        let totalSize: CGFloat = CGFloat(numberOfButtons) * (kLetGoBarButtonSide + kLetGoBarButtonSideSpan + kLetGoBarButtonHorizontalSpace)
-        let buttonsView = UIView(frame: CGRectMake(0, 0, totalSize, 32))
-        var offset: CGFloat = 0.0
-        
-        for (var i = 0; i < numberOfButtons; i++) {
-            // create and set button.
+        for i in 0..<images.count {
+            let image = UIImage(named: images[i])!
+            let buttonWidth = image.size.width + hSpacing            // image width + horizontal spacing
+
             var button = UIButton.buttonWithType(.System) as! UIButton
-            if (i == 0) {
-                button.frame = CGRectMake(offset, 0, kLetGoBarButtonSide, 32)
-            }
-            else {
-                button.frame = CGRectMake(offset, 0, kLetGoBarButtonSide + kLetGoBarButtonSideSpan, 32)
-            }
+            button.frame = CGRectMake(x, 0, buttonWidth, image.size.height)
+            button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+//            button.backgroundColor = UIColor.purpleColor()
             button.tag = tags != nil ? tags![i] : i
             button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
-            buttonsView.addSubview(button)
             resultButtons.append(button)
             
-            // update offset
-            offset += kLetGoBarButtonSide + kLetGoBarButtonSideSpan + kLetGoBarButtonHorizontalSpace
+            x += image.size.width + hSpacing
+            width += buttonWidth
+            height = max(height, image.size.height)
         }
+
+        let buttonsFrame = CGRect(x: 0, y: 0, width: width, height: height)
+        let buttonsView = UIView(frame: buttonsFrame)
+//        buttonsView.backgroundColor = UIColor.greenColor()
+        
+        // Adjust the button frame and add them as subviews
+        for button in resultButtons {
+            button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width, height)
+            buttonsView.addSubview(button)
+        }
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
         return resultButtons
     }

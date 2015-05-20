@@ -98,7 +98,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         
         // UI
         // > Navigation bar
-        self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "actionbar_logo"))
+        self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "navbar_logo"))
 
         if currentSearchString == nil {
             setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
