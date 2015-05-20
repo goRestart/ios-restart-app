@@ -55,6 +55,10 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
             }
         }
         
+        var hidesBarsOnSwipe: Bool {
+            return self == .Home
+        }
+        
         static var all:[Tab]{
             return Array(SequenceOf { () -> GeneratorOf<Tab> in
                     var i = 0
@@ -202,6 +206,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
         let vc = tab.viewController
         let navCtl = UINavigationController(rootViewController: vc)
         navCtl.delegate = self
+        navCtl.hidesBarsOnSwipe = tab.hidesBarsOnSwipe
         
         let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
 
