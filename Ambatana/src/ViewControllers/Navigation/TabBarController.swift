@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import Parse
+import pop
 import UIKit
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
@@ -62,6 +63,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     }
     
     // UI
+    var tooltip: UIButton!
     var sellButton: UIButton!
     var chatsTabBarItem: UITabBarItem?
     
@@ -93,6 +95,15 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
         sellButton.backgroundColor = StyleHelper.tabBarSellIconBgColor
         tabBar.addSubview(sellButton)
+        
+        // Add the tooltip
+        let tooltipImage = UIImage(named: "tabbar_tooltip")!
+        tooltip = UIButton(frame: CGRect(x: 0, y: 0, width: tooltipImage.size.width, height: tooltipImage.size.height))
+        tooltip.addTarget(self, action: Selector("tooltipPressed"), forControlEvents: UIControlEvents.TouchUpInside)
+        tooltip.center = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.75 * tooltip.frame.size.height)
+        tooltip.contentMode = UIViewContentMode.Top
+        tooltip.setImage(tooltipImage, forState: UIControlState.Normal)
+        view.addSubview(tooltip)
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -102,6 +113,13 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        // If tooltip is displayed then animate it
+        let tooltipIsShown = tooltip.superview != nil
+        if tooltipIsShown {
+            startTooltipAnimation()
+        }
+        
+        // Update the badge
         updateBadge()
         
         // NSNotificationCenter
@@ -118,7 +136,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewWillLayoutSubviews() {
         
-        // Move the sell button, @ahl: can be tested enabling rotation
+        // @ahl: can be tested enabling rotation
+        
+        // Center the tooltip
+        tooltip.center = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height)
+        
+        // Move the sell button
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
         sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth, height: tabBar.frame.height)
     }
@@ -176,6 +199,93 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         let vc = Tab.Sell.viewController
         let navCtl = UINavigationController(rootViewController: vc)
         presentViewController(navCtl, animated: true, completion: nil)
+    }
+    
+    func tooltipPressed() {
+        // Kill all current animations
+        tooltip.pop_removeAllAnimations()
+        
+        // Fade it out and remove from superview when done
+        startTooltipFadeOut({ [weak self] in
+            if let strongSelf = self {
+                strongSelf.tooltip.removeFromSuperview()
+            }
+        })
+    }
+    
+    // MARK: > Animation
+    
+    private func startTooltipAnimation() {
+        if tooltip.superview == nil {
+            return
+        }
+        
+        // Loop between move up & down
+        startTooltipMoveUpAnimation { [weak self] in
+            if let strongSelf = self {
+                strongSelf.startTooltipMoveDownAnimation { [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.startTooltipAnimation()
+                    }
+                }
+            }
+        }
+    }
+    
+    private func startTooltipMoveUpAnimation(completion: () -> Void) {
+        if tooltip == nil || tooltip.superview == nil {
+            return
+        }
+        
+        let centerUp = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.75 * tooltip.frame.size.height)
+        let centerDown = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height)
+        
+        let up = POPBasicAnimation(propertyNamed: kPOPViewCenter)
+        up.fromValue = NSValue(CGPoint: centerDown)
+        up.toValue = NSValue(CGPoint: centerUp)
+        up.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        up.completionBlock = { (animation: POPAnimation!, finished: Bool) -> Void in
+            if finished {
+                completion()
+            }
+        }
+        tooltip.pop_addAnimation(up, forKey: "up")
+        
+    }
+    
+    private func startTooltipMoveDownAnimation(completion: () -> Void) {
+        if tooltip == nil || tooltip.superview == nil {
+            return
+        }
+        
+        let centerUp = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.75 * tooltip.frame.size.height)
+        let centerDown = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height)
+        
+        let down = POPBasicAnimation(propertyNamed: kPOPViewCenter)
+        down.fromValue = NSValue(CGPoint: centerUp)
+        down.toValue = NSValue(CGPoint: centerDown)
+        down.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        down.completionBlock = { [weak self] (animation: POPAnimation!, finished: Bool) -> Void in
+            if finished {
+                completion()
+            }
+        }
+        tooltip.pop_addAnimation(down, forKey: "down")
+    }
+    
+    private func startTooltipFadeOut(completion: () -> Void) {
+        if tooltip == nil || tooltip.superview == nil {
+            return
+        }
+        
+        let alphaAnimation = POPBasicAnimation(propertyNamed: kPOPViewAlpha)
+        alphaAnimation.toValue = 0
+        alphaAnimation.removedOnCompletion = true
+        alphaAnimation.completionBlock = { (animation: POPAnimation!, finished: Bool) -> Void in
+            completion()
+        }
+        
+        tooltip.pop_addAnimation(alphaAnimation, forKey: "alphaAnimation")
     }
     
     // MARK: > Badge

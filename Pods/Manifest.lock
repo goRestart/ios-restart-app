@@ -28,6 +28,7 @@ PODS:
     - Timepiece (~> 0.2)
   - Parse (1.7.2.2):
     - Bolts/Tasks (>= 1.1.5)
+  - pop (1.0.7)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
@@ -41,6 +42,7 @@ DEPENDENCIES:
   - FBSDKLoginKit (>= 4.1)
   - FBSDKShareKit (>= 4.1)
   - LGCoreKit (= 0.0.11)
+  - pop (>= 1.0)
   - SDWebImage
 
 SPEC CHECKSUMS:
@@ -52,6 +54,7 @@ SPEC CHECKSUMS:
   FBSDKShareKit: 8002faf0c564ff3625eadd16e506b0b0fbf3adef
   LGCoreKit: df934ea80239d3f680837269ec8893efd681fbe4
   Parse: 6187586a80eb7b4960d755f85e1353148a611f87
+  pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
   Timepiece: 2899f5ea241e1776331de8417749f331a21f40d0

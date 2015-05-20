@@ -34,4 +34,7 @@ target "LetGo" do
     
     # Networking (to be removed when migrating to LGCoreKit)
     pod "Alamofire",            ">= 1.2"
+    
+    # Animation
+    pod "pop",                  ">= 1.0"
 end

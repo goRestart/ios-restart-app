@@ -12,7 +12,7 @@ import Foundation
 class StyleHelper {
 
     // Colors
-    private static let red = UIColor(rgb: 0xFB2444)
+    private static let red = UIColor(rgb: 0xFF3F55)
     private static let darkPink = UIColor(rgb: 0xC2185B)
     private static let lightPink = UIColor(rgb: 0xE91E63)
     private static let ultraLightPink = UIColor(rgb: 0xF8BBD0)
