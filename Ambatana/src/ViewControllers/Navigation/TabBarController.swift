@@ -47,7 +47,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             case Chats:
                 return ChatListViewController()
             case Profile:
-                return EditProfileViewController()
+                let vc = EditProfileViewController()
+                vc.userObject = PFUser.currentUser()
+                return vc
             }
         }
         

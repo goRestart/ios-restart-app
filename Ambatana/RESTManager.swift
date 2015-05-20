@@ -132,110 +132,110 @@ class RESTManager: NSObject {
 
     // MARK: - Product requests.
     
-    /**
-     * Requests a list of products to the backend and calls the completion handler. On success, returns an array of LetGoProduct instances.
-     */
-    func getListOfProducts(queryString: String?, location: CLLocationCoordinate2D, categoryId: LetGoProductCategory?, sortBy: LetGoUserFilterForProducts, offset: Int, status: [LetGoProductStatus]?, maxPrice: Int?, distanceRadius: Int?, minPrice: Int?, fromUser: String?, completion: ((success: Bool, products: [LetGoProduct]?, retrievedItems: Int, successfullyParsedItems: Int) -> Void)?) -> Void {
-        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIListItemsURL + kLetGoRestAPIJSONFormatSuffix
-        if let url = NSURL(string: urlString) {
-            // build list request parameters
-            var parameters: [String: AnyObject] = [kLetGoRestAPIParameterNumberOfProducts:kLetGoRestAPIParameterDefaultNumberOfProducts]
-            if queryString != nil { parameters[kLetGoRestAPIParameterQueryString] = queryString! }
-            if CLLocationCoordinate2DIsValid(location) {
-                parameters[kLetGoRestAPIParameterLatitude] = location.latitude
-                parameters[kLetGoRestAPIParameterLongitude] = location.longitude
-            }
-            if categoryId != nil { parameters[kLetGoRestAPIParameterCategoryId] = categoryId!.rawValue }
-            if let sortByParameter = sortBy.filterStringForRestAPI() { parameters[kLetGoRestAPIParameterSortBy] = sortByParameter }
-            parameters[kLetGoRestAPIParameterDistanceType] = LetGoDistanceMeasurementSystem.American.distanceMeasurementStringForRestAPI()
-//            parameters[kLetGoRestAPIParameterDistanceType] = LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
-            parameters[kLetGoRestAPIParameterOffset] = offset
-            if status?.count > 0 { parameters[kLetGoRestAPIParameterStatus] = ",".join(status!.map { $0.description }) }
-            if maxPrice != nil { parameters[kLetGoRestAPIParameterMaxPrice] = maxPrice! }
-            if minPrice != nil { parameters[kLetGoRestAPIParameterMinPrice] = minPrice! }
-            if distanceRadius != nil { parameters[kLetGoRestAPIParameterDistanceRadius] = distanceRadius }
-            if fromUser != nil { parameters[kLetGoRestAPIParameterUserObjectId] = fromUser! }
-            
-            // perform request.
-            request(.GET, url, parameters: parameters).responseJSON(completionHandler: { (request, response, json, error) -> Void in
-                if (error != nil) { // request failed
-                    completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0)
-                } else { // success. Analyze response.
-                    if let jsonDict = json as? [String: AnyObject] {
-                        if let productsData = jsonDict[kLetGoRestAPIParameterData] as? [[String: AnyObject]] {
-                            var products: [LetGoProduct] = []
-                            for productData in productsData {
-                                if let newProduct = LetGoProduct(valuesFromProductInListDictionary: productData, loadThumbnailImage: false) {
-                                    products.append(newProduct)
-                                }
-                            }
-                            completion?(success: true, products: products, retrievedItems: productsData.count, successfullyParsedItems: products.count)
-                            return
-                        }
-                    }
-                    completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0)
-                }
-            })
-        } else { completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0) }
-    }
-    
-    /** Request data about a concrete product based on product id */
-    func retrieveProductWithId(productId: String, completion: ((success: Bool, product: LetGoProduct?) -> Void)? ) -> Void {
-        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIProductDataURL + kLetGoRestAPIPathSeparator + productId + kLetGoRestAPIJSONFormatSuffix
-        if let url = NSURL(string: urlString) {
-            // build parameters (request full object with all images in an array)
-            let parameters = [kLetGoRestAPIParameterFullObjectData: "true"]
-            
-            // perform request
-            request(.GET, url, parameters: parameters).responseJSON(completionHandler: { (request, response, json, error) -> Void in
-                if (error != nil) { // request failed
-                    completion?(success: false, product: nil)
-                } else { // success. Analyze response.
-                    if let jsonDict = json as? [String: AnyObject] {
-                        if let productData = jsonDict[kLetGoRestAPIParameterData] as? [String: AnyObject] {
-                            if let newProduct = LetGoProduct(valuesFromFullProductDictionary: productData, loadImages: false) {
-                                completion?(success: true, product: newProduct)
-                                return
-                            }
-                        }
-                    }
-                    completion?(success: false, product: nil)
-                }
-            })
-        } else { completion?(success: false, product: nil) }
-    }
-    
-    /** Retrieves the products related to a product with a given id */
-    func retrieveProductsRelatedToProductWithId(productId: String, offset: Int, distance_type: LetGoDistanceMeasurementSystem?, completion: ((success: Bool, products: [LetGoProduct]?) -> Void)? ) -> Void {
-        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIRelatedProductURL + kLetGoRestAPIJSONFormatSuffix
-        if let url = NSURL(string: urlString) {
-            // build parameters (request full object with all images in an array)
-            let parameters: [String: AnyObject] = [
-                kLetGoRestAPIParameterOffset: offset,
-                kLetGoRestAPIParameterDistanceType: LetGoDistanceMeasurementSystem.American.distanceMeasurementStringForRestAPI()
-//            LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
-            ]
-            
-            // perform request
-            request(.GET, url, parameters: parameters).responseJSON(completionHandler: { (request, response, json, error) -> Void in
-                if (error != nil) { // request failed
-                    completion?(success: false, products: nil)
-                } else { // success. Analyze response.
-                    if let jsonDict = json as? [String: AnyObject] {
-                        if let productsData = jsonDict[kLetGoRestAPIParameterData] as? [[String: AnyObject]] {
-                            var products: [LetGoProduct] = []
-                            for productData in productsData {
-                                if let product = LetGoProduct(valuesFromProductInListDictionary: productData, loadThumbnailImage: false) { products.append(product) }
-                            }
-                            completion?(success: true, products: products)
-                            return
-                        }
-                    }
-                    completion?(success: false, products: nil)
-                }
-            })
-        } else { completion?(success: false, products: nil) }
-    }
+//    /**
+//     * Requests a list of products to the backend and calls the completion handler. On success, returns an array of LetGoProduct instances.
+//     */
+//    func getListOfProducts(queryString: String?, location: CLLocationCoordinate2D, categoryId: LetGoProductCategory?, sortBy: LetGoUserFilterForProducts, offset: Int, status: [LetGoProductStatus]?, maxPrice: Int?, distanceRadius: Int?, minPrice: Int?, fromUser: String?, completion: ((success: Bool, products: [LetGoProduct]?, retrievedItems: Int, successfullyParsedItems: Int) -> Void)?) -> Void {
+//        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIListItemsURL + kLetGoRestAPIJSONFormatSuffix
+//        if let url = NSURL(string: urlString) {
+//            // build list request parameters
+//            var parameters: [String: AnyObject] = [kLetGoRestAPIParameterNumberOfProducts:kLetGoRestAPIParameterDefaultNumberOfProducts]
+//            if queryString != nil { parameters[kLetGoRestAPIParameterQueryString] = queryString! }
+//            if CLLocationCoordinate2DIsValid(location) {
+//                parameters[kLetGoRestAPIParameterLatitude] = location.latitude
+//                parameters[kLetGoRestAPIParameterLongitude] = location.longitude
+//            }
+//            if categoryId != nil { parameters[kLetGoRestAPIParameterCategoryId] = categoryId!.rawValue }
+//            if let sortByParameter = sortBy.filterStringForRestAPI() { parameters[kLetGoRestAPIParameterSortBy] = sortByParameter }
+//            parameters[kLetGoRestAPIParameterDistanceType] = LetGoDistanceMeasurementSystem.American.distanceMeasurementStringForRestAPI()
+////            parameters[kLetGoRestAPIParameterDistanceType] = LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
+//            parameters[kLetGoRestAPIParameterOffset] = offset
+//            if status?.count > 0 { parameters[kLetGoRestAPIParameterStatus] = ",".join(status!.map { $0.description }) }
+//            if maxPrice != nil { parameters[kLetGoRestAPIParameterMaxPrice] = maxPrice! }
+//            if minPrice != nil { parameters[kLetGoRestAPIParameterMinPrice] = minPrice! }
+//            if distanceRadius != nil { parameters[kLetGoRestAPIParameterDistanceRadius] = distanceRadius }
+//            if fromUser != nil { parameters[kLetGoRestAPIParameterUserObjectId] = fromUser! }
+//            
+//            // perform request.
+//            request(.GET, url, parameters: parameters).responseJSON(completionHandler: { (request, response, json, error) -> Void in
+//                if (error != nil) { // request failed
+//                    completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0)
+//                } else { // success. Analyze response.
+//                    if let jsonDict = json as? [String: AnyObject] {
+//                        if let productsData = jsonDict[kLetGoRestAPIParameterData] as? [[String: AnyObject]] {
+//                            var products: [LetGoProduct] = []
+//                            for productData in productsData {
+//                                if let newProduct = LetGoProduct(valuesFromProductInListDictionary: productData, loadThumbnailImage: false) {
+//                                    products.append(newProduct)
+//                                }
+//                            }
+//                            completion?(success: true, products: products, retrievedItems: productsData.count, successfullyParsedItems: products.count)
+//                            return
+//                        }
+//                    }
+//                    completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0)
+//                }
+//            })
+//        } else { completion?(success: false, products: nil, retrievedItems: 0, successfullyParsedItems: 0) }
+//    }
+//    
+//    /** Request data about a concrete product based on product id */
+//    func retrieveProductWithId(productId: String, completion: ((success: Bool, product: LetGoProduct?) -> Void)? ) -> Void {
+//        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIProductDataURL + kLetGoRestAPIPathSeparator + productId + kLetGoRestAPIJSONFormatSuffix
+//        if let url = NSURL(string: urlString) {
+//            // build parameters (request full object with all images in an array)
+//            let parameters = [kLetGoRestAPIParameterFullObjectData: "true"]
+//            
+//            // perform request
+//            request(.GET, url, parameters: parameters).responseJSON(completionHandler: { (request, response, json, error) -> Void in
+//                if (error != nil) { // request failed
+//                    completion?(success: false, product: nil)
+//                } else { // success. Analyze response.
+//                    if let jsonDict = json as? [String: AnyObject] {
+//                        if let productData = jsonDict[kLetGoRestAPIParameterData] as? [String: AnyObject] {
+//                            if let newProduct = LetGoProduct(valuesFromFullProductDictionary: productData, loadImages: false) {
+//                                completion?(success: true, product: newProduct)
+//                                return
+//                            }
+//                        }
+//                    }
+//                    completion?(success: false, product: nil)
+//                }
+//            })
+//        } else { completion?(success: false, product: nil) }
+//    }
+//    
+//    /** Retrieves the products related to a product with a given id */
+//    func retrieveProductsRelatedToProductWithId(productId: String, offset: Int, distance_type: LetGoDistanceMeasurementSystem?, completion: ((success: Bool, products: [LetGoProduct]?) -> Void)? ) -> Void {
+//        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIRelatedProductURL + kLetGoRestAPIJSONFormatSuffix
+//        if let url = NSURL(string: urlString) {
+//            // build parameters (request full object with all images in an array)
+//            let parameters: [String: AnyObject] = [
+//                kLetGoRestAPIParameterOffset: offset,
+//                kLetGoRestAPIParameterDistanceType: LetGoDistanceMeasurementSystem.American.distanceMeasurementStringForRestAPI()
+////            LetGoDistanceMeasurementSystem.retrieveCurrentDistanceMeasurementSystem().distanceMeasurementStringForRestAPI()
+//            ]
+//            
+//            // perform request
+//            request(.GET, url, parameters: parameters).responseJSON(completionHandler: { (request, response, json, error) -> Void in
+//                if (error != nil) { // request failed
+//                    completion?(success: false, products: nil)
+//                } else { // success. Analyze response.
+//                    if let jsonDict = json as? [String: AnyObject] {
+//                        if let productsData = jsonDict[kLetGoRestAPIParameterData] as? [[String: AnyObject]] {
+//                            var products: [LetGoProduct] = []
+//                            for productData in productsData {
+//                                if let product = LetGoProduct(valuesFromProductInListDictionary: productData, loadThumbnailImage: false) { products.append(product) }
+//                            }
+//                            completion?(success: true, products: products)
+//                            return
+//                        }
+//                    }
+//                    completion?(success: false, products: nil)
+//                }
+//            })
+//        } else { completion?(success: false, products: nil) }
+//    }
     
     // MARK: - Update and synchronization of products
     
@@ -263,88 +263,88 @@ class RESTManager: NSObject {
     
     // MARK: - GeoLocation requests
     
-    /**
-     * Requests a geolocation to the backend based on IP address. Returns a LetGoIPGeoLocation object.
-     */
-    func getGeoLocationBasedOnIPAddress(ipAddress: String, completion: ((success: Bool, geolocation: LetGoIPGeoLocation?) -> Void)? ) -> Void {
-        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIIPLookupURL + kLetGoRestAPIJSONFormatSuffix + kLetGoRestAPIParameterIPAddress + ipAddress
-        if let url = NSURL(string: urlString) {
-            // perform request.
-            request(.GET, url, parameters: nil).responseJSON(completionHandler: { (request, response, json, error) -> Void in
-                if (error != nil) { // request failed
-                    completion?(success: false, geolocation: nil)
-                } else { // success. Analyze response.
-                    if let jsonDict = json as? [String: AnyObject] {
-                        if let ipGeoLocation = LetGoIPGeoLocation(valuesFromDictionary: jsonDict) { completion?(success: true, geolocation: ipGeoLocation) }
-                        else { completion?(success: false, geolocation: nil) }
-                    } else { completion?(success: false, geolocation: nil) }
-                }
-            })
-        } else { completion?(success: false, geolocation: nil) }
-    }
-    
-    /**
-     * Retrieves a prediction of the user location based on a location string.
-     */
-    func predictUserLocationBasedOnLocationString(locationString: String, completion: ((success: Bool, geolocation: LetGoGoogleGeoLocation?) -> Void)? ) -> Void {
-        let encodedLocationString = locationString.stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet()) ?? locationString
-        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPILocationsURL + kLetGoRestAPIPathSeparator + encodedLocationString + kLetGoRestAPIJSONFormatSuffix
-        if let url = NSURL(string: urlString) {
-            // perform request.
-            request(.GET, url, parameters: nil).responseJSON(completionHandler: { (request, response, json, error) -> Void in
-                if (error != nil) { // request failed
-                    completion?(success: false, geolocation: nil)
-                } else {
-                    // A valid response will include at least one prediction with a place_id. We can use this place_id to perform a geolocation request to obtain the full LetGoGoogleGeoLocation object.
-                    if let jsonDict = json as? [String: AnyObject] {
-                        if let status = jsonDict[kLetGoRestAPIParameterStatus] as? String, resultData = jsonDict[kLetGoRestAPIParameterResult] as? [String: AnyObject] {
-                            // check status first
-                            if status.uppercaseString != kLetGoRestAPIPredictionResultOK { completion }
-                            
-                            // iterate through all predictions, trying to find one with a valid place_id to use.
-                            if let predictions = jsonDict[kLetGoRestAPIParameterPredictions] as? [[String: AnyObject]] {
-                                if predictions.count > 0 {
-                                    for prediction in predictions { // for every prediction contained...
-                                        if let predictionPlaceId = prediction[kLetGoRestAPIParameterPlaceId] as? String { // found a place_id, now retrieve geo location
-                                            self.retrieveGeoLocationFromPlaceId(predictionPlaceId, completion: completion)
-                                            return
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    completion?(success: false, geolocation: nil)
-                }
-            })
-        } else { completion?(success: false, geolocation: nil) }
-    }
-    
-    /** Retrieves a LetGoGoogleGeoLocation from a place_id. */
-    func retrieveGeoLocationFromPlaceId(placeId: String, completion: ((success: Bool, geolocation: LetGoGoogleGeoLocation?) -> Void)? ) -> Void {
-        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPILocationsURL + kLetGoRestAPILocationDetailsURL + kLetGoRestAPIPathSeparator + placeId + kLetGoRestAPIJSONFormatSuffix
-        if let url = NSURL(string: urlString) {
-            // perform request.
-            request(.GET, url, parameters: nil).responseJSON(completionHandler: { (request, response, json, error) -> Void in
-                if (error != nil) { // request failed
-                    completion?(success: false, geolocation: nil)
-                } else {
-                    // Analyze response
-                    if let jsonDict = json as? [String: AnyObject] {
-                        if let status = jsonDict[kLetGoRestAPIParameterStatus] as? String, resultData = jsonDict[kLetGoRestAPIParameterResult] as? [String: AnyObject] {
-                            if status.uppercaseString == kLetGoRestAPIPredictionResultOK {
-                                if let retrievedGeoLocation = LetGoGoogleGeoLocation(valuesFromDictionary: resultData) {
-                                    completion?(success: true, geolocation: retrievedGeoLocation)
-                                    return
-                                }
-                            }
-                        }
-                    }
-                    completion?(success: false, geolocation: nil)
-                }
-            })
-        } else { completion?(success: false, geolocation: nil) }
-    }
+//    /**
+//     * Requests a geolocation to the backend based on IP address. Returns a LetGoIPGeoLocation object.
+//     */
+//    func getGeoLocationBasedOnIPAddress(ipAddress: String, completion: ((success: Bool, geolocation: LetGoIPGeoLocation?) -> Void)? ) -> Void {
+//        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPIIPLookupURL + kLetGoRestAPIJSONFormatSuffix + kLetGoRestAPIParameterIPAddress + ipAddress
+//        if let url = NSURL(string: urlString) {
+//            // perform request.
+//            request(.GET, url, parameters: nil).responseJSON(completionHandler: { (request, response, json, error) -> Void in
+//                if (error != nil) { // request failed
+//                    completion?(success: false, geolocation: nil)
+//                } else { // success. Analyze response.
+//                    if let jsonDict = json as? [String: AnyObject] {
+//                        if let ipGeoLocation = LetGoIPGeoLocation(valuesFromDictionary: jsonDict) { completion?(success: true, geolocation: ipGeoLocation) }
+//                        else { completion?(success: false, geolocation: nil) }
+//                    } else { completion?(success: false, geolocation: nil) }
+//                }
+//            })
+//        } else { completion?(success: false, geolocation: nil) }
+//    }
+//    
+//    /**
+//     * Retrieves a prediction of the user location based on a location string.
+//     */
+//    func predictUserLocationBasedOnLocationString(locationString: String, completion: ((success: Bool, geolocation: LetGoGoogleGeoLocation?) -> Void)? ) -> Void {
+//        let encodedLocationString = locationString.stringByAddingPercentEncodingWithAllowedCharacters(.URLQueryAllowedCharacterSet()) ?? locationString
+//        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPILocationsURL + kLetGoRestAPIPathSeparator + encodedLocationString + kLetGoRestAPIJSONFormatSuffix
+//        if let url = NSURL(string: urlString) {
+//            // perform request.
+//            request(.GET, url, parameters: nil).responseJSON(completionHandler: { (request, response, json, error) -> Void in
+//                if (error != nil) { // request failed
+//                    completion?(success: false, geolocation: nil)
+//                } else {
+//                    // A valid response will include at least one prediction with a place_id. We can use this place_id to perform a geolocation request to obtain the full LetGoGoogleGeoLocation object.
+//                    if let jsonDict = json as? [String: AnyObject] {
+//                        if let status = jsonDict[kLetGoRestAPIParameterStatus] as? String, resultData = jsonDict[kLetGoRestAPIParameterResult] as? [String: AnyObject] {
+//                            // check status first
+//                            if status.uppercaseString != kLetGoRestAPIPredictionResultOK { completion }
+//                            
+//                            // iterate through all predictions, trying to find one with a valid place_id to use.
+//                            if let predictions = jsonDict[kLetGoRestAPIParameterPredictions] as? [[String: AnyObject]] {
+//                                if predictions.count > 0 {
+//                                    for prediction in predictions { // for every prediction contained...
+//                                        if let predictionPlaceId = prediction[kLetGoRestAPIParameterPlaceId] as? String { // found a place_id, now retrieve geo location
+//                                            self.retrieveGeoLocationFromPlaceId(predictionPlaceId, completion: completion)
+//                                            return
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    completion?(success: false, geolocation: nil)
+//                }
+//            })
+//        } else { completion?(success: false, geolocation: nil) }
+//    }
+//    
+//    /** Retrieves a LetGoGoogleGeoLocation from a place_id. */
+//    func retrieveGeoLocationFromPlaceId(placeId: String, completion: ((success: Bool, geolocation: LetGoGoogleGeoLocation?) -> Void)? ) -> Void {
+//        let urlString = EnvironmentProxy.sharedInstance.apiBaseURL + kLetGoRestAPIEndpoint + kLetGoRestAPILocationsURL + kLetGoRestAPILocationDetailsURL + kLetGoRestAPIPathSeparator + placeId + kLetGoRestAPIJSONFormatSuffix
+//        if let url = NSURL(string: urlString) {
+//            // perform request.
+//            request(.GET, url, parameters: nil).responseJSON(completionHandler: { (request, response, json, error) -> Void in
+//                if (error != nil) { // request failed
+//                    completion?(success: false, geolocation: nil)
+//                } else {
+//                    // Analyze response
+//                    if let jsonDict = json as? [String: AnyObject] {
+//                        if let status = jsonDict[kLetGoRestAPIParameterStatus] as? String, resultData = jsonDict[kLetGoRestAPIParameterResult] as? [String: AnyObject] {
+//                            if status.uppercaseString == kLetGoRestAPIPredictionResultOK {
+//                                if let retrievedGeoLocation = LetGoGoogleGeoLocation(valuesFromDictionary: resultData) {
+//                                    completion?(success: true, geolocation: retrievedGeoLocation)
+//                                    return
+//                                }
+//                            }
+//                        }
+//                    }
+//                    completion?(success: false, geolocation: nil)
+//                }
+//            })
+//        } else { completion?(success: false, geolocation: nil) }
+//    }
 
     // MARK: - Parse legacy methods
     func retrieveParseObjectWithId (parseObjectId: String, className: String, completion: ((success: Bool, parseObject: PFObject?) -> Void)? ) -> Void {

@@ -187,8 +187,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func setupAppereance() {
-        UINavigationBar.appearance().tintColor = StyleHelper.navBarBgColor
-//        UINavigationBar.appearance().barTintColor = StyleHelper.navBarBgColor
+        UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
+//        UINavigationBar.appearance().tintColor = St
 //        UINavigationBar.appearance().setBackgroundImage(StyleHelper.navBarBgImage, forBarMetrics: UIBarMetrics.Default)
 //        UINavigationBar.appearance().shadowImage = StyleHelper.navBarShadowImage
         

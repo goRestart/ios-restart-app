@@ -65,9 +65,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
-        // NSNotificationCenter deregister
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        
         // hide search bar (if showing)
         if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
     }
