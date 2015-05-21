@@ -128,9 +128,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if (productWasSold) {
             let event: TrackingEvent = .ProductSellComplete
             TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
-        } else {
-            let event: TrackingEvent = .ProductSellAbandon
-            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
         }
     }
     
@@ -219,6 +216,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     func closeButtonPressed() {
         self.dismissViewControllerAnimated(true, completion: nil)
+        
+        let event: TrackingEvent = .ProductSellAbandon
+        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
     }
     
     @IBAction func changeCurrencyType(sender: AnyObject) {
@@ -443,7 +443,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                             if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId!) }
                             else {
                                 self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
-                                    self.popBackViewController()
+                                    self.dismissViewControllerAnimated(true, completion: nil)
                                 })
                             }
                         } else {
@@ -496,7 +496,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             shareCurrentProductInFacebook(objectId)
         } else {
             showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
-                self.popBackViewController()
+                self.dismissViewControllerAnimated(true, completion: nil)
             })
         }
     }
@@ -515,7 +515,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
-            self.popBackViewController()
+            self.dismissViewControllerAnimated(true, completion: nil)
         })
 
         // Tracking
@@ -525,13 +525,13 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
         self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
-            self.popBackViewController()
+            self.dismissViewControllerAnimated(true, completion: nil)
         })
     }
     
     func sharerDidCancel(sharer: FBSDKSharing!) {
         self.showAutoFadingOutMessageAlert(translate("canceled_by_user"), completionBlock: { () -> Void in
-            self.popBackViewController()
+            self.dismissViewControllerAnimated(true, completion: nil)
         })
     }
 
