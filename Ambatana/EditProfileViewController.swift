@@ -365,11 +365,13 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         query.orderByDescending("createdAt")
         query.includeKey("product")
         query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
-            let favorites = objects as! [PFObject]!
+            
             var productList: [PFObject] = []
-            for favorite in favorites {
-                if let product = favorite["product"] as? PFObject {
-                    productList.append(product)
+            if let favorites = objects as? [PFObject] {
+                for favorite in favorites {
+                    if let product = favorite["product"] as? PFObject {
+                        productList.append(product)
+                    }
                 }
             }
             completion(favProducts: productList, error: error)
