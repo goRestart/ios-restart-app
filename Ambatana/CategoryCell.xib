@@ -16,6 +16,9 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" text="Lorem ipsum dolor sit amet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999998807907104" translatesAutoresizingMaskIntoConstraints="NO" id="byi-5x-wob" userLabel="Title Label">
                         <rect key="frame" x="8" y="107" width="144" height="35"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="35" id="rHY-R0-kUA"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                         <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>

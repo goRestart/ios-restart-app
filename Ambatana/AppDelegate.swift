@@ -188,13 +188,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupAppereance() {
         UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
-//        UINavigationBar.appearance().tintColor = St
-//        UINavigationBar.appearance().setBackgroundImage(StyleHelper.navBarBgImage, forBarMetrics: UIBarMetrics.Default)
-//        UINavigationBar.appearance().shadowImage = StyleHelper.navBarShadowImage
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont, NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
         
         UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
-//        UITabBar.appearance().barTintColor = StyleHelper.navBarBgColor
-//        UITabBar.appearance().backgroundImage = UIImage()
     }
     
     // MARK: > Actions

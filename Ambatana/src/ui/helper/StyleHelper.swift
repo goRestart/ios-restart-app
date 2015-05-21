@@ -20,10 +20,16 @@ class StyleHelper {
     
     private static let white = UIColor(rgb: 0xFFFFFF)
     private static let gray21 = UIColor(rgb: 0x212121)
+    private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray72 = UIColor(rgb: 0x727272)
     private static let gray182 = UIColor(rgb: 0xB6B6B6)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
     private static let black = UIColor(rgb: 0x000000)
+    
+    // Fonts
+    private static func helveticaNeueFont(#size: Int) -> UIFont {
+        return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
+    }
     
     private static let palette = [darkPink, lightPink, ultraLightPink, white, brown, gray72, gray182]
     
@@ -37,6 +43,14 @@ class StyleHelper {
     
     static var navBarButtonsColor: UIColor {
         return black
+    }
+    
+    static var navBarTitleColor: UIColor {
+        return gray44
+    }
+    
+    static var navBarTitleFont: UIFont {
+        return helveticaNeueFont(size: 17)
     }
     
     static var navBarBgImage: UIImage {
