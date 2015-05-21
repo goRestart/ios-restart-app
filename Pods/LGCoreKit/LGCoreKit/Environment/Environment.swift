@@ -17,4 +17,7 @@ public protocol Environment {
     var apiBaseURL: String { get }
     var apiClientId: String { get }
     var apiClientSecret: String { get }
+    
+    // Images
+    var imagesBaseURL: String { get }
 }

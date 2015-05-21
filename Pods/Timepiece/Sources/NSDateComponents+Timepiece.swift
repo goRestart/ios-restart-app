@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension NSDateComponents {
+public extension NSDateComponents {
     convenience init(_ duration: Duration) {
         self.init()
         switch duration.unit{
@@ -17,7 +17,7 @@ extension NSDateComponents {
         case NSCalendarUnit.CalendarUnitWeekday:
             weekday = duration.value
         case NSCalendarUnit.CalendarUnitWeekOfMonth:
-            weekday = duration.value
+            weekOfMonth = duration.value
         case NSCalendarUnit.CalendarUnitWeekOfYear:
             weekOfYear = duration.value
         case NSCalendarUnit.CalendarUnitHour:

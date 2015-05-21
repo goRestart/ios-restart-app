@@ -20,20 +20,20 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.1.0):
     - FBSDKCoreKit
-  - LGCoreKit (0.0.11):
+  - LGCoreKit (0.0.12):
     - Alamofire (~> 1.2)
     - Bolts (~> 1.1)
     - Parse (~> 1.7)
     - SwiftyJSON (~> 2.2)
     - Timepiece (~> 0.2)
-  - Parse (1.7.2.2):
+  - Parse (1.7.4):
     - Bolts/Tasks (>= 1.1.5)
   - pop (1.0.7)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
   - SwiftyJSON (2.2.0)
-  - Timepiece (0.3.1)
+  - Timepiece (0.3.3)
 
 DEPENDENCIES:
   - Alamofire (>= 1.2)
@@ -41,7 +41,7 @@ DEPENDENCIES:
   - FBSDKCoreKit (>= 4.1)
   - FBSDKLoginKit (>= 4.1)
   - FBSDKShareKit (>= 4.1)
-  - LGCoreKit (= 0.0.11)
+  - LGCoreKit (= 0.0.12)
   - pop (>= 1.0)
   - SDWebImage
 
@@ -52,11 +52,11 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 469ed167195f860dbd2b4c4bbaa33d2e90598db9
   FBSDKLoginKit: ff6224762732e3698f30942e4544321b8c7a23e6
   FBSDKShareKit: 8002faf0c564ff3625eadd16e506b0b0fbf3adef
-  LGCoreKit: df934ea80239d3f680837269ec8893efd681fbe4
-  Parse: 6187586a80eb7b4960d755f85e1353148a611f87
+  LGCoreKit: c0fa6dcb452efc95ffeb37a14203f0ee8a4a318a
+  Parse: 6ca512c6e860b66739c95151b2f76ac4712b7842
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
-  Timepiece: 2899f5ea241e1776331de8417749f331a21f40d0
+  Timepiece: 30ef04f74337fcb1bef2ff91cfe964184d894d12
 
 COCOAPODS: 0.37.1

@@ -18,4 +18,7 @@ public struct ProductionEnvironment: Environment {
     public let apiBaseURL = "http://api.letgo.com"             // new PROD
     public let apiClientId = "2_4iqtxcwybj8k08o8ssw4wkc0c408o8o4g8go8ogok0ss4g48oo"
     public let apiClientSecret = "4hbpw71kl8u80sw8gww44gs0ww8c44kc4wwssw0k08sw4k4ssc"
+    
+    // Images
+    public let imagesBaseURL = "http://cdn.letgo.com"  // @ahl: to be removed when full image URL is coming in the products response
 }

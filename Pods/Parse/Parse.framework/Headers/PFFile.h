@@ -55,8 +55,7 @@ PF_ASSUME_NONNULL_BEGIN
  spaces, underscores, or dashes.
  @param path The path to the file that will be uploaded to Parse.
  */
-+ (instancetype)fileWithName:(PF_NULLABLE NSString *)name
-              contentsAtPath:(NSString *)path;
++ (instancetype)fileWithName:(PF_NULLABLE NSString *)name contentsAtPath:(NSString *)path;
 
 /*!
  @abstract Creates a file with given data, name and content type.
@@ -128,6 +127,15 @@ PF_ASSUME_NONNULL_BEGIN
  @returns The task, that encapsulates the work being done.
  */
 - (BFTask *)saveInBackground;
+
+/*!
+ @abstract Saves the file *asynchronously*
+
+ @param progressBlock The block should have the following argument signature: `^(int percentDone)`
+
+ @returns The task, that encapsulates the work being done.
+ */
+- (BFTask *)saveInBackgroundWithProgressBlock:(PF_NULLABLE PFProgressBlock)progressBlock;
 
 /*!
  @abstract Saves the file *asynchronously* and executes the given block.
@@ -205,15 +213,26 @@ PF_ASSUME_NONNULL_BEGIN
 - (PF_NULLABLE NSInputStream *)getDataStream:(NSError **)error;
 
 /*!
- @abstract This method is like <getData> but avoids ever holding the entire `PFFile` contents in memory at once.
+ @abstract This method is like <getData> but it fetches asynchronously to avoid blocking the current thread.
+
+ @see getData
+
+ @returns The task, that encapsulates the work being done.
+ */
+- (BFTask *)getDataInBackground;
+
+/*!
+ @abstract This method is like <getData> but it fetches asynchronously to avoid blocking the current thread.
 
  @discussion This can help applications with many large files avoid memory warnings.
 
  @see getData
 
- @returns A stream containing the data. Returns `nil` if there was an error in fetching.
+ @param progressBlock The block should have the following argument signature: ^(int percentDone)
+
+ @returns The task, that encapsulates the work being done.
  */
-- (BFTask *)getDataInBackground;
+- (BFTask *)getDataInBackgroundWithProgressBlock:(PF_NULLABLE PFProgressBlock)progressBlock;
 
 /*!
  @abstract This method is like <getDataInBackground> but avoids
@@ -224,6 +243,17 @@ PF_ASSUME_NONNULL_BEGIN
  @returns The task, that encapsulates the work being done.
  */
 - (BFTask *)getDataStreamInBackground;
+
+/*!
+ @abstract This method is like <getDataInBackground> but avoids
+ ever holding the entire `PFFile` contents in memory at once.
+
+ @discussion This can help applications with many large files avoid memory warnings.
+ @param progressBlock The block should have the following argument signature: ^(int percentDone)
+
+ @returns The task, that encapsulates the work being done.
+ */
+- (BFTask *)getDataStreamInBackgroundWithProgressBlock:(PF_NULLABLE PFProgressBlock)progressBlock;
 
 /*!
  @abstract *Asynchronously* gets the data from cache if available or fetches its contents from the network.
@@ -248,8 +278,8 @@ PF_ASSUME_NONNULL_BEGIN
  @discussion This method will execute the progressBlock periodically with the percent progress.
  `progressBlock` will get called with `100` before `resultBlock` is called.
 
- @param resultBlock The block should have the following argument signature: (NSData *result, NSError *error)
- @param progressBlock The block should have the following argument signature: (int percentDone)
+ @param resultBlock The block should have the following argument signature: ^(NSData *result, NSError *error)
+ @param progressBlock The block should have the following argument signature: ^(int percentDone)
  */
 - (void)getDataInBackgroundWithBlock:(PF_NULLABLE PFDataResultBlock)resultBlock
                        progressBlock:(PF_NULLABLE PFProgressBlock)progressBlock;
