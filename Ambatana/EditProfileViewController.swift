@@ -313,7 +313,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
                         strongSelf.loadingSellProducts = false
                         strongSelf.retrievalFinishedForProductsAtTab(tab)
                     }
-                    })
+                })
             case .ProductISold:
                 loadingSoldProducts = true
                 
@@ -338,7 +338,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
                         strongSelf.loadingFavProducts = false
                         strongSelf.retrievalFinishedForProductsAtTab(tab)
                     }
-                    })
+                })
             }
         }
     }

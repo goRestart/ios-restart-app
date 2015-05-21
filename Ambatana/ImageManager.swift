@@ -15,7 +15,7 @@ private let _singletonInstance = ImageManager()
 
 // constants
 private let kLetGoMaxImageCacheSize = 104857600.0 // 100 MB
-private let kLetGoThumbnailBaseURL = EnvironmentProxy.sharedInstance.apiBaseURL + "/images/"
+private let kLetGoThumbnailBaseURL = EnvironmentProxy.sharedInstance.imagesBaseURL + "/images/"
 private let kLetGoImageCacheEnabledByDefault = true
 
 /**
