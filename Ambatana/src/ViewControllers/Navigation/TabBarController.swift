@@ -14,8 +14,8 @@ import UIKit
 class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Constants & enums
-    private static let tooltipVerticalSpacingAnimBottom: CGFloat = 10
-    private static let tooltipVerticalSpacingAnimTop: CGFloat = 30
+    private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
+    private static let tooltipVerticalSpacingAnimTop: CGFloat = 25
     
     /**
      Defines the tabs contained in the TabBarController

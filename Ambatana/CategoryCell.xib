@@ -14,13 +14,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="160" height="150"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cfs-CP-VRi">
-                        <rect key="frame" x="8" y="16" width="144" height="95"/>
+                    <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Cfs-CP-VRi">
+                        <rect key="frame" x="12" y="12" width="136" height="89"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" text="Lorem ipsum dolor sit amet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999998807907104" translatesAutoresizingMaskIntoConstraints="NO" id="byi-5x-wob" userLabel="Title Label">
-                        <rect key="frame" x="8" y="111" width="144" height="39"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <rect key="frame" x="8" y="107" width="144" height="35"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                        <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -28,13 +28,13 @@
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="Cfs-CP-VRi" firstAttribute="top" secondItem="1Ur-n4-hDw" secondAttribute="top" constant="16" id="Eao-UI-8zb"/>
-                <constraint firstItem="byi-5x-wob" firstAttribute="top" secondItem="Cfs-CP-VRi" secondAttribute="bottom" id="Qwv-av-XDq"/>
-                <constraint firstAttribute="trailing" secondItem="Cfs-CP-VRi" secondAttribute="trailing" constant="8" id="Ro6-DS-9PX"/>
+                <constraint firstItem="Cfs-CP-VRi" firstAttribute="top" secondItem="1Ur-n4-hDw" secondAttribute="top" constant="12" id="Eao-UI-8zb"/>
+                <constraint firstItem="byi-5x-wob" firstAttribute="top" secondItem="Cfs-CP-VRi" secondAttribute="bottom" constant="6" id="Qwv-av-XDq"/>
+                <constraint firstAttribute="trailing" secondItem="Cfs-CP-VRi" secondAttribute="trailing" constant="12" id="Ro6-DS-9PX"/>
                 <constraint firstItem="byi-5x-wob" firstAttribute="leading" secondItem="1Ur-n4-hDw" secondAttribute="leadingMargin" id="YyY-OE-3j3"/>
-                <constraint firstAttribute="bottom" secondItem="byi-5x-wob" secondAttribute="bottom" id="dsR-rg-Sku"/>
+                <constraint firstAttribute="bottom" secondItem="byi-5x-wob" secondAttribute="bottom" constant="8" id="dsR-rg-Sku"/>
                 <constraint firstItem="byi-5x-wob" firstAttribute="trailing" secondItem="1Ur-n4-hDw" secondAttribute="trailingMargin" id="ejg-T2-u60"/>
-                <constraint firstItem="Cfs-CP-VRi" firstAttribute="leading" secondItem="1Ur-n4-hDw" secondAttribute="leading" constant="8" id="tUY-P1-lpX"/>
+                <constraint firstItem="Cfs-CP-VRi" firstAttribute="leading" secondItem="1Ur-n4-hDw" secondAttribute="leading" constant="12" id="tUY-P1-lpX"/>
             </constraints>
             <size key="customSize" width="160" height="150"/>
             <connections>

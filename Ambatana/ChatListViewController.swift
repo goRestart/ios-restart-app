@@ -67,12 +67,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
         self.refreshControl.addTarget(self, action: "refreshConversations", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
-        
-        // add content inset to be pass through navbar & tabbar
-        let insetTop = self.navigationController?.navigationBar.frame.size.height ?? 0
-        let insetBottom = self.tabBarController?.tabBar.frame.size.height ?? 0
-        tableView.contentInset = UIEdgeInsets(top: insetTop, left: 0, bottom: insetBottom, right: 0)
-        
+                
         // register cell
         let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: "ConversationCell")

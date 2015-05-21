@@ -49,12 +49,7 @@ class ProductCell: UICollectionViewCell {
         // Thumb
         if let thumbURLStr = product.thumbnailURL,
            let thumbURL = NSURL(string: thumbURLStr) {
-            thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
-                [weak self] (image, error, cacheType, url) -> Void in
-                if error == nil {
-                    self?.thumbnailImageView.image = image
-                }
-            })
+            thumbnailImageView.sd_setImageWithURL(thumbURL)
         }
         
         // Distance

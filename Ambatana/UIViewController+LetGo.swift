@@ -41,7 +41,7 @@ extension UIViewController {
         if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
 
         var resultButtons: [UIButton] = []
-        let hSpacing: CGFloat = 12
+        let hSpacing: CGFloat = 24
 
         var x: CGFloat = 0
         var height: CGFloat = 0

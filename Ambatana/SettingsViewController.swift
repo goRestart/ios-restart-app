@@ -80,7 +80,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         // tableview
         let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
-//        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
         tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsViewController.cellIdentifier)
         tableView.rowHeight = 60
     }
