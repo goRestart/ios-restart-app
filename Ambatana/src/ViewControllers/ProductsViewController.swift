@@ -218,6 +218,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
             vc.currentCategory = category
         }
         vc.currentSearchString = searchQuery
+        vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
