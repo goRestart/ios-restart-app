@@ -40,7 +40,14 @@ enum TrackingEvent: String {
     case ProductSellComplete               = "product-sell-complete"
     case UserMessageSent                   = "user-sent-message"
     
-    func googleConversionParams() -> GoogleConversionParams? {
+    var shouldTrackOnAppsFlyer: Bool {
+        if self == .ProductList {   // not tracked in AppsFlyer as we're exceeding their quota
+            return false
+        }
+        return true
+    }
+    
+    var googleConversionParams: GoogleConversionParams? {
         switch (self) {
         case Install:
             return GoogleConversionParams(label: "p6XRCNq1qVsQ__6fyQM", value: "0.00", isRepeatable: false)
@@ -150,17 +157,21 @@ class TrackingHelper {
         // Amplitude, AppsFlyer & Facebook
         if let actualParams = params {
             Amplitude.instance().logEvent(eventName, withEventProperties: actualParams)
-            AppsFlyerTracker.sharedTracker().trackEvent(eventName, withValues: actualParams)
+            if eventType.shouldTrackOnAppsFlyer {
+                AppsFlyerTracker.sharedTracker().trackEvent(eventName, withValues: actualParams)
+            }
             FBSDKAppEvents.logEvent(eventName, parameters: actualParams)
         }
         else {
             Amplitude.instance().logEvent(eventName)
-            AppsFlyerTracker.sharedTracker().trackEvent(eventName, withValue: nil)
+            if eventType.shouldTrackOnAppsFlyer {
+                AppsFlyerTracker.sharedTracker().trackEvent(eventName, withValue: nil)
+            }
             FBSDKAppEvents.logEvent(eventName)
         }
         
         // Google conversion tracking
-        if let gctParams = eventType.googleConversionParams() {
+        if let gctParams = eventType.googleConversionParams {
             ACTConversionReporter.reportWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId, label: gctParams.label, value: gctParams.value, isRepeatable: gctParams.isRepeatable)
         }
     }
