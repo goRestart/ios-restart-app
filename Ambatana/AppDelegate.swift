@@ -197,7 +197,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func openChatListViewController() {
         if let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController {
-            tabBarCtl.openChats()
+            tabBarCtl.switchToTab(.Chats)
         }
     }
     

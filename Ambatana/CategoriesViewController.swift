@@ -98,7 +98,8 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     // MARK: - Button actions
     @IBAction func sellNewProduct(sender: AnyObject) {
         let vc = SellProductViewController()
-        self.presentViewController(vc, animated: true, completion: nil)
+        let navCtl = UINavigationController(rootViewController: vc)
+        presentViewController(navCtl, animated: true, completion: nil)
     }
 
     // MARK: - Queries and categories methods

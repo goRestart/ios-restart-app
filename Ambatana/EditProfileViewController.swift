@@ -181,12 +181,14 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     @IBAction func startSellingNow(sender: AnyObject) {
         let vc = SellProductViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        let navCtl = UINavigationController(rootViewController: vc)
+        presentViewController(navCtl, animated: true, completion: nil)
     }
     
     @IBAction func startSearchingNow(sender: AnyObject) {
-        let cvc = CategoriesViewController()
-        self.navigationController?.pushViewController(cvc, animated: true)
+        if let tabBarCtl = tabBarController as? TabBarController {
+            tabBarCtl.switchToTab(.Home)
+        }
     }
     
     // MARK: - UICollectionViewDataSource and Delegate methods

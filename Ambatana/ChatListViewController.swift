@@ -186,13 +186,15 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - Button actions
     
     @IBAction func searchProducts(sender: AnyObject) {
-        let cvc = CategoriesViewController()
-        self.navigationController?.pushViewController(cvc, animated: true)
+        if let tabBarCtl = tabBarController as? TabBarController {
+            tabBarCtl.switchToTab(.Home)
+        }
     }
 
     @IBAction func sellProducts(sender: AnyObject) {
-        let sellVC = SellProductViewController()
-        self.navigationController?.pushViewController(sellVC, animated: true)
+        let vc = SellProductViewController()
+        let navCtl = UINavigationController(rootViewController: vc)
+        presentViewController(navCtl, animated: true, completion: nil)
     }
 
     // MARK: - UITableViewDelegate & DataSource methods
