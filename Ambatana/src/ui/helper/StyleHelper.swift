@@ -13,25 +13,28 @@ class StyleHelper {
 
     // Colors
     private static let red = UIColor(rgb: 0xFF3F55)
-    private static let darkPink = UIColor(rgb: 0xC2185B)
-    private static let lightPink = UIColor(rgb: 0xE91E63)
-    private static let ultraLightPink = UIColor(rgb: 0xF8BBD0)
-    private static let brown = UIColor(rgb: 0x795548)
     
     private static let white = UIColor(rgb: 0xFFFFFF)
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
-    private static let gray72 = UIColor(rgb: 0x727272)
-    private static let gray182 = UIColor(rgb: 0xB6B6B6)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
     private static let black = UIColor(rgb: 0x000000)
+    
+    // > Palette
+    private static let grayMedium = UIColor(rgb: 0xD5D3D3)
+    private static let grayLight = UIColor(rgb: 0xE9E5E5)
+    private static let brownDark = UIColor(rgb: 0xBBA298)
+    private static let cream = UIColor(rgb: 0xF3F1EC)
+    private static let brownLight = UIColor(rgb: 0xE9E2D7)
+    private static let brownMedium = UIColor(rgb: 0xD8CAB7)
+    private static let greenMedium = UIColor(rgb: 0xC7C8B5)
     
     // Fonts
     private static func helveticaNeueFont(#size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
     }
     
-    private static let palette = [darkPink, lightPink, ultraLightPink, white, brown, gray72, gray182]
+    private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
     
     // MARK: - Common
     
