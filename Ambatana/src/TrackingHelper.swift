@@ -52,7 +52,7 @@ enum TrackingEvent: String {
         case Install:
             return GoogleConversionParams(label: "p6XRCNq1qVsQ__6fyQM", value: "0.00", isRepeatable: false)
         case ProductSellComplete:
-            return GoogleConversionParams(label: "aNaiCIawqVsQ__6fyQM", value: "", isRepeatable: true)
+            return GoogleConversionParams(label: "aNaiCIawqVsQ__6fyQM", value: "0.00", isRepeatable: true)
         default:
             return nil
         }

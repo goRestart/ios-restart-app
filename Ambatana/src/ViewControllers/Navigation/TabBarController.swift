@@ -152,12 +152,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
     
     // MARK: - Public / Internal methods
     
-    func openChats() {
+    /**
+        Pops the current navigation controller to root and switches to the given tab.
+        
+        :param: The tab to go to.
+    */
+    func switchToTab(tab: Tab) {
         if let navBarCtl = selectedViewController as? UINavigationController {
             // Pop the navigation back to root
             navBarCtl.popToRootViewControllerAnimated(false)
             // Change the tab to chats
-            selectedIndex = Tab.Chats.rawValue
+            selectedIndex = tab.rawValue
         }
     }
     

@@ -8,17 +8,17 @@
 
 import LGCoreKit
 import Parse
+import pop
 import UIKit
 
 class ProductCell: UICollectionViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var statusImageView: UIImageView!
-    
-    
     
     // MARK: - Lifecycle
     
@@ -49,7 +49,15 @@ class ProductCell: UICollectionViewCell {
         // Thumb
         if let thumbURLStr = product.thumbnailURL,
            let thumbURL = NSURL(string: thumbURLStr) {
-            thumbnailImageView.sd_setImageWithURL(thumbURL)
+            thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
+                [weak self] (image, error, cacheType, url) -> Void in
+                if cacheType == .None {
+                    let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+                    alphaAnim.fromValue = 0
+                    alphaAnim.toValue = 1
+                    self?.thumbnailImageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
+                }
+            })
         }
         
         // Distance
@@ -110,24 +118,23 @@ class ProductCell: UICollectionViewCell {
                     [weak self] (image, error, cacheType, url) -> Void in
                    
                     if error == nil {
-                        self?.thumbnailImageView.image = image
+                        if cacheType == .None {
+                            let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+                            alphaAnim.fromValue = 0
+                            alphaAnim.toValue = 1
+                            self?.thumbnailImageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
+                        }
                     }
                     // If there's an error then force the download from Parse
                     else {
-                        shouldUseThumbs = false
+                        self?.loadImageFromParse(imageFile, tag: tag)
                     }
                 })
             }
             
             // Download from Parse
             if !shouldUseThumbs {
-                imageFile.getDataInBackgroundWithBlock({
-                    [weak self] (data, error) -> Void in
-                    // tag check to prevent wrong image placement cos' of recycling
-                    if (error == nil && self?.tag == tag) {
-                        self?.thumbnailImageView.image = UIImage(data: data!)
-                    }
-                })
+                loadImageFromParse(imageFile, tag: tag)
             }
         }
         
@@ -163,10 +170,25 @@ class ProductCell: UICollectionViewCell {
     private func resetUI() {
         nameLabel.text = ""
         priceLabel.text = ""
+        thumbnailBgColorView.backgroundColor = StyleHelper.productCellBgColor
         thumbnailImageView.image = nil
-        thumbnailImageView.backgroundColor = StyleHelper.productCellBgColor
         distanceLabel.text = ""
         statusImageView.image = nil
+    }
+    
+    private func loadImageFromParse(imageFile: PFFile, tag: Int) {
+        imageFile.getDataInBackgroundWithBlock({
+            [weak self] (data, error) -> Void in
+            // tag check to prevent wrong image placement cos' of recycling
+            if (error == nil && self?.tag == tag) {
+                self?.thumbnailImageView.image = UIImage(data: data!)
+
+                let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+                alphaAnim.fromValue = 0
+                alphaAnim.toValue = 1
+                self?.thumbnailImageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
+            }
+        })
     }
     
 }
