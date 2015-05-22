@@ -31,7 +31,7 @@ final public class LGProductsService: ProductsService {
         
         let parameters = params.letgoApiParams
         Alamofire.request(.GET, url, parameters: parameters)
-            .validate(statusCode: 200..<300)
+            .validate(statusCode: 200..<400)
             .responseJSON(options: nil, completionHandler: { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
                 
                 // Error

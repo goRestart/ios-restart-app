@@ -32,7 +32,7 @@ final public class LGSessionService: SessionService {
     public func retrieveTokenWithParams(params: RetrieveTokenParams, completion: RetrieveTokenCompletion) {
         let params = ["client_id": params.clientId, "client_secret": params.clientSecret, "grant_type": "client_credentials"]
         Alamofire.request(.GET, url, parameters: params)
-            .validate(statusCode: 200..<300)
+            .validate(statusCode: 200..<400)
             .responseJSON(options: nil, completionHandler: {
                 (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
             

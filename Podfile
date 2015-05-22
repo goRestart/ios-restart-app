@@ -30,7 +30,7 @@ target "LetGo" do
     pod "Amplitude-iOS",        ">= 2.4"
     
     # letgo Core
-    pod 'LGCoreKit',            "0.0.12"
+    pod 'LGCoreKit',            "0.0.13"
     
     # Networking (to be removed when migrating to LGCoreKit)
     pod "Alamofire",            ">= 1.2"
