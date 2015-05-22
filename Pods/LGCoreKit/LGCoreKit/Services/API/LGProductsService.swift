@@ -37,16 +37,10 @@ final public class LGProductsService: ProductsService {
                 // Error
                 if let actualError = error {
                     let myError: NSError
-                    
                     if let actualData: AnyObject = data {
                         let json = JSON(actualData)
                         
-                        if let errorResponse = LGSessionErrorResponse(json: json) {
-                            myError = NSError(code: LGErrorCode.SessionExpired)
-                        }
-                        else {
-                            myError = NSError(code: LGErrorCode.Parsing)
-                        }
+                        myError = NSError(code: LGErrorCode.Parsing)
                         completion(products: nil, lastPage: nil, error: myError)
                     }
                     else if actualError.domain == NSURLErrorDomain {
@@ -137,8 +131,6 @@ extension RetrieveProductsParams {
             if let userObjectId = self.userObjectId {
                 params["user_object_id"] = userObjectId
             }
-            
-            params["access_token"] = accessToken
             
             return params
         }

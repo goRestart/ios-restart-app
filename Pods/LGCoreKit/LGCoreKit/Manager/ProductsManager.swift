@@ -10,7 +10,6 @@ import Bolts
 
 final public class ProductsManager {
 
-    private var sessionManager: SessionManager
     private var productsService: ProductsService
     
     public private(set) var currentParams: RetrieveProductsParams?
@@ -22,8 +21,7 @@ final public class ProductsManager {
     
     // MARK: - Lifecycle
 
-    public init(sessionManager: SessionManager, productsService: ProductsService) {
-        self.sessionManager = sessionManager
+    public init(productsService: ProductsService) {
         self.productsService = productsService
         
         self.products = []
@@ -77,23 +75,7 @@ final public class ProductsManager {
         lastPage = true
         isLoading = true
         
-        // If the session is valid, just retrieve the products
-        if sessionManager.isSessionValid() {
-            return retrieveProductsTaskWithParams(params)
-        }
-        // Otherwise, retrieve the session token and then the products
-        else {
-            return sessionManager.retrieveSessionToken().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
-                if let strongSelf = self {
-                    if task.error != nil {
-                        strongSelf.isLoading = false
-                        return nil
-                    }
-                    return strongSelf.retrieveProductsTaskWithParams(params)
-                }
-                return nil
-            }
-        }
+        return retrieveProductsTaskWithParams(params)
     }
     
     /**
@@ -109,23 +91,7 @@ final public class ProductsManager {
         
         isLoading = true
         
-        // If the session is valid, just retrieve the products
-        if sessionManager.isSessionValid() {
-            return retrieveProductsNextPageTask()
-        }
-        // Otherwise, retrieve the session token and then the products
-        else {
-            return sessionManager.retrieveSessionToken().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
-                if let strongSelf = self {
-                    if task.error != nil {
-                        strongSelf.isLoading = false
-                        return nil
-                    }
-                    return strongSelf.retrieveProductsNextPageTask()
-                }
-                return nil
-            }
-        }
+        return retrieveProductsNextPageTask()
     }
     
     // MARK: - Private methods
@@ -137,13 +103,8 @@ final public class ProductsManager {
         :returns: The product retrieval task.
     */
     private func retrieveProductsTaskWithParams(params: RetrieveProductsParams) -> BFTask {
-        
-        // Override the access token
-        var actualParams: RetrieveProductsParams = params
-        actualParams.accessToken = SessionManager.sharedInstance.sessionToken?.accessToken ?? ""
-        
         var task = BFTaskCompletionSource()
-        productsService.retrieveProductsWithParams(actualParams) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
+        productsService.retrieveProductsWithParams(params) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
             
             // Manager
             if let strongSelf = self {
@@ -153,7 +114,7 @@ final public class ProductsManager {
                 // Success
                 if error == nil {
                     // Update the params as soon as succeeded, for correct handling in subsequent calls
-                    strongSelf.currentParams = actualParams
+                    strongSelf.currentParams = params
                     
                     if let newProducts = products {
                         // Assign the new products
@@ -189,7 +150,6 @@ final public class ProductsManager {
         
         // Increase the offset & override the access token
         var newParams: RetrieveProductsParams = currentParams!
-        newParams.accessToken = SessionManager.sharedInstance.sessionToken?.accessToken ?? ""
         newParams.offset = products.count
         
         var task = BFTaskCompletionSource()

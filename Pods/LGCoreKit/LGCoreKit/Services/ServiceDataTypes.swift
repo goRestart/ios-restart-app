@@ -12,7 +12,6 @@ import CoreLocation
 
 public typealias NoOutputDataCompletion = (success: Bool, error: NSError?) -> Void
 
-public typealias RetrieveTokenCompletion = (token: SessionToken?, error: NSError?) -> Void
 public typealias RetrieveProductsCompletion = (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void
 public typealias UserSaveCompletion = NoOutputDataCompletion
 public typealias PostalAddressRetrievalCompletion = (address: PostalAddress?, error: NSError?) -> Void
@@ -42,13 +41,11 @@ public struct RetrieveProductsParams: Printable, Equatable {
     public var distanceRadius: Int?
     public var userObjectId: String?
     
-    public var accessToken: String?
-    
     public init(coordinates: LGLocationCoordinates2D) {
         self.coordinates = coordinates
     }
     
-    public var description: String { return "queryString: \(queryString); latitude: \(coordinates.latitude); longitude: \(coordinates.longitude); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); distanceType: \(distanceType); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); userObjectId: \(userObjectId); accessToken: \(accessToken)" }
+    public var description: String { return "queryString: \(queryString); latitude: \(coordinates.latitude); longitude: \(coordinates.longitude); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); distanceType: \(distanceType); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); userObjectId: \(userObjectId)" }
 }
 
 public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool {

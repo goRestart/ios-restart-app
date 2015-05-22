@@ -20,5 +20,5 @@ public struct ProductionEnvironment: Environment {
     public let apiClientSecret = "4hbpw71kl8u80sw8gww44gs0ww8c44kc4wwssw0k08sw4k4ssc"
     
     // Images
-    public let imagesBaseURL = "http://api.letgo.com"  // @ahl: to be removed when full image URL is coming in the products response
+    public let imagesBaseURL = "http://cdn.letgo.com"  // @ahl: to be removed when full image URL is coming in the products response
 }
