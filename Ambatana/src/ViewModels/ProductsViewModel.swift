@@ -90,7 +90,7 @@ class ProductsViewModel: BaseViewModel {
         if let specifiedCoordinates = coordinates {
             coords = specifiedCoordinates
         }
-            // Else if possible try to use last LocationManager location
+        // Else if possible try to use last LocationManager location
         else if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
             coords = LGLocationCoordinates2D(coordinates: lastKnownLocation.coordinate)
         }
@@ -107,9 +107,8 @@ class ProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     override init() {
-        let sessionManager = SessionManager.sharedInstance
         let productsService = LGProductsService()
-        self.productsManager = ProductsManager(sessionManager: sessionManager, productsService: productsService)
+        self.productsManager = ProductsManager(productsService: productsService)
         self.myUserManager = MyUserManager.sharedInstance
         self.locationManager = LocationManager.sharedInstance
         
