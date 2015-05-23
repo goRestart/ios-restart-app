@@ -159,41 +159,6 @@ let kLetGoUserBadgeChangedNotification                       = "LetGoUserBadgeCh
     }
 }
 
-/** Currency representation for LetGo */
-struct LetGoCurrency {
-    var currencyCode: String
-    var currencyName: String
-    var iso4217Code: String
-    var country: String
-    var countryCode: String
-    var symbolPosition: String
-    
-    // returns a properly formatted price/currency string for a given price given the current user locale, which may not be the same as the currency's native representation.
-    func inferFormattedCurrency(price: Double, decimals: Int = 0) -> String {
-        let currencyFormatter = NSNumberFormatter()
-        currencyFormatter.numberStyle = .CurrencyStyle
-        currencyFormatter.currencyCode = self.iso4217Code
-        currencyFormatter.maximumFractionDigits = decimals
-        currencyFormatter.locale = NSLocale.currentLocale()
-        return currencyFormatter.stringFromNumber(price) ?? "\(currencyCode)\(price)"
-    }
-    
-    // returns a formated price/currency with a give position for the currency symbol
-    func formattedCurrency(price: Double, decimals: Int = 0) -> String {
-        if symbolPosition == "left" {
-            return "\(self.currencyCode)\(Int(price))"
-        } else if symbolPosition == "right" {
-            return "\(Int(price))\(self.currencyCode)"
-        } else { // fallback to best representation given the currency symbol and current locale
-            return self.inferFormattedCurrency(price, decimals: decimals)
-        }
-    }
-    
-    func toString() -> String {
-        return "\(currencyName) (\(currencyCode)): ISO4217 = \(iso4217Code), Country = \(country), Country code = \(countryCode), Symbol position: \(symbolPosition)";
-    }
-}
-
 /** Product status */
 //- Status: 0 si el producto está pendiente de aprobación, 1 si está aprobado, 2 si está descartado, 3 si está vendido.
 @objc enum LetGoProductStatus: Int, Printable {

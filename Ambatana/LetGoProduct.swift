@@ -15,7 +15,7 @@ class LetGoProduct: NSObject, Printable {
     var category: LetGoProductCategory!
     var name: String!
     var price: Double!
-    var currency: LetGoCurrency!
+    var currency: String!
     var creationDate: NSDate!
     var status: LetGoProductStatus!
     var thumbnailURL: String!
@@ -42,7 +42,7 @@ class LetGoProduct: NSObject, Printable {
     // Lifecycle
     
     /** Designated initializer. Used to initialize the object by specifying all the variables */
-    init(objectId: String, category: LetGoProductCategory, name: String, price: Double, currency: LetGoCurrency, creationDate: NSDate, status: LetGoProductStatus, thumbnailURL: String, thumbnailSize: CGSize, distanceType: LetGoDistanceMeasurementSystem, distanceToUser: Double, loadThumbnailImage: Bool = true) {
+    init(objectId: String, category: LetGoProductCategory, name: String, price: Double, currency: String, creationDate: NSDate, status: LetGoProductStatus, thumbnailURL: String, thumbnailSize: CGSize, distanceType: LetGoDistanceMeasurementSystem, distanceToUser: Double, loadThumbnailImage: Bool = true) {
         // assign variables
         self.objectId = objectId
         self.category = category
@@ -88,12 +88,7 @@ class LetGoProduct: NSObject, Printable {
             self.price = price
         } else { return nil }
         // currency
-        let currency: LetGoCurrency?
-        if let currencyString = dictionary[kLetGoRestAPIParameterCurrency] as? String {
-            if let currency = CurrencyManager.sharedInstance.currencyForISO4217Symbol(currencyString) {
-                self.currency = currency
-            }  else { return nil }
-        } else { return nil }
+        self.currency = dictionary[kLetGoRestAPIParameterCurrency] as? String
         // creation date
         if let createdAt = dictionary[kLetGoRestAPIParameterCreatedAt] as? String {
             let dateFormatter = NSDateFormatter()
@@ -207,7 +202,7 @@ class LetGoProduct: NSObject, Printable {
     }
     
     override var description: String {
-        return "* LetGo Product [\(objectId)]. \n\tName: \(name), \n\tcategory: \(category.getName()), \n\tprice: \(price), \n\tcurrency: \(currency.iso4217Code), \n\tcreationDate: \(creationDate), \n\tstatus: \(status.rawValue), \n\tthumbnailURL: \(thumbnailURL), \n\tthumbnailSize: \(thumbnailSize), \n\tdistanceType: \(distanceType?.distanceMeasurementStringForRestAPI()), \n\tdistanceToUser: \(distanceToUser)\n- Optional Values: \n\tdescription: \(productDescription)\n\tcity: \(city),\n\tcountryCode: \(countryCode),\n\tnameDirify: \(nameDirify),\n\tlanguageCode: \(languageCode),\n\tuserID: \(userId),\n\tlocation: \(location)\n\timageURLs: \(imageURLs)\n\tthumbnailURLs: \(thumbnailURLs)\n\n"
+        return "* LetGo Product [\(objectId)]. \n\tName: \(name), \n\tcategory: \(category.getName()), \n\tprice: \(price), \n\tcurrency: \(currency), \n\tcreationDate: \(creationDate), \n\tstatus: \(status.rawValue), \n\tthumbnailURL: \(thumbnailURL), \n\tthumbnailSize: \(thumbnailSize), \n\tdistanceType: \(distanceType?.distanceMeasurementStringForRestAPI()), \n\tdistanceToUser: \(distanceToUser)\n- Optional Values: \n\tdescription: \(productDescription)\n\tcity: \(city),\n\tcountryCode: \(countryCode),\n\tnameDirify: \(nameDirify),\n\tlanguageCode: \(languageCode),\n\tuserID: \(userId),\n\tlocation: \(location)\n\timageURLs: \(imageURLs)\n\tthumbnailURLs: \(thumbnailURLs)\n\n"
     }
     
     // MARK: - Equality and searching.

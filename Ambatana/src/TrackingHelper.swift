@@ -31,7 +31,6 @@ enum TrackingEvent: String {
     case ProductSellEditTitle              = "product-sell-edit-title"
     case ProductSellEditPrice              = "product-sell-edit-price"
     case ProductSellEditDescription        = "product-sell-edit-description"
-    case ProductSellEditCurrency           = "product-sell-edit-currency"
     case ProductSellEditCategory           = "product-sell-edit-category"
     case ProductSellEditShareFB            = "product-sell-edit-share-fb"
     case ProductSellFormValidationFailed   = "product-sell-form-validation-failed"

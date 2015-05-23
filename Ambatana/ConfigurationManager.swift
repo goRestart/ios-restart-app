@@ -149,8 +149,6 @@ class ConfigurationManager: NSObject {
         if installationModified {
             PFInstallation.currentInstallation().saveInBackgroundWithBlock(nil)
         }
-        // once we know that we have been logged in and we have updated the user data, is a good moment for retrieving the currency list.
-        CurrencyManager.sharedInstance.refreshCurrenciesFromBackend()
     }
     
     // loads the picture from a URL

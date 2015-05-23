@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -222,14 +223,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // price
         if let price = retrievedObject?["price"] as? Double {
-            let currencyString = retrievedObject?["currency"] as? String ?? CurrencyManager.sharedInstance.defaultCurrency.iso4217Code
-            if let currency = CurrencyManager.sharedInstance.currencyForISO4217Symbol(currencyString) {
-                self.priceLabel.text = currency.formattedCurrency(price)
-                self.priceLabel.hidden = false
-            } else { // fallback to just price.
-                self.priceLabel.text = "\(price)"
-                self.priceLabel.hidden = false
-            }
+            let currencyCode = retrievedObject?["currency"] as? String ?? Constants.defaultCurrencyCode
+            self.priceLabel.text = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
         } else { self.priceLabel.hidden = true }
         
         // product owner information.

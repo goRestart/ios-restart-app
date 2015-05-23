@@ -42,7 +42,7 @@ class ProductCell: UICollectionViewCell {
         nameLabel.text = product.name.lg_capitalizedWords()
         
         // Price
-        let currencyCode = product.currencyCode ?? "USD"
+        let currencyCode = product.currencyCode ?? Constants.defaultCurrencyCode
         let price = product.price ?? 0
         if let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
             priceLabel.text = formattedPrice
@@ -93,7 +93,7 @@ class ProductCell: UICollectionViewCell {
         
         // Price
         if let price = product["price"] as? Double {
-            let currencyCode = product["currency"] as? String ?? "USD"
+            let currencyCode = product["currency"] as? String ?? Constants.defaultCurrencyCode
             if let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
                 priceLabel.text = formattedPrice
             }

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -18,7 +19,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // data
-    var offerCurrency = CurrencyManager.sharedInstance.defaultCurrency
     var productUser: PFUser?
     var productObject: PFObject?
     
@@ -110,7 +110,13 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     }
     
     func generateOfferText(price: Int) -> String {
-        return translate("new_offer_of") + self.offerCurrency.formattedCurrency(Double(price), decimals: 0)
+        let currencyCode = productObject!["currency"] as? String ?? Constants.defaultCurrencyCode
+        if let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
+            return translate("new_offer_of") + formattedAmount
+        }
+        else {
+            return ""
+        }
     }
     
     func launchChatWithConversation(conversation: PFObject) {
@@ -131,36 +137,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                 }
             })
         })
-    }
-    
-    @IBAction func changeCurrency(sender: AnyObject) {
-        if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-            for currency in CurrencyManager.sharedInstance.allCurrencies() {
-                alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (action) -> Void in
-                    self.offerCurrency = currency
-                    self.currencyButton.setTitle(currency.currencyCode, forState: .Normal)
-                }))
-            }
-            self.presentViewController(alert, animated: true, completion: nil)
-        } else { // ios7 fallback
-            let actionSheet = UIActionSheet(title: translate("choose_currency"), delegate: self, cancelButtonTitle: translate("cancel"), destructiveButtonTitle: nil)
-            for currency in CurrencyManager.sharedInstance.allCurrencies() {
-                actionSheet.addButtonWithTitle(currency.currencyCode)
-            }
-            actionSheet.showInView(self.view)
-        }
-    }
-    
-    // iOS 7 Fallback for currency selection
-    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if buttonIndex > 0 { // 0 is cancel.
-            let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
-            let buttonCurrency = allCurrencies[buttonIndex - 1]
-            self.offerCurrency = buttonCurrency
-            self.currencyButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
-        }
     }
 
     // MARK: - UITextField/UITextView delegate methods for navigating through the fields.

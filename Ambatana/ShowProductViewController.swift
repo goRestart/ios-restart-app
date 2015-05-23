@@ -198,11 +198,12 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             // product price
             if let price = productObject["price"] as? Double {
-                let currencyString = productObject["currency"] as? String ?? CurrencyManager.sharedInstance.defaultCurrency.iso4217Code
-                if let currency = CurrencyManager.sharedInstance.currencyForISO4217Symbol(currencyString) {
-                    priceLabel.text = currency.formattedCurrency(price)
+                let currencyCode = productObject["currency"] as? String ?? Constants.defaultCurrencyCode
+                if let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
+                    priceLabel.text = formattedPrice
                     priceLabel.hidden = false
-                } else { // fallback to just the price.
+                }
+                else {
                     priceLabel.text = "\(price)"
                     priceLabel.hidden = false
                 }

@@ -57,7 +57,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
 
     let sellQueue = dispatch_queue_create("com.letgo.SellProduct", DISPATCH_QUEUE_SERIAL) // we want the images to load sequentially.
     var currentCategory: LetGoProductCategory?
-    var currentCurrency = CurrencyManager.sharedInstance.defaultCurrency
+    var currentCurrency = CurrencyHelper.sharedInstance.currentCurrency
     var geocoder = CLGeocoder()
     var currenciesFromBackend: [PFObject]?
     var imageCounter = 0
@@ -83,11 +83,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         // internationalization
         productTitleTextField.placeholder = translate("product_title")
-        // > if the user has a country then select an appropiate currency (otherwise is set to the default one)
-        if let countryCode = MyUserManager.sharedInstance.myUser()?.countryCode {
-            currentCurrency = CurrencyManager.sharedInstance.currencyForCountryCode(countryCode)
-        }
-        currencyTypeButton.setTitle(currentCurrency.currencyCode, forState: .Normal)
+        currencyTypeButton.setTitle(currentCurrency.symbol, forState: .Normal)
         productPriceTextfield.placeholder = translate("price")
         descriptionTextView.placeholder = translate("description")
         chooseCategoryButton.setTitle(translate("choose_a_category"), forState: .Normal)
@@ -182,18 +178,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     // MARK: - iOS 7 Action Sheet deprecated selections for compatibility.
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if actionSheet.tag == kLetGoSellProductActionSheetTagCurrencyType { // currency type selection
-            if buttonIndex != actionSheet.cancelButtonIndex { // 0 is cancel
-                let allCurrencies = CurrencyManager.sharedInstance.allCurrencies()
-                let buttonCurrency = allCurrencies[buttonIndex]
-                self.currentCurrency = buttonCurrency
-                self.currencyTypeButton.setTitle(buttonCurrency.currencyCode, forState: .Normal)
-                
-                // Tracking
-                let event: TrackingEvent = .ProductSellEditCurrency
-                TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
-            }
-        } else if actionSheet.tag == kLetGoSellProductActionSheetTagCategoryType { // category selection
+        if actionSheet.tag == kLetGoSellProductActionSheetTagCategoryType { // category selection
             if buttonIndex != actionSheet.cancelButtonIndex { // 0 is cancel
                 let category = LetGoProductCategory.allCategories()[buttonIndex]
                 self.currentCategory = category
@@ -221,40 +206,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
     }
     
-    @IBAction func changeCurrencyType(sender: AnyObject) {
-        restoreOriginalPosition()
-        
-        if iOSVersionAtLeast("8.0") {
-            // show alert controller for currency selection
-            let alert = UIAlertController(title: translate("choose_currency"), message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-
-            
-            // iterate and add all currencies.
-            for currency in CurrencyManager.sharedInstance.allCurrencies() {
-                alert.addAction(UIAlertAction(title: currency.currencyCode, style: .Default, handler: { (currencyAction) -> Void in
-                    self.currentCurrency = currency
-                    self.currencyTypeButton.setTitle(currency.currencyCode, forState: .Normal)
-                    
-                    // Tracking
-                    let event: TrackingEvent = .ProductSellEditCurrency
-                    TrackingHelper.trackEvent(event, parameters: self.trackingParamsForEventType(event))
-                }))
-            }
-            
-            // complete alert and show.
-            self.presentViewController(alert, animated: true, completion: nil)
-        } else { // ios7 fallback
-            let actionSheet = UIActionSheet(title: translate("choose_currency"), delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-            actionSheet.tag = kLetGoSellProductActionSheetTagCurrencyType
-            for currency in CurrencyManager.sharedInstance.allCurrencies() {
-                actionSheet.addButtonWithTitle(currency.currencyCode)
-            }
-            actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(translate("cancel"))
-            actionSheet.showInView(self.view)
-        }
-    }
-
     @IBAction func chooseCategory(sender: AnyObject) {
         restoreOriginalPosition()
         
@@ -334,7 +285,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             
             // fill in all product fields
             productObject["category_id"] = self.currentCategory!.rawValue
-            productObject["currency"] = self.currentCurrency.iso4217Code
+            productObject["currency"] = self.currentCurrency.code
             productObject["description"] = self.descriptionTextView.text
             productObject["gpscoords"] = PFGeoPoint(latitude: lastKnownLocation!.coordinate.latitude, longitude: lastKnownLocation!.coordinate.longitude)
             productObject["processed"] = false
