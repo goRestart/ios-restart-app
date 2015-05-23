@@ -18,7 +18,7 @@ import SwiftyJSON
     
     private static let nameJSONKey = "name"
     private static let priceJSONKey = "price"
-    private static let currencyJSONKey = "currency"
+    private static let currencyCodeJSONKey = "currency"
     private static let distanceJSONKey = "distance"
     private static let distanceTypeJSONKey = "distance_type"
     
@@ -36,7 +36,7 @@ import SwiftyJSON
     
     public var name: String
     public var price: Float?
-    public var currency: Currency?
+    public var currencyCode: String?
     public var distance: Float?
     public var distanceType: DistanceType?
     
@@ -91,8 +91,8 @@ import SwiftyJSON
         if let price = json[LGPartialProduct.priceJSONKey].string {
             self.price = (price as NSString).floatValue
         }
-        if let currencyStr = json[LGPartialProduct.currencyJSONKey].string {
-            self.currency = Currency.fromString(currencyStr)
+        if let currencyCode = json[LGPartialProduct.currencyCodeJSONKey].string {
+            self.currencyCode = currencyCode
         }
         if let distanceStr = json[LGPartialProduct.distanceJSONKey].string {
             self.distance = (distanceStr as NSString).floatValue

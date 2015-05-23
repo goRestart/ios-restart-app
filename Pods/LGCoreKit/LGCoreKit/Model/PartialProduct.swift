@@ -15,7 +15,7 @@ public protocol PartialProduct {
     
     var name: String { get set }
     var price: Float? { get set }
-    var currency: Currency? { get set }
+    var currencyCode: String? { get set }
     var distance: Float? { get set }
     var distanceType: DistanceType? { get set }
     

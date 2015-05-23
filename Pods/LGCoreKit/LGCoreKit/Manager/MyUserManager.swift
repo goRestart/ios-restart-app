@@ -83,16 +83,29 @@ public class MyUserManager {
     
     private func saveLocationAndRetrieveAddress(location: CLLocation) -> BFTask? {
         if let myUser = myUser() {
+            // Save the received location and erase previous postal address data, if any
             myUser.gpsCoordinates = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            myUser.address = ""
+            myUser.city = ""
+            myUser.countryCode = ""
+            myUser.zipCode = ""
             save()
             
-            // Retrieve the address for the received location, and then save the user again
+            // Then, retrieve the address for the received location
             return retrieveAddressForLocation(location).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
                 if let postalAddress = task.result as? PostalAddress {
                     myUser.address = postalAddress.address ?? ""
                     myUser.city = postalAddress.city ?? ""
-                    myUser.countryCode = postalAddress.countryCode ?? ""
+                    let countryCode = postalAddress.countryCode
+                    myUser.countryCode = countryCode ?? ""
                     myUser.zipCode = postalAddress.zipCode ?? ""
+                    
+                    // If we know the country code, then notify the CurrencyHelper
+                    if countryCode != nil && !(countryCode!.isEmpty) {
+                        CurrencyHelper.sharedInstance.setCountryCode(countryCode!)
+                    }
+                    
+                    // Save the user again
                     return self.save()
                 }
                 return nil

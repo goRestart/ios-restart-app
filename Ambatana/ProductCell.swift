@@ -42,9 +42,11 @@ class ProductCell: UICollectionViewCell {
         nameLabel.text = product.name.lg_capitalizedWords()
         
         // Price
-        let currency = product.currency ?? .USD
-        priceLabel.text = currency.formatPrice(product.price ?? 0)
-        
+        let currencyCode = product.currencyCode ?? "USD"
+        let price = product.price ?? 0
+        if let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
+            priceLabel.text = formattedPrice
+        }
         
         // Thumb
         if let thumbURLStr = product.thumbnailURL,
@@ -91,13 +93,9 @@ class ProductCell: UICollectionViewCell {
         
         // Price
         if let price = product["price"] as? Double {
-            let currencyString = product["currency"] as? String ?? CurrencyManager.sharedInstance.defaultCurrency.iso4217Code
-            
-            if let currency = CurrencyManager.sharedInstance.currencyForISO4217Symbol(currencyString) {
-                priceLabel.text = currency.formattedCurrency(price)
-            }
-            else { // fallback to just price.
-                priceLabel.text = "\(price)"
+            let currencyCode = product["currency"] as? String ?? "USD"
+            if let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
+                priceLabel.text = formattedPrice
             }
         }
         
