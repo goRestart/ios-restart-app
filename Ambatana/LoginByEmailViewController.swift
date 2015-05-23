@@ -89,6 +89,11 @@ class LoginByEmailViewController: UIViewController, UITextFieldDelegate {
                     MyUserManager.sharedInstance.saveUserCoordinates(lastKnownLocation.coordinate)
                 }
                 
+                // If the user had already a country code, then set it in the currency helper
+                if let user = MyUserManager.sharedInstance.myUser(), let countryCode = user.countryCode {
+                    CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                }
+                
                 // Tracking
                 TrackingHelper.trackEvent(.LoginEmail, parameters: nil)
                 TrackingHelper.setUserId(email)
