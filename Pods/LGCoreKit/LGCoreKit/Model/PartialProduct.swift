@@ -22,6 +22,6 @@ public protocol PartialProduct {
     var categoryId: Int? { get set }
     var status: ProductStatus? { get set }
     
-    var thumbnailURL: String? { get set }
+    var thumbnailURL: NSURL? { get set }
     var thumbnailSize: LGSize? { get set }
 }

@@ -83,8 +83,11 @@ extension RetrieveProductsParams {
             if let queryString = self.queryString {
                 params["query_string"] = queryString
             }
-            params["latitude"] = coordinates.latitude
-            params["longitude"] = coordinates.longitude
+            
+            if let coordinates = self.coordinates {
+                params["latitude"] = coordinates.latitude
+                params["longitude"] = coordinates.longitude
+            }
       
             if let categoryIds = self.categoryIds {
                 if !categoryIds.isEmpty {

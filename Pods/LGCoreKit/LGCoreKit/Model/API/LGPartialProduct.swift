@@ -43,7 +43,7 @@ import SwiftyJSON
     public var categoryId: Int?
     public var status: ProductStatus?
     
-    public var thumbnailURL: String?
+    public var thumbnailURL: NSURL?
     public var thumbnailSize: LGSize?
     
     // MARK: - Lifecycle
@@ -109,11 +109,34 @@ import SwiftyJSON
                 self.status = status
         }
         if let path = json[LGPartialProduct.thumbnailURLJSONKey].string {
-            self.thumbnailURL = EnvironmentProxy.sharedInstance.imagesBaseURL + "/images" + path
+            self.thumbnailURL = NSURL(string: EnvironmentProxy.sharedInstance.imagesBaseURL + path)
         }
         if let width = json[LGPartialProduct.thumbnailSizeJSONKey][LGPartialProduct.widthJSONKey].int,
             let height = json[LGPartialProduct.thumbnailSizeJSONKey][LGPartialProduct.heightJSONKey].int {
                 self.thumbnailSize = LGSize(width: Float(width), height: Float(height))
+        }
+    }
+    
+    // MARK: - Public methods
+    
+    public func formattedPrice() -> String {
+        let actualCurrencyCode = currencyCode ?? LGCoreKitConstants.defaultCurrencyCode
+        if let actualPrice = price {
+            let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: actualPrice)
+            return formattedPrice ?? "\(actualPrice)"
+        }
+        else {
+            return ""
+        }
+    }
+    
+    public func formattedDistance() -> String {
+        if let actualDistance = distance {
+            let actualDistanceType = distanceType ?? LGCoreKitConstants.defaultDistanceType
+            return actualDistanceType.formatDistance(actualDistance)
+        }
+        else {
+            return ""
         }
     }
 }
