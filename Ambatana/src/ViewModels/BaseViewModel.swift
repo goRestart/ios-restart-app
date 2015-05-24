@@ -6,17 +6,26 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-class BaseViewModel {
+public class BaseViewModel {
     
-    var active: Bool = false {
+    public var active: Bool = false {
         didSet {
-            didSetActive(active)
+            if (active) {
+                didSetActive()
+            }
+            else {
+                didSetInactive()
+            }
         }
     }
     
     // MARK: - Internal methods
     
-    internal func didSetActive(isActive: Bool) {
+    internal func didSetActive() {
         
-    }   
+    }
+    
+    internal func didSetInactive() {
+        
+    }
 }

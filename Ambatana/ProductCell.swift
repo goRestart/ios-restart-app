@@ -42,15 +42,10 @@ class ProductCell: UICollectionViewCell {
         nameLabel.text = product.name.lg_capitalizedWords()
         
         // Price
-        let currencyCode = product.currencyCode ?? Constants.defaultCurrencyCode
-        let price = product.price ?? 0
-        if let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
-            priceLabel.text = formattedPrice
-        }
+        priceLabel.text = product.formattedPrice()
         
         // Thumb
-        if let thumbURLStr = product.thumbnailURL,
-           let thumbURL = NSURL(string: thumbURLStr) {
+        if let thumbURL = product.thumbnailURL {
             thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
                 [weak self] (image, error, cacheType, url) -> Void in
                 if cacheType == .None {
@@ -63,12 +58,7 @@ class ProductCell: UICollectionViewCell {
         }
         
         // Distance
-        if let distance = product.distance, let distanceType = product.distanceType {
-            distanceLabel.text = distanceType.formatDistance(distance)
-        }
-        else {
-            distanceLabel.text = translate("unknown_distance")
-        }
+        distanceLabel.text = product.formattedDistance()
         
         // Status
         if let status = product.status {

@@ -24,4 +24,7 @@ public protocol PartialProduct {
     
     var thumbnailURL: NSURL? { get set }
     var thumbnailSize: LGSize? { get set }
+    
+    func formattedPrice() -> String
+    func formattedDistance() -> String
 }

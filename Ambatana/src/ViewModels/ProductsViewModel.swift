@@ -120,42 +120,42 @@ class ProductsViewModel: BaseViewModel {
     
     // MARK: > Overriden methods
     
-    internal override func didSetActive(isActive: Bool) {
-        super.didSetActive(isActive)
-        if isActive {
-            // Observe when receiving new locations and when location services requests fails
-            let notificationCenter = NSNotificationCenter.defaultCenter()
-            notificationCenter.addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: LocationManager.didReceiveLocationNotification, object: nil)
-            notificationCenter.addObserver(self, selector: Selector("didFailRequestingLocationServicesWithNotification:"), name: LocationManager.didFailRequestingLocationServices, object: nil)
-            
-            // If there are no products, then reload if possible
-            if numberOfProducts == 0 {
-                // Reload if possible
-                if canRetrieveProducts {
-                    retrieveProductsFirstPage()
-                }
+    internal override func didSetActive() {
+        super.didSetActive()
+        // Observe when receiving new locations and when location services requests fails
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: LocationManager.didReceiveLocationNotification, object: nil)
+        notificationCenter.addObserver(self, selector: Selector("didFailRequestingLocationServicesWithNotification:"), name: LocationManager.didFailRequestingLocationServices, object: nil)
+        
+        // If there are no products, then reload if possible
+        if numberOfProducts == 0 {
+            // Reload if possible
+            if canRetrieveProducts {
+                retrieveProductsFirstPage()
             }
+        }
             // If it's not loading
-            else if !productsManager.isLoading {
-                // Check access to location and notify delegate if needed
-                // If no location access, then notify the delegate
-                let locationStatus = locationManager.locationServiceStatus
-                if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
-                    delegate?.didFailRequestingLocationServices(locationStatus)
+        else if !productsManager.isLoading {
+            // Check access to location and notify delegate if needed
+            // If no location access, then notify the delegate
+            let locationStatus = locationManager.locationServiceStatus
+            if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
+                delegate?.didFailRequestingLocationServices(locationStatus)
+            }
+                // If we've location access but we don't have a location yet, run a timer
+            else if queryCoordinates == nil {
+                if locationRetrievalTimeoutTimer != nil {
+                    locationRetrievalTimeoutTimer!.invalidate()
+                    locationRetrievalTimeoutTimer = nil
                 }
-                    // If we've location access but we don't have a location yet, run a timer
-                else if queryCoordinates == nil {
-                    if locationRetrievalTimeoutTimer != nil {
-                        locationRetrievalTimeoutTimer!.invalidate()
-                        locationRetrievalTimeoutTimer = nil
-                    }
-                    locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
-                }
+                locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(ProductsViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
             }
         }
-        else {
-            NSNotificationCenter.defaultCenter().removeObserver(self)
-        }
+    }
+    
+    internal override func didSetInactive() {
+        super.didSetInactive()
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // MARK: - Internal methods
@@ -170,7 +170,8 @@ class ProductsViewModel: BaseViewModel {
     func retrieveProductsFirstPage() -> Bool {
         
         if let actualCoordinates = queryCoordinates {
-            var params: RetrieveProductsParams = RetrieveProductsParams(coordinates: actualCoordinates)
+            var params: RetrieveProductsParams = RetrieveProductsParams()
+            params.coordinates = actualCoordinates
             params.queryString = queryString
             params.categoryIds = categoryIds
             params.sortCriteria = sortCriteria

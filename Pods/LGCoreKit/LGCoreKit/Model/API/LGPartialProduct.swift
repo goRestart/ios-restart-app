@@ -117,7 +117,7 @@ import SwiftyJSON
         }
     }
     
-    // MARK: - Public methods
+    // MARK: - PartialProduct methods
     
     public func formattedPrice() -> String {
         let actualCurrencyCode = currencyCode ?? LGCoreKitConstants.defaultCurrencyCode
