@@ -82,7 +82,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             if searchString != nil && count(searchString) > 0 {
                 let productsVC = ProductsViewController()
                 productsVC.currentSearchString = searchString
-                productsVC.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(productsVC, animated: true)
             }
         }
@@ -194,7 +193,6 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             if let category = LetGoProductCategory(rawValue: categoryObject["category_id"] as! Int) {
                 let productsVC = ProductsViewController()
                 productsVC.currentCategory = category
-                productsVC.hidesBottomBarWhenPushed = true
                 self.navigationController?.pushViewController(productsVC, animated: true)
             }
         }
