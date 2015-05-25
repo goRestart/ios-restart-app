@@ -596,7 +596,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AhN-X5-bDh">
-                                <rect key="frame" x="16" y="8" width="32" height="34"/>
+                                <rect key="frame" x="16" y="32" width="32" height="34"/>
                                 <color key="backgroundColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="32" id="4qg-Z9-kYl"/>
@@ -607,32 +607,15 @@
                                 </state>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rhL-jt-cdK">
-                                <rect key="frame" x="56" y="10" width="248" height="30"/>
+                                <rect key="frame" x="56" y="34" width="248" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                 <connections>
                                     <outlet property="delegate" destination="J7x-I7-tMF" id="oLg-WZ-u4V"/>
                                 </connections>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CLH-LV-aYs" customClass="PlaceholderTextView" customModule="LetGo" customModuleProvider="target">
-                                <rect key="frame" x="16" y="50" width="288" height="154"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="154" id="PLP-9C-RVO"/>
-                                </constraints>
-                                <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send" enablesReturnKeyAutomatically="YES"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Comments (optional)"/>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <outlet property="delegate" destination="J7x-I7-tMF" id="MsM-d8-mwf"/>
-                                </connections>
-                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fC-u2-KeU">
-                                <rect key="frame" x="16" y="212" width="288" height="40"/>
+                                <rect key="frame" x="16" y="98" width="288" height="40"/>
                                 <color key="backgroundColor" red="1" green="0.36355292797088623" blue="0.38490483164787292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="zF6-RV-63V"/>
@@ -646,33 +629,29 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="L7k-tA-J0J">
-                                <rect key="frame" x="150" y="222" width="20" height="20"/>
+                                <rect key="frame" x="150" y="108" width="20" height="20"/>
                                 <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="CLH-LV-aYs" firstAttribute="trailing" secondItem="3ms-LZ-mNb" secondAttribute="trailingMargin" id="3Ql-R5-Kbw"/>
                             <constraint firstItem="AhN-X5-bDh" firstAttribute="centerY" secondItem="rhL-jt-cdK" secondAttribute="centerY" id="4gG-eq-CmU"/>
-                            <constraint firstItem="CLH-LV-aYs" firstAttribute="leading" secondItem="3ms-LZ-mNb" secondAttribute="leadingMargin" id="5rR-8w-ns4"/>
                             <constraint firstItem="0fC-u2-KeU" firstAttribute="leading" secondItem="3ms-LZ-mNb" secondAttribute="leadingMargin" id="Eev-pq-uB0"/>
                             <constraint firstItem="rhL-jt-cdK" firstAttribute="leading" secondItem="AhN-X5-bDh" secondAttribute="trailing" constant="8" id="HBs-Pz-YA1"/>
                             <constraint firstItem="rhL-jt-cdK" firstAttribute="trailing" secondItem="3ms-LZ-mNb" secondAttribute="trailingMargin" id="HRw-4k-69i"/>
                             <constraint firstItem="AhN-X5-bDh" firstAttribute="leading" secondItem="3ms-LZ-mNb" secondAttribute="leadingMargin" id="KIF-67-WVH"/>
+                            <constraint firstItem="0fC-u2-KeU" firstAttribute="top" secondItem="AhN-X5-bDh" secondAttribute="bottom" constant="32" id="WM2-Q9-9Zn"/>
                             <constraint firstItem="0fC-u2-KeU" firstAttribute="trailing" secondItem="3ms-LZ-mNb" secondAttribute="trailingMargin" id="WMC-hc-QP8"/>
-                            <constraint firstItem="0fC-u2-KeU" firstAttribute="top" secondItem="CLH-LV-aYs" secondAttribute="bottom" constant="8" id="drQ-JH-ZtW"/>
                             <constraint firstItem="L7k-tA-J0J" firstAttribute="centerY" secondItem="0fC-u2-KeU" secondAttribute="centerY" id="eAJ-ZX-V2R"/>
                             <constraint firstItem="rhL-jt-cdK" firstAttribute="leading" secondItem="AhN-X5-bDh" secondAttribute="trailing" constant="8" id="hD4-OZ-oN7"/>
                             <constraint firstItem="L7k-tA-J0J" firstAttribute="centerX" secondItem="0fC-u2-KeU" secondAttribute="centerX" id="iem-7l-C1C"/>
-                            <constraint firstItem="CLH-LV-aYs" firstAttribute="top" secondItem="AhN-X5-bDh" secondAttribute="bottom" constant="8" id="nHH-Tw-BdN"/>
-                            <constraint firstItem="AhN-X5-bDh" firstAttribute="top" secondItem="BSA-5S-iSX" secondAttribute="bottom" constant="8" id="wfe-tN-V2p"/>
+                            <constraint firstItem="AhN-X5-bDh" firstAttribute="top" secondItem="BSA-5S-iSX" secondAttribute="bottom" constant="32" id="wfe-tN-V2p"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="c2n-Zt-NA3"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="activityIndicator" destination="L7k-tA-J0J" id="CSJ-1n-IBh"/>
-                        <outlet property="commentsTextView" destination="CLH-LV-aYs" id="TJK-IT-8At"/>
                         <outlet property="currencyButton" destination="AhN-X5-bDh" id="Fic-8a-DrW"/>
                         <outlet property="makeAnOfferButton" destination="0fC-u2-KeU" id="s4A-ct-Ks5"/>
                         <outlet property="priceTextField" destination="rhL-jt-cdK" id="DLR-dA-vje"/>

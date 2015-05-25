@@ -10,11 +10,10 @@ import LGCoreKit
 import Parse
 import UIKit
 
-class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UITextViewDelegate, UITextFieldDelegate {
+class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UITextViewDelegate {
     // outlets & buttons
     @IBOutlet weak var currencyButton: UIButton!
     @IBOutlet weak var priceTextField: UITextField!
-    @IBOutlet weak var commentsTextView: PlaceholderTextView!
     @IBOutlet weak var makeAnOfferButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -32,8 +31,10 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         
         // internationalization
         priceTextField.placeholder = translate("price")
-        commentsTextView.placeholder = translate("comments_optional")
         makeAnOfferButton.setTitle(translate("send"), forState: .Normal)
+        
+        // show keyboard
+        priceTextField.becomeFirstResponder()
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,7 +61,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         let productPrice = priceTextField?.text.toInt()
         if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); return }
         var offerText = self.generateOfferText(productPrice!)
-        if commentsTextView.text != nil && count(commentsTextView.text) > 0 { offerText += "\n\n" + commentsTextView.text! }
 
         // enable loading interface
         enableLoadingInterface()
@@ -137,18 +137,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                 }
             })
         })
-    }
-
-    // MARK: - UITextField/UITextView delegate methods for navigating through the fields.
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        self.commentsTextView.becomeFirstResponder()
-        return false
-    }
-
-    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        if text == text.stringByTrimmingCharactersInSet(NSCharacterSet.newlineCharacterSet()) { return true }
-        else { textView.resignFirstResponder(); return false }
     }
     
     // MARK: - Tracking
