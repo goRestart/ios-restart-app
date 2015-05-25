@@ -30,7 +30,7 @@ class ProductsViewModel: BaseViewModel {
     private static let columnCount: CGFloat = 2.0
     
     private static let cellMinHeight: CGFloat = 160.0
-    private static let cellAspectRatio: CGFloat = 210.0 / cellMinHeight
+    private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
     private static let cellWidth: CGFloat = UIScreen.mainScreen().bounds.size.width * (1 / columnCount)
     
     private static let itemsPagingThresholdPercentage: Float = 0.9    // when we should start ask for a new page
