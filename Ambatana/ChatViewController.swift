@@ -445,18 +445,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     // MARK: - Check changes in conversation.
     func checkUpdatedConversation(notification: NSNotification) {
-        // Analyze push notification object.
-        if let userInfo = notification.object as? [NSObject: AnyObject] {
-            // added support for Android push notifications compatibility.
-            var info = userInfo
-            if let aps = info["aps"] as? [String: AnyObject] { info = aps }
-            if let conversationId = info["c_id"] as? String {
-                // check if we need to update the conversation.
-                if self.letgoConversation?.conversationObject.objectId == conversationId {
-                    self.refreshMessages()
-                }
+        if let userInfo = notification.object as? [NSObject: AnyObject], let conversationId = userInfo["c_id"] as? String {
+            // It's the current conversation then refresh
+            if self.letgoConversation?.conversationObject.objectId == conversationId {
+                self.refreshMessages()
             }
-        }
+         }
     }
     
     
