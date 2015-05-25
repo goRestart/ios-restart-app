@@ -214,9 +214,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     
     func pushProductsViewControllerWithSearchQuery(searchQuery: String) {
         let vc = ProductsViewController()
-        if let category = currentCategory {
-            vc.currentCategory = category
-        }
         vc.currentSearchString = searchQuery
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
