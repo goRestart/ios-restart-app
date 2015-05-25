@@ -37,6 +37,9 @@ class LoginViewController: UIViewController, LoginAndSigninDelegate, UIAlertView
         signupButton.setTitle(translate("signup"), forState: .Normal)
         loginButton.setTitle(translate("login"), forState: .Normal)
         orUseEmailLabel.text = translate("or_use_your_email").uppercaseString
+        
+        // Tracking
+        TrackingHelper.trackEvent(.LoginVisit, parameters: nil)
     }
 
     override func viewDidAppear(animated: Bool) {

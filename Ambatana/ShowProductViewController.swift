@@ -508,6 +508,10 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         self.productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
             if success {
                 self.productStatus = .Sold
+                
+                // Tracking
+                TrackingHelper.trackEvent(.ProductMarkAsSold, parameters: self.trackingParams)
+                
                 // animated hiding of the button, restore alpha once hidden.
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
                     self.markSoldButton.alpha = 0.0
