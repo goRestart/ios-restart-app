@@ -95,7 +95,7 @@ extension UIViewController {
             self.presentViewController(alert, animated: true, completion: nil)
             // Schedule auto fading out of alert message
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                alert.dismissViewControllerAnimated(true, completion: { () -> Void in
                     if completionBlock != nil { completionBlock!() }
                 })
             }
