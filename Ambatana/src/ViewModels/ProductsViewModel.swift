@@ -182,34 +182,31 @@ class ProductsViewModel: BaseViewModel {
                 params.distanceType = usesMetric ? .Km : .Mi
             }
             
-            if let task = productsManager.retrieveProductsWithParams(params) {
+            delegate?.didStartRetrievingFirstPageProducts()
+            
+            let currentCount = numberOfProducts
+            
+            productsManager.retrieveProductsWithParams(params).continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
                 
-                delegate?.didStartRetrievingFirstPageProducts()
-                
-                let currentCount = numberOfProducts
-                task.continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
+                if let strongSelf = self {
+                    let delegate = strongSelf.delegate
                     
-                    if let strongSelf = self {
-                        let delegate = strongSelf.delegate
+                    // Success
+                    if let products = task.result as? NSArray {
+                        strongSelf.products = products
                         
-                        // Success
-                        if let products = task.result as? NSArray {
-                            strongSelf.products = products
-                            
-                            var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: products.count)
-                            delegate?.didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths)
-                        }
-                        // Error
-                        else if let error = task.error {
-                            delegate?.didFailRetrievingFirstPageProducts(error)
-                        }
-                        else {
-                            delegate?.didFailRetrievingFirstPageProducts(NSError(code: LGErrorCode.Internal))
-                        }
+                        var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: products.count)
+                        delegate?.didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths)
                     }
-                    return nil
+                        // Error
+                    else if let error = task.error {
+                        delegate?.didFailRetrievingFirstPageProducts(error)
+                    }
+                    else {
+                        delegate?.didFailRetrievingFirstPageProducts(NSError(code: LGErrorCode.Internal))
+                    }
                 }
-                return true
+                return nil
             }
         }
         return false
@@ -220,32 +217,31 @@ class ProductsViewModel: BaseViewModel {
     */
     func retrieveProductsNextPage() {
         
-        if let task = productsManager.retrieveProductsNextPage() {
+        delegate?.didStartRetrievingNextPageProducts()
+        
+        let currentCount = numberOfProducts
+        
+        productsManager.retrieveProductsNextPage().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
             
-            delegate?.didStartRetrievingNextPageProducts()
-            
-            let currentCount = numberOfProducts
-            task.continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
-                if let strongSelf = self {
-                    let delegate = strongSelf.delegate
+            if let strongSelf = self {
+                let delegate = strongSelf.delegate
+                
+                // Success
+                if let newProducts = task.result as? NSArray {
+                    strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     
-                    // Success
-                    if let newProducts = task.result as? NSArray {
-                        strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
-                        
-                        var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: newProducts.count)
-                        delegate?.didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths)
-                    }
-                    // Error
-                    else if let error = task.error {
-                        delegate?.didFailRetrievingNextPageProducts(error)
-                    }
-                    else {
-                        delegate?.didFailRetrievingNextPageProducts(NSError(code: LGErrorCode.Internal))
-                    }
+                    var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: newProducts.count)
+                    delegate?.didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths)
                 }
-                return nil
+                    // Error
+                else if let error = task.error {
+                    delegate?.didFailRetrievingNextPageProducts(error)
+                }
+                else {
+                    delegate?.didFailRetrievingNextPageProducts(NSError(code: LGErrorCode.Internal))
+                }
             }
+            return nil
         }
     }
     
