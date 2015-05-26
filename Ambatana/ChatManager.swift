@@ -230,10 +230,10 @@ class ChatManager: NSObject {
                 // update the unread messages of the recipient
                 if let productOwner = productObject["user"] as? PFObject {
                     if productOwner.objectId == destinationUser.objectId {
-                        conversation.incrementKey("nr_msg_to_read_from")
+                        conversation.incrementKey("nr_msg_to_read_to")
                     }
                     else {
-                        conversation.incrementKey("nr_msg_to_read_to")
+                        conversation.incrementKey("nr_msg_to_read_from")
                     }
                 }
                 // save the conversation
