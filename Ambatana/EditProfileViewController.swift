@@ -111,11 +111,6 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
         
-        // load
-        retrieveProductsForTab(ProfileTab.ProductImSelling)
-        retrieveProductsForTab(ProfileTab.ProductISold)
-        retrieveProductsForTab(ProfileTab.ProductFavourite)
-        
         // register ProductCell
         let cellNib = UINib(nibName: "ProductCell", bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
@@ -123,6 +118,11 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // load
+        retrieveProductsForTab(ProfileTab.ProductImSelling)
+        retrieveProductsForTab(ProfileTab.ProductISold)
+        retrieveProductsForTab(ProfileTab.ProductFavourite)
         
         // load user data (image, name, location...)
         if userObject != nil {
