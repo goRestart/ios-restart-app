@@ -33,7 +33,7 @@ class ProductsViewModel: BaseViewModel {
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
     private static let cellWidth: CGFloat = UIScreen.mainScreen().bounds.size.width * (1 / columnCount)
     
-    private static let itemsPagingThresholdPercentage: Float = 0.9    // when we should start ask for a new page
+    private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
     private static let locationRetrievalTimeout: NSTimeInterval = 10    // seconds
     
@@ -169,6 +169,7 @@ class ProductsViewModel: BaseViewModel {
     */
     func retrieveProductsFirstPage() -> Bool {
         
+        var operationDidStart: Bool = false
         if let actualCoordinates = queryCoordinates {
             var params: RetrieveProductsParams = RetrieveProductsParams()
             params.coordinates = actualCoordinates
@@ -208,8 +209,9 @@ class ProductsViewModel: BaseViewModel {
                 }
                 return nil
             }
+            operationDidStart = true
         }
-        return false
+        return operationDidStart
     }
     
     /**
