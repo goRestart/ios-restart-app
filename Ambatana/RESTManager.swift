@@ -350,18 +350,29 @@ class RESTManager: NSObject {
     func retrieveParseObjectWithId (parseObjectId: String, className: String, completion: ((success: Bool, parseObject: PFObject?) -> Void)? ) -> Void {
         let query = PFQuery(className: className)
         query.getObjectInBackgroundWithId(parseObjectId, block: { (parseObject, error) -> Void in
-            if error == nil && parseObject != nil { completion?(success: true, parseObject: parseObject) }
-            else { completion?(success: false, parseObject: nil) }
+            if error == nil && parseObject != nil {
+                completion?(success: true, parseObject: parseObject)
+            }
+            else {
+                completion?(success: false, parseObject: nil)
+            }
         })
     }
     
     func retrieveParseUserWithId (parseObjectId: String, completion: ((success: Bool, parseObject: PFUser?) -> Void)? ) -> Void {
         if let query = PFUser.query() {
             query.getObjectInBackgroundWithId(parseObjectId, block: { (userObject, error) -> Void in
-                if let user = userObject as? PFUser { completion?(success: true, parseObject: user) }
-                else { completion?(success: false, parseObject: nil) }
+                if let user = userObject as? PFUser {
+                    completion?(success: true, parseObject: user)
+                }
+                else {
+                    completion?(success: false, parseObject: nil)
+                }
             })
-        } else { completion?(success: false, parseObject: nil) }
+        }
+        else {
+            completion?(success: false, parseObject: nil)
+        }
     }
     
 }

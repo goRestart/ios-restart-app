@@ -379,7 +379,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
                 self.view.userInteractionEnabled = true
                 self.dismissLoadingMessageAlert(completion: { [weak self] (_) -> Void in
                     if let strongSelf = self {
-                        if success {
+                        if success && productObject != nil {
                             strongSelf.pushProductViewController(productObject!)
                         }
                         else {
