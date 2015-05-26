@@ -63,17 +63,12 @@ final public class ProductsManager {
         Retrieves the products with the given parameters.
 
         :param: params The parameters to
-        :returns: The task that runs the operation. Can be nil, if already loading.
+        :returns: The task that runs the operation. If cannot retrieve next page it returns a task with an internal error.
     */
-    public func retrieveProductsWithParams(params: RetrieveProductsParams) -> BFTask? {
+    public func retrieveProductsWithParams(params: RetrieveProductsParams) -> BFTask {
         if !canRetrieveProducts {
-            return nil
+            return BFTask(error: NSError(code: LGErrorCode.Internal))
         }
-        
-        // Initial state
-        products = []
-        lastPage = true
-        isLoading = true
         
         return retrieveProductsTaskWithParams(params)
     }
@@ -81,15 +76,12 @@ final public class ProductsManager {
     /**
         Retrieves the next products page.
 
-        :returns: The task that runs the operation. Can be nil, if already loading, we didn't request the first page 
-                  or we're already in the last page.
+        :returns: The task that runs the operation. If cannot retrieve next page it returns a task with an internal error.
     */
-    public func retrieveProductsNextPage() -> BFTask? {
+    public func retrieveProductsNextPage() -> BFTask {
         if !canRetrieveProductsNextPage {
-            return nil
+            return BFTask(error: NSError(code: LGErrorCode.Internal))
         }
-        
-        isLoading = true
         
         return retrieveProductsNextPageTask()
     }
@@ -103,6 +95,12 @@ final public class ProductsManager {
         :returns: The product retrieval task.
     */
     private func retrieveProductsTaskWithParams(params: RetrieveProductsParams) -> BFTask {
+        
+        // Initial state
+        products = []
+        lastPage = true
+        isLoading = true
+        
         var task = BFTaskCompletionSource()
         productsService.retrieveProductsWithParams(params) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
             
@@ -147,6 +145,9 @@ final public class ProductsManager {
         :returns: The product retrieval task.
     */
     private func retrieveProductsNextPageTask() -> BFTask {
+        
+        // Initial state
+        isLoading = true
         
         // Increase the offset & override the access token
         var newParams: RetrieveProductsParams = currentParams!
