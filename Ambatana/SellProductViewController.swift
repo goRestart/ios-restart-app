@@ -234,7 +234,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(translate("cancel"))
             actionSheet.showInView(self.view)
         }
-        
     }
     
     @IBAction func shareInFacebookSwitchChanged(sender: AnyObject) {
@@ -246,27 +245,53 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     @IBAction func sellProduct(sender: AnyObject) {
-        // safety checks first (and we have a lot to check here...)
-        var validationFailureReason: String? = nil
-        // 1. do we have at least one image?
-        if images.count < 1 { showAutoFadingOutMessageAlert(translate("upload_at_least_one_image")); validationFailureReason = "no images present" }
-        // 2. do we have a product title?
-        if productTitleTextField == nil || count(productTitleTextField.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_title")); validationFailureReason = "no title" }
-        // 3. do we have a price?
-        let productPrice = productPriceTextfield?.text.toInt()
-        if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); validationFailureReason = "invalid price" }
-        // 4. do we have a valid description?
-        if descriptionTextView == nil || count(descriptionTextView.text) < 1 { showAutoFadingOutMessageAlert(translate("insert_valid_description")); validationFailureReason = "no description" }
-        if self.charactersRemaining < 0 { showAutoFadingOutMessageAlert(translate("max_256_chars_description"), completionBlock: nil); validationFailureReason = "description longer than 256 characters" }
-        // 5. do we have a category?
-        if currentCategory == nil { showAutoFadingOutMessageAlert(translate("insert_valid_category")); validationFailureReason = "no category selected" }
-        // 6. do we have a valid location?
+        
         let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation
-        if lastKnownLocation == nil {
-            showAutoFadingOutMessageAlert(translate("unable_sell_product_location"));
+        let productPrice = productPriceTextfield?.text.toInt()
+        
+        // safety checks first (and we have a lot to check here...)
+        
+        var alertMsg: String? = nil
+        var validationFailureReason: String? = nil
+        
+        // 1. do we have at least one image?
+        if images.count < 1 {
+            alertMsg = translate("upload_at_least_one_image");
+            validationFailureReason = "no images present"
+        }
+        // 2. do we have a product title?
+        else if productTitleTextField == nil || count(productTitleTextField.text) < 1 {
+            alertMsg = translate("insert_valid_title")
+            validationFailureReason = "no title"
+        }
+        // 3. do we have a price?
+        else if productPrice == nil {
+            alertMsg = translate("insert_valid_price")
+            validationFailureReason = "invalid price"
+        }
+        // 4. do we have a valid description?
+        else if descriptionTextView == nil || count(descriptionTextView.text) < 1 {
+            alertMsg = translate("insert_valid_description")
+            validationFailureReason = "no description"
+        }
+        else if self.charactersRemaining < 0 {
+            alertMsg = translate("max_256_chars_description")
+            validationFailureReason = "description longer than 256 characters"
+        }
+        // 5. do we have a category?
+        else if currentCategory == nil {
+            alertMsg = translate("insert_valid_category")
+            validationFailureReason = "no category selected" }
+        // 6. do we have a valid location?
+        else if lastKnownLocation == nil {
+            alertMsg = translate("unable_sell_product_location")
             validationFailureReason = "unable find location"
         }
 
+        if let alertMessage = alertMsg {
+            showAutoFadingOutMessageAlert(alertMessage)
+        }
+        
         if let failureReason = validationFailureReason {
             // Tracking
             let event: TrackingEvent = .ProductSellFormValidationFailed
