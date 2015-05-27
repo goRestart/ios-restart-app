@@ -192,7 +192,6 @@
 "no_products_found" = "No products found";
 "reload_products" = "Reload products";
 "max_256_chars_description" = "Max length for the description of the product is 256 characters.";
-"error_loading_photos_product" = "Error loading photos of the product";
 "you" = "You";
 "new_message" = "New message";
 "report_product"= "Report Product";

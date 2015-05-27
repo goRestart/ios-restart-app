@@ -553,7 +553,7 @@
                                     <outlet property="delegate" destination="9k4-lE-YS1" id="mCr-Yh-bfh"/>
                                 </connections>
                             </scrollView>
-                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="3fB-fj-4QY">
+                            <pageControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="3fB-fj-4QY">
                                 <rect key="frame" x="140" y="447" width="39" height="37"/>
                                 <color key="pageIndicatorTintColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="1" green="0.36355292797088623" blue="0.38490483164787292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

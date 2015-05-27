@@ -161,30 +161,15 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             // category image
             if let categoryImage = cell.viewWithTag(kLetGoCategoryCellRealImageTag) as? UIImageView {
                 categoryImage.clipsToBounds = true
-                // first we try to retrieve it locally.
-                var imageRetrievedLocally = false
                 if let categoryId = categoryObject["category_id"] as? Int {
                     if let category = LetGoProductCategory(rawValue: categoryId) {
                         if let localImage = category.imageForCategory() {
                             categoryImage.image = localImage
-                            imageRetrievedLocally = true
                         }
-                    }
-                }
-                
-                // if we don't have an image for that category locally, we must retrieve it from the network using the "image" URL String from the backend.
-                if !imageRetrievedLocally {
-                    if let imageURLString = categoryObject["image"] as? String {
-                        ImageManager.sharedInstance.retrieveImageFromURLString(imageURLString, completion: { (success, image, fromURL) -> Void in
-                            if success && fromURL == imageURLString { categoryImage.image = image }
-                            // TODO: else? try again?
-                        })
                     }
                 }
             }
         }
-        
-        
         return cell
     }
     

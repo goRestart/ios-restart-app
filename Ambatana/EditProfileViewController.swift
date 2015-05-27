@@ -8,6 +8,7 @@
 
 import Parse
 import UIKit
+import SDWebImage
 
 private let kLetGoDisabledButtonBackgroundColor = UIColor(red: 0.902, green: 0.902, blue: 0.902, alpha: 1.0)
 private let kLetGoDisabledButtonForegroundColor = UIColor.lightGrayColor()
@@ -126,20 +127,25 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         
         // load user data (image, name, location...)
         if userObject != nil {
-            userObject!.fetchIfNeededInBackgroundWithBlock({ (retrievedObject, error) -> Void in
-                if let userImageFile = retrievedObject?["avatar"] as? PFFile {
-                    ImageManager.sharedInstance.retrieveImageFromParsePFFile(userImageFile, completion: { (success, image) -> Void in
-                        if success { self.userImageView.image = image }
-                    }, andAddToCache: true)
+            userObject!.fetchIfNeededInBackgroundWithBlock({ [weak self] (retrievedObject, error) -> Void in
+                if error == nil && retrievedObject != nil {
+                    if let strongSelf = self {
+                        if let avatarFile = retrievedObject?["avatar"] as? PFFile, let avatarFileURLStr = avatarFile.url, let avatarFileURL = NSURL(string: avatarFileURLStr) {
+                            strongSelf.userImageView.sd_setImageWithURL(avatarFileURL)
+                        }
+                        if let userName = retrievedObject?["username_public"] as? String {
+                            strongSelf.userNameLabel.text = userName
+                            strongSelf.setLetGoNavigationBarStyle(title: userName)
+                        }
+                        if let userLocation = retrievedObject?["city"] as? String {
+                            strongSelf.userLocationLabel.text = userLocation
+                            strongSelf.userLocationLabel.hidden = false
+                        }
+                        else {
+                            strongSelf.userLocationLabel.hidden = true
+                        }
+                    }
                 }
-                if let userName = retrievedObject?["username_public"] as? String {
-                    self.userNameLabel.text = userName
-                    self.setLetGoNavigationBarStyle(title: userName)
-                }
-                if let userLocation = retrievedObject?["city"] as? String {
-                    self.userLocationLabel.text = userLocation
-                    self.userLocationLabel.hidden = false
-                } else { self.userLocationLabel.hidden = true }
             })
             
             // Current user has the option of editing his/her settings

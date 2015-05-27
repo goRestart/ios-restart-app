@@ -10,6 +10,8 @@ import LGCoreKit
 import MapKit
 import MessageUI
 import Parse
+import pop
+import SDWebImage
 import Social
 import UIKit
 
@@ -21,10 +23,10 @@ protocol ShowProductViewControllerDelegate {
  * This ViewController is in charge of showing a single product selected from the ProductList view controller. Depending on the ownership of the product, the user would be allowed
  * to modify the object if he/she owns it, or make offers/chat with the owner.
  */
-class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate {
+class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate {
 
     // outlets & buttons
-    @IBOutlet weak var imagesScrollView: UIScrollView!
+    @IBOutlet weak var galleryView: GalleryView!
     @IBOutlet weak var askQuestionButton: UIButton!
     @IBOutlet weak var makeOfferButton: UIButton!
     @IBOutlet weak var priceLabel: UILabel!
@@ -34,7 +36,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var itemLocationMapView: MKMapView!
     @IBOutlet weak var markSoldButton: UIButton!
-    @IBOutlet weak var imagesPageControl: UIPageControl!
     @IBOutlet weak var markAsSoldActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var askQuestionActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var showMapButton: UIButton!
@@ -45,7 +46,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     @IBOutlet weak var zipCodelLabel: UILabel!   
     
     var favoriteButton: UIButton!
-    @IBOutlet weak var errorLoadingPhotosLabel: UILabel!
     
     @IBOutlet weak var bottomGuideLayoutConstraint: NSLayoutConstraint!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
@@ -58,8 +58,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     // Data
     var productObject: PFObject!
     var isFavourite = false
-    var productImages: [UIImage] = []
-    var productImageURLStrings: [String] = []
     var productUser: PFUser!
     var productStatus: LetGoProductStatus?
     var productLocation: PFGeoPoint?
@@ -105,10 +103,8 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         // UX/UI
         self.markAsSoldActivityIndicator.hidden = true
         self.askQuestionActivityIndicator.hidden = true
-        self.imagesPageControl.numberOfPages = 0
         self.userAvatarImageView.layer.cornerRadius = self.userAvatarImageView.frame.size.width / 2.0
         self.userAvatarImageView.clipsToBounds = true
-        self.errorLoadingPhotosLabel.hidden = true
         
         // initialize product UI.
         if productObject != nil {
@@ -156,15 +152,11 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
                     if error == nil {
                         let usernamePublic = retrievedUser?["username_public"] as? String ?? translate("unknown")
                         strongSelf.usernameLabel.text = usernamePublic
-                        if let avatarFile = retrievedUser?["avatar"] as? PFFile {
-                            ImageManager.sharedInstance.retrieveImageFromParsePFFile(avatarFile, completion: { (success, image) -> Void in
-                                if success {
-                                    strongSelf.userAvatarImageView.setImage(image, forState: .Normal)
-                                } else { strongSelf.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
-                                }, andAddToCache: true)
-                        } else { strongSelf.userAvatarImageView.setImage(UIImage(named: "no_photo"), forState: .Normal) }
+                        
+                        if let avatarFile = retrievedUser?["avatar"] as? PFFile, let avatarFileURLStr = avatarFile.url, let avatarFileURL = NSURL(string: avatarFileURLStr) {
+                            strongSelf.userAvatarImageView.sd_setImageWithURL(avatarFileURL, forState: UIControlState.Normal, placeholderImage: UIImage(named: "no_photo"))
+                        }
                     } else {
-                        //println("Error retrieving user object: \(error!.localizedDescription)")
                         strongSelf.usernameLabel.hidden = true
                         strongSelf.userAvatarImageView.hidden = true
                     }
@@ -172,19 +164,7 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             })
             
             // fill fields
-            
-            // images first (as they need to be downloaded).
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-                // do we have processed images?
-                var useThumbnails = false
-                if let processed = self.productObject["processed"] as? Bool {
-                    useThumbnails = processed
-                }
-                
-                // retrieve from Parse / from thumbnail
-                if useThumbnails { self.retrieveImagesFromProcessedThumbnails() }
-                else { self.retrieveImagesFromParse() }
-            })
+            setProductMainImages()
             
             // product name
             if let productName = productObject["name"] as? String {
@@ -278,7 +258,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         makeOfferButton.setTitle(translate("make_an_offer"), forState: .Normal)
         askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
         fromYouLabel.text = translate("from_you")
-        errorLoadingPhotosLabel.text = translate("error_loading_photos_product")
         butProductReport.setTitle(translate("report_product"), forState: .Normal)
     }
     
@@ -312,58 +291,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             
             return properties
         }
-    }
-   
-    
-    // MARK: - Image retrieval
-    
-    func retrieveImagesFromParse() {
-        var retrievedImages: [UIImage] = []
-        var retrievedImageURLS: [String] = []
-        // iterate and retrieve all images.
-        for imageKey in kLetGoProductImageKeys {
-            if let imageFile = self.productObject[imageKey] as? PFFile {
-                if let data = imageFile.getData(nil) { // retrieve from parse synchronously
-                    if let retrievedImage = UIImage(data: data) {
-                        retrievedImages.append(retrievedImage)
-                        retrievedImageURLS.append(imageFile.url!)
-                    }
-                }
-            }
-        }
-        // set images and update scrollview. Must be done in main queue.
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            self.productImages = retrievedImages
-            self.setProductMainImages()
-            self.productImageURLStrings = retrievedImageURLS
-        })
-    }
-    
-    func retrieveImagesFromProcessedThumbnails() {
-        var retrievedImages: [UIImage] = []
-        var retrievedImageURLS: [String] = []
-        // iterate and retrieve all images.
-        for imageKey in kLetGoProductImageKeys {
-            if let imageFile = self.productObject[imageKey] as? PFFile {
-                let bigImageURL = ImageManager.sharedInstance.calculateBigImageURLForProductImage(self.productObject.objectId!, imageURL: imageFile.url!)
-                if let image = ImageManager.sharedInstance.retrieveImageSynchronouslyFromURLString(bigImageURL, andAddToCache: true) {
-                    retrievedImages.append(image)
-                    retrievedImageURLS.append(bigImageURL)
-                }
-            }
-        }
-        
-        if retrievedImages.count > 0 { // we managed to retrieve at least one thumbnail.
-            // set images and update scrollview. Must be done in main queue.
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.productImages = retrievedImages
-                self.setProductMainImages()
-                self.productImageURLStrings = retrievedImageURLS
-            })  
-        } else { // fallback to Parse images.
-            retrieveImagesFromParse()
-        }
-        
     }
 
     // MARK: - Button actions
@@ -567,11 +494,10 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
             let textToShare = letgoTextForSharingBody(productName, userName, andObjectId: objectId)
             itemsToShare.append(textToShare)
             
-            // image
-            if !productImages.isEmpty {
-                let firstImage = productImages.first!
-                itemsToShare.append(firstImage)
-            }
+//            // image
+//            if let thumbURL = ImageHelper.thumbnailURLForProduct(product) {
+//                itemsToShare.append(thumbURL)
+//            }
             
             // show activity view controller.
             let activityVC = UIActivityViewController(activityItems: itemsToShare, applicationActivities: nil)
@@ -600,7 +526,6 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         
     }
     
-    //@IBAction func markOrUnmarkAsFavorite(sender: AnyObject) {
     func markOrUnmarkAsFavorite() {
         self.favoriteButton.userInteractionEnabled = false
         
@@ -721,74 +646,24 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
     // MARK: - Images, pagination and scrollview.
     
     func setProductMainImages() {
-        if self.productImages.count > 0 {
-            self.imagesScrollView.alpha = 0
-            self.errorLoadingPhotosLabel.hidden = true
-            self.imagesScrollView.hidden = false
-            var offset: CGFloat = 0
-            var pageNumber = 0
-            
-            // add the images
-            for image in productImages {
-                // define image
-                let imageView = UIImageView(frame: CGRectMake(offset, 0, self.imagesScrollView.frame.size.width, self.imagesScrollView.frame.size.height))
-                imageView.image = image
-                imageView.contentMode = .ScaleAspectFill
-                imageView.clipsToBounds = true
-                imageView.tag = pageNumber++
-                
-                // add to UIScrollView and update offset
-                imagesScrollView.addSubview(imageView)
-                offset += self.imagesScrollView.frame.size.width
-            }
-            // set the images scrollview global offset
-            self.imagesScrollView.contentSize = CGSizeMake(offset, self.imagesScrollView.frame.size.height)
-            
-            // set UIGestureRecognizer to recognize taps and segue.
-            let recognizer = UITapGestureRecognizer(target: self, action: "showImageInDetail:")
-            recognizer.numberOfTapsRequired = 1
-            imagesScrollView.addGestureRecognizer(recognizer)
-
-            // show with fade-in animation
-            self.imagesPageControl.numberOfPages = self.productImages.count
-            if self.imagesPageControl.numberOfPages <= 1 { self.imagesPageControl.hidden = true }
-            self.imagesPageControl.currentPage = 0
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.imagesScrollView.alpha = 1.0
-            })
-        } else {
-            self.imagesScrollView.hidden = true
-            self.errorLoadingPhotosLabel.hidden = false
+        var offset: CGFloat = 0
+        var pageNumber = 0
+        
+        // add the images
+        let imageURLs = ImageHelper.fullImageURLsForProduct(productObject!)
+        for imageURL in imageURLs {
+            galleryView.addPageWithImageAtURL(imageURL)
         }
+        galleryView.delegate = self
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        if !pageControlBeingUsed {
-            let newPage = floor((self.imagesScrollView.contentOffset.x - self.imagesScrollView.frame.size.width / 2) / self.imagesScrollView.frame.size.width) + 1
-            imagesPageControl.currentPage = Int(newPage)
-        }
-
-    }
+    // MARK: - GalleryViewDelegate
     
-    @IBAction func changePage(sender: AnyObject) {
-        let offset = imagesScrollView.frame.size.width * CGFloat(imagesPageControl.currentPage)
-        self.imagesScrollView.scrollRectToVisible(CGRectMake(offset, 0, imagesScrollView.frame.size.width, imagesScrollView.frame.size.height), animated: true)
-        pageControlBeingUsed = true
-    }
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        pageControlBeingUsed = false
-    }
-    
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        pageControlBeingUsed = false
-    }
-    
-    func showImageInDetail(gestureRecognizer: UITapGestureRecognizer) {
+    func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as! PhotosInDetailViewController
-        vc.productImages = self.productImages
-        vc.initialImageToShow = self.imagesPageControl.currentPage
+        vc.imageURLs = ImageHelper.fullImageURLsForProduct(productObject!)
+        vc.initialImageToShow = index
         vc.productName = nameLabel.text!
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -811,4 +686,3 @@ class ShowProductViewController: UIViewController, UIScrollViewDelegate, MKMapVi
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
-

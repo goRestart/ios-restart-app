@@ -198,19 +198,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     // Loads the fields referred to the product object in view's header.
     func loadInformationFromProductObject(retrievedObject: PFObject!) {
         // product image
-        if let imageFile = retrievedObject?[kLetGoProductFirstImageKey] as? PFFile {
+        if let product = retrievedObject {
+
             // try to retrieve image from thumbnail first.
-            let thumbnailURL = ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(retrievedObject.objectId!, imageURL: imageFile.url!)
-            ImageManager.sharedInstance.retrieveImageFromURLString(thumbnailURL, completion: { (success, image, fromURL) -> Void in
-                if success && fromURL == thumbnailURL {
-                    self.productImageView.image = image
-                } else { // failure, fallback to parse PFFile for the image.
-                    ImageManager.sharedInstance.retrieveImageFromParsePFFile(imageFile, completion: { (success, image) -> Void in
-                        if success { self.productImageView.image = image }
-                        }, andAddToCache: true)
-                }
-            })
-            
+            if let thumbnailURL = ImageHelper.thumbnailURLForProduct(product) {
+                self.productImageView.sd_setImageWithURL(thumbnailURL)
+            }
         }
         
         // product name

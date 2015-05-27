@@ -86,6 +86,17 @@ class StyleHelper {
         return red
     }
     
+    // MARK: - Page Control
+    
+    static var pageIndicatorUnselectedColor: UIColor {
+        return red
+    }
+    
+    static var pageIndicatorSelectedColor: UIColor {
+        return gray213
+    }
+
+    
     // MARK: - Product Cell
     
     static var productCellBgColor: UIColor {

@@ -101,7 +101,7 @@ class ProductCell: UICollectionViewCell {
             
             // Try downloading thumbnail
             if shouldUseThumbs {
-                let thumbURL = NSURL(string: ImageManager.sharedInstance.calculateThumnbailImageURLForProductImage(product.objectId!, imageURL: imageFile.url!))
+                let thumbURL = ImageHelper.thumbnailURLForProduct(product)
                 thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
                     [weak self] (image, error, cacheType, url) -> Void in
                    
@@ -164,6 +164,7 @@ class ProductCell: UICollectionViewCell {
         statusImageView.image = nil
     }
     
+    // TODO: Remove this method and load straight using SDWebImage or better, should be refactored with new API call
     private func loadImageFromParse(imageFile: PFFile, tag: Int) {
         imageFile.getDataInBackgroundWithBlock({
             [weak self] (data, error) -> Void in
@@ -178,5 +179,4 @@ class ProductCell: UICollectionViewCell {
             }
         })
     }
-    
 }
