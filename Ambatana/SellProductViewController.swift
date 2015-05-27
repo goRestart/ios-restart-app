@@ -27,6 +27,10 @@ private let kLetGoSellProductActionSheetTagCategoryType = 101 // for category se
 private let kLetGoSellProductActionSheetTagImageSourceType = 102 // for image source selection
 private let kLetGoSellProductActionSheetTagActionType = 103 // for image action selection
 
+@objc protocol SellProductViewControllerDelegate {
+    optional func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool)
+}
+
 class SellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, FBSDKSharingDelegate {
     
     // constants
@@ -64,6 +68,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var imageUploadBackgroundTask = UIBackgroundTaskInvalid // used for allowing the App to keep on uploading an image if we go into background.
     var imageSelectedIndex = 0 // for actions (delete, save to disk...) in iOS7 and prior
     var productWasSold = false
+    
+    // Delegate
+    weak var delegate: SellProductViewControllerDelegate?
     
     init() {
         super.init(nibName: "SellProductViewController", bundle: nil)
@@ -419,7 +426,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                             if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId!) }
                             else {
                                 self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), time: 3.5, completionBlock: { () -> Void in
-                                    self.dismissViewControllerAnimated(true, completion: nil)
+                                    self.dismissViewControllerAnimated(true, completion: { [weak self] in
+                                        self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
+                                    })
                                 })
                             }
                         } else {
@@ -491,7 +500,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), time: 3.5, completionBlock: { () -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismissViewControllerAnimated(true, completion: { [weak self] in
+                self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
+            })
         })
 
         // Tracking

@@ -11,7 +11,7 @@ import Parse
 import pop
 import UIKit
 
-class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate {
+class TabBarController: UITabBarController, SellProductViewControllerDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Constants & enums
     private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
@@ -203,6 +203,13 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
         showAutoFadingOutMessageAlert(message)
     }
     
+    // MARK: - SellProductViewControllerDelegate
+    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool) {
+        if successfully {
+            switchToTab(.Profile)
+        }
+    }
+    
     // MARK: - UINavigationControllerDelegate
     
     func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
@@ -258,9 +265,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
         dismissTooltip(animated: true)
         
         // Present the sell VC
-        let vc = Tab.Sell.viewController
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
+        if let vc = Tab.Sell.viewController as? SellProductViewController {
+            vc.delegate = self
+            let navCtl = UINavigationController(rootViewController: vc)
+            presentViewController(navCtl, animated: true, completion: nil)
+        }
     }
     
     dynamic private func tooltipPressed() {
