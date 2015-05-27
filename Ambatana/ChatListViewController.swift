@@ -223,13 +223,4 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             self.navigationController?.pushViewController(chatVC, animated: true)
         }
     }
-    
-    // MARK: - UIScrollViewDelegate
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        // Hide tip when dragging
-        if let tabBarCtl = tabBarController as? TabBarController {
-            tabBarCtl.dismissTooltip(animated: true)
-        }
-    }
 }

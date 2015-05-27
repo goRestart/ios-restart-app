@@ -120,7 +120,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
         // If tooltip is displayed then animate it
         let tooltipIsShown = tooltip.superview != nil
         if tooltipIsShown {
-            startTooltipAnimation()
+            showTooltip()
         }
         
         // Update the badge
@@ -166,10 +166,39 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
         }
     }
     
-    func dismissTooltip(#animated: Bool) {
-        fadeOutTooltip(animated: animated)
+    /**
+        Shows the tooltip and starts its bounce animation.
+    */
+    func showTooltip() {
+        if tooltip.superview == nil {
+            view.addSubview(tooltip)
+        }
+        
+        startTooltipBounceAnimation()
     }
     
+    /**
+        Dismissed the tooltip.
+    
+        :param: animated If it show be dismissed with an animation.
+    */
+    func dismissTooltip(#animated: Bool) {
+        let removeFromSuperview: () -> Void = { [weak self] in
+            self?.tooltip.removeFromSuperview()
+        }
+        if animated {
+            startTooltipFadeOutAnimation(removeFromSuperview)
+        }
+        else {
+            removeFromSuperview()
+        }
+    }
+    
+    /**
+        Displays a message to the user.
+        
+        :param: message The message.
+    */
     func displayMessage(message: String) {
         showAutoFadingOutMessageAlert(message)
     }
@@ -177,9 +206,13 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
     // MARK: - UINavigationControllerDelegate
     
     func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-        // dismisses the tooltip when pushing a vc
+        // When navigating deeper
         if navigationController.viewControllers.count > 1 {
-            fadeOutTooltip(animated: false)
+            // Dismisses the tooltip, if present, when pushing a vc that's not a ProductsViewController / CategoriesViewController
+            let shouldKeepTooltip = viewController is ProductsViewController || viewController is CategoriesViewController
+            if !shouldKeepTooltip {
+                dismissTooltip(animated: false)
+            }
         }
     }
     
@@ -221,113 +254,18 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
     // MARK: > Action
     
     dynamic private func sellButtonPressed() {
-        fadeOutTooltip(animated: true)
+        // Dismiss the tooltip, if present
+        dismissTooltip(animated: true)
         
+        // Present the sell VC
         let vc = Tab.Sell.viewController
         let navCtl = UINavigationController(rootViewController: vc)
         presentViewController(navCtl, animated: true, completion: nil)
     }
     
     dynamic private func tooltipPressed() {
-        fadeOutTooltip(animated: true)
-    }
-    
-    // MARK: > Animation
-    
-    private func startTooltipAnimation() {
-        if tooltip.superview == nil {
-            return
-        }
-        
-        // Loop between move up & down
-        startTooltipMoveUpAnimation { [weak self] in
-            if let strongSelf = self {
-                strongSelf.startTooltipMoveDownAnimation { [weak self] in
-                    if let strongSelf = self {
-                        strongSelf.startTooltipAnimation()
-                    }
-                }
-            }
-        }
-    }
-    
-    private func startTooltipMoveUpAnimation(completion: () -> Void) {
-        if tooltip == nil || tooltip.superview == nil {
-            return
-        }
-        
-        let centerUp = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimTop)
-        let centerDown = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimBottom)
-        
-        let up = POPBasicAnimation(propertyNamed: kPOPViewCenter)
-        up.fromValue = NSValue(CGPoint: tooltipAnimBottomCenter)
-        up.toValue = NSValue(CGPoint: tooltipAnimTopCenter)
-        up.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        up.completionBlock = { (animation: POPAnimation!, finished: Bool) -> Void in
-            if finished {
-                completion()
-            }
-        }
-        tooltip.pop_addAnimation(up, forKey: "up")
-        
-    }
-    
-    private func startTooltipMoveDownAnimation(completion: () -> Void) {
-        if tooltip == nil || tooltip.superview == nil {
-            return
-        }
-        
-        let down = POPBasicAnimation(propertyNamed: kPOPViewCenter)
-        down.fromValue = NSValue(CGPoint: tooltipAnimTopCenter)
-        down.toValue = NSValue(CGPoint: tooltipAnimBottomCenter)
-        down.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        down.completionBlock = { [weak self] (animation: POPAnimation!, finished: Bool) -> Void in
-            if finished {
-                completion()
-            }
-        }
-        tooltip.pop_addAnimation(down, forKey: "down")
-    }
-    
-    private func fadeOutTooltip(#animated: Bool) {
-        // Kill all current animations
-        tooltip.pop_removeAllAnimations()
-        
-        if animated {
-            // Fade it out and remove from superview when done
-            startTooltipFadeOut({ [weak self] in
-                if let strongSelf = self {
-                    strongSelf.tooltip.removeFromSuperview()
-                }
-            })
-        }
-        else {
-            tooltip.removeFromSuperview()
-        }
-    }
-    
-    
-    private func startTooltipFadeOut(completion: () -> Void) {
-        if tooltip == nil || tooltip.superview == nil {
-            return
-        }
-        
-        let alphaAnimation = POPBasicAnimation(propertyNamed: kPOPViewAlpha)
-        alphaAnimation.toValue = 0
-        alphaAnimation.removedOnCompletion = true
-        alphaAnimation.completionBlock = { (animation: POPAnimation!, finished: Bool) -> Void in
-            completion()
-        }
-        
-        tooltip.pop_addAnimation(alphaAnimation, forKey: "alphaAnimation")
-    }
-
-    private var tooltipAnimTopCenter: CGPoint {
-        return CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimTop)
-    }
-    
-    private var tooltipAnimBottomCenter: CGPoint {
-        return CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimBottom)
+        // Dismiss the tooltip, if present
+        dismissTooltip(animated: true)
     }
     
     // MARK: > Badge
@@ -347,5 +285,125 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate, UINaviga
     
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
         updateBadge()
+        
+        // If we're showing a product list or the categories view, then show again the tooltip
+        let currentTabBarVC = NavigationHelper.currentTabBarViewController()
+        if currentTabBarVC is ProductsViewController || currentTabBarVC is CategoriesViewController {
+            showTooltip()
+        }
+    }
+    
+    // MARK: > Animation
+    
+    // MARK: >> Tooltip bounce
+    
+    private func startTooltipBounceAnimation() {
+        if tooltip.superview == nil {
+            return
+        }
+        
+        // Remove all animations
+        tooltip.pop_removeAllAnimations()
+        
+        // It should be visible
+        tooltip.alpha = 1
+        
+        // Loop between move up & down
+        startTooltipBounceUpAnimation { [weak self] in
+            if let strongSelf = self {
+                strongSelf.startTooltipBounceDownAnimation { [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.startTooltipBounceAnimation()
+                    }
+                }
+            }
+        }
+    }
+    
+    private func startTooltipBounceUpAnimation(completion: () -> Void) {
+        if tooltip.superview == nil {
+            return
+        }
+        
+        let centerUp = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimTop)
+        let centerDown = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimBottom)
+        
+        let up = POPBasicAnimation(propertyNamed: kPOPViewCenter)
+        up.fromValue = NSValue(CGPoint: tooltipAnimBottomCenter)
+        up.toValue = NSValue(CGPoint: tooltipAnimTopCenter)
+        up.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        up.completionBlock = { (animation: POPAnimation!, finished: Bool) -> Void in
+            if finished {
+                completion()
+            }
+        }
+        tooltip.pop_addAnimation(up, forKey: "up")
+        
+    }
+    
+    private func startTooltipBounceDownAnimation(completion: () -> Void) {
+        if tooltip.superview == nil {
+            return
+        }
+        
+        let down = POPBasicAnimation(propertyNamed: kPOPViewCenter)
+        down.fromValue = NSValue(CGPoint: tooltipAnimTopCenter)
+        down.toValue = NSValue(CGPoint: tooltipAnimBottomCenter)
+        down.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        down.completionBlock = { [weak self] (animation: POPAnimation!, finished: Bool) -> Void in
+            if finished {
+                completion()
+            }
+        }
+        tooltip.pop_addAnimation(down, forKey: "down")
+    }
+    
+    private var tooltipAnimTopCenter: CGPoint {
+        return CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimTop)
+    }
+    
+    private var tooltipAnimBottomCenter: CGPoint {
+        return CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimBottom)
+    }
+    
+    // MARK: >> Tooltip fade in
+    
+    private func startTooltipFadeInAnimation(completion: () -> Void) {
+        if tooltip.superview == nil {
+            return
+        }
+        
+        // Remove all animations
+        tooltip.pop_removeAllAnimations()
+        
+        // Perform the animation
+        let alphaAnimation = POPBasicAnimation(propertyNamed: kPOPViewAlpha)
+        alphaAnimation.toValue = 1
+        alphaAnimation.removedOnCompletion = true
+        alphaAnimation.completionBlock = { (animation: POPAnimation!, finished: Bool) -> Void in
+            completion()
+        }
+        tooltip.pop_addAnimation(alphaAnimation, forKey: "fade in")
+    }
+    
+    // MARK: >> Tooltip fade out
+
+    private func startTooltipFadeOutAnimation(completion: () -> Void) {
+        if tooltip.superview == nil {
+            return
+        }
+        
+        // Remove all animations
+        tooltip.pop_removeAllAnimations()
+        
+        // Perform the animation, on completion remove it from superview
+        let alphaAnimation = POPBasicAnimation(propertyNamed: kPOPViewAlpha)
+        alphaAnimation.toValue = 0
+        alphaAnimation.removedOnCompletion = true
+        alphaAnimation.completionBlock = { [weak self] (animation: POPAnimation!, finished: Bool) -> Void in
+            self?.tooltip.removeFromSuperview()
+        }
+        
+        tooltip.pop_addAnimation(alphaAnimation, forKey: "alphaAnimation")
     }
 }

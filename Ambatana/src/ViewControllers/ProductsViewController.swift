@@ -11,12 +11,15 @@ import LGCoreKit
 import Parse
 import UIKit
 
-class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWaterfallLayout, IndicateLocationViewControllerDelegate, ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UIScrollViewDelegate, ShowProductViewControllerDelegate {
+class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWaterfallLayout, IndicateLocationViewControllerDelegate, ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, ShowProductViewControllerDelegate {
 
     // Enums
     private enum UIState {
         case Loading, Loaded, NoProducts
     }
+    
+    // Constants
+    private static let TooltipHidingItemCountThreshold = 80
     
     // ViewModel
     var viewModel: ProductsViewModel!
@@ -321,6 +324,13 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     func didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
         self.collectionView.insertItemsAtIndexPaths(indexPaths)
         
+        // Hide tip when dragging and exceeding the items threshold to do so
+        if let tabBarCtl = tabBarController as? TabBarController, let lastIndexPath = indexPaths.last {
+            if lastIndexPath.row >= ProductsViewController.TooltipHidingItemCountThreshold {
+                tabBarCtl.dismissTooltip(animated: true)
+            }
+        }
+        
         // Tracking
         TrackingHelper.trackEvent(.ProductList, parameters: trackingParams)
     }
@@ -405,15 +415,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
                     strongSelf.pushProductsViewControllerWithSearchQuery(searchString)
                 }
             }
-        }
-    }
-    
-    // MARK: - UIScrollViewDelegate
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        // Hide tip when dragging
-        if let tabBarCtl = tabBarController as? TabBarController {
-            tabBarCtl.dismissTooltip(animated: true)
         }
     }
     
