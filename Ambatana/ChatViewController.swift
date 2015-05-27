@@ -34,9 +34,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     // outlets & buttons
     @IBOutlet weak var productImageView: UIImageView!
+
     @IBOutlet weak var productNameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var publishedDateLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var bottomView: UIView!
@@ -77,7 +77,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // appearance.
         usernameLabel.text = ""
         productNameLabel.text = ""
-        publishedDateLabel.text = ""
         priceLabel.text = ""
         productImageView.clipsToBounds = true
         productImageView.contentMode = .ScaleAspectFill
@@ -209,11 +208,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // product name
         self.productNameLabel.text = retrievedObject?["name"] as? String ?? translate("product")
         self.setLetGoNavigationBarStyle(title: self.productNameLabel.text)
-        
-        // publish date
-        let publishedDate = retrievedObject?.createdAt ?? retrievedObject?.updatedAt ?? NSDate()
-        self.publishedDateLabel.text = translate("published") + " " + publishedDate.relativeTimeString()
-        
+                
         // price
         if let price = retrievedObject?["price"] as? Double {
             let currencyCode = retrievedObject?["currency"] as? String ?? Constants.defaultCurrencyCode
@@ -288,6 +283,14 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 // disable loading interface
                 strongSelf.isSendingMessage = false
             }
+        }
+    }
+    
+    @IBAction func productButtonPressed(sender: AnyObject) {
+        if let product = productObject {
+            let vc = ShowProductViewController()
+            vc.productObject = product
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     

@@ -14,7 +14,6 @@
                 <outlet property="priceLabel" destination="OrH-3F-e2T" id="lwb-dX-eko"/>
                 <outlet property="productImageView" destination="o0w-p3-Zmm" id="Cuf-AG-d81"/>
                 <outlet property="productNameLabel" destination="3SY-z8-Ohe" id="q5g-Ln-x7a"/>
-                <outlet property="publishedDateLabel" destination="L2m-Df-ORG" id="zM3-UO-a3J"/>
                 <outlet property="sendButton" destination="3Cf-cj-Rzf" id="b4o-Bh-8qs"/>
                 <outlet property="tableView" destination="Me1-bE-S7L" id="2y9-ku-e8S"/>
                 <outlet property="topView" destination="66n-YM-xdV" id="hhm-XX-hOv"/>
@@ -49,6 +48,15 @@
                                 <constraint firstAttribute="width" constant="92" id="RsB-a4-gjh"/>
                             </constraints>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nez-2i-E6i" userLabel="Product Button">
+                            <rect key="frame" x="8" y="72" width="92" height="92"/>
+                            <state key="normal">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="productButtonPressed:" destination="-1" eventType="touchUpInside" id="0Q7-58-IEr"/>
+                            </connections>
+                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3SY-z8-Ohe">
                             <rect key="frame" x="108" y="72" width="484" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -59,12 +67,6 @@
                             <rect key="frame" x="108" y="100" width="484" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.49803921579999999" green="0.49803921579999999" blue="0.49803921579999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Published some time ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="L2m-Df-ORG">
-                            <rect key="frame" x="108" y="115" width="484" height="17"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123 €" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OrH-3F-e2T">
@@ -79,17 +81,18 @@
                         <constraint firstItem="7lj-bL-71D" firstAttribute="leading" secondItem="o0w-p3-Zmm" secondAttribute="trailing" constant="8" id="2n3-pe-IoJ"/>
                         <constraint firstItem="o0w-p3-Zmm" firstAttribute="bottom" secondItem="OrH-3F-e2T" secondAttribute="bottom" id="3T7-fK-ed3"/>
                         <constraint firstItem="3SY-z8-Ohe" firstAttribute="leading" secondItem="o0w-p3-Zmm" secondAttribute="trailing" constant="8" id="6MN-7v-QfT"/>
-                        <constraint firstItem="o0w-p3-Zmm" firstAttribute="centerY" secondItem="L2m-Df-ORG" secondAttribute="centerY" constant="-5.5" id="D9m-J9-DdS"/>
+                        <constraint firstItem="Nez-2i-E6i" firstAttribute="bottom" secondItem="o0w-p3-Zmm" secondAttribute="bottom" id="8lo-HG-S2t"/>
                         <constraint firstAttribute="bottom" secondItem="o0w-p3-Zmm" secondAttribute="bottom" constant="8" id="EEp-ox-oyl"/>
+                        <constraint firstItem="Nez-2i-E6i" firstAttribute="top" secondItem="o0w-p3-Zmm" secondAttribute="top" id="Fdh-m8-E37"/>
                         <constraint firstItem="o0w-p3-Zmm" firstAttribute="leading" secondItem="66n-YM-xdV" secondAttribute="leading" constant="8" id="Fo3-rW-gYb"/>
-                        <constraint firstItem="L2m-Df-ORG" firstAttribute="leading" secondItem="o0w-p3-Zmm" secondAttribute="trailing" constant="8" id="RfY-ps-soA"/>
+                        <constraint firstItem="Nez-2i-E6i" firstAttribute="trailing" secondItem="o0w-p3-Zmm" secondAttribute="trailing" id="MdS-F0-fdA"/>
+                        <constraint firstItem="Nez-2i-E6i" firstAttribute="leading" secondItem="o0w-p3-Zmm" secondAttribute="leading" id="O92-4t-sOj"/>
                         <constraint firstItem="o0w-p3-Zmm" firstAttribute="top" secondItem="3SY-z8-Ohe" secondAttribute="top" id="Ryn-Pw-YGu"/>
                         <constraint firstAttribute="trailing" secondItem="OrH-3F-e2T" secondAttribute="trailing" constant="8" id="ZI3-9R-jax"/>
                         <constraint firstAttribute="trailing" secondItem="3SY-z8-Ohe" secondAttribute="trailing" constant="8" id="bph-Ge-zf1"/>
                         <constraint firstAttribute="height" constant="172" id="exL-MD-EsL"/>
                         <constraint firstItem="o0w-p3-Zmm" firstAttribute="centerY" secondItem="7lj-bL-71D" secondAttribute="centerY" constant="9.5" id="hv1-oh-y9Z"/>
                         <constraint firstAttribute="trailing" secondItem="7lj-bL-71D" secondAttribute="trailing" constant="8" id="kA8-oh-Nae"/>
-                        <constraint firstAttribute="trailing" secondItem="L2m-Df-ORG" secondAttribute="trailing" constant="8" id="o7i-lX-Lql"/>
                         <constraint firstItem="OrH-3F-e2T" firstAttribute="leading" secondItem="o0w-p3-Zmm" secondAttribute="trailing" constant="8" id="tZU-Ut-5e1"/>
                     </constraints>
                 </view>
