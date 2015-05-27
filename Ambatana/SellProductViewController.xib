@@ -174,27 +174,36 @@
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tJp-Ux-owc">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJp-Ux-owc">
                     <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pJR-Uu-QmI">
-                            <rect key="frame" x="33" y="200" width="254" height="40"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pJR-Uu-QmI">
+                            <rect key="frame" x="8" y="210" width="304" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6HW-b4-vvD">
-                            <rect key="frame" x="85" y="251" width="150" height="2"/>
+                        <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6HW-b4-vvD">
+                            <rect key="frame" x="16" y="239" width="288" height="2"/>
                             <color key="progressTintColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                         </progressView>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="centerY" secondItem="pJR-Uu-QmI" secondAttribute="centerY" constant="32" id="SC9-WI-v2U"/>
+                        <constraint firstAttribute="trailing" secondItem="pJR-Uu-QmI" secondAttribute="trailing" constant="8" id="Tfl-KT-gjt"/>
+                        <constraint firstAttribute="trailing" secondItem="6HW-b4-vvD" secondAttribute="trailing" constant="16" id="Zwy-3H-dug"/>
+                        <constraint firstItem="pJR-Uu-QmI" firstAttribute="leading" secondItem="tJp-Ux-owc" secondAttribute="leading" constant="8" id="Zx1-wQ-VH4"/>
+                        <constraint firstItem="6HW-b4-vvD" firstAttribute="leading" secondItem="tJp-Ux-owc" secondAttribute="leading" constant="16" id="e9w-G8-YvE"/>
+                        <constraint firstItem="6HW-b4-vvD" firstAttribute="top" secondItem="pJR-Uu-QmI" secondAttribute="bottom" constant="8" id="qog-2r-dbJ"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Iwa-m9-yjA" firstAttribute="leading" secondItem="kOd-Qe-WEp" secondAttribute="leading" constant="16" id="1cO-RW-ylG"/>
+                <constraint firstItem="tJp-Ux-owc" firstAttribute="leading" secondItem="kOd-Qe-WEp" secondAttribute="leading" id="2F2-Wv-HCD"/>
                 <constraint firstItem="t9H-lo-FQG" firstAttribute="top" secondItem="5Uh-Qw-hiZ" secondAttribute="bottom" constant="16" id="3DX-PG-pv5"/>
                 <constraint firstAttribute="bottom" secondItem="Iwa-m9-yjA" secondAttribute="bottom" constant="8" id="4Ey-zg-R5Q"/>
                 <constraint firstItem="dHu-t4-YWH" firstAttribute="leading" secondItem="kOd-Qe-WEp" secondAttribute="leading" constant="16" id="54K-NA-ZpF"/>
@@ -224,10 +233,13 @@
                 <constraint firstItem="5Uh-Qw-hiZ" firstAttribute="top" secondItem="Ban-39-jqt" secondAttribute="bottom" constant="8" id="Z1A-dw-YfN"/>
                 <constraint firstItem="2Nh-Wo-Uho" firstAttribute="centerY" secondItem="WK7-lr-fES" secondAttribute="centerY" id="ZQJ-xs-HdX"/>
                 <constraint firstAttribute="trailing" secondItem="Unw-07-8Jt" secondAttribute="trailing" constant="16" id="ZQv-EP-gsg"/>
+                <constraint firstItem="tJp-Ux-owc" firstAttribute="top" secondItem="kOd-Qe-WEp" secondAttribute="top" constant="64" id="aGO-xy-LiX"/>
                 <constraint firstItem="2Nh-Wo-Uho" firstAttribute="leading" secondItem="kOd-Qe-WEp" secondAttribute="leading" constant="16" id="aiq-jk-ssd"/>
                 <constraint firstAttribute="trailing" secondItem="5Uh-Qw-hiZ" secondAttribute="trailing" constant="16" id="de5-Im-3uK"/>
                 <constraint firstItem="Ban-39-jqt" firstAttribute="leading" secondItem="kOd-Qe-WEp" secondAttribute="leading" constant="16" id="eQt-R5-ntI"/>
+                <constraint firstAttribute="bottom" secondItem="tJp-Ux-owc" secondAttribute="bottom" id="gQR-Xe-KqB"/>
                 <constraint firstAttribute="trailing" secondItem="Ban-39-jqt" secondAttribute="trailing" constant="16" id="loy-ZJ-F02"/>
+                <constraint firstAttribute="trailing" secondItem="tJp-Ux-owc" secondAttribute="trailing" id="lt2-0U-Bxv"/>
                 <constraint firstAttribute="trailing" secondItem="gRn-lV-UAj" secondAttribute="trailing" constant="16" id="mZb-4R-CpO"/>
                 <constraint firstAttribute="trailing" secondItem="j50-OC-dOW" secondAttribute="trailing" constant="32" id="nLJ-Ia-D04"/>
                 <constraint firstItem="Unw-07-8Jt" firstAttribute="leading" secondItem="kOd-Qe-WEp" secondAttribute="leading" constant="16" id="pUp-eY-CBc"/>
