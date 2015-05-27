@@ -160,7 +160,7 @@
 "insert_valid_description" = "Please, insert a valid description for the product.";
 "insert_valid_category" = "Please, choose a category for the product.";
 "unable_sell_product_location" = "I was unable to find your current location. For selling the product, I need to be able to find it. Please, try again later.";
-"successfully_uploaded_product" = "Product was successfully registered for selling. It will appear in letgo as soon as it's approved.";
+"successfully_uploaded_product" = "Congratulations! Your item was successfully posted. It will appear in our listings in shortly.";
 "uploading_image_please_wait" = "Uploading image, please wait...";
 "error_uploading_product" = "An error happened while registering your product. ";
 "here" = "Here";

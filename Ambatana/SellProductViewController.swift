@@ -418,7 +418,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                             // check facebook sharing
                             if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId!) }
                             else {
-                                self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
+                                self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), time: 3.5, completionBlock: { () -> Void in
                                     self.dismissViewControllerAnimated(true, completion: nil)
                                 })
                             }
@@ -490,7 +490,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), completionBlock: { () -> Void in
+        self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), time: 3.5, completionBlock: { () -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
         })
 
