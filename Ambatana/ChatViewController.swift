@@ -144,7 +144,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.popBackViewController()
                 })
             }
-                        
+            
         } else { // no conversation object? notify the error and get back.
             self.showAutoFadingOutMessageAlert(translate("unable_show_conversation"), completionBlock: { () -> Void in
                 self.popBackViewController()
@@ -192,6 +192,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         originalBottomViewFrame = self.bottomView.frame
         // reload data because of auto-height calculation
         tableView.reloadData()
+        
+        // Show kb
+        messageTextfield.becomeFirstResponder()
     }
     
     // Loads the fields referred to the product object in view's header.
