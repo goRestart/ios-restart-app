@@ -108,6 +108,9 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         tooltip.contentMode = UIViewContentMode.Top
         tooltip.setImage(tooltipImage, forState: UIControlState.Normal)
         view.addSubview(tooltip)
+        
+        // Update unread messages
+        PushManager.sharedInstance.updateUnreadMessagesCount()
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -123,11 +126,8 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             showTooltip()
         }
         
-        // Update the badge
-        updateBadge()
-        
         // NSNotificationCenter
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "badgeChanged:", name: kLetGoUserBadgeChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:", name: PushManager.Notification.unreadMessagesDidChange.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
@@ -277,24 +277,17 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         dismissTooltip(animated: true)
     }
     
-    // MARK: > Badge
+    // MARK: > NSNotification
     
-    private func updateBadge() {
+    @objc private func unreadMessagesDidChange(notification: NSNotification) {
         if let chatsTab = chatsTabBarItem {
-            let badgeNumber = PFInstallation.currentInstallation().badge
+            let badgeNumber = PushManager.sharedInstance.unreadMessagesCount
             chatsTab.badgeValue = badgeNumber > 0 ? "\(badgeNumber)" : nil
         }
     }
     
-    // MARK: > NSNotification
-    
-    @objc private func badgeChanged(notification: NSNotification) {
-        updateBadge()
-    }
-    
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
-        updateBadge()
-        
+       
         // If we're showing a product list or the categories view, then show again the tooltip
         let currentTabBarVC = NavigationHelper.currentTabBarViewController()
         if currentTabBarVC is ProductsViewController || currentTabBarVC is CategoriesViewController {

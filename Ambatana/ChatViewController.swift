@@ -105,7 +105,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewWillAppear(animated)
 
         // track conversation update.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "checkUpdatedConversation:", name: kLetGoUserBadgeChangedNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
         
         // track keyboard appearance and size change
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
@@ -440,7 +440,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
 //    }
 
     // MARK: - Check changes in conversation.
-    func checkUpdatedConversation(notification: NSNotification) {
+    
+    func didReceiveUserInteraction(notification: NSNotification) {
         if let userInfo = notification.object as? [NSObject: AnyObject], let conversationId = userInfo["c_id"] as? String {
             // It's the current conversation then refresh
             if self.letgoConversation?.conversationObject.objectId == conversationId {

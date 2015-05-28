@@ -76,19 +76,17 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // update conversations (always forced, so the badges are updated)
-        updateConversations(force: true)
+        // NSNotificationCenter, observe for user interactions (msgs & offers)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
         
-        // clean badge and notifications.
-        PFInstallation.currentInstallation().badge = 0
-        PFInstallation.currentInstallation().saveInBackgroundWithBlock({ (success, error) -> Void in
-            if error != nil {
-                PFInstallation.currentInstallation().saveEventually(nil)
-            }
-            else {
-                NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: nil)
-            }
-        })
+        // Update conversations (always forced, so the badges are updated)
+        updateConversations(force: true)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // MARK: - Conversation management
@@ -222,5 +220,11 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             chatVC.letgoConversation = letgoConversation
             self.navigationController?.pushViewController(chatVC, animated: true)
         }
+    }
+    
+    // MARK: - NSNotificationCenter
+    
+    func didReceiveUserInteraction(notification: NSNotification) {
+        self.refreshConversations()
     }
 }

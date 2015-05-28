@@ -41,18 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else { // we're on ios < 8, use the old way
             UIApplication.sharedApplication().registerForRemoteNotificationTypes(UIRemoteNotificationType.Alert|UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound)
         }
-        
-        // responding to push notifications received while app not launched.
-        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
-            //println("Opened app because of push notification: \(remoteNotification)")
-            if let notificationType = self.getNotificationType(remoteNotification as [NSObject : AnyObject]) {
-                if notificationType == .Offer || notificationType == .Message {
-                    NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: remoteNotification)
-                    self.openChatListViewController()
-                } else {
-                    // Do nothing. As per specifications, we should not show an alert of anything if the user opens the app responding to a push notification.
-                }
-            }
+
+        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
+            PushManager.sharedInstance.application(application, didFinishLaunchingWithRemoteNotification: remoteNotification)
         }
         
         // > check version and track if new install
@@ -114,51 +105,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: > Push notification
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let installation = PFInstallation.currentInstallation()
-        installation.setDeviceTokenFromData(deviceToken)
-        installation.channels = [""]
-        if PFUser.currentUser() != nil {
-            installation["user_objectId"] = PFUser.currentUser()!.objectId
-            installation["username"] = PFUser.currentUser()!["username"]
-        }
-        installation.saveInBackgroundWithBlock { (success, error) -> Void in
-            //println("Installation saved. Success: \(success), error: \(error)")
-        }
+        PushManager.sharedInstance.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        // if the App is already running, don't show an alert or open the chatListViewController.
-        if application.applicationState == .Active {
-            // update the badge
-            if let newBadge = self.getBadgeNumberFromNotification(userInfo) {
-                UIApplication.sharedApplication().applicationIconBadgeNumber = newBadge
-                PFInstallation.currentInstallation().badge = newBadge
-                PFInstallation.currentInstallation().saveInBackgroundWithBlock({ (success, error) -> Void in
-                    if !success { PFInstallation.currentInstallation().saveEventually(nil) }
-                })
+        PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo, notActiveCompletion: { [weak self] (type) -> Void in
+            if type == .Offer || type == .Message {
+                self?.openChatListViewController()
             }
-            // show an alert only if this is a marketing message.
-            if let notificationType = self.getNotificationType(userInfo), let notificationMsg = self.getNotificationAlertMessage(userInfo) {
-                if notificationType == .Offer || notificationType == .Message { // message/offer
-                    NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: userInfo)
-                } else if notificationType == .Marketing { // marketing.
-                    self.showMarketingAlertWithNotificationMessage(notificationMsg)
-                }
-            }
-        } else {
-            // Fully respond to the notification.
-            PFPush.handlePush(userInfo)
-            if let notificationType = self.getNotificationType(userInfo), let notificationMsg = self.getNotificationAlertMessage(userInfo) {
-                //println("Notification type: \(notificationType.rawValue)")
-                if notificationType == .Offer || notificationType == .Message { // message/offer
-                    NSNotificationCenter.defaultCenter().postNotificationName(kLetGoUserBadgeChangedNotification, object: userInfo)
-                    // push a chat list to see the messages.
-                    self.openChatListViewController()
-                } else { // marketing
-                    self.showMarketingAlertWithNotificationMessage(notificationMsg)
-                }
-            }
-        }
+//            else if type == .Marketing {
+//                self?.showMarketingAlertWithNotificationMessage()
+//            }
+        })
     }
     
     // MARK: - Private methods
@@ -203,33 +161,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tabBarCtl.switchToTab(.Chats)
         }
     }
+
+    // FIXME: Legacy...
     
-    private func showMarketingAlertWithNotificationMessage(message: String) {
-        if let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController {
-            tabBarCtl.displayMessage(message)
-        }
-    }
+//    private func showMarketingAlertWithNotificationMessage(message: String) {
+//        if let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController {
+//            tabBarCtl.displayMessage(message)
+//        }
+//    }
     
     // MARK: > Push notification
     
-    func getBadgeNumberFromNotification(userInfo: [NSObject: AnyObject]) -> Int? {
-        if let newBadge = userInfo["badge"] as? Int { return newBadge }
-        else if let aps = userInfo["aps"] as? [NSObject: AnyObject] { return self.getBadgeNumberFromNotification(aps) } // compatibility with iOS APS push notification & android.
-        else { return nil }
-    }
-    
-    func getNotificationType(userInfo: [NSObject: AnyObject]) -> LetGoChatNotificationType? {
-        if let oldNotificationType = userInfo["notification_type"]?.integerValue { return LetGoChatNotificationType(rawValue: oldNotificationType) }
-        else if let newNotificationType = userInfo["n_t"]?.integerValue { return LetGoChatNotificationType(rawValue: newNotificationType) }
-        else if let aps = userInfo["aps"] as? [NSObject: AnyObject] { return self.getNotificationType(aps) } // compatibility with iOS APS push notification & android.
-        else { return nil }
-    }
-    
-    func getNotificationAlertMessage(userInfo: [NSObject: AnyObject]) -> String? {
-        if let msg = userInfo["alert"] as? String { return msg }
-        else if let aps = userInfo["aps"] as? [String: AnyObject] { // compatibility with iOS APS push notification & android
-            return aps["alert"] as? String
-        } else { return nil }
-    }
+//    func getNotificationAlertMessage(userInfo: [NSObject: AnyObject]) -> String? {
+//        if let msg = userInfo["alert"] as? String { return msg }
+//        else if let aps = userInfo["aps"] as? [String: AnyObject] { // compatibility with iOS APS push notification & android
+//            return aps["alert"] as? String
+//        } else { return nil }
+//    }
 }
 

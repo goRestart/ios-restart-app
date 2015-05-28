@@ -255,7 +255,7 @@ class ChatManager: NSObject {
     }
     
     /** Sends a push notification to a user with a (shortened to max length) text */
-    internal func sendPushNotificationWithMessage(messageObject: PFObject, toUser user: PFUser, fromUser sourceUser: PFUser, conversation: PFObject, product: PFObject, type: LetGoChatNotificationType) {
+    internal func sendPushNotificationWithMessage(messageObject: PFObject, toUser user: PFUser, fromUser sourceUser: PFUser, conversation: PFObject, product: PFObject, type: PushNotificationType) {
         //Prepare the PFPush query for the target device.
         let pushQuery = PFInstallation.query()
         pushQuery!.whereKey("user_objectId", equalTo: user.objectId!)
@@ -327,12 +327,21 @@ class ChatManager: NSObject {
         if let userFrom = conversation["user_from"] as? PFObject,
            let userTo = conversation["user_to"] as? PFObject {
                 if userFrom.objectId == user.objectId {
-                    shouldSave = true
-                    conversation["nr_msg_to_read_from"] = 0
+                    if let numFrom = conversation["nr_msg_to_read_from"] as? Int {
+                        if numFrom > 0 {
+                            shouldSave = true
+                            conversation["nr_msg_to_read_from"] = 0
+                        }
+                    }
+                    
                 }
                 else if userTo.objectId == user.objectId {
-                    shouldSave = true
-                    conversation["nr_msg_to_read_to"] = 0
+                    if let numTo = conversation["nr_msg_to_read_to"] as? Int {
+                        if numTo > 0 {
+                            shouldSave = true
+                            conversation["nr_msg_to_read_to"] = 0
+                        }
+                    }
                 }
         }
         if shouldSave {

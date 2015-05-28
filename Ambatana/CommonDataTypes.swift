@@ -33,7 +33,6 @@ let kLetGoUnableToSetUserLocationNotification                = "LetGoUnableToSet
 let kLetGoUserLocationSuccessfullySetNotification            = "LetGoUserLocationSuccessfullySetNotification"
 let kLetGoUserLocationSuccessfullyChangedNotification        = "LetGoUserLocationSuccessfullyChangedNotification"
 let kLetGoLogoutImminentNotification                         = "LetGoLogoutImminentNotification"
-let kLetGoUserBadgeChangedNotification                       = "LetGoUserBadgeChangedNotification"
 
 /** Product list categories */
 @objc enum LetGoProductCategory: Int {
@@ -164,10 +163,5 @@ let kLetGoUserBadgeChangedNotification                       = "LetGoUserBadgeCh
 @objc enum LetGoProductStatus: Int, Printable {
     case Pending = 0, Approved = 1, Discarded = 2, Sold = 3
     var description: String { return "\(self.rawValue)" }
-}
-
-/** Notification types */
-@objc enum LetGoChatNotificationType: Int {
-    case Offer = 0, Message = 1, Marketing = 2
 }
 
