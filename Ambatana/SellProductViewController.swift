@@ -253,7 +253,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     @IBAction func sellProduct(sender: AnyObject) {
         
-        let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation
+        let lastKnownLocation = MyUserManager.sharedInstance.myUser()?.gpsCoordinates
         let productPrice = productPriceTextfield?.text.toInt()
         
         // safety checks first (and we have a lot to check here...)
@@ -319,7 +319,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             productObject["category_id"] = self.currentCategory!.rawValue
             productObject["currency"] = self.currentCurrency.code
             productObject["description"] = self.descriptionTextView.text
-            productObject["gpscoords"] = PFGeoPoint(latitude: lastKnownLocation!.coordinate.latitude, longitude: lastKnownLocation!.coordinate.longitude)
+            productObject["gpscoords"] = PFGeoPoint(latitude: lastKnownLocation!.latitude, longitude: lastKnownLocation!.longitude)
             productObject["processed"] = false
             productObject["language_code"] = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
             productObject["name"] = self.productTitleTextField.text
