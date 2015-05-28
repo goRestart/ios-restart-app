@@ -15,6 +15,8 @@ class ChatOthersMessageCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    var avatarButtonPressed: (() -> Void)?
+    
     // MARK: - Lifecycle
     
     override func awakeFromNib() {
@@ -32,6 +34,14 @@ class ChatOthersMessageCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    // MARK: - Public methods
+    
+    // MARK: > Action
+    
+    @IBAction func avatarButtonPressed(sender: AnyObject) {
+        avatarButtonPressed?()
     }
     
     // MARK: - Private methods

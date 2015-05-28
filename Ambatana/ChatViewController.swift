@@ -387,8 +387,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.dateLabel.text = message.createdAt!.relativeTimeString()
             
             if let user = message["user_from"] as? PFUser {
-                
-                
                 if let otherUsrImage = otherUserImage {
                     cell.avatarImageView.image = otherUserImage
                 }
@@ -408,6 +406,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                                 })
                         }
                     })
+                }
+                
+                cell.avatarButtonPressed = { [weak self] in
+                    let vc = EditProfileViewController()
+                    vc.userObject = user
+                    self?.navigationController?.pushViewController(vc, animated: true)
                 }
             }
         }

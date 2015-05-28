@@ -20,6 +20,15 @@
                             <constraint firstAttribute="width" constant="64" id="ruP-6F-R2V"/>
                         </constraints>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="se3-LY-hG2" userLabel="avatarButton">
+                        <rect key="frame" x="8" y="8" width="64" height="64"/>
+                        <state key="normal">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="avatarButtonPressed:" destination="P9b-8r-Vcg" eventType="touchUpInside" id="8tI-aP-Gl6"/>
+                        </connections>
+                    </button>
                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dqy-zv-U3A">
                         <rect key="frame" x="80" y="8" width="180" height="103"/>
                         <subviews>
@@ -56,11 +65,15 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
+                    <constraint firstItem="se3-LY-hG2" firstAttribute="bottom" secondItem="0Cu-8K-6O4" secondAttribute="bottom" id="8D6-Xa-uko"/>
+                    <constraint firstItem="se3-LY-hG2" firstAttribute="trailing" secondItem="0Cu-8K-6O4" secondAttribute="trailing" id="BBh-5n-Iv3"/>
                     <constraint firstItem="Dqy-zv-U3A" firstAttribute="bottom" secondItem="ED6-v5-pa1" secondAttribute="bottomMargin" id="JfM-6k-GsR"/>
                     <constraint firstItem="0Cu-8K-6O4" firstAttribute="top" secondItem="ED6-v5-pa1" secondAttribute="topMargin" id="NH3-KY-lLU"/>
                     <constraint firstItem="Dqy-zv-U3A" firstAttribute="top" secondItem="ED6-v5-pa1" secondAttribute="topMargin" id="Ntj-AN-h9s"/>
                     <constraint firstItem="Dqy-zv-U3A" firstAttribute="leading" secondItem="0Cu-8K-6O4" secondAttribute="trailing" constant="8" id="USg-Yt-RRl"/>
+                    <constraint firstItem="se3-LY-hG2" firstAttribute="top" secondItem="0Cu-8K-6O4" secondAttribute="top" id="dJq-My-T7C"/>
                     <constraint firstItem="0Cu-8K-6O4" firstAttribute="leading" secondItem="ED6-v5-pa1" secondAttribute="leadingMargin" id="fNx-Pc-2Ab"/>
+                    <constraint firstItem="se3-LY-hG2" firstAttribute="leading" secondItem="0Cu-8K-6O4" secondAttribute="leading" id="riP-yL-KKm"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
