@@ -683,8 +683,19 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     @IBAction func showProductUser(sender: AnyObject) {
-        let vc = EditProfileViewController()
-        vc.userObject = self.productUser
-        self.navigationController?.pushViewController(vc, animated: true)
+        var shouldPushUserVC = true
+        
+        // If we're the ones selling the product do not allow to push the view to avoid circular navigation
+        if let myUser = MyUserManager.sharedInstance.myUser() {
+            if myUser.objectId == self.productUser.objectId {
+                shouldPushUserVC = false
+            }
+        }
+        
+        if shouldPushUserVC {
+            let vc = EditProfileViewController()
+            vc.userObject = self.productUser
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
