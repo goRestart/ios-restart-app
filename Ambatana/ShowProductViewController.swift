@@ -32,7 +32,8 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var userAvatarImageView: UIButton!
+    @IBOutlet weak var userAvatarImageView: UIImageView!
+    
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var itemLocationMapView: MKMapView!
     @IBOutlet weak var markSoldButton: UIButton!
@@ -154,7 +155,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                         strongSelf.usernameLabel.text = usernamePublic
                         
                         if let avatarFile = retrievedUser?["avatar"] as? PFFile, let avatarFileURLStr = avatarFile.url, let avatarFileURL = NSURL(string: avatarFileURLStr) {
-                            strongSelf.userAvatarImageView.sd_setImageWithURL(avatarFileURL, forState: UIControlState.Normal, placeholderImage: UIImage(named: "no_photo"))
+                            strongSelf.userAvatarImageView.sd_setImageWithURL(avatarFileURL, placeholderImage: UIImage(named: "no_photo"))
                         }
                     } else {
                         strongSelf.usernameLabel.hidden = true
@@ -229,6 +230,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                     self.butProductReport.hidden = true
                     
                     productStatus = LetGoProductStatus(rawValue: statusCode)
+                    self.butProductReportHeightConstraint.constant = 0
                     if productStatus == .Sold {
                         self.butProductReportHeightConstraint.constant = 0
                     }
@@ -243,7 +245,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             else {
                 self.lineDivider.hidden = false
                 self.butProductReport.hidden = false
-                self.butProductReportHeightConstraint.constant = 80
+                self.butProductReportHeightConstraint.constant = 50
             }
             
         } else { // hide all buttons
