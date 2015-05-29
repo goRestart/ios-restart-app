@@ -31,8 +31,17 @@ public class ConversationCell: UITableViewCell {
         self.resetUI()
     }
     
-    // MARK: - Public methods
+    // MARK: - Overrides
     
+    public override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        if (selected) {
+            setSelected(false, animated: animated)
+        }
+    }
+    
+    // MARK: - Public methods
+       
     public func setupCellWithConversation(conversation: LetGoConversation, indexPath: NSIndexPath) {
         let tag = indexPath.hash
     
@@ -81,6 +90,7 @@ public class ConversationCell: UITableViewCell {
         userLabel.text = ""
         timeLabel.text = ""
         badgeView.hidden = true
+        badgeView.backgroundColor = StyleHelper.badgeBgColor
         badgeLabel.text = ""
     }
     

@@ -102,4 +102,10 @@ class StyleHelper {
     static var productCellBgColor: UIColor {
         return palette[Int(arc4random_uniform(UInt32(palette.count)))]
     }
+    
+    // MARK: - Conversation Cell
+    
+    static var badgeBgColor: UIColor {
+        return red
+    }
 }

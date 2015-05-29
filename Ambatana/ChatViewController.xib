@@ -97,11 +97,11 @@
                     </constraints>
                 </view>
                 <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="7Jc-4P-RR9">
-                    <rect key="frame" x="282" y="282" width="37" height="37"/>
+                    <rect key="frame" x="282" y="232" width="37" height="37"/>
                     <color key="color" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                 </activityIndicatorView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading messages..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tK6-I5-2tU">
-                    <rect key="frame" x="221" y="244" width="159" height="21"/>
+                    <rect key="frame" x="221" y="194" width="159" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -149,7 +149,7 @@
                 <constraint firstAttribute="trailing" secondItem="66n-YM-xdV" secondAttribute="trailing" id="CTw-R2-V5l"/>
                 <constraint firstItem="tK6-I5-2tU" firstAttribute="centerX" secondItem="7Jc-4P-RR9" secondAttribute="centerX" id="DeW-H4-LW8"/>
                 <constraint firstItem="4eB-PO-zdU" firstAttribute="top" secondItem="Me1-bE-S7L" secondAttribute="bottom" id="IHE-re-eSY"/>
-                <constraint firstAttribute="centerY" secondItem="7Jc-4P-RR9" secondAttribute="centerY" id="O91-mP-TEn"/>
+                <constraint firstAttribute="centerY" secondItem="7Jc-4P-RR9" secondAttribute="centerY" constant="50" id="O91-mP-TEn"/>
                 <constraint firstItem="66n-YM-xdV" firstAttribute="top" secondItem="fqV-xx-UZm" secondAttribute="top" id="SZ3-P4-g6O"/>
                 <constraint firstAttribute="bottom" secondItem="4eB-PO-zdU" secondAttribute="bottom" id="VOA-jp-N3W"/>
                 <constraint firstItem="Me1-bE-S7L" firstAttribute="leading" secondItem="fqV-xx-UZm" secondAttribute="leading" id="Wms-bO-KlT"/>
