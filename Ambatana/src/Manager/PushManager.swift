@@ -32,7 +32,7 @@ public class PushManager {
     // MARK: - Lifecycle
     
     public init() {
-        unreadMessagesCount = 0
+        unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
     }
     
     // MARK: - Public methods
@@ -117,7 +117,10 @@ public class PushManager {
                         let unreadMessageCount = PushManager.getUnreadMessageCountFromConversations(conversations)
                         self?.unreadMessagesCount = unreadMessageCount
                         
-                        // Update badge
+                        // Update app's badge
+                        UIApplication.sharedApplication().applicationIconBadgeNumber = unreadMessageCount
+                        
+                        // Update installation's badge
                         PFInstallation.currentInstallation().badge = unreadMessageCount
                         PFInstallation.currentInstallation().saveInBackground()
                         
