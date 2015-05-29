@@ -26,6 +26,12 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
 
         // appearance
         setLetGoNavigationBarStyle(title: translate("make_an_offer"))
+        // > set the product currency
+        if let product = productObject {
+            let currencyCode = product["currency"] as? String ?? Constants.defaultCurrencyCode
+            let currencySymbol = CurrencyHelper.sharedInstance.currencySymbolWithCurrencyCode(currencyCode)
+            self.currencyButton.setTitle(currencySymbol, forState: .Normal)
+        }
         self.currencyButton.layer.cornerRadius = 6.0
         self.activityIndicator.hidden = true
         
@@ -111,12 +117,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     func generateOfferText(price: Int) -> String {
         let currencyCode = productObject!["currency"] as? String ?? Constants.defaultCurrencyCode
-        if let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
-            return translate("new_offer_of") + formattedAmount
-        }
-        else {
-            return ""
-        }
+        let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
+        return translate("new_offer_of") + formattedAmount
     }
     
     func launchChatWithConversation(conversation: PFObject) {

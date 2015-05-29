@@ -180,14 +180,9 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             // product price
             if let price = productObject["price"] as? Double {
                 let currencyCode = productObject["currency"] as? String ?? Constants.defaultCurrencyCode
-                if let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
-                    priceLabel.text = formattedPrice
-                    priceLabel.hidden = false
-                }
-                else {
-                    priceLabel.text = "\(price)"
-                    priceLabel.hidden = false
-                }
+                let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
+                priceLabel.text = formattedPrice
+                priceLabel.hidden = false
             } else { priceLabel.hidden = true }
             
             // product description

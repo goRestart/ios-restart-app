@@ -84,9 +84,8 @@ class ProductCell: UICollectionViewCell {
         // Price
         if let price = product["price"] as? Double {
             let currencyCode = product["currency"] as? String ?? Constants.defaultCurrencyCode
-            if let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price) {
-                priceLabel.text = formattedPrice
-            }
+            let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
+            priceLabel.text = formattedPrice
         }
         
         // Thumb
