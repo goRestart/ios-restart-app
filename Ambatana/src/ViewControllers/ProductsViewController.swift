@@ -422,16 +422,10 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     
     // MARK: ShowProductViewControllerDelegate
     
+    // TODO: Refactor this...
     // update status of a product (i.e: if it gets marked as sold).
+    
     func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus) {
-        // @ahl: skipped feature for now...
-        
-//        for product in self.entries {
-//            if product.objectId == productId {
-//                product.status = newStatus
-//                self.collectionView.reloadSections(NSIndexSet(index: 0))
-//                return
-//            }
-//        }
+        self.collectionView.reloadSections(NSIndexSet(index: 0))
     }
 }

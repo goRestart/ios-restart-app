@@ -429,6 +429,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     func definitelyMarkProductAsSold() {
         self.enableMarkAsSoldLoadingInterface()
         self.productObject["status"] = LetGoProductStatus.Sold.rawValue
+        self.productObject["processed"] = false
         self.productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
             if success {
                 self.productStatus = .Sold
