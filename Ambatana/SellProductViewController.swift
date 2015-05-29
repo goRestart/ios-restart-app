@@ -383,7 +383,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             productObject.ACL = globalReadAccessACL()
             
             // Last (but not least) try to extract the geolocation address for the object based on the current coordinates
-            let currentLocation = CLLocation(coordinate: lastKnownLocation!.coordinate, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
+            let currentLocation = CLLocation(coordinate: lastKnownLocation!, altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
             self.geocoder.reverseGeocodeLocation(currentLocation, completionHandler: { (placemarks, error) -> Void in
                 if placemarks?.count > 0 {
                     var addressString = ""

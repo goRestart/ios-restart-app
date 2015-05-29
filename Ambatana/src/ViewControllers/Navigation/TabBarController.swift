@@ -109,8 +109,14 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         tooltip.setImage(tooltipImage, forState: UIControlState.Normal)
         view.addSubview(tooltip)
         
-        // Update unread messages
-        PushManager.sharedInstance.updateUnreadMessagesCount()
+        // Initially set the chats tab badge to the app icon badge number
+        if let chatsTab = chatsTabBarItem {
+            let applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
+            chatsTab.badgeValue = applicationIconBadgeNumber > 0 ? "\(applicationIconBadgeNumber)" : nil
+        }
+        
+        // Update chats badge
+        updateChatsBadge()
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -277,13 +283,19 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         dismissTooltip(animated: true)
     }
     
-    // MARK: > NSNotification
+    // MARK: > UI
     
-    @objc private func unreadMessagesDidChange(notification: NSNotification) {
+    private func updateChatsBadge() {
         if let chatsTab = chatsTabBarItem {
             let badgeNumber = PushManager.sharedInstance.unreadMessagesCount
             chatsTab.badgeValue = badgeNumber > 0 ? "\(badgeNumber)" : nil
         }
+    }
+    
+    // MARK: > NSNotification
+    
+    @objc private func unreadMessagesDidChange(notification: NSNotification) {
+        updateChatsBadge()
     }
     
     @objc private func applicationWillEnterForeground(notification: NSNotification) {

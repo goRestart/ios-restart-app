@@ -81,6 +81,9 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         
         // Update conversations (always forced, so the badges are updated)
         updateConversations(force: true)
+        
+        // Update unread messages
+        PushManager.sharedInstance.updateUnreadMessagesCount()
     }
     
     override func viewWillDisappear(animated: Bool) {
