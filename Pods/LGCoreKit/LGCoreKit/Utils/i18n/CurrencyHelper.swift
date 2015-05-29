@@ -46,6 +46,11 @@ public class CurrencyHelper {
         return CurrencyHelper.defaultCurrency
     }
     
+    /**
+        Sets the current country code and updates the current currency formatter.
+        
+        :param: countryCode The country code.
+    */
     public func setCountryCode(countryCode: String) {
         // If the country is found in the DB and has a locale, update locale
         if let countryCurrencyInfo = countryCurrencyInfoDAO.fetchCountryCurrencyInfoWithCountryCode(countryCode), let countryLocale = countryCurrencyInfo.locale {
@@ -53,14 +58,45 @@ public class CurrencyHelper {
         }
     }
     
+    /**
+        Returns a formatted string for the given amount with the current currency formatter.
+    
+        :returns: A currency formatted string.
+    */
     public func formattedAmount(amount: NSNumber) -> String? {
         return currencyFormatter.stringFromNumber(amount)
     }
+
+    /**
+        Returns a formatted string for the given amount with the given currency code.
     
-    public func formattedAmountWithCurrencyCode(currencyCode: String, amount: NSNumber) -> String? {
-        // If we find the formatter in the dict then just use it
+        :returns: A currency formatted string.
+    */
+    public func formattedAmountWithCurrencyCode(currencyCode: String, amount: NSNumber) -> String {
+        return formatterWithCurrencyCode(currencyCode).stringFromNumber(amount) ?? CurrencyHelper.defaultCurrency.code
+    }
+    
+    /**
+        Returns the currency symbol for the given currency code.
+    
+        :returns: A currency formatted string.
+    */
+    public func currencySymbolWithCurrencyCode(currencyCode: String) -> String {
+        return formatterWithCurrencyCode(currencyCode).currencySymbol ?? CurrencyHelper.defaultCurrency.symbol
+    }
+    
+    // MARK: - Private methods
+    
+    /**
+        Returns a currency formatter with the given locale.
+    
+        :param: currencyCode A currency code.
+        :returns: A currency formatter.
+    */
+    private func formatterWithCurrencyCode(currencyCode: String) -> NSNumberFormatter {
+        // If we find the formatter in the dict then just return it
         if let formatter = currencyCodeToFormatter[currencyCode] {
-            return formatter.stringFromNumber(amount)
+            return formatter
         }
         
         // Otherwise, look for it in the DB
@@ -77,11 +113,15 @@ public class CurrencyHelper {
         let formatter = CurrencyHelper.currencyFormatterWithLocale(currencyLocale)
         currencyCodeToFormatter[currencyCode] = formatter
         
-        return formatter.stringFromNumber(amount)
+        return formatter
     }
     
-    // MARK: - Private methods
+    /**
+        Creates and returns a currency formatter with the given locale.
     
+        :param: locale A locale.
+        :returns: A currency formatter.
+    */
     private static func currencyFormatterWithLocale(locale: NSLocale) -> NSNumberFormatter {
         let currencyFormatter = NSNumberFormatter()
         currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
@@ -89,4 +129,6 @@ public class CurrencyHelper {
         currencyFormatter.maximumFractionDigits = 0
         return currencyFormatter
     }
+    
+    
 }
