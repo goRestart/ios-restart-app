@@ -9,7 +9,6 @@
                 <outlet property="bottomView" destination="4eB-PO-zdU" id="czX-2U-v4S"/>
                 <outlet property="bottomViewBottomConstraint" destination="VOA-jp-N3W" id="5gj-uV-ak5"/>
                 <outlet property="loadingMessageActivityIndicator" destination="7Jc-4P-RR9" id="VmW-rf-ZyE"/>
-                <outlet property="loadingMessagesLabel" destination="tK6-I5-2tU" id="BAd-Dr-ird"/>
                 <outlet property="messageTextfield" destination="KDe-ch-4gu" id="XIM-9S-REo"/>
                 <outlet property="priceLabel" destination="OrH-3F-e2T" id="lwb-dX-eko"/>
                 <outlet property="productImageView" destination="o0w-p3-Zmm" id="Cuf-AG-d81"/>
@@ -96,16 +95,10 @@
                         <constraint firstItem="OrH-3F-e2T" firstAttribute="leading" secondItem="o0w-p3-Zmm" secondAttribute="trailing" constant="8" id="tZU-Ut-5e1"/>
                     </constraints>
                 </view>
-                <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="7Jc-4P-RR9">
-                    <rect key="frame" x="282" y="232" width="37" height="37"/>
+                <activityIndicatorView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="7Jc-4P-RR9">
+                    <rect key="frame" x="290" y="482" width="20" height="20"/>
                     <color key="color" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                 </activityIndicatorView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading messages..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tK6-I5-2tU">
-                    <rect key="frame" x="221" y="194" width="159" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4eB-PO-zdU" userLabel="New Message View">
                     <rect key="frame" x="0.0" y="552" width="600" height="48"/>
                     <subviews>
@@ -147,14 +140,12 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="4eB-PO-zdU" secondAttribute="trailing" id="9Wm-SB-Ljo"/>
                 <constraint firstAttribute="trailing" secondItem="66n-YM-xdV" secondAttribute="trailing" id="CTw-R2-V5l"/>
-                <constraint firstItem="tK6-I5-2tU" firstAttribute="centerX" secondItem="7Jc-4P-RR9" secondAttribute="centerX" id="DeW-H4-LW8"/>
                 <constraint firstItem="4eB-PO-zdU" firstAttribute="top" secondItem="Me1-bE-S7L" secondAttribute="bottom" id="IHE-re-eSY"/>
-                <constraint firstAttribute="centerY" secondItem="7Jc-4P-RR9" secondAttribute="centerY" constant="50" id="O91-mP-TEn"/>
                 <constraint firstItem="66n-YM-xdV" firstAttribute="top" secondItem="fqV-xx-UZm" secondAttribute="top" id="SZ3-P4-g6O"/>
                 <constraint firstAttribute="bottom" secondItem="4eB-PO-zdU" secondAttribute="bottom" id="VOA-jp-N3W"/>
                 <constraint firstItem="Me1-bE-S7L" firstAttribute="leading" secondItem="fqV-xx-UZm" secondAttribute="leading" id="Wms-bO-KlT"/>
                 <constraint firstItem="66n-YM-xdV" firstAttribute="leading" secondItem="fqV-xx-UZm" secondAttribute="leading" id="hhW-fl-1Kt"/>
-                <constraint firstItem="7Jc-4P-RR9" firstAttribute="top" secondItem="tK6-I5-2tU" secondAttribute="bottom" constant="17" id="lZH-Dc-UPD"/>
+                <constraint firstItem="4eB-PO-zdU" firstAttribute="top" secondItem="7Jc-4P-RR9" secondAttribute="bottom" constant="50" id="kbP-dQ-6Pl"/>
                 <constraint firstAttribute="trailing" secondItem="Me1-bE-S7L" secondAttribute="trailing" id="p68-vD-jvi"/>
                 <constraint firstAttribute="centerX" secondItem="7Jc-4P-RR9" secondAttribute="centerX" id="u9S-u9-7NH"/>
                 <constraint firstItem="Me1-bE-S7L" firstAttribute="top" secondItem="66n-YM-xdV" secondAttribute="bottom" id="uJl-io-1Bc"/>

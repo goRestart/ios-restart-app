@@ -36,7 +36,6 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     // loading conversations
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var loadingConversationsLabel: UILabel!
     var refreshControl: UIRefreshControl!
     
     // data
@@ -60,8 +59,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         // internationalization
         noConversationsYet.text = translate("no_conversations_yet")
         startSellingOrBuyingLabel.text = translate("start_selling_or_buying")
-        loadingConversationsLabel.text = translate("loading_conversations")
-        
+       
         // add a pull to refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
@@ -142,7 +140,6 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         
         activityIndicator.startAnimating()
         activityIndicator.hidden = false
-        loadingConversationsLabel.hidden = false
     }
     
     func enableNoConversationsInterface() {
@@ -168,7 +165,6 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     func disableLoadingConversationsInterface() {
         activityIndicator.hidden = true
         activityIndicator.stopAnimating()
-        loadingConversationsLabel.hidden = true
     }
     
     func disableNoConversationsInterface() {

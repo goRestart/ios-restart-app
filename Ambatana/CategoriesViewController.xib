@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoriesViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="i2Z-WU-fns" id="3Uh-hj-j5Q"/>
                 <outlet property="collectionView" destination="E41-Qa-T7P" id="Bre-wA-Z9V"/>
                 <outlet property="view" destination="F3o-yS-RBE" id="8Hn-Bt-Jb5"/>
             </connections>
@@ -15,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="E41-Qa-T7P">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="E41-Qa-T7P">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="g14-up-For">
@@ -30,11 +31,16 @@
                         <outlet property="delegate" destination="-1" id="FNR-Ij-1wm"/>
                     </connections>
                 </collectionView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="i2Z-WU-fns">
+                    <rect key="frame" x="290" y="290" width="20" height="20"/>
+                </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="E41-Qa-T7P" secondAttribute="bottom" id="ClV-C5-oZk"/>
+                <constraint firstAttribute="centerY" secondItem="i2Z-WU-fns" secondAttribute="centerY" id="Im2-3J-Goa"/>
+                <constraint firstAttribute="centerX" secondItem="i2Z-WU-fns" secondAttribute="centerX" id="Scq-dg-8a8"/>
                 <constraint firstAttribute="trailing" secondItem="E41-Qa-T7P" secondAttribute="trailing" id="Y7v-fR-oMi"/>
                 <constraint firstItem="E41-Qa-T7P" firstAttribute="leading" secondItem="F3o-yS-RBE" secondAttribute="leading" id="bpB-bj-4rx"/>
                 <constraint firstItem="E41-Qa-T7P" firstAttribute="top" secondItem="F3o-yS-RBE" secondAttribute="top" id="tHy-9Y-4fR"/>

@@ -17,7 +17,8 @@ private let kLetGoCategoriesCellFactor: CGFloat = 150.0 / 160.0
 class CategoriesViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var sellButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var searchBar: UISearchBar!
     
     // data
@@ -107,8 +108,18 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     * Performs a query of the (favorite) categories for the current user. On failure, tries to fallback to the default language (if not on it already).
     */
     func performCategoriesQuery(query: PFQuery, isDefaultLanguage defaultLanguage: Bool) {
+        
+        if let actualCategories = categories {
+            if actualCategories.isEmpty {
+                activityIndicator.startAnimating()
+            }
+        }
+        
         query.findObjectsInBackgroundWithBlock { [weak self] (results, error) -> Void in
             if let strongSelf = self {
+                
+                strongSelf.activityIndicator.stopAnimating()
+                
                 if error == nil { // check if there are results for that language or we need to fallback to "en".
                     if results?.count > 0 { // alright, we do have some categories for that language.
                         strongSelf.categories = results as! [PFObject]? ?? []

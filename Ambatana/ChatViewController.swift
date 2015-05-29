@@ -43,7 +43,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var messageTextfield: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var loadingMessageActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var loadingMessagesLabel: UILabel!
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var topViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
@@ -98,7 +97,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // internationalization
         sendButton.setTitle(translate("send"), forState: .Normal)
         messageTextfield.placeholder = translate("type_your_message_here")
-        loadingMessagesLabel.text = translate("loading_messages")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -241,14 +239,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.hidden = true
         loadingMessageActivityIndicator.startAnimating()
         loadingMessageActivityIndicator.hidden = false
-        loadingMessagesLabel.hidden = false
     }
 
     func disableLoadingMessagesInterface() {
         tableView.hidden = false
         loadingMessageActivityIndicator.hidden = true
         loadingMessageActivityIndicator.startAnimating()
-        loadingMessagesLabel.hidden = true
     }
     
     // MARK: - Button actions
