@@ -15,7 +15,6 @@ import Parse
 // Enums
 
 enum TrackingEvent: String {
-    case Install                           = "install"
     case LoginVisit                        = "login-screen"
     case LoginFB                           = "login-fb"
     case LoginEmail                        = "login-email"
@@ -48,8 +47,6 @@ enum TrackingEvent: String {
     
     var googleConversionParams: GoogleConversionParams? {
         switch (self) {
-        case Install:
-            return GoogleConversionParams(label: "p6XRCNq1qVsQ__6fyQM", value: "0.00", isRepeatable: false)
         case ProductSellComplete:
             return GoogleConversionParams(label: "aNaiCIawqVsQ__6fyQM", value: "0.00", isRepeatable: true)
         default:
@@ -89,6 +86,9 @@ enum TrackingParameter: String {
 class TrackingHelper {
     
     // Constants
+    private static let googleConversionInstallParams = GoogleConversionParams(label: "p6XRCNq1qVsQ__6fyQM", value: "0.00", isRepeatable: false)
+    
+    // > Prefixes
     private static let eventNameDummyPrefix   = "dummy-"
     
     // > User properties
@@ -105,15 +105,22 @@ class TrackingHelper {
         // Amplitude
         Amplitude.initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
         
-        // Apps Flyer
+        // AppsFlyer
         AppsFlyerTracker.sharedTracker().appsFlyerDevKey = EnvironmentProxy.sharedInstance.appsFlyerAPIKey
         AppsFlyerTracker.sharedTracker().appleAppID = EnvironmentProxy.sharedInstance.appleAppId
         
         // Google conversion tracking
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId)
+
+        // > Track the install
+        let installParams = TrackingHelper.googleConversionInstallParams
+        ACTConversionReporter.reportWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId, label: installParams.label, value: installParams.value, isRepeatable: installParams.isRepeatable)
     }
     
     static func appDidBecomeActive() {
+        // AppsFlyer
+        AppsFlyerTracker.sharedTracker().trackAppLaunch()
+        
         // Facebook
         FBSDKAppEvents.activateApp()
     }

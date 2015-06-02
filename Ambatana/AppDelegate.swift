@@ -13,8 +13,6 @@ import LGCoreKit
 import Parse
 import UIKit
 
-private let kLetGoVersionNumberKey = "com.letgo.LetGoVersionNumberKey"
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -44,24 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
             PushManager.sharedInstance.application(application, didFinishLaunchingWithRemoteNotification: remoteNotification)
-        }
-        
-        // > check version and track if new install
-        var newInstall = false
-        if let letgoVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"]?.floatValue {
-            if let storedVersion = NSUserDefaults.standardUserDefaults().objectForKey(kLetGoVersionNumberKey)?.floatValue {
-                // check if stored version is the same as our version.
-                if letgoVersion != storedVersion {
-                    newInstall = true
-                    NSUserDefaults.standardUserDefaults().setObject("\(letgoVersion)", forKey: kLetGoVersionNumberKey)
-                }
-            } else { // no stored version. This is a new install. Store our version now.
-                newInstall = true
-                NSUserDefaults.standardUserDefaults().setObject("\(letgoVersion)", forKey: kLetGoVersionNumberKey)
-            }
-        }
-        if newInstall {
-            TrackingHelper.trackEvent(.Install, parameters: nil)
         }
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
