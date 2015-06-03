@@ -8,7 +8,7 @@
 
 import Parse
 
-extension PFUser: User {
+extension PFUser: MyUser {
     
     enum FieldKey: String {
         case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", /*Radius = "radius",*/ PublicUsername = "username_public", ZipCode = "zipcode"

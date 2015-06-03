@@ -10,14 +10,6 @@ import SwiftyJSON
 
 public struct LGProductsResponse {
     
-    // Constant
-    // > JSON keys
-    private static let dataJSONKey = "data"
-    private static let infoJSONKey = "info"
-    private static let totalProductsJSONKey = "total_products"
-    private static let offsetJSONKey = "offset"
-    
-    // iVars
     public var products: NSArray
     public var totalProducts: Int
     public var offset: Int
@@ -30,50 +22,9 @@ public struct LGProductsResponse {
     
     // MARK: - Lifecycle
     
-    //{
-    //  "data": [
-    //      {
-    //          "object_id": "fZPmJ2dgF5",
-    //          "category_id": "6",
-    //          "name": "Women's wedge sandals",
-    //          "price": "15",
-    //          "currency": "USD",
-    //          "created_at": "2015-04-21 14:39:17",
-    //          "status": "1",
-    //          "img_url_thumb": "/cc/71/f9/c1/4991cf93b3be50f8da116401d33b9e37_thumb.jpg",
-    //          "distance_type": "KM",
-    //          "image_dimensions": {
-    //              "width": 200,
-    //              "height": 150
-    //          }
-    //      },...
-    //  ],
-    //  "info": {
-    //      "total_products": "475",
-    //      "offset": "0"
-    //  }
-    //}
-    public init?(json: JSON) {
-        self.products = []
-        if let data = json[LGProductsResponse.dataJSONKey].array {
-            let products = NSMutableArray()
-            for productJson in data {
-                products.addObject(LGPartialProduct(json: productJson))
-            }
-            self.products = products
-        }
-        let pagingInfo = json[LGProductsResponse.infoJSONKey]
-        if let totalProducts = pagingInfo[LGProductsResponse.totalProductsJSONKey].string?.toInt() {
-            self.totalProducts = totalProducts
-        }
-        else {
-            return nil
-        }
-        if let offset = pagingInfo[LGProductsResponse.offsetJSONKey].string?.toInt() {
-            self.offset = offset
-        }
-        else {
-            return nil
-        }
+    public init() {
+        products = []
+        totalProducts = 0
+        offset = 0
     }
 }

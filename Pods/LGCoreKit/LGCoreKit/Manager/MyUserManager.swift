@@ -38,7 +38,7 @@ public class MyUserManager {
     
     // MARK: - Public methods
     
-    public func myUser() -> User? {
+    public func myUser() -> MyUser? {
         return PFUser.currentUser()
     }
     

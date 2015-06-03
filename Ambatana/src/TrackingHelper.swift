@@ -103,7 +103,7 @@ class TrackingHelper {
     
     static func appDidFinishLaunching() {
         // Amplitude
-        Amplitude.initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
+        Amplitude.initializeApiKey(apiKey: EnvironmentProxy.sharedInstance.amplitudeAPIKey)
         
         // AppsFlyer
         AppsFlyerTracker.sharedTracker().appsFlyerDevKey = EnvironmentProxy.sharedInstance.appsFlyerAPIKey

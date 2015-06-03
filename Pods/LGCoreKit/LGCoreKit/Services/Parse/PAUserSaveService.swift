@@ -12,7 +12,7 @@ final public class PAUserSaveService: UserSaveService {
     
     // MARK: - UserSaveService
     
-    public func saveUser(user: User, completion: UserSaveCompletion) {
+    public func saveUser(user: MyUser, completion: UserSaveCompletion) {
         if let parseUser = user as? PFUser {
             parseUser.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                 completion(success: success, error: error)

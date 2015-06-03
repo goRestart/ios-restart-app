@@ -35,11 +35,11 @@ class ProductCell: UICollectionViewCell {
     
     // MARK: - Public / internal methods
     
-    func setupCellWithPartialProduct(product: PartialProduct, indexPath: NSIndexPath) {
+    func setupCellWithPartialProduct(product: Product, indexPath: NSIndexPath) {
         let tag = indexPath.hash
         
         // Name
-        nameLabel.text = product.name.lg_capitalizedWords()
+        nameLabel.text = product.name?.lg_capitalizedWords() ?? ""
         
         // Price
         priceLabel.text = product.formattedPrice()

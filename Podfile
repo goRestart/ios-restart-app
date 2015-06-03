@@ -27,7 +27,7 @@ target "LetGo" do
     
     # Tracking
 #    pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
-    pod "Amplitude-iOS",        ">= 2.4"
+    pod "Amplitude-iOS",        "2.4.0"
     
     # letgo Core
     pod 'LGCoreKit'

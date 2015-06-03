@@ -255,8 +255,8 @@ class ProductsViewModel: BaseViewModel {
         :param: index The index of the product.
         :returns: The product.
     */
-    func productAtIndex(index: Int) -> PartialProduct {
-        return products.objectAtIndex(index) as! PartialProduct
+    func productAtIndex(index: Int) -> Product {
+        return products.objectAtIndex(index) as! Product
     }
     
     /**
@@ -276,7 +276,7 @@ class ProductsViewModel: BaseViewModel {
         :returns: The cell size.
     */
     func sizeForCellAtIndex(index: Int) -> CGSize {
-        let product = products.objectAtIndex(index) as! PartialProduct
+        let product = productAtIndex(index)
         if let thumbnailSize = product.thumbnailSize {
             if thumbnailSize.height != 0 && thumbnailSize.width != 0 {
                 let thumbFactor = thumbnailSize.height / thumbnailSize.width

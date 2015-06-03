@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Foundation
-
 @objc public protocol BaseModel {
     var objectId: String! { get }
     var updatedAt: NSDate! { get }
