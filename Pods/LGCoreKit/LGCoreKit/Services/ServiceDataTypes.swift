@@ -12,6 +12,7 @@ import CoreLocation
 
 public typealias NoOutputDataCompletion = (success: Bool, error: NSError?) -> Void
 
+public typealias RetrieveProductCompletion = (product: Product?, error: NSError?) -> Void
 public typealias RetrieveProductsCompletion = (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void
 public typealias UserSaveCompletion = NoOutputDataCompletion
 public typealias PostalAddressRetrievalCompletion = (address: PostalAddress?, error: NSError?) -> Void
@@ -25,6 +26,19 @@ public struct RetrieveTokenParams {
         self.clientId = clientId
         self.clientSecret = clientSecret
     }
+}
+
+public struct RetrieveProductParams: Printable, Equatable {
+    public var objectId: String
+    public init(objectId: String) {
+        self.objectId = objectId
+    }
+    
+    public var description: String { return "objectId: \(objectId)" }
+}
+
+public func ==(lhs: RetrieveProductParams, rhs: RetrieveProductParams) -> Bool {
+    return lhs.objectId == rhs.objectId
 }
 
 public struct RetrieveProductsParams: Printable, Equatable {

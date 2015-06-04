@@ -9,32 +9,28 @@
 import CoreGraphics
 import UIKit
 
-public protocol Product {
-    var objectId: String? { get set }
-    var createdAt: NSDate? { get set }
-    var updatedAt: NSDate? { get set }
-    
+@objc public protocol Product: BaseModel {
     var name: String? { get set }
-    var description: String? { get set }
-    var price: Float? { get set }
+    var descr: String? { get set }
+    var price: NSNumber? { get set }
     var currencyCode: String? { get set }
     
     var location: LGLocationCoordinates2D? { get set }
-    var distance: Float? { get set }
-    var distanceType: DistanceType? { get set }
+    var distance: NSNumber? { get }
+    var distanceType: DistanceType { get }
     
-    var postalAddress: PostalAddress? { get set }
+    var postalAddress: PostalAddress { get set }
     
     var languageCode: String? { get set }
         
-    var categoryId: Int? { get set }
-    var status: ProductStatus? { get set }
+    var categoryId: NSNumber? { get set }
+    var status: ProductStatus { get set }
     
-    var thumbnailURL: NSURL? { get set }
-    var thumbnailSize: LGSize? { get set }
-    var imageURLs: [NSURL] { get set }
+    var thumbnailURL: NSURL? { get }
+    var thumbnailSize: LGSize? { get }
+    var imageURLs: [NSURL] { get }
     
-    var user: ProductUser? { get set }
+    var user: User? { get }
     
     func formattedPrice() -> String
     func formattedDistance() -> String

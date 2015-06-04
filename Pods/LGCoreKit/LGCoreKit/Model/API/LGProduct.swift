@@ -9,36 +9,41 @@
 @objc public class LGProduct: Product {
     
     // Product iVars
-    public var objectId: String?
-    public var createdAt: NSDate?
-    public var updatedAt: NSDate?
+    public var objectId: String!
+    public var createdAt: NSDate!
+    public var updatedAt: NSDate!
     
     public var name: String?
-    public var description: String?
-    public var price: Float?
+    public var descr: String?
+    public var price: NSNumber?
     public var currencyCode: String?
     
     public var location: LGLocationCoordinates2D?
-    public var distance: Float?
-    public var distanceType: DistanceType?
+    public var distance: NSNumber?
+    public var distanceType: DistanceType
     
-    public var postalAddress: PostalAddress?
+    public var postalAddress: PostalAddress
     
     public var languageCode: String?
     
-    public var categoryId: Int?
-    public var status: ProductStatus?
+    public var categoryId: NSNumber?
+    public var status: ProductStatus
     
     public var thumbnailURL: NSURL?
     public var thumbnailSize: LGSize?
     public var imageURLs: [NSURL]
     
-    public var user: ProductUser?
+    public var user: User?
+    
+    
     
     // MARK: - Lifecycle
     
     public init() {
         self.imageURLs = []
+        self.postalAddress = PostalAddress()
+        self.status = .Pending
+        self.distanceType = .Km
     }
     
     // MARK: - Product methods
@@ -57,7 +62,7 @@
     public func formattedDistance() -> String {
         if let actualDistance = distance {
             let actualDistanceType = distanceType ?? LGCoreKitConstants.defaultDistanceType
-            return actualDistanceType.formatDistance(actualDistance)
+            return actualDistanceType.formatDistance(actualDistance.floatValue)
         }
         else {
             return ""

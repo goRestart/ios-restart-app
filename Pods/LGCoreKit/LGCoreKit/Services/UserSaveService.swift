@@ -16,5 +16,5 @@ public protocol UserSaveService {
         :param: user The user.
         :param: completion The completion closure.
     */
-    func saveUser(user: MyUser, completion: UserSaveCompletion)
+    func saveUser(user: User, completion: UserSaveCompletion)
 }

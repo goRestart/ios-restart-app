@@ -97,7 +97,7 @@ public class LGProductParser {
         }
         
         product.name = json[LGProductParser.nameJSONKey].string
-        product.description = json[LGProductParser.descriptionJSONKey].string
+        product.descr = json[LGProductParser.descriptionJSONKey].string
         if let price = json[LGProductParser.priceJSONKey].string {
             product.price = (price as NSString).floatValue
         }

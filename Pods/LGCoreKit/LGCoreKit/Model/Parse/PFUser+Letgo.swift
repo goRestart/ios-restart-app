@@ -8,67 +8,14 @@
 
 import Parse
 
-extension PFUser: MyUser {
+extension PFUser: User {
     
     enum FieldKey: String {
-        case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", /*Radius = "radius",*/ PublicUsername = "username_public", ZipCode = "zipcode"
-        case ObjectId = "objectId", CreatedAt = "createdAt", UpdatedAt = "updatedAt"
+        case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", PublicUsername = "username_public", ZipCode = "zipcode"
     }
     
     // MARK: - User
-   
-    public var address: String? {
-        get {
-            return self[FieldKey.Address.rawValue] as? String
-        }
-        set {
-            self[FieldKey.Address.rawValue] = newValue
-        }
-    }
-    public var avatarURL: String? {
-        get {
-            if let avatar = self[FieldKey.Avatar.rawValue] as? PFFile {
-                return avatar.url
-            }
-            return nil
-        }
-    }
-        
-    public var city: String? {
-        get {
-            return self[FieldKey.City.rawValue] as? String
-        }
-        set {
-            self[FieldKey.City.rawValue] = newValue
-        }
-    }
-    public var countryCode: String? {
-        get {
-            return self[FieldKey.CountryCode.rawValue] as? String
-        }
-        set {
-            self[FieldKey.CountryCode.rawValue] = newValue
-        }
-    }
-    public var gpsCoordinates: CLLocationCoordinate2D {
-        get {
-            if let geoPoint = self[FieldKey.GPSCoordinates.rawValue] as? PFGeoPoint {
-                return CLLocationCoordinate2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
-            }
-            return kCLLocationCoordinate2DInvalid
-        }
-        set {
-            self[FieldKey.GPSCoordinates.rawValue] = PFGeoPoint(latitude: newValue.latitude, longitude: newValue.longitude)
-        }
-    }
-//    public var radius: NSNumber? {
-//        get {
-//            return self[FieldKey.Radius.rawValue] as? NSNumber
-//        }
-//        set {
-//            self[FieldKey.Radius.rawValue] = newValue
-//        }
-//    }
+    
     public var publicUsername :String? {
         get {
             return self[FieldKey.PublicUsername.rawValue] as? String
@@ -77,12 +24,47 @@ extension PFUser: MyUser {
             self[FieldKey.PublicUsername.rawValue] = newValue
         }
     }
-    public var zipCode: String? {
+    
+    public var avatarURL: NSURL? {
         get {
-            return self[FieldKey.ZipCode.rawValue] as? String
+            if let avatarFile = self[FieldKey.Avatar.rawValue] as? PFFile, let avatarURLStr = avatarFile.url {
+                return NSURL(string: avatarURLStr)
+            }
+            return nil
+        }
+    }
+    
+    public var gpsCoordinates: LGLocationCoordinates2D? {
+        get {
+            if let geoPoint = self[FieldKey.GPSCoordinates.rawValue] as? PFGeoPoint {
+                return LGLocationCoordinates2D(latitude: geoPoint.latitude, longitude: geoPoint.longitude)
+            }
+            return nil
         }
         set {
-            self[FieldKey.ZipCode.rawValue] = newValue
+            if let actualCoordinates = gpsCoordinates {
+                self[FieldKey.GPSCoordinates.rawValue] = PFGeoPoint(latitude: actualCoordinates.latitude, longitude: actualCoordinates.longitude)
+            }
+            else {
+                self[FieldKey.GPSCoordinates.rawValue] = nil
+            }
+        }
+    }
+    
+    public var postalAddress: PostalAddress {
+        get {
+            let address = PostalAddress()
+            address.address = self[FieldKey.Address.rawValue] as? String
+            address.city = self[FieldKey.City.rawValue] as? String
+            address.zipCode = self[FieldKey.ZipCode.rawValue] as? String
+            address.countryCode = self[FieldKey.CountryCode.rawValue] as? String
+            return address
+        }
+        set {
+            self[FieldKey.Address.rawValue] = newValue.address
+            self[FieldKey.City.rawValue] = newValue.city
+            self[FieldKey.ZipCode.rawValue] = newValue.zipCode
+            self[FieldKey.CountryCode.rawValue] = newValue.countryCode
         }
     }
 }

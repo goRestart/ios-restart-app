@@ -22,7 +22,7 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
     return lhs.width == rhs.width && lhs.height == rhs.height
 }
 
-public struct LGLocationCoordinates2D: Equatable {
+@objc public class LGLocationCoordinates2D: Equatable {
     public var latitude: Double
     public var longitude: Double
     
@@ -33,6 +33,8 @@ public struct LGLocationCoordinates2D: Equatable {
     
     public init?(coordinates: CLLocationCoordinate2D) {
         if !CLLocationCoordinate2DIsValid(coordinates) {
+            self.latitude = 0
+            self.longitude = 0
             return nil
         }
         else {
@@ -59,14 +61,14 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
         }
     }
     
-    public static func fromString(string: String) -> DistanceType? {
+    public static func fromString(string: String) -> DistanceType {
         switch string {
         case "ML", "Ml", "ml", "MI", "Mi", "mi":
             return .Mi
         case "KM", "Km", "km":
             return .Km
         default:
-            return nil
+            return .Km
         }
     }
     

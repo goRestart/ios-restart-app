@@ -29,8 +29,8 @@ public class LGProductUserParser {
 //        "city": "Barcelona",
 //        "country_code": "ES"
 //    }
-    public static func userWithJSON(json: JSON) -> LGProductUser {
-        let user = LGProductUser()
+    public static func userWithJSON(json: JSON) -> User {
+        let user = LGUser()
         user.objectId = json[LGProductUserParser.objectIdJSONKey].string
         user.publicUsername = json[LGProductUserParser.objectIdJSONKey].string
         if let avatarURLStr = json[LGProductUserParser.avatarURLJSONKey].string {

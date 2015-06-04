@@ -10,9 +10,15 @@ import Parse
 
 final public class PAUserSaveService: UserSaveService {
     
+    // MARK: - Lifecycle
+    
+    public init() {
+
+    }
+    
     // MARK: - UserSaveService
     
-    public func saveUser(user: MyUser, completion: UserSaveCompletion) {
+    public func saveUser(user: User, completion: UserSaveCompletion) {
         if let parseUser = user as? PFUser {
             parseUser.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                 completion(success: success, error: error)

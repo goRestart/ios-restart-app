@@ -62,7 +62,7 @@ final public class ProductsManager {
     /**
         Retrieves the products with the given parameters.
 
-        :param: params The parameters to
+        :param: params The query parameters to filter the products retrieval.
         :returns: The task that runs the operation. If cannot retrieve next page it returns a task with an internal error.
     */
     public func retrieveProductsWithParams(params: RetrieveProductsParams) -> BFTask {

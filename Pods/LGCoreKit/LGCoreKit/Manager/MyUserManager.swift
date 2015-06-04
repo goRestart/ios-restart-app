@@ -38,7 +38,7 @@ public class MyUserManager {
     
     // MARK: - Public methods
     
-    public func myUser() -> MyUser? {
+    public func myUser() -> User? {
         return PFUser.currentUser()
     }
     
@@ -84,25 +84,21 @@ public class MyUserManager {
     private func saveLocationAndRetrieveAddress(location: CLLocation) -> BFTask? {
         if let myUser = myUser() {
             // Save the received location and erase previous postal address data, if any
-            myUser.gpsCoordinates = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            myUser.address = ""
-            myUser.city = ""
-            myUser.countryCode = ""
-            myUser.zipCode = ""
+            myUser.gpsCoordinates = LGLocationCoordinates2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let address = PostalAddress()
+            myUser.postalAddress = address
             save()
             
             // Then, retrieve the address for the received location
             return retrieveAddressForLocation(location).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
                 if let postalAddress = task.result as? PostalAddress {
-                    myUser.address = postalAddress.address ?? ""
-                    myUser.city = postalAddress.city ?? ""
-                    let countryCode = postalAddress.countryCode
-                    myUser.countryCode = countryCode ?? ""
-                    myUser.zipCode = postalAddress.zipCode ?? ""
+                    myUser.postalAddress = postalAddress
                     
                     // If we know the country code, then notify the CurrencyHelper
-                    if countryCode != nil && !(countryCode!.isEmpty) {
-                        CurrencyHelper.sharedInstance.setCountryCode(countryCode!)
+                    if let countryCode = postalAddress.countryCode {
+                        if !countryCode.isEmpty {
+                            CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                        }
                     }
                     
                     // Save the user again
