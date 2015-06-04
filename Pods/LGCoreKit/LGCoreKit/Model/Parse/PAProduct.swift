@@ -40,7 +40,7 @@ import Parse
             return self[FieldKey.Name.rawValue] as? String
         }
         set {
-            self[FieldKey.Name.rawValue] = newValue
+            self[FieldKey.Name.rawValue] = newValue ?? ""
         }
     }
     public var descr: String? {
@@ -48,7 +48,7 @@ import Parse
             return self[FieldKey.Description.rawValue] as? String
         }
         set {
-            self[FieldKey.Description.rawValue] = newValue
+            self[FieldKey.Description.rawValue] = newValue ?? ""
         }
     }
     public var price: NSNumber? {
@@ -56,7 +56,7 @@ import Parse
             return self[FieldKey.Address.rawValue] as? NSNumber
         }
         set {
-            self[FieldKey.Price.rawValue] = newValue
+            self[FieldKey.Price.rawValue] = newValue ?? ""
         }
     }
     public var currencyCode: String? {
@@ -64,7 +64,7 @@ import Parse
             return self[FieldKey.CountryCode.rawValue] as? String
         }
         set {
-            self[FieldKey.CountryCode.rawValue] = newValue
+            self[FieldKey.CountryCode.rawValue] = newValue ?? ""
         }
     }
     
@@ -122,10 +122,10 @@ import Parse
             return address
         }
         set {
-            self[FieldKey.Address.rawValue] = newValue.address
-            self[FieldKey.City.rawValue] = newValue.city
-            self[FieldKey.ZipCode.rawValue] = newValue.zipCode
-            self[FieldKey.CountryCode.rawValue] = newValue.countryCode
+            self[FieldKey.Address.rawValue] = newValue.address ?? ""
+            self[FieldKey.City.rawValue] = newValue.city ?? ""
+            self[FieldKey.ZipCode.rawValue] = newValue.zipCode ?? ""
+            self[FieldKey.CountryCode.rawValue] = newValue.countryCode ?? ""
         }
     }
     
@@ -134,7 +134,7 @@ import Parse
             return self[FieldKey.LanguageCode.rawValue] as? String
         }
         set {
-            self[FieldKey.LanguageCode.rawValue] = newValue
+            self[FieldKey.LanguageCode.rawValue] = newValue ?? ""
         }
     }
     
@@ -143,7 +143,7 @@ import Parse
             return self[FieldKey.CategoryId.rawValue] as? NSNumber
         }
         set {
-            self[FieldKey.CategoryId.rawValue] = newValue
+            self[FieldKey.CategoryId.rawValue] = newValue ?? 8  // other
         }
     }
     
