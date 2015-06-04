@@ -286,11 +286,11 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func productButtonPressed(sender: AnyObject) {
-        if let product = productObject {
-            let vc = ShowProductViewController()
-            vc.productObject = product
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+//        if let product = productObject {
+//            let vc = ShowProductViewController()
+//            vc.productObject = product
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
     }
     
     // MARK: > Tracking

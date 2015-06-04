@@ -221,9 +221,8 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func pushProductViewController(product: PFObject) {
-        let vc = ShowProductViewController()
-        vc.productObject = product
+    func pushProductViewController(product: Product) {
+        let vc = ShowProductViewController(product: product)
         vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -380,25 +379,10 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     // MARK: - UICollectionViewDelegate
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.view.userInteractionEnabled = false
-        self.showLoadingMessageAlert()
         
-        // TODO: Refactor product id retrieval
-        if let productObjectId = viewModel.productObjectIdForProductAtIndex(indexPath.row) {
-            RESTManager.sharedInstance.retrieveParseObjectWithId(productObjectId, className: "Products") { (success, productObject) -> Void in
-                self.view.userInteractionEnabled = true
-                self.dismissLoadingMessageAlert(completion: { [weak self] (_) -> Void in
-                    if let strongSelf = self {
-                        if success && productObject != nil {
-                            strongSelf.pushProductViewController(productObject!)
-                        }
-                        else {
-                            strongSelf.showAutoFadingOutMessageAlert(translate("unable_show_product"))
-                        }
-                    }
-                })
-            }
-        }
+        // TODO: Refactor, shouldn't be handled in here
+        let product = viewModel.productAtIndex(indexPath.row)
+        pushProductViewController(product)
     }
     
     // MARK: - UISearchBarDelegate

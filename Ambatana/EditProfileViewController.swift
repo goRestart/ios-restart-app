@@ -234,11 +234,11 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if let selectedProduct = self.productAtIndexPath(indexPath) {
-            let vc = ShowProductViewController()
-            vc.productObject = selectedProduct
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+//        if let selectedProduct = self.productAtIndexPath(indexPath) {
+//            let vc = ShowProductViewController()
+//            vc.productObject = selectedProduct
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
     }
     
     // MARK: - UIScrollViewDelegate

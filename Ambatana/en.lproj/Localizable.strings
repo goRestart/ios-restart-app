@@ -55,7 +55,6 @@
 "sell_something" = "Sell your Stuff";
 "categories" = "Categories";
 "help" = "Help";
-"unable_show_product" = "Hey there! You don't have connection! Come on, connect yourself!";
 "unable_get_products" = "Hey there! You don't have connection! Come on, connect yourself!";
 "try_again" = "Try again";
 "order_by" = "Order products by";

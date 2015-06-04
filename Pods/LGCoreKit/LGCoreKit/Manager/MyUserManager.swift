@@ -85,8 +85,7 @@ public class MyUserManager {
         if let myUser = myUser() {
             // Save the received location and erase previous postal address data, if any
             myUser.gpsCoordinates = LGLocationCoordinates2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            let address = PostalAddress()
-            myUser.postalAddress = address
+            var address = PostalAddress()
             save()
             
             // Then, retrieve the address for the received location

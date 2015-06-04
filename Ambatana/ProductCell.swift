@@ -61,14 +61,12 @@ class ProductCell: UICollectionViewCell {
         distanceLabel.text = product.formattedDistance()
         
         // Status
-        if let status = product.status {
-            if (status == .Sold) {
-                statusImageView.image = UIImage(named: "label_sold")
-            }
-            else if let createdAt = product.createdAt {
-                if NSDate().timeIntervalSinceDate(createdAt) < 60*60*24 {
-                    statusImageView.image = UIImage(named: "label_new")
-                }
+        if (product.status == .Sold) {
+            statusImageView.image = UIImage(named: "label_sold")
+        }
+        else if let createdAt = product.createdAt {
+            if NSDate().timeIntervalSinceDate(createdAt) < 60*60*24 {
+                statusImageView.image = UIImage(named: "label_new")
             }
         }
     }

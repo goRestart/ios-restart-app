@@ -90,7 +90,7 @@ class LoginByEmailViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 // If the user had already a country code, then set it in the currency helper
-                if let user = MyUserManager.sharedInstance.myUser(), let countryCode = user.countryCode {
+                if let user = MyUserManager.sharedInstance.myUser(), let countryCode = user.postalAddress.countryCode {
                     CurrencyHelper.sharedInstance.setCountryCode(countryCode)
                 }
                 

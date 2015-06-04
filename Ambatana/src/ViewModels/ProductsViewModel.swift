@@ -96,7 +96,7 @@ class ProductsViewModel: BaseViewModel {
         }
         // Else if possible try to use last user saved location
         else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
-            coords = LGLocationCoordinates2D(coordinates: userCoordinates)
+            coords = userCoordinates
         }
         else {
             coords = nil

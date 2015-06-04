@@ -54,10 +54,10 @@ extension PFUser: User {
     public var postalAddress: PostalAddress {
         get {
             let address = PostalAddress()
-            address.address = self[FieldKey.Address.rawValue] as? String
-            address.city = self[FieldKey.City.rawValue] as? String
-            address.zipCode = self[FieldKey.ZipCode.rawValue] as? String
-            address.countryCode = self[FieldKey.CountryCode.rawValue] as? String
+            address.address = self[FieldKey.Address.rawValue] as? String ?? ""
+            address.city = self[FieldKey.City.rawValue] as? String ?? ""
+            address.zipCode = self[FieldKey.ZipCode.rawValue] as? String ?? ""
+            address.countryCode = self[FieldKey.CountryCode.rawValue] as? String ?? ""
             return address
         }
         set {

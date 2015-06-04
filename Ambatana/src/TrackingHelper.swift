@@ -103,7 +103,7 @@ class TrackingHelper {
     
     static func appDidFinishLaunching() {
         // Amplitude
-        Amplitude.initializeApiKey(apiKey: EnvironmentProxy.sharedInstance.amplitudeAPIKey)
+        Amplitude.initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
         
         // AppsFlyer
         AppsFlyerTracker.sharedTracker().appsFlyerDevKey = EnvironmentProxy.sharedInstance.appsFlyerAPIKey
@@ -193,6 +193,14 @@ class TrackingHelper {
             return TrackingHelper.isDummyUserName(username)
         }
         return nil
+    }
+    
+    static func isDummyUser(user: User?) -> Bool? {
+        // FIXME:
+//        if let actualUser = user, let username = actualUser.username {
+//            return TrackingHelper.isDummyUserName(username)
+//        }
+        return false
     }
     
     private static func isDummyUserName(username: String) -> Bool {
