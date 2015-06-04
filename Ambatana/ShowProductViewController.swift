@@ -239,9 +239,9 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
 //        // safety checks
 //        if product.user == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
 //        
-//        // loading interface...
-//        enableAskQuestionLoadingInterface()
-//        
+        // loading interface...
+        enableAskQuestionLoadingInterface()
+
 //        // check if we have some current conversation with the user
 //        ChatManager.sharedInstance.retrieveMyConversationWithUser(product.user!, aboutProduct: product) { (success, conversation) -> Void in
 //            if success { // we have a conversation.

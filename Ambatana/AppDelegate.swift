@@ -105,11 +105,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupLibraries(launchOptions: [NSObject: AnyObject]?) {
 
-        // Parse
-        Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId,
-            clientKey: EnvironmentProxy.sharedInstance.parseClientId)
+        // LGCoreKit
+        LGCoreKit.initialize(launchOptions)
         
-        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
+        // Parse
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         
         // Crashlytics
@@ -117,8 +116,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #else
             Fabric.with([Crashlytics()])
 #endif
-        // LGCoreKit
-        LGCoreKit.initialize()
         
         // Tracking
         TrackingHelper.appDidFinishLaunching()

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import UIKit
 import SDWebImage
@@ -46,9 +47,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     var userObject: PFUser?
     var selectedTab: ProfileTab = .ProductImSelling
     
-    private var sellProducts: [PFObject] = []
-    private var soldProducts: [PFObject] = []
-    private var favProducts: [PFObject] = []
+    private var sellProducts: [Product] = []
+    private var soldProducts: [Product] = []
+    private var favProducts: [Product] = []
     
     private var loadingSellProducts: Bool = false
     private var loadingSoldProducts: Bool = false
@@ -226,19 +227,17 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         cell.tag = indexPath.hash
         
         if let product = self.productAtIndexPath(indexPath) {
-            //cell.setupCellWithProduct(product, indexPath: indexPath)
-            cell.setupCellWithParseProductObject(product, indexPath: indexPath)
+            cell.setupCellWithProduct(product, indexPath: indexPath)
         }
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-//        if let selectedProduct = self.productAtIndexPath(indexPath) {
-//            let vc = ShowProductViewController()
-//            vc.productObject = selectedProduct
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
+        if let product = self.productAtIndexPath(indexPath) {
+            let vc = ShowProductViewController(product: product)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     // MARK: - UIScrollViewDelegate
@@ -349,9 +348,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         }
     }
     
-    func retrieveProductsForUserId(userId: String, statuses: [LetGoProductStatus], completion: (products: [PFObject]!, error: NSError!) -> (Void)) {
+    func retrieveProductsForUserId(userId: String, statuses: [LetGoProductStatus], completion: (products: [PAProduct]!, error: NSError!) -> (Void)) {
         let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
-        let query = PFQuery(className: "Products")
+        let query = PFQuery(className: PAProduct.parseClassName())
         query.whereKey("user", equalTo: user)
         // statuses
         var statusesIncluded: [Int] = []
@@ -359,25 +358,27 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         
         //query.whereKey("status", equalTo: status.rawValue)
         query.whereKey("status", containedIn: statusesIncluded)
+        query.includeKey("user")
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
-            let products = objects as! [PFObject]!
+            let products = objects as? [PAProduct]
             completion(products: products, error: error)
         })
     }
     
-    func retrieveFavouriteProductsForUserId(userId: String?, completion: (favProducts: [PFObject]!, error: NSError!) -> (Void)) {
+    func retrieveFavouriteProductsForUserId(userId: String?, completion: (favProducts: [PAProduct]!, error: NSError!) -> (Void)) {
         let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
         let query = PFQuery(className: "UserFavoriteProducts")
         query.whereKey("user", equalTo: user)
-        query.orderByDescending("createdAt")
         query.includeKey("product")
+        query.includeKey("user")
+        query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
             
-            var productList: [PFObject] = []
-            if let favorites = objects as? [PFObject] {
+            var productList: [PAProduct] = []
+            if let favorites = objects as? [PAProduct] {
                 for favorite in favorites {
-                    if let product = favorite["product"] as? PFObject {
+                    if let product = favorite["product"] as? PAProduct {
                         productList.append(product)
                     }
                 }
@@ -437,9 +438,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     // MARK: Helper
     
-    func productAtIndexPath(indexPath: NSIndexPath) -> PFObject? {
+    func productAtIndexPath(indexPath: NSIndexPath) -> Product? {
         let row = indexPath.row
-        var product: PFObject?
+        var product: Product?
         switch selectedTab {
         case .ProductImSelling:
             product = sellProducts[row]
@@ -448,6 +449,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         case .ProductFavourite:
             product = favProducts[row]
         }
+        
         return product
     }
 }

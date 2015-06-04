@@ -20,6 +20,7 @@ public class LGProductUserParser {
     private static let countryCodeJSONKey = "country_code"
     private static let cityJSONKey = "city"
     private static let zipCodeJSONKey = "zipcode"
+    private static let isDummyJSONKey = "is_richy"
     
 //    {
 //        "object_id": "WHmGjAxX8L",
@@ -27,7 +28,8 @@ public class LGProductUserParser {
 //        "avatar": "http://files.parsetfss.com/abbc9384-9790-4bbb-9db2-1c3522889e96/tfss-bcc7eccf-7b18-4ed7-9b87-7c6d3925e39b-WHmGjAxX8L.jpg",
 //        "zipcode": "08002",
 //        "city": "Barcelona",
-//        "country_code": "ES"
+//        "country_code": "ES",
+//        "is_richy": true
 //    }
     public static func userWithJSON(json: JSON) -> User {
         let user = LGUser()
@@ -42,6 +44,13 @@ public class LGProductUserParser {
         postalAdress.city = json[LGProductUserParser.cityJSONKey].string
         postalAdress.zipCode = json[LGProductUserParser.zipCodeJSONKey].string
         user.postalAddress = postalAdress
+        
+        if let isDummy = json[LGProductUserParser.isDummyJSONKey].bool {
+            user.isDummy = isDummy
+        }
+        else {
+            user.isDummy = false
+        }
         
         return user
     }

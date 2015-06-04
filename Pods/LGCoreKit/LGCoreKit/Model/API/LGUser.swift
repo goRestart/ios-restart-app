@@ -22,10 +22,12 @@
     
     public var gpsCoordinates: LGLocationCoordinates2D?
     public var postalAddress: PostalAddress
+    public var isDummy: NSNumber
     
     // Lifecycle
     
     public init() {
         self.postalAddress = PostalAddress()
+        self.isDummy = false
     }
 }

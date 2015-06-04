@@ -6,8 +6,20 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+import Parse
+
 public class LGCoreKit {
-    public static func initialize() {
+    public static func initialize(launchOptions: [NSObject: AnyObject]?) {
+        
+        // Parse
+        // > Register subclasses
+        PAProduct.registerSubclass()
+        
+        // > Setup
+        Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId, clientKey: EnvironmentProxy.sharedInstance.parseClientId)
+        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
+        
+        // Shared instances
         MyUserManager.sharedInstance
     }
 }

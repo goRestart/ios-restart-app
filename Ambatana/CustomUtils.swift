@@ -117,32 +117,6 @@ func statusBarHeight() -> CGFloat {
 }
 
 /**
- * Returns a string containing the distance of the current user to a given point from a PFGeoPoint
- */
-func distanceStringToGeoPoint(geoPoint: PFGeoPoint) -> String {
-    if let currentUserGeoPoint = PFUser.currentUser()?["gpscoords"] as? PFGeoPoint {
-        let distanceType: DistanceType
-        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
-            distanceType = usesMetric ? .Km : .Mi
-        }
-        else {
-            distanceType = .Km
-        }
-        
-        let distance: Float
-        switch distanceType {
-        case .Mi:
-            distance = Float(geoPoint.distanceInMilesTo(currentUserGeoPoint))
-        case .Km:
-            distance = Float(geoPoint.distanceInKilometersTo(currentUserGeoPoint))
-        }
-        return distanceType.formatDistance(distance)
-    }
-    
-    return translate("unknown_distance")
-}
-
-/**
  * Returns a valid dispatch_time of secs seconds.
  */
 func dispatchTimeForSeconds(secs: Double) -> dispatch_time_t {

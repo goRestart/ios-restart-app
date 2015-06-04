@@ -369,7 +369,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         cell.tag = indexPath.hash
         
         // TODO: VC should not handle data -> ask to VM about title etc etc...
-        cell.setupCellWithPartialProduct(product, indexPath: indexPath)
+        cell.setupCellWithProduct(product, indexPath: indexPath)
         
         viewModel.setCurrentItemIndex(indexPath.row)
         

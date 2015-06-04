@@ -16,4 +16,6 @@
     
     var gpsCoordinates: LGLocationCoordinates2D? { get set }
     var postalAddress: PostalAddress { get set }
+    
+    var isDummy: NSNumber { get }
 }

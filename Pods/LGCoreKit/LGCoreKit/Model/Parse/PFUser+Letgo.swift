@@ -68,4 +68,13 @@ extension PFUser: User {
 
         }
     }
+    
+    public var isDummy: NSNumber {
+        get {
+            if let actualUsername = username {
+                startsWith(actualUsername, "usercontent")
+            }
+            return false
+        }
+    }
 }

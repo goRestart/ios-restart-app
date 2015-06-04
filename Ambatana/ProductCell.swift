@@ -35,7 +35,7 @@ class ProductCell: UICollectionViewCell {
     
     // MARK: - Public / internal methods
     
-    func setupCellWithPartialProduct(product: Product, indexPath: NSIndexPath) {
+    func setupCellWithProduct(product: Product, indexPath: NSIndexPath) {
         let tag = indexPath.hash
         
         // Name
@@ -70,79 +70,7 @@ class ProductCell: UICollectionViewCell {
             }
         }
     }
-    
-    // Configures the cell with the given product for the given index path
-    func setupCellWithParseProductObject(product: PFObject, indexPath: NSIndexPath) {
-        let tag = indexPath.hash
         
-        // Name
-        let name = product["name"] as? String ?? ""
-        nameLabel.text = name.lg_capitalizedWords()
-        
-        // Price
-        if let price = product["price"] as? Double {
-            let currencyCode = product["currency"] as? String ?? Constants.defaultCurrencyCode
-            let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
-            priceLabel.text = formattedPrice
-        }
-        
-        // Thumb
-        if let imageFile = product[kLetGoProductFirstImageKey] as? PFFile {
-            var shouldUseThumbs: Bool
-            if let isProcessed = product["processed"] as? Bool {
-                shouldUseThumbs = isProcessed
-            }
-            else {
-                shouldUseThumbs = false
-            }
-            
-            // Try downloading thumbnail
-            if shouldUseThumbs {
-                let thumbURL = ImageHelper.thumbnailURLForProduct(product)
-                thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
-                    [weak self] (image, error, cacheType, url) -> Void in
-                   
-                    if error == nil {
-                        if cacheType == .None {
-                            let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-                            alphaAnim.fromValue = 0
-                            alphaAnim.toValue = 1
-                            self?.thumbnailImageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
-                        }
-                    }
-                    // If there's an error then force the download from Parse
-                    else {
-                        self?.loadImageFromParse(imageFile, tag: tag)
-                    }
-                })
-            }
-            
-            // Download from Parse
-            if !shouldUseThumbs {
-                loadImageFromParse(imageFile, tag: tag)
-            }
-        }
-        
-        // Distance
-        if let productGeoPoint = product["gpscoords"] as? PFGeoPoint {
-            distanceLabel.text = distanceStringToGeoPoint(productGeoPoint)
-            distanceLabel.hidden = false
-        }
-
-        // Status
-        if let statusValue = product["status"] as? Int {
-            if let status = LetGoProductStatus(rawValue: statusValue) {
-                if (status == .Sold) {
-                    statusImageView.image = UIImage(named: "label_sold")
-                }
-                else if product.createdAt != nil &&
-                    NSDate().timeIntervalSinceDate(product.createdAt!) < 60*60*24 {
-                    statusImageView.image = UIImage(named: "label_new")
-                }
-            }
-        }
-    }
-    
     // MARK: - Private methods
     
     // Sets up the UI
