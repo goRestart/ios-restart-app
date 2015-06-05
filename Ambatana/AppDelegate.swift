@@ -110,7 +110,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Parse
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
-        
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
+
         // Crashlytics
 #if DEBUG
 #else
