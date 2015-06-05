@@ -17,7 +17,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // iVars
-    var window: UIWindow?
+    var window: UIWindow!
 
     // MARK: - UIApplicationDelegate
     
@@ -43,6 +43,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
             PushManager.sharedInstance.application(application, didFinishLaunchingWithRemoteNotification: remoteNotification)
         }
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window.rootViewController = TabBarController()
+        window.makeKeyAndVisible()
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }

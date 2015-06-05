@@ -38,7 +38,7 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             }
         }
         
-        var viewController: UIViewController {
+        var viewController: UIViewController? {
             switch self {
             case Home:
                 return ProductsViewController()
@@ -49,9 +49,11 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             case Chats:
                 return ChatListViewController()
             case Profile:
-                let user = MyUserManager.sharedInstance.myUser()!
-                return EditProfileViewController(user: user)
+                if let user = MyUserManager.sharedInstance.myUser() {
+                    return EditProfileViewController(user: user)
+                }
             }
+            return nil
         }
         
         static var all:[Tab]{
@@ -250,8 +252,9 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     
     private func controllerForTab(tab: Tab) -> UIViewController {
         let vc = tab.viewController
-        let navCtl = UINavigationController(rootViewController: vc)
+        let navCtl = UINavigationController(rootViewController: vc ?? UIViewController())
         navCtl.delegate = self
+       
         
         let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
 
