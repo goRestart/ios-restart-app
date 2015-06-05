@@ -35,7 +35,7 @@
     
     public var user: User?
     
-    
+    public var processed: NSNumber?
     
     // MARK: - Lifecycle
     

@@ -14,7 +14,7 @@ import Parse
     // Constants & Enums
     
     internal enum FieldKey: String {
-        case Address = "address", Category = "category", CategoryId = "category_id", City = "city", CountryCode = "country_code", Currency = "currency", Description = "description", GPSCoordinates = "gpscoords", Image0 =  "image_0", Image1 = "image_1", Image2 = "image_2", Image3 = "image_3", Image4 = "image_4", Image5 = "image_5", LanguageCode = "language_code", Name = "name", Price = "price", IsThumbnailProcessed = "processed", Status = "status", ProductType = "type", User = "user", UserId = "user_id", ZipCode = "zip_code"
+        case Address = "address", Category = "category", CategoryId = "category_id", City = "city", CountryCode = "country_code", CurrencyCode = "currency", Description = "description", GPSCoordinates = "gpscoords", Image0 =  "image_0", Image1 = "image_1", Image2 = "image_2", Image3 = "image_3", Image4 = "image_4", Image5 = "image_5", LanguageCode = "language_code", Name = "name", Price = "price", Processed = "processed", Status = "status", ProductType = "type", User = "user", UserId = "user_id", ZipCode = "zip_code"
         case ObjectId = "objectId"
     }
     
@@ -42,7 +42,7 @@ import Parse
             return self[FieldKey.Name.rawValue] as? String
         }
         set {
-            self[FieldKey.Name.rawValue] = newValue ?? ""
+            self[FieldKey.Name.rawValue] = newValue ?? NSNull()
         }
     }
     public var descr: String? {
@@ -50,23 +50,23 @@ import Parse
             return self[FieldKey.Description.rawValue] as? String
         }
         set {
-            self[FieldKey.Description.rawValue] = newValue ?? ""
+            self[FieldKey.Description.rawValue] = newValue ?? NSNull()
         }
     }
     public var price: NSNumber? {
         get {
-            return self[FieldKey.Address.rawValue] as? NSNumber
+            return self[FieldKey.Price.rawValue] as? NSNumber
         }
         set {
-            self[FieldKey.Price.rawValue] = newValue ?? ""
+            self[FieldKey.Price.rawValue] = newValue ?? NSNull()
         }
     }
     public var currencyCode: String? {
         get {
-            return self[FieldKey.CountryCode.rawValue] as? String
+            return self[FieldKey.CurrencyCode.rawValue] as? String
         }
         set {
-            self[FieldKey.CountryCode.rawValue] = newValue ?? ""
+            self[FieldKey.CurrencyCode.rawValue] = newValue ?? NSNull()
         }
     }
     
@@ -82,7 +82,7 @@ import Parse
                 self[FieldKey.GPSCoordinates.rawValue] = PFGeoPoint(latitude: actualNewValue.latitude, longitude: actualNewValue.longitude)
             }
             else {
-                self[FieldKey.GPSCoordinates.rawValue] = nil
+                self[FieldKey.GPSCoordinates.rawValue] = NSNull()
             }
         }
     }
@@ -124,10 +124,10 @@ import Parse
             return address
         }
         set {
-            self[FieldKey.Address.rawValue] = newValue.address ?? ""
-            self[FieldKey.City.rawValue] = newValue.city ?? ""
-            self[FieldKey.ZipCode.rawValue] = newValue.zipCode ?? ""
-            self[FieldKey.CountryCode.rawValue] = newValue.countryCode ?? ""
+            self[FieldKey.Address.rawValue] = newValue.address ?? NSNull()
+            self[FieldKey.City.rawValue] = newValue.city ?? NSNull()
+            self[FieldKey.ZipCode.rawValue] = newValue.zipCode ?? NSNull()
+            self[FieldKey.CountryCode.rawValue] = newValue.countryCode ?? NSNull()
         }
     }
     
@@ -136,7 +136,7 @@ import Parse
             return self[FieldKey.LanguageCode.rawValue] as? String
         }
         set {
-            self[FieldKey.LanguageCode.rawValue] = newValue ?? ""
+            self[FieldKey.LanguageCode.rawValue] = newValue ?? NSNull()
         }
     }
     
@@ -145,7 +145,7 @@ import Parse
             return self[FieldKey.CategoryId.rawValue] as? NSNumber
         }
         set {
-            self[FieldKey.CategoryId.rawValue] = newValue ?? 8  // other
+            self[FieldKey.CategoryId.rawValue] = newValue ?? NSNull()
         }
     }
     
@@ -157,7 +157,7 @@ import Parse
             return ProductStatus.Pending
         }
         set {
-            self[FieldKey.Address.rawValue] = newValue.rawValue
+            self[FieldKey.Status.rawValue] = newValue.rawValue
         }
     }
     
@@ -191,6 +191,15 @@ import Parse
     public var user: User? {
         get {
             return self[FieldKey.User.rawValue] as? PFUser
+        }
+    }
+    
+    public var processed: NSNumber? {
+        get {
+            return self[FieldKey.Processed.rawValue] as? NSNumber
+        }
+        set {
+            self[FieldKey.Processed.rawValue] = newValue ?? NSNull()
         }
     }
         

@@ -46,7 +46,7 @@ extension PFUser: User {
                 self[FieldKey.GPSCoordinates.rawValue] = PFGeoPoint(latitude: actualCoordinates.latitude, longitude: actualCoordinates.longitude)
             }
             else {
-                self[FieldKey.GPSCoordinates.rawValue] = nil
+                self[FieldKey.GPSCoordinates.rawValue] = NSNull()
             }
         }
     }
@@ -61,10 +61,10 @@ extension PFUser: User {
             return address
         }
         set {
-            self[FieldKey.Address.rawValue] = newValue.address ?? ""
-            self[FieldKey.City.rawValue] = newValue.city ?? ""
-            self[FieldKey.ZipCode.rawValue] = newValue.zipCode ?? ""
-            self[FieldKey.CountryCode.rawValue] = newValue.countryCode ?? ""
+            self[FieldKey.Address.rawValue] = newValue.address ?? NSNull()
+            self[FieldKey.City.rawValue] = newValue.city ?? NSNull()
+            self[FieldKey.ZipCode.rawValue] = newValue.zipCode ?? NSNull()
+            self[FieldKey.CountryCode.rawValue] = newValue.countryCode ?? NSNull()
 
         }
     }

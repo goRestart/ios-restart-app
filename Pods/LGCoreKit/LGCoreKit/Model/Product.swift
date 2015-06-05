@@ -32,6 +32,8 @@ import UIKit
     
     var user: User? { get }
     
+    var processed: NSNumber? { get set }
+    
     func formattedPrice() -> String
     func formattedDistance() -> String
 }
