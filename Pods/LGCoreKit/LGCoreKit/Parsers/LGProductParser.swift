@@ -36,7 +36,7 @@ public class LGProductParser {
     private static let categoryIdJSONKey = "category_id"
     private static let statusJSONKey = "status"
     
-    private static let thumbnailPathJSONKey = "img_url_thumb"
+    private static let thumbnailURLJSONKey = "full_img_url_thumb"
     private static let thumbnailSizeJSONKey = "image_dimensions"
     private static let widthJSONKey = "width"
     private static let heightJSONKey = "height"
@@ -54,7 +54,7 @@ public class LGProductParser {
 //        "currency": "USD",
 //        "created_at": "2015-03-26 12:24:12",
 //        "status": "1",
-//        "img_url_thumb": "/a2/cd/50/fb/c3afb87a292e1a75a2cc448cae9e1539_thumb.jpg",
+//        "full_img_url_thumb": "http://devel.cdn.letgo.com/images/6d/54/e5/08/44420ee9aa55bc1007caab9979337634_thumb.jpg",
 //        "latitude": 44.4466759,
 //        "longitude": 20.6881891,
 //        "distance_type": "KM",
@@ -130,8 +130,8 @@ public class LGProductParser {
             let status = ProductStatus(rawValue: statusRaw) {
                 product.status = status
         }
-        if let thumbnailPath = json[LGProductParser.thumbnailPathJSONKey].string {
-            product.thumbnailURL = NSURL(string: EnvironmentProxy.sharedInstance.imagesBaseURL + thumbnailPath)
+        if let thumbnailURLStr = json[LGProductParser.thumbnailURLJSONKey].string {
+            product.thumbnailURL = NSURL(string: thumbnailURLStr)
         }
         if let width = json[LGProductParser.thumbnailSizeJSONKey][LGProductParser.widthJSONKey].int,
             let height = json[LGProductParser.thumbnailSizeJSONKey][LGProductParser.heightJSONKey].int {
