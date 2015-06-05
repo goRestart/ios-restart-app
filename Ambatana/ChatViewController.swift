@@ -51,7 +51,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var letgoConversation: LetGoConversation?
     var messages: [PFObject]?
     var otherUser: PFUser?
-    var productObject: PFObject?
+    var product: Product?
     var otherUserImage: UIImage?
     var isSendingMessage: Bool = false {
         didSet {
@@ -128,15 +128,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.otherUser?.fetchIfNeededInBackgroundWithBlock(nil)
             
             // load product information
-            if let productObject = conversationObject["product"] as? PFObject {
-                self.productObject = productObject
-                productObject.fetchIfNeededInBackgroundWithBlock({ (retrievedObject, error) -> Void in
-                    if retrievedObject != nil && error == nil { // OK, we do have a valid, filled object.
-                        self.loadInformationFromProductObject(retrievedObject)
-                    } else { // try our best to load the information from our currently stored object
-                        self.loadInformationFromProductObject(productObject)
-                    }
-                })
+            if let actualProduct = conversationObject["product"] as? PAProduct {
+                product = actualProduct
+                loadInformationFromProductObject(actualProduct)
             } else { // We don't have information about the product itself... This shouldn't happen.
                 self.showAutoFadingOutMessageAlert(translate("unable_show_conversation"), completionBlock: { () -> Void in
                     self.popBackViewController()
@@ -196,41 +190,32 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // Loads the fields referred to the product object in view's header.
-    func loadInformationFromProductObject(retrievedObject: PFObject!) {
+    func loadInformationFromProductObject(product: Product) {
         // product image
-        if let product = retrievedObject {
-
-            // try to retrieve image from thumbnail first.
-            if let thumbnailURL = ImageHelper.thumbnailURLForProduct(product) {
-                self.productImageView.sd_setImageWithURL(thumbnailURL)
-            }
+        if let thumbURL = product.thumbnailURL {
+            productImageView.sd_setImageWithURL(thumbURL)
         }
         
-        // product name
-        self.productNameLabel.text = retrievedObject?["name"] as? String ?? translate("product")
+        // product name & navbar title
+        self.productNameLabel.text = product.name ?? ""
         self.setLetGoNavigationBarStyle(title: self.productNameLabel.text)
                 
         // price
-        if let price = retrievedObject?["price"] as? Double {
-            let currencyCode = retrievedObject?["currency"] as? String ?? Constants.defaultCurrencyCode
-            self.priceLabel.text = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
-        } else { self.priceLabel.hidden = true }
+        self.priceLabel.text = product.formattedPrice()
         
-        // product owner information.
-        if let storedOwner = retrievedObject?["user"] as? PFObject {
-            storedOwner.fetchIfNeededInBackgroundWithBlock({ [weak self] (retrievedOwner, error) -> Void in
-                if let strongSelf = self {
-                    if error == nil && retrievedOwner != nil {
-                        // "by you" or "by other-user-name"
-                        if retrievedOwner!.objectId == PFUser.currentUser()?.objectId { // hello me!
-                            translate("by") + " " + translate("you")
-                        } else { // some other guy...
-                            strongSelf.usernameLabel.text = translate("by") + " " + (retrievedOwner!["username_public"] as? String ?? translate("user"))
-                        }
-                    } else { strongSelf.usernameLabel.text = translate("user") }
-                }
-            })
-        } else { self.usernameLabel.text = translate("user") }
+        // product owner
+        if let user = product.user, let myUser = MyUserManager.sharedInstance.myUser() {
+            
+            if user.objectId == myUser.objectId {
+                translate("by") + " " + translate("you")
+            }
+            else {
+                usernameLabel.text = translate("by") + " " + (user.publicUsername ?? translate("user"))
+            }
+        }
+        else {
+            self.usernameLabel.text = ""
+        }
     }
     
     // MARK: - Loading interface
@@ -253,13 +238,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // safety checks
         if isSendingMessage { return }
         if count(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 { return }
-        if self.otherUser == nil || self.letgoConversation?.conversationObject == nil || self.productObject == nil { showAutoFadingOutMessageAlert(translate("unable_send_message")); return }
+        if self.otherUser == nil || self.letgoConversation?.conversationObject == nil || self.product == nil { showAutoFadingOutMessageAlert(translate("unable_send_message")); return }
         
         // enable loading interface.
         self.isSendingMessage = true
         
         // send message
-        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.productObject!, isOffer: false) { [weak self] (success, newlyCreatedMessageObject) -> Void in
+        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.product!, isOffer: false) { [weak self] (success, newlyCreatedMessageObject) -> Void in
             if let strongSelf = self {
                 if success {
                     strongSelf.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)
@@ -286,11 +271,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func productButtonPressed(sender: AnyObject) {
-//        if let product = productObject {
-//            let vc = ShowProductViewController()
-//            vc.productObject = product
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
+        if let actualProduct = product {
+            let vc = ShowProductViewController(product: actualProduct)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     // MARK: > Tracking
@@ -300,37 +284,35 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             var properties: [TrackingParameter: AnyObject] = [:]
 
             // product data
-            if let product = productObject {
-                if let productCity = product["city"] as? String {
+            if let actualProduct = product {
+                if let productCity = actualProduct.postalAddress.city {
                     properties[.ProductCity] = productCity
                 }
-                if let productCountry = product["country_code"] as? String {
+                if let productCountry = actualProduct.postalAddress.countryCode {
                     properties[.ProductCountry] = productCountry
                 }
-                if let productZipCode = product["zip_code"] as? String {
+                if let productZipCode = actualProduct.postalAddress.zipCode {
                     properties[.ProductZipCode] = productZipCode
                 }
-                if let productCategoryId = product["category_id"] as? Int {
-                    properties[.CategoryId] = String(productCategoryId)
+                if let productCategoryId = actualProduct.categoryId {
+                    properties[.CategoryId] = productCategoryId.stringValue
                 }
-                if let productName = product["name"] as? String {
+                if let productName = actualProduct.name {
                     properties[.ProductName] = productName
                 }
-                if let productUserId = product["user_id"] as? String, let currentUser = PFUser.currentUser(), let currentUserId = currentUser.objectId,
+                if let productUserId = actualProduct.user?.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId,
                     let otherUsr = otherUser, let otherUserId = otherUsr.objectId  {
-                    
-                    // If the product is mine, check if i'm dummy
-                    if productUserId == currentUserId {
-                        if let isDummy = TrackingHelper.isDummyUser(currentUser) {
+
+                        let isDummy = myUser.isDummy.boolValue
+                        
+                        // If the product is mine, check if i'm dummy
+                        if productUserId == myUserId {
                             properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
                         }
-                    }
-                    // If the product is the other's guy, check if dummy
-                    else if productUserId == otherUserId {
-                        if let isDummy = TrackingHelper.isDummyUser(otherUsr) {
+                        // If the product is the other's guy, check if dummy
+                        else if productUserId == otherUserId {
                             properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
                         }
-                    }
                 }
             }
             
@@ -405,8 +387,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
                 
                 cell.avatarButtonPressed = { [weak self] in
-                    let vc = EditProfileViewController()
-                    vc.userObject = user
+                    let vc = EditProfileViewController(user: user)
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             }

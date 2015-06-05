@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import UIKit
 import Parse
 
@@ -109,6 +110,7 @@ class ChatManager: NSObject {
         // perform query on conversations.
         let conversationsFrom = PFQuery(className: "Conversations")
         conversationsFrom.whereKey("user_from", equalTo: PFUser.currentUser()!) // I am the user that started the conversation
+
         let conversationsTo = PFQuery(className: "Conversations")
         conversationsTo.whereKey("user_to", equalTo: PFUser.currentUser()!) // I am the user that received the conversation.
         
@@ -116,6 +118,7 @@ class ChatManager: NSObject {
         let query = PFQuery.orQueryWithSubqueries([conversationsFrom, conversationsTo])
         query.orderByDescending("updatedAt")
         query.includeKey("product") // make sure we retrieve the product for checking product name.
+        query.includeKey("product.user")
         query.includeKey("user_to") // if we are the user_from, retrieve the user_to object to get username_public of the other user.
         query.includeKey("user_from") // if we are the user_to, retrieve the user_from object to get username_public of the other user.
         
@@ -135,23 +138,24 @@ class ChatManager: NSObject {
     }
     
     /** Retrieves the first conversation found about a concrete product by the currentUser, defining which user to look for the product depending on its ownership, for performance reasons */
-    func retrieveMyConversationWithUser(otherUser: PFUser, aboutProduct productObject: PFObject, completion: (success: Bool, conversation: PFObject?) -> Void) {
+    func retrieveMyConversationWithUser(otherUser: User, aboutProduct product: Product, completion: (success: Bool, conversation: PFObject?) -> Void) {
         // According to the specification, user_from is always the buyer, so if the product belongs to me, I am user_to, else I am user_from
         // supposedly, the product will be in fetched at this point, however, we'll fetch it if needed, just in case.
         // perform query on all conversations, from or two.
         let conversationsFrom = PFQuery(className: "Conversations")
-        conversationsFrom.whereKey("user_from", equalTo: PFUser.currentUser()!) // I am the user that started the conversation
-        conversationsFrom.whereKey("user_to", equalTo: otherUser)
-        conversationsFrom.whereKey("product", equalTo: productObject)
+        conversationsFrom.whereKey("user_from", equalTo: MyUserManager.sharedInstance.myUser()!) // I am the user that started the conversation
+        conversationsFrom.whereKey("user_to", equalTo: PFObject(withoutDataWithClassName: PFUser.parseClassName(), objectId: otherUser.objectId))
+        conversationsFrom.whereKey("product", equalTo: PFObject(withoutDataWithClassName: PAProduct.parseClassName(), objectId: product.objectId))
         
         let conversationsTo = PFQuery(className: "Conversations")
-        conversationsTo.whereKey("user_from", equalTo: otherUser)
-        conversationsTo.whereKey("user_to", equalTo: PFUser.currentUser()!) // I am the user that received the conversation.
-        conversationsTo.whereKey("product", equalTo: productObject)
+        conversationsTo.whereKey("user_from", equalTo: PFObject(withoutDataWithClassName: PFUser.parseClassName(), objectId: otherUser.objectId))
+        conversationsTo.whereKey("user_to", equalTo: MyUserManager.sharedInstance.myUser()!) // I am the user that received the conversation.
+        conversationsTo.whereKey("product", equalTo: PFObject(withoutDataWithClassName: PAProduct.parseClassName(), objectId: product.objectId))
 
         // perform combined query.
         let query = PFQuery.orQueryWithSubqueries([conversationsFrom, conversationsTo])
         query.includeKey("product")
+        query.includeKey("product.user")
         query.includeKey("user_to")
         query.includeKey("user_from")
 
@@ -166,25 +170,25 @@ class ChatManager: NSObject {
     }
     
     /** Creates a new conversation with a user about a concrete object */
-    func createConversationWithUser(otherUser: PFUser, aboutProduct productObject: PFObject, completion: (success: Bool, conversation: PFObject?) -> Void) {
+    func createConversationWithUser(otherUser: User, aboutProduct product: Product, completion: (success: Bool, conversation: PFObject?) -> Void) {
         let newConversation = PFObject(className: "Conversations")
-        newConversation["user_from"] = PFUser.currentUser() // I'm the buyer
-        newConversation["user_to"] = otherUser // The other guy is the seller
-        newConversation["product"] = productObject
+        newConversation["user_from"] = MyUserManager.sharedInstance.myUser()! // I'm the buyer
+        newConversation["user_to"] = PFObject(withoutDataWithClassName: PFUser.parseClassName(), objectId: otherUser.objectId) // The other guy is the seller
+        newConversation["product"] = PFObject(withoutDataWithClassName: PAProduct.parseClassName(), objectId: product.objectId)
         newConversation["nr_messages"] = 0
         newConversation["nr_msg_to_read_to"] = 0
         newConversation["nr_msg_to_read_from"] = 0
-        newConversation.ACL = globalReadAccessACLWithWritePermissionForUsers([otherUser]) // both participants in the conversation must have write permissions
+//        newConversation.ACL = globalReadAccessACLWithWritePermissionForUsers([otherUser]) // both participants in the conversation must have write permissions
         
-        newConversation.saveInBackgroundWithBlock { (conversationSaved, error) -> Void in
+        newConversation.saveInBackgroundWithBlock { [weak self] (conversationSaved, error) -> Void in
             if conversationSaved { // if we have a new conversation, let's make sure we have everything fetched before returning it.
-                newConversation.fetchIfNeededInBackgroundWithBlock({ (fetchedConversation, error) -> Void in
-                    if fetchedConversation != nil {
-                        dispatch_async(dispatch_get_main_queue(), { completion(success: true, conversation: fetchedConversation!) })
-                    } else { dispatch_async(dispatch_get_main_queue(), { completion(success: false, conversation: nil) }) }
-                })
-            } else { dispatch_async(dispatch_get_main_queue(), { completion(success: false, conversation: nil) }) }
-            
+
+                self?.retrieveMyConversationWithUser(otherUser, aboutProduct: product, completion: completion)
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), {
+                    completion(success: false, conversation: nil) })
+            }
         }
     }
     
@@ -201,7 +205,7 @@ class ChatManager: NSObject {
     func loadMessagesFromConversation(conversation: PFObject, completion: (success: Bool, messages: [PFObject]?) -> Void) {
         let query = PFQuery(className: "Messages")
         query.whereKey("conversation", equalTo: conversation)
-        query.includeKey("conversation")
+        query.includeKey("conversation")       
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock { (results, error) -> Void in
             if error == nil && results?.count > 0 {
@@ -211,16 +215,16 @@ class ChatManager: NSObject {
     }
     
     /** Adds a new text message to a conversation object. The message will contain only text (a message string), no media. */
-    func addTextMessage(text: String, toUser destinationUser: PFUser, inConversation conversation: PFObject, fromProduct productObject: PFObject, isOffer: Bool, completion: (success: Bool, newlyCreatedMessageObject: PFObject!) -> Void) {
+    func addTextMessage(text: String, toUser destinationUser: User, inConversation conversation: PFObject, fromProduct product: Product, isOffer: Bool, completion: (success: Bool, newlyCreatedMessageObject: PFObject!) -> Void) {
         let newMessage = PFObject(className: "Messages")
         newMessage["conversation"] = conversation
-        newMessage["user_from"] = PFUser.currentUser()
-        newMessage["user_to"] = destinationUser
+        newMessage["user_from"] = MyUserManager.sharedInstance.myUser()
+        newMessage["user_to"] = PFObject(withoutDataWithClassName: PFUser.parseClassName(), objectId: destinationUser.objectId)
         newMessage["is_media"] = false
         newMessage["is_read"] = false
         newMessage["message"] = text
         newMessage["type"] = kLetGoChatMessageTypeNormalMessage
-        newMessage["product"] = productObject
+        newMessage["product"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:product.objectId)
         newMessage.ACL = globalReadAccessACL()
 
         newMessage.saveInBackgroundWithBlock { (saved, savingError) -> Void in
@@ -228,8 +232,8 @@ class ChatManager: NSObject {
                 // increment conversation total nr of msgs
                 conversation.incrementKey("nr_messages")
                 // update the unread messages of the recipient
-                if let productOwner = productObject["user"] as? PFObject {
-                    if productOwner.objectId == destinationUser.objectId {
+                if let owner = product.user as? PFObject {
+                    if owner.objectId == destinationUser.objectId {
                         conversation.incrementKey("nr_msg_to_read_to")
                     }
                     else {
@@ -243,7 +247,7 @@ class ChatManager: NSObject {
                 
                 // Send a push notification, in background
                 dispatch_async(self.pushNotificationsDispatchQueue, { () -> Void in
-                    self.sendPushNotificationWithMessage(newMessage, toUser: destinationUser, fromUser: PFUser.currentUser()!, conversation: conversation, product: productObject, type: isOffer ? .Offer : .Message)
+                    self.sendPushNotificationWithMessage(newMessage, toUser: destinationUser, fromUser: MyUserManager.sharedInstance.myUser()!, conversation: conversation, product: product, type: isOffer ? .Offer : .Message)
                 })
 
                 // inform the handler of the successfull completion.
@@ -255,7 +259,7 @@ class ChatManager: NSObject {
     }
     
     /** Sends a push notification to a user with a (shortened to max length) text */
-    internal func sendPushNotificationWithMessage(messageObject: PFObject, toUser user: PFUser, fromUser sourceUser: PFUser, conversation: PFObject, product: PFObject, type: PushNotificationType) {
+    internal func sendPushNotificationWithMessage(messageObject: PFObject, toUser user: User, fromUser sourceUser: User, conversation: PFObject, product: Product, type: PushNotificationType) {
         //Prepare the PFPush query for the target device.
         let pushQuery = PFInstallation.query()
         pushQuery!.whereKey("user_objectId", equalTo: user.objectId!)
@@ -264,7 +268,7 @@ class ChatManager: NSObject {
         
         // set mandatory iOS element: badge and alert.
         let message = messageObject["message"] as! String
-        var shortString = (sourceUser["username_public"] as? String ?? translate("message")) + ": " + message
+        var shortString = (sourceUser.publicUsername ?? translate("message")) + ": " + message
         // TODO: Ignore alert message size limitations for iOS 8 only. Restore checks when support for iOS 7 is added again.
         // shortString = count(shortString) > kLetGoPushNotificationMaxPayloadSpaceForText ? shortString.substringToIndex(advance(shortString.startIndex, kLetGoPushNotificationMaxPayloadSpaceForText)) : shortString
         var messageData: [String: AnyObject] = ["badge": "Increment"]
@@ -275,16 +279,20 @@ class ChatManager: NSObject {
         else { messageData["product"] = "" }
         
         // titulo
-        if let productTitle = product["name"] as? String {
-            messageData["t"] = translate("new_message") + " - " + productTitle
-            messageData["titulo"] = translate("new_message") + " - " + productTitle
+        if let productName = product.name {
+            messageData["t"] = translate("new_message") + " - " + productName
+            messageData["titulo"] = translate("new_message") + " - " + productName
         } else { messageData["t"] = ""; messageData["titulo"] = "" }
         
         // conversation id.
         if conversation.objectId != nil {
             messageData["c_id"] = conversation.objectId!
             messageData["conversationObjectId"] = conversation.objectId!
-        } else { messageData["c_id"] = ""; messageData["conversationObjectId"] = "" }
+        }
+        else {
+            messageData["c_id"] = ""
+            messageData["conversationObjectId"] = ""
+        }
         
         // alert/a
         messageData["alerta"] = shortString
@@ -301,11 +309,11 @@ class ChatManager: NSObject {
         if messageObject.objectId != nil { messageData["messageObjectId"] = messageObject.objectId! }
         else { messageData["messageObjectId"] = "" }
         
-        // Img URL from user: we can retrieve the user contents (if needed) directly because we are running in a background thread.
-        let fetchedUser = user.fetchIfNeeded() ?? user
-        if let toUserAvatarFile = fetchedUser["avatar"] as? PFFile {
-            if toUserAvatarFile.url != nil { messageData["img"] = toUserAvatarFile.url! } else { messageData["img"] = "" }
-        } else { messageData["img"] = "" }
+//        // Img URL from user: we can retrieve the user contents (if needed) directly because we are running in a background thread.
+//        let fetchedUser = user.fetchIfNeeded() ?? user
+//        if let toUserAvatarFile = fetchedUser["avatar"] as? PFFile {
+//            if toUserAvatarFile.url != nil { messageData["img"] = toUserAvatarFile.url! } else { messageData["img"] = "" }
+//        } else { messageData["img"] = "" }
         
         // send push notification data.
         push.setData(messageData)

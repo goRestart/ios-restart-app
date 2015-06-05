@@ -58,6 +58,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     
     // Data
     var product: Product
+    
     var isFavourite = false
     var productStatus: LetGoProductStatus?
     var scrollViewOffset: CGFloat = 0.0
@@ -81,7 +82,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
        
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // appearance
         priceLabel.text = ""
         nameLabel.text = ""
@@ -236,24 +237,30 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
 
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
-//        // safety checks
-//        if product.user == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
-//        
+        // safety checks
+        if product.user == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
+        
         // loading interface...
         enableAskQuestionLoadingInterface()
 
-//        // check if we have some current conversation with the user
-//        ChatManager.sharedInstance.retrieveMyConversationWithUser(product.user!, aboutProduct: product) { (success, conversation) -> Void in
-//            if success { // we have a conversation.
-//                self.launchChatWithConversation(conversation!)
-//            }
-//            else { // we need to create a conversation and pass it.
-//                ChatManager.sharedInstance.createConversationWithUser(self.productUser!, aboutProduct: self.productObject!, completion: { (success, conversation) -> Void in
-//                    if success { self.launchChatWithConversation(conversation!) }
-//                    else { self.disableAskQuestionLoadingInterface(); self.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
-//                })
-//            }
-//        }
+        // check if we have some current conversation with the user
+        ChatManager.sharedInstance.retrieveMyConversationWithUser(product.user!, aboutProduct: product) { [weak self] (success, conversation) -> Void in
+            if let strongSelf = self {
+                if success { // we have a conversation.
+                    strongSelf.launchChatWithConversation(conversation!)
+                }
+                else { // we need to create a conversation and pass it.
+                    ChatManager.sharedInstance.createConversationWithUser(strongSelf.product.user!, aboutProduct: strongSelf.product, completion: { (success, conversation) -> Void in
+                        if success {
+                            strongSelf.launchChatWithConversation(conversation!)
+                        }
+                        else {
+                            strongSelf.disableAskQuestionLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                        }
+                    })
+                }
+            }
+        }
     }
     
     func launchChatWithConversation(conversation: PFObject) {
@@ -310,13 +317,10 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
-//        if let product = productObject, let user = productUser {
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
-//            vc.productObject = product
-//            vc.productUser = user
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
+        vc.product = product
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
@@ -337,30 +341,30 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
 
     @IBAction func reportProductButtonPressed(sender: AnyObject) {
 
-//        if let let myUser = MyUserManager.sharedInstance.myUser(), let productOwner = product.user {
-//            
-//            butProductReport.enabled = false
-//            butProductReport.setTitle(translate("reporting_product"), forState: .Normal)
-//            
-//            let report = PFObject(className: "UserReports")
-//            report["product_reported"] = productObject
-//            report["user_reporter"] = PFUser.currentUser()
-//            report["user_reported"] = productUser
-//            
-//            report.saveInBackgroundWithBlock({ [weak self] (success, error) -> Void in
-//                if let strongSelf = self {
-//                    
-//                    strongSelf.butProductReport.enabled = true
-//                    
-//                    if success {
-//                        strongSelf.butProductReport.setTitle(translate("reported_product"), forState: .Normal)
-//                    }
-//                    else {
-//                        strongSelf.butProductReport.setTitle(translate("report_product"), forState: .Normal)
-//                    }
-//                }
-//                })
-//        }
+        if let let myUser = MyUserManager.sharedInstance.myUser(), let productOwner = product.user {
+            
+            butProductReport.enabled = false
+            butProductReport.setTitle(translate("reporting_product"), forState: .Normal)
+            
+            let report = PFObject(className: "UserReports")
+            report["product_reported"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:product.objectId)
+            report["user_reporter"] = PFUser(withoutDataWithObjectId: myUser.objectId)
+            report["user_reported"] = PFUser(withoutDataWithObjectId: productOwner.objectId)
+            
+            report.saveInBackgroundWithBlock({ [weak self] (success, error) -> Void in
+                if let strongSelf = self {
+                    
+                    strongSelf.butProductReport.enabled = true
+                    
+                    if success {
+                        strongSelf.butProductReport.setTitle(translate("reported_product"), forState: .Normal)
+                    }
+                    else {
+                        strongSelf.butProductReport.setTitle(translate("report_product"), forState: .Normal)
+                    }
+                }
+                })
+        }
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
@@ -371,32 +375,35 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     
     // if user answered "yes" to the question: "Do you really want to mark this product as sold?"...
     func definitelyMarkProductAsSold() {
-//        self.enableMarkAsSoldLoadingInterface()
-//        self.productObject["status"] = LetGoProductStatus.Sold.rawValue
-//        self.productObject["processed"] = false
-//        self.productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
-//            if success {
-//                self.productStatus = .Sold
-//                
-//                // Tracking
-//                TrackingHelper.trackEvent(.ProductMarkAsSold, parameters: self.trackingParams)
-//                
-//                // animated hiding of the button, restore alpha once hidden.
-//                UIView.animateWithDuration(0.5, animations: { () -> Void in
-//                    self.markSoldButton.alpha = 0.0
-//                    }, completion: { (success) -> Void in
-//                        self.markSoldButton.hidden = true
-//                        self.markSoldButton.alpha = 1.0
-//                        self.showAutoFadingOutMessageAlert(translate("marked_as_sold"), completionBlock: nil)
-//                })
-//                
-//                self.delegate?.letgoProduct(self.productObject.objectId!, statusUpdatedTo: self.productStatus!)
-//            } else {
-//                self.markSoldButton.enabled = true
-//                self.showAutoFadingOutMessageAlert(translate("error_marking_as_sold"))
-//            }
-//            self.disableMarkAsSoldLoadingInterface()
-//        })
+        self.enableMarkAsSoldLoadingInterface()
+        
+        if let parseProduct = product as? PAProduct {
+            parseProduct.status = .Sold
+            parseProduct.processed = false
+            parseProduct.saveInBackgroundWithBlock({ (success, error) -> Void in
+                if success {
+                    self.productStatus = .Sold
+                    
+                    // Tracking
+                    TrackingHelper.trackEvent(.ProductMarkAsSold, parameters: self.trackingParams)
+                    
+                    // animated hiding of the button, restore alpha once hidden.
+                    UIView.animateWithDuration(0.5, animations: { () -> Void in
+                        self.markSoldButton.alpha = 0.0
+                        }, completion: { (success) -> Void in
+                            self.markSoldButton.hidden = true
+                            self.markSoldButton.alpha = 1.0
+                            self.showAutoFadingOutMessageAlert(translate("marked_as_sold"), completionBlock: nil)
+                    })
+                    
+                    self.delegate?.letgoProduct(parseProduct.objectId!, statusUpdatedTo: self.productStatus!)
+                } else {
+                    self.markSoldButton.enabled = true
+                    self.showAutoFadingOutMessageAlert(translate("error_marking_as_sold"))
+                }
+                self.disableMarkAsSoldLoadingInterface()
+            })
+        }
     }
     
     // MARK: - Mark as sold UI/UX
@@ -469,54 +476,54 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     func markOrUnmarkAsFavorite() {
-//        self.favoriteButton.userInteractionEnabled = false
-//        
-//        // UI update for quick user feedback + Request
-//        self.favoriteButton.imageView!.startAnimating()
-//        
-//        if self.isFavourite {
-//            deleteFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
-//                product: self.productObject,
-//                completion: { (success) -> Void in
-//                    self.favoriteButton.userInteractionEnabled = true
-//                    self.isFavourite = !success
-//                    self.favoriteButton.imageView!.stopAnimating()
-//                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
-//            })
-//        }
-//        else {
-//            saveFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
-//                product: self.productObject,
-//                completion: { (success) -> Void in
-//                    self.favoriteButton.userInteractionEnabled = true
-//                    self.isFavourite = success
-//                    self.favoriteButton.imageView!.stopAnimating()
-//                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
-//            })
-//        }
+        self.favoriteButton.userInteractionEnabled = false
+        
+        // UI update for quick user feedback + Request
+        self.favoriteButton.imageView!.startAnimating()
+        
+        if self.isFavourite {
+            deleteFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
+                product: product,
+                completion: { (success) -> Void in
+                    self.favoriteButton.userInteractionEnabled = true
+                    self.isFavourite = !success
+                    self.favoriteButton.imageView!.stopAnimating()
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+            })
+        }
+        else {
+            saveFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
+                product: product,
+                completion: { (success) -> Void in
+                    self.favoriteButton.userInteractionEnabled = true
+                    self.isFavourite = success
+                    self.favoriteButton.imageView!.stopAnimating()
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+            })
+        }
     }
     
     func checkFavoriteProduct() {
-//        self.favoriteButton.userInteractionEnabled = false
-//        retrieveFavouriteProductForUser(
-//            PFUser.currentUser(),
-//            product: productObject,
-//            completion: { (success, favProduct) -> Void in
-//                self.favoriteButton.userInteractionEnabled = true
-//                
-//                if success {
-//                    self.isFavourite = favProduct != nil
-//                }
-//                self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
-//            })
+        self.favoriteButton.userInteractionEnabled = false
+        retrieveFavouriteProductForUser(
+            MyUserManager.sharedInstance.myUser(),
+            product: product,
+            completion: { (success, favProduct) -> Void in
+                self.favoriteButton.userInteractionEnabled = true
+                
+                if success {
+                    self.isFavourite = favProduct != nil
+                }
+                self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+            })
     }
     
-    func retrieveFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool, PFObject?) -> (Void)) {
-        if let actualUser = user {
+    func retrieveFavouriteProductForUser(user: User?, product: Product?, completion: (Bool, PFObject?) -> (Void)) {
+        if let actualUser = user as? PFUser {
             if let actualProduct = product {
                 let favQuery = PFQuery(className: "UserFavoriteProducts")
                 favQuery.whereKey("user", equalTo: actualUser)
-                favQuery.whereKey("product", equalTo: actualProduct)
+                favQuery.whereKey("product", equalTo: PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:actualProduct.objectId))
                 favQuery.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
                     let favProduct = objects?.first as? PFObject
                     let success = error == nil
@@ -532,7 +539,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         }
     }
     
-    func saveFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool) -> (Void)) {
+    func saveFavouriteProductForUser(user: User?, product: Product?, completion: (Bool) -> (Void)) {
         if let favProduct = newFavProductForUser(user, product: product) {
             favProduct.saveInBackgroundWithBlock({ (success, error) -> Void in
                 completion(success)
@@ -543,7 +550,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         }
     }
     
-    func deleteFavouriteProductForUser(user: PFUser?, product: PFObject?, completion: (Bool) -> (Void)) {
+    func deleteFavouriteProductForUser(user: User?, product: Product?, completion: (Bool) -> (Void)) {
         retrieveFavouriteProductForUser(user, product: product, completion: { (success, favProduct) -> Void in
             if success && favProduct != nil {
                 favProduct!.deleteInBackgroundWithBlock({ (success, error) -> Void in
@@ -561,12 +568,12 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         })
     }
     
-    func newFavProductForUser(user: PFUser?, product: PFObject?) -> PFObject? {
-        if let actualUser = user {
+    func newFavProductForUser(user: User?, product: Product?) -> PFObject? {
+        if let actualUser = user as? PFUser {
             if let actualProduct = product {
                 let favProduct = PFObject(className: "UserFavoriteProducts")
                 favProduct["user"] = actualUser
-                favProduct["product"] = actualProduct
+                favProduct["product"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:actualProduct.objectId)
                 return favProduct
             }
         }
@@ -624,17 +631,20 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     @IBAction func showProductUser(sender: AnyObject) {
         var shouldPushUserVC = true
         
-//        // If we're the ones selling the product do not allow to push the view to avoid circular navigation
-//        if let myUser = MyUserManager.sharedInstance.myUser() {
-//            if myUser.objectId == self.productUser.objectId {
-//                shouldPushUserVC = false
-//            }
-//        }
-//        
-//        if shouldPushUserVC {
-//            let vc = EditProfileViewController()
-//            vc.userObject = self.productUser
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
+        // If we're the ones selling the product do not allow to push the view to avoid circular navigation
+        if let myUser = MyUserManager.sharedInstance.myUser() {
+            if myUser.objectId == product.user?.objectId {
+                shouldPushUserVC = false
+            }
+        }
+        
+        if let myUser = MyUserManager.sharedInstance.myUser(), let productUser = product.user {
+            
+            // If i'm not the seller
+            if myUser.objectId != productUser.objectId {
+                let vc = EditProfileViewController(user: productUser)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
 }

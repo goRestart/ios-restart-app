@@ -44,7 +44,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var startSearchingNowButton: UIButton!
     
     // data
-    var userObject: PFUser?
+    var user: User
     var selectedTab: ProfileTab = .ProductImSelling
     
     private var sellProducts: [Product] = []
@@ -57,7 +57,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     
     var cellSize = CGSizeMake(160.0, 210.0)
     
-    init() {
+    init(user: User) {
+        self.user = user
         super.init(nibName: "EditProfileViewController", bundle: nil)
     }
     
@@ -126,31 +127,18 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         retrieveProductsForTab(ProfileTab.ProductISold)
         retrieveProductsForTab(ProfileTab.ProductFavourite)
         
-        // load user data (image, name, location...)
-        if userObject != nil {
-            userObject!.fetchIfNeededInBackgroundWithBlock({ [weak self] (retrievedObject, error) -> Void in
-                if error == nil && retrievedObject != nil {
-                    if let strongSelf = self {
-                        if let avatarFile = retrievedObject?["avatar"] as? PFFile, let avatarFileURLStr = avatarFile.url, let avatarFileURL = NSURL(string: avatarFileURLStr) {
-                            strongSelf.userImageView.sd_setImageWithURL(avatarFileURL)
-                        }
-                        if let userName = retrievedObject?["username_public"] as? String {
-                            strongSelf.userNameLabel.text = userName
-                            strongSelf.setLetGoNavigationBarStyle(title: userName)
-                        }
-                        if let userLocation = retrievedObject?["city"] as? String {
-                            strongSelf.userLocationLabel.text = userLocation
-                            strongSelf.userLocationLabel.hidden = false
-                        }
-                        else {
-                            strongSelf.userLocationLabel.hidden = true
-                        }
-                    }
-                }
-            })
-            
-            // Current user has the option of editing his/her settings
-            if userObject!.objectId == PFUser.currentUser()!.objectId { setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"]) }
+        // UI
+        if let avatarURL = user.avatarURL {
+            userImageView.sd_setImageWithURL(avatarURL)
+        }
+        userNameLabel.text = user.publicUsername
+        userLocationLabel.text = user.postalAddress.city
+        
+        // If it's me, then allow go to settings
+        if let myUser = MyUserManager.sharedInstance.myUser() {
+            if user.objectId == myUser.objectId {
+                setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"])
+            }
         }
     }
     
@@ -303,53 +291,53 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - Requests
     
     func retrieveProductsForTab(tab: ProfileTab) {
-        if let userId = userObject?.objectId {
-            switch tab {
-            case .ProductImSelling:
-                loadingSellProducts = true
-                var statuses: [LetGoProductStatus] = [.Approved]
-                
-                if userId == PFUser.currentUser()?.objectId { statuses.append(.Pending) }
-                self.retrieveProductsForUserId(userId, statuses: statuses, completion: { [weak self] (products, error) -> (Void) in
-                    if let strongSelf = self {
-                        if error == nil && products.count > 0 {
-                            strongSelf.sellProducts = products
-                        }
-                        strongSelf.loadingSellProducts = false
-                        strongSelf.retrievalFinishedForProductsAtTab(tab)
-                    }
-                })
-            case .ProductISold:
-                loadingSoldProducts = true
-                
-                self.retrieveProductsForUserId(userId, statuses: [.Sold], completion: { [weak self] (products, error) -> Void in
-                    if let strongSelf = self {
-                        if error == nil && products.count > 0 {
-                            strongSelf.soldProducts = products
-                        }
-                        strongSelf.loadingSoldProducts = false
-                        strongSelf.retrievalFinishedForProductsAtTab(tab)
-                    }
-                    })
-                
-            case .ProductFavourite:
-                loadingFavProducts = true
-                
-                self.retrieveFavouriteProductsForUserId(userId, completion: { [weak self] (products, error) -> Void in
-                    if let strongSelf = self {
-                        if error == nil && products.count > 0 {
-                            strongSelf.favProducts = products
-                        }
-                        strongSelf.loadingFavProducts = false
-                        strongSelf.retrievalFinishedForProductsAtTab(tab)
-                    }
-                })
+        switch tab {
+        case .ProductImSelling:
+            loadingSellProducts = true
+            var statuses: [LetGoProductStatus] = [.Approved]
+            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
+                statuses.append(.Pending)
             }
+            
+            self.retrieveProductsForUserId(user.objectId, statuses: statuses, completion: { [weak self] (products, error) -> (Void) in
+                if let strongSelf = self {
+                    if error == nil && products.count > 0 {
+                        strongSelf.sellProducts = products
+                    }
+                    strongSelf.loadingSellProducts = false
+                    strongSelf.retrievalFinishedForProductsAtTab(tab)
+                }
+                })
+        case .ProductISold:
+            loadingSoldProducts = true
+            
+            self.retrieveProductsForUserId(user.objectId, statuses: [.Sold], completion: { [weak self] (products, error) -> Void in
+                if let strongSelf = self {
+                    if error == nil && products.count > 0 {
+                        strongSelf.soldProducts = products
+                    }
+                    strongSelf.loadingSoldProducts = false
+                    strongSelf.retrievalFinishedForProductsAtTab(tab)
+                }
+                })
+            
+        case .ProductFavourite:
+            loadingFavProducts = true
+            
+            self.retrieveFavouriteProductsForUserId(user.objectId, completion: { [weak self] (products, error) -> Void in
+                if let strongSelf = self {
+                    if error == nil && products.count > 0 {
+                        strongSelf.favProducts = products
+                    }
+                    strongSelf.loadingFavProducts = false
+                    strongSelf.retrievalFinishedForProductsAtTab(tab)
+                }
+                })
         }
     }
     
     func retrieveProductsForUserId(userId: String, statuses: [LetGoProductStatus], completion: (products: [PAProduct]!, error: NSError!) -> (Void)) {
-        let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
+        let user = PFObject(withoutDataWithClassName: PFUser.parseClassName(), objectId: userId)
         let query = PFQuery(className: PAProduct.parseClassName())
         query.whereKey("user", equalTo: user)
         // statuses
@@ -367,16 +355,16 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func retrieveFavouriteProductsForUserId(userId: String?, completion: (favProducts: [PAProduct]!, error: NSError!) -> (Void)) {
-        let user = PFObject(withoutDataWithClassName: "_User", objectId: userId)
+        let user = PFObject(withoutDataWithClassName: PFUser.parseClassName(), objectId: userId)
         let query = PFQuery(className: "UserFavoriteProducts")
         query.whereKey("user", equalTo: user)
         query.includeKey("product")
-        query.includeKey("user")
+        query.includeKey("product.user")
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
             
             var productList: [PAProduct] = []
-            if let favorites = objects as? [PAProduct] {
+            if let favorites = objects as? [PFObject] {
                 for favorite in favorites {
                     if let product = favorite["product"] as? PAProduct {
                         productList.append(product)
@@ -407,7 +395,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             favoriteButton.hidden = true
             
             // set text depending on if we are the user being shown or not
-            if userObject?.objectId == PFUser.currentUser()?.objectId { // user is me!
+            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId { // user is me!
                 youDontHaveTitleLabel.text = translate("no_published_favorited_products")
                 youDontHaveSubtitleLabel.hidden = false
                 

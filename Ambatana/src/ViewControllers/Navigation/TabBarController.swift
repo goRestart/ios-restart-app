@@ -49,9 +49,8 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             case Chats:
                 return ChatListViewController()
             case Profile:
-                let vc = EditProfileViewController()
-                vc.userObject = PFUser.currentUser()
-                return vc
+                let user = MyUserManager.sharedInstance.myUser()!
+                return EditProfileViewController(user: user)
             }
         }
         

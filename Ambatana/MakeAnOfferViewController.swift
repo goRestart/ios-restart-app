@@ -18,8 +18,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // data
-    var productUser: PFUser?
-    var productObject: PFObject?
+    var product: Product?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +26,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         // appearance
         setLetGoNavigationBarStyle(title: translate("make_an_offer"))
         // > set the product currency
-        if let product = productObject {
-            let currencyCode = product["currency"] as? String ?? Constants.defaultCurrencyCode
+        if let actualProduct = product {
+            let currencyCode = actualProduct.currencyCode ?? Constants.defaultCurrencyCode
             let currencySymbol = CurrencyHelper.sharedInstance.currencySymbolWithCurrencyCode(currencyCode)
             self.currencyButton.setTitle(currencySymbol, forState: .Normal)
         }
@@ -63,60 +62,66 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
     
     @IBAction func makeAnOffer(sender: AnyObject) {
-        // safety checks
-        let productPrice = priceTextField?.text.toInt()
-        if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); return }
-        var offerText = self.generateOfferText(productPrice!)
-
-        // enable loading interface
-        enableLoadingInterface()
         
-        // check if we have some current conversation with the user
-        ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser!, aboutProduct: productObject!) { [weak self] (success, conversation) -> Void in
-            if let strongSelf = self {
-                if success { // we have a conversation.
-                    // try to add the offer text first.
-                    ChatManager.sharedInstance.addTextMessage(offerText, toUser: strongSelf.productUser!, inConversation: conversation!, fromProduct: strongSelf.productObject!, isOffer: true, completion: { [weak self] (success, newlyCreatedMessageObject) -> Void in
-                        if let strongSelf = self {
-                            if success {
-                                strongSelf.launchChatWithConversation(conversation!)
-                                
-                                // Tracking
-                                TrackingHelper.trackEvent(.ProductOffer, parameters: strongSelf.trackingParams)
-                                TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
+        if let actualProduct = product, let productUser = product?.user {
+            
+            // safety checks
+            let productPrice = priceTextField?.text.toInt()
+            if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); return }
+            var offerText = self.generateOfferText(productPrice!)
+            
+            // enable loading interface
+            enableLoadingInterface()
+            
+            // check if we have some current conversation with the user
+            ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser, aboutProduct: actualProduct) { [weak self] (success, conversation) -> Void in
+                if let strongSelf = self {
+                    if success { // we have a conversation.
+                        // try to add the offer text first.
+                        ChatManager.sharedInstance.addTextMessage(offerText, toUser: productUser, inConversation: conversation!, fromProduct: actualProduct, isOffer: true, completion: { [weak self] (success, newlyCreatedMessageObject) -> Void in
+                            if let strongSelf = self {
+                                if success {
+                                    strongSelf.launchChatWithConversation(conversation!)
+                                    
+                                    // Tracking
+                                    TrackingHelper.trackEvent(.ProductOffer, parameters: strongSelf.trackingParams)
+                                    TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
+                                }
+                                else {
+                                    strongSelf.disableLoadingInterface()
+                                    strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer"))
+                                }
                             }
-                            else {
-                                strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer"))
+                        })
+                    }
+                    else { // we need to create a conversation and pass it.
+                        ChatManager.sharedInstance.createConversationWithUser(productUser, aboutProduct: actualProduct, completion: { [weak self] (success, conversation) -> Void in
+                            if let strongSelf = self {
+                                if success {
+                                    ChatManager.sharedInstance.addTextMessage(offerText, toUser: productUser, inConversation: conversation!, fromProduct: actualProduct, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
+                                        if success {
+                                            strongSelf.launchChatWithConversation(conversation!)
+                                            
+                                            // Tracking
+                                            TrackingHelper.trackEvent(.ProductOffer, parameters: strongSelf.trackingParams)
+                                            TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
+                                        }
+                                        else {
+                                            strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer"))
+                                        }
+                                    })
+                                }
+                                else { strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
                             }
-                        }
-                    })
-                } else { // we need to create a conversation and pass it.
-                    ChatManager.sharedInstance.createConversationWithUser(strongSelf.productUser!, aboutProduct: strongSelf.productObject!, completion: { [weak self] (success, conversation) -> Void in
-                        if let strongSelf = self {
-                            if success {
-                                ChatManager.sharedInstance.addTextMessage(offerText, toUser: strongSelf.productUser!, inConversation: conversation!, fromProduct: strongSelf.productObject!, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
-                                    if success {
-                                        strongSelf.launchChatWithConversation(conversation!)
-                                        
-                                        // Tracking
-                                        TrackingHelper.trackEvent(.ProductOffer, parameters: strongSelf.trackingParams)
-                                        TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
-                                    }
-                                    else {
-                                        strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer"))
-                                    }
-                                })
-                            }
-                            else { strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
-                        }
-                    })
+                        })
+                    }
                 }
             }
         }
     }
     
     func generateOfferText(price: Int) -> String {
-        let currencyCode = productObject!["currency"] as? String ?? Constants.defaultCurrencyCode
+        let currencyCode = product?.currencyCode ?? Constants.defaultCurrencyCode
         let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
         return translate("new_offer_of") + formattedAmount
     }
@@ -146,27 +151,26 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     private var trackingParams: [TrackingParameter: AnyObject] {
         get {
             var properties: [TrackingParameter: AnyObject] = [:]
-            if let product = productObject {
-                if let city = product["city"] as? String {
+            if let actualProduct = product {
+                if let city = actualProduct.postalAddress.city {
                     properties[.ProductCity] = city
                 }
-                if let country = product["country"] as? String {
+                if let country = actualProduct.postalAddress.countryCode {
                     properties[.ProductCountry] = country
                 }
-                if let zipCode = product["zip_code"] as? String {
+                if let zipCode = actualProduct.postalAddress.zipCode {
                     properties[.ProductZipCode] = zipCode
                 }
-                if let categoryId = product["category_id"] as? Int {
+                if let categoryId = actualProduct.categoryId as? Int {
                     properties[.CategoryId] = String(categoryId)
                 }
-                if let name = product["name"] as? String {
+                if let name = actualProduct.name {
                     properties[.ProductName] = name
                 }
             }
-            if let prodUser = productUser {
-                if let isDummy = TrackingHelper.isDummyUser(prodUser) {
-                    properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
-                }
+            if let user = product?.user {
+                let isDummy = user.isDummy.boolValue
+                properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
             }
             
             return properties
