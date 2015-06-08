@@ -47,10 +47,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         if let actualWindow = window {
             let splashVC = SplashViewController()
+            let navCtl = UINavigationController(rootViewController: splashVC)
             splashVC.completionBlock = { [weak self] (succeeded: Bool) -> Void in
                 actualWindow.rootViewController = TabBarController()
             }
-            actualWindow.rootViewController = splashVC
+            actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }
         

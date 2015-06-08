@@ -37,4 +37,8 @@ class SplashViewController: UIViewController {
             return nil
         }
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
 }
