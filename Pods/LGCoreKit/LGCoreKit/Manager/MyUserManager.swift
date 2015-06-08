@@ -28,10 +28,12 @@ public class MyUserManager {
         self.userSaveService = userSaveService
         self.postalAddressRetrivalService = postalAddressRetrivalService
         
+        // Start observing location changes
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveLocationWithNotification:", name: LocationManager.didReceiveLocationNotification, object: nil)
     }
     
     deinit {
+        // Stop observing
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -42,6 +44,16 @@ public class MyUserManager {
         return PFUser.currentUser()
     }
     
+    public func saveIfNew() -> BFTask {
+        if let myUser = myUser() {
+            if !myUser.isSaved {
+                return save(myUser)
+            }
+        }
+        
+        return BFTask(error: NSError(code: LGErrorCode.Internal))
+    }
+    
     public func saveUserCoordinates(coordinates: CLLocationCoordinate2D) -> BFTask? {
         return saveLocationAndRetrieveAddress(CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude))
     }
@@ -50,22 +62,19 @@ public class MyUserManager {
     
     // MARK: > Helper
     
-    private func save() -> BFTask? {
+    private func save(user: User) -> BFTask {
         
-        if let myUser = myUser() {
-            var task = BFTaskCompletionSource()
-            
-            userSaveService.saveUser(myUser) { (success: Bool, error: NSError?) -> Void in
-                if let actualError = error {
-                    task.setError(error)
-                }
-                else {
-                    task.setResult(success)
-                }
+        var task = BFTaskCompletionSource()
+        
+        userSaveService.saveUser(user) { (success: Bool, error: NSError?) -> Void in
+            if let actualError = error {
+                task.setError(error)
             }
-            return task.task
+            else {
+                task.setResult(success)
+            }
         }
-        return nil
+        return task.task
     }
     
     private func retrieveAddressForLocation(location: CLLocation) -> BFTask {
@@ -87,7 +96,7 @@ public class MyUserManager {
             myUser.gpsCoordinates = LGLocationCoordinates2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             let address = PostalAddress()
             myUser.postalAddress = address
-            save()
+            save(myUser)
             
             // Then, retrieve the address for the received location
             return retrieveAddressForLocation(location).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
@@ -102,7 +111,7 @@ public class MyUserManager {
                     }
                     
                     // Save the user again
-                    return self.save()
+                    return self.save(myUser)
                 }
                 return nil
             }

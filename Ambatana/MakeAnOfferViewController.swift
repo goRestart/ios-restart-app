@@ -169,8 +169,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                 }
             }
             if let user = product?.user {
-                let isDummy = user.isDummy.boolValue
-                properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
+                properties[.ItemType] = TrackingHelper.productTypeParamValue(user.isDummy)
             }
             
             return properties

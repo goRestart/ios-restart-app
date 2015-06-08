@@ -69,12 +69,15 @@ extension PFUser: User {
         }
     }
     
-    public var isDummy: NSNumber {
-        get {
-            if let actualUsername = username {
-                startsWith(actualUsername, "usercontent")
-            }
-            return false
+    public var isDummy: Bool {
+        if let actualUsername = username {
+            startsWith(actualUsername, "usercontent")
         }
+        return false
+    }
+    
+    public var isAnonymous: Bool {
+        // `YES` if the user is anonymous. `NO` if the user is not the current user or is not anonymous.
+        return PFAnonymousUtils.isLinkedWithUser(self)
     }
 }

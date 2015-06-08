@@ -303,7 +303,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 if let productUserId = actualProduct.user?.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId,
                     let otherUsr = otherUser, let otherUserId = otherUsr.objectId  {
 
-                        let isDummy = myUser.isDummy.boolValue
+                        let isDummy = myUser.isDummy
                         
                         // If the product is mine, check if i'm dummy
                         if productUserId == myUserId {

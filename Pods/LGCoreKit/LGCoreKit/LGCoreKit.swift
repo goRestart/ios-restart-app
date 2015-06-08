@@ -19,6 +19,9 @@ public class LGCoreKit {
         Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId, clientKey: EnvironmentProxy.sharedInstance.parseClientId)
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         
+        // > Automatic anonymous user creation
+        PFUser.enableAutomaticUser()
+        
         // Shared instances
         MyUserManager.sharedInstance
     }

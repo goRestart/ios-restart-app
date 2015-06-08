@@ -22,12 +22,17 @@
     
     public var gpsCoordinates: LGLocationCoordinates2D?
     public var postalAddress: PostalAddress
-    public var isDummy: NSNumber
+    
+    public var isDummy: Bool
+    public var isSaved: Bool
+    public var isAnonymous: Bool
     
     // Lifecycle
     
     public init() {
         self.postalAddress = PostalAddress()
         self.isDummy = false
+        self.isSaved = true
+        self.isAnonymous = false
     }
 }

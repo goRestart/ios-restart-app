@@ -17,7 +17,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // iVars
-    var window: UIWindow!
+    var window: UIWindow?
 
     // MARK: - UIApplicationDelegate
     
@@ -45,8 +45,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window.rootViewController = TabBarController()
-        window.makeKeyAndVisible()
+        if let actualWindow = window {
+            let splashVC = SplashViewController()
+            splashVC.completionBlock = { [weak self] (succeeded: Bool) -> Void in
+                actualWindow.rootViewController = TabBarController()
+            }
+            actualWindow.rootViewController = splashVC
+            actualWindow.makeKeyAndVisible()
+        }
         
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
