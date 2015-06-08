@@ -42,7 +42,7 @@ extension PFUser: User {
             return nil
         }
         set {
-            if let actualCoordinates = gpsCoordinates {
+            if let actualCoordinates = newValue {
                 self[FieldKey.GPSCoordinates.rawValue] = PFGeoPoint(latitude: actualCoordinates.latitude, longitude: actualCoordinates.longitude)
             }
             else {

@@ -44,6 +44,13 @@ public class MyUserManager {
         return PFUser.currentUser()
     }
     
+    public func isAnonymousUser() -> Bool {
+        if let myUser = myUser() {
+            return myUser.isAnonymous
+        }
+        return true
+    }
+    
     public func saveIfNew() -> BFTask {
         if let myUser = myUser() {
             if !myUser.isSaved {

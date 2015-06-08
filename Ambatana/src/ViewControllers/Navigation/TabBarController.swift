@@ -233,17 +233,38 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     // MARK: - UITabBarControllerDelegate
     
     func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
-        // If SellVC is contained in a NavCtl, then do not allow selecting it
+        
+        var isLogInRequired = false
+        
+        // If it's a NavCtl
         if let navVC = viewController as? UINavigationController {
+            
+            // Do not allow selecting Sell
             if let sellVC = navVC.topViewController as? SellProductViewController {
                 return false
             }
+            // Do not allow selecting Chats if it's an anonymous user
+            else if let chatsVC = navVC.topViewController as? ChatListViewController {
+                isLogInRequired = MyUserManager.sharedInstance.isAnonymousUser()
+            }
+            // Do not allow selecting Profile if it's an anonymous user
+            else if let profileVC = navVC.topViewController as? EditProfileViewController {
+                isLogInRequired = MyUserManager.sharedInstance.isAnonymousUser()
+            }
+            
         }
         // Or, its the SellVC perse, then do not allow selecting it
         else if let sellVC = viewController as? SellProductViewController {
             return false
         }
-        return true
+        
+        // If log in is required then present the login vc
+        if isLogInRequired {
+            let loginVC = LogInViewController()
+            self.presentViewController(loginVC, animated: true, completion: nil)
+        }
+        
+        return !isLogInRequired
     }
     
     // MARK: - Private methods
@@ -272,8 +293,14 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         // Dismiss the tooltip, if present
         dismissTooltip(animated: true)
         
-        // Present the sell VC
-        if let vc = Tab.Sell.viewController as? SellProductViewController {
+        // If not logged in then present the login VC
+        let isLogInRequired = MyUserManager.sharedInstance.isAnonymousUser()
+        if isLogInRequired {
+            let loginVC = LogInViewController()
+            self.presentViewController(loginVC, animated: true, completion: nil)
+        }
+        // Otherwise, present the sell VC
+        else if let vc = Tab.Sell.viewController as? SellProductViewController {
             vc.delegate = self
             let navCtl = UINavigationController(rootViewController: vc)
             presentViewController(navCtl, animated: true, completion: nil)
