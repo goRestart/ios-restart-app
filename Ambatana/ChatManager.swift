@@ -43,7 +43,7 @@ public struct LetGoConversation {
         let userTo = conversationObject["user_to"] as? PFUser
         
         // I am selling
-        if userFrom?.objectId == PFUser.currentUser()!.objectId {
+        if userFrom?.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
             amISellingTheProduct = false
         }
         // I am buying/making an offer for this product.

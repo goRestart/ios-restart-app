@@ -26,8 +26,6 @@ let kLetGoWebsiteURL = "http://letgo.com"
 
 // notifications
 let kLetGoUserPictureUpdatedNotification                     = "LetGoUserPictureUpdated"
-let kLetGoSessionInvalidatedNotification                     = "LetGoSessionInvalidated"
-let kLetGoInvalidCredentialsNotification                     = "LetGoInvalidCredentialsNotification"
 let kLetGoUnableToGetUserLocationNotification                = "LetGoUnableToGetUserLocation"
 let kLetGoUnableToSetUserLocationNotification                = "LetGoUnableToSetUserLocationNotification"
 let kLetGoUserLocationSuccessfullySetNotification            = "LetGoUserLocationSuccessfullySetNotification"

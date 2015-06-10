@@ -92,9 +92,6 @@ class ConfigurationManager: NSObject {
                     }
                     if oauthSessionExpired { // logout
                         PFUser.logOut()
-                        NSNotificationCenter.defaultCenter().postNotificationName(kLetGoSessionInvalidatedNotification, object: nil)
-                    } else { // notify error
-                        NSNotificationCenter.defaultCenter().postNotificationName(kLetGoInvalidCredentialsNotification, object: nil)
                     }
                 }
             })

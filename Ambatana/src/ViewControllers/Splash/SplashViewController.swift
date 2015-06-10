@@ -31,7 +31,7 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        MyUserManager.sharedInstance.saveIfNew().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
+        MyUserManager.sharedInstance.saveUserIfNew().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
             let succeeded = task.error != nil
             self?.completionBlock?(succeeded)
             return nil

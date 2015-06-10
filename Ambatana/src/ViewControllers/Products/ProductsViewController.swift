@@ -197,14 +197,14 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
                 properties[.CategoryName] = currentCategory!.getName()
             }
             // current user data
-            if let currentUser = PFUser.currentUser() {
-                if let userCity = currentUser["city"] as? String {
+            if let currentUser = MyUserManager.sharedInstance.myUser() {
+                if let userCity = currentUser.postalAddress.city {
                     properties[.UserCity] = userCity
                 }
-                if let userCountry = currentUser["country_code"] as? String {
+                if let userCountry = currentUser.postalAddress.countryCode {
                     properties[.UserCountry] = userCountry
                 }
-                if let userZipCode = currentUser["zipcode"] as? String {
+                if let userZipCode = currentUser.postalAddress.zipCode {
                     properties[.UserZipCode] = userZipCode
                 }
             }

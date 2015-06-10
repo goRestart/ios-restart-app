@@ -85,11 +85,22 @@ public class MyUserManager {
     }
     
     /**
+        Saves the user.
+    
+        :param: user The user.
+        :param: completion The completion closure.
+        :returns: The task that performs the user save.
+    */
+    public func saveUser(user: User, completion: UserSaveCompletion) {
+        userSaveService.saveUser(user, completion: completion)
+    }
+    
+    /**
         Saves the user if it's new.
     
         :returns: The task that performs the user save.
     */
-    public func saveIfNew() -> BFTask {
+    public func saveUserIfNew() -> BFTask {
         if let myUser = myUser() {
             if !myUser.isSaved {
                 return save(myUser)
@@ -480,7 +491,7 @@ public class MyUserManager {
     
     // MARK: >> User
     
-    private func save(user: User) -> BFTask {
+    public func save(user: User) -> BFTask {
         var task = BFTaskCompletionSource()
         
         userSaveService.saveUser(user) { (success: Bool, error: NSError?) -> Void in

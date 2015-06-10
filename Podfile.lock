@@ -20,7 +20,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.2.0):
     - FBSDKCoreKit
-  - LGCoreKit (0.5.2):
+  - LGCoreKit (0.5.3):
     - Alamofire (~> 1.2)
     - Bolts (~> 1.1)
     - FBSDKCoreKit (~> 4.1)
@@ -64,7 +64,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 84b3616a361801f190e43a9909caead7bb6087c7
   FBSDKLoginKit: 57e37106af12c9e264e473dcb75d7decdbb07fe4
   FBSDKShareKit: 931746fdf8fb95efd6e12310ec14b2b3295e2aec
-  LGCoreKit: b8dcedd6129c61e320a5c754773660100c7def58
+  LGCoreKit: 0f97b0058e37feefb23bd8482c6d4466a113dfa5
   Parse: 6ca512c6e860b66739c95151b2f76ac4712b7842
   ParseFacebookUtilsV4: 481ea7b00f8f62440c314ac7f80eada228bf7488
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
