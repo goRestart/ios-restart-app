@@ -24,6 +24,9 @@ final public class PAUserSaveService: UserSaveService {
                 completion(success: success, error: error)
             }
         }
+        else {
+            completion(success: false, error: NSError(code: LGErrorCode.Internal))
+        }
     }
 }
 

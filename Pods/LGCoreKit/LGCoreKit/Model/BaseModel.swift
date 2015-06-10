@@ -10,4 +10,6 @@
     var objectId: String! { get }
     var updatedAt: NSDate! { get }
     var createdAt: NSDate! { get }
+    
+    var isSaved: Bool { get }
 }

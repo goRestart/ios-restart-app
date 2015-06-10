@@ -21,16 +21,21 @@ extension PFUser: User {
             return self[FieldKey.PublicUsername.rawValue] as? String
         }
         set {
-            self[FieldKey.PublicUsername.rawValue] = newValue
+            self[FieldKey.PublicUsername.rawValue] = newValue ?? NSNull()
         }
     }
     
-    public var avatarURL: NSURL? {
+    public var avatar: File? {
         get {
-            if let avatarFile = self[FieldKey.Avatar.rawValue] as? PFFile, let avatarURLStr = avatarFile.url {
-                return NSURL(string: avatarURLStr)
+            return self[FieldKey.Avatar.rawValue] as? PFFile
+        }
+        set {
+            if let file = newValue as? PFFile {
+                self[FieldKey.Avatar.rawValue] = file
             }
-            return nil
+            else {
+                self[FieldKey.Avatar.rawValue] = NSNull()
+            }
         }
     }
     

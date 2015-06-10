@@ -13,6 +13,8 @@
     public var createdAt: NSDate!
     public var updatedAt: NSDate!
     
+    public var isSaved: Bool
+    
     public var name: String?
     public var descr: String?
     public var price: NSNumber?
@@ -40,6 +42,7 @@
     // MARK: - Lifecycle
     
     public init() {
+        self.isSaved = true
         self.imageURLs = []
         self.postalAddress = PostalAddress()
         self.status = .Pending

@@ -12,13 +12,12 @@
     var email: String? { get set }
     var publicUsername: String? { get set }
 
-    var avatarURL: NSURL? { get }
+    var avatar: File? { get set }
     
     var gpsCoordinates: LGLocationCoordinates2D? { get set }
     var postalAddress: PostalAddress { get set }
     
     var isDummy: Bool { get }
-    
-    var isSaved: Bool { get }
+
     var isAnonymous: Bool { get }
 }

@@ -132,6 +132,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDe
                     MyUserManager.sharedInstance.saveUserCoordinates(lastKnownLocation.coordinate)
                 }
 
+                // If the user had already a country code, then set it in the currency helper
+                if let user = MyUserManager.sharedInstance.myUser(), let countryCode = user.postalAddress.countryCode {
+                    CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                }
+                
                 // Login
                 if iOSVersionAtLeast("8.0") {
                     let alert = UIAlertController(title: translate("success"), message: translate("user_created_successfully"), preferredStyle: .Alert)

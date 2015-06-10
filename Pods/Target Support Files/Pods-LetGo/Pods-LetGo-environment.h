@@ -15,7 +15,7 @@
 // Amplitude-iOS
 #define COCOAPODS_POD_AVAILABLE_Amplitude_iOS
 #define COCOAPODS_VERSION_MAJOR_Amplitude_iOS 2
-#define COCOAPODS_VERSION_MINOR_Amplitude_iOS 4
+#define COCOAPODS_VERSION_MINOR_Amplitude_iOS 5
 #define COCOAPODS_VERSION_PATCH_Amplitude_iOS 0
 
 // Bolts
@@ -69,7 +69,7 @@
 // LGCoreKit
 #define COCOAPODS_POD_AVAILABLE_LGCoreKit
 #define COCOAPODS_VERSION_MAJOR_LGCoreKit 0
-#define COCOAPODS_VERSION_MINOR_LGCoreKit 4
+#define COCOAPODS_VERSION_MINOR_LGCoreKit 5
 #define COCOAPODS_VERSION_PATCH_LGCoreKit 2
 
 // Parse
@@ -77,6 +77,12 @@
 #define COCOAPODS_VERSION_MAJOR_Parse 1
 #define COCOAPODS_VERSION_MINOR_Parse 7
 #define COCOAPODS_VERSION_PATCH_Parse 4
+
+// ParseFacebookUtilsV4
+#define COCOAPODS_POD_AVAILABLE_ParseFacebookUtilsV4
+#define COCOAPODS_VERSION_MAJOR_ParseFacebookUtilsV4 1
+#define COCOAPODS_VERSION_MINOR_ParseFacebookUtilsV4 7
+#define COCOAPODS_VERSION_PATCH_ParseFacebookUtilsV4 4
 
 // Realm
 #define COCOAPODS_POD_AVAILABLE_Realm
@@ -118,7 +124,7 @@
 #define COCOAPODS_POD_AVAILABLE_Timepiece
 #define COCOAPODS_VERSION_MAJOR_Timepiece 0
 #define COCOAPODS_VERSION_MINOR_Timepiece 3
-#define COCOAPODS_VERSION_PATCH_Timepiece 3
+#define COCOAPODS_VERSION_PATCH_Timepiece 4
 
 // pop
 #define COCOAPODS_POD_AVAILABLE_pop

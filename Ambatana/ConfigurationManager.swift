@@ -38,7 +38,7 @@ class ConfigurationManager: NSObject {
         if let currentUser = PFUser.currentUser() {
             // enable notification of changes in access token and profile info.
             FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "facebookAccessTokenAndRelatedInfoChanged:", name: FBSDKProfileDidChangeNotification, object: nil)
+//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "facebookAccessTokenAndRelatedInfoChanged:", name: FBSDKProfileDidChangeNotification, object: nil)
             
             // get current prodile data:
             let fbRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
@@ -101,12 +101,12 @@ class ConfigurationManager: NSObject {
         }
     }
     
-    /** Observes changes in Facebook access token and user related info */
-    func facebookAccessTokenAndRelatedInfoChanged(notification: NSNotification) {
-        if let newProfile = notification.userInfo?["FBSDKProfileNew"] as? FBSDKProfile {
-            // TODO: Update data with profile info ?
-        }
-    }
+//    /** Observes changes in Facebook access token and user related info */
+//    func facebookAccessTokenAndRelatedInfoChanged(notification: NSNotification) {
+//        if let newProfile = notification.userInfo?["FBSDKProfileNew"] as? FBSDKProfile {
+//            // TODO: Update data with profile info ?
+//        }
+//    }
     
     func logOutUser() {
         userName = translate("user")

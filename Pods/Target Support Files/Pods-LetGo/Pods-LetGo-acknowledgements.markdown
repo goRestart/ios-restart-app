@@ -155,6 +155,10 @@ Copyright (c) 2015 Ambatana Inc. <albert@letgo.com>
 
 See https://www.parse.com/about/terms
 
+## ParseFacebookUtilsV4
+
+See https://www.parse.com/about/terms
+
 ## Realm
 
 TABLE OF CONTENTS

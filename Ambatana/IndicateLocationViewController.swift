@@ -80,7 +80,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         if CLLocationCoordinate2DIsValid(locationInMap) {
             // Save the user coordinates / address in the backend and when finished the pop
             enableLoadingStatus()
-            MyUserManager.sharedInstance.saveUserCoordinates(locationInMap)?.continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
+            MyUserManager.sharedInstance.saveUserCoordinates(locationInMap).continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
                 if let strongSelf = self {
                     strongSelf.delegate?.userDidManuallySetCoordinates(strongSelf.locationInMap)
                     strongSelf.popBackViewController()

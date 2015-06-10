@@ -128,7 +128,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         retrieveProductsForTab(ProfileTab.ProductFavourite)
         
         // UI
-        if let avatarURL = user.avatarURL {
+        if let avatarURL = user.avatar?.fileURL {
             userImageView.sd_setImageWithURL(avatarURL)
         }
         userNameLabel.text = user.publicUsername

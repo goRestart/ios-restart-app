@@ -1,6 +1,15 @@
+[![Circle CI](https://circleci.com/gh/amplitude/Amplitude-iOS/tree/master.svg?style=badge&circle-token=e1b2a7d2cd6dd64ac3643bc8cb2117c0ed5cbb75)](https://circleci.com/gh/amplitude/Amplitude-iOS/tree/master)
+
+Amplitude iOS SDK
+====================
+
+An iOS SDK for tracking events and revenue to [Amplitude](http://www.amplitude.com).
+
+A [demo application](https://github.com/amplitude/iOS-Demo) is available to show a simple integration.
+
 # Setup #
 1. If you haven't already, go to https://amplitude.com and register for an account. You will receive an API Key.
-2. [Download the source code](https://github.com/amplitude/Amplitude-iOS/archive/master.zip) and extract the zip file. Alternatively, you can pull directly from GitHub. If you use Cocoapods, add the following line to your Podfile: `pod 'Amplitude-iOS', '~> 2.4'`
+2. [Download the source code](https://github.com/amplitude/Amplitude-iOS/archive/master.zip) and extract the zip file. Alternatively, you can pull directly from GitHub. If you use Cocoapods, add the following line to your Podfile: `pod 'Amplitude-iOS', '~> 2.5'`
 3. Copy the Amplitude-iOS folder into the source of your project in XCode. Check "Copy items into destination group's folder (if needed)".
 
 4. In every file that uses analytics, import Amplitude.h at the top:
@@ -26,9 +35,9 @@ It's important to think about what types of events you care about as a developer
 
 # Tracking Sessions #
 
-A session is a period of time that a user has the app in the foreground. Sessions within 10 seconds of each other are merged into a single session. In the iOS SDK, sessions are tracked automatically.
+A session is a period of time that a user has the app in the foreground. Sessions within 15 seconds of each other are merged into a single session. In the iOS SDK, sessions are tracked automatically. When the SDK is initialized, it determines whether the app is launched into the foreground or background and starts a new session if launched in the foreground. Each time the app is placed in the background, the SDK ends the session. It starts a new session when the app is brought back into the foreground (unless the app was inactive for less than 15 seconds).
 
-If your users can take actions while the app is in the background and you would like to track a user session for those actions, use the ```startSession``` method.
+If your users can take actions while the app is in the background and you would like to track a user session for those actions, use the ```startSession``` method. For example:
 
 ``` objective-c
 MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
@@ -93,7 +102,6 @@ NSMutableDictionary *userProperties = [NSMutableDictionary dictionary];
 [[Amplitude instance] setUserProperties:userProperties replace:YES];
 ```
 
-
 # Allowing Users to Opt Out
 
 To stop all event and session logging for a user, call setOptOut:
@@ -135,3 +143,5 @@ User IDs are automatically generated and will default to device specific identif
 Device IDs use identifierForVendor if available, or a random ID otherwise. You can retrieve the Device ID that Amplitude uses with `[Amplitude getDeviceId]`.
 
 This code will work with both ARC and non-ARC projects. Preprocessor macros are used to determine which version of the compiler is being used.
+
+The SDK includes support for SSL pinning, but it is undocumented and recommended against unless you have a specific need. Please contact Amplitude support before you ship any products with SSL pinning enabled so that we are aware and can provide documentation and implementation help.

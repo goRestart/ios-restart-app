@@ -123,7 +123,6 @@
 		D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4B0CF7D1B07309800A61E1A /* SellEmptyCell.xib */; };
 		D4B546341AEFDD920062D183 /* letgoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B546331AEFDD920062D183 /* letgoTests.swift */; };
 		D4C3716E1B0917B7000AC47D /* UIViewController+TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C3716D1B0917B7000AC47D /* UIViewController+TabBar.swift */; };
-		D4FE33571AF2183300088532 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4FE33561AF2183300088532 /* ParseFacebookUtilsV4.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,7 +267,6 @@
 		D4B546321AEFDD920062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4B546331AEFDD920062D183 /* letgoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = letgoTests.swift; sourceTree = "<group>"; };
 		D4C3716D1B0917B7000AC47D /* UIViewController+TabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+TabBar.swift"; sourceTree = "<group>"; };
-		D4FE33561AF2183300088532 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		DCE9C67541895BFFB3F852AD /* Pods-Ambatana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -291,7 +289,6 @@
 				D4A478891B08B0240046D301 /* Crashlytics.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
 				5013AA841B03A30200B7A5D3 /* libAppsFlyerLib.a in Frameworks */,
-				D4FE33571AF2183300088532 /* ParseFacebookUtilsV4.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
 				3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */,
 			);
@@ -795,18 +792,8 @@
 				D4A478871B08B0240046D301 /* Crashlytics.framework */,
 				D4A478881B08B0240046D301 /* Fabric.framework */,
 				5013AA811B03A30200B7A5D3 /* AF-iOS-SDK-v2.5.3.15 */,
-				D4FE33531AF2168300088532 /* parse-library-1.7.2 */,
 			);
 			name = "3rd Party";
-			sourceTree = "<group>";
-		};
-		D4FE33531AF2168300088532 /* parse-library-1.7.2 */ = {
-			isa = PBXGroup;
-			children = (
-				D4FE33561AF2183300088532 /* ParseFacebookUtilsV4.framework */,
-			);
-			name = "parse-library-1.7.2";
-			path = "3rd-Party/parse-library-1.7.2";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1130,9 +1117,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1174,9 +1161,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -1271,9 +1258,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;

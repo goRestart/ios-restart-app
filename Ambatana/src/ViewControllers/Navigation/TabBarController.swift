@@ -245,11 +245,11 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             }
             // Do not allow selecting Chats if it's an anonymous user
             else if let chatsVC = navVC.topViewController as? ChatListViewController {
-                isLogInRequired = MyUserManager.sharedInstance.isAnonymousUser()
+                isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
             }
             // Do not allow selecting Profile if it's an anonymous user
             else if let profileVC = navVC.topViewController as? EditProfileViewController {
-                isLogInRequired = MyUserManager.sharedInstance.isAnonymousUser()
+                isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
             }
             
         }
@@ -294,7 +294,7 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         dismissTooltip(animated: true)
         
         // If not logged in then present the login VC
-        let isLogInRequired = MyUserManager.sharedInstance.isAnonymousUser()
+        let isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
         if isLogInRequired {
             let loginVC = LogInViewController()
             self.presentViewController(loginVC, animated: true, completion: nil)

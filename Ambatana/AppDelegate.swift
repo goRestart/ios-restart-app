@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         setupLibraries(launchOptions)
-        setupAppereance()
+        setupAppearance()
         
         // Registering for push notifications && Installation
         if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
@@ -119,10 +119,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // LGCoreKit
         LGCoreKit.initialize(launchOptions)
         
-        // Parse
-        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
-        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions ?? [:])
-
         // Crashlytics
 #if DEBUG
 #else
@@ -133,7 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TrackingHelper.appDidFinishLaunching()
     }
     
-    private func setupAppereance() {
+    private func setupAppearance() {
         UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont, NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
         

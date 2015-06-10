@@ -36,7 +36,7 @@ public class LGProductUserParser {
         user.objectId = json[LGProductUserParser.objectIdJSONKey].string
         user.publicUsername = json[LGProductUserParser.objectIdJSONKey].string
         if let avatarURLStr = json[LGProductUserParser.avatarURLJSONKey].string {
-            user.avatarURL = NSURL(string: avatarURLStr)
+            user.avatar = LGFile(url: NSURL(string: avatarURLStr))
         }
         
         let postalAdress = PostalAddress()

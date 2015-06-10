@@ -138,7 +138,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         
         // User
         usernameLabel.text = product.user?.publicUsername ?? ""
-        if let userAvatarURL = product.user?.avatarURL {
+        if let userAvatarURL = product.user?.avatar?.fileURL {
             userAvatarImageView.sd_setImageWithURL(userAvatarURL, placeholderImage: UIImage(named: "no_photo"))
         }
         

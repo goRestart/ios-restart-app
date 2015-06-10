@@ -18,7 +18,7 @@
     public var email: String?
     public var publicUsername: String?
     
-    public var avatarURL: NSURL?
+    public var avatar: File?
     
     public var gpsCoordinates: LGLocationCoordinates2D?
     public var postalAddress: PostalAddress

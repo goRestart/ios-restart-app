@@ -12,10 +12,20 @@ import CoreLocation
 
 public typealias NoOutputDataCompletion = (success: Bool, error: NSError?) -> Void
 
+public typealias FileUploadCompletion = (file: File?, error: NSError?) -> Void
 public typealias RetrieveProductCompletion = (product: Product?, error: NSError?) -> Void
 public typealias RetrieveProductsCompletion = (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void
 public typealias UserSaveCompletion = NoOutputDataCompletion
+public typealias UserRetrieveCompletion = (user: User?, error: NSError?) -> Void
 public typealias PostalAddressRetrievalCompletion = (address: PostalAddress?, error: NSError?) -> Void
+
+public typealias FBUserInfoRetrieveCompletion = (userInfo: FBUserInfo?, error: NSError?) -> Void
+
+public typealias UserSignUpCompletion = NoOutputDataCompletion
+public typealias UserLogInCompletion = (user: User?, error: NSError?) -> Void
+public typealias UserLogOutCompletion = NoOutputDataCompletion
+
+public typealias InstallationSaveCompletion = NoOutputDataCompletion
 
 // MARK: - PARAMS
 

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Bolts/Bolts.h>
 
 //! Project version number for LGCoreKit.
 FOUNDATION_EXPORT double LGCoreKitVersionNumber;
