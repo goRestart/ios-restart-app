@@ -35,7 +35,7 @@ class ProductsViewModel: BaseViewModel {
     
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
-    private static let locationRetrievalTimeout: NSTimeInterval = 2    // seconds
+    private static let locationRetrievalTimeout: NSTimeInterval = 10    // seconds
     
     // MARK: - iVars
     // > Delegate
