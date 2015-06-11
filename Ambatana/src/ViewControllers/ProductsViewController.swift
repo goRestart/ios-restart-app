@@ -232,7 +232,8 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
         vc.delegate = self
-        self.navigationController?.pushViewController(vc, animated: true)
+        let navCtl = UINavigationController(rootViewController: vc)
+        self.navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
 
     // MARK: - NSNotificationCenter

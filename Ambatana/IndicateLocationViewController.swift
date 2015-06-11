@@ -42,6 +42,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         
         // UX/UI
         self.setLetGoNavigationBarStyle(title: translate("change_your_location"))
+        
         searchContentView.layer.shadowColor = UIColor.grayColor().CGColor
         searchContentView.layer.shadowOffset = CGSizeMake(0, 2)
         searchContentView.layer.shadowOpacity = 0.75
@@ -83,7 +84,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
             MyUserManager.sharedInstance.saveUserCoordinates(locationInMap)?.continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
                 if let strongSelf = self {
                     strongSelf.delegate?.userDidManuallySetCoordinates(strongSelf.locationInMap)
-                    strongSelf.popBackViewController()
+                    strongSelf.dismissViewControllerAnimated(true, completion: nil)
                     strongSelf.disableLoadingStatus()
                 }
                 return nil
@@ -193,7 +194,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
 //        
 //    }
     
-    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { self.popBackViewController() }
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { dismissViewControllerAnimated(true, completion: nil) }
 }
 
 
