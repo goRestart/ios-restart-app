@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import UIKit
-
 class LogInViewModel: BaseViewModel {
    
 }

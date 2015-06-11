@@ -26,7 +26,7 @@ enum ParseSignupErrorCodes: Int {
     }
 }
 
-class SignUpViewController: UIViewController, UITextFieldDelegate, UIAlertViewDelegate {
+class SignUpViewController2: UIViewController, UITextFieldDelegate, UIAlertViewDelegate {
     // outlets && buttons
     @IBOutlet weak var nameTextfield: UITextField!
     @IBOutlet weak var emailTextfield: UITextField!

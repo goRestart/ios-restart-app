@@ -1,23 +1,23 @@
 //
-//  LogInViewController.swift
+//  SignUpViewController.swift
 //  LetGo
 //
-//  Created by Albert Hernández López on 08/06/15.
+//  Created by Albert Hernández López on 10/06/15.
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-class LogInViewController: BaseViewController {
+class SignUpViewController: BaseViewController {
     
     // ViewModel
-    var viewModel: LogInViewModel!
+    var viewModel: SignUpViewModel!
     
     // MARK: - Lifecycle
     
     convenience init() {
-        self.init(viewModel: LogInViewModel(), nibName: "LogInViewController")
+        self.init(viewModel: SignUpViewModel(), nibName: "SignUpViewController")
     }
     
-    required init(viewModel: LogInViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: SignUpViewModel, nibName nibNameOrNil: String?) {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         
@@ -34,4 +34,8 @@ class LogInViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+//    override func popBackViewController() {
+//        
+//    }
 }

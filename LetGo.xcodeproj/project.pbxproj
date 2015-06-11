@@ -44,6 +44,15 @@
 		50E81CF91B0B2D0100807D1B /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */; };
 		50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */; };
 		50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */; };
+		50F0BAA11B288DF500E50A68 /* MainLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BA9F1B288DF500E50A68 /* MainLogInViewController.swift */; };
+		50F0BAA21B288DF500E50A68 /* MainLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA01B288DF500E50A68 /* MainLogInViewController.xib */; };
+		50F0BAA41B288EA500E50A68 /* MainLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA31B288EA500E50A68 /* MainLogInViewModel.swift */; };
+		50F0BAA61B28937800E50A68 /* MainSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* MainSignUpViewModel.swift */; };
+		50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */; };
+		50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
+		50F0BAAD1B28939F00E50A68 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAAB1B28939F00E50A68 /* SignUpViewController.swift */; };
+		50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAAC1B28939F00E50A68 /* SignUpViewController.xib */; };
+		50F0BAB01B2893B100E50A68 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAAF1B2893B100E50A68 /* SignUpViewModel.swift */; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
 		6608E03E1A820FBD005895ED /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03D1A820FBD005895ED /* LoginViewController.swift */; };
@@ -93,7 +102,7 @@
 		66E50FAF1AE15D32000A7D44 /* CHTCollectionViewWaterfallLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 66E50FAE1AE15D32000A7D44 /* CHTCollectionViewWaterfallLayout.m */; };
 		66EF4AD11A8A046000D6F4D2 /* SellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EF4AD01A8A046000D6F4D2 /* SellProductViewController.swift */; };
 		66FC91171A921C700008AFAD /* LoginByEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FC91161A921C700008AFAD /* LoginByEmailViewController.swift */; };
-		66FC91191A921C970008AFAD /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FC91181A921C970008AFAD /* SignUpViewController.swift */; };
+		66FC91191A921C970008AFAD /* SignUpViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FC91181A921C970008AFAD /* SignUpViewController2.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
@@ -174,6 +183,15 @@
 		50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMyMessageCell.xib; sourceTree = "<group>"; };
 		50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOthersMessageCell.swift; sourceTree = "<group>"; };
 		50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatOthersMessageCell.xib; sourceTree = "<group>"; };
+		50F0BA9F1B288DF500E50A68 /* MainLogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainLogInViewController.swift; sourceTree = "<group>"; };
+		50F0BAA01B288DF500E50A68 /* MainLogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainLogInViewController.xib; sourceTree = "<group>"; };
+		50F0BAA31B288EA500E50A68 /* MainLogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainLogInViewModel.swift; sourceTree = "<group>"; };
+		50F0BAA51B28937800E50A68 /* MainSignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpViewModel.swift; sourceTree = "<group>"; };
+		50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpViewController.swift; sourceTree = "<group>"; };
+		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
+		50F0BAAB1B28939F00E50A68 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		50F0BAAC1B28939F00E50A68 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
+		50F0BAAF1B2893B100E50A68 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -229,7 +247,7 @@
 		66E50FAE1AE15D32000A7D44 /* CHTCollectionViewWaterfallLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTCollectionViewWaterfallLayout.m; sourceTree = "<group>"; };
 		66EF4AD01A8A046000D6F4D2 /* SellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellProductViewController.swift; sourceTree = "<group>"; };
 		66FC91161A921C700008AFAD /* LoginByEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginByEmailViewController.swift; sourceTree = "<group>"; };
-		66FC91181A921C970008AFAD /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		66FC91181A921C970008AFAD /* SignUpViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController2.swift; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ambatana.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -341,9 +359,18 @@
 		50560B8A1B25D18F0021D8D9 /* Log In */ = {
 			isa = PBXGroup;
 			children = (
+				50F0BA9F1B288DF500E50A68 /* MainLogInViewController.swift */,
+				50F0BAA01B288DF500E50A68 /* MainLogInViewController.xib */,
+				50F0BAA31B288EA500E50A68 /* MainLogInViewModel.swift */,
+				50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */,
+				50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */,
+				50F0BAA51B28937800E50A68 /* MainSignUpViewModel.swift */,
 				50560B8B1B25D18F0021D8D9 /* LogInViewController.swift */,
 				50560B8C1B25D18F0021D8D9 /* LogInViewController.xib */,
 				50560BA21B25DAD50021D8D9 /* LogInViewModel.swift */,
+				50F0BAAB1B28939F00E50A68 /* SignUpViewController.swift */,
+				50F0BAAC1B28939F00E50A68 /* SignUpViewController.xib */,
+				50F0BAAF1B2893B100E50A68 /* SignUpViewModel.swift */,
 			);
 			path = "Log In";
 			sourceTree = "<group>";
@@ -537,7 +564,7 @@
 			children = (
 				6608E03D1A820FBD005895ED /* LoginViewController.swift */,
 				66FC91161A921C700008AFAD /* LoginByEmailViewController.swift */,
-				66FC91181A921C970008AFAD /* SignUpViewController.swift */,
+				66FC91181A921C970008AFAD /* SignUpViewController2.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -892,6 +919,7 @@
 				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
 				6640F0491AE142D800004556 /* DoubleClick in Resources */,
 				D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */,
+				50F0BAA21B288DF500E50A68 /* MainLogInViewController.xib in Resources */,
 				66A509D71A947CAA001EECE9 /* Localizable.strings in Resources */,
 				50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */,
 				50DFABE21B04E5A700A3F049 /* CategoriesViewController.xib in Resources */,
@@ -913,8 +941,10 @@
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				5004BDFC1B06182E00D302F3 /* SellProductViewController.xib in Resources */,
 				50E64F2B1B09E8AB00544DE3 /* ShowProductViewController.xib in Resources */,
+				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				50560BA11B25D18F0021D8D9 /* SplashViewController.xib in Resources */,
 				50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */,
+				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -995,6 +1025,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */,
+				50F0BAA11B288DF500E50A68 /* MainLogInViewController.swift in Sources */,
 				D48C3E051AEBD165005BD0EF /* ConversationCell.swift in Sources */,
 				66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */,
 				D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */,
@@ -1032,8 +1063,9 @@
 				669A0FAD1A8D0CF000B96EC8 /* CommonDataTypes.swift in Sources */,
 				D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */,
 				66EF4AD11A8A046000D6F4D2 /* SellProductViewController.swift in Sources */,
+				50F0BAA61B28937800E50A68 /* MainSignUpViewModel.swift in Sources */,
 				D4C3716E1B0917B7000AC47D /* UIViewController+TabBar.swift in Sources */,
-				66FC91191A921C970008AFAD /* SignUpViewController.swift in Sources */,
+				66FC91191A921C970008AFAD /* SignUpViewController2.swift in Sources */,
 				665D5ADC1ADE846F006A567A /* LetGoGoogleGeoLocation.swift in Sources */,
 				D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */,
 				66A0CFEA1A8386A800FAADF0 /* ConfigurationManager.swift in Sources */,
@@ -1045,6 +1077,8 @@
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */,
 				50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */,
+				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
+				50F0BAAD1B28939F00E50A68 /* SignUpViewController.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */,
@@ -1052,6 +1086,7 @@
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
 				50560BA31B25DAD50021D8D9 /* LogInViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
+				50F0BAB01B2893B100E50A68 /* SignUpViewModel.swift in Sources */,
 				6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */,
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
@@ -1062,6 +1097,7 @@
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				66A5B56E1ADE4D7A00C18E8B /* LetGoIPGeoLocation.swift in Sources */,
 				50E81CF81B0B2D0100807D1B /* ChatMyMessageCell.swift in Sources */,
+				50F0BAA41B288EA500E50A68 /* MainLogInViewModel.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
 				D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */,
 			);

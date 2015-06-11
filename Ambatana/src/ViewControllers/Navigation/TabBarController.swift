@@ -260,8 +260,11 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         
         // If log in is required then present the login vc
         if isLogInRequired {
-            let loginVC = LogInViewController()
-            self.presentViewController(loginVC, animated: true, completion: nil)
+            let vc = MainSignUpViewController()
+            let navCtl = UINavigationController(rootViewController: vc)
+            navCtl.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
+            navCtl.navigationBar.shadowImage = UIImage()
+            self.presentViewController(navCtl, animated: true, completion: nil)
         }
         
         return !isLogInRequired
@@ -296,8 +299,11 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         // If not logged in then present the login VC
         let isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
         if isLogInRequired {
-            let loginVC = LogInViewController()
-            self.presentViewController(loginVC, animated: true, completion: nil)
+            let vc = MainSignUpViewController()
+            let navCtl = UINavigationController(rootViewController: vc)
+            navCtl.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
+            navCtl.navigationBar.shadowImage = UIImage()
+            self.presentViewController(navCtl, animated: true, completion: nil)
         }
         // Otherwise, present the sell VC
         else if let vc = Tab.Sell.viewController as? SellProductViewController {
