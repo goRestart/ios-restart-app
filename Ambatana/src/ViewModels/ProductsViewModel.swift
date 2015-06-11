@@ -35,7 +35,7 @@ class ProductsViewModel: BaseViewModel {
     
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
-    private static let locationRetrievalTimeout: NSTimeInterval = 10    // seconds
+    private static let locationRetrievalTimeout: NSTimeInterval = 2    // seconds
     
     // MARK: - iVars
     // > Delegate
@@ -126,6 +126,8 @@ class ProductsViewModel: BaseViewModel {
         let notificationCenter = NSNotificationCenter.defaultCenter()
         notificationCenter.addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: LocationManager.didReceiveLocationNotification, object: nil)
         notificationCenter.addObserver(self, selector: Selector("didFailRequestingLocationServicesWithNotification:"), name: LocationManager.didFailRequestingLocationServices, object: nil)
+
+        var shouldCheckLocation = false
         
         // If there are no products, then reload if possible
         if numberOfProducts == 0 {
@@ -133,10 +135,17 @@ class ProductsViewModel: BaseViewModel {
             if canRetrieveProducts {
                 retrieveProductsFirstPage()
             }
+            // Otherwise, check location
+            else {
+                shouldCheckLocation = true
+            }
         }
-            // If it's not loading
+        // If it's not loading, then it should check location
         else if !productsManager.isLoading {
-            // Check access to location and notify delegate if needed
+            shouldCheckLocation = true
+        }
+        
+        if shouldCheckLocation {
             // If no location access, then notify the delegate
             let locationStatus = locationManager.locationServiceStatus
             if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {

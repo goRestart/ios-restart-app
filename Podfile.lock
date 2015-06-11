@@ -47,7 +47,7 @@ DEPENDENCIES:
   - FBSDKCoreKit (>= 4.1)
   - FBSDKLoginKit (>= 4.1)
   - FBSDKShareKit (>= 4.1)
-  - LGCoreKit
+  - LGCoreKit (= 0.1.6)
   - pop (>= 1.0)
   - SDWebImage
 
@@ -67,4 +67,4 @@ SPEC CHECKSUMS:
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
   Timepiece: 30ef04f74337fcb1bef2ff91cfe964184d894d12
 
-COCOAPODS: 0.37.1
+COCOAPODS: 0.37.2
