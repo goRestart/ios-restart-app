@@ -79,17 +79,17 @@ public class PushManager {
     
     public func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         
-        // Update the installation
-        let installation = PFInstallation.currentInstallation()
-        installation.setDeviceTokenFromData(deviceToken)
-        installation.channels = [""]
-        
-        // FIXME: This shouldn't be in here
-        if PFUser.currentUser() != nil {
-            installation["user_objectId"] = PFUser.currentUser()!.objectId
-            installation["username"] = PFUser.currentUser()!["username"]
-        }
-        installation.saveInBackground()
+//        // Update the installation
+//        let installation = PFInstallation.currentInstallation()
+//        installation.setDeviceTokenFromData(deviceToken)
+//        installation.channels = [""]
+//        
+//        // FIXME: This shouldn't be in here
+//        if PFUser.currentUser() != nil {
+//            installation["user_objectId"] = PFUser.currentUser()!.objectId
+//            installation["username"] = PFUser.currentUser()!["username"]
+//        }
+//        installation.saveInBackground()
     }
     
     /**
