@@ -60,11 +60,11 @@ class LogInViewController: BaseViewController, UITextFieldDelegate {
     // MARK: - Actions
     
     @IBAction func emailButtonPressed(sender: AnyObject) {
-    
+        emailTextField.becomeFirstResponder()
     }
     
     @IBAction func passwordButtonPressed(sender: AnyObject) {
-    
+        passwordTextField.becomeFirstResponder()
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {

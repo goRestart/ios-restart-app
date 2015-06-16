@@ -36,6 +36,9 @@
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="emailButtonPressed:" destination="-1" eventType="touchUpInside" id="geI-yF-xBp"/>
+                            </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="qpl-xP-Xea" userLabel="Email Text Field">
                             <rect key="frame" x="45" y="0.0" width="267" height="44"/>
@@ -57,6 +60,9 @@
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="usernameButtonPressed:" destination="-1" eventType="touchUpInside" id="Wuu-F5-ajl"/>
+                            </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Username" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="8Wn-MG-p8U" userLabel="Username Text Field">
                             <rect key="frame" x="45" y="43" width="267" height="44"/>
@@ -78,6 +84,9 @@
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="passwordButtonPressed:" destination="-1" eventType="touchUpInside" id="cxs-nj-l1Z"/>
+                            </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wAf-gc-YDz" userLabel="Password Text Field">
                             <rect key="frame" x="45" y="88" width="267" height="44"/>

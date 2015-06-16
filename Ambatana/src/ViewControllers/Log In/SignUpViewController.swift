@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-class SignUpViewController: BaseViewController, UITextFieldDelegate {
+class SignUpViewController: BaseViewController, UITextFieldDelegate, SignUpViewModelDelegate {
     
     // Constants & enum
     enum TextFieldTag: Int {
@@ -38,8 +38,9 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate {
     }
     
     required init(viewModel: SignUpViewModel, nibName nibNameOrNil: String?) {
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        self.viewModel.delegate = self
     }
     
     required init(coder: NSCoder) {
@@ -64,10 +65,21 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate {
     
     // MARK: - Actions
     
-    @IBAction func signUpButtonPressed(sender: AnyObject) {
-    
+    @IBAction func emailButtonPressed(sender: AnyObject) {
+        emailTextField.becomeFirstResponder()
     }
     
+    @IBAction func usernameButtonPressed(sender: AnyObject) {
+        usernameTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func passwordButtonPressed(sender: AnyObject) {
+        passwordTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func signUpButtonPressed(sender: AnyObject) {
+        viewModel.signUp()
+    }
     
     // MARK: - UITextFieldDelegate
     
@@ -102,8 +114,7 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldClear(textField: UITextField) -> Bool {
-        textField.text = ""
-        updateSendButtonEnabledState()
+        setText("", intoTextField: textField)
         return false
     }
     
@@ -120,16 +131,57 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate {
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        textField.text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        updateSendButtonEnabledState()
+        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        setText(text, intoTextField: textField)
         return false
+    }
+    
+    // MARK: > SignUpViewModelDelegate
+
+    func viewModel(viewModel: SignUpViewModel, updateSendButtonEnabledState enabled: Bool) {
+        signUpButton.enabled = enabled
+    }
+    
+    func viewModelDidStartSigningUp(viewModel: SignUpViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    func viewModel(viewModel: SignUpViewModel, didFinishSigningUpWithResult result: SignUpViewModel.Result) {
+        
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            break
+        case .Error(let errorCode):
+            let message: String
+            switch (errorCode) {
+                case .InvalidEmail:
+                    message = NSLocalizedString("sign_up_error_invalid_email", comment: "")
+                case .InvalidUsername:
+                    message = NSLocalizedString("sign_up_error_invalid_username", comment: "")
+                case .InvalidPassword:
+                    message = NSLocalizedString("sign_up_error_invalid_password", comment: "")
+                case .ConnectionFailed:
+                    message = NSLocalizedString("error_connection_failed", comment: "")
+                case .EmailTaken:
+                    message = NSLocalizedString("sign_up_error_email_taken", comment: "")
+                case .InternalError:
+                    message = NSLocalizedString("sign_up_error_generic_error", comment: "")
+            }
+            completion = {
+                self.showAutoFadingOutMessageAlert(message)
+            }
+        }
+        
+        dismissLoadingMessageAlert(completion: completion)
     }
     
     // MARK: - Private methods
     
     // MARK: > UI
     
-    func setupUI() {
+    private func setupUI() {
         // Navigation bar
         let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popViewController")
         navigationItem.leftBarButtonItem = backButton
@@ -154,8 +206,19 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate {
         passwordTextField.tag = TextFieldTag.Password.rawValue
     }
     
-    private func updateSendButtonEnabledState() {
-        signUpButton.enabled = count(emailTextField.text) > 0 && count(usernameTextField.text) > 0 && count(passwordTextField.text) > 0
+    private func setText(text: String, intoTextField textField: UITextField) {
+        textField.text = text
+        
+        if let tag = TextFieldTag(rawValue: textField.tag) {
+            switch (tag) {
+            case .Email:
+                viewModel.email = text
+            case .Username:
+                viewModel.username = text
+            case .Password:
+                viewModel.password = text
+            }
+        }
     }
     
     // MARK: > Navigation

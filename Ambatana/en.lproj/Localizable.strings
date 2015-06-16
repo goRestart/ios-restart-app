@@ -214,6 +214,12 @@
 "sign_up_email_field_placeholder" = "Email";
 "sign_up_password_field_placeholder" = "Password";
 "sign_up_send_button" = "Sign up";
+"sign_up_error_invalid_email" = "Please, insert a valid email in the user email textfield";  // old: "insert_valid_email" = "Please, insert a valid email in the user email textfield";
+"sign_up_error_invalid_username" = "Please, insert a valid, non-empty name in the user name textfield";  //old: "insert_valid_name" = "Please, insert a valid, non-empty name in the user name textfield";
+"sign_up_error_invalid_password" = "Please, insert a valid password, it must have at least 6 characters"; // old: "insert_valid_password" = "Please, insert a valid password, it must have at least 6 characters.";
+"sign_up_error_email_taken" = "User already exists";  // old: "user_already_exists" = "User already exists.";
+"sign_up_error_generic_error" = "An error occurred while creating the user."; // old: "error_creating_user" = "An error occurred while creating the user.";
+// should be removed: "user_created_successfully" = "User successfully created."; 
 
 "main_log_in_claim" = "Start to sell, buy and chat";
 "main_log_in_facebook_connect_button" = "Connect with Facebook";
@@ -233,5 +239,7 @@
 "reset_password_email_field_placeholder" = "Email";
 "reset_password_send_button" = "Reset password";
 
+// Common
+"error_connection_failed" = "Operation could not be completed. Please, check your Internet connection.";
 
 
