@@ -103,7 +103,6 @@ public class MyUserManager {
     public func saveUserIfNew() -> BFTask {
         if let myUser = myUser() {
             if !myUser.isSaved {
-                println(myUser.objectId)
                 return save(myUser)
             }
         }
@@ -186,7 +185,7 @@ public class MyUserManager {
         
         signUpWithEmail(email, password: password, publicUsername: publicUsername).continueWithBlock { (task: BFTask!) -> AnyObject! in
  
-            let succeeded = task.error != nil
+            let succeeded = task.error == nil
             
             if succeeded {
                 self.setupAfterSessionSuccessful()
@@ -210,7 +209,7 @@ public class MyUserManager {
         logInWithEmail(email, password: password).continueWithBlock { (task: BFTask!) -> AnyObject! in
             let user = task.result as? User
             let error = task.error
-            let succeeded = error != nil
+            let succeeded = error == nil
             
             if succeeded {
                 self.setupAfterSessionSuccessful()
@@ -295,7 +294,7 @@ public class MyUserManager {
     */
     public func logout(completion: UserLogOutCompletion) {
         logout().continueWithBlock{ (task: BFTask!) -> AnyObject! in
-            let succeeded = task.error != nil
+            let succeeded = task.error == nil
             completion(success: succeeded, error: task.error)
             return nil
         }
@@ -343,30 +342,28 @@ public class MyUserManager {
     
     private func saveLocationAndRetrieveAddress(location: CLLocation) -> BFTask {
         if let user = myUser() {
-            if user.isSaved {
-                // Save the received location and erase previous postal address data, if any
-                user.gpsCoordinates = LGLocationCoordinates2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-                let address = PostalAddress()
-                user.postalAddress = address
-                save(user)
-                
-                // Then, retrieve the address for the received location
-                return retrieveAddressForLocation(location).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
-                    if let postalAddress = task.result as? PostalAddress {
-                        user.postalAddress = postalAddress
-                        
-                        // If we know the country code, then notify the CurrencyHelper
-                        if let countryCode = postalAddress.countryCode {
-                            if !countryCode.isEmpty {
-                                CurrencyHelper.sharedInstance.setCountryCode(countryCode)
-                            }
+            // Save the received location and erase previous postal address data, if any
+            user.gpsCoordinates = LGLocationCoordinates2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let address = PostalAddress()
+            user.postalAddress = address
+            save(user)
+            
+            // Then, retrieve the address for the received location
+            return retrieveAddressForLocation(location).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
+                if let postalAddress = task.result as? PostalAddress {
+                    user.postalAddress = postalAddress
+                    
+                    // If we know the country code, then notify the CurrencyHelper
+                    if let countryCode = postalAddress.countryCode {
+                        if !countryCode.isEmpty {
+                            CurrencyHelper.sharedInstance.setCountryCode(countryCode)
                         }
-                        
-                        // Save the user again
-                        return self.save(user)
                     }
-                    return nil
+                    
+                    // Save the user again
+                    return self.save(user)
                 }
+                return nil
             }
         }
         return BFTask(error: NSError(code: LGErrorCode.Internal))
