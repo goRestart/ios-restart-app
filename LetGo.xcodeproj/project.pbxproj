@@ -13,6 +13,9 @@
 		500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B91B04F4F70081C141 /* ChatListViewController.xib */; };
 		5004BDFC1B06182E00D302F3 /* SellProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5004BDFB1B06182E00D302F3 /* SellProductViewController.xib */; };
 		5013AA841B03A30200B7A5D3 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5013AA831B03A30200B7A5D3 /* libAppsFlyerLib.a */; };
+		5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */; };
+		5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */; };
+		502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
 		50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */; };
 		50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */; };
 		50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */; };
@@ -152,6 +155,9 @@
 		5004BDFB1B06182E00D302F3 /* SellProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SellProductViewController.xib; sourceTree = "<group>"; };
 		5013AA821B03A30200B7A5D3 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		5013AA831B03A30200B7A5D3 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
+		5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewController.swift; sourceTree = "<group>"; };
+		5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RememberPasswordViewController.xib; sourceTree = "<group>"; };
+		5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewModel.swift; sourceTree = "<group>"; };
 		50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DevelopmentEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductionEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
@@ -368,6 +374,9 @@
 				50560B8B1B25D18F0021D8D9 /* LogInViewController.swift */,
 				50560B8C1B25D18F0021D8D9 /* LogInViewController.xib */,
 				50560BA21B25DAD50021D8D9 /* LogInViewModel.swift */,
+				5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */,
+				5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */,
+				5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */,
 				50F0BAAB1B28939F00E50A68 /* SignUpViewController.swift */,
 				50F0BAAC1B28939F00E50A68 /* SignUpViewController.xib */,
 				50F0BAAF1B2893B100E50A68 /* SignUpViewModel.swift */,
@@ -945,6 +954,7 @@
 				50560BA11B25D18F0021D8D9 /* SplashViewController.xib in Resources */,
 				50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */,
 				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
+				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1046,6 +1056,7 @@
 				D4B0CF7E1B07309800A61E1A /* SellEmptyCell.swift in Sources */,
 				50560BA01B25D18F0021D8D9 /* SplashViewController.swift in Sources */,
 				50560B9D1B25D18F0021D8D9 /* ProductsViewController.swift in Sources */,
+				5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */,
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
 				665BAB511A97D7B5005A8E19 /* MakeAnOfferViewController.swift in Sources */,
 				66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */,
@@ -1083,6 +1094,7 @@
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */,
 				D4912A811B08DDA400DACD5A /* UIView+Appereance.m in Sources */,
+				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
 				50560BA31B25DAD50021D8D9 /* LogInViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,

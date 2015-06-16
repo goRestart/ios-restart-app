@@ -200,3 +200,38 @@
 "location_unauthorized_message" = "Please, allow us to access your location.";
 "location_unauthorized_settings" = "Settings";
 
+
+
+"main_sign_up_claim" = "Start to sell, buy and chat";
+"main_sign_up_facebook_connect_button" = "Connect with Facebook";
+"main_sign_up_or_label" = "OR";
+"main_sign_up_email_field_placeholder" = "Email";
+"main_sign_up_already_registered_label" = "Already registered?";
+"main_sign_up_log_in_label" = "Log in";
+
+"sign_up_title" = "Sign up";
+"sign_up_username_field_placeholder" = "Full name";
+"sign_up_email_field_placeholder" = "Email";
+"sign_up_password_field_placeholder" = "Password";
+"sign_up_send_button" = "Sign up";
+
+"main_log_in_claim" = "Start to sell, buy and chat";
+"main_log_in_facebook_connect_button" = "Connect with Facebook";
+"main_log_in_or_label" = "OR";
+"main_log_in_email_field_placeholder" = "Email";
+"main_log_in_password_field_placeholder" = "Password";
+"main_log_in_reset_password_button" = "Forgot?";
+"main_log_in_not_registered_label" = "Not registered?";
+"main_log_in_sign_up_label" = "Sign up";
+
+"log_in_title" = "Log in";
+"log_in_email_field_placeholder" = "Email";
+"log_in_password_field_placeholder" = "Password";
+"log_in_send_button" = "Log in";
+
+"reset_password_title" = "Recover Password";
+"reset_password_email_field_placeholder" = "Email";
+"reset_password_send_button" = "Reset password";
+
+
+

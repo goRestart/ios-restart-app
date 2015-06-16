@@ -1,45 +1,38 @@
 //
-//  SignUpViewController.swift
+//  RememberPasswordViewController.swift
 //  LetGo
 //
-//  Created by Albert Hernández López on 10/06/15.
+//  Created by Albert Hernández López on 15/06/15.
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-class SignUpViewController: BaseViewController, UITextFieldDelegate {
-    
+import UIKit
+
+class RememberPasswordViewController: BaseViewController, UITextFieldDelegate {
+
     // Constants & enum
     enum TextFieldTag: Int {
-        case Email = 1000, Username, Password
+        case Email = 1000
     }
     
     // ViewModel
-    var viewModel: SignUpViewModel!
+    var viewModel: RememberPasswordViewModel!
     
-    // UI
     @IBOutlet weak var emailIconImageView: UIImageView!
-    @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var emailButton: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
     
-    @IBOutlet weak var usernameIconImageView: UIImageView!
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var usernameButton: UIButton!
-
-    @IBOutlet weak var passwordIconImageView: UIImageView!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var passwordButton: UIButton!
-    
-    @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var resetPasswordButton: UIButton!
     
     // MARK: - Lifecycle
     
     convenience init() {
-        self.init(viewModel: SignUpViewModel(), nibName: "SignUpViewController")
+        self.init(viewModel: RememberPasswordViewModel(), nibName: "RememberPasswordViewController")
     }
     
-    required init(viewModel: SignUpViewModel, nibName nibNameOrNil: String?) {
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+    required init(viewModel: RememberPasswordViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
     }
     
     required init(coder: NSCoder) {
@@ -53,21 +46,12 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate {
         
         emailTextField.becomeFirstResponder()
     }
-
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        usernameButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        passwordButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
+        emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
     }
-    
-    // MARK: - Actions
-    
-    @IBAction func signUpButtonPressed(sender: AnyObject) {
-    
-    }
-    
     
     // MARK: - UITextFieldDelegate
     
@@ -77,10 +61,6 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate {
             switch (tag) {
             case .Email:
                 iconImageView = emailIconImageView
-            case .Username:
-                iconImageView = usernameIconImageView
-            case .Password:
-                iconImageView = passwordIconImageView
             }
             iconImageView.highlighted = true
         }
@@ -92,10 +72,6 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate {
             switch (tag) {
             case .Email:
                 iconImageView = emailIconImageView
-            case .Username:
-                iconImageView = usernameIconImageView
-            case .Password:
-                iconImageView = passwordIconImageView
             }
             iconImageView.highlighted = false
         }
@@ -135,27 +111,22 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate {
         navigationItem.leftBarButtonItem = backButton
 //        navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
         
-        title = NSLocalizedString("sign_up_title", comment: "")
-        
         // Appearance
-        signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        signUpButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        signUpButton.layer.cornerRadius = 4
+        resetPasswordButton.setBackgroundImage(resetPasswordButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        resetPasswordButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        resetPasswordButton.layer.cornerRadius = 4
         
         // i18n
-        emailTextField.placeholder = NSLocalizedString("sign_up_email_field_placeholder", comment: "")
-        usernameTextField.placeholder = NSLocalizedString("sign_up_username_field_placeholder", comment: "")
-        passwordTextField.placeholder = NSLocalizedString("sign_up_password_field_placeholder", comment: "")
-        signUpButton.setTitle(NSLocalizedString("sign_up_send_button", comment: ""), forState: .Normal)
+        title = NSLocalizedString("reset_password_title", comment: "")
+        emailTextField.placeholder = NSLocalizedString("reset_password_email_field_placeholder", comment: "")
+        resetPasswordButton.setTitle(NSLocalizedString("reset_password_send_button", comment: ""), forState: .Normal)
         
         // Tags
         emailTextField.tag = TextFieldTag.Email.rawValue
-        usernameTextField.tag = TextFieldTag.Username.rawValue
-        passwordTextField.tag = TextFieldTag.Password.rawValue
     }
     
     private func updateSendButtonEnabledState() {
-        signUpButton.enabled = count(emailTextField.text) > 0 && count(usernameTextField.text) > 0 && count(passwordTextField.text) > 0
+        resetPasswordButton.enabled = count(emailTextField.text) > 0
     }
     
     // MARK: > Navigation

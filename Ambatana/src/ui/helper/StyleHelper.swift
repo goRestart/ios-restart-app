@@ -18,6 +18,7 @@ class StyleHelper {
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
+    private static let gray235 = UIColor(rgb: 0xEBEBEB)
     private static let black = UIColor(rgb: 0x000000)
     
     // > Palette
@@ -40,6 +41,10 @@ class StyleHelper {
     
     static var lineColor: UIColor {
         return gray213
+    }
+    
+    static var disabledButtonBackgroundColor: UIColor {
+        return gray235
     }
     
     // MARK: - NavBar

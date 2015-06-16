@@ -17,7 +17,10 @@ class MainSignUpViewController: BaseViewController {
     
     // > Main View
     @IBOutlet weak var connectFBButton: UIButton!
+    @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
+
+    @IBOutlet weak var emailButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     
     // Footer
@@ -42,9 +45,14 @@ class MainSignUpViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Navigation bar
-        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeButtonPressed"))
-        self.navigationItem.leftBarButtonItem = closeButton;
+        setupUI()
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        dividerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
+        emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
+        emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
     }
     
     // MARK: - Public methods
@@ -65,20 +73,49 @@ class MainSignUpViewController: BaseViewController {
     
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
+        let transition = CATransition()
+        transition.duration = 0.5
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+        transition.type = kCATransitionFade
+        navigationController?.view.layer.addAnimation(transition, forKey: nil)
+        
         let vc = MainLogInViewController()
         navigationController?.setViewControllers([vc], animated: false)
     }
     
     // MARK: - Private methods
     
-    private func pushSignUpViewController() {
-        let vc = SignUpViewController()
+    // MARK: > UI
+    
+    private func setupUI() {
         
+        // Navigation bar
+        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeButtonPressed"))
+        self.navigationItem.leftBarButtonItem = closeButton;
+        
+        // Appearance
+        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        connectFBButton.layer.cornerRadius = 4
+        
+        // i18n
+        claimLabel.text = NSLocalizedString("main_sign_up_claim", comment: "")
+        connectFBButton.setTitle(NSLocalizedString("main_sign_up_facebook_connect_button", comment: ""), forState: .Normal)
+        orLabel.text = NSLocalizedString("main_sign_up_or_label", comment: "")
+        emailTextField.placeholder = NSLocalizedString("main_sign_up_email_field_placeholder", comment: "")
+        registeredLabel.text = NSLocalizedString("main_sign_up_already_registered_label", comment: "")
+        logInLabel.text = NSLocalizedString("main_sign_up_log_in_label", comment: "")
+    }
+    
+    // MARK: > Navigation
+    
+    private func pushSignUpViewController() {
         let transition = CATransition()
         transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
         transition.type = kCATransitionFade
         navigationController?.view.layer.addAnimation(transition, forKey: nil)
+        
+        let vc = SignUpViewController()
         navigationController?.pushViewController(vc, animated: false)
     }
 }
