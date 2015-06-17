@@ -249,6 +249,12 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             }
             // Do not allow selecting Profile if it's an anonymous user
             else if let profileVC = navVC.topViewController as? EditProfileViewController {
+                
+                // Update the user in my profile
+                if let user = MyUserManager.sharedInstance.myUser() {
+                    profileVC.user = user
+                }
+                
                 isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
             }
             
