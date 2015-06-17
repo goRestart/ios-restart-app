@@ -137,7 +137,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         PFUser.logOut()
         ConfigurationManager.sharedInstance.logOutUser()
         MyUserManager.sharedInstance.logout { (result: Result<Nil, UserLogOutServiceError>) in }
-        LocationManager.sharedInstance.stopLocationUpdates()
         self.dismissViewControllerAnimated(true, completion: nil)
         
         // Tracking

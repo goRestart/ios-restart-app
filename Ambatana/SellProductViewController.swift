@@ -114,8 +114,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        // force a location update
-        LocationManager.sharedInstance.startLocationUpdates()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
 
         // Tracking
