@@ -134,9 +134,14 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func logoutUser() {
         
-        PFUser.logOut()
+//        PFUser.logOut()
         ConfigurationManager.sharedInstance.logOutUser()
-        MyUserManager.sharedInstance.logout { (result: Result<Nil, UserLogOutServiceError>) in }
+        
+        MyUserManager.sharedInstance.logout { (result: Result<Nil, UserLogOutServiceError>) in
+            if let tabBarCtl = self.tabBarController as? TabBarController {
+                tabBarCtl.switchToTab(.Home)
+            }
+        }
         self.dismissViewControllerAnimated(true, completion: nil)
         
         // Tracking

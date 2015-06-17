@@ -209,7 +209,7 @@
 "main_sign_up_already_registered_label" = "Already registered?";
 "main_sign_up_log_in_label" = "Log in";
 
-"main_sign_up_fb_connect_error_generic_error" = "Unable to login"; // old: "unable_login" = "Unable to login." & "login_canceled" = "Login was canceled by the user or an unknown error happened.";
+"main_sign_up_fb_connect_error_generic_error" = "Unable to login. Please try again."; // old: "unable_login" = "Unable to login." & "login_canceled" = "Login was canceled by the user or an unknown error happened.";
 
 "sign_up_title" = "Sign up";
 "sign_up_username_field_placeholder" = "Full name";
