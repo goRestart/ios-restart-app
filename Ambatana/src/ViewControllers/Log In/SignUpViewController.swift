@@ -9,7 +9,7 @@
 import LGCoreKit
 import Result
 
-class SignUpViewController: BaseViewController, UITextFieldDelegate, SignUpViewModelDelegate {
+class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextFieldDelegate {
     
     // Constants & enum
     enum TextFieldTag: Int {
@@ -84,6 +84,51 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate, SignUpViewM
         viewModel.signUp()
     }
     
+    // MARK: - SignUpViewModelDelegate
+    
+    func viewModel(viewModel: SignUpViewModel, updateSendButtonEnabledState enabled: Bool) {
+        signUpButton.enabled = enabled
+    }
+    
+    func viewModelDidStartSigningUp(viewModel: SignUpViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    func viewModel(viewModel: SignUpViewModel, didFinishSigningUpWithResult result: Result<Nil, UserSignUpServiceError>) {
+        
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            completion = {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            break
+        case .Failure(let error):
+            
+            let message: String
+            switch (error.value) {
+            case .InvalidEmail:
+                message = NSLocalizedString("sign_up_error_invalid_email", comment: "")
+            case .InvalidUsername:
+                message = NSLocalizedString("sign_up_error_invalid_username", comment: "")
+            case .InvalidPassword:
+                message = NSLocalizedString("sign_up_error_invalid_password", comment: "")
+            case .Network:
+                message = NSLocalizedString("error_connection_failed", comment: "")
+            case .EmailTaken:
+                message = NSLocalizedString("sign_up_error_email_taken", comment: "")
+            case .Internal:
+                message = NSLocalizedString("sign_up_error_generic_error", comment: "")
+            }
+            completion = {
+                self.showAutoFadingOutMessageAlert(message)
+            }
+        }
+        
+        dismissLoadingMessageAlert(completion: completion)
+    }
+    
     // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(textField: UITextField) {
@@ -137,51 +182,6 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate, SignUpViewM
         let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
         setText(text, intoTextField: textField)
         return false
-    }
-    
-    // MARK: > SignUpViewModelDelegate
-
-    func viewModel(viewModel: SignUpViewModel, updateSendButtonEnabledState enabled: Bool) {
-        signUpButton.enabled = enabled
-    }
-    
-    func viewModelDidStartSigningUp(viewModel: SignUpViewModel) {
-        showLoadingMessageAlert()
-    }
-    
-    func viewModel(viewModel: SignUpViewModel, didFinishSigningUpWithResult result: Result<Nil, UserSignUpServiceError>) {
-        
-        var completion: (() -> Void)? = nil
-        
-        switch (result) {
-        case .Success:
-            completion = {
-                self.dismissViewControllerAnimated(true, completion: nil)
-            }
-            break
-        case .Failure(let error):
-            
-            let message: String
-            switch (error.value) {
-                case .InvalidEmail:
-                    message = NSLocalizedString("sign_up_error_invalid_email", comment: "")
-                case .InvalidUsername:
-                    message = NSLocalizedString("sign_up_error_invalid_username", comment: "")
-                case .InvalidPassword:
-                    message = NSLocalizedString("sign_up_error_invalid_password", comment: "")
-                case .Network:
-                    message = NSLocalizedString("error_connection_failed", comment: "")
-                case .EmailTaken:
-                    message = NSLocalizedString("sign_up_error_email_taken", comment: "")
-                case .Internal:
-                    message = NSLocalizedString("sign_up_error_generic_error", comment: "")
-            }
-            completion = {
-                self.showAutoFadingOutMessageAlert(message)
-            }
-        }
-        
-        dismissLoadingMessageAlert(completion: completion)
     }
     
     // MARK: - Private methods
