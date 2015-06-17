@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-class MainSignUpViewController: BaseViewController {
+import LGCoreKit
+import Result
+
+class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate {
     
     // ViewModel
     var viewModel: MainSignUpViewModel!
@@ -34,8 +37,9 @@ class MainSignUpViewController: BaseViewController {
     }
     
     required init(viewModel: MainSignUpViewModel, nibName nibNameOrNil: String?) {
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        self.viewModel.delegate = self
     }
     
     required init(coder: NSCoder) {
@@ -55,22 +59,19 @@ class MainSignUpViewController: BaseViewController {
         emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
     }
     
-    // MARK: - Public methods
-    
-    // MARK: > Actions
+    // MARK: - Actions
     
     func closeButtonPressed() {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func connectFBButtonPressed(sender: AnyObject) {
-         pushSignUpViewController()
+         viewModel.logInWithFacebook()
     }
     
     @IBAction func emailButtonPressed(sender: AnyObject) {
          pushSignUpViewController()
     }
-    
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
         let transition = CATransition()
@@ -81,6 +82,42 @@ class MainSignUpViewController: BaseViewController {
         
         let vc = MainLogInViewController()
         navigationController?.setViewControllers([vc], animated: false)
+    }
+    
+    // MARK: - MainSignUpViewModelDelegate
+    
+    func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: Result<User, UserLogInFBError>) {
+        
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            completion = {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            break
+        case .Failure(let error):
+            
+            var message: String?
+            switch (error.value) {
+            case .Cancelled:
+                break
+            case .Network:
+                message = NSLocalizedString("error_connection_failed", comment: "")
+            case .Internal:
+                message = NSLocalizedString("main_sign_up_fb_connect_error_generic_error", comment: "")
+            }
+            completion = {
+                if let actualMessage = message {
+                    self.showAutoFadingOutMessageAlert(actualMessage)
+                }
+            }
+        }
+        dismissLoadingMessageAlert(completion: completion)
     }
     
     // MARK: - Private methods
