@@ -22,6 +22,8 @@ final public class PAUserLogInEmailService: UserLogInEmailService {
                 switch(actualError.code) {
                 case PFErrorCode.ErrorConnectionFailed.rawValue:
                     result(Result<User, UserLogInEmailServiceError>.failure(.Network))
+                case PFErrorCode.ErrorInvalidEmailAddress.rawValue:
+                    result(Result<User, UserLogInEmailServiceError>.failure(.InvalidEmail))
                 case PFErrorCode.ErrorObjectNotFound.rawValue:
                     result(Result<User, UserLogInEmailServiceError>.failure(.UserNotFoundOrWrongPassword))
                 default:

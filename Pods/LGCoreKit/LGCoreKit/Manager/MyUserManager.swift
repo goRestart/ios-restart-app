@@ -137,7 +137,11 @@ public class MyUserManager {
                             }
                             
                             // 4. Save the user again
-                            self.saveMyUser { (secondSaveUserResult: Result<User, UserSaveServiceError>) in }
+                            self.saveMyUser { (secondSaveUserResult: Result<User, UserSaveServiceError>) in
+                                
+                                // Success or Error
+                                result(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
+                            }
                         }
                         // Error
                         else if let postalAddressRetrievalError = postalAddressRetrievalResult.error {
