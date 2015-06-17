@@ -39,7 +39,7 @@
                             </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="kIv-3g-nBb" userLabel="Email Text Field">
-                            <rect key="frame" x="45" y="0.0" width="259" height="44"/>
+                            <rect key="frame" x="45" y="0.0" width="267" height="44"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                             <connections>
@@ -94,7 +94,7 @@
                         <constraint firstAttribute="trailing" secondItem="1dZ-Pu-lgn" secondAttribute="trailing" id="4rO-ps-HS6"/>
                         <constraint firstItem="wjn-PE-H5k" firstAttribute="bottom" secondItem="yCt-Rf-oah" secondAttribute="bottom" id="8bf-Qo-2BQ"/>
                         <constraint firstItem="wjn-PE-H5k" firstAttribute="leading" secondItem="Byz-ea-pve" secondAttribute="leading" constant="-45" id="D26-qz-s9s"/>
-                        <constraint firstItem="1dZ-Pu-lgn" firstAttribute="trailing" secondItem="kIv-3g-nBb" secondAttribute="trailing" constant="16" id="EAO-my-DEK"/>
+                        <constraint firstItem="1dZ-Pu-lgn" firstAttribute="trailing" secondItem="kIv-3g-nBb" secondAttribute="trailing" constant="8" id="EAO-my-DEK"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="bottom" secondItem="kIv-3g-nBb" secondAttribute="bottom" id="J7T-yK-TdS"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="leading" secondItem="0hZ-Gp-91C" secondAttribute="leading" id="Pm9-cw-FQK"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="leading" secondItem="Mau-hk-QhN" secondAttribute="leading" constant="-16" id="QRP-0K-mBj"/>
