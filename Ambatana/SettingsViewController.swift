@@ -9,6 +9,7 @@
 import LGCoreKit
 import Parse
 import Result
+import SDWebImage
 import UIKit
 
 private let kLetGoSettingsTableCellImageTag = 1
@@ -37,14 +38,12 @@ enum LetGoUserSettings: Int {
     
     func imageForSetting() -> UIImage? {
         switch (self) {
-        case .ChangePhoto:
-            return ConfigurationManager.sharedInstance.userProfileImage ?? UIImage(named: "no_photo")
-        //case .ChangeLocation:
-        //    return UIImage(named: "edit_profile_location")
         case .ChangePassword:
             return UIImage(named: "edit_profile_password")
         case .LogOut:
             return UIImage(named: "edit_profile_logout")
+        default:
+            return nil
         }
     }
 }
@@ -102,7 +101,18 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.label.text = setting.titleForSetting()
         cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
         
-        cell.iconImageView.image = setting.imageForSetting()
+        if setting == .ChangePhoto {
+            if let myUser = MyUserManager.sharedInstance.myUser(), let avatarUrl = myUser.avatar?.fileURL {
+                cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: UIImage(named: "no_photo"))
+            }
+            else {
+                cell.iconImageView.image = UIImage(named: "no_photo")
+            }
+        }
+        else {
+            cell.iconImageView.image = setting.imageForSetting()
+        }
+
         cell.iconImageView.contentMode = setting == .ChangePhoto ? .ScaleAspectFill : .Center
         cell.iconImageView.layer.cornerRadius = setting == .ChangePhoto ? cell.iconImageView.frame.size.width / 2.0 : 0.0
         cell.iconImageView.clipsToBounds = true
