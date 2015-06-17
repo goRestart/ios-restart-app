@@ -235,6 +235,12 @@
 "log_in_password_field_placeholder" = "Password";
 "log_in_send_button" = "Log in";
 
+"log_in_error_invalid_email" = "Please, insert a valid email in the user email textfield";  // old: "insert_valid_email" = "Please, insert a valid email in the user email textfield";
+"log_in_error_invalid_password" = "Please, insert a valid password, it must have at least 6 characters"; // old: "insert_valid_password" = "Please, insert a valid password, it must have at least 6 characters.";
+"log_in_error_user_not_found_or_wrong_password" = "Unable to login: unknown user or incorrect credentials"; // old: "incorrect_credentials" = "Unable to login: unknown user or incorrect credentials";
+"log_in_error_generic_error" = "An error occurred while logging in.";
+
+
 "reset_password_title" = "Recover Password";
 "reset_password_email_field_placeholder" = "Email";
 "reset_password_send_button" = "Reset password";

@@ -6,7 +6,10 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-class LogInViewController: BaseViewController, UITextFieldDelegate {
+import LGCoreKit
+import Result
+
+class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFieldDelegate {
     
     // Constants & enum
     enum TextFieldTag: Int {
@@ -36,6 +39,7 @@ class LogInViewController: BaseViewController, UITextFieldDelegate {
     required init(viewModel: LogInViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        self.viewModel.delegate = self
     }
     
     required init(coder: NSCoder) {
@@ -68,7 +72,49 @@ class LogInViewController: BaseViewController, UITextFieldDelegate {
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
+        viewModel.logIn()
+    }
     
+    // MARK: - LogInViewModelDelegate
+    
+    func viewModel(viewModel: LogInViewModel, updateSendButtonEnabledState enabled: Bool) {
+        logInButton.enabled = enabled
+    }
+    
+    func viewModelDidStartLoggingIn(viewModel: LogInViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    func viewModel(viewModel: LogInViewModel, didFinishLoggingInWithResult result: Result<User, UserLogInEmailServiceError>) {
+        
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            completion = {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+            break
+        case .Failure(let error):
+            let message: String
+            switch (error.value) {
+            case .InvalidEmail:
+                message = NSLocalizedString("log_in_error_invalid_email", comment: "")
+            case .InvalidPassword:
+                message = NSLocalizedString("log_in_error_invalid_password", comment: "")
+            case .UserNotFoundOrWrongPassword:
+                message = NSLocalizedString("log_in_error_user_not_found_or_wrong_password", comment: "")
+            case .Network:
+                message = NSLocalizedString("error_connection_failed", comment: "")
+            case .Internal:
+                message = NSLocalizedString("log_in_error_generic_error", comment: "")
+            }
+            completion = {
+                self.showAutoFadingOutMessageAlert(message)
+            }
+        }
+        
+        dismissLoadingMessageAlert(completion: completion)
     }
     
     // MARK: - UITextFieldDelegate
@@ -100,8 +146,7 @@ class LogInViewController: BaseViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldClear(textField: UITextField) -> Bool {
-        textField.text = ""
-        updateSendButtonEnabledState()
+        setText("", intoTextField: textField)
         return false
     }
     
@@ -118,8 +163,8 @@ class LogInViewController: BaseViewController, UITextFieldDelegate {
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        textField.text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        updateSendButtonEnabledState()
+        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        setText(text, intoTextField: textField)
         return false
     }
     
@@ -149,8 +194,17 @@ class LogInViewController: BaseViewController, UITextFieldDelegate {
         passwordTextField.tag = TextFieldTag.Password.rawValue
     }
     
-    private func updateSendButtonEnabledState() {
-        logInButton.enabled = count(emailTextField.text) > 0 && count(passwordTextField.text) > 0
+    private func setText(text: String, intoTextField textField: UITextField) {
+        textField.text = text
+        
+        if let tag = TextFieldTag(rawValue: textField.tag) {
+            switch (tag) {
+            case .Email:
+                viewModel.email = text
+            case .Password:
+                viewModel.password = text
+            }
+        }
     }
     
     // MARK: > Navigation
