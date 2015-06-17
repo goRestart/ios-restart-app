@@ -102,9 +102,9 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
             case .Cancelled:
                 break
             case .Network:
-                message = NSLocalizedString("error_connection_failed", comment: "")
-            case .Internal:
                 message = NSLocalizedString("main_sign_up_fb_connect_error_generic_error", comment: "")
+            case .Internal:
+                break
             }
             completion = {
                 if let actualMessage = message {
