@@ -9,7 +9,7 @@
 import Result
 
 public enum UserLogOutServiceError {
-    case General
+    case Internal
 }
 
 public typealias UserLogOutServiceResult = (Result<Nil, UserLogOutServiceError>) -> Void
@@ -19,7 +19,8 @@ public protocol UserLogOutService {
     /**
         Logs out a user.
     
+        :param: user The user.
         :param: result The closure containing the result.
     */
-    func logOutWithResult(result: UserLogOutServiceResult)
+    func logOutUser(user: User, result: UserLogOutServiceResult)
 }

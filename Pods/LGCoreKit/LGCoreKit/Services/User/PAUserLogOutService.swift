@@ -11,10 +11,10 @@ import Result
 
 final public class PAUserLogOutService: UserLogOutService {
  
-    public func logOutWithResult(result: UserLogOutServiceResult) {
+    public func logOutUser(user: User, result: UserLogOutServiceResult) {
         PFUser.logOutInBackgroundWithBlock { (error: NSError?) -> Void in
             if let actualError = error {
-                result(Result<Nil, UserLogOutServiceError>.failure(.General))
+                result(Result<Nil, UserLogOutServiceError>.failure(.Internal))
             }
             else {
                 result(Result<Nil, UserLogOutServiceError>.success(Nil()))

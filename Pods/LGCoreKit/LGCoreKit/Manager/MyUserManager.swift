@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Bolts
 import CoreLocation
 import Parse
 import Result
@@ -22,6 +21,8 @@ public class MyUserManager {
     private var userLogInFBService: UserLogInFBService
     private var fbUserInfoRetrieveService: FBUserInfoRetrieveService
     private var userLogOutService: UserLogOutService
+    
+    private var userPasswordResetService: UserPasswordResetService
     
     private var userSaveService: UserSaveService
     private var installationSaveService: InstallationSaveService
@@ -43,6 +44,8 @@ public class MyUserManager {
         self.userLogInFBService = PAUserLogInFBService()
         self.fbUserInfoRetrieveService = FBUserInfoRetrieveService()
         self.userLogOutService = PAUserLogOutService()
+        
+        self.userPasswordResetService = PAUserPasswordResetService()
         
         self.userSaveService = PAUserSaveService()
         self.installationSaveService = PAInstallationSaveService()
@@ -322,12 +325,46 @@ public class MyUserManager {
     }
     
     /**
-        Logs out a user.
+        Logs out my user.
     
         :param: result The closure containing the result.
     */
     public func logout(result: UserLogOutServiceResult) {
-        userLogOutService.logOutWithResult(result)
+        if let myUser = myUser() {
+            userLogOutService.logOutUser(myUser) { (myResult: Result<Nil, UserLogOutServiceError>) in
+                
+                // Notify the callback
+                result(Result<Nil, UserLogOutServiceError>.success(Nil()))
+                
+                // Update my installation in background, unlink userId & username
+                if let myUser = self.myUser(), let userId = myUser.objectId, let username = myUser.username {
+                    var installation = self.myInstallation()
+                    installation.userId = ""
+                    installation.username = ""
+                    installation.channels = [""]
+                    self.installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
+                }
+            }
+        }
+        else {
+            result(Result<Nil, UserLogOutServiceError>.failure(.Internal))
+        }
+    }
+    
+    // MARK: > Password reset
+    
+    /**
+        Resets the password of a my user.
+    
+        :param: result The closure containing the result.
+    */
+    public func resetPassword(result: UserPasswordResetServiceResult) {
+        if let myUser = myUser() {
+            userPasswordResetService.resetPassword(myUser, result: result)
+        }
+        else {
+            result(Result<Nil, UserPasswordResetServiceError>.failure(.Internal))
+        }
     }
     
     // MARK: - Private methods
@@ -362,6 +399,7 @@ public class MyUserManager {
             var installation = myInstallation()
             installation.userId = userId
             installation.username = username
+            installation.channels = [""]
             installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
         }
     }

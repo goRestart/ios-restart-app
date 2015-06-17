@@ -22,10 +22,10 @@ final public class PAUserLogInFBService: UserLogInFBService {
             }
             // Error
             else if let actualError = error {
-                result(Result<User, UserLogInFBServiceError>.failure(.Cancelled))
+                result(Result<User, UserLogInFBServiceError>.failure(.Internal))
             }
             else {
-                result(Result<User, UserLogInFBServiceError>.failure(.Internal))
+                result(Result<User, UserLogInFBServiceError>.failure(.Cancelled))
             }
         })
     }
