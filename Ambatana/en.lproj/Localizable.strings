@@ -239,6 +239,12 @@
 "reset_password_email_field_placeholder" = "Email";
 "reset_password_send_button" = "Reset password";
 
+"reset_password_successful" = "Check your inbox a follow the password reset instructions.";
+"reset_password_error_invalid_email" = "Please, insert a valid email in the user email textfield";
+"reset_password_error_user_not_found_or_wrong_password" = "Email address not found";
+"reset_password_error_generic_error" = "An error occurred while trying to remember your password.";
+
+
 // Common
 "error_connection_failed" = "Operation could not be completed. Please, check your Internet connection.";
 

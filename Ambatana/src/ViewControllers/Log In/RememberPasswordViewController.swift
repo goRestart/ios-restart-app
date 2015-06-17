@@ -6,9 +6,11 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+import Result
 import UIKit
 
-class RememberPasswordViewController: BaseViewController, UITextFieldDelegate {
+class RememberPasswordViewController: BaseViewController, RememberPasswordViewModelDelegate, UITextFieldDelegate {
 
     // Constants & enum
     enum TextFieldTag: Int {
@@ -33,6 +35,7 @@ class RememberPasswordViewController: BaseViewController, UITextFieldDelegate {
     required init(viewModel: RememberPasswordViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        self.viewModel.delegate = self
     }
     
     required init(coder: NSCoder) {
@@ -51,6 +54,54 @@ class RememberPasswordViewController: BaseViewController, UITextFieldDelegate {
         super.viewWillLayoutSubviews()
         emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
         emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction func resetPasswordButtonPressed(sender: AnyObject) {
+        viewModel.resetPassword()
+    }
+    
+    // MARK: - RememberPasswordViewModelDelegate
+    
+    func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
+        resetPasswordButton.enabled = enabled
+    }
+    
+    func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    func viewModel(viewModel: RememberPasswordViewModel, didFinishResettingPasswordWithResult result: Result<Nil, UserPasswordResetServiceError>) {
+        
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            completion = {
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("reset_password_successful", comment: "")) {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
+            }
+            break
+        case .Failure(let error):
+            let message: String
+            switch (error.value) {
+            case .InvalidEmail:
+                message = NSLocalizedString("reset_password_error_invalid_email", comment: "")
+            case .UserNotFound:
+                message = NSLocalizedString("reset_password_error_user_not_found_or_wrong_password", comment: "")
+            case .Network:
+                message = NSLocalizedString("error_connection_failed", comment: "")
+            case .Internal:
+                message = NSLocalizedString("reset_password_error_generic_error", comment: "")
+            }
+            completion = {
+                self.showAutoFadingOutMessageAlert(message)
+            }
+        }
+        
+        dismissLoadingMessageAlert(completion: completion)
     }
     
     // MARK: - UITextFieldDelegate
@@ -78,8 +129,7 @@ class RememberPasswordViewController: BaseViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldClear(textField: UITextField) -> Bool {
-        textField.text = ""
-        updateSendButtonEnabledState()
+        setText("", intoTextField: textField)
         return false
     }
     
@@ -96,8 +146,8 @@ class RememberPasswordViewController: BaseViewController, UITextFieldDelegate {
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        textField.text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        updateSendButtonEnabledState()
+        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        setText(text, intoTextField: textField)
         return false
     }
     
@@ -127,5 +177,16 @@ class RememberPasswordViewController: BaseViewController, UITextFieldDelegate {
     
     private func updateSendButtonEnabledState() {
         resetPasswordButton.enabled = count(emailTextField.text) > 0
+    }
+    
+    private func setText(text: String, intoTextField textField: UITextField) {
+        textField.text = text
+        
+        if let tag = TextFieldTag(rawValue: textField.tag) {
+            switch (tag) {
+            case .Email:
+                viewModel.email = text
+            }
+        }
     }
 }
