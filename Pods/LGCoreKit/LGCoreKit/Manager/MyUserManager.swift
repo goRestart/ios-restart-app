@@ -213,6 +213,22 @@ public class MyUserManager {
         }
     }
     
+    /**
+        Updates my user passwords.
+    
+        :param: password The password.
+        :param: result The closure containing the result.
+    */
+    private func updatePassword(password: String, result: UserSaveServiceResult) {
+        if let myUser = myUser() {
+            myUser.password = password
+            saveMyUser(result)
+        }
+        else {
+            result(Result<User, UserSaveServiceError>.failure(.Internal))
+        }
+    }
+    
     // MARK: > Sign up / Log in / Log out
     
     /**
