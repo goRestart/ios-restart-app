@@ -8,21 +8,24 @@
 
 import ParseFacebookUtilsV4
 import Parse
+import Result
 
 final public class PAUserLogInFBService: UserLogInFBService {
     
-    public func logInByFacebooWithCompletion(completion: UserLogInCompletion) {
+    public func logInByFacebooWithCompletion(result: UserLogInFBServiceResult) {
 
         let permissions = ["user_about_me", "user_location", "email", "public_profile"]
         PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions, block: { (user: PFUser?, error: NSError?) -> Void in
-            if let actualError = error {
-                completion(user: nil, error: error)
+            // Success
+            if let actualUser = user as? User {
+                result(Result<User, UserLogInFBServiceError>.success(actualUser))
             }
-            else if let actualUser = user as? User {
-                completion(user: actualUser, error: nil)
+            // Error
+            else if let actualError = error {
+                result(Result<User, UserLogInFBServiceError>.failure(.Cancelled))
             }
             else {
-                completion(user: nil, error: NSError(code: LGErrorCode.Internal))
+                result(Result<User, UserLogInFBServiceError>.failure(.Internal))
             }
         })
     }

@@ -7,6 +7,7 @@
 //
 
 import Parse
+import Result
 
 final public class PAFileUploadService: FileUploadService {
     
@@ -18,35 +19,41 @@ final public class PAFileUploadService: FileUploadService {
     
     // MARK: - FileUploadService
     
-    public func uploadFile(data: NSData, completion: FileUploadCompletion) {
+    public func uploadFile(data: NSData, result: FileUploadServiceResult) {
         let file = PFFile(data: data)
         file.saveInBackgroundWithBlock { (success: Bool, error: NSError?) in
-            if let actualError = error {
-                completion(file: nil, error: actualError)
+            // Success
+            if success {
+                result(Result<File, FileUploadServiceError>.success(file))
             }
-            else if success {
-                completion(file: file, error: nil)
+            // Error
+            else if let actualError = error {
+                switch(actualError.code) {
+                case PFErrorCode.ErrorConnectionFailed.rawValue:
+                    result(Result<File, FileUploadServiceError>.failure(.Network))
+                default:
+                    result(Result<File, FileUploadServiceError>.failure(.Internal))
+                }
             }
             else {
-                completion(file: file, error: NSError(code: LGErrorCode.Internal))
+                result(Result<File, FileUploadServiceError>.failure(.Internal))
             }
         }
     }
     
-    public func uploadFile(sourceURL: NSURL, completion: FileUploadCompletion) {
+    public func uploadFile(sourceURL: NSURL, result: FileUploadServiceResult) {
         let request = NSURLRequest(URL: sourceURL)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-            // Error
-            if let actualError = error {
-                completion(file: nil, error: actualError)
-            }
             // Success
-            else if let actualData = data {
-                self.uploadFile(actualData, completion: completion)
+            if let actualData = data {
+                self.uploadFile(actualData, result: result)
             }
-            // Other error
+            // Error
+            else if let actualError = error {
+                result(Result<File, FileUploadServiceError>.failure(.Network))
+            }
             else {
-                completion(file: nil, error: NSError(code: LGErrorCode.Internal))
+                result(Result<File, FileUploadServiceError>.failure(.Internal))
             }
         }
     }

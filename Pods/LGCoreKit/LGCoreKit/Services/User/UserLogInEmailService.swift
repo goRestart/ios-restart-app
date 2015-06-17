@@ -6,6 +6,16 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+import Result
+
+public enum UserLogInEmailServiceError {
+    case Network
+    case UserNotFoundOrWrongPassword
+    case Internal
+}
+
+public typealias UserLogInEmailServiceResult = (Result<User, UserLogInEmailServiceError>) -> Void
+
 public protocol UserLogInEmailService {
     
     /**
@@ -13,7 +23,7 @@ public protocol UserLogInEmailService {
     
         :param: email The user's email.
         :param: password The user's password.
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    func logInUserWithEmail(email: String, password: String, completion: UserLogInCompletion)
+    func logInUserWithEmail(email: String, password: String, result: UserLogInEmailServiceResult)
 }

@@ -7,6 +7,7 @@
 //
 
 import Parse
+import Result
 
 final public class PAUserSaveService: UserSaveService {
     
@@ -18,14 +19,29 @@ final public class PAUserSaveService: UserSaveService {
     
     // MARK: - UserSaveService
     
-    public func saveUser(user: User, completion: UserSaveCompletion) {
+    public func saveUser(user: User, result: UserSaveServiceResult) {
         if let parseUser = user as? PFUser {
             parseUser.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                completion(success: success, error: error)
+                // Success
+                if success {
+                    result(Result<User, UserSaveServiceError>.success(user))
+                }
+                // Error
+                else if let actualError = error {
+                    switch(actualError.code) {
+                    case PFErrorCode.ErrorConnectionFailed.rawValue:
+                        result(Result<User, UserSaveServiceError>.failure(.Network))
+                    default:
+                        result(Result<User, UserSaveServiceError>.failure(.Internal))
+                    }
+                }
+                else {
+                    result(Result<User, UserSaveServiceError>.failure(.Internal))
+                }
             }
         }
         else {
-            completion(success: false, error: NSError(code: LGErrorCode.Internal))
+            result(Result<User, UserSaveServiceError>.failure(.Internal))
         }
     }
 }

@@ -6,12 +6,21 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+import Result
+
+public enum UserLogInFBServiceError {
+    case Cancelled
+    case Internal
+}
+
+public typealias UserLogInFBServiceResult = (Result<User, UserLogInFBServiceError>) -> Void
+
 public protocol UserLogInFBService {
     
     /**
         Logs in / signs up a user via Facebook.
     
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    func logInByFacebooWithCompletion(completion: UserLogInCompletion)
+    func logInByFacebooWithCompletion(result: UserLogInFBServiceResult)
 }

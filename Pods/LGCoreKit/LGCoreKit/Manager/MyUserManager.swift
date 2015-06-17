@@ -9,6 +9,7 @@
 import Bolts
 import CoreLocation
 import Parse
+import Result
 
 public class MyUserManager {
     
@@ -25,7 +26,7 @@ public class MyUserManager {
     private var userSaveService: UserSaveService
     private var installationSaveService: InstallationSaveService
 
-    private var postalAddressRetrivalService: PostalAddressRetrievalService
+    private var postalAddressRetrievalService: PostalAddressRetrievalService
     private var fileUploadService: FileUploadService
     
     // Singleton
@@ -46,7 +47,7 @@ public class MyUserManager {
         self.userSaveService = PAUserSaveService()
         self.installationSaveService = PAInstallationSaveService()
         
-        self.postalAddressRetrivalService = CLPostalAddressRetrievalService()
+        self.postalAddressRetrievalService = CLPostalAddressRetrievalService()
         self.fileUploadService = PAFileUploadService()
         
         // Start observing location changes
@@ -85,29 +86,22 @@ public class MyUserManager {
     }
     
     /**
-        Saves the user.
-    
-        :param: user The user.
-        :param: completion The completion closure.
-        :returns: The task that performs the user save.
-    */
-    public func saveUser(user: User, completion: UserSaveCompletion) {
-        userSaveService.saveUser(user, completion: completion)
-    }
-    
-    /**
         Saves the user if it's new.
     
-        :returns: The task that performs the user save.
+        :param: result The closure containing the result.
     */
-    public func saveUserIfNew() -> BFTask {
+    public func saveMyUserIfNew(result: UserSaveServiceResult) {
         if let myUser = myUser() {
             if !myUser.isSaved {
-                return save(myUser)
+                userSaveService.saveUser(myUser, result: result)
+            }
+            else {
+                result(Result<User, UserSaveServiceError>.success(myUser))
             }
         }
-        
-        return BFTask(error: NSError(code: LGErrorCode.Internal))
+        else {
+            result(Result<User, UserSaveServiceError>.failure(.Internal))
+        }
     }
     
     /**
@@ -115,63 +109,104 @@ public class MyUserManager {
     
         :returns: The task that performs the user save.
     */
-    public func saveUserCoordinates(coordinates: CLLocationCoordinate2D) -> BFTask {
+    public func saveUserCoordinates(coordinates: CLLocationCoordinate2D, result: SaveUserCoordinatesResult) {
         if let user = myUser() {
             // Set the coordinates & and reset the address
             user.gpsCoordinates = LGLocationCoordinates2D(coordinates: coordinates)
             let address = PostalAddress()
             user.postalAddress = address
             
-            // Save it
-            save(user).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
+            // 1. Save it
+            saveMyUser { (saveUserResult: Result<User, UserSaveServiceError>) in
                 
-                // Retrieve the address for the coordinates
-                return self.retrieveAddressForLocation(CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude))
-                
-            }.continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
-                let postalAddress = task.result as! PostalAddress
-                user.postalAddress = postalAddress
-                
-                // If we know the country code, then notify the CurrencyHelper
-                if let countryCode = postalAddress.countryCode {
-                    if !countryCode.isEmpty {
-                        CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                // Success
+                if let savedUser = saveUserResult.value {
+                    
+                    // 2. Retrieve the address for the coordinates
+                    let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+                    self.postalAddressRetrievalService.retrieveAddressForLocation(location) { (postalAddressRetrievalResult: Result<PostalAddress, PostalAddressRetrievalServiceError>) -> Void in
+                    
+                        // Success
+                        if let postalAddress = postalAddressRetrievalResult.value {
+                            
+                            // 3a. Set the currency code, if any
+                            if let countryCode = postalAddress.countryCode {
+                                if !countryCode.isEmpty {
+                                    CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                                }
+                            }
+                            
+                            // 4. Save the user again
+                            self.saveMyUser { (secondSaveUserResult: Result<User, UserSaveServiceError>) in }
+                        }
+                        // Error
+                        else if let postalAddressRetrievalError = postalAddressRetrievalResult.error {
+                            result(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(postalAddressRetrievalError)))
+                        }
                     }
                 }
-                
-                // Save the user again
-                return self.save(user)
+                // Error
+                else if let saveUserError = saveUserResult.error {
+                    result(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(saveUserError)))
+                }
             }
         }
-        return BFTask(error: NSError(code: LGErrorCode.Internal))
+        else {
+            result(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(.Internal))
+        }
+    }
+    
+    /**
+        Saves the installation with the given device token.
+        
+        :param: deviceToken The APN device token.
+    */
+    public func saveInstallationDeviceToken(deviceToken: NSData) {
+        var installation = myInstallation()
+        installation.setDeviceTokenFromData(deviceToken)
+        installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
     }
     
     /**
         Update the user's avatar with the given image.
     
         :param: image The image.
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    public func updateAvatarWithImage(image: UIImage, completion: FileUploadCompletion) {
-        
-        var file: File?
-        
+    public func updateAvatarWithImage(image: UIImage, result: FileUploadResult) {
         if let myUser = myUser(), let data = UIImageJPEGRepresentation(image, 0.9) {
-            uploadFileWithData(data).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
-                file = task.result as? File
-                myUser.avatar = file
-                return self.save(myUser)
-            }.continueWithBlock { (task: BFTask!) -> AnyObject! in
-                completion(file: file, error: task.error)
-                return nil
+
+            // 1. Upload the picture
+            fileUploadService.uploadFile(data) { (fileUploadResult: Result<File, FileUploadServiceError>) in
+
+                // Succeeded
+                if let file = fileUploadResult.value {
+                
+                    // 2. Save the user
+                    self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                        
+                        // Succeeded
+                        if let savedUser = userSaveResult.value {
+                            result(Result<File, FileUploadError>.success(file))
+                        }
+                        // Error
+                        else if let saveError = userSaveResult.error {
+                            result(Result<File, FileUploadError>.failure(FileUploadError(saveError)))
+                        }
+                    }
+                }
+                // Error
+                else if let fileUploadError = fileUploadResult.error {
+                    result(Result<File, FileUploadError>.failure(FileUploadError(fileUploadError)))
+                }
             }
         }
         else {
-            completion(file: nil, error: NSError(code: LGErrorCode.Internal))
+            result(Result<File, FileUploadError>.failure(.Internal))
         }
     }
     
-    // MARK: > Log in / Log out / Sign up
+    // MARK: > Sign up / Log in / Log out
     
     /**
         Signs up a user with the given email, password and public user name.
@@ -179,21 +214,15 @@ public class MyUserManager {
         :param: email The email.
         :param: password The password.
         :param: publicUsername The public user name.
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    public func signUpWithEmail(email: String, password: String, publicUsername: String, completion: UserSignUpCompletion) {
-        
-        signUpWithEmail(email, password: password, publicUsername: publicUsername).continueWithBlock { (task: BFTask!) -> AnyObject! in
- 
-            let succeeded = task.error == nil
-            
-            if succeeded {
+    public func signUpWithEmail(email: String, password: String, publicUsername: String, result: UserSignUpServiceResult) {
+        userSignUpService.signUpUserWithEmail(email, password: password, publicUsername: publicUsername) { (myResult: Result<Nil, UserSignUpServiceError>) in
+            // Succeeded
+            if myResult == Result<Nil, UserSignUpServiceError>.success(Nil()) {
                 self.setupAfterSessionSuccessful()
             }
-            
-            completion(success: succeeded, error: task.error)
-            
-            return nil
+            result(myResult)
         }
     }
     
@@ -202,102 +231,99 @@ public class MyUserManager {
     
         :param: email The email.
         :param: password The password.
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    public func logInWithEmail(email: String, password: String, completion: UserLogInCompletion) {
-        
-        logInWithEmail(email, password: password).continueWithBlock { (task: BFTask!) -> AnyObject! in
-            let user = task.result as? User
-            let error = task.error
-            let succeeded = error == nil
-            
-            if succeeded {
+    public func logInWithEmail(email: String, password: String, result: UserLogInEmailServiceResult) {
+        userLogInEmailService.logInUserWithEmail(email, password: password) { (myResult: Result<User, UserLogInEmailServiceError>) in
+            // Succeeded
+            if let user = myResult.value {
                 self.setupAfterSessionSuccessful()
             }
-            completion(user: user, error: error)
-            return nil
+            result(myResult)
         }
     }
     
     /**
         Logs in a user via Facebook.
 
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    public func logInWithFacebook(completion: UserLogInCompletion) {
+    public func logInWithFacebook(result: UserLogInFBResult) {
         
         var user: User? = nil
         var fbUserInfo: FBUserInfo? = nil
         
-        // Login with Facebook
-        logInWithFacebook().continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
-
-            // Keep track of the user and retrieve the FB user info (graph)
-            user = task.result as? User
-            return self.retrieveFBUserInfo()
+        // 1. Login with Facebook
+        userLogInFBService.logInByFacebooWithCompletion { (myResult: Result<User, UserLogInFBServiceError>) in
             
-        }.continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
-            fbUserInfo = task.result as? FBUserInfo
-            
-            // Set the fields from the graph request
-            if let actualUser = user, let actualFBUserInfo = fbUserInfo {
-                let publicUsername: String
-                if let firstName = actualFBUserInfo.firstName, let lastName = actualFBUserInfo.lastName {
-                    let lastNameInitial: String = count(lastName) > 0 ? lastName.substringToIndex(advance(lastName.startIndex, 1)) : ""
-                    publicUsername = "\(firstName) \(lastNameInitial)."
-                }
-                else if let name = fbUserInfo?.name {
-                    publicUsername = name
-                }
-                else {
-                    publicUsername = ""
-                }
-                actualUser.publicUsername = publicUsername
+            // Succeeded
+            if let user = myResult.value {
                 
-                // Retrieve the user's avatar
-                return self.uploadFileWithDataAtURL(actualFBUserInfo.avatarURL)
+                // 2. Retrieve the FB Info
+                self.fbUserInfoRetrieveService.retrieveFBUserInfo { (fbResult: Result<FBUserInfo, FBUserInfoRetrieveServiceError>) in
+                    
+                    // Succeeded
+                    if let fbUserInfo = fbResult.value {
+                        
+                        // Set the fields from the graph request
+                        let publicUsername: String
+                        if let firstName = fbUserInfo.firstName, let lastName = fbUserInfo.lastName {
+                            let lastNameInitial: String = count(lastName) > 0 ? lastName.substringToIndex(advance(lastName.startIndex, 1)) : ""
+                            publicUsername = "\(firstName) \(lastNameInitial)."
+                        }
+                        else if let name = fbUserInfo.name {
+                            publicUsername = name
+                        }
+                        else {
+                            publicUsername = ""
+                        }
+                        user.publicUsername = publicUsername
+                        
+                        // 3. Upload the avatar
+                        self.fileUploadService.uploadFile(fbUserInfo.avatarURL) { (uploadResult: Result<File, FileUploadServiceError>) in
+                            
+                            // Succeeded
+                            if let file = uploadResult.value {
+                                
+                                // 4. Save my user
+                                self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                                    
+                                    // Succeeded
+                                    if let savedUser = userSaveResult.value {
+                                        result(Result<User, UserLogInFBError>.success(savedUser))
+                                    }
+                                    // Error
+                                    else if let saveError = userSaveResult.error {
+                                        result(Result<User, UserLogInFBError>.failure(UserLogInFBError(saveError)))
+                                    }
+                                }
+                            }
+                            // Error
+                            else if let uploadError = uploadResult.error {
+                                result(Result<User, UserLogInFBError>.failure(UserLogInFBError(uploadError)))
+                            }
+                        }
+                    }
+                    // Error
+                    else if let fbError = fbResult.error {
+                        result(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbError)))
+                    }
+                }
             }
-            else {
-                return BFTask(error: NSError(code: LGErrorCode.Internal))
+            // Error
+            else if let fbLoginError = myResult.error {
+                result(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbLoginError)))
             }
-        }.continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
-            
-            // Set the picture into the user
-            let actualUser = user!
-            actualUser.avatar = task.result as? File
-            
-            // Save the user
-            return self.save(actualUser)
-            
-        }.continueWithBlock { (task: BFTask!) -> AnyObject! in
-            
-            // An error happened in the whole process
-            if let actualError = task.error {
-                completion(user: nil, error: actualError)
-            }
-            // Everything is OK
-            else if let actualUser = task.result as? User {
-                self.setupAfterSessionSuccessful()
-                completion(user: actualUser, error: nil)
-            }
-            else {
-                completion(user: nil, error: NSError(code: LGErrorCode.Internal))
-            }
-            return nil
         }
     }
     
     /**
         Logs out a user.
     
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    public func logout(completion: UserLogOutCompletion) {
-        logout().continueWithBlock{ (task: BFTask!) -> AnyObject! in
-            let succeeded = task.error == nil
-            completion(success: succeeded, error: task.error)
-            return nil
-        }
+    public func logout(result: UserLogOutServiceResult) {
+        userLogOutService.logOutWithResult(result)
     }
     
     // MARK: - Private methods
@@ -305,12 +331,21 @@ public class MyUserManager {
     // MARK: > Helper
     
     /**
+        Returns the current installation.
+    
+        :returns: the current installation.
+    */
+    private func myInstallation() -> Installation {
+        return PFInstallation.currentInstallation()
+    }
+    
+    /**
         Runs the setup needed after a session (when signing up or logging in) is successful.
     */
     private func setupAfterSessionSuccessful() {
         // If we already have a location, then save it into my user
         if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            saveUserCoordinates(lastKnownLocation.coordinate)
+            saveUserCoordinates(lastKnownLocation.coordinate) { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }
         }
         
         // If the user had already a country code, then set it in the currency helper
@@ -319,229 +354,38 @@ public class MyUserManager {
         }
 
         // Update my installation
-        if let myUser = myUser() {
+        if let myUser = myUser(), let userId = myUser.objectId, let username = myUser.username {
             var installation = myInstallation()
-            installation.userId = myUser.objectId
-            installation.username = myUser.username
-            save(installation)
+            installation.userId = userId
+            installation.username = username
+            installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
         }
-    }
-    
-    /**
-        Returns the current installation.
-        
-        :returns: the current installation.
-    */
-    private func myInstallation() -> Installation {
-        return PFInstallation.currentInstallation()
     }
     
     // MARK: > Tasks
     
     // MARK: >> My User
     
-    private func saveLocationAndRetrieveAddress(location: CLLocation) -> BFTask {
-        if let user = myUser() {
-            // Save the received location and erase previous postal address data, if any
-            user.gpsCoordinates = LGLocationCoordinates2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            let address = PostalAddress()
-            user.postalAddress = address
-            save(user)
-            
-            // Then, retrieve the address for the received location
-            return retrieveAddressForLocation(location).continueWithSuccessBlock { (task: BFTask!) -> AnyObject! in
-                if let postalAddress = task.result as? PostalAddress {
-                    user.postalAddress = postalAddress
-                    
-                    // If we know the country code, then notify the CurrencyHelper
-                    if let countryCode = postalAddress.countryCode {
-                        if !countryCode.isEmpty {
-                            CurrencyHelper.sharedInstance.setCountryCode(countryCode)
-                        }
-                    }
-                    
-                    // Save the user again
-                    return self.save(user)
-                }
-                return nil
-            }
+    /**
+        Saves my user.
+    
+        :param: result The closure containing the result.
+    */
+    private func saveMyUser(result: UserSaveServiceResult) {
+        if let myUser = myUser() {
+            userSaveService.saveUser(myUser, result: result)
         }
-        return BFTask(error: NSError(code: LGErrorCode.Internal))
+        else {
+            result(Result<User, UserSaveServiceError>.failure(.Internal))
+        }
     }
     
-    // MARK: >> Sign up / Log in / Log out
-    
-    private func signUpWithEmail(email: String, password: String, publicUsername: String) -> BFTask {
-        var task = BFTaskCompletionSource()
-        userSignUpService.signUpUserWithEmail(email, password: password, publicUsername: publicUsername) { (success: Bool, error: NSError?) in
-            if let actualError = error {
-                task.setError(error)
-            }
-            else if success {
-                task.setResult(success)
-            }
-            else {
-                task.setError(NSError(code: LGErrorCode.Internal))
-            }
-        }
-        return task.task
-    }
-
-    private func logInWithEmail(email: String, password: String) -> BFTask {
-        var task = BFTaskCompletionSource()
-        userLogInEmailService.logInUserWithEmail(email, password: password) { (user: User?, error: NSError?) in
-            if let actualError = error {
-                task.setError(error)
-            }
-            else if let actualUser = user {
-                task.setResult(actualUser)
-            }
-            else {
-                task.setError(NSError(code: LGErrorCode.Internal))
-            }
-        }
-        return task.task
-    }
-    
-    private func logInWithFacebook() -> BFTask {
-        var task = BFTaskCompletionSource()
-        userLogInFBService.logInByFacebooWithCompletion { (user: User?, error: NSError?) in
-            if let actualError = error {
-                task.setError(error)
-            }
-            else if let actualUser = user {
-                task.setResult(actualUser)
-            }
-            else {
-                task.setError(NSError(code: LGErrorCode.Internal))
-            }
-            
-        }
-        return task.task
-    }
-    
-    private func logout() -> BFTask {
-        var task = BFTaskCompletionSource()
-        userLogOutService.logOutWithCompletion { (success: Bool, error: NSError?) in
-            if let actualError = error {
-                task.setError(error)
-            }
-            else if success {
-                task.setResult(success)
-            }
-            else {
-                task.setError(NSError(code: LGErrorCode.Internal))
-            }
-            
-        }
-        return task.task
-    }
-    
-    private func retrieveFBUserInfo() -> BFTask {
-        var task = BFTaskCompletionSource()
-        fbUserInfoRetrieveService.retrieveFBUserInfo() { (userInfo: FBUserInfo?, error: NSError?) in
-            if let actualError = error {
-                task.setError(error)
-            }
-            else if let actualUserInfo = userInfo {
-                task.setResult(actualUserInfo)
-            }
-            else {
-                task.setError(NSError(code: LGErrorCode.Internal))
-            }
-        }
-        return task.task
-    }
-    
-    // MARK: >> Avatar upload
-    
-    private func uploadFileWithData(data: NSData) -> BFTask {
-        var task = BFTaskCompletionSource()
-        
-        fileUploadService.uploadFile(data) { (file: File?, error: NSError?) -> Void in
-            if let actualError = error {
-                task.setError(actualError)
-            }
-            else if let actualFile = file {
-                task.setResult(actualFile)
-            }
-            else {
-                task.setError(NSError(code: LGErrorCode.Internal))
-            }
-        }
-        return task.task
-    }
-    
-    private func uploadFileWithDataAtURL(url: NSURL) -> BFTask {
-        var task = BFTaskCompletionSource()
-        
-        fileUploadService.uploadFile(url)  { (file: File?, error: NSError?) -> Void in
-            if let actualError = error {
-                task.setError(actualError)
-            }
-            else if let actualFile = file {
-                task.setResult(actualFile)
-            }
-            else {
-                task.setError(NSError(code: LGErrorCode.Internal))
-            }
-        }
-        return task.task
-    }
-    
-    // MARK: >> User
-    
-    public func save(user: User) -> BFTask {
-        var task = BFTaskCompletionSource()
-        
-        userSaveService.saveUser(user) { (success: Bool, error: NSError?) -> Void in
-            if let actualError = error {
-                task.setError(actualError)
-            }
-            else {
-                task.setResult(success)
-            }
-        }
-        return task.task
-    }
-    
-    // MARK: >> Installation
-    
-    private func save(installation: Installation) -> BFTask {
-        var task = BFTaskCompletionSource()
-        
-        installationSaveService.save(installation) { (success: Bool, error: NSError?) -> Void in
-            if let actualError = error {
-                task.setError(actualError)
-            }
-            else {
-                task.setResult(success)
-            }
-        }
-        return task.task
-    }
-    
-    // MARK: >> Address & location
-    
-    private func retrieveAddressForLocation(location: CLLocation) -> BFTask {
-        var task = BFTaskCompletionSource()
-        postalAddressRetrivalService.retrieveAddressForLocation(location) { (address: PostalAddress?, error: NSError?) in
-            if let actualError = error {
-                task.setError(error)
-            }
-            else if let actualAddress = address {
-                task.setResult(actualAddress)
-            }
-        }
-        return task.task
-    }
     
     // MARK: > NSNotificationCenter
     
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
-
         if let location = notification.object as? CLLocation {
-            saveLocationAndRetrieveAddress(location)
+            saveUserCoordinates(location.coordinate) { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }
         }
     }
 }

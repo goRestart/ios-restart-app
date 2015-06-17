@@ -6,15 +6,15 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import CoreLocation
-
-public protocol UserRetrieveService {
-    
-    /**
-        Retrieves a user.
-    
-        :param: user The user.
-        :param: completion The completion closure.
-    */
-    func retrieveUser(user: User, completion: UserRetrieveCompletion)
-}
+//import CoreLocation
+//
+//public protocol UserRetrieveService {
+//    
+//    /**
+//        Retrieves a user.
+//    
+//        :param: user The user.
+//        :param: completion The completion closure.
+//    */
+//    func retrieveUser(user: User, completion: UserRetrieveCompletion)
+//}

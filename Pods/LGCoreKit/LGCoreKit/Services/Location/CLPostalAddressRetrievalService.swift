@@ -8,6 +8,7 @@
 
 import AddressBookUI
 import CoreLocation
+import Result
 
 public class CLPostalAddressRetrievalService: PostalAddressRetrievalService {
     
@@ -22,14 +23,10 @@ public class CLPostalAddressRetrievalService: PostalAddressRetrievalService {
     
     // MARK: - PostalAddressRetrievalService
     
-    public func retrieveAddressForLocation(location: CLLocation, completion: PostalAddressRetrievalCompletion) {
+    public func retrieveAddressForLocation(location: CLLocation, result: PostalAddressRetrievalServiceResult) {
         geocoder.reverseGeocodeLocation(location) { (placemarks: [AnyObject]!, error: NSError!) -> Void in
-            
-            // Error
-            if let actualError = error {
-                completion(address: nil, error: actualError)
-            }
-            else if let actualPlacemarks = placemarks as? [CLPlacemark] {
+            // Success
+            if let actualPlacemarks = placemarks as? [CLPlacemark] {
                 var postalAddress: PostalAddress = PostalAddress()
                 if !actualPlacemarks.isEmpty {
                     let placemark = actualPlacemarks.last!
@@ -40,7 +37,14 @@ public class CLPostalAddressRetrievalService: PostalAddressRetrievalService {
                         postalAddress.address = ABCreateStringWithAddressDictionary(addressDict, false)
                     }
                 }
-                completion(address: postalAddress, error: nil)
+                result(Result<PostalAddress, PostalAddressRetrievalServiceError>.success(postalAddress))
+            }
+            // Error
+            else if let actualError = error {
+                result(Result<PostalAddress, PostalAddressRetrievalServiceError>.failure(.Network))
+            }
+            else {
+                result(Result<PostalAddress, PostalAddressRetrievalServiceError>.failure(.Internal))
             }
         }
     }

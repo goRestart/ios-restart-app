@@ -1,0 +1,6 @@
+framework module Box {
+  umbrella header "Pods-LetGo-Box-umbrella.h"
+
+  export *
+  module * { export * }
+}

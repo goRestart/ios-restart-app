@@ -7,6 +7,7 @@
 //
 
 import Parse
+import Result
 
 final public class PAInstallationSaveService: InstallationSaveService {
     
@@ -18,14 +19,27 @@ final public class PAInstallationSaveService: InstallationSaveService {
     
     // MARK: - UserSaveService
     
-    public func save(installation: Installation, completion: InstallationSaveCompletion) {
+    public func save(installation: Installation, result: InstallationSaveServiceResult) {
         if let parseInstallation = installation as? PFInstallation {
             parseInstallation.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-                completion(success: success, error: error)
+                if success {
+                    
+                }
+                else if let actualError = error {
+                    switch(actualError.code) {
+                    case PFErrorCode.ErrorConnectionFailed.rawValue:
+                        result(Result<Installation, InstallationSaveServiceError>.failure(.Network))
+                    default:
+                        result(Result<Installation, InstallationSaveServiceError>.failure(.Internal))
+                    }
+                }
+                else {
+                    result(Result<Installation, InstallationSaveServiceError>.failure(.Internal))
+                }
             }
         }
         else {
-            completion(success: false, error: NSError(code: LGErrorCode.Internal))
+            result(Result<Installation, InstallationSaveServiceError>.failure(.Internal))
         }
     }
 }

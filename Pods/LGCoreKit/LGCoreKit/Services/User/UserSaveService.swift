@@ -6,7 +6,14 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import CoreLocation
+import Result
+
+public enum UserSaveServiceError {
+    case Network
+    case Internal
+}
+
+public typealias UserSaveServiceResult = (Result<User, UserSaveServiceError>) -> Void
 
 public protocol UserSaveService {
     
@@ -14,7 +21,7 @@ public protocol UserSaveService {
         Saves the user.
     
         :param: user The user.
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    func saveUser(user: User, completion: UserSaveCompletion)
+    func saveUser(user: User, result: UserSaveServiceResult)
 }

@@ -7,16 +7,17 @@
 //
 
 import Parse
+import Result
 
 final public class PAUserLogOutService: UserLogOutService {
  
-    public func logOutWithCompletion(completion: UserLogOutCompletion) {
+    public func logOutWithResult(result: UserLogOutServiceResult) {
         PFUser.logOutInBackgroundWithBlock { (error: NSError?) -> Void in
             if let actualError = error {
-                completion(success: false, error: actualError)
+                result(Result<Nil, UserLogOutServiceError>.failure(.General))
             }
             else {
-                completion(success: true, error: nil)
+                result(Result<Nil, UserLogOutServiceError>.success(Nil()))
             }
         }
     }

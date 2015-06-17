@@ -6,12 +6,20 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+import Result
+
+public enum UserLogOutServiceError {
+    case General
+}
+
+public typealias UserLogOutServiceResult = (Result<Nil, UserLogOutServiceError>) -> Void
+
 public protocol UserLogOutService {
     
     /**
         Logs out a user.
     
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    func logOutWithCompletion(completion: UserLogOutCompletion)
+    func logOutWithResult(result: UserLogOutServiceResult)
 }

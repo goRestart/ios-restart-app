@@ -7,6 +7,14 @@
 //
 
 import CoreLocation
+import Result
+
+public enum PostalAddressRetrievalServiceError {
+    case Network
+    case Internal
+}
+
+public typealias PostalAddressRetrievalServiceResult = (Result<PostalAddress, PostalAddressRetrievalServiceError>) -> Void
 
 public protocol PostalAddressRetrievalService {
     
@@ -14,7 +22,7 @@ public protocol PostalAddressRetrievalService {
         Retrieves the address for the given location.
     
         :param: location The location.
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    func retrieveAddressForLocation(location: CLLocation, completion: PostalAddressRetrievalCompletion)
+    func retrieveAddressForLocation(location: CLLocation, result: PostalAddressRetrievalServiceResult)
 }

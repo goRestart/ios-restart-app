@@ -7,29 +7,37 @@
 //
 
 import FBSDKCoreKit
+import Result
+
+public enum FBUserInfoRetrieveServiceError {
+    case General
+    case Internal
+}
+
+public typealias FBUserInfoRetrieveServiceResult = (Result<FBUserInfo, FBUserInfoRetrieveServiceError>) -> Void
 
 final public class FBUserInfoRetrieveService {
     
     /**
         Retrieves the Facebook User information.
     
-        :param: completion The completion closure.
+        :param: result The closure containing the result.
     */
-    public func retrieveFBUserInfo(completion: FBUserInfoRetrieveCompletion) {
+    public func retrieveFBUserInfo(result: FBUserInfoRetrieveServiceResult) {
         let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
-        meRequest.startWithCompletionHandler { (connection: FBSDKGraphRequestConnection?, result: AnyObject?, error: NSError?) in
+        meRequest.startWithCompletionHandler { (connection: FBSDKGraphRequestConnection?, myResult: AnyObject?, error: NSError?) in
             // Error
             if let actualError = error {
-                completion(userInfo: nil, error: error)
+                result(Result<FBUserInfo, FBUserInfoRetrieveServiceError>.failure(.General))
             }
             // Success
-            else if let responseDictionary = result as? NSDictionary {
+            else if let responseDictionary = myResult as? NSDictionary {
                 let fbUserInfo = FBUserInfoParser.fbUserInfoWithDictionary(responseDictionary)
-                completion(userInfo: fbUserInfo, error: nil)
+                result(Result<FBUserInfo, FBUserInfoRetrieveServiceError>.success(fbUserInfo))
             }
             // Other unhandled error
             else {
-                completion(userInfo: nil, error: NSError(code: LGErrorCode.Internal))
+                result(Result<FBUserInfo, FBUserInfoRetrieveServiceError>.failure(.Internal))
             }
         }
     }

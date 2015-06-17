@@ -7,19 +7,29 @@
 //
 
 import Parse
+import Result
 
 final public class PAUserLogInEmailService: UserLogInEmailService {
 
-    public func logInUserWithEmail(email: String, password: String, completion: UserLogInCompletion) {
+    public func logInUserWithEmail(email: String, password: String, result: UserLogInEmailServiceResult) {
         PFUser.logInWithUsernameInBackground(email, password: password)  { (user: PFUser?, error: NSError?) -> Void in
-            if let actualError = error {
-                completion(user: nil, error: error)
+            // Success
+            if let actualUser = user as? User {
+                result(Result<User, UserLogInEmailServiceError>.success(actualUser))
             }
-            else if let actualUser = user as? User {
-                completion(user: actualUser, error: nil)
+            // Error
+            else if let actualError = error {
+                switch(actualError.code) {
+                case PFErrorCode.ErrorConnectionFailed.rawValue:
+                    result(Result<User, UserLogInEmailServiceError>.failure(.Network))
+                case PFErrorCode.ErrorObjectNotFound.rawValue:
+                    result(Result<User, UserLogInEmailServiceError>.failure(.UserNotFoundOrWrongPassword))
+                default:
+                    result(Result<User, UserLogInEmailServiceError>.failure(.Internal))
+                }
             }
             else {
-                completion(user: nil, error: NSError(code: LGErrorCode.Internal))
+                result(Result<User, UserLogInEmailServiceError>.failure(.Internal))
             }
         }
     }
