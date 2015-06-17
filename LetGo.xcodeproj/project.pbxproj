@@ -47,9 +47,6 @@
 		50E81CF91B0B2D0100807D1B /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */; };
 		50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */; };
 		50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */; };
-		50F0BAA11B288DF500E50A68 /* MainLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BA9F1B288DF500E50A68 /* MainLogInViewController.swift */; };
-		50F0BAA21B288DF500E50A68 /* MainLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA01B288DF500E50A68 /* MainLogInViewController.xib */; };
-		50F0BAA41B288EA500E50A68 /* MainLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA31B288EA500E50A68 /* MainLogInViewModel.swift */; };
 		50F0BAA61B28937800E50A68 /* MainSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* MainSignUpViewModel.swift */; };
 		50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */; };
 		50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
@@ -189,9 +186,6 @@
 		50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMyMessageCell.xib; sourceTree = "<group>"; };
 		50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOthersMessageCell.swift; sourceTree = "<group>"; };
 		50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatOthersMessageCell.xib; sourceTree = "<group>"; };
-		50F0BA9F1B288DF500E50A68 /* MainLogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainLogInViewController.swift; sourceTree = "<group>"; };
-		50F0BAA01B288DF500E50A68 /* MainLogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainLogInViewController.xib; sourceTree = "<group>"; };
-		50F0BAA31B288EA500E50A68 /* MainLogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainLogInViewModel.swift; sourceTree = "<group>"; };
 		50F0BAA51B28937800E50A68 /* MainSignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpViewModel.swift; sourceTree = "<group>"; };
 		50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpViewController.swift; sourceTree = "<group>"; };
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
@@ -365,9 +359,6 @@
 		50560B8A1B25D18F0021D8D9 /* Log In */ = {
 			isa = PBXGroup;
 			children = (
-				50F0BA9F1B288DF500E50A68 /* MainLogInViewController.swift */,
-				50F0BAA01B288DF500E50A68 /* MainLogInViewController.xib */,
-				50F0BAA31B288EA500E50A68 /* MainLogInViewModel.swift */,
 				50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */,
 				50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */,
 				50F0BAA51B28937800E50A68 /* MainSignUpViewModel.swift */,
@@ -928,7 +919,6 @@
 				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
 				6640F0491AE142D800004556 /* DoubleClick in Resources */,
 				D48183F81AB2FEBE00229DBF /* ProductCell.xib in Resources */,
-				50F0BAA21B288DF500E50A68 /* MainLogInViewController.xib in Resources */,
 				66A509D71A947CAA001EECE9 /* Localizable.strings in Resources */,
 				50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */,
 				50DFABE21B04E5A700A3F049 /* CategoriesViewController.xib in Resources */,
@@ -1035,7 +1025,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */,
-				50F0BAA11B288DF500E50A68 /* MainLogInViewController.swift in Sources */,
 				D48C3E051AEBD165005BD0EF /* ConversationCell.swift in Sources */,
 				66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */,
 				D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */,
@@ -1109,7 +1098,6 @@
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				66A5B56E1ADE4D7A00C18E8B /* LetGoIPGeoLocation.swift in Sources */,
 				50E81CF81B0B2D0100807D1B /* ChatMyMessageCell.swift in Sources */,
-				50F0BAA41B288EA500E50A68 /* MainLogInViewModel.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
 				D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */,
 			);

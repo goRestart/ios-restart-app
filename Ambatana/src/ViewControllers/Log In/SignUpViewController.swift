@@ -32,6 +32,8 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordButton: UIButton!
     
+    
+    
     @IBOutlet weak var signUpButton: UIButton!
     
     // MARK: - Lifecycle
@@ -190,7 +192,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     
     private func setupUI() {
         // Navigation bar
-        let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popViewController")
+        let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBackViewController")
         navigationItem.leftBarButtonItem = backButton
 //        navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
         
@@ -226,16 +228,5 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
                 viewModel.password = text
             }
         }
-    }
-    
-    // MARK: > Navigation
-    
-    func popViewController() {
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        transition.type = kCATransitionFade
-        navigationController?.view.layer.addAnimation(transition, forKey: nil)
-        navigationController?.popViewControllerAnimated(false)
     }
 }

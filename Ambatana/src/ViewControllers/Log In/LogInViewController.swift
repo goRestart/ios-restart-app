@@ -28,6 +28,8 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordButton: UIButton!
     
+    @IBOutlet weak var rememberPasswordButton: UIButton!
+    
     @IBOutlet weak var logInButton: UIButton!
     
     // MARK: - Lifecycle
@@ -69,6 +71,11 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     @IBAction func passwordButtonPressed(sender: AnyObject) {
         passwordTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func rememberPasswordButtonPressed(sender: AnyObject) {
+        let vc = RememberPasswordViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
@@ -174,7 +181,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     func setupUI() {
         // Navigation bar
-        let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popViewController")
+        let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBackViewController")
         navigationItem.leftBarButtonItem = backButton
 //        navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
         
@@ -187,6 +194,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         // i18n
         emailTextField.placeholder = NSLocalizedString("log_in_email_field_placeholder", comment: "")
         passwordTextField.placeholder = NSLocalizedString("log_in_password_field_placeholder", comment: "")
+        rememberPasswordButton.setTitle(NSLocalizedString("log_in_reset_password_button", comment: ""), forState: .Normal)
         logInButton.setTitle(NSLocalizedString("log_in_send_button", comment: ""), forState: .Normal)
         
         // Tags
@@ -205,16 +213,5 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
                 viewModel.password = text
             }
         }
-    }
-    
-    // MARK: > Navigation
-    
-    func popViewController() {
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        transition.type = kCATransitionFade
-        navigationController?.view.layer.addAnimation(transition, forKey: nil)
-        navigationController?.popViewControllerAnimated(false)
     }
 }

@@ -107,7 +107,7 @@ class RememberPasswordViewController: BaseViewController, UITextFieldDelegate {
     
     func setupUI() {
         // Navigation bar
-        let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popViewController")
+        let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBackViewController")
         navigationItem.leftBarButtonItem = backButton
 //        navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
         
@@ -127,16 +127,5 @@ class RememberPasswordViewController: BaseViewController, UITextFieldDelegate {
     
     private func updateSendButtonEnabledState() {
         resetPasswordButton.enabled = count(emailTextField.text) > 0
-    }
-    
-    // MARK: > Navigation
-    
-    func popViewController() {
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        transition.type = kCATransitionFade
-        navigationController?.view.layer.addAnimation(transition, forKey: nil)
-        navigationController?.popViewControllerAnimated(false)
     }
 }

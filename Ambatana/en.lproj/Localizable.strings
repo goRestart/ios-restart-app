@@ -223,18 +223,10 @@
 "sign_up_error_generic_error" = "An error occurred while creating the user."; // old: "error_creating_user" = "An error occurred while creating the user.";
 // should be removed: "user_created_successfully" = "User successfully created."; 
 
-"main_log_in_claim" = "Start to sell, buy and chat";
-"main_log_in_facebook_connect_button" = "Connect with Facebook";
-"main_log_in_or_label" = "OR";
-"main_log_in_email_field_placeholder" = "Email";
-"main_log_in_password_field_placeholder" = "Password";
-"main_log_in_reset_password_button" = "Forgot?";
-"main_log_in_not_registered_label" = "Not registered?";
-"main_log_in_sign_up_label" = "Sign up";
-
 "log_in_title" = "Log in";
 "log_in_email_field_placeholder" = "Email";
 "log_in_password_field_placeholder" = "Password";
+"log_in_reset_password_button" = "Forgot?";
 "log_in_send_button" = "Log in";
 
 "log_in_error_invalid_email" = "Please, insert a valid email in the user email textfield";  // old: "insert_valid_email" = "Please, insert a valid email in the user email textfield";

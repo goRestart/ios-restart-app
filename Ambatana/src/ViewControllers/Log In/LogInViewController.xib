@@ -13,6 +13,7 @@
                 <outlet property="passwordButton" destination="wjn-PE-H5k" id="Znv-M9-tO8"/>
                 <outlet property="passwordIconImageView" destination="CnA-10-YDD" id="dYn-Xe-PwP"/>
                 <outlet property="passwordTextField" destination="Byz-ea-pve" id="YtS-KR-3dj"/>
+                <outlet property="rememberPasswordButton" destination="yCt-Rf-oah" id="ihQ-Kf-4dL"/>
                 <outlet property="view" destination="rbv-iz-OLC" id="sxL-Jp-Z0C"/>
             </connections>
         </placeholder>
@@ -38,7 +39,7 @@
                             </connections>
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="kIv-3g-nBb" userLabel="Email Text Field">
-                            <rect key="frame" x="45" y="0.0" width="267" height="44"/>
+                            <rect key="frame" x="45" y="0.0" width="259" height="44"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                             <connections>
@@ -61,8 +62,8 @@
                                 <action selector="passwordButtonPressed:" destination="-1" eventType="touchUpInside" id="LdH-d2-m7J"/>
                             </connections>
                         </button>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Byz-ea-pve" userLabel="Password Text Field">
-                            <rect key="frame" x="45" y="44" width="267" height="44"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Byz-ea-pve" userLabel="Password Text Field">
+                            <rect key="frame" x="45" y="44" width="191" height="44"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="join" secureTextEntry="YES"/>
                             <connections>
@@ -72,26 +73,43 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_password" highlightedImage="ic_password_active" translatesAutoresizingMaskIntoConstraints="NO" id="CnA-10-YDD" userLabel="Password Icon Image View">
                             <rect key="frame" x="19" y="57" width="13" height="18"/>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yCt-Rf-oah" userLabel="Remember Password Button">
+                            <rect key="frame" x="244" y="44" width="60" height="44"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <state key="normal" title="_Forgot?">
+                                <color key="titleColor" red="0.56470588239999997" green="0.56470588239999997" blue="0.58039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" red="0.56470588239999997" green="0.56470588239999997" blue="0.58039215690000001" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="rememberPasswordButtonPressed:" destination="-1" eventType="touchUpInside" id="lI3-pU-cvB"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="Byz-ea-pve" firstAttribute="bottom" secondItem="wjn-PE-H5k" secondAttribute="bottom" id="2gk-ak-0Ux"/>
                         <constraint firstAttribute="trailing" secondItem="1dZ-Pu-lgn" secondAttribute="trailing" id="4rO-ps-HS6"/>
+                        <constraint firstItem="wjn-PE-H5k" firstAttribute="bottom" secondItem="yCt-Rf-oah" secondAttribute="bottom" id="8bf-Qo-2BQ"/>
                         <constraint firstItem="wjn-PE-H5k" firstAttribute="leading" secondItem="Byz-ea-pve" secondAttribute="leading" constant="-45" id="D26-qz-s9s"/>
-                        <constraint firstItem="1dZ-Pu-lgn" firstAttribute="trailing" secondItem="kIv-3g-nBb" secondAttribute="trailing" constant="8" id="EAO-my-DEK"/>
+                        <constraint firstItem="1dZ-Pu-lgn" firstAttribute="trailing" secondItem="kIv-3g-nBb" secondAttribute="trailing" constant="16" id="EAO-my-DEK"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="bottom" secondItem="kIv-3g-nBb" secondAttribute="bottom" id="J7T-yK-TdS"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="leading" secondItem="0hZ-Gp-91C" secondAttribute="leading" id="Pm9-cw-FQK"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="leading" secondItem="Mau-hk-QhN" secondAttribute="leading" constant="-16" id="QRP-0K-mBj"/>
-                        <constraint firstItem="Byz-ea-pve" firstAttribute="trailing" secondItem="wjn-PE-H5k" secondAttribute="trailing" constant="-8" id="RA5-NA-A3m"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="top" secondItem="0hZ-Gp-91C" secondAttribute="top" id="Tsc-hi-FkE"/>
                         <constraint firstAttribute="bottom" secondItem="wjn-PE-H5k" secondAttribute="bottom" id="UEq-eG-7oF"/>
                         <constraint firstItem="CnA-10-YDD" firstAttribute="centerY" secondItem="wjn-PE-H5k" secondAttribute="centerY" id="UNx-g3-JKh"/>
                         <constraint firstItem="wjn-PE-H5k" firstAttribute="top" secondItem="kIv-3g-nBb" secondAttribute="bottom" id="Vn2-c8-j4t"/>
+                        <constraint firstItem="yCt-Rf-oah" firstAttribute="leading" secondItem="Byz-ea-pve" secondAttribute="trailing" constant="8" id="aEb-xl-VbF"/>
                         <constraint firstItem="Byz-ea-pve" firstAttribute="top" secondItem="wjn-PE-H5k" secondAttribute="top" id="b7x-UT-m7b"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="leading" secondItem="kIv-3g-nBb" secondAttribute="leading" constant="-45" id="bRg-NS-9gt"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="top" secondItem="kIv-3g-nBb" secondAttribute="top" id="bTB-xC-QdM"/>
+                        <constraint firstItem="wjn-PE-H5k" firstAttribute="trailing" secondItem="yCt-Rf-oah" secondAttribute="trailing" constant="16" id="h4z-Ja-NNU"/>
                         <constraint firstItem="Mau-hk-QhN" firstAttribute="centerX" secondItem="CnA-10-YDD" secondAttribute="centerX" id="jpY-Zy-jxi"/>
                         <constraint firstItem="wjn-PE-H5k" firstAttribute="leading" secondItem="0hZ-Gp-91C" secondAttribute="leading" id="paZ-Ju-mOE"/>
+                        <constraint firstItem="wjn-PE-H5k" firstAttribute="top" secondItem="yCt-Rf-oah" secondAttribute="top" id="rGp-Xq-RFt"/>
                         <constraint firstAttribute="trailing" secondItem="wjn-PE-H5k" secondAttribute="trailing" id="syG-jv-SCE"/>
                         <constraint firstItem="1dZ-Pu-lgn" firstAttribute="centerY" secondItem="Mau-hk-QhN" secondAttribute="centerY" id="vpR-cL-LGc"/>
                     </constraints>

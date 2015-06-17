@@ -70,18 +70,13 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     }
     
     @IBAction func emailButtonPressed(sender: AnyObject) {
-         pushSignUpViewController()
+        let vc = SignUpViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        transition.type = kCATransitionFade
-        navigationController?.view.layer.addAnimation(transition, forKey: nil)
-        
-        let vc = MainLogInViewController()
-        navigationController?.setViewControllers([vc], animated: false)
+        let vc = LogInViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - MainSignUpViewModelDelegate
@@ -141,18 +136,5 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         emailTextField.placeholder = NSLocalizedString("main_sign_up_email_field_placeholder", comment: "")
         registeredLabel.text = NSLocalizedString("main_sign_up_already_registered_label", comment: "")
         logInLabel.text = NSLocalizedString("main_sign_up_log_in_label", comment: "")
-    }
-    
-    // MARK: > Navigation
-    
-    private func pushSignUpViewController() {
-        let transition = CATransition()
-        transition.duration = 0.5
-        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        transition.type = kCATransitionFade
-        navigationController?.view.layer.addAnimation(transition, forKey: nil)
-        
-        let vc = SignUpViewController()
-        navigationController?.pushViewController(vc, animated: false)
     }
 }
