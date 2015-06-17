@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+import Result
+
 class SignUpViewController: BaseViewController, UITextFieldDelegate, SignUpViewModelDelegate {
     
     // Constants & enum
@@ -146,27 +149,28 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate, SignUpViewM
         showLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: SignUpViewModel, didFinishSigningUpWithResult result: SignUpViewModel.Result) {
+    func viewModel(viewModel: SignUpViewModel, didFinishSigningUpWithResult result: Result<Nil, UserSignUpServiceError>) {
         
         var completion: (() -> Void)? = nil
         
         switch (result) {
         case .Success:
             break
-        case .Error(let errorCode):
+        case .Failure(let error):
+            
             let message: String
-            switch (errorCode) {
+            switch (error.value) {
                 case .InvalidEmail:
                     message = NSLocalizedString("sign_up_error_invalid_email", comment: "")
                 case .InvalidUsername:
                     message = NSLocalizedString("sign_up_error_invalid_username", comment: "")
                 case .InvalidPassword:
                     message = NSLocalizedString("sign_up_error_invalid_password", comment: "")
-                case .ConnectionFailed:
+                case .Network:
                     message = NSLocalizedString("error_connection_failed", comment: "")
                 case .EmailTaken:
                     message = NSLocalizedString("sign_up_error_email_taken", comment: "")
-                case .InternalError:
+                case .Internal:
                     message = NSLocalizedString("sign_up_error_generic_error", comment: "")
             }
             completion = {

@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import Bolts
 import LGCoreKit
 import UIKit
+import Result
 
 class SplashViewController: UIViewController {
 
-    var completionBlock: ((Bool) -> Void)?
+    var completionBlock: (Bool -> Void)?
     
     // MARK: - Lifecycle
     
@@ -31,10 +31,8 @@ class SplashViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        MyUserManager.sharedInstance.saveUserIfNew().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
-            let succeeded = task.error != nil
-            self?.completionBlock?(succeeded)
-            return nil
+        MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: Result<User, UserSaveServiceError>) in
+            self?.completionBlock?(result.value != nil)
         }
     }
     

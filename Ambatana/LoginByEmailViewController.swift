@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import CoreLocation
 import LGCoreKit
 import Parse
+import Result
 import UIKit
 
 class LoginByEmailViewController: UIViewController, UITextFieldDelegate {
@@ -86,7 +88,7 @@ class LoginByEmailViewController: UIViewController, UITextFieldDelegate {
                 
                 // If we already have a location, then save it into my user
                 if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-                    MyUserManager.sharedInstance.saveUserCoordinates(lastKnownLocation.coordinate)
+                    MyUserManager.sharedInstance.saveUserCoordinates(lastKnownLocation.coordinate) { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }
                 }
                 
                 // If the user had already a country code, then set it in the currency helper

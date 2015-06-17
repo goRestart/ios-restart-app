@@ -6,33 +6,20 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import Parse
 import LGCoreKit
+import Parse
+import Result
 
 public protocol SignUpViewModelDelegate: class {
     func viewModel(viewModel: SignUpViewModel, updateSendButtonEnabledState enabled: Bool)
     func viewModelDidStartSigningUp(viewModel: SignUpViewModel)
-    func viewModel(viewModel: SignUpViewModel, didFinishSigningUpWithResult result: SignUpViewModel.Result)
+    func viewModel(viewModel: SignUpViewModel, didFinishSigningUpWithResult result: Result<Nil, UserSignUpServiceError>)
 }
 
 public class SignUpViewModel: BaseViewModel {
     
     // Constants & enums
     private static let minPasswordLength = 6
-    
-    public enum ResultCode {
-        case InvalidEmail
-        case InvalidUsername
-        case InvalidPassword
-        case ConnectionFailed
-        case EmailTaken
-        case InternalError
-    }
-    
-    public  enum Result {
-        case Success
-        case Error(ResultCode)
-    }
     
     // Delegate
     weak var delegate: SignUpViewModelDelegate?
@@ -71,35 +58,18 @@ public class SignUpViewModel: BaseViewModel {
         
         // Validation
         if !email.isEmail() {
-            delegate?.viewModel(self, didFinishSigningUpWithResult: .Error(.InvalidEmail))
+            delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidEmail))
         }
         else if count(username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 {
-            delegate?.viewModel(self, didFinishSigningUpWithResult: .Error(.InvalidUsername))
+            delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidUsername))
         }
         else if count(password) < SignUpViewModel.minPasswordLength {
-            delegate?.viewModel(self, didFinishSigningUpWithResult: .Error(.InvalidPassword))
+            delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidPassword))
         }
         else {
-            // TODO: Refactor this into LGCoreKit with error handling in there
-            MyUserManager.sharedInstance.signUpWithEmail(email, password: password, publicUsername: username) { [weak self] (success: Bool, error: NSError?) in
+            MyUserManager.sharedInstance.signUpWithEmail(email, password: password, publicUsername: username) { [weak self] (result: Result<Nil, UserSignUpServiceError>) -> Void in
                 if let strongSelf = self, let actualDelegate = strongSelf.delegate {
-                    if success {
-                        actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: .Success)
-                    }
-                    else if let actualError = error {
-                        switch(actualError.code) {
-                        case PFErrorCode.ErrorConnectionFailed.rawValue:
-                            actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: .Error(.ConnectionFailed))
-                        case PFErrorCode.ErrorUsernameTaken.rawValue:
-                            actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: .Error(.EmailTaken))
-                        case PFErrorCode.ErrorUserEmailTaken.rawValue:
-                            actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: .Error(.EmailTaken))
-                        case LGErrorCode.Internal.rawValue:
-                            actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: .Error(.InternalError))
-                        default:
-                            actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: .Error(.InternalError))
-                        }
-                    }
+                    actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: result)
                 }
             }
         }

@@ -11,6 +11,7 @@ import LGCoreKit
 import UIKit
 import QuartzCore
 import MapKit
+import Result
 
 protocol IndicateLocationViewControllerDelegate: class {
     func userDidManuallySetCoordinates(coordinates: CLLocationCoordinate2D)
@@ -79,15 +80,23 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     
     @IBAction func setLocation(sender: AnyObject) {
         if CLLocationCoordinate2DIsValid(locationInMap) {
-            // Save the user coordinates / address in the backend and when finished the pop
+            
+            // Show loading
             enableLoadingStatus()
-            MyUserManager.sharedInstance.saveUserCoordinates(locationInMap).continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
+
+            // Save the user coordinates / address in the backend and when finished the pop
+            MyUserManager.sharedInstance.saveUserCoordinates(locationInMap) { [weak self] (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in
                 if let strongSelf = self {
-                    strongSelf.delegate?.userDidManuallySetCoordinates(strongSelf.locationInMap)
-                    strongSelf.dismissViewControllerAnimated(true, completion: nil)
+                    
+                    // Hide loading
                     strongSelf.disableLoadingStatus()
+                    
+                    // Success
+                    if let coordinates = result.value {
+                        strongSelf.delegate?.userDidManuallySetCoordinates(strongSelf.locationInMap)
+                        strongSelf.dismissViewControllerAnimated(true, completion: nil)
+                    }
                 }
-                return nil
             }
         }
         else {
