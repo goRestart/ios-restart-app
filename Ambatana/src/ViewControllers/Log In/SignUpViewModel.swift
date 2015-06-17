@@ -78,8 +78,6 @@ public class SignUpViewModel: BaseViewModel {
     // MARK: - Private methods
     
     private func sendButtonShouldBeEnabled() -> Bool {
-        //        PFErrorCode.ErrorConnectionFailed.rawValue
-        
         return count(email) > 0 && count(username) > 0 && count(password) > 0
     }
 }

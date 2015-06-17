@@ -155,6 +155,9 @@ class SignUpViewController: BaseViewController, UITextFieldDelegate, SignUpViewM
         
         switch (result) {
         case .Success:
+            completion = {
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
             break
         case .Failure(let error):
             
