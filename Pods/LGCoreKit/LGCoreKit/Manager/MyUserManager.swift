@@ -219,7 +219,7 @@ public class MyUserManager {
         :param: password The password.
         :param: result The closure containing the result.
     */
-    private func updatePassword(password: String, result: UserSaveServiceResult) {
+    public func updatePassword(password: String, result: UserSaveServiceResult) {
         if let myUser = myUser() {
             myUser.password = password
             saveMyUser(result)
