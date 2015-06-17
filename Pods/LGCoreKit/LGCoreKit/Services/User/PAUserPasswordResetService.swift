@@ -11,34 +11,29 @@ import Result
 
 final public class PAUserPasswordResetService: UserPasswordResetService {
     
-    public func resetPassword(user: User, result: UserPasswordResetServiceResult) {
-        
-        if let email = user.email {
-            PFUser.requestPasswordResetForEmailInBackground(email, block: { (success, error) -> Void in
-                // Success
-                if success {
-                    result(Result<Nil, UserPasswordResetServiceError>.success(Nil()))
-                }
+    public func resetPassword(email: String, result: UserPasswordResetServiceResult) {
+        PFUser.requestPasswordResetForEmailInBackground(email, block: { (success, error) -> Void in
+            // Success
+            if success {
+                result(Result<Nil, UserPasswordResetServiceError>.success(Nil()))
+            }
                 // Error
-                else if let actualError = error {
-                    switch(actualError.code) {
-                    case PFErrorCode.ErrorConnectionFailed.rawValue:
-                        result(Result<Nil, UserPasswordResetServiceError>.failure(.Network))
-                    case PFErrorCode.ErrorObjectNotFound.rawValue:
-                        result(Result<Nil, UserPasswordResetServiceError>.failure(.UserNotFound))
-                    case PFErrorCode.ErrorUserEmailMissing.rawValue, PFErrorCode.ErrorInvalidEmailAddress.rawValue:
-                        result(Result<Nil, UserPasswordResetServiceError>.failure(.InvalidEmail))
-                    default:
-                        result(Result<Nil, UserPasswordResetServiceError>.failure(.Internal))
-                    }
-                }
-                else {
+            else if let actualError = error {
+                kPFParseServer
+                switch(actualError.code) {
+                case PFErrorCode.ErrorConnectionFailed.rawValue:
                     result(Result<Nil, UserPasswordResetServiceError>.failure(.Network))
+                case PFErrorCode.ErrorUserWithEmailNotFound.rawValue:
+                    result(Result<Nil, UserPasswordResetServiceError>.failure(.UserNotFound))
+                case PFErrorCode.ErrorUserEmailMissing.rawValue, PFErrorCode.ErrorInvalidEmailAddress.rawValue:
+                    result(Result<Nil, UserPasswordResetServiceError>.failure(.InvalidEmail))
+                default:
+                    result(Result<Nil, UserPasswordResetServiceError>.failure(.Internal))
                 }
-            })
-        }
-        else {
-            result(Result<Nil, UserPasswordResetServiceError>.failure(.Internal))
-        }
+            }
+            else {
+                result(Result<Nil, UserPasswordResetServiceError>.failure(.Network))
+            }
+        })
     }
 }

@@ -356,15 +356,11 @@ public class MyUserManager {
     /**
         Resets the password of a my user.
     
+        :param: email The user email.
         :param: result The closure containing the result.
     */
-    public func resetPassword(result: UserPasswordResetServiceResult) {
-        if let myUser = myUser() {
-            userPasswordResetService.resetPassword(myUser, result: result)
-        }
-        else {
-            result(Result<Nil, UserPasswordResetServiceError>.failure(.Internal))
-        }
+    public func resetPassword(email: String, result: UserPasswordResetServiceResult) {
+        userPasswordResetService.resetPassword(email, result: result)
     }
     
     // MARK: - Private methods

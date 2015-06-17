@@ -22,8 +22,8 @@ public protocol UserPasswordResetService {
     /**
     Saves the user.
     
-    :param: user The user.
+    :param: email An email.
     :param: result The closure containing the result.
     */
-    func resetPassword(user: User, result: UserPasswordResetServiceResult)
+    func resetPassword(email: String, result: UserPasswordResetServiceResult)
 }
