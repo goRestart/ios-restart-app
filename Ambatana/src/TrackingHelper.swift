@@ -138,9 +138,8 @@ class TrackingHelper {
     static func trackEvent(eventType: TrackingEvent, parameters: [TrackingParameter: AnyObject]?) {
         // The event name should be prefixed with dummy if needed
         let eventName: String
-        let isDummyUser = TrackingHelper.isDummyUser(PFUser.currentUser())
-        if let actualIsDummyUser = isDummyUser {
-            if actualIsDummyUser {
+        if let isDummyUser = MyUserManager.sharedInstance.myUser()?.isDummy {
+            if isDummyUser {
                 eventName = eventNameDummyPrefix + eventType.rawValue
             }
             else {
@@ -188,22 +187,8 @@ class TrackingHelper {
         return isDummy ? eventValueItemTypeDummy : eventValueItemTypeReal
     }
     
-    static func isDummyUser(user: PFUser?) -> Bool? {
-        if let actualUser = user, let username = actualUser.username {
-            return TrackingHelper.isDummyUserName(username)
-        }
-        return nil
-    }
-    
-    static func isDummyUser(user: User?) -> Bool? {
-        // FIXME:
-//        if let actualUser = user, let username = actualUser.username {
-//            return TrackingHelper.isDummyUserName(username)
-//        }
-        return false
-    }
-    
     private static func isDummyUserName(username: String) -> Bool {
         return startsWith(username, "usercontent")
     }
+
 }

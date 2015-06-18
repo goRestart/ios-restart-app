@@ -54,6 +54,7 @@ public class SignUpViewModel: BaseViewModel {
     
     public func signUp() {
 
+        // Notify the delegate about it started
         delegate?.viewModelDidStartSigningUp(self)
         
         // Validation
@@ -68,8 +69,15 @@ public class SignUpViewModel: BaseViewModel {
         }
         else {
             MyUserManager.sharedInstance.signUpWithEmail(email, password: password, publicUsername: username) { [weak self] (result: Result<Nil, UserSignUpServiceError>) -> Void in
-                if let strongSelf = self, let actualDelegate = strongSelf.delegate {
-                    actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: result)
+                if let strongSelf = self {
+                    
+                    // Tracking
+                    TrackingHelper.trackEvent(.SignupEmail, parameters: nil)
+                    
+                    // Notify the delegate about it finished
+                    if let actualDelegate = strongSelf.delegate {
+                        actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: result)
+                    }
                 }
             }
         }

@@ -24,12 +24,28 @@ public class MainSignUpViewModel: BaseViewModel {
     
     // Public methods
     
+    public override init() {
+        super.init()
+
+        // Tracking
+        TrackingHelper.trackEvent(.LoginVisit, parameters: nil)
+    }
+    
     public func logInWithFacebook() {
+        // Notify the delegate about it started
         delegate?.viewModelDidStartLoggingWithFB(self)
         
+        // Log in
         MyUserManager.sharedInstance.logInWithFacebook { [weak self] (result: Result<User, UserLogInFBError>) in
-            if let strongSelf = self, let actualDelegate = strongSelf.delegate {
-                actualDelegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
+            if let strongSelf = self {
+
+                // Tracking
+                TrackingHelper.trackEvent(.LoginFB, parameters: nil)
+                
+                // Notify the delegate about it finished
+                if let actualDelegate = strongSelf.delegate {
+                    actualDelegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
+                }
             }
         }
     }
