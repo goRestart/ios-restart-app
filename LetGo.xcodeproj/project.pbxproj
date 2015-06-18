@@ -530,13 +530,11 @@
 			children = (
 				66A0CFE61A83741700FAADF0 /* Chat */,
 				66911D911A853A2E006CFBE1 /* Location */,
-				6649D16D1A82214E000F6966 /* Login */,
 				6608E03F1A820FBD005895ED /* Main.storyboard */,
 				6649D16E1A822212000F6966 /* Products */,
 				66A0CFDF1A8372CC00FAADF0 /* Profile */,
 				66EF4ACF1A8A044F00D6F4D2 /* Sell Product */,
 				6601BFBF1A8E5A7400A2C60B /* Settings */,
-				6649D1711A8222E4000F6966 /* Structure */,
 			);
 			name = "Views & Controllers";
 			sourceTree = "<group>";
@@ -549,13 +547,6 @@
 				66A5B56B1ADE4D4A00C18E8B /* Managers */,
 			);
 			name = Model;
-			sourceTree = "<group>";
-		};
-		6649D16D1A82214E000F6966 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Login;
 			sourceTree = "<group>";
 		};
 		6649D16E1A822212000F6966 /* Products */ = {
@@ -573,13 +564,6 @@
 				D48183F61AB2FEBE00229DBF /* ProductCell.xib */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6649D1711A8222E4000F6966 /* Structure */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Structure;
 			sourceTree = "<group>";
 		};
 		665713E71AADF14100B4721C /* DLImageResize */ = {
