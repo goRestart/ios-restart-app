@@ -226,9 +226,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                 properties[.ProductName] = name
             }
             if let productUser = product.user {
-                if let isDummy = TrackingHelper.isDummyUser(productUser) {
-                    properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
-                }
+                properties[.ItemType] = TrackingHelper.productTypeParamValue(productUser.isDummy)
             }
             
             return properties
