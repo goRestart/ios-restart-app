@@ -15,8 +15,11 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     enum TextFieldTag: Int {
         case Email = 1000, Password
     }
+
+    // Data
+    var afterLoginAction: (() -> Void)?
     
-    // ViewModel
+    // > ViewModel
     var viewModel: LogInViewModel!
     
     // UI
@@ -108,7 +111,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         switch (result) {
         case .Success:
             completion = {
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
             }
             break
         case .Failure(let error):

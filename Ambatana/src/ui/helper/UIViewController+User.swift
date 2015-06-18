@@ -10,14 +10,16 @@ import LGCoreKit
 
 extension UIViewController {
     
-    internal func ifLoggedInThen(loggedInAction: () -> Void, elsePresentSignUpWithSuccessAction afterLoggedInAction: () -> Void) {
+    internal func ifLoggedInThen(loggedInAction: () -> Void, elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
         let isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
         if isLogInRequired {
             let vc = MainSignUpViewController()
+            vc.afterLoginAction = afterLogInAction
+
             let navCtl = UINavigationController(rootViewController: vc)
             navCtl.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
             navCtl.navigationBar.shadowImage = UIImage()
-            // TODO: Place after logged in action
+            
             self.presentViewController(navCtl, animated: true, completion: nil)
         }
         else {

@@ -114,27 +114,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         // initialize product UI.
         // check if this is a favorite product
         initializeFavoriteButtonAnimations()
-        checkFavoriteProduct()
-        
-        // check if this is product is mine
-        var thisProductIsMine = false
-        if let productUser = product.user, let userId = productUser.objectId, let myUser = MyUserManager.sharedInstance.myUser() {
-            thisProductIsMine = userId == myUser.objectId
-        }
-        
-        // Buttons
-        switch product.status {
-            // If approved show action buttons depending on if it's mine or not
-        case .Approved:
-            self.askQuestionButton.hidden = thisProductIsMine
-            self.makeOfferButton.hidden = thisProductIsMine
-            self.markSoldButton.hidden = !thisProductIsMine
-            // Otherwise no other action can be performed
-        default:
-            self.askQuestionButton.hidden = true
-            self.makeOfferButton.hidden = true
-            self.markSoldButton.hidden = true
-        }
         
         // User
         usernameLabel.text = product.user?.publicUsername ?? ""
@@ -173,31 +152,15 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         // distance
         locationLabel.text = product.formattedDistance()
         
-        // fraud report
-        if thisProductIsMine {
-            self.lineDivider.hidden = true
-            self.butProductReport.hidden = true
-            
-            self.butProductReportHeightConstraint.constant = 0
-            if product.status == .Sold {
-                self.butProductReportHeightConstraint.constant = 0
-            }
-            else {
-                self.butProductReportHeightConstraint.constant = 20
-            }
-        }
-        else {
-            self.lineDivider.hidden = false
-            self.butProductReport.hidden = false
-            self.butProductReportHeightConstraint.constant = 50
-        }
-        
         // internationalization
         makeOfferButton.setTitle(translate("make_an_offer"), forState: .Normal)
         askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
         markSoldButton.setTitle(translate("mark_as_sold"), forState: .Normal)
         fromYouLabel.text = translate("from_you")
         butProductReport.setTitle(translate("report_product"), forState: .Normal)
+        
+        // Update UI
+        updateUI()
         
         // Tracking
         TrackingHelper.trackEvent(.ProductDetailVisit, parameters: trackingParams)
@@ -235,7 +198,13 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
 
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
-        askQuestion()
+        ifLoggedInThen({
+            self.askQuestion()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.askQuestion()
+        })
     }
     
     func launchChatWithConversation(conversation: PFObject) {
@@ -292,15 +261,33 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
-        makeOffer()
+        ifLoggedInThen({
+            self.makeOffer()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.makeOffer()
+        })
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
-        markProductAsSold()
+        ifLoggedInThen({
+            self.markProductAsSold()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.markProductAsSold()
+        })
     }
 
     @IBAction func reportProductButtonPressed(sender: AnyObject) {
-        reportProduct()
+        ifLoggedInThen({
+            self.reportProduct()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.reportProduct()
+        })
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
@@ -339,6 +326,29 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                 }
                 self.disableMarkAsSoldLoadingInterface()
             })
+        }
+    }
+    
+    @IBAction func showProductUser(sender: AnyObject) {
+        
+        // If we're the ones selling the product do not allow to push the view to avoid circular navigation
+        var shouldPushUserVC = true
+        let productUser = product.user
+        
+        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
+            if myUserId == productUser?.objectId {
+                shouldPushUserVC = false
+            }
+        }
+        
+        // If there's no product user then do not allow either
+        if productUser == nil {
+            shouldPushUserVC = false
+        }
+        
+        if shouldPushUserVC {
+            let vc = EditProfileViewController(user: productUser!)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -412,7 +422,13 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     func markOrUnmarkAsFavorite() {
-        switchFavourite()
+        ifLoggedInThen({
+            self.switchFavourite()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.switchFavourite()
+        })
     }
     
     func checkFavoriteProduct() {
@@ -540,27 +556,54 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         return productPin
     }
     
-    @IBAction func showProductUser(sender: AnyObject) {
-        var shouldPushUserVC = true
+    // MARK: - Private methods
+    
+    private func updateUI() {
         
-        // If we're the ones selling the product do not allow to push the view to avoid circular navigation
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            if myUser.objectId == product.user?.objectId {
-                shouldPushUserVC = false
-            }
+        let userIsLoggedIn = !MyUserManager.sharedInstance.isMyUserAnonymous()
+        if userIsLoggedIn {
+            self.checkFavoriteProduct()
         }
         
-        if let myUser = MyUserManager.sharedInstance.myUser(), let productUser = product.user {
+        // check if this is product is mine
+        var thisProductIsMine = false
+        if let productUser = product.user, let userId = productUser.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
+            thisProductIsMine = userId == myUserId
+        }
+        
+        // Buttons
+        switch product.status {
+        // If approved show action buttons depending on if it's mine or not
+        case .Approved:
+            self.askQuestionButton.hidden = thisProductIsMine
+            self.makeOfferButton.hidden = thisProductIsMine
+            self.markSoldButton.hidden = !thisProductIsMine
+        // Otherwise no other action can be performed
+        default:
+            self.askQuestionButton.hidden = true
+            self.makeOfferButton.hidden = true
+            self.markSoldButton.hidden = true
+        }
+        
+        // fraud report
+        if thisProductIsMine {
+            self.lineDivider.hidden = true
+            self.butProductReport.hidden = true
             
-            // If i'm not the seller
-            if myUser.objectId != productUser.objectId {
-                let vc = EditProfileViewController(user: productUser)
-                self.navigationController?.pushViewController(vc, animated: true)
+            self.butProductReportHeightConstraint.constant = 0
+            if product.status == .Sold {
+                self.butProductReportHeightConstraint.constant = 0
             }
+            else {
+                self.butProductReportHeightConstraint.constant = 20
+            }
+        }
+        else {
+            self.lineDivider.hidden = false
+            self.butProductReport.hidden = false
+            self.butProductReportHeightConstraint.constant = 50
         }
     }
-    
-    // MARK: - Private methods
     
     private func askQuestion() {
         // safety checks
