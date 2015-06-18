@@ -235,30 +235,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
 
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
-        // safety checks
-        if product.user == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
-        
-        // loading interface...
-        enableAskQuestionLoadingInterface()
-
-        // check if we have some current conversation with the user
-        ChatManager.sharedInstance.retrieveMyConversationWithUser(product.user!, aboutProduct: product) { [weak self] (success, conversation) -> Void in
-            if let strongSelf = self {
-                if success { // we have a conversation.
-                    strongSelf.launchChatWithConversation(conversation!)
-                }
-                else { // we need to create a conversation and pass it.
-                    ChatManager.sharedInstance.createConversationWithUser(strongSelf.product.user!, aboutProduct: strongSelf.product, completion: { (success, conversation) -> Void in
-                        if success {
-                            strongSelf.launchChatWithConversation(conversation!)
-                        }
-                        else {
-                            strongSelf.disableAskQuestionLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
-                        }
-                    })
-                }
-            }
-        }
+        askQuestion()
     }
     
     func launchChatWithConversation(conversation: PFObject) {
@@ -315,54 +292,15 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
-        vc.product = product
-        self.navigationController?.pushViewController(vc, animated: true)
+        makeOffer()
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
-        if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: translate("mark_as_sold"), style: .Default, handler: { (markAction) -> Void in
-                self.definitelyMarkProductAsSold()
-            }))
-            self.presentViewController(alert, animated: true, completion: nil)
-        } else { // ios7 fallback --> ActionSheet.
-            let alert = UIAlertView(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), delegate: self, cancelButtonTitle: translate("cancel"))
-            alert.addButtonWithTitle(translate("mark_as_sold"))
-            alert.show()
-        }
-        
+        markProductAsSold()
     }
 
     @IBAction func reportProductButtonPressed(sender: AnyObject) {
-
-        if let let myUser = MyUserManager.sharedInstance.myUser(), let productOwner = product.user {
-            
-            butProductReport.enabled = false
-            butProductReport.setTitle(translate("reporting_product"), forState: .Normal)
-            
-            let report = PFObject(className: "UserReports")
-            report["product_reported"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:product.objectId)
-            report["user_reporter"] = PFUser(withoutDataWithObjectId: myUser.objectId)
-            report["user_reported"] = PFUser(withoutDataWithObjectId: productOwner.objectId)
-            
-            report.saveInBackgroundWithBlock({ [weak self] (success, error) -> Void in
-                if let strongSelf = self {
-                    
-                    strongSelf.butProductReport.enabled = true
-                    
-                    if success {
-                        strongSelf.butProductReport.setTitle(translate("reported_product"), forState: .Normal)
-                    }
-                    else {
-                        strongSelf.butProductReport.setTitle(translate("report_product"), forState: .Normal)
-                    }
-                }
-                })
-        }
+        reportProduct()
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
@@ -643,6 +581,84 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                 let vc = EditProfileViewController(user: productUser)
                 self.navigationController?.pushViewController(vc, animated: true)
             }
+        }
+    }
+    
+    // MARK: - Private methods
+    
+    private func askQuestion() {
+        // safety checks
+        if product.user == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
+        
+        // loading interface...
+        enableAskQuestionLoadingInterface()
+        
+        // check if we have some current conversation with the user
+        ChatManager.sharedInstance.retrieveMyConversationWithUser(product.user!, aboutProduct: product) { [weak self] (success, conversation) -> Void in
+            if let strongSelf = self {
+                if success { // we have a conversation.
+                    strongSelf.launchChatWithConversation(conversation!)
+                }
+                else { // we need to create a conversation and pass it.
+                    ChatManager.sharedInstance.createConversationWithUser(strongSelf.product.user!, aboutProduct: strongSelf.product, completion: { (success, conversation) -> Void in
+                        if success {
+                            strongSelf.launchChatWithConversation(conversation!)
+                        }
+                        else {
+                            strongSelf.disableAskQuestionLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    private func makeOffer() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
+        vc.product = product
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func markProductAsSold() {
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: translate("mark_as_sold"), style: .Default, handler: { (markAction) -> Void in
+                self.definitelyMarkProductAsSold()
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else { // ios7 fallback --> ActionSheet.
+            let alert = UIAlertView(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), delegate: self, cancelButtonTitle: translate("cancel"))
+            alert.addButtonWithTitle(translate("mark_as_sold"))
+            alert.show()
+        }
+    }
+    
+    private func reportProduct() {
+        if let let myUser = MyUserManager.sharedInstance.myUser(), let productOwner = product.user {
+            
+            butProductReport.enabled = false
+            butProductReport.setTitle(translate("reporting_product"), forState: .Normal)
+            
+            let report = PFObject(className: "UserReports")
+            report["product_reported"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:product.objectId)
+            report["user_reporter"] = PFUser(withoutDataWithObjectId: myUser.objectId)
+            report["user_reported"] = PFUser(withoutDataWithObjectId: productOwner.objectId)
+            
+            report.saveInBackgroundWithBlock({ [weak self] (success, error) -> Void in
+                if let strongSelf = self {
+                    
+                    strongSelf.butProductReport.enabled = true
+                    
+                    if success {
+                        strongSelf.butProductReport.setTitle(translate("reported_product"), forState: .Normal)
+                    }
+                    else {
+                        strongSelf.butProductReport.setTitle(translate("report_product"), forState: .Normal)
+                    }
+                }
+            })
         }
     }
 }
