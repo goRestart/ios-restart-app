@@ -1,11 +1,10 @@
-/* 
+/*
   Localizable.strings
   LetGo
 
   Created by Ignacio Nieto Carvajal on 18/2/15.
   Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 */
-"product_share_email_subject_intro" = "Look what I just found on letgo!";
 "product_share_intro" = "Look what I just found on letgo!";
 "loading" = "Loading...";
 "just_now" = "Just now";
@@ -32,9 +31,6 @@
 "change_my_location" = "Change my location";
 "change_password" = "Change password";
 "favorite_categories" = "Favorite categories";
-"login" = "Login";
-"signup" = "Sign Up";
-"signin" = "Sign In";
 "logout" = "Logout";
 "change_your_location" = "Change your location";
 "select_valid_location" = "Please select a valid location in the map with a long tap";
@@ -44,73 +40,29 @@
 "error" = "Error";
 "i_am_here" = "I am here!";
 "unable_find_location" = "I was unable to find that location. Please, try again.";
-"success" = "Success!";
-"stored_your_location" = "Successfully stored your location";
 "unable_set_location" = "Unable to set your location. Please try again.";
 "no_published_favorited_products" = "You still don't have any published or favorited product";
 "this_user_no_published_favorited_products" = "This user still doesn't have any published or favorited product";
 "no_items_in_this_section" = "There are no items in this section";
-"my_profile" = "My profile";
 "conversations" = "Conversations";
 "sell_something" = "Sell your Stuff";
 "categories" = "Categories";
 "help" = "Help";
 "unable_get_products" = "Hey there! You don't have connection! Come on, connect yourself!";
 "try_again" = "Try again";
-"order_by" = "Order products by";
-"latest_published" = "Latest published";
-"highest_price" = "Highest price";
-"lowest_price" = "Lowest price";
-"proximity" = "Proximity";
 "error_sharing_facebook" = "An error happened while sharing in Facebook. Please, try again later.";
-"letgo_product" = "letgo product";
 "completed" = "Completed";
 "canceled_by_user" = "Canceled by user";
-"whatsapp_not_configured" = "WhatsApp doesn't seem to be configured in your device.";
-"error_sharing_whatsapp" = "There was an error sharing this product in WhatsApp.";
-"mailcancelled" = "Mail cancelled";
-"mailsaved" = "Mail saved";
 "errorsendingmail" = "Oops, it seems that you haven't set up an account in the Mail app";
 "errorsendingmail_contact" = "Oops, it seems that we can't see your email. Please contact our team at support@letgo.com to help you.";
-"thanksforcontact" = "Thanks for contacting us!";
-"session_expired" = "Session expired";
-"your_session_has_expired" = "It seems that your session has expired. Please try again.";
-"authentication_error" = "Authentication error";
-"unable_access_system" = "I was unable to access the system. Please try again.";
-"unable_login" = "Unable to login.";
-"login_canceled" = "Login was canceled by the user or an unknown error happened.";
-"password_recovery" = "Password recovery";
-"send_recovery_email_question" = "Would you like to receive an email for recovering your password?";
-"password_recovery_email_sent" = "Password recovery email successfully sent. Please, check your email and follow the instructions.";
-"password_recovery_email_error" = "An error happened while sending your password recovery email. Please check that the email address is correct.";
-"insert_valid_email" = "Please, insert a valid email in the user email textfield";
 "insert_valid_password" = "Please, insert a valid password, it must have at least 6 characters.";
-"incorrect_credentials" = "Unable to login: unknown user or incorrect credentials";
-"insert_valid_name" = "Please, insert a valid, non-empty name in the user name textfield";
-"user_created_successfully" = "User successfully created.";
-"login_now" = "Login now";
-"error_creating_user" = "An error occurred while creating the user.";
-"fun_unique_way" = "A fun and unique way to shop and sell second hand items";
-"connect_with_facebook" = "Connect with Facebook";
-"or_use_your_email" = "Or use your email";
-"email" = "Email";
 "password" = "Password";
-"recover_lost_password" = "Recover lost password";
-"create_account" = "Create account";
-"insert_your_password" = "Insert your password";
-"or_use" = "Or use";
-"signup_start_making_money" = "Sign up to start making money";
-"sell_buy_with_chat" = "Sell and buy with a chat";
-"full_name" = "Full name";
-"more_six_characters" = "+6 characters";
-"already_have_account" = "Already have an account?";
 "unknown" = "Unknown";
 "by" = "By";
 "published" = "Published";
 "mark_as_sold" = "Mark as Sold";
 "make_an_offer" = "Make an Offer";
 "ask_a_question" = "Ask a Question";
-"share_this_item" = "Share this item on";
 "sell" = "Sell";
 "selling_button" = "Sell";
 "sold" = "Sold";
@@ -123,15 +75,12 @@
 "camera" = "Camera";
 "photo_library" = "Photo library";
 "setting_profile_image" = "Setting your profile image, please wait...";
-"success_setting_profile_image" = "Profile picture changed successfully";
 "error_setting_profile_image" = "There was an error setting the profile picture";
 "confirm_password" = "Confirm password";
 "passwords_dont_match" = "Passwords do not match. Please try again.";
 "cant_change_facebook_password" = "Your letgo profile is linked with your Facebook account, so you don't have a password to change.";
 "password_successfully_changed" = "Password changed successfully.";
 "error_changing_password" = "An error occurred when changing the password. Please, try again later.";
-"no_categories_found" = "No categories found";
-"error_setting_favorite_categories" = "An error happened while setting your favorite categories. Please try again later.";
 "no_conversations_yet" = "No conversations yet";
 "start_selling_or_buying" = "Start selling or buying!";
 "type_your_message_here" = "Type your message here";
@@ -142,17 +91,13 @@
 "share_product_facebook" = "Share my product on Facebook";
 "sell_it" = "Sell it";
 "send" = "Send";
-"choose_currency" = "Choose currency";
-"max_images_reached" = "You have reached the max number of images for a product.";
 "unable_upload_photo" = "Unable to upload photo. Please, try again.";
-"add_up_to_x_photos" = "Add up to %d photos";
 "choose_action" = "Choose an action";
 "delete" = "Delete";
 "save_to_disk" = "Save to disk";
 "saving_to_disk" = "Saving image in photo library...";
 "successfully_saved_to_disk" = "Successfully saved image to photo library.";
 "error_saving_to_disk" = "An error occurred while saving the image in your photo library. Please, make sure letgo is allowed to access your photos in the Settings App.";
-"error_deleting_photo" = "Error deleting photo, please try again later.";
 "upload_at_least_one_image" = "At least one photo is required for selling a product.";
 "insert_valid_title" = "Please, insert a valid title for the product.";
 "insert_valid_price" = "Please, insert a valid price for the product. It has to be just a number.";
@@ -162,7 +107,6 @@
 "successfully_uploaded_product" = "Congratulations! Your item was successfully posted. It will appear in our listings shortly.";
 "uploading_image_please_wait" = "Uploading image, please wait...";
 "error_uploading_product" = "An error happened while registering your product. ";
-"here" = "Here";
 "are_you_sure_mark_sold" = "Congratulations, you got it! Are you sure you want to mark it as sold?";
 "marked_as_sold" = "Marked as Sold";
 "error_marking_as_sold" = "There was an error while marking the product as sold. Please, try again later.";
@@ -175,15 +119,9 @@
 "message" = "Message";
 "pull_to_refresh" = "Pull to refresh";
 "item_location" = "Location";
-"user_already_exists" = "User already exists.";
-"some_fields_missing" = "Some fields empty or missing.";
 "uploading_product_please_wait" = "Uploading product. Please wait...";
 "from_you" = "from you";
-"insert" = "Insert";
-"category" = "Category";
 "photo" = "Photo";
-"feedback_letgo_user" = "iOS: Feedback from a letgo user";
-"contact" = "Contact";
 "be_the_first_to_start_selling" = "There are no items in your neighborhood. Be the first to start selling";
 "no_products_found" = "No products found";
 "reload_products" = "Reload products";
@@ -194,7 +132,6 @@
 "reporting_product" = "Reporting Product...";
 "reported_product" = "The product has been reported";
 
-"close" = "Close";
 "location_disabled_message" = "Oops! Your location is turned off. To turn it on, go to:\n Settings > Privacy > Location Services.";
 "location_disabled_settings" = "Settings";
 "location_unauthorized_message" = "Please, allow us to access your location.";

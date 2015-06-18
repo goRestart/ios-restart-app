@@ -173,36 +173,6 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         activityIndicator.hidden = true
     }
     
-//    // MARK: - Notifications for listening to the user's revese geolocation attempt.
-//    
-//    func unableToSetUserLocation(notification: NSNotification) {
-//        if iOSVersionAtLeast("8.0") {
-//            let alert = UIAlertController(title: translate("error"), message: translate("unable_set_location"), preferredStyle:.Alert)
-//            alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
-//            self.presentViewController(alert, animated: true, completion: nil)
-//        } else {
-//            let alert = UIAlertView(title: translate("error"), message: translate("unable_set_location"), delegate: nil, cancelButtonTitle: translate("ok"))
-//            alert.show()
-//        }
-//        
-//        disableLoadingStatus()
-//    }
-//    
-//    func userLocationSet(notification: NSNotification) {
-//        disableLoadingStatus()
-//        if iOSVersionAtLeast("8.0") {
-//            let alert = UIAlertController(title: translate("success"), message: translate("stored_your_location"), preferredStyle:.Alert)
-//            alert.addAction(UIAlertAction(title: translate("ok"), style: .Default, handler: { (action) -> Void in
-//                self.popBackViewController()
-//            }))
-//            self.presentViewController(alert, animated: true, completion: nil)
-//        } else {
-//            let alert = UIAlertView(title: translate("message"), message: translate("stored_your_location"), delegate: self, cancelButtonTitle: translate("ok"))
-//            alert.show()
-//        }
-//        
-//    }
-    
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) { dismissViewControllerAnimated(true, completion: nil) }
 }
 
