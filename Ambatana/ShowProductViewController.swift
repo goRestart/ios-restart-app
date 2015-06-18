@@ -412,31 +412,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     func markOrUnmarkAsFavorite() {
-        self.favoriteButton.userInteractionEnabled = false
-        
-        // UI update for quick user feedback + Request
-        self.favoriteButton.imageView!.startAnimating()
-        
-        if self.isFavourite {
-            deleteFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
-                product: product,
-                completion: { (success) -> Void in
-                    self.favoriteButton.userInteractionEnabled = true
-                    self.isFavourite = !success
-                    self.favoriteButton.imageView!.stopAnimating()
-                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
-            })
-        }
-        else {
-            saveFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
-                product: product,
-                completion: { (success) -> Void in
-                    self.favoriteButton.userInteractionEnabled = true
-                    self.isFavourite = success
-                    self.favoriteButton.imageView!.stopAnimating()
-                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
-            })
-        }
+        switchFavourite()
     }
     
     func checkFavoriteProduct() {
@@ -658,6 +634,34 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                         strongSelf.butProductReport.setTitle(translate("report_product"), forState: .Normal)
                     }
                 }
+            })
+        }
+    }
+    
+    private func switchFavourite() {
+        self.favoriteButton.userInteractionEnabled = false
+        
+        // UI update for quick user feedback + Request
+        self.favoriteButton.imageView!.startAnimating()
+        
+        if self.isFavourite {
+            deleteFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
+                product: product,
+                completion: { (success) -> Void in
+                    self.favoriteButton.userInteractionEnabled = true
+                    self.isFavourite = !success
+                    self.favoriteButton.imageView!.stopAnimating()
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+            })
+        }
+        else {
+            saveFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
+                product: product,
+                completion: { (success) -> Void in
+                    self.favoriteButton.userInteractionEnabled = true
+                    self.isFavourite = success
+                    self.favoriteButton.imageView!.stopAnimating()
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             })
         }
     }
