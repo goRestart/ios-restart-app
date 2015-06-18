@@ -79,7 +79,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("reset_password_successful", comment: "")) {
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("reset_password_send_ok", comment: "")) {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
@@ -88,13 +88,13 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             let message: String
             switch (error.value) {
             case .InvalidEmail:
-                message = NSLocalizedString("reset_password_error_invalid_email", comment: "")
+                message = NSLocalizedString("reset_password_send_error_invalid_email", comment: "")
             case .UserNotFound:
-                message = NSLocalizedString("reset_password_error_user_not_found_or_wrong_password", comment: "")
+                message = NSLocalizedString("reset_password_send_error_user_not_found_or_wrong_password", comment: "")
             case .Network:
-                message = NSLocalizedString("error_connection_failed", comment: "")
+                message = NSLocalizedString("common_error_connection_failed", comment: "")
             case .Internal:
-                message = NSLocalizedString("reset_password_error_generic_error", comment: "")
+                message = NSLocalizedString("reset_password_send_error_generic", comment: "")
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -168,7 +168,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         
         // i18n
         title = NSLocalizedString("reset_password_title", comment: "")
-        emailTextField.placeholder = NSLocalizedString("reset_password_email_field_placeholder", comment: "")
+        emailTextField.placeholder = NSLocalizedString("reset_password_email_field_hint", comment: "")
         resetPasswordButton.setTitle(NSLocalizedString("reset_password_send_button", comment: ""), forState: .Normal)
         
         // Tags

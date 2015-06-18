@@ -111,17 +111,17 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
             let message: String
             switch (error.value) {
             case .InvalidEmail:
-                message = NSLocalizedString("sign_up_error_invalid_email", comment: "")
+                message = NSLocalizedString("sign_up_send_error_invalid_email", comment: "")
             case .InvalidUsername:
-                message = NSLocalizedString("sign_up_error_invalid_username", comment: "")
+                message = NSLocalizedString("sign_up_send_error_invalid_username", comment: "")
             case .InvalidPassword:
-                message = NSLocalizedString("sign_up_error_invalid_password", comment: "")
+                message = NSLocalizedString("sign_up_send_error_invalid_password", comment: "")
             case .Network:
-                message = NSLocalizedString("error_connection_failed", comment: "")
+                message = NSLocalizedString("common_error_connection_failed", comment: "")
             case .EmailTaken:
-                message = NSLocalizedString("sign_up_error_email_taken", comment: "")
+                message = NSLocalizedString("sign_up_send_error_email_taken", comment: "")
             case .Internal:
-                message = NSLocalizedString("sign_up_error_generic_error", comment: "")
+                message = NSLocalizedString("sign_up_send_error_generic", comment: "")
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -204,9 +204,9 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         signUpButton.layer.cornerRadius = 4
         
         // i18n
-        emailTextField.placeholder = NSLocalizedString("sign_up_email_field_placeholder", comment: "")
-        usernameTextField.placeholder = NSLocalizedString("sign_up_username_field_placeholder", comment: "")
-        passwordTextField.placeholder = NSLocalizedString("sign_up_password_field_placeholder", comment: "")
+        emailTextField.placeholder = NSLocalizedString("sign_up_email_field_hint", comment: "")
+        usernameTextField.placeholder = NSLocalizedString("sign_up_username_field_hint", comment: "")
+        passwordTextField.placeholder = NSLocalizedString("sign_up_password_field_hint", comment: "")
         signUpButton.setTitle(NSLocalizedString("sign_up_send_button", comment: ""), forState: .Normal)
         
         // Tags

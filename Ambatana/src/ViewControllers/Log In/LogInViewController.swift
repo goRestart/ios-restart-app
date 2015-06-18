@@ -106,15 +106,15 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
             let message: String
             switch (error.value) {
             case .InvalidEmail:
-                message = NSLocalizedString("log_in_error_invalid_email", comment: "")
+                message = NSLocalizedString("log_in_error_send_error_invalid_email", comment: "")
             case .InvalidPassword:
-                message = NSLocalizedString("log_in_error_invalid_password", comment: "")
+                message = NSLocalizedString("log_in_error_send_error_invalid_password", comment: "")
             case .UserNotFoundOrWrongPassword:
-                message = NSLocalizedString("log_in_error_user_not_found_or_wrong_password", comment: "")
+                message = NSLocalizedString("log_in_error_send_error_user_not_found_or_wrong_password", comment: "")
             case .Network:
-                message = NSLocalizedString("error_connection_failed", comment: "")
+                message = NSLocalizedString("common_error_connection_failed", comment: "")
             case .Internal:
-                message = NSLocalizedString("log_in_error_generic_error", comment: "")
+                message = NSLocalizedString("log_in_error_send_error_generic", comment: "")
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -192,8 +192,8 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         logInButton.layer.cornerRadius = 4
         
         // i18n
-        emailTextField.placeholder = NSLocalizedString("log_in_email_field_placeholder", comment: "")
-        passwordTextField.placeholder = NSLocalizedString("log_in_password_field_placeholder", comment: "")
+        emailTextField.placeholder = NSLocalizedString("log_in_email_field_hint", comment: "")
+        passwordTextField.placeholder = NSLocalizedString("log_in_password_field_hint", comment: "")
         rememberPasswordButton.setTitle(NSLocalizedString("log_in_reset_password_button", comment: ""), forState: .Normal)
         logInButton.setTitle(NSLocalizedString("log_in_send_button", comment: ""), forState: .Normal)
         

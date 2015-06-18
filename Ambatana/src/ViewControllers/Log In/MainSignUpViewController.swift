@@ -102,7 +102,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
             case .Cancelled:
                 break
             case .Network:
-                message = NSLocalizedString("main_sign_up_fb_connect_error_generic_error", comment: "")
+                message = NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
             case .Internal:
                 break
             }
@@ -130,10 +130,10 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         connectFBButton.layer.cornerRadius = 4
         
         // i18n
-        claimLabel.text = NSLocalizedString("main_sign_up_claim", comment: "")
+        claimLabel.text = NSLocalizedString("main_sign_up_claim_label", comment: "")
         connectFBButton.setTitle(NSLocalizedString("main_sign_up_facebook_connect_button", comment: ""), forState: .Normal)
         orLabel.text = NSLocalizedString("main_sign_up_or_label", comment: "")
-        emailTextField.placeholder = NSLocalizedString("main_sign_up_email_field_placeholder", comment: "")
+        emailTextField.placeholder = NSLocalizedString("main_sign_up_email_field_hint", comment: "")
         registeredLabel.text = NSLocalizedString("main_sign_up_already_registered_label", comment: "")
         logInLabel.text = NSLocalizedString("main_sign_up_log_in_label", comment: "")
     }
