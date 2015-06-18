@@ -26,6 +26,9 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     @IBOutlet weak var resetPasswordButton: UIButton!
     
+    // > Helper
+    var lines: [CALayer]
+    
     // MARK: - Lifecycle
     
     convenience init() {
@@ -34,6 +37,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     required init(viewModel: RememberPasswordViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
+        self.lines = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
     }
@@ -52,8 +56,13 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
     
     // MARK: - Actions

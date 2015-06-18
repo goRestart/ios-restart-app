@@ -10,11 +10,10 @@
                 <outlet property="claimLabel" destination="jqP-ji-UY6" id="oyY-7m-DiF"/>
                 <outlet property="connectFBButton" destination="1Du-cc-Xo5" id="Sue-Qc-LLv"/>
                 <outlet property="dividerView" destination="wq5-H6-G0r" id="elX-t0-euE"/>
-                <outlet property="emailButton" destination="7Dn-Gz-751" id="xND-qI-45f"/>
-                <outlet property="emailTextField" destination="Rkx-qr-lwA" id="4uF-CL-kK2"/>
                 <outlet property="logInLabel" destination="ySS-mP-v8W" id="kgz-N5-HJZ"/>
                 <outlet property="orLabel" destination="1pc-RV-rnQ" id="vy9-La-dT5"/>
                 <outlet property="registeredLabel" destination="dji-W8-ZRS" id="wGc-n2-owT"/>
+                <outlet property="signUpButton" destination="19L-e5-VDY" id="C80-e0-Qux"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -69,6 +68,7 @@
                             <rect key="frame" x="15" y="0.0" width="290" height="44"/>
                             <color key="backgroundColor" red="0.43137254901960786" green="0.5490196078431373" blue="0.72941176470588232" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
+                                <constraint firstAttribute="width" constant="290" id="Baw-dk-aOb"/>
                                 <constraint firstAttribute="height" constant="44" id="LNd-3y-e26"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
@@ -88,7 +88,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L6w-ma-IXA" userLabel="Or Container View">
-                            <rect key="frame" x="143" y="74" width="36" height="17"/>
+                            <rect key="frame" x="142" y="74" width="36" height="17"/>
                             <subviews>
                                 <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_or" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pc-RV-rnQ" userLabel="Or Label">
                                     <rect key="frame" x="8" y="0.0" width="20" height="17"/>
@@ -106,51 +106,44 @@
                                 <constraint firstAttribute="trailing" secondItem="1pc-RV-rnQ" secondAttribute="trailing" constant="8" id="u15-29-Rvx"/>
                             </constraints>
                         </view>
-                        <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Dn-Gz-751" userLabel="Email Button">
-                            <rect key="frame" x="0.0" y="121" width="320" height="44"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19L-e5-VDY" userLabel="Sign Up Button">
+                            <rect key="frame" x="15" y="121" width="290" height="44"/>
+                            <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="44" id="cPw-6z-fIg"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="290" id="K6U-SJ-h0m"/>
+                                <constraint firstAttribute="height" constant="44" id="sBE-TG-uaT"/>
+                                <constraint firstAttribute="width" constant="290" id="xe0-S6-P6D"/>
                             </constraints>
-                            <state key="normal">
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <state key="normal" title="_Sign up with Email">
+                                <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="emailButtonPressed:" destination="-1" eventType="touchUpInside" id="37S-xo-TFe"/>
+                                <action selector="signUpButtonPressed:" destination="-1" eventType="touchUpInside" id="KgQ-6e-jBN"/>
                             </connections>
                         </button>
-                        <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rkx-qr-lwA" userLabel="Email Text Field">
-                            <rect key="frame" x="45" y="121" width="260" height="44"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_email" translatesAutoresizingMaskIntoConstraints="NO" id="1dc-No-Lb8" userLabel="Email Icon Image View">
-                            <rect key="frame" x="15" y="136" width="18" height="13"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_email_signup" translatesAutoresizingMaskIntoConstraints="NO" id="oJS-cs-Xnh" userLabel="Email Image View">
+                            <rect key="frame" x="28" y="136" width="18" height="13"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="wq5-H6-G0r" secondAttribute="centerX" id="0ZV-iW-eHP"/>
-                        <constraint firstItem="7Dn-Gz-751" firstAttribute="leading" secondItem="MMP-3C-Gae" secondAttribute="leading" id="15L-GC-JAw"/>
-                        <constraint firstAttribute="centerX" secondItem="L6w-ma-IXA" secondAttribute="centerX" constant="-1" id="1zf-Tu-Bvf"/>
+                        <constraint firstAttribute="centerX" secondItem="L6w-ma-IXA" secondAttribute="centerX" id="1zf-Tu-Bvf"/>
                         <constraint firstItem="1Du-cc-Xo5" firstAttribute="leading" secondItem="Ytw-fW-nBO" secondAttribute="leading" constant="-11" id="6Od-ZP-qOQ"/>
-                        <constraint firstItem="1Du-cc-Xo5" firstAttribute="leading" secondItem="MMP-3C-Gae" secondAttribute="leading" constant="15" id="Ai2-e0-c4Q"/>
-                        <constraint firstAttribute="trailing" secondItem="7Dn-Gz-751" secondAttribute="trailing" id="SGs-Im-599"/>
+                        <constraint firstItem="oJS-cs-Xnh" firstAttribute="centerX" secondItem="Ytw-fW-nBO" secondAttribute="centerX" id="7iS-Dn-3WG"/>
+                        <constraint firstItem="19L-e5-VDY" firstAttribute="top" secondItem="L6w-ma-IXA" secondAttribute="bottom" constant="30" id="GwZ-AE-BKX"/>
+                        <constraint firstItem="oJS-cs-Xnh" firstAttribute="centerY" secondItem="19L-e5-VDY" secondAttribute="centerY" constant="-0.5" id="Hwp-qk-Brj"/>
+                        <constraint firstAttribute="centerX" secondItem="1Du-cc-Xo5" secondAttribute="centerX" id="JE9-oq-cIW"/>
+                        <constraint firstAttribute="centerX" secondItem="19L-e5-VDY" secondAttribute="centerX" id="RqZ-II-bQ9"/>
                         <constraint firstItem="1Du-cc-Xo5" firstAttribute="centerY" secondItem="Ytw-fW-nBO" secondAttribute="centerY" id="ScF-Wv-agy"/>
-                        <constraint firstAttribute="trailing" secondItem="1Du-cc-Xo5" secondAttribute="trailing" constant="15" id="TgQ-D6-s3N"/>
-                        <constraint firstItem="7Dn-Gz-751" firstAttribute="leading" secondItem="1dc-No-Lb8" secondAttribute="leading" constant="-15" id="UvQ-qR-EAO"/>
-                        <constraint firstItem="Rkx-qr-lwA" firstAttribute="top" secondItem="7Dn-Gz-751" secondAttribute="top" id="VE2-BB-dg2"/>
                         <constraint firstItem="L6w-ma-IXA" firstAttribute="height" secondItem="wq5-H6-G0r" secondAttribute="height" multiplier="2" id="YTb-qk-IKT"/>
-                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="7Dn-Gz-751" secondAttribute="bottom" constant="45" id="as7-st-Ux5"/>
-                        <constraint firstItem="7Dn-Gz-751" firstAttribute="top" secondItem="L6w-ma-IXA" secondAttribute="bottom" constant="30" id="bm7-jm-wTV"/>
-                        <constraint firstItem="7Dn-Gz-751" firstAttribute="centerY" secondItem="1dc-No-Lb8" secondAttribute="centerY" id="cPj-HD-EkQ"/>
-                        <constraint firstItem="7Dn-Gz-751" firstAttribute="leading" secondItem="Rkx-qr-lwA" secondAttribute="leading" constant="-45" id="drK-QU-dgL"/>
                         <constraint firstItem="wq5-H6-G0r" firstAttribute="width" secondItem="MMP-3C-Gae" secondAttribute="width" multiplier="0.5" id="fix-O3-MS4"/>
-                        <constraint firstItem="Rkx-qr-lwA" firstAttribute="bottom" secondItem="7Dn-Gz-751" secondAttribute="bottom" id="jnM-d4-3Nc"/>
                         <constraint firstItem="L6w-ma-IXA" firstAttribute="top" secondItem="1Du-cc-Xo5" secondAttribute="bottom" constant="30" id="nv6-ea-hUe"/>
                         <constraint firstItem="1Du-cc-Xo5" firstAttribute="top" secondItem="MMP-3C-Gae" secondAttribute="top" id="qi1-82-ZE1"/>
                         <constraint firstItem="L6w-ma-IXA" firstAttribute="top" secondItem="wq5-H6-G0r" secondAttribute="top" id="vfp-x9-eXA"/>
-                        <constraint firstItem="Rkx-qr-lwA" firstAttribute="trailing" secondItem="7Dn-Gz-751" secondAttribute="trailing" constant="-15" id="wBP-PT-wRn"/>
+                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="19L-e5-VDY" secondAttribute="bottom" constant="45" id="zeN-X4-IYe"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="mpt-zU-SZU" userLabel="Footer View">
@@ -227,7 +220,7 @@
         </view>
     </objects>
     <resources>
-        <image name="ic_email" width="18" height="13"/>
+        <image name="ic_email_signup" width="18" height="13"/>
         <image name="logo-big" width="110" height="66"/>
         <image name="logo_facebook" width="22" height="22"/>
     </resources>

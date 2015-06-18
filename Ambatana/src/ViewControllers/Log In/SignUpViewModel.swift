@@ -25,12 +25,12 @@ public class SignUpViewModel: BaseViewModel {
     weak var delegate: SignUpViewModelDelegate?
     
     // Input
-    var email: String {
+    var username: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
         }
     }
-    var username: String {
+    var email: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
         }
@@ -44,8 +44,8 @@ public class SignUpViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     override init() {
-        email = ""
         username = ""
+        email = ""
         password = ""
         super.init()
     }
@@ -57,11 +57,11 @@ public class SignUpViewModel: BaseViewModel {
         delegate?.viewModelDidStartSigningUp(self)
         
         // Validation
-        if !email.isEmail() {
-            delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidEmail))
-        }
-        else if count(username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 {
+        if count(username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 {
             delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidUsername))
+        }
+        else if !email.isEmail() {
+            delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidEmail))
         }
         else if count(password) < SignUpViewModel.minPasswordLength {
             delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidPassword))
@@ -78,6 +78,6 @@ public class SignUpViewModel: BaseViewModel {
     // MARK: - Private methods
     
     private func sendButtonShouldBeEnabled() -> Bool {
-        return count(email) > 0 && count(username) > 0 && count(password) > 0
+        return count(username) > 0 && count(email) > 0 && count(password) > 0
     }
 }

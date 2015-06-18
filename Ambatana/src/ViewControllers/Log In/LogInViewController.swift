@@ -32,6 +32,9 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     @IBOutlet weak var logInButton: UIButton!
     
+    // > Helper
+    var lines: [CALayer]
+    
     // MARK: - Lifecycle
     
     convenience init() {
@@ -40,6 +43,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     required init(viewModel: LogInViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
+        self.lines = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
     }
@@ -58,9 +62,14 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        passwordButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(passwordButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
 
     // MARK: - Actions

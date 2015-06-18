@@ -13,28 +13,29 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     
     // Constants & enum
     enum TextFieldTag: Int {
-        case Email = 1000, Username, Password
+        case Username = 1000, Email, Password
     }
     
     // ViewModel
     var viewModel: SignUpViewModel!
     
     // UI
-    @IBOutlet weak var emailIconImageView: UIImageView!
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var emailButton: UIButton!
-    
     @IBOutlet weak var usernameIconImageView: UIImageView!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var usernameButton: UIButton!
+    
+    @IBOutlet weak var emailIconImageView: UIImageView!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var emailButton: UIButton!
 
     @IBOutlet weak var passwordIconImageView: UIImageView!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordButton: UIButton!
     
-    
-    
     @IBOutlet weak var signUpButton: UIButton!
+    
+    // > Helper
+    var lines: [CALayer]
     
     // MARK: - Lifecycle
     
@@ -44,6 +45,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     
     required init(viewModel: SignUpViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
+        self.lines = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
     }
@@ -57,25 +59,30 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         
         setupUI()
         
-        emailTextField.becomeFirstResponder()
+        usernameButton.becomeFirstResponder()
     }
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        usernameButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        passwordButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(usernameButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(passwordButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
     
     // MARK: - Actions
     
-    @IBAction func emailButtonPressed(sender: AnyObject) {
-        emailTextField.becomeFirstResponder()
-    }
-    
     @IBAction func usernameButtonPressed(sender: AnyObject) {
         usernameTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func emailButtonPressed(sender: AnyObject) {
+        emailTextField.becomeFirstResponder()
     }
     
     @IBAction func passwordButtonPressed(sender: AnyObject) {
@@ -137,10 +144,10 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         if let tag = TextFieldTag(rawValue: textField.tag) {
             let iconImageView: UIImageView
             switch (tag) {
-            case .Email:
-                iconImageView = emailIconImageView
             case .Username:
                 iconImageView = usernameIconImageView
+            case .Email:
+                iconImageView = emailIconImageView
             case .Password:
                 iconImageView = passwordIconImageView
             }
@@ -152,10 +159,10 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         if let tag = TextFieldTag(rawValue: textField.tag) {
             let iconImageView: UIImageView
             switch (tag) {
-            case .Email:
-                iconImageView = emailIconImageView
             case .Username:
                 iconImageView = usernameIconImageView
+            case .Email:
+                iconImageView = emailIconImageView
             case .Password:
                 iconImageView = passwordIconImageView
             }
@@ -204,14 +211,14 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         signUpButton.layer.cornerRadius = 4
         
         // i18n
-        emailTextField.placeholder = NSLocalizedString("sign_up_email_field_hint", comment: "")
         usernameTextField.placeholder = NSLocalizedString("sign_up_username_field_hint", comment: "")
+        emailTextField.placeholder = NSLocalizedString("sign_up_email_field_hint", comment: "")
         passwordTextField.placeholder = NSLocalizedString("sign_up_password_field_hint", comment: "")
         signUpButton.setTitle(NSLocalizedString("sign_up_send_button", comment: ""), forState: .Normal)
         
         // Tags
-        emailTextField.tag = TextFieldTag.Email.rawValue
         usernameTextField.tag = TextFieldTag.Username.rawValue
+        emailTextField.tag = TextFieldTag.Email.rawValue
         passwordTextField.tag = TextFieldTag.Password.rawValue
     }
     
@@ -220,10 +227,10 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         
         if let tag = TextFieldTag(rawValue: textField.tag) {
             switch (tag) {
-            case .Email:
-                viewModel.email = text
             case .Username:
                 viewModel.username = text
+            case .Email:
+                viewModel.email = text
             case .Password:
                 viewModel.password = text
             }

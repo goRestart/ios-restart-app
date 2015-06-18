@@ -210,7 +210,7 @@
 "main_sign_up_claim_label" = "Start to sell, buy and chat";
 "main_sign_up_facebook_connect_button" = "Connect with Facebook";
 "main_sign_up_or_label" = "OR";
-"main_sign_up_email_field_hint" = "Email";
+"main_sign_up_sign_up_button" = "Sign up with your email";
 "main_sign_up_already_registered_label" = "Already registered?";
 "main_sign_up_log_in_label" = "Log in";
 // > Notifications
@@ -247,7 +247,7 @@
 "reset_password_email_field_hint" = "Email";
 "reset_password_send_button" = "Reset password";
 // > Notifications
-"reset_password_send_ok" = "Check your inbox a follow the password reset instructions.";
+"reset_password_send_ok" = "Check your inbox and follow the password reset instructions.";
 "reset_password_send_error_invalid_email" = "Please, insert a valid email in the user email textfield";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Email address not found";
 "reset_password_send_error_generic" = "An error occurred while trying to remember your password.";

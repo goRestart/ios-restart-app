@@ -23,12 +23,14 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
 
-    @IBOutlet weak var emailButton: UIButton!
-    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var signUpButton: UIButton!
     
     // Footer
     @IBOutlet weak var registeredLabel: UILabel!
     @IBOutlet weak var logInLabel: UILabel!
+    
+    // > Helper
+    var lines: [CALayer]
     
     // MARK: - Lifecycle
     
@@ -38,6 +40,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     
     required init(viewModel: MainSignUpViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
+        self.lines = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
     }
@@ -54,9 +57,13 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        dividerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
-        emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
-        emailButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
+
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
     
     // MARK: - Actions
@@ -69,7 +76,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
          viewModel.logInWithFacebook()
     }
     
-    @IBAction func emailButtonPressed(sender: AnyObject) {
+    @IBAction func signUpButtonPressed(sender: AnyObject) {
         let vc = SignUpViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -128,12 +135,14 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         // Appearance
         connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         connectFBButton.layer.cornerRadius = 4
+        signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        signUpButton.layer.cornerRadius = 4
         
         // i18n
         claimLabel.text = NSLocalizedString("main_sign_up_claim_label", comment: "")
         connectFBButton.setTitle(NSLocalizedString("main_sign_up_facebook_connect_button", comment: ""), forState: .Normal)
         orLabel.text = NSLocalizedString("main_sign_up_or_label", comment: "")
-        emailTextField.placeholder = NSLocalizedString("main_sign_up_email_field_hint", comment: "")
+        signUpButton.setTitle(NSLocalizedString("main_sign_up_sign_up_button", comment: ""), forState: .Normal)
         registeredLabel.text = NSLocalizedString("main_sign_up_already_registered_label", comment: "")
         logInLabel.text = NSLocalizedString("main_sign_up_log_in_label", comment: "")
     }
