@@ -340,10 +340,9 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     }
     
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
-       
         // If we're showing a product list or the categories view, then show again the tooltip
-        let currentTabBarVC = NavigationHelper.currentTabBarViewController()
-        if currentTabBarVC is ProductsViewController || currentTabBarVC is CategoriesViewController {
+        let topVC = UIApplication.topViewController()
+        if topVC is ProductsViewController || topVC is CategoriesViewController {
             showTooltip()
         }
     }
