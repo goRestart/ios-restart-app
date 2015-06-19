@@ -62,7 +62,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         
         setupUI()
         
-        usernameButton.becomeFirstResponder()
+        usernameTextField.becomeFirstResponder()
     }
 
     override func viewWillLayoutSubviews() {
