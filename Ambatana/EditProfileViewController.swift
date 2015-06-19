@@ -135,8 +135,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         userLocationLabel.text = user.postalAddress.city
         
         // If it's me, then allow go to settings
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            if user.objectId == myUser.objectId {
+        if let myUser = MyUserManager.sharedInstance.myUser(), let userId = user.objectId {
+            if userId == myUser.objectId {
                 setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"])
             }
         }
@@ -291,48 +291,65 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - Requests
     
     func retrieveProductsForTab(tab: ProfileTab) {
-        switch tab {
-        case .ProductImSelling:
-            loadingSellProducts = true
-            var statuses: [LetGoProductStatus] = [.Approved]
-            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
-                statuses.append(.Pending)
+        
+        if let userId = user.objectId {
+            switch tab {
+            case .ProductImSelling:
+                
+                // If it's me then show my approved & pending products
+                let statuses: [LetGoProductStatus]
+                if userId == MyUserManager.sharedInstance.myUser()?.objectId {
+                    statuses = [.Approved, .Pending]
+                }
+                    // Otherwise, only show the approved products
+                else {
+                    statuses = [.Approved]
+                }
+                
+                // Retrieve the products
+                loadingSellProducts = true
+                retrieveProductsForUserId(userId, statuses: statuses, completion: { [weak self] (products, error) -> (Void) in
+                    if let strongSelf = self {
+                        if error == nil && products.count > 0 {
+                            strongSelf.sellProducts = products
+                        }
+                        strongSelf.loadingSellProducts = false
+                        strongSelf.retrievalFinishedForProductsAtTab(tab)
+                    }
+                })
+                
+            case .ProductISold:
+                
+                // Retrieve the products (sold)
+                loadingSoldProducts = true
+                self.retrieveProductsForUserId(userId, statuses: [.Sold], completion: { [weak self] (products, error) -> Void in
+                    if let strongSelf = self {
+                        if error == nil && products.count > 0 {
+                            strongSelf.soldProducts = products
+                        }
+                        strongSelf.loadingSoldProducts = false
+                        strongSelf.retrievalFinishedForProductsAtTab(tab)
+                    }
+                })
+                
+            case .ProductFavourite:
+
+                // Retrieve the products
+                loadingFavProducts = true
+                self.retrieveFavouriteProductsForUserId(userId, completion: { [weak self] (products, error) -> Void in
+                    if let strongSelf = self {
+                        if error == nil && products.count > 0 {
+                            strongSelf.favProducts = products
+                        }
+                        strongSelf.loadingFavProducts = false
+                        strongSelf.retrievalFinishedForProductsAtTab(tab)
+                    }
+                })
             }
             
-            self.retrieveProductsForUserId(user.objectId, statuses: statuses, completion: { [weak self] (products, error) -> (Void) in
-                if let strongSelf = self {
-                    if error == nil && products.count > 0 {
-                        strongSelf.sellProducts = products
-                    }
-                    strongSelf.loadingSellProducts = false
-                    strongSelf.retrievalFinishedForProductsAtTab(tab)
-                }
-                })
-        case .ProductISold:
-            loadingSoldProducts = true
-            
-            self.retrieveProductsForUserId(user.objectId, statuses: [.Sold], completion: { [weak self] (products, error) -> Void in
-                if let strongSelf = self {
-                    if error == nil && products.count > 0 {
-                        strongSelf.soldProducts = products
-                    }
-                    strongSelf.loadingSoldProducts = false
-                    strongSelf.retrievalFinishedForProductsAtTab(tab)
-                }
-                })
-            
-        case .ProductFavourite:
-            loadingFavProducts = true
-            
-            self.retrieveFavouriteProductsForUserId(user.objectId, completion: { [weak self] (products, error) -> Void in
-                if let strongSelf = self {
-                    if error == nil && products.count > 0 {
-                        strongSelf.favProducts = products
-                    }
-                    strongSelf.loadingFavProducts = false
-                    strongSelf.retrievalFinishedForProductsAtTab(tab)
-                }
-                })
+        }
+        else {
+            retrievalFinishedForProductsAtTab(tab)
         }
     }
     
