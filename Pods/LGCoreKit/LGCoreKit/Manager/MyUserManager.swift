@@ -132,7 +132,10 @@ public class MyUserManager {
                         // Success
                         if let postalAddress = postalAddressRetrievalResult.value {
                             
-                            // 3a. Set the currency code, if any
+                            // 3a. Update the postal address
+                            user.postalAddress = postalAddress
+                            
+                            // 3b. Set the currency code, if any
                             if let countryCode = postalAddress.countryCode {
                                 if !countryCode.isEmpty {
                                     CurrencyHelper.sharedInstance.setCountryCode(countryCode)

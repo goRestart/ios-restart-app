@@ -34,7 +34,7 @@ public class LGProductUserParser {
     public static func userWithJSON(json: JSON) -> User {
         let user = LGUser()
         user.objectId = json[LGProductUserParser.objectIdJSONKey].string
-        user.publicUsername = json[LGProductUserParser.objectIdJSONKey].string
+        user.publicUsername = json[LGProductUserParser.publicUsernameJSONKey].string
         if let avatarURLStr = json[LGProductUserParser.avatarURLJSONKey].string {
             user.avatar = LGFile(url: NSURL(string: avatarURLStr))
         }
