@@ -12,8 +12,11 @@ import Result
 
 public class MyUserManager {
     
-    // Constants
-    public static let didReceiveAddressNotification = "MyUserManager.didReceiveAddressNotification"
+    // Constants & enum
+    public enum Notification: String {
+        case login = "MyUserManager.login"
+        case logout = "MyUserManager.logout"
+    }
     
     // iVars
     private var userSignUpService: UserSignUpService
@@ -350,6 +353,11 @@ public class MyUserManager {
     */
     public func logout(result: UserLogOutServiceResult) {
         if let myUser = myUser() {
+            
+            // Notify
+            NSNotificationCenter.defaultCenter().postNotificationName(Notification.logout.rawValue, object: nil)
+            
+            // Request
             userLogOutService.logOutUser(myUser) { (myResult: Result<Nil, UserLogOutServiceError>) in
                 
                 // Notify the callback
@@ -399,6 +407,10 @@ public class MyUserManager {
         Runs the setup needed after a session (when signing up or logging in) is successful.
     */
     private func setupAfterSessionSuccessful() {
+        
+        // Notify
+        NSNotificationCenter.defaultCenter().postNotificationName(Notification.login.rawValue, object: nil)
+        
         // If we already have a location, then save it into my user
         if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
             saveUserCoordinates(lastKnownLocation.coordinate) { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }

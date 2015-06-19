@@ -22,7 +22,7 @@ public class LGProductParser {
     private static let currencyCodeJSONKey = "currency"
     
     private static let latitudeJSONKey = "latitude"
-    private static let longitudeJSONKey = "latitude"
+    private static let longitudeJSONKey = "longitude"
     private static let distanceJSONKey = "distance"
     private static let distanceTypeJSONKey = "distance_type"
 
