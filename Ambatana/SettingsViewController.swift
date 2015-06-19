@@ -132,18 +132,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             let vc = storyboard.instantiateViewControllerWithIdentifier("ChangePasswordViewController") as! ChangePasswordViewController
             self.navigationController?.pushViewController(vc, animated: true)
         case .LogOut:
-            NSNotificationCenter.defaultCenter().postNotificationName(kLetGoLogoutImminentNotification, object: nil)
             logoutUser()
         }
     }
     
     func logoutUser() {
-        
-        navigationController?.popToRootViewControllerAnimated(false)
-        if let tabBarCtl = self.tabBarController as? TabBarController {
-            tabBarCtl.switchToTab(.Home)
-        }
-        
         // Logout
         MyUserManager.sharedInstance.logout { (result: Result<Nil, UserLogOutServiceError>) in }
         

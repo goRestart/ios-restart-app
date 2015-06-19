@@ -135,6 +135,7 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         
         // NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:", name: PushManager.Notification.unreadMessagesDidChange.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: MyUserManager.Notification.logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
@@ -175,11 +176,11 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
                     let shouldSelectVC = actualDelegate.tabBarController?(self, shouldSelectViewController: selectedVC) ?? true
                     if shouldSelectVC {
                         
-                        // Pop the navigation back to root
-                        navBarCtl.popToRootViewControllerAnimated(false)
-                        
                         // Change the tab
                         selectedIndex = vcIdx
+                        
+                        // Pop the navigation back to root
+                        navBarCtl.popToRootViewControllerAnimated(false)
                         
                         // Notify the delegate, as programmatically change doesn't do it
                         actualDelegate.tabBarController?(self, didSelectViewController: selectedVC)
@@ -366,6 +367,18 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     
     @objc private func unreadMessagesDidChange(notification: NSNotification) {
         updateChatsBadge()
+    }
+    
+    @objc private func logout(notification: NSNotification) {
+        
+        // Leave navCtl in its initial state, pop to root
+        selectedViewController?.navigationController?.popToRootViewControllerAnimated(false)
+
+        // Switch to home tab
+        var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+            self.switchToTab(.Home)
+        })
     }
     
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
