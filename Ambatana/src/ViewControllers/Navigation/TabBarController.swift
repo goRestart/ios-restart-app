@@ -258,12 +258,15 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
                 }
             }
             
-            // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
-            ifLoggedInThen({
-                self.switchToTab(tab)
-            }, elsePresentSignUpWithSuccessAction: {
-                self.switchToTab(tab)
-            })
+            // If login is required
+            if isLogInRequired {
+                // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
+                ifLoggedInThen({
+                    self.switchToTab(tab)
+                }, elsePresentSignUpWithSuccessAction: {
+                    self.switchToTab(tab)
+                })
+            }
             
             return !isLogInRequired
         }
