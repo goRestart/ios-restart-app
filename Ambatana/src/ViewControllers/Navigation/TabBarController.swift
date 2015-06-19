@@ -234,46 +234,41 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     
     func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
         
-        var isLogInRequired = false
-        
-        // If it's a NavCtl
-        if let navVC = viewController as? UINavigationController {
+        let vcIdx = (viewControllers! as NSArray).indexOfObject(viewController)
+        if let tab = Tab(rawValue: vcIdx) {
+            
+            var isLogInRequired = false
             
             // Do not allow selecting Sell
-            if let sellVC = navVC.topViewController as? SellProductViewController {
+            if tab == .Sell {
                 return false
             }
-            // Do not allow selecting Chats if it's an anonymous user
-            else if let chatsVC = navVC.topViewController as? ChatListViewController {
-                isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
-            }
-            // Do not allow selecting Profile if it's an anonymous user
-            else if let profileVC = navVC.topViewController as? EditProfileViewController {
-                
-                // Update the user in my profile
-                if let user = MyUserManager.sharedInstance.myUser() {
-                    profileVC.user = user
-                }
-                
+            // Chats and Profile require login
+            else if tab == .Chats || tab == .Profile {
                 isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
             }
             
-        }
-        // Or, its the SellVC perse, then do not allow selecting it
-        else if let sellVC = viewController as? SellProductViewController {
-            return false
+            // Profile needs a user update
+            if let user = MyUserManager.sharedInstance.myUser() {
+                if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController as? EditProfileViewController {
+                    profileVC.user = user
+                }
+                else if let profileVC = viewController as? EditProfileViewController {
+                    profileVC.user = user
+                }
+            }
+            
+            // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
+            ifLoggedInThen({
+                self.switchToTab(tab)
+            }, elsePresentSignUpWithSuccessAction: {
+                self.switchToTab(tab)
+            })
+            
+            return !isLogInRequired
         }
         
-        // If log in is required then present the login vc
-        if isLogInRequired {
-            let vc = MainSignUpViewController()
-            let navCtl = UINavigationController(rootViewController: vc)
-            navCtl.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
-            navCtl.navigationBar.shadowImage = UIImage()
-            self.presentViewController(navCtl, animated: true, completion: nil)
-        }
-        
-        return !isLogInRequired
+        return true
     }
     
     // MARK: - Private methods
@@ -302,21 +297,12 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         // Dismiss the tooltip, if present
         dismissTooltip(animated: true)
         
-        // If not logged in then present the login VC
-        let isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
-        if isLogInRequired {
-            let vc = MainSignUpViewController()
-            let navCtl = UINavigationController(rootViewController: vc)
-            navCtl.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
-            navCtl.navigationBar.shadowImage = UIImage()
-            self.presentViewController(navCtl, animated: true, completion: nil)
-        }
-        // Otherwise, present the sell VC
-        else if let vc = Tab.Sell.viewController as? SellProductViewController {
-            vc.delegate = self
-            let navCtl = UINavigationController(rootViewController: vc)
-            presentViewController(navCtl, animated: true, completion: nil)
-        }
+        // If logged present the sell, otherwise present the login VC (and if successful the sell)
+        ifLoggedInThen({
+            self.presentSellVC()
+        }, elsePresentSignUpWithSuccessAction: {
+            self.presentSellVC()
+        })
     }
     
     dynamic private func tooltipPressed() {
@@ -332,6 +318,15 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             chatsTab.badgeValue = badgeNumber > 0 ? "\(badgeNumber)" : nil
         }
     }
+   
+    private func presentSellVC() {
+        if let vc = Tab.Sell.viewController as? SellProductViewController {
+            vc.delegate = self
+            let navCtl = UINavigationController(rootViewController: vc)
+            presentViewController(navCtl, animated: true, completion: nil)
+        }
+    }
+        
     
     // MARK: > NSNotification
     

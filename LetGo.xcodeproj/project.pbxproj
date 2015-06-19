@@ -128,6 +128,7 @@
 		D4B0CF7E1B07309800A61E1A /* SellEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF7C1B07309800A61E1A /* SellEmptyCell.swift */; };
 		D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4B0CF7D1B07309800A61E1A /* SellEmptyCell.xib */; };
 		D4B546341AEFDD920062D183 /* letgoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B546331AEFDD920062D183 /* letgoTests.swift */; };
+		D4C53C971B334B0B0087AAE1 /* UIViewController+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C53C961B334B0B0087AAE1 /* UIViewController+User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,6 +278,7 @@
 		D4B5462F1AEFDD920062D183 /* letgoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = letgoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B546321AEFDD920062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4B546331AEFDD920062D183 /* letgoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = letgoTests.swift; sourceTree = "<group>"; };
+		D4C53C961B334B0B0087AAE1 /* UIViewController+User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+User.swift"; sourceTree = "<group>"; };
 		DCE9C67541895BFFB3F852AD /* Pods-Ambatana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -530,13 +532,11 @@
 			children = (
 				66A0CFE61A83741700FAADF0 /* Chat */,
 				66911D911A853A2E006CFBE1 /* Location */,
-				6649D16D1A82214E000F6966 /* Login */,
 				6608E03F1A820FBD005895ED /* Main.storyboard */,
 				6649D16E1A822212000F6966 /* Products */,
 				66A0CFDF1A8372CC00FAADF0 /* Profile */,
 				66EF4ACF1A8A044F00D6F4D2 /* Sell Product */,
 				6601BFBF1A8E5A7400A2C60B /* Settings */,
-				6649D1711A8222E4000F6966 /* Structure */,
 			);
 			name = "Views & Controllers";
 			sourceTree = "<group>";
@@ -549,13 +549,6 @@
 				66A5B56B1ADE4D4A00C18E8B /* Managers */,
 			);
 			name = Model;
-			sourceTree = "<group>";
-		};
-		6649D16D1A82214E000F6966 /* Login */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Login;
 			sourceTree = "<group>";
 		};
 		6649D16E1A822212000F6966 /* Products */ = {
@@ -573,13 +566,6 @@
 				D48183F61AB2FEBE00229DBF /* ProductCell.xib */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6649D1711A8222E4000F6966 /* Structure */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Structure;
 			sourceTree = "<group>";
 		};
 		665713E71AADF14100B4721C /* DLImageResize */ = {
@@ -772,6 +758,7 @@
 				D4912A7F1B08DDA400DACD5A /* UIView+Appereance.h */,
 				D4912A801B08DDA400DACD5A /* UIView+Appereance.m */,
 				D4912A891B08FFF900DACD5A /* UIView+Border.swift */,
+				D4C53C961B334B0B0087AAE1 /* UIViewController+User.swift */,
 			);
 			path = helper;
 			sourceTree = "<group>";
@@ -1019,6 +1006,7 @@
 				505B06AA1B15A9910049F9CD /* GalleryView.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
 				50560B9F1B25D18F0021D8D9 /* ProductsViewModel.swift in Sources */,
+				D4C53C971B334B0B0087AAE1 /* UIViewController+User.swift in Sources */,
 				D4912A881B08FDA000DACD5A /* UIColor+UIImage.swift in Sources */,
 				667562AF1A96380E00039151 /* ImageHelper.swift in Sources */,
 				66C834B11ADBC5DB002FF142 /* RESTManager.swift in Sources */,

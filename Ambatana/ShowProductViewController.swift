@@ -114,27 +114,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         // initialize product UI.
         // check if this is a favorite product
         initializeFavoriteButtonAnimations()
-        checkFavoriteProduct()
-        
-        // check if this is product is mine
-        var thisProductIsMine = false
-        if let productUser = product.user, let userId = productUser.objectId, let myUser = MyUserManager.sharedInstance.myUser() {
-            thisProductIsMine = userId == myUser.objectId
-        }
-        
-        // Buttons
-        switch product.status {
-            // If approved show action buttons depending on if it's mine or not
-        case .Approved:
-            self.askQuestionButton.hidden = thisProductIsMine
-            self.makeOfferButton.hidden = thisProductIsMine
-            self.markSoldButton.hidden = !thisProductIsMine
-            // Otherwise no other action can be performed
-        default:
-            self.askQuestionButton.hidden = true
-            self.makeOfferButton.hidden = true
-            self.markSoldButton.hidden = true
-        }
         
         // User
         usernameLabel.text = product.user?.publicUsername ?? ""
@@ -173,31 +152,15 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         // distance
         locationLabel.text = product.formattedDistance()
         
-        // fraud report
-        if thisProductIsMine {
-            self.lineDivider.hidden = true
-            self.butProductReport.hidden = true
-            
-            self.butProductReportHeightConstraint.constant = 0
-            if product.status == .Sold {
-                self.butProductReportHeightConstraint.constant = 0
-            }
-            else {
-                self.butProductReportHeightConstraint.constant = 20
-            }
-        }
-        else {
-            self.lineDivider.hidden = false
-            self.butProductReport.hidden = false
-            self.butProductReportHeightConstraint.constant = 50
-        }
-        
         // internationalization
         makeOfferButton.setTitle(translate("make_an_offer"), forState: .Normal)
         askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
         markSoldButton.setTitle(translate("mark_as_sold"), forState: .Normal)
         fromYouLabel.text = translate("from_you")
         butProductReport.setTitle(translate("report_product"), forState: .Normal)
+        
+        // Update UI
+        updateUI()
         
         // Tracking
         TrackingHelper.trackEvent(.ProductDetailVisit, parameters: trackingParams)
@@ -235,30 +198,13 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
 
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
-        // safety checks
-        if product.user == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
-        
-        // loading interface...
-        enableAskQuestionLoadingInterface()
-
-        // check if we have some current conversation with the user
-        ChatManager.sharedInstance.retrieveMyConversationWithUser(product.user!, aboutProduct: product) { [weak self] (success, conversation) -> Void in
-            if let strongSelf = self {
-                if success { // we have a conversation.
-                    strongSelf.launchChatWithConversation(conversation!)
-                }
-                else { // we need to create a conversation and pass it.
-                    ChatManager.sharedInstance.createConversationWithUser(strongSelf.product.user!, aboutProduct: strongSelf.product, completion: { (success, conversation) -> Void in
-                        if success {
-                            strongSelf.launchChatWithConversation(conversation!)
-                        }
-                        else {
-                            strongSelf.disableAskQuestionLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
-                        }
-                    })
-                }
-            }
-        }
+        ifLoggedInThen({
+            self.askQuestion()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.askQuestion()
+        })
     }
     
     func launchChatWithConversation(conversation: PFObject) {
@@ -315,54 +261,33 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
-        vc.product = product
-        self.navigationController?.pushViewController(vc, animated: true)
+        ifLoggedInThen({
+            self.makeOffer()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.makeOffer()
+        })
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
-        if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: translate("mark_as_sold"), style: .Default, handler: { (markAction) -> Void in
-                self.definitelyMarkProductAsSold()
-            }))
-            self.presentViewController(alert, animated: true, completion: nil)
-        } else { // ios7 fallback --> ActionSheet.
-            let alert = UIAlertView(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), delegate: self, cancelButtonTitle: translate("cancel"))
-            alert.addButtonWithTitle(translate("mark_as_sold"))
-            alert.show()
-        }
-        
+        ifLoggedInThen({
+            self.markProductAsSold()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.markProductAsSold()
+        })
     }
 
     @IBAction func reportProductButtonPressed(sender: AnyObject) {
-
-        if let let myUser = MyUserManager.sharedInstance.myUser(), let productOwner = product.user {
-            
-            butProductReport.enabled = false
-            butProductReport.setTitle(translate("reporting_product"), forState: .Normal)
-            
-            let report = PFObject(className: "UserReports")
-            report["product_reported"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:product.objectId)
-            report["user_reporter"] = PFUser(withoutDataWithObjectId: myUser.objectId)
-            report["user_reported"] = PFUser(withoutDataWithObjectId: productOwner.objectId)
-            
-            report.saveInBackgroundWithBlock({ [weak self] (success, error) -> Void in
-                if let strongSelf = self {
-                    
-                    strongSelf.butProductReport.enabled = true
-                    
-                    if success {
-                        strongSelf.butProductReport.setTitle(translate("reported_product"), forState: .Normal)
-                    }
-                    else {
-                        strongSelf.butProductReport.setTitle(translate("report_product"), forState: .Normal)
-                    }
-                }
-                })
-        }
+        ifLoggedInThen({
+            self.reportProduct()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.reportProduct()
+        })
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
@@ -401,6 +326,29 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                 }
                 self.disableMarkAsSoldLoadingInterface()
             })
+        }
+    }
+    
+    @IBAction func showProductUser(sender: AnyObject) {
+        
+        // If we're the ones selling the product do not allow to push the view to avoid circular navigation
+        var shouldPushUserVC = true
+        let productUser = product.user
+        
+        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
+            if myUserId == productUser?.objectId {
+                shouldPushUserVC = false
+            }
+        }
+        
+        // If there's no product user then do not allow either
+        if productUser == nil {
+            shouldPushUserVC = false
+        }
+        
+        if shouldPushUserVC {
+            let vc = EditProfileViewController(user: productUser!)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -474,31 +422,13 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     func markOrUnmarkAsFavorite() {
-        self.favoriteButton.userInteractionEnabled = false
-        
-        // UI update for quick user feedback + Request
-        self.favoriteButton.imageView!.startAnimating()
-        
-        if self.isFavourite {
-            deleteFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
-                product: product,
-                completion: { (success) -> Void in
-                    self.favoriteButton.userInteractionEnabled = true
-                    self.isFavourite = !success
-                    self.favoriteButton.imageView!.stopAnimating()
-                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
-            })
-        }
-        else {
-            saveFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
-                product: product,
-                completion: { (success) -> Void in
-                    self.favoriteButton.userInteractionEnabled = true
-                    self.isFavourite = success
-                    self.favoriteButton.imageView!.stopAnimating()
-                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
-            })
-        }
+        ifLoggedInThen({
+            self.switchFavourite()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.switchFavourite()
+        })
     }
     
     func checkFavoriteProduct() {
@@ -626,23 +556,156 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         return productPin
     }
     
-    @IBAction func showProductUser(sender: AnyObject) {
-        var shouldPushUserVC = true
+    // MARK: - Private methods
+    
+    private func updateUI() {
         
-        // If we're the ones selling the product do not allow to push the view to avoid circular navigation
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            if myUser.objectId == product.user?.objectId {
-                shouldPushUserVC = false
-            }
+        let userIsLoggedIn = !MyUserManager.sharedInstance.isMyUserAnonymous()
+        if userIsLoggedIn {
+            self.checkFavoriteProduct()
         }
         
-        if let myUser = MyUserManager.sharedInstance.myUser(), let productUser = product.user {
+        // check if this is product is mine
+        var thisProductIsMine = false
+        if let productUser = product.user, let userId = productUser.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
+            thisProductIsMine = userId == myUserId
+        }
+        
+        // Buttons
+        switch product.status {
+        // If approved show action buttons depending on if it's mine or not
+        case .Approved:
+            self.askQuestionButton.hidden = thisProductIsMine
+            self.makeOfferButton.hidden = thisProductIsMine
+            self.markSoldButton.hidden = !thisProductIsMine
+        // Otherwise no other action can be performed
+        default:
+            self.askQuestionButton.hidden = true
+            self.makeOfferButton.hidden = true
+            self.markSoldButton.hidden = true
+        }
+        
+        // fraud report
+        if thisProductIsMine {
+            self.lineDivider.hidden = true
+            self.butProductReport.hidden = true
             
-            // If i'm not the seller
-            if myUser.objectId != productUser.objectId {
-                let vc = EditProfileViewController(user: productUser)
-                self.navigationController?.pushViewController(vc, animated: true)
+            self.butProductReportHeightConstraint.constant = 0
+            if product.status == .Sold {
+                self.butProductReportHeightConstraint.constant = 0
             }
+            else {
+                self.butProductReportHeightConstraint.constant = 20
+            }
+        }
+        else {
+            self.lineDivider.hidden = false
+            self.butProductReport.hidden = false
+            self.butProductReportHeightConstraint.constant = 50
+        }
+    }
+    
+    private func askQuestion() {
+        // safety checks
+        if product.user == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
+        
+        // loading interface...
+        enableAskQuestionLoadingInterface()
+        
+        // check if we have some current conversation with the user
+        ChatManager.sharedInstance.retrieveMyConversationWithUser(product.user!, aboutProduct: product) { [weak self] (success, conversation) -> Void in
+            if let strongSelf = self {
+                if success { // we have a conversation.
+                    strongSelf.launchChatWithConversation(conversation!)
+                }
+                else { // we need to create a conversation and pass it.
+                    ChatManager.sharedInstance.createConversationWithUser(strongSelf.product.user!, aboutProduct: strongSelf.product, completion: { (success, conversation) -> Void in
+                        if success {
+                            strongSelf.launchChatWithConversation(conversation!)
+                        }
+                        else {
+                            strongSelf.disableAskQuestionLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                        }
+                    })
+                }
+            }
+        }
+    }
+    
+    private func makeOffer() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
+        vc.product = product
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func markProductAsSold() {
+        if iOSVersionAtLeast("8.0") {
+            let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: translate("mark_as_sold"), style: .Default, handler: { (markAction) -> Void in
+                self.definitelyMarkProductAsSold()
+            }))
+            self.presentViewController(alert, animated: true, completion: nil)
+        } else { // ios7 fallback --> ActionSheet.
+            let alert = UIAlertView(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), delegate: self, cancelButtonTitle: translate("cancel"))
+            alert.addButtonWithTitle(translate("mark_as_sold"))
+            alert.show()
+        }
+    }
+    
+    private func reportProduct() {
+        if let let myUser = MyUserManager.sharedInstance.myUser(), let productOwner = product.user {
+            
+            butProductReport.enabled = false
+            butProductReport.setTitle(translate("reporting_product"), forState: .Normal)
+            
+            let report = PFObject(className: "UserReports")
+            report["product_reported"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:product.objectId)
+            report["user_reporter"] = PFUser(withoutDataWithObjectId: myUser.objectId)
+            report["user_reported"] = PFUser(withoutDataWithObjectId: productOwner.objectId)
+            
+            report.saveInBackgroundWithBlock({ [weak self] (success, error) -> Void in
+                if let strongSelf = self {
+                    
+                    strongSelf.butProductReport.enabled = true
+                    
+                    if success {
+                        strongSelf.butProductReport.setTitle(translate("reported_product"), forState: .Normal)
+                    }
+                    else {
+                        strongSelf.butProductReport.setTitle(translate("report_product"), forState: .Normal)
+                    }
+                }
+            })
+        }
+    }
+    
+    private func switchFavourite() {
+        self.favoriteButton.userInteractionEnabled = false
+        
+        // UI update for quick user feedback + Request
+        self.favoriteButton.imageView!.startAnimating()
+        
+        if self.isFavourite {
+            deleteFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
+                product: product,
+                completion: { (success) -> Void in
+                    self.favoriteButton.userInteractionEnabled = true
+                    self.isFavourite = !success
+                    self.favoriteButton.imageView!.stopAnimating()
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+            })
+        }
+        else {
+            saveFavouriteProductForUser(MyUserManager.sharedInstance.myUser(),
+                product: product,
+                completion: { (success) -> Void in
+                    self.favoriteButton.userInteractionEnabled = true
+                    self.isFavourite = success
+                    self.favoriteButton.imageView!.stopAnimating()
+                    self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
+            })
         }
     }
 }

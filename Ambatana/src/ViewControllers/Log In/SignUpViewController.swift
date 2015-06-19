@@ -16,7 +16,10 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         case Username = 1000, Email, Password
     }
     
-    // ViewModel
+    // Data
+    var afterLoginAction: (() -> Void)?
+    
+    // > ViewModel
     var viewModel: SignUpViewModel!
     
     // UI
@@ -110,7 +113,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         switch (result) {
         case .Success:
             completion = {
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
             }
             break
         case .Failure(let error):

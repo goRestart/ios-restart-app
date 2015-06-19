@@ -10,9 +10,14 @@ import LGCoreKit
 import Result
 
 class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate {
+
+    // Data
+    var afterLoginAction: (() -> Void)?
     
-    // ViewModel
+    // > ViewModel
     var viewModel: MainSignUpViewModel!
+    
+    // > Delegate
     
     // UI
     // > Header
@@ -78,11 +83,13 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
         let vc = SignUpViewController()
+        vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
         let vc = LogInViewController()
+        vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -99,7 +106,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         switch (result) {
         case .Success:
             completion = {
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
             }
             break
         case .Failure(let error):
