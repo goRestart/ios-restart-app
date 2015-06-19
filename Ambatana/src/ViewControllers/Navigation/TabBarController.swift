@@ -166,10 +166,27 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     */
     func switchToTab(tab: Tab) {
         if let navBarCtl = selectedViewController as? UINavigationController {
-            // Pop the navigation back to root
-            navBarCtl.popToRootViewControllerAnimated(false)
-            // Change the tab to chats
-            selectedIndex = tab.rawValue
+            
+            let vcIdx = tab.rawValue
+            if vcIdx < viewControllers?.count {
+                if let selectedVC = (viewControllers! as NSArray).objectAtIndex(tab.rawValue) as? UIViewController, let actualDelegate = delegate {
+
+                    // If it should be selected
+                    let shouldSelectVC = actualDelegate.tabBarController?(self, shouldSelectViewController: selectedVC) ?? true
+                    if shouldSelectVC {
+                        
+                        // Pop the navigation back to root
+                        navBarCtl.popToRootViewControllerAnimated(false)
+                        
+                        // Change the tab
+                        selectedIndex = tab.rawValue
+                        
+                        // Notify the delegate, as programmatically change doesn't do it
+                        actualDelegate.tabBarController?(self, didSelectViewController: selectedVC)
+                    }
+                }
+                
+            }
         }
     }
     
@@ -272,6 +289,21 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         }
         
         return true
+    }
+    
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+
+        // If we have a user
+        if let user = MyUserManager.sharedInstance.myUser() {
+            
+            // And if it's my profile, then update the user
+            if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController as? EditProfileViewController {
+                profileVC.user = user
+            }
+            else if let profileVC = viewController as? EditProfileViewController {
+                profileVC.user = user
+            }
+        }
     }
     
     // MARK: - Private methods
