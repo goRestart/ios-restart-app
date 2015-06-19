@@ -201,19 +201,13 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     // MARK: > UI
     
     private func setupUI() {
-        // Navigation bar
-        let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBackViewController")
-        navigationItem.leftBarButtonItem = backButton
-//        navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
-        
-        title = NSLocalizedString("sign_up_title", comment: "")
-        
         // Appearance
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         signUpButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         signUpButton.layer.cornerRadius = 4
         
         // i18n
+        setLetGoNavigationBarStyle(title: NSLocalizedString("sign_up_title", comment: ""))
         usernameTextField.placeholder = NSLocalizedString("sign_up_username_field_hint", comment: "")
         emailTextField.placeholder = NSLocalizedString("sign_up_email_field_hint", comment: "")
         passwordTextField.placeholder = NSLocalizedString("sign_up_password_field_hint", comment: "")

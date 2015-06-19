@@ -193,17 +193,12 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     func setupUI() {
         // Navigation bar
-        let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBackViewController")
-        navigationItem.leftBarButtonItem = backButton
-//        navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
-        
-        title = NSLocalizedString("log_in_title", comment: "")
-        
         logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         logInButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         logInButton.layer.cornerRadius = 4
         
         // i18n
+        setLetGoNavigationBarStyle(title: NSLocalizedString("log_in_title", comment: ""))
         emailTextField.placeholder = NSLocalizedString("log_in_email_field_hint", comment: "")
         passwordTextField.placeholder = NSLocalizedString("log_in_password_field_hint", comment: "")
         rememberPasswordButton.setTitle(NSLocalizedString("log_in_reset_password_button", comment: ""), forState: .Normal)

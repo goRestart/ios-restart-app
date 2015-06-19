@@ -165,18 +165,13 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     // MARK: > UI
     
     func setupUI() {
-        // Navigation bar
-        let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBackViewController")
-        navigationItem.leftBarButtonItem = backButton
-//        navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
-        
         // Appearance
         resetPasswordButton.setBackgroundImage(resetPasswordButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         resetPasswordButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         resetPasswordButton.layer.cornerRadius = 4
         
         // i18n
-        title = NSLocalizedString("reset_password_title", comment: "")
+        setLetGoNavigationBarStyle(title: NSLocalizedString("reset_password_title", comment: ""))
         emailTextField.placeholder = NSLocalizedString("reset_password_email_field_hint", comment: "")
         resetPasswordButton.setTitle(NSLocalizedString("reset_password_send_button", comment: ""), forState: .Normal)
         
