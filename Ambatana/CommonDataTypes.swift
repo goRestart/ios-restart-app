@@ -24,14 +24,6 @@ let kLetGoProductImageKeys = ["image_0", "image_1", "image_2", "image_3", "image
 let kLetGoProductFirstImageKey = kLetGoProductImageKeys.first!
 let kLetGoWebsiteURL = "http://letgo.com"
 
-// notifications
-let kLetGoUserPictureUpdatedNotification                     = "LetGoUserPictureUpdated"
-let kLetGoUnableToGetUserLocationNotification                = "LetGoUnableToGetUserLocation"
-let kLetGoUnableToSetUserLocationNotification                = "LetGoUnableToSetUserLocationNotification"
-let kLetGoUserLocationSuccessfullySetNotification            = "LetGoUserLocationSuccessfullySetNotification"
-let kLetGoUserLocationSuccessfullyChangedNotification        = "LetGoUserLocationSuccessfullyChangedNotification"
-let kLetGoLogoutImminentNotification                         = "LetGoLogoutImminentNotification"
-
 /** Product list categories */
 @objc enum LetGoProductCategory: Int {
     case Electronics = 1, CarsAndMotors = 2, SportsLeisureAndGames = 3, HomeAndGarden = 4, MoviesBooksAndMusic = 5, FashionAndAccesories = 6, BabyAndChild = 7, Other = 8
