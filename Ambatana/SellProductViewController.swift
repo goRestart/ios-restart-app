@@ -390,7 +390,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                         // extract elements and update user.
                         if placemark.locality != nil {
                             productObject["city"] = placemark.locality
-                            ConfigurationManager.sharedInstance.userLocation = placemark.locality
                         }
                         if placemark.postalCode != nil { productObject["zip_code"] = placemark.postalCode }
                         if placemark.ISOcountryCode != nil { productObject["country_code"] = placemark.ISOcountryCode }

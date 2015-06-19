@@ -44,7 +44,11 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet weak var startSearchingNowButton: UIButton!
     
     // data
-    var user: User
+    var user: User {
+        didSet {
+            shouldReload = true
+        }
+    }
     var selectedTab: ProfileTab = .ProductImSelling
     
     private var sellProducts: [Product] = []
@@ -55,10 +59,13 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     private var loadingSoldProducts: Bool = false
     private var loadingFavProducts: Bool = false
     
+    private var shouldReload: Bool
+    
     var cellSize = CGSizeMake(160.0, 210.0)
     
     init(user: User) {
         self.user = user
+        shouldReload = true
         super.init(nibName: "EditProfileViewController", bundle: nil)
     }
     
@@ -71,20 +78,10 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2.0
         self.userImageView.clipsToBounds = true
         
-        // UX/UI and Appearance.
-        userLocationLabel.text = ""
-        userNameLabel.text = ""
-        setLetGoNavigationBarStyle(title: "")
-        
         // internationalization
         sellButton.setTitle(translate("selling_button"), forState: .Normal)
         soldButton.setTitle(translate("sold"), forState: .Normal)
         favoriteButton.setTitle(translate("favorited"), forState: .Normal)
-        
-        // ui
-        collectionView.hidden = true
-        activityIndicator.hidden = false
-        activityIndicator.startAnimating()
         
         // center activity indicator (if there's a tabbar)
         let bottomMargin: CGFloat
@@ -122,22 +119,34 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        // load
-        retrieveProductsForTab(ProfileTab.ProductImSelling)
-        retrieveProductsForTab(ProfileTab.ProductISold)
-        retrieveProductsForTab(ProfileTab.ProductFavourite)
-        
-        // UI
-        if let avatarURL = user.avatar?.fileURL {
-            userImageView.sd_setImageWithURL(avatarURL)
-        }
-        userNameLabel.text = user.publicUsername
-        userLocationLabel.text = user.postalAddress.city
-        
-        // If it's me, then allow go to settings
-        if let myUser = MyUserManager.sharedInstance.myUser(), let userId = user.objectId {
-            if userId == myUser.objectId {
-                setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"])
+        if shouldReload {
+            // UX/UI and Appearance.
+            setLetGoNavigationBarStyle(title: "")
+            
+            collectionView.hidden = true
+            activityIndicator.hidden = false
+            activityIndicator.startAnimating()
+            
+            // load
+            retrieveProductsForTab(ProfileTab.ProductImSelling)
+            retrieveProductsForTab(ProfileTab.ProductISold)
+            retrieveProductsForTab(ProfileTab.ProductFavourite)
+            
+            // UI
+            if let avatarURL = user.avatar?.fileURL {
+                userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
+            }
+            else {
+                userImageView.image = UIImage(named: "no_photo")
+            }
+            userNameLabel.text = user.publicUsername ?? ""
+            userLocationLabel.text = user.postalAddress.city ?? ""
+            
+            // If it's me, then allow go to settings
+            if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let userId = user.objectId {
+                if userId == myUserId {
+                    setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"])
+                }
             }
         }
     }
@@ -406,7 +415,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         if sellProducts.isEmpty && soldProducts.isEmpty && favProducts.isEmpty {
             
             collectionView.hidden = true
+            
             youDontHaveTitleLabel.hidden = false
+            
             sellButton.hidden = true
             soldButton.hidden = true
             favoriteButton.hidden = true
@@ -433,6 +444,10 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             
             youDontHaveTitleLabel.hidden = true
             youDontHaveSubtitleLabel.hidden = true
+            
+            sellButton.hidden = false
+            soldButton.hidden = false
+            favoriteButton.hidden = false
             
             startSearchingNowButton.hidden = true
             startSellingNowButton.hidden = true

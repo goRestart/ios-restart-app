@@ -179,13 +179,12 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
                         navBarCtl.popToRootViewControllerAnimated(false)
                         
                         // Change the tab
-                        selectedIndex = tab.rawValue
+                        selectedIndex = vcIdx
                         
                         // Notify the delegate, as programmatically change doesn't do it
                         actualDelegate.tabBarController?(self, didSelectViewController: selectedVC)
                     }
                 }
-                
             }
         }
     }
@@ -278,10 +277,10 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             // If login is required
             if isLogInRequired {
                 // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
-                ifLoggedInThen({
-                    self.switchToTab(tab)
-                }, elsePresentSignUpWithSuccessAction: {
-                    self.switchToTab(tab)
+                ifLoggedInThen({  [weak self] in
+                    self?.switchToTab(tab)
+                }, elsePresentSignUpWithSuccessAction: { [weak self] in
+                    self?.switchToTab(tab)
                 })
             }
             

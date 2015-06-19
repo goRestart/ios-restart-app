@@ -83,11 +83,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsViewController.cellIdentifier)
         tableView.rowHeight = 60
     }
-   
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     // MARK: - UITableViewDataSource methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -144,15 +139,13 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func logoutUser() {
         
-//        PFUser.logOut()
-        ConfigurationManager.sharedInstance.logOutUser()
-        
-        MyUserManager.sharedInstance.logout { (result: Result<Nil, UserLogOutServiceError>) in
-            if let tabBarCtl = self.tabBarController as? TabBarController {
-                tabBarCtl.switchToTab(.Home)
-            }
+        navigationController?.popToRootViewControllerAnimated(false)
+        if let tabBarCtl = self.tabBarController as? TabBarController {
+            tabBarCtl.switchToTab(.Home)
         }
-        self.dismissViewControllerAnimated(true, completion: nil)
+        
+        // Logout
+        MyUserManager.sharedInstance.logout { (result: Result<Nil, UserLogOutServiceError>) in }
         
         // Tracking
         TrackingHelper.trackEvent(.Logout, parameters: nil)
@@ -217,6 +210,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
 
+//        if let actualImage = image, let croppedImage = actualImage.croppedCenteredImage(), let resizedImage = croppedImage.resizedImageToSize(CGSizeMake(kLetGoUserImageSquareSize, kLetGoUserImageSquareSize), interpolationQuality: kCGInterpolationMedium) {
+//            MyUserManager.sharedInstance.updateAvatarWithImage(resizedImage) { (result: Result<File, FileUploadError>) in
+//                
+//        }
+
         // upload image.
         if imageFile == nil { // we were unable to generate the image file.
             self.settingProfileImageView.hidden = true
@@ -228,7 +226,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                     PFUser.currentUser()!.saveInBackgroundWithBlock({ (success, error) -> Void in
                         if success {
                             // save local user image
-                            ConfigurationManager.sharedInstance.userProfileImage = UIImage(data: imageFile!.getData()!)
                             self.tableView.reloadData()
                             self.settingProfileImageView.hidden = true
                         } else { // unable save user with new avatar.
