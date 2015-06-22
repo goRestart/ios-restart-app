@@ -38,6 +38,9 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         priceTextField.placeholder = translate("price")
         makeAnOfferButton.setTitle(translate("send"), forState: .Normal)
         
+        // setup
+        priceTextField.text = product?.price?.stringValue ?? ""
+        
         // show keyboard
         priceTextField.becomeFirstResponder()
     }
