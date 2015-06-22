@@ -313,6 +313,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                             properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
                         }
                 }
+                if let productId = actualProduct.objectId {
+                    properties[.ProductId] = productId
+                }
+                if let otherUsr = otherUser, let otherUserId = otherUsr.objectId  {
+                    properties[.UserToId] = otherUserId
+                }
+                if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
+                    properties[.UserId] = myUserId
+                }
             }
             
             return properties

@@ -171,6 +171,10 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     
     /** Called when the search button is pressed. */
     func searchButtonPressed(sender: AnyObject) {
+        // Tracking
+        TrackingHelper.trackEvent(.SearchStart, parameters: trackingParams)
+        
+        // Show search
         showSearchBarAnimated(true, delegate: self)
     }
     
@@ -208,6 +212,12 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
                     properties[.UserZipCode] = userZipCode
                 }
             }
+            // search query
+            if let actualSearchQuery = currentSearchString {
+                properties[.SearchString] = actualSearchQuery
+            }
+            // page number
+            properties[.PageNumber] = viewModel.pageNumber
             return properties
         }
     }
@@ -396,6 +406,12 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
             if let strongSelf = self {
                 let searchString = searchBar.text
                 if searchString != nil && count(searchString) > 0 {
+                    // Tracking
+                    var parameters = strongSelf.trackingParams
+                    parameters[.SearchString] = searchString
+                    TrackingHelper.trackEvent(.SearchComplete, parameters: parameters)
+                    
+                    // Push a new products vc with the search
                     strongSelf.pushProductsViewControllerWithSearchQuery(searchString)
                 }
             }

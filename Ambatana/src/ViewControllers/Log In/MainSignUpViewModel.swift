@@ -69,4 +69,9 @@ public class MainSignUpViewModel: BaseViewModel {
             }
         }
     }
+    
+    public func abandon() {
+        // Tracking
+        TrackingHelper.trackEvent(.LoginAbandon, withLoginSource: loginSource)
+    }
 }

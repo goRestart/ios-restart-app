@@ -167,9 +167,18 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                 if let name = actualProduct.name {
                     properties[.ProductName] = name
                 }
+                if let productId = actualProduct.objectId {
+                    properties[.ProductId] = productId
+                }
             }
             if let user = product?.user {
                 properties[.ItemType] = TrackingHelper.productTypeParamValue(user.isDummy)
+            }
+            if let otherUsr = product?.user, let otherUserId = otherUsr.objectId  {
+                properties[.UserToId] = otherUserId
+            }
+            if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
+                properties[.UserId] = myUserId
             }
             
             return properties

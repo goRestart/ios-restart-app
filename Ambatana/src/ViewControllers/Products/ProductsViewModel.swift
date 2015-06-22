@@ -58,6 +58,7 @@ class ProductsViewModel: BaseViewModel {
     
     // > Data
     private var products: NSArray
+    private(set) var pageNumber: Int
     
     // > UI
     private(set) var defaultCellSize: CGSize!
@@ -113,6 +114,7 @@ class ProductsViewModel: BaseViewModel {
         self.locationManager = LocationManager.sharedInstance
         
         self.products = []
+        self.pageNumber = 0
         
         let cellHeight = ProductsViewModel.cellWidth * ProductsViewModel.cellAspectRatio
         self.defaultCellSize = CGSizeMake(ProductsViewModel.cellWidth, cellHeight)
@@ -204,11 +206,12 @@ class ProductsViewModel: BaseViewModel {
                     // Success
                     if let products = task.result as? NSArray {
                         strongSelf.products = products
+                        strongSelf.pageNumber = 0
                         
                         var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: products.count)
                         delegate?.didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths)
                     }
-                        // Error
+                    // Error
                     else if let error = task.error {
                         delegate?.didFailRetrievingFirstPageProducts(error)
                     }
@@ -240,6 +243,7 @@ class ProductsViewModel: BaseViewModel {
                 // Success
                 if let newProducts = task.result as? NSArray {
                     strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
+                    strongSelf.pageNumber++
                     
                     var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: newProducts.count)
                     delegate?.didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths)

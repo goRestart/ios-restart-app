@@ -68,6 +68,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var imageUploadBackgroundTask = UIBackgroundTaskInvalid // used for allowing the App to keep on uploading an image if we go into background.
     var imageSelectedIndex = 0 // for actions (delete, save to disk...) in iOS7 and prior
     var productWasSold = false
+    var productId: String?
     
     // Delegate
     weak var delegate: SellProductViewControllerDelegate?
@@ -145,14 +146,17 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         var params: [TrackingParameter: AnyObject] = [:]
 
         // Common
-        if let currentUser = PFUser.currentUser() {
-            if let userCity = currentUser["city"] as? String {
+        if let myUser = MyUserManager.sharedInstance.myUser() {
+            if let userId = myUser.objectId {
+                params[.UserId] = userId
+            }
+            if let userCity = myUser.postalAddress.city {
                 params[.UserCity] = userCity
             }
-            if let userCountry = currentUser["country_code"] as? String {
+            if let userCountry = myUser.postalAddress.countryCode {
                 params[.UserCountry] = userCountry
             }
-            if let userZipCode = currentUser["zipcode"] as? String {
+            if let userZipCode = myUser.postalAddress.zipCode {
                 params[.UserZipCode] = userZipCode
             }
         }
@@ -178,6 +182,13 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             params[.CategoryId] = currentCategory?.rawValue ?? 0
             params[.CategoryName] = currentCategory?.getName() ?? "none"
         }
+        
+        if eventType == .ProductSellComplete {
+            if let actualProductId = productId {
+                params[.ProductId] = actualProductId
+            }
+        }
+        
         return params
     }
     
@@ -415,6 +426,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                         if success {
                             // for tracking purposes
                             self.productWasSold = true
+                            self.productId = productObject.objectId
 
                             // update product in LetGo backend
                             RESTManager.sharedInstance.synchronizeProductFromParse(productObject.objectId!, attempt: 0, completion: nil)

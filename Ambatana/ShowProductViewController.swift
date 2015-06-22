@@ -172,7 +172,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         get {
             var properties: [TrackingParameter: AnyObject] = [:]
             
-            
             if let city = product.postalAddress.city {
                 properties[.ProductCity] = city
             }
@@ -190,6 +189,15 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             }
             if let productUser = product.user {
                 properties[.ItemType] = TrackingHelper.productTypeParamValue(productUser.isDummy)
+            }
+            if let productId = product.objectId {
+                properties[.ProductId] = productId
+            }
+            if let productUser = product.user, let productUserId = productUser.objectId  {
+                properties[.UserToId] = productUserId
+            }
+            if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
+                properties[.UserId] = myUserId
             }
             
             return properties

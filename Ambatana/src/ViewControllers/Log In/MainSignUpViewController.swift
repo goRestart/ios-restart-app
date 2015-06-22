@@ -70,6 +70,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     // MARK: - Actions
     
     func closeButtonPressed() {
+        viewModel.abandon()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

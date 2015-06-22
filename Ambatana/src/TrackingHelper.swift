@@ -16,12 +16,15 @@ import Parse
 
 enum TrackingEvent: String {
     case LoginVisit                        = "login-screen"
+    case LoginAbandon                      = "login-abandon"
     case LoginFB                           = "login-fb"
     case LoginEmail                        = "login-email"
     case SignupEmail                       = "signup-email"
     case ResetPassword                     = "login-reset-password"
     case Logout                            = "logout"
     case ProductList                       = "product-list"
+    case SearchStart                       = "search-start"
+    case SearchComplete                    = "search-complete"
     case ProductDetailVisit                = "product-detail-visit"
     case ProductOffer                      = "product-detail-offer"
     case ProductAskQuestion                = "product-detail-ask-question"
@@ -71,13 +74,18 @@ enum TrackingParameter: String {
     case UserEmail            = "user-email"
     case CategoryId           = "category-id"       // 0 if there's no category
     case CategoryName         = "category-name"     // "none" if there's no category
+    case ProductId            = "product-id"
     case ProductCity          = "product-city"
     case ProductCountry       = "product-country"
     case ProductZipCode       = "product-zipcode"
     case ProductName          = "product-name"
+    case PageNumber           = "page-number"
+    case UserId               = "user-id"
+    case UserToId             = "user-to-id"
     case UserCity             = "user-city"
     case UserCountry          = "user-country"
     case UserZipCode          = "user-zipcode"
+    case SearchString         = "search-keyword"
     case Number               = "number"            // the number/index of the picture
     case Enabled              = "enabled"           // true/false. if a checkbox / switch is changed to enabled or disabled
     case Description          = "description"       // error description: why form validation failure.
