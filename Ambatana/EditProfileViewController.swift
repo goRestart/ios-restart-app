@@ -128,6 +128,10 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             activityIndicator.startAnimating()
             
             // load
+            sellProducts = []
+            soldProducts = []
+            favProducts = []
+            collectionView.reloadSections(NSIndexSet(index: 0))
             retrieveProductsForTab(ProfileTab.ProductImSelling)
             retrieveProductsForTab(ProfileTab.ProductISold)
             retrieveProductsForTab(ProfileTab.ProductFavourite)
@@ -319,8 +323,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
                 loadingSellProducts = true
                 retrieveProductsForUserId(userId, statuses: statuses, completion: { [weak self] (products, error) -> (Void) in
                     if let strongSelf = self {
-                        if error == nil && products.count > 0 {
-                            strongSelf.sellProducts = products
+                        if let actualProducts = products {
+                            strongSelf.sellProducts = actualProducts
                         }
                         strongSelf.loadingSellProducts = false
                         strongSelf.retrievalFinishedForProductsAtTab(tab)
@@ -333,8 +337,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
                 loadingSoldProducts = true
                 self.retrieveProductsForUserId(userId, statuses: [.Sold], completion: { [weak self] (products, error) -> Void in
                     if let strongSelf = self {
-                        if error == nil && products.count > 0 {
-                            strongSelf.soldProducts = products
+                        if let actualProducts = products {
+                            strongSelf.soldProducts = actualProducts
                         }
                         strongSelf.loadingSoldProducts = false
                         strongSelf.retrievalFinishedForProductsAtTab(tab)
@@ -347,8 +351,8 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
                 loadingFavProducts = true
                 self.retrieveFavouriteProductsForUserId(userId, completion: { [weak self] (products, error) -> Void in
                     if let strongSelf = self {
-                        if error == nil && products.count > 0 {
-                            strongSelf.favProducts = products
+                        if let actualProducts = products {
+                            strongSelf.favProducts = actualProducts
                         }
                         strongSelf.loadingFavProducts = false
                         strongSelf.retrievalFinishedForProductsAtTab(tab)
