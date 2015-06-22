@@ -31,6 +31,8 @@ final public class PAUserSaveService: UserSaveService {
                     switch(actualError.code) {
                     case PFErrorCode.ErrorConnectionFailed.rawValue:
                         result?(Result<User, UserSaveServiceError>.failure(.Network))
+                    case PFErrorCode.ErrorUserEmailTaken.rawValue:
+                        result?(Result<User, UserSaveServiceError>.failure(.EmailTaken))
                     default:
                         result?(Result<User, UserSaveServiceError>.failure(.Internal))
                     }
