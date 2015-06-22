@@ -52,7 +52,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     var messages: [PFObject]?
     var otherUser: PFUser?
     var product: Product?
-    var otherUserImage: UIImage?
     var isSendingMessage: Bool = false {
         didSet {
             self.sendButton.tintColor = isSendingMessage ? UIColor.lightGrayColor() : UIColor.blackColor()
@@ -364,26 +363,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.messageLabel.text = message["message"] as? String ?? ""
             cell.dateLabel.text = message.createdAt!.relativeTimeString()
             
-            if let user = message["user_from"] as? PFUser {
-                if let otherUsrImage = otherUserImage {
-                    cell.avatarImageView.image = otherUserImage
+            if let user = message["user_from"] as? User {
+                if let avatar = user.avatar {
+                    cell.avatarImageView.sd_setImageWithURL(avatar.fileURL, placeholderImage: UIImage(named: "no_photo"))
                 }
                 else {
                     cell.avatarImageView.image = UIImage(named: "no_photo")
-                    user.fetchIfNeededInBackgroundWithBlock({ [weak self] (retrievedUser, error) -> Void in
-                        if let strongSelf = self,
-                            let avatarFile = retrievedUser?["avatar"] as? PFFile,
-                            let thumbURL = NSURL(string: avatarFile.url!) {
-                                
-                                cell.avatarImageView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo"), completed: {
-                                    [weak self] (image, error, cacheType, url) -> Void in
-                                    if (error == nil) {
-                                        cell.avatarImageView.image = image
-                                        strongSelf.otherUserImage = image
-                                    }
-                                })
-                        }
-                    })
                 }
                 
                 cell.avatarButtonPressed = { [weak self] in

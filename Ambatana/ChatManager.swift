@@ -205,7 +205,8 @@ class ChatManager: NSObject {
     func loadMessagesFromConversation(conversation: PFObject, completion: (success: Bool, messages: [PFObject]?) -> Void) {
         let query = PFQuery(className: "Messages")
         query.whereKey("conversation", equalTo: conversation)
-        query.includeKey("conversation")       
+        query.includeKey("conversation")
+        query.includeKey("user_from")
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock { (results, error) -> Void in
             if error == nil && results?.count > 0 {
