@@ -11,6 +11,7 @@ import Result
 
 public enum UserLogInFBError {
     case Cancelled
+    case EmailTaken
     case Network
     case Internal
     
@@ -45,6 +46,8 @@ public enum UserLogInFBError {
         switch(userSaveServiceError) {
         case .Network:
             self = .Network
+        case .EmailTaken:
+            self = .EmailTaken
         case .Internal:
             self = .Internal
         }
@@ -71,6 +74,8 @@ public enum FileUploadError {
             self = .Network
         case .Internal:
             self = .Internal
+        case .EmailTaken:   // Should never happen
+            self = .Internal
         }
     }
 }
@@ -94,6 +99,8 @@ public enum SaveUserCoordinatesError {
         case .Network:
             self = .Network
         case .Internal:
+            self = .Internal
+        case .EmailTaken:   // Should never happen
             self = .Internal
         }
     }

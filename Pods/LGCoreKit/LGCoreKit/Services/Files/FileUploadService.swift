@@ -20,16 +20,18 @@ public protocol FileUploadService {
     /**
         Upload the data into a file.
     
+        :param: name The filename.
         :param: data The data to upload.
         :param: result The closure containing the result.
     */
-    func uploadFile(data: NSData, result: FileUploadServiceResult?)
+    func uploadFile(name: String?, data: NSData, result: FileUploadServiceResult?)
     
     /**
         Upload the data into a file.
     
+        :param: name The filename.
         :param: sourceURL The URL where data is, that should be downloaded and later uploaded to a remote file.
         :param: result The closure containing the result.
     */
-    func uploadFile(sourceURL: NSURL, result: FileUploadServiceResult?)
+    func uploadFile(name: String?, sourceURL: NSURL, result: FileUploadServiceResult?)
 }

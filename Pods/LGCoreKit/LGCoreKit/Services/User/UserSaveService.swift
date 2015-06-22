@@ -10,6 +10,7 @@ import Result
 
 public enum UserSaveServiceError {
     case Network
+    case EmailTaken
     case Internal
 }
 

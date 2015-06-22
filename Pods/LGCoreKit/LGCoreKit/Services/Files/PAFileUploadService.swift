@@ -19,8 +19,8 @@ final public class PAFileUploadService: FileUploadService {
     
     // MARK: - FileUploadService
     
-    public func uploadFile(data: NSData, result: FileUploadServiceResult?) {
-        let file = PFFile(data: data)
+    public func uploadFile(name: String?, data: NSData, result: FileUploadServiceResult?) {
+        let file = PFFile(name: name, data: data)
         file.saveInBackgroundWithBlock { (success: Bool, error: NSError?) in
             // Success
             if success {
@@ -41,12 +41,12 @@ final public class PAFileUploadService: FileUploadService {
         }
     }
     
-    public func uploadFile(sourceURL: NSURL, result: FileUploadServiceResult?) {
+    public func uploadFile(name: String?, sourceURL: NSURL, result: FileUploadServiceResult?) {
         let request = NSURLRequest(URL: sourceURL)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
             // Success
             if let actualData = data {
-                self.uploadFile(actualData, result: result)
+                self.uploadFile(name, data: actualData, result: result)
             }
             // Error
             else if let actualError = error {

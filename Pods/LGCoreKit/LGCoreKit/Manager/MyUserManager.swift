@@ -189,10 +189,11 @@ public class MyUserManager {
         :param: result The closure containing the result.
     */
     public func updateAvatarWithImage(image: UIImage, result: FileUploadResult?) {
-        if let myUser = myUser(), let data = UIImageJPEGRepresentation(image, 0.9) {
+        if let myUser = myUser(), let myUserId = myUser.objectId, let data = UIImageJPEGRepresentation(image, 0.9) {
 
             // 1. Upload the picture
-            fileUploadService.uploadFile(data) { (fileUploadResult: Result<File, FileUploadServiceError>) in
+            let filename = "\(myUserId).jpg"
+            fileUploadService.uploadFile(filename, data: data) { (fileUploadResult: Result<File, FileUploadServiceError>) in
 
                 // Succeeded
                 if let file = fileUploadResult.value {
@@ -293,7 +294,7 @@ public class MyUserManager {
         userLogInFBService.logInByFacebooWithCompletion { (myResult: Result<User, UserLogInFBServiceError>) in
             
             // Succeeded
-            if let user = myResult.value {
+            if let user = myResult.value, let userId = user.objectId {
                 
                 // 2. Retrieve the FB Info
                 self.fbUserInfoRetrieveService.retrieveFBUserInfo { (fbResult: Result<FBUserInfo, FBUserInfoRetrieveServiceError>) in
@@ -313,28 +314,44 @@ public class MyUserManager {
                         else {
                             publicUsername = ""
                         }
+                        user.email = fbUserInfo.email
                         user.publicUsername = publicUsername
                         
-                        // 3. Upload the avatar
-                        self.fileUploadService.uploadFile(fbUserInfo.avatarURL) { (uploadResult: Result<File, FileUploadServiceError>) in
-                            
+                        // 3. Save my user
+                        self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                         
                             // Succeeded
-                            if let file = uploadResult.value {
+                            if let savedUser = userSaveResult.value {
                                 
-                                // 4. Save my user
-                                self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                                // 4. Upload the avatar
+                                let filename = "\(userId).jpg"
+                                self.fileUploadService.uploadFile(filename, sourceURL: fbUserInfo.avatarURL) { (uploadResult: Result<File, FileUploadServiceError>) in
                                     
-                                    // Success or Error, but in case of error report success as avatar it's not strictly needed
-                                    let savedUser = userSaveResult.value ?? user
-                                    
-                                    self.setupAfterSessionSuccessful()
-                                    result?(Result<User, UserLogInFBError>.success(savedUser))
+                                    // Succeeded
+                                    if let file = uploadResult.value {
+                                        
+                                        // 5. Save my user again
+                                        self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                                            
+                                            // Success or Error, but in case of error report success as avatar is not strictly necessary
+                                            let savedUser = userSaveResult.value ?? user
+                                            
+                                            self.setupAfterSessionSuccessful()
+                                            result?(Result<User, UserLogInFBError>.success(savedUser))
+                                        }
+                                    }
+                                    // Error, but report success as avatar is not strictly necessary
+                                    else if let uploadError = uploadResult.error {
+                                        
+                                        self.setupAfterSessionSuccessful()
+                                        result?(Result<User, UserLogInFBError>.success(user))
+                                    }
                                 }
                             }
-                            // Error, but report success as avatar it's not strictly needed
-                            else if let uploadError = uploadResult.error {
-                                self.setupAfterSessionSuccessful()
-                                result?(Result<User, UserLogInFBError>.success(user))
+                            // Error, then logout & report it as the user could not be saved (i.e.: EmailTaken)
+                            else if let saveUserError = userSaveResult.error {
+                                self.logout(nil)
+                                result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(saveUserError)))
                             }
                         }
                     }
