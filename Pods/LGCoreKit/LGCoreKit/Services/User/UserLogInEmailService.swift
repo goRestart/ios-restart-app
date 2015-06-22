@@ -26,5 +26,5 @@ public protocol UserLogInEmailService {
         :param: password The user's password.
         :param: result The closure containing the result.
     */
-    func logInUserWithEmail(email: String, password: String, result: UserLogInEmailServiceResult)
+    func logInUserWithEmail(email: String, password: String, result: UserLogInEmailServiceResult?)
 }

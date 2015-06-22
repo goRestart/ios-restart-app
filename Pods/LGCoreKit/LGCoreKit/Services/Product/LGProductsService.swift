@@ -27,7 +27,7 @@ final public class LGProductsService: ProductsService {
         self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
     }
     
-    public func retrieveProductsWithParams(params: RetrieveProductsParams, completion: RetrieveProductsCompletion) {
+    public func retrieveProductsWithParams(params: RetrieveProductsParams, completion: RetrieveProductsCompletion?) {
         
         let parameters = params.letgoApiParams
         Alamofire.request(.GET, url, parameters: parameters)
@@ -41,15 +41,15 @@ final public class LGProductsService: ProductsService {
                         let json = JSON(actualData)
                         
                         myError = NSError(code: LGErrorCode.Parsing)
-                        completion(products: nil, lastPage: nil, error: myError)
+                        completion?(products: nil, lastPage: nil, error: myError)
                     }
                     else if actualError.domain == NSURLErrorDomain {
                         myError = NSError(code: LGErrorCode.Network)
-                        completion(products: nil, lastPage: nil, error: myError)
+                        completion?(products: nil, lastPage: nil, error: myError)
                     }
                     else {
                         myError = NSError(code: LGErrorCode.Internal)
-                        completion(products: nil, lastPage: nil, error: myError)
+                        completion?(products: nil, lastPage: nil, error: myError)
                     }
                 }
                 // Success
@@ -60,14 +60,14 @@ final public class LGProductsService: ProductsService {
                         let json = JSON(actualData)
                         if let productsResponse = LGProductsResponseParser.responseWithJSON(json) {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                completion(products: productsResponse.products, lastPage: productsResponse.lastPage, error: nil)
+                                completion?(products: productsResponse.products, lastPage: productsResponse.lastPage, error: nil)
                             })
                             
                         }
                         else {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 let myError = NSError(code: LGErrorCode.Parsing)
-                                completion(products: nil, lastPage: nil, error: myError)
+                                completion?(products: nil, lastPage: nil, error: myError)
                             })
                         }
                     })

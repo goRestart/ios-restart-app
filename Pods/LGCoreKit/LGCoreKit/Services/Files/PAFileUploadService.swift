@@ -19,29 +19,29 @@ final public class PAFileUploadService: FileUploadService {
     
     // MARK: - FileUploadService
     
-    public func uploadFile(data: NSData, result: FileUploadServiceResult) {
+    public func uploadFile(data: NSData, result: FileUploadServiceResult?) {
         let file = PFFile(data: data)
         file.saveInBackgroundWithBlock { (success: Bool, error: NSError?) in
             // Success
             if success {
-                result(Result<File, FileUploadServiceError>.success(file))
+                result?(Result<File, FileUploadServiceError>.success(file))
             }
             // Error
             else if let actualError = error {
                 switch(actualError.code) {
                 case PFErrorCode.ErrorConnectionFailed.rawValue:
-                    result(Result<File, FileUploadServiceError>.failure(.Network))
+                    result?(Result<File, FileUploadServiceError>.failure(.Network))
                 default:
-                    result(Result<File, FileUploadServiceError>.failure(.Internal))
+                    result?(Result<File, FileUploadServiceError>.failure(.Internal))
                 }
             }
             else {
-                result(Result<File, FileUploadServiceError>.failure(.Internal))
+                result?(Result<File, FileUploadServiceError>.failure(.Internal))
             }
         }
     }
     
-    public func uploadFile(sourceURL: NSURL, result: FileUploadServiceResult) {
+    public func uploadFile(sourceURL: NSURL, result: FileUploadServiceResult?) {
         let request = NSURLRequest(URL: sourceURL)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
             // Success
@@ -50,10 +50,10 @@ final public class PAFileUploadService: FileUploadService {
             }
             // Error
             else if let actualError = error {
-                result(Result<File, FileUploadServiceError>.failure(.Network))
+                result?(Result<File, FileUploadServiceError>.failure(.Network))
             }
             else {
-                result(Result<File, FileUploadServiceError>.failure(.Internal))
+                result?(Result<File, FileUploadServiceError>.failure(.Internal))
             }
         }
     }

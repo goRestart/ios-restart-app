@@ -96,17 +96,17 @@ public class MyUserManager {
     
         :param: result The closure containing the result.
     */
-    public func saveMyUserIfNew(result: UserSaveServiceResult) {
+    public func saveMyUserIfNew(result: UserSaveServiceResult?) {
         if let myUser = myUser() {
             if !myUser.isSaved {
                 userSaveService.saveUser(myUser, result: result)
             }
             else {
-                result(Result<User, UserSaveServiceError>.success(myUser))
+                result?(Result<User, UserSaveServiceError>.success(myUser))
             }
         }
         else {
-            result(Result<User, UserSaveServiceError>.failure(.Internal))
+            result?(Result<User, UserSaveServiceError>.failure(.Internal))
         }
     }
     
@@ -115,12 +115,13 @@ public class MyUserManager {
     
         :returns: The task that performs the user save.
     */
-    public func saveUserCoordinates(coordinates: CLLocationCoordinate2D, result: SaveUserCoordinatesResult) {
+    public func saveUserCoordinates(coordinates: CLLocationCoordinate2D, result: SaveUserCoordinatesResult?) {
         if let user = myUser() {
-            // Set the coordinates & and reset the address
+            // Set the coordinates, reset the address & mark as non-processed
             user.gpsCoordinates = LGLocationCoordinates2D(coordinates: coordinates)
             let address = PostalAddress()
             user.postalAddress = address
+            user.processed = NSNumber(bool: false)
             
             // 1. Save it
             saveMyUser { (saveUserResult: Result<User, UserSaveServiceError>) in
@@ -135,8 +136,9 @@ public class MyUserManager {
                         // Success
                         if let postalAddress = postalAddressRetrievalResult.value {
                             
-                            // 3a. Update the postal address
+                            // 3a. Update the postal address & mark as non-processed
                             user.postalAddress = postalAddress
+                            user.processed = NSNumber(bool: false)
                             
                             // 3b. Set the currency code, if any
                             if let countryCode = postalAddress.countryCode {
@@ -149,23 +151,23 @@ public class MyUserManager {
                             self.saveMyUser { (secondSaveUserResult: Result<User, UserSaveServiceError>) in
                                 
                                 // Success or Error
-                                result(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
+                                result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
                             }
                         }
                         // Error
                         else if let postalAddressRetrievalError = postalAddressRetrievalResult.error {
-                            result(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(postalAddressRetrievalError)))
+                            result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(postalAddressRetrievalError)))
                         }
                     }
                 }
                 // Error
                 else if let saveUserError = saveUserResult.error {
-                    result(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(saveUserError)))
+                    result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(saveUserError)))
                 }
             }
         }
         else {
-            result(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(.Internal))
+            result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(.Internal))
         }
     }
     
@@ -177,7 +179,7 @@ public class MyUserManager {
     public func saveInstallationDeviceToken(deviceToken: NSData) {
         var installation = myInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-        installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
+        installationSaveService.save(installation, result: nil)
     }
     
     /**
@@ -186,7 +188,7 @@ public class MyUserManager {
         :param: image The image.
         :param: result The closure containing the result.
     */
-    public func updateAvatarWithImage(image: UIImage, result: FileUploadResult) {
+    public func updateAvatarWithImage(image: UIImage, result: FileUploadResult?) {
         if let myUser = myUser(), let data = UIImageJPEGRepresentation(image, 0.9) {
 
             // 1. Upload the picture
@@ -195,27 +197,31 @@ public class MyUserManager {
                 // Succeeded
                 if let file = fileUploadResult.value {
                 
-                    // 2. Save the user
+                    // 2a. Set the user's avatar & mark as non-processed
+                    myUser.avatar = file
+                    myUser.processed = NSNumber(bool: false)
+                    
+                    // 2b. Save the user
                     self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
                         
                         // Succeeded
                         if let savedUser = userSaveResult.value {
-                            result(Result<File, FileUploadError>.success(file))
+                            result?(Result<File, FileUploadError>.success(file))
                         }
                         // Error
                         else if let saveError = userSaveResult.error {
-                            result(Result<File, FileUploadError>.failure(FileUploadError(saveError)))
+                            result?(Result<File, FileUploadError>.failure(FileUploadError(saveError)))
                         }
                     }
                 }
                 // Error
                 else if let fileUploadError = fileUploadResult.error {
-                    result(Result<File, FileUploadError>.failure(FileUploadError(fileUploadError)))
+                    result?(Result<File, FileUploadError>.failure(FileUploadError(fileUploadError)))
                 }
             }
         }
         else {
-            result(Result<File, FileUploadError>.failure(.Internal))
+            result?(Result<File, FileUploadError>.failure(.Internal))
         }
     }
     
@@ -225,13 +231,14 @@ public class MyUserManager {
         :param: password The password.
         :param: result The closure containing the result.
     */
-    public func updatePassword(password: String, result: UserSaveServiceResult) {
+    public func updatePassword(password: String, result: UserSaveServiceResult?) {
         if let myUser = myUser() {
             myUser.password = password
+            myUser.processed = NSNumber(bool: false)
             saveMyUser(result)
         }
         else {
-            result(Result<User, UserSaveServiceError>.failure(.Internal))
+            result?(Result<User, UserSaveServiceError>.failure(.Internal))
         }
     }
     
@@ -245,13 +252,13 @@ public class MyUserManager {
         :param: publicUsername The public user name.
         :param: result The closure containing the result.
     */
-    public func signUpWithEmail(email: String, password: String, publicUsername: String, result: UserSignUpServiceResult) {
+    public func signUpWithEmail(email: String, password: String, publicUsername: String, result: UserSignUpServiceResult?) {
         userSignUpService.signUpUserWithEmail(email, password: password, publicUsername: publicUsername) { (myResult: Result<Nil, UserSignUpServiceError>) in
             // Succeeded
             if myResult == Result<Nil, UserSignUpServiceError>.success(Nil()) {
                 self.setupAfterSessionSuccessful()
             }
-            result(myResult)
+            result?(myResult)
         }
     }
     
@@ -262,13 +269,13 @@ public class MyUserManager {
         :param: password The password.
         :param: result The closure containing the result.
     */
-    public func logInWithEmail(email: String, password: String, result: UserLogInEmailServiceResult) {
+    public func logInWithEmail(email: String, password: String, result: UserLogInEmailServiceResult?) {
         userLogInEmailService.logInUserWithEmail(email, password: password) { (myResult: Result<User, UserLogInEmailServiceError>) in
             // Succeeded
             if let user = myResult.value {
                 self.setupAfterSessionSuccessful()
             }
-            result(myResult)
+            result?(myResult)
         }
     }
     
@@ -277,7 +284,7 @@ public class MyUserManager {
 
         :param: result The closure containing the result.
     */
-    public func logInWithFacebook(result: UserLogInFBResult) {
+    public func logInWithFacebook(result: UserLogInFBResult?) {
         
         var user: User? = nil
         var fbUserInfo: FBUserInfo? = nil
@@ -317,31 +324,30 @@ public class MyUserManager {
                                 // 4. Save my user
                                 self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
                                     
-                                    // Succeeded
-                                    if let savedUser = userSaveResult.value {
-                                        result(Result<User, UserLogInFBError>.success(savedUser))
-                                    }
-                                    // Error
-                                    else if let saveError = userSaveResult.error {
-                                        result(Result<User, UserLogInFBError>.failure(UserLogInFBError(saveError)))
-                                    }
+                                    // Success or Error, but in case of error report success as avatar it's not strictly needed
+                                    let savedUser = userSaveResult.value ?? user
+                                    
+                                    self.setupAfterSessionSuccessful()
+                                    result?(Result<User, UserLogInFBError>.success(savedUser))
                                 }
                             }
-                            // Error
+                            // Error, but report success as avatar it's not strictly needed
                             else if let uploadError = uploadResult.error {
-                                result(Result<User, UserLogInFBError>.failure(UserLogInFBError(uploadError)))
+                                self.setupAfterSessionSuccessful()
+                                result?(Result<User, UserLogInFBError>.success(user))
                             }
                         }
                     }
-                    // Error
+                    // Error, then logout & report it as the info couldn't be loaded
                     else if let fbError = fbResult.error {
-                        result(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbError)))
+                        self.logout(nil)
+                        result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbError)))
                     }
                 }
             }
-            // Error
+            // Error, then report it
             else if let fbLoginError = myResult.error {
-                result(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbLoginError)))
+                result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbLoginError)))
             }
         }
     }
@@ -351,7 +357,7 @@ public class MyUserManager {
     
         :param: result The closure containing the result.
     */
-    public func logout(result: UserLogOutServiceResult) {
+    public func logout(result: UserLogOutServiceResult?) {
         if let myUser = myUser() {
             
             // Notify
@@ -361,7 +367,7 @@ public class MyUserManager {
             userLogOutService.logOutUser(myUser) { (myResult: Result<Nil, UserLogOutServiceError>) in
                 
                 // Notify the callback
-                result(Result<Nil, UserLogOutServiceError>.success(Nil()))
+                result?(Result<Nil, UserLogOutServiceError>.success(Nil()))
                 
                 // Update my installation in background, unlink userId & username
                 if let myUser = self.myUser(), let userId = myUser.objectId, let username = myUser.username {
@@ -374,7 +380,7 @@ public class MyUserManager {
             }
         }
         else {
-            result(Result<Nil, UserLogOutServiceError>.failure(.Internal))
+            result?(Result<Nil, UserLogOutServiceError>.failure(.Internal))
         }
     }
     
@@ -386,7 +392,7 @@ public class MyUserManager {
         :param: email The user email.
         :param: result The closure containing the result.
     */
-    public func resetPassword(email: String, result: UserPasswordResetServiceResult) {
+    public func resetPassword(email: String, result: UserPasswordResetServiceResult?) {
         userPasswordResetService.resetPassword(email, result: result)
     }
     
@@ -413,21 +419,29 @@ public class MyUserManager {
         
         // If we already have a location, then save it into my user
         if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            saveUserCoordinates(lastKnownLocation.coordinate) { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }
+            saveUserCoordinates(lastKnownLocation.coordinate, result: nil)
         }
         
-        // If the user had already a country code, then set it in the currency helper
-        if let user = MyUserManager.sharedInstance.myUser(), let countryCode = user.postalAddress.countryCode {
-            CurrencyHelper.sharedInstance.setCountryCode(countryCode)
-        }
-
-        // Update my installation
-        if let myUser = myUser(), let userId = myUser.objectId, let username = myUser.username {
-            var installation = myInstallation()
-            installation.userId = userId
-            installation.username = username
-            installation.channels = [""]
-            installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
+        if let user = MyUserManager.sharedInstance.myUser() {
+            
+            // Mark the user as non-processed and save it
+            user.processed = NSNumber(bool: false)
+            saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in }
+            
+            // If it has a country code, then set it in the currency helper
+            if let countryCode = user.postalAddress.countryCode {
+                CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+            }
+            
+            // Update my installation
+            if let userId = user.objectId, let username = user.username {
+                var installation = myInstallation()
+                installation.userId = userId
+                installation.username = username
+                installation.channels = [""]
+                installationSaveService.save(installation, result: nil)
+            }
+            
         }
     }
     
@@ -440,12 +454,12 @@ public class MyUserManager {
     
         :param: result The closure containing the result.
     */
-    private func saveMyUser(result: UserSaveServiceResult) {
+    private func saveMyUser(result: UserSaveServiceResult?) {
         if let myUser = myUser() {
             userSaveService.saveUser(myUser, result: result)
         }
         else {
-            result(Result<User, UserSaveServiceError>.failure(.Internal))
+            result?(Result<User, UserSaveServiceError>.failure(.Internal))
         }
     }
     

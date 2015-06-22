@@ -14,5 +14,5 @@ public protocol ProductsService {
         :param: params The product retrieval parameters.
         :param: completion The completion closure.
     */
-    func retrieveProductsWithParams(params: RetrieveProductsParams, completion: RetrieveProductsCompletion)
+    func retrieveProductsWithParams(params: RetrieveProductsParams, completion: RetrieveProductsCompletion?)
 }

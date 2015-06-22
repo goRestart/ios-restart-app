@@ -22,5 +22,5 @@ public protocol UserLogInFBService {
     
         :param: result The closure containing the result.
     */
-    func logInByFacebooWithCompletion(result: UserLogInFBServiceResult)
+    func logInByFacebooWithCompletion(result: UserLogInFBServiceResult?)
 }

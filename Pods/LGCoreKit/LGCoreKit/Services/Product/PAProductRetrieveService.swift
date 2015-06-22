@@ -17,25 +17,25 @@ final public class PAProductRetrieveService: ProductRetrieveService {
     
     // MARK: - ProductRetrieveService
     
-    public func retrieveProductWithParams(params: RetrieveProductParams, completion: RetrieveProductCompletion) {
+    public func retrieveProductWithParams(params: RetrieveProductParams, completion: RetrieveProductCompletion?) {
         var query = PFQuery(className: PAProduct.parseClassName())
         query.whereKey(PAProduct.FieldKey.ObjectId.rawValue, equalTo: params.objectId)
         query.limit = 1
         query.includeKey(PAProduct.FieldKey.User.rawValue)
         query.findObjectsInBackgroundWithBlock { [weak self] (objects: [AnyObject]?, error: NSError?) in
             if let actualError = error {
-                completion(product: nil, error: actualError)
+                completion?(product: nil, error: actualError)
             }
             else if let products = objects as? [PAProduct] {
                 if products.isEmpty {
-                    completion(product: nil, error: NSError(code: LGErrorCode.Internal))
+                    completion?(product: nil, error: NSError(code: LGErrorCode.Internal))
                 }
                 else {
-                    completion(product: products.first!, error: NSError(code: LGErrorCode.Internal))
+                    completion?(product: products.first!, error: NSError(code: LGErrorCode.Internal))
                 }
             }
             else {
-                completion(product: nil, error: NSError(code: LGErrorCode.Internal))
+                completion?(product: nil, error: NSError(code: LGErrorCode.Internal))
             }
         }
     }

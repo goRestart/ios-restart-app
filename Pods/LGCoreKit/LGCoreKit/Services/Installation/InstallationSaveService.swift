@@ -23,5 +23,5 @@ public protocol InstallationSaveService {
         :param: installation The installation.
         :param: result The closure containing the result.
     */
-    func save(installation: Installation, result: InstallationSaveServiceResult)
+    func save(installation: Installation, result: InstallationSaveServiceResult?)
 }

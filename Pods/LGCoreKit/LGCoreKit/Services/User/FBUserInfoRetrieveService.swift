@@ -23,21 +23,21 @@ final public class FBUserInfoRetrieveService {
     
         :param: result The closure containing the result.
     */
-    public func retrieveFBUserInfo(result: FBUserInfoRetrieveServiceResult) {
+    public func retrieveFBUserInfo(result: FBUserInfoRetrieveServiceResult?) {
         let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
         meRequest.startWithCompletionHandler { (connection: FBSDKGraphRequestConnection?, myResult: AnyObject?, error: NSError?) in
             // Error
             if let actualError = error {
-                result(Result<FBUserInfo, FBUserInfoRetrieveServiceError>.failure(.General))
+                result?(Result<FBUserInfo, FBUserInfoRetrieveServiceError>.failure(.General))
             }
             // Success
             else if let responseDictionary = myResult as? NSDictionary {
                 let fbUserInfo = FBUserInfoParser.fbUserInfoWithDictionary(responseDictionary)
-                result(Result<FBUserInfo, FBUserInfoRetrieveServiceError>.success(fbUserInfo))
+                result?(Result<FBUserInfo, FBUserInfoRetrieveServiceError>.success(fbUserInfo))
             }
             // Other unhandled error
             else {
-                result(Result<FBUserInfo, FBUserInfoRetrieveServiceError>.failure(.Internal))
+                result?(Result<FBUserInfo, FBUserInfoRetrieveServiceError>.failure(.Internal))
             }
         }
     }

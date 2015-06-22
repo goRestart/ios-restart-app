@@ -11,7 +11,7 @@ import Parse
 extension PFUser: User {
     
     enum FieldKey: String {
-        case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", PublicUsername = "username_public", ZipCode = "zipcode"
+        case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", PublicUsername = "username_public", ZipCode = "zipcode", Processed = "processed"
     }
     
     // MARK: - User
@@ -73,6 +73,16 @@ extension PFUser: User {
 
         }
     }
+    
+    public var processed: NSNumber? {
+        get {
+            return self[FieldKey.Processed.rawValue] as? NSNumber
+        }
+        set {
+            self[FieldKey.Processed.rawValue] = newValue ?? NSNull()
+        }
+    }
+    
     
     public var isDummy: Bool {
         if let actualUsername = username {

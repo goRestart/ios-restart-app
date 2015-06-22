@@ -17,7 +17,8 @@
     var gpsCoordinates: LGLocationCoordinates2D? { get set }
     var postalAddress: PostalAddress { get set }
     
+    var processed: NSNumber? { get set }
+    
     var isDummy: Bool { get }
-
     var isAnonymous: Bool { get }
 }

@@ -24,5 +24,5 @@ public protocol PostalAddressRetrievalService {
         :param: location The location.
         :param: result The closure containing the result.
     */
-    func retrieveAddressForLocation(location: CLLocation, result: PostalAddressRetrievalServiceResult)
+    func retrieveAddressForLocation(location: CLLocation, result: PostalAddressRetrievalServiceResult?)
 }

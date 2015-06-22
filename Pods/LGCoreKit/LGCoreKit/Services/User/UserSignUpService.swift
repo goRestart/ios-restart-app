@@ -30,5 +30,5 @@ public protocol UserSignUpService {
         :param: publicUsername The user's public username
         :param: result The closure containing the result.
     */
-    func signUpUserWithEmail(email: String, password: String, publicUsername: String, result: UserSignUpServiceResult)
+    func signUpUserWithEmail(email: String, password: String, publicUsername: String, result: UserSignUpServiceResult?)
 }

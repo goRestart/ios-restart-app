@@ -22,5 +22,5 @@ public protocol UserLogOutService {
         :param: user The user.
         :param: result The closure containing the result.
     */
-    func logOutUser(user: User, result: UserLogOutServiceResult)
+    func logOutUser(user: User, result: UserLogOutServiceResult?)
 }

@@ -23,5 +23,5 @@ public protocol UserSaveService {
         :param: user The user.
         :param: result The closure containing the result.
     */
-    func saveUser(user: User, result: UserSaveServiceResult)
+    func saveUser(user: User, result: UserSaveServiceResult?)
 }
