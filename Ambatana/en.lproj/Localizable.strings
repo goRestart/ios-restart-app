@@ -144,7 +144,8 @@
 "main_sign_up_already_registered_label" = "Already registered?";
 "main_sign_up_log_in_label" = "Log in";
 // > Notifications
-"main_sign_up_fb_connect_error_generic" = "Unable to login. Please try again.";
+"main_sign_up_fb_connect_error_email_taken" = "Unable to login, your email address in Facebook is already registered. Please, try to login.";
+"main_sign_up_fb_connect_error_generic" = "Unable to login. Please, try again.";
 
 // Sign up
 "sign_up_title" = "Sign up";

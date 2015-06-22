@@ -115,6 +115,8 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
             switch (error.value) {
             case .Cancelled:
                 break
+            case .EmailTaken:
+                message = NSLocalizedString("main_sign_up_fb_connect_error_email_taken", comment: "")
             case .Network:
                 message = NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
             case .Internal:
