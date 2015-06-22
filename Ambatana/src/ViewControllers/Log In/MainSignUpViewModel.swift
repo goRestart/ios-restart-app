@@ -40,6 +40,9 @@ public class MainSignUpViewModel: BaseViewModel {
             if let strongSelf = self {
 
                 // Tracking
+                if let user = result.value, let email = user.email {
+                    TrackingHelper.setUserId(email)
+                }
                 TrackingHelper.trackEvent(.LoginFB, parameters: nil)
                 
                 // Notify the delegate about it finished

@@ -72,6 +72,7 @@ public class SignUpViewModel: BaseViewModel {
                 if let strongSelf = self {
                     
                     // Tracking
+                    TrackingHelper.setUserId(strongSelf.email)
                     TrackingHelper.trackEvent(.SignupEmail, parameters: nil)
                     
                     // Notify the delegate about it finished

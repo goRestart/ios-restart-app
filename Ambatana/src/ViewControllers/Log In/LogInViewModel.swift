@@ -63,8 +63,10 @@ public class LogInViewModel: BaseViewModel {
                 if let strongSelf = self {
 
                     // Tracking
+                    if let user = result.value, let email = user.email {
+                        TrackingHelper.setUserId(email)
+                    }
                     TrackingHelper.trackEvent(.LoginEmail, parameters: nil)
-                    TrackingHelper.setUserId(strongSelf.email)
                     
                     // Notify the delegate about it finished
                     if let actualDelegate = strongSelf.delegate {
