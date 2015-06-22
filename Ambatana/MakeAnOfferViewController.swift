@@ -114,7 +114,10 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                         }
                                     })
                                 }
-                                else { strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation")) }
+                                else {
+                                    strongSelf.disableLoadingInterface()
+                                    strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                                }
                             }
                         })
                     }
