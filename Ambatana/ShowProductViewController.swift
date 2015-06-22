@@ -198,7 +198,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
 
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
-        ifLoggedInThen({
+        ifLoggedInThen(.AskQuestion, loggedInAction: {
             self.askQuestion()
         },
         elsePresentSignUpWithSuccessAction: {
@@ -261,7 +261,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     @IBAction func makeOffer(sender: AnyObject) {
-        ifLoggedInThen({
+        ifLoggedInThen(.MakeOffer, loggedInAction: {
             self.makeOffer()
         },
         elsePresentSignUpWithSuccessAction: {
@@ -271,7 +271,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     @IBAction func markProductAsSold(sender: AnyObject) {
-        ifLoggedInThen({
+        ifLoggedInThen(.MarkAsSold, loggedInAction: {
             self.markProductAsSold()
         },
         elsePresentSignUpWithSuccessAction: {
@@ -281,7 +281,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
 
     @IBAction func reportProductButtonPressed(sender: AnyObject) {
-        ifLoggedInThen({
+        ifLoggedInThen(.ReportFraud, loggedInAction: {
             self.reportProduct()
         },
         elsePresentSignUpWithSuccessAction: {
@@ -422,7 +422,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     func markOrUnmarkAsFavorite() {
-        ifLoggedInThen({
+        ifLoggedInThen(.Favourite, loggedInAction: {
             self.switchFavourite()
         },
         elsePresentSignUpWithSuccessAction: {

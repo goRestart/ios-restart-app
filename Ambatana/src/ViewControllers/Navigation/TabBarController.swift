@@ -255,13 +255,20 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         if let tab = Tab(rawValue: vcIdx) {
             
             var isLogInRequired = false
+            var loginSource: TrackingParameterLoginSourceValue?
             
             // Do not allow selecting Sell
             if tab == .Sell {
                 return false
             }
-            // Chats and Profile require login
-            else if tab == .Chats || tab == .Profile {
+            // Chats require login
+            else if tab == .Chats {
+                loginSource = .Chats
+                isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
+            }
+            // Profile require login
+            else if tab == .Profile {
+                loginSource = .Profile
                 isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
             }
             
@@ -277,12 +284,16 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             
             // If login is required
             if isLogInRequired {
+                
                 // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
-                ifLoggedInThen({  [weak self] in
-                    self?.switchToTab(tab)
-                }, elsePresentSignUpWithSuccessAction: { [weak self] in
-                    self?.switchToTab(tab)
-                })
+                if let actualLoginSource = loginSource {
+                    ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
+                        self?.switchToTab(tab)
+                    },
+                    elsePresentSignUpWithSuccessAction: { [weak self] in
+                        self?.switchToTab(tab)
+                    })
+                }
             }
             
             return !isLogInRequired
@@ -333,7 +344,7 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         dismissTooltip(animated: true)
         
         // If logged present the sell, otherwise present the login VC (and if successful the sell)
-        ifLoggedInThen({
+        ifLoggedInThen(.Sell, loggedInAction: {
             self.presentSellVC()
         }, elsePresentSignUpWithSuccessAction: {
             self.presentSellVC()

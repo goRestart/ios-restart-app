@@ -12,6 +12,19 @@ import LGCoreKit
 import Parse
 import Result
 
+public enum LoginSource: String {
+//    case EditProfile = "edit-profile"     // not used in iOS
+//    case Contact = "contact"
+    case Chats = "messages"
+    case Sell = "posting"
+    case Profile = "view-profile"
+    
+    case Favourite = "favourite"
+    case MakeOffer = "offer"
+    case AskQuestion = "question"
+    case ReportFraud = "report-fraud"
+}
+
 public protocol MainSignUpViewModelDelegate: class {
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel)
     func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: Result<User, UserLogInFBError>)
@@ -19,16 +32,20 @@ public protocol MainSignUpViewModelDelegate: class {
 
 public class MainSignUpViewModel: BaseViewModel {
    
+    // Login source
+    let loginSource: TrackingParameterLoginSourceValue
+    
     // Delegate
     weak var delegate: MainSignUpViewModelDelegate?
     
     // Public methods
     
-    public override init() {
+    public init(source: TrackingParameterLoginSourceValue) {
+        self.loginSource = source
         super.init()
-
+        
         // Tracking
-        TrackingHelper.trackEvent(.LoginVisit, parameters: nil)
+        TrackingHelper.trackEvent(.LoginVisit, withLoginSource: loginSource)
     }
     
     public func logInWithFacebook() {
@@ -43,7 +60,7 @@ public class MainSignUpViewModel: BaseViewModel {
                 if let user = result.value, let email = user.email {
                     TrackingHelper.setUserId(email)
                 }
-                TrackingHelper.trackEvent(.LoginFB, parameters: nil)
+                TrackingHelper.trackEvent(.LoginFB, withLoginSource: strongSelf.loginSource)
                 
                 // Notify the delegate about it finished
                 if let actualDelegate = strongSelf.delegate {

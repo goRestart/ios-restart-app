@@ -39,12 +39,12 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     
     // MARK: - Lifecycle
     
-    convenience init() {
-        self.init(viewModel: MainSignUpViewModel(), nibName: "MainSignUpViewController")
+    convenience init(source: TrackingParameterLoginSourceValue) {
+        self.init(source: source, nibName: "MainSignUpViewController")
     }
     
-    required init(viewModel: MainSignUpViewModel, nibName nibNameOrNil: String?) {
-        self.viewModel = viewModel
+    required init(source: TrackingParameterLoginSourceValue, nibName nibNameOrNil: String?) {
+        self.viewModel = MainSignUpViewModel(source: source)
         self.lines = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
@@ -82,13 +82,13 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     }
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
-        let vc = SignUpViewController()
+        let vc = SignUpViewController(source: viewModel.loginSource)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
-        let vc = LogInViewController()
+        let vc = LogInViewController(source: viewModel.loginSource)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }

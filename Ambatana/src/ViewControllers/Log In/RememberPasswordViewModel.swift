@@ -19,6 +19,9 @@ public protocol RememberPasswordViewModelDelegate: class {
 
 public class RememberPasswordViewModel: BaseViewModel {
    
+    // Login source
+    let loginSource: TrackingParameterLoginSourceValue
+    
     // Delegate
     weak var delegate: RememberPasswordViewModelDelegate?
     
@@ -31,8 +34,9 @@ public class RememberPasswordViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    override init() {
+    init(source: TrackingParameterLoginSourceValue) {
         email = ""
+        loginSource = source
         super.init()
     }
     
@@ -49,7 +53,12 @@ public class RememberPasswordViewModel: BaseViewModel {
         else {
             MyUserManager.sharedInstance.resetPassword(email) { [weak self] (result: Result<Nil, UserPasswordResetServiceError>) in
                 if let strongSelf = self, let actualDelegate = strongSelf.delegate {
+                    
+                    // Notify the delegate
                     actualDelegate.viewModel(strongSelf, didFinishResettingPasswordWithResult: result)
+                    
+                    // Tracking
+                    TrackingHelper.trackEvent(.ResetPassword, withLoginSource: strongSelf.loginSource)
                 }
             }
         }

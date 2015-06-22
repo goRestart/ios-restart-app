@@ -21,6 +21,9 @@ public class SignUpViewModel: BaseViewModel {
     // Constants & enums
     private static let minPasswordLength = 6
     
+    // Login source
+    let loginSource: TrackingParameterLoginSourceValue
+    
     // Delegate
     weak var delegate: SignUpViewModelDelegate?
     
@@ -43,7 +46,8 @@ public class SignUpViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    override init() {
+    init(source: TrackingParameterLoginSourceValue) {
+        loginSource = source
         username = ""
         email = ""
         password = ""
@@ -73,7 +77,7 @@ public class SignUpViewModel: BaseViewModel {
                     
                     // Tracking
                     TrackingHelper.setUserId(strongSelf.email)
-                    TrackingHelper.trackEvent(.SignupEmail, parameters: nil)
+                    TrackingHelper.trackEvent(.SignupEmail, withLoginSource: strongSelf.loginSource)
                     
                     // Notify the delegate about it finished
                     if let actualDelegate = strongSelf.delegate {

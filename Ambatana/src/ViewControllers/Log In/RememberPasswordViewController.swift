@@ -31,12 +31,12 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     // MARK: - Lifecycle
     
-    convenience init() {
-        self.init(viewModel: RememberPasswordViewModel(), nibName: "RememberPasswordViewController")
+    convenience init(source: TrackingParameterLoginSourceValue) {
+        self.init(source: source, nibName: "RememberPasswordViewController")
     }
     
-    required init(viewModel: RememberPasswordViewModel, nibName nibNameOrNil: String?) {
-        self.viewModel = viewModel
+    required init(source: TrackingParameterLoginSourceValue, nibName nibNameOrNil: String?) {
+        self.viewModel = RememberPasswordViewModel(source: source)
         self.lines = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self

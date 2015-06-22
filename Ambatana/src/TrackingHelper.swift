@@ -19,6 +19,7 @@ enum TrackingEvent: String {
     case LoginFB                           = "login-fb"
     case LoginEmail                        = "login-email"
     case SignupEmail                       = "signup-email"
+    case ResetPassword                     = "login-reset-password"
     case Logout                            = "logout"
     case ProductList                       = "product-list"
     case ProductDetailVisit                = "product-detail-visit"
@@ -81,6 +82,21 @@ enum TrackingParameter: String {
     case Enabled              = "enabled"           // true/false. if a checkbox / switch is changed to enabled or disabled
     case Description          = "description"       // error description: why form validation failure.
     case ItemType             = "item-type"         // real / dummy.
+    case LoginSource          = "login-type"        // the login source
+}
+
+public enum TrackingParameterLoginSourceValue: String {
+//    case EditProfile = "edit-profile"     // not used in iOS
+//    case Contact = "contact"
+    case Sell = "posting"
+    case Chats = "messages"
+    case Profile = "view-profile"
+    
+    case Favourite = "favourite"
+    case MakeOffer = "offer"
+    case MarkAsSold = "mark-as-sold"
+    case AskQuestion = "question"
+    case ReportFraud = "report-fraud"
 }
 
 class TrackingHelper {
@@ -133,6 +149,10 @@ class TrackingHelper {
         }
         // AppsFlyer
         AppsFlyerTracker.sharedTracker().customerUserID = userId
+    }
+    
+    static func trackEvent(eventType: TrackingEvent, withLoginSource loginSource: TrackingParameterLoginSourceValue) {
+        trackEvent(eventType, parameters: [.LoginSource: loginSource.rawValue])
     }
     
     static func trackEvent(eventType: TrackingEvent, parameters: [TrackingParameter: AnyObject]?) {

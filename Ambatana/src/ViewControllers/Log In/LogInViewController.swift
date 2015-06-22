@@ -40,12 +40,12 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     // MARK: - Lifecycle
     
-    convenience init() {
-        self.init(viewModel: LogInViewModel(), nibName: "LogInViewController")
+    convenience init(source: TrackingParameterLoginSourceValue) {
+        self.init(source: source, nibName: "LogInViewController")
     }
     
-    required init(viewModel: LogInViewModel, nibName nibNameOrNil: String?) {
-        self.viewModel = viewModel
+    required init(source: TrackingParameterLoginSourceValue, nibName nibNameOrNil: String?) {
+        self.viewModel = LogInViewModel(source: source)
         self.lines = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel.delegate = self
@@ -86,7 +86,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     }
     
     @IBAction func rememberPasswordButtonPressed(sender: AnyObject) {
-        let vc = RememberPasswordViewController()
+        let vc = RememberPasswordViewController(source: viewModel.loginSource)
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -10,10 +10,10 @@ import LGCoreKit
 
 extension UIViewController {
     
-    internal func ifLoggedInThen(loggedInAction: () -> Void, elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
+    internal func ifLoggedInThen(source: TrackingParameterLoginSourceValue, loggedInAction: () -> Void, elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
         let isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
         if isLogInRequired {
-            let vc = MainSignUpViewController()
+            let vc = MainSignUpViewController(source: source)
             vc.afterLoginAction = afterLogInAction
 
             let navCtl = UINavigationController(rootViewController: vc)
