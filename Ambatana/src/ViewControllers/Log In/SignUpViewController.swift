@@ -181,7 +181,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
             actualNextView.becomeFirstResponder()
         }
         else {
-            textField.resignFirstResponder()
+            viewModel.signUp()
         }
         return true
     }

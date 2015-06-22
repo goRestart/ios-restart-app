@@ -172,7 +172,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
             actualNextView.becomeFirstResponder()
         }
         else {
-            textField.resignFirstResponder()
+            viewModel.logIn()
         }
         return true
     }

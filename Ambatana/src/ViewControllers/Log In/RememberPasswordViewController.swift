@@ -145,7 +145,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             actualNextView.becomeFirstResponder()
         }
         else {
-            textField.resignFirstResponder()
+            viewModel.resetPassword()
         }
         return true
     }
