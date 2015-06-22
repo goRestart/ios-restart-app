@@ -121,7 +121,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
             }
             completion = {
                 if let actualMessage = message {
-                    self.showAutoFadingOutMessageAlert(actualMessage)
+                    self.showAutoFadingOutMessageAlert(actualMessage, time: 3)
                 }
             }
         }
