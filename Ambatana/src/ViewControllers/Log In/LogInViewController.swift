@@ -40,14 +40,10 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     // MARK: - Lifecycle
     
-    convenience init(source: TrackingParameterLoginSourceValue) {
-        self.init(source: source, nibName: "LogInViewController")
-    }
-    
-    required init(source: TrackingParameterLoginSourceValue, nibName nibNameOrNil: String?) {
+    init(source: TrackingParameterLoginSourceValue) {
         self.viewModel = LogInViewModel(source: source)
         self.lines = []
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: "LogInViewController")
         self.viewModel.delegate = self
     }
     

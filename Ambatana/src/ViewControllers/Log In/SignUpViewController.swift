@@ -42,14 +42,10 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     
     // MARK: - Lifecycle
     
-    convenience init(source: TrackingParameterLoginSourceValue) {
-        self.init(source: source, nibName: "SignUpViewController")
-    }
-    
-    required init(source: TrackingParameterLoginSourceValue, nibName nibNameOrNil: String?) {
+    init(source: TrackingParameterLoginSourceValue) {
         self.viewModel = SignUpViewModel(source: source)
         self.lines = []
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: "SignUpViewController")
         self.viewModel.delegate = self
     }
     

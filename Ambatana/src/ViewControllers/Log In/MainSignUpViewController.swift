@@ -39,14 +39,10 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     
     // MARK: - Lifecycle
     
-    convenience init(source: TrackingParameterLoginSourceValue) {
-        self.init(source: source, nibName: "MainSignUpViewController")
-    }
-    
-    required init(source: TrackingParameterLoginSourceValue, nibName nibNameOrNil: String?) {
+    init(source: TrackingParameterLoginSourceValue) {
         self.viewModel = MainSignUpViewModel(source: source)
         self.lines = []
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: "MainSignUpViewController")
         self.viewModel.delegate = self
     }
     

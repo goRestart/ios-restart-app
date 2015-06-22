@@ -31,17 +31,13 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     // MARK: - Lifecycle
     
-    convenience init(source: TrackingParameterLoginSourceValue) {
-        self.init(source: source, nibName: "RememberPasswordViewController")
-    }
-    
-    required init(source: TrackingParameterLoginSourceValue, nibName nibNameOrNil: String?) {
+    init(source: TrackingParameterLoginSourceValue) {
         self.viewModel = RememberPasswordViewModel(source: source)
         self.lines = []
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: "RememberPasswordViewController")
         self.viewModel.delegate = self
     }
-    
+        
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
