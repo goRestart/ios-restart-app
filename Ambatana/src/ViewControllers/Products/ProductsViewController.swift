@@ -172,7 +172,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     /** Called when the search button is pressed. */
     func searchButtonPressed(sender: AnyObject) {
         // Tracking
-        TrackingHelper.trackEvent(.SearchStart, parameters: trackingParams)
+        TrackingHelper.trackEvent(.SearchStart, parameters: trackingParamsForEventType(.SearchStart))
         
         // Show search
         showSearchBarAnimated(true, delegate: self)
@@ -191,36 +191,41 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     
     // MARK: > Tracking
     
-    private var trackingParams: [TrackingParameter: AnyObject] {
-        get {
-            var properties: [TrackingParameter: AnyObject] = [:]
-            
-            // current category data
-            if currentCategory != nil {
-                properties[.CategoryId] = currentCategory!.rawValue
-                properties[.CategoryName] = currentCategory!.getName()
-            }
-            // current user data
-            if let currentUser = MyUserManager.sharedInstance.myUser() {
-                if let userCity = currentUser.postalAddress.city {
-                    properties[.UserCity] = userCity
-                }
-                if let userCountry = currentUser.postalAddress.countryCode {
-                    properties[.UserCountry] = userCountry
-                }
-                if let userZipCode = currentUser.postalAddress.zipCode {
-                    properties[.UserZipCode] = userZipCode
-                }
-            }
-            // search query
-            if let actualSearchQuery = currentSearchString {
-                properties[.SearchString] = actualSearchQuery
-            }
-            // page number
-            properties[.PageNumber] = viewModel.pageNumber
-            return properties
+    func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject]? {
+        var properties: [TrackingParameter: AnyObject] = [:]
+        
+        // Common
+        // > current category data
+        if currentCategory != nil {
+            properties[.CategoryId] = currentCategory!.rawValue
+            properties[.CategoryName] = currentCategory!.getName()
         }
+        // > current user data
+        if let currentUser = MyUserManager.sharedInstance.myUser() {
+            if let userCity = currentUser.postalAddress.city {
+                properties[.UserCity] = userCity
+            }
+            if let userCountry = currentUser.postalAddress.countryCode {
+                properties[.UserCountry] = userCountry
+            }
+            if let userZipCode = currentUser.postalAddress.zipCode {
+                properties[.UserZipCode] = userZipCode
+            }
+        }
+        // > search query
+        if let actualSearchQuery = currentSearchString {
+            properties[.SearchString] = actualSearchQuery
+        }
+        
+        // ProductList
+        if eventType == .ProductList {
+            // > page number
+            properties[.PageNumber] = viewModel.pageNumber
+        }
+        
+        return properties
     }
+    
     
     // MARK: > Navigation
     
@@ -310,7 +315,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         }
         
         // Tracking
-        TrackingHelper.trackEvent(.ProductList, parameters: trackingParams)
+        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
     }
 
     func didFailRetrievingFirstPageProducts(error: NSError) {
@@ -341,7 +346,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         }
         
         // Tracking
-        TrackingHelper.trackEvent(.ProductList, parameters: trackingParams)
+        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
     }
 
     func didFailRetrievingNextPageProducts(error: NSError) {
@@ -407,9 +412,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
                 let searchString = searchBar.text
                 if searchString != nil && count(searchString) > 0 {
                     // Tracking
-                    var parameters = strongSelf.trackingParams
-                    parameters[.SearchString] = searchString
-                    TrackingHelper.trackEvent(.SearchComplete, parameters: parameters)
+                    TrackingHelper.trackEvent(.SearchComplete, parameters: strongSelf.trackingParamsForEventType(.SearchComplete))
                     
                     // Push a new products vc with the search
                     strongSelf.pushProductsViewControllerWithSearchQuery(searchString)
