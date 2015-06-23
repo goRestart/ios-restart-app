@@ -191,7 +191,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     
     // MARK: > Tracking
     
-    func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject]? {
+    func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject] {
         var properties: [TrackingParameter: AnyObject] = [:]
         
         // Common
@@ -412,7 +412,9 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
                 let searchString = searchBar.text
                 if searchString != nil && count(searchString) > 0 {
                     // Tracking
-                    TrackingHelper.trackEvent(.SearchComplete, parameters: strongSelf.trackingParamsForEventType(.SearchComplete))
+                    var parameters = strongSelf.trackingParamsForEventType(.SearchComplete)
+                    parameters[.SearchString] = searchString
+                    TrackingHelper.trackEvent(.SearchComplete, parameters: parameters)
                     
                     // Push a new products vc with the search
                     strongSelf.pushProductsViewControllerWithSearchQuery(searchString)
