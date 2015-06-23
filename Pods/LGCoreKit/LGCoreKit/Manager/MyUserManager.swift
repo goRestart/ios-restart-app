@@ -330,7 +330,11 @@ public class MyUserManager {
                                     // Succeeded
                                     if let file = uploadResult.value {
                                         
-                                        // 5. Save my user again
+                                        // 5a. Set the user's avatar & mark as non-processed
+                                        savedUser.avatar = file
+                                        savedUser.processed = NSNumber(bool: false)
+                                        
+                                        // 5b. Save my user again
                                         self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
                                             
                                             // Success or Error, but in case of error report success as avatar is not strictly necessary
