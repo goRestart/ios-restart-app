@@ -70,7 +70,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             
             // safety checks
             let productPrice = priceTextField?.text.toInt()
-            if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price")); return }
+            if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price") , time: 3.5); return }
             var offerText = self.generateOfferText(productPrice!)
             
             // enable loading interface
