@@ -44,7 +44,7 @@ extension UIViewController {
         let hSpacing: CGFloat = 24
 
         var x: CGFloat = 0
-        var height: CGFloat = 0
+        var height: CGFloat = 44
         var width: CGFloat = 0
         
         for i in 0..<images.count {
@@ -52,7 +52,7 @@ extension UIViewController {
             let buttonWidth = image.size.width + hSpacing            // image width + horizontal spacing
 
             var button = UIButton.buttonWithType(.System) as! UIButton
-            button.frame = CGRectMake(x, 0, buttonWidth, image.size.height)
+            button.frame = CGRectMake(x, 0, buttonWidth, height)
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
 //            button.backgroundColor = UIColor.purpleColor()
             button.tag = tags != nil ? tags![i] : i
@@ -62,7 +62,6 @@ extension UIViewController {
             
             x += image.size.width + hSpacing
             width += buttonWidth
-            height = max(height, image.size.height)
         }
 
         let buttonsFrame = CGRect(x: 0, y: 0, width: width, height: height)
