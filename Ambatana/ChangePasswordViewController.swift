@@ -26,7 +26,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
         setLetGoRightButtonsWithImageNames(["actionbar_save"], andSelectors: ["changePassword"])
         
         // internationalization
-        passwordTextfield.placeholder = translate("password")
+        passwordTextfield.placeholder = translate("change_password_new_password_hint")
         confirmPasswordTextfield.placeholder = translate("confirm_password")
     }
    

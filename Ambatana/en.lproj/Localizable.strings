@@ -182,5 +182,7 @@
 "reset_password_send_error_user_not_found_or_wrong_password" = "Email address not found";
 "reset_password_send_error_generic" = "An error occurred while trying to remember your password.";
 
+// Change password
+"change_password_new_password_hint" = "New password";
 
 
