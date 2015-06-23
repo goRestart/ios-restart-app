@@ -170,8 +170,8 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     }
     
     func textFieldShouldClear(textField: UITextField) -> Bool {
-        setText("", intoTextField: textField)
-        return false
+        updateViewModelText("", fromTextFieldTag: textField.tag)
+        return true
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -188,8 +188,8 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        setText(text, intoTextField: textField)
-        return false
+        updateViewModelText(text, fromTextFieldTag: textField.tag)
+        return true
     }
     
     // MARK: - Private methods
@@ -214,11 +214,11 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         emailTextField.tag = TextFieldTag.Email.rawValue
         passwordTextField.tag = TextFieldTag.Password.rawValue
     }
+
+    // MARK: > Helper
     
-    private func setText(text: String, intoTextField textField: UITextField) {
-        textField.text = text
-        
-        if let tag = TextFieldTag(rawValue: textField.tag) {
+    private func updateViewModelText(text: String, fromTextFieldTag tag: Int) {
+        if let tag = TextFieldTag(rawValue: tag) {
             switch (tag) {
             case .Username:
                 viewModel.username = text

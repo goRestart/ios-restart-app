@@ -161,8 +161,8 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     }
     
     func textFieldShouldClear(textField: UITextField) -> Bool {
-        setText("", intoTextField: textField)
-        return false
+        updateViewModelText("", fromTextFieldTag: textField.tag)
+        return true
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -179,8 +179,8 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        setText(text, intoTextField: textField)
-        return false
+        updateViewModelText(text, fromTextFieldTag: textField.tag)
+        return true
     }
     
     // MARK: - Private methods
@@ -205,10 +205,10 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         passwordTextField.tag = TextFieldTag.Password.rawValue
     }
     
-    private func setText(text: String, intoTextField textField: UITextField) {
-        textField.text = text
-        
-        if let tag = TextFieldTag(rawValue: textField.tag) {
+    // MARK: > Helper
+    
+    private func updateViewModelText(text: String, fromTextFieldTag tag: Int) {
+        if let tag = TextFieldTag(rawValue: tag) {
             switch (tag) {
             case .Email:
                 viewModel.email = text
