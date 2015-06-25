@@ -67,13 +67,13 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         // UI
         // > No results
         if self.currentSearchString == nil {
-            self.noProductsFoundLabel.text = translate("be_the_first_to_start_selling")
+            self.noProductsFoundLabel.text = NSLocalizedString("product_list_no_products_label", comment: "")
             self.reloadButton.hidden = true
         } else {
-            self.noProductsFoundLabel.text = translate("no_products_found")
+            self.noProductsFoundLabel.text = NSLocalizedString("product_list_search_no_products_label", comment: "")
             self.reloadButton.hidden = false
         }
-        self.reloadButton.setTitle(translate("reload_products"), forState: .Normal)
+        self.reloadButton.setTitle(NSLocalizedString("product_list_no_products_button", comment: ""), forState: .Normal)
         
         // > Collection view
         var layout = CHTCollectionViewWaterfallLayout()
@@ -88,7 +88,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         
         // > Pull to refresh
         self.refreshControl = UIRefreshControl()
-//        self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
         self.refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
 
@@ -275,12 +274,12 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         
         switch status {
         case .Disabled:
-            alertMessage = translate("location_disabled_message")
-            alertButtonTitle = translate("location_disabled_settings")
+            alertMessage = NSLocalizedString("product_list_location_disabled_label", comment: "")
+            alertButtonTitle = NSLocalizedString("product_list_location_disabled_button", comment: "")
         case .Enabled(let authStatus):
             if authStatus == .Restricted || authStatus == .Denied {
-                alertMessage = translate("location_unauthorized_message")
-                alertButtonTitle = translate("location_unauthorized_settings")
+                alertMessage = NSLocalizedString("product_list_location_unauthorized_label", comment: "")
+                alertButtonTitle = NSLocalizedString("product_list_location_unauthorized_button", comment: "")
             }
         }
 
@@ -320,8 +319,8 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
 
     func didFailRetrievingFirstPageProducts(error: NSError) {
         
-        let alert = UIAlertController(title: nil, message: translate("unable_get_products"), preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { [weak self] (action) -> Void in
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("product_list_first_page_error_generic_label", comment: ""), preferredStyle:.Alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("product_list_first_page_error_generic_button", comment: ""), style:.Default, handler: { [weak self] (action) -> Void in
             if let strongSelf = self {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
                     strongSelf.refresh()
@@ -351,8 +350,8 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
 
     func didFailRetrievingNextPageProducts(error: NSError) {
         
-        let alert = UIAlertController(title: nil, message: translate("unable_get_products"), preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: translate("try_again"), style:.Default, handler: { [weak self] (action) -> Void in
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("product_list_next_page_error_generic_label", comment: ""), preferredStyle:.Alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("product_list_next_page_error_generic_button", comment: ""), style:.Default, handler: { [weak self] (action) -> Void in
             if let strongSelf = self {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
                     strongSelf.viewModel.retrieveProductsNextPage()

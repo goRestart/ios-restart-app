@@ -79,9 +79,9 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         self.userImageView.clipsToBounds = true
         
         // internationalization
-        sellButton.setTitle(translate("selling_button"), forState: .Normal)
-        soldButton.setTitle(translate("sold"), forState: .Normal)
-        favoriteButton.setTitle(translate("favorited"), forState: .Normal)
+        sellButton.setTitle(NSLocalizedString("profile_selling_products_tab", comment: ""), forState: .Normal)
+        soldButton.setTitle(NSLocalizedString("profile_sold_products_tab", comment: ""), forState: .Normal)
+        favoriteButton.setTitle(NSLocalizedString("profile_favourites_products_tab", comment: ""), forState: .Normal)
         
         // center activity indicator (if there's a tabbar)
         let bottomMargin: CGFloat
@@ -282,7 +282,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
         
         if products.isEmpty {
             youDontHaveTitleLabel.hidden = false
-            youDontHaveTitleLabel.text = translate("no_items_in_this_section")
+            youDontHaveTitleLabel.text = NSLocalizedString("profile_no_products", comment: "")
             collectionView.hidden = true
         }
         else {
@@ -428,14 +428,14 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             
             // set text depending on if we are the user being shown or not
             if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId { // user is me!
-                youDontHaveTitleLabel.text = translate("no_published_favorited_products")
+                youDontHaveTitleLabel.text = NSLocalizedString("profile_favourites_my_user_no_products_label", comment: "")
                 youDontHaveSubtitleLabel.hidden = false
                 
                 startSearchingNowButton.hidden = false
                 startSellingNowButton.hidden = false
             }
             else {
-                youDontHaveTitleLabel.text = translate("this_user_no_published_favorited_products")
+                youDontHaveTitleLabel.text = NSLocalizedString("profile_favourites_other_user_no_products_label", comment: "")
                 youDontHaveSubtitleLabel.hidden = true
                 
                 startSearchingNowButton.hidden = true

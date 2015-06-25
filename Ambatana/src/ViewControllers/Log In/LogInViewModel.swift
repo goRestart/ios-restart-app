@@ -18,9 +18,6 @@ public protocol LogInViewModelDelegate: class {
 
 public class LogInViewModel: BaseViewModel {
    
-    // Constants & enums
-    private static let minPasswordLength = 6
-    
     // Login source
     let loginSource: TrackingParameterLoginSourceValue
     
@@ -59,7 +56,7 @@ public class LogInViewModel: BaseViewModel {
         if !email.isEmail() {
             delegate?.viewModel(self, didFinishLoggingInWithResult: Result<User, UserLogInEmailServiceError>.failure(.InvalidEmail))
         }
-        else if count(password) < LogInViewModel.minPasswordLength {
+        else if count(password) < Constants.passwordMinLength {
             delegate?.viewModel(self, didFinishLoggingInWithResult: Result<User, UserLogInEmailServiceError>.failure(.InvalidPassword))
         }
         else {

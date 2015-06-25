@@ -38,7 +38,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         super.viewDidLoad()
 
         // UX/UI & Appearance
-        setLetGoNavigationBarStyle(title: translate("categories"))
+        setLetGoNavigationBarStyle(title: NSLocalizedString("categories_title", comment: ""))
         
         // CollectionView
         let cellNib = UINib(nibName: "CategoryCell", bundle: nil)
@@ -166,7 +166,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             
             // category name
             if let nameLabel = cell.viewWithTag(kLetGoCategoryCellNameTag) as? UILabel {
-                nameLabel.text = categoryObject["name"] as? String ?? translate("unknown")
+                nameLabel.text = categoryObject["name"] as? String ?? ""
             }
             
             // category image

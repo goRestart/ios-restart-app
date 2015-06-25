@@ -26,13 +26,11 @@ enum LetGoUserSettings: Int {
     func titleForSetting() -> String {
         switch (self) {
         case .ChangePhoto:
-            return translate("change_photo")
-        //case .ChangeLocation:
-        //    return translate("change_my_location")
+            return NSLocalizedString("settings_change_profile_picture_button", comment: "")
         case .ChangePassword:
-            return translate("change_password")
+            return NSLocalizedString("settings_change_password_button", comment: "")
         case .LogOut:
-            return translate("logout")
+            return NSLocalizedString("settings_logout_button", comment: "")
         }
     }
     
@@ -72,11 +70,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
 
         // internationalization
-        settingProfileImageLabel.text = translate("setting_profile_image")
+        settingProfileImageLabel.text = NSLocalizedString("settings_change_profile_picture_loading", comment: "")
         
         // appearance
         settingProfileImageView.hidden = true
-        setLetGoNavigationBarStyle(title: translate("settings"))
+        setLetGoNavigationBarStyle(title: NSLocalizedString("settings_title", comment: ""))
         
         // tableview
         let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
@@ -148,21 +146,21 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func showImageSourceSelection() {
         if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: translate("choose_image_source"), message: translate("choose_image_source_description"), preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: translate("camera"), style: .Default, handler: { (alertAction) -> Void in
+            let alert = UIAlertController(title: NSLocalizedString("settings_image_source_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
                 self.openImagePickerWithSource(.Camera)
             }))
-            alert.addAction(UIAlertAction(title: translate("photo_library"), style: .Default, handler: { (alertAction) -> Void in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_roll_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
                 self.openImagePickerWithSource(.PhotoLibrary)
             }))
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_cancel_button", comment: ""), style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         } else {
             let actionSheet = UIActionSheet()
             actionSheet.delegate = self
-            actionSheet.title = translate("choose_image_source")
-            actionSheet.addButtonWithTitle(translate("camera"))
-            actionSheet.addButtonWithTitle(translate("photo_library"))
+            actionSheet.title = NSLocalizedString("settings_image_source_title", comment: "")
+            actionSheet.addButtonWithTitle(NSLocalizedString("settings_image_source_camera_button", comment: ""))
+            actionSheet.addButtonWithTitle(NSLocalizedString("settings_image_source_camera_roll_button", comment: ""))
             actionSheet.showInView(self.view)
         }
         
@@ -211,7 +209,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         // upload image.
         if imageFile == nil { // we were unable to generate the image file.
             self.settingProfileImageView.hidden = true
-            self.showAutoFadingOutMessageAlert(translate("error_setting_profile_image"))
+            self.showAutoFadingOutMessageAlert(NSLocalizedString("settings_change_profile_picture_error_generic", comment: ""))
         } else { // we have a valid image PFFile, now update current user's avatar with it.
             imageFile?.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if success { // successfully uploaded image. Now assign it to the user and save him/her.
@@ -223,12 +221,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                             self.settingProfileImageView.hidden = true
                         } else { // unable save user with new avatar.
                             self.settingProfileImageView.hidden = true
-                            self.showAutoFadingOutMessageAlert(translate("error_setting_profile_image"))
+                            self.showAutoFadingOutMessageAlert(NSLocalizedString("settings_change_profile_picture_error_generic", comment: ""))
                         }
                     })
                 } else { // error uploading new user image.
                     self.settingProfileImageView.hidden = true
-                    self.showAutoFadingOutMessageAlert(translate("error_setting_profile_image"))
+                    self.showAutoFadingOutMessageAlert(NSLocalizedString("settings_change_profile_picture_error_generic", comment: ""))
                 }
             }, progressBlock: { (progressAsInt) -> Void in
                 self.settingProfileImageProgressView.setProgress(Float(progressAsInt)/100.0, animated: true)

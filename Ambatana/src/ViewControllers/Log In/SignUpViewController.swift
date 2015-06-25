@@ -121,7 +121,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
             case .InvalidUsername:
                 message = NSLocalizedString("sign_up_send_error_invalid_username", comment: "")
             case .InvalidPassword:
-                message = NSLocalizedString("sign_up_send_error_invalid_password", comment: "")
+                message = String(format: NSLocalizedString("sign_up_send_error_invalid_password", comment: ""), Constants.passwordMinLength)
             case .Network:
                 message = NSLocalizedString("common_error_connection_failed", comment: "")
             case .EmailTaken:

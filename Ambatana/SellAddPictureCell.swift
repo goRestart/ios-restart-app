@@ -29,7 +29,7 @@ class SellAddPictureCell: UICollectionViewCell {
     
     // Sets up the UI
     private func setupUI() {
-        label.text = translate("photo")
+        label.text = NSLocalizedString("sell_picture_label", comment: "")
     }
     
     // Resets the UI to the initial state

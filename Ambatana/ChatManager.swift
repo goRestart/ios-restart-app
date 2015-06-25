@@ -62,16 +62,16 @@ public struct LetGoConversation {
                 userAvatarURL = "";
                 userAvatarImage = UIImage(named: "no_photo")!
             }
-            userName = targetUser!["username_public"] as? String ?? translate("user")
+            userName = targetUser!["username_public"] as? String ?? ""
         } else { // else, put some default values
             userAvatarURL = ""
             userAvatarImage = UIImage(named: "no_photo")!
-            userName = translate("user")
+            userName = ""
         }
         // product object for getting the product name.
         if let productObject = conversationObject["product"] as? PFObject {
-            productName = productObject["name"] as? String ?? productObject["description"] as? String ?? translate("product")
-        } else { productName = translate("product") }
+            productName = productObject["name"] as? String ?? productObject["description"] as? String ?? ""
+        } else { productName = "" }
         
         // initialize conversation values.
         totalMessages = conversationObject["nr_messages"] as? Int ?? 0
@@ -269,7 +269,13 @@ class ChatManager: NSObject {
         
         // set mandatory iOS element: badge and alert.
         let message = messageObject["message"] as! String
-        var shortString = (sourceUser.publicUsername ?? translate("message")) + ": " + message
+        var shortString: String
+        if let publicUsername = sourceUser.publicUsername {
+            shortString = String(format: NSLocalizedString("push_notification_message_body", comment: ""), publicUsername, message)
+        }
+        else {
+            shortString = String(format: NSLocalizedString("push_notification_message_body_no_username", comment: ""), message)
+        }
         // TODO: Ignore alert message size limitations for iOS 8 only. Restore checks when support for iOS 7 is added again.
         // shortString = count(shortString) > kLetGoPushNotificationMaxPayloadSpaceForText ? shortString.substringToIndex(advance(shortString.startIndex, kLetGoPushNotificationMaxPayloadSpaceForText)) : shortString
         var messageData: [String: AnyObject] = ["badge": "Increment"]
@@ -281,8 +287,8 @@ class ChatManager: NSObject {
         
         // titulo
         if let productName = product.name {
-            messageData["t"] = translate("new_message") + " - " + productName
-            messageData["titulo"] = translate("new_message") + " - " + productName
+            messageData["t"] = String(format: NSLocalizedString("push_notification_message_title", comment: ""), productName)
+            messageData["titulo"] = String(format: NSLocalizedString("push_notification_message_title", comment: ""), productName)
         } else { messageData["t"] = ""; messageData["titulo"] = "" }
         
         // conversation id.

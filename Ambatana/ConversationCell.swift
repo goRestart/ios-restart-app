@@ -63,7 +63,7 @@ public class ConversationCell: UITableViewCell {
         userLabel.text = conversation.userName
         
         // time
-        timeLabel.text = translate("published") + " " + conversation.lastUpdated.relativeTimeString()
+        timeLabel.text = conversation.lastUpdated.relativeTimeString()
         
         // badge
         if conversation.myUnreadMessages > 0 {

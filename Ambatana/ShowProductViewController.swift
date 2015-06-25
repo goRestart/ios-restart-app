@@ -153,11 +153,11 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         locationLabel.text = product.formattedDistance()
         
         // internationalization
-        makeOfferButton.setTitle(translate("make_an_offer"), forState: .Normal)
-        askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
-        markSoldButton.setTitle(translate("mark_as_sold"), forState: .Normal)
-        fromYouLabel.text = translate("from_you")
-        butProductReport.setTitle(translate("report_product"), forState: .Normal)
+        makeOfferButton.setTitle(NSLocalizedString("product_make_an_offer_button", comment: ""), forState: .Normal)
+        askQuestionButton.setTitle(NSLocalizedString("product_ask_a_question_button", comment: ""), forState: .Normal)
+        markSoldButton.setTitle(NSLocalizedString("product_mark_as_sold_button", comment: ""), forState: .Normal)
+        fromYouLabel.text = NSLocalizedString("product_distance_from_you", comment: "") // FIXME: Should be reformatted
+        butProductReport.setTitle(NSLocalizedString("product_report_product_button", comment: ""), forState: .Normal)
         
         // Update UI
         updateUI()
@@ -223,7 +223,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.disableAskQuestionLoadingInterface()
-                self.navigationController?.pushViewController(chatVC, animated: true) ?? self.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                self.navigationController?.pushViewController(chatVC, animated: true) ?? self.showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
             })
         })
     }
@@ -247,7 +247,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         // appearance
         askQuestionActivityIndicator.hidden = true
         askQuestionActivityIndicator.stopAnimating()
-        askQuestionButton.setTitle(translate("ask_a_question"), forState: .Normal)
+        askQuestionButton.setTitle(NSLocalizedString("product_ask_a_question_button", comment: ""), forState: .Normal)
         askQuestionButton.setImage(UIImage(named: "item_chat")!, forState: .Normal)
         askQuestionButton.enabled = true
         // re-enable back navigation.
@@ -324,13 +324,13 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                         }, completion: { (success) -> Void in
                             self.markSoldButton.hidden = true
                             self.markSoldButton.alpha = 1.0
-                            self.showAutoFadingOutMessageAlert(translate("marked_as_sold"), completionBlock: nil)
+                            self.showAutoFadingOutMessageAlert("", completionBlock: nil)
                     })
                     
                     self.delegate?.letgoProduct(parseProduct.objectId!, statusUpdatedTo: self.productStatus!)
                 } else {
                     self.markSoldButton.enabled = true
-                    self.showAutoFadingOutMessageAlert(translate("error_marking_as_sold"))
+                    self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
                 }
                 self.disableMarkAsSoldLoadingInterface()
             })
@@ -374,11 +374,10 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         self.markAsSoldActivityIndicator.hidden = true
         self.markAsSoldActivityIndicator.stopAnimating()
         if productStatus == .Sold {
-            // markSoldButton.setTitle(translate("marked_as_sold"), forState: .Normal)
             // remove all buttons
             markSoldButton.hidden = true
         } else {
-            markSoldButton.setTitle(translate("mark_as_sold"), forState: .Normal)
+            markSoldButton.setTitle(NSLocalizedString("product_mark_as_sold_button", comment: ""), forState: .Normal)
         }
         self.markSoldButton.setImage(UIImage(named: "item_offer"), forState: .Normal)
         self.markSoldButton.userInteractionEnabled = true
@@ -520,7 +519,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         var message: String? = nil
         if result.value == MFMailComposeResultFailed.value { // we just give feedback if something nasty happened.
-            message = translate("errorsendingmail")
+            message = NSLocalizedString("product_share_email_error", comment: "")
         }
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             if message != nil { self.showAutoFadingOutMessageAlert(message!) }
@@ -615,7 +614,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     
     private func askQuestion() {
         // safety checks
-        if product.user == nil { showAutoFadingOutMessageAlert(translate("unable_show_conversation")); return }
+        if product.user == nil { showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: "")); return }
         
         // loading interface...
         enableAskQuestionLoadingInterface()
@@ -632,7 +631,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                             strongSelf.launchChatWithConversation(conversation!)
                         }
                         else {
-                            strongSelf.disableAskQuestionLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                            strongSelf.disableAskQuestionLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
                         }
                     })
                 }
@@ -649,15 +648,23 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     
     private func markProductAsSold() {
         if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: translate("mark_as_sold"), style: .Default, handler: { (markAction) -> Void in
+            let alert = UIAlertController(title: NSLocalizedString("product_mark_as_sold_confirm_title", comment: ""),
+                message: NSLocalizedString("product_mark_as_sold_confirm_message", comment: ""),
+                preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_cancel_button", comment: ""),
+                style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_ok_button", comment: ""),
+                style: .Default, handler: { (markAction) -> Void in
                 self.definitelyMarkProductAsSold()
             }))
             self.presentViewController(alert, animated: true, completion: nil)
-        } else { // ios7 fallback --> ActionSheet.
-            let alert = UIAlertView(title: translate("mark_as_sold"), message: translate("are_you_sure_mark_sold"), delegate: self, cancelButtonTitle: translate("cancel"))
-            alert.addButtonWithTitle(translate("mark_as_sold"))
+        }
+        else { // ios7 fallback --> ActionSheet.
+            let alert = UIAlertView(title: NSLocalizedString("product_mark_as_sold_confirm_title", comment: ""),
+                message: NSLocalizedString("product_mark_as_sold_confirm_message", comment: ""),
+                delegate: self,
+                cancelButtonTitle: NSLocalizedString("product_mark_as_sold_confirm_cancel_button", comment: ""))
+            alert.addButtonWithTitle(NSLocalizedString("product_mark_as_sold_confirm_ok_button", comment: ""))
             alert.show()
         }
     }
@@ -666,7 +673,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         if let let myUser = MyUserManager.sharedInstance.myUser(), let productOwner = product.user {
             
             butProductReport.enabled = false
-            butProductReport.setTitle(translate("reporting_product"), forState: .Normal)
+            butProductReport.setTitle(NSLocalizedString("product_reporting_product_label", comment: ""), forState: .Normal)
             
             let report = PFObject(className: "UserReports")
             report["product_reported"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:product.objectId)
@@ -679,10 +686,10 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                     strongSelf.butProductReport.enabled = true
                     
                     if success {
-                        strongSelf.butProductReport.setTitle(translate("reported_product"), forState: .Normal)
+                        strongSelf.butProductReport.setTitle(NSLocalizedString("product_reported_product_label", comment: ""), forState: .Normal)
                     }
                     else {
-                        strongSelf.butProductReport.setTitle(translate("report_product"), forState: .Normal)
+                        strongSelf.butProductReport.setTitle(NSLocalizedString("product_report_product_button", comment: ""), forState: .Normal)
                     }
                 }
             })

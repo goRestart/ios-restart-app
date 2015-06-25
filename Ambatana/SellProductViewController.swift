@@ -21,7 +21,6 @@ private let kLetGoAlreadyUploadedImageCellBigImageTag = 1
 private let kLetGoUploadFirstImageCellLabelTag = 2
 private let kLetGoTextfieldScrollingOffsetSpan: CGFloat = 72 // 20 (status bar height) + 44 (navigation controller height) + 8 (small span to leave some space)
 private let kLetGoSellingItemTextViewMaxCharacterPassedColor = UIColor(red: 0.682, green: 0.098, blue: 0.098, alpha: 1.0)
-private let kLetGoSellingItemTextViewMaxCharacterNumber = 256
 private let kLetGoSellProductActionSheetTagCurrencyType = 100 // for currency selection
 private let kLetGoSellProductActionSheetTagCategoryType = 101 // for category selection
 private let kLetGoSellProductActionSheetTagImageSourceType = 102 // for image source selection
@@ -57,7 +56,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     // data
     var images: [UIImage] = []
     var imageFiles: [PFFile]? = nil
-    var charactersRemaining = kLetGoSellingItemTextViewMaxCharacterNumber
+    var charactersRemaining = Constants.productDescriptionMaxLength
 
     let sellQueue = dispatch_queue_create("com.letgo.SellProduct", DISPATCH_QUEUE_SERIAL) // we want the images to load sequentially.
     var currentCategory: LetGoProductCategory?
@@ -85,19 +84,19 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         super.viewDidLoad()
 
         // Navigation bar
-        setLetGoNavigationBarStyle(title: translate("sell"))
+        setLetGoNavigationBarStyle(title: NSLocalizedString("sell_title", comment: ""))
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeButtonPressed"))
         self.navigationItem.leftBarButtonItem = closeButton;
         
         // internationalization
-        productTitleTextField.placeholder = translate("product_title")
+        productTitleTextField.placeholder = NSLocalizedString("sell_title_field_hint", comment: "")
         currencyTypeButton.setTitle(currentCurrency.symbol, forState: .Normal)
-        productPriceTextfield.placeholder = translate("price")
-        descriptionTextView.placeholder = translate("description")
-        chooseCategoryButton.setTitle(translate("choose_a_category"), forState: .Normal)
-        shareInFacebookLabel.text = translate("share_product_facebook")
-        sellItButton.setTitle(translate("sell_it"), forState: .Normal)
-        uploadingImageLabel.text = translate("uploading_product_please_wait")
+        productPriceTextfield.placeholder = NSLocalizedString("sell_price_field_hint", comment: "")
+        descriptionTextView.placeholder = NSLocalizedString("sell_description_field_hint", comment: "")
+        chooseCategoryButton.setTitle(NSLocalizedString("sell_category_selection_label", comment: ""), forState: .Normal)
+        shareInFacebookLabel.text = NSLocalizedString("sell_share_on_facebook_label", comment: "")
+        sellItButton.setTitle(NSLocalizedString("sell_send_button", comment: ""), forState: .Normal)
+        uploadingImageLabel.text = NSLocalizedString("sell_uploading_label", comment: "")
         
         // CollectionView
         let addPictureCellNib = UINib(nibName: "SellAddPictureCell", bundle: nil)
@@ -227,7 +226,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         if iOSVersionAtLeast("8.0") {
             // show alert controller for category selection
-            let alert = UIAlertController(title: translate("choose_a_category"), message: nil, preferredStyle: .ActionSheet)
+            let alert = UIAlertController(title: NSLocalizedString("sell_choose_category_dialog_title", comment: ""),
+                message: nil, preferredStyle: .ActionSheet)
+            
             for category in LetGoProductCategory.allCategories() {
                 alert.addAction(UIAlertAction(title: category.getName(), style: .Default, handler: { (categoryAction) -> Void in
                     self.currentCategory = category
@@ -238,16 +239,18 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                     TrackingHelper.trackEvent(event, parameters: self.trackingParamsForEventType(event))
                 }))
             }
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_choose_category_dialog_cancel_button", comment: ""),
+                style: .Cancel,
+                handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
 
         } else {
-            let actionSheet = UIActionSheet(title: translate("choose_a_category"), delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
+            let actionSheet = UIActionSheet(title: NSLocalizedString("sell_choose_category_dialog_title", comment: ""), delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
             actionSheet.tag = kLetGoSellProductActionSheetTagCategoryType
             for category in LetGoProductCategory.allCategories() {
                 actionSheet.addButtonWithTitle(category.getName())
             }
-            actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(translate("cancel"))
+            actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(NSLocalizedString("sell_choose_category_dialog_cancel_button", comment: ""))
             actionSheet.showInView(self.view)
         }
     }
@@ -272,35 +275,35 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         // 1. do we have at least one image?
         if images.count < 1 {
-            alertMsg = translate("upload_at_least_one_image");
+            alertMsg = NSLocalizedString("sell_send_error_invalid_image_count", comment: "")
             validationFailureReason = "no images present"
         }
         // 2. do we have a product title?
         else if productTitleTextField == nil || count(productTitleTextField.text) < 1 {
-            alertMsg = translate("insert_valid_title")
+            alertMsg = NSLocalizedString("sell_send_error_invalid_title", comment: "")
             validationFailureReason = "no title"
         }
         // 3. do we have a price?
         else if productPrice == nil {
-            alertMsg = translate("insert_valid_price")
+            alertMsg = NSLocalizedString("sell_send_error_invalid_price", comment: "")
             validationFailureReason = "invalid price"
         }
         // 4. do we have a valid description?
         else if descriptionTextView == nil || count(descriptionTextView.text) < 1 {
-            alertMsg = translate("insert_valid_description")
+            alertMsg = NSLocalizedString("sell_send_error_invalid_description", comment: "")
             validationFailureReason = "no description"
         }
         else if self.charactersRemaining < 0 {
-            alertMsg = translate("max_256_chars_description")
-            validationFailureReason = "description longer than 256 characters"
+            alertMsg = String(format: NSLocalizedString("sell_send_error_invalid_description_too_long", comment: ""), Constants.productDescriptionMaxLength)
+            validationFailureReason = "description too long"
         }
         // 5. do we have a category?
         else if currentCategory == nil {
-            alertMsg = translate("insert_valid_category")
+            alertMsg = NSLocalizedString("sell_send_error_invalid_category", comment: "")
             validationFailureReason = "no category selected" }
         // 6. do we have a valid location?
         else if lastKnownLocation == nil {
-            alertMsg = translate("unable_sell_product_location")
+            alertMsg = NSLocalizedString("sell_send_error_invalid_location", comment: "")
             validationFailureReason = "unable find location"
         }
 
@@ -348,7 +351,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             self.generateParseImageFiles()
             if self.imageFiles == nil || self.imageFiles?.count == 0 { // If we were unable to get at least one valid picture of the item as PFFile...
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.showAutoFadingOutMessageAlert(translate("error_uploading_product") + translate("unable_upload_photo"), completionBlock: nil)
+                    self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_picture", comment: ""), completionBlock: nil)
                     self.disableLoadingInterface()
                     UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
                     self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
@@ -370,7 +373,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                 } else { // try to save the image eventually later.
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         // show an error and stop the uploading process completely.
-                        self.showAutoFadingOutMessageAlert(translate("error_uploading_product") + translate("unable_upload_photo"), completionBlock: nil)
+                        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_picture", comment: ""), completionBlock: nil)
                         self.disableLoadingInterface()
                         self.imageFiles = nil
                         UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
@@ -434,14 +437,14 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
                             // check facebook sharing
                             if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId!) }
                             else {
-                                self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), time: 3.5, completionBlock: { () -> Void in
+                                self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
                                     self.dismissViewControllerAnimated(true, completion: { [weak self] in
                                         self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
                                     })
                                 })
                             }
                         } else {
-                            self.showAutoFadingOutMessageAlert(translate("error_uploading_product"))
+                            self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_product", comment: ""))
                         }
                     })
                     
@@ -489,7 +492,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if FBSDKAccessToken.currentAccessToken() != nil { // we have a valid token session.
             shareCurrentProductInFacebook(objectId)
         } else {
-            showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
+            showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""), completionBlock: { () -> Void in
                 self.dismissViewControllerAnimated(true, completion: nil)
             })
         }
@@ -498,7 +501,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func shareCurrentProductInFacebook(objectId: String) {
         // build the sharing content.
         let fbSharingContent = FBSDKShareLinkContent()
-        fbSharingContent.contentTitle = translate("product_share_intro")
+        fbSharingContent.contentTitle = NSLocalizedString("sell_share_fb_content", comment: "")
         fbSharingContent.contentURL = NSURL(string: letgoWebLinkForObjectId(objectId))
         fbSharingContent.contentDescription = productTitleTextField.text
         if imageFiles?.count > 0 { fbSharingContent.imageURL = NSURL(string: imageFiles!.first!.url!) }
@@ -508,7 +511,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        self.showAutoFadingOutMessageAlert(translate("successfully_uploaded_product"), time: 3.5, completionBlock: { () -> Void in
+        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
             self.dismissViewControllerAnimated(true, completion: { [weak self] in
                 self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
             })
@@ -520,13 +523,13 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        self.showAutoFadingOutMessageAlert(translate("error_sharing_facebook"), completionBlock: { () -> Void in
+        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""), completionBlock: { () -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
         })
     }
     
     func sharerDidCancel(sharer: FBSDKSharing!) {
-        self.showAutoFadingOutMessageAlert(translate("canceled_by_user"), completionBlock: { () -> Void in
+        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook_cancelled", comment: ""), completionBlock: { () -> Void in
             self.dismissViewControllerAnimated(true, completion: nil)
         })
     }
@@ -535,22 +538,22 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     
     func showImageSourceSelection() {
         if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: translate("choose_image_source"), message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: translate("camera"), style: .Default, handler: { (alertAction) -> Void in
+            let alert = UIAlertController(title: NSLocalizedString("sell_picture_image_source_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_image_source_camera_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
                 self.openImagePickerWithSource(.Camera)
             }))
-            alert.addAction(UIAlertAction(title: translate("photo_library"), style: .Default, handler: { (alertAction) -> Void in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_image_source_camera_roll_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
                 self.openImagePickerWithSource(.PhotoLibrary)
             }))
-            alert.addAction(UIAlertAction(title: translate("cancel"), style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_image_source_cancel_button", comment: ""), style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         } else {
             let actionSheet = UIActionSheet()
             actionSheet.delegate = self
-            actionSheet.title = translate("choose_image_source")
+            actionSheet.title = NSLocalizedString("sell_picture_image_source_title", comment: "")
             actionSheet.tag = kLetGoSellProductActionSheetTagImageSourceType
-            actionSheet.addButtonWithTitle(translate("camera"))
-            actionSheet.addButtonWithTitle(translate("photo_library"))
+            actionSheet.addButtonWithTitle(NSLocalizedString("sell_picture_image_source_camera_button", comment: ""))
+            actionSheet.addButtonWithTitle(NSLocalizedString("sell_picture_image_source_camera_roll_button", comment: ""))
             actionSheet.showInView(self.view)
         }
     }
@@ -576,8 +579,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         if image != nil {
             self.images.append(image!)
             self.collectionView.reloadSections(NSIndexSet(index: 0))
-        } else { // this shouldn't happen, but just in case have a beautiful message ready for the user...
-            self.showAutoFadingOutMessageAlert(translate("unable_upload_photo"))
         }
     }
     
@@ -658,7 +659,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     // MARK: - TextView character count.
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        self.charactersRemaining = kLetGoSellingItemTextViewMaxCharacterNumber - (count(textView.text) - range.length + count(text))
+        self.charactersRemaining = Constants.productDescriptionMaxLength - (count(textView.text) - range.length + count(text))
         self.characterCounterLabel.text = "\(self.charactersRemaining)"
         if self.charactersRemaining < 0 {
             self.characterCounterLabel.textColor = kLetGoSellingItemTextViewMaxCharacterPassedColor
@@ -697,23 +698,23 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row < images.count { // choose action for currently uploaded image (save to disk? delete?...)
             if iOSVersionAtLeast("8.0") {
-                let alert = UIAlertController(title: translate("choose_action"), message: nil, preferredStyle: .ActionSheet)
-                alert.addAction(UIAlertAction(title: translate("delete"), style: .Destructive, handler: { (deleteAction) -> Void in
+                let alert = UIAlertController(title: NSLocalizedString("sell_picture_selected_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_selected_delete_button", comment: ""), style: .Destructive, handler: { (deleteAction) -> Void in
                     self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
                 }))
-                alert.addAction(UIAlertAction(title: translate("save_to_disk"), style: .Default, handler: { (saveAction) -> Void in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_selected_save_into_camera_roll_button", comment: ""), style: .Default, handler: { (saveAction) -> Void in
                     self.saveProductImageToDiskAtIndex(indexPath.row)
                 }))
-                alert.addAction(UIAlertAction(title: "cancel", style: .Cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_selected_cancel_button", comment: ""), style: .Cancel, handler: nil))
                 
                 self.presentViewController(alert, animated: true, completion: nil)
             } else {
                 let actionSheet = UIActionSheet()
                 actionSheet.delegate = self
-                actionSheet.title = translate("choose_action")
+                actionSheet.title = NSLocalizedString("sell_picture_selected_title", comment: "")
                 actionSheet.tag = kLetGoSellProductActionSheetTagActionType
-                actionSheet.addButtonWithTitle(translate("delete"))
-                actionSheet.addButtonWithTitle(translate("save_to_disk"))
+                actionSheet.addButtonWithTitle(NSLocalizedString("sell_picture_selected_delete_button", comment: ""))
+                actionSheet.addButtonWithTitle(NSLocalizedString("sell_picture_selected_save_into_camera_roll_button", comment: ""))
                 self.imageSelectedIndex = indexPath.row
                 actionSheet.showInView(self.view)
             }
@@ -734,7 +735,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
     
     func saveProductImageToDiskAtIndex(index: Int) {
-        showLoadingMessageAlert(customMessage: translate("saving_to_disk"))
+        showLoadingMessageAlert(customMessage: NSLocalizedString("sell_picture_save_into_camera_roll_loading", comment: ""))
         
         // get the image and launch the saving action.
         UIImageWriteToSavedPhotosAlbum(images[index], self, "image:didFinishSavingWithError:contextInfo:", nil)
@@ -743,9 +744,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func image(image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
         self.dismissLoadingMessageAlert(completion: { () -> Void in
             if error == nil { // success
-                self.showAutoFadingOutMessageAlert(translate("successfully_saved_to_disk"));
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_picture_save_into_camera_roll_ok", comment: ""));
             } else {
-                self.showAutoFadingOutMessageAlert(translate("error_saving_to_disk"));
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_picture_save_into_camera_roll_error_generic", comment: ""));
             }
         })
     }

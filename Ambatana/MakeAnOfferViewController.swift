@@ -24,7 +24,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         super.viewDidLoad()
 
         // appearance
-        setLetGoNavigationBarStyle(title: translate("make_an_offer"))
+        setLetGoNavigationBarStyle(title: NSLocalizedString("make_an_offer_title", comment: ""))
         // > set the product currency
         if let actualProduct = product {
             let currencyCode = actualProduct.currencyCode ?? Constants.defaultCurrencyCode
@@ -35,8 +35,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         self.activityIndicator.hidden = true
         
         // internationalization
-        priceTextField.placeholder = translate("price")
-        makeAnOfferButton.setTitle(translate("send"), forState: .Normal)
+        priceTextField.placeholder = NSLocalizedString("make_an_offer_price_field_hint", comment: "")
+        makeAnOfferButton.setTitle(NSLocalizedString("make_an_offer_send_button", comment: ""), forState: .Normal)
         
         // setup
         priceTextField.text = product?.price?.stringValue ?? ""
@@ -70,7 +70,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             
             // safety checks
             let productPrice = priceTextField?.text.toInt()
-            if productPrice == nil { showAutoFadingOutMessageAlert(translate("insert_valid_price") , time: 3.5); return }
+            if productPrice == nil { showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_invalid_price", comment: "") , time: 3.5); return }
             var offerText = self.generateOfferText(productPrice!)
             
             // enable loading interface
@@ -92,7 +92,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                 }
                                 else {
                                     strongSelf.disableLoadingInterface()
-                                    strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer"))
+                                    strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
                                 }
                             }
                         })
@@ -110,13 +110,13 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                             TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
                                         }
                                         else {
-                                            strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(translate("error_making_offer"))
+                                            strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
                                         }
                                     })
                                 }
                                 else {
                                     strongSelf.disableLoadingInterface()
-                                    strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                                    strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
                                 }
                             }
                         })
@@ -129,7 +129,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     func generateOfferText(price: Int) -> String {
         let currencyCode = product?.currencyCode ?? Constants.defaultCurrencyCode
         let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
-        return translate("new_offer_of") + formattedAmount
+        return String(format: NSLocalizedString("make_an_offer_new_offer_message", comment: ""), formattedAmount)
     }
     
     func launchChatWithConversation(conversation: PFObject) {
@@ -147,7 +147,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                         strongSelf.navigationController!.viewControllers = controllers
                     }
                     else {
-                        strongSelf.showAutoFadingOutMessageAlert(translate("unable_start_conversation"))
+                        strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
                     }
                 }
             })

@@ -54,15 +54,15 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
 
         // appearance
-        setLetGoNavigationBarStyle(title: translate("conversations"))
+        setLetGoNavigationBarStyle(title: NSLocalizedString("chat_list_title", comment: ""))
         
         // internationalization
-        noConversationsYet.text = translate("no_conversations_yet")
-        startSellingOrBuyingLabel.text = translate("start_selling_or_buying")
+        noConversationsYet.text = NSLocalizedString("chat_list_empty_label", comment: "")
+        startSellingOrBuyingLabel.text = NSLocalizedString("chat_list_start_selling_or_buying_label", comment: "")
        
         // add a pull to refresh control
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: translate("pull_to_refresh"))
+//        self.refreshControl.attributedTitle = NSAttributedString(string: NSLocalizedString("common_pull_to_refresh", comment: ""))
         self.refreshControl.addTarget(self, action: "refreshConversations", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
                 

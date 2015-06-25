@@ -22,20 +22,20 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
         // UI/UX & Appearance
         passwordTextfield.delegate = self
         confirmPasswordTextfield.delegate = self
-        setLetGoNavigationBarStyle(title: translate("change_password"))
+        setLetGoNavigationBarStyle(title: NSLocalizedString("change_password_title", comment: ""))
         setLetGoRightButtonsWithImageNames(["actionbar_save"], andSelectors: ["changePassword"])
         
         // internationalization
-        passwordTextfield.placeholder = translate("change_password_new_password_hint")
-        confirmPasswordTextfield.placeholder = translate("confirm_password")
+        passwordTextfield.placeholder = NSLocalizedString("change_password_new_password_field_hint", comment: "")
+        confirmPasswordTextfield.placeholder = NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
     }
    
     func changePassword() {
         // safety checks
-        if count(passwordTextfield.text) < kLetGoMinPasswordLength || count(confirmPasswordTextfield.text) < kLetGoMinPasswordLength { // min length not fulfilled
-            showAutoFadingOutMessageAlert(translate("insert_valid_password"))
+        if count(passwordTextfield.text) < Constants.passwordMinLength || count(confirmPasswordTextfield.text) < Constants.passwordMinLength { // min length not fulfilled
+            showAutoFadingOutMessageAlert(String(format: NSLocalizedString("change_password_send_error_invalid_password", comment: ""), Constants.passwordMinLength))
         } else if passwordTextfield.text != confirmPasswordTextfield.text { // passwords do not match.
-            showAutoFadingOutMessageAlert(translate("passwords_dont_match"))
+            showAutoFadingOutMessageAlert(NSLocalizedString("change_password_send_error_passwords_mismatch", comment: ""))
         } else {
             // dismiss keyboard
             self.view.resignFirstResponder()
@@ -52,7 +52,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
                             strongSelf.passwordTextfield.text = ""
                             strongSelf.confirmPasswordTextfield.text = ""
                             // show alert message and pop back to settings after finished.
-                            strongSelf.showAutoFadingOutMessageAlert(translate("password_successfully_changed"), completionBlock: { (_) -> Void in
+                            strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("change_password_send_ok", comment: ""), completionBlock: { (_) -> Void in
                                 strongSelf.popBackViewController()
                             })
                         })
@@ -60,7 +60,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
                     // Error
                     else {
                         strongSelf.dismissLoadingMessageAlert(completion: { () -> Void in
-                            strongSelf.showAutoFadingOutMessageAlert(translate("error_changing_password"))
+                            strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("change_password_send_error_generic", comment: ""))
                         })
                     }
                 }

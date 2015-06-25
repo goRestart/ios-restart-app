@@ -21,7 +21,7 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
     var pageControlBeingUsed = false
     var imageURLs: [NSURL] = []
     var initialImageToShow = 0
-    var productName = "photos"
+    var productName = NSLocalizedString("product_gallery_title", comment: "")
     
     override func viewDidLoad() {
         super.viewDidLoad()

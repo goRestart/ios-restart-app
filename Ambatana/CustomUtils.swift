@@ -42,24 +42,7 @@ func letgoWebLinkForObjectId(objectId: String) -> String {
  * Text for the message body when sharing a product in LetGo.
  */
 func letgoTextForSharingBody(productName: String, userName: String, andObjectId objectId: String) -> String {
-    return translate("product_share_intro") + "\n" + userName + " - " + productName + ":\n" + letgoWebLinkForObjectId(objectId)
-}
-
-/**
- * Localizes a text based on a localized string.
- */
-func translate(text: String) -> String {
-    return NSLocalizedString(text, comment: "")
-}
-
-/**
- * Localizes a text with a given format, following the println argument type specifications.
- * Example: translateWithFormat("x_seconds_ago", numSeconds)
- * If "x_seconds_ago" is defined in spanish as "hace %d segundos" and as "%d seconds ago" in english, the result would be
- * "hace numSeconds segundos" in spanish and "numSeconds seconds ago" in english.
- */
-func translateWithFormat(text: String, parameters: [CVarArgType]) -> String {
-    return String(format: NSLocalizedString(text, comment: ""), arguments: parameters)
+    return NSLocalizedString("product_share_body", comment: "") + "\n" + userName + " - " + productName + ":\n" + letgoWebLinkForObjectId(objectId)
 }
 
 /**
