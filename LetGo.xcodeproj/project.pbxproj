@@ -269,6 +269,8 @@
 		D42939FE1B3D9F04004F2DA8 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		D42939FF1B3D9F85004F2DA8 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D4293A001B3D9F85004F2DA8 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D4293A011B3DA148004F2DA8 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		D4293A021B3DA148004F2DA8 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D43FF0241AB0737400757EED /* ProductLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductLocationViewController.swift; sourceTree = "<group>"; };
 		D4443D6A1B1288B700237095 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D45838401AEE6AB100B5F181 /* StyleHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StyleHelper.swift; sourceTree = "<group>"; };
@@ -906,6 +908,7 @@
 				"pt-BR",
 				"pt-PT",
 				el,
+				it,
 			);
 			mainGroup = 6608E02D1A820FBD005895ED;
 			productRefGroup = 6608E0371A820FBD005895ED /* Products */;
@@ -1141,6 +1144,7 @@
 				D42939FB1B3D9EE3004F2DA8 /* pt-BR */,
 				D42939FD1B3D9F04004F2DA8 /* pt-PT */,
 				D42939FF1B3D9F85004F2DA8 /* el */,
+				D4293A011B3DA148004F2DA8 /* it */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1158,6 +1162,7 @@
 				D42939FC1B3D9EE3004F2DA8 /* pt-BR */,
 				D42939FE1B3D9F04004F2DA8 /* pt-PT */,
 				D4293A001B3D9F85004F2DA8 /* el */,
+				D4293A021B3DA148004F2DA8 /* it */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
