@@ -21,7 +21,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setLetGoNavigationBarStyle(title: translate("item_location"))
+        self.setLetGoNavigationBarStyle(title: NSLocalizedString("product_location_title", comment: ""))
         
         if location != nil {
             // set map region

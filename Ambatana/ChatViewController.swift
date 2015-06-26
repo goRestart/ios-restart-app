@@ -94,8 +94,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.registerNib(othersMessageCellNib, forCellReuseIdentifier: ChatViewController.othersMessageCellIdentifier)
         
         // internationalization
-        sendButton.setTitle(translate("send"), forState: .Normal)
-        messageTextfield.placeholder = translate("type_your_message_here")
+        sendButton.setTitle(NSLocalizedString("chat_send_button", comment: ""), forState: .Normal)
+        messageTextfield.placeholder = NSLocalizedString("chat_message_field_hint", comment: "")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -131,13 +131,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 product = actualProduct
                 loadInformationFromProductObject(actualProduct)
             } else { // We don't have information about the product itself... This shouldn't happen.
-                self.showAutoFadingOutMessageAlert(translate("unable_show_conversation"), completionBlock: { () -> Void in
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""), completionBlock: { () -> Void in
                     self.popBackViewController()
                 })
             }
             
         } else { // no conversation object? notify the error and get back.
-            self.showAutoFadingOutMessageAlert(translate("unable_show_conversation"), completionBlock: { () -> Void in
+            self.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""), completionBlock: { () -> Void in
                 self.popBackViewController()
             })
         }
@@ -204,13 +204,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // product owner
         if let user = product.user, let myUser = MyUserManager.sharedInstance.myUser() {
-            
-            if user.objectId == myUser.objectId {
-                translate("by") + " " + translate("you")
-            }
-            else {
-                usernameLabel.text = translate("by") + " " + (user.publicUsername ?? translate("user"))
-            }
+            usernameLabel.text = user.publicUsername ?? ""
         }
         else {
             self.usernameLabel.text = ""
@@ -237,7 +231,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // safety checks
         if isSendingMessage { return }
         if count(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 { return }
-        if self.otherUser == nil || self.letgoConversation?.conversationObject == nil || self.product == nil { showAutoFadingOutMessageAlert(translate("unable_send_message")); return }
+        if self.otherUser == nil || self.letgoConversation?.conversationObject == nil || self.product == nil { showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
+            return
+        }
         
         // enable loading interface.
         self.isSendingMessage = true
@@ -261,7 +257,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
                 }
                 else {
-                    strongSelf.showAutoFadingOutMessageAlert(translate("unable_send_message"))
+                    strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
                 }
                 // disable loading interface
                 strongSelf.isSendingMessage = false

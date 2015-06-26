@@ -13,8 +13,6 @@ import Parse
 import Result
 
 public enum LoginSource: String {
-//    case EditProfile = "edit-profile"     // not used in iOS
-//    case Contact = "contact"
     case Chats = "messages"
     case Sell = "posting"
     case Profile = "view-profile"

@@ -1,0 +1,2 @@
+// Message shown when the application asks you to access your location while you use the app. Check attached image "info_plist (location while in use).png"
+"NSLocationWhenInUseUsageDescription" = "letgo necesita acceder a tu ubicación para mostrar los productos cerca de ti";

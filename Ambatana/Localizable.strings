@@ -1,0 +1,342 @@
+// Categories baby and child
+"categories_baby_and_child" = "Baby and Child";
+// Categories cars and motors
+"categories_cars_and_motors" = "Cars and Motors";
+// Categories electronics
+"categories_electronics" = "Electronics";
+// Categories fashion and accesories
+"categories_fashion_and_accesories" = "Fashion and Accesories";
+// Categories home and garden
+"categories_home_and_garden" = "Home and Garden";
+// Categories movies books and music
+"categories_movies_books_and_music" = "Movies, Books and Music";
+// Categories other
+"categories_other" = "Other";
+// Categories sports leisure and games
+"categories_sports_leisure_and_games" = "Sports, Leisure and Games";
+// Categories title
+"categories_title" = "Categories";
+// Change password confirm password field hint
+"change_password_confirm_password_field_hint" = "Confirm password";
+// Change password new password field hint
+"change_password_new_password_field_hint" = "New password";
+// Change password send error generic
+"change_password_send_error_generic" = "An error occurred when changing the password. Please, try again later.";
+// Change password send error invalid password
+"change_password_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters.";
+// Change password send error passwords mismatch
+"change_password_send_error_passwords_mismatch" = "Passwords do not match. Please try again.";
+// Change password send ok
+"change_password_send_ok" = "Password changed successfully.";
+// Change password title
+"change_password_title" = "Change password";
+// Chat list empty label
+"chat_list_empty_label" = "No conversations yet";
+// Chat list start selling or buying label
+"chat_list_start_selling_or_buying_label" = "Start selling or buying!";
+// Chat list title
+"chat_list_title" = "Chats";
+// Chat message field hint
+"chat_message_field_hint" = "Type your message here";
+// Chat message load generic error
+"chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
+// Chat send button
+"chat_send_button" = "Send";
+// Chat send error generic
+"chat_send_error_generic" = "There was an error sending the message. Please, try again later.";
+// Common cancel
+"common_cancel" = "Cancel";
+// Common error
+"common_error" = "Error";
+// Common error connection failed
+"common_error_connection_failed" = "Operation could not be completed. Please, check your Internet connection.";
+// Common loading
+"common_loading" = "Loading...";
+// Common ok
+"common_ok" = "OK";
+// Common time a minute ago label
+"common_time_a_minute_ago_label" = "a minute ago";
+// Common time day ago label
+"common_time_day_ago_label" = "a day ago";
+// Common time days ago label
+"common_time_days_ago_label" = "%d days ago";
+// Common time hour ago label
+"common_time_hour_ago_label" = "an hour ago";
+// Common time hours ago label
+"common_time_hours_ago_label" = "%d hours ago";
+// Common time minutes ago label
+"common_time_minutes_ago_label" = "%d minutes ago";
+// Common time more than one month ago label
+"common_time_more_than_one_month_ago_label" = "more than one month ago";
+// Common time now label
+"common_time_now_label" = "now";
+// Common time seconds ago label
+"common_time_seconds_ago_label" = "%d seconds ago";
+// Common time week ago label
+"common_time_week_ago_label" = "a week ago";
+// Common time weeks ago label
+"common_time_weeks_ago_label" = "%d weeks ago";
+// Indicate location address field hint
+"indicate_location_address_field_hint" = "Write your address";
+// Indicate location address search error generic
+"indicate_location_address_search_error_generic" = "I was unable to find that location. Please, try again.";
+// Indicate location long press tip label
+"indicate_location_long_press_tip_label" = "Or keep your finger pressed in your location";
+// Indicate location marker label
+"indicate_location_marker_label" = "I am here!";
+// Indicate location save error invalid location
+"indicate_location_save_error_invalid_location" = "Please select a valid location in the map with a long tap";
+// Indicate location title
+"indicate_location_title" = "Set your location";
+// Log in email field hint
+"log_in_email_field_hint" = "Email";
+// Log in error send error generic
+"log_in_error_send_error_generic" = "An error occurred while logging in.";
+// Log in error send error invalid email
+"log_in_error_send_error_invalid_email" = "Please, insert a valid email in the user email textfield";
+// Log in error send error invalid password
+"log_in_error_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters";
+// Log in error send error user not found or wrong password
+"log_in_error_send_error_user_not_found_or_wrong_password" = "Unable to login: unknown user or incorrect credentials";
+// Log in password field hint
+"log_in_password_field_hint" = "Password";
+// Log in reset password button
+"log_in_reset_password_button" = "Forgot?";
+// Log in send button
+"log_in_send_button" = "Log in";
+// Log in title
+"log_in_title" = "Log in";
+// Main sign up already registered label
+"main_sign_up_already_registered_label" = "Already registered?";
+// Main sign up claim label
+"main_sign_up_claim_label" = "Start to sell, buy and chat";
+// Main sign up facebook connect button
+"main_sign_up_facebook_connect_button" = "Connect with Facebook";
+// Main sign up fb connect error email taken
+"main_sign_up_fb_connect_error_email_taken" = "Unable to login, your email address in Facebook is already registered. Please, try to login.";
+// Main sign up fb connect error generic
+"main_sign_up_fb_connect_error_generic" = "Unable to login. Please, try again.";
+// Main sign up log in label
+"main_sign_up_log_in_label" = "Log in";
+// Main sign up or label
+"main_sign_up_or_label" = "OR";
+// Main sign up sign up button
+"main_sign_up_sign_up_button" = "Sign up with your email";
+// Make an offer new offer message
+"make_an_offer_new_offer_message" = "New offer of %@";
+// Make an offer price field hint
+"make_an_offer_price_field_hint" = "Price";
+// Make an offer send button
+"make_an_offer_send_button" = "Send";
+// Make an offer send error generic
+"make_an_offer_send_error_generic" = "An error happened while making an offer for the product. Please, try again later.";
+// Make an offer send error invalid price
+"make_an_offer_send_error_invalid_price" = "Please, insert a valid price for the product. It has to be just a number.";
+// Make an offer title
+"make_an_offer_title" = "Make an Offer";
+// Product ask a question button
+"product_ask_a_question_button" = "Ask a Question";
+// Product chat error generic
+"product_chat_error_generic" = "An error occurred when starting the chat. Please try again later.";
+// Product distance from you
+"product_distance_from_you" = "from you";
+// Product gallery title
+"product_gallery_title" = "Photos";
+// Product list first page error generic button
+"product_list_first_page_error_generic_button" = "Try again";
+// Product list first page error generic label
+"product_list_first_page_error_generic_label" = "Hey there! You don't have connection! Come on, connect yourself!";
+// Product list item new status label
+"product_list_item_new_status_label" = "NEW";
+// Product list item sold status label
+"product_list_item_sold_status_label" = "SOLD";
+// Product list location disabled button
+"product_list_location_disabled_button" = "Settings";
+// Product list location disabled label
+"product_list_location_disabled_label" = "Oops! Your location is turned off. To turn it on, go to:\n Settings > Privacy > Location Services.";
+// Product list location unauthorized button
+"product_list_location_unauthorized_button" = "Settings";
+// Product list location unauthorized label
+"product_list_location_unauthorized_label" = "Please, allow us to access your location.";
+// Product list next page error generic button
+"product_list_next_page_error_generic_button" = "Try again";
+// Product list next page error generic label
+"product_list_next_page_error_generic_label" = "Hey there! You don't have connection! Come on, connect yourself!";
+// Product list no products button
+"product_list_no_products_button" = "Reload products";
+// Product list no products label
+"product_list_no_products_label" = "There are no items in your neighborhood. Be the first to start selling";
+// Product list search no products button
+"product_list_search_no_products_button" = "Reload products";
+// Product list search no products label
+"product_list_search_no_products_label" = "No products found";
+// Product location title
+"product_location_title" = "Location";
+// Product make an offer button
+"product_make_an_offer_button" = "Make an Offer";
+// Product mark as sold button
+"product_mark_as_sold_button" = "Mark as Sold";
+// Product mark as sold confirm cancel button
+"product_mark_as_sold_confirm_cancel_button" = "Cancel";
+// Product mark as sold confirm message
+"product_mark_as_sold_confirm_message" = "Congratulations, you got it! Are you sure you want to mark it as sold?";
+// Product mark as sold confirm ok button
+"product_mark_as_sold_confirm_ok_button" = "Mark as Sold";
+// Product mark as sold confirm title
+"product_mark_as_sold_confirm_title" = "Mark as Sold";
+// Product mark as sold error generic
+"product_mark_as_sold_error_generic" = "There was an error while marking the product as sold. Please, try again later.";
+// Product report product button
+"product_report_product_button"= "Report Product";
+// Product reported product label
+"product_reported_product_label" = "The product has been reported";
+// Product reporting product label
+"product_reporting_product_label" = "Reporting Product...";
+// Product share body
+"product_share_body" = "Look what I just found on letgo!";
+// Product share email error
+"product_share_email_error" = "Oops, it seems that you haven't set up an account in the Mail app";
+// Profile favourites my user no products label
+"profile_favourites_my_user_no_products_label" = "You still don't have any published or favorited product";
+// Profile favourites other user no products label
+"profile_favourites_other_user_no_products_label" = "This user still doesn't have any published or favorited product";
+// Profile favourites products tab
+"profile_favourites_products_tab" = "Favorites";
+// Profile no products
+"profile_no_products" = "There are no items in this section";
+// Profile selling products tab
+"profile_selling_products_tab" = "Selling";
+// Profile sold products tab
+"profile_sold_products_tab" = "Sold";
+// Push notification message body
+"push_notification_message_body" = "%@: %@";
+// Push notification message body no username
+"push_notification_message_body_no_username" = "Message: %@";
+// Push notification message title
+"push_notification_message_title" = "New message - %@";
+// Reset password email field hint
+"reset_password_email_field_hint" = "Email";
+// Reset password send button
+"reset_password_send_button" = "Reset password";
+// Reset password send error generic
+"reset_password_send_error_generic" = "An error occurred while trying to remember your password.";
+// Reset password send error invalid email
+"reset_password_send_error_invalid_email" = "Please, insert a valid email in the user email textfield";
+// Reset password send error user not found or wrong password
+"reset_password_send_error_user_not_found_or_wrong_password" = "Email address not found";
+// Reset password send ok
+"reset_password_send_ok" = "Check your inbox and follow the password reset instructions.";
+// Reset password title
+"reset_password_title" = "Reset Password";
+// Sell category selection label
+"sell_category_selection_label" = "Choose a category";
+// Sell choose category dialog cancel button
+"sell_choose_category_dialog_cancel_button" = "Cancel";
+// Sell choose category dialog title
+"sell_choose_category_dialog_title" = "Choose a category";
+// Sell description field hint
+"sell_description_field_hint" = "Description";
+// Sell picture image source camera button
+"sell_picture_image_source_camera_button" = "Camera";
+// Sell picture image source camera roll button
+"sell_picture_image_source_camera_roll_button" = "Photo library";
+// Sell picture image source cancel button
+"sell_picture_image_source_cancel_button" = "Cancel";
+// Sell picture image source title
+"sell_picture_image_source_title" = "Choose image source";
+// Sell picture label
+"sell_picture_label" = "Photo";
+// Sell picture save into camera roll error generic
+"sell_picture_save_into_camera_roll_error_generic" = "An error occurred while saving the image in your photo library. Please, make sure letgo is allowed to access your photos in the Settings App.";
+// Sell picture save into camera roll loading
+"sell_picture_save_into_camera_roll_loading" = "Saving image in photo library...";
+// Sell picture save into camera roll ok
+"sell_picture_save_into_camera_roll_ok" = "Successfully saved image to photo library.";
+// Sell picture selected cancel button
+"sell_picture_selected_cancel_button" = "Cancel";
+// Sell picture selected delete button
+"sell_picture_selected_delete_button" = "Delete";
+// Sell picture selected save into camera roll button
+"sell_picture_selected_save_into_camera_roll_button" = "Save to disk";
+// Sell picture selected title
+"sell_picture_selected_title" = "Choose an action";
+// Sell price field hint
+"sell_price_field_hint" = "Price";
+// Sell send button
+"sell_send_button" = "Sell";
+// Sell send error invalid category
+"sell_send_error_invalid_category" = "Please, choose a category for the product.";
+// Sell send error invalid description
+"sell_send_error_invalid_description" = "Please, insert a valid description for the product.";
+// Sell send error invalid description too long
+"sell_send_error_invalid_description_too_long" = "Max length for the description of the product is %d characters.";
+// Sell send error invalid image count
+"sell_send_error_invalid_image_count" = "At least one photo is required for selling a product.";
+// Sell send error invalid location
+"sell_send_error_invalid_location" = "I was unable to find your current location. For selling the product, I need to be able to find it. Please, try again later.";
+// Sell send error invalid price
+"sell_send_error_invalid_price" = "Please, insert a valid price for the product. It has to be just a number.";
+// Sell send error invalid title
+"sell_send_error_invalid_title" = "Please, insert a valid title for the product.";
+// Sell send error sharing facebook
+"sell_send_error_sharing_facebook" = "An error happened while sharing in Facebook. Please, try again later.";
+// Sell send error sharing facebook cancelled
+"sell_send_error_sharing_facebook_cancelled" = "Cancelled by user";
+// Sell send error uploading picture
+"sell_send_error_uploading_picture" = "An error happened while registering your product. Unable to upload photo. Please, try again.";
+// Sell send error uploading product
+"sell_send_error_uploading_product" = "An error happened while registering your product. ";
+// Sell send ok
+"sell_send_ok" = "Congratulations! Your item was successfully posted. It will appear in our listings shortly.";
+// Sell share fb content
+"sell_share_fb_content" = "Look what I am selling on letgo!";
+// Sell share on facebook label
+"sell_share_on_facebook_label" = "Share my product on Facebook";
+// Sell title
+"sell_title" = "Sell";
+// Sell title field hint
+"sell_title_field_hint" = "Product title";
+// Sell uploading label
+"sell_uploading_label" = "Uploading product. Please wait...";
+// Settings change password button
+"settings_change_password_button" = "Change password";
+// Settings change profile picture button
+"settings_change_profile_picture_button" = "Change photo";
+// Settings change profile picture error generic
+"settings_change_profile_picture_error_generic" = "There was an error setting the profile picture";
+// Settings change profile picture loading
+"settings_change_profile_picture_loading" = "Setting your profile image, please wait...";
+// Settings image source camera button
+"settings_image_source_camera_button" = "Camera";
+// Settings image source camera roll button
+"settings_image_source_camera_roll_button" = "Photo library";
+// Settings image source cancel button
+"settings_image_source_cancel_button" = "Cancel";
+// Settings image source title
+"settings_image_source_title" = "Choose image source";
+// Settings logout button
+"settings_logout_button" = "Logout";
+// Settings title
+"settings_title" = "Settings";
+// Sign up email field hint
+"sign_up_email_field_hint" = "Email";
+// Sign up password field hint
+"sign_up_password_field_hint" = "Password";
+// Sign up send button
+"sign_up_send_button" = "Sign up";
+// Sign up send error email taken
+"sign_up_send_error_email_taken" = "User already exists";
+// Sign up send error generic
+"sign_up_send_error_generic" = "An error occurred while creating the user.";
+// Sign up send error invalid email
+"sign_up_send_error_invalid_email" = "Please, insert a valid email in the user email textfield";
+// Sign up send error invalid password
+"sign_up_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters";
+// Sign up send error invalid username
+"sign_up_send_error_invalid_username" = "Please, insert a valid, non-empty name in the user name textfield";
+// Sign up title
+"sign_up_title" = "Sign up";
+// Sign up username field hint
+"sign_up_username_field_hint" = "Full name";
+// Tab bar tool tip
+"tab_bar_tool_tip" = "Sell your Stuff!";

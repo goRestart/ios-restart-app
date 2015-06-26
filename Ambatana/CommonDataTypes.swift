@@ -9,7 +9,6 @@
 import Foundation
 
 // constants
-let kLetGoMinPasswordLength = 6
 let kLetGoDefaultCategoriesLanguage = "en"
 let kLetGoFullScreenWidth = UIScreen.mainScreen().bounds.size.width
 let kLetGoProductCellSpan: CGFloat = 10.0
@@ -31,46 +30,25 @@ let kLetGoWebsiteURL = "http://letgo.com"
     func getName() -> String {
         switch(self) {
         case .Electronics:
-            return translate("electronics")
+            return NSLocalizedString("categories_electronics", comment: "")
         case .CarsAndMotors:
-            return translate("cars_and_motors")
+            return NSLocalizedString("categories_cars_and_motors", comment: "")
         case .SportsLeisureAndGames:
-            return translate("sports_leisure_and_games")
+            return NSLocalizedString("categories_sports_leisure_and_games", comment: "")
         case .HomeAndGarden:
-            return translate("home_and_garden")
+            return NSLocalizedString("categories_home_and_garden", comment: "")
         case .MoviesBooksAndMusic:
-            return translate("movies_books_and_music")
+            return NSLocalizedString("categories_movies_books_and_music", comment: "")
         case .FashionAndAccesories:
-            return translate("fashion_and_accesories")
+            return NSLocalizedString("categories_fashion_and_accesories", comment: "")
         case .BabyAndChild:
-            return translate("baby_and_child")
+            return NSLocalizedString("categories_baby_and_child", comment: "")
         case .Other:
-            return translate("other")
+            return NSLocalizedString("categories_other", comment: "")
         }
     }
     
     static func allCategories() -> [LetGoProductCategory] { return [.Electronics, .CarsAndMotors, .SportsLeisureAndGames, .HomeAndGarden, .MoviesBooksAndMusic, .FashionAndAccesories, .BabyAndChild, .Other] }
-    
-    func getDirifyName() -> String {
-        switch(self) {
-        case .Electronics:
-            return "electronics"
-        case .CarsAndMotors:
-            return "cars_and_motors"
-        case .SportsLeisureAndGames:
-            return "sports_leisure_and_games"
-        case .HomeAndGarden:
-            return "home_and_garden"
-        case .MoviesBooksAndMusic:
-            return "movies_books_and_music"
-        case .FashionAndAccesories:
-            return "fashion_and_accesories"
-        case .BabyAndChild:
-            return "baby_and_child"
-        case .Other:
-            return "other"
-        }
-    }
     
     func imageForCategory() -> UIImage? {
         switch (self) {

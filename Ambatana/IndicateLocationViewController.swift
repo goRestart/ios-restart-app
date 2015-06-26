@@ -42,7 +42,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         self.searchTextField.delegate = self
         
         // UX/UI
-        self.setLetGoNavigationBarStyle(title: translate("change_your_location"))
+        self.setLetGoNavigationBarStyle(title: NSLocalizedString("indicate_location_title", comment: ""))
         
         searchContentView.layer.shadowColor = UIColor.grayColor().CGColor
         searchContentView.layer.shadowOffset = CGSizeMake(0, 2)
@@ -55,8 +55,8 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         mapView.addGestureRecognizer(longPressureGestureRecognizer)
         
         // localization
-        searchTextField.placeholder = translate("write_your_address")
-        keepFingerPressedLabel.text = translate("keep_finger_pressed")
+        searchTextField.placeholder = NSLocalizedString("indicate_location_address_field_hint", comment: "")
+        keepFingerPressedLabel.text = NSLocalizedString("indicate_location_long_press_tip_label", comment: "")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -101,11 +101,20 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         }
         else {
             if iOSVersionAtLeast("8.0") {
-                let alert = UIAlertController(title: translate("error"), message: translate("select_valid_location"), preferredStyle:.Alert)
-                alert.addAction(UIAlertAction(title: translate("ok"), style:.Default, handler: nil))
+                let alert = UIAlertController(
+                    title: NSLocalizedString("common_error", comment: ""),
+                    message: NSLocalizedString("indicate_location_save_error_invalid_location", comment: ""),
+                    preferredStyle:.Alert)
+                alert.addAction(UIAlertAction(
+                    title: NSLocalizedString("common_ok", comment: ""),
+                    style:.Default, handler: nil))
+                
                 self.presentViewController(alert, animated: true, completion: nil)
             } else {
-                let alert = UIAlertView(title: translate("error"), message: translate("select_valid_location"), delegate: nil, cancelButtonTitle: translate("ok"))
+                let alert = UIAlertView(title: NSLocalizedString("common_error", comment: ""),
+                    message: NSLocalizedString("indicate_location_save_error_invalid_location", comment: ""),
+                    delegate: nil,
+                    cancelButtonTitle: NSLocalizedString("common_ok", comment: ""))
                 alert.show()
             }
         }
@@ -116,7 +125,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
             // calculate location CLLocationCoordinate2D and center map upon it.
             locationInMap = mapView.convertPoint(gestureRecognizer.locationInView(mapView), toCoordinateFromView: mapView)
             mapView.setCenterCoordinate(locationInMap, animated: true)
-            self.mapView.setPinInTheMapAtCoordinate(locationInMap, title: translate("i_am_here"))
+            self.mapView.setPinInTheMapAtCoordinate(locationInMap, title: NSLocalizedString("indicate_location_marker_label", comment: ""))
         }
     }
     
@@ -138,7 +147,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
             if coordinate != nil && CLLocationCoordinate2DIsValid(coordinate!) {
                 self.centerMapInLocation(coordinate!, andIncludePin: true)
             } else {
-                self.showAutoFadingOutMessageAlert(translate("unable_find_location"))
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("indicate_location_address_search_error_generic", comment: ""))
             }
             self.disableLoadingStatus()
         })
@@ -151,7 +160,9 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000)
         self.mapView.setRegion(region, animated: true)
         // add pin
-        if includePin { self.mapView.setPinInTheMapAtCoordinate(coordinate, title: translate("i_am_here")) }
+        if includePin {
+            self.mapView.setPinInTheMapAtCoordinate(coordinate, title: NSLocalizedString("indicate_location_marker_label", comment: ""))
+        }
     }
     
     

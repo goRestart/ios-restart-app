@@ -21,46 +21,44 @@ extension NSDate {
         let days = round(hours/24)
         let weeks = round(days/7)
 
-        //println("Date: \(self) --> seconds: \(seconds), minutes: \(minutes), hours: \(hours), days: \(days)")
-        
         if seconds < 10 {
-            return translate("just_now")
+            return NSLocalizedString("common_time_now_label", comment: "")
         } else if seconds < 60 {
-            return translateWithFormat("x_seconds_ago", [Int(seconds)])
+            return String(format: NSLocalizedString("common_time_seconds_ago_label", comment: ""), Int(seconds))
         }
         
         if minutes < 60 {
             if minutes == 1 {
-                return translate("a_minute_ago")
+                return NSLocalizedString("common_time_a_minute_ago_label", comment: "")
             } else {
-                return translateWithFormat("x_minutes_ago", [Int(minutes)])
+                return String(format: NSLocalizedString("common_time_minutes_ago_label", comment: ""), Int(minutes))
             }
         }
         
         if hours < 24 {
             if hours == 1 {
-                return translate("an_hour_ago")
+                return NSLocalizedString("common_time_hour_ago_label", comment: "")
             } else {
-                return translateWithFormat("x_hours_ago", [Int(hours)])
+                return String(format: NSLocalizedString("common_time_hours_ago_label", comment: ""), Int(hours))
             }
         }
         
         if days < 7 {
             if days == 1 {
-                return translate("a_day_ago")
+                return NSLocalizedString("common_time_day_ago_label", comment: "")
             } else {
-                return translateWithFormat("x_days_ago", [Int(days)])
+                return String(format: NSLocalizedString("common_time_days_ago_label", comment: ""), Int(days))
             }
         }
         
         if weeks <= 4 {
             if weeks == 1 {
-                return translate("a_week_ago")
+                return NSLocalizedString("common_time_week_ago_label", comment: "")
             } else {
-                return translateWithFormat("x_weeks_ago", [Int(weeks)])
+                return String(format: NSLocalizedString("common_time_weeks_ago_label", comment: ""), Int(weeks))
             }
         }
         
-        return translate("more_than_a_month_ago")
+        return NSLocalizedString("common_time_more_than_one_month_ago_label", comment: "")
     }
 }
