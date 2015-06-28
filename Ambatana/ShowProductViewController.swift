@@ -324,7 +324,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                         }, completion: { (success) -> Void in
                             self.markSoldButton.hidden = true
                             self.markSoldButton.alpha = 1.0
-                            self.showAutoFadingOutMessageAlert("", completionBlock: nil)
                     })
                     
                     self.delegate?.letgoProduct(parseProduct.objectId!, statusUpdatedTo: self.productStatus!)
