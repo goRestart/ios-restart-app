@@ -16,6 +16,7 @@ public class RLMCountryCurrencyInfo: Object, CountryCurrencyInfo, Printable {
     dynamic public var countryCodeAlpha3 = ""   // ISO 3166-1 alpha-3
     dynamic public var currencyCode = ""        // ISO 4217
     dynamic public var defaultLocale = ""
+    dynamic public var currencySymbol = ""
     
     public var locale: NSLocale? {
         return NSLocale(localeIdentifier: self.defaultLocale)
@@ -30,6 +31,6 @@ public class RLMCountryCurrencyInfo: Object, CountryCurrencyInfo, Printable {
     // MARK: - Printable
     
     public override var description: String {
-        return "countryCodeAlpha2: \(countryCodeAlpha2); countryCodeAlpha3: \(countryCodeAlpha3); currencyCode: \(currencyCode); defaultLocale: \(defaultLocale);"
+        return "countryCodeAlpha2: \(countryCodeAlpha2); countryCodeAlpha3: \(countryCodeAlpha3); currencyCode: \(currencyCode); defaultLocale: \(defaultLocale); currencySymbol: \(currencySymbol)"
     }
 }

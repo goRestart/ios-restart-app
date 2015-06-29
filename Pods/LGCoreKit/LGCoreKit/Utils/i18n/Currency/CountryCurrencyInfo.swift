@@ -11,4 +11,5 @@ public protocol CountryCurrencyInfo {
     var countryCodeAlpha3: String { get }   // ISO 3166-1 alpha-3
     var currencyCode: String { get }        // ISO 4217
     var locale: NSLocale? { get }
+    var currencySymbol: String { get }
 }

@@ -6,11 +6,15 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class Currency {
+@objc public class Currency: Equatable {
     public let code: String
     public let symbol: String
-    init(code: String, symbol: String) {
+    public init(code: String, symbol: String) {
         self.code = code
         self.symbol = symbol
     }
+}
+
+public func ==(lhs: Currency, rhs: Currency) -> Bool {
+    return lhs.code == rhs.code && lhs.symbol == rhs.symbol
 }
