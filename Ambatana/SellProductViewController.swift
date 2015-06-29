@@ -59,7 +59,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var charactersRemaining = Constants.productDescriptionMaxLength
 
     let sellQueue = dispatch_queue_create("com.letgo.SellProduct", DISPATCH_QUEUE_SERIAL) // we want the images to load sequentially.
-    var currentCategory: LetGoProductCategory?
+    var currentCategory: ProductCategory?
     var currentCurrency = CurrencyHelper.sharedInstance.currentCurrency
     var geocoder = CLGeocoder()
     var currenciesFromBackend: [PFObject]?
@@ -179,7 +179,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         if eventType == .ProductSellEditCategory || eventType == .ProductSellComplete {
             params[.CategoryId] = currentCategory?.rawValue ?? 0
-            params[.CategoryName] = currentCategory?.getName() ?? "none"
+            params[.CategoryName] = currentCategory?.name() ?? "none"
         }
         
         if eventType == .ProductSellComplete {
@@ -195,9 +195,9 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if actionSheet.tag == kLetGoSellProductActionSheetTagCategoryType { // category selection
             if buttonIndex != actionSheet.cancelButtonIndex { // 0 is cancel
-                let category = LetGoProductCategory.allCategories()[buttonIndex]
+                let category = ProductCategory.allValues()[buttonIndex]
                 self.currentCategory = category
-                self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
+                self.chooseCategoryButton.setTitle(category.name(), forState: .Normal)
                 
                 // Tracking
                 let event: TrackingEvent = .ProductSellEditCategory
@@ -229,10 +229,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
             let alert = UIAlertController(title: NSLocalizedString("sell_choose_category_dialog_title", comment: ""),
                 message: nil, preferredStyle: .ActionSheet)
             
-            for category in LetGoProductCategory.allCategories() {
-                alert.addAction(UIAlertAction(title: category.getName(), style: .Default, handler: { (categoryAction) -> Void in
+            for category in ProductCategory.allValues() {
+                alert.addAction(UIAlertAction(title: category.name(), style: .Default, handler: { (categoryAction) -> Void in
                     self.currentCategory = category
-                    self.chooseCategoryButton.setTitle(category.getName(), forState: .Normal)
+                    self.chooseCategoryButton.setTitle(category.name(), forState: .Normal)
                     
                     // Tracking
                     let event: TrackingEvent = .ProductSellEditCategory
@@ -247,8 +247,8 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         } else {
             let actionSheet = UIActionSheet(title: NSLocalizedString("sell_choose_category_dialog_title", comment: ""), delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
             actionSheet.tag = kLetGoSellProductActionSheetTagCategoryType
-            for category in LetGoProductCategory.allCategories() {
-                actionSheet.addButtonWithTitle(category.getName())
+            for category in ProductCategory.allValues() {
+                actionSheet.addButtonWithTitle(category.name())
             }
             actionSheet.cancelButtonIndex = actionSheet.addButtonWithTitle(NSLocalizedString("sell_choose_category_dialog_cancel_button", comment: ""))
             actionSheet.showInView(self.view)

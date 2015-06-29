@@ -25,7 +25,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     var viewModel: ProductsViewModel!
 
     // Data
-    var currentCategory: LetGoProductCategory?
+    var currentCategory: ProductCategory?
     var currentSearchString: String?
     
     // UI
@@ -99,7 +99,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         
         // UI
         // > Navigation bar
-        self.setLetGoNavigationBarStyle(title: currentCategory?.getName() ?? UIImage(named: "navbar_logo"))
+        self.setLetGoNavigationBarStyle(title: currentCategory?.name() ?? UIImage(named: "navbar_logo"))
 
         if currentSearchString == nil {
             setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
@@ -195,9 +195,9 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         
         // Common
         // > current category data
-        if currentCategory != nil {
-            properties[.CategoryId] = currentCategory!.rawValue
-            properties[.CategoryName] = currentCategory!.getName()
+        if let category = currentCategory {
+            properties[.CategoryId] = category.rawValue
+            properties[.CategoryName] = category.name()
         }
         // > current user data
         if let currentUser = MyUserManager.sharedInstance.myUser() {
