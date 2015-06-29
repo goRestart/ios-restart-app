@@ -68,7 +68,7 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     }
     
     // UI
-    var tooltip: UIButton!
+    var tooltip: TabBarToolTip!
     var sellButton: UIButton!
     var chatsTabBarItem: UITabBarItem?
     
@@ -102,12 +102,11 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
         tabBar.addSubview(sellButton)
         
         // Add the tooltip
-        let tooltipImage = UIImage(named: "tabbar_tooltip")!
-        tooltip = UIButton(frame: CGRect(x: 0, y: 0, width: tooltipImage.size.width, height: tooltipImage.size.height))
+        let tooltipFrame =  CGRectZero
+        tooltip = TabBarToolTip(frame: CGRectZero)
         tooltip.addTarget(self, action: Selector("tooltipPressed"), forControlEvents: UIControlEvents.TouchUpInside)
-        tooltip.center = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.75 * tooltip.frame.size.height)
-        tooltip.contentMode = UIViewContentMode.Top
-        tooltip.setImage(tooltipImage, forState: UIControlState.Normal)
+        tooltip.text = NSLocalizedString("tab_bar_tool_tip", comment: "")
+        tooltip.alpha = 0
         view.addSubview(tooltip)
         
         // Initially set the chats tab badge to the app icon badge number
