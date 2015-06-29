@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
+import Result
 import UIKit
 
 private let kLetGoCategoryCellRealImageTag = 1
@@ -22,11 +24,14 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     var searchBar: UISearchBar!
     
     // data
-    var categories: [PFObject]?
+    var categoriesManager: CategoriesManager
+    var categories: [ProductCategory]
     var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     var lastContentOffset: CGFloat = 0.0
     
     init() {
+        categoriesManager = CategoriesManager.sharedInstance
+        categories = []
         super.init(nibName: "CategoriesViewController", bundle: nil)
     }
 
@@ -48,19 +53,19 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         let cellWidth = kLetGoFullScreenWidth * 0.50
         let cellHeight = cellWidth * kLetGoCategoriesCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+        
+        // Data
+        var myResult: CategoriesRetrieveServiceResult = { (result: Result<[ProductCategory], CategoriesRetrieveServiceServiceError>) in
+            if let categories = result.value {
+                self.categories = categories
+                self.collectionView.reloadData()
+            }
+        }
+        categoriesManager.retrieveCategoriesWithResult(myResult)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        let initialLanguage = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
-        // load initial categories. First try to load from the user device's language. If none found, fallback to "en".
-        let allCategoriesQuery = allCategoriesQueryForLanguage(initialLanguage)
-        performCategoriesQuery(allCategoriesQuery, isDefaultLanguage: initialLanguage == kLetGoDefaultCategoriesLanguage)
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -96,56 +101,13 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     // MARK: - Button actions
+    
     @IBAction func sellNewProduct(sender: AnyObject) {
         let vc = SellProductViewController()
         let navCtl = UINavigationController(rootViewController: vc)
         presentViewController(navCtl, animated: true, completion: nil)
     }
 
-    // MARK: - Queries and categories methods
-    
-    /**
-    * Performs a query of the (favorite) categories for the current user. On failure, tries to fallback to the default language (if not on it already).
-    */
-    func performCategoriesQuery(query: PFQuery, isDefaultLanguage defaultLanguage: Bool) {
-        
-        if let actualCategories = categories {
-            if actualCategories.isEmpty {
-                activityIndicator.startAnimating()
-            }
-        }
-        
-        query.findObjectsInBackgroundWithBlock { [weak self] (results, error) -> Void in
-            if let strongSelf = self {
-                
-                strongSelf.activityIndicator.stopAnimating()
-                
-                if error == nil { // check if there are results for that language or we need to fallback to "en".
-                    if results?.count > 0 { // alright, we do have some categories for that language.
-                        strongSelf.categories = results as! [PFObject]? ?? []
-                        strongSelf.collectionView.reloadSections(NSIndexSet(index: 0))
-                    } else { // fallback
-                        strongSelf.fallbackForCategoriesQuery(defaultLanguage: defaultLanguage)
-                    }
-                } else { // error. fallback
-                    strongSelf.fallbackForCategoriesQuery(defaultLanguage: defaultLanguage)
-                }
-            }
-        }
-        
-    }
-    
-    func fallbackForCategoriesQuery(#defaultLanguage: Bool) {
-        if defaultLanguage {
-            self.categories = []
-        } else { // we have another chance. Fallback to default language.
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                let fallbackQuery = allCategoriesQueryForLanguage(kLetGoDefaultCategoriesLanguage)
-                self.performCategoriesQuery(fallbackQuery, isDefaultLanguage: true)
-            }
-        }
-    }
-    
     // MARK: - UICollectionViewDelegate & DataSource methods
     
     func collectionView(collectionView: UICollectionView,
@@ -155,68 +117,31 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories?.count ?? 0
+        return categories.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) as! UICollectionViewCell
         
-        if let categoryObject = categories?[indexPath.row] {
-            // configure cell
-            
-            // category name
-            if let nameLabel = cell.viewWithTag(kLetGoCategoryCellNameTag) as? UILabel {
-                nameLabel.text = categoryObject["name"] as? String ?? ""
-            }
-            
-            // category image
-            if let categoryImage = cell.viewWithTag(kLetGoCategoryCellRealImageTag) as? UIImageView {
-                categoryImage.clipsToBounds = true
-                if let categoryId = categoryObject["category_id"] as? Int {
-                    if let category = LetGoProductCategory(rawValue: categoryId) {
-                        if let localImage = category.imageForCategory() {
-                            categoryImage.image = localImage
-                        }
-                    }
-                }
-            }
+        // configure cell
+        let category = categories[indexPath.row]
+        
+        // name
+        if let nameLabel = cell.viewWithTag(kLetGoCategoryCellNameTag) as? UILabel {
+            nameLabel.text = category.name()
+        }
+        
+        // image
+        if let categoryImage = cell.viewWithTag(kLetGoCategoryCellRealImageTag) as? UIImageView {
+            categoryImage.image = category.image()
         }
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if let categoryObject = categories?[indexPath.row] {
-            if let category = LetGoProductCategory(rawValue: categoryObject["category_id"] as! Int) {
-                let productsVC = ProductsViewController()
-                productsVC.currentCategory = category
-                self.navigationController?.pushViewController(productsVC, animated: true)
-            }
-        }
+        let category = categories[indexPath.row]
+        let productsVC = ProductsViewController()
+        productsVC.currentCategory = category
+        self.navigationController?.pushViewController(productsVC, animated: true)
     }
-    
-    /*
-    // MARK: - ScrollView delegate methods
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        let overflow = scrollView.contentOffset.y + scrollView.frame.size.height - scrollView.contentSize.height
-        
-        // Determine if we need to hide the sell button.
-        let diff = scrollView.contentOffset.y - self.lastContentOffset
-        if diff > kLetGoContentScrollingDownThreshold {
-            UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.7, options: UIViewAnimationOptions.CurveEaseOut, animations: { () -> Void in
-                self.sellButton.transform = CGAffineTransformMakeTranslation(0, 3*self.sellButton.frame.size.height)
-                }, completion: nil)
-        } else if diff < kLetGoContentScrollingUpThreshold {
-            UIView.animateWithDuration(0.50, delay: 0.0, usingSpringWithDamping: 0.4, initialSpringVelocity: 0.6, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-                self.sellButton.transform = CGAffineTransformIdentity
-                }, completion: nil)
-        }
-        self.lastContentOffset = scrollView.contentOffset.y
-    }
-    
-    func scrollViewDidScrollToTop(scrollView: UIScrollView) {
-        UIView.animateWithDuration(0.30, animations: { () -> Void in
-            self.sellButton.transform = CGAffineTransformIdentity
-        })
-    }
-    */
 }

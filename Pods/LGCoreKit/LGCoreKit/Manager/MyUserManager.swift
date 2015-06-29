@@ -316,6 +316,7 @@ public class MyUserManager {
                         }
                         user.email = fbUserInfo.email
                         user.publicUsername = publicUsername
+                        user.processed = NSNumber(bool: false)
                         
                         // 3. Save my user
                         self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in

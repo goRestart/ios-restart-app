@@ -8,20 +8,20 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.2.0)
   - Box (1.2.2)
-  - FBSDKCoreKit (4.2.0):
+  - FBSDKCoreKit (4.3.0):
     - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc (= 4.2.0)
-    - FBSDKCoreKit/no-arc (= 4.2.0)
-  - FBSDKCoreKit/arc (4.2.0):
+    - FBSDKCoreKit/arc (= 4.3.0)
+    - FBSDKCoreKit/no-arc (= 4.3.0)
+  - FBSDKCoreKit/arc (4.3.0):
     - Bolts (~> 1.1)
-  - FBSDKCoreKit/no-arc (4.2.0):
+  - FBSDKCoreKit/no-arc (4.3.0):
     - Bolts (~> 1.1)
     - FBSDKCoreKit/arc
-  - FBSDKLoginKit (4.2.0):
+  - FBSDKLoginKit (4.3.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.2.0):
+  - FBSDKShareKit (4.3.0):
     - FBSDKCoreKit
-  - LGCoreKit (0.5.22):
+  - LGCoreKit (0.6.0):
     - Alamofire (~> 1.2)
     - Bolts (~> 1.1)
     - FBSDKCoreKit (~> 4.1)
@@ -31,13 +31,13 @@ PODS:
     - Result (~> 0.4)
     - SwiftyJSON (~> 2.2)
     - Timepiece (~> 0.2)
-  - Parse (1.7.4):
-    - Bolts/Tasks (>= 1.1.5)
-  - ParseFacebookUtilsV4 (1.7.4):
-    - Bolts/Tasks (>= 1.1.5)
+  - Parse (1.7.5):
+    - Bolts/Tasks (>= 1.2.0)
+  - ParseFacebookUtilsV4 (1.7.5):
+    - Bolts/Tasks (>= 1.2.0)
     - FBSDKCoreKit (~> 4.0)
     - FBSDKLoginKit (~> 4.0)
-    - Parse (~> 1.7.4)
+    - Parse (~> 1.7.5)
   - pop (1.0.7)
   - Realm (0.93.2):
     - Realm/Headers (= 0.93.2)
@@ -66,12 +66,12 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 1108012e40096d339d768cb8a6d79c774f47da2c
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
-  FBSDKCoreKit: 84b3616a361801f190e43a9909caead7bb6087c7
-  FBSDKLoginKit: 57e37106af12c9e264e473dcb75d7decdbb07fe4
-  FBSDKShareKit: 931746fdf8fb95efd6e12310ec14b2b3295e2aec
-  LGCoreKit: d8a804915da71b0a2d59e6d69ae55a162dacddcd
-  Parse: 6ca512c6e860b66739c95151b2f76ac4712b7842
-  ParseFacebookUtilsV4: 481ea7b00f8f62440c314ac7f80eada228bf7488
+  FBSDKCoreKit: a3a60225a84abeace291d0fe71cae29a627382c2
+  FBSDKLoginKit: 6bc2f8f2628c3b6d2e346762fff8cb55cfd3a58d
+  FBSDKShareKit: 15806d69714de39d5dff2c84645f4cde23f5876e
+  LGCoreKit: a489481ccefc5698a0235cc7897bf368dfc55e41
+  Parse: 7c0f115eff3e0cea3fac08d50bda47154edb8832
+  ParseFacebookUtilsV4: 3107725c6f2b69e3a03afe9c3aff35d6ee3e9ba5
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
   RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
