@@ -35,6 +35,11 @@ class StyleHelper {
         return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
     }
     
+    private static func helveticaNeueItalicFont(#size: Int) -> UIFont {
+        return UIFont(name: "HelveticaNeue-Italic", size: CGFloat(size))!
+    }
+    
+    
     private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
     
     // MARK: - Common
@@ -89,6 +94,18 @@ class StyleHelper {
     
     static var tabBarSellIconBgColor: UIColor {
         return red
+    }
+    
+    static var tabBarTooltipBgColor: UIColor {
+        return red
+    }
+    
+    static var tabBarTooltipTextColor: UIColor {
+        return white
+    }
+    
+    static var tabBarTooltipTextFont: UIFont {
+        return helveticaNeueFont(size: 14)
     }
     
     // MARK: - Page Control
