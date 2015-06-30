@@ -11,6 +11,7 @@ struct Constants {
     static let defaultCurrencyCode = "USD"
     
     // Input validation
+    static let fullNameMinLength = 2
     static let passwordMinLength = 4
     static let productDescriptionMaxLength = 256
 }

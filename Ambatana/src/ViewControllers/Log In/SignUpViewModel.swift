@@ -59,7 +59,8 @@ public class SignUpViewModel: BaseViewModel {
         delegate?.viewModelDidStartSigningUp(self)
         
         // Validation
-        if count(username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 {
+        let fullName = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        if count(fullName) < Constants.fullNameMinLength {
             delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidUsername))
         }
         else if !email.isEmail() {
@@ -69,7 +70,7 @@ public class SignUpViewModel: BaseViewModel {
             delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidPassword))
         }
         else {
-            MyUserManager.sharedInstance.signUpWithEmail(email, password: password, publicUsername: username) { [weak self] (result: Result<Nil, UserSignUpServiceError>) -> Void in
+            MyUserManager.sharedInstance.signUpWithEmail(email, password: password, publicUsername: fullName) { [weak self] (result: Result<Nil, UserSignUpServiceError>) -> Void in
                 if let strongSelf = self {
                     
                     // Tracking
