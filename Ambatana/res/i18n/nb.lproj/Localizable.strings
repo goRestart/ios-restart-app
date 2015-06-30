@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "En feil oppstod ved registrering av bruker";
 "sign_up_send_error_invalid_email" = "Vennligst legg til en gyldig epost";
 "sign_up_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters";
-"sign_up_send_error_invalid_username" = "Vennligst legg til et gyldig brukernavn";
+"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
 "sign_up_title" = "Registrering";
 "sign_up_username_field_hint" = "Fullt navn";
 "tab_bar_tool_tip" = "Selg dine ting!";

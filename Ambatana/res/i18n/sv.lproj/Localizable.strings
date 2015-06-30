@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Ett fel uppstod vid skapande av användare.";
 "sign_up_send_error_invalid_email" = "Var god ange en giltig e-postadress";
 "sign_up_send_error_invalid_password" = "Var god ange ett giltigt lösenord på minst %d tecken";
-"sign_up_send_error_invalid_username" = "Var god ange ett giltigt namn";
+"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
 "sign_up_title" = "Registrera dig";
 "sign_up_username_field_hint" = "Fullständigt namn";
 "tab_bar_tool_tip" = "Sälj dina prylar!";

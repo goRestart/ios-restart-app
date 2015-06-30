@@ -500,7 +500,7 @@
 "sign_up_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters";
 
 // Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_username" = "Please, insert a valid, non-empty name in the user name textfield";
+"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
 
 // Sign up title. Check image @ "sign_up_email_field_hint" segment
 "sign_up_title" = "Sign up";

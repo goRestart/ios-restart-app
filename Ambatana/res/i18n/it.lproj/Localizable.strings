@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Si è verificato un errore durante la creazione dell'utente.";
 "sign_up_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo";
 "sign_up_send_error_invalid_password" = "Inserisci una password valida, deve contenere almeno %d caratteri";
-"sign_up_send_error_invalid_username" = "Inserisci un nome utente valido nell'apposito campo";
+"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
 "sign_up_title" = "Registrati";
 "sign_up_username_field_hint" = "Nome e Cognome";
 "tab_bar_tool_tip" = "Sell your Stuff!";
