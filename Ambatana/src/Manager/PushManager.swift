@@ -187,14 +187,14 @@ public class PushManager {
         
         if let myUser = MyUserManager.sharedInstance.myUser() {
             for conversation in conversations {
-                let userFrom = conversation["user_from"] as? PFObject
-                let userTo = conversation["user_to"] as? PFObject
-                
-                if userFrom?.objectId == myUser.objectId {
-                    unreadMessagesCount += conversation["nr_msg_to_read_from"]?.integerValue ?? 0
-                }
-                else if userTo?.objectId == myUser.objectId {
-                    unreadMessagesCount += conversation["nr_msg_to_read_to"]?.integerValue ?? 0
+                if let userFrom = conversation["user_from"] as? User,
+                   let userTo = conversation["user_to"] as? User {
+                    if userFrom.objectId == myUser.objectId {
+                        unreadMessagesCount += conversation["nr_msg_to_read_from"]?.integerValue ?? 0
+                    }
+                    else if userTo.objectId == myUser.objectId {
+                        unreadMessagesCount += conversation["nr_msg_to_read_to"]?.integerValue ?? 0
+                    }
                 }
             }
         }
