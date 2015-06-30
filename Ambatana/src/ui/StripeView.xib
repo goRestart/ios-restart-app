@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="StripeView" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aUs-KL-Jr2" userLabel="Top Fold Image View">
+                    <rect key="frame" x="0.0" y="0.0" width="70" height="2"/>
+                    <color key="backgroundColor" red="0.98431372549999996" green="0.14117647059999999" blue="0.2666666667" alpha="1" colorSpace="calibratedRGB"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JzN-5J-prd" userLabel="Right Fold Image View">
+                    <rect key="frame" x="68" y="2" width="2" height="68"/>
+                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="topRight" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="INC-Ez-TB0" userLabel="Stripe Image View">
+                    <rect key="frame" x="2" y="2" width="66" height="66"/>
+                    <color key="backgroundColor" red="0.94117647059999998" green="0.0" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="_SOLD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hsh-PN-Hfs" userLabel="Label">
+                    <rect key="frame" x="0.0" y="25" width="68" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="0.14266243255395683" alpha="1" colorSpace="calibratedRGB"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="label" destination="Hsh-PN-Hfs" id="39j-I8-der"/>
+                <outlet property="rightFoldImageView" destination="JzN-5J-prd" id="vwx-wf-33E"/>
+                <outlet property="stripeImageView" destination="INC-Ez-TB0" id="psH-ub-X0u"/>
+                <outlet property="topFoldImageView" destination="aUs-KL-Jr2" id="yQ6-cm-4Aj"/>
+            </connections>
+            <point key="canvasLocation" x="696" y="641"/>
+        </view>
+    </objects>
+</document>

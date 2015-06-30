@@ -18,6 +18,8 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var stripeView: StripeView!
+    
     @IBOutlet weak var statusImageView: UIImageView!
     
     // MARK: - Lifecycle

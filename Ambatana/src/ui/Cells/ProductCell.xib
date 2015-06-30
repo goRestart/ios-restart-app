@@ -39,7 +39,15 @@
                         <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="label_new" translatesAutoresizingMaskIntoConstraints="NO" id="YS2-LS-u1b" userLabel="Status Image View">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IX0-6O-U82" customClass="StripeView" customModule="LetGo" customModuleProvider="target">
+                        <rect key="frame" x="80" y="10" width="70" height="70"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="N3P-S5-vJp"/>
+                            <constraint firstAttribute="height" constant="70" id="aU3-Or-8tT"/>
+                        </constraints>
+                    </view>
+                    <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="label_new" translatesAutoresizingMaskIntoConstraints="NO" id="YS2-LS-u1b" userLabel="Status Image View">
                         <rect key="frame" x="99" y="11" width="50" height="50"/>
                     </imageView>
                 </subviews>
@@ -54,6 +62,7 @@
                     <constraint firstItem="ucl-Xb-lH0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="MBA-r6-K4C"/>
                     <constraint firstAttribute="trailing" secondItem="WU3-Nn-oJh" secondAttribute="trailing" constant="12" id="MDq-gm-65I"/>
                     <constraint firstItem="Q3S-98-0Z1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="MIy-4h-hXI"/>
+                    <constraint firstItem="IX0-6O-U82" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="top" constant="-2" id="PNY-26-W2y"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="trailing" secondItem="YS2-LS-u1b" secondAttribute="trailing" constant="-1" id="Z2k-V8-822"/>
                     <constraint firstItem="jgH-1b-N7M" firstAttribute="leading" secondItem="afm-Cf-H6I" secondAttribute="leading" id="atM-D6-MXi"/>
                     <constraint firstItem="ucl-Xb-lH0" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" constant="6" id="dky-rq-fd1"/>
@@ -63,6 +72,7 @@
                     <constraint firstAttribute="bottom" secondItem="Q3S-98-0Z1" secondAttribute="bottom" constant="8" id="msX-QH-MAR"/>
                     <constraint firstItem="WU3-Nn-oJh" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="bottom" constant="2" id="nhh-qS-Nqi"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="sCB-Us-wZq"/>
+                    <constraint firstItem="IX0-6O-U82" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" constant="2" id="xHX-uD-Y2R"/>
                     <constraint firstAttribute="bottom" secondItem="WU3-Nn-oJh" secondAttribute="bottom" constant="8" id="ylS-t4-sSg"/>
                 </constraints>
                 <variation key="default">
@@ -76,6 +86,7 @@
                 <outlet property="nameLabel" destination="ucl-Xb-lH0" id="qRB-zq-qvM"/>
                 <outlet property="priceLabel" destination="Q3S-98-0Z1" id="gsi-wX-8gC"/>
                 <outlet property="statusImageView" destination="YS2-LS-u1b" id="KxS-wa-Txg"/>
+                <outlet property="stripeView" destination="IX0-6O-U82" id="rbX-HR-e05"/>
                 <outlet property="thumbnailBgColorView" destination="jgH-1b-N7M" id="wiE-DN-Ksd"/>
                 <outlet property="thumbnailImageView" destination="afm-Cf-H6I" id="GKb-WF-YGs"/>
             </connections>

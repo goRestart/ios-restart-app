@@ -41,6 +41,8 @@
 		508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */; };
 		508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CEC1B4281F1007BD301 /* ProductCell.swift */; };
 		508E4CEF1B4281F2007BD301 /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508E4CED1B4281F1007BD301 /* ProductCell.xib */; };
+		508E4CF11B428CF9007BD301 /* StripeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CF01B428CF9007BD301 /* StripeView.swift */; };
+		508E4CF31B428D09007BD301 /* StripeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508E4CF21B428D09007BD301 /* StripeView.xib */; };
 		509273361B172D5B00A346F9 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509273351B172D5B00A346F9 /* PushManager.swift */; };
 		50DBEC381B3D79C8006CBDE0 /* TabBarToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEC371B3D79C8006CBDE0 /* TabBarToolTip.swift */; };
 		50DFABE21B04E5A700A3F049 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */; };
@@ -183,6 +185,8 @@
 		508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductCategory+LG.swift"; sourceTree = "<group>"; };
 		508E4CEC1B4281F1007BD301 /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		508E4CED1B4281F1007BD301 /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
+		508E4CF01B428CF9007BD301 /* StripeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StripeView.swift; sourceTree = "<group>"; };
+		508E4CF21B428D09007BD301 /* StripeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StripeView.xib; sourceTree = "<group>"; };
 		509273351B172D5B00A346F9 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
 		50DBEC371B3D79C8006CBDE0 /* TabBarToolTip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarToolTip.swift; sourceTree = "<group>"; };
 		50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesViewController.xib; sourceTree = "<group>"; };
@@ -800,6 +804,8 @@
 			isa = PBXGroup;
 			children = (
 				50DBEC371B3D79C8006CBDE0 /* TabBarToolTip.swift */,
+				508E4CF01B428CF9007BD301 /* StripeView.swift */,
+				508E4CF21B428D09007BD301 /* StripeView.xib */,
 				508E4CEB1B4281F1007BD301 /* Cells */,
 				D458383D1AEE6A9100B5F181 /* helper */,
 				505B06A41B15A9910049F9CD /* Widgets */,
@@ -969,6 +975,7 @@
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				500391B81B04EFE60081C141 /* CategoryCell.xib in Resources */,
+				508E4CF31B428D09007BD301 /* StripeView.xib in Resources */,
 				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
 				6640F0491AE142D800004556 /* DoubleClick in Resources */,
 				50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */,
@@ -1136,6 +1143,7 @@
 				D4912A811B08DDA400DACD5A /* UIView+Appereance.m in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
+				508E4CF11B428CF9007BD301 /* StripeView.swift in Sources */,
 				50560BA31B25DAD50021D8D9 /* LogInViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
 				50F0BAB01B2893B100E50A68 /* SignUpViewModel.swift in Sources */,
