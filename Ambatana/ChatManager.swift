@@ -34,52 +34,47 @@ public struct LetGoConversation {
     let amISellingTheProduct: Bool  // Am I selling (user_to = me) or buying (user_from = me) the product this conversation belongs to?
     
     // Generates an LetGoConversation from a PFObject of class "Conversations".
-    init(parseConversationObject: PFObject) {
+    init?(parseConversationObject: PFObject) {
         conversationObject = parseConversationObject
         conversationObject.fetchIfNeeded()
 
         // distinguish who's the selling/buying user
-        let userFrom = conversationObject["user_from"] as? PFUser
-        let userTo = conversationObject["user_to"] as? PFUser
-        
-        // I am selling
-        if userFrom?.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
-            amISellingTheProduct = false
-        }
-        // I am buying/making an offer for this product.
-        else {
-            amISellingTheProduct = true
-        }
-        var targetUser: PFUser? = amISellingTheProduct ? userFrom : userTo
-        
-        // if we have a valid target user, fill the name, and avatar.
-        if targetUser != nil {
-            targetUser!.fetchIfNeeded()
-            if let userAvatarFile = targetUser?["avatar"] as? PFFile {
+        if let userFrom = conversationObject["user_from"] as? PFUser,
+           let userTo = conversationObject["user_to"] as? PFUser,
+           let product = conversationObject["product"] as? Product {
+            
+            // I am selling
+            if userFrom.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
+                amISellingTheProduct = false
+            }
+                // I am buying/making an offer for this product.
+            else {
+                amISellingTheProduct = true
+            }
+            var targetUser: PFUser = amISellingTheProduct ? userFrom : userTo
+            targetUser.fetchIfNeeded()
+            if let userAvatarFile = targetUser["avatar"] as? PFFile {
                 userAvatarURL = userAvatarFile.url!
             }
             else {
                 userAvatarURL = "";
                 userAvatarImage = UIImage(named: "no_photo")!
             }
-            userName = targetUser!["username_public"] as? String ?? ""
-        } else { // else, put some default values
-            userAvatarURL = ""
-            userAvatarImage = UIImage(named: "no_photo")!
-            userName = ""
-        }
-        // product object for getting the product name.
-        if let productObject = conversationObject["product"] as? PFObject {
-            productName = productObject["name"] as? String ?? productObject["description"] as? String ?? ""
-        } else { productName = "" }
-        
-        // initialize conversation values.
-        totalMessages = conversationObject["nr_messages"] as? Int ?? 0
-
-        // TODO: Refactor, this is hard to follow & prone to error
-        myUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_to"] as? Int ?? 0 : conversationObject["nr_msg_to_read_from"] as? Int ?? 0
+            userName = targetUser["username_public"] as? String ?? ""
+            // product object for getting the product name.
+            productName = product.name ?? ""
+            
+            // initialize conversation values.
+            totalMessages = conversationObject["nr_messages"] as? Int ?? 0
+            
+            // TODO: Refactor, this is hard to follow & prone to error
+            myUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_to"] as? Int ?? 0 : conversationObject["nr_msg_to_read_from"] as? Int ?? 0
 //        otherUnreadMessages = amISellingTheProduct ? conversationObject["nr_msg_to_read_from"] as? Int ?? 0 : conversationObject["nr_messages_to_read_to"] as? Int ?? 0
-        lastUpdated = conversationObject.updatedAt!
+            lastUpdated = conversationObject.updatedAt!
+        }
+        else {
+            return nil
+        }
     }
 }
 
@@ -196,7 +191,9 @@ class ChatManager: NSObject {
     func letgoConversationsFromParseObjects(conversationObjects: [PFObject]) -> [LetGoConversation] {
         var conversations: [LetGoConversation] = []
         for conversationObj in conversationObjects {
-            conversations.append(LetGoConversation(parseConversationObject: conversationObj))
+            if let letgoConversation = LetGoConversation(parseConversationObject: conversationObj) {
+                conversations.append(letgoConversation)
+            }
         }
         return conversations
     }
