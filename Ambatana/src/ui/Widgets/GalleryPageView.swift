@@ -26,14 +26,6 @@ public class GalleryPageView: UIView {
         return NSBundle.mainBundle().loadNibNamed("GalleryPageView", owner: self, options: nil).first as! GalleryPageView
     }
     
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
     // MARK: Public methods
     
     /**
