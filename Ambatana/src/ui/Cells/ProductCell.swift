@@ -18,9 +18,10 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var distanceLabel: UILabel!
-    @IBOutlet weak var stripeView: StripeView!
     
-    @IBOutlet weak var statusImageView: UIImageView!
+    // Stripe
+    @IBOutlet weak var stripeImageView: UIImageView!
+    @IBOutlet weak var stripeLabel: UILabel!
     
     // MARK: - Lifecycle
     
@@ -62,17 +63,19 @@ class ProductCell: UICollectionViewCell {
         // Distance
         distanceLabel.text = product.formattedDistance()
         
-        // Status
+        // Status (stripe)
         if (product.status == .Sold) {
-            statusImageView.image = UIImage(named: "label_sold")
+            stripeImageView.image = UIImage(named: "stripe_new")
+            stripeLabel.text = NSLocalizedString("product_list_item_sold_status_label", comment: "")
         }
         else if let createdAt = product.createdAt {
             if NSDate().timeIntervalSinceDate(createdAt) < 60*60*24 {
-                statusImageView.image = UIImage(named: "label_new")
+                stripeImageView.image = UIImage(named: "stripe_sold")
+                stripeLabel.text = NSLocalizedString("product_list_item_new_status_label", comment: "")
             }
         }
     }
-        
+    
     // MARK: - Private methods
     
     // Sets up the UI
@@ -88,7 +91,10 @@ class ProductCell: UICollectionViewCell {
         thumbnailBgColorView.backgroundColor = StyleHelper.productCellBgColor
         thumbnailImageView.image = nil
         distanceLabel.text = ""
-        statusImageView.image = nil
+        stripeImageView.image = nil
+        stripeLabel.text = ""
+        let rotation = CGFloat(M_PI_4)
+        stripeLabel.transform = CGAffineTransformMakeRotation(rotation)
     }
     
     // TODO: Remove this method and load straight using SDWebImage or better, should be refactored with new API call

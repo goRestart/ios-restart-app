@@ -39,20 +39,28 @@
                         <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IX0-6O-U82" customClass="StripeView" customModule="LetGo" customModuleProvider="target">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripe_new" translatesAutoresizingMaskIntoConstraints="NO" id="RTJ-Uh-fyf">
                         <rect key="frame" x="80" y="10" width="70" height="70"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="70" id="N3P-S5-vJp"/>
-                            <constraint firstAttribute="height" constant="70" id="aU3-Or-8tT"/>
+                            <constraint firstAttribute="height" constant="70" id="pNB-M9-nug"/>
+                            <constraint firstAttribute="width" constant="70" id="rov-j5-UCc"/>
                         </constraints>
-                    </view>
-                    <imageView userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="label_new" translatesAutoresizingMaskIntoConstraints="NO" id="YS2-LS-u1b" userLabel="Status Image View">
-                        <rect key="frame" x="99" y="11" width="50" height="50"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VENDIDO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="h6x-Ls-H2g" userLabel="Stripe Label">
+                        <rect key="frame" x="94" y="24" width="60" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="OTd-5T-a2y"/>
+                            <constraint firstAttribute="width" constant="60" id="op7-QG-Dd0"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="RTJ-Uh-fyf" secondAttribute="top" constant="2" id="3lq-EO-JYO"/>
                     <constraint firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" constant="12" id="4GS-QM-xGy"/>
+                    <constraint firstItem="h6x-Ls-H2g" firstAttribute="leading" secondItem="RTJ-Uh-fyf" secondAttribute="leading" constant="14" id="6fY-NV-RpH"/>
                     <constraint firstItem="jgH-1b-N7M" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="top" id="7cu-47-MAY"/>
                     <constraint firstAttribute="trailing" secondItem="ucl-Xb-lH0" secondAttribute="trailing" constant="12" id="9g4-Ww-Rve"/>
                     <constraint firstItem="jgH-1b-N7M" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="BTQ-Lc-tcL"/>
@@ -62,17 +70,15 @@
                     <constraint firstItem="ucl-Xb-lH0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="MBA-r6-K4C"/>
                     <constraint firstAttribute="trailing" secondItem="WU3-Nn-oJh" secondAttribute="trailing" constant="12" id="MDq-gm-65I"/>
                     <constraint firstItem="Q3S-98-0Z1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="MIy-4h-hXI"/>
-                    <constraint firstItem="IX0-6O-U82" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="top" constant="-2" id="PNY-26-W2y"/>
-                    <constraint firstItem="afm-Cf-H6I" firstAttribute="trailing" secondItem="YS2-LS-u1b" secondAttribute="trailing" constant="-1" id="Z2k-V8-822"/>
+                    <constraint firstItem="h6x-Ls-H2g" firstAttribute="centerY" secondItem="RTJ-Uh-fyf" secondAttribute="centerY" constant="-9" id="Qy2-jk-zcg"/>
                     <constraint firstItem="jgH-1b-N7M" firstAttribute="leading" secondItem="afm-Cf-H6I" secondAttribute="leading" id="atM-D6-MXi"/>
                     <constraint firstItem="ucl-Xb-lH0" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="bottom" constant="6" id="dky-rq-fd1"/>
-                    <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="YS2-LS-u1b" secondAttribute="top" constant="1" id="eK6-Zn-Mk2"/>
+                    <constraint firstItem="afm-Cf-H6I" firstAttribute="trailing" secondItem="RTJ-Uh-fyf" secondAttribute="trailing" constant="-2" id="fBu-xh-nM2"/>
                     <constraint firstItem="Q3S-98-0Z1" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="bottom" constant="2" id="ghB-TU-iZd"/>
                     <constraint firstItem="jgH-1b-N7M" firstAttribute="bottom" secondItem="afm-Cf-H6I" secondAttribute="bottom" id="im1-LD-OP3"/>
                     <constraint firstAttribute="bottom" secondItem="Q3S-98-0Z1" secondAttribute="bottom" constant="8" id="msX-QH-MAR"/>
                     <constraint firstItem="WU3-Nn-oJh" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="bottom" constant="2" id="nhh-qS-Nqi"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="sCB-Us-wZq"/>
-                    <constraint firstItem="IX0-6O-U82" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" constant="2" id="xHX-uD-Y2R"/>
                     <constraint firstAttribute="bottom" secondItem="WU3-Nn-oJh" secondAttribute="bottom" constant="8" id="ylS-t4-sSg"/>
                 </constraints>
                 <variation key="default">
@@ -85,8 +91,8 @@
                 <outlet property="distanceLabel" destination="WU3-Nn-oJh" id="I0q-O2-Fex"/>
                 <outlet property="nameLabel" destination="ucl-Xb-lH0" id="qRB-zq-qvM"/>
                 <outlet property="priceLabel" destination="Q3S-98-0Z1" id="gsi-wX-8gC"/>
-                <outlet property="statusImageView" destination="YS2-LS-u1b" id="KxS-wa-Txg"/>
-                <outlet property="stripeView" destination="IX0-6O-U82" id="rbX-HR-e05"/>
+                <outlet property="stripeImageView" destination="RTJ-Uh-fyf" id="hIc-JI-WFh"/>
+                <outlet property="stripeLabel" destination="h6x-Ls-H2g" id="t2y-NC-Ajj"/>
                 <outlet property="thumbnailBgColorView" destination="jgH-1b-N7M" id="wiE-DN-Ksd"/>
                 <outlet property="thumbnailImageView" destination="afm-Cf-H6I" id="GKb-WF-YGs"/>
             </connections>
@@ -94,6 +100,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="label_new" width="50" height="50"/>
+        <image name="stripe_new" width="70" height="70"/>
     </resources>
 </document>
