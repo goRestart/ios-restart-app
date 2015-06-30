@@ -110,10 +110,10 @@
                                 <outlet property="delegate" destination="-1" id="7BI-YT-Tfw"/>
                             </connections>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Cf-cj-Rzf">
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Cf-cj-Rzf">
                             <rect key="frame" x="546" y="9" width="46" height="30"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="46" id="OgD-7P-4P5"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="46" id="pNc-Hn-mFN"/>
                             </constraints>
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <state key="normal" title="Send">

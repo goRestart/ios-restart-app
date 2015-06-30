@@ -35,8 +35,8 @@
                                         <constraint firstAttribute="height" constant="66" id="ruT-ak-l3x"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_start to sell, buy and chat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jqP-ji-UY6" userLabel="Claim Label">
-                                    <rect key="frame" x="80" y="72" width="160" height="17"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_start to sell, buy and chat" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jqP-ji-UY6" userLabel="Claim Label">
+                                    <rect key="frame" x="8" y="72" width="304" height="17"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -44,17 +44,17 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="jqP-ji-UY6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="kW9-f4-l6d" secondAttribute="leading" constant="8" id="60M-PY-z3M"/>
+                                <constraint firstItem="jqP-ji-UY6" firstAttribute="leading" secondItem="kW9-f4-l6d" secondAttribute="leading" constant="8" id="60M-PY-z3M"/>
                                 <constraint firstItem="jqP-ji-UY6" firstAttribute="top" secondItem="Ujl-i7-kRC" secondAttribute="bottom" constant="6" id="D65-Bb-YQv"/>
                                 <constraint firstAttribute="bottom" secondItem="jqP-ji-UY6" secondAttribute="bottom" id="OK9-SQ-d3r"/>
-                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jqP-ji-UY6" secondAttribute="trailing" constant="8" id="Qwx-dj-msf"/>
+                                <constraint firstAttribute="trailing" secondItem="jqP-ji-UY6" secondAttribute="trailing" constant="8" id="Qwx-dj-msf"/>
                                 <constraint firstItem="Ujl-i7-kRC" firstAttribute="centerX" secondItem="jqP-ji-UY6" secondAttribute="centerX" id="XtK-rp-RJt"/>
                                 <constraint firstAttribute="centerX" secondItem="Ujl-i7-kRC" secondAttribute="centerX" id="ckD-Py-4i6"/>
                                 <constraint firstItem="Ujl-i7-kRC" firstAttribute="top" secondItem="kW9-f4-l6d" secondAttribute="top" id="fID-C5-nYD"/>
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="kW9-f4-l6d" firstAttribute="leading" secondItem="kur-NS-MNi" secondAttribute="leading" id="9XX-KC-Omd"/>
                         <constraint firstAttribute="trailing" secondItem="kW9-f4-l6d" secondAttribute="trailing" id="EJ9-WF-S17"/>
