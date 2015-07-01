@@ -220,7 +220,7 @@
 // Product list first page error generic label. Check image @ "product_list_first_page_error_generic_button" segment
 "product_list_first_page_error_generic_label" = "Hey there! You don't have connection! Come on, connect yourself!";
 
-// Product list item new status label. Check attached image "product_list_item_new_status_label.png"
+// Product list item new status label. Check attached image "product_list_item_new_status_label.png". New like "Novelty",  NOT like a non-used item
 "product_list_item_new_status_label" = "NEW";
 
 // Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"

@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Kullanıcı oluşturulurken bir hata meydana geldi.";
 "sign_up_send_error_invalid_email" = "Lütfen, kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";
 "sign_up_send_error_invalid_password" = "Lütfen geçerli bir şifre gir. Şifre en az %d karakterden oluşmalıdır.";
-"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"sign_up_send_error_invalid_username" = "Lütfen geçerli bir isim giriniz, en az %d karakterden oluşmalı";
 "sign_up_title" = "Üye ol";
 "sign_up_username_field_hint" = "Tam isim";
 "tab_bar_tool_tip" = "Eşyalarını sat!";

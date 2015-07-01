@@ -72,7 +72,7 @@
 "product_gallery_title" = "Kuvat";
 "product_list_first_page_error_generic_button" = "Yritä uudelleen";
 "product_list_first_page_error_generic_label" = "Hei siellä! Sinulla ei ole yhteyttä! Anna mennä, muodosta yhteys!";
-"product_list_item_new_status_label" = "UUSI";
+"product_list_item_new_status_label" = "UUTUUS";
 "product_list_item_sold_status_label" = "MYYTY";
 "product_list_location_disabled_button" = "Asetukset";
 "product_list_location_disabled_label" = "Ups! Sijaintitietosi on pois päältä. Laittaaksesi sen päälle, mene:\n Asetukset > Yksityisyys > Sijaintipalvelut.";
