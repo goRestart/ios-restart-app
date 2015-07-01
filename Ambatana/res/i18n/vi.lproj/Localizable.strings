@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Lỗi xảy ra trong khi tạo người dùng.";
 "sign_up_send_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ vào trường email người dùng";
 "sign_up_send_error_invalid_password" = "Vui lòng nhập mật khẩu hợp lệ, có ít nhất %d kí tự.";
-"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"sign_up_send_error_invalid_username" = "Vui lòng nhập tên hợp lệ, có ít nhất %d ký tự";
 "sign_up_title" = "Đăng ký";
 "sign_up_username_field_hint" = "Tên đầy đủ";
 "tab_bar_tool_tip" = "Bán đồ của bạn!";

@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Ocorreu uma falha na criação do usuário.";
 "sign_up_send_error_invalid_email" = "Por favor, insira um e-mail válido no campo usuário";
 "sign_up_send_error_invalid_password" = "Por favor, insira uma senha válida. A senha deve ter no mínimo %d caracteres.";
-"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"sign_up_send_error_invalid_username" = "Por favor, insira um nome válido no campo usuário. O nome deve ter no mínimo %d caracteres.";
 "sign_up_title" = "Cadastre-se";
 "sign_up_username_field_hint" = "Nome completo";
 "tab_bar_tool_tip" = "Venda as suas coisas";

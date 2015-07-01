@@ -56,7 +56,7 @@
 "main_sign_up_claim_label" = "Start met verkopen, kopen en chatten";
 "main_sign_up_facebook_connect_button" = "Verbind met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Niet in staat om in te loggen, jouw e-mailadres is al geregistreerd bij Facebook. Probeer a.u.b. om in te loggen.";
-"main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Probeer het nog eens";
+"main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen. ";
 "main_sign_up_log_in_label" = "Inloggen";
 "main_sign_up_or_label" = "OF";
 "main_sign_up_sign_up_button" = "Schrijf in met je e-mail";
@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Er is een fout opgetreden bij het creeren van de gebruiker";
 "sign_up_send_error_invalid_email" = "Gelieve, een geldig e-mailadres in te voeren in het gebruikers tekstveld";
 "sign_up_send_error_invalid_password" = "Voer a.u.b. een geldig wachtwoord in, het moet minstens %d tekens bevatten.";
-"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"sign_up_send_error_invalid_username" = "Gelieve, een geldige naam in te voeren, deze moet minstens %d tekens bevatten. ";
 "sign_up_title" = "Word lid";
 "sign_up_username_field_hint" = "Volledige naam";
 "tab_bar_tool_tip" = "Verkoop jouw spullen";

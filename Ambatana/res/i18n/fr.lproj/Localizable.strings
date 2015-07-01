@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Une erreur est survenue lors de la création de l'utilisateur.";
 "sign_up_send_error_invalid_email" = "Veuillez entrer un email valide dans le champ 'email'";
 "sign_up_send_error_invalid_password" = "Veuillez entrer un mot de passe valide, d'au moins %d caractères";
-"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"sign_up_send_error_invalid_username" = "Veuillez entrer un nom valide, avec au moins %d caractères";
 "sign_up_title" = "S'inscrire";
 "sign_up_username_field_hint" = "Nom complet";
 "tab_bar_tool_tip" = "Vendez vos biens !";

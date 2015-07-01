@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Hiba történt a felhasználó létrehozása során.";
 "sign_up_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg a felhasználói e-mail mezőbe";
 "sign_up_send_error_invalid_password" = "Kérjük, érvényes jelszót adj meg: legalább %d karakterből kell állnia";
-"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon";
 "sign_up_title" = "Regisztráció";
 "sign_up_username_field_hint" = "Teljes név";
 "tab_bar_tool_tip" = "Add el a dolgaid!";

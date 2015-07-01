@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά τη δημιουργία χρήστη!";
 "sign_up_send_error_invalid_email" = "Θα πρέπει να εισάγεις έγκυρο email στο πεδίο email χρήστη";
 "sign_up_send_error_invalid_password" = "Θα πρέπει να εισάγεις έγκυρο κωδικό πρόσβασης, ο οποίος θα πρέπει να έχει τουλάχιστον %d χαρακτήρες";
-"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"sign_up_send_error_invalid_username" = "Θα πρέπει να εισάγεις έγκυρο όνομα το οποίο θα πρέπει να έχει τουλάχιστον %d χαρακτήρες";
 "sign_up_title" = "Εγγραφή";
 "sign_up_username_field_hint" = "Πλήρες Όνομα";
 "tab_bar_tool_tip" = "Πούλα τα Πράγματά σου!";

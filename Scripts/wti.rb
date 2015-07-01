@@ -14,7 +14,7 @@ require 'web_translate_it'
 i18n_path = "Ambatana/res/i18n"
 locale_folder_suffix = ".lproj"
 mapping_base_to = "en"
-should_print_missing_or_wrong_keys = false
+should_print_missing_or_wrong_keys = true
 
 ########################################### CLASSES ###########################################
 

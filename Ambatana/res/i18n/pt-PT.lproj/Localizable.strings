@@ -56,7 +56,7 @@
 "main_sign_up_claim_label" = "Comece a vender, comprar e conversar";
 "main_sign_up_facebook_connect_button" = "Entre através do facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Não foi possível efetuar o login, o seu endereço de email do facebook já se encontra registado. Por favor tente efetuar o login.";
-"main_sign_up_fb_connect_error_generic" = "Não foi possível fazer o login. Por favor tente novamente.";
+"main_sign_up_fb_connect_error_generic" = "Não foi possível efetuar o login. Por favor tente novamente.";
 "main_sign_up_log_in_label" = "Login";
 "main_sign_up_or_label" = "OU";
 "main_sign_up_sign_up_button" = "Registe-se com o seu email";
@@ -165,7 +165,7 @@
 "sign_up_send_error_generic" = "Ocorreu um erro na criação do utilizador.";
 "sign_up_send_error_invalid_email" = "Por favor insira um email válido no campo de texto email do utilizador";
 "sign_up_send_error_invalid_password" = "Por favor insira uma password válida que deve conter pelo menos %d caracteres";
-"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"sign_up_send_error_invalid_username" = "Por favor insira um nome válido que deve ter no mínimo %d caracteres";
 "sign_up_title" = "Registar";
 "sign_up_username_field_hint" = "Nome completo";
 "tab_bar_tool_tip" = "Venda as suas coisas!";
