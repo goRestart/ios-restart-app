@@ -32,7 +32,15 @@ class StyleHelper {
     
     // Fonts
     private static func helveticaNeueFont(#size: Int) -> UIFont {
+        return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
+    }
+    
+    private static func helveticaNeueMediumFont(#size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
+    }
+    
+    private static func helveticaNeueBoldFont(#size: Int) -> UIFont {
+        return UIFont(name: "HelveticaNeue-Bold", size: CGFloat(size))!
     }
     
     private static func helveticaNeueItalicFont(#size: Int) -> UIFont {
@@ -63,7 +71,7 @@ class StyleHelper {
     }
     
     static var navBarTitleFont: UIFont {
-        return helveticaNeueFont(size: 17)
+        return helveticaNeueMediumFont(size: 17)
     }
     
     static var navBarBgImage: UIImage {
@@ -105,7 +113,7 @@ class StyleHelper {
     }
     
     static var tabBarTooltipTextFont: UIFont {
-        return helveticaNeueFont(size: 14)
+        return helveticaNeueBoldFont(size: 16)
     }
     
     // MARK: - Page Control
