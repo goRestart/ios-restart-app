@@ -64,7 +64,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MMP-3C-Gae" userLabel="Main View">
                     <rect key="frame" x="0.0" y="186" width="320" height="216"/>
                     <subviews>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Du-cc-Xo5" userLabel="Connect FB Button">
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Du-cc-Xo5" userLabel="Connect FB Button">
                             <rect key="frame" x="15" y="0.0" width="290" height="44"/>
                             <color key="backgroundColor" red="0.43137254901960786" green="0.5490196078431373" blue="0.72941176470588232" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -106,7 +106,7 @@
                                 <constraint firstAttribute="trailing" secondItem="1pc-RV-rnQ" secondAttribute="trailing" constant="8" id="u15-29-Rvx"/>
                             </constraints>
                         </view>
-                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19L-e5-VDY" userLabel="Sign Up Button">
+                        <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19L-e5-VDY" userLabel="Sign Up Button">
                             <rect key="frame" x="15" y="121" width="290" height="44"/>
                             <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
