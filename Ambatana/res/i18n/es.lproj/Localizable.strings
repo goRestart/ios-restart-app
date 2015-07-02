@@ -49,7 +49,7 @@
 "log_in_error_send_error_invalid_password" = "¡Ups! Introduce una contraseña válida, debe tener al menos %d caracteres";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "¡Ups! No se ha podido iniciar la sesión: el usuario o la contraseña no son correctos";
 "log_in_password_field_hint" = "Contraseña";
-"log_in_reset_password_button" = "¿Has olvidado tu contraseña?";
+"log_in_reset_password_button" = "¿Te olvidaste?";
 "log_in_send_button" = "Iniciar sesión";
 "log_in_title" = "Iniciar sesión";
 "main_sign_up_already_registered_label" = "¿Ya estás registrado?";
@@ -98,6 +98,7 @@
 "product_share_body" = "¡Mira lo que he encontrado en letgo!";
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado un email en este dispositivo";
 "profile_favourites_my_user_no_products_label" = "Aún no has publicado ni marcado como favorito ningún producto";
+"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
 "profile_favourites_other_user_no_products_label" = "Este usuario todavía no tiene productos a la venta o productos favoritos";
 "profile_favourites_products_tab" = "Favoritos";
 "profile_no_products" = "No hay productos disponibles en esta sección";

@@ -509,5 +509,7 @@
 "sign_up_username_field_hint" = "Full name";
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
-"tab_bar_tool_tip" = "Sell your Stuff!";
+"tab_bar_tool_tip" = "Sell Your Stuff!";
 
+/* Profile favourites my user no products label. Check attached image "profile (empty).png" */
+"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";

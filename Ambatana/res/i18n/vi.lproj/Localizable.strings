@@ -98,6 +98,7 @@
 "product_share_body" = "Hãy xem tôi thấy gì trên letgo này!";
 "product_share_email_error" = "Ồ, có vẻ như bạn chưa cài đặt tải khoản email trên Ứng dụng Mail";
 "profile_favourites_my_user_no_products_label" = "Bạn vẫn chưa có sản phẩm nào được đăng hay yêu thích.";
+"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
 "profile_favourites_other_user_no_products_label" = "Người dùng này vẫn chưa có sản phẩm nào được đăng hay yêu thích.";
 "profile_favourites_products_tab" = "Yêu thích";
 "profile_no_products" = "Không có sản phẩm nào trong mục này.";
@@ -152,7 +153,7 @@
 "settings_change_profile_picture_button" = "Thay đổi hình ảnh";
 "settings_change_profile_picture_error_generic" = "Có lỗi khi cài đặt hình ảnh hồ sơ của bạn";
 "settings_change_profile_picture_loading" = "Đang cài đặt hình ảnh hồ sơ của bạn, xin chờ...";
-"settings_image_source_camera_button" = "Camera";
+"settings_image_source_camera_button" = "Máy ảnh";
 "settings_image_source_camera_roll_button" = "Thư viện hình ảnh";
 "settings_image_source_cancel_button" = "Hủy";
 "settings_image_source_title" = "Chọn nguồn hình ảnh";

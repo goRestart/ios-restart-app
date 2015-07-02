@@ -429,6 +429,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
             // set text depending on if we are the user being shown or not
             if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId { // user is me!
                 youDontHaveTitleLabel.text = NSLocalizedString("profile_favourites_my_user_no_products_label", comment: "")
+                youDontHaveSubtitleLabel.text = NSLocalizedString("profile_favourites_my_user_no_products_subtitle_label", comment: "")
                 youDontHaveSubtitleLabel.hidden = false
                 
                 startSearchingNowButton.hidden = false

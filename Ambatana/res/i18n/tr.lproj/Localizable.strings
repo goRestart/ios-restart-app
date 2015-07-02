@@ -98,6 +98,7 @@
 "product_share_body" = "Az önce letgo'da ne bulduğuma bir bak!";
 "product_share_email_error" = "Ups, görünüşe bakılırsa Posta uygulamasında bir hesap oluşturmamışsın.";
 "profile_favourites_my_user_no_products_label" = "Hala herhangi bir yayınlanmış veya favorilere eklenmiş bir ürünün yok";
+"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
 "profile_favourites_other_user_no_products_label" = "Bu kullanıcı hala herhangi bir yayınlanmış veya favorilere eklenmiş bir ürüne sahip değil";
 "profile_favourites_products_tab" = "Favoriler";
 "profile_no_products" = "Bu bölümde herhangi bir eşya yok";

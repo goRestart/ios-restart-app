@@ -98,6 +98,7 @@
 "product_share_body" = "Nézzétek, mit találtam a letgo-n!";
 "product_share_email_error" = "Hopp, úgy tűnik, hogy nem állítottál be fiókot a Mail appban";
 "profile_favourites_my_user_no_products_label" = "Még nincs semmilyen meghirdetett vagy kedvenc portékád";
+"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
 "profile_favourites_other_user_no_products_label" = "Ennek a felhasználónak még nincs semmilyen meghirdetett vagy kedvenc portékája";
 "profile_favourites_products_tab" = "Kedvencek";
 "profile_no_products" = "Itt nincs semmi";
