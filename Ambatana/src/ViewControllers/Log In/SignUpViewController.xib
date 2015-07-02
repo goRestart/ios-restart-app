@@ -43,12 +43,12 @@
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Username" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="8Wn-MG-p8U" userLabel="Username Text Field">
                             <rect key="frame" x="45" y="0.0" width="267" height="44"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="alphabet" returnKeyType="next"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="2EZ-H1-bos"/>
                             </connections>
                         </textField>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_name" highlightedImage="ic_name_active" translatesAutoresizingMaskIntoConstraints="NO" id="a6D-51-3mx" userLabel="Username Icon Image View">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ic_name" highlightedImage="ic_name_active" translatesAutoresizingMaskIntoConstraints="NO" id="a6D-51-3mx" userLabel="Username Icon Image View">
                             <rect key="frame" x="18" y="14" width="15" height="16"/>
                         </imageView>
                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PRK-bd-pXa" userLabel="Email Button">
@@ -91,7 +91,7 @@
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wAf-gc-YDz" userLabel="Password Text Field">
                             <rect key="frame" x="45" y="88" width="267" height="44"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="alphabet" returnKeyType="join" secureTextEntry="YES"/>
+                            <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="join" secureTextEntry="YES"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="GcK-KI-9tY"/>
                             </connections>
