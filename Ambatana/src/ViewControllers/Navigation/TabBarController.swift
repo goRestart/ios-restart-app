@@ -287,7 +287,9 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
                 // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
                 if let actualLoginSource = loginSource {
                     ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
+                        self?.dismissTooltip(animated: false)
                         self?.switchToTab(tab)
+                        self?.showTooltip()
                     },
                     elsePresentSignUpWithSuccessAction: { [weak self] in
                         self?.switchToTab(tab)
@@ -340,7 +342,7 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     
     dynamic private func sellButtonPressed() {
         // Dismiss the tooltip, if present
-        dismissTooltip(animated: true)
+        dismissTooltip(animated: false)
         
         // If logged present the sell, otherwise present the login VC (and if successful the sell)
         ifLoggedInThen(.Sell, loggedInAction: {
