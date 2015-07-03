@@ -66,7 +66,7 @@
 "make_an_offer_send_error_generic" = "Ocorreu uma falha ao enviar a proposta para o produto. Por favor, tente novamente mais tarde.";
 "make_an_offer_send_error_invalid_price" = "Por favor, insira um preço válido para o produto. O preço dever ser representado somente por um número.";
 "make_an_offer_title" = "Faça uma Proposta";
-"product_ask_a_question_button" = "Faça um Pergunta";
+"product_ask_a_question_button" = "Pergunte";
 "product_chat_error_generic" = "Ocorreu um erro ao iniciar a conversa. Por favor, tente novamente mais tarde.";
 "product_distance_from_you" = "de você";
 "product_gallery_title" = "Fotos";
@@ -98,7 +98,7 @@
 "product_share_body" = "Veja o que eu acabei de encontrar no letgo!";
 "product_share_email_error" = "Ops, aparentemente você não configurou uma conta no Mail app";
 "profile_favourites_my_user_no_products_label" = "Você ainda não tem nenhum produto publicado ou favorito.";
-"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
+"profile_favourites_my_user_no_products_subtitle_label" = "O que você está esperando?";
 "profile_favourites_other_user_no_products_label" = "Este usuário ainda não tem nenhum produto publicado ou favorito";
 "profile_favourites_products_tab" = "Favoritos";
 "profile_no_products" = "Não há produtos nesta seção";
@@ -169,4 +169,4 @@
 "sign_up_send_error_invalid_username" = "Por favor, insira um nome válido no campo usuário. O nome deve ter no mínimo %d caracteres.";
 "sign_up_title" = "Cadastre-se";
 "sign_up_username_field_hint" = "Nome completo";
-"tab_bar_tool_tip" = "Venda as suas coisas";
+"tab_bar_tool_tip" = "Venda as suas coisas!";

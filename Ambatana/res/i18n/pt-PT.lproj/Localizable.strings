@@ -66,7 +66,7 @@
 "make_an_offer_send_error_generic" = "Ocorreu um erro ao fazer uma oferta para o produto. Por favor tente novamente mais tarde.";
 "make_an_offer_send_error_invalid_price" = "Por favor insira um preço válido para o produto, que deve ser representado somente por um número.";
 "make_an_offer_title" = "Faça uma oferta";
-"product_ask_a_question_button" = "Faça uma pergunta";
+"product_ask_a_question_button" = "Pergunte";
 "product_chat_error_generic" = "Ocorreu um erro ao iniciar o chat. Por favor tente novamente mais tarde.";
 "product_distance_from_you" = "de si";
 "product_gallery_title" = "Fotos";
@@ -98,7 +98,7 @@
 "product_share_body" = "Vê só que eu acabei de encontrar no letgo!";
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email";
 "profile_favourites_my_user_no_products_label" = "Ainda não tem nenhum produto publicado ou favorito.";
-"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
+"profile_favourites_my_user_no_products_subtitle_label" = "O que você está esperando?";
 "profile_favourites_other_user_no_products_label" = "Este utilizador ainda não tem nenhum produto publicado ou favorito";
 "profile_favourites_products_tab" = "Favoritos";
 "profile_no_products" = "Não existem artigos nesta seção";

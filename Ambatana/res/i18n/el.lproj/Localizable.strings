@@ -85,7 +85,7 @@
 "product_list_search_no_products_button" = "Επανάληψη φόρτωσης προϊόντων";
 "product_list_search_no_products_label" = "Δε βρέθηκαν προϊόντα!";
 "product_location_title" = "Τοποθεσία";
-"product_make_an_offer_button" = "Κάνε μια Προσφορά";
+"product_make_an_offer_button" = "Κάνε Προσφορά";
 "product_mark_as_sold_button" = "Μάρκαρε πως έχει Πωληθεί";
 "product_mark_as_sold_confirm_cancel_button" = "Ακύρωση";
 "product_mark_as_sold_confirm_message" = "Συγχαρητήρια, τα κατάφερες! Θέλεις σίγουρα να το μαρκάρεις πως έχει πωληθεί?";
@@ -98,7 +98,7 @@
 "product_share_body" = "Δες τι ανακάλυψα στο letgo!";
 "product_share_email_error" = "Ooops! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail";
 "profile_favourites_my_user_no_products_label" = "Ακόμα δεν έχεις κανένα δημοσιευμένο ή αγαπημένο προϊόν.";
-"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
+"profile_favourites_my_user_no_products_subtitle_label" = "Τι περιμένεις?";
 "profile_favourites_other_user_no_products_label" = "Ο χρήστης δεν έχει ακόμα κάνενα δημοσιευμένο ή αγαπημένο προϊόν";
 "profile_favourites_products_tab" = "Αγαπημένα";
 "profile_no_products" = "Δεν υπάρχουν αντικείμενα σε αυτή την ενότητα";
@@ -122,7 +122,7 @@
 "sell_picture_image_source_camera_roll_button" = "Βιβλιοθήκη Φωτογραφιών";
 "sell_picture_image_source_cancel_button" = "Ακύρωση";
 "sell_picture_image_source_title" = "Επιλογή πηγής εικόνας";
-"sell_picture_label" = "Φωτογραφία";
+"sell_picture_label" = "Φώτο";
 "sell_picture_save_into_camera_roll_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποθήκευση φωτογραφίας στη βιβλιοθήκη φωτογραφιών. Θα πρέπει να βεβαιωθείτε ότι έχετε δώσει έγκριση στο letgo να αποκτήσει πρόσβαση στις φωτογραφίες σας μέσω των Ρυθμίσεων της εφαρμογής.";
 "sell_picture_save_into_camera_roll_loading" = "Αποθήκευση φωτογραφίας στη βιβλιοθήκη φωτογραφιών...";
 "sell_picture_save_into_camera_roll_ok" = "Επιτυχής αποθήκευση της εικόνας στη βιβλιοθήκη φωτογραφιών.";
