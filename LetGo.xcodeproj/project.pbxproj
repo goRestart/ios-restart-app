@@ -180,6 +180,8 @@
 		505B06A51B15A9910049F9CD /* GalleryPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryPageView.swift; sourceTree = "<group>"; };
 		505B06A61B15A9910049F9CD /* GalleryPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryPageView.xib; sourceTree = "<group>"; };
 		505B06A71B15A9910049F9CD /* GalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
+		5063B7D11B4676ED00039D05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5063B7D21B4676ED00039D05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductCategory+LG.swift"; sourceTree = "<group>"; };
 		508E4CEC1B4281F1007BD301 /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		508E4CED1B4281F1007BD301 /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
@@ -949,6 +951,7 @@
 				nb,
 				nl,
 				ru,
+				pt,
 			);
 			mainGroup = 6608E02D1A820FBD005895ED;
 			productRefGroup = 6608E0371A820FBD005895ED /* Products */;
@@ -1193,6 +1196,7 @@
 				D4219F7C1B3F7DC3008A9EEA /* nb */,
 				D4219F7E1B3F7DD7008A9EEA /* nl */,
 				D4219F801B3F7DE3008A9EEA /* ru */,
+				5063B7D11B4676ED00039D05 /* pt */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1217,6 +1221,7 @@
 				D4219F7D1B3F7DC3008A9EEA /* nb */,
 				D4219F7F1B3F7DD7008A9EEA /* nl */,
 				D4219F811B3F7DE3008A9EEA /* ru */,
+				5063B7D21B4676ED00039D05 /* pt */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

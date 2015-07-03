@@ -248,7 +248,7 @@ wti_locale_ids = find_wti_locale_identifiers()
 wti_locale_ids.each { |wti_locale_id|
     if non_processed_locales.include? wti_locale_id
         xcode_locale_id_to_wti_locale_id[wti_locale_id] = wti_locale_id
-        else
+    else
         wti_locale_id_splitted = wti_locale_id.split("-")
         locale_wo_country = wti_locale_id_splitted[0]
         
@@ -258,6 +258,9 @@ wti_locale_ids.each { |wti_locale_id|
     end
 }
 
+# > Special case: Portuguese (Brazil): http://stackoverflow.com/questions/26410021/ios8-regional-localization-e-g-pt-br?rq=1
+xcode_locale_id_to_wti_locale_id["pt"] = "pt-BR"
+
 # For each base file
 base_filenames.each { | base_filename |
     base_filename_splitted = base_filename.split(".")
@@ -266,7 +269,7 @@ base_filenames.each { | base_filename |
     base_localizable_file = find_base_localizable_file(base_filename, base_localizable_files)
     
     # For each Xcode locale id
-    xcode_locale_id_to_wti_locale_id.keys.each { |xcode_locale_id|
+    xcode_locale_id_to_wti_locale_id.keys.sort.each { |xcode_locale_id|
         
         destination = "#{i18n_path}/#{xcode_locale_id}#{locale_folder_suffix}/#{base_filename}"
         
@@ -297,13 +300,15 @@ base_filenames.each { | base_filename |
             # Export the file
             localizable_file.export(destination)
             
-            # Erase the file
-            FileUtils.rm(wti_filename)
+            # Erase the file, but "Special case: Portuguese (Brazil)"
+            if xcode_locale_id != "pt" # As the keys are alphabetically sorted, it will be the first occurrence for the pt-BR
+                FileUtils.rm(wti_filename)
+            end
             
             puts "'#{wti_filename}' generated into '#{destination}'"
             
-            # Else (doesn't exist), then copy the Base file
-            else
+        # Else (doesn't exist), then copy the Base file
+        else
             # Add a warning
             warnings << "- #{wti_filename} doesn't exist. Copied from #{base_filename}"
             
