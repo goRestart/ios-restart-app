@@ -19,9 +19,7 @@ public class LGCoreKit {
         // > Setup
         Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId, clientKey: EnvironmentProxy.sharedInstance.parseClientId)
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
-        if let actualLaunchOptions = launchOptions {    // Avoid a crash in test target
-            PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(actualLaunchOptions)
-        }
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
         
         // > Automatic anonymous user creation
         PFUser.enableAutomaticUser()
