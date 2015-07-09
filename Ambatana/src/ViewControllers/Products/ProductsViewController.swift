@@ -11,7 +11,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWaterfallLayout, IndicateLocationViewControllerDelegate, ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, ShowProductViewControllerDelegate {
+class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWaterfallLayout, IndicateLocationViewControllerDelegate,ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, ShowProductViewControllerDelegate {
 
     // Enums
     private enum UIState {
@@ -263,7 +263,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     // MARK: - ProductsViewModelDelegate
     
     func didFailRequestingLocationServices(status: LocationServiceStatus) {
-        
         // If there are no products, then do not notify...
         if viewModel.numberOfProducts > 0 {
             return
@@ -317,8 +316,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
     }
 
-    func didFailRetrievingFirstPageProducts(error: NSError) {
-        
+    func didFailRetrievingFirstPageProducts(error: ProductsRetrieveServiceError) {
         let alert = UIAlertController(title: nil, message: NSLocalizedString("product_list_first_page_error_generic_label", comment: ""), preferredStyle:.Alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("product_list_first_page_error_generic_button", comment: ""), style:.Default, handler: { [weak self] (action) -> Void in
             if let strongSelf = self {
@@ -348,7 +346,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
     }
 
-    func didFailRetrievingNextPageProducts(error: NSError) {
+    func didFailRetrievingNextPageProducts(error:  ProductsRetrieveServiceError) {
         
         let alert = UIAlertController(title: nil, message: NSLocalizedString("product_list_next_page_error_generic_label", comment: ""), preferredStyle:.Alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("product_list_next_page_error_generic_button", comment: ""), style:.Default, handler: { [weak self] (action) -> Void in

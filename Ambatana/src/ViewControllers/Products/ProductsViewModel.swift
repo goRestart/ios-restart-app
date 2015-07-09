@@ -6,10 +6,9 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import Bolts
 import CoreLocation
 import LGCoreKit
-import Parse
+import Result
 
 protocol ProductsViewModelDelegate: class {
     func didFailRequestingLocationServices(status: LocationServiceStatus)
@@ -17,11 +16,11 @@ protocol ProductsViewModelDelegate: class {
     
     func didStartRetrievingFirstPageProducts()
     func didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths: [NSIndexPath])
-    func didFailRetrievingFirstPageProducts(error: NSError)
+    func didFailRetrievingFirstPageProducts(error: ProductsRetrieveServiceError)
     
     func didStartRetrievingNextPageProducts()
     func didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths: [NSIndexPath])
-    func didFailRetrievingNextPageProducts(error: NSError)
+    func didFailRetrievingNextPageProducts(error:  ProductsRetrieveServiceError)
 }
 
 class ProductsViewModel: BaseViewModel {
@@ -108,8 +107,8 @@ class ProductsViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     override init() {
-        let productsService = LGProductsService()
-        self.productsManager = ProductsManager(productsService: productsService)
+        let productsRetrieveService = LGProductsRetrieveService()
+        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService)
         self.myUserManager = MyUserManager.sharedInstance
         self.locationManager = LocationManager.sharedInstance
         
@@ -198,13 +197,13 @@ class ProductsViewModel: BaseViewModel {
             
             let currentCount = numberOfProducts
             
-            productsManager.retrieveProductsWithParams(params).continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
-                
+            let myResult = { [weak self] (result: Result<ProductsResponse, ProductsRetrieveServiceError>) -> Void in
                 if let strongSelf = self {
                     let delegate = strongSelf.delegate
                     
                     // Success
-                    if let products = task.result as? NSArray {
+                    if let productsResponse = result.value {
+                        let products = productsResponse.products
                         strongSelf.products = products
                         strongSelf.pageNumber = 0
                         
@@ -212,16 +211,13 @@ class ProductsViewModel: BaseViewModel {
                         delegate?.didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths)
                     }
                     // Error
-                    else if let error = task.error {
+                    else if let error = result.error {
                         delegate?.didFailRetrievingFirstPageProducts(error)
                     }
-                    else {
-                        delegate?.didFailRetrievingFirstPageProducts(NSError(code: LGErrorCode.Internal))
-                    }
                 }
-                return nil
             }
             operationDidStart = true
+            productsManager.retrieveProductsWithParams(params, result: myResult)
         }
         return operationDidStart
     }
@@ -235,29 +231,26 @@ class ProductsViewModel: BaseViewModel {
         
         let currentCount = numberOfProducts
         
-        productsManager.retrieveProductsNextPage().continueWithBlock { [weak self] (task: BFTask!) -> AnyObject! in
-            
+        let myResult = { [weak self] (result: Result<ProductsResponse, ProductsRetrieveServiceError>) -> Void in
             if let strongSelf = self {
                 let delegate = strongSelf.delegate
                 
                 // Success
-                if let newProducts = task.result as? NSArray {
+                if let productsResponse = result.value {
+                    let newProducts = productsResponse.products
                     strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     strongSelf.pageNumber++
                     
                     var indexPaths: [NSIndexPath] = ProductsViewModel.indexPathsFromIndex(currentCount, count: newProducts.count)
                     delegate?.didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths)
                 }
-                    // Error
-                else if let error = task.error {
+                // Error
+                else if let error = result.error {
                     delegate?.didFailRetrievingNextPageProducts(error)
                 }
-                else {
-                    delegate?.didFailRetrievingNextPageProducts(NSError(code: LGErrorCode.Internal))
-                }
             }
-            return nil
         }
+        productsManager.retrieveProductsNextPageWithResult(myResult)
     }
     
     // MARK: > UI
