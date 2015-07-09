@@ -18,7 +18,6 @@ public class LGProductsResponseParser {
     
     // MARK: - Lifecycle
     
-
 //        {
 //            "data": [
 //            {

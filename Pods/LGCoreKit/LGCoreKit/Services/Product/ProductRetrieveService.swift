@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public protocol ProductRetrieveService {
-    
-    /**
-        Retrieves a product with the given parameters.
-    
-        :param: params The product retrieval parameters.
-        :param: completion The completion closure.
-    */
-    func retrieveProductWithParams(params: RetrieveProductParams, completion: RetrieveProductCompletion?)
-}
+//public protocol ProductRetrieveService {
+//    
+//    /**
+//        Retrieves a product with the given parameters.
+//    
+//        :param: params The product retrieval parameters.
+//        :param: completion The completion closure.
+//    */
+//    func retrieveProductWithParams(params: RetrieveProductParams, completion: RetrieveProductCompletion?)
+//}

@@ -8,20 +8,20 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.2.0)
   - Box (1.2.2)
-  - FBSDKCoreKit (4.3.0):
+  - FBSDKCoreKit (4.4.0):
     - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc (= 4.3.0)
-    - FBSDKCoreKit/no-arc (= 4.3.0)
-  - FBSDKCoreKit/arc (4.3.0):
+    - FBSDKCoreKit/arc (= 4.4.0)
+    - FBSDKCoreKit/no-arc (= 4.4.0)
+  - FBSDKCoreKit/arc (4.4.0):
     - Bolts (~> 1.1)
-  - FBSDKCoreKit/no-arc (4.3.0):
+  - FBSDKCoreKit/no-arc (4.4.0):
     - Bolts (~> 1.1)
     - FBSDKCoreKit/arc
-  - FBSDKLoginKit (4.3.0):
+  - FBSDKLoginKit (4.4.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.3.0):
+  - FBSDKShareKit (4.4.0):
     - FBSDKCoreKit
-  - LGCoreKit (0.6.2):
+  - LGCoreKit (0.7.0):
     - Alamofire (~> 1.2)
     - Bolts (~> 1.1)
     - FBSDKCoreKit (~> 4.1)
@@ -31,6 +31,7 @@ PODS:
     - Result (~> 0.4)
     - SwiftyJSON (~> 2.2)
     - Timepiece (~> 0.2)
+  - Nimble (0.4.2)
   - Parse (1.7.5):
     - Bolts/Tasks (>= 1.2.0)
   - ParseFacebookUtilsV4 (1.7.5):
@@ -39,6 +40,7 @@ PODS:
     - FBSDKLoginKit (~> 4.0)
     - Parse (~> 1.7.5)
   - pop (1.0.7)
+  - Quick (0.3.1)
   - Realm (0.93.2):
     - Realm/Headers (= 0.93.2)
   - Realm/Headers (0.93.2)
@@ -57,8 +59,10 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 2.5)
   - FBSDKShareKit (~> 4.1)
   - LGCoreKit
+  - Nimble (~> 0.4.2)
   - Parse (>= 1.7)
   - pop (~> 1.0)
+  - Quick (~> 0.3.1)
   - SDWebImage
 
 SPEC CHECKSUMS:
@@ -66,13 +70,15 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 1108012e40096d339d768cb8a6d79c774f47da2c
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
-  FBSDKCoreKit: a3a60225a84abeace291d0fe71cae29a627382c2
-  FBSDKLoginKit: 6bc2f8f2628c3b6d2e346762fff8cb55cfd3a58d
-  FBSDKShareKit: 15806d69714de39d5dff2c84645f4cde23f5876e
-  LGCoreKit: 560579271ed469fa1500f76b6a8370dc786e93ec
+  FBSDKCoreKit: 75bdd75c980e811db218488d99dd93b7740f4474
+  FBSDKLoginKit: 02a9254a4c132412fa03577b0d53e936d068a7fb
+  FBSDKShareKit: a42865f20ba2d1cc548c4d0f73ad22cff6377ddb
+  LGCoreKit: 22e56200770666a54920ba0fb735715fad10b5ab
+  Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Parse: 7c0f115eff3e0cea3fac08d50bda47154edb8832
   ParseFacebookUtilsV4: 3107725c6f2b69e3a03afe9c3aff35d6ee3e9ba5
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
+  Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
   RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
