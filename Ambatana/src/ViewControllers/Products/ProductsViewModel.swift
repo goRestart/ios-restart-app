@@ -63,6 +63,7 @@ class ProductsViewModel: BaseViewModel {
     private(set) var defaultCellSize: CGSize!
     
     // MARK: - Computed iVars
+    
     var numberOfProducts: Int {
         return products.count
     }

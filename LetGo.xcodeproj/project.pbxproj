@@ -110,6 +110,10 @@
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
 		D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28C1AEE2B2900B64CE1 /* LanguageHelper.swift */; };
+		D412E07F1B4EFF2800683FFD /* ProductListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E07E1B4EFF2800683FFD /* ProductListViewModel.swift */; };
+		D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0831B4F043100683FFD /* IndexPathHelper.swift */; };
+		D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0851B4F179F00683FFD /* ProductListView.swift */; };
+		D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ProductListView.xib */; };
 		D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43FF0241AB0737400757EED /* ProductLocationViewController.swift */; };
 		D4443D6B1B1288B700237095 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4443D6A1B1288B700237095 /* Constants.swift */; };
 		D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45838401AEE6AB100B5F181 /* StyleHelper.swift */; };
@@ -267,6 +271,10 @@
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		D40DA28C1AEE2B2900B64CE1 /* LanguageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageHelper.swift; sourceTree = "<group>"; };
+		D412E07E1B4EFF2800683FFD /* ProductListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewModel.swift; sourceTree = "<group>"; };
+		D412E0831B4F043100683FFD /* IndexPathHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexPathHelper.swift; sourceTree = "<group>"; };
+		D412E0851B4F179F00683FFD /* ProductListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListView.swift; sourceTree = "<group>"; };
+		D412E0871B4F17C200683FFD /* ProductListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductListView.xib; sourceTree = "<group>"; };
 		D4219F761B3F7D72008A9EEA /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D4219F771B3F7D72008A9EEA /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D4219F781B3F7D7F008A9EEA /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -436,6 +444,9 @@
 				50560B911B25D18F0021D8D9 /* ProductsViewController.swift */,
 				50560B921B25D18F0021D8D9 /* ProductsViewController.xib */,
 				50560B931B25D18F0021D8D9 /* ProductsViewModel.swift */,
+				D412E0851B4F179F00683FFD /* ProductListView.swift */,
+				D412E0871B4F17C200683FFD /* ProductListView.xib */,
+				D412E07E1B4EFF2800683FFD /* ProductListViewModel.swift */,
 			);
 			path = Products;
 			sourceTree = "<group>";
@@ -794,11 +805,20 @@
 			path = data;
 			sourceTree = "<group>";
 		};
+		D412E0801B4F03D700683FFD /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				D412E0831B4F043100683FFD /* IndexPathHelper.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		D458383B1AEE6A9100B5F181 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				D45D88CA1B10F45E0059A165 /* Constants */,
 				50261B191AFB4873006E88E0 /* Environment */,
+				D412E0801B4F03D700683FFD /* Helper */,
 				509273341B172D2100A346F9 /* Manager */,
 				508E4CE81B41A5BD007BD301 /* Model */,
 				50560B871B25D18F0021D8D9 /* ViewControllers */,
@@ -996,6 +1016,7 @@
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
 				50560B9A1B25D18F0021D8D9 /* LogInViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
+				D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */,
 				500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */,
 				6640F0481AE142D800004556 /* Deprecated in Resources */,
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
@@ -1164,6 +1185,7 @@
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
 				665BAB511A97D7B5005A8E19 /* MakeAnOfferViewController.swift in Sources */,
 				66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */,
+				D412E07F1B4EFF2800683FFD /* ProductListViewModel.swift in Sources */,
 				D4443D6B1B1288B700237095 /* Constants.swift in Sources */,
 				500391B71B04EFE60081C141 /* CategoryCell.swift in Sources */,
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */,
@@ -1181,11 +1203,13 @@
 				665D5ADC1ADE846F006A567A /* LetGoGoogleGeoLocation.swift in Sources */,
 				D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */,
 				66911D931A853A46006CFBE1 /* IndicateLocationViewController.swift in Sources */,
+				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
 				6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */,
 				6667972E1A9E321100D8E831 /* CryptoUtils.swift in Sources */,
 				66A0CFE51A83740D00FAADF0 /* ChatViewController.swift in Sources */,
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */,
+				D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */,
 				50DBEC381B3D79C8006CBDE0 /* TabBarToolTip.swift in Sources */,
 				50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
