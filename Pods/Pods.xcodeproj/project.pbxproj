@@ -5516,6 +5516,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AF360F897984092C883A5268 /* Pods-LetGo-LGCoreKit-Private.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -6781,6 +6782,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AF360F897984092C883A5268 /* Pods-LetGo-LGCoreKit-Private.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -7369,6 +7371,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AF360F897984092C883A5268 /* Pods-LetGo-LGCoreKit-Private.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

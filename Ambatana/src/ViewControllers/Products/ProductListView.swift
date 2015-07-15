@@ -11,7 +11,7 @@ import UIKit
 enum ProductListViewState {
     case FirstLoadView(String)  // loading label
     case DataView
-    case ErrorView(UIImage, String, String, String, AnyObject?, Selector)  // image, title, body, button label, button, target, action
+    case ErrorView(UIImage?, String?, String?, String?, Void -> Void)  // image, title, body, button label, button action
 }
 
 class ProductListView: UIView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -52,15 +52,11 @@ class ProductListView: UIView, CHTCollectionViewDelegateWaterfallLayout, Product
                 dataView.hidden = false
                 errorView.hidden = true
                 
-            case .ErrorView(let errImage, let errTitle, let errBody, let errButTarget, let errButSelector):
+            case .ErrorView(let errImage, let errTitle, let errBody, let errButAction):
                 // UI
                 // > Labels
                 errorTitleLabel.text = errTitle
                 errorBodyLabel.text = errBody
-                
-                // > Button, remove
-                errorButton.removeTarget(nil, action: NULL, forControlEvents: .AllEvents)
-                errorButton.addTarget(errButTarget, action: errButSelector, forControlEvents: .TouchUpInside)
                 
                 // Show/hide views
                 firstLoadView.hidden = true
@@ -73,13 +69,19 @@ class ProductListView: UIView, CHTCollectionViewDelegateWaterfallLayout, Product
     // MARK: - Lifecycle
     
     public static func productListView() -> ProductListView {
-        return NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil).first as! GalleryPageView
+        let productListView = NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil).first as! ProductListView
+        productListView.setupUI()
+        return productListView
     }
     
     func setupUI() {
-        
+        errorButton.addTarget(self, action: Selector("errorButtonPressed"), forControlEvents: .TouchUpInside)
     }
     
-    
+    @objc private func errorButtonPressed() {
+        if state == .ErrorView(_, _, _, let errButAction) {
+            errButAction()
+        }
+    }
     
 }
