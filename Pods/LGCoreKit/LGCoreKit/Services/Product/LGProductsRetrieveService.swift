@@ -27,6 +27,8 @@ final public class LGProductsRetrieveService: ProductsRetrieveService {
         self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
     }
     
+    // MARK: - ProductsRetrieveService
+    
     public func retrieveProductsWithParams(params: RetrieveProductsParams, result: ProductsRetrieveServiceResult?) {        
         let parameters = params.letgoApiParams
         Alamofire.request(.GET, url, parameters: parameters)
@@ -35,7 +37,6 @@ final public class LGProductsRetrieveService: ProductsRetrieveService {
                 // Error
                 if let actualError = error {
                     let myError: NSError
-                    println(">>>> \(actualError.domain)")
                     if actualError.domain == NSURLErrorDomain {
                         result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Network))
                     }

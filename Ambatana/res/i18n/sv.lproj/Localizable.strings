@@ -37,6 +37,16 @@
 "common_time_seconds_ago_label" = "%d sekunder sedan";
 "common_time_week_ago_label" = "en vecka sedan";
 "common_time_weeks_ago_label" = "%d veckor sedan";
+"contact_body_field_hint" = "Message";
+"contact_email_field_hint" = "Email";
+"contact_send_button" = "Send";
+"contact_send_error_generic" = "Error sending message, please check your connection and try again.";
+"contact_send_error_invalid_body" = "Please, type a message.";
+"contact_send_error_invalid_email" = "Please, provide a valid e-mail address so we can reply to you.";
+"contact_send_error_invalid_subject" = "Please, provide a subject.";
+"contact_send_ok" = "Your message has been sent correctly.";
+"contact_subject_field_hint" = "Subject";
+"contact_title" = "Contact Us";
 "indicate_location_address_field_hint" = "Skriv in din adress";
 "indicate_location_address_search_error_generic" = "Kunde inte hitta platsen. Var god försök igen.";
 "indicate_location_long_press_tip_label" = "Eller tryck ner ditt finger för att välja plats";
@@ -54,6 +64,7 @@
 "log_in_title" = "Logga in";
 "main_sign_up_already_registered_label" = "Redan registrerad?";
 "main_sign_up_claim_label" = "Börja sälja, köpa och chatta";
+"main_sign_up_contact_us_button" = "Contact us";
 "main_sign_up_facebook_connect_button" = "Anslut med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Kunde inte logga in, din e-postadress på Facebook är redan registrerad. Var god försök logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Var god försök igen.";
@@ -153,6 +164,7 @@
 "settings_change_profile_picture_button" = "Byt bild";
 "settings_change_profile_picture_error_generic" = "Ett fel uppstod vid val av profilbild";
 "settings_change_profile_picture_loading" = "Ställer in din profilbild, var god vänta...";
+"settings_contact_us_button" = "Contact us";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Fotobibliotek";
 "settings_image_source_cancel_button" = "Avbryt";

@@ -37,6 +37,16 @@
 "common_time_seconds_ago_label" = "%d δευτερόλεπτα πριν";
 "common_time_week_ago_label" = "πριν από μια εβδομάδα";
 "common_time_weeks_ago_label" = "%d εβδομάδες πριν";
+"contact_body_field_hint" = "Message";
+"contact_email_field_hint" = "Email";
+"contact_send_button" = "Send";
+"contact_send_error_generic" = "Error sending message, please check your connection and try again.";
+"contact_send_error_invalid_body" = "Please, type a message.";
+"contact_send_error_invalid_email" = "Please, provide a valid e-mail address so we can reply to you.";
+"contact_send_error_invalid_subject" = "Please, provide a subject.";
+"contact_send_ok" = "Your message has been sent correctly.";
+"contact_subject_field_hint" = "Subject";
+"contact_title" = "Contact Us";
 "indicate_location_address_field_hint" = "Γράψε τη διεύθυνσή σου";
 "indicate_location_address_search_error_generic" = "Δε μπόρεσα να εντοπίσω αυτή τη τοποθεσία. Προσπάθησε ξανά.";
 "indicate_location_long_press_tip_label" = "Ή κράτα το δάχτυλό σου πατημένο στη τοποθεσία σου";
@@ -54,6 +64,7 @@
 "log_in_title" = "Σύνδεση";
 "main_sign_up_already_registered_label" = "Ήδη εγγεγραμμένος?";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς, να αγοράζεις, και να κάνεις chat";
+"main_sign_up_contact_us_button" = "Contact us";
 "main_sign_up_facebook_connect_button" = "Συνδέσου μέσω Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Αδυναμία σύνδεσης! Το email που σχετίζεται με το Facebook σου χρησιμοποιείται ήδη. Θα πρέπει να προσπαθήσεις ξανά!";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
@@ -153,6 +164,7 @@
 "settings_change_profile_picture_button" = "Αλλαγή φωτογραφίας";
 "settings_change_profile_picture_error_generic" = "Παρουσιάσθηκε σφάλμα σχετικά με την φωτογραφία προφίλ";
 "settings_change_profile_picture_loading" = "Ορισμός φωτογραφίας προφίλ...παρακαλώ, περιμένετε...";
+"settings_contact_us_button" = "Contact us";
 "settings_image_source_camera_button" = "Camera";
 "settings_image_source_camera_roll_button" = "Βιβλιοθήκη Φωτογραφιών";
 "settings_image_source_cancel_button" = "Ακύρωση";

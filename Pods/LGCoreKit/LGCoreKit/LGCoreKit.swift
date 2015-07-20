@@ -15,6 +15,7 @@ public class LGCoreKit {
         // Parse
         // > Register subclasses
         PAProduct.registerSubclass()
+        PAContact.registerSubclass()
         
         // > Setup
         Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId, clientKey: EnvironmentProxy.sharedInstance.parseClientId)

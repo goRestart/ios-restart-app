@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF431B580E4600747610 /* ContactViewModel.swift */; };
+		2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF451B580E5900747610 /* ContactViewController.swift */; };
+		2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1CFF491B58212C00747610 /* ContactViewController.xib */; };
+		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DD65AA99208A05D029379B /* Pods_LetGo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		500391B71B04EFE60081C141 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500391B51B04EFE60081C141 /* CategoryCell.swift */; };
 		500391B81B04EFE60081C141 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B61B04EFE60081C141 /* CategoryCell.xib */; };
@@ -146,6 +150,10 @@
 
 /* Begin PBXFileReference section */
 		2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.debug.xcconfig"; sourceTree = "<group>"; };
+		2E1CFF431B580E4600747610 /* ContactViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewModel.swift; path = Contact/ContactViewModel.swift; sourceTree = "<group>"; };
+		2E1CFF451B580E5900747610 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewController.swift; path = Contact/ContactViewController.swift; sourceTree = "<group>"; };
+		2E1CFF491B58212C00747610 /* ContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactViewController.xib; path = Contact/ContactViewController.xib; sourceTree = "<group>"; };
+		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		500391B51B04EFE60081C141 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		500391B61B04EFE60081C141 /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
 		500391B91B04F4F70081C141 /* ChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatListViewController.xib; sourceTree = "<group>"; };
@@ -360,6 +368,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E1CFF421B580E1E00747610 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				2E1CFF431B580E4600747610 /* ContactViewModel.swift */,
+				2E1CFF451B580E5900747610 /* ContactViewController.swift */,
+				2E1CFF491B58212C00747610 /* ContactViewController.xib */,
+			);
+			name = Contact;
+			sourceTree = "<group>";
+		};
 		5013AA811B03A30200B7A5D3 /* AF-iOS-SDK-v2.5.3.15 */ = {
 			isa = PBXGroup;
 			children = (
@@ -395,6 +413,7 @@
 			children = (
 				50560B881B25D18F0021D8D9 /* BaseViewController.swift */,
 				50560B891B25D18F0021D8D9 /* BaseViewModel.swift */,
+				2E1CFF421B580E1E00747610 /* Contact */,
 				50560B8A1B25D18F0021D8D9 /* Log In */,
 				50560B8D1B25D18F0021D8D9 /* Navigation */,
 				50560B8F1B25D18F0021D8D9 /* Products */,
@@ -455,6 +474,7 @@
 				505B06A51B15A9910049F9CD /* GalleryPageView.swift */,
 				505B06A61B15A9910049F9CD /* GalleryPageView.xib */,
 				505B06A71B15A9910049F9CD /* GalleryView.swift */,
+				2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -1009,6 +1029,7 @@
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				5004BDFC1B06182E00D302F3 /* SellProductViewController.xib in Resources */,
 				50E64F2B1B09E8AB00544DE3 /* ShowProductViewController.xib in Resources */,
+				2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				50560BA11B25D18F0021D8D9 /* SplashViewController.xib in Resources */,
 				50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */,
@@ -1145,6 +1166,7 @@
 				505B06AA1B15A9910049F9CD /* GalleryView.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
 				50560B9F1B25D18F0021D8D9 /* ProductsViewModel.swift in Sources */,
+				2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */,
 				D4C53C971B334B0B0087AAE1 /* UIViewController+User.swift in Sources */,
 				D4912A881B08FDA000DACD5A /* UIColor+UIImage.swift in Sources */,
 				667562AF1A96380E00039151 /* ImageHelper.swift in Sources */,
@@ -1158,6 +1180,7 @@
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift in Sources */,
 				D4B0CF7E1B07309800A61E1A /* SellEmptyCell.swift in Sources */,
+				2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */,
 				50560BA01B25D18F0021D8D9 /* SplashViewController.swift in Sources */,
 				50560B9D1B25D18F0021D8D9 /* ProductsViewController.swift in Sources */,
 				5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */,
@@ -1187,6 +1210,7 @@
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */,
 				50DBEC381B3D79C8006CBDE0 /* TabBarToolTip.swift in Sources */,
+				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
 				50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
 				50F0BAAD1B28939F00E50A68 /* SignUpViewController.swift in Sources */,
@@ -1390,6 +1414,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
@@ -1410,6 +1436,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_NAME = LetGo;
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1421,6 +1448,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
@@ -1438,6 +1467,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_NAME = LetGo;
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 			};
 			name = Release;
@@ -1485,6 +1515,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Ambatana",
@@ -1503,6 +1535,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_NAME = LetGo;
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/Ambatana-Bridging-Header.h";
 			};
 			name = Adhoc;

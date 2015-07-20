@@ -39,6 +39,15 @@ let newYearDay = now.beginningOfYear
 let timeLimit = now.endOfHour
 ```
 
+### Time zone
+
+```swift
+let now = NSDate()
+let cst = NSTimeZone(name: "CST")!
+let dateInCST = now.beginningOfDay.change(timeZone: cst)
+dateInCST.timeZone //=> CST (CDT) offset -18000 (Daylight)
+```
+
 ### Format and parse
 
 ```swift
@@ -52,13 +61,9 @@ let timeLimit = now.endOfHour
 ### Compare dates
 
 ```swift
-if (lastCommitDate > 1.week.ago) {
-    // ...
-}
-
-if (now - lastLoginDate > 1.month) {
-    // ...
-}
+firstCommitDate < 1.year.ago // false
+(1.year.ago...now).contains(firstCommitDate) // true
+firstCommitDate > now // false
 ```
 
 ## Installation
@@ -76,6 +81,10 @@ pod "Timepiece"
 # Cartfile
 github "naoty/Timepiece"
 ```
+
+## Swift 2.0
+
+We provide the support for Swift 2.0 at `swift-2.0` branch.
 
 ## Contribution
 

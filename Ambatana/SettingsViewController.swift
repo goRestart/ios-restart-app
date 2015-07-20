@@ -19,9 +19,9 @@ private let kLetGoUserImageSquareSize: CGFloat = 1024
 
 enum LetGoUserSettings: Int {
     //case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, LogOut = 3
-    case ChangePhoto = 0, ChangePassword = 1, LogOut = 2
+    case ChangePhoto = 0, ChangePassword = 1, ContactUs = 2, LogOut = 3
     
-    static func numberOfOptions() -> Int { return 3 }
+    static func numberOfOptions() -> Int { return 4 }
     
     func titleForSetting() -> String {
         switch (self) {
@@ -29,6 +29,8 @@ enum LetGoUserSettings: Int {
             return NSLocalizedString("settings_change_profile_picture_button", comment: "")
         case .ChangePassword:
             return NSLocalizedString("settings_change_password_button", comment: "")
+        case .ContactUs:
+            return NSLocalizedString("settings_contact_us_button", comment: "")
         case .LogOut:
             return NSLocalizedString("settings_logout_button", comment: "")
         }
@@ -40,6 +42,8 @@ enum LetGoUserSettings: Int {
             return UIImage(named: "edit_profile_password")
         case .LogOut:
             return UIImage(named: "edit_profile_logout")
+        case .ContactUs:
+            return UIImage(named: "ic_contact")
         default:
             return nil
         }
@@ -129,6 +133,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("ChangePasswordViewController") as! ChangePasswordViewController
             self.navigationController?.pushViewController(vc, animated: true)
+        case .ContactUs:
+            let vc = ContactViewController()
+            navigationController?.pushViewController(vc, animated: true)
         case .LogOut:
             logoutUser()
         }

@@ -1,1 +1,1 @@
-../../../Parse/Parse.framework/Headers/PFSession.h
+../../../Parse/PFSession.h

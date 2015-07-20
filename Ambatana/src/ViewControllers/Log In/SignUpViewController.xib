@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SignUpViewController" customModule="LetGo" customModuleProvider="target">
@@ -25,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bGM-pu-5ZB" userLabel="Main View">
-                    <rect key="frame" x="0.0" y="60" width="320" height="132"/>
+                    <rect key="frame" x="0.0" y="64" width="320" height="132"/>
                     <subviews>
                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Cb-XL-Y98" userLabel="Username Button">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -48,7 +48,7 @@
                                 <outlet property="delegate" destination="-1" id="2EZ-H1-bos"/>
                             </connections>
                         </textField>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ic_name" highlightedImage="ic_name_active" translatesAutoresizingMaskIntoConstraints="NO" id="a6D-51-3mx" userLabel="Username Icon Image View">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_name" highlightedImage="ic_name_active" translatesAutoresizingMaskIntoConstraints="NO" id="a6D-51-3mx" userLabel="Username Icon Image View">
                             <rect key="frame" x="18" y="14" width="15" height="16"/>
                         </imageView>
                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PRK-bd-pXa" userLabel="Email Button">
@@ -139,7 +139,7 @@
                     </variation>
                 </view>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scd-Qj-v4h" userLabel="Sign Up Button">
-                    <rect key="frame" x="16" y="207" width="288" height="44"/>
+                    <rect key="frame" x="16" y="211" width="288" height="44"/>
                     <color key="backgroundColor" red="1" green="0.24705882352941178" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="Rgd-7V-vax"/>
@@ -160,7 +160,7 @@
                 <constraint firstItem="scd-Qj-v4h" firstAttribute="leading" secondItem="rD8-Au-m1S" secondAttribute="leading" constant="16" id="DpE-gO-4wz"/>
                 <constraint firstItem="scd-Qj-v4h" firstAttribute="top" secondItem="bGM-pu-5ZB" secondAttribute="bottom" constant="15" id="EbB-Iz-uP0"/>
                 <constraint firstAttribute="trailing" secondItem="scd-Qj-v4h" secondAttribute="trailing" constant="16" id="Jxd-xx-YeZ"/>
-                <constraint firstItem="bGM-pu-5ZB" firstAttribute="top" secondItem="rD8-Au-m1S" secondAttribute="top" constant="60" id="RvW-0b-HvB"/>
+                <constraint firstItem="bGM-pu-5ZB" firstAttribute="top" secondItem="rD8-Au-m1S" secondAttribute="top" constant="64" id="RvW-0b-HvB"/>
                 <constraint firstItem="bGM-pu-5ZB" firstAttribute="leading" secondItem="rD8-Au-m1S" secondAttribute="leading" id="bge-hf-oKP"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>

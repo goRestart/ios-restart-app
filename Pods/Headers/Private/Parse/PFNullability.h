@@ -1,1 +1,1 @@
-../../../Parse/Parse.framework/Headers/PFNullability.h
+../../../Parse/PFNullability.h
