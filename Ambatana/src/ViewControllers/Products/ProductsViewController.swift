@@ -11,15 +11,15 @@ import LGCoreKit
 import Parse
 import UIKit
 
-class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWaterfallLayout, IndicateLocationViewControllerDelegate,ProductsViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, ShowProductViewControllerDelegate {
+class ProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDelegate, ProductsViewModelDelegate, UISearchBarDelegate, ShowProductViewControllerDelegate {
 
-    // Enums
-    private enum UIState {
-        case Loading, Loaded, NoProducts
-    }
-    
-    // Constants
-    private static let TooltipHidingItemCountThreshold = 80
+//    // Enums
+//    private enum UIState {
+//        case Loading, Loaded, NoProducts
+//    }
+//    
+//    // Constants
+//    private static let TooltipHidingItemCountThreshold = 80
     
     // ViewModel
     var viewModel: ProductsViewModel!
@@ -29,13 +29,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     var currentSearchString: String?
     
     // UI
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    var refreshControl: UIRefreshControl!
-    
-    @IBOutlet weak var collectionView: UICollectionView!
-    
-    @IBOutlet weak var noProductsFoundLabel: UILabel!
-    @IBOutlet weak var reloadButton: UIButton!
+    @IBOutlet weak var productListView: ProductListView!
     
     // MARK: - Lifecycle
     
@@ -57,41 +51,16 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
 
         // ViewModel
         viewModel.delegate = self
-        if let queryString = currentSearchString {
-            viewModel.queryString = queryString
-        }
-        if let category = currentCategory {
-            viewModel.categoryIds = [category.rawValue]
-        }
         
         // UI
-        // > No results
-        if self.currentSearchString == nil {
-            self.noProductsFoundLabel.text = NSLocalizedString("product_list_no_products_label", comment: "")
-            self.reloadButton.hidden = true
-        } else {
-            self.noProductsFoundLabel.text = NSLocalizedString("product_list_search_no_products_label", comment: "")
-            self.reloadButton.hidden = false
+        addSubview(productListView)
+        productListView.delegate = self
+        if let queryString = currentSearchString {
+            productListView.queryString = queryString
         }
-        self.reloadButton.setTitle(NSLocalizedString("product_list_no_products_button", comment: ""), forState: .Normal)
-        
-        // > Collection view
-        var layout = CHTCollectionViewWaterfallLayout()
-        layout.minimumColumnSpacing = 0.0
-        layout.minimumInteritemSpacing = 0.0
-        self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.collectionViewLayout = layout
-        
-        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
-        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
-        
-        // > Pull to refresh
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
-        self.collectionView.addSubview(refreshControl)
-
-        // Initial UI state is Loading (by xib)
+        if let category = currentCategory {
+            productListView.categories = [category]
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -104,9 +73,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         if currentSearchString == nil {
             setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
         }
-        
-        // NSNotificationCenter
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dynamicTypeChanged:", name: UIContentSizeCategoryDidChangeNotification, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -120,112 +86,59 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-   
+//    override func viewControllerDidBecomeActive(active: Bool) {
+//        super.viewControllerDidBecomeActive(active)
+//    }
+
     // MARK: - Private methods
-    
-    // MARK: > UI
-    
-    /**
-        Sets up the UI state.
-    
-        :param: state The UI state to set the view to.
-    */
-    private func setUIState(state: UIState) {
-        switch (state) {
-        case .Loading:
-            let isDisplayingProducts = viewModel.numberOfProducts > 0
-            if isDisplayingProducts {
-                activityIndicator.stopAnimating()
-                collectionView.hidden = false
-                refreshControl.endRefreshing()
-            }
-            else {
-                activityIndicator.startAnimating()
-                collectionView.hidden = true
-            }
-            noProductsFoundLabel.hidden = true
-            reloadButton.hidden = true
-        case .Loaded:
-            activityIndicator.stopAnimating()
-            collectionView.hidden = false
-            refreshControl.endRefreshing()
-            noProductsFoundLabel.hidden = true
-            reloadButton.hidden = true
-        case .NoProducts:
-            activityIndicator.stopAnimating()
-            collectionView.hidden = true
-            refreshControl.endRefreshing()
-            noProductsFoundLabel.hidden = false
-            reloadButton.hidden = false
-        }
-    }
-    
-    // MARK: > Actions
-    
-    /** Called when the reload button is pressed. */
-    @IBAction func reloadButtonPressed(sender: AnyObject) {
-        setUIState(.Loading)
-        refresh()
-    }
     
     /** Called when the search button is pressed. */
     func searchButtonPressed(sender: AnyObject) {
-        // Tracking
-        TrackingHelper.trackEvent(.SearchStart, parameters: trackingParamsForEventType(.SearchStart))
+//        // Tracking
+//        TrackingHelper.trackEvent(.SearchStart, parameters: trackingParamsForEventType(.SearchStart))
         
         // Show search
         showSearchBarAnimated(true, delegate: self)
     }
-    
-    // MARK: > Action view model interaction
-    
-    func refresh() {
-        if viewModel.canRetrieveProducts {
-            viewModel.retrieveProductsFirstPage()
-        }
-        else {
-            refreshControl.endRefreshing()
-        }
-    }
-    
-    // MARK: > Tracking
-    
-    func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject] {
-        var properties: [TrackingParameter: AnyObject] = [:]
-        
-        // Common
-        // > current category data
-        if let category = currentCategory {
-            properties[.CategoryId] = category.rawValue
-            properties[.CategoryName] = category.name()
-        }
-        // > current user data
-        if let currentUser = MyUserManager.sharedInstance.myUser() {
-            if let userCity = currentUser.postalAddress.city {
-                properties[.UserCity] = userCity
-            }
-            if let userCountry = currentUser.postalAddress.countryCode {
-                properties[.UserCountry] = userCountry
-            }
-            if let userZipCode = currentUser.postalAddress.zipCode {
-                properties[.UserZipCode] = userZipCode
-            }
-        }
-        // > search query
-        if let actualSearchQuery = currentSearchString {
-            properties[.SearchString] = actualSearchQuery
-        }
-        
-        // ProductList
-        if eventType == .ProductList {
-            // > page number
-            properties[.PageNumber] = viewModel.pageNumber
-        }
-        
-        return properties
-    }
-    
-    
+
+//    // MARK: > Tracking
+//    
+//    func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject] {
+//        var properties: [TrackingParameter: AnyObject] = [:]
+//        
+//        // Common
+//        // > current category data
+//        if let category = currentCategory {
+//            properties[.CategoryId] = category.rawValue
+//            properties[.CategoryName] = category.name()
+//        }
+//        // > current user data
+//        if let currentUser = MyUserManager.sharedInstance.myUser() {
+//            if let userCity = currentUser.postalAddress.city {
+//                properties[.UserCity] = userCity
+//            }
+//            if let userCountry = currentUser.postalAddress.countryCode {
+//                properties[.UserCountry] = userCountry
+//            }
+//            if let userZipCode = currentUser.postalAddress.zipCode {
+//                properties[.UserZipCode] = userZipCode
+//            }
+//        }
+//        // > search query
+//        if let actualSearchQuery = currentSearchString {
+//            properties[.SearchString] = actualSearchQuery
+//        }
+//        
+//        // ProductList
+//        if eventType == .ProductList {
+//            // > page number
+//            properties[.PageNumber] = viewModel.pageNumber
+//        }
+//        
+//        return properties
+//    }
+//    
+//    
     // MARK: > Navigation
     
     func pushProductsViewControllerWithSearchQuery(searchQuery: String) {
@@ -247,25 +160,93 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         let navCtl = UINavigationController(rootViewController: vc)
         self.navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
-
-    // MARK: - NSNotificationCenter
     
-    func dynamicTypeChanged(notification: NSNotification) {
-        self.collectionView.reloadSections(NSIndexSet(index: 0))
-    }
-        
     // MARK: - IndicateLocationViewControllerDelegate
     
     func userDidManuallySetCoordinates(coordinates: CLLocationCoordinate2D) {
         viewModel.coordinates = LGLocationCoordinates2D(coordinates: coordinates)
+        productListView.coordinates = LGLocationCoordinates2D(coordinates: coordinates)
+        productListView.refresh()
+    }
+    
+    // MARK: - ProductListViewDelegate
+    
+    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
+        
+    }
+    
+    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+        
+//            > No results
+//            if self.currentSearchString == nil {
+//                self.noProductsFoundLabel.text = NSLocalizedString("product_list_no_products_label", comment: "")
+//                self.reloadButton.hidden = true
+//            } else {
+//                self.noProductsFoundLabel.text = NSLocalizedString("product_list_search_no_products_label", comment: "")
+//                self.reloadButton.hidden = false
+//            }
+//            self.reloadButton.setTitle(NSLocalizedString("product_list_no_products_button", comment: ""), forState: .Normal)
+
+        
+        // Notify the user setting up an alert with different message, button & button action depending if it's the first page or nexts
+        let message: String
+        let buttonTitle: String
+        let buttonAction: () -> Void
+        if page == 0 {
+            message = NSLocalizedString("product_list_first_page_error_generic_label", comment: "")
+            buttonTitle = NSLocalizedString("product_list_first_page_error_generic_button", comment: "")
+            buttonAction = { () -> Void in
+                productListView.refresh()
+            }
+        }
+        else {
+            message = NSLocalizedString("product_list_next_page_error_generic_label", comment: "")
+            buttonTitle = NSLocalizedString("product_list_next_page_error_generic_button", comment: "")
+            buttonAction = { () -> Void in
+                productListView.retrieveProductsNextPage()
+            }
+        }
+        
+        let alert = UIAlertController(title: nil, message: message, preferredStyle:.Alert)
+        alert.addAction(UIAlertAction(title: buttonTitle, style:.Default, handler: { [weak self] (action) -> Void in
+            if let strongSelf = self {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                    buttonAction()
+                })
+            }
+            }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
+        if page == 0 {
+            productListView.state = .DataView
+        }
+    }
+    
+    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        // TODO: Refactor, shouldn't be handled in here
+        let product = productListView.productAtIndex(indexPath.row)
+        pushProductViewController(product)
     }
     
     // MARK: - ProductsViewModelDelegate
+   
+    func viewModel(viewModel: ProductsViewModel, didStartRequestingLocationServices timeout: NSTimeInterval) {
+        productListView.state = .FirstLoadView
+    }
     
-    func didFailRequestingLocationServices(status: LocationServiceStatus) {
-        // If there are no products, then do not notify...
-        if viewModel.numberOfProducts > 0 {
+    func viewModel(viewModel: ProductsViewModel, didFailRequestingLocationServices status: LocationServiceStatus) {
+
+        // If there is data, then do not notify...
+        switch productListView.state {
+        case .FirstLoadView:
+            break
+        case .DataView:
             return
+        case .ErrorView(_, _, _, _, _):
+            break
         }
         
         var alertMessage: String?
@@ -281,7 +262,7 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
                 alertButtonTitle = NSLocalizedString("product_list_location_unauthorized_button", comment: "")
             }
         }
-
+        
         if let alertMsg = alertMessage, let alertButTitle = alertButtonTitle {
             let alert = UIAlertController(title: nil, message: alertMsg, preferredStyle:.Alert)
             alert.addAction(UIAlertAction(title: alertButTitle, style:.Default, handler: { (action) -> Void in
@@ -291,112 +272,50 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
         }
     }
     
-    func didTimeoutRetrievingLocation() {
+    func viewModel(viewModel: ProductsViewModel, didTimeOutRetrievingLocation timeout: NSTimeInterval) {
         pushIndicateLocationViewController()
     }
     
-    func didStartRetrievingLocation() {
-        setUIState(.Loading)
-    }
-    
-    func didStartRetrievingFirstPageProducts() {
-        setUIState(.Loading)
-    }
-    
-    func didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
-        if indexPaths.isEmpty {
-            setUIState(.NoProducts)
-        }
-        else {
-            collectionView.reloadSections(NSIndexSet(index: 0))
-            setUIState(.Loaded)
-        }
+    func viewModel(viewModel: ProductsViewModel, didRetrieveLocation coordinates: LGLocationCoordinates2D) {
+        productListView.coordinates = coordinates
         
-        // Tracking
-        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
+        if productListView.isEmpty {
+            productListView.refresh()
+        }
     }
+    
+//    func didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
+//        if indexPaths.isEmpty {
+//            setUIState(.NoProducts)
+//        }
+//        else {
+//            collectionView.reloadSections(NSIndexSet(index: 0))
+//            setUIState(.Loaded)
+//        }
+//        
+//        // Tracking
+//        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
+//    }
 
-    func didFailRetrievingFirstPageProducts(error: ProductsRetrieveServiceError) {
-        let alert = UIAlertController(title: nil, message: NSLocalizedString("product_list_first_page_error_generic_label", comment: ""), preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("product_list_first_page_error_generic_button", comment: ""), style:.Default, handler: { [weak self] (action) -> Void in
-            if let strongSelf = self {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                    strongSelf.refresh()
-                })
-            }
-        }))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
     
     func didStartRetrievingNextPageProducts() {
         
     }
     
-    func didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
-        self.collectionView.insertItemsAtIndexPaths(indexPaths)
-        
-        // Hide tip when dragging and exceeding the items threshold to do so
-        if let tabBarCtl = tabBarController as? TabBarController, let lastIndexPath = indexPaths.last {
-            if lastIndexPath.row >= ProductsViewController.TooltipHidingItemCountThreshold {
-                tabBarCtl.dismissTooltip(animated: true)
-            }
-        }
-        
-        // Tracking
-        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
-    }
-
-    func didFailRetrievingNextPageProducts(error:  ProductsRetrieveServiceError) {
-        
-        let alert = UIAlertController(title: nil, message: NSLocalizedString("product_list_next_page_error_generic_label", comment: ""), preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("product_list_next_page_error_generic_button", comment: ""), style:.Default, handler: { [weak self] (action) -> Void in
-            if let strongSelf = self {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                    strongSelf.viewModel.retrieveProductsNextPage()
-                })
-            }
-            }))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    // MARK: - UICollectionViewDataSource
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return viewModel.sizeForCellAtIndex(indexPath.row)
-    }
-    
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, columnCountForSection section: Int) -> Int {
-        return viewModel.numberOfColumns
-    }
-    
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfProducts
-    }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        let product = viewModel.productAtIndex(indexPath.row)
-        
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
-        cell.tag = indexPath.hash
-        
-        // TODO: VC should not handle data -> ask to VM about title etc etc...
-        cell.setupCellWithProduct(product, indexPath: indexPath)
-        
-        viewModel.setCurrentItemIndex(indexPath.row)
-        
-        return cell
-    }
-    
-    // MARK: - UICollectionViewDelegate
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        // TODO: Refactor, shouldn't be handled in here
-        let product = viewModel.productAtIndex(indexPath.row)
-        pushProductViewController(product)
-    }
-    
+//    func didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
+//        self.collectionView.insertItemsAtIndexPaths(indexPaths)
+//        
+//        // Hide tip when dragging and exceeding the items threshold to do so
+//        if let tabBarCtl = tabBarController as? TabBarController, let lastIndexPath = indexPaths.last {
+//            if lastIndexPath.row >= ProductsViewController.TooltipHidingItemCountThreshold {
+//                tabBarCtl.dismissTooltip(animated: true)
+//            }
+//        }
+//        
+//        // Tracking
+//        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
+//    }
+   
     // MARK: - UISearchBarDelegate
     
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
@@ -408,10 +327,10 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
             if let strongSelf = self {
                 let searchString = searchBar.text
                 if searchString != nil && count(searchString) > 0 {
-                    // Tracking
-                    var parameters = strongSelf.trackingParamsForEventType(.SearchComplete)
-                    parameters[.SearchString] = searchString
-                    TrackingHelper.trackEvent(.SearchComplete, parameters: parameters)
+//                    // Tracking
+//                    var parameters = strongSelf.trackingParamsForEventType(.SearchComplete)
+//                    parameters[.SearchString] = searchString
+//                    TrackingHelper.trackEvent(.SearchComplete, parameters: parameters)
                     
                     // Push a new products vc with the search
                     strongSelf.pushProductsViewControllerWithSearchQuery(searchString)
@@ -428,6 +347,6 @@ class ProductsViewController: BaseViewController, CHTCollectionViewDelegateWater
     // update status of a product (i.e: if it gets marked as sold).
     
     func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus) {
-        self.collectionView.reloadSections(NSIndexSet(index: 0))
+//        self.collectionView.reloadSections(NSIndexSet(index: 0))
     }
 }

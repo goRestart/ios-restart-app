@@ -12,7 +12,7 @@ import Result
 
 protocol ProductListViewModelDelegate: class {
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
-    func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt)
+    func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
     func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath])
 }
 
@@ -31,10 +31,10 @@ class ProductListViewModel: BaseViewModel {
     // > Delegate
     weak var delegate: ProductListViewModelDelegate?
     
-    // > Input
+    // > Input (query)
     var queryString: String?
     var coordinates: LGLocationCoordinates2D?
-    var categoryIds: [Int]?
+    var categories: [ProductCategory]?
     var sortCriteria: ProductSortCriteria?
     var maxPrice: Int?
     var minPrice: Int?
@@ -103,6 +103,13 @@ class ProductListViewModel: BaseViewModel {
         var params: RetrieveProductsParams = RetrieveProductsParams()
         params.coordinates = coordinates
         params.queryString = queryString
+        var categoryIds: [Int]?
+        if let actualCategories = categories {
+            categoryIds = []
+            for category in actualCategories {
+                categoryIds?.append(category.rawValue)
+            }
+        }
         params.categoryIds = categoryIds
         params.sortCriteria = sortCriteria
         params.maxPrice = maxPrice
@@ -122,22 +129,27 @@ class ProductListViewModel: BaseViewModel {
                 
                 // Success
                 if let productsResponse = result.value {
+                    // Update the products & the current page number
                     let products = productsResponse.products
                     strongSelf.products = products
                     strongSelf.pageNumber = 0
                     
+                    // Tracking
+                    TrackingHelper.trackEvent(.ProductList, parameters: strongSelf.trackingParamsForEventType(.ProductList))
+                    
+                    // Notify the delegate
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: products.count)
                     delegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: 0, atIndexPaths: indexPaths)
                 }
-                    // Error
+                // Error
                 else if let error = result.error {
-                    delegate?.viewModel(strongSelf, didFailRetrievingProductsPage: 0)
+                    // Notify the delegate
+                    delegate?.viewModel(strongSelf, didFailRetrievingProductsPage: 0, error: error)
                 }
             }
         }
         productsManager.retrieveProductsWithParams(params, result: myResult)
-    }
-    
+    }    
 
     /**
         Retrieve the products next page, with the last query parameters.
@@ -155,16 +167,21 @@ class ProductListViewModel: BaseViewModel {
                 
                 // Success
                 if let productsResponse = result.value {
+                    // Add the new products & update the page number
                     let newProducts = productsResponse.products
                     strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     strongSelf.pageNumber = nextPageNumber
                     
+                    // Tracking
+                    TrackingHelper.trackEvent(.ProductList, parameters: strongSelf.trackingParamsForEventType(.ProductList))
+                    
+                    // Notify the delegate
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
                     delegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber, atIndexPaths: indexPaths)
                 }
                 // Error
                 else if let error = result.error {
-                    delegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber)
+                    delegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber, error: error)
                 }
             }
         }
@@ -205,7 +222,7 @@ class ProductListViewModel: BaseViewModel {
             if thumbnailSize.height != 0 && thumbnailSize.width != 0 {
                 let thumbFactor = thumbnailSize.height / thumbnailSize.width
                 var baseSize = defaultCellSize
-                baseSize.height = max(ProductsViewModel.cellMinHeight, round(baseSize.height * CGFloat(thumbFactor)))
+                baseSize.height = max(ProductListViewModel.cellMinHeight, round(baseSize.height * CGFloat(thumbFactor)))
                 return baseSize
             }
         }
@@ -213,15 +230,64 @@ class ProductListViewModel: BaseViewModel {
     }
     
     /**
-    Sets which item is currently visible on screen. If it exceeds a certain threshold then it loads next page, if possible.
+        Sets which item is currently visible on screen. If it exceeds a certain threshold then it loads next page, if possible.
     
-    :param: index The index of the product currently visible on screen.
+        :param: index The index of the product currently visible on screen.
     */
     func setCurrentItemIndex(index: Int) {
-        let threshold = Int(Float(numberOfProducts) * ProductsViewModel.itemsPagingThresholdPercentage)
+        let threshold = Int(Float(numberOfProducts) * ProductListViewModel.itemsPagingThresholdPercentage)
         let shouldRetrieveProductsNextPage = index >= threshold
         if shouldRetrieveProductsNextPage && canRetrieveProductsNextPage {
             retrieveProductsNextPage()
         }
+    }
+    
+    // MARK: > Tracking 
+    
+    /**
+        Returns the tracking parameters key-value for the given tracking event type.
+    
+        :param: eventType The tracking event type.
+        :return: The tracking parameters key-value for the given tracking event type.
+    */
+    func trackingParamsForEventType(eventType: TrackingEvent) -> [TrackingParameter: AnyObject] {
+        var properties: [TrackingParameter: AnyObject] = [:]
+        
+        // Common
+        // > categories
+        var categoryIds: [String] = []
+        var categoryNames: [String] = []
+        if let actualCategories = categories {
+            for category in actualCategories {
+                categoryIds.append(String(category.rawValue))
+                categoryNames.append(category.name())
+            }
+        }
+        properties[.CategoryId] = categoryIds.isEmpty ? "0" : ",".join(categoryIds)
+        properties[.CategoryName] = categoryNames.isEmpty ? "none" : ",".join(categoryNames)
+        // > current user data
+        if let currentUser = MyUserManager.sharedInstance.myUser() {
+            if let userCity = currentUser.postalAddress.city {
+                properties[.UserCity] = userCity
+            }
+            if let userCountry = currentUser.postalAddress.countryCode {
+                properties[.UserCountry] = userCountry
+            }
+            if let userZipCode = currentUser.postalAddress.zipCode {
+                properties[.UserZipCode] = userZipCode
+            }
+        }
+        // > search query
+        if let actualSearchQuery = queryString {
+            properties[.SearchString] = actualSearchQuery
+        }
+        
+        // ProductList
+        if eventType == .ProductList {
+            // > page number
+            properties[.PageNumber] = pageNumber
+        }
+        
+        return properties
     }
 }

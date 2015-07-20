@@ -11,22 +11,34 @@ import Foundation
 class BaseViewController: UIViewController {
     
     private var viewModel: BaseViewModel!
+    private var subviews: [BaseView]!
     
     // MARK: Lifecycle
     
     init(viewModel: BaseViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
+        self.subviews = []
         super.init(nibName: nibNameOrNil, bundle: nil)
     }
-    
-    required init(coder: NSCoder) {
-        super.init(coder: coder)
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.active = true
         
+        // Controller
+        viewControllerDidBecomeActive(true)
+        
+        // Views
+        if let actualSubviews = subviews {
+            for subview in actualSubviews {
+                subview.viewDidBecomeActive(true)
+            }
+        }
+        
+        // Observers: listen for background/foreground notifications
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidEnterBackground:"), name: UIApplicationDidEnterBackgroundNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
         
@@ -34,9 +46,33 @@ class BaseViewController: UIViewController {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        viewModel.active = false
         
+        // Controller
+        viewControllerDidBecomeActive(false)
+        
+        // Views
+        if let actualSubviews = subviews {
+            for subview in actualSubviews {
+                subview.viewDidBecomeActive(false)
+            }
+        }
+
+        // Remove all observers
         NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // MARK: - Internal methods
+    
+    func addSubview(subview: BaseView) {
+        subviews.append(subview)
+    }
+    
+    func removeSubview(subview: BaseView) {
+        subviews = subviews.filter { return $0 !== subview }
+    }
+    
+    func viewControllerDidBecomeActive(active: Bool) {
+        viewModel.active = active
     }
     
     // MARK: - Private methods
@@ -44,10 +80,10 @@ class BaseViewController: UIViewController {
     // MARK: > NSNotificationCenter
     
     @objc private func applicationDidEnterBackground(notification: NSNotification) {
-        viewModel.active = false
+        viewControllerDidBecomeActive(false)
     }
     
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
-        viewModel.active = true
+        viewControllerDidBecomeActive(true)
     }
 }

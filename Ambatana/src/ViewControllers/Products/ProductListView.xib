@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="vRY-iX-mQA" id="nMS-ME-4rB"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="gjB-qS-FaX"/>
+                <outlet property="dataView" destination="Zs6-3O-H5d" id="Ux4-8Q-uRF"/>
+                <outlet property="errorBodyLabel" destination="saZ-xv-kZi" id="bex-6p-mKk"/>
+                <outlet property="errorButton" destination="XEe-Z9-YAj" id="Ncb-ek-xNL"/>
+                <outlet property="errorImageView" destination="DRg-7Y-Mk1" id="A8h-JV-0OL"/>
+                <outlet property="errorTitleLabel" destination="A0a-1a-Pkb" id="alm-Lz-oJk"/>
+                <outlet property="errorView" destination="ljl-Jf-n6M" id="ngf-WM-0pj"/>
+                <outlet property="firstLoadActivityIndicator" destination="Pbl-p4-Cn4" id="yhM-Du-Lw8"/>
+                <outlet property="firstLoadView" destination="6q1-Ob-tgt" id="cZr-l7-ZLr"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -17,18 +30,9 @@
                             <rect key="frame" x="290" y="290" width="20" height="20"/>
                             <color key="color" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         </activityIndicatorView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AOs-Wl-hTQ" userLabel="First Load Loading Label">
-                            <rect key="frame" x="8" y="318" width="584" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="AOs-Wl-hTQ" firstAttribute="top" secondItem="Pbl-p4-Cn4" secondAttribute="bottom" constant="8" id="85v-yY-AOc"/>
-                        <constraint firstAttribute="trailing" secondItem="AOs-Wl-hTQ" secondAttribute="trailing" constant="8" id="LQ2-W3-Wiv"/>
-                        <constraint firstItem="AOs-Wl-hTQ" firstAttribute="leading" secondItem="6q1-Ob-tgt" secondAttribute="leading" constant="8" id="eFL-SM-JDA"/>
                         <constraint firstAttribute="centerY" secondItem="Pbl-p4-Cn4" secondAttribute="centerY" id="pgU-fm-SGH"/>
                         <constraint firstAttribute="centerX" secondItem="Pbl-p4-Cn4" secondAttribute="centerX" id="zbz-Ls-gkm"/>
                     </constraints>
@@ -47,8 +51,8 @@
                             </collectionViewFlowLayout>
                             <cells/>
                             <connections>
-                                <outlet property="dataSource" destination="iN0-l3-epB" id="CyF-hb-2Xh"/>
-                                <outlet property="delegate" destination="iN0-l3-epB" id="znz-Oq-Zjy"/>
+                                <outlet property="dataSource" destination="-1" id="VtP-LE-eiE"/>
+                                <outlet property="delegate" destination="-1" id="42P-Zq-27k"/>
                             </connections>
                         </collectionView>
                     </subviews>
@@ -154,18 +158,6 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="collectionView" destination="vRY-iX-mQA" id="2jl-n0-HOS"/>
-                <outlet property="dataView" destination="Zs6-3O-H5d" id="kRQ-Wc-B0E"/>
-                <outlet property="errorBodyLabel" destination="saZ-xv-kZi" id="QcX-ov-Iha"/>
-                <outlet property="errorButton" destination="XEe-Z9-YAj" id="D1y-Eb-JpQ"/>
-                <outlet property="errorImageView" destination="DRg-7Y-Mk1" id="8ab-nr-tU7"/>
-                <outlet property="errorTitleLabel" destination="A0a-1a-Pkb" id="3dC-1v-6IF"/>
-                <outlet property="errorView" destination="ljl-Jf-n6M" id="Bba-rE-wxC"/>
-                <outlet property="firstLoadActivityIndicator" destination="Pbl-p4-Cn4" id="7Co-Ic-KmH"/>
-                <outlet property="firstLoadLabel" destination="AOs-Wl-hTQ" id="doZ-jR-LEj"/>
-                <outlet property="firstLoadView" destination="6q1-Ob-tgt" id="xfF-pL-2ao"/>
-            </connections>
         </view>
     </objects>
 </document>

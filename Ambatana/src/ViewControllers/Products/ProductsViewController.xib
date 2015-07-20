@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7706"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
-                <outlet property="activityIndicator" destination="j1g-rJ-MHl" id="uF5-BE-Jgm"/>
-                <outlet property="collectionView" destination="T6b-aX-Q5o" id="NRy-ax-TAy"/>
-                <outlet property="noProductsFoundLabel" destination="hDf-vf-M1t" id="cqc-1d-DBb"/>
-                <outlet property="reloadButton" destination="JXi-5z-fKZ" id="fG6-BD-jT1"/>
+                <outlet property="productListView" destination="cx9-GQ-2WN" id="L0d-MI-omN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -18,59 +15,21 @@
             <rect key="frame" x="0.0" y="64" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="T6b-aX-Q5o">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx9-GQ-2WN" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="hxS-dU-ub7" customClass="CHTCollectionViewWaterfallLayout">
-                        <size key="itemSize" width="145" height="190"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="49"/>
-                    </collectionViewFlowLayout>
-                    <cells/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="lTQ-Ja-8Uh"/>
-                        <outlet property="delegate" destination="-1" id="TkA-BE-rbX"/>
-                    </connections>
-                </collectionView>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="j1g-rJ-MHl" userLabel="Activity Indicator">
-                    <rect key="frame" x="290" y="290" width="20" height="20"/>
-                    <color key="color" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
-                </activityIndicatorView>
-                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No products found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDf-vf-M1t" userLabel="No products found Label">
-                    <rect key="frame" x="20" y="286" width="560" height="29"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JXi-5z-fKZ" userLabel="Reload Button">
-                    <rect key="frame" x="155" y="335" width="290" height="40"/>
-                    <color key="backgroundColor" red="1" green="0.363552928" blue="0.3849048316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="290" id="W6p-6C-BOv"/>
-                        <constraint firstAttribute="height" constant="40" id="fpS-Fh-23b"/>
-                    </constraints>
-                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Reload products">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="reloadButtonPressed:" destination="-1" eventType="touchUpInside" id="HVi-lo-bZj"/>
-                    </connections>
-                </button>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="T6b-aX-Q5o" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1lA-cn-84Q"/>
-                <constraint firstAttribute="bottom" secondItem="T6b-aX-Q5o" secondAttribute="bottom" id="8Wd-pX-ckf"/>
-                <constraint firstAttribute="trailing" secondItem="T6b-aX-Q5o" secondAttribute="trailing" id="NxT-a7-XXI"/>
-                <constraint firstAttribute="trailing" secondItem="hDf-vf-M1t" secondAttribute="trailing" constant="20" id="RaO-6C-Gq0"/>
-                <constraint firstItem="j1g-rJ-MHl" firstAttribute="centerX" secondItem="JXi-5z-fKZ" secondAttribute="centerX" id="ehb-D5-Pc3"/>
-                <constraint firstAttribute="centerY" secondItem="hDf-vf-M1t" secondAttribute="centerY" id="fXe-K6-zYG"/>
-                <constraint firstItem="JXi-5z-fKZ" firstAttribute="top" secondItem="hDf-vf-M1t" secondAttribute="bottom" constant="20" id="faZ-lA-MdX"/>
-                <constraint firstAttribute="centerX" secondItem="j1g-rJ-MHl" secondAttribute="centerX" id="iwb-FY-fry"/>
-                <constraint firstAttribute="centerY" secondItem="j1g-rJ-MHl" secondAttribute="centerY" id="mCv-hs-96N"/>
-                <constraint firstItem="hDf-vf-M1t" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="vXr-FE-5OL"/>
-                <constraint firstItem="T6b-aX-Q5o" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="zLa-aE-7w8"/>
+                <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" id="06e-uB-9hd"/>
+                <constraint firstAttribute="trailing" secondItem="cx9-GQ-2WN" secondAttribute="trailing" id="EVZ-2c-9B0"/>
+                <constraint firstItem="cx9-GQ-2WN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="H2y-vd-Uth"/>
+                <constraint firstItem="cx9-GQ-2WN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="UVf-1p-0eM"/>
+                <constraint firstItem="cx9-GQ-2WN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="WwV-96-nzZ"/>
+                <constraint firstItem="cx9-GQ-2WN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="XcY-dZ-t2C"/>
+                <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" id="gau-b7-gga"/>
+                <constraint firstAttribute="trailing" secondItem="cx9-GQ-2WN" secondAttribute="trailing" id="yDa-lr-3M2"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
