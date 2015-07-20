@@ -6,7 +6,7 @@
 "categories_movies_books_and_music" = "Films, Boeken en Muziek";
 "categories_other" = "Overige";
 "categories_sports_leisure_and_games" = "Sport, Vrije tijd en Games";
-"categories_title" = "Categorieen";
+"categories_title" = "Categorieën";
 "change_password_confirm_password_field_hint" = "Bevestig wachtwoord";
 "change_password_new_password_field_hint" = "Nieuw wachtwoord";
 "change_password_send_error_generic" = "Er is een fout opgetreden bij het wijzigen van het wachtwoord. Probeer het later nog eens";
@@ -37,6 +37,16 @@
 "common_time_seconds_ago_label" = "%d seconden geleden";
 "common_time_week_ago_label" = "Een week geleden";
 "common_time_weeks_ago_label" = "%d weken geleden";
+"contact_body_field_hint" = "Message";
+"contact_email_field_hint" = "Email";
+"contact_send_button" = "Send";
+"contact_send_error_generic" = "Error sending message, please check your connection and try again.";
+"contact_send_error_invalid_body" = "Please, type a message.";
+"contact_send_error_invalid_email" = "Please, provide a valid e-mail address so we can reply to you.";
+"contact_send_error_invalid_subject" = "Please, provide a subject.";
+"contact_send_ok" = "Your message has been sent correctly.";
+"contact_subject_field_hint" = "Subject";
+"contact_title" = "Contact Us";
 "indicate_location_address_field_hint" = "Vul je adres in";
 "indicate_location_address_search_error_generic" = "Ik was niet in staat om die locatie te vinden. Gelieve, het opnieuw te proberen.";
 "indicate_location_long_press_tip_label" = "Of houd je vinger ingedrukt op jouw locatie";
@@ -54,6 +64,7 @@
 "log_in_title" = "Inloggen";
 "main_sign_up_already_registered_label" = "Al geregistreerd?";
 "main_sign_up_claim_label" = "Start met verkopen, kopen en chatten";
+"main_sign_up_contact_us_button" = "Contact us";
 "main_sign_up_facebook_connect_button" = "Verbind met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Niet in staat om in te loggen, jouw e-mailadres is al geregistreerd bij Facebook. Probeer a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen. ";
@@ -153,6 +164,7 @@
 "settings_change_profile_picture_button" = "Wijzig foto";
 "settings_change_profile_picture_error_generic" = "Er is een fout opgetreden bij het instellen van de profielfoto";
 "settings_change_profile_picture_loading" = "Instellen van jouw profielfoto, even geduld a.u.b.";
+"settings_contact_us_button" = "Contact us";
 "settings_image_source_camera_button" = "Camera";
 "settings_image_source_camera_roll_button" = "Fotobibliotheek";
 "settings_image_source_cancel_button" = "Annuleren";

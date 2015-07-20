@@ -37,6 +37,16 @@
 "common_time_seconds_ago_label" = "il y a %d secondes";
 "common_time_week_ago_label" = "il y a une semaine";
 "common_time_weeks_ago_label" = "il y a %d semaines";
+"contact_body_field_hint" = "Message";
+"contact_email_field_hint" = "Email";
+"contact_send_button" = "Send";
+"contact_send_error_generic" = "Error sending message, please check your connection and try again.";
+"contact_send_error_invalid_body" = "Please, type a message.";
+"contact_send_error_invalid_email" = "Please, provide a valid e-mail address so we can reply to you.";
+"contact_send_error_invalid_subject" = "Please, provide a subject.";
+"contact_send_ok" = "Your message has been sent correctly.";
+"contact_subject_field_hint" = "Subject";
+"contact_title" = "Contact Us";
 "indicate_location_address_field_hint" = "Ecrivez votre adresse";
 "indicate_location_address_search_error_generic" = "Je n'ai pas trouvé ce lieu. Veuillez réessayer.";
 "indicate_location_long_press_tip_label" = "Ou laissez votre doigt appuyé sur votre position.";
@@ -54,6 +64,7 @@
 "log_in_title" = "Se Connecter";
 "main_sign_up_already_registered_label" = "Déjà enregistré ?";
 "main_sign_up_claim_label" = "Commencez à vendre, acheter et chatter.";
+"main_sign_up_contact_us_button" = "Contact us";
 "main_sign_up_facebook_connect_button" = "Se Connecter avec Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Impossible de se connecter, votre adresse email dans Facebook est déjà utilisée. Veuillez essayer de vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
@@ -153,6 +164,7 @@
 "settings_change_profile_picture_button" = "Changer la photo";
 "settings_change_profile_picture_error_generic" = "Une erreur est survenue lors du paramétrage de votre photo de profil";
 "settings_change_profile_picture_loading" = "Paramétrage de votre image de profil, veuillez patienter...";
+"settings_contact_us_button" = "Contact us";
 "settings_image_source_camera_button" = "Appareil Photo";
 "settings_image_source_camera_roll_button" = "Bibliothèque photos";
 "settings_image_source_cancel_button" = "Annuler";

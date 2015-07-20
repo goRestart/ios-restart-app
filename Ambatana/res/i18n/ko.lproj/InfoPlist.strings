@@ -1,3 +1,1 @@
-// Message shown when the application asks you to access your location while you use the app
-"NSLocationWhenInUseUsageDescription" = "letgo needs to access your location to be able to show you products nearby";
-
+"NSLocationWhenInUseUsageDescription" = "렛고는 근처의 제품을 파악하기위해 위치파악을 사용할 것입니다.";
