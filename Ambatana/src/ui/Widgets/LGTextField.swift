@@ -23,13 +23,11 @@ class LGTextField: UITextField {
     
     // text position
     override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return         CGRectMake(insetX, insetY, CGRectGetWidth(bounds)-2*insetX-clearButtonSide/2, CGRectGetHeight(bounds)-2*insetY)
-//        return CGRectInset(bounds , insetX , insetY)
+        return CGRectMake(insetX, insetY, CGRectGetWidth(bounds)-2*insetX-clearButtonSide/2, CGRectGetHeight(bounds)-2*insetY)
     }
     
     override func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
         var rect = CGRectMake(bounds.size.width-clearButtonSide-clearButtonOffset , CGRectGetMidY(bounds)-clearButtonSide/2, clearButtonSide, clearButtonSide)
-        println(rect)
         return rect
     }
 }

@@ -32,13 +32,13 @@ PODS:
     - SwiftyJSON (~> 2.2)
     - Timepiece (~> 0.2)
   - Nimble (0.4.2)
-  - Parse (1.7.5.2):
+  - Parse (1.7.5.3):
     - Bolts/Tasks (>= 1.2.0)
-  - ParseFacebookUtilsV4 (1.7.5.2):
+  - ParseFacebookUtilsV4 (1.7.5.3):
     - Bolts/Tasks (>= 1.2.0)
     - FBSDKCoreKit (~> 4.0)
     - FBSDKLoginKit (~> 4.0)
-    - Parse (~> 1.7.5.2)
+    - Parse (~> 1.7.5.3)
   - pop (1.0.7)
   - Quick (0.3.1)
   - Realm (0.93.2):
@@ -75,8 +75,8 @@ SPEC CHECKSUMS:
   FBSDKShareKit: a42865f20ba2d1cc548c4d0f73ad22cff6377ddb
   LGCoreKit: 4b3dd7edc7b4e98270e3efc81a03521549661c91
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
-  Parse: 9a01b8cb054f113b74211370aaf9d982d355729a
-  ParseFacebookUtilsV4: acfed5ac0502003bca707f0de9700597f7527dbe
+  Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
+  ParseFacebookUtilsV4: ea5db22e87b91cbf99b9d156642e2b97a4db7d51
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220

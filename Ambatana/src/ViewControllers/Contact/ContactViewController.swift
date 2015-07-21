@@ -138,7 +138,6 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
             messageField.text = nil
             messageField.textColor = UIColor.blackColor()
         }
-        println(scrollView.contentOffset.y)
         scrollView.setContentOffset(CGPointMake(0,textView.frame.origin.y-64), animated: true)
     }
     
@@ -159,12 +158,6 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
     }
     
     // MARK: - TextFieldDelegate
-    
-    func textFieldDidBeginEditing(textField: UITextField) {
-        
-        scrollView.setContentOffset(CGPointMake(0,emailField.frame.origin.y-64), animated: true)
-
-    }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
