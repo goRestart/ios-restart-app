@@ -46,6 +46,21 @@
 // Change password title. Check image @ "change_password_confirm_password_field_hint" segment
 "change_password_title" = "Change password";
 
+// Change name title.  Check attached image "change_username.png"
+"change_username_title" = "Change Name";
+
+// Change name hint.  Check image @ "change_username_title" segment
+"change_username_field_hint" = "Full name";
+
+// Change name invalid name error.  Check image @ "change_username_title" segment
+"change_username_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+
+// Change name save button.  Check image @ "change_username_title" segment
+"change_username_save_button" = "Save";
+
+// Change name loading message. Check image @ "change_username_title" segment
+"change_username_loading" = "Saving your user name...";
+
 // Chat list empty label. Check attached image  "chat_list (empty).png"
 "chat_list_empty_label" = "No conversations yet";
 
@@ -486,6 +501,9 @@
 
 // Settings change password button. Check attached image "settings.png"
 "settings_change_password_button" = "Change password";
+
+// Settings change name button. Check image @ "settings_change_password_button" segment
+"settings_change_username_button" = "Change name";
 
 // Settings change profile picture button. Check image @ "settings_change_password_button" segment
 "settings_change_profile_picture_button" = "Change photo";

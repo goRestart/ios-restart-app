@@ -179,6 +179,8 @@
 		5033F6D21B5E7A990004FECB /* my */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = my; path = my.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5033F6D31B5E7AAC0004FECB /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5033F6D41B5E7AAC0004FECB /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5033F6D51B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		5033F6D61B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		50560B881B25D18F0021D8D9 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		50560B891B25D18F0021D8D9 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		50560B8B1B25D18F0021D8D9 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
@@ -991,6 +993,7 @@
 				pt,
 				my,
 				ja,
+				ko,
 			);
 			mainGroup = 6608E02D1A820FBD005895ED;
 			productRefGroup = 6608E0371A820FBD005895ED /* Products */;
@@ -1287,6 +1290,7 @@
 				5063B7D11B4676ED00039D05 /* pt */,
 				5033F6D11B5E7A990004FECB /* my */,
 				5033F6D31B5E7AAC0004FECB /* ja */,
+				5033F6D51B5E7CD40004FECB /* ko */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -1314,6 +1318,7 @@
 				5063B7D21B4676ED00039D05 /* pt */,
 				5033F6D21B5E7A990004FECB /* my */,
 				5033F6D41B5E7AAC0004FECB /* ja */,
+				5033F6D61B5E7CD40004FECB /* ko */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
