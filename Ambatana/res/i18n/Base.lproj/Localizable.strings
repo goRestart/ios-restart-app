@@ -46,6 +46,21 @@
 // Change password title. Check image @ "change_password_confirm_password_field_hint" segment
 "change_password_title" = "Change password";
 
+// Change name title.  Check attached image "change_username.png"
+"change_username_title" = "Change Name";
+
+// Change name hint.  Check image @ "change_username_title" segment
+"change_username_field_hint" = "Full name";
+
+// Change name invalid name error.  Check image @ "change_username_title" segment
+"change_username_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+
+// Change name save button.  Check image @ "change_username_title" segment
+"change_username_save_button" = "Save";
+
+// Change name loading message. Check image @ "change_username_title" segment
+"change_username_loading" = "Saving your user name...";
+
 // Chat list empty label. Check attached image  "chat_list (empty).png"
 "chat_list_empty_label" = "No conversations yet";
 
@@ -115,6 +130,39 @@
 // Common time weeks ago label
 "common_time_weeks_ago_label" = "%d weeks ago";
 
+// Contact email field hint. Check attached image "contact.png"
+"contact_email_field_hint" = "Email";
+
+// Contact title. Check attached image @ "contact_email_field_hint" segment
+"contact_title" = "Contact Us";
+
+// Contact subject field hint. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_field_hint" = "Subject";
+
+// Contact body field hint. Check attached image @ "contact_email_field_hint" segment
+"contact_body_field_hint" = "Message";
+
+// Contact send button. Check attached image @ "contact_email_field_hint" segment
+"contact_send_button" = "Send";
+
+// Contact send error invalid email. Message displayal is like the other error messages
+"contact_send_error_invalid_email" = "Please, provide a valid e-mail address so we can reply to you.";
+
+// Contact send error invalid subject. Message displayal is like the other error messages
+"contact_send_error_invalid_subject" = "Please, provide a subject.";
+
+// Contact send error invalid body. Message displayal is like the other error messages
+"contact_send_error_invalid_body" = "Please, type a message.";
+
+// Contact send ok. Message displayal is like the other error messages
+"contact_send_ok" = "Your message has been sent correctly.";
+
+// Contact send error generic. Message displayal is like the other error messages
+"contact_send_error_generic" = "Error sending message, please check your connection and try again.";
+
+// Settings contact us button. Check attached image @ "settings_change_password_button" segment
+"settings_contact_us_button" = "Contact us";
+
 // Indicate location address field hint. Check attached image "indicate_location.png"
 "indicate_location_address_field_hint" = "Write your address";
 
@@ -165,6 +213,9 @@
 
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_claim_label" = "Start to sell, buy and chat";
+
+// Main sign up contact us button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_contact_us_button" = "Contact us";
 
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_facebook_connect_button" = "Connect with Facebook";
@@ -451,6 +502,9 @@
 // Settings change password button. Check attached image "settings.png"
 "settings_change_password_button" = "Change password";
 
+// Settings change name button. Check image @ "settings_change_password_button" segment
+"settings_change_username_button" = "Change name";
+
 // Settings change profile picture button. Check image @ "settings_change_password_button" segment
 "settings_change_profile_picture_button" = "Change photo";
 
@@ -511,5 +565,6 @@
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff!";
 
-/* Profile favourites my user no products label. Check attached image "profile (empty).png" */
+// Profile favourites my user no products label. Check attached image "profile (empty).png"
 "profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
+

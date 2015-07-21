@@ -17,9 +17,7 @@ extension UIViewController {
             vc.afterLoginAction = afterLogInAction
 
             let navCtl = UINavigationController(rootViewController: vc)
-            navCtl.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
-            navCtl.navigationBar.shadowImage = UIImage()
-            
+            navCtl.view.backgroundColor = UIColor.whiteColor()
             self.presentViewController(navCtl, animated: true, completion: nil)
         }
         else {

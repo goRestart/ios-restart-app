@@ -14,6 +14,11 @@
 "change_password_send_error_passwords_mismatch" = "Salasanat eivät täsmää. Ole hyvä ja yritä uudelleen.";
 "change_password_send_ok" = "Salasana vaihdettu onnistuneesti.";
 "change_password_title" = "Vaihda salasana";
+"change_username_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"change_username_field_hint" = "Full name";
+"change_username_loading" = "Saving your user name...";
+"change_username_save_button" = "Save";
+"change_username_title" = "Change Name";
 "chat_list_empty_label" = "Ei vielä keskusteluja";
 "chat_list_start_selling_or_buying_label" = "Aloita myyminen tai ostaminen!";
 "chat_list_title" = "Keskustelut";
@@ -37,6 +42,16 @@
 "common_time_seconds_ago_label" = "%d sekuntia sitten";
 "common_time_week_ago_label" = "viikko sitten";
 "common_time_weeks_ago_label" = "%d viikkoa sitten";
+"contact_body_field_hint" = "Viesti";
+"contact_email_field_hint" = "Sähköposti";
+"contact_send_button" = "Lähetä";
+"contact_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe, ole hyvä ja tarkista yhteytesi ja yritä uudelleen.";
+"contact_send_error_invalid_body" = "Ole hyvä, kirjoita viesti.";
+"contact_send_error_invalid_email" = "Ole hyvä ja anna toimiva sähköpostiosoite, jotta voimme vastata sinulle";
+"contact_send_error_invalid_subject" = "Ole hyvä, kirjoita aihe.";
+"contact_send_ok" = "Viestisi lähetys onnistui.";
+"contact_subject_field_hint" = "Aihe";
+"contact_title" = "Ota meihin yhteyttä";
 "indicate_location_address_field_hint" = "Kirjoita osoitteesi";
 "indicate_location_address_search_error_generic" = "En löytänyt sijaintia. Ole hyvä, ja yritä uudelleen.";
 "indicate_location_long_press_tip_label" = "Tai paina sormella sijaintiasi";
@@ -54,6 +69,7 @@
 "log_in_title" = "Kirjaudu sisään";
 "main_sign_up_already_registered_label" = "Oletko jo rekisteröitynyt?";
 "main_sign_up_claim_label" = "Aloita myyminen, ostaminen, ja keskusteleminen";
+"main_sign_up_contact_us_button" = "Ota meihin yhteyttä";
 "main_sign_up_facebook_connect_button" = "Yhdistä Facebookin avulla";
 "main_sign_up_fb_connect_error_email_taken" = "Kirjautuminen ei onnistunut, Facebookin sähköpostiosoitteesi on jo rekisteröity. Ole hyvä ja yritä kirjautua sisään.";
 "main_sign_up_fb_connect_error_generic" = "Kirjautuminen ei onnistunut. Ole hyvä ja yritä uudelleen.";
@@ -153,6 +169,8 @@
 "settings_change_profile_picture_button" = "Vaihda kuva";
 "settings_change_profile_picture_error_generic" = "Profiilikuvaa asetettaessa tapahtui virhe";
 "settings_change_profile_picture_loading" = "Profiilikuvaasi asetetaan, ole hyvä ja odota...";
+"settings_change_username_button" = "Change name";
+"settings_contact_us_button" = "Ota meihin yhteyttä";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Kuvakirjasto";
 "settings_image_source_cancel_button" = "Peruuta";
@@ -169,4 +187,4 @@
 "sign_up_send_error_invalid_username" = "Ole hyvä ja syötä kelvollinen nimi, jossa on vähintään %d merkkiä";
 "sign_up_title" = "Rekisteröidy";
 "sign_up_username_field_hint" = "Koko nimi";
-"tab_bar_tool_tip" = "Myy tavarasi!";
+"tab_bar_tool_tip" = "Myy Tavarasi!";

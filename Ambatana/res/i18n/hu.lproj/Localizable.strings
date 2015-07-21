@@ -14,6 +14,11 @@
 "change_password_send_error_passwords_mismatch" = "A jelszavak nem egyeznek, próbálkozz újra.";
 "change_password_send_ok" = "Sikeres jelszóváltoztatás.";
 "change_password_title" = "Jelszóváltás";
+"change_username_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"change_username_field_hint" = "Full name";
+"change_username_loading" = "Saving your user name...";
+"change_username_save_button" = "Save";
+"change_username_title" = "Change Name";
 "chat_list_empty_label" = "Még nincsenek beszélgetések";
 "chat_list_start_selling_or_buying_label" = "Kezdj eladni vagy venni!";
 "chat_list_title" = "Chatek";
@@ -37,6 +42,16 @@
 "common_time_seconds_ago_label" = "%d másodperccel ezelőtt";
 "common_time_week_ago_label" = "egy héttel ezelőtt";
 "common_time_weeks_ago_label" = "%d héttel ezelőtt";
+"contact_body_field_hint" = "Üzenet";
+"contact_email_field_hint" = "E-mail cím";
+"contact_send_button" = "Küldés";
+"contact_send_error_generic" = "Hiba az üzenet küldése során, ellenőrizd az internetkapcsolatot és próbálkozz újra.";
+"contact_send_error_invalid_body" = "Kérjük, adj meg üzenetet.";
+"contact_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg, hogy válaszolni tudjunk.";
+"contact_send_error_invalid_subject" = "Kérjük, add meg az üzenet tárgyát.";
+"contact_send_ok" = "Üzeneted sikeresen elküldve.";
+"contact_subject_field_hint" = "Tárgy";
+"contact_title" = "Kontakt Oss";
 "indicate_location_address_field_hint" = "Add meg a címedet";
 "indicate_location_address_search_error_generic" = "Nem sikerült megtalálni a címet, próbálkozz újra.";
 "indicate_location_long_press_tip_label" = "Vagy tartsd nyomva az ujjadat a tartózkodási helyeden";
@@ -54,6 +69,7 @@
 "log_in_title" = "Bejelentkezés";
 "main_sign_up_already_registered_label" = "Már regisztráltál?";
 "main_sign_up_claim_label" = "Kezdj chatelni, vásárolni, eladni";
+"main_sign_up_contact_us_button" = "Kontakt oss";
 "main_sign_up_facebook_connect_button" = "Csatlakozz Facebookkal";
 "main_sign_up_fb_connect_error_email_taken" = "A bejelentkezés sikertelen. A Facebookban tárolt e-mail cím már regisztrált. Próbálkozz újra.";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
@@ -153,6 +169,8 @@
 "settings_change_profile_picture_button" = "Fotócsere";
 "settings_change_profile_picture_error_generic" = "Hiba történt a profilkép beállítása során";
 "settings_change_profile_picture_loading" = "Profilkép beállítása, türelem...";
+"settings_change_username_button" = "Change name";
+"settings_contact_us_button" = "Kontakt oss";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Fotótár";
 "settings_image_source_cancel_button" = "Mégse";
@@ -169,4 +187,4 @@
 "sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon";
 "sign_up_title" = "Regisztráció";
 "sign_up_username_field_hint" = "Teljes név";
-"tab_bar_tool_tip" = "Add el a dolgaid!";
+"tab_bar_tool_tip" = "Add el a Dolgaid!";

@@ -14,6 +14,11 @@
 "change_password_send_error_passwords_mismatch" = "Mật khẩu không khớp. Vui lòng thử lại.";
 "change_password_send_ok" = "Mật khẩu thay đổi thành công.";
 "change_password_title" = "Thay đổi mật khẩu";
+"change_username_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"change_username_field_hint" = "Full name";
+"change_username_loading" = "Saving your user name...";
+"change_username_save_button" = "Save";
+"change_username_title" = "Change Name";
 "chat_list_empty_label" = "Chưa có trò chuyện nào";
 "chat_list_start_selling_or_buying_label" = "Bắt đầu bán hoặc mua!";
 "chat_list_title" = "Trò chuyện";
@@ -37,6 +42,16 @@
 "common_time_seconds_ago_label" = "%d giây trước";
 "common_time_week_ago_label" = "một tuần trước";
 "common_time_weeks_ago_label" = "%d tuần trước";
+"contact_body_field_hint" = "Tin nhắn";
+"contact_email_field_hint" = "Email";
+"contact_send_button" = "Gửi đi";
+"contact_send_error_generic" = "Lỗi trong khi gửi tin nhắn, vui lòng kiểm tra kết nối internet và thử lại.";
+"contact_send_error_invalid_body" = "Xin vui lòng nhập nội dung tin nhắn.";
+"contact_send_error_invalid_email" = "Vui lòng cung cấp một địa chỉ email hợp lệ để chúng tôi có thể trả lời bạn.";
+"contact_send_error_invalid_subject" = "Xin vui lòng nhập tiêu đề.";
+"contact_send_ok" = "Tin nhắn của bạn đã được gửi thành công.";
+"contact_subject_field_hint" = "Tiêu đề";
+"contact_title" = "Liên hệ";
 "indicate_location_address_field_hint" = "Nhập địa chỉ của bạn";
 "indicate_location_address_search_error_generic" = "Tôi không thể tìm thấy vị trí của bạn. Xin vui lòng thử lại.";
 "indicate_location_long_press_tip_label" = "Hoặc nhấn vào địa điểm của bạn";
@@ -54,6 +69,7 @@
 "log_in_title" = "Đăng nhập";
 "main_sign_up_already_registered_label" = "Đã đăng ký?";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua và trò chuyện";
+"main_sign_up_contact_us_button" = "Liên hệ";
 "main_sign_up_facebook_connect_button" = "Kết nối với Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Không thể đăng nhập, địa chỉ email Facebook của bạn đã được đăng kí. Xin vui lòng thử đăng nhập lại.";
 "main_sign_up_fb_connect_error_generic" = "Không thể đăng nhập. Xin vui lòng thử lại.";
@@ -153,6 +169,8 @@
 "settings_change_profile_picture_button" = "Thay đổi hình ảnh";
 "settings_change_profile_picture_error_generic" = "Có lỗi khi cài đặt hình ảnh hồ sơ của bạn";
 "settings_change_profile_picture_loading" = "Đang cài đặt hình ảnh hồ sơ của bạn, xin chờ...";
+"settings_change_username_button" = "Change name";
+"settings_contact_us_button" = "Liên hệ";
 "settings_image_source_camera_button" = "Máy ảnh";
 "settings_image_source_camera_roll_button" = "Thư viện hình ảnh";
 "settings_image_source_cancel_button" = "Hủy";
@@ -169,4 +187,4 @@
 "sign_up_send_error_invalid_username" = "Vui lòng nhập tên hợp lệ, có ít nhất %d ký tự";
 "sign_up_title" = "Đăng ký";
 "sign_up_username_field_hint" = "Tên đầy đủ";
-"tab_bar_tool_tip" = "Bán đồ của bạn!";
+"tab_bar_tool_tip" = "Bán Đồ Của Bạn!";

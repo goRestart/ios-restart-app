@@ -1,1 +1,1 @@
-../../../Parse/Parse.framework/Headers/PFCloud.h
+../../../Parse/PFCloud.h

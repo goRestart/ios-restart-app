@@ -1,1 +1,1 @@
-../../../Parse/Parse.framework/Headers/PFACL.h
+../../../Parse/PFACL.h

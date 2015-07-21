@@ -14,6 +14,11 @@
 "change_password_send_error_passwords_mismatch" = "Les mots de passe ne correspondent pas. Veuillez réessayer.";
 "change_password_send_ok" = "Mot de passe modifié avec succès.";
 "change_password_title" = "Changer le mot de passe";
+"change_username_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"change_username_field_hint" = "Full name";
+"change_username_loading" = "Saving your user name...";
+"change_username_save_button" = "Save";
+"change_username_title" = "Change Name";
 "chat_list_empty_label" = "Aucune conversation";
 "chat_list_start_selling_or_buying_label" = "Commencez à vendre et acheter !";
 "chat_list_title" = "Chats";
@@ -37,6 +42,16 @@
 "common_time_seconds_ago_label" = "il y a %d secondes";
 "common_time_week_ago_label" = "il y a une semaine";
 "common_time_weeks_ago_label" = "il y a %d semaines";
+"contact_body_field_hint" = "Message";
+"contact_email_field_hint" = "Email";
+"contact_send_button" = "Envoyer";
+"contact_send_error_generic" = "Erreur d'envoi du message, veuillez vérifier votre connexion et réessayer.";
+"contact_send_error_invalid_body" = "Veuillez ecrire un message";
+"contact_send_error_invalid_email" = "Veuillez fournir une adresse email valide afin que nous puissions vous recontacter";
+"contact_send_error_invalid_subject" = "Veuillez ecrire un sujet";
+"contact_send_ok" = "Votre message a été envoyé correctement";
+"contact_subject_field_hint" = "Sujet";
+"contact_title" = "Contactez Nous";
 "indicate_location_address_field_hint" = "Ecrivez votre adresse";
 "indicate_location_address_search_error_generic" = "Je n'ai pas trouvé ce lieu. Veuillez réessayer.";
 "indicate_location_long_press_tip_label" = "Ou laissez votre doigt appuyé sur votre position.";
@@ -54,6 +69,7 @@
 "log_in_title" = "Se Connecter";
 "main_sign_up_already_registered_label" = "Déjà enregistré ?";
 "main_sign_up_claim_label" = "Commencez à vendre, acheter et chatter.";
+"main_sign_up_contact_us_button" = "Contactez nous";
 "main_sign_up_facebook_connect_button" = "Se Connecter avec Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Impossible de se connecter, votre adresse email dans Facebook est déjà utilisée. Veuillez essayer de vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
@@ -153,6 +169,8 @@
 "settings_change_profile_picture_button" = "Changer la photo";
 "settings_change_profile_picture_error_generic" = "Une erreur est survenue lors du paramétrage de votre photo de profil";
 "settings_change_profile_picture_loading" = "Paramétrage de votre image de profil, veuillez patienter...";
+"settings_change_username_button" = "Change name";
+"settings_contact_us_button" = "Contactez nous";
 "settings_image_source_camera_button" = "Appareil Photo";
 "settings_image_source_camera_roll_button" = "Bibliothèque photos";
 "settings_image_source_cancel_button" = "Annuler";
@@ -169,4 +187,4 @@
 "sign_up_send_error_invalid_username" = "Veuillez entrer un nom valide, avec au moins %d caractères";
 "sign_up_title" = "S'inscrire";
 "sign_up_username_field_hint" = "Nom complet";
-"tab_bar_tool_tip" = "Vendez vos biens !";
+"tab_bar_tool_tip" = "Vendez Vos Biens !";

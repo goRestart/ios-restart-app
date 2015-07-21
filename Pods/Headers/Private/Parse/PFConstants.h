@@ -1,1 +1,1 @@
-../../../Parse/Parse.framework/Headers/PFConstants.h
+../../../Parse/PFConstants.h

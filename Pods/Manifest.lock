@@ -21,7 +21,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.4.0):
     - FBSDKCoreKit
-  - LGCoreKit (0.7.1):
+  - LGCoreKit (0.8.0):
     - Alamofire (~> 1.2)
     - Bolts (~> 1.1)
     - FBSDKCoreKit (~> 4.1)
@@ -32,13 +32,13 @@ PODS:
     - SwiftyJSON (~> 2.2)
     - Timepiece (~> 0.2)
   - Nimble (0.4.2)
-  - Parse (1.7.5):
+  - Parse (1.7.5.2):
     - Bolts/Tasks (>= 1.2.0)
-  - ParseFacebookUtilsV4 (1.7.5):
+  - ParseFacebookUtilsV4 (1.7.5.2):
     - Bolts/Tasks (>= 1.2.0)
     - FBSDKCoreKit (~> 4.0)
     - FBSDKLoginKit (~> 4.0)
-    - Parse (~> 1.7.5)
+    - Parse (~> 1.7.5.2)
   - pop (1.0.7)
   - Quick (0.3.1)
   - Realm (0.93.2):
@@ -48,11 +48,11 @@ PODS:
     - Realm (= 0.93.2)
   - Result (0.4.4):
     - Box (~> 1.2)
-  - SDWebImage (3.7.2):
-    - SDWebImage/Core (= 3.7.2)
-  - SDWebImage/Core (3.7.2)
+  - SDWebImage (3.7.3):
+    - SDWebImage/Core (= 3.7.3)
+  - SDWebImage/Core (3.7.3)
   - SwiftyJSON (2.2.0)
-  - Timepiece (0.3.4)
+  - Timepiece (0.4.0)
 
 DEPENDENCIES:
   - Alamofire (~> 1.2)
@@ -73,17 +73,17 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 75bdd75c980e811db218488d99dd93b7740f4474
   FBSDKLoginKit: 02a9254a4c132412fa03577b0d53e936d068a7fb
   FBSDKShareKit: a42865f20ba2d1cc548c4d0f73ad22cff6377ddb
-  LGCoreKit: 2e682cb598febbf6ec79e5f9c08622e32cfd005d
+  LGCoreKit: 4b3dd7edc7b4e98270e3efc81a03521549661c91
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
-  Parse: 7c0f115eff3e0cea3fac08d50bda47154edb8832
-  ParseFacebookUtilsV4: 3107725c6f2b69e3a03afe9c3aff35d6ee3e9ba5
+  Parse: 9a01b8cb054f113b74211370aaf9d982d355729a
+  ParseFacebookUtilsV4: acfed5ac0502003bca707f0de9700597f7527dbe
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
   RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
-  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
-  Timepiece: bfe018a2754a7ae6b2b7ab683a90da45c28e32a0
+  Timepiece: d38302bf6fce6146e9d8feb289e0837811ee1342
 
 COCOAPODS: 0.37.2

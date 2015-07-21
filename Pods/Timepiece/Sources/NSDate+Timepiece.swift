@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ObjectiveC
 
 // MARK: - Calculation
 
@@ -41,6 +42,10 @@ public func < (lhs: NSDate, rhs: NSDate) -> Bool {
 // MARK: -
 
 public extension NSDate {
+    private struct AssociatedKeys {
+        static var TimeZone = "timepiece_TimeZone"
+    }
+    
     // MARK: - Get components
     
     var year: Int {
@@ -69,6 +74,10 @@ public extension NSDate {
     
     var second: Int {
         return components.second
+    }
+    
+    var timeZone: NSTimeZone {
+        return objc_getAssociatedObject(self, &AssociatedKeys.TimeZone) as? NSTimeZone ?? calendar.timeZone
     }
     
     private var components: NSDateComponents {
@@ -126,6 +135,22 @@ public extension NSDate {
         return self - (self.weekday - weekday).days
     }
     
+    /**
+        Initialize a date by changing the time zone of receiver.
+    */
+    func change(#timeZone: NSTimeZone) -> NSDate! {
+        let originalTimeZone = calendar.timeZone
+        calendar.timeZone = timeZone
+        
+        let newDate = calendar.dateFromComponents(components)!
+        newDate.calendar.timeZone = timeZone
+        objc_setAssociatedObject(newDate, &AssociatedKeys.TimeZone, timeZone, UInt(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+        
+        calendar.timeZone = originalTimeZone
+        
+        return newDate
+    }
+    
     // MARK: - Initialize a date at beginning/end of each units
     
     var beginningOfYear: NSDate {
@@ -142,6 +167,15 @@ public extension NSDate {
         let lastDay = calendar.rangeOfUnit(.CalendarUnitDay, inUnit: .CalendarUnitMonth, forDate: self).length
         return change(day: lastDay, hour: 23, minute: 59, second: 59)
     }
+	
+	var beginningOfWeek: NSDate {
+		var daysDiff = (7 + (weekday - calendar.firstWeekday)) % 7
+		return beginningOfDay - daysDiff.days
+	}
+	var endOfWeek: NSDate {
+		var daysDiff = (7 + ((calendar.firstWeekday - 1) - weekday)) % 7
+		return endOfDay + daysDiff.days
+	}
     
     var beginningOfDay: NSDate {
         return change(hour: 0, minute: 0, second: 0)

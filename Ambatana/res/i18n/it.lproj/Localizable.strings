@@ -14,6 +14,11 @@
 "change_password_send_error_passwords_mismatch" = "Le password non corrispondono. Riprova.";
 "change_password_send_ok" = "Password cambiata con successo.";
 "change_password_title" = "Cambia password";
+"change_username_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"change_username_field_hint" = "Full name";
+"change_username_loading" = "Saving your user name...";
+"change_username_save_button" = "Save";
+"change_username_title" = "Change Name";
 "chat_list_empty_label" = "Ancora nessuna conversazione";
 "chat_list_start_selling_or_buying_label" = "Inizia a vendere o a comprare!";
 "chat_list_title" = "Conversazioni";
@@ -37,6 +42,16 @@
 "common_time_seconds_ago_label" = "%d secondi fa";
 "common_time_week_ago_label" = "Una settimana fa";
 "common_time_weeks_ago_label" = "%d settimane fa";
+"contact_body_field_hint" = "Messaggio";
+"contact_email_field_hint" = "Email";
+"contact_send_button" = "Invia";
+"contact_send_error_generic" = "Errore durante l'invio del messaggio, controlla la tua connessione e prova di nuovo.";
+"contact_send_error_invalid_body" = "Digita un messaggio.";
+"contact_send_error_invalid_email" = "Fornisci un indirizzo email valido, cosicché possiamo risponderti";
+"contact_send_error_invalid_subject" = "Inserisci un oggetto";
+"contact_send_ok" = "Il tuo messaggio è stato inviato correttamente.";
+"contact_subject_field_hint" = "Oggetto";
+"contact_title" = "Contattaci";
 "indicate_location_address_field_hint" = "Scrivi il tuo indirizzo";
 "indicate_location_address_search_error_generic" = "Non sono riuscito a trovare quella posizione. Riprova.";
 "indicate_location_long_press_tip_label" = "Oppure tieni premuto il dito sulla tua posizione";
@@ -54,6 +69,7 @@
 "log_in_title" = "Accedi";
 "main_sign_up_already_registered_label" = "Già registrato?";
 "main_sign_up_claim_label" = "Inizia a vendere, compra e chatta";
+"main_sign_up_contact_us_button" = "Contattaci";
 "main_sign_up_facebook_connect_button" = "Connetti tramite Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Impossibile effettuare l'accesso, il tuo indirizzo email è già registrato su Facebook. Riprova ad effettuare l'accesso.";
 "main_sign_up_fb_connect_error_generic" = "Impossibile effettuare l'accesso. Riprova.";
@@ -153,6 +169,8 @@
 "settings_change_profile_picture_button" = "Cambia Foto";
 "settings_change_profile_picture_error_generic" = "Si è verificato un errore durante l'impostazione della tua foto del profilo";
 "settings_change_profile_picture_loading" = "Impostazione immagine del profilo in corso, attendere...";
+"settings_change_username_button" = "Change name";
+"settings_contact_us_button" = "Contattaci";
 "settings_image_source_camera_button" = "Fotocamera";
 "settings_image_source_camera_roll_button" = "Libreria fotografica";
 "settings_image_source_cancel_button" = "Annulla";
