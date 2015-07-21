@@ -146,7 +146,7 @@
 "sell_send_error_invalid_category" = "Vennligst velg en kategori for produktet.";
 "sell_send_error_invalid_description" = "Vennligst legg inn en gyldig beskrivelse for produktet.";
 "sell_send_error_invalid_description_too_long" = "Maksimal lengde for produktbeskrivelse er på %d tegn.";
-"sell_send_error_invalid_image_count" = "Du må ha minst ett bilde for kunne selge et produkt.";
+"sell_send_error_invalid_image_count" = "Du må ha minst ett bilde for å kunne selge et produkt.";
 "sell_send_error_invalid_location" = "Vi kunne ikke finne ditt nåværende sted. For å selge produkter må vi kunne finne det. Vennligst prøv igjen senere.";
 "sell_send_error_invalid_price" = "Vennligst legg inn gyldig pris for produktet. Prisen kan kun innholde tall.";
 "sell_send_error_invalid_title" = "Vennligst legg inn en gyldig produkt tittel.";
