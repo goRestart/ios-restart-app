@@ -135,9 +135,6 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         
         usernameTextfield.placeholder = NSLocalizedString("change_username_field_hint", comment: "")
         usernameTextfield.text = viewModel.username
-        usernameTextfield.insetX = 16
-        usernameTextfield.clearButtonOffset = 12
-        usernameTextfield.tintColor = StyleHelper.tabBarIconSelectedColor
         
         saveButton.setTitle(NSLocalizedString("change_username_save_button", comment: ""), forState: .Normal)
         saveButton.setBackgroundImage(saveButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
