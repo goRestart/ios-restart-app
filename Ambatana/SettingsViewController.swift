@@ -19,14 +19,16 @@ private let kLetGoUserImageSquareSize: CGFloat = 1024
 
 enum LetGoUserSettings: Int {
     //case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, LogOut = 3
-    case ChangePhoto = 0, ChangePassword = 1, ContactUs = 2, LogOut = 3
+    case ChangePhoto = 0, ChangeUsername = 1, ChangePassword = 2, ContactUs = 3, LogOut = 4
     
-    static func numberOfOptions() -> Int { return 4 }
+    static func numberOfOptions() -> Int { return 5 }
     
     func titleForSetting() -> String {
         switch (self) {
         case .ChangePhoto:
             return NSLocalizedString("settings_change_profile_picture_button", comment: "")
+        case .ChangeUsername:
+            return NSLocalizedString("settings_change_username_button", comment: "")
         case .ChangePassword:
             return NSLocalizedString("settings_change_password_button", comment: "")
         case .ContactUs:
@@ -38,12 +40,14 @@ enum LetGoUserSettings: Int {
     
     func imageForSetting() -> UIImage? {
         switch (self) {
+        case .ChangeUsername:
+            return UIImage(named: "ic_change_username")
         case .ChangePassword:
             return UIImage(named: "edit_profile_password")
-        case .LogOut:
-            return UIImage(named: "edit_profile_logout")
         case .ContactUs:
             return UIImage(named: "ic_contact")
+        case .LogOut:
+            return UIImage(named: "edit_profile_logout")
         default:
             return nil
         }
@@ -98,6 +102,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.label.text = setting.titleForSetting()
         cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
         
+        if setting == .ChangeUsername {
+            cell.nameLabel.text = MyUserManager.sharedInstance.myUser()?.publicUsername
+        }
+
         if setting == .ChangePhoto {
             if let myUser = MyUserManager.sharedInstance.myUser(), let avatarUrl = myUser.avatar?.fileURL {
                 cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: UIImage(named: "no_photo"))
@@ -129,6 +137,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 //            let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //            let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
 //            self.navigationController?.pushViewController(vc, animated: true)
+        case .ChangeUsername:
+            let vc = ChangeUsernameViewController()
+            navigationController?.pushViewController(vc, animated: true)
         case .ChangePassword:
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("ChangePasswordViewController") as! ChangePasswordViewController

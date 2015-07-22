@@ -20,7 +20,7 @@ target "LetGo" do
     pod "Amplitude-iOS",        "~> 2.5"
     
     # letgo Core
-    pod "LGCoreKit" #,            :path => "../letgo-ios-lgcorekit"
+    pod "LGCoreKit",            :git => 'https://bitbucket.org/ambatana/letgo-ios-lgcorekit.git', :commit => 'f2a0969d0e0d2e0e3c588c4cf87030bd369bd4cb'
     
     # Networking (to be removed when migrating to LGCoreKit)
     pod "Alamofire",            "~> 1.2"

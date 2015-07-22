@@ -18,6 +18,7 @@
 "change_username_field_hint" = "Full name";
 "change_username_loading" = "Saving your user name...";
 "change_username_save_button" = "Save";
+"change_username_send_ok" = "User name changed successfully.";
 "change_username_title" = "Change Name";
 "chat_list_empty_label" = "Inga diskussioner än";
 "chat_list_start_selling_or_buying_label" = "Börja köp och sälj!";
@@ -115,7 +116,7 @@
 "product_share_email_error" = "Hoppsan, det verkar som att du inte har något konto i dina mailinstllningar";
 "profile_favourites_my_user_no_products_label" = "Du har fortfarande inga favoriter eller publicerade produkter";
 "profile_favourites_my_user_no_products_subtitle_label" = "Vad väntar du på?";
-"profile_favourites_other_user_no_products_label" = "Denna användare har fortfarande inte några publicerade eller favoritprodukter";
+"profile_favourites_other_user_no_products_label" = "Denna användare har fortfarande inga favoriter eller publicerade produkter";
 "profile_favourites_products_tab" = "Favoriter";
 "profile_no_products" = "Det finns inga produkter i denna kategori";
 "profile_selling_products_tab" = "Säljer";
