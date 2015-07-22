@@ -77,7 +77,6 @@ public class ContactViewModel: BaseViewModel {
                             
                         }
                     }
-                    
                 }
             }
         } else {

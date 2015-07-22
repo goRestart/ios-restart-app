@@ -61,6 +61,9 @@
 // Change name loading message. Check image @ "change_username_title" segment
 "change_username_loading" = "Saving your user name...";
 
+// Change username send ok. Check image @ "change_username_title" segment
+"change_username_send_ok" = "User name changed successfully.";
+
 // Chat list empty label. Check attached image  "chat_list (empty).png"
 "chat_list_empty_label" = "No conversations yet";
 
