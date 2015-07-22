@@ -9,6 +9,7 @@
             <connections>
                 <outlet property="claimLabel" destination="jqP-ji-UY6" id="oyY-7m-DiF"/>
                 <outlet property="connectFBButton" destination="1Du-cc-Xo5" id="Sue-Qc-LLv"/>
+                <outlet property="contactUsButton" destination="dT1-M1-CoJ" id="d7i-TY-qpt"/>
                 <outlet property="dividerView" destination="wq5-H6-G0r" id="elX-t0-euE"/>
                 <outlet property="logInLabel" destination="ySS-mP-v8W" id="kgz-N5-HJZ"/>
                 <outlet property="orLabel" destination="1pc-RV-rnQ" id="vy9-La-dT5"/>
@@ -23,10 +24,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="kur-NS-MNi" userLabel="Header View">
-                    <rect key="frame" x="0.0" y="20" width="320" height="166"/>
+                    <rect key="frame" x="0.0" y="20" width="320" height="155"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kW9-f4-l6d" userLabel="Logo and Claim View">
-                            <rect key="frame" x="0.0" y="39" width="320" height="89"/>
+                            <rect key="frame" x="0.0" y="33" width="320" height="89"/>
                             <subviews>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="logo-big" translatesAutoresizingMaskIntoConstraints="NO" id="Ujl-i7-kRC" userLabel="Logo Image View">
                                     <rect key="frame" x="105" y="0.0" width="110" height="66"/>
@@ -62,7 +63,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MMP-3C-Gae" userLabel="Main View">
-                    <rect key="frame" x="0.0" y="186" width="320" height="216"/>
+                    <rect key="frame" x="0.0" y="175" width="320" height="205"/>
                     <subviews>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Du-cc-Xo5" userLabel="Connect FB Button">
                             <rect key="frame" x="15" y="0.0" width="290" height="44"/>
@@ -84,14 +85,14 @@
                             <rect key="frame" x="26" y="11" width="22" height="22"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wq5-H6-G0r" userLabel="Divider View">
-                            <rect key="frame" x="80" y="74" width="160" height="9"/>
+                            <rect key="frame" x="80" y="74" width="160" height="6"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L6w-ma-IXA" userLabel="Or Container View">
-                            <rect key="frame" x="142" y="74" width="36" height="17"/>
+                        <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="L6w-ma-IXA" userLabel="Or Container View">
+                            <rect key="frame" x="142" y="74" width="36" height="12"/>
                             <subviews>
-                                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_or" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pc-RV-rnQ" userLabel="Or Label">
-                                    <rect key="frame" x="8" y="0.0" width="20" height="17"/>
+                                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="_or" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pc-RV-rnQ" userLabel="Or Label">
+                                    <rect key="frame" x="8" y="0.0" width="20" height="12"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                     <color key="textColor" red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -107,7 +108,7 @@
                             </constraints>
                         </view>
                         <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="19L-e5-VDY" userLabel="Sign Up Button">
-                            <rect key="frame" x="15" y="121" width="290" height="44"/>
+                            <rect key="frame" x="15" y="116" width="290" height="44"/>
                             <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="290" id="K6U-SJ-h0m"/>
@@ -124,7 +125,7 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_email_signup" translatesAutoresizingMaskIntoConstraints="NO" id="oJS-cs-Xnh" userLabel="Email Image View">
-                            <rect key="frame" x="28" y="136" width="18" height="13"/>
+                            <rect key="frame" x="28" y="131" width="18" height="13"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -147,11 +148,14 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="mpt-zU-SZU" userLabel="Footer View">
-                    <rect key="frame" x="0.0" y="402" width="320" height="78"/>
+                    <rect key="frame" x="0.0" y="380" width="320" height="100"/>
                     <subviews>
                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pdp-VZ-cZN" userLabel="Log In Button">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="78"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="45" id="aGb-1g-pFj"/>
+                            </constraints>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -160,16 +164,16 @@
                             </connections>
                         </button>
                         <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mEv-HV-4Hk" userLabel="Footer Texts View">
-                            <rect key="frame" x="69" y="30" width="183" height="18"/>
+                            <rect key="frame" x="69" y="0.0" width="183" height="30"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Have an account?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dji-W8-ZRS" userLabel="Registered Label">
-                                    <rect key="frame" x="0.0" y="0.0" width="130" height="18"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="130" height="30"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                     <color key="textColor" red="0.74117647058823533" green="0.74117647058823533" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="highlightedColor" red="0.74117647058823533" green="0.74117647058823533" blue="0.74117647058823533" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="_Log in" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ySS-mP-v8W" userLabel="Log In Label">
-                                    <rect key="frame" x="134" y="0.0" width="49" height="18"/>
+                                    <rect key="frame" x="134" y="0.0" width="49" height="30"/>
                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                     <color key="textColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.58039215686274515" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="highlightedColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.58039215686274515" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
@@ -184,21 +188,46 @@
                                 <constraint firstItem="ySS-mP-v8W" firstAttribute="top" secondItem="mEv-HV-4Hk" secondAttribute="top" id="OvW-H1-MTQ"/>
                                 <constraint firstAttribute="trailing" secondItem="ySS-mP-v8W" secondAttribute="trailing" id="PjI-wc-hAl"/>
                                 <constraint firstItem="dji-W8-ZRS" firstAttribute="leading" secondItem="mEv-HV-4Hk" secondAttribute="leading" id="QiV-ru-oK5"/>
+                                <constraint firstAttribute="height" constant="30" id="lC1-wN-0MK"/>
                             </constraints>
                         </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dT1-M1-CoJ">
+                            <rect key="frame" x="15" y="50" width="290" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="h7v-tv-5aq"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="20"/>
+                            <state key="normal" title="_Contact_us">
+                                <color key="titleColor" red="0.56470588239999997" green="0.56470588239999997" blue="0.58039215690000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="contactUsButtonPressed" destination="-1" eventType="touchUpInside" id="elT-nf-TDD"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="pdp-VZ-cZN" secondAttribute="trailing" id="3x9-ub-J9o"/>
                         <constraint firstItem="pdp-VZ-cZN" firstAttribute="top" secondItem="mpt-zU-SZU" secondAttribute="top" id="4hJ-UD-Rr4"/>
+                        <constraint firstAttribute="bottom" secondItem="dT1-M1-CoJ" secondAttribute="bottom" id="B2z-6h-qqr"/>
+                        <constraint firstAttribute="trailing" secondItem="dT1-M1-CoJ" secondAttribute="trailing" constant="15" id="Bhc-Go-oWA"/>
                         <constraint firstItem="mEv-HV-4Hk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="mpt-zU-SZU" secondAttribute="leading" constant="15" id="DOZ-qJ-tub"/>
+                        <constraint firstItem="dT1-M1-CoJ" firstAttribute="leading" secondItem="mpt-zU-SZU" secondAttribute="leading" constant="15" id="FNM-2K-Vua"/>
                         <constraint firstItem="pdp-VZ-cZN" firstAttribute="leading" secondItem="mpt-zU-SZU" secondAttribute="leading" id="IWF-Fo-Df2"/>
                         <constraint firstAttribute="bottom" secondItem="mEv-HV-4Hk" secondAttribute="bottom" priority="750" constant="30" id="K8G-ZK-gBZ"/>
+                        <constraint firstAttribute="centerX" secondItem="dT1-M1-CoJ" secondAttribute="centerX" id="QSK-UY-rUz"/>
+                        <constraint firstItem="dT1-M1-CoJ" firstAttribute="top" secondItem="mEv-HV-4Hk" secondAttribute="bottom" constant="20" id="bcg-cu-W3d"/>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="mEv-HV-4Hk" secondAttribute="trailing" constant="15" id="edG-pZ-PU5"/>
-                        <constraint firstAttribute="bottom" secondItem="pdp-VZ-cZN" secondAttribute="bottom" id="n87-Qr-lXM"/>
                         <constraint firstAttribute="centerX" secondItem="mEv-HV-4Hk" secondAttribute="centerX" id="pwh-CG-hZh"/>
-                        <constraint firstItem="mEv-HV-4Hk" firstAttribute="top" secondItem="mpt-zU-SZU" secondAttribute="top" constant="30" id="xOw-ov-Lcb"/>
+                        <constraint firstItem="mEv-HV-4Hk" firstAttribute="top" secondItem="mpt-zU-SZU" secondAttribute="top" id="xOw-ov-Lcb"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="K8G-ZK-gBZ"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
