@@ -17,6 +17,7 @@ class StyleHelper {
     private static let white = UIColor(rgb: 0xFFFFFF)
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
+    private static let gray204 = UIColor(rgb: 0xCCCCCC)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
     private static let gray235 = UIColor(rgb: 0xEBEBEB)
     private static let black = UIColor(rgb: 0x000000)
@@ -53,7 +54,7 @@ class StyleHelper {
     // MARK: - Common
     
     static var lineColor: UIColor {
-        return gray213
+        return gray204
     }
     
     static var disabledButtonBackgroundColor: UIColor {
@@ -136,6 +137,12 @@ class StyleHelper {
     // MARK: - Conversation Cell
     
     static var badgeBgColor: UIColor {
+        return red
+    }
+    
+    // MARK: - LGTextField
+    
+    static var textFieldTintColor: UIColor {
         return red
     }
 }
