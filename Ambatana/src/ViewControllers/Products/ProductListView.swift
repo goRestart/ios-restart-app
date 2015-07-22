@@ -9,11 +9,9 @@
 import LGCoreKit
 import UIKit
 
-protocol ProductListViewDelegate: class {
-    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt)
+protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt)
-    
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath)
 }
 
@@ -37,7 +35,7 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
     // > Data
     @IBOutlet weak var dataView: UIView!
     var refreshControl: UIRefreshControl!
-     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     // > Error
     @IBOutlet weak var errorView: UIView!
@@ -47,7 +45,7 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
     @IBOutlet weak var errorButton: UIButton!
 
     // Data
-    private(set) var viewModel: ProductListViewModel
+    internal(set) var productListViewModel: ProductListViewModel
     
     var state: ProductListViewState {
         didSet {
@@ -57,13 +55,11 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
                 firstLoadView.hidden = false
                 dataView.hidden = true
                 errorView.hidden = true
-                
             case .DataView:
                 // Show/hide views
                 firstLoadView.hidden = true
                 dataView.hidden = false
                 errorView.hidden = true
-                
             case .ErrorView(let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
                 // UI
                 // > Labels
@@ -80,22 +76,30 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
     }
     
     // Delegate
-    var delegate: ProductListViewDelegate?
+    var delegate: ProductListViewDataDelegate?
     
     // MARK: - Lifecycle
     
-    required init(frame: CGRect) {
+    init(viewModel: ProductListViewModel, frame: CGRect) {
         self.state = .FirstLoadView
-        self.viewModel = ProductListViewModel()
+        self.productListViewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
-        self.setupUI()
+        
+        viewModel.delegate = self
+        setupUI()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    init(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
         self.state = .FirstLoadView
-        self.viewModel = ProductListViewModel()
+        self.productListViewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
-        self.setupUI()
+
+        viewModel.delegate = self
+        setupUI()
+    }
+
+    required convenience init(coder aDecoder: NSCoder) {
+        self.init(viewModel: ProductListViewModel(), coder: aDecoder)
     }
     
     // MARK: Public methods
@@ -104,72 +108,66 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
    
     var queryString: String? {
         get {
-            return viewModel.queryString
+            return productListViewModel.queryString
         }
         set {
-            viewModel.queryString = newValue
+            productListViewModel.queryString = newValue
         }
     }
     var coordinates: LGLocationCoordinates2D? {
         get {
-            return viewModel.coordinates
+            return productListViewModel.coordinates
         }
         set {
-            viewModel.coordinates = newValue
+            productListViewModel.coordinates = newValue
         }
     }
     var categories: [ProductCategory]? {
         get {
-            return viewModel.categories
+            return productListViewModel.categories
         }
         set {
-            viewModel.categories = newValue
+            productListViewModel.categories = newValue
         }
     }
     var sortCriteria: ProductSortCriteria? {
         get {
-            return viewModel.sortCriteria
+            return productListViewModel.sortCriteria
         }
         set {
-            viewModel.sortCriteria = newValue
+            productListViewModel.sortCriteria = newValue
         }
     }
     var maxPrice: Int? {
         get {
-            return viewModel.maxPrice
+            return productListViewModel.maxPrice
         }
         set {
-            viewModel.maxPrice = newValue
+            productListViewModel.maxPrice = newValue
         }
     }
     var minPrice: Int? {
         get {
-            return viewModel.minPrice
+            return productListViewModel.minPrice
         }
         set {
-            viewModel.minPrice = newValue
+            productListViewModel.minPrice = newValue
         }
     }
     var userObjectId: String? {
         get {
-            return viewModel.userObjectId
+            return productListViewModel.userObjectId
         }
         set {
-            viewModel.userObjectId = newValue
-        }
-    }
-    
-    var isEmpty: Bool {
-        get {
-            return viewModel.numberOfProducts == 0
+            productListViewModel.userObjectId = newValue
         }
     }
     
     // MARK: > Actions
     
     func refresh() {
-        if viewModel.canRetrieveProducts {
-            viewModel.retrieveProductsFirstPage()
+        if productListViewModel.canRetrieveProducts {
+            productListViewModel.retrieveProductsFirstPage()
         }
         else {
             refreshControl.endRefreshing()
@@ -177,7 +175,7 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
     }
     
     func retrieveProductsNextPage() {
-        viewModel.retrieveProductsNextPage()
+        productListViewModel.retrieveProductsNextPage()
     }
     
     // MARK: > Data
@@ -189,26 +187,26 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
         :returns: The product.
     */
     func productAtIndex(index: Int) -> Product {
-        return viewModel.productAtIndex(index)
+        return productListViewModel.productAtIndex(index)
     }
     
     // MARK: - UICollectionViewDataSource
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return viewModel.sizeForCellAtIndex(indexPath.row)
+        return productListViewModel.sizeForCellAtIndex(indexPath.row)
     }
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, columnCountForSection section: Int) -> Int {
-        return viewModel.numberOfColumns
+        return productListViewModel.numberOfColumns
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.numberOfProducts
+        return productListViewModel.numberOfProducts
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let product = viewModel.productAtIndex(indexPath.row)
+        let product = productListViewModel.productAtIndex(indexPath.row)
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
         cell.tag = indexPath.hash
@@ -216,7 +214,7 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
         // TODO: VC should not handle data -> ask to VM about title etc etc...
         cell.setupCellWithProduct(product, indexPath: indexPath)
         
-        viewModel.setCurrentItemIndex(indexPath.row)
+        productListViewModel.setCurrentItemIndex(indexPath.row)
         
         return cell
     }
@@ -230,14 +228,33 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
     // MARK: - ProductListViewModelDelegate
     
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt) {
-        delegate?.productListView(self, didStartRetrievingProductsPage: page)
+        // If it's the first page & there are no products, then set the loading state
+        if page == 0 && viewModel.numberOfProducts == 0 {
+            state = .FirstLoadView
+        }
     }
     
     func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+        // IMPORTANT: Update of the UI should be done via delegate or in a subclass of ProductListView
+        
+        // Notify the delegate
         delegate?.productListView(self, didFailRetrievingProductsPage: page, error: error)
     }
     
     func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath]) {
+        
+        // Update the UI
+        if page == 0 {
+            state = .DataView
+
+            refreshControl.endRefreshing()
+            collectionView.reloadSections(NSIndexSet(index: 0))
+        }
+        else {
+            collectionView.insertItemsAtIndexPaths(indexPaths)
+        }
+        
+        // Notify the delegate
         delegate?.productListView(self, didSucceedRetrievingProductsPage: page)
     }
     
@@ -245,8 +262,11 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
     
     // MARK: > UI
     
+    /**
+        Sets up the UI.
+    */
     private func setupUI() {
-        // Load the view
+        // Load the view, and add it as Subview
         NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
         contentView.frame = self.bounds
         contentView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
@@ -275,6 +295,9 @@ class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, Produ
         // Initial UI state is Loading (by xib)
     }
     
+    /**
+        Called when the error button is pressed.
+    */
     @objc private func errorButtonPressed() {
         switch state {
         case .ErrorView(_, _, _, _, let errButAction):

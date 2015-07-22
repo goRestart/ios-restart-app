@@ -28,6 +28,8 @@
 		50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */; };
 		50261B231AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */; };
 		50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */; };
+		5027D7521B5E9ECA00979C90 /* MainProductListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5027D7511B5E9ECA00979C90 /* MainProductListViewModel.swift */; };
+		5027D7541B5F904200979C90 /* MainProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5027D7531B5F904200979C90 /* MainProductListView.swift */; };
 		5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033F6CB1B5D0AE60004FECB /* BaseView.swift */; };
 		50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B881B25D18F0021D8D9 /* BaseViewController.swift */; };
 		50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B891B25D18F0021D8D9 /* BaseViewModel.swift */; };
@@ -180,6 +182,8 @@
 		50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductionEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentProxy+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingHelper.swift; sourceTree = "<group>"; };
+		5027D7511B5E9ECA00979C90 /* MainProductListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductListViewModel.swift; sourceTree = "<group>"; };
+		5027D7531B5F904200979C90 /* MainProductListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductListView.swift; sourceTree = "<group>"; };
 		5033F6CB1B5D0AE60004FECB /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		5033F6D11B5E7A990004FECB /* my */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = my; path = my.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5033F6D21B5E7A990004FECB /* my */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = my; path = my.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -475,6 +479,8 @@
 				D412E0851B4F179F00683FFD /* ProductListView.swift */,
 				D412E0871B4F17C200683FFD /* ProductListView.xib */,
 				D412E07E1B4EFF2800683FFD /* ProductListViewModel.swift */,
+				5027D7511B5E9ECA00979C90 /* MainProductListViewModel.swift */,
+				5027D7531B5F904200979C90 /* MainProductListView.swift */,
 			);
 			path = Products;
 			sourceTree = "<group>";
@@ -1205,10 +1211,12 @@
 				667562AF1A96380E00039151 /* ImageHelper.swift in Sources */,
 				66C834B11ADBC5DB002FF142 /* RESTManager.swift in Sources */,
 				50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */,
+				5027D7541B5F904200979C90 /* MainProductListView.swift in Sources */,
 				508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */,
 				66C056D71A97900800F7EEA8 /* PlaceholderTextView.swift in Sources */,
 				6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */,
 				667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */,
+				5027D7521B5E9ECA00979C90 /* MainProductListViewModel.swift in Sources */,
 				665713E91AADF15800B4721C /* DLImageResizing.swift in Sources */,
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift in Sources */,

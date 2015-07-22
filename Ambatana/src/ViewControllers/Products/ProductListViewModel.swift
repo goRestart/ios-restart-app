@@ -10,13 +10,13 @@ import CoreLocation
 import LGCoreKit
 import Result
 
-protocol ProductListViewModelDelegate: class {
+public protocol ProductListViewModelDelegate: class {
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
     func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
     func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath])
 }
 
-class ProductListViewModel: BaseViewModel {
+public class ProductListViewModel: BaseViewModel {
     
     // MARK: - Constants
     private static let columnCount: CGFloat = 2.0
@@ -28,27 +28,28 @@ class ProductListViewModel: BaseViewModel {
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
     // MARK: - iVars
-    // > Delegate
-    weak var delegate: ProductListViewModelDelegate?
     
-    // > Input (query)
-    var queryString: String?
-    var coordinates: LGLocationCoordinates2D?
-    var categories: [ProductCategory]?
-    var sortCriteria: ProductSortCriteria?
-    var maxPrice: Int?
-    var minPrice: Int?
-    var userObjectId: String?
+    // Input (query)
+    public var queryString: String?
+    public var coordinates: LGLocationCoordinates2D?
+    public var categories: [ProductCategory]?
+    public var sortCriteria: ProductSortCriteria?
+    public var maxPrice: Int?
+    public var minPrice: Int?
+    public var userObjectId: String?
     
-    // > Manager
+    // Delegate
+    public weak var delegate: ProductListViewModelDelegate?
+    
+    // Manager
     private let productsManager: ProductsManager
     
-    // > Data
+    // Data
     private var products: NSArray
-    private(set) var pageNumber: UInt
+    private var pageNumber: UInt
     
-    // > UI
-    private(set) var defaultCellSize: CGSize!
+    // UI
+    public private(set) var defaultCellSize: CGSize!
     
     // MARK: - Computed iVars
     
@@ -60,46 +61,19 @@ class ProductListViewModel: BaseViewModel {
         return Int(ProductListViewModel.columnCount)
     }
     
-    var canRetrieveProducts: Bool {
+    public var isLoading: Bool {
+        return productsManager.isLoading
+    }
+    
+    public var canRetrieveProducts: Bool {
         return productsManager.canRetrieveProducts
     }
     
-    private var canRetrieveProductsNextPage: Bool {
+    public var canRetrieveProductsNextPage: Bool {
         return productsManager.canRetrieveProductsNextPage
     }
     
-    // MARK: - Lifecycle
-    
-    override init() {
-        let productsRetrieveService = LGProductsRetrieveService()
-        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService)
-        
-        self.products = []
-        self.pageNumber = 0
-        
-        let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
-        self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
-    }
-    
-    // MARK: > Overriden methods
-    
-    internal override func didSetActive() {
-        super.didSetActive()
-        // If there are no products, then reload if possible
-        if numberOfProducts == 0 && canRetrieveProducts {
-            retrieveProductsFirstPage()
-        }
-    }
-    
-    // MARK: - Internal methods
-    
-    // MARK: > Requests
-    
-    /**
-        Retrieve the products first page, with the current query parameters.
-    */
-    func retrieveProductsFirstPage() {
-        
+    internal var retrieveProductsFirstPageParams: RetrieveProductsParams {
         var params: RetrieveProductsParams = RetrieveProductsParams()
         params.coordinates = coordinates
         params.queryString = queryString
@@ -118,7 +92,39 @@ class ProductListViewModel: BaseViewModel {
         if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
             params.distanceType = usesMetric ? .Km : .Mi
         }
+        return params
+    }
+    
+    // MARK: - Lifecycle
+    
+    public override init() {
+        let productsRetrieveService = LGProductsRetrieveService()
+        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService)
         
+        self.products = []
+        self.pageNumber = 0
+        
+        let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
+        self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
+    }
+    
+    internal override func didSetActive() {
+        super.didSetActive()
+        // If there are no products, then reload if possible
+        if numberOfProducts == 0 && canRetrieveProducts {
+            retrieveProductsFirstPage()
+        }
+    }
+    
+    // MARK: - Public methods
+    
+    // MARK: > Requests
+
+    /**
+        Retrieve the products first page, with the current query parameters.
+    */
+    public func retrieveProductsFirstPage() {
+        let params = retrieveProductsFirstPageParams
         delegate?.viewModel(self, didStartRetrievingProductsPage: 0)
         
         let currentCount = numberOfProducts
@@ -149,12 +155,12 @@ class ProductListViewModel: BaseViewModel {
             }
         }
         productsManager.retrieveProductsWithParams(params, result: myResult)
-    }    
-
+    }
+    
     /**
         Retrieve the products next page, with the last query parameters.
     */
-    func retrieveProductsNextPage() {
+    public func retrieveProductsNextPage() {
         
         let currentCount = numberOfProducts
         let nextPageNumber = pageNumber + 1
@@ -196,7 +202,7 @@ class ProductListViewModel: BaseViewModel {
         :param: index The index of the product.
         :returns: The product.
     */
-    func productAtIndex(index: Int) -> Product {
+    public func productAtIndex(index: Int) -> Product {
         return products.objectAtIndex(index) as! Product
     }
     
@@ -206,7 +212,7 @@ class ProductListViewModel: BaseViewModel {
     :param: index The index of the product.
     :returns: The product object id.
     */
-    func productObjectIdForProductAtIndex(index: Int) -> String? {
+    public func productObjectIdForProductAtIndex(index: Int) -> String? {
         return productAtIndex(index).objectId
     }
     
@@ -216,7 +222,7 @@ class ProductListViewModel: BaseViewModel {
     :param: index The index of the product.
     :returns: The cell size.
     */
-    func sizeForCellAtIndex(index: Int) -> CGSize {
+    public func sizeForCellAtIndex(index: Int) -> CGSize {
         let product = productAtIndex(index)
         if let thumbnailSize = product.thumbnailSize {
             if thumbnailSize.height != 0 && thumbnailSize.width != 0 {
@@ -234,7 +240,7 @@ class ProductListViewModel: BaseViewModel {
     
         :param: index The index of the product currently visible on screen.
     */
-    func setCurrentItemIndex(index: Int) {
+    public func setCurrentItemIndex(index: Int) {
         let threshold = Int(Float(numberOfProducts) * ProductListViewModel.itemsPagingThresholdPercentage)
         let shouldRetrieveProductsNextPage = index >= threshold
         if shouldRetrieveProductsNextPage && canRetrieveProductsNextPage {

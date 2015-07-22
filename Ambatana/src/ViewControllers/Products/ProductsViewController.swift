@@ -11,7 +11,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-class ProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDelegate, ProductsViewModelDelegate, UISearchBarDelegate, ShowProductViewControllerDelegate {
+class ProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, ProductsViewModelDelegate, UISearchBarDelegate, ShowProductViewControllerDelegate {
 
 //    // Enums
 //    private enum UIState {
@@ -29,7 +29,7 @@ class ProductsViewController: BaseViewController, IndicateLocationViewController
     var currentSearchString: String?
     
     // UI
-    @IBOutlet weak var productListView: ProductListView!
+    @IBOutlet weak var mainProductListView: MainProductListView!
     
     // MARK: - Lifecycle
     
@@ -53,13 +53,15 @@ class ProductsViewController: BaseViewController, IndicateLocationViewController
         viewModel.delegate = self
         
         // UI
-        addSubview(productListView)
-        productListView.delegate = self
+        addSubview(mainProductListView)
+        mainProductListView.delegate = self
+        mainProductListView.locationDelegate = self
+        
         if let queryString = currentSearchString {
-            productListView.queryString = queryString
+            mainProductListView.queryString = queryString
         }
         if let category = currentCategory {
-            productListView.categories = [category]
+            mainProductListView.categories = [category]
         }
     }
     
@@ -164,12 +166,11 @@ class ProductsViewController: BaseViewController, IndicateLocationViewController
     // MARK: - IndicateLocationViewControllerDelegate
     
     func userDidManuallySetCoordinates(coordinates: CLLocationCoordinate2D) {
-        viewModel.coordinates = LGLocationCoordinates2D(coordinates: coordinates)
-        productListView.coordinates = LGLocationCoordinates2D(coordinates: coordinates)
-        productListView.refresh()
+        mainProductListView.coordinates = LGLocationCoordinates2D(coordinates: coordinates)
+        mainProductListView.refresh()
     }
     
-    // MARK: - ProductListViewDelegate
+    // MARK: - ProductListViewDataDelegate
     
     func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
         
@@ -215,7 +216,7 @@ class ProductsViewController: BaseViewController, IndicateLocationViewController
                 })
             }
             }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        presentViewController(alert, animated: true, completion: nil)
     }
     
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
@@ -231,24 +232,9 @@ class ProductsViewController: BaseViewController, IndicateLocationViewController
         pushProductViewController(product)
     }
     
-    // MARK: - ProductsViewModelDelegate
-   
-    func viewModel(viewModel: ProductsViewModel, didStartRequestingLocationServices timeout: NSTimeInterval) {
-        productListView.state = .FirstLoadView
-    }
+    // MARK: - ProductListViewLocationDelegate
     
-    func viewModel(viewModel: ProductsViewModel, didFailRequestingLocationServices status: LocationServiceStatus) {
-
-        // If there is data, then do not notify...
-        switch productListView.state {
-        case .FirstLoadView:
-            break
-        case .DataView:
-            return
-        case .ErrorView(_, _, _, _, _):
-            break
-        }
-        
+    func mainProductListView(mainProductListView: MainProductListView, didFailRequestingLocationServices status: LocationServiceStatus) {
         var alertMessage: String?
         var alertButtonTitle: String?
         
@@ -272,49 +258,11 @@ class ProductsViewController: BaseViewController, IndicateLocationViewController
         }
     }
     
-    func viewModel(viewModel: ProductsViewModel, didTimeOutRetrievingLocation timeout: NSTimeInterval) {
+    func mainProductListView(mainProductListView: MainProductListView, didTimeOutRetrievingLocation timeout: NSTimeInterval) {
         pushIndicateLocationViewController()
     }
     
-    func viewModel(viewModel: ProductsViewModel, didRetrieveLocation coordinates: LGLocationCoordinates2D) {
-        productListView.coordinates = coordinates
-        
-        if productListView.isEmpty {
-            productListView.refresh()
-        }
-    }
-    
-//    func didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
-//        if indexPaths.isEmpty {
-//            setUIState(.NoProducts)
-//        }
-//        else {
-//            collectionView.reloadSections(NSIndexSet(index: 0))
-//            setUIState(.Loaded)
-//        }
-//        
-//        // Tracking
-//        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
-//    }
 
-    
-    func didStartRetrievingNextPageProducts() {
-        
-    }
-    
-//    func didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
-//        self.collectionView.insertItemsAtIndexPaths(indexPaths)
-//        
-//        // Hide tip when dragging and exceeding the items threshold to do so
-//        if let tabBarCtl = tabBarController as? TabBarController, let lastIndexPath = indexPaths.last {
-//            if lastIndexPath.row >= ProductsViewController.TooltipHidingItemCountThreshold {
-//                tabBarCtl.dismissTooltip(animated: true)
-//            }
-//        }
-//        
-//        // Tracking
-//        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
-//    }
    
     // MARK: - UISearchBarDelegate
     
@@ -349,4 +297,17 @@ class ProductsViewController: BaseViewController, IndicateLocationViewController
     func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus) {
 //        self.collectionView.reloadSections(NSIndexSet(index: 0))
     }
+    
+    
+    
+    
+//    func didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
+//        // Tracking
+//        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
+//    }
+    
+//    func didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
+//        // Tracking
+//        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
+//    }
 }
