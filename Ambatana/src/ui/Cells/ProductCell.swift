@@ -65,12 +65,12 @@ class ProductCell: UICollectionViewCell {
         
         // Status (stripe)
         if (product.status == .Sold) {
-            stripeImageView.image = UIImage(named: "stripe_new")
+            stripeImageView.image = UIImage(named: "stripe_sold")
             stripeLabel.text = NSLocalizedString("product_list_item_sold_status_label", comment: "")
         }
         else if let createdAt = product.createdAt {
             if NSDate().timeIntervalSinceDate(createdAt) < 60*60*24 {
-                stripeImageView.image = UIImage(named: "stripe_sold")
+                stripeImageView.image = UIImage(named: "stripe_new")
                 stripeLabel.text = NSLocalizedString("product_list_item_new_status_label", comment: "")
             }
         }
