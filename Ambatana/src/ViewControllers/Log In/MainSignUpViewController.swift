@@ -38,6 +38,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     // Footer
     @IBOutlet weak var registeredLabel: UILabel!
     @IBOutlet weak var logInLabel: UILabel!
+    @IBOutlet weak var contactUsButton: UIButton!
     
     // > Helper
     var lines: [CALayer]
@@ -112,7 +113,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func contactUsButtonPressed() {
+    @IBAction func contactUsButtonPressed() {
         let vc = ContactViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -166,9 +167,6 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeButtonPressed"))
         self.navigationItem.leftBarButtonItem = closeButton;
 
-        let contactUsButton = UIBarButtonItem(title: NSLocalizedString("main_sign_up_contact_us_button", comment: ""), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("contactUsButtonPressed"))
-        self.navigationItem.rightBarButtonItem = contactUsButton;
-
         // Appearance
         connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         connectFBButton.layer.cornerRadius = 4
@@ -182,5 +180,6 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         signUpButton.setTitle(NSLocalizedString("main_sign_up_sign_up_button", comment: ""), forState: .Normal)
         registeredLabel.text = NSLocalizedString("main_sign_up_already_registered_label", comment: "")
         logInLabel.text = NSLocalizedString("main_sign_up_log_in_label", comment: "")
+        contactUsButton.setTitle(NSLocalizedString("main_sign_up_contact_us_button", comment: ""), forState: .Normal)
     }
 }
