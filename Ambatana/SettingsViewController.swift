@@ -90,6 +90,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.rowHeight = 60
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: LetGoUserSettings.ChangeUsername.rawValue, inSection: 0)], withRowAnimation: .Automatic)
+    }
+    
     // MARK: - UITableViewDataSource methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return LetGoUserSettings.numberOfOptions()

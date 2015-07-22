@@ -33,10 +33,13 @@ public class ChangeUsernameViewModel: BaseViewModel {
         super.init()
     }
     
+
+    // MARK: - public methods
+
     
     public func saveUsername() {
         // check if username is ok (func in extension?)
-        if self.username.isValidUsername() {
+        if isValidUsername(username) {
             
             delegate?.viewModelDidStartSendingUser(self)
 
@@ -63,9 +66,16 @@ public class ChangeUsernameViewModel: BaseViewModel {
 
     }
     
+    public func isValidUsername(theUsername: String) -> Bool {
+        return theUsername.isValidUsername() && (theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != MyUserManager.sharedInstance.myUser()?.publicUsername)
+    }
+    
+    
+    // MARK: - private methods
+    
     
     func enableSaveButton() -> Bool {
-        return username.isValidUsername() && (username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != MyUserManager.sharedInstance.myUser()?.publicUsername)
+        return isValidUsername(username)
     }
     
 }

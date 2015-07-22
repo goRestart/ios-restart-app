@@ -70,7 +70,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if textField.text.isValidUsername() && (textField.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != MyUserManager.sharedInstance.myUser()?.publicUsername){
+        if viewModel.isValidUsername(textField.text) {
             viewModel?.saveUsername()
             return true
         }
