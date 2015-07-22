@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Bolts
+import Result
 
 final public class ProductsManager {
 
-    private var productsService: ProductsService
+    private var productsRetrieveService: ProductsRetrieveService
     
     public private(set) var currentParams: RetrieveProductsParams?
     
@@ -21,8 +21,8 @@ final public class ProductsManager {
     
     // MARK: - Lifecycle
 
-    public init(productsService: ProductsService) {
-        self.productsService = productsService
+    public init(productsRetrieveService: ProductsRetrieveService) {
+        self.productsRetrieveService = productsRetrieveService
         
         self.products = []
         self.lastPage = true
@@ -59,92 +59,57 @@ final public class ProductsManager {
         }
     }
     
+
     /**
         Retrieves the products with the given parameters.
-
-        :param: params The query parameters to filter the products retrieval.
-        :returns: The task that runs the operation. If cannot retrieve next page it returns a task with an internal error.
+    
+        :param: params The product retrieval parameters.
+        :param: result The result.
     */
-    public func retrieveProductsWithParams(params: RetrieveProductsParams) -> BFTask {
+    public func retrieveProductsWithParams(params: RetrieveProductsParams, result: ProductsRetrieveServiceResult?)  {
+        
         if !canRetrieveProducts {
-            return BFTask(error: NSError(code: LGErrorCode.Internal))
+            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+            return
         }
-        
-        return retrieveProductsTaskWithParams(params)
-    }
-    
-    /**
-        Retrieves the next products page.
-
-        :returns: The task that runs the operation. If cannot retrieve next page it returns a task with an internal error.
-    */
-    public func retrieveProductsNextPage() -> BFTask {
-        if !canRetrieveProductsNextPage {
-            return BFTask(error: NSError(code: LGErrorCode.Internal))
-        }
-        
-        return retrieveProductsNextPageTask()
-    }
-    
-    // MARK: - Private methods
-    
-    /**
-        Runs & returns the product retrieval task with the given parameters.
-    
-        :param:   The product retrieval parameters.
-        :returns: The product retrieval task.
-    */
-    private func retrieveProductsTaskWithParams(params: RetrieveProductsParams) -> BFTask {
         
         // Initial state
         products = []
         lastPage = true
         isLoading = true
         
-        var task = BFTaskCompletionSource()
-        productsService.retrieveProductsWithParams(params) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
-            
-            // Manager
+        productsRetrieveService.retrieveProductsWithParams(params) { [weak self] (myResult: Result<ProductsResponse, ProductsRetrieveServiceError>) in
             if let strongSelf = self {
                 
                 strongSelf.isLoading = false
                 
                 // Success
-                if error == nil {
+                if let response = myResult.value {
                     // Update the params as soon as succeeded, for correct handling in subsequent calls
                     strongSelf.currentParams = params
-                    
-                    if let newProducts = products {
-                        // Assign the new products
-                        strongSelf.products = newProducts
-                    }
-                    if let newLastPage = lastPage {
-                        strongSelf.lastPage = newLastPage
-                    }
+
+                    // Assign the new products & keep track if it's last page
+                    strongSelf.products = response.products
+                    strongSelf.lastPage = response.lastPage.boolValue
                 }
-            }
-            
-            // Task
-            if let actualError = error {
-                task.setError(error)
-            }
-            else if let newProducts = products {
-                task.setResult(newProducts)
-            }
-            else {
-                task.setError(NSError(code: LGErrorCode.Internal))
+                
+                result?(myResult)
             }
         }
-        
-        return task.task
     }
     
     /**
-        Runs & returns the next page product retrieval task with the given parameters.
+        Retrieves the products next page with the previous parameters.
     
-        :returns: The product retrieval task.
+        :param: params The product retrieval parameters.
+        :param: result The result.
     */
-    private func retrieveProductsNextPageTask() -> BFTask {
+    public func retrieveProductsNextPageWithResult(result: ProductsRetrieveServiceResult?) {
+        
+        if !canRetrieveProductsNextPage {
+            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+            return
+        }
         
         // Initial state
         isLoading = true
@@ -153,44 +118,23 @@ final public class ProductsManager {
         var newParams: RetrieveProductsParams = currentParams!
         newParams.offset = products.count
         
-        var task = BFTaskCompletionSource()
-        productsService.retrieveProductsWithParams(newParams) { [weak self] (products: NSArray?, lastPage: Bool?, error: NSError?) -> Void in
-            
-            // Manager
+        productsRetrieveService.retrieveProductsWithParams(newParams) { [weak self] (myResult: Result<ProductsResponse, ProductsRetrieveServiceError>) in
             if let strongSelf = self {
                 
                 strongSelf.isLoading = false
                 
-                // Error
-                if error == nil {
+                // Success
+                if let response = myResult.value {
                     // Update the params as soon as succeeded, for correct handling in subsequent calls
                     strongSelf.currentParams = newParams
                     
-                    if let newProducts = products {
-                        // Add the new products
-                        strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
-                    }
-                    if let newLastPage = lastPage {
-                        strongSelf.lastPage = newLastPage
-                    }
+                    // Add the new products & keep track if it's last page
+                    strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(response.products as [AnyObject])
+                    strongSelf.lastPage = response.lastPage.boolValue
                 }
-                else {
-                    println()
-                }
-            }
-            
-            // Task
-            if let actualError = error {
-                task.setError(error)
-            }
-            else if let newProducts = products {
-                task.setResult(newProducts)
-            }
-            else {
-                task.setError(NSError(code: LGErrorCode.Internal))
+                
+                result?(myResult)
             }
         }
-        
-        return task.task
     }
 }

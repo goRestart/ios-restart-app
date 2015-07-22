@@ -20,6 +20,11 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     // > Delegate
     
     // UI
+    
+    // > Nav Bar
+    var navBarBgImage: UIImage!
+    var navBarShadowImage: UIImage!
+
     // > Header
     @IBOutlet weak var claimLabel: UILabel!
     
@@ -54,6 +59,23 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         super.viewDidLoad()
         
         setupUI()
+        
+        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
+        navBarShadowImage = navigationController?.navigationBar.shadowImage
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
     
     override func viewWillLayoutSubviews() {
@@ -89,6 +111,12 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func contactUsButtonPressed() {
+        let vc = ContactViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     
     // MARK: - MainSignUpViewModelDelegate
     
@@ -137,7 +165,10 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         // Navigation bar
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeButtonPressed"))
         self.navigationItem.leftBarButtonItem = closeButton;
-        
+
+        let contactUsButton = UIBarButtonItem(title: NSLocalizedString("main_sign_up_contact_us_button", comment: ""), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("contactUsButtonPressed"))
+        self.navigationItem.rightBarButtonItem = contactUsButton;
+
         // Appearance
         connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         connectFBButton.layer.cornerRadius = 4

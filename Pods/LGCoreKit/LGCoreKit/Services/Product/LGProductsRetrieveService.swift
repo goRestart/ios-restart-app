@@ -1,78 +1,54 @@
 //
-//  LGProductsService.swift
+//  LGProductsRetrieveService.swift
 //  LGCoreKit
 //
-//  Created by Albert Hernández López on 30/04/15.
+//  Created by Albert Hernández López on 01/07/15.
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
 import Alamofire
-import SwiftyJSON
+import Result
 
-final public class LGProductsService: ProductsService {
-
+final public class LGProductsRetrieveService: ProductsRetrieveService {
+    
     // Constants
     public static let endpoint = "/api/list.json"
-
+    
     // iVars
     var url: String
     
     // MARK: - Lifecycle
     
     public init(baseURL: String) {
-        self.url = baseURL + LGProductsService.endpoint
+        self.url = baseURL + LGProductsRetrieveService.endpoint
     }
     
     public convenience init() {
         self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
     }
     
-    public func retrieveProductsWithParams(params: RetrieveProductsParams, completion: RetrieveProductsCompletion?) {
-        
+    // MARK: - ProductsRetrieveService
+    
+    public func retrieveProductsWithParams(params: RetrieveProductsParams, result: ProductsRetrieveServiceResult?) {        
         let parameters = params.letgoApiParams
         Alamofire.request(.GET, url, parameters: parameters)
             .validate(statusCode: 200..<400)
-            .responseJSON(options: nil, completionHandler: { (request: NSURLRequest, response: NSHTTPURLResponse?, data: AnyObject?, error: NSError?) -> Void in
-                
+            .responseObject { (_, _, productsResponse: LGProductsResponse?, error: NSError?) -> Void in
                 // Error
                 if let actualError = error {
                     let myError: NSError
-                    if let actualData: AnyObject = data {
-                        let json = JSON(actualData)
-                        
-                        myError = NSError(code: LGErrorCode.Parsing)
-                        completion?(products: nil, lastPage: nil, error: myError)
-                    }
-                    else if actualError.domain == NSURLErrorDomain {
-                        myError = NSError(code: LGErrorCode.Network)
-                        completion?(products: nil, lastPage: nil, error: myError)
+                    if actualError.domain == NSURLErrorDomain {
+                        result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Network))
                     }
                     else {
-                        myError = NSError(code: LGErrorCode.Internal)
-                        completion?(products: nil, lastPage: nil, error: myError)
+                        result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
                     }
                 }
                 // Success
-                else if let actualData: AnyObject = data {
-                    // TODO: Refactor this bg parsing with custom response handle in Alamofire
-                    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-                        
-                        let json = JSON(actualData)
-                        if let productsResponse = LGProductsResponseParser.responseWithJSON(json) {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                completion?(products: productsResponse.products, lastPage: productsResponse.lastPage, error: nil)
-                            })
-                            
-                        }
-                        else {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                let myError = NSError(code: LGErrorCode.Parsing)
-                                completion?(products: nil, lastPage: nil, error: myError)
-                            })
-                        }
-                    })
+                else if let actualProductsResponse = productsResponse {
+                    result?(Result<ProductsResponse, ProductsRetrieveServiceError>.success(actualProductsResponse))
                 }
-            })
+        }
     }
 }
 
@@ -88,7 +64,7 @@ extension RetrieveProductsParams {
                 params["latitude"] = coordinates.latitude
                 params["longitude"] = coordinates.longitude
             }
-      
+            
             if let categoryIds = self.categoryIds {
                 if !categoryIds.isEmpty {
                     let categoryIdsString = categoryIds.map { String($0) }

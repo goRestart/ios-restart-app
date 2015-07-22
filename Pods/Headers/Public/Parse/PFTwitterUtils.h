@@ -1,1 +1,1 @@
-../../../Parse/Parse.framework/Headers/PFTwitterUtils.h
+../../../Parse/PFTwitterUtils.h

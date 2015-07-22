@@ -1,1 +1,1 @@
-../../../Parse/Parse.framework/Headers/PFUser.h
+../../../Parse/PFUser.h

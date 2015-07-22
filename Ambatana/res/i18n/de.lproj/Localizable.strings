@@ -14,6 +14,11 @@
 "change_password_send_error_passwords_mismatch" = "Die Kennwörter stimmen nicht überein. Bitte versuche es erneut.";
 "change_password_send_ok" = "Kennwort erfolgreich geändert.";
 "change_password_title" = "Kennwort ändern";
+"change_username_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"change_username_field_hint" = "Full name";
+"change_username_loading" = "Saving your user name...";
+"change_username_save_button" = "Save";
+"change_username_title" = "Change Name";
 "chat_list_empty_label" = "Noch keine Gespräche";
 "chat_list_start_selling_or_buying_label" = "Fange an zu kaufen oder verkaufen!";
 "chat_list_title" = "Gespräche";
@@ -37,6 +42,16 @@
 "common_time_seconds_ago_label" = "vor %d Sekunden";
 "common_time_week_ago_label" = "vor einer Woche";
 "common_time_weeks_ago_label" = "vor %d Wochen";
+"contact_body_field_hint" = "Nachricht";
+"contact_email_field_hint" = "E-Mail-Adresse";
+"contact_send_button" = "Abschicken";
+"contact_send_error_generic" = "Fehler beim Senden der Nachricht. Bitte überprüfe deine Internetverbindung und versuche es erneut.";
+"contact_send_error_invalid_body" = "Bitte gib eine Nachricht ein.";
+"contact_send_error_invalid_email" = "Bitte gib deine E-Mail-Adresse an, damit wir dir antworten können.";
+"contact_send_error_invalid_subject" = "Bitte gib einen Betreff ein.";
+"contact_send_ok" = "Deine Nachricht wurde erfolgreich verschickt.";
+"contact_subject_field_hint" = "Betreff";
+"contact_title" = "Schreib Uns";
 "indicate_location_address_field_hint" = "Gib deine Adresse ein";
 "indicate_location_address_search_error_generic" = "Ich konnte den Standort nicht finden. Bitte versuche es erneut.";
 "indicate_location_long_press_tip_label" = "Oder halte deinen Finger auf deinem Standort gedrückt";
@@ -54,6 +69,7 @@
 "log_in_title" = "Anmelden";
 "main_sign_up_already_registered_label" = "Bereits registriert?";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche";
+"main_sign_up_contact_us_button" = "Schreib uns";
 "main_sign_up_facebook_connect_button" = "Mit Facebook verbinden";
 "main_sign_up_fb_connect_error_email_taken" = "Registrierung fehlgeschlagen. Deine E-Mail-Adresse bei Facebook ist bereits registriert. Bitte versuche dich anzumelden.";
 "main_sign_up_fb_connect_error_generic" = "Anmeldung fehlgeschlagen. Bitte versuche es erneut.";
@@ -153,6 +169,8 @@
 "settings_change_profile_picture_button" = "Profilbild ändern";
 "settings_change_profile_picture_error_generic" = "Beim Einstellen des Profilbilds ist eine Fehler aufgetreten";
 "settings_change_profile_picture_loading" = "Dein Profilbild wird eingestellt, bitte warte...";
+"settings_change_username_button" = "Change name";
+"settings_contact_us_button" = "Schreib uns";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Fotoarchiv";
 "settings_image_source_cancel_button" = "Abbrechen";
@@ -169,4 +187,4 @@
 "sign_up_send_error_invalid_username" = "Bitte gib einen gültigen Namen ein. Er muss mindestens %d Zeichen haben";
 "sign_up_title" = "Registrieren";
 "sign_up_username_field_hint" = "Vor- und Nachname";
-"tab_bar_tool_tip" = "Verkaufe deine Sachen!";
+"tab_bar_tool_tip" = "Verkaufe Deine Sachen!";

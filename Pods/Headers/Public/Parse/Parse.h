@@ -1,1 +1,1 @@
-../../../Parse/Parse.framework/Headers/Parse.h
+../../../Parse/Parse.h

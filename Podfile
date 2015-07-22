@@ -20,7 +20,7 @@ target "LetGo" do
     pod "Amplitude-iOS",        "~> 2.5"
     
     # letgo Core
-    pod "LGCoreKit"
+    pod "LGCoreKit" #,            :path => "../letgo-ios-lgcorekit"
     
     # Networking (to be removed when migrating to LGCoreKit)
     pod "Alamofire",            "~> 1.2"
@@ -28,3 +28,10 @@ target "LetGo" do
     # Animation
     pod "pop",                  "~> 1.0"
 end
+
+target "letgoTests" do
+    ## Testing
+    pod "Quick",            "~> 0.3.1"    # Update to 0.4+ when upgrading to Swift 2.0
+    pod "Nimble",           "~> 0.4.2"    # Update to 1.0+ when upgrading to Swift 2.0
+end
+
