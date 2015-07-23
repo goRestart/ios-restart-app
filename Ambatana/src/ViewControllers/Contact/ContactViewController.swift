@@ -138,7 +138,6 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
             messageField.text = nil
             messageField.textColor = UIColor.blackColor()
         }
-        println(scrollView.contentOffset.y)
         scrollView.setContentOffset(CGPointMake(0,textView.frame.origin.y-64), animated: true)
     }
     
@@ -159,12 +158,6 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
     }
     
     // MARK: - TextFieldDelegate
-    
-    func textFieldDidBeginEditing(textField: UITextField) {
-        
-        scrollView.setContentOffset(CGPointMake(0,emailField.frame.origin.y-64), animated: true)
-
-    }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
@@ -212,16 +205,9 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         emailField.placeholder = NSLocalizedString("contact_email_field_hint", comment: "")
         emailField.tag = TextFieldTag.Email.rawValue
         emailField.text = viewModel.email
+
         titleField.placeholder = NSLocalizedString("contact_subject_field_hint", comment: "")
         titleField.tag = TextFieldTag.Title.rawValue
-        
-        emailField.insetX = 16;
-        emailField.clearButtonOffset = 12;
-        emailField.tintColor = StyleHelper.tabBarIconSelectedColor
-
-        titleField.insetX = 16;
-        titleField.clearButtonOffset = 12;
-        titleField.tintColor = StyleHelper.tabBarIconSelectedColor
         
         messageField.text = messagePlaceholder
         messageField.textColor = messagePlaceholderColor

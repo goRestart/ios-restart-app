@@ -227,6 +227,23 @@ public class MyUserManager {
     }
     
     /**
+    Updates my usename.
+    
+    :param: username The username.
+    :param: result The closure containing the result.
+    */
+    public func updateUsername(username: String, result: UserSaveServiceResult?) {
+        if let myUser = myUser() {
+            myUser.publicUsername = username
+            myUser.processed = NSNumber(bool: false)
+            saveMyUser(result)
+        }
+        else {
+            result?(Result<User, UserSaveServiceError>.failure(.Internal))
+        }
+    }
+    
+    /**
         Updates my user passwords.
     
         :param: password The password.

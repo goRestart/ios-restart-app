@@ -31,6 +31,15 @@ extension String {
     }
 }
 
+/**  Uses regular expressions to test whether a string is a valid username */
+extension String {
+    func isValidUsername() -> Bool {
+        var tmpString = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return count(tmpString) > 1
+    }
+}
+
+
 /**
  * Link for an LetGo product in the website.
  */

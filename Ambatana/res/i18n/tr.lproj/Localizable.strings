@@ -18,6 +18,7 @@
 "change_username_field_hint" = "Full name";
 "change_username_loading" = "Saving your user name...";
 "change_username_save_button" = "Save";
+"change_username_send_ok" = "User name changed successfully.";
 "change_username_title" = "Change Name";
 "chat_list_empty_label" = "Henüz mesajın yok";
 "chat_list_start_selling_or_buying_label" = "Almaya veya satmaya başla!";

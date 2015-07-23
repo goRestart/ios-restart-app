@@ -50,6 +50,8 @@ public enum UserLogInFBError {
             self = .EmailTaken
         case .Internal:
             self = .Internal
+        case .InvalidUsername:    // Should never happen
+            self = .Internal
         }
     }
 }
@@ -76,6 +78,8 @@ public enum FileUploadError {
             self = .Internal
         case .EmailTaken:   // Should never happen
             self = .Internal
+        case .InvalidUsername:   // Should never happen
+            self = .Internal
         }
     }
 }
@@ -101,6 +105,8 @@ public enum SaveUserCoordinatesError {
         case .Internal:
             self = .Internal
         case .EmailTaken:   // Should never happen
+            self = .Internal
+        case .InvalidUsername:   // Should never happen
             self = .Internal
         }
     }

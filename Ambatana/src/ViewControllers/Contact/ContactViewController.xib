@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="Cp6-kR-teF">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="Cp6-kR-teF">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c7H-ii-adD">
@@ -36,11 +36,6 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="insetX">
-                                    <real key="value" value="20"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                             <variation key="default">
                                 <mask key="constraints">
                                     <exclude reference="dcz-JJ-UGU"/>
@@ -50,7 +45,7 @@
                                 <outlet property="delegate" destination="-1" id="9ff-Za-VyM"/>
                             </connections>
                         </textField>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" text="_ Your message goes here" translatesAutoresizingMaskIntoConstraints="NO" id="6G9-7e-l9L">
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" text="_ Your message goes here" translatesAutoresizingMaskIntoConstraints="NO" id="6G9-7e-l9L">
                             <rect key="frame" x="0.0" y="88" width="600" height="88"/>
                             <color key="tintColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -72,11 +67,6 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="insetX">
-                                    <real key="value" value="20"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                             <variation key="default">
                                 <mask key="constraints">
                                     <exclude reference="6dM-Wx-3FH"/>
@@ -123,7 +113,7 @@
                         <constraint firstAttribute="centerX" secondItem="AJ9-ZO-FgS" secondAttribute="centerX" id="ayN-jn-4Zk"/>
                         <constraint firstItem="JA2-Re-sb2" firstAttribute="top" secondItem="Cp6-kR-teF" secondAttribute="top" id="cho-LW-Fft"/>
                         <constraint firstItem="ZEC-xW-P4z" firstAttribute="leading" secondItem="Cp6-kR-teF" secondAttribute="leading" id="dYG-6s-bJT"/>
-                        <constraint firstAttribute="bottom" secondItem="AJ9-ZO-FgS" secondAttribute="bottom" constant="193" id="mNH-Hz-CSx"/>
+                        <constraint firstAttribute="bottom" secondItem="AJ9-ZO-FgS" secondAttribute="bottom" constant="15" id="mNH-Hz-CSx"/>
                         <constraint firstAttribute="trailing" secondItem="ZEC-xW-P4z" secondAttribute="trailing" id="nBQ-Ze-F0V"/>
                         <constraint firstAttribute="trailing" secondItem="6G9-7e-l9L" secondAttribute="trailing" id="wAd-9g-g6i"/>
                     </constraints>

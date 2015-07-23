@@ -12,6 +12,7 @@ public enum UserSaveServiceError {
     case Network
     case EmailTaken
     case Internal
+    case InvalidUsername
 }
 
 public typealias UserSaveServiceResult = (Result<User, UserSaveServiceError>) -> Void
