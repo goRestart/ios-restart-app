@@ -1118,7 +1118,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 8fde945cd2c0d97ba33c9f1dd8a33b6b0433ed9b 3278ecd3e0992f0494ad0488027964d0bb2ef6818671e0928a91ed41c9b8e791";
+			shellScript = "./Fabric.framework/run da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
 		};
 		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1420,7 +1420,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "a433b9ee-c30d-4f60-9248-805bc10db85a";
+				PROVISIONING_PROFILE = "44b7c3c4-5ac5-43fe-b5ea-36071acb40e9";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1552,7 +1552,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "7e0129fb-f3db-48e3-accf-627ae4c3589b";
+				PROVISIONING_PROFILE = "af2f4d14-3267-4c5b-b64e-6dec01b54961";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
