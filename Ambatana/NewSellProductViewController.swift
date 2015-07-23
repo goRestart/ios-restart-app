@@ -100,11 +100,11 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         
         // CollectionView
         let addPictureCellNib = UINib(nibName: "SellAddPictureCell", bundle: nil)
-        self.collectionView.registerNib(addPictureCellNib, forCellWithReuseIdentifier: SellProductViewController.addPictureCellIdentifier)
+        self.collectionView.registerNib(addPictureCellNib, forCellWithReuseIdentifier: NewSellProductViewController.addPictureCellIdentifier)
         let pictureCellNib = UINib(nibName: "SellPictureCell", bundle: nil)
-        self.collectionView.registerNib(pictureCellNib, forCellWithReuseIdentifier: SellProductViewController.pictureCellIdentifier)
+        self.collectionView.registerNib(pictureCellNib, forCellWithReuseIdentifier: NewSellProductViewController.pictureCellIdentifier)
         let emptyCellNib = UINib(nibName: "SellEmptyCell", bundle: nil)
-        self.collectionView.registerNib(emptyCellNib, forCellWithReuseIdentifier: SellProductViewController.emptyCellIdentifier)
+        self.collectionView.registerNib(emptyCellNib, forCellWithReuseIdentifier: NewSellProductViewController.emptyCellIdentifier)
         
         // UX/UI & appearance.
         uploadingImageView.hidden = true
@@ -684,13 +684,13 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
 
         // let's try to find out which kind of cell is this
         if indexPath.row == images.count { // "first upload image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductViewController.addPictureCellIdentifier, forIndexPath: indexPath) as! SellAddPictureCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.addPictureCellIdentifier, forIndexPath: indexPath) as! SellAddPictureCell
         } else if indexPath.row < images.count { // already uploaded image case
-            let pictureCell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductViewController.pictureCellIdentifier, forIndexPath: indexPath) as! SellPictureCell
+            let pictureCell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.pictureCellIdentifier, forIndexPath: indexPath) as! SellPictureCell
             pictureCell.imageView.image = images[indexPath.row]
             cell = pictureCell
         } else { // "upload other image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductViewController.emptyCellIdentifier, forIndexPath: indexPath) as! SellEmptyCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.emptyCellIdentifier, forIndexPath: indexPath) as! SellEmptyCell
         }
         return cell
     }
