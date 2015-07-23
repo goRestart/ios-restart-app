@@ -103,7 +103,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     // MARK: - Button actions
     
     @IBAction func sellNewProduct(sender: AnyObject) {
-        let vc = SellProductViewController()
+        let vc = NewSellProductViewController()
         let navCtl = UINavigationController(rootViewController: vc)
         presentViewController(navCtl, animated: true, completion: nil)
     }

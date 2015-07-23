@@ -1,5 +1,5 @@
 //
-//  SellProductViewController.swift
+//  NewSellProductViewController.swift
 //  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 10/02/15.
@@ -26,11 +26,11 @@ private let kLetGoSellProductActionSheetTagCategoryType = 101 // for category se
 private let kLetGoSellProductActionSheetTagImageSourceType = 102 // for image source selection
 private let kLetGoSellProductActionSheetTagActionType = 103 // for image action selection
 
-@objc protocol SellProductViewControllerDelegate {
-    optional func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool)
+@objc protocol NewSellProductViewControllerDelegate {
+    optional func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool)
 }
 
-class SellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, FBSDKSharingDelegate {
+class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, FBSDKSharingDelegate {
     
     // constants
     private static let addPictureCellIdentifier = "SellAddPictureCell"
@@ -70,7 +70,7 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var productId: String?
     
     // Delegate
-    weak var delegate: SellProductViewControllerDelegate?
+    weak var delegate: NewSellProductViewControllerDelegate?
     
     init() {
         super.init(nibName: "SellProductViewController", bundle: nil)

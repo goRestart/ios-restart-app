@@ -188,7 +188,7 @@ class EditProfileViewController: UIViewController, UICollectionViewDelegate, UIC
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
-        let vc = SellProductViewController()
+        let vc = NewSellProductViewController()
         let navCtl = UINavigationController(rootViewController: vc)
         presentViewController(navCtl, animated: true, completion: nil)
     }

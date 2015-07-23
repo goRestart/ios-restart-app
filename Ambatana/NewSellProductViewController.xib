@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SellProductViewController" customModule="LetGo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NewSellProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="characterCounterLabel" destination="gRn-lV-UAj" id="r6b-Ua-8VB"/>
                 <outlet property="chooseCategoryButton" destination="2Nh-Wo-Uho" id="Qey-BT-SYL"/>
