@@ -39,9 +39,9 @@
 		50560B991B25D18F0021D8D9 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B8B1B25D18F0021D8D9 /* LogInViewController.swift */; };
 		50560B9A1B25D18F0021D8D9 /* LogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50560B8C1B25D18F0021D8D9 /* LogInViewController.xib */; };
 		50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B8E1B25D18F0021D8D9 /* TabBarController.swift */; };
-		50560B9D1B25D18F0021D8D9 /* ProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B911B25D18F0021D8D9 /* ProductsViewController.swift */; };
-		50560B9E1B25D18F0021D8D9 /* ProductsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50560B921B25D18F0021D8D9 /* ProductsViewController.xib */; };
-		50560B9F1B25D18F0021D8D9 /* ProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B931B25D18F0021D8D9 /* ProductsViewModel.swift */; };
+		50560B9D1B25D18F0021D8D9 /* MainProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B911B25D18F0021D8D9 /* MainProductsViewController.swift */; };
+		50560B9E1B25D18F0021D8D9 /* MainProductsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50560B921B25D18F0021D8D9 /* MainProductsViewController.xib */; };
+		50560B9F1B25D18F0021D8D9 /* MainProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B931B25D18F0021D8D9 /* MainProductsViewModel.swift */; };
 		50560BA01B25D18F0021D8D9 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B951B25D18F0021D8D9 /* SplashViewController.swift */; };
 		50560BA11B25D18F0021D8D9 /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50560B961B25D18F0021D8D9 /* SplashViewController.xib */; };
 		50560BA31B25DAD50021D8D9 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560BA21B25DAD50021D8D9 /* LogInViewModel.swift */; };
@@ -202,9 +202,9 @@
 		50560B8B1B25D18F0021D8D9 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		50560B8C1B25D18F0021D8D9 /* LogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInViewController.xib; sourceTree = "<group>"; };
 		50560B8E1B25D18F0021D8D9 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		50560B911B25D18F0021D8D9 /* ProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsViewController.swift; sourceTree = "<group>"; };
-		50560B921B25D18F0021D8D9 /* ProductsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductsViewController.xib; sourceTree = "<group>"; };
-		50560B931B25D18F0021D8D9 /* ProductsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsViewModel.swift; sourceTree = "<group>"; };
+		50560B911B25D18F0021D8D9 /* MainProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsViewController.swift; sourceTree = "<group>"; };
+		50560B921B25D18F0021D8D9 /* MainProductsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainProductsViewController.xib; sourceTree = "<group>"; };
+		50560B931B25D18F0021D8D9 /* MainProductsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsViewModel.swift; sourceTree = "<group>"; };
 		50560B951B25D18F0021D8D9 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		50560B961B25D18F0021D8D9 /* SplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashViewController.xib; sourceTree = "<group>"; };
 		50560BA21B25DAD50021D8D9 /* LogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
@@ -479,9 +479,9 @@
 		50560B8F1B25D18F0021D8D9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				50560B911B25D18F0021D8D9 /* ProductsViewController.swift */,
-				50560B921B25D18F0021D8D9 /* ProductsViewController.xib */,
-				50560B931B25D18F0021D8D9 /* ProductsViewModel.swift */,
+				50560B911B25D18F0021D8D9 /* MainProductsViewController.swift */,
+				50560B921B25D18F0021D8D9 /* MainProductsViewController.xib */,
+				50560B931B25D18F0021D8D9 /* MainProductsViewModel.swift */,
 				D412E0851B4F179F00683FFD /* ProductListView.swift */,
 				D412E0871B4F17C200683FFD /* ProductListView.xib */,
 				D412E07E1B4EFF2800683FFD /* ProductListViewModel.swift */,
@@ -1060,7 +1060,7 @@
 				D48C3E061AEBD165005BD0EF /* ConversationCell.xib in Resources */,
 				508E4CEF1B4281F2007BD301 /* ProductCell.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
-				50560B9E1B25D18F0021D8D9 /* ProductsViewController.xib in Resources */,
+				50560B9E1B25D18F0021D8D9 /* MainProductsViewController.xib in Resources */,
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
 				50560B9A1B25D18F0021D8D9 /* LogInViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
@@ -1214,7 +1214,7 @@
 				D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */,
 				505B06AA1B15A9910049F9CD /* GalleryView.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
-				50560B9F1B25D18F0021D8D9 /* ProductsViewModel.swift in Sources */,
+				50560B9F1B25D18F0021D8D9 /* MainProductsViewModel.swift in Sources */,
 				2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */,
 				D4C53C971B334B0B0087AAE1 /* UIViewController+User.swift in Sources */,
 				D4912A881B08FDA000DACD5A /* UIColor+UIImage.swift in Sources */,
@@ -1234,7 +1234,7 @@
 				D4B0CF7E1B07309800A61E1A /* SellEmptyCell.swift in Sources */,
 				2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */,
 				50560BA01B25D18F0021D8D9 /* SplashViewController.swift in Sources */,
-				50560B9D1B25D18F0021D8D9 /* ProductsViewController.swift in Sources */,
+				50560B9D1B25D18F0021D8D9 /* MainProductsViewController.swift in Sources */,
 				5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */,
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
 				2EE5EEDF1B5E4C860056BF76 /* ChangeUsernameViewController.swift in Sources */,

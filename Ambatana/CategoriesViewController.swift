@@ -87,8 +87,8 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
             // analyze search string
             if searchString != nil && count(searchString) > 0 {
                 // TODO: Refactor pending!
-                let searchVM = ProductsViewModel(searchString: searchString)
-                let searchVC = ProductsViewController(viewModel: searchVM)
+                let searchVM = MainProductsViewModel(searchString: searchString)
+                let searchVC = MainProductsViewController(viewModel: searchVM)
                 self.navigationController?.pushViewController(searchVC, animated: true)
             }
         }
@@ -143,8 +143,8 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         let category = categories[indexPath.row]
         
         // TODO: Refactor pending!
-        let categoriesVM = ProductsViewModel(category: category)
-        let categoriesVC = ProductsViewController(viewModel: categoriesVM)
+        let categoriesVM = MainProductsViewModel(category: category)
+        let categoriesVC = MainProductsViewController(viewModel: categoriesVM)
         self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
 }

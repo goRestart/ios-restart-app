@@ -10,11 +10,11 @@ import CoreLocation
 import LGCoreKit
 import Result
 
-public protocol ProductsViewModelDelegate: class {
-    func productsViewModel(viewModel: ProductsViewModel, didSearchWithViewModel searchViewModel: ProductsViewModel)
+public protocol MainProductsViewModelDelegate: class {
+    func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel)
 }
 
-public class ProductsViewModel: BaseViewModel {
+public class MainProductsViewModel: BaseViewModel {
 
     // Input
     public var category: ProductCategory?
@@ -25,7 +25,7 @@ public class ProductsViewModel: BaseViewModel {
     public var hasSearchButton: Bool
     
     // > Delegate
-    public weak var delegate: ProductsViewModelDelegate?
+    public weak var delegate: MainProductsViewModelDelegate?
     
     // MARK: - Lifecycle
     
@@ -50,7 +50,7 @@ public class ProductsViewModel: BaseViewModel {
                 TrackingHelper.trackEvent(.SearchComplete, parameters: trackingParamsForEventType(.SearchComplete))
                 
                 // Notify the delegate
-                delegate?.productsViewModel(self, didSearchWithViewModel: viewModelForSearch())
+                delegate?.mainProductsViewModel(self, didSearchWithViewModel: viewModelForSearch())
             }
         }
     }
@@ -72,8 +72,8 @@ public class ProductsViewModel: BaseViewModel {
     
         :return: A view model for search.
     */
-    private func viewModelForSearch() -> ProductsViewModel {
-        return ProductsViewModel(searchString: searchString)
+    private func viewModelForSearch() -> MainProductsViewModel {
+        return MainProductsViewModel(searchString: searchString)
     }
     
     /**

@@ -11,13 +11,13 @@ import LGCoreKit
 import Parse
 import UIKit
 
-public class ProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, ProductsViewModelDelegate, UISearchBarDelegate, ShowProductViewControllerDelegate {
+public class MainProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, MainProductsViewModelDelegate, UISearchBarDelegate, ShowProductViewControllerDelegate {
 
     // Constants
     private static let TooltipHidingPageCountThreshold: UInt = 4
     
     // ViewModel
-    var viewModel: ProductsViewModel!
+    var viewModel: MainProductsViewModel!
 
     // UI
     @IBOutlet weak var mainProductListView: MainProductListView!
@@ -25,14 +25,14 @@ public class ProductsViewController: BaseViewController, IndicateLocationViewCon
     // MARK: - Lifecycle
     
     public convenience init() {
-        self.init(viewModel: ProductsViewModel(), nibName: "ProductsViewController")
+        self.init(viewModel: MainProductsViewModel(), nibName: "MainProductsViewController")
     }
     
-    public convenience init(viewModel: ProductsViewModel) {
-        self.init(viewModel: viewModel, nibName: "ProductsViewController")
+    public convenience init(viewModel: MainProductsViewModel) {
+        self.init(viewModel: viewModel, nibName: "MainProductsViewController")
     }
 
-    public required init(viewModel: ProductsViewModel, nibName nibNameOrNil: String?) {
+    public required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         viewModel.delegate = self
@@ -117,7 +117,7 @@ public class ProductsViewController: BaseViewController, IndicateLocationViewCon
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
         // If exceeding the page threshold, then hide the tip
-        if page >= ProductsViewController.TooltipHidingPageCountThreshold {
+        if page >= MainProductsViewController.TooltipHidingPageCountThreshold {
             if let tabBarCtl = tabBarController as? TabBarController {
                 tabBarCtl.dismissTooltip(animated: true)
             }
@@ -167,14 +167,14 @@ public class ProductsViewController: BaseViewController, IndicateLocationViewCon
         self.navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
     
-    // MARK: - ProductsViewModelDelegate
+    // MARK: - MainProductsViewModelDelegate
     
-    public func productsViewModel(viewModel: ProductsViewModel, didSearchWithViewModel searchViewModel: ProductsViewModel) {
+    public func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel) {
         if let searchBar = letGoSearchBar {
             
             // Dismiss the search bar & push a new VC to look for search results
             dismissSearchBar(searchBar, animated: true) { [weak self] () -> Void in
-                let vc = ProductsViewController(viewModel: searchViewModel)
+                let vc = MainProductsViewController(viewModel: searchViewModel)
                 self?.navigationController?.pushViewController(vc, animated: true)
             }
         }
