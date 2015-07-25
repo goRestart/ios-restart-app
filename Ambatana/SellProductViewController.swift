@@ -179,7 +179,6 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         if eventType == .ProductSellEditCategory || eventType == .ProductSellComplete {
             params[.CategoryId] = currentCategory?.rawValue ?? 0
-            params[.CategoryName] = currentCategory?.name() ?? "none"
         }
         
         if eventType == .ProductSellComplete {

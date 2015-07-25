@@ -11,7 +11,9 @@
                 <outlet property="dataView" destination="Zs6-3O-H5d" id="Ux4-8Q-uRF"/>
                 <outlet property="errorBodyLabel" destination="saZ-xv-kZi" id="bex-6p-mKk"/>
                 <outlet property="errorButton" destination="XEe-Z9-YAj" id="Ncb-ek-xNL"/>
+                <outlet property="errorButtonHeightConstraint" destination="Unw-X3-vnQ" id="oMD-iW-cCd"/>
                 <outlet property="errorImageView" destination="DRg-7Y-Mk1" id="A8h-JV-0OL"/>
+                <outlet property="errorImageViewHeightConstraint" destination="YZm-Pt-Fdh" id="q8R-gv-I0E"/>
                 <outlet property="errorTitleLabel" destination="A0a-1a-Pkb" id="alm-Lz-oJk"/>
                 <outlet property="errorView" destination="ljl-Jf-n6M" id="ngf-WM-0pj"/>
                 <outlet property="firstLoadActivityIndicator" destination="Pbl-p4-Cn4" id="yhM-Du-Lw8"/>
@@ -66,54 +68,52 @@
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljl-Jf-n6M" userLabel="Error View">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lYd-o8-eNu">
-                            <rect key="frame" x="8" y="161" width="584" height="279"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lYd-o8-eNu" userLabel="Error Content View">
+                            <rect key="frame" x="15" y="239" width="570" height="123"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DRg-7Y-Mk1" userLabel="Error Image View">
-                                    <rect key="frame" x="217" y="0.0" width="150" height="150"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="570" height="0.0"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="150" id="YZm-Pt-Fdh"/>
+                                        <constraint firstAttribute="height" id="YZm-Pt-Fdh"/>
                                         <constraint firstAttribute="width" constant="150" id="h5S-Vh-fG0"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="h5S-Vh-fG0"/>
+                                        </mask>
+                                    </variation>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0a-1a-Pkb" userLabel="Error Title Label">
-                                    <rect key="frame" x="0.0" y="158" width="584" height="21"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="570" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No products found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="saZ-xv-kZi" userLabel="Error Body Label">
-                                    <rect key="frame" x="8" y="195" width="568" height="29"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No products found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="saZ-xv-kZi" userLabel="Error Body Label">
+                                    <rect key="frame" x="8" y="37" width="554" height="27"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XEe-Z9-YAj" userLabel="Error Action Button">
-                                    <rect key="frame" x="0.0" y="239" width="584" height="40"/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XEe-Z9-YAj" userLabel="Error Action Button">
+                                    <rect key="frame" x="0.0" y="79" width="570" height="44"/>
                                     <color key="backgroundColor" red="1" green="0.363552928" blue="0.3849048316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="Unw-X3-vnQ"/>
-                                        <constraint firstAttribute="width" constant="290" id="eA6-mP-d2w"/>
-                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="w6h-aC-nJW"/>
+                                        <constraint firstAttribute="height" constant="44" id="Unw-X3-vnQ"/>
                                     </constraints>
                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <state key="normal" title="Reload products">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="eA6-mP-d2w"/>
-                                            <exclude reference="w6h-aC-nJW"/>
-                                        </mask>
-                                    </variation>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="saZ-xv-kZi" firstAttribute="leading" secondItem="lYd-o8-eNu" secondAttribute="leading" constant="8" id="75k-ga-PrM"/>
                                 <constraint firstItem="DRg-7Y-Mk1" firstAttribute="top" secondItem="lYd-o8-eNu" secondAttribute="top" id="9Ds-Kg-hR2"/>
-                                <constraint firstItem="A0a-1a-Pkb" firstAttribute="top" secondItem="DRg-7Y-Mk1" secondAttribute="bottom" constant="8" id="Aac-cT-vMp"/>
+                                <constraint firstItem="A0a-1a-Pkb" firstAttribute="top" secondItem="DRg-7Y-Mk1" secondAttribute="bottom" id="Aac-cT-vMp"/>
                                 <constraint firstItem="XEe-Z9-YAj" firstAttribute="leading" secondItem="lYd-o8-eNu" secondAttribute="leading" id="AjW-dX-9B7"/>
                                 <constraint firstAttribute="trailing" secondItem="saZ-xv-kZi" secondAttribute="trailing" constant="8" id="D5E-dH-MIj"/>
+                                <constraint firstItem="DRg-7Y-Mk1" firstAttribute="leading" secondItem="lYd-o8-eNu" secondAttribute="leading" id="Ecb-yB-DbG"/>
+                                <constraint firstAttribute="trailing" secondItem="DRg-7Y-Mk1" secondAttribute="trailing" id="FN5-FI-7sV"/>
                                 <constraint firstItem="XEe-Z9-YAj" firstAttribute="top" secondItem="saZ-xv-kZi" secondAttribute="bottom" constant="15" id="Ixx-HG-hlE"/>
                                 <constraint firstAttribute="bottom" secondItem="XEe-Z9-YAj" secondAttribute="bottom" id="JfF-Mq-UZ9"/>
                                 <constraint firstItem="saZ-xv-kZi" firstAttribute="top" secondItem="A0a-1a-Pkb" secondAttribute="bottom" constant="16" id="hwT-O1-am7"/>
@@ -127,8 +127,8 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerY" secondItem="lYd-o8-eNu" secondAttribute="centerY" id="MDX-OV-a8t"/>
-                        <constraint firstItem="lYd-o8-eNu" firstAttribute="leading" secondItem="ljl-Jf-n6M" secondAttribute="leading" constant="8" id="RQ1-h5-li8"/>
-                        <constraint firstAttribute="trailing" secondItem="lYd-o8-eNu" secondAttribute="trailing" constant="8" id="cxt-Pv-gfL"/>
+                        <constraint firstItem="lYd-o8-eNu" firstAttribute="leading" secondItem="ljl-Jf-n6M" secondAttribute="leading" constant="15" id="RQ1-h5-li8"/>
+                        <constraint firstAttribute="trailing" secondItem="lYd-o8-eNu" secondAttribute="trailing" constant="15" id="cxt-Pv-gfL"/>
                         <constraint firstAttribute="centerX" secondItem="lYd-o8-eNu" secondAttribute="centerX" id="yuO-6a-vi4"/>
                     </constraints>
                     <variation key="default">

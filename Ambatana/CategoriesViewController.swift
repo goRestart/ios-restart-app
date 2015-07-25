@@ -86,9 +86,10 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         dismissSearchBar(searchBar, animated: true) { () -> Void in
             // analyze search string
             if searchString != nil && count(searchString) > 0 {
-                let productsVC = ProductsViewController()
-                productsVC.currentSearchString = searchString
-                self.navigationController?.pushViewController(productsVC, animated: true)
+                // TODO: Refactor pending!
+                let searchVM = ProductsViewModel(searchString: searchString)
+                let searchVC = ProductsViewController(viewModel: searchVM)
+                self.navigationController?.pushViewController(searchVC, animated: true)
             }
         }
         
@@ -140,8 +141,10 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let category = categories[indexPath.row]
-        let productsVC = ProductsViewController()
-        productsVC.currentCategory = category
-        self.navigationController?.pushViewController(productsVC, animated: true)
+        
+        // TODO: Refactor pending!
+        let categoriesVM = ProductsViewModel(category: category)
+        let categoriesVC = ProductsViewController(viewModel: categoriesVM)
+        self.navigationController?.pushViewController(categoriesVC, animated: true)
     }
 }

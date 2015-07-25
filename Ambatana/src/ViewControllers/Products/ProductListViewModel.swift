@@ -10,7 +10,7 @@ import CoreLocation
 import LGCoreKit
 import Result
 
-public protocol ProductListViewModelDelegate: class {
+public protocol ProductListViewModelDataDelegate: class {
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
     func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
     func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath])
@@ -39,25 +39,25 @@ public class ProductListViewModel: BaseViewModel {
     public var userObjectId: String?
     
     // Delegate
-    public weak var delegate: ProductListViewModelDelegate?
+    public weak var dataDelegate: ProductListViewModelDataDelegate?
     
     // Manager
     private let productsManager: ProductsManager
     
     // Data
     private var products: NSArray
-    private var pageNumber: UInt
+    public private(set) var pageNumber: UInt
     
     // UI
     public private(set) var defaultCellSize: CGSize!
     
     // MARK: - Computed iVars
     
-    var numberOfProducts: Int {
+    public var numberOfProducts: Int {
         return products.count
     }
     
-    var numberOfColumns: Int {
+    public var numberOfColumns: Int {
         return Int(ProductListViewModel.columnCount)
     }
     
@@ -108,10 +108,11 @@ public class ProductListViewModel: BaseViewModel {
         self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
     }
     
-    internal override func didSetActive() {
-        super.didSetActive()
-        // If there are no products, then reload if possible
-        if numberOfProducts == 0 && canRetrieveProducts {
+    internal override func didSetActive(active: Bool) {
+        super.didSetActive(active)
+        
+        // If active and there are no products, then reload if possible
+        if active && numberOfProducts == 0 && canRetrieveProducts {
             retrieveProductsFirstPage()
         }
     }
@@ -125,13 +126,13 @@ public class ProductListViewModel: BaseViewModel {
     */
     public func retrieveProductsFirstPage() {
         let params = retrieveProductsFirstPageParams
-        delegate?.viewModel(self, didStartRetrievingProductsPage: 0)
+        dataDelegate?.viewModel(self, didStartRetrievingProductsPage: 0)
         
         let currentCount = numberOfProducts
         
         let myResult = { [weak self] (result: Result<ProductsResponse, ProductsRetrieveServiceError>) -> Void in
             if let strongSelf = self {
-                let delegate = strongSelf.delegate
+                let delegate = strongSelf.dataDelegate
                 
                 // Success
                 if let productsResponse = result.value {
@@ -140,12 +141,12 @@ public class ProductListViewModel: BaseViewModel {
                     strongSelf.products = products
                     strongSelf.pageNumber = 0
                     
-                    // Tracking
-                    TrackingHelper.trackEvent(.ProductList, parameters: strongSelf.trackingParamsForEventType(.ProductList))
-                    
                     // Notify the delegate
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: products.count)
                     delegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: 0, atIndexPaths: indexPaths)
+                    
+                    // Notify me
+                    strongSelf.didSucceedRetrievingProducts()
                 }
                 // Error
                 else if let error = result.error {
@@ -165,11 +166,11 @@ public class ProductListViewModel: BaseViewModel {
         let currentCount = numberOfProducts
         let nextPageNumber = pageNumber + 1
         
-        delegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
+        dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
         
         let myResult = { [weak self] (result: Result<ProductsResponse, ProductsRetrieveServiceError>) -> Void in
             if let strongSelf = self {
-                let delegate = strongSelf.delegate
+                let delegate = strongSelf.dataDelegate
                 
                 // Success
                 if let productsResponse = result.value {
@@ -178,12 +179,12 @@ public class ProductListViewModel: BaseViewModel {
                     strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     strongSelf.pageNumber = nextPageNumber
                     
-                    // Tracking
-                    TrackingHelper.trackEvent(.ProductList, parameters: strongSelf.trackingParamsForEventType(.ProductList))
-                    
                     // Notify the delegate
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
                     delegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber, atIndexPaths: indexPaths)
+                    
+                    // Notify me
+                    strongSelf.didSucceedRetrievingProducts()
                 }
                 // Error
                 else if let error = result.error {
@@ -248,52 +249,9 @@ public class ProductListViewModel: BaseViewModel {
         }
     }
     
-    // MARK: > Tracking 
+    // MARK: - Internal methods
     
-    /**
-        Returns the tracking parameters key-value for the given tracking event type.
-    
-        :param: eventType The tracking event type.
-        :return: The tracking parameters key-value for the given tracking event type.
-    */
-    func trackingParamsForEventType(eventType: TrackingEvent) -> [TrackingParameter: AnyObject] {
-        var properties: [TrackingParameter: AnyObject] = [:]
+    internal func didSucceedRetrievingProducts() {
         
-        // Common
-        // > categories
-        var categoryIds: [String] = []
-        var categoryNames: [String] = []
-        if let actualCategories = categories {
-            for category in actualCategories {
-                categoryIds.append(String(category.rawValue))
-                categoryNames.append(category.name())
-            }
-        }
-        properties[.CategoryId] = categoryIds.isEmpty ? "0" : ",".join(categoryIds)
-        properties[.CategoryName] = categoryNames.isEmpty ? "none" : ",".join(categoryNames)
-        // > current user data
-        if let currentUser = MyUserManager.sharedInstance.myUser() {
-            if let userCity = currentUser.postalAddress.city {
-                properties[.UserCity] = userCity
-            }
-            if let userCountry = currentUser.postalAddress.countryCode {
-                properties[.UserCountry] = userCountry
-            }
-            if let userZipCode = currentUser.postalAddress.zipCode {
-                properties[.UserZipCode] = userZipCode
-            }
-        }
-        // > search query
-        if let actualSearchQuery = queryString {
-            properties[.SearchString] = actualSearchQuery
-        }
-        
-        // ProductList
-        if eventType == .ProductList {
-            // > page number
-            properties[.PageNumber] = pageNumber
-        }
-        
-        return properties
     }
 }

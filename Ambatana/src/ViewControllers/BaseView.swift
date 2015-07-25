@@ -8,41 +8,37 @@
 
 import UIKit
 
-class BaseView: UIView {
+public class BaseView: UIView {
 
     private var viewModel: BaseViewModel!
+    public var active: Bool = false {
+        didSet {
+            if oldValue != active {
+                viewModel.active = active
+                didSetActive(active)
+            }
+        }
+    }
     
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
     
-    init(viewModel: BaseViewModel, frame: CGRect) {
+    public init(viewModel: BaseViewModel, frame: CGRect) {
         self.viewModel = viewModel
         super.init(frame: frame)
     }
 
-    init(viewModel: BaseViewModel, coder aDecoder: NSCoder) {
+    public init(viewModel: BaseViewModel, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(coder: aDecoder)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Internal methods
     
-    func viewDidBecomeActive(active: Bool) {
-        viewModel.active = active
-    }
-    
-    // MARK: - Private methods
-    
-    // MARK: > NSNotificationCenter
-    
-    @objc private func applicationDidEnterBackground(notification: NSNotification) {
-        viewDidBecomeActive(false)
-    }
-    
-    @objc private func applicationWillEnterForeground(notification: NSNotification) {
-        viewDidBecomeActive(true)
+    internal func didSetActive(active: Bool) {
+        
     }
 }

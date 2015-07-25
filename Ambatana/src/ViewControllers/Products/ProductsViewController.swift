@@ -11,183 +11,79 @@ import LGCoreKit
 import Parse
 import UIKit
 
-class ProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, ProductsViewModelDelegate, UISearchBarDelegate, ShowProductViewControllerDelegate {
+public class ProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, ProductsViewModelDelegate, UISearchBarDelegate, ShowProductViewControllerDelegate {
 
-//    // Enums
-//    private enum UIState {
-//        case Loading, Loaded, NoProducts
-//    }
-//    
-//    // Constants
-//    private static let TooltipHidingItemCountThreshold = 80
+    // Constants
+    private static let TooltipHidingPageCountThreshold: UInt = 4
     
     // ViewModel
     var viewModel: ProductsViewModel!
 
-    // Data
-    var currentCategory: ProductCategory?
-    var currentSearchString: String?
-    
     // UI
     @IBOutlet weak var mainProductListView: MainProductListView!
     
     // MARK: - Lifecycle
     
-    convenience init() {
+    public convenience init() {
         self.init(viewModel: ProductsViewModel(), nibName: "ProductsViewController")
     }
-
-    required init(viewModel: ProductsViewModel, nibName nibNameOrNil: String?) {
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
-        self.viewModel = viewModel
+    
+    public convenience init(viewModel: ProductsViewModel) {
+        self.init(viewModel: viewModel, nibName: "ProductsViewController")
     }
 
-    required init(coder: NSCoder) {
+    public required init(viewModel: ProductsViewModel, nibName nibNameOrNil: String?) {
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        self.viewModel = viewModel
+        viewModel.delegate = self
+    }
+
+    public required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
    
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
-        // ViewModel
-        viewModel.delegate = self
-        
         // UI
-        addSubview(mainProductListView)
+        // > Main product list view
         mainProductListView.delegate = self
         mainProductListView.locationDelegate = self
-        
-        if let queryString = currentSearchString {
-            mainProductListView.queryString = queryString
-        }
-        if let category = currentCategory {
+        mainProductListView.queryString = viewModel.searchString
+        if let category = viewModel.category {
             mainProductListView.categories = [category]
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // UI
-        // > Navigation bar
-        self.setLetGoNavigationBarStyle(title: currentCategory?.name() ?? UIImage(named: "navbar_logo"))
 
-        if currentSearchString == nil {
+        addSubview(mainProductListView)
+        
+        // > Navigation bar
+        self.setLetGoNavigationBarStyle(title: viewModel.title)
+        if viewModel.hasSearchButton {
             setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         // UI
-        // Hide search bar (if showing)
+        // > Hide search bar (if showing)
         if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
-        
-        // NSNotificationCenter
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-//    override func viewControllerDidBecomeActive(active: Bool) {
-//        super.viewControllerDidBecomeActive(active)
-//    }
-
-    // MARK: - Private methods
-    
-    /** Called when the search button is pressed. */
-    func searchButtonPressed(sender: AnyObject) {
-//        // Tracking
-//        TrackingHelper.trackEvent(.SearchStart, parameters: trackingParamsForEventType(.SearchStart))
-        
-        // Show search
-        showSearchBarAnimated(true, delegate: self)
     }
 
-//    // MARK: > Tracking
-//    
-//    func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject] {
-//        var properties: [TrackingParameter: AnyObject] = [:]
-//        
-//        // Common
-//        // > current category data
-//        if let category = currentCategory {
-//            properties[.CategoryId] = category.rawValue
-//            properties[.CategoryName] = category.name()
-//        }
-//        // > current user data
-//        if let currentUser = MyUserManager.sharedInstance.myUser() {
-//            if let userCity = currentUser.postalAddress.city {
-//                properties[.UserCity] = userCity
-//            }
-//            if let userCountry = currentUser.postalAddress.countryCode {
-//                properties[.UserCountry] = userCountry
-//            }
-//            if let userZipCode = currentUser.postalAddress.zipCode {
-//                properties[.UserZipCode] = userZipCode
-//            }
-//        }
-//        // > search query
-//        if let actualSearchQuery = currentSearchString {
-//            properties[.SearchString] = actualSearchQuery
-//        }
-//        
-//        // ProductList
-//        if eventType == .ProductList {
-//            // > page number
-//            properties[.PageNumber] = viewModel.pageNumber
-//        }
-//        
-//        return properties
-//    }
-//    
-//    
-    // MARK: > Navigation
-    
-    func pushProductsViewControllerWithSearchQuery(searchQuery: String) {
-        let vc = ProductsViewController()
-        vc.currentSearchString = searchQuery
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func pushProductViewController(product: Product) {
-        let vc = ShowProductViewController(product: product)
-        vc.delegate = self
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func pushIndicateLocationViewController() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
-        vc.delegate = self
-        let navCtl = UINavigationController(rootViewController: vc)
-        self.navigationController?.presentViewController(navCtl, animated: true, completion: nil)
-    }
-    
     // MARK: - IndicateLocationViewControllerDelegate
     
-    func userDidManuallySetCoordinates(coordinates: CLLocationCoordinate2D) {
+    public func userDidManuallySetCoordinates(coordinates: CLLocationCoordinate2D) {
         mainProductListView.coordinates = LGLocationCoordinates2D(coordinates: coordinates)
         mainProductListView.refresh()
     }
     
     // MARK: - ProductListViewDataDelegate
     
-    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
-        
+    public func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
     }
     
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
-        
-//            > No results
-//            if self.currentSearchString == nil {
-//                self.noProductsFoundLabel.text = NSLocalizedString("product_list_no_products_label", comment: "")
-//                self.reloadButton.hidden = true
-//            } else {
-//                self.noProductsFoundLabel.text = NSLocalizedString("product_list_search_no_products_label", comment: "")
-//                self.reloadButton.hidden = false
-//            }
-//            self.reloadButton.setTitle(NSLocalizedString("product_list_no_products_button", comment: ""), forState: .Normal)
-
+    public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
         
         // Notify the user setting up an alert with different message, button & button action depending if it's the first page or nexts
         let message: String
@@ -219,22 +115,26 @@ class ProductsViewController: BaseViewController, IndicateLocationViewController
         presentViewController(alert, animated: true, completion: nil)
     }
     
-    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
-        if page == 0 {
-            productListView.state = .DataView
+    public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
+        // If exceeding the page threshold, then hide the tip
+        if page >= ProductsViewController.TooltipHidingPageCountThreshold {
+            if let tabBarCtl = tabBarController as? TabBarController {
+                tabBarCtl.dismissTooltip(animated: true)
+            }
         }
     }
     
-    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        // TODO: Refactor, shouldn't be handled in here
+    public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        // TODO: Refactor when ShowProductViewController is refactored with MVVM
         let product = productListView.productAtIndex(indexPath.row)
-        pushProductViewController(product)
+        let vc = ShowProductViewController(product: product)
+        vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - ProductListViewLocationDelegate
     
-    func mainProductListView(mainProductListView: MainProductListView, didFailRequestingLocationServices status: LocationServiceStatus) {
+    public func mainProductListView(mainProductListView: MainProductListView, didFailRequestingLocationServices status: LocationServiceStatus) {
         var alertMessage: String?
         var alertButtonTitle: String?
         
@@ -258,56 +158,59 @@ class ProductsViewController: BaseViewController, IndicateLocationViewController
         }
     }
     
-    func mainProductListView(mainProductListView: MainProductListView, didTimeOutRetrievingLocation timeout: NSTimeInterval) {
-        pushIndicateLocationViewController()
+    public func mainProductListView(mainProductListView: MainProductListView, didTimeOutRetrievingLocation timeout: NSTimeInterval) {
+        // Push indicate location VC
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
+        vc.delegate = self
+        let navCtl = UINavigationController(rootViewController: vc)
+        self.navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
     
-
-   
-    // MARK: - UISearchBarDelegate
+    // MARK: - ProductsViewModelDelegate
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        dismissSearchBar(searchBar, animated: true, searchBarCompletion: nil)
-    }
-    
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        dismissSearchBar(searchBar, animated: true) { [weak self] () -> Void in
-            if let strongSelf = self {
-                let searchString = searchBar.text
-                if searchString != nil && count(searchString) > 0 {
-//                    // Tracking
-//                    var parameters = strongSelf.trackingParamsForEventType(.SearchComplete)
-//                    parameters[.SearchString] = searchString
-//                    TrackingHelper.trackEvent(.SearchComplete, parameters: parameters)
-                    
-                    // Push a new products vc with the search
-                    strongSelf.pushProductsViewControllerWithSearchQuery(searchString)
-                }
+    public func productsViewModel(viewModel: ProductsViewModel, didSearchWithViewModel searchViewModel: ProductsViewModel) {
+        if let searchBar = letGoSearchBar {
+            
+            // Dismiss the search bar & push a new VC to look for search results
+            dismissSearchBar(searchBar, animated: true) { [weak self] () -> Void in
+                let vc = ProductsViewController(viewModel: searchViewModel)
+                self?.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }
-    
-    // MARK: - LEGACY (TO REFACTOR)
-    
-    // MARK: ShowProductViewControllerDelegate
-    
-    // TODO: Refactor this...
-    // update status of a product (i.e: if it gets marked as sold).
-    
-    func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus) {
-//        self.collectionView.reloadSections(NSIndexSet(index: 0))
+   
+    // MARK: - ShowProductViewControllerDelegate
+
+    func showProductViewController(viewController: ShowProductViewController, didUpdateStatusForProduct product: Product) {
+        mainProductListView.refreshUI()
     }
     
+    // MARK: - UISearchBarDelegate
     
+    public func searchBar(searchBar: UISearchBar, textDidChange searchText: String)  {
+        viewModel.searchString = searchText
+    }
     
+    public func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        dismissSearchBar(searchBar, animated: true, searchBarCompletion: nil)
+    }
     
-//    func didSucceedRetrievingFirstPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
-//        // Tracking
-//        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
-//    }
+    public func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        viewModel.search()
+    }
     
-//    func didSucceedRetrievingNextPageProductsAtIndexPaths(indexPaths: [NSIndexPath]) {
-//        // Tracking
-//        TrackingHelper.trackEvent(.ProductList, parameters: trackingParamsForEventType(.ProductList))
-//    }
+    // MARK: - Private methods
+    
+    /** 
+        Called when the search button is pressed.
+    */
+    @objc private func searchButtonPressed(sender: AnyObject) {
+        
+        // Notify the VM
+        viewModel.searchButtonPressed()
+        
+        // Show search
+        showSearchBarAnimated(true, delegate: self)
+    }
 }

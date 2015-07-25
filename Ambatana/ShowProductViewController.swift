@@ -16,7 +16,7 @@ import Social
 import UIKit
 
 protocol ShowProductViewControllerDelegate {
-    func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus)
+    func showProductViewController(viewController: ShowProductViewController, didUpdateStatusForProduct product: Product)
 }
 
 /**
@@ -326,7 +326,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                             self.markSoldButton.alpha = 1.0
                     })
                     
-                    self.delegate?.letgoProduct(parseProduct.objectId!, statusUpdatedTo: self.productStatus!)
+                    self.delegate?.showProductViewController(self, didUpdateStatusForProduct: parseProduct)
                 } else {
                     self.markSoldButton.enabled = true
                     self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
