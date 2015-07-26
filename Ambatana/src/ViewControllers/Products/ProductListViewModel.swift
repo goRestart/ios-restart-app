@@ -34,6 +34,7 @@ public class ProductListViewModel: BaseViewModel {
     public var coordinates: LGLocationCoordinates2D?
     public var categories: [ProductCategory]?
     public var sortCriteria: ProductSortCriteria?
+    public var statuses: [ProductStatus]?
     public var maxPrice: Int?
     public var minPrice: Int?
     public var userObjectId: String?
@@ -86,6 +87,7 @@ public class ProductListViewModel: BaseViewModel {
         }
         params.categoryIds = categoryIds
         params.sortCriteria = sortCriteria
+        params.statuses = statuses
         params.maxPrice = maxPrice
         params.minPrice = minPrice
         params.userObjectId = userObjectId
@@ -106,6 +108,7 @@ public class ProductListViewModel: BaseViewModel {
         
         let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
         self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
+        super.init()
     }
     
     internal override func didSetActive(active: Bool) {
@@ -195,6 +198,7 @@ public class ProductListViewModel: BaseViewModel {
         productsManager.retrieveProductsNextPageWithResult(myResult)
     }
     
+    
     // MARK: > UI
     
     /**
@@ -235,7 +239,7 @@ public class ProductListViewModel: BaseViewModel {
         }
         return defaultCellSize
     }
-    
+        
     /**
         Sets which item is currently visible on screen. If it exceeds a certain threshold then it loads next page, if possible.
     
