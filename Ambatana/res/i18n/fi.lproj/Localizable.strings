@@ -32,6 +32,8 @@
 "common_error_connection_failed" = "Toimintoa ei voitu suorittaa. Ole hyvä, ja tarkista Internet-yhteytesi.";
 "common_loading" = "Ladataan...";
 "common_ok" = "OK";
+"common_product_deleted" = "Product deleted";
+"common_product_not_available" = "Product not available";
 "common_time_a_minute_ago_label" = "minuutti sitten";
 "common_time_day_ago_label" = "päivä sitten";
 "common_time_days_ago_label" = "%d päivää sitten";
@@ -53,6 +55,10 @@
 "contact_send_ok" = "Viestisi lähetys onnistui.";
 "contact_subject_field_hint" = "Aihe";
 "contact_title" = "Ota meihin yhteyttä";
+"edit_product_send_button" = "Update";
+"edit_product_send_error_uploading_product" = "An error happened while updating your product.";
+"edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
+"edit_product_title" = "Edit Product";
 "indicate_location_address_field_hint" = "Kirjoita osoitteesi";
 "indicate_location_address_search_error_generic" = "En löytänyt sijaintia. Ole hyvä, ja yritä uudelleen.";
 "indicate_location_long_press_tip_label" = "Tai paina sormella sijaintiasi";
@@ -85,6 +91,12 @@
 "make_an_offer_title" = "Tee tarjous";
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_chat_error_generic" = "Keskustelua aloitettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"product_delete_confirm_cancel_button" = "Cancel";
+"product_delete_confirm_message" = "Why do you want to delete this product?";
+"product_delete_confirm_ok_button" = "I don't want to sell it";
+"product_delete_confirm_sold_button" = "I already sold it";
+"product_delete_confirm_title" = "Delete Product";
+"product_delete_send_error_generic" = "There was an error deleting your product.";
 "product_distance_from_you" = "sinusta";
 "product_gallery_title" = "Kuvat";
 "product_list_first_page_error_generic_button" = "Yritä uudelleen";
