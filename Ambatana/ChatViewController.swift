@@ -191,7 +191,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     // Loads the fields referred to the product object in view's header.
     func loadInformationFromProductObject(product: Product) {
         // product image
-        if let thumbURL = product.thumbnailURL {
+        if let thumbURL = product.thumbnail?.fileURL {
             productImageView.sd_setImageWithURL(thumbURL)
         }
         

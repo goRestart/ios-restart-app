@@ -101,10 +101,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         if heightConstraint != nil { if iOSVersionAtLeast("8.0") { heightConstraint.active = false } else { heightConstraint.priority = 1 } }
         if bottomGuideLayoutConstraint != nil { bottomGuideLayoutConstraint.priority = 1000 }
         
-        // set rights buttons and locate favorite button.
-        let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
-        for button in buttons { if button.tag == 1 { self.favoriteButton = button } }
-        
         // UX/UI
         self.markAsSoldActivityIndicator.hidden = true
         self.askQuestionActivityIndicator.hidden = true
@@ -112,8 +108,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         self.userAvatarImageView.clipsToBounds = true
         
         // initialize product UI.
-        // check if this is a favorite product
-        initializeFavoriteButtonAnimations()
         
         // User
         usernameLabel.text = product.user?.publicUsername ?? ""
@@ -415,6 +409,13 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             self.presentViewController(activityVC, animated: true, completion: nil)
         }
     }
+    
+    // MARK: - edit product
+    
+    func editProduct() {
+        let vc = EditSellProductViewController(product: product)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
     // MARK: - Favourite Requests & helpers
     
@@ -533,8 +534,10 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         var pageNumber = 0
         
         // add the images
-        for imageURL in product.imageURLs {
-            galleryView.addPageWithImageAtURL(imageURL)
+        for image in product.images {
+            if let fileURL = image.fileURL {
+                galleryView.addPageWithImageAtURL(fileURL)
+            }
         }
         galleryView.delegate = self
     }
@@ -544,7 +547,15 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as! PhotosInDetailViewController
-        vc.imageURLs = product.imageURLs
+        
+        // add the images
+        var imageURLs : [NSURL] = []
+        for image in product.images {
+            if let fileURL = image.fileURL {
+                imageURLs.append(fileURL)
+            }
+        }
+        vc.imageURLs = imageURLs
         vc.initialImageToShow = index
         vc.productName = nameLabel.text!
         self.navigationController?.pushViewController(vc, animated: true)
@@ -565,16 +576,32 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     // MARK: - Private methods
     
     private func updateUI() {
-        
-        let userIsLoggedIn = !MyUserManager.sharedInstance.isMyUserAnonymous()
-        if userIsLoggedIn {
-            self.checkFavoriteProduct()
-        }
-        
+
         // check if this is product is mine
         var thisProductIsMine = false
         if let productUser = product.user, let userId = productUser.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
             thisProductIsMine = userId == myUserId
+        }
+        
+        
+        let userIsLoggedIn = !MyUserManager.sharedInstance.isMyUserAnonymous()
+        
+        if userIsLoggedIn && !thisProductIsMine {
+            // set rights buttons and locate favorite button.
+            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
+            for button in buttons {
+                if button.tag == 1 {
+                    self.favoriteButton = button
+                }
+            }
+
+            // check if this is a favorite product
+            initializeFavoriteButtonAnimations()
+
+            self.checkFavoriteProduct()
+        } else if thisProductIsMine {
+            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_edit_product"], andSelectors: ["shareItem", "editProduct"], withTags: [0, 1])
+            
         }
         
         // Buttons

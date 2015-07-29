@@ -48,7 +48,7 @@ class ProductCell: UICollectionViewCell {
         priceLabel.text = product.formattedPrice()
         
         // Thumb
-        if let thumbURL = product.thumbnailURL {
+        if let thumbURL = product.thumbnail?.fileURL {
             thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: nil, completed: {
                 [weak self] (image, error, cacheType, url) -> Void in
                 if cacheType == .None {

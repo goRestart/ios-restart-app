@@ -73,7 +73,7 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     weak var delegate: NewSellProductViewControllerDelegate?
     
     init() {
-        super.init(nibName: "SellProductViewController", bundle: nil)
+        super.init(nibName: "NewSellProductViewController", bundle: nil)
     }
     
     required init(coder aDecoder: NSCoder) {

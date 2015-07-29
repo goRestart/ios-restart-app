@@ -39,6 +39,13 @@ extension String {
     }
 }
 
+/**  Uses regular expressions to test whether a string is a valid price */
+extension String {
+    func isValidPrice() -> Bool {
+        let regex = NSRegularExpression(pattern: "^[0-9]+[\\.,]{0,1}[0-9]{0,2}$", options: .CaseInsensitive, error: nil)
+        return regex?.firstMatchInString(self, options: nil, range: NSMakeRange(0, count(self))) != nil
+    }
+}
 
 /**
  * Link for an LetGo product in the website.
