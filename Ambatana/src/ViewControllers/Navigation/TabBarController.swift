@@ -41,7 +41,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         var viewController: UIViewController? {
             switch self {
             case Home:
-                return ProductsViewController()
+                return MainProductsViewController()
             case Categories:
                 return CategoriesViewController()
             case Sell:
@@ -239,7 +239,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         // When navigating deeper
         if navigationController.viewControllers.count > 1 {
             // Dismisses the tooltip, if present, when pushing a vc that's not a ProductsViewController / CategoriesViewController
-            let shouldKeepTooltip = viewController is ProductsViewController || viewController is CategoriesViewController
+            let shouldKeepTooltip = viewController is MainProductsViewController || viewController is CategoriesViewController
             if !shouldKeepTooltip {
                 dismissTooltip(animated: false)
             }
@@ -396,7 +396,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
         // If we're showing a product list or the categories view, then show again the tooltip
         let topVC = UIApplication.topViewController()
-        if topVC is ProductsViewController || topVC is CategoriesViewController {
+        if topVC is MainProductsViewController || topVC is CategoriesViewController {
             showTooltip()
         }
     }

@@ -12,6 +12,8 @@ import Result
 
 final public class PAUserLogInFBService: UserLogInFBService {
     
+    // MARK: - UserLogInEmailService
+    
     public func logInByFacebooWithCompletion(result: UserLogInFBServiceResult?) {
 
         let permissions = ["user_about_me", "user_location", "email", "public_profile"]

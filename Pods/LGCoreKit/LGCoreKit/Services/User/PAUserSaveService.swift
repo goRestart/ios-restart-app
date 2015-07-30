@@ -11,12 +11,6 @@ import Result
 
 final public class PAUserSaveService: UserSaveService {
     
-    // MARK: - Lifecycle
-    
-    public init() {
-
-    }
-    
     // MARK: - UserSaveService
     
     public func saveUser(user: User, result: UserSaveServiceResult?) {

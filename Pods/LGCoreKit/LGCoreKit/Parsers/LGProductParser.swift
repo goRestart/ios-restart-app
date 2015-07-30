@@ -81,7 +81,7 @@ public class LGProductParser {
 //           "height": 150
 //        }
 //    }
-    public static func productWithJSON(json: JSON) -> LGProduct {
+    public static func productWithJSON(json: JSON, currencyHelper: CurrencyHelper) -> LGProduct {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -101,7 +101,8 @@ public class LGProductParser {
         if let price = json[LGProductParser.priceJSONKey].string {
             product.price = (price as NSString).floatValue
         }
-        product.currencyCode = json[LGProductParser.currencyCodeJSONKey].string
+        let currencyCode = json[LGProductParser.currencyCodeJSONKey].string ?? LGCoreKitConstants.defaultCurrencyCode
+        product.currency = currencyHelper.currencyWithCurrencyCode(currencyCode)
         
         if let latitude = json[LGProductParser.latitudeJSONKey].double, let longitude = json[LGProductParser.longitudeJSONKey].double {
             product.location = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
@@ -130,8 +131,8 @@ public class LGProductParser {
             let status = ProductStatus(rawValue: statusRaw) {
                 product.status = status
         }
-        if let thumbnailURLStr = json[LGProductParser.thumbnailURLJSONKey].string {
-            product.thumbnailURL = NSURL(string: thumbnailURLStr)
+        if let thumbnailURLStr = json[LGProductParser.thumbnailURLJSONKey].string, let thumbnailURL = NSURL(string: thumbnailURLStr) {
+            product.thumbnail = LGFile(url: thumbnailURL)
         }
         if let width = json[LGProductParser.thumbnailSizeJSONKey][LGProductParser.widthJSONKey].int,
             let height = json[LGProductParser.thumbnailSizeJSONKey][LGProductParser.heightJSONKey].int {
@@ -139,11 +140,14 @@ public class LGProductParser {
         }
 
         if let imageUrlJsons = json[LGProductParser.imagesJSONKey].array {
+            var images: [File] = []
             for imageUrlJson in imageUrlJsons {
                 if let imageUrlStr = imageUrlJson.string, let imageURL = NSURL(string: imageUrlStr) {
-                    product.imageURLs.append(imageURL)
+                    let image = LGFile(url: imageURL)
+                    images.append(image)
                 }
             }
+            product.images = images
         }
  
         let userJSON = json[LGProductParser.userJSONKey]

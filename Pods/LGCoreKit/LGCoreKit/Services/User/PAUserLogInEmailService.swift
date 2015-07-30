@@ -11,6 +11,8 @@ import Result
 
 final public class PAUserLogInEmailService: UserLogInEmailService {
 
+    // MARK: - UserLogInEmailService
+    
     public func logInUserWithEmail(email: String, password: String, result: UserLogInEmailServiceResult?) {
         PFUser.logInWithUsernameInBackground(email, password: password)  { (user: PFUser?, error: NSError?) -> Void in
             // Success

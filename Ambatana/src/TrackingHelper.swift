@@ -90,7 +90,6 @@ struct GoogleConversionParams {
 enum TrackingParameter: String {
     case UserEmail            = "user-email"
     case CategoryId           = "category-id"       // 0 if there's no category
-    case CategoryName         = "category-name"     // "none" if there's no category
     case ProductId            = "product-id"
     case ProductCity          = "product-city"
     case ProductCountry       = "product-country"

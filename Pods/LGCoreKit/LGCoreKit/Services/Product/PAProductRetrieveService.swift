@@ -10,11 +10,6 @@
 //
 //final public class PAProductRetrieveService: ProductRetrieveService {
 //    
-//    // MARK: - Lifecycle
-//    
-//    public init() {
-//    }
-//    
 //    // MARK: - ProductRetrieveService
 //    
 //    public func retrieveProductWithParams(params: RetrieveProductParams, completion: RetrieveProductCompletion?) {

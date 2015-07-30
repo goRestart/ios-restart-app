@@ -57,4 +57,28 @@ final public class PAFileUploadService: FileUploadService {
             }
         }
     }
+    
+    public func synchUploadFile(name: String?, data: NSData) -> Result<File, FileUploadServiceError> {
+        let file = PFFile(name: name, data: data)
+        
+        var error: NSError?
+        let success = file.save(&error)
+
+        // Success
+        if success {
+            return Result<File, FileUploadServiceError>.success(file)
+        }
+        // Error
+        else if let actualError = error {
+            switch(actualError.code) {
+            case PFErrorCode.ErrorConnectionFailed.rawValue:
+                return Result<File, FileUploadServiceError>.failure(.Network)
+            default:
+                return Result<File, FileUploadServiceError>.failure(.Internal)
+            }
+        }
+        
+        // Otherwise, it's an internal error
+        return Result<File, FileUploadServiceError>.failure(.Internal)
+    }
 }
