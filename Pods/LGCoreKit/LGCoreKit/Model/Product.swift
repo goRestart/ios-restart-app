@@ -13,7 +13,7 @@ import UIKit
     var name: String? { get set }
     var descr: String? { get set }
     var price: NSNumber? { get set }
-    var currencyCode: String? { get set }
+    var currency: Currency? { get set }
     
     var location: LGLocationCoordinates2D? { get set }
     var distance: NSNumber? { get }
@@ -23,17 +23,18 @@ import UIKit
     
     var languageCode: String? { get set }
         
-    var categoryId: NSNumber? { get set }
+    var categoryId: NSNumber? { get set }   // TODO: To be refactored to user ProductCategory when @objc is removed
     var status: ProductStatus { get set }
     
-    var thumbnailURL: NSURL? { get }
+    var thumbnail: File? { get set }
     var thumbnailSize: LGSize? { get }
-    var imageURLs: [NSURL] { get }
+    var images: [File] { get set }
     
-    var user: User? { get }
+    var user: User? { get set }
     
     var processed: NSNumber? { get set }
     
     func formattedPrice() -> String
     func formattedDistance() -> String
+    func updateWithProduct(product: Product)
 }

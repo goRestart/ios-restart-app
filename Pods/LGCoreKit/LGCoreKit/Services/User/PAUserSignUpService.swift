@@ -11,6 +11,8 @@ import Result
 
 final public class PAUserSignUpService: UserSignUpService {
     
+    // MARK: - UserSignUpService
+    
     public func signUpUserWithEmail(email: String, password: String, publicUsername: String, result: UserSignUpServiceResult?) {
         let user = PFUser()
         user.username = email

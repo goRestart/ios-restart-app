@@ -11,6 +11,8 @@ import Result
 
 final public class PAUserPasswordResetService: UserPasswordResetService {
     
+    // MARK: - UserPasswordResetService
+    
     public func resetPassword(email: String, result: UserPasswordResetServiceResult?) {
         PFUser.requestPasswordResetForEmailInBackground(email, block: { (success, error) -> Void in
             // Success

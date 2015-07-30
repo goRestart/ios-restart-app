@@ -1,5 +1,5 @@
 //
-//  PFUser+LetGo.swift
+//  PFUser+User.swift
 //  LGCoreKit
 //
 //  Created by AHL on 17/3/15.

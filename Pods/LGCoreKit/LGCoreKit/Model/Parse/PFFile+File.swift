@@ -1,5 +1,5 @@
 //
-//  PFFile+LetGo.swift
+//  PFFile+File.swift
 //  LGCoreKit
 //
 //  Created by Albert Hernández López on 08/06/15.

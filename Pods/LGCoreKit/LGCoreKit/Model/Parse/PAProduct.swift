@@ -61,12 +61,16 @@ import Parse
             self[FieldKey.Price.rawValue] = newValue ?? NSNull()
         }
     }
-    public var currencyCode: String? {
+    public var currency: Currency? {
         get {
-            return self[FieldKey.CurrencyCode.rawValue] as? String
+            if let currencyCode = self[FieldKey.CurrencyCode.rawValue] as? String {
+                return CurrencyHelper.sharedInstance.currencyWithCurrencyCode(currencyCode)
+            }
+            return nil
         }
         set {
-            self[FieldKey.CurrencyCode.rawValue] = newValue ?? NSNull()
+            let currencyCode = newValue?.code ?? NSNull()
+            self[FieldKey.CurrencyCode.rawValue] = currencyCode
         }
     }
     
@@ -161,12 +165,15 @@ import Parse
         }
     }
     
-    public var thumbnailURL: NSURL? {
+    public var thumbnail: File? {
         get {
-            if let image0File = self[FieldKey.Image0.rawValue] as? PFFile, let image0UrlStr = image0File.url {
-                return NSURL(string: image0UrlStr)
+            if let image0File = self[FieldKey.Image0.rawValue] as? PFFile {
+                return image0File
             }
             return nil
+        }
+        set {
+            self[FieldKey.Image0.rawValue] = newValue as? PFFile ?? NSNull()
         }
     }
     public var thumbnailSize: LGSize? {
@@ -175,22 +182,39 @@ import Parse
         }
     }
     
-    public var imageURLs: [NSURL] {
+    public var images: [File] {
         get {
-            var urls: [NSURL] = []
+            var imageFiles: [File] = []
             let fields = [FieldKey.Image0, FieldKey.Image1, FieldKey.Image2, FieldKey.Image3, FieldKey.Image4, FieldKey.Image5]
             for field in fields {
-                if let imageFile = self[field.rawValue] as? PFFile, let imageUrlStr = imageFile.url, imageURL = NSURL(string: imageUrlStr) {
-                    urls.append(imageURL)
+                if let imageFile = self[field.rawValue] as? PFFile {
+                    imageFiles.append(imageFile)
                 }
             }
-            return urls
+            return imageFiles
+        }
+        set {
+            let fields = [FieldKey.Image0, FieldKey.Image1, FieldKey.Image2, FieldKey.Image3, FieldKey.Image4, FieldKey.Image5]
+            var i = 0
+            // Set the new images
+            while i < fields.count && i < newValue.count {
+                self[fields[i].rawValue] = newValue[i] as? PFFile ?? NSNull()
+                i++
+            }
+            // Delete the remaining ones
+            while i < fields.count {
+                self[fields[i].rawValue] = NSNull()
+                i++
+            }
         }
     }
     
     public var user: User? {
         get {
             return self[FieldKey.User.rawValue] as? PFUser
+        }
+        set {
+            self[FieldKey.User.rawValue] = newValue as? PFUser ?? NSNull()
         }
     }
     
@@ -204,7 +228,7 @@ import Parse
     }
         
     public func formattedPrice() -> String {
-        let actualCurrencyCode = currencyCode ?? LGCoreKitConstants.defaultCurrencyCode
+        let actualCurrencyCode = currency?.code ?? LGCoreKitConstants.defaultCurrencyCode
         if let actualPrice = price {
             let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: actualPrice)
             return formattedPrice ?? "\(actualPrice)"
@@ -222,5 +246,53 @@ import Parse
         else {
             return ""
         }
+    }
+    
+    public func updateWithProduct(product: Product) {
+        name = product.name
+        descr = product.descr
+        price = product.price
+        currency = product.currency
+        
+        location = product.location
+        postalAddress = product.postalAddress
+        
+        languageCode = product.languageCode
+        
+        categoryId = product.categoryId
+        status = product.status
+        
+        thumbnail = product.thumbnail
+        images = product.images
+        
+        user = product.user
+        
+        processed = product.processed
+    }
+    
+    // MARK: - Public methods
+    
+    public static func productFromProduct(product: Product) -> PAProduct {
+        var parseProduct = PAProduct()
+        parseProduct.name = product.name
+        parseProduct.descr = product.descr
+        parseProduct.price = product.price
+        parseProduct.currency = product.currency
+        
+        parseProduct.location = product.location
+        parseProduct.postalAddress = product.postalAddress
+        
+        parseProduct.languageCode = product.languageCode
+        
+        parseProduct.categoryId = product.categoryId
+        parseProduct.status = product.status
+        
+        parseProduct.thumbnail = product.thumbnail
+        parseProduct.images = product.images
+        
+        parseProduct.user = product.user
+        
+        parseProduct.processed = product.processed
+        return parseProduct
     }
 }

@@ -1,5 +1,5 @@
 //
-//  PFInstallation+LetGo.swift
+//  PFInstallation+Installation.swift
 //  LGCoreKit
 //
 //  Created by Albert Hernández López on 10/06/15.

@@ -16,7 +16,7 @@ import Social
 import UIKit
 
 protocol ShowProductViewControllerDelegate {
-    func letgoProduct(productId: String, statusUpdatedTo newStatus: LetGoProductStatus)
+    func showProductViewControllerShouldRefresh(viewController: ShowProductViewController)
 }
 
 /**
@@ -308,6 +308,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     func definitelyMarkProductAsSold() {
         self.enableMarkAsSoldLoadingInterface()
         
+        // Parse product
         if let parseProduct = product as? PAProduct {
             parseProduct.status = .Sold
             parseProduct.processed = false
@@ -326,7 +327,46 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                             self.markSoldButton.alpha = 1.0
                     })
                     
-                    self.delegate?.letgoProduct(parseProduct.objectId!, statusUpdatedTo: self.productStatus!)
+                    self.delegate?.showProductViewControllerShouldRefresh(self)
+                } else {
+                    self.markSoldButton.enabled = true
+                    self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
+                }
+                self.disableMarkAsSoldLoadingInterface()
+            })
+        }
+        // Letgo product
+        else if let productId = product.objectId {
+            let query = PFQuery(className: PAProduct.parseClassName())
+            query.getObjectInBackgroundWithId(productId, block: { (parseObject, error) -> Void in
+                if let parseProduct = parseObject as? PAProduct {
+                    
+                    self.product.status = .Sold
+                    self.product.processed = false
+                    
+                    parseProduct.status = .Sold
+                    parseProduct.processed = false
+                    parseProduct.saveInBackgroundWithBlock({ (success, error) -> Void in
+                        if success {
+                            self.productStatus = .Sold
+                            
+                            // Tracking
+                            TrackingHelper.trackEvent(.ProductMarkAsSold, parameters: self.trackingParams)
+                            
+                            // animated hiding of the button, restore alpha once hidden.
+                            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                                self.markSoldButton.alpha = 0.0
+                                }, completion: { (success) -> Void in
+                                    self.markSoldButton.hidden = true
+                            })
+                            
+                            self.delegate?.showProductViewControllerShouldRefresh(self)
+                        } else {
+                            self.markSoldButton.enabled = true
+                            self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
+                        }
+                        self.disableMarkAsSoldLoadingInterface()
+                    })
                 } else {
                     self.markSoldButton.enabled = true
                     self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
@@ -533,8 +573,10 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         var pageNumber = 0
         
         // add the images
-        for imageURL in product.imageURLs {
-            galleryView.addPageWithImageAtURL(imageURL)
+        for image in product.images {
+            if let fileURL = image.fileURL {
+                galleryView.addPageWithImageAtURL(fileURL)
+            }
         }
         galleryView.delegate = self
     }
@@ -544,7 +586,15 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as! PhotosInDetailViewController
-        vc.imageURLs = product.imageURLs
+
+        // add the images
+        var imageURLs : [NSURL] = []
+        for image in product.images {
+            if let fileURL = image.fileURL {
+                imageURLs.append(fileURL)
+            }
+        }
+        vc.imageURLs = imageURLs
         vc.initialImageToShow = index
         vc.productName = nameLabel.text!
         self.navigationController?.pushViewController(vc, animated: true)

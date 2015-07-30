@@ -18,6 +18,8 @@ public typealias FBUserInfoRetrieveServiceResult = (Result<FBUserInfo, FBUserInf
 
 final public class FBUserInfoRetrieveService {
     
+    // MARK: - FBUserInfoRetrieveService
+    
     /**
         Retrieves the Facebook User information.
     

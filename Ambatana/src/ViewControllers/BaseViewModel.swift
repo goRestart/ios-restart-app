@@ -10,22 +10,15 @@ public class BaseViewModel {
     
     public var active: Bool = false {
         didSet {
-            if (active) {
-                didSetActive()
-            }
-            else {
-                didSetInactive()
+            if oldValue != active {
+                didSetActive(active)
             }
         }
     }
     
     // MARK: - Internal methods
     
-    internal func didSetActive() {
-        
-    }
-    
-    internal func didSetInactive() {
+    internal func didSetActive(active: Bool) {
         
     }
 }

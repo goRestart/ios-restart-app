@@ -88,8 +88,9 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
     public var description: String { return "\(string)" }
 }
 
+// @see: https://ambatana.atlassian.net/wiki/display/BAPI/Product+statuses
 @objc public enum ProductStatus: Int, Printable {
-    case Pending = 0, Approved = 1, Discarded = 2, Sold = 3
+    case Pending = 0, Approved = 1, Discarded = 2, Sold = 3, Deleted = 6
     public var string: String {
         get {
             switch self {
@@ -101,6 +102,8 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
                 return "Discarded"
             case .Sold:
                 return "Sold"
+            case .Deleted:
+                return "Deleted"
             }
         }
     }
