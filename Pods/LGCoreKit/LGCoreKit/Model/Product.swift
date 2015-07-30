@@ -26,7 +26,7 @@ import UIKit
     var categoryId: NSNumber? { get set }   // TODO: To be refactored to user ProductCategory when @objc is removed
     var status: ProductStatus { get set }
     
-    var thumbnail: File? { get }
+    var thumbnail: File? { get set }
     var thumbnailSize: LGSize? { get }
     var images: [File] { get set }
     
@@ -36,4 +36,5 @@ import UIKit
     
     func formattedPrice() -> String
     func formattedDistance() -> String
+    func updateWithProduct(product: Product)
 }

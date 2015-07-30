@@ -25,7 +25,16 @@ final public class PAProductMarkSoldService: ProductMarkSoldService {
             markAsSoldParseProduct(parseProduct, result: result)
         }
         // API
-        else if let actualProduct = product as? LGProduct, let productId = actualProduct.objectId {
+        else if let letgoProduct = product as? LGProduct, let productId = letgoProduct.objectId {
+            
+            // After save: update the letgo product with the saved state
+            let myResult = { (r: Result<Product, ProductMarkSoldServiceError>) -> Void in
+                // Success
+                if let savedProduct = r.value {
+                    letgoProduct.updateWithProduct(savedProduct)
+                }
+                result?(r)
+            }
             
             // Retrieve the product from parse
             var query = PFQuery(className: PAProduct.parseClassName())
@@ -34,28 +43,21 @@ final public class PAProductMarkSoldService: ProductMarkSoldService {
             query.includeKey(PAProduct.FieldKey.User.rawValue)
             query.findObjectsInBackgroundWithBlock { [weak self] (objects: [AnyObject]?, error: NSError?) in
                 // Success
-                if let products = objects as? [PAProduct] {
-                    // If empty, then it's an error
-                    if products.isEmpty {
-                        result?(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
-                    }
-                    // Otherwise, mark the parse product as sold
-                    else {
-                        let parseProduct = products.first!
-                        self?.markAsSoldParseProduct(parseProduct, result: result)
-                    }
+                if let products = objects as? [PAProduct], let parseProduct = products.first {
+                    // Mark the parse product as sold
+                    self?.markAsSoldParseProduct(parseProduct, result: myResult)
                 }
                 // Error
                 else if let actualError = error {
                     switch(actualError.code) {
                     case PFErrorCode.ErrorConnectionFailed.rawValue:
-                        result?(Result<Product, ProductMarkSoldServiceError>.failure(.Network))
+                        myResult(Result<Product, ProductMarkSoldServiceError>.failure(.Network))
                     default:
-                        result?(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
+                        myResult(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
                     }
                 }
                 else {
-                    result?(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
+                    myResult(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
                 }
             }
         }

@@ -172,6 +172,9 @@ import Parse
             }
             return nil
         }
+        set {
+            self[FieldKey.Image0.rawValue] = newValue as? PFFile ?? NSNull()
+        }
     }
     public var thumbnailSize: LGSize? {
         get {
@@ -243,5 +246,53 @@ import Parse
         else {
             return ""
         }
+    }
+    
+    public func updateWithProduct(product: Product) {
+        name = product.name
+        descr = product.descr
+        price = product.price
+        currency = product.currency
+        
+        location = product.location
+        postalAddress = product.postalAddress
+        
+        languageCode = product.languageCode
+        
+        categoryId = product.categoryId
+        status = product.status
+        
+        thumbnail = product.thumbnail
+        images = product.images
+        
+        user = product.user
+        
+        processed = product.processed
+    }
+    
+    // MARK: - Public methods
+    
+    public static func productFromProduct(product: Product) -> PAProduct {
+        var parseProduct = PAProduct()
+        parseProduct.name = product.name
+        parseProduct.descr = product.descr
+        parseProduct.price = product.price
+        parseProduct.currency = product.currency
+        
+        parseProduct.location = product.location
+        parseProduct.postalAddress = product.postalAddress
+        
+        parseProduct.languageCode = product.languageCode
+        
+        parseProduct.categoryId = product.categoryId
+        parseProduct.status = product.status
+        
+        parseProduct.thumbnail = product.thumbnail
+        parseProduct.images = product.images
+        
+        parseProduct.user = product.user
+        
+        parseProduct.processed = product.processed
+        return parseProduct
     }
 }

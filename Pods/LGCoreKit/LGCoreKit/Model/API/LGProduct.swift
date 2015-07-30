@@ -65,4 +65,52 @@
             return ""
         }
     }
+
+    public func updateWithProduct(product: Product) {
+        name = product.name
+        descr = product.descr
+        price = product.price
+        currency = product.currency
+        
+        location = product.location
+        postalAddress = product.postalAddress
+        
+        languageCode = product.languageCode
+        
+        categoryId = product.categoryId
+        status = product.status
+        
+        thumbnail = product.thumbnail
+        images = product.images
+        
+        user = product.user
+        
+        processed = product.processed
+    }
+    
+    // MARK: - Public methods
+    
+    public static func productFromProduct(product: Product) -> LGProduct {
+        var letgoProduct = LGProduct()
+        letgoProduct.name = product.name
+        letgoProduct.descr = product.descr
+        letgoProduct.price = product.price
+        letgoProduct.currency = product.currency
+        
+        letgoProduct.location = product.location
+        letgoProduct.postalAddress = product.postalAddress
+        
+        letgoProduct.languageCode = product.languageCode
+        
+        letgoProduct.categoryId = product.categoryId
+        letgoProduct.status = product.status
+        
+        letgoProduct.thumbnail = product.thumbnail
+        letgoProduct.images = product.images
+        
+        letgoProduct.user = product.user
+        
+        letgoProduct.processed = product.processed
+        return letgoProduct
+    }
 }
