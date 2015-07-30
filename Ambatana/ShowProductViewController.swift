@@ -23,7 +23,7 @@ protocol ShowProductViewControllerDelegate {
  * This ViewController is in charge of showing a single product selected from the ProductList view controller. Depending on the ownership of the product, the user would be allowed
  * to modify the object if he/she owns it, or make offers/chat with the owner.
  */
-class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate {
+class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate, UpdateDetailInfoDelegate {
 
     // outlets & buttons
     @IBOutlet weak var galleryView: GalleryView!
@@ -198,6 +198,26 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         }
     }
 
+   
+//    override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(animated)
+//        
+//        // TODO: refactor amb delegate
+//        if product.processed == false {
+//            refreshProductInfo()
+//        }
+//    }
+    
+    func refreshProductInfo() {
+
+        galleryView.removePages()
+        setProductMainImages()
+
+        nameLabel.text = product.name?.lg_capitalizedWords() ?? ""
+        priceLabel.text = product.formattedPrice()
+        descriptionLabel.text = product.descr ?? ""
+    }
+    
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
         ifLoggedInThen(.AskQuestion, loggedInAction: {
@@ -413,7 +433,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     // MARK: - edit product
     
     func editProduct() {
-        let vc = EditSellProductViewController(product: product)
+        let vc = EditSellProductViewController(product: product, updateDelegate: self)
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -586,7 +606,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         
         let userIsLoggedIn = !MyUserManager.sharedInstance.isMyUserAnonymous()
         
-        if userIsLoggedIn && !thisProductIsMine {
+        if !userIsLoggedIn || (userIsLoggedIn && !thisProductIsMine) {
             // set rights buttons and locate favorite button.
             let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
             for button in buttons {
@@ -599,9 +619,10 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             initializeFavoriteButtonAnimations()
 
             self.checkFavoriteProduct()
-        } else if thisProductIsMine {
+        } else if thisProductIsMine && product.status != .Sold {
             let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_edit_product"], andSelectors: ["shareItem", "editProduct"], withTags: [0, 1])
-            
+        } else {
+            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share"], andSelectors: ["shareItem"], withTags: [0])
         }
         
         // Buttons
@@ -749,4 +770,11 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             })
         }
     }
+    
+    // MARK: - UpdateDetailInfoDelegate
+    
+    func updateDetailInfo(viewModel: EditSellProductViewModel) {
+        refreshProductInfo()
+    }
+
 }

@@ -68,12 +68,61 @@ public class SellProductViewModel: BaseViewModel {
         
         let productSaveService = PAProductSaveService()
         let fileUploadService = PAFileUploadService()
-        productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService)
+        let productSynchService = LGProductSynchronizeService()
+        productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchService)
         
         super.init()
+        
+        trackStart()
     }
-
+    
+    
     // MARK: - Public methods
+    
+    internal func trackStart() {
+        
+    }
+    
+    internal func trackAddedImage() {
+        
+    }
+    
+    public func trackEditedTitle() {
+        
+    }
+    
+    public func trackEditedPrice() {
+        
+    }
+    
+    public func trackEditedDescription() {
+        
+    }
+    
+    internal func trackEditedCategory() {
+        
+    }
+    
+    public func trackEditedFBChanged() {
+        
+    }
+    
+    internal func trackValidationFailedWithError(error: ProductSaveServiceError) {
+        
+    }
+    
+    public func trackSharedFB() {
+        
+    }
+    
+    internal func trackComplete() {
+        
+    }
+    
+    internal func trackAbandon() {
+        
+    }
+    
     
     var numberOfImages: Int {
         return images.count
@@ -97,25 +146,27 @@ public class SellProductViewModel: BaseViewModel {
     }
     
     // fills action sheet
-    func categoryNameAtIndex(index: Int) -> String {
+    public func categoryNameAtIndex(index: Int) -> String {
         return ProductCategory.allValues()[index].name()
     }
     
     // fills category field
-    func selectCategoryAtIndex(index: Int) {
+    public func selectCategoryAtIndex(index: Int) {
         category = ProductCategory(rawValue: index+1) // ???????? index from 0 to N and prodCat from 1 to N+1
         delegate?.sellProductViewModel(self, didSelectCategoryWithName: category?.name() ?? "")
+        
+        trackEditedCategory()
     }
     
-    
-    public func insertImage(image: UIImage, atIndex index: Int) {
-        images.insert(image, atIndex: index)
-        delegate?.sellProductViewModeldidAddOrDeleteImage(self)
-    }
+//    public func insertImage(image: UIImage, atIndex index: Int) {
+//        images.insert(image, atIndex: index)
+//        delegate?.sellProductViewModeldidAddOrDeleteImage(self)
+//    }
 
     public func appendImage(image: UIImage) {
         images.append(image)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
+        trackAddedImage()
     }
 
     public func deleteImageAtIndex(index: Int) {
@@ -134,73 +185,48 @@ public class SellProductViewModel: BaseViewModel {
     
     internal func saveProduct(product: Product? = nil) {
     
-        if let theProduct = product {
-            // update
-            
-            theProduct.name = title
-            let formatter = NSNumberFormatter()
-            formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle;
-            theProduct.price = formatter.numberFromString(price)
-            theProduct.descr = descr
-            theProduct.categoryId = category?.rawValue
-            theProduct.currency = currency
-            
-            // validar
-            
-            if validateProduct(theProduct) {
-                // guardar
-                saveTheProduct(theProduct, withImages: noEmptyImages(images))
-            }
-
-        } else {
-            // create Product
-
-            var theProduct = PAProduct()
-            
-            theProduct.name = title
-            let formatter = NSNumberFormatter()
-            formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle;
-            theProduct.price = formatter.numberFromString(price)
-            theProduct.descr = descr
-            theProduct.categoryId = category?.rawValue
-            theProduct.currency = currency
-            
-            // should add more info (location, user...)
-            
-            if validateProduct(theProduct) {
-                // guardar
-                saveTheProduct(theProduct, withImages: noEmptyImages(images))
-            }
-            
-        }
+       let theProduct = product ?? PAProduct()
+        theProduct.name = title
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle;
+        theProduct.price = formatter.numberFromString(price)
+        theProduct.descr = descr
+        theProduct.categoryId = category?.rawValue
+        theProduct.currency = currency
         
+        // TODO: New product handling
+//         if new should add more info (location, user...)
+//        if product == nil {
+//
+//        }
+        
+        let error = validate()
+        if let actualError = error {
+            delegate?.sellProductViewModel(self, didFailWithError: actualError)
+            trackValidationFailedWithError(actualError)
+        }
+        else {
+            saveTheProduct(theProduct, withImages: noEmptyImages(images))
+        }
     }
     
-    
-    func validateProduct(product: Product) -> Bool {
+    func validate() -> ProductSaveServiceError? {
         
         if images.count < 1 {
             // iterar x assegurar-se que hi ha imatges
-            delegate?.sellProductViewModel(self, didFailWithError: .NoImages)
-            return false
+            return .NoImages
         } else if count(title) < 1 {
-            delegate?.sellProductViewModel(self, didFailWithError: .NoTitle)
-            return false
+            return .NoTitle
         } else if !price.isValidPrice() {
-            delegate?.sellProductViewModel(self, didFailWithError: .NoPrice)
-            return false
+            return .NoPrice
         } else if count(descr) < 1 {
-            delegate?.sellProductViewModel(self, didFailWithError: .NoDescription)
-            return false
+            return .NoDescription
         } else if count(descr) > Constants.productDescriptionMaxLength {
-            delegate?.sellProductViewModel(self, didFailWithError: .LongDescription)
-            return false
+            return .LongDescription
         } else if category == nil {
-            delegate?.sellProductViewModel(self, didFailWithError: .NoCategory)
-            return false
-        } else {
-            return true
+            return .NoCategory
         }
+        return nil
     }
 
     func saveTheProduct(product: Product, withImages images: [UIImage]) {
@@ -218,7 +244,7 @@ public class SellProductViewModel: BaseViewModel {
                 if let strongSelf = self {
                     if let actualProduct = r.value {
                         strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
-                        
+                        strongSelf.trackComplete()
                         if strongSelf.shouldShareInFB {
                             strongSelf.shareCurrentProductInFacebook(actualProduct)
                         }
@@ -255,6 +281,7 @@ public class SellProductViewModel: BaseViewModel {
         // share it.
         delegate?.sellProductViewModelShareContentinFacebook(self, withContent: fbSharingContent)
     }
+    
     
 }
 

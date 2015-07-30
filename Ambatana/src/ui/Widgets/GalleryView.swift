@@ -83,6 +83,14 @@ import UIKit
         }
     }
     
+    public func removePages() {
+        pages = []
+        
+        scrollView = UIScrollView(frame: CGRectZero)
+        pageControl = UIPageControl(frame: CGRectZero)
+
+    }
+    
     // MARK: - UIScrollViewDelegate
     
     public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {

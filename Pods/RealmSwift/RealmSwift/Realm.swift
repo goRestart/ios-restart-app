@@ -82,7 +82,7 @@ public final class Realm {
     :param: path Path to the realm file.
     */
     public convenience init(path: String = Realm.defaultPath) {
-        self.init(RLMRealm(path: path, readOnly: false, error: nil))
+        self.init(RLMRealm(path: path, readOnly: false, error: nil)!)
     }
     
     /**
@@ -264,10 +264,10 @@ public final class Realm {
     }
 
     /**
-    Create an `Object` with the given object.
+    Create an `Object` with the given value.
 
     Creates or updates an instance of this object and adds it to the `Realm` populating
-    the object represented by value.
+    the object with the given value.
     
     When 'update' is 'true', the object must have a primary key. If no objects exist in
     the Realm instance with the same primary key value, the object is inserted. Otherwise, 

@@ -21,7 +21,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.4.0):
     - FBSDKCoreKit
-  - LGCoreKit (0.8.1):
+  - LGCoreKit (0.8.3):
     - Alamofire (~> 1.3)
     - Bolts (~> 1.1)
     - FBSDKCoreKit (~> 4.1)
@@ -41,17 +41,17 @@ PODS:
     - Parse (~> 1.7.5.3)
   - pop (1.0.7)
   - Quick (0.3.1)
-  - Realm (0.93.2):
-    - Realm/Headers (= 0.93.2)
-  - Realm/Headers (0.93.2)
-  - RealmSwift (0.93.2):
-    - Realm (= 0.93.2)
+  - Realm (0.94.0):
+    - Realm/Headers (= 0.94.0)
+  - Realm/Headers (0.94.0)
+  - RealmSwift (0.94.0):
+    - Realm (= 0.94.0)
   - Result (0.4.4):
     - Box (~> 1.2)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
-  - SwiftyJSON (2.2.0)
+  - SwiftyJSON (2.2.1)
   - Timepiece (0.4.0)
 
 DEPENDENCIES:
@@ -77,17 +77,17 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 75bdd75c980e811db218488d99dd93b7740f4474
   FBSDKLoginKit: 02a9254a4c132412fa03577b0d53e936d068a7fb
   FBSDKShareKit: a42865f20ba2d1cc548c4d0f73ad22cff6377ddb
-  LGCoreKit: 2aaf1937183ac3e67be97e77608021fce34d12a9
+  LGCoreKit: 989976235a22e2f9a83c18f879f5194ec5c14831
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
   ParseFacebookUtilsV4: ea5db22e87b91cbf99b9d156642e2b97a4db7d51
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  Realm: 2fdd0ae74f730e190384e0338d8a0d3654df8220
-  RealmSwift: 231b064da9f98b1c4f325fe1f1cb8756aae2b8d6
+  Realm: a046149653e0ca220b65b5783da907aa5b74d86c
+  RealmSwift: 5efbbf1a5c179a7237e4d428594e41619fa167ba
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
-  SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
+  SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
   Timepiece: d38302bf6fce6146e9d8feb289e0837811ee1342
 
 COCOAPODS: 0.37.2

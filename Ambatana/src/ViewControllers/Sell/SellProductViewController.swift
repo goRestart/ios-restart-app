@@ -40,13 +40,24 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     // viewModel
     
-    var viewModel : SellProductViewModel!
+    private var viewModel : SellProductViewModel!
     
     // MARK: - Lifecycle
     
-    init() {
-        self.viewModel = SellProductViewModel()
+//    init() {
+//        self.viewModel = SellProductViewModel()
+//        super.init(viewModel: viewModel, nibName: "EditSellProductViewController")
+//        self.viewModel.delegate = self
+//    }
+    
+    convenience init() {
+        self.init(viewModel: SellProductViewModel())
+    }
+    
+    init(viewModel: SellProductViewModel) {
+        self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "EditSellProductViewController")
+        
         self.viewModel.delegate = self
     }
 
@@ -59,6 +70,11 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         super.viewDidLoad()
         
         setupUI()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        descriptionTextView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false)
     }
     
     // MARK: - Public methods
@@ -87,6 +103,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
         viewModel.shouldShareInFB = shareFBSwitch.on
+        viewModel.trackEditedFBChanged()
     }
     
     // MARK: - SellProductViewModelDelegate Methods
@@ -112,7 +129,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: Result<Product, ProductSaveServiceError>) {
         loadingView.hidden = true
         view.sendSubviewToBack(loadingView)
-        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""))
     }
 
     func sellProductViewModel(viewModel: SellProductViewModel, shouldUpdateDescriptionWithCount count: Int) {
@@ -130,27 +146,8 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     }
     
     func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
-        let message: String
-        switch (error) {
-        case .Network:
-            message = NSLocalizedString("sell_send_error_uploading_product", comment: "")
-        case .Internal:
-            message = NSLocalizedString("sell_send_error_uploading_product", comment: "")
-        case .NoImages:
-            message = NSLocalizedString("sell_send_error_invalid_image_count", comment: "")
-        case .NoTitle:
-            message = NSLocalizedString("sell_send_error_invalid_title", comment: "")
-        case .NoPrice:
-            message = NSLocalizedString("sell_send_error_invalid_price", comment: "")
-        case .NoDescription:
-            message = NSLocalizedString("sell_send_error_invalid_description", comment: "")
-        case .LongDescription:
-            message = String(format: NSLocalizedString("sell_send_error_invalid_description_too_long", comment: ""), Constants.productDescriptionMaxLength)
-        case .NoCategory:
-            message = NSLocalizedString("sell_send_error_invalid_category", comment: "")
-        }
-    
-        self.showAutoFadingOutMessageAlert(message)
+        loadingView.hidden = true
+        view.sendSubviewToBack(loadingView)
     }
 
     func sellProductViewModelShareContentinFacebook(viewModel: SellProductViewModel, withContent content: FBSDKShareLinkContent) {
@@ -160,6 +157,19 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
 
     
     // MARK: - TextField Delegate Methods
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        if let tag = TextFieldTag(rawValue: textField.tag) {
+            switch (tag) {
+            case .ProductTitle:
+                viewModel.trackEditedTitle()
+            case .ProductPrice:
+                viewModel.trackEditedPrice()
+            default:
+                break
+            }
+        }
+    }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
@@ -191,6 +201,9 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
             textView.text = nil
             textView.textColor = UIColor.blackColor()
         }
+        viewModel.trackEditedDescription()
+        scrollView.setContentOffset(CGPointMake(0,textView.frame.origin.y-64), animated: true)
+
     }
     
     func textViewDidEndEditing(textView: UITextView) {
@@ -354,9 +367,8 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
             descriptionTextView.textColor = descrPlaceholderColor
         }
         descriptionTextView.textContainerInset = UIEdgeInsetsMake(12.0, 11.0, 12.0, 11.0);
-
+        descriptionTextView.tintColor = StyleHelper.textFieldTintColor
         descriptionTextView.tag = TextFieldTag.ProductDescription.rawValue
-        
         descriptionCharCountLabel.text = "\(viewModel.descriptionCharCount)"
         
         let categoryButtonTitle = viewModel.categoryName ?? NSLocalizedString("sell_category_selection_label", comment: "")
@@ -374,23 +386,30 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         self.imageCollectionView.registerNib(sellProductCellNib, forCellWithReuseIdentifier: sellProductCellReuseIdentifier)
         
         loadingLabel.text = NSLocalizedString("sell_uploading_label", comment: "")
+        
+        self.setLetGoNavigationBarStyle(title: NSLocalizedString("edit_product_title", comment: "") ?? UIImage(named: "navbar_logo"))
 
+        var myBackButton = self.navigationItem.leftBarButtonItem
+//        myBackButton?.target = self
+//        myBackButton?.action = "popToPreviousVC"
+
+    }
+    
+    override func popBackViewController() {
+        viewModel.trackAbandon()
+        super.popBackViewController()
     }
     
     // MARK: - Share in facebook.
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         
-        
+        viewModel.trackSharedFB()
         //        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
         //            self.dismissViewControllerAnimated(true, completion: { [weak self] in
         //                self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
         //                })
         //        })
-        //
-        //        // Tracking
-        //        let event: TrackingEvent = .ProductSellSharedFB
-        //        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
     }
     
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
