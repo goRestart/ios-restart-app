@@ -6,19 +6,13 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class LGProduct: Product {
+@objc public class LGProduct: LGBaseModel, Product {
     
     // Product iVars
-    public var objectId: String!
-    public var createdAt: NSDate!
-    public var updatedAt: NSDate!
-    
-    public var isSaved: Bool
-    
     public var name: String?
     public var descr: String?
     public var price: NSNumber?
-    public var currencyCode: String?
+    public var currency: Currency?
     
     public var location: LGLocationCoordinates2D?
     public var distance: NSNumber?
@@ -31,9 +25,9 @@
     public var categoryId: NSNumber?
     public var status: ProductStatus
     
-    public var thumbnailURL: NSURL?
+    public var thumbnail: File?
     public var thumbnailSize: LGSize?
-    public var imageURLs: [NSURL]
+    public var images: [File]
     
     public var user: User?
     
@@ -41,18 +35,18 @@
     
     // MARK: - Lifecycle
     
-    public init() {
-        self.isSaved = true
-        self.imageURLs = []
+    public override init() {
+        self.images = []
         self.postalAddress = PostalAddress()
         self.status = .Pending
         self.distanceType = .Km
+        super.init()
     }
     
     // MARK: - Product methods
     
     public func formattedPrice() -> String {
-        let actualCurrencyCode = currencyCode ?? LGCoreKitConstants.defaultCurrencyCode
+        let actualCurrencyCode = currency?.code ?? LGCoreKitConstants.defaultCurrencyCode
         if let actualPrice = price {
             let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: actualPrice)
             return formattedPrice ?? "\(actualPrice)"

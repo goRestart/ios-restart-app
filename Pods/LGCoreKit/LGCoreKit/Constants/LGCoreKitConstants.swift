@@ -9,4 +9,6 @@
 struct LGCoreKitConstants {
     static let defaultCurrencyCode = "USD"
     static let defaultDistanceType = DistanceType.Km
+    static let productImageMaxSide: CGFloat = 1024
+    static let productImageJPEGQuality: CGFloat = 0.9
 }

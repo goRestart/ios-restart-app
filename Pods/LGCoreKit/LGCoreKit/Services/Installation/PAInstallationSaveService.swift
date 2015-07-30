@@ -11,12 +11,6 @@ import Result
 
 final public class PAInstallationSaveService: InstallationSaveService {
     
-    // MARK: - Lifecycle
-    
-    public init() {
-        
-    }
-    
     // MARK: - UserSaveService
     
     public func save(installation: Installation, result: InstallationSaveServiceResult?) {

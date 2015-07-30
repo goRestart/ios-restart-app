@@ -116,6 +116,16 @@ public class CurrencyHelper {
         return formatterWithCurrencyCode(currencyCode).currencySymbol ?? CurrencyHelper.defaultCurrency.symbol
     }
     
+    /**
+        Returns the currency the given currency code.
+    
+        :returns: A currency.
+    */
+    public func currencyWithCurrencyCode(code: String) -> Currency {
+        let symbol = self.currencySymbolWithCurrencyCode(code)
+        return Currency(code: code, symbol: symbol)
+    }
+    
     // MARK: - Private methods
     
     /**

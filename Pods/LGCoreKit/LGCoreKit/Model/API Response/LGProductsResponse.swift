@@ -51,8 +51,12 @@ import SwiftyJSON
         let json = JSON(representation)
         let parsedProducts = NSMutableArray()
         if let data = json[LGProductsResponse.dataJSONKey].array {
+
+            let countryCurrencyInfoDao = RLMCountryCurrencyInfoDAO()
+            let currencyHelper = CurrencyHelper(countryCurrencyInfoDAO: countryCurrencyInfoDao)
+            
             for productJson in data {
-                parsedProducts.addObject(LGProductParser.productWithJSON(productJson))
+                parsedProducts.addObject(LGProductParser.productWithJSON(productJson, currencyHelper: currencyHelper))
             }
         }
         products = parsedProducts

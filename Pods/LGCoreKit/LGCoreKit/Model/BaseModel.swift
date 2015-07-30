@@ -12,4 +12,5 @@
     var createdAt: NSDate! { get }
     
     var isSaved: Bool { get }
+    var acl: AccessControlList? { get set }
 }

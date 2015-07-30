@@ -22,7 +22,7 @@ import Realm.Private
 
 /**
 In Realm you define your model classes by subclassing `Object` and adding properties to be persisted.
-You then instantiate and use your custom subclasses instead of using the RLMObject class directly.
+You then instantiate and use your custom subclasses instead of using the Object class directly.
 
 ```swift
 class Dog: Object {
@@ -305,5 +305,26 @@ public class ObjectUtil: NSObject {
     @objc private class func initializeListProperty(object: RLMObjectBase?, property: RLMProperty?, array: RLMArray?) {
         let list = (object as! Object)[property!.name]! as! RLMListBase
         list._rlmArray = array
+    }
+
+    @objc private class func getOptionalPropertyNames(object: AnyObject) -> NSArray {
+        let reflection = reflect(object)
+
+        var properties = [String]()
+
+        // Skip the first property (super):
+        // super is an implicit property on Swift objects
+        for i in 1..<reflection.count {
+            let mirror = reflection[i].1
+            if mirror.disposition == .Optional {
+                properties.append(reflection[i].0)
+            }
+        }
+
+        return properties
+    }
+
+    @objc private class func requiredPropertiesForClass(_: AnyClass) -> NSArray? {
+        return nil
     }
 }

@@ -56,10 +56,11 @@ public final class List<T: Object>: ListBase {
     /// The Realm the objects in this list belong to, or `nil` if the list's owning
     /// object does not belong to a realm (the list is standalone).
     public var realm: Realm? {
-        if _rlmArray.realm == nil {
+        if let rlmRealm = _rlmArray.realm {
+            return Realm(rlmRealm)
+        } else {
             return nil
         }
-        return Realm(_rlmArray.realm)
     }
 
     /// Indicates if the list can no longer be accessed.
@@ -244,7 +245,7 @@ public final class List<T: Object>: ListBase {
     Inserts the given object at the given index.
 
     :warning: This method can only be called during a write transaction.
-    :warning: Throws an exception when called with an index smaller than zero or greater than 
+    :warning: Throws an exception when called with an index smaller than zero or greater than
               or equal to the number of objects in the list.
 
     :param: object An object.
@@ -300,6 +301,37 @@ public final class List<T: Object>: ListBase {
     public func replace(index: Int, object: T) {
         throwForNegativeIndex(index)
         _rlmArray.replaceObjectAtIndex(UInt(index), withObject: unsafeBitCast(object, RLMObject.self))
+    }
+
+    /**
+    Moves the object at the given source index to the given destination index.
+
+    :warning: This method can only be called during a write transaction.
+    :warning: Throws an exception when called with an index smaller than zero or greater than
+              or equal to the number of objects in the list.
+
+    :param: from  The index of the object to be moved.
+    :param: to    The index to which the object at `from` should be moved.
+    */
+    public func move(#from: Int, to: Int) {
+        throwForNegativeIndex(from)
+        throwForNegativeIndex(to)
+        _rlmArray.moveObjectAtIndex(UInt(from), toIndex: UInt(to))
+    }
+
+    /**
+    Exchanges the objects in the list at given indexes.
+
+    :warning: Throws an exception when either index exceeds the bounds of the list.
+    :warning: This method can only be called during a write transaction.
+
+    :param: index1 The index of the object with which to replace the object at index `index2`.
+    :param: index2 The index of the object with which to replace the object at index `index1`.
+    */
+    public func swap(index1: Int, _ index2: Int) {
+        throwForNegativeIndex(index1, parameterName: "index1")
+        throwForNegativeIndex(index2, parameterName: "index2")
+        _rlmArray.exchangeObjectAtIndex(UInt(index1), withObjectAtIndex: UInt(index2))
     }
 }
 

@@ -6,13 +6,9 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class LGUser: User {
+@objc public class LGUser: LGBaseModel, User {
     
-    // ProductUser iVars
-    public var objectId: String!
-    public var updatedAt: NSDate!
-    public var createdAt: NSDate!
-    
+    // User iVars
     public var username: String?
     public var password: String?
     public var email: String?
@@ -26,16 +22,15 @@
     public var processed: NSNumber?
     
     public var isDummy: Bool
-    public var isSaved: Bool
     public var isAnonymous: Bool
     
     // Lifecycle
     
-    public init() {
+    public override init() {
         self.postalAddress = PostalAddress()
         self.processed = NSNumber(bool: true)
         self.isDummy = false
-        self.isSaved = true
         self.isAnonymous = false
+        super.init()
     }
 }
