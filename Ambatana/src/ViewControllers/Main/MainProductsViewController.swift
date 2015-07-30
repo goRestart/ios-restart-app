@@ -182,7 +182,7 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
    
     // MARK: - ShowProductViewControllerDelegate
 
-    func showProductViewController(viewController: ShowProductViewController, didUpdateStatusForProduct product: Product) {
+    func showProductViewControllerShouldRefresh(viewController: ShowProductViewController) {
         mainProductListView.refreshUI()
     }
     
