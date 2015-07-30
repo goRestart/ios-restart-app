@@ -27,7 +27,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         setLetGoNavigationBarStyle(title: NSLocalizedString("make_an_offer_title", comment: ""))
         // > set the product currency
         if let actualProduct = product {
-            let currencyCode = actualProduct.currencyCode ?? Constants.defaultCurrencyCode
+            let currencyCode = actualProduct.currency?.code ?? Constants.defaultCurrencyCode
             let currencySymbol = CurrencyHelper.sharedInstance.currencySymbolWithCurrencyCode(currencyCode)
             self.currencyButton.setTitle(currencySymbol, forState: .Normal)
         }
@@ -127,7 +127,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     }
     
     func generateOfferText(price: Int) -> String {
-        let currencyCode = product?.currencyCode ?? Constants.defaultCurrencyCode
+        let currencyCode = product?.currency?.code ?? Constants.defaultCurrencyCode
         let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
         return String(format: NSLocalizedString("make_an_offer_new_offer_message", comment: ""), formattedAmount)
     }
