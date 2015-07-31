@@ -38,8 +38,8 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     private static let emptyCellIdentifier = "SellEmptyCell"
     
     // outlets & buttons
-    @IBOutlet weak var productTitleTextField: UITextField!
-    @IBOutlet weak var productPriceTextfield: UITextField!
+    @IBOutlet weak var productTitleTextField: LGTextField!
+    @IBOutlet weak var productPriceTextfield: LGTextField!
     @IBOutlet weak var currencyTypeButton: UIButton!
     @IBOutlet weak var descriptionTextView: PlaceholderTextView!
     @IBOutlet weak var chooseCategoryButton: UIButton!
@@ -69,6 +69,8 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     var productWasSold = false
     var productId: String?
     
+    var lines: [CALayer] = []
+
     // Delegate
     weak var delegate: NewSellProductViewControllerDelegate?
     
@@ -97,6 +99,10 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         shareInFacebookLabel.text = NSLocalizedString("sell_share_on_facebook_label", comment: "")
         sellItButton.setTitle(NSLocalizedString("sell_send_button", comment: ""), forState: .Normal)
         uploadingImageLabel.text = NSLocalizedString("sell_uploading_label", comment: "")
+        
+        descriptionTextView.textContainerInset = UIEdgeInsetsMake(12.0, 11.0, 12.0, 11.0)
+        descriptionTextView.tintColor = StyleHelper.textFieldTintColor
+        sellItButton.layer.cornerRadius = 4
         
         // CollectionView
         let addPictureCellNib = UINib(nibName: "SellAddPictureCell", bundle: nil)
@@ -135,6 +141,22 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         originalFrame = self.view.frame
+    }
+    
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(productTitleTextField.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(productPriceTextfield.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(currencyTypeButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(descriptionTextView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(chooseCategoryButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(chooseCategoryButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
     
     func keyboardWillHide(notification: NSNotification) { self.restoreOriginalPosition() }

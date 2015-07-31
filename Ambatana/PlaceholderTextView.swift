@@ -16,7 +16,7 @@ private let kPlaceholderTextViewInsetSpan: CGFloat = 8
     /** The string that will be put in the placeholder */
     @IBInspectable var placeholder: NSString? { didSet { setNeedsDisplay() } }
     /** color for the placeholder text. Default is UIColor.lightGrayColor() */
-    @IBInspectable var placeholderColor: UIColor = UIColor.lightGrayColor()
+    @IBInspectable var placeholderColor: UIColor = UIColor(rgb: 0xC7C7CD) // UIColor.lightGrayColor()
     
     // MARK: - Text insertion methods need to "remove" the placeholder when needed
     
@@ -53,7 +53,7 @@ private let kPlaceholderTextViewInsetSpan: CGFloat = 8
 
     func setup() {
         // appearance.
-        self.layer.cornerRadius = 6.0
+//        self.layer.cornerRadius = 6.0
         self.scrollIndicatorInsets = UIEdgeInsetsZero
         
         // listen for notifications when starting edition
@@ -106,7 +106,8 @@ private let kPlaceholderTextViewInsetSpan: CGFloat = 8
     
     func placeholderBoundsContainedIn(containerBounds: CGRect) -> CGRect {
         // get the base rect with content insets.
-        let baseRect = UIEdgeInsetsInsetRect(containerBounds, UIEdgeInsetsMake(kPlaceholderTextViewInsetSpan, kPlaceholderTextViewInsetSpan/2.0, 0, 0))
+//        let baseRect = UIEdgeInsetsInsetRect(containerBounds, UIEdgeInsetsMake(kPlaceholderTextViewInsetSpan, kPlaceholderTextViewInsetSpan/2.0, 0, 0))
+        let baseRect = UIEdgeInsetsInsetRect(containerBounds, UIEdgeInsetsMake(kPlaceholderTextViewInsetSpan, 17, 0, 0))
         
         // adjust typing and selection attributes
         if typingAttributes != nil {
