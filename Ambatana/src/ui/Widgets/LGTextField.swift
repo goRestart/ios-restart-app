@@ -45,7 +45,7 @@ class LGTextField: UITextField {
     
     
     func setupTextField() {
-        self.font = UIFont.systemFontOfSize(15)
+//        self.font = UIFont.systemFontOfSize(15)
         self.borderStyle = UITextBorderStyle.None
         self.insetX = 16
         self.clearButtonOffset = 12

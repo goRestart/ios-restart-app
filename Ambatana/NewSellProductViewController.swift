@@ -1,5 +1,5 @@
 //
-//  SellProductViewController.swift
+//  NewSellProductViewController.swift
 //  LetGo
 //
 //  Created by Ignacio Nieto Carvajal on 10/02/15.
@@ -26,11 +26,11 @@ private let kLetGoSellProductActionSheetTagCategoryType = 101 // for category se
 private let kLetGoSellProductActionSheetTagImageSourceType = 102 // for image source selection
 private let kLetGoSellProductActionSheetTagActionType = 103 // for image action selection
 
-@objc protocol SellProductViewControllerDelegate {
-    optional func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool)
+@objc protocol NewSellProductViewControllerDelegate {
+    optional func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool)
 }
 
-class SellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, FBSDKSharingDelegate {
+class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UIActionSheetDelegate, FBSDKSharingDelegate {
     
     // constants
     private static let addPictureCellIdentifier = "SellAddPictureCell"
@@ -70,10 +70,10 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
     var productId: String?
     
     // Delegate
-    weak var delegate: SellProductViewControllerDelegate?
+    weak var delegate: NewSellProductViewControllerDelegate?
     
     init() {
-        super.init(nibName: "SellProductViewController", bundle: nil)
+        super.init(nibName: "NewSellProductViewController", bundle: nil)
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -100,11 +100,11 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
         
         // CollectionView
         let addPictureCellNib = UINib(nibName: "SellAddPictureCell", bundle: nil)
-        self.collectionView.registerNib(addPictureCellNib, forCellWithReuseIdentifier: SellProductViewController.addPictureCellIdentifier)
+        self.collectionView.registerNib(addPictureCellNib, forCellWithReuseIdentifier: NewSellProductViewController.addPictureCellIdentifier)
         let pictureCellNib = UINib(nibName: "SellPictureCell", bundle: nil)
-        self.collectionView.registerNib(pictureCellNib, forCellWithReuseIdentifier: SellProductViewController.pictureCellIdentifier)
+        self.collectionView.registerNib(pictureCellNib, forCellWithReuseIdentifier: NewSellProductViewController.pictureCellIdentifier)
         let emptyCellNib = UINib(nibName: "SellEmptyCell", bundle: nil)
-        self.collectionView.registerNib(emptyCellNib, forCellWithReuseIdentifier: SellProductViewController.emptyCellIdentifier)
+        self.collectionView.registerNib(emptyCellNib, forCellWithReuseIdentifier: NewSellProductViewController.emptyCellIdentifier)
         
         // UX/UI & appearance.
         uploadingImageView.hidden = true
@@ -683,13 +683,13 @@ class SellProductViewController: UIViewController, UITextFieldDelegate, UITextVi
 
         // let's try to find out which kind of cell is this
         if indexPath.row == images.count { // "first upload image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductViewController.addPictureCellIdentifier, forIndexPath: indexPath) as! SellAddPictureCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.addPictureCellIdentifier, forIndexPath: indexPath) as! SellAddPictureCell
         } else if indexPath.row < images.count { // already uploaded image case
-            let pictureCell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductViewController.pictureCellIdentifier, forIndexPath: indexPath) as! SellPictureCell
+            let pictureCell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.pictureCellIdentifier, forIndexPath: indexPath) as! SellPictureCell
             pictureCell.imageView.image = images[indexPath.row]
             cell = pictureCell
         } else { // "upload other image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(SellProductViewController.emptyCellIdentifier, forIndexPath: indexPath) as! SellEmptyCell
+            cell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.emptyCellIdentifier, forIndexPath: indexPath) as! SellEmptyCell
         }
         return cell
     }

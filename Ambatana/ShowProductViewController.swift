@@ -24,7 +24,7 @@ protocol ShowProductViewControllerDelegate {
  * This ViewController is in charge of showing a single product selected from the ProductList view controller. Depending on the ownership of the product, the user would be allowed
  * to modify the object if he/she owns it, or make offers/chat with the owner.
  */
-class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate {
+class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScrollViewDelegate, MKMapViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, MFMailComposeViewControllerDelegate, UIAlertViewDelegate, UpdateDetailInfoDelegate {
 
     // outlets & buttons
     @IBOutlet weak var galleryView: GalleryView!
@@ -100,10 +100,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         let svSize = self.scrollView.bounds.size
         scrollView.contentSize = svSize
         
-        // set rights buttons and locate favorite button.
-        let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
-        for button in buttons { if button.tag == 1 { self.favoriteButton = button } }
-        
         // UX/UI
         self.markAsSoldActivityIndicator.hidden = true
         self.askQuestionActivityIndicator.hidden = true
@@ -111,8 +107,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         self.userAvatarImageView.clipsToBounds = true
         
         // initialize product UI.
-        // check if this is a favorite product
-        initializeFavoriteButtonAnimations()
         
         // User
         usernameLabel.text = product.user?.publicUsername ?? ""
@@ -459,6 +453,13 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             self.presentViewController(activityVC, animated: true, completion: nil)
         }
     }
+    
+    // MARK: - edit product
+    
+    func editProduct() {
+        let vc = EditSellProductViewController(product: product, updateDelegate: self)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
     // MARK: - Favourite Requests & helpers
     
@@ -590,7 +591,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as! PhotosInDetailViewController
-
+        
         // add the images
         var imageURLs : [NSURL] = []
         for image in product.images {
@@ -619,16 +620,33 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     // MARK: - Private methods
     
     private func updateUI() {
-        
-        let userIsLoggedIn = !MyUserManager.sharedInstance.isMyUserAnonymous()
-        if userIsLoggedIn {
-            self.checkFavoriteProduct()
-        }
-        
+
         // check if this is product is mine
         var thisProductIsMine = false
         if let productUser = product.user, let userId = productUser.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
             thisProductIsMine = userId == myUserId
+        }
+        
+        
+        let userIsLoggedIn = !MyUserManager.sharedInstance.isMyUserAnonymous()
+        
+        if !userIsLoggedIn || (userIsLoggedIn && !thisProductIsMine) {
+            // set rights buttons and locate favorite button.
+            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
+            for button in buttons {
+                if button.tag == 1 {
+                    self.favoriteButton = button
+                }
+            }
+
+            // check if this is a favorite product
+            initializeFavoriteButtonAnimations()
+
+            self.checkFavoriteProduct()
+        } else if thisProductIsMine && product.status != .Sold {
+            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_edit_product"], andSelectors: ["shareItem", "editProduct"], withTags: [0, 1])
+        } else {
+            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share"], andSelectors: ["shareItem"], withTags: [0])
         }
         
         // Buttons
@@ -802,5 +820,22 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                     self.favoriteButton.setImage(self.isFavourite ? UIImage(named: "navbar_fav_on")!.imageWithRenderingMode(.AlwaysOriginal) : UIImage(named: "navbar_fav_off")!.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
             })
         }
+    }
+    
+    // MARK: - UpdateDetailInfoDelegate
+    
+    func updateDetailInfo(viewModel: EditSellProductViewModel) {
+        refreshProductInfo()
+    }
+
+    func refreshProductInfo() {
+        
+        galleryView.removePages()
+        
+        setProductMainImages()
+        
+        nameLabel.text = product.name?.lg_capitalizedWords() ?? ""
+        priceLabel.text = product.formattedPrice()
+        descriptionLabel.text = product.descr ?? ""
     }
 }
