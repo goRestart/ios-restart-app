@@ -456,7 +456,7 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                             RESTManager.sharedInstance.synchronizeProductFromParse(productObject.objectId!, attempt: 0, completion: nil)
                             
                             // check facebook sharing
-                            if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId!) }
+                            if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(productObject.objectId!) }
                             else {
                                 self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
                                     self.dismissViewControllerAnimated(true, completion: { [weak self] in
@@ -508,16 +508,16 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     
     // MARK: - Share in facebook.
     
-    func checkFacebookSharing(objectId: String) {
-        // first we need to check that the current FBSession is valid.
-        if FBSDKAccessToken.currentAccessToken() != nil { // we have a valid token session.
-            shareCurrentProductInFacebook(objectId)
-        } else {
-            showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""), completionBlock: { () -> Void in
-                self.dismissViewControllerAnimated(true, completion: nil)
-            })
-        }
-    }
+//    func checkFacebookSharing(objectId: String) {
+//        // first we need to check that the current FBSession is valid.
+//        if FBSDKAccessToken.currentAccessToken() != nil { // we have a valid token session.
+//            shareCurrentProductInFacebook(objectId)
+//        } else {
+//            showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""), completionBlock: { () -> Void in
+//                self.dismissViewControllerAnimated(true, completion: nil)
+//            })
+//        }
+//    }
     
     func shareCurrentProductInFacebook(objectId: String) {
         // build the sharing content.

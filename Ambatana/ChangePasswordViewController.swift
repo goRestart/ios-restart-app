@@ -12,9 +12,11 @@ import UIKit
 
 class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
     // outlets & buttons
-    @IBOutlet weak var passwordTextfield: UITextField!
-    @IBOutlet weak var confirmPasswordTextfield: UITextField!
-
+    @IBOutlet weak var passwordTextfield: LGTextField!
+    @IBOutlet weak var confirmPasswordTextfield: LGTextField!
+    @IBOutlet weak var sendButton : UIButton!
+    
+    var lines : [CALayer] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,13 +25,34 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
         passwordTextfield.delegate = self
         confirmPasswordTextfield.delegate = self
         setLetGoNavigationBarStyle(title: NSLocalizedString("change_password_title", comment: ""))
-        setLetGoRightButtonsWithImageNames(["actionbar_save"], andSelectors: ["changePassword"])
+//        setLetGoRightButtonsWithImageNames(["actionbar_save"], andSelectors: ["changePassword"])
+        
+        sendButton.setTitle(NSLocalizedString("change_password_title", comment: ""), forState: UIControlState.Normal)
+        sendButton.layer.cornerRadius = 4
         
         // internationalization
         passwordTextfield.placeholder = NSLocalizedString("change_password_new_password_field_hint", comment: "")
         confirmPasswordTextfield.placeholder = NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
     }
+    
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(passwordTextfield.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(confirmPasswordTextfield.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(confirmPasswordTextfield.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        
+    }
    
+    @IBAction func sendChangePasswordButtonPressed(sender: AnyObject) {
+        changePassword()
+    }
+    
     func changePassword() {
         // safety checks
         if count(passwordTextfield.text) < Constants.passwordMinLength || count(confirmPasswordTextfield.text) < Constants.passwordMinLength { // min length not fulfilled
