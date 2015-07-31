@@ -84,7 +84,7 @@ import UIKit
     }
     
     public func removePages() {
-        scrollView.contentSize = CGSize(width: CGRectGetWidth(frame), height: CGRectGetHeight(frame))
+        scrollView.contentSize = CGSizeZero
         for subview in scrollView.subviews {
             subview.removeFromSuperview()
         }

@@ -29,11 +29,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="eiL-oq-GEV">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                     <subviews>
                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-eR-n02" userLabel="Image Collection View">
                             <rect key="frame" x="12" y="8" width="588" height="116"/>
-                            <color key="backgroundColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="backgroundColor" red="0.95294117649999999" green="0.063708408273381298" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="116" id="wdf-KX-r1y"/>
                             </constraints>
@@ -194,16 +194,16 @@
                     </constraints>
                 </scrollView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ZP-zJ-OwV" userLabel="Loading View">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Uploading product, please wait..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="DIJ-41-73M" userLabel="Loading Label">
-                            <rect key="frame" x="8" y="258" width="584" height="21"/>
+                            <rect key="frame" x="8" y="226" width="584" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="U7G-g9-Rhv" userLabel="Loading Progress View">
-                            <rect key="frame" x="16" y="287" width="568" height="2"/>
+                            <rect key="frame" x="16" y="255" width="568" height="2"/>
                             <color key="progressTintColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                         </progressView>
                     </subviews>
@@ -222,13 +222,14 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="eiL-oq-GEV" secondAttribute="bottom" id="07t-jB-mhJ"/>
                 <constraint firstAttribute="trailing" secondItem="eiL-oq-GEV" secondAttribute="trailing" id="8nH-NT-eI5"/>
-                <constraint firstItem="0ZP-zJ-OwV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="KS8-eU-4Th"/>
+                <constraint firstItem="0ZP-zJ-OwV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="KS8-eU-4Th"/>
                 <constraint firstAttribute="trailing" secondItem="0ZP-zJ-OwV" secondAttribute="trailing" id="Lbr-xk-TGz"/>
                 <constraint firstItem="0ZP-zJ-OwV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Ui7-BT-ZPt"/>
                 <constraint firstItem="eiL-oq-GEV" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Vye-Jo-IkC"/>
                 <constraint firstAttribute="bottom" secondItem="0ZP-zJ-OwV" secondAttribute="bottom" id="b0R-jc-vgd"/>
-                <constraint firstItem="eiL-oq-GEV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="bfz-ho-PST"/>
+                <constraint firstItem="eiL-oq-GEV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="bfz-ho-PST"/>
             </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <point key="canvasLocation" x="938" y="319"/>
         </view>
     </objects>

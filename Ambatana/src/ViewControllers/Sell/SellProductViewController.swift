@@ -61,6 +61,8 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         super.init(viewModel: viewModel, nibName: "EditSellProductViewController")
         
         self.viewModel.delegate = self
+        
+        automaticallyAdjustsScrollViewInsets = false
     }
 
     required init(coder: NSCoder) {

@@ -39,8 +39,7 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     // MARK: - EditSellProductViewModelDelegate Methods
     
     func editSellProductViewModel(viewModel: EditSellProductViewModel, didDownloadImageAtIndex index: Int) {
-//        imageCollectionView.reloadData()
-        imageCollectionView.reloadItemsAtIndexPaths([NSIndexPath(forItem: index, inSection: 0)])
+        imageCollectionView.reloadData()
     }
     
     // MARK: - SellProductViewModelDelegate Methods
