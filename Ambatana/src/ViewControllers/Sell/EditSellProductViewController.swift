@@ -32,7 +32,7 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         
         editViewModel.loadPictures()
         
-        sendButton.setTitle("_Update", forState: .Normal)
+        sendButton.setTitle(NSLocalizedString("edit_product_send_button", comment: ""), forState: .Normal)
         categoryButton.setTitle(editViewModel.categoryName, forState: .Normal)
     }
     
@@ -50,7 +50,7 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         
         editViewModel.updateInfoOfPreviousVC()
         
-        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: "")) { () -> Void in
+        self.showAutoFadingOutMessageAlert(NSLocalizedString("edit_product_send_ok", comment: "")) { () -> Void in
             self.navigationController?.popViewControllerAnimated(true)
             self.editViewModel.shouldEnableTracking()
         }
@@ -63,7 +63,7 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         let message: String
         switch (error) {
         case .Network:
-            message = NSLocalizedString("sell_send_error_uploading_product", comment: "")
+            message = NSLocalizedString("edit_product_send_error_uploading_product", comment: "")
         case .Internal:
             message = NSLocalizedString("sell_send_error_uploading_product", comment: "")
         case .NoImages:

@@ -11,6 +11,7 @@ import UIKit
 class SellProductCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView : UIImageView!
+    @IBOutlet weak var iconImageView : UIImageView!
     @IBOutlet weak var label : UILabel!
     @IBOutlet weak var activity : UIActivityIndicatorView!
     
@@ -20,6 +21,7 @@ class SellProductCell: UICollectionViewCell {
     }
     
     func setupEmptyCell() {
+        iconImageView.image = UIImage()
         self.label.hidden = true
         self.activity.hidden = true
         self.activity.stopAnimating()
@@ -28,6 +30,7 @@ class SellProductCell: UICollectionViewCell {
     }
     
     func setupLoadingCell() {
+        iconImageView.image = UIImage()
         self.label.hidden = true
         self.activity.hidden = false
         self.activity.startAnimating()
@@ -36,21 +39,20 @@ class SellProductCell: UICollectionViewCell {
     }
     
     func setupCellWithImage(image: UIImage) {
+        iconImageView.image = UIImage()
         self.label.hidden = true
         self.activity.hidden = true
         self.activity.stopAnimating()
         imageView.image = image
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
     }
 
     func setupAddPictureCell() {
         self.label.hidden = false
         label.text = NSLocalizedString("sell_picture_label", comment: "")
         self.activity.hidden = true
-        imageView.image = UIImage(named: "button_icon_sell")
-        imageView.contentMode = UIViewContentMode.Center
+        iconImageView.image = UIImage(named: "button_icon_sell")
+        imageView.image = UIImage()
         self.backgroundColor = UIColor.whiteColor()
-
     }
 
 }

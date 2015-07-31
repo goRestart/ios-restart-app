@@ -205,6 +205,11 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField.tag == TextFieldTag.ProductTitle.rawValue {
+            let nextTag = textField.tag + 1
+            let nextView = view.viewWithTag(nextTag)
+            nextView!.becomeFirstResponder()
+        }
         return true
     }
     
