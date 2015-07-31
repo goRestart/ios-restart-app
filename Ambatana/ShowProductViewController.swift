@@ -198,26 +198,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         }
     }
 
-   
-//    override func viewWillAppear(animated: Bool) {
-//        super.viewWillAppear(animated)
-//        
-//        // TODO: refactor amb delegate
-//        if product.processed == false {
-//            refreshProductInfo()
-//        }
-//    }
-    
-    func refreshProductInfo() {
-
-        galleryView.removePages()
-        setProductMainImages()
-
-        nameLabel.text = product.name?.lg_capitalizedWords() ?? ""
-        priceLabel.text = product.formattedPrice()
-        descriptionLabel.text = product.descr ?? ""
-    }
-    
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
         ifLoggedInThen(.AskQuestion, loggedInAction: {
@@ -817,4 +797,14 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         refreshProductInfo()
     }
 
+    func refreshProductInfo() {
+        
+        galleryView.removePages()
+        
+        setProductMainImages()
+        
+        nameLabel.text = product.name?.lg_capitalizedWords() ?? ""
+        priceLabel.text = product.formattedPrice()
+        descriptionLabel.text = product.descr ?? ""
+    }
 }

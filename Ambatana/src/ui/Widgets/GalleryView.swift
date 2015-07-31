@@ -84,11 +84,14 @@ import UIKit
     }
     
     public func removePages() {
+        scrollView.contentSize = CGSize(width: CGRectGetWidth(frame), height: CGRectGetHeight(frame))
+        for subview in scrollView.subviews {
+            subview.removeFromSuperview()
+        }
+        
         pages = []
         
-        scrollView = UIScrollView(frame: CGRectZero)
-        pageControl = UIPageControl(frame: CGRectZero)
-
+        pageControl.hidden = true
     }
     
     // MARK: - UIScrollViewDelegate

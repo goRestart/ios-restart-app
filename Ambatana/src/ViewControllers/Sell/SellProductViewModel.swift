@@ -41,6 +41,7 @@ public class SellProductViewModel: BaseViewModel {
         }
     }
     
+    var shouldTrack :Bool = true
 
     // Data
     internal var images: [UIImage?]
@@ -79,6 +80,14 @@ public class SellProductViewModel: BaseViewModel {
     
     // MARK: - Public methods
     
+    public func shouldEnableTracking() {
+        shouldTrack = true
+    }
+
+    public func shouldDisableTracking() {
+        shouldTrack = false
+    }
+
     internal func trackStart() {
         
     }
@@ -188,8 +197,11 @@ public class SellProductViewModel: BaseViewModel {
        let theProduct = product ?? PAProduct()
         theProduct.name = title
         let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle;
+//        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle;
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        formatter.usesGroupingSeparator = false
         theProduct.price = formatter.numberFromString(price)
+
         theProduct.descr = descr
         theProduct.categoryId = category?.rawValue
         theProduct.currency = currency
@@ -233,7 +245,6 @@ public class SellProductViewModel: BaseViewModel {
 
         delegate?.sellProductViewModelDidStartSavingProduct(self)
         
-        // TODO: Make a delegate error method
         productManager.saveProduct(product, withImages: images, progress: { [weak self] (p: Float) -> Void in
             
             if let strongSelf = self {
@@ -243,8 +254,9 @@ public class SellProductViewModel: BaseViewModel {
             }) { [weak self] (r: Result<Product, ProductSaveServiceError>) -> Void in
                 if let strongSelf = self {
                     if let actualProduct = r.value {
-                        strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
                         strongSelf.trackComplete()
+                        strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
+                        
                         if strongSelf.shouldShareInFB {
                             strongSelf.shareCurrentProductInFacebook(actualProduct)
                         }

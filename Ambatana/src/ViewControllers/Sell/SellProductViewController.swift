@@ -38,6 +38,8 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet weak var loadingProgressView: UIProgressView!
     
+    var lines: [CALayer] = []
+
     // viewModel
     
     private var viewModel : SellProductViewModel!
@@ -75,6 +77,22 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         descriptionTextView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false)
+    }
+    
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(titleTextField.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(priceTextField.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(currencyButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(descriptionTextView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(categoryButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(categoryButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
     
     // MARK: - Public methods
@@ -118,7 +136,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     func sellProductViewModelDidStartSavingProduct(viewModel: SellProductViewModel) {
         loadingView.hidden = false
-        view.bringSubviewToFront(loadingView)
         loadingProgressView.setProgress(0, animated: false)
     }
     
@@ -128,7 +145,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: Result<Product, ProductSaveServiceError>) {
         loadingView.hidden = true
-        view.sendSubviewToBack(loadingView)
     }
 
     func sellProductViewModel(viewModel: SellProductViewModel, shouldUpdateDescriptionWithCount count: Int) {
@@ -147,7 +163,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
         loadingView.hidden = true
-        view.sendSubviewToBack(loadingView)
     }
 
     func sellProductViewModelShareContentinFacebook(viewModel: SellProductViewModel, withContent content: FBSDKShareLinkContent) {
@@ -354,6 +369,8 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         titleTextField.text = viewModel.title
         titleTextField.tag = TextFieldTag.ProductTitle.rawValue
         currencyButton.setTitle(viewModel.currency.symbol, forState: .Normal)
+        currencyButton.titleEdgeInsets = UIEdgeInsetsMake(12.0, 17.0, 12.0, 11.0);
+
         priceTextField.placeholder = NSLocalizedString("sell_price_field_hint", comment: "")
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.ProductPrice.rawValue
@@ -366,7 +383,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
             descriptionTextView.text = descrPlaceholder
             descriptionTextView.textColor = descrPlaceholderColor
         }
-        descriptionTextView.textContainerInset = UIEdgeInsetsMake(12.0, 11.0, 12.0, 11.0);
+        descriptionTextView.textContainerInset = UIEdgeInsetsMake(12.0, 11.0, 12.0, 11.0)
         descriptionTextView.tintColor = StyleHelper.textFieldTintColor
         descriptionTextView.tag = TextFieldTag.ProductDescription.rawValue
         descriptionCharCountLabel.text = "\(viewModel.descriptionCharCount)"
@@ -404,6 +421,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         
+        println(viewModel.shouldTrack)
         viewModel.trackSharedFB()
         //        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
         //            self.dismissViewControllerAnimated(true, completion: { [weak self] in

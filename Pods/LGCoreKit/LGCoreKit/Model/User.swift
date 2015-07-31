@@ -21,4 +21,6 @@
     
     var isDummy: Bool { get }
     var isAnonymous: Bool { get }
+    
+    var sessionToken: String? { get }
 }

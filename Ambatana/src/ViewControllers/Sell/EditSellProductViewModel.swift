@@ -33,7 +33,10 @@ public class EditSellProductViewModel: SellProductViewModel {
             self.currency = currency
         }
         if let price = product.price {
-            self.price = price.stringValue
+            let numFormatter = NSNumberFormatter()
+            numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+            numFormatter.usesGroupingSeparator = false
+            self.price = numFormatter.stringFromNumber(price)!
         }
         if let descr = product.descr {
             self.descr = descr
@@ -49,15 +52,38 @@ public class EditSellProductViewModel: SellProductViewModel {
         let imageDownloadQueue = dispatch_queue_create("EditSellProductViewModel", DISPATCH_QUEUE_SERIAL)
         dispatch_async(imageDownloadQueue, { () -> Void in
             for (index, image) in enumerate(product.images) {
-                if let imageURL = image.fileURL, let data = NSData(contentsOfURL: imageURL) {
-                    // Replace de image & notify the delegate
-                    self.images[index] = UIImage(data: data)
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.editDelegate?.editSellProductViewModel(self, didDownloadImageAtIndex: index)
-                    })
+                if let imageURL = image.fileURL/*, let data = NSData(contentsOfURL: imageURL)*/ {
+                    
+                    let imageManager = SDWebImageManager.sharedManager()
+                    imageManager.downloadImageWithURL(imageURL, options: .allZeros, progress: nil) { [weak self] (image: UIImage!, _, _, _, _) -> Void in
+                        if let strongSelf = self {
+                            // Replace de image & notify the delegate
+                            strongSelf.images[index] = image
+                            strongSelf.editDelegate?.editSellProductViewModel(strongSelf, didDownloadImageAtIndex: index)
+                        }
+                    }
+//                    // Replace de image & notify the delegate
+//                    self.images[index] = UIImage(data: data)
+//                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                        self.editDelegate?.editSellProductViewModel(self, didDownloadImageAtIndex: index)
+//                    })
                 }
             }
         })
+        
+        
+//        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+//        [manager downloadImageWithURL:imageURL
+//            options:0
+//            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//            // progression tracking code
+//            }
+//            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+//            if (image) {
+//            // do something with image
+//            }
+//            }];
+        
     }
     
     // MARK: - Public methods
@@ -71,43 +97,43 @@ public class EditSellProductViewModel: SellProductViewModel {
     internal override func trackStart() {
         super.trackStart()
         let event : TrackingEvent = TrackingEvent.ProductEditStart
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
     
     internal override func trackAddedImage() {
         super.trackAddedImage()
         let event : TrackingEvent = TrackingEvent.ProductEditAddPicture
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
 
     public override func trackEditedTitle() {
         super.trackEditedTitle()
         let event : TrackingEvent = TrackingEvent.ProductEditEditTitle
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
     
     public override func trackEditedPrice() {
         super.trackEditedPrice()
         let event : TrackingEvent = TrackingEvent.ProductEditEditPrice
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
     
     public override func trackEditedDescription() {
         super.trackEditedDescription()
         let event : TrackingEvent = TrackingEvent.ProductEditEditDescription
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
     
     internal override func trackEditedCategory() {
         super.trackEditedCategory()
         let event : TrackingEvent = TrackingEvent.ProductEditEditCategory
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
     
     public override func trackEditedFBChanged() {
         super.trackEditedFBChanged()
         let event : TrackingEvent = TrackingEvent.ProductEditEditShareFB
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
     
     
@@ -133,30 +159,36 @@ public class EditSellProductViewModel: SellProductViewModel {
         }
         
         if let actualMessage = message {
-            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event, value: actualMessage))
+          TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event, value: actualMessage))
         }
     }
     
     public override func trackSharedFB() {
         super.trackSharedFB()
         let event : TrackingEvent = TrackingEvent.ProductEditSharedFB
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
     
     internal override func trackComplete() {
         super.trackComplete()
         let event : TrackingEvent = TrackingEvent.ProductEditComplete
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
     
     internal override func trackAbandon() {
         super.trackAbandon()
         let event : TrackingEvent = TrackingEvent.ProductEditAbandon
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        trackEvent(event)
     }
     
     // MARK: - Tracking Private methods
-       
+    
+    private func trackEvent(event: TrackingEvent) {
+        if shouldTrack {
+            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        }
+    }
+    
     private func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject]? {
         var params: [TrackingParameter: AnyObject] = [:]
         

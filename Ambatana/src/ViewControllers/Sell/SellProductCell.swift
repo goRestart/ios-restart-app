@@ -24,7 +24,7 @@ class SellProductCell: UICollectionViewCell {
         self.activity.hidden = true
         self.activity.stopAnimating()
         self.imageView.image = UIImage()
-        self.backgroundColor = UIColor.lightGrayColor()
+        self.backgroundColor = StyleHelper.emptypictureCellBackgroundColor
     }
     
     func setupLoadingCell() {

@@ -57,16 +57,19 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     // MARK: - SellProductViewModelDelegate Methods
 
     override func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: Result<Product, ProductSaveServiceError>) {
+        self.editViewModel.shouldDisableTracking()
         super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
         
         editViewModel.updateInfoOfPreviousVC()
         
         self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: "")) { () -> Void in
             self.navigationController?.popViewControllerAnimated(true)
+            self.editViewModel.shouldEnableTracking()
         }
     }
     
     override func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
+        self.editViewModel.shouldDisableTracking()
         super.sellProductViewModel(viewModel, didFailWithError: error)
 
         let message: String
@@ -88,7 +91,9 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         case .NoCategory:
             message = NSLocalizedString("sell_send_error_invalid_category", comment: "")
         }
-        self.showAutoFadingOutMessageAlert(message)
+        self.showAutoFadingOutMessageAlert(message) { () -> Void in
+            self.editViewModel.shouldEnableTracking()
+        }
     }
 
 }

@@ -19,6 +19,7 @@ class StyleHelper {
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray204 = UIColor(rgb: 0xCCCCCC)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
+    private static let gray225 = UIColor(rgb: 0xE1E1E1)
     private static let gray235 = UIColor(rgb: 0xEBEBEB)
     private static let black = UIColor(rgb: 0x000000)
     
@@ -60,7 +61,11 @@ class StyleHelper {
     static var disabledButtonBackgroundColor: UIColor {
         return gray235
     }
-    
+
+    static var emptypictureCellBackgroundColor: UIColor {
+        return gray225
+    }
+
     // MARK: - NavBar
     
     static var navBarButtonsColor: UIColor {
