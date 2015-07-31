@@ -24,6 +24,8 @@
     public var isDummy: Bool
     public var isAnonymous: Bool
     
+    public var sessionToken: String?
+    
     // Lifecycle
     
     public override init() {
