@@ -26,16 +26,6 @@ final public class PAProductSaveService: ProductSaveService {
         }
         // Letgo
         else if let letgoProduct = product as? LGProduct {
-            // After save: update the letgo product with the saved state
-            let myResult = { (r: Result<Product, ProductSaveServiceError>) -> Void in
-                
-                // Success
-                if let savedProduct = r.value {
-                    letgoProduct.updateWithProduct(savedProduct)
-                }
-                result?(r)
-            }
-            
             // Edit
             if let productId = letgoProduct.objectId {
                 // Retrieve the product from parse
@@ -47,20 +37,21 @@ final public class PAProductSaveService: ProductSaveService {
                     
                     // Success
                     if let products = objects as? [PAProduct], let parseProduct = products.first {
-                        // Save it
-                        self?.saveParseProduct(parseProduct, forUser: user, result: myResult)
+                        // Update & save it
+                        parseProduct.updateWithProduct(product)
+                        self?.saveParseProduct(parseProduct, forUser: user, result: result)
                     }
                     // Error
                     else if let actualError = error {
                         switch(actualError.code) {
                         case PFErrorCode.ErrorConnectionFailed.rawValue:
-                            myResult(Result<Product, ProductSaveServiceError>.failure(.Network))
+                            result?(Result<Product, ProductSaveServiceError>.failure(.Network))
                         default:
-                            myResult(Result<Product, ProductSaveServiceError>.failure(.Internal))
+                            result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
                         }
                     }
                     else {
-                        myResult(Result<Product, ProductSaveServiceError>.failure(.Internal))
+                        result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
                     }
                 }
             }
@@ -68,7 +59,7 @@ final public class PAProductSaveService: ProductSaveService {
             else {
                 // Create a parse product and save it
                 var parseProduct = PAProduct.productFromProduct(letgoProduct)
-                saveParseProduct(parseProduct, forUser: user, result: myResult)
+                saveParseProduct(parseProduct, forUser: user, result: result)
             }
         }
         else {
