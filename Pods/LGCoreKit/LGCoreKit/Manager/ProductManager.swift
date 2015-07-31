@@ -14,13 +14,15 @@ public class ProductManager {
     private var productSaveService: ProductSaveService
     private var fileUploadService: FileUploadService
     private var productSynchronizeService: ProductSynchronizeService
+    private var productDeleteService: ProductDeleteService
     
     // MARK: - Lifecycle
     
-    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productSynchronizeService: ProductSynchronizeService) {
+    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productSynchronizeService: ProductSynchronizeService, productDeleteService: ProductDeleteService) {
         self.productSaveService = productSaveService
         self.fileUploadService = fileUploadService
         self.productSynchronizeService = productSynchronizeService
+        self.productDeleteService = productDeleteService
     }
     
     // MARK: - Public methods
@@ -106,6 +108,21 @@ public class ProductManager {
                     result?(Result<Product, ProductSaveServiceError>.failure(.Network))
                 }
             }
+        }
+    }
+    
+    /**
+        Delete a product.
+    
+        :param: product the product
+        :param: result The closure containing the result.
+    */
+    public func deleteProduct(product: Product, result: ProductDeleteServiceResult?) {
+        if let productId = product.objectId, let myUserSessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+            productDeleteService.deleteProductWithId(productId, sessionToken: myUserSessionToken, result: result)
+        }
+        else {
+            result?(Result<Nil, ProductDeleteServiceError>.failure(.Internal))
         }
     }
     

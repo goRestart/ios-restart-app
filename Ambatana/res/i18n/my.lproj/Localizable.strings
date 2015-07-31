@@ -32,6 +32,8 @@
 "common_error_connection_failed" = "လုပ်ဆောင်ချက်သည် မပြည့်စုံနိုင်ပါ။ ကျေးဇူးပြုပြီး သင့်အင်တာနက်ဆက်သွယ်ရေးကို စစ်ဆေးပါ။";
 "common_loading" = "တင်နေတုန်း...";
 "common_ok" = "ကောင်းပြီ";
+"common_product_deleted" = "Product deleted";
+"common_product_not_available" = "Product not available";
 "common_time_a_minute_ago_label" = "တစ်မိနစ်ခန့်က";
 "common_time_day_ago_label" = "မနေ့က";
 "common_time_days_ago_label" = "%d ရက် အရင်က";
@@ -53,6 +55,10 @@
 "contact_send_ok" = "သင့်မက်ဆေ့ကို မှန်ကန်စွာပေးပို့ပြီးပါပြီ။";
 "contact_subject_field_hint" = "အကြောင်းအရာ";
 "contact_title" = "ကျွန်ုပ်တို့အား ဆက်သွယ်ပါ";
+"edit_product_send_button" = "Update";
+"edit_product_send_error_uploading_product" = "An error happened while updating your product.";
+"edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
+"edit_product_title" = "Edit Product";
 "indicate_location_address_field_hint" = "သင့်လိပ်စာကိုရေးသားပါ";
 "indicate_location_address_search_error_generic" = "၄င်းသည် တည်နေရာမရှာနိုင်ပါ။ ကျေးဇူးပြုပြီး ပြန်ကြိုးစားပါ။";
 "indicate_location_long_press_tip_label" = "ကောင်းပြီ သင့်တည်နေရာပေါ်နှိပ်ထားသည့် သင့်လက်ချောင်းကိုထိန်းထားပါ";
@@ -85,6 +91,12 @@
 "make_an_offer_title" = "အမှာစာတစ်ခုပြုလုပ်ပါ";
 "product_ask_a_question_button" = "မေးခွန်းတစ်ခု မေးပါ";
 "product_chat_error_generic" = "စကားစမြည်ပြောဆိုစဉ် အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။ ကျေးဇူးပြုပြီး နောက်ပြန်ကြိုးစားပါ။";
+"product_delete_confirm_cancel_button" = "Cancel";
+"product_delete_confirm_message" = "Why do you want to delete this product?";
+"product_delete_confirm_ok_button" = "I don't want to sell it";
+"product_delete_confirm_sold_button" = "I already sold it";
+"product_delete_confirm_title" = "Delete Product";
+"product_delete_send_error_generic" = "There was an error deleting your product.";
 "product_distance_from_you" = "သင့်ထံမှ";
 "product_gallery_title" = "ဓါတ်ပုံများ";
 "product_list_first_page_error_generic_button" = "ပြန်ကြိုးစားပါ";

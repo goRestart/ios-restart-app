@@ -11,7 +11,7 @@ import Parse
 import pop
 import UIKit
 
-class TabBarController: UITabBarController, SellProductViewControllerDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate {
+class TabBarController: UITabBarController, NewSellProductViewControllerDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Constants & enums
     private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
@@ -45,7 +45,7 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
             case Categories:
                 return CategoriesViewController()
             case Sell:
-                return SellProductViewController()
+                return NewSellProductViewController()
             case Chats:
                 return ChatListViewController()
             case Profile:
@@ -227,7 +227,7 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     }
     
     // MARK: - SellProductViewControllerDelegate
-    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool) {
+    func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
             switchToTab(.Profile)
         }
@@ -367,7 +367,7 @@ class TabBarController: UITabBarController, SellProductViewControllerDelegate, U
     }
    
     private func presentSellVC() {
-        if let vc = Tab.Sell.viewController as? SellProductViewController {
+        if let vc = Tab.Sell.viewController as? NewSellProductViewController {
             vc.delegate = self
             let navCtl = UINavigationController(rootViewController: vc)
             presentViewController(navCtl, animated: true, completion: nil)

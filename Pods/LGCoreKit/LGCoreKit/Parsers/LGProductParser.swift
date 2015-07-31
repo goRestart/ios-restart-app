@@ -99,7 +99,7 @@ public class LGProductParser {
         product.name = json[LGProductParser.nameJSONKey].string
         product.descr = json[LGProductParser.descriptionJSONKey].string
         if let price = json[LGProductParser.priceJSONKey].string {
-            product.price = (price as NSString).floatValue
+            product.price = (price as NSString).doubleValue
         }
         let currencyCode = json[LGProductParser.currencyCodeJSONKey].string ?? LGCoreKitConstants.defaultCurrencyCode
         product.currency = currencyHelper.currencyWithCurrencyCode(currencyCode)
@@ -108,7 +108,7 @@ public class LGProductParser {
             product.location = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
         }
         if let distanceStr = json[LGProductParser.distanceJSONKey].string {
-            product.distance = (distanceStr as NSString).floatValue
+            product.distance = (distanceStr as NSString).doubleValue
         }
         if let distanceTypeStr = json[LGProductParser.distanceTypeJSONKey].string {
             product.distanceType = DistanceType.fromString(distanceTypeStr)
