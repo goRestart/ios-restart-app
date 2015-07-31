@@ -46,12 +46,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     // MARK: - Lifecycle
     
-//    init() {
-//        self.viewModel = SellProductViewModel()
-//        super.init(viewModel: viewModel, nibName: "EditSellProductViewController")
-//        self.viewModel.delegate = self
-//    }
-    
     convenience init() {
         self.init(viewModel: SellProductViewModel())
     }
@@ -327,8 +321,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
         
         // Tracking
-//        let event: TrackingEvent = .ProductSellAddPicture
-//        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
         
         self.dismissViewControllerAnimated(true, completion: nil)
 
@@ -414,9 +406,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         self.setLetGoNavigationBarStyle(title: NSLocalizedString("edit_product_title", comment: "") ?? UIImage(named: "navbar_logo"))
 
         var myBackButton = self.navigationItem.leftBarButtonItem
-//        myBackButton?.target = self
-//        myBackButton?.action = "popToPreviousVC"
-
     }
     
     override func popBackViewController() {
@@ -427,14 +416,8 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     // MARK: - Share in facebook.
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        
         println(viewModel.shouldTrack)
         viewModel.trackSharedFB()
-        //        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
-        //            self.dismissViewControllerAnimated(true, completion: { [weak self] in
-        //                self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
-        //                })
-        //        })
     }
     
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
