@@ -62,8 +62,13 @@ public class ConversationCell: UITableViewCell {
         // user name
         userLabel.text = conversation.userName
         
-        // time
-        timeLabel.text = conversation.lastUpdated.relativeTimeString()
+        // time / deleted
+        if conversation.productStatus == .Deleted {
+            timeLabel.text = NSLocalizedString("common_product_deleted", comment: "")
+        }
+        else {
+            timeLabel.text = conversation.lastUpdated.relativeTimeString()
+        }
         
         // badge
         if conversation.myUnreadMessages > 0 {
