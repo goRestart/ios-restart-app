@@ -47,49 +47,28 @@ public class EditSellProductViewModel: SellProductViewModel {
         for i in 0..<product.images.count {
             images.append(nil)
         }
-
-        // Download the images
-        let imageDownloadQueue = dispatch_queue_create("EditSellProductViewModel", DISPATCH_QUEUE_SERIAL)
-        dispatch_async(imageDownloadQueue, { () -> Void in
-            for (index, image) in enumerate(product.images) {
-                if let imageURL = image.fileURL/*, let data = NSData(contentsOfURL: imageURL)*/ {
-                    
-                    let imageManager = SDWebImageManager.sharedManager()
-                    imageManager.downloadImageWithURL(imageURL, options: .allZeros, progress: nil) { [weak self] (image: UIImage!, _, _, _, _) -> Void in
-                        if let strongSelf = self {
-                            // Replace de image & notify the delegate
-                            strongSelf.images[index] = image
-                            strongSelf.editDelegate?.editSellProductViewModel(strongSelf, didDownloadImageAtIndex: index)
-                        }
-                    }
-//                    // Replace de image & notify the delegate
-//                    self.images[index] = UIImage(data: data)
-//                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                        self.editDelegate?.editSellProductViewModel(self, didDownloadImageAtIndex: index)
-//                    })
-                }
-            }
-        })
-        
-        
-//        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-//        [manager downloadImageWithURL:imageURL
-//            options:0
-//            progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-//            // progression tracking code
-//            }
-//            completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-//            if (image) {
-//            // do something with image
-//            }
-//            }];
-        
     }
     
     // MARK: - Public methods
     
     public override func save() {
         super.saveProduct(product: product)
+    }
+    
+    public func loadPictures() {
+        // Download the images
+        for (index, image) in enumerate(product.images) {
+            if let imageURL = image.fileURL {
+                let imageManager = SDWebImageManager.sharedManager()
+                imageManager.downloadImageWithURL(imageURL, options: .allZeros, progress: nil) { [weak self] (image: UIImage!, _, _, _, _) -> Void in
+                    if let strongSelf = self {
+                        // Replace de image & notify the delegate
+                        strongSelf.images[index] = image
+                        strongSelf.editDelegate?.editSellProductViewModel(strongSelf, didDownloadImageAtIndex: index)
+                    }
+                }
+            }
+        }
     }
     
     // MARK: - Tracking methods

@@ -15,22 +15,9 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     
     private var editViewModel : EditSellProductViewModel
     
-//    override init() {
-//        super.init()
-//    }
-
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    convenience init(product: Product) {
-//        self.init()
-//        viewModel = EditSellProductViewModel(product: product)
-//        editViewModel = EditSellProductViewModel(product: product)
-//        self.viewModel.delegate = self
-//        self.viewModel.editDelegate = self
-//        
-//    }
     
     init(product: Product, updateDelegate: UpdateDetailInfoDelegate?) {
         editViewModel = EditSellProductViewModel(product: product)
@@ -42,6 +29,8 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        editViewModel.loadPictures()
         
         sendButton.setTitle("_Update", forState: .Normal)
         categoryButton.setTitle(editViewModel.categoryName, forState: .Normal)
