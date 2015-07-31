@@ -31,6 +31,7 @@ public struct LetGoConversation {
 //    let otherUnreadMessages: Int    // number of messages the user I'm having this conversation with has sent
     let lastUpdated: NSDate         // date of the last message sent belonging to this conversation.
     let productName: String         // name of the product this conversation's all about
+    let productStatus: ProductStatus
     let amISellingTheProduct: Bool  // Am I selling (user_to = me) or buying (user_from = me) the product this conversation belongs to?
     
     // Generates an LetGoConversation from a PFObject of class "Conversations".
@@ -63,6 +64,7 @@ public struct LetGoConversation {
             userName = targetUser["username_public"] as? String ?? ""
             // product object for getting the product name.
             productName = product.name ?? ""
+            productStatus = product.status
             
             // initialize conversation values.
             totalMessages = conversationObject["nr_messages"] as? Int ?? 0

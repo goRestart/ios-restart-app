@@ -33,7 +33,6 @@
                     <subviews>
                         <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="YDb-eR-n02" userLabel="Image Collection View">
                             <rect key="frame" x="12" y="8" width="588" height="116"/>
-                            <color key="backgroundColor" red="0.95294117649999999" green="0.063708408273381298" blue="0.95294117649999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="116" id="wdf-KX-r1y"/>
                             </constraints>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController" customModule="LetGo" customModuleProvider="target">
@@ -9,7 +9,9 @@
                 <outlet property="bottomView" destination="4eB-PO-zdU" id="czX-2U-v4S"/>
                 <outlet property="bottomViewBottomConstraint" destination="VOA-jp-N3W" id="5gj-uV-ak5"/>
                 <outlet property="loadingMessageActivityIndicator" destination="7Jc-4P-RR9" id="VmW-rf-ZyE"/>
+                <outlet property="messageLabel" destination="G3I-W9-Zxh" id="Qk7-NT-GHc"/>
                 <outlet property="messageTextfield" destination="KDe-ch-4gu" id="XIM-9S-REo"/>
+                <outlet property="messageView" destination="Czh-Jz-BOy" id="gdK-MU-wHo"/>
                 <outlet property="priceLabel" destination="OrH-3F-e2T" id="lwb-dX-eko"/>
                 <outlet property="productImageView" destination="o0w-p3-Zmm" id="Cuf-AG-d81"/>
                 <outlet property="productNameLabel" destination="3SY-z8-Ohe" id="q5g-Ln-x7a"/>
@@ -74,6 +76,24 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view hidden="YES" alpha="0.94999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Czh-Jz-BOy" userLabel="Message View">
+                            <rect key="frame" x="0.0" y="64" width="600" height="80"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3I-W9-Zxh" userLabel="Message Label">
+                                    <rect key="frame" x="8" y="8" width="584" height="64"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="G3I-W9-Zxh" secondAttribute="bottom" constant="8" id="GsQ-yV-9Pw"/>
+                                <constraint firstItem="G3I-W9-Zxh" firstAttribute="leading" secondItem="Czh-Jz-BOy" secondAttribute="leading" constant="8" id="JBP-03-FQj"/>
+                                <constraint firstAttribute="trailing" secondItem="G3I-W9-Zxh" secondAttribute="trailing" constant="8" id="SF9-rB-sAx"/>
+                                <constraint firstItem="G3I-W9-Zxh" firstAttribute="top" secondItem="Czh-Jz-BOy" secondAttribute="top" constant="8" id="YkO-Ir-lqh"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -81,14 +101,18 @@
                         <constraint firstItem="o0w-p3-Zmm" firstAttribute="bottom" secondItem="OrH-3F-e2T" secondAttribute="bottom" id="3T7-fK-ed3"/>
                         <constraint firstItem="3SY-z8-Ohe" firstAttribute="leading" secondItem="o0w-p3-Zmm" secondAttribute="trailing" constant="8" id="6MN-7v-QfT"/>
                         <constraint firstItem="Nez-2i-E6i" firstAttribute="bottom" secondItem="o0w-p3-Zmm" secondAttribute="bottom" id="8lo-HG-S2t"/>
+                        <constraint firstItem="Czh-Jz-BOy" firstAttribute="top" secondItem="66n-YM-xdV" secondAttribute="top" constant="64" id="Bkl-vb-lMH"/>
                         <constraint firstAttribute="bottom" secondItem="o0w-p3-Zmm" secondAttribute="bottom" constant="8" id="EEp-ox-oyl"/>
                         <constraint firstItem="Nez-2i-E6i" firstAttribute="top" secondItem="o0w-p3-Zmm" secondAttribute="top" id="Fdh-m8-E37"/>
                         <constraint firstItem="o0w-p3-Zmm" firstAttribute="leading" secondItem="66n-YM-xdV" secondAttribute="leading" constant="8" id="Fo3-rW-gYb"/>
                         <constraint firstItem="Nez-2i-E6i" firstAttribute="trailing" secondItem="o0w-p3-Zmm" secondAttribute="trailing" id="MdS-F0-fdA"/>
                         <constraint firstItem="Nez-2i-E6i" firstAttribute="leading" secondItem="o0w-p3-Zmm" secondAttribute="leading" id="O92-4t-sOj"/>
+                        <constraint firstItem="Czh-Jz-BOy" firstAttribute="leading" secondItem="66n-YM-xdV" secondAttribute="leading" id="PY4-fK-Tdf"/>
                         <constraint firstItem="o0w-p3-Zmm" firstAttribute="top" secondItem="3SY-z8-Ohe" secondAttribute="top" id="Ryn-Pw-YGu"/>
+                        <constraint firstAttribute="bottom" secondItem="Czh-Jz-BOy" secondAttribute="bottom" id="XXD-GF-gf7"/>
                         <constraint firstAttribute="trailing" secondItem="OrH-3F-e2T" secondAttribute="trailing" constant="8" id="ZI3-9R-jax"/>
                         <constraint firstAttribute="trailing" secondItem="3SY-z8-Ohe" secondAttribute="trailing" constant="8" id="bph-Ge-zf1"/>
+                        <constraint firstAttribute="trailing" secondItem="Czh-Jz-BOy" secondAttribute="trailing" id="eD5-WU-TMX"/>
                         <constraint firstAttribute="height" constant="144" id="exL-MD-EsL"/>
                         <constraint firstItem="o0w-p3-Zmm" firstAttribute="centerY" secondItem="7lj-bL-71D" secondAttribute="centerY" id="hv1-oh-y9Z"/>
                         <constraint firstAttribute="trailing" secondItem="7lj-bL-71D" secondAttribute="trailing" constant="8" id="kA8-oh-Nae"/>

@@ -47,6 +47,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var topViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var messageView: UIView!
+    @IBOutlet weak var messageLabel: UILabel!
+    
     // data
     var letgoConversation: LetGoConversation?
     var messages: [PFObject]?
@@ -96,6 +99,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         // internationalization
         sendButton.setTitle(NSLocalizedString("chat_send_button", comment: ""), forState: .Normal)
         messageTextfield.placeholder = NSLocalizedString("chat_message_field_hint", comment: "")
+        
+        messageLabel.text = NSLocalizedString("common_product_not_available", comment: "")
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -194,6 +199,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let thumbURL = product.thumbnail?.fileURL {
             productImageView.sd_setImageWithURL(thumbURL)
         }
+        // > if the product is deleted, add some alpha
+        if product.status == .Deleted {
+            productImageView.alpha = 0.2
+        }
         
         // product name & navbar title
         self.productNameLabel.text = product.name ?? ""
@@ -267,8 +276,34 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func productButtonPressed(sender: AnyObject) {
         if let actualProduct = product {
-            let vc = ShowProductViewController(product: actualProduct)
-            self.navigationController?.pushViewController(vc, animated: true)
+            
+            // If product is deleted, then show a message
+            if actualProduct.status == .Deleted {
+
+                // Fade it in
+                self.messageView.alpha = 0
+                self.messageView.hidden = false
+                UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
+                    self?.messageView.alpha = 0.95
+                }, completion: { (success) -> Void in
+                    
+                    // Fade it out after some delay
+                    let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
+                    dispatch_after(delayTime, dispatch_get_main_queue()) {
+                       
+                        UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
+                            self?.messageView.alpha = 0
+                            }, completion: { [weak self] (success) -> Void in
+                                self?.messageView.hidden = true
+                        })
+                    }
+                })
+            }
+            // Otherwise, push the product detail
+            else {
+                let vc = ShowProductViewController(product: actualProduct)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
     

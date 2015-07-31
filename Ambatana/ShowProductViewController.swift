@@ -11,6 +11,7 @@ import MapKit
 import MessageUI
 import Parse
 import pop
+import Result
 import SDWebImage
 import Social
 import UIKit
@@ -48,16 +49,12 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     
     var favoriteButton: UIButton!
     
-    @IBOutlet weak var bottomGuideLayoutConstraint: NSLayoutConstraint!
-    @IBOutlet weak var heightConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var lineDivider: UIView!
     @IBOutlet weak var butProductReport: UIButton!
-    
-    @IBOutlet weak var butProductReportHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var butDeleteProduct: UIButton!
     
     // Data
     var product: Product
+    var productManager: ProductManager
     
     var isFavourite = false
     var productStatus: LetGoProductStatus?
@@ -69,6 +66,11 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
 
     init(product: Product) {
         self.product = product
+        let productSaveService = PAProductSaveService()
+        let fileUploadService = PAFileUploadService()
+        let productSynchronizeService = LGProductSynchronizeService()
+        let productDeleteService = LGProductDeleteService()
+        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService)
         
         super.init(nibName: "ShowProductViewController", bundle: nil)
         automaticallyAdjustsScrollViewInsets = false
@@ -97,9 +99,6 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         // set scrollview content size.
         let svSize = self.scrollView.bounds.size
         scrollView.contentSize = svSize
-        // disable the height constraint and prioritize the bottom layout constraint so scrollview adjust itself to the view bounds.
-        if heightConstraint != nil { if iOSVersionAtLeast("8.0") { heightConstraint.active = false } else { heightConstraint.priority = 1 } }
-        if bottomGuideLayoutConstraint != nil { bottomGuideLayoutConstraint.priority = 1000 }
         
         // UX/UI
         self.markAsSoldActivityIndicator.hidden = true
@@ -152,6 +151,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         markSoldButton.setTitle(NSLocalizedString("product_mark_as_sold_button", comment: ""), forState: .Normal)
         fromYouLabel.text = NSLocalizedString("product_distance_from_you", comment: "") // FIXME: Should be reformatted
         butProductReport.setTitle(NSLocalizedString("product_report_product_button", comment: ""), forState: .Normal)
+        butDeleteProduct.setTitle(NSLocalizedString("product_delete_confirm_title", comment: ""), forState: .Normal)    // TODO: Add new localizable "product_delete_button"
         
         // Update UI
         updateUI()
@@ -290,6 +290,10 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             self.updateUI()
             self.reportProduct()
         })
+    }
+    
+    @IBAction func deleteProductButtonPressed(sender: AnyObject) {
+        showDeleteProductDialog()
     }
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
@@ -659,23 +663,14 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             self.markSoldButton.hidden = true
         }
         
-        // fraud report
+        // fraud report & delete product
         if thisProductIsMine {
-            self.lineDivider.hidden = true
             self.butProductReport.hidden = true
-            
-            self.butProductReportHeightConstraint.constant = 0
-            if product.status == .Sold {
-                self.butProductReportHeightConstraint.constant = 0
-            }
-            else {
-                self.butProductReportHeightConstraint.constant = 20
-            }
+            self.butDeleteProduct.hidden = false
         }
         else {
-            self.lineDivider.hidden = false
             self.butProductReport.hidden = false
-            self.butProductReportHeightConstraint.constant = 50
+            self.butDeleteProduct.hidden = true
         }
     }
     
@@ -760,6 +755,42 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                     }
                 }
             })
+        }
+    }
+    
+    private func showDeleteProductDialog() {
+        let alert = UIAlertController(title: NSLocalizedString("product_delete_confirm_title", comment: ""),
+            message: NSLocalizedString("product_delete_confirm_message", comment: ""),
+            preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""),
+            style: .Cancel, handler: nil))
+
+        if product.status != .Sold {
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_sold_button", comment: ""),
+                style: .Default, handler: { (markAction) -> Void in
+                    self.definitelyMarkProductAsSold()
+            }))
+        }
+        
+        alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_ok_button", comment: ""),
+            style: .Default, handler: { (markAction) -> Void in
+                self.deleteProduct()
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    private func deleteProduct() {        
+        self.enableMarkAsSoldLoadingInterface()
+        productManager.deleteProduct(product) { [weak self] (result: Result<Nil, ProductDeleteServiceError>) -> Void in
+            if let strongSelf = self {
+                if let success = result.value {
+                    strongSelf.navigationController?.popViewControllerAnimated(true)
+                }
+                else if let error = result.error {
+                    strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("product_delete_send_error_generic", comment: ""))
+                }
+                strongSelf.disableMarkAsSoldLoadingInterface()
+            }
         }
     }
     
