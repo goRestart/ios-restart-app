@@ -46,8 +46,6 @@ public class SellProductViewModel: BaseViewModel {
     // Data
     internal var images: [UIImage?]
     
-//    private var product: Product
-    
     // Managers
     private let productManager: ProductManager
     
@@ -168,11 +166,6 @@ public class SellProductViewModel: BaseViewModel {
         trackEditedCategory()
     }
     
-//    public func insertImage(image: UIImage, atIndex index: Int) {
-//        images.insert(image, atIndex: index)
-//        delegate?.sellProductViewModeldidAddOrDeleteImage(self)
-//    }
-
     public func appendImage(image: UIImage) {
         images.append(image)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
@@ -184,11 +177,6 @@ public class SellProductViewModel: BaseViewModel {
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
-    
-//    public func allCategories() -> [String] {
-//        
-//    }
-    
     public func save() {
         saveProduct(product: nil)
     }
@@ -198,7 +186,6 @@ public class SellProductViewModel: BaseViewModel {
        let theProduct = product ?? PAProduct()
         theProduct.name = title
         let formatter = NSNumberFormatter()
-//        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle;
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         formatter.usesGroupingSeparator = false
         theProduct.price = formatter.numberFromString(price)
