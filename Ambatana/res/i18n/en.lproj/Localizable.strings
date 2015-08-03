@@ -607,3 +607,5 @@
 // Edit product send ok. Message displayal is like the other messages.
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
 
+/* Product delete when product is already sold. */
+"product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
