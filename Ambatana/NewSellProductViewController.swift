@@ -38,8 +38,8 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     private static let emptyCellIdentifier = "SellEmptyCell"
     
     // outlets & buttons
-    @IBOutlet weak var productTitleTextField: UITextField!
-    @IBOutlet weak var productPriceTextfield: UITextField!
+    @IBOutlet weak var productTitleTextField: LGTextField!
+    @IBOutlet weak var productPriceTextfield: LGTextField!
     @IBOutlet weak var currencyTypeButton: UIButton!
     @IBOutlet weak var descriptionTextView: PlaceholderTextView!
     @IBOutlet weak var chooseCategoryButton: UIButton!
@@ -52,7 +52,9 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     @IBOutlet weak var uploadingImageProgressView: UIProgressView!
     @IBOutlet weak var characterCounterLabel: UILabel!
     var originalFrame: CGRect!
-    
+
+    var lines: [CALayer] = []
+
     // data
     var images: [UIImage] = []
     var imageFiles: [PFFile]? = nil
@@ -64,10 +66,12 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     var geocoder = CLGeocoder()
     var currenciesFromBackend: [PFObject]?
     var imageCounter = 0
-    var imageUploadBackgroundTask = UIBackgroundTaskInvalid // used for allowing the App to keep on uploading an image if we go into background.
     var imageSelectedIndex = 0 // for actions (delete, save to disk...) in iOS7 and prior
     var productWasSold = false
     var productId: String?
+    
+    // Synch
+    let productSynchronizeService = LGProductSynchronizeService()
     
     // Delegate
     weak var delegate: NewSellProductViewControllerDelegate?
@@ -97,6 +101,10 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         shareInFacebookLabel.text = NSLocalizedString("sell_share_on_facebook_label", comment: "")
         sellItButton.setTitle(NSLocalizedString("sell_send_button", comment: ""), forState: .Normal)
         uploadingImageLabel.text = NSLocalizedString("sell_uploading_label", comment: "")
+        
+        descriptionTextView.textContainerInset = UIEdgeInsetsMake(12.0, 11.0, 12.0, 11.0)
+        descriptionTextView.tintColor = StyleHelper.textFieldTintColor
+        sellItButton.layer.cornerRadius = 4
         
         // CollectionView
         let addPictureCellNib = UINib(nibName: "SellAddPictureCell", bundle: nil)
@@ -135,6 +143,22 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         originalFrame = self.view.frame
+    }
+    
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(productTitleTextField.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(productPriceTextfield.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(currencyTypeButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(descriptionTextView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(chooseCategoryButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(chooseCategoryButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
     
     func keyboardWillHide(notification: NSNotification) { self.restoreOriginalPosition() }
@@ -339,12 +363,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
             productObject["status"] = LetGoProductStatus.Pending.rawValue
             productObject["user"] = PFUser.currentUser()
             productObject["user_id"] = PFUser.currentUser()?.objectId ?? ""
-            // We want the upload process to continue even if the user suspends the App or opens another, that's why we define a background task.
-            self.imageUploadBackgroundTask = UIApplication.sharedApplication().beginBackgroundTaskWithExpirationHandler({ () -> Void in
-                UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
-                self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
-                self.disableLoadingInterface()
-            })
             
             // generate image files
             self.generateParseImageFiles()
@@ -352,8 +370,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_picture", comment: ""), completionBlock: nil)
                     self.disableLoadingInterface()
-                    UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
-                    self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
                     return
                 })
             }
@@ -375,8 +391,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                         self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_picture", comment: ""), completionBlock: nil)
                         self.disableLoadingInterface()
                         self.imageFiles = nil
-                        UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
-                        self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
                         return
                         // alternatively: continue and try to save it eventually later.
                         // imageFile.saveInBackgroundWithBlock(nil)
@@ -416,11 +430,40 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                 // last step of the saving process.
                 self.uploadingImageProgressView.progress = 1.0
                 
+                var error : NSError?
+                let success = productObject.save(&error)
+                
+                if success {
+                    if let productId = productObject.objectId {
+                        self.productSynchronizeService.synchSynchronizeProductWithId(productId) { () -> Void in }
+                    }
+                }
+
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.disableLoadingInterface()
+                    if success {
+                        // for tracking purposes
+                        self.productWasSold = true
+                        self.productId = productObject.objectId
+                        
+                        // check facebook sharing
+                        if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(productObject.objectId!) }
+                        else {
+                            self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
+                                self.dismissViewControllerAnimated(true, completion: { [weak self] in
+                                    self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
+                                    })
+                            })
+                        }
+                    } else {
+                        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_product", comment: ""))
+                    }
+                })
+
+                
+                
                 // finally save the object.
                 productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
-                    // at this point we consider our background task finished.
-                    UIApplication.sharedApplication().endBackgroundTask(self.imageUploadBackgroundTask)
-                    self.imageUploadBackgroundTask = UIBackgroundTaskInvalid
                     
                     // disable loading interface and inform about the results
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -431,10 +474,15 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                             self.productId = productObject.objectId
 
                             // update product in LetGo backend
-                            RESTManager.sharedInstance.synchronizeProductFromParse(productObject.objectId!, attempt: 0, completion: nil)
+//                            RESTManager.sharedInstance.synchronizeProductFromParse(productObject.objectId!, attempt: 0, completion: nil)
+                            
+                            if let productId = productObject.objectId {
+                                self.productSynchronizeService.synchSynchronizeProductWithId(productId) { () -> Void in }
+                            }
+                            
                             
                             // check facebook sharing
-                            if self.shareInFacebookSwitch.on { self.checkFacebookSharing(productObject.objectId!) }
+                            if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(productObject.objectId!) }
                             else {
                                 self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
                                     self.dismissViewControllerAnimated(true, completion: { [weak self] in
@@ -453,6 +501,14 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         })
         
     }
+    
+    
+//    self?.productSynchronizeService.synchronizeProductWithId(productId) { () -> Void in
+//    
+//    // Notify the sender, we do not care about synch result
+//    result?(Result<Product, ProductSaveServiceError>.success(savedProduct))
+//    }
+    
     
     /** Generates the parse image files from the array of images and uploads it to parse. */
     func generateParseImageFiles() {
@@ -486,16 +542,16 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     
     // MARK: - Share in facebook.
     
-    func checkFacebookSharing(objectId: String) {
-        // first we need to check that the current FBSession is valid.
-        if FBSDKAccessToken.currentAccessToken() != nil { // we have a valid token session.
-            shareCurrentProductInFacebook(objectId)
-        } else {
-            showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""), completionBlock: { () -> Void in
-                self.dismissViewControllerAnimated(true, completion: nil)
-            })
-        }
-    }
+//    func checkFacebookSharing(objectId: String) {
+//        // first we need to check that the current FBSession is valid.
+//        if FBSDKAccessToken.currentAccessToken() != nil { // we have a valid token session.
+//            shareCurrentProductInFacebook(objectId)
+//        } else {
+//            showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""), completionBlock: { () -> Void in
+//                self.dismissViewControllerAnimated(true, completion: nil)
+//            })
+//        }
+//    }
     
     func shareCurrentProductInFacebook(objectId: String) {
         // build the sharing content.
