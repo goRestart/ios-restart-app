@@ -57,7 +57,11 @@ enum TrackingEvent: String {
     case ProductEditAbandon                 = "product-edit-abandon"
     case ProductEditComplete                = "product-edit-complete"
     
-    case UserMessageSent                   = "user-sent-message"
+    case ProductDeleteStart                 = "product-delete-start"
+    case ProductDeleteAbandon               = "product-delete-abandon"
+    case ProductDeleteComplete              = "product-delete-complete"
+    
+    case UserMessageSent                    = "user-sent-message"
     
     var shouldTrackOnAppsFlyer: Bool {
         if self == .ProductList {   // not tracked in AppsFlyer as we're exceeding their quota

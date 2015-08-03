@@ -768,7 +768,10 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                 message: NSLocalizedString("product_delete_sold_confirm_message", comment: ""),
                 preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""),
-                style: .Cancel, handler: nil))
+                style: .Cancel, handler: { (markAction) -> Void in
+                    // Tracking
+                    TrackingHelper.trackEvent(.ProductDeleteAbandon, parameters: self.trackingParams)
+            }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("common_ok", comment: ""),
                 style: .Default, handler: { (markAction) -> Void in
                     self.deleteProduct()
@@ -780,7 +783,10 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                 message: NSLocalizedString("product_delete_confirm_message", comment: ""),
                 preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""),
-                style: .Cancel, handler: nil))
+                style: .Cancel, handler: { (markAction) -> Void in
+                    // Tracking
+                    TrackingHelper.trackEvent(.ProductDeleteAbandon, parameters: self.trackingParams)
+            }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_sold_button", comment: ""),
                 style: .Default, handler: { (markAction) -> Void in
                     self.definitelyMarkProductAsSold()
@@ -791,21 +797,31 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             }))
 
         }
-        
         self.presentViewController(alert, animated: true, completion: nil)
+        
+        // Tracking
+        TrackingHelper.trackEvent(.ProductDeleteStart, parameters: trackingParams)
     }
     
     private func deleteProduct() {        
-        self.enableMarkAsSoldLoadingInterface()
+        showLoadingMessageAlert()
         productManager.deleteProduct(product) { [weak self] (result: Result<Nil, ProductDeleteServiceError>) -> Void in
             if let strongSelf = self {
                 if let success = result.value {
-                    strongSelf.navigationController?.popViewControllerAnimated(true)
+                    // Pop the current controller
+                    strongSelf.dismissLoadingMessageAlert {
+                        strongSelf.navigationController?.popViewControllerAnimated(true)
+                    }
+                    
+                    // Tracking
+                    TrackingHelper.trackEvent(.ProductDeleteComplete, parameters: strongSelf.trackingParams)
                 }
                 else if let error = result.error {
-                    strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("product_delete_send_error_generic", comment: ""))
+                    strongSelf.dismissLoadingMessageAlert {
+                        strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("product_delete_send_error_generic", comment: ""))
+                    }
+                    
                 }
-                strongSelf.disableMarkAsSoldLoadingInterface()
             }
         }
     }
