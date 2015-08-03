@@ -73,7 +73,7 @@ enum TrackingEvent: String {
     var googleConversionParams: GoogleConversionParams? {
         switch (self) {
         case ProductSellComplete:
-            return GoogleConversionParams(label: "aNaiCIawqVsQ__6fyQM", value: "0.00", isRepeatable: true)
+            return GoogleConversionParams(label: "12NTCIbjvV4QzpfzxAM", value: "0.00", isRepeatable: true)
         default:
             return nil
         }
@@ -130,7 +130,7 @@ public enum TrackingParameterLoginSourceValue: String {
 class TrackingHelper {
     
     // Constants
-    private static let googleConversionInstallParams = GoogleConversionParams(label: "p6XRCNq1qVsQ__6fyQM", value: "0.00", isRepeatable: false)
+    private static let googleConversionInstallParams = GoogleConversionParams(label: "66uLCPX9sV4QzpfzxAM", value: "0.00", isRepeatable: false)
     
     // > Prefixes
     private static let eventNameDummyPrefix   = "dummy-"

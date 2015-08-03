@@ -469,7 +469,6 @@
 		50560B871B25D18F0021D8D9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				2EE60AF01B60D8CD00E56E7D /* Sell */,
 				5033F6CB1B5D0AE60004FECB /* BaseView.swift */,
 				50560B881B25D18F0021D8D9 /* BaseViewController.swift */,
 				50560B891B25D18F0021D8D9 /* BaseViewModel.swift */,
@@ -479,6 +478,7 @@
 				50560B8D1B25D18F0021D8D9 /* Navigation */,
 				50560B8F1B25D18F0021D8D9 /* Products */,
 				D4BFE5B71B640DFB006A8CB6 /* Profile */,
+				2EE60AF01B60D8CD00E56E7D /* Sell */,
 				50560B941B25D18F0021D8D9 /* Splash */,
 			);
 			path = ViewControllers;

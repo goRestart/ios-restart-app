@@ -15,5 +15,5 @@ extension DevelopmentEnvironment: AppEnvironment {
     // Tracking
     var appsFlyerAPIKey: String { get { return "5EKnCjmwmNKjE2e7gYBo6T" } }
     var amplitudeAPIKey: String { get { return "1c32ba5ed444237608436bad4f310307" } }
-    var googleConversionTrackingId: String { get { return "958922623" } }
+    var googleConversionTrackingId: String { get { return "949799886" } }
 }
