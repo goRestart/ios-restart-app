@@ -575,7 +575,7 @@
 "common_product_deleted" = "Product deleted";
 
 // Common product not available.
-"common_product_not_available" = "Product not available";
+"common_product_not_available" = "This product is no longer available";
 
 // Product delete alert title. Check attached image @ segment "product_delete_confirm_cancel_button"
 "product_delete_confirm_title" = "Delete Product";
@@ -593,7 +593,7 @@
 "product_delete_confirm_sold_button" = "I already sold it";
 
 // Product delete send error generic. Message displayal is like the other error messages.
-"product_delete_send_error_generic" = "There was an error deleting your product.";
+"product_delete_send_error_generic" = "Oops! We couldn't delete your product. Please try again.";
 
 // Edit product title. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_title" = "Edit Product";
@@ -609,3 +609,4 @@
 
 /* Product delete when product is already sold. */
 "product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
+

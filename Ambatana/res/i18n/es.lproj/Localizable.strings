@@ -33,7 +33,7 @@
 "common_loading" = "Cargando...";
 "common_ok" = "Aceptar";
 "common_product_deleted" = "Artículo eliminado";
-"common_product_not_available" = "Artículo no disponible";
+"common_product_not_available" = "Este producto ya no está disponible";
 "common_time_a_minute_ago_label" = "Hace un minuto";
 "common_time_day_ago_label" = "Hace un día";
 "common_time_days_ago_label" = "Hace %d días";
@@ -96,8 +96,8 @@
 "product_delete_confirm_ok_button" = "No quiero venderlo";
 "product_delete_confirm_sold_button" = "Ya lo he vendido";
 "product_delete_confirm_title" = "Borrar artículo";
-"product_delete_send_error_generic" = "¡Ups! Ha habido un error al borrar tu producto";
-"product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
+"product_delete_send_error_generic" = "¡Ups! No hemos podido borrar tu producto. Por favor prueba otra vez.";
+"product_delete_sold_confirm_message" = "¿Seguro que quieres eliminar este producto?";
 "product_distance_from_you" = "de ti";
 "product_gallery_title" = "Fotos";
 "product_list_first_page_error_generic_button" = "¡Ups! Prueba otra vez";
