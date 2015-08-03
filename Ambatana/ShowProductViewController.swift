@@ -70,7 +70,8 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         let fileUploadService = PAFileUploadService()
         let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
-        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService)
+        let productMarkSoldService = PAProductMarkSoldService()
+        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService)
         
         super.init(nibName: "ShowProductViewController", bundle: nil)
         automaticallyAdjustsScrollViewInsets = false
@@ -306,71 +307,32 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     func definitelyMarkProductAsSold() {
         self.enableMarkAsSoldLoadingInterface()
         
-        // Parse product
-        if let parseProduct = product as? PAProduct {
-            parseProduct.status = .Sold
-            parseProduct.processed = false
-            parseProduct.saveInBackgroundWithBlock({ (success, error) -> Void in
-                if success {
-                    self.productStatus = .Sold
+        productManager.markProductAsSold(product) { [weak self] ( markAsSoldResult: Result<Product, ProductMarkSoldServiceError>) -> Void in
+            if let strongSelf = self {
+                // success
+                if let soldProduct = markAsSoldResult.value {
+                    strongSelf.productStatus = .Sold
                     
                     // Tracking
-                    TrackingHelper.trackEvent(.ProductMarkAsSold, parameters: self.trackingParams)
+                    TrackingHelper.trackEvent(.ProductMarkAsSold, parameters: strongSelf.trackingParams)
                     
                     // animated hiding of the button, restore alpha once hidden.
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        self.markSoldButton.alpha = 0.0
+                        strongSelf.markSoldButton.alpha = 0.0
                         }, completion: { (success) -> Void in
-                            self.markSoldButton.hidden = true
-                            self.markSoldButton.alpha = 1.0
+                            strongSelf.markSoldButton.hidden = true
+                            strongSelf.markSoldButton.alpha = 1.0
                     })
                     
-                    self.delegate?.showProductViewControllerShouldRefresh(self)
-                } else {
-                    self.markSoldButton.enabled = true
-                    self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
+                    strongSelf.delegate?.showProductViewControllerShouldRefresh(strongSelf)
                 }
-                self.disableMarkAsSoldLoadingInterface()
-            })
-        }
-        // Letgo product
-        else if let productId = product.objectId {
-            let query = PFQuery(className: PAProduct.parseClassName())
-            query.getObjectInBackgroundWithId(productId, block: { (parseObject, error) -> Void in
-                if let parseProduct = parseObject as? PAProduct {
-                    
-                    self.product.status = .Sold
-                    self.product.processed = false
-                    
-                    parseProduct.status = .Sold
-                    parseProduct.processed = false
-                    parseProduct.saveInBackgroundWithBlock({ (success, error) -> Void in
-                        if success {
-                            self.productStatus = .Sold
-                            
-                            // Tracking
-                            TrackingHelper.trackEvent(.ProductMarkAsSold, parameters: self.trackingParams)
-                            
-                            // animated hiding of the button, restore alpha once hidden.
-                            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                                self.markSoldButton.alpha = 0.0
-                                }, completion: { (success) -> Void in
-                                    self.markSoldButton.hidden = true
-                            })
-                            
-                            self.delegate?.showProductViewControllerShouldRefresh(self)
-                        } else {
-                            self.markSoldButton.enabled = true
-                            self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
-                        }
-                        self.disableMarkAsSoldLoadingInterface()
-                    })
-                } else {
-                    self.markSoldButton.enabled = true
-                    self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
+                // error
+                else {
+                    strongSelf.markSoldButton.enabled = true
+                    strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
                 }
-                self.disableMarkAsSoldLoadingInterface()
-            })
+                strongSelf.disableMarkAsSoldLoadingInterface()
+            }
         }
     }
     
@@ -632,9 +594,9 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         
         if !userIsLoggedIn || (userIsLoggedIn && !thisProductIsMine) {
             // set rights buttons and locate favorite button.
-            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_fav_off"], andSelectors: ["shareItem", "markOrUnmarkAsFavorite"], withTags: [0, 1])
+            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_fav_off", "navbar_share"], andSelectors: ["markOrUnmarkAsFavorite", "shareItem"], withTags: [0, 1])
             for button in buttons {
-                if button.tag == 1 {
+                if button.tag == 0 {
                     self.favoriteButton = button
                 }
             }
@@ -644,7 +606,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
 
             self.checkFavoriteProduct()
         } else if thisProductIsMine && product.status != .Sold {
-            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share", "navbar_edit_product"], andSelectors: ["shareItem", "editProduct"], withTags: [0, 1])
+            let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_edit_product", "navbar_share"], andSelectors: ["editProduct", "shareItem"], withTags: [0, 1])
         } else {
             let buttons = self.setLetGoRightButtonsWithImageNames(["navbar_share"], andSelectors: ["shareItem"], withTags: [0])
         }

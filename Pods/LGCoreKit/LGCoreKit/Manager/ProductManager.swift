@@ -15,14 +15,16 @@ public class ProductManager {
     private var fileUploadService: FileUploadService
     private var productSynchronizeService: ProductSynchronizeService
     private var productDeleteService: ProductDeleteService
+    private var productMarkSoldService: ProductMarkSoldService
     
     // MARK: - Lifecycle
     
-    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productSynchronizeService: ProductSynchronizeService, productDeleteService: ProductDeleteService) {
+    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productSynchronizeService: ProductSynchronizeService, productDeleteService: ProductDeleteService, productMarkSoldService: ProductMarkSoldService) {
         self.productSaveService = productSaveService
         self.fileUploadService = fileUploadService
         self.productSynchronizeService = productSynchronizeService
         self.productDeleteService = productDeleteService
+        self.productMarkSoldService = productMarkSoldService
     }
     
     // MARK: - Public methods
@@ -125,6 +127,34 @@ public class ProductManager {
             result?(Result<Nil, ProductDeleteServiceError>.failure(.Internal))
         }
     }
+
+    /**
+    Mark Product as Sold.
+    
+    :param: product the product
+    :param: result The closure containing the result.
+    */
+    public func markProductAsSold(product: Product, result: ProductMarkSoldServiceResult?) {
+        productMarkSoldService.markAsSoldProduct(product) { (markAsSoldResult: Result<Product, ProductMarkSoldServiceError>) -> Void in
+            if let soldProduct = markAsSoldResult.value, let productId = soldProduct.objectId {
+                // synchronize
+                self.productSynchronizeService.synchronizeProductWithId(productId) { () -> Void in
+                    // Notify the sender, we do not care about synch result
+                    result?(Result<Product, ProductMarkSoldServiceError>.success(soldProduct))
+                }
+            }
+            else {
+                let error = markAsSoldResult.error ?? .Internal
+                switch (error) {
+                case .Internal:
+                    result?(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
+                case .Network:
+                    result?(Result<Product, ProductMarkSoldServiceError>.failure(.Network))
+                }
+            }
+        }
+    }
+
     
     // MARK: - Private methods
     

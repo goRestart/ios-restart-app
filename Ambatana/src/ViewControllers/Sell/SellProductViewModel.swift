@@ -69,7 +69,8 @@ public class SellProductViewModel: BaseViewModel {
         let fileUploadService = PAFileUploadService()
         let productSynchService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
-        productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchService, productDeleteService: productDeleteService)
+        let productMarkSoldService = PAProductMarkSoldService()
+        productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService)
         
         super.init()
         

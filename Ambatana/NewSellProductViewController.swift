@@ -67,7 +67,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     var currenciesFromBackend: [PFObject]?
     var imageCounter = 0
     var imageSelectedIndex = 0 // for actions (delete, save to disk...) in iOS7 and prior
-    var productWasSold = false
     var productId: String?
     
     // Synch
@@ -118,26 +117,21 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         uploadingImageView.hidden = true
         // force 1-row horizontal layout.
         if let flowLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout { flowLayout.scrollDirection = .Horizontal }
+        
+        // Tracking
+        let event: TrackingEvent = .ProductSellStart
+        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-
-        // Tracking
-        let event: TrackingEvent = .ProductSellStart
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        
-        // Tracking
-        if (productWasSold) {
-            let event: TrackingEvent = .ProductSellComplete
-            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
-        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -443,9 +437,12 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                     self.disableLoadingInterface()
                     if success {
                         // for tracking purposes
-                        self.productWasSold = true
                         self.productId = productObject.objectId
-                        
+
+                        // Tracking
+                        let event: TrackingEvent = .ProductSellComplete
+                        TrackingHelper.trackEvent(event, parameters: self.trackingParamsForEventType(event))
+
                         // check facebook sharing
                         if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(productObject.objectId!) }
                         else {
@@ -459,55 +456,11 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                         self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_product", comment: ""))
                     }
                 })
-
-                
-                
-                // finally save the object.
-                productObject.saveInBackgroundWithBlock({ (success, error) -> Void in
-                    
-                    // disable loading interface and inform about the results
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.disableLoadingInterface()
-                        if success {
-                            // for tracking purposes
-                            self.productWasSold = true
-                            self.productId = productObject.objectId
-
-                            // update product in LetGo backend
-//                            RESTManager.sharedInstance.synchronizeProductFromParse(productObject.objectId!, attempt: 0, completion: nil)
-                            
-                            if let productId = productObject.objectId {
-                                self.productSynchronizeService.synchSynchronizeProductWithId(productId) { () -> Void in }
-                            }
-                            
-                            
-                            // check facebook sharing
-                            if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(productObject.objectId!) }
-                            else {
-                                self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
-                                    self.dismissViewControllerAnimated(true, completion: { [weak self] in
-                                        self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
-                                    })
-                                })
-                            }
-                        } else {
-                            self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_product", comment: ""))
-                        }
-                    })
-                    
-                })
             })
 
         })
         
     }
-    
-    
-//    self?.productSynchronizeService.synchronizeProductWithId(productId) { () -> Void in
-//    
-//    // Notify the sender, we do not care about synch result
-//    result?(Result<Product, ProductSaveServiceError>.success(savedProduct))
-//    }
     
     
     /** Generates the parse image files from the array of images and uploads it to parse. */
