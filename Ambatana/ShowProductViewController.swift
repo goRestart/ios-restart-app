@@ -725,7 +725,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         let alert: UIAlertController
         
         // Pending or Sold
-        if product.status == .Pending || product.status == .Sold {
+        if product.status == .Pending || product.status == .Sold {
             alert = UIAlertController(title: NSLocalizedString("product_delete_confirm_title", comment: ""),
                 message: NSLocalizedString("product_delete_sold_confirm_message", comment: ""),
                 preferredStyle: .Alert)
