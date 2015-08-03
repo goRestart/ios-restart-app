@@ -759,23 +759,39 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     }
     
     private func showDeleteProductDialog() {
-        let alert = UIAlertController(title: NSLocalizedString("product_delete_confirm_title", comment: ""),
-            message: NSLocalizedString("product_delete_confirm_message", comment: ""),
-            preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""),
-            style: .Cancel, handler: nil))
-
-        if product.status != .Sold {
+        
+        let alert: UIAlertController
+        
+        // Sold
+        if product.status == .Sold {
+            alert = UIAlertController(title: NSLocalizedString("product_delete_confirm_title", comment: ""),
+                message: NSLocalizedString("product_delete_sold_confirm_message", comment: ""),
+                preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""),
+                style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("common_ok", comment: ""),
+                style: .Default, handler: { (markAction) -> Void in
+                    self.deleteProduct()
+            }))
+        }
+        // Not sold
+        else {
+            alert = UIAlertController(title: NSLocalizedString("product_delete_confirm_title", comment: ""),
+                message: NSLocalizedString("product_delete_confirm_message", comment: ""),
+                preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""),
+                style: .Cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_sold_button", comment: ""),
                 style: .Default, handler: { (markAction) -> Void in
                     self.definitelyMarkProductAsSold()
             }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_ok_button", comment: ""),
+                style: .Default, handler: { (markAction) -> Void in
+                    self.deleteProduct()
+            }))
+
         }
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_ok_button", comment: ""),
-            style: .Default, handler: { (markAction) -> Void in
-                self.deleteProduct()
-        }))
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
