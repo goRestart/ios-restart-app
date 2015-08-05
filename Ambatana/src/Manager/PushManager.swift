@@ -36,8 +36,8 @@ public class PushManager {
     public init() {
         unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipUserAliasFromNotification:", name: MyUserManager.Notification.login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipUserAliasFromNotification:", name: MyUserManager.Notification.logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.logout.rawValue, object: nil)
 
     }
     
@@ -84,7 +84,6 @@ public class PushManager {
     }
     
     public func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        
         // Save the installation with the received device token
         MyUserManager.sharedInstance.saveInstallationDeviceToken(deviceToken)
     }
@@ -145,20 +144,17 @@ public class PushManager {
         
         UAirship.push().userNotificationTypes = (.Alert | .Badge | .Sound)
         UAirship.push().userPushNotificationsEnabled = true
-        
-//        UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-
     }
     
-    public func updateUrbanAirshipUserAlias() {
-        UAirship.push().alias = MyUserManager.sharedInstance.myUser()?.objectId
+    public func updateUrbanAirshipNamedUser(user: User?) {
+        UAirship.push().namedUser.identifier = user?.objectId
     }
     
     
     // MARK: - Private methods
     
-    dynamic private func updateUrbanAirshipUserAliasFromNotification(notification: NSNotification) {
-        updateUrbanAirshipUserAlias()
+    dynamic private func updateUrbanAirshipNamedUserFromNotification(notification: NSNotification) {
+        updateUrbanAirshipNamedUser(notification.object as? User)
     }
     
     // MARK: > NSNotificationCenter

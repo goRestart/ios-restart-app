@@ -1060,7 +1060,7 @@
 						DevelopmentTeam = 3MAE68NKQE;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
