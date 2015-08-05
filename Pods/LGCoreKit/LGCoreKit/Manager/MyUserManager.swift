@@ -399,9 +399,6 @@ public class MyUserManager {
     public func logout(result: UserLogOutServiceResult?) {
         if let myUser = myUser() {
             
-            // Notify
-            NSNotificationCenter.defaultCenter().postNotificationName(Notification.logout.rawValue, object: nil)
-            
             // Request
             userLogOutService.logOutUser(myUser) { (myResult: Result<Nil, UserLogOutServiceError>) in
                 
@@ -416,6 +413,10 @@ public class MyUserManager {
                     installation.channels = [""]
                     self.installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
                 }
+                
+                // Notify
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.logout.rawValue, object: nil)
+
             }
         }
         else {

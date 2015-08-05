@@ -8,6 +8,8 @@
 
 import LGCoreKit
 import Parse
+import UrbanAirship_iOS_SDK
+
 
 @objc public enum PushNotificationType: Int {
     case Offer = 0, Message = 1, Marketing = 2
@@ -33,6 +35,10 @@ public class PushManager {
     
     public init() {
         unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipUserAliasFromNotification:", name: MyUserManager.Notification.login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipUserAliasFromNotification:", name: MyUserManager.Notification.logout.rawValue, object: nil)
+
     }
     
     // MARK: - Public methods
@@ -123,7 +129,37 @@ public class PushManager {
         }
     }
     
+    
+    public func setupUrbanAirship() {
+        
+        let config = UAConfig.defaultConfig()
+        config.developmentAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
+        config.developmentAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
+        
+        config.productionAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
+        config.productionAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
+        
+        config.developmentLogLevel = UALogLevel.Debug
+        // Call takeOff (which creates the UAirship singleton)
+        UAirship.takeOff(config)
+        
+        UAirship.push().userNotificationTypes = (.Alert | .Badge | .Sound)
+        UAirship.push().userPushNotificationsEnabled = true
+        
+//        UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+
+    }
+    
+    public func updateUrbanAirshipUserAlias() {
+        UAirship.push().alias = MyUserManager.sharedInstance.myUser()?.objectId
+    }
+    
+    
     // MARK: - Private methods
+    
+    dynamic private func updateUrbanAirshipUserAliasFromNotification(notification: NSNotification) {
+        updateUrbanAirshipUserAlias()
+    }
     
     // MARK: > NSNotificationCenter
     

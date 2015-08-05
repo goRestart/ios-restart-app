@@ -125,6 +125,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Fabric.with([Crashlytics()])
 #endif
         
+        // Push notifications
+        PushManager.sharedInstance.setupUrbanAirship()
+        
         // Tracking
         TrackingHelper.appDidFinishLaunching()
     }
