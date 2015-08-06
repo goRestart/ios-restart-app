@@ -10,6 +10,7 @@ import Foundation
 import LGCoreKit
 import Parse
 import Result
+import UIDeviceUtil
 
 public protocol ContactViewModelDelegate: class {
     func viewModel(viewModel: ContactViewModel, updateSendButtonEnabledState enabled: Bool)
@@ -57,7 +58,8 @@ public class ContactViewModel: BaseViewModel {
             contact = PAContact()
             contact.email = self.email
             contact.title = self.title
-            contact.message = self.message + " " + self.email
+            contact.message = self.message + buildMessage() + " " + self.email
+
             contact.user = MyUserManager.sharedInstance.myUser()
             contact.processed = NSNumber(bool: false)
             
@@ -84,9 +86,37 @@ public class ContactViewModel: BaseViewModel {
         }
     }
     
+    // MARK: private methods
+    
     private func enableSendButton() -> Bool {
         
         return !email.isEmpty && !title.isEmpty && (!message.isEmpty && message != NSLocalizedString("contact_body_field_hint", comment: ""))
+    }
+    
+    // Add app, OS and device info to contact messages
+    private func buildMessage() -> String {
+        
+        var finalMessage = "\n\n------------\n"
+        
+        if let appVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+            finalMessage = finalMessage + "App Version:  \(appVersion)\n"
+        }
+
+        if let iOSVersion = NSBundle.mainBundle().infoDictionary?["DTPlatformVersion"] as? String {
+            finalMessage = finalMessage + "OS Version:  iOS \(iOSVersion)\n"
+        }
+        
+        if let hwVersion = UIDeviceUtil.hardwareDescription() {
+            finalMessage = finalMessage + "Device model: \(hwVersion)\n"
+        }
+        
+        if let language = NSLocale.preferredLanguages()[0] as? String {
+            finalMessage = finalMessage + "Language :    \(language)\n"
+        }
+
+        finalMessage = finalMessage + "------------\n\n"
+
+        return finalMessage
     }
     
 }

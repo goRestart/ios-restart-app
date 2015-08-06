@@ -1,0 +1,6 @@
+framework module UIDeviceUtil {
+  umbrella header "Pods-LetGo-UIDeviceUtil-umbrella.h"
+
+  export *
+  module * { export * }
+}

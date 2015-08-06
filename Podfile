@@ -27,6 +27,10 @@ target "LetGo" do
     
     # Animation
     pod "pop",                  "~> 1.0"
+
+    # Device info helper
+    pod "UIDeviceUtil",         "~> 1.1"
+
 end
 
 target "letgoTests" do

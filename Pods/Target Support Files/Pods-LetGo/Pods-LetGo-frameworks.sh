@@ -64,6 +64,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'SDWebImage.framework'
   install_framework 'SwiftyJSON.framework'
   install_framework 'Timepiece.framework'
+  install_framework 'UIDeviceUtil.framework'
   install_framework 'pop.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -83,6 +84,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'SDWebImage.framework'
   install_framework 'SwiftyJSON.framework'
   install_framework 'Timepiece.framework'
+  install_framework 'UIDeviceUtil.framework'
   install_framework 'pop.framework'
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
@@ -102,5 +104,6 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework 'SDWebImage.framework'
   install_framework 'SwiftyJSON.framework'
   install_framework 'Timepiece.framework'
+  install_framework 'UIDeviceUtil.framework'
   install_framework 'pop.framework'
 fi

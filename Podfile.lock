@@ -53,6 +53,7 @@ PODS:
   - SDWebImage/Core (3.7.3)
   - SwiftyJSON (2.2.1)
   - Timepiece (0.4.0)
+  - UIDeviceUtil (1.1.2)
 
 DEPENDENCIES:
   - Alamofire (~> 1.2)
@@ -64,6 +65,7 @@ DEPENDENCIES:
   - pop (~> 1.0)
   - Quick (~> 0.3.1)
   - SDWebImage
+  - UIDeviceUtil (~> 1.1)
 
 SPEC CHECKSUMS:
   Alamofire: 220403a8d5840e0b4c946a6fbaf209dbca124282
@@ -85,5 +87,6 @@ SPEC CHECKSUMS:
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
   Timepiece: d38302bf6fce6146e9d8feb289e0837811ee1342
+  UIDeviceUtil: df88dd5ba4ae482f1d766dd0d180b066c2a4cb7e
 
 COCOAPODS: 0.37.2
