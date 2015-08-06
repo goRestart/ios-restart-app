@@ -167,6 +167,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2EE3D8491B70DF1700739D7E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.debug.xcconfig"; sourceTree = "<group>"; };
 		2E1CFF431B580E4600747610 /* ContactViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewModel.swift; path = Contact/ContactViewModel.swift; sourceTree = "<group>"; };
@@ -1001,6 +1014,7 @@
 				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
 				5026B0A61B05E2F3006858BB /* ShellScript */,
 				2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */,
+				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1045,6 +1059,9 @@
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 3MAE68NKQE;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
 							com.apple.InAppPurchase = {
 								enabled = 0;
 							};

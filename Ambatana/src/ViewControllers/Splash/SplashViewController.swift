@@ -33,6 +33,7 @@ class SplashViewController: UIViewController {
         
         MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: Result<User, UserSaveServiceError>) in
             self?.completionBlock?(result.value != nil)
+            PushManager.sharedInstance.updateUrbanAirshipNamedUser(result.value)
         }
     }
     

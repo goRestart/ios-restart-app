@@ -454,7 +454,7 @@ public class MyUserManager {
     private func setupAfterSessionSuccessful() {
         
         // Notify
-        NSNotificationCenter.defaultCenter().postNotificationName(Notification.login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().postNotificationName(Notification.login.rawValue, object: myUser())
         
         // If we already have a location, then save it into my user
         if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {

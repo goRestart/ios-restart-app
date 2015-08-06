@@ -1,0 +1,6 @@
+framework module UrbanAirship_iOS_SDK {
+  umbrella header "Pods-LetGo-UrbanAirship-iOS-SDK-umbrella.h"
+
+  export *
+  module * { export * }
+}
