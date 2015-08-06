@@ -1100,8 +1100,6 @@
 				my,
 				ja,
 				ko,
-				"zh-Hans",
-				"zh-Hant",
 			);
 			mainGroup = 6608E02D1A820FBD005895ED;
 			productRefGroup = 6608E0371A820FBD005895ED /* Products */;

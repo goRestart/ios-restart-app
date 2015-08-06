@@ -35,13 +35,22 @@ public class PushManager {
     
     public init() {
         unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.logout.rawValue, object: nil)
-
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     // MARK: - Public methods
+    
+    public func prepareApplicationForRemoteNotifications(application: UIApplication) {
+        let userNotificationTypes = (UIUserNotificationType.Alert |
+                                     UIUserNotificationType.Badge |
+                                     UIUserNotificationType.Sound)
+        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+        application.registerUserNotificationSettings(settings)
+        application.registerForRemoteNotifications()
+    }
     
     public func application(application: UIApplication, didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) {
         if let type = getNotificationType(userInfo) {
@@ -131,6 +140,9 @@ public class PushManager {
     
     public func setupUrbanAirship() {
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.logout.rawValue, object: nil)
+
         let config = UAConfig.defaultConfig()
         config.developmentAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
         config.developmentAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
