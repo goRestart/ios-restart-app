@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		023821E7C5260F6A68823190 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32EAA2F0A47FAE66469DCDBC /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF431B580E4600747610 /* ContactViewModel.swift */; };
 		2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF451B580E5900747610 /* ContactViewController.swift */; };
 		2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1CFF491B58212C00747610 /* ContactViewController.xib */; };
@@ -21,7 +22,6 @@
 		2EE60AF71B60D97300E56E7D /* EditSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */; };
 		2EE60AF81B60D97300E56E7D /* EditSellProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE60AF61B60D97300E56E7D /* EditSellProductViewController.xib */; };
 		2EE60AFA1B60D9A600E56E7D /* EditSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */; };
-		3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DD65AA99208A05D029379B /* Pods_LetGo.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		500391B71B04EFE60081C141 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500391B51B04EFE60081C141 /* CategoryCell.swift */; };
 		500391B81B04EFE60081C141 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B61B04EFE60081C141 /* CategoryCell.xib */; };
 		500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B91B04F4F70081C141 /* ChatListViewController.xib */; };
@@ -54,6 +54,19 @@
 		508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CEC1B4281F1007BD301 /* ProductCell.swift */; };
 		508E4CEF1B4281F2007BD301 /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508E4CED1B4281F1007BD301 /* ProductCell.xib */; };
 		509273361B172D5B00A346F9 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509273351B172D5B00A346F9 /* PushManager.swift */; };
+		50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4B81B71FBB7001E4E92 /* Tracker.swift */; };
+		50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */; };
+		50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */; };
+		50C9E4BF1B721FBB001E4E92 /* GoogleTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BE1B721FBB001E4E92 /* GoogleTracker.swift */; };
+		50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */; };
+		50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */; };
+		50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */; };
+		50C9E4C71B723F44001E4E92 /* NanigansTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */; };
+		50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */; };
+		50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4CD1B735402001E4E92 /* TrackerEventSpec.swift */; };
+		50C9E4D21B73637D001E4E92 /* Pods.adhoc.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50C9E4CF1B73637D001E4E92 /* Pods.adhoc.xcconfig */; };
+		50C9E4D31B73637D001E4E92 /* Pods.debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50C9E4D01B73637D001E4E92 /* Pods.debug.xcconfig */; };
+		50C9E4D41B73637D001E4E92 /* Pods.release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50C9E4D11B73637D001E4E92 /* Pods.release.xcconfig */; };
 		50DBEC381B3D79C8006CBDE0 /* TabBarToolTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DBEC371B3D79C8006CBDE0 /* TabBarToolTip.swift */; };
 		50DFABE21B04E5A700A3F049 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */; };
 		50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F241B09D24A00544DE3 /* SettingsViewController.xib */; };
@@ -72,6 +85,7 @@
 		50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAAC1B28939F00E50A68 /* SignUpViewController.xib */; };
 		50F0BAB01B2893B100E50A68 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAAF1B2893B100E50A68 /* SignUpViewModel.swift */; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
+		6601E5FC7E5CAD36E7D2AFBE /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32EAA2F0A47FAE66469DCDBC /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
 		6608E0411A820FBD005895ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6608E03F1A820FBD005895ED /* Main.storyboard */; };
 		6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
@@ -146,7 +160,6 @@
 		D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4B0CF791B07308800A61E1A /* SellPictureCell.xib */; };
 		D4B0CF7E1B07309800A61E1A /* SellEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF7C1B07309800A61E1A /* SellEmptyCell.swift */; };
 		D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4B0CF7D1B07309800A61E1A /* SellEmptyCell.xib */; };
-		D4B546341AEFDD920062D183 /* letgoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B546331AEFDD920062D183 /* letgoTests.swift */; };
 		D4BFE5B21B640C36006A8CB6 /* MainProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5AD1B640C36006A8CB6 /* MainProductListView.swift */; };
 		D4BFE5B31B640C36006A8CB6 /* MainProductListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5AE1B640C36006A8CB6 /* MainProductListViewModel.swift */; };
 		D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5AF1B640C36006A8CB6 /* MainProductsViewController.swift */; };
@@ -168,7 +181,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.debug.xcconfig"; sourceTree = "<group>"; };
 		2E1CFF431B580E4600747610 /* ContactViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewModel.swift; path = Contact/ContactViewModel.swift; sourceTree = "<group>"; };
 		2E1CFF451B580E5900747610 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewController.swift; path = Contact/ContactViewController.swift; sourceTree = "<group>"; };
 		2E1CFF491B58212C00747610 /* ContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactViewController.xib; path = Contact/ContactViewController.xib; sourceTree = "<group>"; };
@@ -183,6 +195,7 @@
 		2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSellProductViewController.swift; path = Sell/EditSellProductViewController.swift; sourceTree = "<group>"; };
 		2EE60AF61B60D97300E56E7D /* EditSellProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditSellProductViewController.xib; path = Sell/EditSellProductViewController.xib; sourceTree = "<group>"; };
 		2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSellProductViewModel.swift; path = Sell/EditSellProductViewModel.swift; sourceTree = "<group>"; };
+		32EAA2F0A47FAE66469DCDBC /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		500391B51B04EFE60081C141 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		500391B61B04EFE60081C141 /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
 		500391B91B04F4F70081C141 /* ChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatListViewController.xib; sourceTree = "<group>"; };
@@ -228,6 +241,19 @@
 		508E4CEC1B4281F1007BD301 /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		508E4CED1B4281F1007BD301 /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		509273351B172D5B00A346F9 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
+		50C9E4B81B71FBB7001E4E92 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEvent.swift; sourceTree = "<group>"; };
+		50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerProxy.swift; sourceTree = "<group>"; };
+		50C9E4BE1B721FBB001E4E92 /* GoogleTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleTracker.swift; sourceTree = "<group>"; };
+		50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmplitudeTracker.swift; sourceTree = "<group>"; };
+		50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsflyerTracker.swift; sourceTree = "<group>"; };
+		50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookTracker.swift; sourceTree = "<group>"; };
+		50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NanigansTracker.swift; sourceTree = "<group>"; };
+		50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEventDataTypes.swift; sourceTree = "<group>"; };
+		50C9E4CD1B735402001E4E92 /* TrackerEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEventSpec.swift; sourceTree = "<group>"; };
+		50C9E4CF1B73637D001E4E92 /* Pods.adhoc.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Pods.adhoc.xcconfig; path = "Pods/Target Support Files/Pods/Pods.adhoc.xcconfig"; sourceTree = "<group>"; };
+		50C9E4D01B73637D001E4E92 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		50C9E4D11B73637D001E4E92 /* Pods.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		50DBEC371B3D79C8006CBDE0 /* TabBarToolTip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarToolTip.swift; sourceTree = "<group>"; };
 		50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesViewController.xib; sourceTree = "<group>"; };
 		50E64F241B09D24A00544DE3 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -300,9 +326,7 @@
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ambatana.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B6E57E60751EEA425E34814 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
 		90DD65AA99208A05D029379B /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		95C4EAFE6C88BD48CEFBCCB5 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
 		B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
@@ -364,7 +388,6 @@
 		D4B0CF7D1B07309800A61E1A /* SellEmptyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SellEmptyCell.xib; sourceTree = "<group>"; };
 		D4B5462F1AEFDD920062D183 /* letgoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = letgoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4B546321AEFDD920062D183 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4B546331AEFDD920062D183 /* letgoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = letgoTests.swift; sourceTree = "<group>"; };
 		D4BFE5AD1B640C36006A8CB6 /* MainProductListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductListView.swift; sourceTree = "<group>"; };
 		D4BFE5AE1B640C36006A8CB6 /* MainProductListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductListViewModel.swift; sourceTree = "<group>"; };
 		D4BFE5AF1B640C36006A8CB6 /* MainProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsViewController.swift; sourceTree = "<group>"; };
@@ -373,7 +396,6 @@
 		D4BFE5B81B640E26006A8CB6 /* ProfileProductListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProductListView.swift; sourceTree = "<group>"; };
 		D4BFE5BA1B640E3B006A8CB6 /* ProfileProductListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProductListViewModel.swift; sourceTree = "<group>"; };
 		D4C53C961B334B0B0087AAE1 /* UIViewController+User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+User.swift"; sourceTree = "<group>"; };
-		DCE9C67541895BFFB3F852AD /* Pods-Ambatana.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ambatana.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ambatana/Pods-Ambatana.release.xcconfig"; sourceTree = "<group>"; };
 		F8BAE033B6A5FFD49CE90E7C /* Pods-letgoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -397,7 +419,7 @@
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
 				5013AA841B03A30200B7A5D3 /* libAppsFlyerLib.a in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
-				3939DC844B1C0856774E2429 /* Pods_LetGo.framework in Frameworks */,
+				023821E7C5260F6A68823190 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,6 +428,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */,
+				6601E5FC7E5CAD36E7D2AFBE /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,17 +585,57 @@
 			isa = PBXGroup;
 			children = (
 				509273351B172D5B00A346F9 /* PushManager.swift */,
+				50C9E4B71B71FBB7001E4E92 /* Tracking */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		50C9E4B71B71FBB7001E4E92 /* Tracking */ = {
+			isa = PBXGroup;
+			children = (
+				50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */,
+				50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */,
+				50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */,
+				50C9E4BE1B721FBB001E4E92 /* GoogleTracker.swift */,
+				50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */,
+				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
+				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
+				50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */,
+				50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */,
+			);
+			path = Tracking;
+			sourceTree = "<group>";
+		};
+		50C9E4CA1B7353E6001E4E92 /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				50C9E4CB1B7353E6001E4E92 /* Manager */,
+			);
+			path = Unit;
+			sourceTree = "<group>";
+		};
+		50C9E4CB1B7353E6001E4E92 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				50C9E4CC1B7353E6001E4E92 /* Tracking */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		50C9E4CC1B7353E6001E4E92 /* Tracking */ = {
+			isa = PBXGroup;
+			children = (
+				50C9E4CD1B735402001E4E92 /* TrackerEventSpec.swift */,
+			);
+			path = Tracking;
 			sourceTree = "<group>";
 		};
 		64C1081049FDC4ED543B1297 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2173E0C00DC4F94CD048F8E6 /* Pods-Ambatana.debug.xcconfig */,
-				DCE9C67541895BFFB3F852AD /* Pods-Ambatana.release.xcconfig */,
-				7B6E57E60751EEA425E34814 /* Pods-LetGo.debug.xcconfig */,
-				95C4EAFE6C88BD48CEFBCCB5 /* Pods-LetGo.release.xcconfig */,
+				50C9E4CF1B73637D001E4E92 /* Pods.adhoc.xcconfig */,
+				50C9E4D01B73637D001E4E92 /* Pods.debug.xcconfig */,
+				50C9E4D11B73637D001E4E92 /* Pods.release.xcconfig */,
 				F8BAE033B6A5FFD49CE90E7C /* Pods-letgoTests.debug.xcconfig */,
 				B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */,
 				621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */,
@@ -858,6 +921,7 @@
 				75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */,
 				90DD65AA99208A05D029379B /* Pods_LetGo.framework */,
 				C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */,
+				32EAA2F0A47FAE66469DCDBC /* Pods.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -942,7 +1006,7 @@
 		D4B546301AEFDD920062D183 /* letgoTests */ = {
 			isa = PBXGroup;
 			children = (
-				D4B546331AEFDD920062D183 /* letgoTests.swift */,
+				50C9E4CA1B7353E6001E4E92 /* Unit */,
 				D4B546311AEFDD920062D183 /* Supporting Files */,
 			);
 			path = letgoTests;
@@ -1114,6 +1178,7 @@
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
 				50560B9A1B25D18F0021D8D9 /* LogInViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
+				50C9E4D21B73637D001E4E92 /* Pods.adhoc.xcconfig in Resources */,
 				D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */,
 				500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */,
 				6640F0481AE142D800004556 /* Deprecated in Resources */,
@@ -1126,6 +1191,7 @@
 				D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */,
 				2EE60AF81B60D97300E56E7D /* EditSellProductViewController.xib in Resources */,
 				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
+				50C9E4D41B73637D001E4E92 /* Pods.release.xcconfig in Resources */,
 				2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				5004BDFC1B06182E00D302F3 /* NewSellProductViewController.xib in Resources */,
@@ -1136,6 +1202,7 @@
 				50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */,
 				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
+				50C9E4D31B73637D001E4E92 /* Pods.debug.xcconfig in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
 				D4BFE5B51B640C36006A8CB6 /* MainProductsViewController.xib in Resources */,
 			);
@@ -1163,7 +1230,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5026B0A61B05E2F3006858BB /* ShellScript */ = {
@@ -1206,7 +1273,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */ = {
@@ -1221,7 +1288,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F57A67D2C3ECDFC3DEDDBD5C /* Copy Pods Resources */ = {
@@ -1277,12 +1344,16 @@
 				D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */,
 				66C834B11ADBC5DB002FF142 /* RESTManager.swift in Sources */,
 				D4BFE5B61B640C36006A8CB6 /* MainProductsViewModel.swift in Sources */,
+				50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */,
 				50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */,
 				D4BFE5B91B640E26006A8CB6 /* ProfileProductListView.swift in Sources */,
 				508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */,
 				66C056D71A97900800F7EEA8 /* PlaceholderTextView.swift in Sources */,
+				50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */,
 				2EE5EEE71B5E759F0056BF76 /* ChangeUsernameViewModel.swift in Sources */,
 				6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */,
+				50C9E4BF1B721FBB001E4E92 /* GoogleTracker.swift in Sources */,
+				50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */,
 				667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */,
 				2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */,
 				665713E91AADF15800B4721C /* DLImageResizing.swift in Sources */,
@@ -1299,6 +1370,7 @@
 				66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */,
 				D412E07F1B4EFF2800683FFD /* ProductListViewModel.swift in Sources */,
 				5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */,
+				50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */,
 				D4443D6B1B1288B700237095 /* Constants.swift in Sources */,
 				2EE60AF41B60D90200E56E7D /* SellProductViewModel.swift in Sources */,
 				500391B71B04EFE60081C141 /* CategoryCell.swift in Sources */,
@@ -1307,6 +1379,7 @@
 				66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */,
 				66E50FAF1AE15D32000A7D44 /* CHTCollectionViewWaterfallLayout.m in Sources */,
 				66E3D0A91A89073B00BC283C /* UIViewController+LetGo.swift in Sources */,
+				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
 				D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */,
 				66362F541A8B4DE500EC145E /* ShowProductViewController.swift in Sources */,
 				665D5ADE1ADE84C5006A567A /* LetGoGoogleAddressComponent.swift in Sources */,
@@ -1319,12 +1392,14 @@
 				D4BFE5BB1B640E3B006A8CB6 /* ProfileProductListViewModel.swift in Sources */,
 				66911D931A853A46006CFBE1 /* IndicateLocationViewController.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
+				50C9E4C71B723F44001E4E92 /* NanigansTracker.swift in Sources */,
 				6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */,
 				6667972E1A9E321100D8E831 /* CryptoUtils.swift in Sources */,
 				66A0CFE51A83740D00FAADF0 /* ChatViewController.swift in Sources */,
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */,
 				D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */,
+				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				50DBEC381B3D79C8006CBDE0 /* TabBarToolTip.swift in Sources */,
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
 				50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */,
@@ -1336,6 +1411,7 @@
 				50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */,
 				D4912A811B08DDA400DACD5A /* UIView+Appereance.m in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
+				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
 				66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */,
 				50560BA31B25DAD50021D8D9 /* LogInViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
@@ -1360,7 +1436,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4B546341AEFDD920062D183 /* letgoTests.swift in Sources */,
+				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1533,7 +1609,7 @@
 		};
 		6608E0561A820FBD005895ED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B6E57E60751EEA425E34814 /* Pods-LetGo.debug.xcconfig */;
+			baseConfigurationReference = 50C9E4D01B73637D001E4E92 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1564,7 +1640,7 @@
 		};
 		6608E0571A820FBD005895ED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95C4EAFE6C88BD48CEFBCCB5 /* Pods-LetGo.release.xcconfig */;
+			baseConfigurationReference = 50C9E4D11B73637D001E4E92 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1628,7 +1704,7 @@
 		};
 		D44E065E1AE6D27400A7D3CA /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95C4EAFE6C88BD48CEFBCCB5 /* Pods-LetGo.release.xcconfig */;
+			baseConfigurationReference = 50C9E4CF1B73637D001E4E92 /* Pods.adhoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1659,6 +1735,7 @@
 			baseConfigurationReference = F8BAE033B6A5FFD49CE90E7C /* Pods-letgoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1676,6 +1753,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LetGo.app/LetGo";
 			};
 			name = Debug;
@@ -1685,6 +1763,7 @@
 			baseConfigurationReference = B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1708,6 +1787,7 @@
 			baseConfigurationReference = 621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;

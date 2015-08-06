@@ -8,26 +8,23 @@ use_frameworks!
 workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
-# app
-target "LetGo" do
-    pod "Parse",                ">= 1.7"
-    pod "SDWebImage"
+pod "Parse",                ">= 1.7"
+pod "SDWebImage"
 
-    pod "FBSDKShareKit",        "~> 4.1"
+pod "FBSDKShareKit",        "~> 4.1"
     
-    # Tracking
-#    pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
-    pod "Amplitude-iOS",        "~> 2.5"
+# Tracking
+# pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
+pod "Amplitude-iOS",        "~> 2.5"
     
-    # letgo Core
-    pod "LGCoreKit",            "0.8.8" # :path => "../LGCoreKit"
+# letgo Core
+pod "LGCoreKit",            "0.8.8" # :path => "../LGCoreKit"
     
-    # Networking (to be removed when migrating to LGCoreKit)
-    pod "Alamofire",            "~> 1.2"
+# Networking (to be removed when migrating to LGCoreKit)
+pod "Alamofire",            "~> 1.2"
     
-    # Animation
-    pod "pop",                  "~> 1.0"
-end
+# Animation
+pod "pop",                  "~> 1.0"
 
 target "letgoTests" do
     ## Testing

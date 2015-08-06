@@ -1,0 +1,1 @@
+LGCOREKIT_OTHER_LDFLAGS = -framework "CoreLocation"
