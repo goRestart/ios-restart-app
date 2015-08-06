@@ -58,7 +58,7 @@ public class ContactViewModel: BaseViewModel {
             contact = PAContact()
             contact.email = self.email
             contact.title = self.title
-            contact.message = self.message + buildMessage() + " " + self.email
+            contact.message = self.message + systemInfoForMessage() + " " + self.email
 
             contact.user = MyUserManager.sharedInstance.myUser()
             contact.processed = NSNumber(bool: false)
@@ -94,7 +94,7 @@ public class ContactViewModel: BaseViewModel {
     }
     
     // Add app, OS and device info to contact messages
-    private func buildMessage() -> String {
+    private func systemInfoForMessage() -> String {
         
         var finalMessage = "\n\n------------\n"
         
