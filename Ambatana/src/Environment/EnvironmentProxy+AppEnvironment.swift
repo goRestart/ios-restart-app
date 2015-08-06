@@ -44,4 +44,22 @@ extension EnvironmentProxy: AppEnvironment {
             return ""
         }
     }
+    
+    var urbanAirshipAPIKey: String {
+        get {
+            if let appEnvironment = environment as? AppEnvironment {
+                return appEnvironment.urbanAirshipAPIKey
+            }
+            return ""
+        }
+    }
+
+    var urbanAirshipAPISecret: String {
+        get {
+            if let appEnvironment = environment as? AppEnvironment {
+                return appEnvironment.urbanAirshipAPISecret
+            }
+            return ""
+        }
+    }
 }

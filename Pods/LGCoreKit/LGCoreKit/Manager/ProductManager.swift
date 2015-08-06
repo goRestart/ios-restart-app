@@ -15,7 +15,7 @@ public class ProductManager {
     private var fileUploadService: FileUploadService
     private var productSynchronizeService: ProductSynchronizeService
     private var productDeleteService: ProductDeleteService
-    private var productMarkSoldService: ProductMarkSoldService
+    private var productMarkSoldService : ProductMarkSoldService
     
     // MARK: - Lifecycle
     
@@ -127,12 +127,13 @@ public class ProductManager {
             result?(Result<Nil, ProductDeleteServiceError>.failure(.Internal))
         }
     }
-
-    /**
-    Mark Product as Sold.
     
-    :param: product the product
-    :param: result The closure containing the result.
+    
+    /**
+        Mark Product as Sold.
+    
+        :param: product the product
+        :param: result The closure containing the result.
     */
     public func markProductAsSold(product: Product, result: ProductMarkSoldServiceResult?) {
         productMarkSoldService.markAsSoldProduct(product) { (markAsSoldResult: Result<Product, ProductMarkSoldServiceError>) -> Void in

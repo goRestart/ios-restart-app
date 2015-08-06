@@ -16,5 +16,8 @@ protocol AppEnvironment: Environment {
     // Tracking
     var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
-    var googleConversionTrackingId: String { get }    
+    var googleConversionTrackingId: String { get }
+    
+    var urbanAirshipAPIKey: String { get }
+    var urbanAirshipAPISecret: String { get }
 }

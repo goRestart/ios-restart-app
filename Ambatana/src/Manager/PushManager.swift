@@ -8,6 +8,8 @@
 
 import LGCoreKit
 import Parse
+import UrbanAirship_iOS_SDK
+
 
 @objc public enum PushNotificationType: Int {
     case Offer = 0, Message = 1, Marketing = 2
@@ -35,7 +37,20 @@ public class PushManager {
         unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     // MARK: - Public methods
+    
+    public func prepareApplicationForRemoteNotifications(application: UIApplication) {
+        let userNotificationTypes = (UIUserNotificationType.Alert |
+                                     UIUserNotificationType.Badge |
+                                     UIUserNotificationType.Sound)
+        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+        application.registerUserNotificationSettings(settings)
+        application.registerForRemoteNotifications()
+    }
     
     public func application(application: UIApplication, didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) {
         if let type = getNotificationType(userInfo) {
@@ -78,7 +93,6 @@ public class PushManager {
     }
     
     public func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        
         // Save the installation with the received device token
         MyUserManager.sharedInstance.saveInstallationDeviceToken(deviceToken)
     }
@@ -123,7 +137,37 @@ public class PushManager {
         }
     }
     
+    
+    public func setupUrbanAirship() {
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.logout.rawValue, object: nil)
+
+        let config = UAConfig.defaultConfig()
+        config.developmentAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
+        config.developmentAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
+        
+        config.productionAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
+        config.productionAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
+        
+        config.developmentLogLevel = UALogLevel.Debug
+        // Call takeOff (which creates the UAirship singleton)
+        UAirship.takeOff(config)
+        
+        UAirship.push().userNotificationTypes = (.Alert | .Badge | .Sound)
+        UAirship.push().userPushNotificationsEnabled = true
+    }
+    
+    public func updateUrbanAirshipNamedUser(user: User?) {
+        UAirship.push().namedUser.identifier = user?.objectId
+    }
+    
+    
     // MARK: - Private methods
+    
+    dynamic private func updateUrbanAirshipNamedUserFromNotification(notification: NSNotification) {
+        updateUrbanAirshipNamedUser(notification.object as? User)
+    }
     
     // MARK: > NSNotificationCenter
     

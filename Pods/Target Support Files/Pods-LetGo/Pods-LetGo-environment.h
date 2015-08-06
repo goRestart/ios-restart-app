@@ -76,7 +76,7 @@
 #define COCOAPODS_POD_AVAILABLE_LGCoreKit
 #define COCOAPODS_VERSION_MAJOR_LGCoreKit 0
 #define COCOAPODS_VERSION_MINOR_LGCoreKit 8
-#define COCOAPODS_VERSION_PATCH_LGCoreKit 8
+#define COCOAPODS_VERSION_PATCH_LGCoreKit 10
 
 // Parse
 #define COCOAPODS_POD_AVAILABLE_Parse
@@ -139,6 +139,12 @@
 #define COCOAPODS_VERSION_MAJOR_Timepiece 0
 #define COCOAPODS_VERSION_MINOR_Timepiece 4
 #define COCOAPODS_VERSION_PATCH_Timepiece 0
+
+// UrbanAirship-iOS-SDK/Core
+#define COCOAPODS_POD_AVAILABLE_UrbanAirship_iOS_SDK_Core
+#define COCOAPODS_VERSION_MAJOR_UrbanAirship_iOS_SDK_Core 6
+#define COCOAPODS_VERSION_MINOR_UrbanAirship_iOS_SDK_Core 1
+#define COCOAPODS_VERSION_PATCH_UrbanAirship_iOS_SDK_Core 3
 
 // pop
 #define COCOAPODS_POD_AVAILABLE_pop
