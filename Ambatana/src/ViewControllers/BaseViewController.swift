@@ -10,24 +10,22 @@ import Foundation
 
 public class BaseViewController: UIViewController {
     
-    private var viewModel: BaseViewModel!
-    private var subviews: [BaseView]!
+    private var viewModel: BaseViewModel?
+    private var subviews: [BaseView]
     public var active: Bool = false {
         didSet {
             // Notify the VM & the views
-            viewModel.active = active
+            viewModel?.active = active
             
-            if let actualSubviews = subviews {
-                for subview in actualSubviews {
-                    subview.active = active
-                }
+            for subview in subviews {
+                subview.active = active
             }
         }
     }
     
     // MARK: Lifecycle
     
-    init(viewModel: BaseViewModel, nibName nibNameOrNil: String?) {
+    init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         self.subviews = []
         super.init(nibName: nibNameOrNil, bundle: nil)

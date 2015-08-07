@@ -1,6 +1,6 @@
 {
   "name": "LGCoreKit",
-  "version": "0.8.9",
+  "version": "0.8.11",
   "license": "Copyright",
   "summary": "letgo's CoreKit",
   "homepage": "https://bitbucket.org/ambatana/letgo-ios-lgcorekit",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://bitbucket.org/ambatana/letgo-ios-lgcorekit.git",
-    "tag": "0.8.9"
+    "tag": "0.8.11"
   },
   "platforms": {
     "ios": "8.0"
@@ -19,7 +19,8 @@
   "source_files": "LGCoreKit/**/*",
   "resource_bundles": {
     "LGCoreKitBundle": [
-      "LGCoreKitBundle/**/*.{realm}"
+      "LGCoreKitBundle/**/*.{realm}",
+      "LGCoreKitBundle/**/*.{json}"
     ]
   },
   "frameworks": "CoreLocation",

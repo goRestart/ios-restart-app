@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8AEE317F24E87A5D0DFDB76D"
+               BlueprintIdentifier = "E64C57D3EC085EA164FABA90"
                BuildableName = "LGCoreKit.framework"
                BlueprintName = "Pods-LetGo-LGCoreKit"
                ReferencedContainer = "container:Pods.xcodeproj">
