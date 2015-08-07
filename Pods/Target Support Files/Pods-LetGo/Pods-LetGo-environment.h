@@ -140,6 +140,12 @@
 #define COCOAPODS_VERSION_MINOR_Timepiece 4
 #define COCOAPODS_VERSION_PATCH_Timepiece 0
 
+// UIDeviceUtil
+#define COCOAPODS_POD_AVAILABLE_UIDeviceUtil
+#define COCOAPODS_VERSION_MAJOR_UIDeviceUtil 1
+#define COCOAPODS_VERSION_MINOR_UIDeviceUtil 1
+#define COCOAPODS_VERSION_PATCH_UIDeviceUtil 2
+
 // UrbanAirship-iOS-SDK/Core
 #define COCOAPODS_POD_AVAILABLE_UrbanAirship_iOS_SDK_Core
 #define COCOAPODS_VERSION_MAJOR_UrbanAirship_iOS_SDK_Core 6

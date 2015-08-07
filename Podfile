@@ -27,7 +27,10 @@ target "LetGo" do
     
     # Animation
     pod "pop",                  "~> 1.0"
-    
+
+    # Device info helper
+    pod "UIDeviceUtil",         "~> 1.1"
+
     # Push Notifications
     pod "UrbanAirship-iOS-SDK/Core", "~> 6.1"
 end
