@@ -346,8 +346,6 @@
 		66EF4AD01A8A046000D6F4D2 /* NewSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSellProductViewController.swift; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Ambatana.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		90DD65AA99208A05D029379B /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
@@ -974,12 +972,10 @@
 				66A0CFC81A83612500FAADF0 /* CoreLocation.framework */,
 				50C9E4E71B74C03D001E4E92 /* Foundation.framework */,
 				6640F0411AE141A800004556 /* libGoogleConversionTracking.a */,
-				75A467CF339A7C8897FFFDCD /* libPods-Ambatana.a */,
 				66A0CFC91A83612500FAADF0 /* libsqlite3.dylib */,
 				66A0CFCA1A83612500FAADF0 /* libz.dylib */,
 				66A0CFCB1A83612500FAADF0 /* MobileCoreServices.framework */,
 				32EAA2F0A47FAE66469DCDBC /* Pods.framework */,
-				90DD65AA99208A05D029379B /* Pods_LetGo.framework */,
 				C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */,
 				66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */,
 				66A0CFCD1A83612500FAADF0 /* Security.framework */,
