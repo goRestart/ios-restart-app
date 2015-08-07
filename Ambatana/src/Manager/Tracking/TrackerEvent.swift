@@ -17,14 +17,6 @@ public struct TrackerEvent {
     }
     public private(set) var params: EventParameters?
     
-    public static func loginVisit() -> TrackerEvent {
-        return TrackerEvent(name: .LoginVisit, params: nil)
-    }
-    
-    public static func productSellComplete() -> TrackerEvent {
-        return TrackerEvent(name: .ProductSellComplete, params: nil)
-    }
-    
     public static func loginVisit(source: EventParameterLoginSourceValue) -> TrackerEvent {
         var params = EventParameters()
         params.addLoginParamsWithSource(source)
@@ -77,17 +69,7 @@ public struct TrackerEvent {
         }
         params[.CategoryId] = categoryIds.isEmpty ? "0" : ",".join(categoryIds)
         // User
-        if let actualUser = user {
-            if let userCity = actualUser.postalAddress.city {
-                params[.UserCity] = userCity
-            }
-            if let userCountry = actualUser.postalAddress.countryCode {
-                params[.UserCountry] = userCountry
-            }
-            if let userZipCode = actualUser.postalAddress.zipCode {
-                params[.UserZipCode] = userZipCode
-            }
-        }
+        params.addUserParamsWithUser(user)
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.SearchString] = actualSearchQuery
@@ -123,10 +105,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductDetailVisit, params: params)
     }
     
-    public static func productOffer(product: Product, user: User?) -> TrackerEvent {
+    public static func productOffer(product: Product, user: User?, amount: Double) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params.addProductParamsWithProduct(product, user: user)
+        // Offer
+        params[.ProductOfferAmount] = amount
         return TrackerEvent(name: .ProductOffer, params: params)
     }
     
@@ -137,10 +121,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
 
-    public static func productMarkAsSold(product: Product, user: User?) -> TrackerEvent {
+    public static func productMarkAsSold(source: EventParameterSellSourceValue, product: Product, user: User?) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params.addProductParamsWithProduct(product, user: user)
+        // Source
+        params[.MarkAsSoldSource] = source.rawValue
         return TrackerEvent(name: .ProductMarkAsSold, params: params)
     }
     
@@ -197,7 +183,7 @@ public struct TrackerEvent {
         params.addUserParamsWithUser(user)
         // FB check enabled
         params[.Enabled] = enabled
-        return TrackerEvent(name: .ProductSellEditShareFB, params: params)
+        return TrackerEvent(name: .ProductEditEditShareFB, params: params)
     }
     
     public static func productSellFormValidationFailed(user: User?, description: String) -> TrackerEvent {
@@ -236,66 +222,82 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellComplete, params: params)
     }
     
-    public static func productEditStart(user: User?) -> TrackerEvent {
+    public static func productEditStart(user: User?, product: Product) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
+        // Product
+        params[.ProductId] = product.objectId
         return TrackerEvent(name: .ProductEditStart, params: params)
     }
     
-    public static func productEditAddPicture(user: User?, imageCount: Int) -> TrackerEvent {
+    public static func productEditAddPicture(user: User?, product: Product, imageCount: Int) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
+        // Product
+        params[.ProductId] = product.objectId
         // Image number
         params[.Number] = imageCount
         return TrackerEvent(name: .ProductEditAddPicture, params: params)
     }
     
-    public static func productEditEditTitle(user: User?) -> TrackerEvent {
+    public static func productEditEditTitle(user: User?, product: Product) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
+        // Product
+        params[.ProductId] = product.objectId
         return TrackerEvent(name: .ProductEditEditTitle, params: params)
     }
     
-    public static func productEditEditPrice(user: User?) -> TrackerEvent {
+    public static func productEditEditPrice(user: User?, product: Product) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
+        // Product
+        params[.ProductId] = product.objectId
         return TrackerEvent(name: .ProductEditEditPrice, params: params)
     }
     
-    public static func productEditEditDescription(user: User?) -> TrackerEvent {
+    public static func productEditEditDescription(user: User?, product: Product) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
+        // Product
+        params[.ProductId] = product.objectId
         return TrackerEvent(name: .ProductEditEditDescription, params: params)
     }
     
-    public static func productEditEditCategory(user: User?, category: ProductCategory?) -> TrackerEvent {
+    public static func productEditEditCategory(user: User?, product: Product, category: ProductCategory?) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
+        // Product
+        params[.ProductId] = product.objectId
         // Category
         params[.CategoryId] = category?.rawValue ?? 0
         
         return TrackerEvent(name: .ProductEditEditCategory, params: params)
     }
     
-    public static func productEditEditShareFB(user: User?, enabled: Bool) -> TrackerEvent {
+    public static func productEditEditShareFB(user: User?, product: Product, enabled: Bool) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
+        // Product
+        params[.ProductId] = product.objectId
         // FB check enabled
         params[.Enabled] = enabled
         return TrackerEvent(name: .ProductEditEditShareFB, params: params)
     }
     
-    public static func productEditFormValidationFailed(user: User?, description: String) -> TrackerEvent {
+    public static func productEditFormValidationFailed(user: User?, product: Product, description: String) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
+        // Product
+        params[.ProductId] = product.objectId
         // Validation failure description
         params[.Description] = description
         return TrackerEvent(name: .ProductEditFormValidationFailed, params: params)
@@ -305,15 +307,18 @@ public struct TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
-        // Product name
+        // Product
+        params[.ProductId] = product.objectId
         params[.ProductName] = product.name ?? "none"
-        return TrackerEvent(name: .ProductSellSharedFB, params: params)
+        return TrackerEvent(name: .ProductEditSharedFB, params: params)
     }
     
-    public static func productEditAbandon(user: User?) -> TrackerEvent {
+    public static func productEditAbandon(user: User?, product: Product) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
+        // Product
+        params[.ProductId] = product.objectId
         return TrackerEvent(name: .ProductEditAbandon, params: params)
     }
     
@@ -321,7 +326,8 @@ public struct TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
-        // Product name
+        // Product
+        params[.ProductId] = product.objectId
         params[.ProductName] = product.name ?? "none"
         // Category
         params[.CategoryId] = product.categoryId
@@ -330,22 +336,28 @@ public struct TrackerEvent {
     
     public static func productDeleteStart(product: Product, user: User?) -> TrackerEvent {
         var params = EventParameters()
+        // User
+        params.addUserParamsWithUser(user)
         // Product
-        params.addProductParamsWithProduct(product, user: user)
+        params[.ProductId] = product.objectId
         return TrackerEvent(name: .ProductDeleteStart, params: params)
     }
     
     public static func productDeleteAbandon(product: Product, user: User?) -> TrackerEvent {
         var params = EventParameters()
+        // User
+        params.addUserParamsWithUser(user)
         // Product
-        params.addProductParamsWithProduct(product, user: user)
+        params[.ProductId] = product.objectId
         return TrackerEvent(name: .ProductDeleteAbandon, params: params)
     }
     
     public static func productDeleteComplete(product: Product, user: User?) -> TrackerEvent {
         var params = EventParameters()
+        // User
+        params.addUserParamsWithUser(user)
         // Product
-        params.addProductParamsWithProduct(product, user: user)
+        params[.ProductId] = product.objectId
         return TrackerEvent(name: .ProductDeleteComplete, params: params)
     }
 

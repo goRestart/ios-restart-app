@@ -21,23 +21,23 @@ private extension TrackerEvent {
     }
 }
 
-internal class GoogleTracker: Tracker {
+public class GoogleTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId)
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    public func applicationDidBecomeActive(application: UIApplication) {
         
     }
     
-    func setUser(user: User) {
+    public func setUser(user: User) {
         
     }
     
-    func trackEvent(event: TrackerEvent) {
+    public func trackEvent(event: TrackerEvent) {
         if let gctParams = event.gctParams {
             ACTConversionReporter.reportWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId, label: gctParams.label, value: gctParams.value, isRepeatable: gctParams.isRepeatable)
         }

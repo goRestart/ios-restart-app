@@ -8,23 +8,23 @@
 
 import LGCoreKit
 
-internal class NanigansTracker: Tracker {
+public class NanigansTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    public func applicationDidBecomeActive(application: UIApplication) {
         
     }
     
-    func setUser(user: User) {
+    public func setUser(user: User) {
         
     }
     
-    func trackEvent(event: TrackerEvent) {
+    public func trackEvent(event: TrackerEvent) {
         
     }
 }

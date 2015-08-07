@@ -9,23 +9,23 @@
 import FBSDKCoreKit
 import LGCoreKit
 
-internal class FacebookTracker: Tracker {
+public class FacebookTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    public func applicationDidBecomeActive(application: UIApplication) {
         FBSDKAppEvents.activateApp()
     }
     
-    func setUser(user: User) {
+    public func setUser(user: User) {
 
     }
     
-    func trackEvent(event: TrackerEvent) {
+    public func trackEvent(event: TrackerEvent) {
         FBSDKAppEvents.logEvent(event.actualName, parameters: event.params?.stringKeyParams)
     }
 }

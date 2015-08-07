@@ -28,24 +28,24 @@ private extension TrackerEvent {
     }
 }
 
-internal class AppsflyerTracker: Tracker {
+public class AppsflyerTracker: Tracker {
     
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         AppsFlyerTracker.sharedTracker().appsFlyerDevKey = EnvironmentProxy.sharedInstance.appsFlyerAPIKey
         AppsFlyerTracker.sharedTracker().appleAppID = EnvironmentProxy.sharedInstance.appleAppId
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    public func applicationDidBecomeActive(application: UIApplication) {
         AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
     
-    func setUser(user: User) {
+    public func setUser(user: User) {
         AppsFlyerTracker.sharedTracker().customerUserID = user.email
     }
     
-    func trackEvent(event: TrackerEvent) {
+    public func trackEvent(event: TrackerEvent) {
         if event.shouldTrack {
             AppsFlyerTracker.sharedTracker().trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
         }

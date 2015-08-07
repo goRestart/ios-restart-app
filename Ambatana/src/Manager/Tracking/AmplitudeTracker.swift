@@ -9,28 +9,28 @@
 import Amplitude_iOS
 import LGCoreKit
 
-internal class AmplitudeTracker: Tracker {
+public class AmplitudeTracker: Tracker {
     
     // Constants
     // > User properties
-    internal static let userPropTypeKey = "UserType"
-    internal static let userPropTypeValueReal = "Real"
-    internal static let userPropTypeValueDummy = "Dummy"
+    private static let userPropTypeKey = "UserType"
+    private static let userPropTypeValueReal = "Real"
+    private static let userPropTypeValueDummy = "Dummy"
     
     // > Prefix
-    internal static let dummyEmailPrefix = "usercontent"
+    private static let dummyEmailPrefix = "usercontent"
     
     // MARK: - Tracker
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         Amplitude.instance().initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    public func applicationDidBecomeActive(application: UIApplication) {
         AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
     
-    func setUser(user: User) {
+    public func setUser(user: User) {
         let email = user.email
         Amplitude.instance().setUserId(email)
 
@@ -46,7 +46,7 @@ internal class AmplitudeTracker: Tracker {
         Amplitude.instance().setUserProperties(properties, replace: true)
     }
     
-    func trackEvent(event: TrackerEvent) {
+    public func trackEvent(event: TrackerEvent) {
         Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
     }
 }
