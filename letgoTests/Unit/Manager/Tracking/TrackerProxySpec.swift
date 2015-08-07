@@ -88,6 +88,28 @@ class TrackerProxySpec: QuickSpec {
                     expect(flag).to(beTrue())
                 }
             }
+            it("redirects to each tracker application:openURL:sourceApplication:annotation:)") {
+                var flags = [false, false, false]
+                tracker1.openURLBlock = { (tracker: Tracker) in flags[0] = true }
+                tracker2.openURLBlock = { (tracker: Tracker) in flags[1] = true }
+                tracker3.openURLBlock = { (tracker: Tracker) in flags[2] = true }
+                
+                sut.application(UIApplication.sharedApplication(), openURL: NSURL(string: "http://www.google.com")!, sourceApplication: nil, annotation: nil)
+                for flag in flags {
+                    expect(flag).to(beTrue())
+                }
+            }
+            it("redirects to each tracker applicationWillEnterForeground:") {
+                var flags = [false, false, false]
+                tracker1.willEnterForegroundBlock = { (tracker: Tracker) in flags[0] = true }
+                tracker2.willEnterForegroundBlock = { (tracker: Tracker) in flags[1] = true }
+                tracker3.willEnterForegroundBlock = { (tracker: Tracker) in flags[2] = true }
+                
+                sut.applicationWillEnterForeground(UIApplication.sharedApplication())
+                for flag in flags {
+                    expect(flag).to(beTrue())
+                }
+            }
             it("redirects to each tracker applicationDidBecomeActive:") {
                 var flags = [false, false, false]
                 tracker1.didBecomeActiveBlock = { (tracker: Tracker) in flags[0] = true }

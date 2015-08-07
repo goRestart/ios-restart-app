@@ -37,6 +37,14 @@ public class AppsflyerTracker: Tracker {
         AppsFlyerTracker.sharedTracker().appleAppID = EnvironmentProxy.sharedInstance.appleAppId
     }
     
+    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+        
+    }
+    
+    public func applicationWillEnterForeground(application: UIApplication) {
+        
+    }
+    
     public func applicationDidBecomeActive(application: UIApplication) {
         AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }

@@ -12,6 +12,8 @@ import LGCoreKit
 internal class MockTracker: Tracker {
     
     var didFinishLaunchingWithOptionsBlock: (Tracker -> ())?
+    var openURLBlock: (Tracker -> ())?
+    var willEnterForegroundBlock: (Tracker -> ())?
     var didBecomeActiveBlock: (Tracker -> ())?
     var setUserBlock: (Tracker -> ())?
     var trackEventBlock: (Tracker -> ())?
@@ -20,6 +22,14 @@ internal class MockTracker: Tracker {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         didFinishLaunchingWithOptionsBlock?(self)
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+        openURLBlock?(self)
+    }
+    
+    func applicationWillEnterForeground(application: UIApplication) {
+        willEnterForegroundBlock?(self)
     }
     
     func applicationDidBecomeActive(application: UIApplication) {

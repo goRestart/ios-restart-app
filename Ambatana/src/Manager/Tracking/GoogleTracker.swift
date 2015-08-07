@@ -8,6 +8,17 @@
 
 import LGCoreKit
 
+struct GoogleConversionParams {
+    let label: String
+    let value: String
+    let isRepeatable: Bool
+    init(label: String, value: String, isRepeatable: Bool) {
+        self.label = label
+        self.value = value
+        self.isRepeatable = isRepeatable
+    }
+}
+
 private extension TrackerEvent {
     var gctParams: GoogleConversionParams? {
         get {
@@ -29,7 +40,15 @@ public class GoogleTracker: Tracker {
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId)
     }
     
+    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+        
+    }
+    
     public func applicationDidBecomeActive(application: UIApplication) {
+        
+    }
+    
+    public func applicationWillEnterForeground(application: UIApplication) {
         
     }
     

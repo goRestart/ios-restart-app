@@ -80,17 +80,6 @@ enum TrackingEvent: String {
     }
 }
 
-struct GoogleConversionParams {
-    let label: String
-    let value: String
-    let isRepeatable: Bool
-    init(label: String, value: String, isRepeatable: Bool) {
-        self.label = label
-        self.value = value
-        self.isRepeatable = isRepeatable
-    }
-}
-
 enum TrackingParameter: String {
     case UserEmail            = "user-email"
     case CategoryId           = "category-id"       // 0 if there's no category

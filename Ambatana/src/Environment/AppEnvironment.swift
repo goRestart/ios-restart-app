@@ -9,12 +9,13 @@
 import LGCoreKit
 
 protocol AppEnvironment: Environment {
-    
     // General
     var appleAppId: String { get }
+    var facebookAppId: String { get }
 
     // Tracking
     var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
-    var googleConversionTrackingId: String { get }    
+    var googleConversionTrackingId: String { get }
+    var nanigansAppId: String { get }
 }

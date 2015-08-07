@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import CHTCollectionViewWaterfallLayout
 import LGCoreKit
 import UIKit
 

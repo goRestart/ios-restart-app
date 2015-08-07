@@ -50,13 +50,16 @@ extension UIImage {
         var w = self.size.width
         var h = self.size.height
         // resize to max size = kLetGoMaxProductImageSide
-        if w <= kLetGoMaxProductImageSide && h <= kLetGoMaxProductImageSide { return self }
-        else if w > h { // cut width to kLetGoMaxProductImageSide and calculate height
-            h = h * kLetGoMaxProductImageSide / w
-            w = kLetGoMaxProductImageSide
-        } else { // cut height to kLetGoMaxProductImageSide and calculate width
-            w = w * kLetGoMaxProductImageSide / h
-            h = kLetGoMaxProductImageSide
+        
+        let maxProductImageSide: CGFloat = 1024
+        
+        if w <= maxProductImageSide && h <= maxProductImageSide { return self }
+        else if w > h { // cut width to maxProductImageSide and calculate height
+            h = h * maxProductImageSide / w
+            w = maxProductImageSide
+        } else { // cut height to maxProductImageSide and calculate width
+            w = w * maxProductImageSide / h
+            h = maxProductImageSide
         }
         return self.resizedImageToSize(CGSizeMake(w, h), interpolationQuality: interpolationQuality)
     }

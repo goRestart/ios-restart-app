@@ -30,6 +30,18 @@ public class TrackerProxy: Tracker {
         }
     }
     
+    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+        for tracker in trackers {
+            tracker.application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        }
+    }
+    
+    public func applicationWillEnterForeground(application: UIApplication) {
+        for tracker in trackers {
+            tracker.applicationWillEnterForeground(application)
+        }
+    }
+    
     public func applicationDidBecomeActive(application: UIApplication) {
         for tracker in trackers {
             tracker.applicationDidBecomeActive(application)

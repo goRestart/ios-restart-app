@@ -17,6 +17,14 @@ public class FacebookTracker: Tracker {
         
     }
     
+    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+        
+    }
+    
+    public func applicationWillEnterForeground(application: UIApplication) {
+        
+    }
+    
     public func applicationDidBecomeActive(application: UIApplication) {
         FBSDKAppEvents.activateApp()
     }
