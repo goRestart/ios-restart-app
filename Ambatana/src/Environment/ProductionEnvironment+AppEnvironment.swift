@@ -18,4 +18,7 @@ extension ProductionEnvironment: AppEnvironment {
     var amplitudeAPIKey: String { get { return "6d37fbd6c25243c57676e6d4ce7948bf" } }
     var googleConversionTrackingId: String { get { return "947998763" } }
     var nanigansAppId: String { get { return "298434" } }
+    
+    var urbanAirshipAPIKey: String { get { return "554gl4nfTgGQKYpZN_m5aQ"} }
+    var urbanAirshipAPISecret: String { get { return "13N1n6bTRuqGsAev6eWDSA"} }
 }

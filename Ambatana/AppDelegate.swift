@@ -27,18 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
-        
-        // Registering for push notifications && Installation
-        if iOSVersionAtLeast("8.0") { // we are on iOS 8.X+ use the new way.
-            let userNotificationTypes = (UIUserNotificationType.Alert |
-                UIUserNotificationType.Badge |
-                UIUserNotificationType.Sound)
-            let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
-            application.registerUserNotificationSettings(settings)
-            application.registerForRemoteNotifications()
-        } else { // we're on ios < 8, use the old way
-            UIApplication.sharedApplication().registerForRemoteNotificationTypes(UIRemoteNotificationType.Alert|UIRemoteNotificationType.Badge|UIRemoteNotificationType.Sound)
-        }
 
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
             PushManager.sharedInstance.application(application, didFinishLaunchingWithRemoteNotification: remoteNotification)
@@ -131,6 +119,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #else
             Fabric.with([Crashlytics()])
 #endif
+        
+        // Push notifications
+        PushManager.sharedInstance.prepareApplicationForRemoteNotifications(application)
+        PushManager.sharedInstance.setupUrbanAirship()
         
         // Tracking
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)

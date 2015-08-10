@@ -18,4 +18,8 @@ protocol AppEnvironment: Environment {
     var amplitudeAPIKey: String { get }
     var googleConversionTrackingId: String { get }
     var nanigansAppId: String { get }
+    
+    // Push notifications
+    var urbanAirshipAPIKey: String { get }
+    var urbanAirshipAPISecret: String { get }
 }

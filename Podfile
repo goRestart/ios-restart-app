@@ -28,6 +28,12 @@ pod "pop",                  "~> 1.0"
 
 pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 
+# Device info helper
+pod "UIDeviceUtil",         "~> 1.1"
+
+# Push Notifications
+pod "UrbanAirship-iOS-SDK/Core", "~> 6.1"
+
 target "letgoTests", :exclusive => true do
     ## Testing
     pod "Quick",            "~> 0.3.1"    # Update to 0.4+ when upgrading to Swift 2.0

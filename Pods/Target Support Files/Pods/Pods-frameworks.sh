@@ -69,6 +69,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods/SDWebImage.framework'
   install_framework 'Pods/SwiftyJSON.framework'
   install_framework 'Pods/Timepiece.framework'
+  install_framework 'Pods/UIDeviceUtil.framework'
+  install_framework 'Pods/UrbanAirship_iOS_SDK.framework'
   install_framework 'Pods/pop.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -89,6 +91,8 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods/SDWebImage.framework'
   install_framework 'Pods/SwiftyJSON.framework'
   install_framework 'Pods/Timepiece.framework'
+  install_framework 'Pods/UIDeviceUtil.framework'
+  install_framework 'Pods/UrbanAirship_iOS_SDK.framework'
   install_framework 'Pods/pop.framework'
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
@@ -109,5 +113,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework 'Pods/SDWebImage.framework'
   install_framework 'Pods/SwiftyJSON.framework'
   install_framework 'Pods/Timepiece.framework'
+  install_framework 'Pods/UIDeviceUtil.framework'
+  install_framework 'Pods/UrbanAirship_iOS_SDK.framework'
   install_framework 'Pods/pop.framework'
 fi
