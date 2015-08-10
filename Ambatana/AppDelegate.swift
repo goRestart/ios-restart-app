@@ -78,8 +78,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
                     if forceUpdate && UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
                         // show blocking alert
-                        let alert = UIAlertController(title: nil, message: "THERE'S A CRITICAL APP UPDATE.  PLEASE UPDATE THE APP.", preferredStyle: .Alert)
-                        let openAppStore = UIAlertAction(title: "Go to AppStore", style: .Default, handler: { (action :UIAlertAction!) -> Void in
+                        let alert = UIAlertController(title: NSLocalizedString("forced_update_title", comment: ""), message: NSLocalizedString("forced_update_message", comment: ""), preferredStyle: .Alert)
+                        let openAppStore = UIAlertAction(title: NSLocalizedString("forced_update_update_button", comment: ""), style: .Default, handler: { (action :UIAlertAction!) -> Void in
                             UIApplication.sharedApplication().openURL(NSURL(string:itunesURL)!)
                         })
                         
@@ -90,8 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        
-    
         // Tracking
         TrackingHelper.appDidBecomeActive()
         
