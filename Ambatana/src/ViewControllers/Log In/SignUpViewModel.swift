@@ -19,7 +19,7 @@ public protocol SignUpViewModelDelegate: class {
 public class SignUpViewModel: BaseViewModel {
     
     // Login source
-    let loginSource: TrackingParameterLoginSourceValue
+    let loginSource: EventParameterLoginSourceValue
     
     // Delegate
     weak var delegate: SignUpViewModelDelegate?
@@ -43,7 +43,7 @@ public class SignUpViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(source: TrackingParameterLoginSourceValue) {
+    init(source: EventParameterLoginSourceValue) {
         loginSource = source
         username = ""
         email = ""
@@ -72,10 +72,12 @@ public class SignUpViewModel: BaseViewModel {
         else {
             MyUserManager.sharedInstance.signUpWithEmail(email, password: password, publicUsername: fullName) { [weak self] (result: Result<Nil, UserSignUpServiceError>) -> Void in
                 if let strongSelf = self {
-                    
                     // Tracking
-                    TrackingHelper.setUserId(strongSelf.email)
-                    TrackingHelper.trackEvent(.SignupEmail, withLoginSource: strongSelf.loginSource)
+                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource, email: strongSelf.email))
+                    
+                    if let myUser = MyUserManager.sharedInstance.myUser() {
+                        TrackerProxy.sharedInstance.setUser(myUser)
+                    }
                     
                     // Notify the delegate about it finished
                     if let actualDelegate = strongSelf.delegate {

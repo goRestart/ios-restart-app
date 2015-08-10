@@ -47,7 +47,7 @@ public class MainProductsViewModel: BaseViewModel {
             if count(actualSearchString) > 0 {
 
                 // Tracking
-                TrackingHelper.trackEvent(.SearchComplete, parameters: trackingParamsForEventType(.SearchComplete))
+                TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchComplete(MyUserManager.sharedInstance.myUser(), searchQuery: searchString ?? ""))
                 
                 // Notify the delegate
                 delegate?.mainProductsViewModel(self, didSearchWithViewModel: viewModelForSearch())
@@ -62,7 +62,7 @@ public class MainProductsViewModel: BaseViewModel {
     */
     public func searchButtonPressed() {
         // Tracking
-        TrackingHelper.trackEvent(.SearchStart, parameters: trackingParamsForEventType(.SearchStart))
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
     }
     
     // MARK: - Private methods
@@ -74,36 +74,5 @@ public class MainProductsViewModel: BaseViewModel {
     */
     private func viewModelForSearch() -> MainProductsViewModel {
         return MainProductsViewModel(searchString: searchString)
-    }
-    
-    /**
-        Returns the tracking parameters key-value for the given tracking event type.
-    
-        :param: eventType The tracking event type.
-        :return: The tracking parameters key-value for the given tracking event type.
-    */
-    private func trackingParamsForEventType(eventType: TrackingEvent) -> [TrackingParameter: AnyObject] {
-        var properties: [TrackingParameter: AnyObject] = [:]
-        
-        // User data
-        if let currentUser = MyUserManager.sharedInstance.myUser() {
-            if let userCity = currentUser.postalAddress.city {
-                properties[.UserCity] = userCity
-            }
-            if let userCountry = currentUser.postalAddress.countryCode {
-                properties[.UserCountry] = userCountry
-            }
-            if let userZipCode = currentUser.postalAddress.zipCode {
-                properties[.UserZipCode] = userZipCode
-            }
-        }
-        
-        // If it's a search complete, the set the search string
-        if eventType == .SearchComplete {
-            if let actualSearchString = searchString {
-                properties[.SearchString] = actualSearchString
-            }
-        }
-        return properties
     }
 }

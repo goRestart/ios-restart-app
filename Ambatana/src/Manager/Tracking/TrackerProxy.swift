@@ -11,7 +11,7 @@ import LGCoreKit
 public class TrackerProxy: Tracker {
     
     // Constants
-    private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(), GoogleTracker(), NanigansTracker()]
+    private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(), GoogleTracker()/*, NanigansTracker()*/]
     
     // iVars
     public var trackers: [Tracker] = []
@@ -48,7 +48,7 @@ public class TrackerProxy: Tracker {
         }
     }
     
-    public func setUser(user: User) {
+    public func setUser(user: User?) {
         for tracker in trackers {
             tracker.setUser(user)
         }

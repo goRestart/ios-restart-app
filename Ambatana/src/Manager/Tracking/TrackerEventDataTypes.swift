@@ -196,7 +196,7 @@ public struct EventParameters {
             params[.ProductCurrency] = productCurrency.code
         }
         if let productUser = product.user {
-            params[.ProductType] = TrackingHelper.productTypeParamValue(productUser.isDummy) // TODO: !!
+            params[.ProductType] = productUser.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
         }
         if let productId = product.objectId {
             params[.ProductId] = productId

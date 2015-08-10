@@ -156,49 +156,13 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         
         // Update UI
         updateUI()
-        
+       
         // Tracking
-        TrackingHelper.trackEvent(.ProductDetailVisit, parameters: trackingParams)
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let trackerEvent = TrackerEvent.productDetailVisit(product, user: myUser)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    // MARK: - Product detail tracking event properties
-    
-    private var trackingParams: [TrackingParameter: AnyObject] {
-        get {
-            var properties: [TrackingParameter: AnyObject] = [:]
-            
-            if let city = product.postalAddress.city {
-                properties[.ProductCity] = city
-            }
-            if let countryCode = product.postalAddress.countryCode {
-                properties[.ProductCountry] = countryCode
-            }
-            if let zipCode = product.postalAddress.zipCode {
-                properties[.ProductZipCode] = zipCode
-            }
-            if let categoryId = product.categoryId {
-                properties[.CategoryId] = categoryId.stringValue
-            }
-            if let name = product.name {
-                properties[.ProductName] = name
-            }
-            if let productUser = product.user {
-                properties[.ItemType] = TrackingHelper.productTypeParamValue(productUser.isDummy)
-            }
-            if let productId = product.objectId {
-                properties[.ProductId] = productId
-            }
-            if let productUser = product.user, let productUserId = productUser.objectId  {
-                properties[.UserToId] = productUserId
-            }
-            if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
-                properties[.UserId] = myUserId
-            }
-            
-            return properties
-        }
-    }
-
     // MARK: - Button actions
     @IBAction func askQuestion(sender: AnyObject) {
         ifLoggedInThen(.AskQuestion, loggedInAction: {
@@ -299,12 +263,12 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
     
     func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-            self.definitelyMarkProductAsSold()
+            self.definitelyMarkProductAsSold(.MarkAsSold)
         }
     }
     
     // if user answered "yes" to the question: "Do you really want to mark this product as sold?"...
-    func definitelyMarkProductAsSold() {
+    func definitelyMarkProductAsSold(source: EventParameterSellSourceValue) {
         self.enableMarkAsSoldLoadingInterface()
         
         productManager.markProductAsSold(product) { [weak self] ( markAsSoldResult: Result<Product, ProductMarkSoldServiceError>) -> Void in
@@ -314,7 +278,9 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                     strongSelf.productStatus = .Sold
                     
                     // Tracking
-                    TrackingHelper.trackEvent(.ProductMarkAsSold, parameters: strongSelf.trackingParams)
+                    let myUser = MyUserManager.sharedInstance.myUser()
+                    let trackerEvent = TrackerEvent.productMarkAsSold(source, product: soldProduct, user: myUser)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                     
                     // animated hiding of the button, restore alpha once hidden.
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
@@ -679,7 +645,7 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                 style: .Cancel, handler: nil))
             alert.addAction(UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_ok_button", comment: ""),
                 style: .Default, handler: { (markAction) -> Void in
-                self.definitelyMarkProductAsSold()
+                self.definitelyMarkProductAsSold(.MarkAsSold)
             }))
             self.presentViewController(alert, animated: true, completion: nil)
         }
@@ -732,7 +698,9 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""),
                 style: .Cancel, handler: { (markAction) -> Void in
                     // Tracking
-                    TrackingHelper.trackEvent(.ProductDeleteAbandon, parameters: self.trackingParams)
+                    let myUser = MyUserManager.sharedInstance.myUser()
+                    let trackerEvent = TrackerEvent.productDeleteAbandon(self.product, user: myUser)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("common_ok", comment: ""),
                 style: .Default, handler: { (markAction) -> Void in
@@ -747,11 +715,13 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""),
                 style: .Cancel, handler: { (markAction) -> Void in
                     // Tracking
-                    TrackingHelper.trackEvent(.ProductDeleteAbandon, parameters: self.trackingParams)
+                    let myUser = MyUserManager.sharedInstance.myUser()
+                    let trackerEvent = TrackerEvent.productDeleteAbandon(self.product, user: myUser)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_sold_button", comment: ""),
                 style: .Default, handler: { (markAction) -> Void in
-                    self.definitelyMarkProductAsSold()
+                    self.definitelyMarkProductAsSold(.Delete)
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_ok_button", comment: ""),
                 style: .Default, handler: { (markAction) -> Void in
@@ -762,10 +732,12 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
         self.presentViewController(alert, animated: true, completion: nil)
         
         // Tracking
-        TrackingHelper.trackEvent(.ProductDeleteStart, parameters: trackingParams)
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let trackerEvent = TrackerEvent.productDeleteStart(product, user: myUser)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    private func deleteProduct() {        
+    private func deleteProduct() {
         showLoadingMessageAlert()
         productManager.deleteProduct(product) { [weak self] (result: Result<Nil, ProductDeleteServiceError>) -> Void in
             if let strongSelf = self {
@@ -776,7 +748,9 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
                     }
                     
                     // Tracking
-                    TrackingHelper.trackEvent(.ProductDeleteComplete, parameters: strongSelf.trackingParams)
+                    let myUser = MyUserManager.sharedInstance.myUser()
+                    let trackerEvent = TrackerEvent.productDeleteComplete(strongSelf.product, user: myUser)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 }
                 else if let error = result.error {
                     strongSelf.dismissLoadingMessageAlert {

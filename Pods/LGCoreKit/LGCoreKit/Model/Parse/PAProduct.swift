@@ -214,7 +214,14 @@ import Parse
             return self[FieldKey.User.rawValue] as? PFUser
         }
         set {
-            self[FieldKey.User.rawValue] = newValue as? PFUser ?? NSNull()
+            if let user = newValue as? PFUser {
+                self[FieldKey.User.rawValue] = user
+                self[FieldKey.UserId.rawValue] = user.objectId ?? NSNull()
+            }
+            else {
+                self[FieldKey.User.rawValue] = NSNull()
+                self[FieldKey.UserId.rawValue] = NSNull()
+            }
         }
     }
     

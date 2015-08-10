@@ -41,9 +41,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .LoginEmail, params: params)
     }
     
-    public static func signupEmail(source: EventParameterLoginSourceValue) -> TrackerEvent {
+    public static func signupEmail(source: EventParameterLoginSourceValue, email: String) -> TrackerEvent {
         var params = EventParameters()
         params.addLoginParamsWithSource(source)
+        params[.UserEmail] = email
         return TrackerEvent(name: .SignupEmail, params: params)
     }
     
@@ -57,7 +58,7 @@ public struct TrackerEvent {
         return TrackerEvent(name: .Logout, params: nil)
     }
     
-    public static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?, pageNumber: Int) -> TrackerEvent {
+    public static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?, pageNumber: UInt) -> TrackerEvent {
         var params = EventParameters()
         
         // Categories
@@ -303,13 +304,13 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductEditFormValidationFailed, params: params)
     }
     
-    public static func productEditSharedFB(user: User?, product: Product) -> TrackerEvent {
+    public static func productEditSharedFB(user: User?, product: Product, name: String) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
         // Product
         params[.ProductId] = product.objectId
-        params[.ProductName] = product.name ?? "none"
+        params[.ProductName] = name.isEmpty ? "none" : name
         return TrackerEvent(name: .ProductEditSharedFB, params: params)
     }
     
@@ -322,15 +323,15 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductEditAbandon, params: params)
     }
     
-    public static func productEditComplete(user: User?, product: Product) -> TrackerEvent {
+    public static func productEditComplete(user: User?, product: Product, name: String, category: ProductCategory?) -> TrackerEvent {
         var params = EventParameters()
         // User
         params.addUserParamsWithUser(user)
         // Product
         params[.ProductId] = product.objectId
-        params[.ProductName] = product.name ?? "none"
+        params[.ProductName] = name.isEmpty ? "none" : name
         // Category
-        params[.CategoryId] = product.categoryId
+        params[.CategoryId] = category?.rawValue ?? 0
         return TrackerEvent(name: .ProductEditComplete, params: params)
     }
     

@@ -49,8 +49,8 @@ public class AppsflyerTracker: Tracker {
         AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
     
-    public func setUser(user: User) {
-        AppsFlyerTracker.sharedTracker().customerUserID = user.email
+    public func setUser(user: User?) {
+        AppsFlyerTracker.sharedTracker().customerUserID = user?.email
     }
     
     public func trackEvent(event: TrackerEvent) {

@@ -13,6 +13,6 @@ public protocol Tracker {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?)
     func applicationWillEnterForeground(application: UIApplication)
     func applicationDidBecomeActive(application: UIApplication)
-    func setUser(user: User)
+    func setUser(user: User?)
     func trackEvent(event: TrackerEvent)
 }

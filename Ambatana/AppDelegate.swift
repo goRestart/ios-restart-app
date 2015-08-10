@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        setupLibraries(launchOptions)
+        setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
         
         // Registering for push notifications && Installation
@@ -59,6 +59,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        // Tracking
+        TrackerProxy.sharedInstance.application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        
+        // Facebook
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
@@ -77,13 +81,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        
+        // Tracking
+        TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         // Tracking
-        TrackingHelper.appDidBecomeActive()
+        TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         
         // Location
         LocationManager.sharedInstance.startLocationUpdates()
@@ -114,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: > Setup
     
-    private func setupLibraries(launchOptions: [NSObject: AnyObject]?) {
+    private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) {
 
         // LGCoreKit
         LGCoreKit.initialize(launchOptions)
@@ -126,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 #endif
         
         // Tracking
-        TrackingHelper.appDidFinishLaunching()
+        TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     private func setupAppearance() {

@@ -24,7 +24,7 @@ private extension TrackerEvent {
         get {
             switch name {
             case .ProductSellComplete:
-                return GoogleConversionParams(label: "12NTCIbjvV4QzpfzxAM", value: "0.00", isRepeatable: true)
+                return GoogleConversionParams(label: "RErZCKHw414Qq6CFxAM", value: "0.00", isRepeatable: true)
             default:
                 return nil
             }
@@ -34,10 +34,21 @@ private extension TrackerEvent {
 
 public class GoogleTracker: Tracker {
     
+    var googleConversionInstallParams: GoogleConversionParams {
+        get {
+            return GoogleConversionParams(label: "tjkBCOnz414Qq6CFxAM", value: "0.00", isRepeatable: false)
+        }
+    }
+    
     // MARK: - Tracker
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId)
+
+        // Track the install
+        let gctParams = googleConversionInstallParams
+        ACTConversionReporter.reportWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId, label: gctParams.label, value: gctParams.value, isRepeatable: gctParams.isRepeatable)
+
     }
     
     public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
@@ -52,7 +63,7 @@ public class GoogleTracker: Tracker {
         
     }
     
-    public func setUser(user: User) {
+    public func setUser(user: User?) {
         
     }
     

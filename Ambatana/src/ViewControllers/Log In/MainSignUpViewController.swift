@@ -45,7 +45,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     
     // MARK: - Lifecycle
     
-    init(source: TrackingParameterLoginSourceValue) {
+    init(source: EventParameterLoginSourceValue) {
         self.viewModel = MainSignUpViewModel(source: source)
         self.lines = []
         super.init(viewModel: viewModel, nibName: "MainSignUpViewController")

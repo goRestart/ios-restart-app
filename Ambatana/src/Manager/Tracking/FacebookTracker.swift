@@ -29,7 +29,7 @@ public class FacebookTracker: Tracker {
         FBSDKAppEvents.activateApp()
     }
     
-    public func setUser(user: User) {
+    public func setUser(user: User?) {
 
     }
     

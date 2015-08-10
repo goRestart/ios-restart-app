@@ -38,17 +38,10 @@ public class AmplitudeTracker: Tracker {
         AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
     
-    public func setUser(user: User) {
-        let email = user.email
-        Amplitude.instance().setUserId(email)
+    public func setUser(user: User?) {
+        Amplitude.instance().setUserId(user?.email)
 
-        let isDummy: Bool
-        if let actualEmail = email {
-            isDummy = startsWith(actualEmail, AmplitudeTracker.dummyEmailPrefix)
-        }
-        else {
-            isDummy = false
-        }
+        let isDummy = startsWith(user?.email ?? "", AmplitudeTracker.dummyEmailPrefix)
         var properties: [NSObject : AnyObject] = [:]
         properties[AmplitudeTracker.userPropTypeKey] = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
         Amplitude.instance().setUserProperties(properties, replace: true)

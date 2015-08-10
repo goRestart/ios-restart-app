@@ -37,7 +37,6 @@
 		50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */; };
 		50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */; };
 		50261B231AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */; };
-		50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */; };
 		5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033F6CB1B5D0AE60004FECB /* BaseView.swift */; };
 		50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B881B25D18F0021D8D9 /* BaseViewController.swift */; };
 		50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B891B25D18F0021D8D9 /* BaseViewModel.swift */; };
@@ -228,7 +227,6 @@
 		50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DevelopmentEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductionEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EnvironmentProxy+AppEnvironment.swift"; sourceTree = "<group>"; };
-		50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingHelper.swift; sourceTree = "<group>"; };
 		5033F6CB1B5D0AE60004FECB /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		5033F6D11B5E7A990004FECB /* my */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = my; path = my.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5033F6D21B5E7A990004FECB /* my */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = my; path = my.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1019,7 +1017,6 @@
 				508E4CE81B41A5BD007BD301 /* Model */,
 				50560B871B25D18F0021D8D9 /* ViewControllers */,
 				D458383C1AEE6A9100B5F181 /* ui */,
-				50261B241AFB6AA8006E88E0 /* TrackingHelper.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1462,7 +1459,6 @@
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				50DBEC381B3D79C8006CBDE0 /* TabBarToolTip.swift in Sources */,
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
-				50261B251AFB6AA8006E88E0 /* TrackingHelper.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
 				50F0BAAD1B28939F00E50A68 /* SignUpViewController.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,

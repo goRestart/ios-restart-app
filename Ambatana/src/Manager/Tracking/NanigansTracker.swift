@@ -11,12 +11,10 @@ import LGCoreKit
 private struct NanigansParams {
     let eventType: String
     let name: String
-    let extraParams: [NSObject : AnyObject]?
     
-    init(eventType: String, name: String, extraParams: [NSObject : AnyObject]?) {
+    init(eventType: String, name: String) {
         self.eventType = eventType
         self.name = name
-        self.extraParams = extraParams
     }
 }
 
@@ -25,15 +23,15 @@ private extension TrackerEvent {
         get {
             switch name {
             case .LoginEmail, .LoginFB, .SignupEmail:
-                return NanigansParams(eventType: "install", name: "reg", extraParams: nil)
+                return NanigansParams(eventType: "install", name: "reg")
             case .ProductAskQuestion:
-                return NanigansParams(eventType: "user", name: actualName, extraParams: nil)
+                return NanigansParams(eventType: "user", name: actualName)
             case .ProductOffer:
-                return NanigansParams(eventType: "user", name: actualName, extraParams: nil)
+                return NanigansParams(eventType: "user", name: actualName)
             case .ProductSellComplete:
-                return NanigansParams(eventType: "user", name: actualName, extraParams: nil)
+                return NanigansParams(eventType: "user", name: actualName)
             case .ProductSellStart:
-                return NanigansParams(eventType: "user", name: actualName, extraParams: nil)
+                return NanigansParams(eventType: "user", name: actualName)
             default:
                 return nil
             }
@@ -62,13 +60,13 @@ public class NanigansTracker: Tracker {
         NANTracking.trackAppLaunch(nil)
     }
     
-    public func setUser(user: User) {
-        NANTracking.setUserId(user.email)
+    public func setUser(user: User?) {
+        NANTracking.setUserId(user?.objectId)
     }
     
     public func trackEvent(event: TrackerEvent) {
         if let nanigansParams = event.nanigansParams {
-            NANTracking.trackNanigansEvent(nanigansParams.eventType, name: nanigansParams.name, extraParams: nanigansParams.extraParams)
+            NANTracking.trackNanigansEvent(nanigansParams.eventType, name: nanigansParams.name, extraParams: event.params?.stringKeyParams)
         }
     }
 }

@@ -294,11 +294,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("signupEmail") {
                 it("has its event name") {
-                    sut = TrackerEvent.signupEmail(.Sell)
+                    sut = TrackerEvent.signupEmail(.Sell, email: "test@test.com")
                     expect(sut.name.rawValue).to(equal("signup-email"))
                 }
                 it("contains the appropiate login source signing in via email from posting") {
-                    sut = TrackerEvent.signupEmail(.Sell)
+                    sut = TrackerEvent.signupEmail(.Sell, email: "test@test.com")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -306,7 +306,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source signing in via email from chats") {
-                    sut = TrackerEvent.signupEmail(.Chats)
+                    sut = TrackerEvent.signupEmail(.Chats, email: "test@test.com")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -314,7 +314,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source signing in via email from profile") {
-                    sut = TrackerEvent.signupEmail(.Profile)
+                    sut = TrackerEvent.signupEmail(.Profile, email: "test@test.com")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -322,7 +322,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source signing in via email from mark as favourite") {
-                    sut = TrackerEvent.signupEmail(.Favourite)
+                    sut = TrackerEvent.signupEmail(.Favourite, email: "test@test.com")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -330,7 +330,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source signing in via email from make an offer") {
-                    sut = TrackerEvent.signupEmail(.MakeOffer)
+                    sut = TrackerEvent.signupEmail(.MakeOffer, email: "test@test.com")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -338,7 +338,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("offer"))
                 }
                 it("contains the appropiate login source signing in via email from mark as sold") {
-                    sut = TrackerEvent.signupEmail(.MarkAsSold)
+                    sut = TrackerEvent.signupEmail(.MarkAsSold, email: "test@test.com")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -346,7 +346,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source signing in via email from as a question") {
-                    sut = TrackerEvent.signupEmail(.AskQuestion)
+                    sut = TrackerEvent.signupEmail(.AskQuestion, email: "test@test.com")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -354,12 +354,20 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source signing in via email from report fraud") {
-                    sut = TrackerEvent.signupEmail(.ReportFraud)
+                    sut = TrackerEvent.signupEmail(.ReportFraud, email: "test@test.com")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("report-fraud"))
+                }
+                it("contains the passed by email") {
+                    sut = TrackerEvent.signupEmail(.ReportFraud, email: "test@test.com")
+                    expect(sut.params).notTo(beNil())
+                    
+                    expect(sut.params!.stringKeyParams["user-email"]).notTo(beNil())
+                    let userEmail = sut.params!.stringKeyParams["user-email"] as? String
+                    expect(userEmail).to(equal("test@test.com"))
                 }
             }
             
@@ -1842,7 +1850,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productEditSharedFB") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product)
+                    sut = TrackerEvent.productEditSharedFB(nil, product: product, name: "name")
                     expect(sut.name.rawValue).to(equal("product-edit-shared-fb"))
                 }
                 it("contains the user related params when passing by a user") {
@@ -1853,7 +1861,7 @@ class TrackerEventSpec: QuickSpec {
                     user.postalAddress.city = "Barcelona"
                     let product = MockProduct()
                     
-                    sut = TrackerEvent.productEditSharedFB(user, product: product)
+                    sut = TrackerEvent.productEditSharedFB(user, product: product, name: "name")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
@@ -1874,19 +1882,19 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the product related params when passing by a product") {
                     let product = MockProduct()
-                    product.name = "Bocata de paté"
+                    let newName = "Bocata de paté"
                     
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product)
+                    sut = TrackerEvent.productEditSharedFB(nil, product: product, name: newName)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
                     let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(product.name))
+                    expect(productName).to(equal(newName))
                 }
                 it("contains the product id") {
                     let product = MockProduct()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product)
+                    sut = TrackerEvent.productEditSharedFB(nil, product: product, name: "name")
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1944,7 +1952,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productEditComplete") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productEditComplete(nil, product: product)
+                    sut = TrackerEvent.productEditComplete(nil, product: product, name: "name", category: nil)
                     expect(sut.name.rawValue).to(equal("product-edit-complete"))
                 }
                 it("contains the user related params when passing by a user") {
@@ -1955,7 +1963,7 @@ class TrackerEventSpec: QuickSpec {
                     user.postalAddress.city = "Barcelona"
                     let product = MockProduct()
                     
-                    sut = TrackerEvent.productEditComplete(user, product: product)
+                    sut = TrackerEvent.productEditComplete(user, product: product, name: "name", category: nil)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
@@ -1974,26 +1982,26 @@ class TrackerEventSpec: QuickSpec {
                     let userCity = sut.params!.stringKeyParams["user-city"] as? String
                     expect(userCity).to(equal(user.postalAddress.city))
                 }
-                it("contains the product related params when passing by a product") {
+                it("contains the product related params when passing by a product, name & category") {
                     let product = MockProduct()
-                    product.name = "bruce lee poster"
-                    product.categoryId = NSNumber(integer: 4)
+                    let newName = "bruce lee poster"
+                    let newCategory = ProductCategory.CarsAndMotors
                     
-                    sut = TrackerEvent.productEditComplete(nil, product: product)
+                    sut = TrackerEvent.productEditComplete(nil, product: product, name: newName, category: newCategory)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(categoryId).to(equal(4))
+                    expect(categoryId).to(equal(newCategory.rawValue))
                     
                     expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
                     let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(product.name))
+                    expect(productName).to(equal(newName))
                 }
                 it("contains the product id") {
                     let product = MockProduct()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditComplete(nil, product: product)
+                    sut = TrackerEvent.productEditComplete(nil, product: product, name: "name", category: nil)
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
