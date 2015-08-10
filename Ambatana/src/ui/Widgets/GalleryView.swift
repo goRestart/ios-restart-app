@@ -132,7 +132,7 @@ import UIKit
         scrollView.addGestureRecognizer(tapRecognizer)
         
         // Page control
-        pageControl.addTarget(self, action: Selector("pageControlPageChanged:"), forControlEvents: UIControlEvents.ValueChanged)
+        pageControl.addTarget(self, action: Selector("pageControlPageChanged"), forControlEvents: UIControlEvents.ValueChanged)
         
         pageControl.setTranslatesAutoresizingMaskIntoConstraints(false)
         addSubview(pageControl)
@@ -149,7 +149,7 @@ import UIKit
     
     // MARK: > Actions
     
-    @objc private func pageControlPageChanged() {
+    dynamic private func pageControlPageChanged() {
         
         // Load previous, current and next page
         let page = pageControl.currentPage
