@@ -304,13 +304,17 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
             newProduct.categoryId = NSNumber(integer: self.currentCategory!.rawValue)
             newProduct.currency = self.currentCurrency
             newProduct.descr = self.descriptionTextView.text
-            newProduct.location = LGLocationCoordinates2D(latitude: lastKnownLocation!.latitude, longitude: lastKnownLocation!.longitude)
+            newProduct.location = lastKnownLocation
             newProduct.processed = NSNumber(bool: false)
             newProduct.languageCode = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
             newProduct.name = self.productTitleTextField.text
             newProduct.price = productPrice
             newProduct.status = .Pending
             newProduct.user = MyUserManager.sharedInstance.myUser()
+            if let postalAddress = MyUserManager.sharedInstance.myUser()?.postalAddress {
+                newProduct.postalAddress = postalAddress
+            }
+            newProduct.ACL = globalReadAccessACL()
             
             // generate image files
             self.generateParseImageFiles()
@@ -340,8 +344,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                         self.disableLoadingInterface()
                         self.imageFiles = nil
                         return
-                        // alternatively: continue and try to save it eventually later.
-                        // imageFile.saveInBackgroundWithBlock(nil)
                     })
                 }
             }
@@ -351,68 +353,42 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                 newProduct.images = images
             }
             
-            // ACL status
-            newProduct.ACL = globalReadAccessACL()
+            // last step of the saving process.
+            self.uploadingImageProgressView.progress = 1.0
             
-            // Last (but not least) try to extract the geolocation address for the object based on the current coordinates
-            let currentLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: lastKnownLocation!.latitude, longitude: lastKnownLocation!.longitude), altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
-            self.geocoder.reverseGeocodeLocation(currentLocation, completionHandler: { (placemarks, error) -> Void in
-                if placemarks?.count > 0 {
-                    var addressString = ""
-                    
-                    if let placemark = placemarks?.first as? CLPlacemark {
-                        if let city = placemark.locality {
-                            newProduct.postalAddress.city = city
-                        }
-                        if let zipCode = placemark.postalCode {
-                            newProduct.postalAddress.zipCode = zipCode
-                        }
-                        if let countryCode = placemark.ISOcountryCode {
-                            newProduct.postalAddress.countryCode = countryCode
-                        }
-                        if let addressDictionary = placemark.addressDictionary {
-                            let address = ABCreateStringWithAddressDictionary(addressDictionary, false)
-                            newProduct.postalAddress.address = address
-                        }
-                    }
+            var error : NSError?
+            let success = newProduct.save(&error)
+            
+            // Synchronize
+            if success {
+                // Tracking purposes
+                self.savedProduct = newProduct
+                
+                if let productId = newProduct.objectId {
+                    self.productSynchronizeService.synchSynchronizeProductWithId(productId) { () -> Void in }
                 }
-                
-                // last step of the saving process.
-                self.uploadingImageProgressView.progress = 1.0
-                
-                var error : NSError?
-                let success = newProduct.save(&error)
-                
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.disableLoadingInterface()
                 if success {
-                    // Tracking purposes
-                    self.savedProduct = newProduct
+                    // Tracking
+                    let myUser = MyUserManager.sharedInstance.myUser()
+                    let event = TrackerEvent.productSellComplete(myUser, product: newProduct)
+                    TrackerProxy.sharedInstance.trackEvent(event)
                     
-                    if let productId = newProduct.objectId {
-                        self.productSynchronizeService.synchSynchronizeProductWithId(productId) { () -> Void in }
+                    // check facebook sharing
+                    if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(newProduct) }
+                    else {
+                        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
+                            self.dismissViewControllerAnimated(true, completion: { [weak self] in
+                                self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
+                                })
+                        })
                     }
+                } else {
+                    self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_product", comment: ""))
                 }
-
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.disableLoadingInterface()
-                    if success {
-                        // Tracking
-                        let myUser = MyUserManager.sharedInstance.myUser()
-                        let event = TrackerEvent.productSellComplete(myUser, product: newProduct)
-                        TrackerProxy.sharedInstance.trackEvent(event)
-                        
-                        // check facebook sharing
-                        if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(newProduct) }
-                        else {
-                            self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
-                                self.dismissViewControllerAnimated(true, completion: { [weak self] in
-                                    self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
-                                    })
-                            })
-                        }
-                    } else {
-                        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_product", comment: ""))
-                    }
-                })
             })
 
         })
