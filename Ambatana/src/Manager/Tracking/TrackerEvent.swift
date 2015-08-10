@@ -184,7 +184,7 @@ public struct TrackerEvent {
         params.addUserParamsWithUser(user)
         // FB check enabled
         params[.Enabled] = enabled
-        return TrackerEvent(name: .ProductEditEditShareFB, params: params)
+        return TrackerEvent(name: .ProductSellEditShareFB, params: params)
     }
     
     public static func productSellFormValidationFailed(user: User?, description: String) -> TrackerEvent {

@@ -1212,7 +1212,7 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     let user = MockUser()
                     sut = TrackerEvent.productSellEditShareFB(nil, enabled: true)
-                    expect(sut.name.rawValue).to(equal("product-edit-edit-share-fb"))
+                    expect(sut.name.rawValue).to(equal("product-sell-edit-share-fb"))
                 }
                 it("contains the user related params when passing by a user") {
                     let user = MockUser()
