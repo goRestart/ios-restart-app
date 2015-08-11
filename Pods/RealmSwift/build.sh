@@ -14,7 +14,7 @@ set -o pipefail
 set -e
 
 # You can override the version of the core library
-: ${REALM_CORE_VERSION:=0.92.0} # set to "current" to always use the current build
+: ${REALM_CORE_VERSION:=0.92.1.1} # set to "current" to always use the current build
 
 # You can override the xcmode used
 : ${XCMODE:=xcodebuild} # must be one of: xcodebuild (default), xcpretty, xctool
@@ -227,7 +227,7 @@ download_core() {
     CORE_TMP_TAR="${TMP_DIR}/core-${REALM_CORE_VERSION}.tar.bz2.tmp"
     CORE_TAR="${TMP_DIR}/core-${REALM_CORE_VERSION}.tar.bz2"
     if [ ! -f "${CORE_TAR}" ]; then
-        curl -f -L -s "http://static.realm.io/downloads/core/realm-core-${REALM_CORE_VERSION}.tar.bz2" -o "${CORE_TMP_TAR}" ||
+        curl -f -L -s "https://static.realm.io/downloads/core/realm-core-${REALM_CORE_VERSION}.tar.bz2" -o "${CORE_TMP_TAR}" ||
           (echo "Downloading core failed. Please try again once you have an Internet connection." && exit 1)
         mv "${CORE_TMP_TAR}" "${CORE_TAR}"
     fi
@@ -289,7 +289,10 @@ case "$COMMAND" in
             echo "core is not a symlink. Deleting..."
             rm -rf core
             download_core
-        elif ! $(head -n 1 core/release_notes.txt | grep -i ${REALM_CORE_VERSION} >/dev/null); then
+        # With a prebuilt version we only want to check the first non-empty
+        # line so that checking out an older commit will download the
+        # appropriate version of core if the already-present version is too new
+        elif ! $(grep -m 1 . core/release_notes.txt | grep -i "${REALM_CORE_VERSION} RELEASE NOTES" >/dev/null); then
             download_core
         else
             echo "The core library seems to be up to date."
