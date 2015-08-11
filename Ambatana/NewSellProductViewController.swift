@@ -67,7 +67,7 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     var currenciesFromBackend: [PFObject]?
     var imageCounter = 0
     var imageSelectedIndex = 0 // for actions (delete, save to disk...) in iOS7 and prior
-    var productId: String?
+    var savedProduct: Product?
     
     // Synch
     let productSynchronizeService = LGProductSynchronizeService()
@@ -119,9 +119,9 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         if let flowLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout { flowLayout.scrollDirection = .Horizontal }
         
         // Tracking
-        let event: TrackingEvent = .ProductSellStart
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
-
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productSellStart(myUser)
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -157,57 +157,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     
     func keyboardWillHide(notification: NSNotification) { self.restoreOriginalPosition() }
     
-    // MARK: - Tracking parameters
-    
-    func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject]? {
-        var params: [TrackingParameter: AnyObject] = [:]
-
-        // Common
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            if let userId = myUser.objectId {
-                params[.UserId] = userId
-            }
-            if let userCity = myUser.postalAddress.city {
-                params[.UserCity] = userCity
-            }
-            if let userCountry = myUser.postalAddress.countryCode {
-                params[.UserCountry] = userCountry
-            }
-            if let userZipCode = myUser.postalAddress.zipCode {
-                params[.UserZipCode] = userZipCode
-            }
-        }
-        
-        // Non-common
-        if eventType == .ProductSellAddPicture {
-            params[.Number] = images.count
-        }
-        
-        if eventType == .ProductSellSharedFB || eventType == .ProductSellComplete {
-            params[.ProductName] = productTitleTextField.text ?? "none"
-        }
-        
-        if eventType == .ProductSellFormValidationFailed {
-            params[.Description] = value
-        }
-        
-        if eventType == .ProductSellEditShareFB {
-            params[.Enabled] = self.shareInFacebookSwitch.on
-        }
-        
-        if eventType == .ProductSellEditCategory || eventType == .ProductSellComplete {
-            params[.CategoryId] = currentCategory?.rawValue ?? 0
-        }
-        
-        if eventType == .ProductSellComplete {
-            if let actualProductId = productId {
-                params[.ProductId] = actualProductId
-            }
-        }
-        
-        return params
-    }
-    
     // MARK: - iOS 7 Action Sheet deprecated selections for compatibility.
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         if actionSheet.tag == kLetGoSellProductActionSheetTagCategoryType { // category selection
@@ -217,8 +166,9 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                 self.chooseCategoryButton.setTitle(category.name(), forState: .Normal)
                 
                 // Tracking
-                let event: TrackingEvent = .ProductSellEditCategory
-                TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+                let myUser = MyUserManager.sharedInstance.myUser()
+                let event = TrackerEvent.productSellEditCategory(myUser, category: category)
+                TrackerProxy.sharedInstance.trackEvent(event)
             }
         } else if actionSheet.tag == kLetGoSellProductActionSheetTagImageSourceType { // choose source for the images
             if buttonIndex == 0 { self.openImagePickerWithSource(.Camera) }
@@ -234,8 +184,10 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     func closeButtonPressed() {
         self.dismissViewControllerAnimated(true, completion: nil)
         
-        let event: TrackingEvent = .ProductSellAbandon
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        // Tracking
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productSellAbandon(myUser)
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     @IBAction func chooseCategory(sender: AnyObject) {
@@ -248,12 +200,14 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
             
             for category in ProductCategory.allValues() {
                 alert.addAction(UIAlertAction(title: category.name(), style: .Default, handler: { (categoryAction) -> Void in
+                    
                     self.currentCategory = category
                     self.chooseCategoryButton.setTitle(category.name(), forState: .Normal)
                     
                     // Tracking
-                    let event: TrackingEvent = .ProductSellEditCategory
-                    TrackingHelper.trackEvent(event, parameters: self.trackingParamsForEventType(event))
+                    let myUser = MyUserManager.sharedInstance.myUser()
+                    let event = TrackerEvent.productSellEditCategory(myUser, category: category)
+                    TrackerProxy.sharedInstance.trackEvent(event)
                 }))
             }
             alert.addAction(UIAlertAction(title: NSLocalizedString("sell_choose_category_dialog_cancel_button", comment: ""),
@@ -276,8 +230,9 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         restoreOriginalPosition()
         
         // Tracking
-        let event: TrackingEvent = .ProductSellEditShareFB
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productSellEditShareFB(myUser, enabled: shareInFacebookSwitch.enabled)
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     @IBAction func sellProduct(sender: AnyObject) {
@@ -330,8 +285,9 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         
         if let failureReason = validationFailureReason {
             // Tracking
-            let event: TrackingEvent = .ProductSellFormValidationFailed
-            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event, value: failureReason))
+            let myUser = MyUserManager.sharedInstance.myUser()
+            let event = TrackerEvent.productSellFormValidationFailed(myUser, description: failureReason)
+            TrackerProxy.sharedInstance.trackEvent(event)
             return
         }
         
@@ -342,21 +298,23 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         // Let's use our pretty sell queue for uploading everything in sequence and in order ;)
         dispatch_async(sellQueue, { () -> Void in
             // Ok, if we reached this point we are ready to sell! Now let's build the new product object.
-            let productObject = PFObject(className: "Products") // product to sell
+            let newProduct = PAProduct()
             
             // fill in all product fields
-            productObject["category_id"] = self.currentCategory!.rawValue
-            productObject["currency"] = self.currentCurrency.code
-            productObject["description"] = self.descriptionTextView.text
-            productObject["gpscoords"] = PFGeoPoint(latitude: lastKnownLocation!.latitude, longitude: lastKnownLocation!.longitude)
-            productObject["processed"] = false
-            productObject["language_code"] = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
-            productObject["name"] = self.productTitleTextField.text
-            productObject["name_dirify"] = self.productTitleTextField.text
-            productObject["price"] = productPrice
-            productObject["status"] = LetGoProductStatus.Pending.rawValue
-            productObject["user"] = PFUser.currentUser()
-            productObject["user_id"] = PFUser.currentUser()?.objectId ?? ""
+            newProduct.categoryId = NSNumber(integer: self.currentCategory!.rawValue)
+            newProduct.currency = self.currentCurrency
+            newProduct.descr = self.descriptionTextView.text
+            newProduct.location = lastKnownLocation
+            newProduct.processed = NSNumber(bool: false)
+            newProduct.languageCode = NSLocale.preferredLanguages().first as? String ?? kLetGoDefaultCategoriesLanguage
+            newProduct.name = self.productTitleTextField.text
+            newProduct.price = productPrice
+            newProduct.status = .Pending
+            newProduct.user = MyUserManager.sharedInstance.myUser()
+            if let postalAddress = MyUserManager.sharedInstance.myUser()?.postalAddress {
+                newProduct.postalAddress = postalAddress
+            }
+            newProduct.ACL = globalReadAccessACL()
             
             // generate image files
             self.generateParseImageFiles()
@@ -386,76 +344,51 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                         self.disableLoadingInterface()
                         self.imageFiles = nil
                         return
-                        // alternatively: continue and try to save it eventually later.
-                        // imageFile.saveInBackgroundWithBlock(nil)
                     })
                 }
             }
             
             // assign images to product images
-            for (var i = 0; i < self.imageFiles!.count; i++) {
-                let imageKey = kLetGoProductImageKeys[i]
-                productObject[imageKey] = self.imageFiles![i]
+            if let images = self.imageFiles {
+                newProduct.images = images
             }
             
-            // ACL status
-            productObject.ACL = globalReadAccessACL()
+            // last step of the saving process.
+            self.uploadingImageProgressView.progress = 1.0
             
-            // Last (but not least) try to extract the geolocation address for the object based on the current coordinates
-            let currentLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: lastKnownLocation!.latitude, longitude: lastKnownLocation!.longitude), altitude: 1, horizontalAccuracy: 1, verticalAccuracy: -1, timestamp: nil)
-            self.geocoder.reverseGeocodeLocation(currentLocation, completionHandler: { (placemarks, error) -> Void in
-                if placemarks?.count > 0 {
-                    var addressString = ""
-                    
-                    if let placemark = placemarks?.first as? CLPlacemark {
-                        // extract elements and update user.
-                        if placemark.locality != nil {
-                            productObject["city"] = placemark.locality
-                        }
-                        if placemark.postalCode != nil { productObject["zip_code"] = placemark.postalCode }
-                        if placemark.ISOcountryCode != nil { productObject["country_code"] = placemark.ISOcountryCode }
-                        if placemark.addressDictionary != nil {
-                            addressString = ABCreateStringWithAddressDictionary(placemark.addressDictionary, false)
-                            productObject["address"] = addressString
-                        }
-                    }
+            var error : NSError?
+            let success = newProduct.save(&error)
+            
+            // Synchronize
+            if success {
+                // Tracking purposes
+                self.savedProduct = newProduct
+                
+                if let productId = newProduct.objectId {
+                    self.productSynchronizeService.synchSynchronizeProductWithId(productId) { () -> Void in }
                 }
-                
-                // last step of the saving process.
-                self.uploadingImageProgressView.progress = 1.0
-                
-                var error : NSError?
-                let success = productObject.save(&error)
-                
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.disableLoadingInterface()
                 if success {
-                    if let productId = productObject.objectId {
-                        self.productSynchronizeService.synchSynchronizeProductWithId(productId) { () -> Void in }
+                    // Tracking
+                    let myUser = MyUserManager.sharedInstance.myUser()
+                    let event = TrackerEvent.productSellComplete(myUser, product: newProduct)
+                    TrackerProxy.sharedInstance.trackEvent(event)
+                    
+                    // check facebook sharing
+                    if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(newProduct) }
+                    else {
+                        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
+                            self.dismissViewControllerAnimated(true, completion: { [weak self] in
+                                self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
+                                })
+                        })
                     }
+                } else {
+                    self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_product", comment: ""))
                 }
-
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.disableLoadingInterface()
-                    if success {
-                        // for tracking purposes
-                        self.productId = productObject.objectId
-
-                        // Tracking
-                        let event: TrackingEvent = .ProductSellComplete
-                        TrackingHelper.trackEvent(event, parameters: self.trackingParamsForEventType(event))
-
-                        // check facebook sharing
-                        if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(productObject.objectId!) }
-                        else {
-                            self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
-                                self.dismissViewControllerAnimated(true, completion: { [weak self] in
-                                    self?.delegate?.sellProductViewController?(self, didCompleteSell: true)
-                                    })
-                            })
-                        }
-                    } else {
-                        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_uploading_product", comment: ""))
-                    }
-                })
             })
 
         })
@@ -495,22 +428,11 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     
     // MARK: - Share in facebook.
     
-//    func checkFacebookSharing(objectId: String) {
-//        // first we need to check that the current FBSession is valid.
-//        if FBSDKAccessToken.currentAccessToken() != nil { // we have a valid token session.
-//            shareCurrentProductInFacebook(objectId)
-//        } else {
-//            showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""), completionBlock: { () -> Void in
-//                self.dismissViewControllerAnimated(true, completion: nil)
-//            })
-//        }
-//    }
-    
-    func shareCurrentProductInFacebook(objectId: String) {
+    func shareCurrentProductInFacebook(product: Product) {
         // build the sharing content.
         let fbSharingContent = FBSDKShareLinkContent()
         fbSharingContent.contentTitle = NSLocalizedString("sell_share_fb_content", comment: "")
-        fbSharingContent.contentURL = NSURL(string: letgoWebLinkForObjectId(objectId))
+        fbSharingContent.contentURL = NSURL(string: letgoWebLinkForObjectId(product.objectId))
         fbSharingContent.contentDescription = productTitleTextField.text
         if imageFiles?.count > 0 { fbSharingContent.imageURL = NSURL(string: imageFiles!.first!.url!) }
         
@@ -526,8 +448,11 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         })
 
         // Tracking
-        let event: TrackingEvent = .ProductSellSharedFB
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        if let product = savedProduct {
+            let myUser = MyUserManager.sharedInstance.myUser()
+            let event = TrackerEvent.productSellSharedFB(myUser, product: product)
+            TrackerProxy.sharedInstance.trackEvent(event)
+        }
     }
     
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
@@ -579,8 +504,8 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
         
         // Tracking
-        let event: TrackingEvent = .ProductSellAddPicture
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let offerEvent = TrackerEvent.productSellAddPicture(myUser, imageCount: images.count)
         
         self.dismissViewControllerAnimated(true, completion: nil)
         // safety check.
@@ -640,13 +565,14 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         })
         
         // Tracking
+        let myUser = MyUserManager.sharedInstance.myUser()
         if textField == productTitleTextField {
-            let event: TrackingEvent = .ProductSellEditTitle
-            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+            let event = TrackerEvent.productSellEditTitle(myUser)
+            TrackerProxy.sharedInstance.trackEvent(event)
         }
         else if textField == productPriceTextfield {
-            let event: TrackingEvent = .ProductSellEditPrice
-            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+            let event = TrackerEvent.productSellEditPrice(myUser)
+            TrackerProxy.sharedInstance.trackEvent(event)
         }
     }
     
@@ -660,8 +586,9 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         })
 
         // Tracking
-        let event: TrackingEvent = .ProductSellEditDescription
-        TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productSellEditDescription(myUser)
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     // MARK: - TextView character count.

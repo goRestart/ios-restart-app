@@ -260,10 +260,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                     strongSelf.messageTextfield.text = ""
                     
                     // Tracking
-                    if strongSelf.askQuestion {
-                        TrackingHelper.trackEvent(.ProductAskQuestion, parameters: strongSelf.trackingParams)
+                    let myUser = MyUserManager.sharedInstance.myUser()
+                    if let actualProduct = strongSelf.product {
+                        if strongSelf.askQuestion {
+                            let trackerEvent = TrackerEvent.productAskQuestion(actualProduct, user: myUser)
+                            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                        }
+                        let trackerEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
+                        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                     }
-                    TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
                 }
                 else {
                     strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
@@ -304,58 +309,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let vc = ShowProductViewController(product: actualProduct)
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-        }
-    }
-    
-    // MARK: > Tracking
-    
-    private var trackingParams: [TrackingParameter: AnyObject] {
-        get {
-            var properties: [TrackingParameter: AnyObject] = [:]
-
-            // product data
-            if let actualProduct = product {
-                if let productCity = actualProduct.postalAddress.city {
-                    properties[.ProductCity] = productCity
-                }
-                if let productCountry = actualProduct.postalAddress.countryCode {
-                    properties[.ProductCountry] = productCountry
-                }
-                if let productZipCode = actualProduct.postalAddress.zipCode {
-                    properties[.ProductZipCode] = productZipCode
-                }
-                if let productCategoryId = actualProduct.categoryId {
-                    properties[.CategoryId] = productCategoryId.stringValue
-                }
-                if let productName = actualProduct.name {
-                    properties[.ProductName] = productName
-                }
-                if let productUserId = actualProduct.user?.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId,
-                    let otherUsr = otherUser, let otherUserId = otherUsr.objectId  {
-
-                        let isDummy = myUser.isDummy
-                        
-                        // If the product is mine, check if i'm dummy
-                        if productUserId == myUserId {
-                            properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
-                        }
-                        // If the product is the other's guy, check if dummy
-                        else if productUserId == otherUserId {
-                            properties[.ItemType] = TrackingHelper.productTypeParamValue(isDummy)
-                        }
-                }
-                if let productId = actualProduct.objectId {
-                    properties[.ProductId] = productId
-                }
-                if let otherUsr = otherUser, let otherUserId = otherUsr.objectId  {
-                    properties[.UserToId] = otherUserId
-                }
-                if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
-                    properties[.UserId] = myUserId
-                }
-            }
-            
-            return properties
         }
     }
     

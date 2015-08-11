@@ -254,7 +254,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         if let tab = Tab(rawValue: vcIdx) {
             
             var isLogInRequired = false
-            var loginSource: TrackingParameterLoginSourceValue?
+            var loginSource: EventParameterLoginSourceValue?
             
             // Do not allow selecting Sell
             if tab == .Sell {

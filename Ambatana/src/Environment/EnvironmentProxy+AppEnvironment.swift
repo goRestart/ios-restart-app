@@ -20,6 +20,14 @@ extension EnvironmentProxy: AppEnvironment {
             return ""
         }
     }
+    var facebookAppId: String {
+        get {
+            if let appEnvironment = environment as? AppEnvironment {
+                return appEnvironment.facebookAppId
+            }
+            return ""
+        }
+    }
     var appsFlyerAPIKey: String {
         get {
             if let appEnvironment = environment as? AppEnvironment {
@@ -40,6 +48,15 @@ extension EnvironmentProxy: AppEnvironment {
         get {
             if let appEnvironment = environment as? AppEnvironment {
                 return appEnvironment.googleConversionTrackingId
+            }
+            return ""
+        }
+    }
+
+    var nanigansAppId: String {
+        get {
+            if let appEnvironment = environment as? AppEnvironment {
+                return appEnvironment.nanigansAppId
             }
             return ""
         }

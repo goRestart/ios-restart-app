@@ -20,7 +20,7 @@ final public class LGProductSynchronizeService: ProductSynchronizeService {
     // MARK: - Lifecycle
     
     public init(baseURL: String) {
-        self.url = baseURL + LGProductsRetrieveService.endpoint
+        self.url = baseURL + LGProductSynchronizeService.endpoint
     }
     
     public convenience init() {

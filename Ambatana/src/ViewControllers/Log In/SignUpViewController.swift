@@ -42,7 +42,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     
     // MARK: - Lifecycle
     
-    init(source: TrackingParameterLoginSourceValue) {
+    init(source: EventParameterLoginSourceValue) {
         self.viewModel = SignUpViewModel(source: source)
         self.lines = []
         super.init(viewModel: viewModel, nibName: "SignUpViewController")

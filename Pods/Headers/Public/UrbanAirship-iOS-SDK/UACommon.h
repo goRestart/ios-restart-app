@@ -1,1 +1,0 @@
-../../../UrbanAirship-iOS-SDK/Airship/UI/Default/Common/UACommon.h

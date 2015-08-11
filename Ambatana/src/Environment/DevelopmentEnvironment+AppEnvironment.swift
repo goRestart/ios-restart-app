@@ -11,11 +11,13 @@ import LGCoreKit
 extension DevelopmentEnvironment: AppEnvironment {
     // General
     var appleAppId: String { get { return "986339882" } }
+    var facebookAppId: String { get { return "699538486794082" } }
     
     // Tracking
     var appsFlyerAPIKey: String { get { return "5EKnCjmwmNKjE2e7gYBo6T" } }
     var amplitudeAPIKey: String { get { return "1c32ba5ed444237608436bad4f310307" } }
-    var googleConversionTrackingId: String { get { return "949799886" } }
+    var googleConversionTrackingId: String { get { return "947998763" } }
+    var nanigansAppId: String { get { return "298434" } }
     
     var urbanAirshipAPIKey: String { get { return "psjAmPh7RD-qPQXMykcPXQ"} }
     var urbanAirshipAPISecret: String { get { return "GfoA9hGdSOC0_JyFWqmGdQ"} }

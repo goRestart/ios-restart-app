@@ -20,7 +20,7 @@ public protocol RememberPasswordViewModelDelegate: class {
 public class RememberPasswordViewModel: BaseViewModel {
    
     // Login source
-    let loginSource: TrackingParameterLoginSourceValue
+    let loginSource: EventParameterLoginSourceValue
     
     // Delegate
     weak var delegate: RememberPasswordViewModelDelegate?
@@ -34,7 +34,7 @@ public class RememberPasswordViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(source: TrackingParameterLoginSourceValue) {
+    init(source: EventParameterLoginSourceValue) {
         email = ""
         loginSource = source
         super.init()
@@ -58,7 +58,8 @@ public class RememberPasswordViewModel: BaseViewModel {
                     actualDelegate.viewModel(strongSelf, didFinishResettingPasswordWithResult: result)
                     
                     // Tracking
-                    TrackingHelper.trackEvent(.ResetPassword, withLoginSource: strongSelf.loginSource)
+                    let trackerEvent = TrackerEvent.resetPassword(strongSelf.loginSource)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 }
             }
         }
