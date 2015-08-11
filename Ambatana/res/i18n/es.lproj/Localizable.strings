@@ -34,6 +34,7 @@
 "common_ok" = "Aceptar";
 "common_product_deleted" = "Artículo eliminado";
 "common_product_not_available" = "Este producto ya no está disponible";
+"common_product_sold" = "Este producto ha sido vendido";
 "common_time_a_minute_ago_label" = "Hace un minuto";
 "common_time_day_ago_label" = "Hace un día";
 "common_time_days_ago_label" = "Hace %d días";
@@ -46,6 +47,7 @@
 "common_time_week_ago_label" = "Hace una semana";
 "common_time_weeks_ago_label" = "Hace %d semanas";
 "contact_body_field_hint" = "Mensaje";
+"contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "Email";
 "contact_send_button" = "Enviar";
 "contact_send_error_generic" = "¡Ups! Ha ocurrido un error al enviar el mensaje. Comprueba que estás conectado a Internet y prueba otra vez.";
@@ -54,11 +56,21 @@
 "contact_send_error_invalid_subject" = "Por favor, indica un asunto.";
 "contact_send_ok" = "Tu mensaje ha sido enviado con éxito.";
 "contact_subject_field_hint" = "Asunto";
+"contact_subject_option_feedback" = "Sugerencias/comentarios";
+"contact_subject_option_location" = "Problemas de ubicación";
+"contact_subject_option_login" = "Acceso para el inicio de sesión";
+"contact_subject_option_other" = "Otros problemas";
+"contact_subject_option_product_edit" = "Editar/borrar producto";
+"contact_subject_option_profile_edit" = "Editar/borrar perfil";
+"contact_subject_option_report" = "Denunciar usuario/spam";
 "contact_title" = "Contáctanos";
 "edit_product_send_button" = "Actualizar";
 "edit_product_send_error_uploading_product" = "¡Ups! Ha habido un error al actualizar tu producto";
 "edit_product_send_ok" = "¡Enhorabuena! Tu producto ha sido editado con éxito. Aparecerá en nuestro tablón en seguida.";
 "edit_product_title" = "Editar producto";
+"forced_update_message" = "Está disponible una nueva versión de letgo. Por favor, actualiza ahora.";
+"forced_update_title" = "Actualización disponible";
+"forced_update_update_button" = "Actualizar";
 "indicate_location_address_field_hint" = "Escribe tu dirección";
 "indicate_location_address_search_error_generic" = "¡Ups! No hemos podido encontrar tu ubicación. Prueba otra vez.";
 "indicate_location_long_press_tip_label" = "O pulsa durante unos segundos sobre tu ubicación";

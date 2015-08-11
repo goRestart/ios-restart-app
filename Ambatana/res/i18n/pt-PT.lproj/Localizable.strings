@@ -34,6 +34,7 @@
 "common_ok" = "Ok";
 "common_product_deleted" = "Produto eliminado";
 "common_product_not_available" = "Este produto já não se encontra disponível";
+"common_product_sold" = "Este produto foi vendido";
 "common_time_a_minute_ago_label" = "há um minuto";
 "common_time_day_ago_label" = "há um dia";
 "common_time_days_ago_label" = "há %d dias";
@@ -46,6 +47,7 @@
 "common_time_week_ago_label" = "há uma semana";
 "common_time_weeks_ago_label" = "há %d semanas";
 "contact_body_field_hint" = "Mensagem";
+"contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "Email";
 "contact_send_button" = "Enviar";
 "contact_send_error_generic" = "Falha no envio da mensagem. Por favor verifique a sua ligação e tente novamente.";
@@ -54,11 +56,21 @@
 "contact_send_error_invalid_subject" = "Por favor indique um assunto";
 "contact_send_ok" = "A sua mensagem foi enviada com sucesso.";
 "contact_subject_field_hint" = "Assunto";
+"contact_subject_option_feedback" = "Sugestões/feedback";
+"contact_subject_option_location" = "Problemas com a localização";
+"contact_subject_option_login" = "Acesso login";
+"contact_subject_option_other" = "Outros problemas";
+"contact_subject_option_product_edit" = "Editar/eliminar produto";
+"contact_subject_option_profile_edit" = "Editar/eliminar perfil";
+"contact_subject_option_report" = "Denunciar utilizador/spam";
 "contact_title" = "Contacte-nos";
 "edit_product_send_button" = "Atualizar";
 "edit_product_send_error_uploading_product" = "Ocorreu um erro ao atualizar o seu produto";
 "edit_product_send_ok" = "Parabéns! O seu item foi atualizado com sucesso e aparecerá nos nossos anúncios em breve.";
 "edit_product_title" = "Editar produto";
+"forced_update_message" = "Está disponível uma nova versão do letgo. Por favor atualize agora.";
+"forced_update_title" = "Atualização disponível";
+"forced_update_update_button" = "Atualizar";
 "indicate_location_address_field_hint" = "Digite o seu endereço";
 "indicate_location_address_search_error_generic" = "Não consegui encontrar essa localização. Por favor tente novamente.";
 "indicate_location_long_press_tip_label" = "Ou mantenha o dedo pressionado na sua localização";

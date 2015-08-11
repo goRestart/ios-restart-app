@@ -34,6 +34,7 @@
 "common_ok" = "ကောင်းပြီ";
 "common_product_deleted" = "ထုတ်ကုန်ပယ်ဖျက်ခဲ့သည်";
 "common_product_not_available" = "ဤထုတ်ကုန်ကို နောက်ထပ်မရနိုင်ပါ။";
+"common_product_sold" = "ဒီထုတ်ကုန်ကိုရောင်းပြီးပါပြီ";
 "common_time_a_minute_ago_label" = "တစ်မိနစ်ခန့်က";
 "common_time_day_ago_label" = "မနေ့က";
 "common_time_days_ago_label" = "%d ရက် အရင်က";
@@ -46,6 +47,7 @@
 "common_time_week_ago_label" = "တစ်ပတ်အလိုက";
 "common_time_weeks_ago_label" = "%d ပတ်အလိုက";
 "contact_body_field_hint" = "မက်ဆေ့";
+"contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "အီးမေးလ်";
 "contact_send_button" = "ပို့မည်";
 "contact_send_error_generic" = "မက်ဆေ့ပေးပို့ခြင်းအမှား၊ ကျေးဇူးပြုပြီး သင့်ဆက်သွယ်ကိုစစ်ဆေးပြီး ပြန်ကြိုးစားပါ။";
@@ -54,11 +56,21 @@
 "contact_send_error_invalid_subject" = "ကျေးဇူးပြုပြီး အကြောင်းအရာတစ်ခုကိုပေးပါ။";
 "contact_send_ok" = "သင့်မက်ဆေ့ကို မှန်ကန်စွာပေးပို့ပြီးပါပြီ။";
 "contact_subject_field_hint" = "အကြောင်းအရာ";
+"contact_subject_option_feedback" = "အကြံပြုချက်များ/တုံ့ပြန်ချက်";
+"contact_subject_option_location" = "တည်နေရာကိစ္စများ";
+"contact_subject_option_login" = "လော့အင်ဝင်ခြင်း";
+"contact_subject_option_other" = "အခြားကိစ္စများ";
+"contact_subject_option_product_edit" = "ထုတ်ကုန်ကို ပြင်ဆင်ပါ/ဖျက်ပါ";
+"contact_subject_option_profile_edit" = "ပရိုဖိုင်ကို ပြင်ဆင်ပါ/ဖျက်ပါ";
+"contact_subject_option_report" = "သုံးစွဲသူ/စပမ်းကို အစီရင်ခံပါ";
 "contact_title" = "ကျွန်ုပ်တို့အား ဆက်သွယ်ပါ";
 "edit_product_send_button" = "ပြင်ဆင်ပါ";
 "edit_product_send_error_uploading_product" = "သင့်ထုတ်ကုန်ကိုဖျက်သည့်အမှားတစ်ခုရှိခဲ့ပါသည်။";
 "edit_product_send_ok" = "ဂုဏ်ယူပါတယ်။ သင့်အိုက်တမ်ကို အောင်မြင်စွာတင်ပြီးပါပြီ။ ၄င်းသည် ကျွန်ုပ်တို့စာရင်းတွင် မကြာမီပေါ်လာပါလိမ့်မယ်။";
 "edit_product_title" = "ပြင်ဆင်ပါ";
+"forced_update_message" = "letgo ဗားရှင်းအသစ်ကို ရနိုင်ပါသည်။";
+"forced_update_title" = "ပြင်ဆင်ချက်ရနိုင်သည်";
+"forced_update_update_button" = "ပြင်ဆင်မည်";
 "indicate_location_address_field_hint" = "သင့်လိပ်စာကိုရေးသားပါ";
 "indicate_location_address_search_error_generic" = "၄င်းသည် တည်နေရာမရှာနိုင်ပါ။ ကျေးဇူးပြုပြီး ပြန်ကြိုးစားပါ။";
 "indicate_location_long_press_tip_label" = "ကောင်းပြီ သင့်တည်နေရာပေါ်နှိပ်ထားသည့် သင့်လက်ချောင်းကိုထိန်းထားပါ";

@@ -34,6 +34,7 @@
 "common_ok" = "TAMAM";
 "common_product_deleted" = "Ürün silindi";
 "common_product_not_available" = "Bu ürün artık bulunmuyor";
+"common_product_sold" = "Bu ürün satıldı";
 "common_time_a_minute_ago_label" = "bir dakika önce";
 "common_time_day_ago_label" = "bir gün önce";
 "common_time_days_ago_label" = "%d gün önce";
@@ -46,6 +47,7 @@
 "common_time_week_ago_label" = "bir hafta önce";
 "common_time_weeks_ago_label" = "%d hafta önce";
 "contact_body_field_hint" = "Mesaj";
+"contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "E-posta";
 "contact_send_button" = "Gönder";
 "contact_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen bağlantı ayarlarınızı kontrol edin ve tekrar deneyin.";
@@ -54,11 +56,21 @@
 "contact_send_error_invalid_subject" = "Lütfen bir konu seçin.";
 "contact_send_ok" = "Mesajın başarıyla gönderildi.";
 "contact_subject_field_hint" = "Konu";
+"contact_subject_option_feedback" = "Tavsiyeler/geri bildirim";
+"contact_subject_option_location" = "Konum sorunları";
+"contact_subject_option_login" = "Oturuma erişim";
+"contact_subject_option_other" = "Diğer sorunlar";
+"contact_subject_option_product_edit" = "Ürünü düzenle/sil";
+"contact_subject_option_profile_edit" = "Profili düzenle/sil";
+"contact_subject_option_report" = "Kullanıcı/spam bildir";
 "contact_title" = "Bize ulaşın";
 "edit_product_send_button" = "Güncelle";
 "edit_product_send_error_uploading_product" = "Ürünün güncellenirken bir hata oluştu.";
 "edit_product_send_ok" = "Tebrikler! Eşyan başarıyla güncellendi. Kısa bir süre içinde listelerimizde yer alacak.";
 "edit_product_title" = "Ürünü Düzenle";
+"forced_update_message" = "Yeni bir letgo versiyonu mevcut. Lütfen şimdi güncelle.";
+"forced_update_title" = "Güncelleme var";
+"forced_update_update_button" = "Güncelle";
 "indicate_location_address_field_hint" = "Adresini yaz";
 "indicate_location_address_search_error_generic" = "Belirtilen yeri bulamadım. Lütfen, tekrar dene.";
 "indicate_location_long_press_tip_label" = "Veya bulunduğun yere parmağını basılı tut";

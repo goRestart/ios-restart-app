@@ -34,6 +34,7 @@
 "common_ok" = "Ok";
 "common_product_deleted" = "Produktet er slettet";
 "common_product_not_available" = "Dette produktet er ikke tilgjengelig lenger";
+"common_product_sold" = "Dette produktet er solgt";
 "common_time_a_minute_ago_label" = "et minutt siden";
 "common_time_day_ago_label" = "en dag siden";
 "common_time_days_ago_label" = "for %d dager siden";
@@ -46,6 +47,7 @@
 "common_time_week_ago_label" = "en uke siden";
 "common_time_weeks_ago_label" = "for %d uker siden";
 "contact_body_field_hint" = "Melding";
+"contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "Epost";
 "contact_send_button" = "Send";
 "contact_send_error_generic" = "Feil ved sending av melding. Vennligst sjekk din internett-tilkobling.";
@@ -54,11 +56,21 @@
 "contact_send_error_invalid_subject" = "Vennligst velg et emne.";
 "contact_send_ok" = "Din melding ble sendt.";
 "contact_subject_field_hint" = "Emne";
+"contact_subject_option_feedback" = "Forslag/tilbakemeldinger";
+"contact_subject_option_location" = "Stedsproblemer";
+"contact_subject_option_login" = "Innloggingstilgang";
+"contact_subject_option_other" = "Andre problemer";
+"contact_subject_option_product_edit" = "Endre/slett produkt";
+"contact_subject_option_profile_edit" = "Endre/slett profil";
+"contact_subject_option_report" = "Rapportér bruker/spam";
 "contact_title" = "Kontakt Oss";
 "edit_product_send_button" = "Oppdater";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Oppdatering av produkt var vellykket. Produktet vil vise seg blant våre oppføringer snart.";
 "edit_product_title" = "Endre Produkt";
+"forced_update_message" = "En ny versjon av letgo er tilgjengelig. Vennligst oppdater nå.";
+"forced_update_title" = "Oppdatering tilgjengelig";
+"forced_update_update_button" = "Oppdater";
 "indicate_location_address_field_hint" = "Skriv din adresse";
 "indicate_location_address_search_error_generic" = "Vi kunne ikke finne stedet. Vennligst prøv igjen.";
 "indicate_location_long_press_tip_label" = "Eller hold inne fingeren på stedet";

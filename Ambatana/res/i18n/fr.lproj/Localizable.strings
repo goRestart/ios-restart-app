@@ -34,6 +34,7 @@
 "common_ok" = "OK";
 "common_product_deleted" = "Bien supprimé";
 "common_product_not_available" = "Ce bien n'est plus disponible";
+"common_product_sold" = "Ce bien a été vendu";
 "common_time_a_minute_ago_label" = "il y a une minute";
 "common_time_day_ago_label" = "il y a un jour";
 "common_time_days_ago_label" = "il y a %d jours";
@@ -46,6 +47,7 @@
 "common_time_week_ago_label" = "il y a une semaine";
 "common_time_weeks_ago_label" = "il y a %d semaines";
 "contact_body_field_hint" = "Message";
+"contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "Email";
 "contact_send_button" = "Envoyer";
 "contact_send_error_generic" = "Erreur d'envoi du message, veuillez vérifier votre connexion et réessayer.";
@@ -54,11 +56,21 @@
 "contact_send_error_invalid_subject" = "Veuillez ecrire un sujet";
 "contact_send_ok" = "Votre message a été envoyé correctement";
 "contact_subject_field_hint" = "Sujet";
+"contact_subject_option_feedback" = "Suggestions/feedback";
+"contact_subject_option_location" = "Problèmes de localisation";
+"contact_subject_option_login" = "Accès de connexion";
+"contact_subject_option_other" = "Autre problème";
+"contact_subject_option_product_edit" = "Editer/supprimer le bien";
+"contact_subject_option_profile_edit" = "Editer/supprimer le profil";
+"contact_subject_option_report" = "Signaler utilisateur/spam";
 "contact_title" = "Contactez Nous";
 "edit_product_send_button" = "Mettre à jour";
 "edit_product_send_error_uploading_product" = "Une erreur est survenue lors de la modification de votre bien.";
 "edit_product_send_ok" = "Félicitations ! Votre bien a été modifié. Il apparaîtra dans l'application sous peu.";
 "edit_product_title" = "Editer le Bien";
+"forced_update_message" = "Une nouvelle version de letgo est disponible. Veuillez mettre à jour maintenant.";
+"forced_update_title" = "Mise à jour disponible";
+"forced_update_update_button" = "Mettre à jour";
 "indicate_location_address_field_hint" = "Ecrivez votre adresse";
 "indicate_location_address_search_error_generic" = "Je n'ai pas trouvé ce lieu. Veuillez réessayer.";
 "indicate_location_long_press_tip_label" = "Ou laissez votre doigt appuyé sur votre position.";

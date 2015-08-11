@@ -34,6 +34,7 @@
 "common_ok" = "OK";
 "common_product_deleted" = "削除された商品";
 "common_product_not_available" = "この商品はもう売買不可です。";
+"common_product_sold" = "この商品は売約済みです";
 "common_time_a_minute_ago_label" = "1 分前";
 "common_time_day_ago_label" = "1日前";
 "common_time_days_ago_label" = "%d日前";
@@ -46,6 +47,7 @@
 "common_time_week_ago_label" = "1週間前";
 "common_time_weeks_ago_label" = "%d週間前";
 "contact_body_field_hint" = "メッセージ";
+"contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "メール";
 "contact_send_button" = "送信";
 "contact_send_error_generic" = "メッセージ送信エラー、インターネット接続を確認してもう一度お試しください。";
@@ -54,11 +56,21 @@
 "contact_send_error_invalid_subject" = "件名を入力してください";
 "contact_send_ok" = "メッセージは正常に送信されました。";
 "contact_subject_field_hint" = "件名";
+"contact_subject_option_feedback" = "ご意見/評価";
+"contact_subject_option_location" = "位置情報問題";
+"contact_subject_option_login" = "ログインアクセス";
+"contact_subject_option_other" = "その他の問題";
+"contact_subject_option_product_edit" = "商品の編集/削除";
+"contact_subject_option_profile_edit" = "プロフィールの編集/削除";
+"contact_subject_option_report" = "ユーザー/スパム報告";
 "contact_title" = "お問い合わせ";
 "edit_product_send_button" = "更新";
 "edit_product_send_error_uploading_product" = "商品更新中にエラーが発生しました。";
 "edit_product_send_ok" = "おめでとうございます！商品は正常に更新されました。しばらくして一覧上に表示されます。";
 "edit_product_title" = "商品の編集";
+"forced_update_message" = "letgoの新バージョンが使用可能です。今すぐ更新してください。";
+"forced_update_title" = "更新可能";
+"forced_update_update_button" = "更新";
 "indicate_location_address_field_hint" = "住所を記入する";
 "indicate_location_address_search_error_generic" = "住所を見つけることができませんでした。もう一度やり直してください。";
 "indicate_location_long_press_tip_label" = "または、あなたの居る場所を押し続けてください";
