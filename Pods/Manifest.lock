@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (1.3.0)
+  - Alamofire (1.3.1)
   - Amplitude-iOS (2.5.1)
   - Bolts (1.2.0):
     - Bolts/AppLinks (= 1.2.0)
@@ -8,20 +8,20 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.2.0)
   - Box (1.2.2)
-  - FBSDKCoreKit (4.4.0):
+  - FBSDKCoreKit (4.5.0):
     - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc (= 4.4.0)
-    - FBSDKCoreKit/no-arc (= 4.4.0)
-  - FBSDKCoreKit/arc (4.4.0):
+    - FBSDKCoreKit/arc (= 4.5.0)
+    - FBSDKCoreKit/no-arc (= 4.5.0)
+  - FBSDKCoreKit/arc (4.5.0):
     - Bolts (~> 1.1)
-  - FBSDKCoreKit/no-arc (4.4.0):
+  - FBSDKCoreKit/no-arc (4.5.0):
     - Bolts (~> 1.1)
     - FBSDKCoreKit/arc
-  - FBSDKLoginKit (4.4.0):
+  - FBSDKLoginKit (4.5.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.4.0):
+  - FBSDKShareKit (4.5.0):
     - FBSDKCoreKit
-  - LGCoreKit (0.8.11):
+  - LGCoreKit (0.8.12):
     - Alamofire (~> 1.3)
     - Bolts (~> 1.1)
     - FBSDKCoreKit (~> 4.1)
@@ -41,11 +41,11 @@ PODS:
     - Parse (~> 1.7.5.3)
   - pop (1.0.7)
   - Quick (0.3.1)
-  - Realm (0.94.0):
-    - Realm/Headers (= 0.94.0)
-  - Realm/Headers (0.94.0)
-  - RealmSwift (0.94.0):
-    - Realm (= 0.94.0)
+  - Realm (0.94.1):
+    - Realm/Headers (= 0.94.1)
+  - Realm/Headers (0.94.1)
+  - RealmSwift (0.94.1):
+    - Realm (= 0.94.1)
   - Result (0.4.4):
     - Box (~> 1.2)
   - SDWebImage (3.7.3):
@@ -72,25 +72,25 @@ EXTERNAL SOURCES:
     :path: ../letgo-ios-lgcorekit
 
 SPEC CHECKSUMS:
-  Alamofire: 220403a8d5840e0b4c946a6fbaf209dbca124282
+  Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
   Amplitude-iOS: 1108012e40096d339d768cb8a6d79c774f47da2c
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
-  FBSDKCoreKit: 75bdd75c980e811db218488d99dd93b7740f4474
-  FBSDKLoginKit: 02a9254a4c132412fa03577b0d53e936d068a7fb
-  FBSDKShareKit: a42865f20ba2d1cc548c4d0f73ad22cff6377ddb
-  LGCoreKit: 4277fbae3832999a455b1807a193ec89afef5197
+  FBSDKCoreKit: ba4ca18ecae56af01e1b8c4faa889ef21d68bea2
+  FBSDKLoginKit: 8327c9aa7c6afd13cdcd0a6f9aebe585ed39c82a
+  FBSDKShareKit: 06f569e09f2b99c23df17da129ec3aa01d9c2fb4
+  LGCoreKit: e5fff3ff6b7b64b1daab12325722d58c53c49647
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
   ParseFacebookUtilsV4: ea5db22e87b91cbf99b9d156642e2b97a4db7d51
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  Realm: a046149653e0ca220b65b5783da907aa5b74d86c
-  RealmSwift: 5efbbf1a5c179a7237e4d428594e41619fa167ba
+  Realm: d999a6cf0b41577a077349c9cc9d496cc62a7d17
+  RealmSwift: 06b60ff5b1338755654d39aab44ac38001600f76
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
   Timepiece: d38302bf6fce6146e9d8feb289e0837811ee1342
   UrbanAirship-iOS-SDK: 8a3274d50c979502f8374cd5ab4cbb9f9f7b75ae
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.38.2

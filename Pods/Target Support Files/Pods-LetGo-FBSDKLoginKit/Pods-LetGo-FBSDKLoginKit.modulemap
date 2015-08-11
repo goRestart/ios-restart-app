@@ -1,6 +1,0 @@
-framework module FBSDKLoginKit {
-  umbrella header "Pods-LetGo-FBSDKLoginKit-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -1,6 +1,0 @@
-framework module FBSDKShareKit {
-  umbrella header "Pods-LetGo-FBSDKShareKit-umbrella.h"
-
-  export *
-  module * { export * }
-}
