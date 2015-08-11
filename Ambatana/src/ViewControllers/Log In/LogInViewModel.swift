@@ -19,7 +19,7 @@ public protocol LogInViewModelDelegate: class {
 public class LogInViewModel: BaseViewModel {
    
     // Login source
-    let loginSource: TrackingParameterLoginSourceValue
+    let loginSource: EventParameterLoginSourceValue
     
     // Delegate
     weak var delegate: LogInViewModelDelegate?
@@ -38,7 +38,7 @@ public class LogInViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(source: TrackingParameterLoginSourceValue) {
+    init(source: EventParameterLoginSourceValue) {
         email = ""
         password = ""
         loginSource = source
@@ -64,10 +64,11 @@ public class LogInViewModel: BaseViewModel {
                 if let strongSelf = self {
 
                     // Tracking
-                    if let user = result.value, let email = user.email {
-                        TrackingHelper.setUserId(email)
+                    if let user = result.value {
+                        TrackerProxy.sharedInstance.setUser(user)
                     }
-                    TrackingHelper.trackEvent(.LoginEmail, withLoginSource: strongSelf.loginSource)
+                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                     
                     // Notify the delegate about it finished
                     if let actualDelegate = strongSelf.delegate {

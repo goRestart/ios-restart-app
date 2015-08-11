@@ -31,19 +31,19 @@ public protocol MainSignUpViewModelDelegate: class {
 public class MainSignUpViewModel: BaseViewModel {
    
     // Login source
-    let loginSource: TrackingParameterLoginSourceValue
+    let loginSource: EventParameterLoginSourceValue
     
     // Delegate
     weak var delegate: MainSignUpViewModelDelegate?
     
     // Public methods
     
-    public init(source: TrackingParameterLoginSourceValue) {
+    public init(source: EventParameterLoginSourceValue) {
         self.loginSource = source
         super.init()
         
         // Tracking
-        TrackingHelper.trackEvent(.LoginVisit, withLoginSource: loginSource)
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginVisit(loginSource))
     }
     
     public func logInWithFacebook() {
@@ -55,10 +55,11 @@ public class MainSignUpViewModel: BaseViewModel {
             if let strongSelf = self {
 
                 // Tracking
-                if let user = result.value, let email = user.email {
-                    TrackingHelper.setUserId(email)
+                if let user = result.value {
+                    TrackerProxy.sharedInstance.setUser(user)
                 }
-                TrackingHelper.trackEvent(.LoginFB, withLoginSource: strongSelf.loginSource)
+                let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
+                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 
                 // Notify the delegate about it finished
                 if let actualDelegate = strongSelf.delegate {
@@ -67,9 +68,10 @@ public class MainSignUpViewModel: BaseViewModel {
             }
         }
     }
-    
+
     public func abandon() {
         // Tracking
-        TrackingHelper.trackEvent(.LoginAbandon, withLoginSource: loginSource)
+        let trackerEvent = TrackerEvent.loginAbandon(loginSource)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }

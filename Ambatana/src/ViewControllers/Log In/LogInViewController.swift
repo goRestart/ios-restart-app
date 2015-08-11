@@ -40,7 +40,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     
     // MARK: - Lifecycle
     
-    init(source: TrackingParameterLoginSourceValue) {
+    init(source: EventParameterLoginSourceValue) {
         self.viewModel = LogInViewModel(source: source)
         self.lines = []
         super.init(viewModel: viewModel, nibName: "LogInViewController")

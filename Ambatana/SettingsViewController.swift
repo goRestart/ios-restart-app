@@ -162,7 +162,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         MyUserManager.sharedInstance.logout { (result: Result<Nil, UserLogOutServiceError>) in }
         
         // Tracking
-        TrackingHelper.trackEvent(.Logout, parameters: nil)
+        let trackerEvent = TrackerEvent.logout()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        
+        TrackerProxy.sharedInstance.setUser(nil)
     }
     
     // MARK: - UIImagePickerControllerDelegate methods

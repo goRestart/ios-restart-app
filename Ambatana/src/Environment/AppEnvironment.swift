@@ -9,15 +9,17 @@
 import LGCoreKit
 
 protocol AppEnvironment: Environment {
-    
     // General
     var appleAppId: String { get }
+    var facebookAppId: String { get }
 
     // Tracking
     var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
     var googleConversionTrackingId: String { get }
+    var nanigansAppId: String { get }
     
+    // Push notifications
     var urbanAirshipAPIKey: String { get }
     var urbanAirshipAPISecret: String { get }
 }

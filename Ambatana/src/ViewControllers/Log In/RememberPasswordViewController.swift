@@ -31,7 +31,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     // MARK: - Lifecycle
     
-    init(source: TrackingParameterLoginSourceValue) {
+    init(source: EventParameterLoginSourceValue) {
         self.viewModel = RememberPasswordViewModel(source: source)
         self.lines = []
         super.init(viewModel: viewModel, nibName: "RememberPasswordViewController")

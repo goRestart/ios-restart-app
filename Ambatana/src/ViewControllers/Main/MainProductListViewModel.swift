@@ -139,7 +139,9 @@ public class MainProductListViewModel: ProductListViewModel {
     
     internal override func didSucceedRetrievingProducts() {
         // Tracking
-        TrackingHelper.trackEvent(.ProductList, parameters: trackingParams())
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     // MARK: - Private methods
@@ -181,47 +183,5 @@ public class MainProductListViewModel: ProductListViewModel {
         // Notify the delegate
         let status = locationManager.locationServiceStatus
         locationDelegate?.viewModel(self, didFailRequestingLocationServices: status)
-    }
-    
-    // MARK: > Tracking
-    
-    /**
-        Returns the tracking parameters key-value for ProductList tracking event type.
-
-        :return: The tracking parameters key-value for ProductList tracking event type.
-    */
-    private func trackingParams() -> [TrackingParameter: AnyObject] {
-        var properties: [TrackingParameter: AnyObject] = [:]
-
-        // Categories
-        var categoryIds: [String] = []
-        var categoryNames: [String] = []
-        if let actualCategories = categories {
-            for category in actualCategories {
-                categoryIds.append(String(category.rawValue))
-                categoryNames.append(category.name())
-            }
-        }
-        properties[.CategoryId] = categoryIds.isEmpty ? "0" : ",".join(categoryIds)
-        // Current user data
-        if let currentUser = MyUserManager.sharedInstance.myUser() {
-            if let userCity = currentUser.postalAddress.city {
-                properties[.UserCity] = userCity
-            }
-            if let userCountry = currentUser.postalAddress.countryCode {
-                properties[.UserCountry] = userCountry
-            }
-            if let userZipCode = currentUser.postalAddress.zipCode {
-                properties[.UserZipCode] = userZipCode
-            }
-        }
-        // Search query
-        if let actualSearchQuery = queryString {
-            properties[.SearchString] = actualSearchQuery
-        }
-        // Page number
-        properties[.PageNumber] = pageNumber
-        
-        return properties
     }
 }

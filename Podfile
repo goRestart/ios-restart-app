@@ -8,31 +8,33 @@ use_frameworks!
 workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
-# app
-target "LetGo" do
-    pod "Parse",                ">= 1.7"
-    pod "SDWebImage"
+pod "Parse",                ">= 1.7"
+pod "SDWebImage"
 
-    pod "FBSDKShareKit",        "~> 4.1"
+pod "FBSDKShareKit",        "~> 4.1"
     
-    # Tracking
-#    pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
-    pod "Amplitude-iOS",        "~> 2.5"
+# Tracking
+# pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
+pod "Amplitude-iOS",        "~> 2.5"
     
-    # letgo Core
-    pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit"#"0.8.12" #:path => "../letgo-ios-lgcorekit"
-    
-    # Networking (to be removed when migrating to LGCoreKit)
-    pod "Alamofire",            "~> 1.2"
-    
-    # Animation
-    pod "pop",                  "~> 1.0"
-    
-    # Push Notifications
-    pod "UrbanAirship-iOS-SDK/Core", "~> 6.1"
-end
+# letgo Core
+pod "LGCoreKit",            "0.8.11" # :path => "../LGCoreKit"
 
-target "letgoTests" do
+# Networking (to be removed when migrating to LGCoreKit)
+pod "Alamofire",            "~> 1.2"
+    
+# Animation
+pod "pop",                  "~> 1.0"
+
+pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
+
+# Device info helper
+pod "UIDeviceUtil",         "~> 1.1"
+
+# Push Notifications
+pod "UrbanAirship-iOS-SDK/Core", "~> 6.1"
+
+target "letgoTests", :exclusive => true do
     ## Testing
     pod "Quick",            "~> 0.3.1"    # Update to 0.4+ when upgrading to Swift 2.0
     pod "Nimble",           "~> 0.4.2"    # Update to 1.0+ when upgrading to Swift 2.0
