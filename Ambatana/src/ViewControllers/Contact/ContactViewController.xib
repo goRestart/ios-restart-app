@@ -11,7 +11,7 @@
                 <outlet property="messageField" destination="6G9-7e-l9L" id="9zz-TS-bWm"/>
                 <outlet property="scrollView" destination="Cp6-kR-teF" id="7Au-n3-97l"/>
                 <outlet property="sendButton" destination="AJ9-ZO-FgS" id="sBe-gP-Npj"/>
-                <outlet property="titleField" destination="ZEC-xW-P4z" id="iNW-No-lOh"/>
+                <outlet property="subjectButton" destination="ept-DO-Ujz" id="7rR-Tx-cKm"/>
                 <outlet property="view" destination="iN0-l3-epB" id="hvd-U2-RJ7"/>
             </connections>
         </placeholder>
@@ -45,6 +45,22 @@
                                 <outlet property="delegate" destination="-1" id="9ff-Za-VyM"/>
                             </connections>
                         </textField>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ept-DO-Ujz">
+                            <rect key="frame" x="0.0" y="44" width="600" height="44"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="K74-S4-vmT"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="_subject">
+                                <color key="titleColor" red="0.78431372549019607" green="0.792156862745098" blue="0.82352941176470584" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="subjectButtonPressed:" destination="-1" eventType="touchUpInside" id="3hn-lC-ADi"/>
+                            </connections>
+                        </button>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" text="_ Your message goes here" translatesAutoresizingMaskIntoConstraints="NO" id="6G9-7e-l9L">
                             <rect key="frame" x="0.0" y="88" width="600" height="88"/>
                             <color key="tintColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -57,26 +73,6 @@
                                 <outlet property="delegate" destination="-1" id="iPe-WA-BbJ"/>
                             </connections>
                         </textView>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_title" minimumFontSize="15" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZEC-xW-P4z" customClass="LGTextField" customModule="LetGo" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="44" width="600" height="44"/>
-                            <color key="tintColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="6dM-Wx-3FH"/>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="FPM-j1-sMO"/>
-                                <constraint firstAttribute="height" constant="44" id="QvW-WC-IXH"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="6dM-Wx-3FH"/>
-                                    <exclude reference="FPM-j1-sMO"/>
-                                </mask>
-                            </variation>
-                            <connections>
-                                <outlet property="delegate" destination="-1" id="JEW-rq-uS2"/>
-                            </connections>
-                        </textField>
                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AJ9-ZO-FgS">
                             <rect key="frame" x="15" y="191" width="570" height="44"/>
                             <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -93,6 +89,16 @@
                                 <action selector="sendContact:" destination="-1" eventType="touchUpInside" id="00M-xp-Y4t"/>
                             </connections>
                         </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_chevron" translatesAutoresizingMaskIntoConstraints="NO" id="fBb-mB-yET" userLabel="Category Arrow Image View">
+                            <rect key="frame" x="573" y="60" width="12" height="12"/>
+                            <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="12" id="2Bl-Ip-n0x"/>
+                                <constraint firstAttribute="width" constant="12" id="5uU-Ct-89i"/>
+                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="12" id="b6j-eM-S8c"/>
+                                <constraint firstAttribute="height" constant="12" id="d0w-Pz-7Dp"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
                     <constraints>
                         <constraint firstItem="JA2-Re-sb2" firstAttribute="leading" secondItem="Cp6-kR-teF" secondAttribute="leading" id="1Jp-Pl-W8C"/>
@@ -102,19 +108,20 @@
                         <constraint firstItem="AJ9-ZO-FgS" firstAttribute="top" secondItem="6G9-7e-l9L" secondAttribute="bottom" constant="15" id="8b8-5J-5TB"/>
                         <constraint firstAttribute="centerX" secondItem="6G9-7e-l9L" secondAttribute="centerX" id="CYj-rm-hRp"/>
                         <constraint firstItem="6G9-7e-l9L" firstAttribute="trailing" secondItem="c7H-ii-adD" secondAttribute="trailing" id="Gdd-NA-khT"/>
-                        <constraint firstItem="6G9-7e-l9L" firstAttribute="top" secondItem="ZEC-xW-P4z" secondAttribute="bottom" id="MSp-4Z-Rku"/>
+                        <constraint firstItem="ept-DO-Ujz" firstAttribute="leading" secondItem="Cp6-kR-teF" secondAttribute="leading" id="IOl-Hs-UuB"/>
                         <constraint firstItem="6G9-7e-l9L" firstAttribute="bottom" secondItem="c7H-ii-adD" secondAttribute="bottom" id="NMX-H9-xwU"/>
                         <constraint firstAttribute="centerX" secondItem="JA2-Re-sb2" secondAttribute="centerX" id="PNa-8Z-jqd"/>
+                        <constraint firstItem="ept-DO-Ujz" firstAttribute="top" secondItem="JA2-Re-sb2" secondAttribute="bottom" id="QS9-ba-nb0"/>
                         <constraint firstItem="AJ9-ZO-FgS" firstAttribute="leading" secondItem="Cp6-kR-teF" secondAttribute="leading" constant="15" id="TuE-Po-eNN"/>
-                        <constraint firstItem="ZEC-xW-P4z" firstAttribute="top" secondItem="JA2-Re-sb2" secondAttribute="bottom" id="UnU-6L-8pW"/>
-                        <constraint firstAttribute="centerX" secondItem="ZEC-xW-P4z" secondAttribute="centerX" id="Xrt-Sf-2EY"/>
                         <constraint firstItem="6G9-7e-l9L" firstAttribute="top" secondItem="c7H-ii-adD" secondAttribute="top" id="Zzt-DS-YUG"/>
                         <constraint firstAttribute="trailing" secondItem="AJ9-ZO-FgS" secondAttribute="trailing" constant="15" id="aRy-Wr-P9N"/>
                         <constraint firstAttribute="centerX" secondItem="AJ9-ZO-FgS" secondAttribute="centerX" id="ayN-jn-4Zk"/>
                         <constraint firstItem="JA2-Re-sb2" firstAttribute="top" secondItem="Cp6-kR-teF" secondAttribute="top" id="cho-LW-Fft"/>
-                        <constraint firstItem="ZEC-xW-P4z" firstAttribute="leading" secondItem="Cp6-kR-teF" secondAttribute="leading" id="dYG-6s-bJT"/>
+                        <constraint firstItem="6G9-7e-l9L" firstAttribute="top" secondItem="ept-DO-Ujz" secondAttribute="bottom" id="eW6-wJ-mmb"/>
+                        <constraint firstItem="fBb-mB-yET" firstAttribute="centerY" secondItem="ept-DO-Ujz" secondAttribute="centerY" id="kF2-aL-nF7"/>
                         <constraint firstAttribute="bottom" secondItem="AJ9-ZO-FgS" secondAttribute="bottom" constant="15" id="mNH-Hz-CSx"/>
-                        <constraint firstAttribute="trailing" secondItem="ZEC-xW-P4z" secondAttribute="trailing" id="nBQ-Ze-F0V"/>
+                        <constraint firstAttribute="trailing" secondItem="fBb-mB-yET" secondAttribute="trailing" constant="15" id="r8X-BE-eFH"/>
+                        <constraint firstAttribute="trailing" secondItem="ept-DO-Ujz" secondAttribute="trailing" id="vQ8-Nl-oDQ"/>
                         <constraint firstAttribute="trailing" secondItem="6G9-7e-l9L" secondAttribute="trailing" id="wAd-9g-g6i"/>
                     </constraints>
                 </scrollView>
@@ -129,4 +136,7 @@
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
         </view>
     </objects>
+    <resources>
+        <image name="down_chevron" width="32" height="32"/>
+    </resources>
 </document>
