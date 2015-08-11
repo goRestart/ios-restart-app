@@ -14,4 +14,7 @@ struct Constants {
     static let fullNameMinLength = 2
     static let passwordMinLength = 4
     static let productDescriptionMaxLength = 256
+    
+    static let appStoreURL = "http://itunes.apple.com/app/id%@?mt=8"
+
 }

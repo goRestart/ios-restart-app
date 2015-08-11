@@ -142,6 +142,27 @@
 // Contact subject field hint. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_field_hint" = "Subject";
 
+// Contact subject option profile edit. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_profile_edit" = "Edit/delete profile";
+
+// Contact subject option product edit. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_product_edit" = "Edit/delete product";
+
+// Contact subject option location. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_location" = "Location issues";
+
+// Contact subject option login. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_login" = "Log in access";
+
+// Contact subject option report. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_report" = "Report user/spam";
+
+// Contact subject option feedback. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_feedback" = "Suggestions/feedback";
+
+// Contact subject option other. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_other" = "Other issues";
+
 // Contact body field hint. Check attached image @ "contact_email_field_hint" segment
 "contact_body_field_hint" = "Message";
 
@@ -571,8 +592,11 @@
 // Profile favourites my user no products label. Check attached image "profile (empty).png"
 "profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
 
-// Common Item deleted.
+// Common product deleted.
 "common_product_deleted" = "Product deleted";
+
+// Common product sold.
+"common_product_sold" = "This product has been sold";
 
 // Common product not available.
 "common_product_not_available" = "This product is no longer available";
@@ -607,6 +631,15 @@
 // Edit product send ok. Message displayal is like the other messages.
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
 
-/* Product delete when product is already sold. */
+// Product delete when product is already sold.
 "product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
+
+// Forced update title.
+"forced_update_title" = "Update Available";
+
+// Forced update message.
+"forced_update_message" = "A new version of letgo is available. Please update it now.";
+
+// Forced update appstore button.
+"forced_update_update_button" = "Update";
 
