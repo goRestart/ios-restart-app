@@ -77,11 +77,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
+        // Force Update Check
+
+        if !(window?.rootViewController is SplashViewController) {
+            UpdateFileCfgManager.sharedInstance.getUpdateCfgFileFromServer { (forceUpdate: Bool) -> Void in
+                if let actualWindow = self.window {
+                    let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
+                    if forceUpdate && UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
+                        // show blocking alert
+                        let alert = UIAlertController(title: NSLocalizedString("forced_update_title", comment: ""), message: NSLocalizedString("forced_update_message", comment: ""), preferredStyle: .Alert)
+                        let openAppStore = UIAlertAction(title: NSLocalizedString("forced_update_update_button", comment: ""), style: .Default, handler: { (action :UIAlertAction!) -> Void in
+                            UIApplication.sharedApplication().openURL(NSURL(string:itunesURL)!)
+                        })
+                        
+                        alert.addAction(openAppStore)
+                        actualWindow.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+        
         // Tracking
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         
         // Location
         LocationManager.sharedInstance.startLocationUpdates()
+        
     }
     
     func applicationWillTerminate(application: UIApplication) {

@@ -150,7 +150,7 @@ public class PushManager {
         config.productionAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
         config.productionAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
         
-        config.developmentLogLevel = UALogLevel.Debug
+        config.developmentLogLevel = UALogLevel.None
         // Call takeOff (which creates the UAirship singleton)
         UAirship.takeOff(config)
         
