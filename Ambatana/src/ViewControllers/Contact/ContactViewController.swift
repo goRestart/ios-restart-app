@@ -13,19 +13,18 @@ import Result
 class ContactViewController: BaseViewController , UITextViewDelegate, UITextFieldDelegate, ContactViewModelDelegate {
     
     enum TextFieldTag: Int {
-        case Email = 1000, Title, Message
+        case Email = 1000, Message
     }
     
     let messagePlaceholder = NSLocalizedString("contact_body_field_hint", comment: "")
     let messagePlaceholderColor = UIColor(rgb: 0xC7C7CD)
     
     @IBOutlet weak var emailField : LGTextField!
-    @IBOutlet weak var titleField : LGTextField!
+    @IBOutlet weak var subjectButton: UIButton!
     @IBOutlet weak var messageField : UITextView!
     @IBOutlet weak var sendButton : UIButton!
     @IBOutlet weak var messageBackground : UIView!
     @IBOutlet weak var scrollView : UIScrollView!
-    
     
     var sendBarButton : UIBarButtonItem!
     
@@ -58,7 +57,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         }
         lines = []
         lines.append(emailField.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(titleField.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(subjectButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(messageBackground.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(messageBackground.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
         
@@ -74,6 +73,25 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         viewModel.sendContact()
     }
     
+    @IBAction func subjectButtonPressed(sender: AnyObject?) {
+//        let alert = UIAlertController(title: NSLocalizedString("contact_choose_subject_dialog_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        for i in 0 ..< viewModel.numberOfSubjects {
+            let subject = viewModel.subjectNameAtIndex(i)
+            alert.addAction(UIAlertAction(title: subject, style: .Default, handler: { (action) -> Void in
+                // Notify the view model
+                self.viewModel.selectSubjectAtIndex(i)
+
+                // Set the focus in the message, after a delay so we allow the user to see what's going on
+                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+                dispatch_after(delayTime, dispatch_get_main_queue()) {
+                    self.messageField.becomeFirstResponder()
+                }
+            }))
+        }
+        alert.addAction(UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
     
     // MARK: - ContactModelViewDelegate
     
@@ -93,6 +111,11 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
             message = NSLocalizedString("contact_send_error_invalid_email", comment: "")
         }
         self.showAutoFadingOutMessageAlert(message)
+    }
+    
+    func viewModel(viewModel: ContactViewModel, didSelectSubjectWithName subjectyName: String) {
+        subjectButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        subjectButton.setTitle(subjectyName, forState: .Normal)
     }
     
     func viewModelDidStartSendingContact(viewModel: ContactViewModel) {
@@ -167,8 +190,6 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
             switch (tag) {
             case .Email:
                 viewModel.email = text
-            case .Title:
-                viewModel.title = text
             case .Message:
                 break
             }
@@ -182,13 +203,9 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         let nextTag = tag + 1
         
         if let tag = TextFieldTag(rawValue: textField.tag) {
-            let nextView = view.viewWithTag(nextTag)
             switch (tag) {
             case .Email:
-                nextView!.becomeFirstResponder()
-                return true
-            case .Title:
-                nextView!.becomeFirstResponder()
+                subjectButtonPressed(nil)
                 return false
             case .Message:
                 break
@@ -206,8 +223,8 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         emailField.tag = TextFieldTag.Email.rawValue
         emailField.text = viewModel.email
 
-        titleField.placeholder = NSLocalizedString("contact_subject_field_hint", comment: "")
-        titleField.tag = TextFieldTag.Title.rawValue
+        subjectButton.setTitle(NSLocalizedString("contact_subject_field_hint", comment: ""), forState: .Normal)
+        subjectButton.setBackgroundImage(subjectButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         
         messageField.text = messagePlaceholder
         messageField.textColor = messagePlaceholderColor
@@ -223,10 +240,6 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         if emailField.text.isEmpty {
             emailField.becomeFirstResponder()
         }
-        else {
-            titleField.becomeFirstResponder()
-        }
-        
         
         self.setLetGoNavigationBarStyle(title: NSLocalizedString("contact_title", comment: "") ?? UIImage(named: "navbar_logo"))
         

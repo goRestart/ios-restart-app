@@ -47,6 +47,7 @@
 "common_time_week_ago_label" = "viikko sitten";
 "common_time_weeks_ago_label" = "%d viikkoa sitten";
 "contact_body_field_hint" = "Viesti";
+"contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "Sähköposti";
 "contact_send_button" = "Lähetä";
 "contact_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe, ole hyvä ja tarkista yhteytesi ja yritä uudelleen.";

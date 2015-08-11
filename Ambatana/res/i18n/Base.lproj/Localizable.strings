@@ -133,6 +133,9 @@
 // Common time weeks ago label
 "common_time_weeks_ago_label" = "%d weeks ago";
 
+// Contact choose subject dialog title
+"contact_choose_subject_dialog_title" = "Choose a subject";
+
 // Contact email field hint. Check attached image "contact.png"
 "contact_email_field_hint" = "Email";
 

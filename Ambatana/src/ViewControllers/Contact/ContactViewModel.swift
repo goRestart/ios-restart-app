@@ -14,6 +14,7 @@ import UIDeviceUtil
 
 public protocol ContactViewModelDelegate: class {
     func viewModel(viewModel: ContactViewModel, updateSendButtonEnabledState enabled: Bool)
+    func viewModel(viewModel: ContactViewModel, didSelectSubjectWithName subjectyName: String)
     func viewModel(viewModel: ContactViewModel, didFailValidationWithError error: ContactSendServiceError)
     func viewModelDidStartSendingContact(viewModel: ContactViewModel)
     func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: Result<Contact, ContactSendServiceError>)
@@ -21,34 +22,58 @@ public protocol ContactViewModelDelegate: class {
 
 public class ContactViewModel: BaseViewModel {
     
-    let contactService : ContactSendService
-    weak var delegate: ContactViewModelDelegate?
+    // Services & delegate
+    private let contactService : ContactSendService
+    public weak var delegate: ContactViewModelDelegate?
 
-    var email: String {
+    // Input
+    public var email: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: enableSendButton())
         }
     }
-    var title: String {
-        didSet {
-            delegate?.viewModel(self, updateSendButtonEnabledState: enableSendButton())
-        }
-    }
-    var message: String {
+    public var message: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: enableSendButton())
         }
     }
     
+    // Output
+    public var numberOfSubjects: Int {
+        get {
+            return ContactSubject.allValues.count
+        }
+    }
+    
+    // Private
+    private var subject: ContactSubject? {
+        didSet {
+            delegate?.viewModel(self, updateSendButtonEnabledState: enableSendButton())
+        }
+    }
+    
+    // MARK: - Lifecycle
     
     override init() {
         email = MyUserManager.sharedInstance.myUser()?.email ?? ""
-        title = ""
+        subject = nil
         message = ""
-        self.contactService = PAContactSendService()
+        contactService = PAContactSendService()
         super.init()
     }
-
+    
+    // MARK: - Public methods
+    
+    public func subjectNameAtIndex(index: Int) -> String {
+        return ContactSubject.allValues[index].name
+    }
+    
+    public func selectSubjectAtIndex(index: Int) {
+        let selectedSubject = ContactSubject.allValues[index]
+        delegate?.viewModel(self, didSelectSubjectWithName: selectedSubject.name)
+        
+        subject = selectedSubject
+    }
     
     public func sendContact() {
         
@@ -56,8 +81,8 @@ public class ContactViewModel: BaseViewModel {
             
             var contact : Contact
             contact = PAContact()
-            contact.email = self.email
-            contact.title = self.title
+            contact.email = email
+            contact.title = subject?.name ?? ""
             contact.message = self.message + systemInfoForMessage() + " " + self.email
 
             contact.user = MyUserManager.sharedInstance.myUser()
@@ -86,11 +111,11 @@ public class ContactViewModel: BaseViewModel {
         }
     }
     
-    // MARK: private methods
+    // MARK: Private methods
     
     private func enableSendButton() -> Bool {
         
-        return !email.isEmpty && !title.isEmpty && (!message.isEmpty && message != NSLocalizedString("contact_body_field_hint", comment: ""))
+        return !email.isEmpty && subject != nil && (!message.isEmpty && message != NSLocalizedString("contact_body_field_hint", comment: ""))
     }
     
     // Add app, OS and device info to contact messages

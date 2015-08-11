@@ -47,6 +47,7 @@
 "common_time_week_ago_label" = "il y a une semaine";
 "common_time_weeks_ago_label" = "il y a %d semaines";
 "contact_body_field_hint" = "Message";
+"contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "Email";
 "contact_send_button" = "Envoyer";
 "contact_send_error_generic" = "Erreur d'envoi du message, veuillez vérifier votre connexion et réessayer.";
