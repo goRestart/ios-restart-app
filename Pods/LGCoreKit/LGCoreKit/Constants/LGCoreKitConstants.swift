@@ -13,7 +13,4 @@ public struct LGCoreKitConstants {
     static let productImageJPEGQuality: CGFloat = 0.9
     
     static let httpHeaderUserToken = "X-Letgo-Parse-User-Token"
-    
-    static let updateFileCfgName = "iOS_cfg"
-    public static let staticCfgFileURL = "https://www.dropbox.com/s/g533b9qpe0bzd2c/iOS_cfg.json?dl=1"
 }

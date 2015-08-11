@@ -24,7 +24,7 @@ public class LGUpdateFileCfgService: UpdateFileCfgService {
             cfgFileURL = actualURL
         }
         else {
-            cfgFileURL = LGCoreKitConstants.staticCfgFileURL
+            cfgFileURL = EnvironmentProxy.sharedInstance.staticCfgFileURL
         }
     }
     

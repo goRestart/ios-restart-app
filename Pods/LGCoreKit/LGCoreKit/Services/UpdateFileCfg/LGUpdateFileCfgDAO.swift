@@ -25,7 +25,7 @@ public class LGUpdateFileCfgDAO : UpdateFileCfgDAO {
     
     public init(cfgFile: UpdateFileCfg?) {
         
-        let filename = LGCoreKitConstants.updateFileCfgName
+        let filename = EnvironmentProxy.sharedInstance.updateFileCfgName
         let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as! NSString
         
         var bundle = NSBundle.LGCoreKitBundle()

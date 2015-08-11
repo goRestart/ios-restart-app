@@ -20,4 +20,8 @@ public protocol Environment {
     
     // Images
     var imagesBaseURL: String { get }
+
+    // Config
+    var updateFileCfgName: String { get }
+    var staticCfgFileURL: String { get }
 }

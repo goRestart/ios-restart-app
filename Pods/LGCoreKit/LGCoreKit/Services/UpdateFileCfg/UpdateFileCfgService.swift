@@ -26,6 +26,8 @@ public typealias UpdateFileCfgServiceResult = (Result<UpdateFileCfg, UpdateFileC
 
 public protocol UpdateFileCfgService {
     
+    var cfgFileURL : String { get }
+    
     /**
         Retrieves the products with the given parameters.
     
