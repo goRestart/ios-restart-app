@@ -65,11 +65,17 @@ import SwiftyJSON
         if let actualTotalProducts = pagingInfo[LGProductsResponse.totalProductsJSONKey].string?.toInt() {
             totalProducts = actualTotalProducts
         }
+        else if let actualTotalProducts = pagingInfo[LGProductsResponse.totalProductsJSONKey].int {
+            totalProducts = actualTotalProducts
+        }
         else {
             return nil
         }
         
         if let actualOffset = pagingInfo[LGProductsResponse.offsetJSONKey].string?.toInt() {
+            offset = actualOffset
+        }
+        else if let actualOffset = pagingInfo[LGProductsResponse.offsetJSONKey].int {
             offset = actualOffset
         }
         else {
