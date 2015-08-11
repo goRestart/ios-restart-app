@@ -183,8 +183,7 @@ public class SellProductViewModel: BaseViewModel {
     }
     
     internal func saveProduct(product: Product? = nil) {
-    
-       let theProduct = product ?? PAProduct()
+        let theProduct = product ?? PAProduct()
         theProduct.name = title
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle

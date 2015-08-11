@@ -87,8 +87,12 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                     strongSelf.launchChatWithConversation(conversation!)
                                     
                                     // Tracking
-                                    TrackingHelper.trackEvent(.ProductOffer, parameters: strongSelf.trackingParams)
-                                    TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
+                                    let myUser = MyUserManager.sharedInstance.myUser()
+                                    let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser, amount: Double(productPrice!))
+                                    TrackerProxy.sharedInstance.trackEvent(offerEvent)
+                                    
+                                    let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
+                                    TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                                 }
                                 else {
                                     strongSelf.disableLoadingInterface()
@@ -106,8 +110,12 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                             strongSelf.launchChatWithConversation(conversation!)
                                             
                                             // Tracking
-                                            TrackingHelper.trackEvent(.ProductOffer, parameters: strongSelf.trackingParams)
-                                            TrackingHelper.trackEvent(.UserMessageSent, parameters: strongSelf.trackingParams)
+                                            let myUser = MyUserManager.sharedInstance.myUser()
+                                            let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser, amount: Double(productPrice!))
+                                            TrackerProxy.sharedInstance.trackEvent(offerEvent)
+                                            
+                                            let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
+                                            TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                                         }
                                         else {
                                             strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
@@ -153,46 +161,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             })
         })
     }
-    
-    // MARK: - Tracking
-    
-    private var trackingParams: [TrackingParameter: AnyObject] {
-        get {
-            var properties: [TrackingParameter: AnyObject] = [:]
-            if let actualProduct = product {
-                if let city = actualProduct.postalAddress.city {
-                    properties[.ProductCity] = city
-                }
-                if let country = actualProduct.postalAddress.countryCode {
-                    properties[.ProductCountry] = country
-                }
-                if let zipCode = actualProduct.postalAddress.zipCode {
-                    properties[.ProductZipCode] = zipCode
-                }
-                if let categoryId = actualProduct.categoryId as? Int {
-                    properties[.CategoryId] = String(categoryId)
-                }
-                if let name = actualProduct.name {
-                    properties[.ProductName] = name
-                }
-                if let productId = actualProduct.objectId {
-                    properties[.ProductId] = productId
-                }
-            }
-            if let user = product?.user {
-                properties[.ItemType] = TrackingHelper.productTypeParamValue(user.isDummy)
-            }
-            if let otherUsr = product?.user, let otherUserId = otherUsr.objectId  {
-                properties[.UserToId] = otherUserId
-            }
-            if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
-                properties[.UserId] = myUserId
-            }
-            
-            return properties
-        }
-    }
-
 }
 
 

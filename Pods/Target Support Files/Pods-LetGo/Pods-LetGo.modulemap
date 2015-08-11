@@ -1,6 +1,0 @@
-framework module Pods_LetGo {
-  umbrella header "Pods-LetGo-umbrella.h"
-
-  export *
-  module * { export * }
-}

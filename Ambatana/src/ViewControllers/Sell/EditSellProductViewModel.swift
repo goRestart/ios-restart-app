@@ -75,50 +75,56 @@ public class EditSellProductViewModel: SellProductViewModel {
 
     internal override func trackStart() {
         super.trackStart()
-        let event : TrackingEvent = TrackingEvent.ProductEditStart
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditStart(myUser, product: product)
         trackEvent(event)
     }
     
     internal override func trackAddedImage() {
         super.trackAddedImage()
-        let event : TrackingEvent = TrackingEvent.ProductEditAddPicture
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditAddPicture(myUser, product: product, imageCount: images.count)
         trackEvent(event)
     }
 
     public override func trackEditedTitle() {
         super.trackEditedTitle()
-        let event : TrackingEvent = TrackingEvent.ProductEditEditTitle
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditEditTitle(myUser, product: product)
         trackEvent(event)
     }
     
     public override func trackEditedPrice() {
         super.trackEditedPrice()
-        let event : TrackingEvent = TrackingEvent.ProductEditEditPrice
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditEditPrice(myUser, product: product)
         trackEvent(event)
     }
     
     public override func trackEditedDescription() {
         super.trackEditedDescription()
-        let event : TrackingEvent = TrackingEvent.ProductEditEditDescription
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditEditDescription(myUser, product: product)
         trackEvent(event)
     }
     
     internal override func trackEditedCategory() {
         super.trackEditedCategory()
-        let event : TrackingEvent = TrackingEvent.ProductEditEditCategory
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditEditCategory(myUser, product: product, category: category)
         trackEvent(event)
     }
     
     public override func trackEditedFBChanged() {
         super.trackEditedFBChanged()
-        let event : TrackingEvent = TrackingEvent.ProductEditEditShareFB
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditEditShareFB(myUser, product: product, enabled: shouldShareInFB)
         trackEvent(event)
     }
     
     
     internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
-        let event : TrackingEvent = TrackingEvent.ProductEditFormValidationFailed
         let message: String?
         switch error {
         case .NoImages:
@@ -138,84 +144,39 @@ public class EditSellProductViewModel: SellProductViewModel {
         }
         
         if let actualMessage = message {
-          TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event, value: actualMessage))
+            let myUser = MyUserManager.sharedInstance.myUser()
+            let event = TrackerEvent.productEditFormValidationFailed(myUser, product: product, description: actualMessage)
+            trackEvent(event)
         }
     }
     
     public override func trackSharedFB() {
         super.trackSharedFB()
-        let event : TrackingEvent = TrackingEvent.ProductEditSharedFB
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditSharedFB(myUser, product: product, name: title)
         trackEvent(event)
     }
     
     internal override func trackComplete() {
         super.trackComplete()
-        let event : TrackingEvent = TrackingEvent.ProductEditComplete
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditComplete(myUser, product: product, name: title, category: category)
         trackEvent(event)
     }
     
     internal override func trackAbandon() {
         super.trackAbandon()
-        let event : TrackingEvent = TrackingEvent.ProductEditAbandon
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditAbandon(myUser, product: product)
         trackEvent(event)
     }
     
     // MARK: - Tracking Private methods
     
-    private func trackEvent(event: TrackingEvent) {
+    private func trackEvent(event: TrackerEvent) {
         if shouldTrack {
-            TrackingHelper.trackEvent(event, parameters: trackingParamsForEventType(event))
+            TrackerProxy.sharedInstance.trackEvent(event)
         }
-    }
-    
-    private func trackingParamsForEventType(eventType: TrackingEvent, value: AnyObject? = nil) -> [TrackingParameter: AnyObject]? {
-        var params: [TrackingParameter: AnyObject] = [:]
-        
-        // Common
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            if let userId = myUser.objectId {
-                params[.UserId] = userId
-            }
-            if let userCity = myUser.postalAddress.city {
-                params[.UserCity] = userCity
-            }
-            if let userCountry = myUser.postalAddress.countryCode {
-                params[.UserCountry] = userCountry
-            }
-            if let userZipCode = myUser.postalAddress.zipCode {
-                params[.UserZipCode] = userZipCode
-            }
-        }
-        if let actualProductId = product.objectId {
-            params[.ProductId] = actualProductId
-        }
-        
-        // Non-common
-        if eventType == .ProductEditAddPicture {
-            params[.Number] = images.count
-        }
-        
-        if eventType == .ProductEditSharedFB || eventType == .ProductEditComplete {
-            params[.ProductName] = title ?? "none"
-        }
-        
-        if eventType == .ProductEditFormValidationFailed {
-            params[.Description] = value
-        }
-        
-        if eventType == .ProductEditEditShareFB {
-            params[.Enabled] = shouldShareInFB
-        }
-        
-        if eventType == .ProductEditEditCategory || eventType == .ProductEditComplete {
-            params[.CategoryId] = category?.rawValue ?? 0
-        }
-        
-        if eventType == .ProductEditComplete {
-            
-        }
-        
-        return params
     }
     
     // MARK: - Update info of previous VC
