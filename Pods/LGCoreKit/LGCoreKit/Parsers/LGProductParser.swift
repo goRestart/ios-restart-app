@@ -87,29 +87,55 @@ public class LGProductParser {
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         
+        let rfc3339DateFormatter = NSDateFormatter()    // when dates are coming like "2015-08-10T15:58:02Z"
+        rfc3339DateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
+        rfc3339DateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+        rfc3339DateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+        
         let product = LGProduct()
         product.objectId = json[LGProductParser.objectIdJSONKey].string
-        if let createdAtStr = json[LGProductParser.createdAtJSONKey].string {
-            product.createdAt = dateFormatter.dateFromString(createdAtStr)
+        if let createdAtStr = json[LGProductParser.createdAtJSONKey].string {       // @ahl: !
+            if let date = dateFormatter.dateFromString(createdAtStr) {
+                product.createdAt = date
+            }
+            else if let date = rfc3339DateFormatter.dateFromString(createdAtStr) {
+                product.createdAt = date
+            }
         }
-        if let updatedAtStr = json[LGProductParser.updatedAtJSONKey].string {
-            product.updatedAt = dateFormatter.dateFromString(updatedAtStr)
+        
+        if let updatedAtStr = json[LGProductParser.updatedAtJSONKey].string {       // @ahl: !
+            if let date = dateFormatter.dateFromString(updatedAtStr) {
+                product.updatedAt = date
+            }
+            else if let date = rfc3339DateFormatter.dateFromString(updatedAtStr) {
+                product.updatedAt = date
+            }
         }
         
         product.name = json[LGProductParser.nameJSONKey].string
         product.descr = json[LGProductParser.descriptionJSONKey].string
-        if let price = json[LGProductParser.priceJSONKey].string {
+        
+        if let price = json[LGProductParser.priceJSONKey].string {      // @ahl: !
             product.price = (price as NSString).doubleValue
         }
+        else if let price = json[LGProductParser.priceJSONKey].double {
+            product.price = price
+        }
+        
         let currencyCode = json[LGProductParser.currencyCodeJSONKey].string ?? LGCoreKitConstants.defaultCurrencyCode
         product.currency = currencyHelper.currencyWithCurrencyCode(currencyCode)
         
         if let latitude = json[LGProductParser.latitudeJSONKey].double, let longitude = json[LGProductParser.longitudeJSONKey].double {
             product.location = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
         }
-        if let distanceStr = json[LGProductParser.distanceJSONKey].string {
+        
+        if let distanceStr = json[LGProductParser.distanceJSONKey].string {     // @ahl: !
             product.distance = (distanceStr as NSString).doubleValue
         }
+        else if let distance = json[LGProductParser.distanceJSONKey].double {
+            product.distance = distance
+        }
+        
         if let distanceTypeStr = json[LGProductParser.distanceTypeJSONKey].string {
             product.distanceType = DistanceType.fromString(distanceTypeStr)
         }
@@ -123,14 +149,22 @@ public class LGProductParser {
 
         product.languageCode = json[LGProductParser.languageCodeJSONKey].string
         
-        if let categoryIdStr = json[LGProductParser.categoryIdJSONKey].string {
+        if let categoryIdStr = json[LGProductParser.categoryIdJSONKey].string {     // @ahl: !
             product.categoryId = categoryIdStr.toInt()
         }
-        if let statusStr = json[LGProductParser.statusJSONKey].string,
+        else if let categoryId = json[LGProductParser.categoryIdJSONKey].int {
+            product.categoryId = categoryId
+        }
+        
+        if let statusStr = json[LGProductParser.statusJSONKey].string,              // @ahl: !
             let statusRaw = statusStr.toInt(),
             let status = ProductStatus(rawValue: statusRaw) {
                 product.status = status
         }
+        else if let statusRaw = json[LGProductParser.statusJSONKey].int, let status = ProductStatus(rawValue: statusRaw) {
+            product.status = status
+        }
+        
         if let thumbnailURLStr = json[LGProductParser.thumbnailURLJSONKey].string, let thumbnailURL = NSURL(string: thumbnailURLStr) {
             product.thumbnail = LGFile(url: thumbnailURL)
         }
