@@ -277,9 +277,9 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     }
     
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // TODO: Refactor when ShowProductViewController is refactored with MVVM
-        let product = productListView.productAtIndex(indexPath.row)
-        let vc = ShowProductViewController(product: product)
+        let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
+        let vc = ProductViewController(viewModel: productVM)
+        // TODO: @ahl: Delegate stuff!
 //        vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -313,8 +313,12 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        // TODO: VM should be provided by this VC's VM
         if let product = self.productAtIndexPath(indexPath) {
-            let vc = ShowProductViewController(product: product)
+            let productVM = ProductViewModel(product: product)
+            let vc = ProductViewController(viewModel: productVM)
+            // TODO: @ahl: Delegate stuff!
+//            vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

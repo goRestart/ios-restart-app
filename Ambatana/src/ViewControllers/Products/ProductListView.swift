@@ -248,16 +248,17 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         collectionView.reloadSections(NSIndexSet(index: 0))
     }
     
-    // MARK: > Data
+    // MARK: > ViewModel
     
     /**
-        Returns the product at the given index.
+        Returns the product view model for the given index.
     
         :param: index The index of the product.
-        :returns: The product.
+        :returns: The product view model.
     */
-    public func productAtIndex(index: Int) -> Product {
-        return productListViewModel.productAtIndex(index)
+    public func productViewModelForProductAtIndex(index: Int) -> ProductViewModel {
+        let product = productAtIndex(index)
+        return ProductViewModel(product: product)
     }
     
     // MARK: - UICollectionViewDataSource
@@ -373,5 +374,15 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         default:
             break
         }
+    }
+    
+    /**
+        Returns the product at the given index.
+    
+        :param: index The index of the product.
+        :returns: The product.
+    */
+    private func productAtIndex(index: Int) -> Product {
+        return productListViewModel.productAtIndex(index)
     }
 }

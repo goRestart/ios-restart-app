@@ -125,10 +125,10 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
     }
     
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // TODO: Refactor when ShowProductViewController is refactored with MVVM
-        let product = productListView.productAtIndex(indexPath.row)
-        let vc = ShowProductViewController(product: product)
-        vc.delegate = self
+        let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
+        let vc = ProductViewController(viewModel: productVM)
+        // TODO: @ahl: Delegate stuff!
+//        vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
