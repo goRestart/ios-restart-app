@@ -98,8 +98,10 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         soldProductListView.type = .Sold
         
         // User image
-        self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2.0
-        self.userImageView.clipsToBounds = true
+        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2.0
+        userImageView.clipsToBounds = true
+        userImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
+        userImageView.layer.borderWidth = 1
         
         // internationalization
         sellButton.setTitle(NSLocalizedString("profile_selling_products_tab", comment: ""), forState: .Normal)

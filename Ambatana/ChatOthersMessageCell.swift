@@ -62,6 +62,8 @@ class ChatOthersMessageCell: UITableViewCell {
     // Resets the UI to the initial state
     private func resetUI() {
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2.0
+        avatarImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
+        avatarImageView.layer.borderWidth = 1
 //        thumbnailImageView.image = UIImage(named: "no_photo")
 //        productLabel.text = ""
 //        userLabel.text = ""

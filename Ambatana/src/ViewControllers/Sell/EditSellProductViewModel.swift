@@ -9,11 +9,11 @@
 import SDWebImage
 import LGCoreKit
 
-protocol EditSellProductViewModelDelegate : class {
+public protocol EditSellProductViewModelDelegate : class {
     func editSellProductViewModel(viewModel: EditSellProductViewModel, didDownloadImageAtIndex index: Int)
 }
 
-protocol UpdateDetailInfoDelegate : class {
+public protocol UpdateDetailInfoDelegate : class {
     func updateDetailInfo(viewModel: EditSellProductViewModel)
 }
 

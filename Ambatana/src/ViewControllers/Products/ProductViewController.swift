@@ -9,15 +9,19 @@
 import LGCoreKit
 import MapKit
 import UIKit
+import Result
 import SDWebImage
 
-public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate {
+public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate, UpdateDetailInfoDelegate {
 
     // Constants
     private static let bottomViewVisibleHeight: CGFloat = 64
     private static let footerViewVisibleHeight: CGFloat = 64
     
     // UI
+    // > Navigation Bar
+    private var favoriteButton: UIButton?
+    
     // > Main
     @IBOutlet weak var galleryView: GalleryView!
     @IBOutlet weak var userAvatarImageView: UIImageView!
@@ -31,6 +35,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var mapView: MKMapView!
 
     // > Bottom
+    @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var bottomViewHeightContraint: NSLayoutConstraint!
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
@@ -47,6 +52,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var meSellingView: UIView!
     @IBOutlet weak var markSoldButton: UIButton!
     
+    // > Other
+    private var lines : [CALayer]
+    
     // ViewModel
     private var viewModel : ProductViewModel!
     
@@ -54,6 +62,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     public init(viewModel: ProductViewModel) {
         self.viewModel = viewModel
+        self.lines = []
         super.init(viewModel: viewModel, nibName: "ProductViewController")
         
         self.viewModel.delegate = self
@@ -71,9 +80,24 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         setupUI()
     }
     
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(bottomView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+    }
+    
     // MARK: - Public methods
     
     // MARK: > Actions
+    
+    
+    @IBAction func userButtonPressed(sender: AnyObject) {
+        openProductUserProfile()
+    }
     
     @IBAction func mapViewButtonPressed(sender: AnyObject) {
         openMap()
@@ -89,23 +113,41 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     @IBAction func reportButtonPressed(sender: AnyObject) {
-        report()
+        showReportAlert()
     }
     
     @IBAction func deleteButtonPressed(sender: AnyObject) {
-        delete()
+        showDeleteAlert()
     }
     
     @IBAction func askButtonPressed(sender: AnyObject) {
-        ask()
+        ifLoggedInThen(.AskQuestion, loggedInAction: {
+            self.ask()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.ask()
+        })
     }
     
     @IBAction func offerButtonPressed(sender: AnyObject) {
-        offer()
+        ifLoggedInThen(.MakeOffer, loggedInAction: {
+            self.offer()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.offer()
+        })
     }
     
     @IBAction func markSoldPressed(sender: AnyObject) {
-        markSold()
+        ifLoggedInThen(.MarkAsSold, loggedInAction: {
+            self.showMarkSoldAlert()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.showMarkSoldAlert()
+        })
     }
     
     // MARK: - GalleryViewDelegate
@@ -128,27 +170,155 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    // MARK: - ProductViewModelDelegate
+    
+    public func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel) {
+        favoriteButton?.userInteractionEnabled = false
+    }
+    
+    public func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel) {
+        favoriteButton?.userInteractionEnabled = false
+    }
+    
+    public func viewModelDidUpdateIsFavourite(viewModel: ProductViewModel) {
+        favoriteButton?.userInteractionEnabled = true
+        setFavouriteButtonAsFavourited(viewModel.isFavourite)
+    }
+    
+    public func viewModelDidStartRetrievingReported(viewModel: ProductViewModel) {
+        
+    }
+    
+    public func viewModelDidStartReporting(viewModel: ProductViewModel) {
+        reportButton.enabled = false
+        reportButton.setTitle(NSLocalizedString("product_reporting_product_label", comment: ""), forState: .Normal)
+    }
+    
+    public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
+        setReportButtonAsReported(viewModel.isReported)
+    }
+    
+    public func viewModelDidStartDeleting(viewModel: ProductViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    public func viewModel(viewModel: ProductViewModel, didFinishDeleting result: Result<Nil, ProductDeleteServiceError>) {
+        let completion: () -> Void
+        if let success = result.value {
+            completion = {
+                self.navigationController?.popViewControllerAnimated(true)
+            }
+        }
+        else {
+            completion = {
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_delete_send_error_generic", comment: ""))
+            }
+        }
+        dismissLoadingMessageAlert(completion: completion)
+    }
+    
+    public func viewModelDidStartAskingQuestion(viewModel: ProductViewModel) {
+        showLoadingMessageAlert()
+    }
+
+    public func viewModel(viewModel: ProductViewModel, didFinishAskingQuestion viewController: UIViewController?) {
+        let completion: () -> Void
+        if let actualVC = viewController {
+            completion = {
+                self.navigationController?.pushViewController(actualVC, animated: true)
+            }
+        }
+        else {
+            completion = {
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
+            }
+        }
+        dismissLoadingMessageAlert(completion: completion)
+    }
+    
+    public func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: Result<Product, ProductMarkSoldServiceError>) {
+        let completion: (() -> Void)?
+        if let success = result.value {
+            completion = nil
+            updateUI()
+        }
+        else {
+            completion = {
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
+            }
+        }
+        dismissLoadingMessageAlert(completion: completion)
+    }
+    
+    // MARK: - UpdateDetailInfoDelegate
+    
+    public func updateDetailInfo(viewModel: EditSellProductViewModel) {
+        updateUI()
+    }
+    
     // MARK: - Private methods
     
     // MARK: > UI
     
     private func setupUI() {
         // Setup
-        galleryView.delegate = self
+        // > Navigation Bar
+        setLetGoNavigationBarStyle(title: "")
+        setFavouriteButtonAsFavourited(false)
+        
+        // > Main
+        usernameContainerView.layer.cornerRadius = 2
+        
+        userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
+        userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
+        userAvatarImageView.layer.borderWidth = 2
+
+        setReportButtonAsReported(false)
+        
+        askButton.layer.cornerRadius = 4
+        askButton.layer.borderColor = askButton.titleColorForState(.Normal)?.CGColor
+        askButton.layer.borderWidth = 2
+        askButton.setBackgroundImage(askButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        
+        offerButton.layer.cornerRadius = 4
+        offerButton.setBackgroundImage(offerButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        
+        markSoldButton.layer.cornerRadius = 4
+        markSoldButton.setBackgroundImage(markSoldButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         
         // i18n
+        reportButton.setTitle(NSLocalizedString("product_report_product_button", comment: ""), forState: .Normal)
+        deleteButton.setTitle(NSLocalizedString("product_delete_confirm_title", comment: ""), forState: .Normal)
+        
         askButton.setTitle(NSLocalizedString("product_ask_a_question_button", comment: ""), forState: .Normal)
         offerButton.setTitle(NSLocalizedString("product_make_an_offer_button", comment: ""), forState: .Normal)
         markSoldButton.setTitle(NSLocalizedString("product_mark_as_sold_button", comment: ""), forState: .Normal)
+        
+        // Delegates
+        galleryView.delegate = self
         
         // Update the UI
         updateUI()
     }
     
     private func updateUI() {
-        // Navigation Bar
-        self.setLetGoNavigationBarStyle(title: "")
-        
+        // Navigation bar
+        if viewModel.isMine {
+            setLetGoRightButtonsWithImageNames(["navbar_edit_product"], andSelectors: ["editButtonPressed"], withTags: [0])
+        }
+        else {
+            let buttons = setLetGoRightButtonsWithImageNames(["navbar_fav_off", "navbar_share"], andSelectors: ["favouriteButtonPressed", "shareButtonPressed"], withTags: [0, 1])
+            for button in buttons {
+                if button.tag == 0 {
+                    favoriteButton = button
+                }
+            }
+        }
+       
         // Gallery
         for i in 0..<viewModel.numberOfImages {
             if let imageURL = viewModel.imageURLAtIndex(i) {
@@ -157,13 +327,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         }
         
         // Main
-        userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
-        userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor;
-        userAvatarImageView.layer.borderWidth = 2
         if let userAvatarURL = viewModel.userAvatar {
             userAvatarImageView.sd_setImageWithURL(userAvatarURL, placeholderImage: UIImage(named: "no_photo"))
         }
-        usernameContainerView.layer.cornerRadius = 2
         usernameLabel.text = viewModel.userName
         
         nameLabel.text = viewModel.name
@@ -176,26 +342,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             mapView.setRegion(region, animated: true)
         }
         
-        // Bottom (shown when pending OR approved, otherwise if it's not mine so other users can still report it)
-        let bottomViewVisible: Bool
-        switch viewModel.status {
-        case .Pending:
-            bottomViewVisible = true
-            break
-        case .Approved:
-            bottomViewVisible = true
-            break
-        case .Discarded:
-            bottomViewVisible = !viewModel.isMine
-            break
-        case .Sold:
-            bottomViewVisible = !viewModel.isMine
-            break
-        case .Deleted:
-            bottomViewVisible = !viewModel.isMine
-            break
-        }
-        bottomViewHeightContraint.constant = bottomViewVisible ? ProductViewController.bottomViewVisibleHeight : 0
+        // Bottom (delete when is mine, report when it's from others)
+        bottomViewHeightContraint.constant = ProductViewController.bottomViewVisibleHeight
         reportButton.hidden = viewModel.isMine
         deleteButton.hidden = !viewModel.isMine
         
@@ -225,33 +373,145 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         meSellingView.hidden = !viewModel.isMine
     }
     
+    private func setFavouriteButtonAsFavourited(favourited: Bool) {
+        let imageName = favourited ? "navbar_fav_on" : "navbar_fav_off"
+        let image = UIImage(named: imageName)!.imageWithRenderingMode(.AlwaysOriginal)
+        favoriteButton?.setImage(image, forState: .Normal)
+    }
+    
+    private func setReportButtonAsReported(reported: Bool) {
+        let reportButtonTitle: String
+        let reportButtonEnabled: Bool
+        
+        if reported {
+            reportButtonTitle = NSLocalizedString("product_reported_product_label", comment: "")
+            reportButtonEnabled = false
+            
+        }
+        else {
+            reportButtonTitle = NSLocalizedString("product_report_product_button", comment: "")
+            reportButtonEnabled = true
+        }
+        reportButton.setTitle(reportButtonTitle, forState: .Normal)
+        reportButton.enabled = reportButtonEnabled
+    }
+    
     // MARK: > Actions
     
-    private func openMap() {
+    dynamic private func favouriteButtonPressed() {
+        // Switch graphically
+        if viewModel.isFavourite {
+            setFavouriteButtonAsFavourited(false)
+        }
+        else {
+            setFavouriteButtonAsFavourited(true)
+        }
         
+        // Tell the VM
+        viewModel.switchFavourite()
     }
     
-    private func report() {
-        viewModel.report()
+    dynamic private func shareButtonPressed() {
+        if let shareText = viewModel.shareText {
+            let activityItems: [AnyObject] = [shareText]
+            let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+            // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
+            // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
+            if vc.respondsToSelector("popoverPresentationController") {
+                let presentationController = vc.popoverPresentationController
+                presentationController?.sourceView = self.view
+            }
+            presentViewController(vc, animated: true, completion: nil)
+        }
     }
     
-    private func delete() {
-        viewModel.delete()
+    // MARK: > Actions w navigation
+    
+    // TODO: Refactor to retrieve a viewModel and build an VC
+    dynamic private func editButtonPressed() {
+        let vc = viewModel.editViewModelWithDelegate(self)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
+    // TODO: Refactor to retrieve a viewModel and build an VC
+    private func openProductUserProfile() {
+        if let vc = viewModel.productUserProfileViewModel {
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM
+    private func openMap() {
+        if let vc = viewModel.productLocationViewModel {
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
     private func ask() {
         viewModel.ask()
     }
     
+    // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM
     private func offer() {
-        viewModel.offer()
+        let vc = viewModel.offerViewModel
+        navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func edit() {
-        viewModel.edit()
+    // MARK: > Actions w dialogs
+    
+    private func showReportAlert() {
+        let alert = UIAlertController(title: NSLocalizedString("product_report_confirm_title", comment: ""), message: NSLocalizedString("product_report_confirm_message", comment: ""), preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("product_report_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
+            self.viewModel.reportAbandon()
+        }))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("product_report_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
+            self.viewModel.report()
+        }))
+        
+        presentViewController(alert, animated: true, completion: {
+            self.viewModel.reportStarted()
+        })
     }
     
-    private func markSold() {
-        viewModel.markSold()
+    private func showDeleteAlert() {
+        let alert = UIAlertController(title: NSLocalizedString("product_delete_confirm_title", comment: ""), message: NSLocalizedString("product_delete_sold_confirm_message", comment: ""), preferredStyle: .Alert)
+        
+        if viewModel.shouldSuggestMarkSoldWhenDeleting {
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
+                    self.viewModel.deleteAbandon()
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_sold_button", comment: ""), style: .Default, handler: { (_) -> Void in
+                    self.viewModel.markSold(.Delete)
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
+                    self.viewModel.delete()
+            }))
+        }
+        else {
+            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (markAction) -> Void in
+                    self.viewModel.deleteAbandon()
+            }))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("common_ok", comment: ""), style: .Default, handler: { (_) -> Void in
+                    self.viewModel.delete()
+            }))
+        }
+        presentViewController(alert, animated: true, completion: {
+            self.viewModel.deleteStarted()
+        })
+    }
+    
+    private func showMarkSoldAlert() {
+        let source: EventParameterSellSourceValue = .MarkAsSold
+        let alert = UIAlertController(title: NSLocalizedString("product_mark_as_sold_confirm_title", comment: ""), message: NSLocalizedString("product_mark_as_sold_confirm_message", comment: ""), preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
+            self.viewModel.markSoldAbandon(source)
+        }))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
+            self.viewModel.markSold(source)
+        }))
+        
+        presentViewController(alert, animated: true, completion: {
+            self.viewModel.markSoldStarted(source)
+        })
     }
 }

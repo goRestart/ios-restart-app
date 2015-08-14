@@ -118,6 +118,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             else {
                 cell.iconImageView.image = UIImage(named: "no_photo")
             }
+            cell.iconImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
+            cell.iconImageView.layer.borderWidth = 1
         }
         else {
             cell.iconImageView.image = setting.imageForSetting()

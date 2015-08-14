@@ -82,6 +82,8 @@ public class ConversationCell: UITableViewCell {
     // Sets up the UI
     private func setupUI() {
         thumbnailImageView.layer.cornerRadius = thumbnailImageView.frame.size.width / 2.0
+        thumbnailImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
+        thumbnailImageView.layer.borderWidth = 1
         productLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         userLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         timeLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
