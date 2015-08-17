@@ -646,3 +646,15 @@
 // Forced update appstore button.
 "forced_update_update_button" = "Update";
 
+
+
+
+
+
+///////
+
+"product_report_confirm_title" = "Report Product";
+"product_report_confirm_message" = "Are you sure you want to report this product?";
+"product_report_confirm_ok_button" = "OK";
+"product_report_confirm_cancel_button" = "Cancel";
+
