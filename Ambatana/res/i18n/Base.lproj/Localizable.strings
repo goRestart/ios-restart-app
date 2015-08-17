@@ -47,7 +47,7 @@
 "change_location_ask_update_location_message"="Find bargains near you! Do you want to update your location?";
 
 // Change location unknown location message.   Message displayal is like the other error messages
-"change_location_reccomend_update_location_message"="We recommend updating your location to see the best offers near you!";
+"change_location_recommend_update_location_message"="We recommend updating your location to see the best offers near you!";
 
 // Change location alert update option button.
 "change_location_confirm_update_button" = "Update";
@@ -560,16 +560,16 @@
 "sell_uploading_label" = "Uploading product. Please wait...";
 
 // Settings change password button. Check attached image "settings.png"
-"settings_change_password_button" = "Change password";
+"settings_change_password_button" = "Password";
 
 // Settings change name button. Check image @ "settings_change_password_button" segment
-"settings_change_username_button" = "Change name";
+"settings_change_username_button" = "Name";
 
 // Settings change location button. Check image @ "settings_change_password_button" segment
 "settings_change_location_button" = "Location";
 
 // Settings change profile picture button. Check image @ "settings_change_password_button" segment
-"settings_change_profile_picture_button" = "Change photo";
+"settings_change_profile_picture_button" = "Photo";
 
 // Settings change profile picture error generic. Message displayal is like the other error messages.
 "settings_change_profile_picture_error_generic" = "There was an error setting the profile picture";

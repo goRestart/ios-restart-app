@@ -410,7 +410,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
             LocationManager.sharedInstance.gpsSettedLocation()
         }
         let noAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel) { (showSecondAlert) -> Void in
-            let secondAlert = UIAlertController(title: nil, message: NSLocalizedString("change_location_reccomend_update_location_message", comment: ""), preferredStyle: .Alert)
+            let secondAlert = UIAlertController(title: nil, message: NSLocalizedString("change_location_recommend_update_location_message", comment: ""), preferredStyle: .Alert)
             let cancelAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel, handler: nil)
             let updateAction = UIAlertAction(title: NSLocalizedString("change_location_confirm_update_button", comment: ""), style: .Default) { (updateToGPSLocation) -> Void in
                 LocationManager.sharedInstance.gpsSettedLocation()
