@@ -267,22 +267,18 @@ public class SellProductViewModel: BaseViewModel {
         return noNilImages
     }
     
-    
     // MARK: - FB Share
-    
+
+    // TODO: Actual sharing must happen in VC (see ProductVC / ProductVM)
     func shareCurrentProductInFacebook(product: Product) {
-        // build the sharing content.
-        let fbSharingContent = FBSDKShareLinkContent()
-        fbSharingContent.contentTitle = NSLocalizedString("sell_share_fb_content", comment: "")
-        fbSharingContent.contentURL = NSURL(string: letgoWebLinkForObjectId(product.objectId))
-        fbSharingContent.contentDescription = title
-        if product.images.count > 0 { fbSharingContent.imageURL = product.images.first?.fileURL! }
-        
-        // share it.
-        delegate?.sellProductViewModelShareContentinFacebook(self, withContent: fbSharingContent)
+        delegate?.sellProductViewModelShareContentinFacebook(self, withContent: shareFacebookContent(product))
     }
     
-    
+    // TODO: Refactor, this should be a computed iVar, and product should be generated in here or in parent class
+    func shareFacebookContent(product: Product) -> FBSDKShareLinkContent {
+        let title = NSLocalizedString("sell_share_fb_content", comment: "")
+        return SocialHelper.socialMessageWithTitle(title, product: product).fbShareContent
+    }
 }
 
 

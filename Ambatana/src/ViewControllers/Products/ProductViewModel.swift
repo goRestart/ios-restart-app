@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import FBSDKShareKit
 import LGCoreKit
 import Parse
 import Result
@@ -175,13 +176,37 @@ public class ProductViewModel: BaseViewModel {
     
     // MARK: > Share
     
-    public var shareText: String? {
-        if let productId = product.objectId {
-            let productName = product.name ?? ""
-            let userName = product.user?.publicUsername ?? ""
-            return letgoTextForSharingBody(productName, userName, andObjectId: productId)
+    public var shareText: String {
+        return shareSocialMessage.shareText
+    }
+    
+    public var shareEmailSubject: String {
+        return shareSocialMessage.title
+    }
+    
+    public var shareEmailBody: String {
+        return shareSocialMessage.emailShareText
+    }
+    
+    public var shareFacebookContent: FBSDKShareLinkContent {
+        return shareSocialMessage.fbShareContent
+    }
+    
+    public func shareInWhatsApp() -> Bool {
+        var success = false
+        let url = NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [shareText]))
+        if let actualURL = url {
+            let application = UIApplication.sharedApplication()
+            if application.canOpenURL(actualURL) {
+                success = application.openURL(actualURL)
+            }
         }
-        return nil
+        return success
+    }
+    
+    private var shareSocialMessage: SocialMessage {
+        let title = NSLocalizedString("product_share_body", comment: "")
+        return SocialHelper.socialMessageWithTitle(title, product: product)
     }
     
     // MARK: >  Report

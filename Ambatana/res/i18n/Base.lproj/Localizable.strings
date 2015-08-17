@@ -646,3 +646,14 @@
 // Forced update appstore button.
 "forced_update_update_button" = "Update";
 
+
+
+
+
+/**
+ *  NEW
+ */
+
+// Product share whatsapp error
+"product_share_whatsapp_error" = "Oops, it seems that you haven't installed the WhatsApp app";
+

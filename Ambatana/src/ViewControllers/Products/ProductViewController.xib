@@ -11,7 +11,6 @@
                 <outlet property="addressLabel" destination="Tl8-Qc-clk" id="waA-1c-374"/>
                 <outlet property="askButton" destination="hcb-iY-9wF" id="3lO-dc-QKA"/>
                 <outlet property="bottomView" destination="5pG-Ac-iOO" id="e0v-Gs-cxn"/>
-                <outlet property="bottomViewHeightContraint" destination="L3G-R0-kHb" id="J9a-n4-QJf"/>
                 <outlet property="deleteButton" destination="UM2-pr-wbb" id="lrt-Pd-kmg"/>
                 <outlet property="descriptionLabel" destination="IEP-Xa-ubT" id="XEd-JO-ht1"/>
                 <outlet property="footerViewHeightConstraint" destination="zoi-wR-b4u" id="Zwf-6m-SFz"/>
@@ -39,7 +38,7 @@
                     <rect key="frame" x="0.0" y="64" width="320" height="711"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4xV-fn-muT">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="698"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="697"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rnN-LC-zqg" customClass="GalleryView" customModule="LetGo" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
@@ -190,10 +189,10 @@
                                     </constraints>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5pG-Ac-iOO" userLabel="Bottom View">
-                                    <rect key="frame" x="0.0" y="623" width="320" height="75"/>
+                                    <rect key="frame" x="0.0" y="623" width="320" height="74"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8o-kA-epW" userLabel="Report Button">
-                                            <rect key="frame" x="104" y="20" width="113" height="35"/>
+                                            <rect key="frame" x="104" y="22" width="113" height="30"/>
                                             <state key="normal" title="_Report Product">
                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.23000000000000001" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -203,7 +202,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UM2-pr-wbb" userLabel="Delete Button">
-                                            <rect key="frame" x="105" y="20" width="110" height="35"/>
+                                            <rect key="frame" x="105" y="22" width="110" height="30"/>
                                             <state key="normal" title="_Delete Product">
                                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="0.23000000000000001" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -215,18 +214,23 @@
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstItem="L8o-kA-epW" firstAttribute="top" secondItem="5pG-Ac-iOO" secondAttribute="top" constant="20" id="1NY-dp-RsO"/>
+                                        <constraint firstItem="L8o-kA-epW" firstAttribute="top" secondItem="5pG-Ac-iOO" secondAttribute="top" constant="22" id="1NY-dp-RsO"/>
                                         <constraint firstItem="UM2-pr-wbb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5pG-Ac-iOO" secondAttribute="leading" constant="15" id="9bV-BY-m1r"/>
-                                        <constraint firstAttribute="bottom" secondItem="UM2-pr-wbb" secondAttribute="bottom" constant="20" id="Ct2-x2-ige"/>
+                                        <constraint firstAttribute="bottom" secondItem="UM2-pr-wbb" secondAttribute="bottom" constant="22" id="Ct2-x2-ige"/>
                                         <constraint firstAttribute="height" constant="75" id="L3G-R0-kHb"/>
                                         <constraint firstAttribute="centerX" secondItem="UM2-pr-wbb" secondAttribute="centerX" id="Rum-CZ-pFV"/>
-                                        <constraint firstAttribute="bottom" secondItem="L8o-kA-epW" secondAttribute="bottom" constant="20" id="YgL-rY-rfQ"/>
-                                        <constraint firstItem="UM2-pr-wbb" firstAttribute="top" secondItem="5pG-Ac-iOO" secondAttribute="top" constant="20" id="YhR-aO-vAA"/>
+                                        <constraint firstAttribute="bottom" secondItem="L8o-kA-epW" secondAttribute="bottom" constant="22" id="YgL-rY-rfQ"/>
+                                        <constraint firstItem="UM2-pr-wbb" firstAttribute="top" secondItem="5pG-Ac-iOO" secondAttribute="top" constant="22" id="YhR-aO-vAA"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="UM2-pr-wbb" secondAttribute="trailing" constant="15" id="e7W-Nl-HBP"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="L8o-kA-epW" secondAttribute="trailing" constant="15" id="fW7-Gt-qkn"/>
                                         <constraint firstItem="L8o-kA-epW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5pG-Ac-iOO" secondAttribute="leading" constant="15" id="t7F-qS-AE8"/>
                                         <constraint firstAttribute="centerX" secondItem="L8o-kA-epW" secondAttribute="centerX" id="uez-Yk-czP"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="L3G-R0-kHb"/>
+                                        </mask>
+                                    </variation>
                                 </view>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -410,6 +414,6 @@
         <image name="item_share_email" width="36" height="36"/>
         <image name="item_share_fb" width="36" height="36"/>
         <image name="item_share_whatsapp" width="36" height="36"/>
-        <image name="no_photo" width="128" height="128"/>
+        <image name="no_photo" width="80" height="80"/>
     </resources>
 </document>

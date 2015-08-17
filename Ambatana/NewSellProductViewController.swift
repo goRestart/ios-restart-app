@@ -378,7 +378,9 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                     TrackerProxy.sharedInstance.trackEvent(event)
                     
                     // check facebook sharing
-                    if self.shareInFacebookSwitch.on { self.shareCurrentProductInFacebook(newProduct) }
+                    if self.shareInFacebookSwitch.on {
+                        self.shareCurrentProductInFacebook(newProduct)
+                    }
                     else {
                         self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: ""), time: 3.5, completionBlock: { () -> Void in
                             self.dismissViewControllerAnimated(true, completion: { [weak self] in
@@ -429,14 +431,8 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     // MARK: - Share in facebook.
     
     func shareCurrentProductInFacebook(product: Product) {
-        // build the sharing content.
-        let fbSharingContent = FBSDKShareLinkContent()
-        fbSharingContent.contentTitle = NSLocalizedString("sell_share_fb_content", comment: "")
-        fbSharingContent.contentURL = NSURL(string: letgoWebLinkForObjectId(product.objectId))
-        fbSharingContent.contentDescription = productTitleTextField.text
-        if imageFiles?.count > 0 { fbSharingContent.imageURL = NSURL(string: imageFiles!.first!.url!) }
-        
-        // share it.
+        let title = NSLocalizedString("sell_share_fb_content", comment: "")
+        let fbSharingContent = SocialHelper.socialMessageWithTitle(title, product: product).fbShareContent
         FBSDKShareDialog.showFromViewController(self, withContent: fbSharingContent, delegate: self)
     }
     
