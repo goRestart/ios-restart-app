@@ -29,7 +29,7 @@ enum LetGoUserSettings: Int {
         case .ChangeUsername:
             return NSLocalizedString("settings_change_username_button", comment: "")
         case .ChangeLocation:
-            return "_Location"
+            return NSLocalizedString("settings_change_location_button", comment: "")
         case .ChangePassword:
             return NSLocalizedString("settings_change_password_button", comment: "")
         case .ContactUs:
@@ -95,9 +95,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: LetGoUserSettings.ChangeUsername.rawValue, inSection: 0)], withRowAnimation: .Automatic)
+        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: LetGoUserSettings.ChangeUsername.rawValue, inSection: 0), NSIndexPath(forItem: LetGoUserSettings.ChangeLocation.rawValue, inSection: 0)], withRowAnimation: .Automatic)
     }
-    
+
     // MARK: - UITableViewDataSource methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return LetGoUserSettings.numberOfOptions()
@@ -115,7 +115,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if setting == .ChangeLocation {
-            cell.nameLabel.text = MyUserManager.sharedInstance.myUser()?.postalAddress.city
+            if let city = UserDefaultsManager.sharedInstance.loadUserCity() {
+                cell.nameLabel.text = city
+            } else {
+                cell.nameLabel.text = MyUserManager.sharedInstance.myUser()?.postalAddress.city
+            }
         }
 
         if setting == .ChangePhoto {

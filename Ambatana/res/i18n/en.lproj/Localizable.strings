@@ -646,3 +646,46 @@
 // Forced update appstore button.
 "forced_update_update_button" = "Update";
 
+
+
+
+
+
+
+// Change location title.  Check attached image "change_location.png"
+"change_location_title"="Change Location";
+
+// Change location search field hint.  Check image @ "change_location_title" segment
+"change_location_search_field_hint"="Enter city or zip code";
+
+// Change location approximate location label.  Check image @ "change_location_title" segment
+"change_location_approximate_location_label"="Show approximate address";
+
+// Change location apply button.  Check image @ "change_location_title" segment
+"change_location_apply_button"="Apply";
+
+// Change location error searching location message.   Message displayal is like the other error messages
+"change_location_error_search_location_message"="I was unable to find that location. Please, try again.";
+
+// Change location unknown location message.   Message displayal is like the other error messages
+"change_location_error_unknown_location_message"="No results for %@";
+
+// Change location unknown location message.   Message displayal is like the other error messages
+"change_location_ask_update_location_message"="Find bargains near you! Do you want to update your location?";
+
+// Change location unknown location message.   Message displayal is like the other error messages
+"change_location_reccomend_update_location_message"="We recommend updating your location to see the best offers near you!";
+
+// Change location alert update option button.
+"change_location_confirm_update_button" = "Update";
+
+// Common yes
+"common_yes" = "Yes";
+
+// Common no
+"common_no" = "No";
+
+// Settings change location button. Check image @ "settings_change_password_button" segment
+"settings_change_location_button" = "Location";
+
+

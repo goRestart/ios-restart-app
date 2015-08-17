@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import LGCoreKit
+import Result
 
 class EditUserLocationViewController: BaseViewController, EditUserLocationViewModelDelegate, MKMapViewDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 
@@ -30,7 +32,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     var viewModel : EditUserLocationViewModel!
     
 
-    // MARK : - Lifecycle
+    // MARK: - Lifecycle
     
     init() {
         self.viewModel = EditUserLocationViewModel()
@@ -48,10 +50,11 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         // Do any additional setup after loading the view.
         
         setupUI()
-
     }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        approximateLocationSwitch.on = viewModel.approximateLocation
         viewModel.showInitialUserLocation()
     }
 
@@ -80,11 +83,16 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     
     func applyBarButtonPressed() {
-//        viewModel.applyLocation()
+        viewModel.applyLocation()
+        self.popBackViewController()
     }
     
     
-    // MARK : - private methods
+    // MARK: - view model delegate methods
+    
+    func viewModelDidStartSearchingLocation(viewModel: EditUserLocationViewModel) {
+        showLoadingMessageAlert()
+    }
 
     func viewModel(viewModel: EditUserLocationViewModel, updateTextFieldWithString locationName: String) {
         self.searchField.text = locationName
@@ -99,43 +107,43 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         suggestionsTableView.reloadData()
     }
     
-    func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D, approximate: Bool) {
-        centerMapInLocation(location, approximate: approximate)
+    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult result: Result<[Place], SearchLocationSuggestionsServiceError>) {
+        
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            completion = {
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("change_location_error_search_location_message", comment: ""))
+            }
+            break
+        case .Failure(let error):
+            let message: String
+            switch (error.value) {
+            case .Network:
+                message = NSLocalizedString("change_location_error_search_location_message", comment: "")
+            case .Internal:
+                message = NSLocalizedString("change_location_error_search_location_message", comment: "")
+            case .UnknownLocation:
+                message = String(format: NSLocalizedString("change_location_error_unknown_location_message", comment: ""), arguments: [searchField.text])
+            }
+            completion = {
+                self.showAutoFadingOutMessageAlert(message)
+            }
+        }
+        
+        dismissLoadingMessageAlert(completion: completion)
+    }
+
+    
+    func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D, withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
+        dismissLoadingMessageAlert()
+        centerMapInLocation(location, withPostalAddress: postalAddress, approximate: approximate)
         viewModel.goingToLocation = false
     }
     
-    func centerMapInLocation(coordinate: CLLocationCoordinate2D, approximate: Bool) {
-        // set map region
-        mapView.removeAnnotations(mapView.annotations)
-        mapView.removeOverlays(mapView.overlays)
-        
-//        var regionRadius = (accurate)?Constants.accurateRegionRadius:Constants.nonAccurateRegionRadius
-        
-        if !approximate {
-            let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius, Constants.accurateRegionRadius)
-            self.mapView.setRegion(region, animated: true)
-            var annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = viewModel.searchText
-            annotation.subtitle = "test"
-            
-            mapView.addAnnotation(annotation)
-        }
-        else {
-            let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius, Constants.nonAccurateRegionRadius)
-            mapView.setRegion(region, animated: true)
-            
-            // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
-            let circle = MKCircle(centerCoordinate:coordinate, radius: Constants.nonAccurateRegionRadius*0.40)
-            mapView.addOverlay(circle)
-        }
-        
-        
-
-    }
     
-    // MARK : - MapView methods
-    
+    // MARK: - MapView methods
     
     func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         
@@ -152,7 +160,6 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         if overlay is MKCircle {
             let renderer = MKCircleRenderer(overlay: overlay)
             renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
-//            renderer.strokeColor = UIColor.redColor()
             renderer.lineWidth = 1
             return renderer
         }
@@ -160,7 +167,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     }
     
     
-    // MARK : - textFieldDelegate methods
+    // MARK: - textFieldDelegate methods
 
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         searchField.resignFirstResponder()
@@ -169,8 +176,12 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let searchText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        
+        if searchText.isEmpty {
+            suggestionsTableView.hidden = true
+        }
+        
         viewModel.searchText = searchText
-        // get locations and update table
         
         return true
     }
@@ -190,8 +201,14 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         return true
     }
     
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        suggestionsTableView.hidden = true
+        
+        return true
+    }
     
-    // MARK : UITableViewDelegate Methods
+    
+    // MARK: UITableViewDelegate Methods
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -213,37 +230,84 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.searchField.text = viewModel.predictiveResults[indexPath.row].placeResumedData
-        viewModel.goingToLocation = true
-        viewModel.searchText = self.searchField.text
+        
+        let place = viewModel.predictiveResults[indexPath.row]
+        
+        self.searchField.text = place.placeResumedData
         suggestionsTableView.hidden = true
-        goToLocation()
+
+        if let location = place.location {
+            var lat = location.latitude as CLLocationDegrees
+            var long = location.longitude as CLLocationDegrees
+            var coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            centerMapInLocation(coordinate, withPostalAddress: place.postalAddress, approximate: viewModel.approximateLocation)
+        } else {
+            viewModel.goingToLocation = true
+            viewModel.searchText = self.searchField.text
+            goToLocation()
+        }
     }
     
-    
+    // MARK : - private methods
     
     private func setupUI() {
         
         searchField.insetX = 40
-        searchField.placeholder = "_Enter city or postal code"
+        searchField.placeholder = NSLocalizedString("change_location_search_field_hint", comment: "")
         searchField.layer.cornerRadius = 4
         searchField.layer.borderColor = UIColor.lightGrayColor().CGColor
         searchField.layer.borderWidth = 1
+
+        approximateLocationLabel.text = NSLocalizedString("change_location_approximate_location_label", comment: "")
         
         gpsLocationButton.layer.cornerRadius = 10
         
-        self.setLetGoNavigationBarStyle(title: "_Set Your Location" ?? UIImage(named: "navbar_logo"))
+        self.setLetGoNavigationBarStyle(title: NSLocalizedString("change_location_title", comment: "") ?? UIImage(named: "navbar_logo"))
         
-        applyBarButton = UIBarButtonItem(title: "_Apply", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("applyBarButtonPressed"))
+        applyBarButton = UIBarButtonItem(title: NSLocalizedString("change_location_apply_button", comment: ""), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("applyBarButtonPressed"))
         self.navigationItem.rightBarButtonItem = applyBarButton;
 
         suggestionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-//        mapView.region = MKCoordinateRegionMakeWithDistance(CLLocationCoordinate2D(), Constants.nonAccurateRegionRadius, Constants.nonAccurateRegionRadius)
-
-//        viewModel.showInitialUserLocation()
     }
     
-
-    
+    private func centerMapInLocation(coordinate: CLLocationCoordinate2D, withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
+        
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays)
+        
+        if !approximate {
+            let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius, Constants.accurateRegionRadius)
+            self.mapView.setRegion(region, animated: true)
+            
+            var annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            if let title = postalAddress?.address {
+                annotation.title = title
+            }
+            var subtitle = ""
+            if let zipCode = postalAddress?.zipCode {
+                subtitle += zipCode
+            }
+            if let city = postalAddress?.city {
+                if count(subtitle) > 0 {
+                    subtitle += " "
+                }
+                subtitle += city
+            }
+            annotation.subtitle = subtitle
+            
+            mapView.addAnnotation(annotation)
+            mapView.selectAnnotation(annotation, animated: true)
+            
+        }
+        else {
+            let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius, Constants.nonAccurateRegionRadius)
+            mapView.setRegion(region, animated: true)
+            
+            // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
+            let circle = MKCircle(centerCoordinate:coordinate, radius: Constants.nonAccurateRegionRadius*0.40)
+            mapView.addOverlay(circle)
+        }
+    }
 }

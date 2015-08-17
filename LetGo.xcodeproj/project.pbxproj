@@ -25,7 +25,6 @@
 		2EE60AF71B60D97300E56E7D /* EditSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */; };
 		2EE60AF81B60D97300E56E7D /* EditSellProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE60AF61B60D97300E56E7D /* EditSellProductViewController.xib */; };
 		2EE60AFA1B60D9A600E56E7D /* EditSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */; };
-		2EEE30451B7CA2F1008F8DBE /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE30441B7CA2F1008F8DBE /* UserDefaultsManager.swift */; };
 		500391B71B04EFE60081C141 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500391B51B04EFE60081C141 /* CategoryCell.swift */; };
 		500391B81B04EFE60081C141 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B61B04EFE60081C141 /* CategoryCell.xib */; };
 		500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B91B04F4F70081C141 /* ChatListViewController.xib */; };
@@ -227,7 +226,6 @@
 		2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSellProductViewController.swift; path = Sell/EditSellProductViewController.swift; sourceTree = "<group>"; };
 		2EE60AF61B60D97300E56E7D /* EditSellProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditSellProductViewController.xib; path = Sell/EditSellProductViewController.xib; sourceTree = "<group>"; };
 		2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSellProductViewModel.swift; path = Sell/EditSellProductViewModel.swift; sourceTree = "<group>"; };
-		2EEE30441B7CA2F1008F8DBE /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		32EAA2F0A47FAE66469DCDBC /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		500391B51B04EFE60081C141 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		500391B61B04EFE60081C141 /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
@@ -641,7 +639,6 @@
 			children = (
 				509273351B172D5B00A346F9 /* PushManager.swift */,
 				50C9E4B71B71FBB7001E4E92 /* Tracking */,
-				2EEE30441B7CA2F1008F8DBE /* UserDefaultsManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1428,7 +1425,6 @@
 			files = (
 				2EE5FF541B7B3DAB0090E558 /* EditUserLocationViewController.swift in Sources */,
 				2EE60AF71B60D97300E56E7D /* EditSellProductViewController.swift in Sources */,
-				2EEE30451B7CA2F1008F8DBE /* UserDefaultsManager.swift in Sources */,
 				D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */,
 				50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				D48C3E051AEBD165005BD0EF /* ConversationCell.swift in Sources */,
