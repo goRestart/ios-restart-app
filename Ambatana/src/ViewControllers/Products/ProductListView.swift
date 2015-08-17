@@ -258,7 +258,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     */
     public func productViewModelForProductAtIndex(index: Int) -> ProductViewModel {
         let product = productAtIndex(index)
-        return ProductViewModel(product: product)
+        return ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
     }
     
     // MARK: - UICollectionViewDataSource

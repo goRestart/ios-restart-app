@@ -14,7 +14,7 @@ import Result
 import SDWebImage
 import UIKit
 
-public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate, MFMailComposeViewControllerDelegate, ProductViewModelDelegate, UpdateDetailInfoDelegate {
+public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate, MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
 
     // Constants
     private static let footerViewVisibleHeight: CGFloat = 64
@@ -94,7 +94,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // MARK: > Actions
     
-    
     @IBAction func userButtonPressed(sender: AnyObject) {
         openProductUserProfile()
     }
@@ -170,7 +169,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     // MARK: - FBSDKSharingDelegate
     
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-//        viewModel.trackSharedFB()
+        viewModel.shareInFBCompleted()
     }
     
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
@@ -178,6 +177,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
+        viewModel.shareInFBCancelled()
     }
     
     // MARK: - GalleryViewDelegate
@@ -213,6 +213,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     // MARK: - ProductViewModelDelegate
+    
+    public func viewModelDidUpdate(viewModel: ProductViewModel) {
+        updateUI()
+    }
     
     public func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel) {
         favoriteButton?.userInteractionEnabled = false
@@ -296,12 +300,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         dismissLoadingMessageAlert(completion: completion)
     }
     
-    // MARK: - UpdateDetailInfoDelegate
-    
-    public func updateDetailInfo(viewModel: EditSellProductViewModel) {
-        updateUI()
-    }
-    
     // MARK: - Private methods
     
     // MARK: > UI
@@ -354,15 +352,30 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     private func updateUI() {
         // Navigation bar
-        if viewModel.isMine {
-            setLetGoRightButtonsWithImageNames(["navbar_edit_product"], andSelectors: ["editButtonPressed"], withTags: [0])
+        var imageNames: [String] = []
+        var selectors: [String] = []
+        var tags: [Int] = []
+        let favTag = 1
+        
+        if viewModel.isEditable {
+            imageNames.append("navbar_edit_product")
+            selectors.append("editButtonPressed")
+            tags.append(0)
         }
-        else {
-            let buttons = setLetGoRightButtonsWithImageNames(["navbar_fav_off", "navbar_share"], andSelectors: ["favouriteButtonPressed", "shareButtonPressed"], withTags: [0, 1])
-            for button in buttons {
-                if button.tag == 0 {
-                    favoriteButton = button
-                }
+        if viewModel.isFavouritable {
+            imageNames.append("navbar_fav_off")
+            selectors.append("favouriteButtonPressed")
+            tags.append(favTag)
+        }
+        if viewModel.isShareable {
+            imageNames.append("navbar_share")
+            selectors.append("shareButtonPressed")
+            tags.append(2)
+        }
+        let buttons = setLetGoRightButtonsWithImageNames(imageNames, andSelectors: selectors, withTags: tags)
+        for button in buttons {
+            if button.tag == favTag {
+                favoriteButton = button
             }
         }
        
@@ -389,30 +402,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             mapView.setRegion(region, animated: true)
         }
         
-        // Bottom (delete when is mine, report when it's from others)
-        reportButton.hidden = viewModel.isMine
-        deleteButton.hidden = !viewModel.isMine
+        // Bottom
+        reportButton.hidden = !viewModel.isReportable
+        deleteButton.hidden = !viewModel.isDeletable
         
-        // Footer (shown if approved)
-        let footerViewVisible: Bool
-        switch viewModel.status {
-        case .Pending:
-            footerViewVisible = false
-            break
-        case .Approved:
-            footerViewVisible = true
-            break
-        case .Discarded:
-            footerViewVisible = false
-            break
-        case .Sold:
-            footerViewVisible = false
-            break
-        case .Deleted:
-            footerViewVisible = false
-            break
-        }
-        footerViewHeightConstraint.constant = footerViewVisible ? ProductViewController.footerViewVisibleHeight : 0
+        // Footer
+        footerViewHeightConstraint.constant = viewModel.isFooterVisible ? ProductViewController.footerViewVisibleHeight : 0
         
         // Footer other / me selling subviews
         otherSellingView.hidden = viewModel.isMine
@@ -473,7 +468,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // TODO: Refactor to retrieve a viewModel and build an VC
     dynamic private func editButtonPressed() {
-        let vc = viewModel.editViewModelWithDelegate(self)
+        let vc = viewModel.editViewModelWithDelegate
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -505,12 +500,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     private func showReportAlert() {
         let alert = UIAlertController(title: NSLocalizedString("product_report_confirm_title", comment: ""), message: NSLocalizedString("product_report_confirm_message", comment: ""), preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("product_report_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("product_report_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
             self.viewModel.reportAbandon()
-        }))
-        alert.addAction(UIAlertAction(title: NSLocalizedString("product_report_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
+        })
+        let reportAction = UIAlertAction(title: NSLocalizedString("product_report_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
             self.viewModel.report()
-        }))
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(reportAction)
         
         presentViewController(alert, animated: true, completion: {
             self.viewModel.reportStarted()
@@ -521,23 +518,28 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         let alert = UIAlertController(title: NSLocalizedString("product_delete_confirm_title", comment: ""), message: NSLocalizedString("product_delete_sold_confirm_message", comment: ""), preferredStyle: .Alert)
         
         if viewModel.shouldSuggestMarkSoldWhenDeleting {
-            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
-                    self.viewModel.deleteAbandon()
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_sold_button", comment: ""), style: .Default, handler: { (_) -> Void in
-                    self.viewModel.markSold(.Delete)
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
-                    self.viewModel.delete()
-            }))
+            let cancelAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
+                self.viewModel.deleteAbandon()
+            })
+            let soldAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_sold_button", comment: ""), style: .Default, handler: { (_) -> Void in
+                self.viewModel.markSold(.Delete)
+            })
+            let deleteAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
+                self.viewModel.delete()
+            })
+            alert.addAction(cancelAction)
+            alert.addAction(soldAction)
+            alert.addAction(deleteAction)
         }
         else {
-            alert.addAction(UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (markAction) -> Void in
-                    self.viewModel.deleteAbandon()
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("common_ok", comment: ""), style: .Default, handler: { (_) -> Void in
-                    self.viewModel.delete()
-            }))
+            let cancelAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (markAction) -> Void in
+                self.viewModel.deleteAbandon()
+            })
+            let deleteAction = UIAlertAction(title: NSLocalizedString("common_ok", comment: ""), style: .Default, handler: { (_) -> Void in
+                self.viewModel.delete()
+            })
+            alert.addAction(cancelAction)
+            alert.addAction(deleteAction)
         }
         presentViewController(alert, animated: true, completion: {
             self.viewModel.deleteStarted()
@@ -547,12 +549,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     private func showMarkSoldAlert() {
         let source: EventParameterSellSourceValue = .MarkAsSold
         let alert = UIAlertController(title: NSLocalizedString("product_mark_as_sold_confirm_title", comment: ""), message: NSLocalizedString("product_mark_as_sold_confirm_message", comment: ""), preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
             self.viewModel.markSoldAbandon(source)
-        }))
-        alert.addAction(UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
+        })
+        let soldAction = UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
             self.viewModel.markSold(source)
-        }))
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(soldAction)
         
         presentViewController(alert, animated: true, completion: {
             self.viewModel.markSoldStarted(source)

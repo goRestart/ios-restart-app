@@ -90,7 +90,6 @@
 		50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F241B09D24A00544DE3 /* SettingsViewController.xib */; };
 		50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E64F261B09D36500544DE3 /* SettingsCell.swift */; };
 		50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F271B09D36500544DE3 /* SettingsCell.xib */; };
-		50E64F2B1B09E8AB00544DE3 /* ShowProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F2A1B09E8AB00544DE3 /* ShowProductViewController.xib */; };
 		50E81CF51B0B1A2000807D1B /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CF41B0B1A2000807D1B /* ChatViewController.xib */; };
 		50E81CF81B0B2D0100807D1B /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E81CF61B0B2D0100807D1B /* ChatMyMessageCell.swift */; };
 		50E81CF91B0B2D0100807D1B /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */; };
@@ -113,7 +112,6 @@
 		6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
 		6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0441A820FBD005895ED /* LaunchScreen.xib */; };
 		6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6622AD951A9F471A00C357DE /* ChatManager.swift */; };
-		66362F541A8B4DE500EC145E /* ShowProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F531A8B4DE500EC145E /* ShowProductViewController.swift */; };
 		66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */; };
 		66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */; };
 		6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; };
@@ -300,7 +298,6 @@
 		50E64F241B09D24A00544DE3 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		50E64F261B09D36500544DE3 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		50E64F271B09D36500544DE3 /* SettingsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
-		50E64F2A1B09E8AB00544DE3 /* ShowProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShowProductViewController.xib; sourceTree = "<group>"; };
 		50E81CF41B0B1A2000807D1B /* ChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatViewController.xib; sourceTree = "<group>"; };
 		50E81CF61B0B2D0100807D1B /* ChatMyMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMyMessageCell.swift; sourceTree = "<group>"; };
 		50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatMyMessageCell.xib; sourceTree = "<group>"; };
@@ -325,7 +322,6 @@
 		6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Launchers.xcassets"; sourceTree = "<group>"; };
 		6608E0451A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		6622AD951A9F471A00C357DE /* ChatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
-		66362F531A8B4DE500EC145E /* ShowProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowProductViewController.swift; sourceTree = "<group>"; };
 		66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+RelativeTime.swift"; sourceTree = "<group>"; };
 		66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMapView+ProductPin.swift"; sourceTree = "<group>"; };
 		6640F03F1AE13EBE00004556 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -879,8 +875,6 @@
 				50DFABE11B04E5A700A3F049 /* CategoriesViewController.xib */,
 				500391B51B04EFE60081C141 /* CategoryCell.swift */,
 				500391B61B04EFE60081C141 /* CategoryCell.xib */,
-				66362F531A8B4DE500EC145E /* ShowProductViewController.swift */,
-				50E64F2A1B09E8AB00544DE3 /* ShowProductViewController.xib */,
 				669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */,
 				D43FF0241AB0737400757EED /* ProductLocationViewController.swift */,
 			);
@@ -1266,7 +1260,6 @@
 				2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				5004BDFC1B06182E00D302F3 /* NewSellProductViewController.xib in Resources */,
-				50E64F2B1B09E8AB00544DE3 /* ShowProductViewController.xib in Resources */,
 				2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				50560BA11B25D18F0021D8D9 /* SplashViewController.xib in Resources */,
@@ -1453,7 +1446,6 @@
 				66E3D0A91A89073B00BC283C /* UIViewController+LetGo.swift in Sources */,
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
 				D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */,
-				66362F541A8B4DE500EC145E /* ShowProductViewController.swift in Sources */,
 				669A0FAD1A8D0CF000B96EC8 /* CommonDataTypes.swift in Sources */,
 				D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */,
 				66EF4AD11A8A046000D6F4D2 /* NewSellProductViewController.swift in Sources */,

@@ -11,7 +11,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-public class MainProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, MainProductsViewModelDelegate, UISearchBarDelegate, ShowProductViewControllerDelegate {
+public class MainProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, MainProductsViewModelDelegate, UISearchBarDelegate {
 
     // Constants
     private static let TooltipHidingPageCountThreshold: UInt = 4

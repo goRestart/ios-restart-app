@@ -14,6 +14,8 @@ import Result
 
 public protocol ProductViewModelDelegate: class {
     
+    func viewModelDidUpdate(viewModel: ProductViewModel)
+    
     func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel)
     func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsFavourite(viewModel: ProductViewModel)
@@ -32,7 +34,7 @@ public protocol ProductViewModelDelegate: class {
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: Result<Product, ProductMarkSoldServiceError>)
 }
 
-public class ProductViewModel: BaseViewModel {
+public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
     // Output
     // > Product
@@ -42,7 +44,6 @@ public class ProductViewModel: BaseViewModel {
     public private(set) var distance: String
     public private(set) var address: String
     public private(set) var location: LGLocationCoordinates2D?
-    public private(set) var status: ProductStatus
     
     // > User
     public private(set) var userName: String
@@ -53,10 +54,6 @@ public class ProductViewModel: BaseViewModel {
     public private(set) var isReported: Bool
     public private(set) var isMine: Bool
     
-    public var numberOfImages: Int {
-        return product.images.count
-    }
-    
     // Delegate
     public weak var delegate: ProductViewModelDelegate?
     
@@ -65,10 +62,124 @@ public class ProductViewModel: BaseViewModel {
     
     // Manager
     private var productManager: ProductManager
+    private var tracker: Tracker
+    
+    // MARK: - Computed iVars
+    
+    public var isEditable: Bool {
+        // It's editable when the product is mine and it's pending or approved
+        return isMine && ( product.status == .Pending || product.status == .Approved)
+    }
+    
+    // TODO: Refactor to return a view model
+    public var editViewModelWithDelegate: UIViewController {
+        return EditSellProductViewController(product: product, updateDelegate: self)
+    }
+    
+    public var isFavouritable: Bool {
+        return !isMine
+    }
+    
+    public var isShareable: Bool {
+        return !isMine
+    }
+    
+    public var isReportable: Bool {
+        return !isMine
+    }
+    
+    public var numberOfImages: Int {
+        return product.images.count
+    }
+    
+    // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
+    public var productUserProfileViewModel: UIViewController? {
+        let productUserId = product.user?.objectId
+        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let productUser = product.user, let productUserId = productUser.objectId {
+            if myUserId != productUserId {
+                return EditProfileViewController(user: productUser)
+            }
+        }
+        return nil
+    }
+    
+    // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
+    public var productLocationViewModel: UIViewController? {
+        var vc: ProductLocationViewController?
+        if let location = product.location {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController") as? ProductLocationViewController
+            
+            if let actualVC = vc {
+                let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                actualVC.location = coordinate
+            }
+        }
+        return vc
+    }
+    
+    public var shareText: String {
+        return shareSocialMessage.shareText
+    }
+    
+    public var shareEmailSubject: String {
+        return shareSocialMessage.title
+    }
+    
+    public var shareEmailBody: String {
+        return shareSocialMessage.emailShareText
+    }
+    
+    public var shareFacebookContent: FBSDKShareLinkContent {
+        return shareSocialMessage.fbShareContent
+    }
+    
+    private var shareSocialMessage: SocialMessage {
+        let title = NSLocalizedString("product_share_body", comment: "")
+        return SocialHelper.socialMessageWithTitle(title, product: product)
+    }
+    
+    public var shouldSuggestMarkSoldWhenDeleting: Bool {
+        return ( product.status != .Pending && product.status != .Sold )
+    }
+    
+    public var isDeletable: Bool {
+        return isMine
+    }
+    
+    public var isFooterVisible: Bool {
+        let footerViewVisible: Bool
+        switch product.status {
+        case .Pending:
+            footerViewVisible = false
+            break
+        case .Approved:
+            footerViewVisible = true
+            break
+        case .Discarded:
+            footerViewVisible = false
+            break
+        case .Sold:
+            footerViewVisible = false
+            break
+        case .Deleted:
+            footerViewVisible = false
+            break
+        }
+        return footerViewVisible
+    }
+    
+    // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
+    public var offerViewModel: UIViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
+        vc.product = product
+        return vc
+    }
     
     // MARK: - Lifecycle
     
-    public init(product: Product) {
+    public init(product: Product, tracker: Tracker) {
         // Product
         self.name = product.name ?? ""
         self.price = product.formattedPrice()
@@ -90,7 +201,6 @@ public class ProductViewModel: BaseViewModel {
         }
         self.address = address.lg_capitalizedWord()
         self.location = product.location
-        self.status = product.status
         
         // User
         self.userName = product.user?.publicUsername ?? ""
@@ -116,8 +226,14 @@ public class ProductViewModel: BaseViewModel {
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = PAProductMarkSoldService()
         self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService)
+        self.tracker = TrackerProxy.sharedInstance
         
         super.init()
+        
+        // Tracking
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let trackerEvent = TrackerEvent.productDetailVisit(product, user: myUser)
+        tracker.trackEvent(trackerEvent)
     }
     
     internal override func didSetActive(active: Bool) {
@@ -142,25 +258,6 @@ public class ProductViewModel: BaseViewModel {
     
     // MARK: - Public methods
     
-    public func imageURLAtIndex(index: Int) -> NSURL? {
-        return product.images[index].fileURL
-    }
-    
-    // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
-    public var productLocationViewModel: UIViewController? {
-        var vc: ProductLocationViewController?
-        if let location = product.location {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController") as? ProductLocationViewController
-            
-            if let actualVC = vc {
-                let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-                actualVC.location = coordinate
-            }
-        }
-        return vc
-    }
-    
     // MARK: > Favourite
     
     public func switchFavourite() {
@@ -174,22 +271,18 @@ public class ProductViewModel: BaseViewModel {
         }
     }
     
+    // MARK: > Gallery
+    
+    public func imageURLAtIndex(index: Int) -> NSURL? {
+        return product.images[index].fileURL
+    }
+    
     // MARK: > Share
     
-    public var shareText: String {
-        return shareSocialMessage.shareText
+    public func shareInFBCompleted() {
     }
     
-    public var shareEmailSubject: String {
-        return shareSocialMessage.title
-    }
-    
-    public var shareEmailBody: String {
-        return shareSocialMessage.emailShareText
-    }
-    
-    public var shareFacebookContent: FBSDKShareLinkContent {
-        return shareSocialMessage.fbShareContent
+    public func shareInFBCancelled() {
     }
     
     public func shareInWhatsApp() -> Bool {
@@ -202,11 +295,6 @@ public class ProductViewModel: BaseViewModel {
             }
         }
         return success
-    }
-    
-    private var shareSocialMessage: SocialMessage {
-        let title = NSLocalizedString("product_share_body", comment: "")
-        return SocialHelper.socialMessageWithTitle(title, product: product)
     }
     
     // MARK: >  Report
@@ -248,22 +336,18 @@ public class ProductViewModel: BaseViewModel {
     
     // MARK: > Delete
     
-    public var shouldSuggestMarkSoldWhenDeleting: Bool {
-        return ( product.status != .Pending && product.status != .Sold )
-    }
-    
     public func deleteStarted() {
         // Tracking
         let myUser = MyUserManager.sharedInstance.myUser()
         let trackerEvent = TrackerEvent.productDeleteStart(product, user: myUser)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
     }
     
     public func deleteAbandon() {
         // Tracking
         let myUser = MyUserManager.sharedInstance.myUser()
         let trackerEvent = TrackerEvent.productDeleteAbandon(product, user: myUser)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
     }
     
     public func delete() {
@@ -272,8 +356,7 @@ public class ProductViewModel: BaseViewModel {
             if let strongSelf = self {
                 if let success = result.value {
                     // Update the status
-                    strongSelf.status = .Sold
-                    strongSelf.product.status = .Sold
+                    strongSelf.product.status = .Deleted
                     
                     // Run completed
                     strongSelf.deleteCompleted()
@@ -325,34 +408,6 @@ public class ProductViewModel: BaseViewModel {
         }
     }
     
-    // MARK: > Offer
-    
-    // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
-    public var offerViewModel: UIViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
-        vc.product = product
-        return vc
-    }
-    
-    // MARK: > Edit
-
-    // TODO: Refactor to return a view model
-    public func editViewModelWithDelegate(delegate: UpdateDetailInfoDelegate?) -> UIViewController {
-        return EditSellProductViewController(product: product, updateDelegate: delegate)
-    }
-    
-    // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
-    public var productUserProfileViewModel: UIViewController? {
-        let productUserId = product.user?.objectId
-        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let productUser = product.user, let productUserId = productUser.objectId {
-            if myUserId != productUserId {
-                return EditProfileViewController(user: productUser)
-            }
-        }
-        return nil
-    }
-    
     // MARK: > Mark as Sold
     
     public func markSoldStarted(source: EventParameterSellSourceValue) {
@@ -365,7 +420,6 @@ public class ProductViewModel: BaseViewModel {
                 // Success
                 if let soldProduct = result.value {
                     // Update the status
-                    strongSelf.status = .Sold
                     strongSelf.product.status = .Sold
                     
                     // Run completed
@@ -381,6 +435,12 @@ public class ProductViewModel: BaseViewModel {
     public func markSoldAbandon(source: EventParameterSellSourceValue) {
     }
     
+    // MARK: - UpdateDetailInfoDelegate
+    
+    public func updateDetailInfo(viewModel: EditSellProductViewModel) {
+        delegate?.viewModelDidUpdate(self)
+    }
+    
     // MARK: - Private methods
     
     private func reportCompleted() {
@@ -390,14 +450,14 @@ public class ProductViewModel: BaseViewModel {
         // Tracking
         let myUser = MyUserManager.sharedInstance.myUser()
         let trackerEvent = TrackerEvent.productMarkAsSold(source, product: soldProduct, user: myUser)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
     }
     
     private func deleteCompleted() {
         // Tracking
         let myUser = MyUserManager.sharedInstance.myUser()
         let trackerEvent = TrackerEvent.productDeleteComplete(product, user: myUser)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
     }
     
     private func askCompleted(conversation: PFObject) {

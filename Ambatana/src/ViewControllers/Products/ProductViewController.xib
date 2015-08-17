@@ -138,10 +138,10 @@
                                     <rect key="frame" x="0.0" y="548" width="320" height="75"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kD-Uf-2Lc" userLabel="Share FB Button">
-                                            <rect key="frame" x="86" y="20" width="36" height="36"/>
+                                            <rect key="frame" x="76" y="10" width="56" height="56"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="36" id="IVG-vc-rkf"/>
-                                                <constraint firstAttribute="width" constant="36" id="Thw-ou-nJy"/>
+                                                <constraint firstAttribute="height" constant="56" id="IVG-vc-rkf"/>
+                                                <constraint firstAttribute="width" constant="56" id="Thw-ou-nJy"/>
                                             </constraints>
                                             <state key="normal" image="item_share_fb">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -151,10 +151,10 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNK-r3-hh9" userLabel="Share Email Button">
-                                            <rect key="frame" x="142" y="20" width="36" height="36"/>
+                                            <rect key="frame" x="132" y="10" width="56" height="56"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="36" id="tpr-4J-kcd"/>
-                                                <constraint firstAttribute="height" constant="36" id="wTo-va-kwL"/>
+                                                <constraint firstAttribute="width" constant="56" id="tpr-4J-kcd"/>
+                                                <constraint firstAttribute="height" constant="56" id="wTo-va-kwL"/>
                                             </constraints>
                                             <state key="normal" image="item_share_email">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -164,10 +164,10 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oZF-Tz-McD" userLabel="Share Whatsapp Button">
-                                            <rect key="frame" x="198" y="20" width="36" height="36"/>
+                                            <rect key="frame" x="188" y="10" width="56" height="56"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="36" id="1In-y0-Izh"/>
-                                                <constraint firstAttribute="height" constant="36" id="V0c-IB-W5X"/>
+                                                <constraint firstAttribute="width" constant="56" id="1In-y0-Izh"/>
+                                                <constraint firstAttribute="height" constant="56" id="V0c-IB-W5X"/>
                                             </constraints>
                                             <state key="normal" image="item_share_whatsapp">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -184,8 +184,8 @@
                                         <constraint firstAttribute="centerY" secondItem="oZF-Tz-McD" secondAttribute="centerY" id="HOb-bF-zDe"/>
                                         <constraint firstAttribute="height" constant="75" id="Sf2-G5-XeS"/>
                                         <constraint firstAttribute="centerY" secondItem="7kD-Uf-2Lc" secondAttribute="centerY" id="kj4-qU-w02"/>
-                                        <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="cNK-r3-hh9" secondAttribute="trailing" constant="20" id="kjW-m3-Msn"/>
-                                        <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" constant="20" id="mAf-OB-GBu"/>
+                                        <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="cNK-r3-hh9" secondAttribute="trailing" id="kjW-m3-Msn"/>
+                                        <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" id="mAf-OB-GBu"/>
                                     </constraints>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5pG-Ac-iOO" userLabel="Bottom View">
@@ -251,7 +251,6 @@
                                 <constraint firstAttribute="trailing" secondItem="JjN-hF-Oa1" secondAttribute="trailing" id="D0w-za-023"/>
                                 <constraint firstItem="Tl8-Qc-clk" firstAttribute="leading" secondItem="U9Y-zZ-7UM" secondAttribute="trailing" constant="8" id="DlV-Bd-G9n"/>
                                 <constraint firstItem="ljy-wx-hlO" firstAttribute="top" secondItem="fWK-hI-2a1" secondAttribute="top" constant="-15" id="Grz-Ut-QBa"/>
-                                <constraint firstItem="fWK-hI-2a1" firstAttribute="leading" secondItem="eVN-Mz-H9f" secondAttribute="leading" id="JOc-fM-p2W"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="bottom" secondItem="OZB-tR-KL9" secondAttribute="bottom" id="JVw-Af-NHj"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="leading" secondItem="OZB-tR-KL9" secondAttribute="leading" id="KA8-OX-c6y"/>
                                 <constraint firstItem="rnN-LC-zqg" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="LfA-Zb-4pL"/>
@@ -266,22 +265,15 @@
                                 <constraint firstItem="ljy-wx-hlO" firstAttribute="trailing" secondItem="eVN-Mz-H9f" secondAttribute="trailing" constant="15" id="de3-DG-ewZ"/>
                                 <constraint firstItem="rnN-LC-zqg" firstAttribute="top" secondItem="4xV-fn-muT" secondAttribute="top" id="e2J-N5-BKT"/>
                                 <constraint firstItem="fWK-hI-2a1" firstAttribute="centerY" secondItem="eVN-Mz-H9f" secondAttribute="centerY" id="eqE-yk-aJp"/>
-                                <constraint firstItem="Tl8-Qc-clk" firstAttribute="centerY" secondItem="U9Y-zZ-7UM" secondAttribute="centerY" id="gTl-Bd-VSa"/>
                                 <constraint firstAttribute="trailing" secondItem="rnN-LC-zqg" secondAttribute="trailing" id="gfd-l5-8TF"/>
-                                <constraint firstItem="5pG-Ac-iOO" firstAttribute="top" secondItem="oT2-dx-Ar0" secondAttribute="bottom" constant="8" id="iRQ-ei-8Q0"/>
                                 <constraint firstItem="9kq-xm-UA7" firstAttribute="top" secondItem="rnN-LC-zqg" secondAttribute="bottom" constant="15" id="ioQ-lM-T3a"/>
                                 <constraint firstAttribute="trailing" secondItem="IEP-Xa-ubT" secondAttribute="trailing" constant="15" id="j49-th-5ch"/>
                                 <constraint firstAttribute="trailing" secondItem="oT2-dx-Ar0" secondAttribute="trailing" id="l0W-JS-w4K"/>
+                                <constraint firstItem="OZB-tR-KL9" firstAttribute="top" secondItem="U9Y-zZ-7UM" secondAttribute="bottom" constant="8" id="mfo-lE-pf3"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="top" secondItem="OZB-tR-KL9" secondAttribute="top" id="obe-fn-WVZ"/>
                                 <constraint firstItem="JjN-hF-Oa1" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="yWi-R5-w33"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="trailing" secondItem="OZB-tR-KL9" secondAttribute="trailing" id="yvx-tw-fQ5"/>
                             </constraints>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="JOc-fM-p2W"/>
-                                    <exclude reference="iRQ-ei-8Q0"/>
-                                </mask>
-                            </variation>
                         </view>
                     </subviews>
                     <constraints>

@@ -306,7 +306,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             // Otherwise, push the product detail
             else {
-                let vc = ShowProductViewController(product: actualProduct)
+                // TODO: Refactor: this VM should be returned by ChatVC's VM where refactored to MVVM
+                let productVM = ProductViewModel(product: actualProduct, tracker: TrackerProxy.sharedInstance)
+                let vc = ProductViewController(viewModel: productVM)
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
