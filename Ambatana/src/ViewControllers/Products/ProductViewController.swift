@@ -6,16 +6,17 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import FBSDKShareKit
 import LGCoreKit
 import MapKit
-import UIKit
+import MessageUI
 import Result
 import SDWebImage
+import UIKit
 
-public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate, UpdateDetailInfoDelegate {
+public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate, MFMailComposeViewControllerDelegate, ProductViewModelDelegate, UpdateDetailInfoDelegate {
 
     // Constants
-    private static let bottomViewVisibleHeight: CGFloat = 64
     private static let footerViewVisibleHeight: CGFloat = 64
     
     // UI
@@ -36,7 +37,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
     // > Bottom
     @IBOutlet weak var bottomView: UIView!
-    @IBOutlet weak var bottomViewHeightContraint: NSLayoutConstraint!
     @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
 
@@ -104,12 +104,29 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     @IBAction func shareFBButtonPressed(sender: AnyObject) {
+        let content = viewModel.shareFacebookContent
+        FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
     }
     
     @IBAction func shareEmailButtonPressed(sender: AnyObject) {
+        let isEmailAccountConfigured = MFMailComposeViewController.canSendMail()
+        if isEmailAccountConfigured {
+            let vc = MFMailComposeViewController()
+            vc.mailComposeDelegate = self
+            vc.setSubject(viewModel.shareEmailSubject)
+            vc.setMessageBody(viewModel.shareEmailBody, isHTML: false)
+            presentViewController(vc, animated: true, completion: nil)
+        }
+        else {
+            showAutoFadingOutMessageAlert(NSLocalizedString("product_share_email_error", comment: ""))
+        }
     }
     
     @IBAction func shareWhatsAppButtonPressed(sender: AnyObject) {
+        let isWhatsAppInstalled = viewModel.shareInWhatsApp()
+        if !isWhatsAppInstalled {
+            showAutoFadingOutMessageAlert(NSLocalizedString("product_share_whatsapp_error", comment: ""))
+        }
     }
     
     @IBAction func reportButtonPressed(sender: AnyObject) {
@@ -150,6 +167,19 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         })
     }
     
+    // MARK: - FBSDKSharingDelegate
+    
+    public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+//        viewModel.trackSharedFB()
+    }
+    
+    public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+        showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""))
+    }
+    
+    public func sharerDidCancel(sharer: FBSDKSharing!) {
+    }
+    
     // MARK: - GalleryViewDelegate
     
     public func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
@@ -168,6 +198,18 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         vc.initialImageToShow = index
         vc.productName = viewModel.name
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    // MARK: - MFMailComposeViewControllerDelegate
+    
+    public func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        var message: String? = nil
+        if result.value == MFMailComposeResultFailed.value { // we just give feedback if something nasty happened.
+            message = NSLocalizedString("product_share_email_error", comment: "")
+        }
+        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            if message != nil { self.showAutoFadingOutMessageAlert(message!) }
+        })
     }
     
     // MARK: - ProductViewModelDelegate
@@ -277,6 +319,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
         userAvatarImageView.layer.borderWidth = 2
 
+        reportButton.titleLabel?.numberOfLines = 2
+        reportButton.titleLabel?.lineBreakMode = .ByWordWrapping
+        deleteButton.titleLabel?.numberOfLines = 2
+        deleteButton.titleLabel?.lineBreakMode = .ByWordWrapping
+        
         setReportButtonAsReported(false)
         
         askButton.layer.cornerRadius = 4
@@ -343,7 +390,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         }
         
         // Bottom (delete when is mine, report when it's from others)
-        bottomViewHeightContraint.constant = ProductViewController.bottomViewVisibleHeight
         reportButton.hidden = viewModel.isMine
         deleteButton.hidden = !viewModel.isMine
         
@@ -412,17 +458,15 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     dynamic private func shareButtonPressed() {
-        if let shareText = viewModel.shareText {
-            let activityItems: [AnyObject] = [shareText]
-            let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-            // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
-            // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
-            if vc.respondsToSelector("popoverPresentationController") {
-                let presentationController = vc.popoverPresentationController
-                presentationController?.sourceView = self.view
-            }
-            presentViewController(vc, animated: true, completion: nil)
+        let activityItems: [AnyObject] = [viewModel.shareText]
+        let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
+        // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
+        if vc.respondsToSelector("popoverPresentationController") {
+            let presentationController = vc.popoverPresentationController
+            presentationController?.sourceView = self.view
         }
+        presentViewController(vc, animated: true, completion: nil)
     }
     
     // MARK: > Actions w navigation

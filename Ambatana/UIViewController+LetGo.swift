@@ -147,7 +147,9 @@ extension UIViewController {
         if letGoSearchBar != nil { return }
         
         // generate the search bar.
-        let originY = statusBarHeight() + (self.navigationController?.navigationBar.frame.size.height ?? 0)
+        let statusBarSize = UIApplication.sharedApplication().statusBarFrame.size
+        let statusBarHeight = Swift.min(statusBarSize.width, statusBarSize.height)
+        let originY = statusBarHeight + (self.navigationController?.navigationBar.frame.size.height ?? 0)
         letGoSearchBar = UISearchBar(frame: CGRectMake(0, animated ? -kLetGoSearchBarHeight : originY, kLetGoFullScreenWidth, kLetGoSearchBarHeight))
         letGoSearchBar!.showsCancelButton = true
         letGoSearchBar!.backgroundColor = UIColor.whiteColor()

@@ -356,9 +356,8 @@ class ShowProductViewController: UIViewController, GalleryViewDelegate, UIScroll
             var itemsToShare: [AnyObject] = []
             
             // text
-            let productName = product.name ?? ""
-            let userName = usernameLabel.text!
-            let textToShare = letgoTextForSharingBody(productName, userName, andObjectId: objectId)
+            let title = NSLocalizedString("product_share_body", comment: "")
+            let textToShare = SocialHelper.socialMessageWithTitle(title, product: product).shareText
             itemsToShare.append(textToShare)
             
 //            // image
