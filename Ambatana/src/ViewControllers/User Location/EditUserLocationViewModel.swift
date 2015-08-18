@@ -234,7 +234,6 @@ public class EditUserLocationViewModel: BaseViewModel {
         }
     }
 
-
     
     /**
         Manages the change in the view when the user switches from aproxximate to accurate
@@ -256,10 +255,10 @@ public class EditUserLocationViewModel: BaseViewModel {
     func applyLocation() {
 
         UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
-        
-        // save the city to update cell in settings view
-        if let city = currentPlace.postalAddress?.city {
-            UserDefaultsManager.sharedInstance.saveUserCity(city)
+
+        if let actualPostalAddress = currentPlace.postalAddress {
+            var user = MyUserManager.sharedInstance.myUser()
+            user?.postalAddress = actualPostalAddress
         }
         
         if usingGPSLocation {

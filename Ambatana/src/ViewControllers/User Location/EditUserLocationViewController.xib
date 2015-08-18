@@ -170,7 +170,7 @@
                 </constraint>
                 <constraint firstItem="lex-KD-9Xu" firstAttribute="centerY" secondItem="pg2-Su-t0S" secondAttribute="centerY" id="sC3-eG-JbG"/>
                 <constraint firstItem="D4d-mu-m2n" firstAttribute="top" secondItem="sJJ-hc-CQp" secondAttribute="bottom" id="sCs-H7-tzg"/>
-                <constraint firstItem="qRX-bt-ebX" firstAttribute="bottom" secondItem="Xdz-OU-TYS" secondAttribute="bottom" constant="8" id="vx1-tF-AC1"/>
+                <constraint firstItem="qRX-bt-ebX" firstAttribute="bottom" secondItem="Xdz-OU-TYS" secondAttribute="bottom" constant="20" id="vx1-tF-AC1"/>
                 <constraint firstItem="qRX-bt-ebX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ye3-Ud-g6V"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>

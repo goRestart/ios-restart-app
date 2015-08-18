@@ -115,11 +115,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if setting == .ChangeLocation {
-            if let city = UserDefaultsManager.sharedInstance.loadUserCity() {
-                cell.nameLabel.text = city
-            } else {
-                cell.nameLabel.text = MyUserManager.sharedInstance.myUser()?.postalAddress.city
-            }
+            cell.nameLabel.text = MyUserManager.sharedInstance.myUser()?.postalAddress.city
         }
 
         if setting == .ChangePhoto {
