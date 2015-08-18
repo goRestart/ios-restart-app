@@ -214,6 +214,11 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.init(viewModel: ProductListViewModel(), coder: aDecoder)
     }
     
+    internal override func didSetActive(active: Bool) {
+        super.didSetActive(active)
+        refreshUI()
+    }
+    
     // MARK: Public methods
     
     // MARK: > Actions
@@ -245,7 +250,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         Refreshes the user interface.
     */
     public func refreshUI() {
-        collectionView.reloadSections(NSIndexSet(index: 0))
+        collectionView.reloadData()
     }
     
     // MARK: > ViewModel

@@ -127,8 +127,6 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
         let vc = ProductViewController(viewModel: productVM)
-        // TODO: @ahl: Delegate stuff!
-//        vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -178,12 +176,6 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
                 self?.navigationController?.pushViewController(vc, animated: true)
             }
         }
-    }
-   
-    // MARK: - ShowProductViewControllerDelegate
-
-    func showProductViewControllerShouldRefresh(viewController: ShowProductViewController) {
-        mainProductListView.refreshUI()
     }
     
     // MARK: - UISearchBarDelegate
