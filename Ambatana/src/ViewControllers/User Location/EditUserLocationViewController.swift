@@ -46,8 +46,6 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
         setupUI()
     }
@@ -106,6 +104,11 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         suggestionsTableView.hidden = false
         suggestionsTableView.reloadData()
     }
+    
+    func viewModelDidFailFindingSuggestions(viewModel: EditUserLocationViewModel) {
+        suggestionsTableView.hidden = true
+    }
+
     
     func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult result: Result<[Place], SearchLocationSuggestionsServiceError>) {
         
@@ -169,6 +172,9 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     // MARK: - textFieldDelegate methods
 
+    
+    // "touchesBegan" used to hide the keyboard when touching outside the textField
+    
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         searchField.resignFirstResponder()
         super.touchesBegan(touches, withEvent: event)
@@ -223,7 +229,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
 
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
         
-        cell.textLabel!.text = viewModel.predictiveResults[indexPath.row].placeResumedData
+        cell.textLabel!.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         cell.selectionStyle = .None
         
         return cell
@@ -231,16 +237,12 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let place = viewModel.predictiveResults[indexPath.row]
-        
-        self.searchField.text = place.placeResumedData
+        self.searchField.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         suggestionsTableView.hidden = true
 
-        if let location = place.location {
-            var lat = location.latitude as CLLocationDegrees
-            var long = location.longitude as CLLocationDegrees
-            var coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            centerMapInLocation(coordinate, withPostalAddress: place.postalAddress, approximate: viewModel.approximateLocation)
+        if let location = viewModel.locationForPlaceAtPosition(indexPath.row) {
+            var coordinate = location.coordinates2DfromLocation()
+            centerMapInLocation(coordinate, withPostalAddress: viewModel.postalAddressForPlaceAtPosition(indexPath.row), approximate: viewModel.approximateLocation)
         } else {
             viewModel.goingToLocation = true
             viewModel.searchText = self.searchField.text
@@ -290,7 +292,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
                 subtitle += zipCode
             }
             if let city = postalAddress?.city {
-                if count(subtitle) > 0 {
+                if !subtitle.isEmpty {
                     subtitle += " "
                 }
                 subtitle += city
