@@ -1,1 +1,1 @@
-../../../Parse/Parse/PFPurchase.h
+../../../Parse/PFPurchase.h

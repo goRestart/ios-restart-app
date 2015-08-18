@@ -26,20 +26,20 @@ PODS:
     - Alamofire (~> 1.3)
     - Bolts (~> 1.1)
     - FBSDKCoreKit (~> 4.1)
-    - Parse (~> 1.7)
+    - Parse (= 1.7.5.3)
     - ParseFacebookUtilsV4 (~> 1.7)
     - RealmSwift (~> 0.93)
     - Result (~> 0.4)
     - SwiftyJSON (~> 2.2)
     - Timepiece (~> 0.2)
   - Nimble (0.4.2)
-  - Parse (1.8.0):
+  - Parse (1.7.5.3):
     - Bolts/Tasks (>= 1.2.0)
-  - ParseFacebookUtilsV4 (1.8.0.1):
+  - ParseFacebookUtilsV4 (1.7.5.3):
     - Bolts/Tasks (>= 1.2.0)
     - FBSDKCoreKit (~> 4.0)
     - FBSDKLoginKit (~> 4.0)
-    - Parse (~> 1.8.0)
+    - Parse (~> 1.7.5.3)
   - pop (1.0.7)
   - Quick (0.3.1)
   - Realm (0.94.1):
@@ -64,7 +64,7 @@ DEPENDENCIES:
   - FBSDKShareKit (~> 4.1)
   - LGCoreKit (from `../letgo-ios-lgcorekit`)
   - Nimble (~> 0.4.2)
-  - Parse (>= 1.7)
+  - Parse (= 1.7.5.3)
   - pop (~> 1.0)
   - Quick (~> 0.3.1)
   - SDWebImage
@@ -84,10 +84,10 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: f335eaf6865e1e1597dee1debfb533045500da47
   FBSDKLoginKit: 225cc9a388a92916ee3f3bb14422017b6e44b65b
   FBSDKShareKit: 642034ac9f30793dfd897851b724bb4281750266
-  LGCoreKit: 77e9ae447d7fde4e906325ab57f2fc271161475d
+  LGCoreKit: 2f1f7597eb3e4a4bdb3e6e34e4c6ea74bc213293
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
-  Parse: 6ea05adb378fbfd6f8726ab67ef74330d96fc903
-  ParseFacebookUtilsV4: d173e7fffa6cf52da1abd773d6c5c8f235194ea6
+  Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
+  ParseFacebookUtilsV4: ea5db22e87b91cbf99b9d156642e2b97a4db7d51
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
   Realm: d999a6cf0b41577a077349c9cc9d496cc62a7d17

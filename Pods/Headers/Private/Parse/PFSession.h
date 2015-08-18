@@ -1,1 +1,1 @@
-../../../Parse/Parse/PFSession.h
+../../../Parse/PFSession.h

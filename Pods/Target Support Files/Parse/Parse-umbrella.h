@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 
 #import "Parse.h"
+#import "PF_Twitter.h"
 #import "PFACL.h"
 #import "PFAnalytics.h"
 #import "PFAnonymousUtils.h"
@@ -22,6 +23,7 @@
 #import "PFRole.h"
 #import "PFSession.h"
 #import "PFSubclassing.h"
+#import "PFTwitterUtils.h"
 #import "PFUser.h"
 
 FOUNDATION_EXPORT double ParseVersionNumber;
