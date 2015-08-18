@@ -80,6 +80,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         setupUI()
     }
     
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        updateUI()
+    }
+    
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Redraw the lines
@@ -380,6 +385,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         }
        
         // Gallery
+        galleryView.removePages()
         for i in 0..<viewModel.numberOfImages {
             if let imageURL = viewModel.imageURLAtIndex(i) {
                 galleryView.addPageWithImageAtURL(imageURL)

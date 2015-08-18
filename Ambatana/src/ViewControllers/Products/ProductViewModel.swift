@@ -38,16 +38,46 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
     // Output
     // > Product
-    public private(set) var name: String
-    public private(set) var price: String
-    public private(set) var descr: String
-    public private(set) var distance: String
-    public private(set) var address: String
-    public private(set) var location: LGLocationCoordinates2D?
+    public var name: String {
+        return product.name?.lg_capitalizedWords() ?? ""
+    }
+    public var price: String {
+        return product.formattedPrice()
+    }
+    public var descr: String {
+        return product.descr ?? ""
+    }
+    public var distance: String {
+        return product.formattedDistance()
+    }
+    public var address: String {
+        var address = ""
+        if let city = product.postalAddress.city {
+            if !city.isEmpty {
+                address += city.lg_capitalizedWord()
+            }
+        }
+        if let zipCode = product.postalAddress.zipCode {
+            if !zipCode.isEmpty {
+                if !address.isEmpty {
+                    address += ", "
+                }
+                address += zipCode
+            }
+        }
+        return address.lg_capitalizedWord()
+    }
+    public var location: LGLocationCoordinates2D? {
+        return product.location
+    }
     
     // > User
-    public private(set) var userName: String
-    public private(set) var userAvatar: NSURL?
+    public var userName: String {
+        return product.user?.publicUsername ?? ""
+    }
+    public var userAvatar: NSURL? {
+        return product.user?.avatar?.fileURL
+    }
     
     // > My User
     public private(set) var isFavourite: Bool
@@ -180,32 +210,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: - Lifecycle
     
     public init(product: Product, tracker: Tracker) {
-        // Product
-        self.name = product.name ?? ""
-        self.price = product.formattedPrice()
-        self.descr = product.descr ?? ""
-        self.distance = product.formattedDistance()
-        var address = ""
-        if let city = product.postalAddress.city {
-            if !city.isEmpty {
-                address += city
-            }
-        }
-        if let zipCode = product.postalAddress.zipCode {
-            if !zipCode.isEmpty {
-                if !address.isEmpty {
-                    address += ", "
-                }
-                address += zipCode
-            }
-        }
-        self.address = address.lg_capitalizedWord()
-        self.location = product.location
-        
-        // User
-        self.userName = product.user?.publicUsername ?? ""
-        self.userAvatar = product.user?.avatar?.fileURL
-        
         // My user
         self.isFavourite = false
         self.isReported = false
@@ -238,8 +242,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     internal override func didSetActive(active: Bool) {
         
-        // When getting active, update report & favourite
         if active {
+            // Update favourite
             delegate?.viewModelDidStartRetrievingFavourite(self)
             retrieveIsFavourite { [weak self] (_) -> Void in
                 if let strongSelf = self {
@@ -247,6 +251,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                 }
             }
             
+            // Update favourite
             delegate?.viewModelDidStartRetrievingReported(self)
             retrieveIsReported { [weak self] (_) -> Void in
                 if let strongSelf = self {
