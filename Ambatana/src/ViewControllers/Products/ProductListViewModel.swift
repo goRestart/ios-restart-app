@@ -32,6 +32,27 @@ public class ProductListViewModel: BaseViewModel {
     // Input (query)
     public var queryString: String?
     public var coordinates: LGLocationCoordinates2D?
+    
+    internal var queryCoordinates: LGLocationCoordinates2D? {
+        let coords: LGLocationCoordinates2D?
+        // If we had specified coordinates
+        if let specifiedCoordinates = coordinates {
+            coords = specifiedCoordinates
+        }
+            // Try to use last LocationManager location
+        else if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
+            coords = LGLocationCoordinates2D(coordinates: lastKnownLocation.coordinate)
+        }
+            // Else if possible try to use last user saved location
+        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
+            coords = userCoordinates
+        }
+        else {
+            coords = nil
+        }
+        return coords
+    }
+    
     public var categories: [ProductCategory]?
     public var sortCriteria: ProductSortCriteria?
     public var statuses: [ProductStatus]?
@@ -76,7 +97,7 @@ public class ProductListViewModel: BaseViewModel {
     
     internal var retrieveProductsFirstPageParams: RetrieveProductsParams {
         var params: RetrieveProductsParams = RetrieveProductsParams()
-        params.coordinates = coordinates
+        params.coordinates = coordinates ?? queryCoordinates
         params.queryString = queryString
         var categoryIds: [Int]?
         if let actualCategories = categories {

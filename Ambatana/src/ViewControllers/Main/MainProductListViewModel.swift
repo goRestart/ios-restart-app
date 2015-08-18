@@ -32,32 +32,6 @@ public class MainProductListViewModel: ProductListViewModel {
         return super.canRetrieveProducts && queryCoordinates != nil
     }
     
-    internal override var retrieveProductsFirstPageParams: RetrieveProductsParams {
-        var params = super.retrieveProductsFirstPageParams
-        params.coordinates = queryCoordinates
-        return params
-    }
-    
-    private var queryCoordinates: LGLocationCoordinates2D? {
-        let coords: LGLocationCoordinates2D?
-        // If we had specified coordinates
-        if let specifiedCoordinates = coordinates {
-            coords = specifiedCoordinates
-        }
-        // Try to use last LocationManager location
-        else if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            coords = LGLocationCoordinates2D(coordinates: lastKnownLocation.coordinate)
-        }
-        // Else if possible try to use last user saved location
-        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
-            coords = userCoordinates
-        }
-        else {
-            coords = nil
-        }
-        return coords
-    }
-    
     // MARK: - Lifecycle
     
     override init() {
