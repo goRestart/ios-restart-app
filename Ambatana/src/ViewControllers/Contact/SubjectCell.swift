@@ -13,9 +13,17 @@ class SubjectCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var checkImage: UIImageView!
     
+    // MARK: - Lifecycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.setupUI()
+        self.resetUI()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.resetUI()
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
@@ -23,8 +31,22 @@ class SubjectCell: UITableViewCell {
         if selected {
             checkImage.image = UIImage(named: "subject_check")
         } else {
-            checkImage.image = UIImage()
+            checkImage.image = nil
         }
     }
     
+    // MARK: - Private methods
+    
+    /**
+        Sets up the UI 
+    */
+    private func setupUI() {
+    }
+
+    /**
+        Resets the UI to the initial state
+    */
+    private func resetUI() {
+        checkImage.image = nil
+    }
 }
