@@ -152,6 +152,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         
         var newAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "annotationViewID")
         newAnnotationView.image = UIImage(named: "map_pin")
+        newAnnotationView.layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
         newAnnotationView.annotation = annotation
         newAnnotationView.canShowCallout = true
 

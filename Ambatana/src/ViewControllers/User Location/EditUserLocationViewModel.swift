@@ -255,14 +255,14 @@ public class EditUserLocationViewModel: BaseViewModel {
     func applyLocation() {
 
         UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
-
+        
         if let actualPostalAddress = currentPlace.postalAddress {
             var user = MyUserManager.sharedInstance.myUser()
             user?.postalAddress = actualPostalAddress
         }
         
         if usingGPSLocation {
-            LocationManager.sharedInstance.gpsDidSetLocation()
+            LocationManager.sharedInstance.gpsDidSetLocation(MyUserManager.sharedInstance.myUser()?.postalAddress)
         } else {
             var lat = currentPlace.location!.latitude as CLLocationDegrees
             var long = currentPlace.location!.longitude as CLLocationDegrees
