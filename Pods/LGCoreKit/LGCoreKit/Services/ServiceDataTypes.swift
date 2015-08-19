@@ -81,7 +81,7 @@ public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool
             case .PriceDesc:
                 return "price desc"
             case .Creation:
-                return "created_at desc"
+                return "createdAt desc"
             }
         }
     }

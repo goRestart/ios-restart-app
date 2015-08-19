@@ -163,11 +163,11 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    public func gpsDidSetLocation() {
+    public func gpsDidSetLocation(postalAddress: PostalAddress?) {
         UserDefaultsManager.sharedInstance.saveIsManualLocation(false)
         isManualLocation = false
         if let location = lastGPSLocation {
-            MyUserManager.sharedInstance.saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: nil)
+            MyUserManager.sharedInstance.saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: postalAddress)
         }
     }
     
