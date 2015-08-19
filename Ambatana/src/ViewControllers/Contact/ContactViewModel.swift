@@ -14,18 +14,21 @@ import UIDeviceUtil
 
 public protocol ContactViewModelDelegate: class {
     func viewModel(viewModel: ContactViewModel, updateSendButtonEnabledState enabled: Bool)
-    func viewModel(viewModel: ContactViewModel, didSelectSubjectWithName subjectyName: String)
     func viewModel(viewModel: ContactViewModel, didFailValidationWithError error: ContactSendServiceError)
     func viewModelDidStartSendingContact(viewModel: ContactViewModel)
     func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: Result<Contact, ContactSendServiceError>)
+    func viewModel(viewModel: ContactViewModel, updateSubjectButtonWithText text: String)
+    func pushSubjectOptionsViewWithModel(viewModel: ContactSubjectOptionsViewModel, selectedRow: Int?)
 }
 
-public class ContactViewModel: BaseViewModel {
+public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDelegate {
     
     // Services & delegate
     private let contactService : ContactSendService
     public weak var delegate: ContactViewModelDelegate?
 
+    private var subjectOptionsViewModel : ContactSubjectOptionsViewModel!
+    
     // Input
     public var email: String {
         didSet {
@@ -45,8 +48,7 @@ public class ContactViewModel: BaseViewModel {
         }
     }
     
-    // Private
-    private var subject: ContactSubject? {
+    public var subject: ContactSubject? {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: enableSendButton())
         }
@@ -64,15 +66,18 @@ public class ContactViewModel: BaseViewModel {
     
     // MARK: - Public methods
     
-    public func subjectNameAtIndex(index: Int) -> String {
-        return ContactSubject.allValues[index].name
-    }
+    public func selectSubject() {
     
-    public func selectSubjectAtIndex(index: Int) {
-        let selectedSubject = ContactSubject.allValues[index]
-        delegate?.viewModel(self, didSelectSubjectWithName: selectedSubject.name)
+        if subjectOptionsViewModel == nil {
+            subjectOptionsViewModel = ContactSubjectOptionsViewModel()
+        }
+        subjectOptionsViewModel.selectionReceiverDelegate = self
         
-        subject = selectedSubject
+        if let alreadySelectedSubject = subject {
+            subjectOptionsViewModel.subject = alreadySelectedSubject
+        }
+        
+        delegate?.pushSubjectOptionsViewWithModel(subjectOptionsViewModel, selectedRow: subject?.hashValue)
     }
     
     public func sendContact() {
@@ -144,4 +149,12 @@ public class ContactViewModel: BaseViewModel {
         return finalMessage
     }
     
+    
+    // MARK: - ContactSubjectSelectionReceiverDelegate
+    
+    public func viewModel(viewModel: ContactSubjectOptionsViewModel, selectedSubject: ContactSubject) {
+        subject = selectedSubject
+        delegate?.viewModel(self, updateSubjectButtonWithText: selectedSubject.name)
+        
+    }
 }

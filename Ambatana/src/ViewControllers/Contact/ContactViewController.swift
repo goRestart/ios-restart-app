@@ -74,26 +74,11 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
     }
     
     @IBAction func subjectButtonPressed(sender: AnyObject?) {
-//        let alert = UIAlertController(title: NSLocalizedString("contact_choose_subject_dialog_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        for i in 0 ..< viewModel.numberOfSubjects {
-            let subject = viewModel.subjectNameAtIndex(i)
-            alert.addAction(UIAlertAction(title: subject, style: .Default, handler: { (action) -> Void in
-                // Notify the view model
-                self.viewModel.selectSubjectAtIndex(i)
-
-                // Set the focus in the message, after a delay so we allow the user to see what's going on
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) {
-                    self.messageField.becomeFirstResponder()
-                }
-            }))
-        }
-        alert.addAction(UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+        viewModel.selectSubject()
     }
     
     // MARK: - ContactModelViewDelegate
+    
     
     func viewModel(viewModel: ContactViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
@@ -112,11 +97,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         }
         self.showAutoFadingOutMessageAlert(message)
     }
-    
-    func viewModel(viewModel: ContactViewModel, didSelectSubjectWithName subjectyName: String) {
-        subjectButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
-        subjectButton.setTitle(subjectyName, forState: .Normal)
-    }
+
     
     func viewModelDidStartSendingContact(viewModel: ContactViewModel) {
         showLoadingMessageAlert()
@@ -152,6 +133,18 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         dismissLoadingMessageAlert(completion: completion)
         
     }
+    
+    func pushSubjectOptionsViewWithModel(viewModel: ContactSubjectOptionsViewModel, selectedRow: Int?) {
+        let vc = ContactSubjectOptionsViewController(viewModel: viewModel, selectedRow: selectedRow)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    
+    func viewModel(viewModel: ContactViewModel, updateSubjectButtonWithText text: String) {
+        subjectButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        subjectButton.setTitle(text, forState: .Normal)
+    }
+
     
     // MARK: - TextViewDelegate
     
@@ -198,21 +191,6 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         return true;
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        let tag = textField.tag
-        let nextTag = tag + 1
-        
-        if let tag = TextFieldTag(rawValue: textField.tag) {
-            switch (tag) {
-            case .Email:
-                subjectButtonPressed(nil)
-                return false
-            case .Message:
-                break
-            }
-        }
-        return true
-    }
     
     // MARK: - Private methods
     
