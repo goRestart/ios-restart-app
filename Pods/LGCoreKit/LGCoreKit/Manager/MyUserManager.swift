@@ -115,12 +115,20 @@ public class MyUserManager {
     
         :returns: The task that performs the user save.
     */
-    public func saveUserCoordinates(coordinates: CLLocationCoordinate2D, result: SaveUserCoordinatesResult?) {
+    public func saveUserCoordinates(coordinates: CLLocationCoordinate2D, result: SaveUserCoordinatesResult?, postalAddress: PostalAddress?) {
         if let user = myUser() {
             // Set the coordinates, reset the address & mark as non-processed
             user.gpsCoordinates = LGLocationCoordinates2D(coordinates: coordinates)
-            let address = PostalAddress()
-            user.postalAddress = address
+
+            if let actualPostalAddress = postalAddress {
+                // User already has a postal address, we keep it.
+                user.postalAddress = actualPostalAddress
+            } else {
+                // User doesn't has a postal address, we create a new one
+                let address = PostalAddress()
+                user.postalAddress = address
+            }
+            
             user.processed = NSNumber(bool: false)
             
             // 1. Save it
@@ -129,34 +137,42 @@ public class MyUserManager {
                 // Success
                 if let savedUser = saveUserResult.value {
                     
-                    // 2. Retrieve the address for the coordinates
-                    let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
-                    self.postalAddressRetrievalService.retrieveAddressForLocation(location) { (postalAddressRetrievalResult: Result<PostalAddress, PostalAddressRetrievalServiceError>) -> Void in
-                    
-                        // Success
-                        if let postalAddress = postalAddressRetrievalResult.value {
+                    if let actualPostalAddress = postalAddress {
+
+                        // 2a. User already has an address
+                        result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
+                    }
+                    else {
+                        
+                        // 2b. USer doesn't has an address. Retrieve the address for the coordinates
+                        let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+                        self.postalAddressRetrievalService.retrieveAddressForLocation(location) { (postalAddressRetrievalResult: Result<PostalAddress, PostalAddressRetrievalServiceError>) -> Void in
                             
-                            // 3a. Update the postal address & mark as non-processed
-                            user.postalAddress = postalAddress
-                            user.processed = NSNumber(bool: false)
-                            
-                            // 3b. Set the currency code, if any
-                            if let countryCode = postalAddress.countryCode {
-                                if !countryCode.isEmpty {
-                                    CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                            // Success
+                            if let postalAddress = postalAddressRetrievalResult.value {
+                                
+                                // 3a. Update the postal address & mark as non-processed
+                                user.postalAddress = postalAddress
+                                user.processed = NSNumber(bool: false)
+                                
+                                // 3b. Set the currency code, if any
+                                if let countryCode = postalAddress.countryCode {
+                                    if !countryCode.isEmpty {
+                                        CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                                    }
+                                }
+                                
+                                // 4. Save the user again
+                                self.saveMyUser { (secondSaveUserResult: Result<User, UserSaveServiceError>) in
+                                    
+                                    // Success or Error
+                                    result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
                                 }
                             }
-                            
-                            // 4. Save the user again
-                            self.saveMyUser { (secondSaveUserResult: Result<User, UserSaveServiceError>) in
-                                
-                                // Success or Error
-                                result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
+                                // Error
+                            else if let postalAddressRetrievalError = postalAddressRetrievalResult.error {
+                                result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(postalAddressRetrievalError)))
                             }
-                        }
-                        // Error
-                        else if let postalAddressRetrievalError = postalAddressRetrievalResult.error {
-                            result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(postalAddressRetrievalError)))
                         }
                     }
                 }
@@ -458,7 +474,7 @@ public class MyUserManager {
         
         // If we already have a location, then save it into my user
         if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            saveUserCoordinates(lastKnownLocation.coordinate, result: nil)
+            saveUserCoordinates(lastKnownLocation.coordinate, result: nil, postalAddress: myUser()?.postalAddress)
         }
         
         if let user = MyUserManager.sharedInstance.myUser() {
@@ -507,7 +523,7 @@ public class MyUserManager {
     
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
         if let location = notification.object as? CLLocation {
-            saveUserCoordinates(location.coordinate) { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }
+            saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: myUser()?.postalAddress)
         }
     }
 }

@@ -39,11 +39,11 @@ public class LGProductUserParser {
             user.avatar = LGFile(url: NSURL(string: avatarURLStr))
         }
         
-        let postalAdress = PostalAddress()
-        postalAdress.countryCode = json[LGProductUserParser.countryCodeJSONKey].string
-        postalAdress.city = json[LGProductUserParser.cityJSONKey].string
-        postalAdress.zipCode = json[LGProductUserParser.zipCodeJSONKey].string
-        user.postalAddress = postalAdress
+        let postalAddress = PostalAddress()
+        postalAddress.countryCode = json[LGProductUserParser.countryCodeJSONKey].string
+        postalAddress.city = json[LGProductUserParser.cityJSONKey].string
+        postalAddress.zipCode = json[LGProductUserParser.zipCodeJSONKey].string
+        user.postalAddress = postalAddress
         
         if let isDummy = json[LGProductUserParser.isDummyJSONKey].bool {
             user.isDummy = isDummy
