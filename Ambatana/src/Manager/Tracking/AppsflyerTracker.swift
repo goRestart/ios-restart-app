@@ -50,7 +50,8 @@ public class AppsflyerTracker: Tracker {
     }
     
     public func setUser(user: User?) {
-        AppsFlyerTracker.sharedTracker().customerUserID = user?.email
+        let userId = user?.email ?? ""
+        AppsFlyerTracker.sharedTracker().customerUserID = userId
     }
     
     public func trackEvent(event: TrackerEvent) {

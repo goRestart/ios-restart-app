@@ -39,7 +39,8 @@ public class AmplitudeTracker: Tracker {
     }
     
     public func setUser(user: User?) {
-        Amplitude.instance().setUserId(user?.email)
+        let userId = user?.email ?? ""
+        Amplitude.instance().setUserId(userId)
 
         let isDummy = startsWith(user?.email ?? "", AmplitudeTracker.dummyEmailPrefix)
         var properties: [NSObject : AnyObject] = [:]

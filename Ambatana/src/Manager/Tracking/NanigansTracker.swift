@@ -45,6 +45,10 @@ public class NanigansTracker: Tracker {
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         NANTracking.setNanigansAppId(EnvironmentProxy.sharedInstance.nanigansAppId, fbAppId: EnvironmentProxy.sharedInstance.nanigansAppId)
+        
+        if EnvironmentProxy.sharedInstance.environment is DevelopmentEnvironment {
+            NANTracking.setDebugMode(true)
+        }
         NANTracking.trackAppLaunch(nil)
     }
     
@@ -61,7 +65,8 @@ public class NanigansTracker: Tracker {
     }
     
     public func setUser(user: User?) {
-        NANTracking.setUserId(user?.objectId)
+        let userId = user?.objectId ?? ""
+        NANTracking.setUserId(userId)
     }
     
     public func trackEvent(event: TrackerEvent) {
