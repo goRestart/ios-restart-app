@@ -67,10 +67,16 @@ public class SellProductViewModel: BaseViewModel {
         
         let productSaveService = PAProductSaveService()
         let fileUploadService = PAFileUploadService()
-        let productSynchService = LGProductSynchronizeService()
+        let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = PAProductMarkSoldService()
-        productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService)
+        let productFavouriteRetrieveService = PAProductFavouriteRetrieveService()
+        let productFavouriteSaveService = PAProductFavouriteSaveService()
+        let productFavouriteDeleteService = PAProductFavouriteDeleteService()
+        let productReportRetrieveService = PAProductReportRetrieveService()
+        let productReportSaveService = PAProductReportSaveService()
+        
+        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteRetrieveService: productFavouriteRetrieveService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportRetrieveService: productReportRetrieveService, productReportSaveService: productReportSaveService)
         
         super.init()
         
@@ -267,22 +273,18 @@ public class SellProductViewModel: BaseViewModel {
         return noNilImages
     }
     
-    
     // MARK: - FB Share
-    
+
+    // TODO: Actual sharing must happen in VC (see ProductVC / ProductVM)
     func shareCurrentProductInFacebook(product: Product) {
-        // build the sharing content.
-        let fbSharingContent = FBSDKShareLinkContent()
-        fbSharingContent.contentTitle = NSLocalizedString("sell_share_fb_content", comment: "")
-        fbSharingContent.contentURL = NSURL(string: letgoWebLinkForObjectId(product.objectId))
-        fbSharingContent.contentDescription = title
-        if product.images.count > 0 { fbSharingContent.imageURL = product.images.first?.fileURL! }
-        
-        // share it.
-        delegate?.sellProductViewModelShareContentinFacebook(self, withContent: fbSharingContent)
+        delegate?.sellProductViewModelShareContentinFacebook(self, withContent: shareFacebookContent(product))
     }
     
-    
+    // TODO: Refactor, this should be a computed iVar, and product should be generated in here or in parent class
+    func shareFacebookContent(product: Product) -> FBSDKShareLinkContent {
+        let title = NSLocalizedString("sell_share_fb_content", comment: "")
+        return SocialHelper.socialMessageWithTitle(title, product: product).fbShareContent
+    }
 }
 
 

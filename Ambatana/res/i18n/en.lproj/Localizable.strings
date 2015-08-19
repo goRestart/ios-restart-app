@@ -25,6 +25,39 @@
 // Categories title. Check attached image "categories (2).png"
 "categories_title" = "Categories";
 
+// Change location ask update location message. Message displayal is like the other error messages
+"change_location_ask_update_location_message" = "Find bargains near you! Do you want to update your location?";
+
+// Change location ask update location title. Message displayal is like the other error messages
+"change_location_ask_update_location_title" = "Change Location";
+
+// Change location confirm update option button.
+"change_location_confirm_update_button" = "Update";
+
+// Change location title. Check attached image "change_location.png"
+"change_location_title" = "Change Location";
+
+// Change location unknown location message. Message displayal is like the other error messages
+"change_location_recommend_update_location_message" = "We recommend updating your location to see the best offers near you!";
+
+// Change location unknown location title. Message displayal is like the other error messages
+"change_location_recommend_update_location_title" = "Change Location";
+
+// Change location search field hint. Check image @ "change_location_title" segment
+"change_location_search_field_hint" = "Enter city or zip code";
+
+// Change location approximate location label. Check image @ "change_location_title" segment
+"change_location_approximate_location_label" = "Show approximate address";
+
+// Change location apply button. Check image @ "change_location_title" segment
+"change_location_apply_button" = "Apply";
+
+// Change location error searching location message. Message displayal is like the other error messages
+"change_location_error_search_location_message" = "I was unable to find that location. Please, try again.";
+
+// Change location unknown location message. Message displayal is like the other error messages
+"change_location_error_unknown_location_message" = "No results for %@";
+
 // Change password confirm password field hint. Check attached image "change_password.png"
 "change_password_confirm_password_field_hint" = "Confirm password";
 
@@ -97,6 +130,18 @@
 // Common loading. Check attached image "common_loading.png"
 "common_loading" = "Loading...";
 
+// Common no
+"common_no" = "No";
+
+// Common product deleted.
+"common_product_deleted" = "Product deleted";
+
+// Common product sold.
+"common_product_sold" = "This product has been sold";
+
+// Common product not available.
+"common_product_not_available" = "This product is no longer available";
+
 // Common ok
 "common_ok" = "OK";
 
@@ -133,6 +178,9 @@
 // Common time weeks ago label
 "common_time_weeks_ago_label" = "%d weeks ago";
 
+// Common yes
+"common_yes" = "Yes";
+
 // Contact choose subject dialog title
 "contact_choose_subject_dialog_title" = "Choose a subject";
 
@@ -166,6 +214,9 @@
 // Contact subject option other. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_other" = "Other issues";
 
+// Contact subject options title. Check attached image
+"contact_subject_options_title" = "Subject";
+
 // Contact body field hint. Check attached image @ "contact_email_field_hint" segment
 "contact_body_field_hint" = "Message";
 
@@ -187,8 +238,26 @@
 // Contact send error generic. Message displayal is like the other error messages
 "contact_send_error_generic" = "Error sending message, please check your connection and try again.";
 
-// Settings contact us button. Check attached image @ "settings_change_password_button" segment
-"settings_contact_us_button" = "Contact us";
+// Edit product title. Check image @ "sell_send_error_invalid_category" segment
+"edit_product_title" = "Edit Product";
+
+// Edit product send button. Check image @ "sell_send_error_invalid_category" segment
+"edit_product_send_button" = "Update";
+
+// Edit product send error uploading product. Message displayal is like the other error messages.
+"edit_product_send_error_uploading_product" = "An error happened while updating your product.";
+
+// Edit product send ok. Message displayal is like the other messages.
+"edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
+
+// Forced update title.
+"forced_update_title" = "Update Available";
+
+// Forced update message.
+"forced_update_message" = "A new version of letgo is available. Please update it now.";
+
+// Forced update appstore button.
+"forced_update_update_button" = "Update";
 
 // Indicate location address field hint. Check attached image "indicate_location.png"
 "indicate_location_address_field_hint" = "Write your address";
@@ -286,6 +355,27 @@
 // Product chat error generic. Message displayal is like the other error messages
 "product_chat_error_generic" = "An error occurred when starting the chat. Please try again later.";
 
+// Product delete alert title. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_title" = "Delete Product";
+
+// Product delete alert message. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_message" = "Why do you want to delete this product?";
+
+// Product delete alert cancel button. Check attached image "delete.png"
+"product_delete_confirm_cancel_button" = "Cancel";
+
+// Product delete alert ok button. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_ok_button" = "I don't want to sell it";
+
+// Product delete alert mark as sold button. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_sold_button" = "I already sold it";
+
+// Product delete send error generic. Message displayal is like the other error messages.
+"product_delete_send_error_generic" = "Oops! We couldn't delete your product. Please try again.";
+
+// Product delete when product is already sold.
+"product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
+
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_from_you" = "from you";
 
@@ -358,6 +448,18 @@
 // Product mark as sold error generic. Message displayal is like the other error messages
 "product_mark_as_sold_error_generic" = "There was an error while marking the product as sold. Please, try again later.";
 
+// Product report confirm title. Message displayal is like the other dialog messages
+"product_report_confirm_title" = "Report Product";
+
+// Product report confirm message. Message displayal is like the other dialog messages
+"product_report_confirm_message" = "Are you sure you want to report this product?";
+
+// Product report confirm ok button. Message displayal is like the other dialog messages
+"product_report_confirm_ok_button" = "OK";
+
+// Product report confirm cancel button. Message displayal is like the other dialog messages
+"product_report_confirm_cancel_button" = "Cancel";
+
 // Product report product button. Check image @ "product_ask_a_question_button" segment
 "product_report_product_button" = "Report Product";
 
@@ -370,11 +472,17 @@
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
 
-// Product share email error
+// Product share email error. Message displayal is like the other error messages
 "product_share_email_error" = "Oops, it seems that you haven't set up an account in the Mail app";
+
+// Product share whatsapp error. Message displayal is like the other error messages
+"product_share_whatsapp_error" = "Oops, it seems that you haven't installed the WhatsApp app";
 
 // Profile favourites my user no products label. Check attached image "profile (empty).png"
 "profile_favourites_my_user_no_products_label" = "You still don't have any published or favorited product";
+
+// Profile favourites my user no products label. Check attached image "profile (empty).png"
+"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
 
 // Profile favourites other user no products label. Check "profile_favourites_my_user_no_products_label" segment
 "profile_favourites_other_user_no_products_label" = "This user still doesn't have any published or favorited product";
@@ -526,6 +634,9 @@
 // Sell uploading label
 "sell_uploading_label" = "Uploading product. Please wait...";
 
+// Settings change location button. Check image @ "settings_change_password_button" segment
+"settings_change_location_button" = "Location";
+
 // Settings change password button. Check attached image "settings.png"
 "settings_change_password_button" = "Password";
 
@@ -540,6 +651,9 @@
 
 // Settings change profile picture loading. Check attached image "settings_change_profile_picture_loading.png"
 "settings_change_profile_picture_loading" = "Setting your profile image, please wait...";
+
+// Settings contact us button. Check attached image @ "settings_change_password_button" segment
+"settings_contact_us_button" = "Contact us";
 
 // Settings image source camera button. Check attached image "settings_change_profile_picture.png"
 "settings_image_source_camera_button" = "Camera";
@@ -591,101 +705,4 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff!";
-
-// Profile favourites my user no products label. Check attached image "profile (empty).png"
-"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
-
-// Common product deleted.
-"common_product_deleted" = "Product deleted";
-
-// Common product sold.
-"common_product_sold" = "This product has been sold";
-
-// Common product not available.
-"common_product_not_available" = "This product is no longer available";
-
-// Product delete alert title. Check attached image @ segment "product_delete_confirm_cancel_button"
-"product_delete_confirm_title" = "Delete Product";
-
-// Product delete alert message. Check attached image @ segment "product_delete_confirm_cancel_button"
-"product_delete_confirm_message" = "Why do you want to delete this product?";
-
-// Product delete alert cancel button. Check attached image "delete.png"
-"product_delete_confirm_cancel_button" = "Cancel";
-
-// Product delete alert ok button. Check attached image @ segment "product_delete_confirm_cancel_button"
-"product_delete_confirm_ok_button" = "I don't want to sell it";
-
-// Product delete alert mark as sold button. Check attached image @ segment "product_delete_confirm_cancel_button"
-"product_delete_confirm_sold_button" = "I already sold it";
-
-// Product delete send error generic. Message displayal is like the other error messages.
-"product_delete_send_error_generic" = "Oops! We couldn't delete your product. Please try again.";
-
-// Edit product title. Check image @ "sell_send_error_invalid_category" segment
-"edit_product_title" = "Edit Product";
-
-// Edit product send button. Check image @ "sell_send_error_invalid_category" segment
-"edit_product_send_button" = "Update";
-
-// Edit product send error uploading product. Message displayal is like the other error messages.
-"edit_product_send_error_uploading_product" = "An error happened while updating your product.";
-
-// Edit product send ok. Message displayal is like the other messages.
-"edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
-
-// Product delete when product is already sold.
-"product_delete_sold_confirm_message" = "Are you sure you want to delete this product?";
-
-// Forced update title.
-"forced_update_title" = "Update Available";
-
-// Forced update message.
-"forced_update_message" = "A new version of letgo is available. Please update it now.";
-
-// Forced update appstore button.
-"forced_update_update_button" = "Update";
-
-
-
-
-
-
-
-// Change location title.  Check attached image "change_location.png"
-"change_location_title"="Change Location";
-
-// Change location search field hint.  Check image @ "change_location_title" segment
-"change_location_search_field_hint"="Enter city or zip code";
-
-// Change location approximate location label.  Check image @ "change_location_title" segment
-"change_location_approximate_location_label"="Show approximate address";
-
-// Change location apply button.  Check image @ "change_location_title" segment
-"change_location_apply_button"="Apply";
-
-// Change location error searching location message.   Message displayal is like the other error messages
-"change_location_error_search_location_message"="I was unable to find that location. Please, try again.";
-
-// Change location unknown location message.   Message displayal is like the other error messages
-"change_location_error_unknown_location_message"="No results for %@";
-
-// Change location unknown location message.   Message displayal is like the other error messages
-"change_location_ask_update_location_message"="Find bargains near you! Do you want to update your location?";
-
-// Change location unknown location message.   Message displayal is like the other error messages
-"change_location_recommend_update_location_message"="We recommend updating your location to see the best offers near you!";
-
-// Change location alert update option button.
-"change_location_confirm_update_button" = "Update";
-
-// Common yes
-"common_yes" = "Yes";
-
-// Common no
-"common_no" = "No";
-
-// Settings change location button. Check image @ "settings_change_password_button" segment
-"settings_change_location_button" = "Location";
-
 

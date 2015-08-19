@@ -143,7 +143,7 @@ import UIKit
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: .allZeros, metrics: nil, views: scrollViewViews))
         
         let pageControlViews = ["pageControl": pageControl]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[pageControl]|", options: .allZeros, metrics: nil, views: pageControlViews))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[pageControl]-(-6)-|", options: .allZeros, metrics: nil, views: pageControlViews))
         addConstraint(NSLayoutConstraint(item: pageControl, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
     }
     

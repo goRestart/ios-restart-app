@@ -62,7 +62,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 2.5)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - FBSDKShareKit (~> 4.1)
-  - LGCoreKit (= 0.9.0)
+  - LGCoreKit (from `../LGCoreKit`)
   - Nimble (~> 0.4.2)
   - Parse (= 1.7.5.3)
   - pop (~> 1.0)
@@ -70,6 +70,10 @@ DEPENDENCIES:
   - SDWebImage
   - UIDeviceUtil (~> 1.1)
   - UrbanAirship-iOS-SDK/Core (~> 6.1)
+
+EXTERNAL SOURCES:
+  LGCoreKit:
+    :path: ../LGCoreKit
 
 SPEC CHECKSUMS:
   Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
@@ -80,7 +84,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: f335eaf6865e1e1597dee1debfb533045500da47
   FBSDKLoginKit: 225cc9a388a92916ee3f3bb14422017b6e44b65b
   FBSDKShareKit: 642034ac9f30793dfd897851b724bb4281750266
-  LGCoreKit: 2a586e6aa20f6d2c859f5bdb4bf9d986fa36c9be
+  LGCoreKit: d5bfed627cb3f9dbea0686c07026beb172294d2f
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
   ParseFacebookUtilsV4: ea5db22e87b91cbf99b9d156642e2b97a4db7d51

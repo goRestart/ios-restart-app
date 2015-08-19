@@ -7,6 +7,17 @@
 "categories_other" = "Diğer";
 "categories_sports_leisure_and_games" = "Spor, Eğlence ve Oyunlar";
 "categories_title" = "Kategoriler";
+"change_location_apply_button" = "Uygula";
+"change_location_approximate_location_label" = "Yaklaşık adres göster";
+"change_location_ask_update_location_message" = "Yakınındaki teklifleri bul! Konumunu güncellemek ister misin?";
+"change_location_ask_update_location_title" = "Konum değiştir";
+"change_location_confirm_update_button" = "Güncelle";
+"change_location_error_search_location_message" = "Bu konumu bulamadım. Lütfen, tekrar dene.";
+"change_location_error_unknown_location_message" = "%@ için sonuç bulunamadı";
+"change_location_recommend_update_location_message" = "Yakınındaki en iyi fırsatları görmen için konumunu güncellemeni öneriyoruz!";
+"change_location_recommend_update_location_title" = "Konum değiştir";
+"change_location_search_field_hint" = "Şehir adı veya posta kodu gir";
+"change_location_title" = "Konum değiştir";
 "change_password_confirm_password_field_hint" = "Şifreyi onayla";
 "change_password_new_password_field_hint" = "Yeni şifre";
 "change_password_send_error_generic" = "Şifre değiştirilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
@@ -31,6 +42,7 @@
 "common_error" = "Hata";
 "common_error_connection_failed" = "İşlem tamamlanamadı. Lütfen, İnternet bağlantını kontrol et.";
 "common_loading" = "Yükleniyor...";
+"common_no" = "Hayır";
 "common_ok" = "TAMAM";
 "common_product_deleted" = "Ürün silindi";
 "common_product_not_available" = "Bu ürün artık bulunmuyor";
@@ -46,8 +58,9 @@
 "common_time_seconds_ago_label" = "%d saniye önce";
 "common_time_week_ago_label" = "bir hafta önce";
 "common_time_weeks_ago_label" = "%d hafta önce";
+"common_yes" = "Evet";
 "contact_body_field_hint" = "Mesaj";
-"contact_choose_subject_dialog_title" = "Choose a subject";
+"contact_choose_subject_dialog_title" = "Bir konu seç";
 "contact_email_field_hint" = "E-posta";
 "contact_send_button" = "Gönder";
 "contact_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen bağlantı ayarlarınızı kontrol edin ve tekrar deneyin.";
@@ -63,6 +76,7 @@
 "contact_subject_option_product_edit" = "Ürünü düzenle/sil";
 "contact_subject_option_profile_edit" = "Profili düzenle/sil";
 "contact_subject_option_report" = "Kullanıcı/spam bildir";
+"contact_subject_options_title" = "Konu";
 "contact_title" = "Bize ulaşın";
 "edit_product_send_button" = "Güncelle";
 "edit_product_send_error_uploading_product" = "Ürünün güncellenirken bir hata oluştu.";
@@ -108,7 +122,7 @@
 "product_delete_confirm_ok_button" = "Bunu satmak istemiyorum";
 "product_delete_confirm_sold_button" = "Onu çoktan sattım";
 "product_delete_confirm_title" = "Ürünü Sil";
-"product_delete_send_error_generic" = "Ups! Ürününü silemedik. Lütfen tekrar dene.";
+"product_delete_send_error_generic" = "Hoppala! Ürününü silemedik. Lütfen tekrar dene.";
 "product_delete_sold_confirm_message" = "Bu ürünü silmek istediğinden emin misin?";
 "product_distance_from_you" = "senden";
 "product_gallery_title" = "Resimler";
@@ -123,7 +137,7 @@
 "product_list_next_page_error_generic_button" = "Tekrar dene";
 "product_list_next_page_error_generic_label" = "Hey! İnternet bağlantın yok! Haydi, İnternet'e bağlan!";
 "product_list_no_products_button" = "Ürünleri tekrar yükle";
-"product_list_no_products_label" = "Yakınlarında herhangi bir eşya yok. Satmaya başlayan ilk kişi ol";
+"product_list_no_products_label" = "Yakın çevrende herhangi bir eşya yok. Satmaya başlayan ilk kişi ol";
 "product_list_search_no_products_button" = "Ürünleri tekrar yükle";
 "product_list_search_no_products_label" = "Hiçbir ürün bulunamadı";
 "product_location_title" = "Konum";
@@ -134,11 +148,16 @@
 "product_mark_as_sold_confirm_ok_button" = "Satıldı olarak işaretle";
 "product_mark_as_sold_confirm_title" = "Satıldı olarak işaretle";
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
+"product_report_confirm_cancel_button" = "İptal";
+"product_report_confirm_message" = "Bu ürünü bildirmek istediğine emin misin?";
+"product_report_confirm_ok_button" = "Tamam";
+"product_report_confirm_title" = "Ürünü bildir";
 "product_report_product_button" = "Ürünü bildir";
 "product_reported_product_label" = "Ürün bildirildi";
 "product_reporting_product_label" = "Ürün bildiriliyor...";
 "product_share_body" = "Az önce letgo'da ne bulduğuma bir bak!";
 "product_share_email_error" = "Hoppala, görünüşe bakılırsa Posta uygulamasında bir hesap oluşturmamışsın.";
+"product_share_whatsapp_error" = "Hoppala! WhatsApp uygulaması yüklü değil gibi görünüyor";
 "profile_favourites_my_user_no_products_label" = "Hala herhangi bir yayınlanmış veya favorilere eklenmiş bir ürünün yok";
 "profile_favourites_my_user_no_products_subtitle_label" = "Haydi, beklemeden alışverişe başla!";
 "profile_favourites_other_user_no_products_label" = "Bu kullanıcı hala herhangi bir yayınlanmış veya favorilere eklenmiş bir ürüne sahip değil";
@@ -191,6 +210,7 @@
 "sell_title" = "Sat";
 "sell_title_field_hint" = "Ürün başlığı";
 "sell_uploading_label" = "Ürün yükleniyor. Lütfen bekle...";
+"settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre değiştir";
 "settings_change_profile_picture_button" = "Resim değiştir";
 "settings_change_profile_picture_error_generic" = "Profil resmi oluşturulurken bir hata oluştu";

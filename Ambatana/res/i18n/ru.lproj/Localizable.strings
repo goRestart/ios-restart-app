@@ -7,6 +7,17 @@
 "categories_other" = "Другое";
 "categories_sports_leisure_and_games" = "Спорт и развлечения";
 "categories_title" = "Категории";
+"change_location_apply_button" = "Apply";
+"change_location_approximate_location_label" = "Show approximate address";
+"change_location_ask_update_location_message" = "Find bargains near you! Do you want to update your location?";
+"change_location_ask_update_location_title" = "Change Location";
+"change_location_confirm_update_button" = "Update";
+"change_location_error_search_location_message" = "I was unable to find that location. Please, try again.";
+"change_location_error_unknown_location_message" = "No results for %@";
+"change_location_recommend_update_location_message" = "We recommend updating your location to see the best offers near you!";
+"change_location_recommend_update_location_title" = "Change Location";
+"change_location_search_field_hint" = "Enter city or zip code";
+"change_location_title" = "Change Location";
 "change_password_confirm_password_field_hint" = "Подтвердите пароль";
 "change_password_new_password_field_hint" = "Новый пароль";
 "change_password_send_error_generic" = "При смене пароля произошла ошибка. Пожалуйста, попробуйте еще раз позднее.";
@@ -31,6 +42,7 @@
 "common_error" = "Ошибка";
 "common_error_connection_failed" = "Операция не может быть завершена. Пожалуйста, проверьте соединение с Интернет.";
 "common_loading" = "Загрузка...";
+"common_no" = "No";
 "common_ok" = "OK";
 "common_product_deleted" = "Товар удален";
 "common_product_not_available" = "Этот товар больше не доступен";
@@ -46,6 +58,7 @@
 "common_time_seconds_ago_label" = "%d секунд назад";
 "common_time_week_ago_label" = "неделю назад";
 "common_time_weeks_ago_label" = "%d недель назад";
+"common_yes" = "Yes";
 "contact_body_field_hint" = "Сообщение";
 "contact_choose_subject_dialog_title" = "Choose a subject";
 "contact_email_field_hint" = "E-mail";
@@ -63,6 +76,7 @@
 "contact_subject_option_product_edit" = "Редактирование/удаление товара";
 "contact_subject_option_profile_edit" = "Редактирование/удаление профиля";
 "contact_subject_option_report" = "Жалоба на пользователя/спам";
+"contact_subject_options_title" = "Subject";
 "contact_title" = "Контакты";
 "edit_product_send_button" = "Обновить";
 "edit_product_send_error_uploading_product" = "При обновлении товара произошла ошибка.";
@@ -134,11 +148,16 @@
 "product_mark_as_sold_confirm_ok_button" = "Отметить как проданный";
 "product_mark_as_sold_confirm_title" = "Отметить как проданный";
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
+"product_report_confirm_cancel_button" = "Cancel";
+"product_report_confirm_message" = "Are you sure you want to report this product?";
+"product_report_confirm_ok_button" = "OK";
+"product_report_confirm_title" = "Report Product";
 "product_report_product_button" = "Отчет о товаре";
 "product_reported_product_label" = "Отчет о товаре был отправлен";
 "product_reporting_product_label" = "Отправка отчета...";
 "product_share_body" = "Посмотрите, что я нашел на letgo!";
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении";
+"product_share_whatsapp_error" = "Oops, it seems that you haven't installed the WhatsApp app";
 "profile_favourites_my_user_no_products_label" = "У вас нет опубликованных или избранных товаров";
 "profile_favourites_my_user_no_products_subtitle_label" = "Чего вы ждете?";
 "profile_favourites_other_user_no_products_label" = "У этого пользователя нет опубликованных или избранных товаров";
@@ -191,6 +210,7 @@
 "sell_title" = "Продать";
 "sell_title_field_hint" = "Название товара";
 "sell_uploading_label" = "Загрузка товара. Пожалуйста, подождите...";
+"settings_change_location_button" = "Location";
 "settings_change_password_button" = "Смена пароля";
 "settings_change_profile_picture_button" = "Изменить фото";
 "settings_change_profile_picture_error_generic" = "При установке фотографии профиля произошла ошибка";
