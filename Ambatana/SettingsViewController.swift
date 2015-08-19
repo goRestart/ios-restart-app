@@ -18,10 +18,9 @@ private let kLetGoSettingsTableCellTitleTag = 2
 private let kLetGoUserImageSquareSize: CGFloat = 1024
 
 enum LetGoUserSettings: Int {
-    //case ChangePhoto = 0, ChangeLocation = 1, ChangePassword = 2, LogOut = 3
-    case ChangePhoto = 0, ChangeUsername = 1, ChangePassword = 2, ContactUs = 3, LogOut = 4
+    case ChangePhoto = 0, ChangeUsername = 1, ChangeLocation = 2, ChangePassword = 3, ContactUs = 4, LogOut = 5
     
-    static func numberOfOptions() -> Int { return 5 }
+    static func numberOfOptions() -> Int { return 6 }
     
     func titleForSetting() -> String {
         switch (self) {
@@ -29,6 +28,8 @@ enum LetGoUserSettings: Int {
             return NSLocalizedString("settings_change_profile_picture_button", comment: "")
         case .ChangeUsername:
             return NSLocalizedString("settings_change_username_button", comment: "")
+        case .ChangeLocation:
+            return NSLocalizedString("settings_change_location_button", comment: "")
         case .ChangePassword:
             return NSLocalizedString("settings_change_password_button", comment: "")
         case .ContactUs:
@@ -42,6 +43,8 @@ enum LetGoUserSettings: Int {
         switch (self) {
         case .ChangeUsername:
             return UIImage(named: "ic_change_username")
+        case .ChangeLocation:
+            return UIImage(named: "ic_location_edit")
         case .ChangePassword:
             return UIImage(named: "edit_profile_password")
         case .ContactUs:
@@ -92,9 +95,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: LetGoUserSettings.ChangeUsername.rawValue, inSection: 0)], withRowAnimation: .Automatic)
+        tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: LetGoUserSettings.ChangeUsername.rawValue, inSection: 0), NSIndexPath(forItem: LetGoUserSettings.ChangeLocation.rawValue, inSection: 0)], withRowAnimation: .Automatic)
     }
-    
+
     // MARK: - UITableViewDataSource methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return LetGoUserSettings.numberOfOptions()
@@ -109,6 +112,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         if setting == .ChangeUsername {
             cell.nameLabel.text = MyUserManager.sharedInstance.myUser()?.publicUsername
+        }
+        
+        if setting == .ChangeLocation {
+            cell.nameLabel.text = MyUserManager.sharedInstance.myUser()?.postalAddress.city
         }
 
         if setting == .ChangePhoto {
@@ -146,6 +153,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 //            self.navigationController?.pushViewController(vc, animated: true)
         case .ChangeUsername:
             let vc = ChangeUsernameViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        case .ChangeLocation:
+            let vc = EditUserLocationViewController()
             navigationController?.pushViewController(vc, animated: true)
         case .ChangePassword:
             let storyboard = UIStoryboard(name: "Main", bundle: nil)

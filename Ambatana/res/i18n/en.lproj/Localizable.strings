@@ -214,6 +214,9 @@
 // Contact subject option other. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_other" = "Other issues";
 
+// Contact subject options title. Check attached image
+"contact_subject_options_title" = "Subject";
+
 // Contact body field hint. Check attached image @ "contact_email_field_hint" segment
 "contact_body_field_hint" = "Message";
 

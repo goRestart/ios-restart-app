@@ -14,6 +14,10 @@ struct Constants {
     static let fullNameMinLength = 2
     static let passwordMinLength = 4
     static let productDescriptionMaxLength = 256
+
+    // Map
+    static let accurateRegionRadius = 1000.0    // meters
+    static let nonAccurateRegionRadius = 5000.0 // meters
     
     // URLs
     static let appStoreURL = "http://itunes.apple.com/app/id%@?mt=8"
