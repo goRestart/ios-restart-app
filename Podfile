@@ -8,7 +8,7 @@ use_frameworks!
 workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
-pod "Parse",                ">= 1.7"
+pod "Parse",                "1.7.5.3"
 pod "SDWebImage"
 
 pod "FBSDKShareKit",        "~> 4.1"
@@ -18,7 +18,7 @@ pod "FBSDKShareKit",        "~> 4.1"
 pod "Amplitude-iOS",        "~> 2.5"
     
 # letgo Core
-pod "LGCoreKit",            "0.8.16" # :path => "../LGCoreKit"
+pod "LGCoreKit",            "0.9.0"  # :path => "../LGCoreKit"  # :path => "../letgo-ios-lgcorekit"
 
 # Networking (to be removed when migrating to LGCoreKit)
 pod "Alamofire",            "~> 1.2"

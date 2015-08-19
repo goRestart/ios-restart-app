@@ -13,4 +13,6 @@ public struct LGCoreKitConstants {
     static let productImageJPEGQuality: CGFloat = 0.9
     
     static let httpHeaderUserToken = "X-Letgo-Parse-User-Token"
+    
+    static let maxDistanceToAskUpdateLocation = 1000.0
 }
