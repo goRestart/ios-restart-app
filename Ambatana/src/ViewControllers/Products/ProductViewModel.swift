@@ -336,11 +336,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func shareInWhatsApp() -> Bool {
         var success = false
-        let url = NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [shareText]))
-        if let actualURL = url {
+        
+        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
+        if let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet),
+           let url = NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText])) {
             let application = UIApplication.sharedApplication()
-            if application.canOpenURL(actualURL) {
-                success = application.openURL(actualURL)
+            if application.canOpenURL(url) {
+                success = application.openURL(url)
             }
         }
         return success
