@@ -319,8 +319,6 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         if let product = self.productAtIndexPath(indexPath) {
             let productVM = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
             let vc = ProductViewController(viewModel: productVM)
-            // TODO: @ahl: Delegate stuff!
-//            vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
