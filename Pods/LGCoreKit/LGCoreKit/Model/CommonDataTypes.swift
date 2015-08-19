@@ -42,6 +42,13 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
             self.longitude = coordinates.longitude
         }
     }
+    
+    public func coordinates2DfromLocation() -> CLLocationCoordinate2D {
+        var lat = self.latitude as CLLocationDegrees
+        var long = self.longitude as CLLocationDegrees
+        var coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        return coordinate
+    }
 }
 
 public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bool {

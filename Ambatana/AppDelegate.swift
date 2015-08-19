@@ -154,9 +154,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont, NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
         
         UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
-        
-        UIPageControl.appearance().pageIndicatorTintColor = StyleHelper.pageIndicatorSelectedColor
-        UIPageControl.appearance().currentPageIndicatorTintColor = StyleHelper.pageIndicatorUnselectedColor
     }
     
     // MARK: > Actions

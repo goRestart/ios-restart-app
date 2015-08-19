@@ -11,7 +11,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-public class MainProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, MainProductsViewModelDelegate, UISearchBarDelegate, ShowProductViewControllerDelegate {
+public class MainProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, MainProductsViewModelDelegate, UISearchBarDelegate {
 
     // Constants
     private static let TooltipHidingPageCountThreshold: UInt = 4
@@ -125,10 +125,8 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
     }
     
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // TODO: Refactor when ShowProductViewController is refactored with MVVM
-        let product = productListView.productAtIndex(indexPath.row)
-        let vc = ShowProductViewController(product: product)
-        vc.delegate = self
+        let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
+        let vc = ProductViewController(viewModel: productVM)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -178,12 +176,6 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
                 self?.navigationController?.pushViewController(vc, animated: true)
             }
         }
-    }
-   
-    // MARK: - ShowProductViewControllerDelegate
-
-    func showProductViewControllerShouldRefresh(viewController: ShowProductViewController) {
-        mainProductListView.refreshUI()
     }
     
     // MARK: - UISearchBarDelegate

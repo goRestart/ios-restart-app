@@ -214,6 +214,11 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.init(viewModel: ProductListViewModel(), coder: aDecoder)
     }
     
+    internal override func didSetActive(active: Bool) {
+        super.didSetActive(active)
+        refreshUI()
+    }
+    
     // MARK: Public methods
     
     // MARK: > Actions
@@ -245,19 +250,20 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         Refreshes the user interface.
     */
     public func refreshUI() {
-        collectionView.reloadSections(NSIndexSet(index: 0))
+        collectionView.reloadData()
     }
     
-    // MARK: > Data
+    // MARK: > ViewModel
     
     /**
-        Returns the product at the given index.
+        Returns the product view model for the given index.
     
         :param: index The index of the product.
-        :returns: The product.
+        :returns: The product view model.
     */
-    public func productAtIndex(index: Int) -> Product {
-        return productListViewModel.productAtIndex(index)
+    public func productViewModelForProductAtIndex(index: Int) -> ProductViewModel {
+        let product = productAtIndex(index)
+        return ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
     }
     
     // MARK: - UICollectionViewDataSource
@@ -373,5 +379,15 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         default:
             break
         }
+    }
+    
+    /**
+        Returns the product at the given index.
+    
+        :param: index The index of the product.
+        :returns: The product.
+    */
+    private func productAtIndex(index: Int) -> Product {
+        return productListViewModel.productAtIndex(index)
     }
 }

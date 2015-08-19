@@ -7,6 +7,8 @@
 //
 
 import CoreLocation
+import LGCoreKit
+import Result
 
 public enum LocationServicesAuthStatus {
     case NotDetermined
@@ -60,6 +62,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     // > Notifications
     public static let didReceiveLocationNotification = "LocationManager.didReceiveLocationNotification"
     public static let didFailRequestingLocationServices = "LocationManager.didFailRequestingLocationServices"
+    public static let didMoveFromManualLocationNotification = "LocationManager.didMoveFromManualLocationNotificationn"
     
     // > Location Service setup
     public static let distanceFilter: CLLocationDistance = 250
@@ -70,9 +73,14 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // iVars
     private var locationService: LocationService
-    private var userDefaults: NSUserDefaults
     
-    public private(set) var lastKnownLocation: CLLocation?
+    private var lastManualLocation: CLLocation?
+    public private(set) var lastGPSLocation: CLLocation?
+    public private(set) var isManualLocation : Bool
+    
+    public var lastKnownLocation: CLLocation? {
+        return isManualLocation ? lastManualLocation : lastGPSLocation
+    }
     
     public var locationEnabled: Bool {
         return self.locationService.locationEnabled()
@@ -84,10 +92,14 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // MARK: - Lifecycle
     
-    public init(locationService: LocationService = CLLocationManager(), userDefaults: NSUserDefaults = NSUserDefaults.standardUserDefaults()) {
+    public init(locationService: LocationService = CLLocationManager()) {
         self.locationService = locationService
-        self.userDefaults = userDefaults
-        self.lastKnownLocation = self.locationService.lastKnownLocation
+        
+        self.lastGPSLocation = self.locationService.lastKnownLocation
+        self.lastManualLocation = UserDefaultsManager.sharedInstance.loadManualLocation()
+        
+        self.isManualLocation = UserDefaultsManager.sharedInstance.loadIsManualLocation() ?? false
+        
         super.init()
         
         // Setup
@@ -139,6 +151,26 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         self.locationService.stopUpdatingLocation()
     }
     
+    public func userDidSetLocation(location: CLLocation) {
+        UserDefaultsManager.sharedInstance.saveIsManualLocation(true)
+        isManualLocation = true
+        // save location to userdefaults
+        
+        lastManualLocation = location
+        UserDefaultsManager.sharedInstance.saveManualLocation(lastManualLocation!)
+        if let location = lastManualLocation {
+            MyUserManager.sharedInstance.saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: MyUserManager.sharedInstance.myUser()?.postalAddress)
+        }
+    }
+    
+    public func gpsDidSetLocation() {
+        UserDefaultsManager.sharedInstance.saveIsManualLocation(false)
+        isManualLocation = false
+        if let location = lastGPSLocation {
+            MyUserManager.sharedInstance.saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: nil)
+        }
+    }
+    
     // MARK: - CLLocationManagerDelegate
     
     public func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -154,9 +186,15 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     
     public func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
         if let actualLocations = locations, let lastLocation = actualLocations.last as? CLLocation {
-            self.lastKnownLocation = lastLocation
+            self.lastGPSLocation = lastLocation
+
+            if isManualLocation && lastLocation.distanceFromLocation(lastManualLocation) > LGCoreKitConstants.maxDistanceToAskUpdateLocation {
+                NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didMoveFromManualLocationNotification, object: lastLocation)
+            }
             
-            NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didReceiveLocationNotification, object: lastLocation)
+            if !isManualLocation {
+                NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didReceiveLocationNotification, object: lastLocation)
+            }
         }
     }
 }

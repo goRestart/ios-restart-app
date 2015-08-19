@@ -416,14 +416,11 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     // MARK: - Share in facebook.
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        println(viewModel.shouldTrack)
         viewModel.trackSharedFB()
     }
     
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""), completionBlock: { () -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        })
+        showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""))
     }
     
     func sharerDidCancel(sharer: FBSDKSharing!) {

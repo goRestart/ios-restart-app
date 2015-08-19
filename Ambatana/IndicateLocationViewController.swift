@@ -85,7 +85,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
             enableLoadingStatus()
 
             // Save the user coordinates / address in the backend and when finished the pop
-            MyUserManager.sharedInstance.saveUserCoordinates(locationInMap) { [weak self] (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in
+            MyUserManager.sharedInstance.saveUserCoordinates(locationInMap, result: { [weak self] (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in
                 if let strongSelf = self {
                     
                     // Hide loading
@@ -97,7 +97,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
                         strongSelf.dismissViewControllerAnimated(true, completion: nil)
                     }
                 }
-            }
+            }, postalAddress: nil)
         }
         else {
             if iOSVersionAtLeast("8.0") {

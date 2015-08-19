@@ -117,10 +117,17 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         
         // Update chats badge
         updateChatsBadge()
+        
     }
 
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "askUserToUpdateLocation", name: LocationManager.didMoveFromManualLocationNotification, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -136,6 +143,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:", name: PushManager.Notification.unreadMessagesDidChange.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: MyUserManager.Notification.logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -400,6 +408,34 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
             showTooltip()
         }
     }
+    
+    dynamic private func askUserToUpdateLocation() {
+        
+        let firstAlert = UIAlertController(title: nil, message: NSLocalizedString("change_location_ask_update_location_message", comment: ""), preferredStyle: .Alert)
+        let yesAction = UIAlertAction(title: NSLocalizedString("common_ok", comment: ""), style: .Default) { (updateToGPSLocation) -> Void in
+            LocationManager.sharedInstance.gpsDidSetLocation()
+        }
+        let noAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel) { (showSecondAlert) -> Void in
+            let secondAlert = UIAlertController(title: nil, message: NSLocalizedString("change_location_recommend_update_location_message", comment: ""), preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel, handler: nil)
+            let updateAction = UIAlertAction(title: NSLocalizedString("change_location_confirm_update_button", comment: ""), style: .Default) { (updateToGPSLocation) -> Void in
+                LocationManager.sharedInstance.gpsDidSetLocation()
+            }
+            secondAlert.addAction(cancelAction)
+            secondAlert.addAction(updateAction)
+
+            self.presentViewController(secondAlert, animated: true, completion: nil)
+        }
+        firstAlert.addAction(yesAction)
+        firstAlert.addAction(noAction)
+        
+        self.presentViewController(firstAlert, animated: true, completion: nil)
+        
+        // We should ask only one time
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: LocationManager.didMoveFromManualLocationNotification, object: nil)
+        
+    }
+    
     
     // MARK: > Animation
     

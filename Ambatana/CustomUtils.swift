@@ -48,20 +48,6 @@ extension String {
 }
 
 /**
- * Link for an LetGo product in the website.
- */
-func letgoWebLinkForObjectId(objectId: String) -> String {
-    return "http://www.letgo.com/product/\(objectId)"
-}
-
-/**
- * Text for the message body when sharing a product in LetGo.
- */
-func letgoTextForSharingBody(productName: String, userName: String, andObjectId objectId: String) -> String {
-    return NSLocalizedString("product_share_body", comment: "") + "\n" + userName + " - " + productName + ":\n" + letgoWebLinkForObjectId(objectId)
-}
-
-/**
  * Generates a Parse PFACL object giving all permissions to the current user and global read access.
  */
 func globalReadAccessACL() -> PFACL {
@@ -80,39 +66,6 @@ func globalReadAccessACLWithWritePermissionForUsers(selectedUsers: [PFUser]) -> 
         acl.setWriteAccess(true, forUser: selectedUser)
     }
     return acl
-}
-
-/**
-* Retrieves a query for all the categories in a concrete language.
-*/
-func allCategoriesQueryForLanguage(language: String) -> PFQuery {
-    // the external query will retrieve all favorite categories where the category number matches the inner query.
-    let query = PFQuery(className: "Categories")
-    query.whereKey("language_code", equalTo: language)
-    query.orderByAscending("category_id")
-    return query
-}
-
-/**
-* Retrieves a Query for the user's favorite categories, in a concrete language code.
-*/
-func favoriteCategoriesQuery() -> PFQuery {
-    // inner query. Get all favorite category identifiers.
-    let innerQuery = PFQuery(className: "UserFavoriteCategories")
-    innerQuery.whereKey("user", equalTo: PFUser.currentUser()!)
-    
-    // the external query will retrieve all favorite categories where the category number matches the inner query.
-    let query = PFQuery(className: "Categories")
-    query.whereKey("category_id", matchesKey: "category_id", inQuery: innerQuery)
-    return query
-}
-
-/**
- * Gets the height of the status bar
- */
-func statusBarHeight() -> CGFloat {
-    let statusBarSize = UIApplication.sharedApplication().statusBarFrame.size
-    return Swift.min(statusBarSize.width, statusBarSize.height)
 }
 
 /**

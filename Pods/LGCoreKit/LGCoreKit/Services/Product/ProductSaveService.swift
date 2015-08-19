@@ -24,11 +24,11 @@ public typealias ProductSaveServiceResult = (Result<Product, ProductSaveServiceE
 public protocol ProductSaveService {
     
     /**
-    Saves the product.
+        Saves the product.
     
-    :param: product the product
-    :param: user the user
-    :param: result The closure containing the result.
+        :param: product the product
+        :param: user the user
+        :param: result The closure containing the result.
     */
     
     func saveProduct(product: Product, forUser user: User, result: ProductSaveServiceResult?)

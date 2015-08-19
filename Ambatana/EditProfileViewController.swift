@@ -98,8 +98,10 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         soldProductListView.type = .Sold
         
         // User image
-        self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2.0
-        self.userImageView.clipsToBounds = true
+        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2.0
+        userImageView.clipsToBounds = true
+        userImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
+        userImageView.layer.borderWidth = 1
         
         // internationalization
         sellButton.setTitle(NSLocalizedString("profile_selling_products_tab", comment: ""), forState: .Normal)
@@ -277,9 +279,9 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     }
     
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // TODO: Refactor when ShowProductViewController is refactored with MVVM
-        let product = productListView.productAtIndex(indexPath.row)
-        let vc = ShowProductViewController(product: product)
+        let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
+        let vc = ProductViewController(viewModel: productVM)
+        // TODO: @ahl: Delegate stuff!
 //        vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -313,8 +315,10 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        // TODO: VM should be provided by this VC's VM
         if let product = self.productAtIndexPath(indexPath) {
-            let vc = ShowProductViewController(product: product)
+            let productVM = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
+            let vc = ProductViewController(viewModel: productVM)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
