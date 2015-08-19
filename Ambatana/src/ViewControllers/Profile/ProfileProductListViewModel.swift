@@ -37,5 +37,7 @@ public class ProfileProductListViewModel: ProductListViewModel {
         self.user = user ?? MyUserManager.sharedInstance.myUser()
         self.type = type
         super.init()
+        
+        self.sortCriteria = .Creation
     }
 }
