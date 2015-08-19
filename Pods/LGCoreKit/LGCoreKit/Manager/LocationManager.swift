@@ -8,6 +8,7 @@
 
 import CoreLocation
 import LGCoreKit
+import Result
 
 public enum LocationServicesAuthStatus {
     case NotDetermined
@@ -151,21 +152,23 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     public func userDidSetLocation(location: CLLocation) {
-        
         UserDefaultsManager.sharedInstance.saveIsManualLocation(true)
         isManualLocation = true
         // save location to userdefaults
         
         lastManualLocation = location
         UserDefaultsManager.sharedInstance.saveManualLocation(lastManualLocation!)
-        NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didReceiveLocationNotification, object: lastManualLocation)
+        if let location = lastManualLocation {
+            MyUserManager.sharedInstance.saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: MyUserManager.sharedInstance.myUser()?.postalAddress)
+        }
     }
     
     public func gpsDidSetLocation() {
-        
         UserDefaultsManager.sharedInstance.saveIsManualLocation(false)
         isManualLocation = false
-        NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didReceiveLocationNotification, object: lastGPSLocation)
+        if let location = lastGPSLocation {
+            MyUserManager.sharedInstance.saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: nil)
+        }
     }
     
     // MARK: - CLLocationManagerDelegate

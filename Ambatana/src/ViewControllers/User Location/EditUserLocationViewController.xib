@@ -76,7 +76,7 @@
                     </constraints>
                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                    <textInputTraits key="textInputTraits"/>
+                    <textInputTraits key="textInputTraits" returnKeyType="search"/>
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="eEd-xK-0Za"/>
