@@ -163,7 +163,6 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         if overlay is MKCircle {
             let renderer = MKCircleRenderer(overlay: overlay)
             renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
-            renderer.lineWidth = 1
             return renderer
         }
         return nil;

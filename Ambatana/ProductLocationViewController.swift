@@ -26,11 +26,11 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
         if location != nil {
             // set map region
             let coordinate = CLLocationCoordinate2D(latitude: location!.latitude, longitude: location!.longitude)
-            let region = MKCoordinateRegionMakeWithDistance(coordinate, 2000, 2000)
+            let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius, Constants.nonAccurateRegionRadius)
             mapView.setRegion(region, animated: true)
             
             // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
-            let circle = MKCircle(centerCoordinate:coordinate, radius: 500)
+            let circle = MKCircle(centerCoordinate:coordinate, radius: Constants.nonAccurateRegionRadius*0.40)
             mapView.addOverlay(circle)
         }
     }
@@ -40,9 +40,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
     func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
         if overlay is MKCircle {
             let renderer = MKCircleRenderer(overlay: overlay)
-            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.20)
-            renderer.strokeColor = UIColor.redColor()
-            renderer.lineWidth = 1
+            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
             return renderer
         }
         return nil;
