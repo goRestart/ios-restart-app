@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -29,8 +29,13 @@
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="l7W-2E-Lud"/>
+                            </mask>
+                        </variation>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0M6-tW-fco">
+                    <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0M6-tW-fco">
                         <rect key="frame" x="59" y="8" width="330" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -47,14 +52,8 @@
                     <constraint firstItem="lsg-93-Cmg" firstAttribute="leading" secondItem="0M6-tW-fco" secondAttribute="trailing" constant="8" id="c3B-3q-JhE"/>
                     <constraint firstItem="0M6-tW-fco" firstAttribute="top" secondItem="2oK-DW-fjJ" secondAttribute="topMargin" id="pCw-HB-1Ez"/>
                     <constraint firstItem="lsg-93-Cmg" firstAttribute="bottom" secondItem="2oK-DW-fjJ" secondAttribute="bottomMargin" id="rdg-Dm-oeI"/>
-                    <constraint firstItem="0M6-tW-fco" firstAttribute="trailing" secondItem="2oK-DW-fjJ" secondAttribute="trailingMargin" id="sAY-Xo-LHc"/>
                     <constraint firstItem="UIV-I4-6nW" firstAttribute="leading" secondItem="2oK-DW-fjJ" secondAttribute="leadingMargin" id="sNs-nX-G1h"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="sAY-Xo-LHc"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="iconImageView" destination="UIV-I4-6nW" id="zer-3X-TaZ"/>
