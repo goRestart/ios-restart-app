@@ -240,14 +240,9 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         self.searchField.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         suggestionsTableView.hidden = true
 
-        if let location = viewModel.locationForPlaceAtPosition(indexPath.row) {
-            var coordinate = location.coordinates2DfromLocation()
-            centerMapInLocation(coordinate, withPostalAddress: viewModel.postalAddressForPlaceAtPosition(indexPath.row), approximate: viewModel.approximateLocation)
-        } else {
-            viewModel.goingToLocation = true
-            viewModel.searchText = self.searchField.text
-            goToLocation()
-        }
+        viewModel.goingToLocation = true
+        viewModel.searchText = self.searchField.text
+        goToLocation()
     }
     
     // MARK : - private methods
