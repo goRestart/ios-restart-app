@@ -134,11 +134,23 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     @IBAction func reportButtonPressed(sender: AnyObject) {
-        showReportAlert()
+        ifLoggedInThen(.ReportFraud, loggedInAction: {
+            self.showReportAlert()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.showReportAlert()
+        })
     }
     
     @IBAction func deleteButtonPressed(sender: AnyObject) {
-        showDeleteAlert()
+        ifLoggedInThen(.Delete, loggedInAction: {
+            self.showDeleteAlert()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            self.updateUI()
+            self.showDeleteAlert()
+        })
     }
     
     @IBAction func askButtonPressed(sender: AnyObject) {
@@ -446,16 +458,33 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     // MARK: > Actions
     
     dynamic private func favouriteButtonPressed() {
-        // Switch graphically
-        if viewModel.isFavourite {
-            setFavouriteButtonAsFavourited(false)
-        }
-        else {
-            setFavouriteButtonAsFavourited(true)
-        }
-        
-        // Tell the VM
-        viewModel.switchFavourite()
+        ifLoggedInThen(.Favourite, loggedInAction: {
+            // Switch graphically
+            if self.viewModel.isFavourite {
+                self.setFavouriteButtonAsFavourited(false)
+            }
+            else {
+                self.setFavouriteButtonAsFavourited(true)
+            }
+            
+            // Tell the VM
+            self.viewModel.switchFavourite()
+        },
+        elsePresentSignUpWithSuccessAction: {
+            // Update UI
+            self.updateUI()
+            
+            // Switch graphically
+            if self.viewModel.isFavourite {
+                self.setFavouriteButtonAsFavourited(false)
+            }
+            else {
+                self.setFavouriteButtonAsFavourited(true)
+            }
+            
+            // Tell the VM
+            self.viewModel.switchFavourite()
+        })
     }
     
     dynamic private func shareButtonPressed() {

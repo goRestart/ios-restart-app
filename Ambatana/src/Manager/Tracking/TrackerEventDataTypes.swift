@@ -118,6 +118,7 @@ public enum EventParameterLoginSourceValue: String {
     case MarkAsSold = "mark-as-sold"
     case AskQuestion = "question"
     case ReportFraud = "report-fraud"
+    case Delete = "delete"
 }
 
 public enum EventParameterSellSourceValue: String {
