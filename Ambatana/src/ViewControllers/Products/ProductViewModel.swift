@@ -229,7 +229,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = PAProductMarkSoldService()
-        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService)
+        let productFavouriteRetrieveService = PAProductFavouriteRetrieveService()
+        let productFavouriteSaveService = PAProductFavouriteSaveService()
+        let productFavouriteDeleteService = PAProductFavouriteDeleteService()
+        let productReportRetrieveService = PAProductReportRetrieveService()
+        let productReportSaveService = PAProductReportSaveService()
+
+        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteRetrieveService: productFavouriteRetrieveService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportRetrieveService: productReportRetrieveService, productReportSaveService: productReportSaveService)
         self.tracker = TrackerProxy.sharedInstance
         
         super.init()
@@ -245,16 +251,24 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         if active {
             // Update favourite
             delegate?.viewModelDidStartRetrievingFavourite(self)
-            retrieveIsFavourite { [weak self] (_) -> Void in
+            productManager.retrieveFavourite(product) { [weak self] (result: Result<ProductFavourite, ProductFavouriteRetrieveServiceError>) -> Void in
                 if let strongSelf = self {
+                    // Update the flag
+                    strongSelf.isFavourite = (result.value != nil)
+                    
+                    // Notify the delegate
                     strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
                 }
             }
             
-            // Update favourite
+            // Update reported
             delegate?.viewModelDidStartRetrievingReported(self)
-            retrieveIsReported { [weak self] (_) -> Void in
+            productManager.retrieveReport(product) { [weak self] (result: Result<ProductReport, ProductReportRetrieveServiceError>) -> Void in
                 if let strongSelf = self {
+                    // Update the flag
+                    strongSelf.isReported = (result.value != nil)
+                    
+                    // Notify the delegate
                     strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
                 }
             }
@@ -268,11 +282,41 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public func switchFavourite() {
         delegate?.viewModelDidStartSwitchingFavouriting(self)
         
+        // If favourite, then remove from favourites / delete
         if isFavourite {
-            deleteFavourite()
+            productManager.deleteFavourite(product) { [weak self] (result: Result<Nil, ProductFavouriteDeleteServiceError>) -> Void in
+                if let strongSelf = self {
+                    // Success
+                    if let success = result.value {
+                        // Update the flag
+                        strongSelf.isFavourite = false
+                        
+                        // Run completed
+                        strongSelf.deleteFavouriteCompleted()
+                    }
+                    
+                    // Notify the delegate
+                    strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
+                }
+            }
         }
+        // Otherwise, add it / save
         else {
-            saveFavourite()
+            productManager.saveFavourite(product) { [weak self] (result: Result<ProductFavourite, ProductFavouriteSaveServiceError>) -> Void in
+                if let strongSelf = self {
+                    // Success
+                    if let success = result.value {
+                        // Update the flag
+                        strongSelf.isFavourite = true
+                        
+                        // Run completed
+                        strongSelf.saveFavouriteCompleted()
+                    }
+                    
+                    // Notify the delegate
+                    strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
+                }
+            }
         }
     }
     
@@ -318,24 +362,19 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         
         // Otherwise, start
         delegate?.viewModelDidStartReporting(self)
-        
-        // TODO: Refactor in a service + manager
-        if let myUser = MyUserManager.sharedInstance.myUser(), let productOwner = product.user {
-            
-            let report = PFObject(className: "UserReports")
-            report["product_reported"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:product.objectId)
-            report["user_reporter"] = PFUser(withoutDataWithObjectId: myUser.objectId)
-            report["user_reported"] = PFUser(withoutDataWithObjectId: productOwner.objectId)
-            
-            report.saveInBackgroundWithBlock({ [weak self] (success, error) -> Void in
-                if let strongSelf = self {
-                    if success {
-                        strongSelf.isReported = true
-                        strongSelf.reportCompleted()
-                    }
-                    strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
+        productManager.saveReport(product) { [weak self] (result: Result<Nil, ProductReportSaveServiceError>) -> Void in
+            if let strongSelf = self {
+                // Success
+                if let success = result.value {
+                    // Update the flag
+                    strongSelf.isReported = true
+                    
+                    // Run completed
+                    strongSelf.reportCompleted()
                 }
-            })
+                // Notify the delegate
+                strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
+            }
         }
     }
     
@@ -478,116 +517,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         })
     }
     
-    // MARK: - Services (REFACTOR)
-    
-    // TODO: Refactor in a service + manager
-    private func retrieveIsReported(completion: ((PFObject?) -> Void)?) {
-        if let productId = product.objectId, let myUserId = MyUserManager.sharedInstance.myUser()?.objectId, let productOwnerId = product.user?.objectId {
-            
-            let productReported = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId: productId)
-            let userReporter = PFUser(withoutDataWithObjectId: myUserId)
-            let userReported = PFUser(withoutDataWithObjectId: productOwnerId)
-            
-            let query = PFQuery(className: "UserReports")
-            query.whereKey("product_reported", equalTo: productReported)
-            query.whereKey("user_reporter", equalTo: userReporter)
-            query.whereKey("user_reported", equalTo: userReported)
-            query.findObjectsInBackgroundWithBlock { [weak self] (results: [AnyObject]?, error: NSError?) -> Void in
-                if let strongSelf = self {
-                    let report = results?.first as? PFObject
-                    
-                    // Update the flag
-                    strongSelf.isReported = ( report != nil )
-                    
-                    // Run the completion
-                    completion?(report)
-                }
-            }
-        }
+    private func saveFavouriteCompleted() {
     }
     
-    // TODO: Refactor in a service + manager
-    private func retrieveIsFavourite(completion: ((PFObject?) -> Void)?) {
-        if let productId = product.objectId, let myUserId = MyUserManager.sharedInstance.myUser()?.objectId, let productOwnerId = product.user?.objectId {
-            
-            let myUser = PFUser(withoutDataWithObjectId: myUserId)
-            let theProduct = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId: productId)
-            
-            let query = PFQuery(className: "UserFavoriteProducts")
-            query.whereKey("user", equalTo: myUser)
-            query.whereKey("product", equalTo: theProduct)
-            query.findObjectsInBackgroundWithBlock { [weak self] (results: [AnyObject]?, error: NSError?) -> Void in
-                if let strongSelf = self {
-                    let favProduct = results?.first as? PFObject
-                    
-                    // Update the flag
-                    strongSelf.isFavourite = ( favProduct != nil )
-                    
-                    // Run the completion
-                    completion?(favProduct)
-                }
-            }
-        }
-    }
-    
-    // TODO: Refactor in a service + manager
-    private func saveFavourite() {
-
-        // Retrieve if is already favourite
-        retrieveIsFavourite { [weak self] (favProduct: PFObject?) in
-            if let strongSelf = self {
-                
-                // If it's not favourited
-                if favProduct == nil {
-                    
-                    // Then, create a new favourite
-                    if let productId = strongSelf.product.objectId, let myUserId = MyUserManager.sharedInstance.myUser()?.objectId {
-                        let favProduct = PFObject(className: "UserFavoriteProducts")
-                        favProduct["user"] = PFUser(withoutDataWithObjectId: myUserId)
-                        favProduct["product"] = PFObject(withoutDataWithClassName:PAProduct.parseClassName(), objectId:productId)
-                        
-                        // Save it
-                        favProduct.saveInBackgroundWithBlock { [weak self] (success: Bool, error: NSError?) -> Void in
-                            if let strongSelf = self {
-                                
-                                // Update the flag
-                                if success {
-                                    strongSelf.isFavourite = true
-                                }
-                                
-                                // Notify the delegate
-                                strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    // TODO: Refactor in a service + manager
-    private func deleteFavourite() {
-        
-        // Retrieve if is already favourite
-        retrieveIsFavourite { [weak self] (favProduct: PFObject?) in
-            if let strongSelf = self {
-                
-                // If it's favourited
-                if let actualFavProduct = favProduct {
-                    
-                    // Then delete it
-                    actualFavProduct.deleteInBackgroundWithBlock{ (success: Bool, error: NSError?) -> Void in
-                        
-                        // Update the flag
-                        if success {
-                            strongSelf.isFavourite = false
-                            
-                            // Notify the delegate
-                            strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
-                        }
-                    }
-                }
-            }
-        }
+    private func deleteFavouriteCompleted() {
     }
 }

@@ -68,7 +68,6 @@
                                         <constraint firstAttribute="bottom" secondItem="hYD-Km-Pqk" secondAttribute="bottom" id="ANR-7X-PkT"/>
                                         <constraint firstAttribute="trailing" secondItem="hYD-Km-Pqk" secondAttribute="trailing" constant="10" id="EMu-6W-x5j"/>
                                         <constraint firstAttribute="height" constant="24" id="Kpt-64-ffb"/>
-                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="140" id="Roc-4B-CEF"/>
                                     </constraints>
                                 </view>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no_photo" translatesAutoresizingMaskIntoConstraints="NO" id="fWK-hI-2a1" userLabel="User Avatar Image View">
@@ -253,6 +252,7 @@
                                 <constraint firstItem="ljy-wx-hlO" firstAttribute="top" secondItem="fWK-hI-2a1" secondAttribute="top" constant="-15" id="Grz-Ut-QBa"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="bottom" secondItem="OZB-tR-KL9" secondAttribute="bottom" id="JVw-Af-NHj"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="leading" secondItem="OZB-tR-KL9" secondAttribute="leading" id="KA8-OX-c6y"/>
+                                <constraint firstItem="rnN-LC-zqg" firstAttribute="width" relation="lessThanOrEqual" secondItem="eVN-Mz-H9f" secondAttribute="width" multiplier="2" priority="250" constant="53" id="Kf7-Ul-ATR"/>
                                 <constraint firstItem="rnN-LC-zqg" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="LfA-Zb-4pL"/>
                                 <constraint firstAttribute="width" secondItem="rnN-LC-zqg" secondAttribute="height" multiplier="1:1" id="NrJ-eX-N1w"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="VnG-9d-AWt"/>
