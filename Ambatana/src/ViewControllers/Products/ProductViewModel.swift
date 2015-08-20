@@ -207,6 +207,79 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return vc
     }
     
+    public var isProductStatusLabelVisible: Bool {
+        let statusLabelVisible: Bool
+        switch product.status {
+        case .Pending:
+            statusLabelVisible = true
+            break
+        case .Approved:
+            statusLabelVisible = false
+            break
+        case .Discarded:
+            statusLabelVisible = false
+            break
+        case .Sold:
+            statusLabelVisible = true
+            break
+        case .Deleted:
+            statusLabelVisible = true
+            break
+        }
+        return statusLabelVisible
+    }
+    
+    public var productStatusLabelBackgroundColor: UIColor {
+        let color: UIColor
+        switch product.status {
+        case .Pending:
+            color = UIColor.redColor()
+            break
+        case .Approved, .Discarded, .Deleted:
+            color = UIColor.whiteColor()
+            break
+        case .Sold:
+            color = UIColor.greenColor()
+            break
+        }
+        return color
+    }
+    
+    public var productStatusLabelFontColor: UIColor {
+        let color: UIColor
+        switch product.status {
+        case .Pending, .Approved, .Discarded, .Deleted:
+            color = UIColor.blackColor()
+            break
+        case .Sold:
+            color = UIColor.whiteColor()
+            break
+        }
+        return color
+    }
+    
+    public var productStatusLabelText: String {
+        let text: String
+        switch product.status {
+        case .Pending:
+            text = "_PRODUCT PENDING"
+            break
+        case .Approved:
+            text = "_PRODUCT APPROVED"
+            break
+        case .Discarded:
+            text = "_PRODUCT DISCARDED"
+            break
+        case .Sold:
+            text = "_PRODUCT SOLD"
+            break
+        case .Deleted:
+            text = "_PRODUCT DELETED"
+            break
+        }
+        return text
+    }
+    
     // MARK: - Lifecycle
     
     public init(product: Product, tracker: Tracker) {

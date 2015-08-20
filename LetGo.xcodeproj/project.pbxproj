@@ -19,6 +19,7 @@
 		2ED65CFF1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65CFE1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift */; };
 		2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65D001B81F4040004D6A1 /* SubjectCell.swift */; };
 		2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED65D011B81F4040004D6A1 /* SubjectCell.xib */; };
+		2EDBF33C1B85FDA30074133B /* LGAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDBF33B1B85FDA30074133B /* LGAnnotationView.swift */; };
 		2EE5EEDF1B5E4C860056BF76 /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */; };
 		2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
 		2EE5EEE71B5E759F0056BF76 /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */; };
@@ -224,6 +225,7 @@
 		2ED65CFE1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactSubjectOptionsViewModel.swift; path = Contact/ContactSubjectOptionsViewModel.swift; sourceTree = "<group>"; };
 		2ED65D001B81F4040004D6A1 /* SubjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubjectCell.swift; path = Contact/SubjectCell.swift; sourceTree = "<group>"; };
 		2ED65D011B81F4040004D6A1 /* SubjectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SubjectCell.xib; path = Contact/SubjectCell.xib; sourceTree = "<group>"; };
+		2EDBF33B1B85FDA30074133B /* LGAnnotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LGAnnotationView.swift; path = "User Location/LGAnnotationView.swift"; sourceTree = "<group>"; };
 		2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
 		2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
 		2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 				2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */,
 				2EE5FF521B7B3DAB0090E558 /* EditUserLocationViewController.swift */,
 				2EE5FF531B7B3DAB0090E558 /* EditUserLocationViewController.xib */,
+				2EDBF33B1B85FDA30074133B /* LGAnnotationView.swift */,
 			);
 			name = "User Location";
 			sourceTree = "<group>";
@@ -1431,6 +1434,7 @@
 			files = (
 				2EE5FF541B7B3DAB0090E558 /* EditUserLocationViewController.swift in Sources */,
 				2EE60AF71B60D97300E56E7D /* EditSellProductViewController.swift in Sources */,
+				2EDBF33C1B85FDA30074133B /* LGAnnotationView.swift in Sources */,
 				D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */,
 				50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				D48C3E051AEBD165005BD0EF /* ConversationCell.swift in Sources */,
