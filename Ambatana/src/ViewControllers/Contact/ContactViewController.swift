@@ -160,7 +160,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
     }
 
     
-    // MARK: - TextViewDelegate
+    // MARK: - UITextViewDelegate
     
     func textViewDidBeginEditing(textView: UITextView) {
         // clear text view placeholder
@@ -187,7 +187,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         return true
     }
     
-    // MARK: - TextFieldDelegate
+    // MARK: - UITextFieldDelegate
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
@@ -205,6 +205,10 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         return true;
     }
     
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        viewModel.email = ""
+        return true
+    }
     
     // MARK: - Private methods
     
