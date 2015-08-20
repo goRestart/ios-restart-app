@@ -369,30 +369,40 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     private func updateUI() {
         // Navigation bar
-        var imageNames: [String] = []
-        var selectors: [String] = []
-        var tags: [Int] = []
-        let favTag = 1
-        
+        // > If editing, place a text button
         if viewModel.isEditable {
-            imageNames.append("navbar_edit_product")
-            selectors.append("editButtonPressed")
-            tags.append(0)
+            let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: Selector("editButtonPressed"))
+            let rightMargin = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
+            rightMargin.width = 6
+            let items = [rightMargin, editButton]
+            navigationItem.setRightBarButtonItems(items, animated: false)
         }
-        if viewModel.isFavouritable {
-            imageNames.append("navbar_fav_off")
-            selectors.append("favouriteButtonPressed")
-            tags.append(favTag)
-        }
-        if viewModel.isShareable {
-            imageNames.append("navbar_share")
-            selectors.append("shareButtonPressed")
-            tags.append(2)
-        }
-        let buttons = setLetGoRightButtonsWithImageNames(imageNames, andSelectors: selectors, withTags: tags)
-        for button in buttons {
-            if button.tag == favTag {
-                favoriteButton = button
+        // Else, it will be image buttons
+        else {
+            var imageNames: [String] = []
+            var selectors: [String] = []
+            var tags: [Int] = []
+            let favTag = 0
+            var currentTag = favTag
+            
+            if viewModel.isFavouritable {
+                imageNames.append("navbar_fav_off")
+                selectors.append("favouriteButtonPressed")
+                tags.append(currentTag)
+                currentTag++
+            }
+            if viewModel.isShareable {
+                imageNames.append("navbar_share")
+                selectors.append("shareButtonPressed")
+                tags.append(currentTag)
+                currentTag++
+            }
+            
+            let buttons = setLetGoRightButtonsWithImageNames(imageNames, andSelectors: selectors, withTags: tags)
+            for button in buttons {
+                if button.tag == favTag {
+                    favoriteButton = button
+                }
             }
         }
        
