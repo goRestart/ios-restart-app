@@ -49,6 +49,20 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         setupUI()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // if email is full message becames first responder, else email always 1st resp
+        
+        if emailField.text.isEmpty || !viewModel.subjectIsSelected{
+            emailField.becomeFirstResponder()
+        }
+        else {
+            messageField.becomeFirstResponder()
+        }
+        
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Redraw the lines
@@ -213,11 +227,6 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
-        
-        
-        if emailField.text.isEmpty {
-            emailField.becomeFirstResponder()
-        }
         
         self.setLetGoNavigationBarStyle(title: NSLocalizedString("contact_title", comment: "") ?? UIImage(named: "navbar_logo"))
         
