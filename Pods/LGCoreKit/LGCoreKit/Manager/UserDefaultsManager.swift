@@ -12,11 +12,13 @@ import CoreLocation
 public class UserDefaultsManager {
     
     // Constant
-    private static let manualLocationKey = "manualLocation"
     private static let latitudeKey = "latitude"
     private static let longitudeKey = "longitude"
+    private static let manualLocationKey = "manualLocation"
     private static let isManualLocationKey = "isManualLocation"
     private static let isApproximateLocationKey = "isApproximateLocation"
+    
+    private let keysArray = [latitudeKey, longitudeKey, manualLocationKey, isManualLocationKey, isApproximateLocationKey]
     
     public static let sharedInstance: UserDefaultsManager = UserDefaultsManager()
     
@@ -32,6 +34,20 @@ public class UserDefaultsManager {
 
     // MARK: - Public Methods
 
+    
+    /**
+        Deletes all user default values
+    */
+    
+    public func resetUserDefaults() {
+        
+        for key in keysArray {
+            userDefaults.removeObjectForKey(key)
+        }
+        userDefaults.synchronize()
+    }
+    
+    
     /**
         Saves the location set manually by the user
 
@@ -71,11 +87,11 @@ public class UserDefaultsManager {
     
         :param: isManualLocation true if the user edited manually the location, false if uses GPS location
     */
-
     
     public func saveIsManualLocation(isManualLocation: Bool) {
         userDefaults.setBool(isManualLocation, forKey: UserDefaultsManager.isManualLocationKey)
     }
+
     
     /**
         Loads if the last time the location changed was set manually by the user
@@ -92,6 +108,7 @@ public class UserDefaultsManager {
         return false
     }
 
+    
     /**
         Saves if the user wants to use approximate location
     
@@ -102,12 +119,12 @@ public class UserDefaultsManager {
         userDefaults.setBool(isApproximateLocation, forKey: UserDefaultsManager.isApproximateLocationKey)
     }
     
+    
     /**
         Loads if the user wants to use approximate location
     
         :return: if the user wants to use approximate location
     */
-
 
     public func loadIsApproximateLocation() -> Bool {
         

@@ -418,6 +418,13 @@ public class MyUserManager {
             // Notify
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.logout.rawValue, object: nil)
             
+            // Reset User Defaults
+            UserDefaultsManager.sharedInstance.resetUserDefaults()
+
+            // set default gps location
+            LocationManager.sharedInstance.userDidSetAutomaticLocation(nil)
+            
+            
             // Request
             userLogOutService.logOutUser(myUser) { (myResult: Result<Nil, UserLogOutServiceError>) in
                 
@@ -474,8 +481,8 @@ public class MyUserManager {
         
         // If we already have a location, then save it into my user
         if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            saveUserCoordinates(lastKnownLocation.coordinate, result: nil, postalAddress: myUser()?.postalAddress)
-        }
+            saveUserCoordinates(lastKnownLocation.coordinate, result: nil, postalAddress: nil)
+      }
         
         if let user = MyUserManager.sharedInstance.myUser() {
             
@@ -523,7 +530,8 @@ public class MyUserManager {
     
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
         if let location = notification.object as? CLLocation {
-            saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: myUser()?.postalAddress)
+            saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: nil)
+
         }
     }
 }
