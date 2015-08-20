@@ -350,6 +350,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         offerButton.setBackgroundImage(offerButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         
         markSoldButton.layer.cornerRadius = 4
+        markSoldButton.layer.borderColor = markSoldButton.titleColorForState(.Normal)?.CGColor
+        markSoldButton.layer.borderWidth = 2
         markSoldButton.setBackgroundImage(markSoldButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         
         // i18n
