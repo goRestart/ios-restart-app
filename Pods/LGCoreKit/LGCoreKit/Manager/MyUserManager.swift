@@ -119,12 +119,14 @@ public class MyUserManager {
         if let user = myUser() {
             // Set the coordinates, reset the address & mark as non-processed
             user.gpsCoordinates = LGLocationCoordinates2D(coordinates: coordinates)
-
+            
+            // If we receive a postal address, then we set it to the user
             if let actualPostalAddress = postalAddress {
-                // User already has a postal address, we keep it.
                 user.postalAddress = actualPostalAddress
-            } else {
-                // User doesn't has a postal address, we create a new one
+            }
+            // Otherwise, we create a new one that will be retrieved later (check step 2b)
+            else {
+                
                 let address = PostalAddress()
                 user.postalAddress = address
             }
@@ -137,14 +139,20 @@ public class MyUserManager {
                 // Success
                 if let savedUser = saveUserResult.value {
                     
+                    // 2a. User already has an address
                     if let actualPostalAddress = postalAddress {
-
-                        // 2a. User already has an address
+                        
+                        // 3. Set the currency code, if any
+                        if let countryCode = actualPostalAddress.countryCode {
+                            if !countryCode.isEmpty {
+                                CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                            }
+                        }
+                        
                         result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
                     }
+                    // 2b. User doesn't has an address. Retrieve the address for the coordinates
                     else {
-                        
-                        // 2b. USer doesn't has an address. Retrieve the address for the coordinates
                         let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
                         self.postalAddressRetrievalService.retrieveAddressForLocation(location) { (postalAddressRetrievalResult: Result<PostalAddress, PostalAddressRetrievalServiceError>) -> Void in
                             
@@ -169,7 +177,7 @@ public class MyUserManager {
                                     result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
                                 }
                             }
-                                // Error
+                            // Error
                             else if let postalAddressRetrievalError = postalAddressRetrievalResult.error {
                                 result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(postalAddressRetrievalError)))
                             }
