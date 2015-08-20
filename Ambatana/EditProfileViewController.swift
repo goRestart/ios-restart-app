@@ -456,7 +456,11 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
             if let favorites = objects as? [PFObject] {
                 for favorite in favorites {
                     if let product = favorite["product"] as? PAProduct {
-                        if product.status != .Deleted {
+                        // If deleted then do nothing, otherwise append it to the list
+                        switch product.status {
+                        case .Deleted:
+                            break
+                        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
                             productList.append(product)
                         }
                     }

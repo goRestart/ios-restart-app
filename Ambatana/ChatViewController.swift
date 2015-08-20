@@ -200,7 +200,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             productImageView.sd_setImageWithURL(thumbURL)
         }
         // > if the product is deleted, add some alpha
-        if product.status == .Deleted {
+        switch product.status {
+        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+            productImageView.alpha = 1.0
+        case .Deleted:
             productImageView.alpha = 0.2
         }
         
@@ -281,18 +284,18 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func productButtonPressed(sender: AnyObject) {
         if let actualProduct = product {
+            switch actualProduct.status {
             
             // If product is deleted, then show a message
-            if actualProduct.status == .Deleted {
-
+            case .Deleted:
                 // Fade it in
                 self.messageView.alpha = 0
                 self.messageView.hidden = false
                 UIView.animateWithDuration(0.5, animations: { [weak self] () -> Void in
                     self?.messageView.alpha = 0.95
                 }, completion: { (success) -> Void in
-                    
-                    // Fade it out after some delay
+                        
+                // Fade it out after some delay
                     let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2 * Double(NSEC_PER_SEC)))
                     dispatch_after(delayTime, dispatch_get_main_queue()) {
                        
@@ -303,9 +306,10 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                         })
                     }
                 })
-            }
+                
             // Otherwise, push the product detail
-            else {
+            case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+
                 // TODO: Refactor: this VM should be returned by ChatVC's VM where refactored to MVVM
                 let productVM = ProductViewModel(product: actualProduct, tracker: TrackerProxy.sharedInstance)
                 let vc = ProductViewController(viewModel: productVM)

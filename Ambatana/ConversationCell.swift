@@ -63,10 +63,10 @@ public class ConversationCell: UITableViewCell {
         userLabel.text = conversation.userName
         
         // time / deleted
-        if conversation.productStatus == .Deleted {
+        switch conversation.productStatus {
+        case .Deleted:
             timeLabel.text = NSLocalizedString("common_product_deleted", comment: "")
-        }
-        else {
+        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             timeLabel.text = conversation.lastUpdated.relativeTimeString()
         }
         

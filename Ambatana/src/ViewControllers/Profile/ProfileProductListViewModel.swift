@@ -25,7 +25,7 @@ public class ProfileProductListViewModel: ProductListViewModel {
                 statuses = [.Pending, .Approved]
                 break
             case .Sold:
-                statuses = [.Sold]
+                statuses = [.Sold, .SoldOld]
                 break
             }
         }

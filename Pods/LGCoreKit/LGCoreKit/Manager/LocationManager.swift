@@ -151,22 +151,22 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         self.locationService.stopUpdatingLocation()
     }
     
-    public func userDidSetLocation(location: CLLocation) {
+    public func userDidSetManualLocation(location: CLLocation, postalAddress: PostalAddress?) {
         UserDefaultsManager.sharedInstance.saveIsManualLocation(true)
         isManualLocation = true
         // save location to userdefaults
         
         lastManualLocation = location
         UserDefaultsManager.sharedInstance.saveManualLocation(lastManualLocation!)
-        if let location = lastManualLocation {
-            MyUserManager.sharedInstance.saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: MyUserManager.sharedInstance.myUser()?.postalAddress)
+        if let location = lastKnownLocation {
+            MyUserManager.sharedInstance.saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: postalAddress)
         }
     }
     
-    public func gpsDidSetLocation(postalAddress: PostalAddress?) {
+    public func userDidSetAutomaticLocation(postalAddress: PostalAddress?) {
         UserDefaultsManager.sharedInstance.saveIsManualLocation(false)
         isManualLocation = false
-        if let location = lastGPSLocation {
+        if let location = lastKnownLocation {
             MyUserManager.sharedInstance.saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, postalAddress: postalAddress)
         }
     }

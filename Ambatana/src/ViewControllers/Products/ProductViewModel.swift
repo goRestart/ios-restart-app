@@ -97,8 +97,17 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: - Computed iVars
     
     public var isEditable: Bool {
-        // It's editable when the product is mine and it's pending or approved
-        return isMine && ( product.status == .Pending || product.status == .Approved)
+        let isOnSale: Bool
+        switch product.status {
+        case .Pending, .Approved, .Discarded:
+            isOnSale = true
+            
+        case .Deleted, .Sold, .SoldOld:
+            isOnSale = false
+        }
+        
+        // It's editable when the product is mine and is on sale
+        return isMine && isOnSale
     }
     
     // TODO: Refactor to return a view model
@@ -170,7 +179,15 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public var shouldSuggestMarkSoldWhenDeleting: Bool {
-        return ( product.status != .Pending && product.status != .Sold )
+        let suggestMarkSold: Bool
+        switch product.status {
+        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
+            suggestMarkSold = false
+
+        case .Approved:
+            suggestMarkSold = true
+        }
+        return suggestMarkSold
     }
     
     public var isDeletable: Bool {
@@ -180,21 +197,11 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var isFooterVisible: Bool {
         let footerViewVisible: Bool
         switch product.status {
-        case .Pending:
+        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
             footerViewVisible = false
-            break
+
         case .Approved:
             footerViewVisible = true
-            break
-        case .Discarded:
-            footerViewVisible = false
-            break
-        case .Sold:
-            footerViewVisible = false
-            break
-        case .Deleted:
-            footerViewVisible = false
-            break
         }
         return footerViewVisible
     }
