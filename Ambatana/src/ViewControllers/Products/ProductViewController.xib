@@ -8,6 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="addressIconHeightConstraint" destination="bCh-97-JFH" id="BJH-0g-E6d"/>
                 <outlet property="addressLabel" destination="Tl8-Qc-clk" id="waA-1c-374"/>
                 <outlet property="askButton" destination="hcb-iY-9wF" id="3lO-dc-QKA"/>
                 <outlet property="bottomView" destination="5pG-Ac-iOO" id="e0v-Gs-cxn"/>
