@@ -158,6 +158,11 @@
 "product_share_body" = "Kijk wat ik net gevonden heb bij Letgo!";
 "product_share_email_error" = "Oeps, het lijkt erop dat je geen account hebt aangemaakt in de Mail app";
 "product_share_whatsapp_error" = "Oeps, het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt";
+"product_status_label_approved" = "PRODUCT APPROVED";
+"product_status_label_deleted" = "PRODUCT DELETED";
+"product_status_label_discarded" = "PRODUCT DISCARDED";
+"product_status_label_pending" = "PRODUCT PENDING";
+"product_status_label_sold" = "PRODUCT SOLD";
 "profile_favourites_my_user_no_products_label" = "Je hebt nog steeds geen gepubliceerd of favoriet product";
 "profile_favourites_my_user_no_products_subtitle_label" = "Waar wacht je nog op?";
 "profile_favourites_other_user_no_products_label" = "Deze gebruiker heeft nog steeds geen gepubliceerd of favoriet product";

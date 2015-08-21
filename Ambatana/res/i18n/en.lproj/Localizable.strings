@@ -478,6 +478,21 @@
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops, it seems that you haven't installed the WhatsApp app";
 
+// Product detail status label, status pending. Check attached image "item_page_sold_ios.png"
+"product_status_label_pending" = "PRODUCT PENDING";
+
+// Product detail status label, status approved. Check image @ "product_status_label_pending" segment
+"product_status_label_approved" = "PRODUCT APPROVED";
+
+// Product detail status label, status discarded. Check image @ "product_status_label_pending" segment
+"product_status_label_discarded" = "PRODUCT DISCARDED";
+
+// Product detail status label, status sold. Check image @ "product_status_label_pending" segment
+"product_status_label_sold" = "PRODUCT SOLD";
+
+// Product detail status label, status deleted. Check image @ "product_status_label_pending" segment
+"product_status_label_deleted" = "PRODUCT DELETED";
+
 // Profile favourites my user no products label. Check attached image "profile (empty).png"
 "profile_favourites_my_user_no_products_label" = "You still don't have any published or favorited product";
 

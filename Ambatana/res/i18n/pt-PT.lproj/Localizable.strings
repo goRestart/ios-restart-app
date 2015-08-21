@@ -158,6 +158,11 @@
 "product_share_body" = "Vê só que eu acabei de encontrar no letgo!";
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email";
 "product_share_whatsapp_error" = "Ops! parece que não instalou a app WhatsApp";
+"product_status_label_approved" = "PRODUCT APPROVED";
+"product_status_label_deleted" = "PRODUCT DELETED";
+"product_status_label_discarded" = "PRODUCT DISCARDED";
+"product_status_label_pending" = "PRODUCT PENDING";
+"product_status_label_sold" = "PRODUCT SOLD";
 "profile_favourites_my_user_no_products_label" = "Ainda não tem nenhum produto publicado ou favorito.";
 "profile_favourites_my_user_no_products_subtitle_label" = "O que você está esperando?";
 "profile_favourites_other_user_no_products_label" = "Este utilizador ainda não tem nenhum produto publicado ou favorito";
