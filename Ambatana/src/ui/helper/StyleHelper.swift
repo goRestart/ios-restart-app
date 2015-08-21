@@ -31,7 +31,7 @@ class StyleHelper {
     private static let brownLight = UIColor(rgb: 0xE9E2D7)
     private static let brownMedium = UIColor(rgb: 0xD8CAB7)
     private static let greenMedium = UIColor(rgb: 0xC7C8B5)
-    
+    private static let turquoise = UIColor(rgb: 0x179BAA)
     // Fonts
     private static func helveticaNeueFont(#size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
@@ -64,6 +64,10 @@ class StyleHelper {
 
     static var emptypictureCellBackgroundColor: UIColor {
         return gray225
+    }
+    
+    static var soldColor: UIColor {
+        return turquoise
     }
 
     // MARK: - NavBar

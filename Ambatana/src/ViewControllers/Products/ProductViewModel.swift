@@ -192,6 +192,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         case .Sold:
             footerViewVisible = false
             break
+        case .SoldOld:
+            footerViewVisible = false
+            break
         case .Deleted:
             footerViewVisible = false
             break
@@ -211,7 +214,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let statusLabelVisible: Bool
         switch product.status {
         case .Pending:
-            statusLabelVisible = true
+            statusLabelVisible = false
             break
         case .Approved:
             statusLabelVisible = false
@@ -220,6 +223,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             statusLabelVisible = false
             break
         case .Sold:
+            statusLabelVisible = true
+            break
+        case .SoldOld:
             statusLabelVisible = true
             break
         case .Deleted:
@@ -232,14 +238,11 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var productStatusLabelBackgroundColor: UIColor {
         let color: UIColor
         switch product.status {
-        case .Pending:
-            color = UIColor.redColor()
-            break
-        case .Approved, .Discarded, .Deleted:
+        case .Pending, .Approved, .Discarded, .Deleted:
             color = UIColor.whiteColor()
             break
-        case .Sold:
-            color = UIColor.greenColor()
+        case .Sold, .SoldOld:
+            color = StyleHelper.soldColor
             break
         }
         return color
@@ -251,7 +254,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         case .Pending, .Approved, .Discarded, .Deleted:
             color = UIColor.blackColor()
             break
-        case .Sold:
+        case .Sold, .SoldOld:
             color = UIColor.whiteColor()
             break
         }
@@ -262,19 +265,19 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let text: String
         switch product.status {
         case .Pending:
-            text = "_PRODUCT PENDING"
+            text = NSLocalizedString("product_status_label_pending", comment: "")
             break
         case .Approved:
-            text = "_PRODUCT APPROVED"
+            text = NSLocalizedString("product_status_label_approved", comment: "")
             break
         case .Discarded:
-            text = "_PRODUCT DISCARDED"
+            text = NSLocalizedString("product_status_label_discarded", comment: "")
             break
-        case .Sold:
-            text = "_PRODUCT SOLD"
+        case .Sold, .SoldOld:
+            text = NSLocalizedString("product_status_label_sold", comment: "")
             break
         case .Deleted:
-            text = "_PRODUCT DELETED"
+            text = NSLocalizedString("product_status_label_deleted", comment: "")
             break
         }
         return text

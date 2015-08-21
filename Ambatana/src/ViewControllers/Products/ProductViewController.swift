@@ -35,8 +35,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
 
+    // Rounded views can't have shadow the standard way, so there's an extra view:
+    // http://stackoverflow.com/questions/3690972/why-maskstobounds-yes-prevents-calayer-shadow
     @IBOutlet weak var productStatusLabel: UILabel!
-    @IBOutlet weak var productStatusShadow: UIView!
+    @IBOutlet weak var productStatusShadow: UIView!     // just for the shadow
     
     // > Bottom
     @IBOutlet weak var bottomView: UIView!
@@ -326,61 +328,16 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
         view.layoutIfNeeded()
         productStatusLabel.sizeToFit()
-        productStatusLabel.preferredMaxLayoutWidth = productStatusLabel.frame.size.width + 20
         
-        var tmpFrame = productStatusLabel.frame
-//        tmpFrame.origin.x = tmpFrame.origin.x - 10
-        tmpFrame.size.width = productStatusLabel.preferredMaxLayoutWidth
-        tmpFrame.size.height = 22
-        productStatusLabel.frame = tmpFrame
-
+        productStatusLabel.preferredMaxLayoutWidth = productStatusLabel.frame.size.width + 30
         
-        
-//        var shadowLayer = CALayer()
-//        shadowLayer.frame = productStatusLabel.frame
-//        shadowLayer.cornerRadius = 11
-//        shadowLayer.backgroundColor = UIColor.clearColor().CGColor
-//        shadowLayer.shadowOpacity = 0.8
-//        shadowLayer.shadowOffset = CGSize(width: 0.0, height: -1.0)
-//        shadowLayer.shadowRadius = 5.0
-//        
-//        productStatusLabel.layer.addSublayer(shadowLayer)
-//        
-//        self.view.layer.addSublayer(shadowLayer)
+        var size = CGSize(width: productStatusLabel.preferredMaxLayoutWidth, height: 36)
 
-        
-//        CGSize size = CGSizeMake(280, 40);
-//        
-//        /** Shadow */
-//        CALayer *shadowLayer = [CALayer new];
-//        shadowLayer.frame = CGRectMake(20,100,size.width,size.height);
-//        shadowLayer.cornerRadius = 10;
-//        
-//        shadowLayer.backgroundColor = [UIColor clearColor].CGColor;
-//        shadowLayer.shadowColor = [UIColor blackColor].CGColor;
-//        shadowLayer.shadowOpacity = 0.6;
-//        shadowLayer.shadowOffset = CGSizeMake(0,0);
-//        shadowLayer.shadowRadius = 3;
-//        
-//        /** Label */
-//        UILabel *label = [UILabel new];
-
-//        label.frame = CGRectMake(0, 0, size.width, size.height);
-
-//        [label.layer setMasksToBounds:YES];
-
-//        
-//        /** Add the Label to the shawdow layer */
-//        [shadowLayer addSublayer:label.layer];
-//        
-//        [self.view.layer addSublayer:shadowLayer];
-
-        
+        productStatusLabel.frame = CGRect(origin: CGPoint(x: -15.0, y: 0.0), size: size)
         view.layoutIfNeeded()
-        
-        
     }
     
     private func setupUI() {
@@ -392,15 +349,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         // > Main
         usernameContainerView.layer.cornerRadius = 2
         
-        productStatusLabel.layer.cornerRadius = 11
+        productStatusLabel.layer.cornerRadius = 18
         productStatusLabel.layer.masksToBounds = true
-        productStatusLabel.layer.shadowColor = UIColor.grayColor().CGColor
-        productStatusLabel.layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
-        productStatusLabel.layer.shadowOpacity = 1
-        productStatusLabel.layer.shadowRadius = 8.0
-        productStatusLabel.layer.shouldRasterize = true
         
-        
+        productStatusShadow.layer.shadowColor = UIColor.grayColor().CGColor
+        productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
+        productStatusShadow.layer.shadowOpacity = 1
+        productStatusShadow.layer.shadowRadius = 8.0
+
         userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
         userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
         userAvatarImageView.layer.borderWidth = 2
