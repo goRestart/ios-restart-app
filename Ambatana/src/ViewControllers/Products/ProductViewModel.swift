@@ -50,6 +50,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var distance: String {
         return product.formattedDistance()
     }
+    public var addressIconVisible: Bool {
+        return !address.isEmpty
+    }
     public var address: String {
         var address = ""
         if let city = product.postalAddress.city {

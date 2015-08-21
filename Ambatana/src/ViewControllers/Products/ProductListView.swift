@@ -216,7 +216,9 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     
     internal override func didSetActive(active: Bool) {
         super.didSetActive(active)
-        refreshUI()
+        if active {
+            refreshUI()
+        }
     }
     
     // MARK: Public methods
