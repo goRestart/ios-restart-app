@@ -70,7 +70,7 @@ public class SignUpViewModel: BaseViewModel {
             delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidPassword))
         }
         else {
-            MyUserManager.sharedInstance.signUpWithEmail(email, password: password, publicUsername: fullName) { [weak self] (result: Result<Nil, UserSignUpServiceError>) -> Void in
+            MyUserManager.sharedInstance.signUpWithEmail(email.lowercaseString, password: password, publicUsername: fullName) { [weak self] (result: Result<Nil, UserSignUpServiceError>) -> Void in
                 if let strongSelf = self {
                     // Tracking
                     TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource, email: strongSelf.email))

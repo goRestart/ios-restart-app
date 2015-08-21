@@ -1,1 +1,1 @@
-../../../LGCoreKit/LGCoreKit/LGCoreKit.h
+../../../../../letgo-ios-lgcorekit/LGCoreKit/LGCoreKit.h
