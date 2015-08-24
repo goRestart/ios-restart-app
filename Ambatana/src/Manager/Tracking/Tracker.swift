@@ -15,4 +15,5 @@ public protocol Tracker {
     func applicationDidBecomeActive(application: UIApplication)
     func setUser(user: User?)
     func trackEvent(event: TrackerEvent)
+    func updateCoordinates(latitude: Double, longitude: Double)
 }

@@ -111,14 +111,14 @@ public class EditSellProductViewModel: SellProductViewModel {
     public override func trackSharedFB() {
         super.trackSharedFB()
         let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditSharedFB(myUser, product: product, name: title)
+        let event = TrackerEvent.productEditSharedFB(myUser, product: product)
         trackEvent(event)
     }
     
     internal override func trackComplete() {
         super.trackComplete()
         let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditComplete(myUser, product: product, name: title, category: category)
+        let event = TrackerEvent.productEditComplete(myUser, product: product, category: category)
         trackEvent(event)
     }
     

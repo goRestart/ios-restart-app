@@ -43,4 +43,8 @@ internal class MockTracker: Tracker {
     func trackEvent(event: TrackerEvent) {
         trackEventBlock?(self)
     }
+    
+    func updateCoordinates(latitude: Double, longitude: Double) {
+        
+    }
 }

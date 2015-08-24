@@ -40,11 +40,12 @@ public class AmplitudeTracker: Tracker {
     }
     
     public func applicationDidBecomeActive(application: UIApplication) {
-        AppsFlyerTracker.sharedTracker().trackAppLaunch()
+        // TODO:  WAT?  Appsflyer???
+//        AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
     
     public func setUser(user: User?) {
-        let userId = user?.email ?? ""
+        let userId = user?.objectId ?? ""
         Amplitude.instance().setUserId(userId)
 
         let isDummy = startsWith(user?.email ?? "", AmplitudeTracker.dummyEmailPrefix)
@@ -59,5 +60,13 @@ public class AmplitudeTracker: Tracker {
     
     public func trackEvent(event: TrackerEvent) {
         Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
+    }
+    
+    public func updateCoordinates(latitude: Double, longitude: Double) {
+        
+        var properties: [NSObject : AnyObject] = [:]
+        properties[AmplitudeTracker.userPropLatitudeKey] = latitude
+        properties[AmplitudeTracker.userPropLongitudeKey] = longitude
+        Amplitude.instance().setUserProperties(properties, replace: true)
     }
 }

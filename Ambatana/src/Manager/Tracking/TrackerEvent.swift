@@ -41,7 +41,7 @@ public struct TrackerEvent {
         return TrackerEvent(name: .LoginEmail, params: params)
     }
     
-    public static func signupEmail(source: EventParameterLoginSourceValue, email: String) -> TrackerEvent {
+    public static func signupEmail(source: EventParameterLoginSourceValue) -> TrackerEvent {
         var params = EventParameters()
         params.addLoginParamsWithSource(source)
         return TrackerEvent(name: .SignupEmail, params: params)
@@ -311,11 +311,10 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductEditFormValidationFailed, params: params)
     }
     
-    public static func productEditSharedFB(user: User?, product: Product, name: String) -> TrackerEvent {
+    public static func productEditSharedFB(user: User?, product: Product) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params[.ProductId] = product.objectId
-        params[.ProductName] = name.isEmpty ? "none" : name
         return TrackerEvent(name: .ProductEditSharedFB, params: params)
     }
     
@@ -326,11 +325,10 @@ public struct TrackerEvent {
 //        return TrackerEvent(name: .ProductEditAbandon, params: params)
 //    }
     
-    public static func productEditComplete(user: User?, product: Product, name: String, category: ProductCategory?) -> TrackerEvent {
+    public static func productEditComplete(user: User?, product: Product, category: ProductCategory?) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params[.ProductId] = product.objectId
-        params[.ProductName] = name.isEmpty ? "none" : name
         // Category
         params[.CategoryId] = category?.rawValue ?? 0
         return TrackerEvent(name: .ProductEditComplete, params: params)

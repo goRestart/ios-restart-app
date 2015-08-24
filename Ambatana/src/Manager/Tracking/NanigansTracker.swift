@@ -74,4 +74,9 @@ public class NanigansTracker: Tracker {
             NANTracking.trackNanigansEvent(nanigansParams.eventType, name: nanigansParams.name, extraParams: event.params?.stringKeyParams)
         }
     }
+    
+    public func updateCoordinates(latitude: Double, longitude: Double) {
+        
+    }
+
 }
