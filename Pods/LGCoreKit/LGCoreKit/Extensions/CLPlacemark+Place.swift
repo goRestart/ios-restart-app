@@ -16,6 +16,7 @@ extension CLPlacemark {
         var place = Place()
         
         place.name = self.name
+        place.country = self.country
         place.location = LGLocationCoordinates2D(coordinates: self.location.coordinate)
         
         var postalAddress = PostalAddress()

@@ -14,7 +14,7 @@ public enum PostalAddressRetrievalServiceError {
     case Internal
 }
 
-public typealias PostalAddressRetrievalServiceResult = (Result<PostalAddress, PostalAddressRetrievalServiceError>) -> Void
+public typealias PostalAddressRetrievalServiceResult = (Result<Place, PostalAddressRetrievalServiceError>) -> Void
 
 public protocol PostalAddressRetrievalService {
     

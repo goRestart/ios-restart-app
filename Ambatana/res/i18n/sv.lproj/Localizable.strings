@@ -158,6 +158,11 @@
 "product_share_body" = "Titta vad jag hittade på letgo!";
 "product_share_email_error" = "Hoppsan, det verkar som att du inte har något konto i dina mailinstllningar";
 "product_share_whatsapp_error" = "Hoppsan, det verkar som att du inte har installerat appen WhatsApp";
+"product_status_label_approved" = "PRODUCT APPROVED";
+"product_status_label_deleted" = "PRODUCT DELETED";
+"product_status_label_discarded" = "PRODUCT DISCARDED";
+"product_status_label_pending" = "PRODUCT PENDING";
+"product_status_label_sold" = "PRODUCT SOLD";
 "profile_favourites_my_user_no_products_label" = "Du har fortfarande inga favoriter eller publicerade produkter";
 "profile_favourites_my_user_no_products_subtitle_label" = "Vad väntar du på?";
 "profile_favourites_other_user_no_products_label" = "Denna användare har fortfarande inga favoriter eller publicerade produkter";

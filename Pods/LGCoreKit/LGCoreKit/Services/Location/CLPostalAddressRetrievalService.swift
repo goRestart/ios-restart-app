@@ -28,23 +28,19 @@ public class CLPostalAddressRetrievalService: PostalAddressRetrievalService {
             // Success
             if let actualPlacemarks = placemarks as? [CLPlacemark] {
                 var postalAddress: PostalAddress = PostalAddress()
+                var place = Place()
                 if !actualPlacemarks.isEmpty {
                     let placemark = actualPlacemarks.last!
-                    postalAddress.city = placemark.locality
-                    postalAddress.countryCode = placemark.ISOcountryCode
-                    postalAddress.zipCode = placemark.postalCode
-                    if let addressDict = placemark.addressDictionary {
-                        postalAddress.address = ABCreateStringWithAddressDictionary(addressDict, false)
-                    }
+                    place = placemark.place()
                 }
-                result?(Result<PostalAddress, PostalAddressRetrievalServiceError>.success(postalAddress))
+                result?(Result<Place, PostalAddressRetrievalServiceError>.success(place))
             }
             // Error
             else if let actualError = error {
-                result?(Result<PostalAddress, PostalAddressRetrievalServiceError>.failure(.Network))
+                result?(Result<Place, PostalAddressRetrievalServiceError>.failure(.Network))
             }
             else {
-                result?(Result<PostalAddress, PostalAddressRetrievalServiceError>.failure(.Internal))
+                result?(Result<Place, PostalAddressRetrievalServiceError>.failure(.Internal))
             }
         }
     }

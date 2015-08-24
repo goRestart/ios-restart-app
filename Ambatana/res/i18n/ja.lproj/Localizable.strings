@@ -158,6 +158,11 @@
 "product_share_body" = "Letogoで見つけたので見て！";
 "product_share_email_error" = "メールアプリのアカウントが設定されていないようです。";
 "product_share_whatsapp_error" = "残念ですが、WhatsAppがインストールされていないようです。";
+"product_status_label_approved" = "PRODUCT APPROVED";
+"product_status_label_deleted" = "PRODUCT DELETED";
+"product_status_label_discarded" = "PRODUCT DISCARDED";
+"product_status_label_pending" = "PRODUCT PENDING";
+"product_status_label_sold" = "PRODUCT SOLD";
 "profile_favourites_my_user_no_products_label" = "公開またはお気に入りにされた商品はまだありません。";
 "profile_favourites_my_user_no_products_subtitle_label" = "何をためらっているのですか？";
 "profile_favourites_other_user_no_products_label" = "このユーザーにはまだ、公開またはお気に入りにされた商品はありません。";

@@ -1,11 +1,11 @@
 "categories_baby_and_child" = "Все для детей";
-"categories_cars_and_motors" = "Автомобили и запчасти";
+"categories_cars_and_motors" = "Автомобили и Запчасти";
 "categories_electronics" = "Электроника";
-"categories_fashion_and_accesories" = "мода и аксессуары";
+"categories_fashion_and_accesories" = "Мода и Аксессуары";
 "categories_home_and_garden" = "Для дома и дачи";
-"categories_movies_books_and_music" = "Фильмы, книги и музыка";
+"categories_movies_books_and_music" = "Фильмы, Книги и Музыка";
 "categories_other" = "Другое";
-"categories_sports_leisure_and_games" = "Спорт и развлечения";
+"categories_sports_leisure_and_games" = "Спорт и Развлечения";
 "categories_title" = "Категории";
 "change_location_apply_button" = "Ввести данные";
 "change_location_approximate_location_label" = "Показать приблизительный адрес";
@@ -158,6 +158,11 @@
 "product_share_body" = "Посмотрите, что я нашел на letgo!";
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении";
 "product_share_whatsapp_error" = "Вы не установили приложение WhatsApp";
+"product_status_label_approved" = "PRODUCT APPROVED";
+"product_status_label_deleted" = "PRODUCT DELETED";
+"product_status_label_discarded" = "PRODUCT DISCARDED";
+"product_status_label_pending" = "PRODUCT PENDING";
+"product_status_label_sold" = "PRODUCT SOLD";
 "profile_favourites_my_user_no_products_label" = "У вас нет опубликованных или избранных товаров";
 "profile_favourites_my_user_no_products_subtitle_label" = "Чего вы ждете?";
 "profile_favourites_other_user_no_products_label" = "У этого пользователя нет опубликованных или избранных товаров";
