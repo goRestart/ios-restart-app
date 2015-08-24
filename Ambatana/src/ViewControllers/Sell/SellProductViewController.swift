@@ -117,7 +117,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
         viewModel.shouldShareInFB = shareFBSwitch.on
-        viewModel.trackEditedFBChanged()
     }
     
     // MARK: - SellProductViewModelDelegate Methods
@@ -169,18 +168,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     // MARK: - TextField Delegate Methods
     
-    func textFieldDidBeginEditing(textField: UITextField) {
-        if let tag = TextFieldTag(rawValue: textField.tag) {
-            switch (tag) {
-            case .ProductTitle:
-                viewModel.trackEditedTitle()
-            case .ProductPrice:
-                viewModel.trackEditedPrice()
-            default:
-                break
-            }
-        }
-    }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
@@ -217,7 +204,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
             textView.text = nil
             textView.textColor = UIColor.blackColor()
         }
-        viewModel.trackEditedDescription()
         scrollView.setContentOffset(CGPointMake(0,textView.frame.origin.y-64), animated: true)
 
     }
@@ -409,7 +395,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     }
     
     override func popBackViewController() {
-        viewModel.trackAbandon()
         super.popBackViewController()
     }
     

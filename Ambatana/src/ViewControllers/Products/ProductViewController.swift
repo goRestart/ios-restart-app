@@ -111,6 +111,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     @IBAction func shareFBButtonPressed(sender: AnyObject) {
+        viewModel.shareInFacebook("bottom")
         let content = viewModel.shareFacebookContent
         FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
     }
@@ -123,6 +124,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             vc.setSubject(viewModel.shareEmailSubject)
             vc.setMessageBody(viewModel.shareEmailBody, isHTML: false)
             presentViewController(vc, animated: true, completion: nil)
+            viewModel.shareInEmail("bottom")
         }
         else {
             showAutoFadingOutMessageAlert(NSLocalizedString("product_share_email_error", comment: ""))
@@ -512,6 +514,34 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             let presentationController = vc.popoverPresentationController
             presentationController?.sourceView = self.view
         }
+
+        vc.completionWithItemsHandler = {
+            (activity, success, items, error) in
+
+            /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
+            
+            println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
+            
+            Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
+            Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
+            Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
+            Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
+            */
+
+            if success {
+                if activity == UIActivityTypePostToFacebook {
+                    self.viewModel.shareInFacebook("top")
+                    self.viewModel.shareInFBCompleted()
+                } else if activity == UIActivityTypePostToTwitter {
+                    self.viewModel.shareInTwitterActivity()
+                } else if activity == UIActivityTypeMail {
+                    self.viewModel.shareInEmail("top")
+                } else if activity.rangeOfString("whatsapp") != nil {
+                    self.viewModel.shareInWhatsappActivity()
+                }
+            }
+        }
+
         presentViewController(vc, animated: true, completion: nil)
     }
     

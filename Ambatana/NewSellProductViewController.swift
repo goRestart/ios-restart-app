@@ -164,11 +164,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                 let category = ProductCategory.allValues()[buttonIndex]
                 self.currentCategory = category
                 self.chooseCategoryButton.setTitle(category.name(), forState: .Normal)
-                
-                // Tracking
-                let myUser = MyUserManager.sharedInstance.myUser()
-                let event = TrackerEvent.productSellEditCategory(myUser, category: category)
-                TrackerProxy.sharedInstance.trackEvent(event)
             }
         } else if actionSheet.tag == kLetGoSellProductActionSheetTagImageSourceType { // choose source for the images
             if buttonIndex == 0 { self.openImagePickerWithSource(.Camera) }
@@ -183,11 +178,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     
     func closeButtonPressed() {
         self.dismissViewControllerAnimated(true, completion: nil)
-        
-        // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productSellAbandon(myUser)
-        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     @IBAction func chooseCategory(sender: AnyObject) {
@@ -204,10 +194,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
                     self.currentCategory = category
                     self.chooseCategoryButton.setTitle(category.name(), forState: .Normal)
                     
-                    // Tracking
-                    let myUser = MyUserManager.sharedInstance.myUser()
-                    let event = TrackerEvent.productSellEditCategory(myUser, category: category)
-                    TrackerProxy.sharedInstance.trackEvent(event)
                 }))
             }
             alert.addAction(UIAlertAction(title: NSLocalizedString("sell_choose_category_dialog_cancel_button", comment: ""),
@@ -229,10 +215,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     @IBAction func shareInFacebookSwitchChanged(sender: AnyObject) {
         restoreOriginalPosition()
         
-        // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productSellEditShareFB(myUser, enabled: shareInFacebookSwitch.enabled)
-        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     @IBAction func sellProduct(sender: AnyObject) {
@@ -499,10 +481,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
         
-        // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let offerEvent = TrackerEvent.productSellAddPicture(myUser, imageCount: images.count)
-        
         self.dismissViewControllerAnimated(true, completion: nil)
         // safety check.
         if image != nil {
@@ -560,16 +538,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
             self.view.frame = newFrame
         })
         
-        // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        if textField == productTitleTextField {
-            let event = TrackerEvent.productSellEditTitle(myUser)
-            TrackerProxy.sharedInstance.trackEvent(event)
-        }
-        else if textField == productPriceTextfield {
-            let event = TrackerEvent.productSellEditPrice(myUser)
-            TrackerProxy.sharedInstance.trackEvent(event)
-        }
     }
     
     
@@ -581,10 +549,6 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
             self.view.frame = newFrame
         })
 
-        // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productSellEditDescription(myUser)
-        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     // MARK: - TextView character count.
