@@ -64,14 +64,17 @@ class ProductCell: UICollectionViewCell {
         distanceLabel.text = product.formattedDistance()
         
         // Status (stripe)
-        if (product.status == .Sold) {
+        switch product.status {
+        case .Sold, .SoldOld:
             stripeImageView.image = UIImage(named: "stripe_sold")
             stripeLabel.text = NSLocalizedString("product_list_item_sold_status_label", comment: "")
-        }
-        else if let createdAt = product.createdAt {
-            if NSDate().timeIntervalSinceDate(createdAt) < 60*60*24 {
-                stripeImageView.image = UIImage(named: "stripe_new")
-                stripeLabel.text = NSLocalizedString("product_list_item_new_status_label", comment: "")
+
+        case .Pending, .Approved, .Discarded, .Deleted:
+            if let createdAt = product.createdAt {
+                if NSDate().timeIntervalSinceDate(createdAt) < 60*60*24 {
+                    stripeImageView.image = UIImage(named: "stripe_new")
+                    stripeLabel.text = NSLocalizedString("product_list_item_new_status_label", comment: "")
+                }
             }
         }
     }

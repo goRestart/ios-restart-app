@@ -97,7 +97,7 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
                         strongSelf.dismissViewControllerAnimated(true, completion: nil)
                     }
                 }
-            }, postalAddress: nil)
+            }, place: nil)
         }
         else {
             if iOSVersionAtLeast("8.0") {

@@ -13,6 +13,8 @@
     public var postalAddress : PostalAddress?
     public var location : LGLocationCoordinates2D?
     
+    public var country : String?
+    
     public var placeResumedData : String?
     
     // MARK: - Lifecycle

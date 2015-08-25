@@ -185,7 +185,12 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
                 userImageView.image = UIImage(named: "no_photo")
             }
             userNameLabel.text = user.publicUsername ?? ""
-            userLocationLabel.text = user.postalAddress.city ?? ""
+            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
+                userLocationLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
+            }
+            else {
+                userLocationLabel.text = user.postalAddress.city ?? ""
+            }
             
             // If it's me, then allow go to settings
             if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let userId = user.objectId {
@@ -456,7 +461,11 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
             if let favorites = objects as? [PFObject] {
                 for favorite in favorites {
                     if let product = favorite["product"] as? PAProduct {
-                        if product.status != .Deleted {
+                        // If deleted then do nothing, otherwise append it to the list
+                        switch product.status {
+                        case .Deleted:
+                            break
+                        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
                             productList.append(product)
                         }
                     }

@@ -23,6 +23,7 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidStartRetrievingReported(viewModel: ProductViewModel)
     func viewModelDidStartReporting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
+    func viewModelDidCompleteReporting(viewModel: ProductViewModel)
     
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishDeleting result: Result<Nil, ProductDeleteServiceError>)
@@ -49,6 +50,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     public var distance: String {
         return product.formattedDistance()
+    }
+    public var addressIconVisible: Bool {
+        return !address.isEmpty
     }
     public var address: String {
         var address = ""
@@ -97,8 +101,17 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: - Computed iVars
     
     public var isEditable: Bool {
-        // It's editable when the product is mine and it's pending or approved
-        return isMine && ( product.status == .Pending || product.status == .Approved)
+        let isOnSale: Bool
+        switch product.status {
+        case .Pending, .Approved, .Discarded:
+            isOnSale = true
+            
+        case .Deleted, .Sold, .SoldOld:
+            isOnSale = false
+        }
+        
+        // It's editable when the product is mine and is on sale
+        return isMine && isOnSale
     }
     
     // TODO: Refactor to return a view model
@@ -170,7 +183,15 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public var shouldSuggestMarkSoldWhenDeleting: Bool {
-        return ( product.status != .Pending && product.status != .Sold )
+        let suggestMarkSold: Bool
+        switch product.status {
+        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
+            suggestMarkSold = false
+
+        case .Approved:
+            suggestMarkSold = true
+        }
+        return suggestMarkSold
     }
     
     public var isDeletable: Bool {
@@ -180,23 +201,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var isFooterVisible: Bool {
         let footerViewVisible: Bool
         switch product.status {
-        case .Pending:
+        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
             footerViewVisible = false
-            break
         case .Approved:
             footerViewVisible = true
-            break
-        case .Discarded:
-            footerViewVisible = false
-            break
-        case .Sold:
-            footerViewVisible = false
-            break
-        case .SoldOld:
-            footerViewVisible = false
-            break
-        case .Deleted:
-            footerViewVisible = false
             break
         }
         return footerViewVisible
@@ -403,11 +411,26 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     // MARK: > Share
+
+    public func shareInEmail(buttonPosition: String) {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "email", buttonPosition: buttonPosition)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    public func shareInFacebook(buttonPosition: String) {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "facebook", buttonPosition: buttonPosition)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
     
     public func shareInFBCompleted() {
+        let trackerEvent = TrackerEvent.productShareFbComplete(self.product)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBCancelled() {
+        let trackerEvent = TrackerEvent.productShareFbCancel(self.product)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInWhatsApp() -> Bool {
@@ -419,14 +442,29 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             let application = UIApplication.sharedApplication()
             if application.canOpenURL(url) {
                 success = application.openURL(url)
+                let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "whatsapp", buttonPosition: "bottom")
+                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             }
         }
         return success
     }
     
+    public func shareInWhatsappActivity() {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "whatsapp", buttonPosition: "top")
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    public func shareInTwitterActivity() {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "twitter", buttonPosition: "top")
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+    }
+
     // MARK: >  Report
     
     public func reportStarted() {
+        let trackerEvent = TrackerEvent.productReport(self.product, user: MyUserManager.sharedInstance.myUser())
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func reportAbandon() {
@@ -466,10 +504,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public func deleteAbandon() {
-        // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let trackerEvent = TrackerEvent.productDeleteAbandon(product, user: myUser)
-        tracker.trackEvent(trackerEvent)
     }
     
     public func delete() {
@@ -566,6 +600,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: - Private methods
     
     private func reportCompleted() {
+        delegate?.viewModelDidCompleteReporting(self)
     }
     
     private func markSoldCompleted(soldProduct: Product, source: EventParameterSellSourceValue) {
@@ -573,6 +608,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let myUser = MyUserManager.sharedInstance.myUser()
         let trackerEvent = TrackerEvent.productMarkAsSold(source, product: soldProduct, user: myUser)
         tracker.trackEvent(trackerEvent)
+        
     }
     
     private func deleteCompleted() {
@@ -596,6 +632,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     private func saveFavouriteCompleted() {
+        let trackerEvent = TrackerEvent.productFavorite(self.product, user: MyUserManager.sharedInstance.myUser())
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     private func deleteFavouriteCompleted() {

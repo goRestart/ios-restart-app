@@ -51,15 +51,12 @@ public class RememberPasswordViewModel: BaseViewModel {
             delegate?.viewModel(self, didFinishResettingPasswordWithResult: Result<Nil, UserPasswordResetServiceError>.failure(.InvalidEmail))
         }
         else {
-            MyUserManager.sharedInstance.resetPassword(email) { [weak self] (result: Result<Nil, UserPasswordResetServiceError>) in
+            MyUserManager.sharedInstance.resetPassword(email.lowercaseString) { [weak self] (result: Result<Nil, UserPasswordResetServiceError>) in
                 if let strongSelf = self, let actualDelegate = strongSelf.delegate {
                     
                     // Notify the delegate
                     actualDelegate.viewModel(strongSelf, didFinishResettingPasswordWithResult: result)
                     
-                    // Tracking
-                    let trackerEvent = TrackerEvent.resetPassword(strongSelf.loginSource)
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 }
             }
         }

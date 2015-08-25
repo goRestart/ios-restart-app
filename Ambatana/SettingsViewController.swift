@@ -91,6 +91,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: SettingsViewController.cellIdentifier)
         tableView.rowHeight = 60
+        
+        let trackerEvent = TrackerEvent.profileEditStart()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -115,7 +119,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if setting == .ChangeLocation {
-            cell.nameLabel.text = MyUserManager.sharedInstance.myUser()?.postalAddress.city
+            cell.nameLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
         }
 
         if setting == .ChangePhoto {
@@ -257,6 +261,10 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
                             // save local user image
                             self.tableView.reloadData()
                             self.settingProfileImageView.hidden = true
+                            
+                            let trackerEvent = TrackerEvent.profileEditEditPicture()
+                            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
                         } else { // unable save user with new avatar.
                             self.settingProfileImageView.hidden = true
                             self.showAutoFadingOutMessageAlert(NSLocalizedString("settings_change_profile_picture_error_generic", comment: ""))

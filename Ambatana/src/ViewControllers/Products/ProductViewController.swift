@@ -17,6 +17,7 @@ import UIKit
 public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate, MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
 
     // Constants
+    private static let addressIconVisibleHeight: CGFloat = 16
     private static let footerViewVisibleHeight: CGFloat = 64
     
     // UI
@@ -32,6 +33,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    
+    @IBOutlet weak var addressIconHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
 
@@ -113,6 +116,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     @IBAction func shareFBButtonPressed(sender: AnyObject) {
+        viewModel.shareInFacebook("bottom")
         let content = viewModel.shareFacebookContent
         FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
     }
@@ -125,6 +129,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             vc.setSubject(viewModel.shareEmailSubject)
             vc.setMessageBody(viewModel.shareEmailBody, isHTML: false)
             presentViewController(vc, animated: true, completion: nil)
+            viewModel.shareInEmail("bottom")
         }
         else {
             showAutoFadingOutMessageAlert(NSLocalizedString("product_share_email_error", comment: ""))
@@ -256,15 +261,26 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     public func viewModelDidStartRetrievingReported(viewModel: ProductViewModel) {
         
     }
-    
+
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
         reportButton.enabled = false
         reportButton.setTitle(NSLocalizedString("product_reporting_product_label", comment: ""), forState: .Normal)
+        showLoadingMessageAlert(customMessage: NSLocalizedString("product_reporting_loading_message", comment: ""))
     }
     
     public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
         setReportButtonAsReported(viewModel.isReported)
     }
+    
+    public func viewModelDidCompleteReporting(viewModel: ProductViewModel) {
+        
+        var completion = {
+            self.showAutoFadingOutMessageAlert(NSLocalizedString("product_reported_success_message", comment: ""), time: 3)
+        }
+        
+        dismissLoadingMessageAlert(completion: completion)
+    }
+
     
     public func viewModelDidStartDeleting(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
@@ -274,7 +290,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         let completion: () -> Void
         if let success = result.value {
             completion = {
-                self.navigationController?.popViewControllerAnimated(true)
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_delete_success_message", comment: ""), time: 3) {
+                    self.popBackViewController()
+                }
             }
         }
         else {
@@ -311,7 +329,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: Result<Product, ProductMarkSoldServiceError>) {
         let completion: (() -> Void)?
         if let success = result.value {
-            completion = nil
+            completion = {
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_success_message", comment: ""), time: 3) {
+                    self.popBackViewController()
+                }
+            }
             updateUI()
         }
         else {
@@ -459,6 +481,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         nameLabel.text = viewModel.name
         priceLabel.text = viewModel.price
         descriptionLabel.text = viewModel.descr
+        addressIconHeightConstraint.constant = viewModel.addressIconVisible ? ProductViewController.addressIconVisibleHeight : 0
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
             let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
@@ -542,6 +565,35 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             let presentationController = vc.popoverPresentationController
             presentationController?.sourceView = self.view
         }
+
+        vc.completionWithItemsHandler = {
+            (activity, success, items, error) in
+
+            // TODO: comment left here as a clue to manage future activities
+            /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
+            
+            println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
+            
+            Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
+            Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
+            Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
+            Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
+            */
+
+            if success {
+                if activity == UIActivityTypePostToFacebook {
+                    self.viewModel.shareInFacebook("top")
+                    self.viewModel.shareInFBCompleted()
+                } else if activity == UIActivityTypePostToTwitter {
+                    self.viewModel.shareInTwitterActivity()
+                } else if activity == UIActivityTypeMail {
+                    self.viewModel.shareInEmail("top")
+                } else if activity.rangeOfString("whatsapp") != nil {
+                    self.viewModel.shareInWhatsappActivity()
+                }
+            }
+        }
+
         presentViewController(vc, animated: true, completion: nil)
     }
     
@@ -599,6 +651,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         let alert = UIAlertController(title: NSLocalizedString("product_delete_confirm_title", comment: ""), message: NSLocalizedString("product_delete_sold_confirm_message", comment: ""), preferredStyle: .Alert)
         
         if viewModel.shouldSuggestMarkSoldWhenDeleting {
+            
+            alert.message = NSLocalizedString("product_delete_confirm_message", comment: "")
             let cancelAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
                 self.viewModel.deleteAbandon()
             })
@@ -613,6 +667,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             alert.addAction(deleteAction)
         }
         else {
+            
+            alert.message = NSLocalizedString("product_delete_sold_confirm_message", comment: "")
+
             let cancelAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (markAction) -> Void in
                 self.viewModel.deleteAbandon()
             })
@@ -630,10 +687,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     private func showMarkSoldAlert() {
         let source: EventParameterSellSourceValue = .MarkAsSold
         let alert = UIAlertController(title: NSLocalizedString("product_mark_as_sold_confirm_title", comment: ""), message: NSLocalizedString("product_mark_as_sold_confirm_message", comment: ""), preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("common_no", comment: ""), style: .Cancel, handler: { (_) -> Void in
             self.viewModel.markSoldAbandon(source)
         })
-        let soldAction = UIAlertAction(title: NSLocalizedString("product_mark_as_sold_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
+        let soldAction = UIAlertAction(title: NSLocalizedString("common_yes", comment: ""), style: .Default, handler: { (_) -> Void in
             self.viewModel.markSold(source)
         })
         alert.addAction(cancelAction)

@@ -51,6 +51,9 @@ public class ChangeUsernameViewModel: BaseViewModel {
                         if let user = result.value {
                             // success
                             actualDelegate.viewModel(strongSelf, didFinishSendingUserWithResult: result)
+                            let trackerEvent = TrackerEvent.profileEditEditName()
+                            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
                         }
                         else if let someError = result.error {
                             // error

@@ -54,6 +54,10 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
         }
     }
     
+    public var subjectIsSelected : Bool {
+        return self.subject != nil
+    }
+    
     // MARK: - Lifecycle
     
     override init() {

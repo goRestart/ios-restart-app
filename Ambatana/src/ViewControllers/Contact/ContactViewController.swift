@@ -49,6 +49,20 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         setupUI()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // if email is full message becames first responder, else email always 1st resp
+        
+        if emailField.text.isEmpty || !viewModel.subjectIsSelected{
+            emailField.becomeFirstResponder()
+        }
+        else {
+            messageField.becomeFirstResponder()
+        }
+        
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Redraw the lines
@@ -146,7 +160,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
     }
 
     
-    // MARK: - TextViewDelegate
+    // MARK: - UITextViewDelegate
     
     func textViewDidBeginEditing(textView: UITextView) {
         // clear text view placeholder
@@ -173,7 +187,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         return true
     }
     
-    // MARK: - TextFieldDelegate
+    // MARK: - UITextFieldDelegate
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
@@ -191,6 +205,10 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         return true;
     }
     
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        viewModel.email = ""
+        return true
+    }
     
     // MARK: - Private methods
     
@@ -213,11 +231,6 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
-        
-        
-        if emailField.text.isEmpty {
-            emailField.becomeFirstResponder()
-        }
         
         self.setLetGoNavigationBarStyle(title: NSLocalizedString("contact_title", comment: "") ?? UIImage(named: "navbar_logo"))
         
