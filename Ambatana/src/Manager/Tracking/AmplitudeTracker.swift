@@ -54,6 +54,7 @@ public class AmplitudeTracker: Tracker {
         properties[AmplitudeTracker.userPropEmailKey] = user?.email ?? ""
         properties[AmplitudeTracker.userPropLatitudeKey] = user?.gpsCoordinates?.latitude
         properties[AmplitudeTracker.userPropLongitudeKey] = user?.gpsCoordinates?.longitude
+        
         properties[AmplitudeTracker.userPropTypeKey] = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
         Amplitude.instance().setUserProperties(properties, replace: true)
     }
@@ -62,11 +63,9 @@ public class AmplitudeTracker: Tracker {
         Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
     }
     
-    public func updateCoordinates(latitude: Double, longitude: Double) {
+    public func updateCoordinates() {
+
+        setUser(MyUserManager.sharedInstance.myUser())
         
-        var properties: [NSObject : AnyObject] = [:]
-        properties[AmplitudeTracker.userPropLatitudeKey] = latitude
-        properties[AmplitudeTracker.userPropLongitudeKey] = longitude
-        Amplitude.instance().setUserProperties(properties, replace: true)
     }
 }

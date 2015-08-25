@@ -37,7 +37,7 @@ public class FacebookTracker: Tracker {
         FBSDKAppEvents.logEvent(event.actualName, parameters: event.params?.stringKeyParams)
     }
     
-    public func updateCoordinates(latitude: Double, longitude: Double) {
+    public func updateCoordinates() {
         
     }
 

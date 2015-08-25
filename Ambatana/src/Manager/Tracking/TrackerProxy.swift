@@ -64,9 +64,9 @@ public class TrackerProxy: Tracker {
         }
     }
     
-    public func updateCoordinates(latitude: Double, longitude: Double) {
+    public func updateCoordinates() {
         for tracker in trackers {
-            tracker.updateCoordinates(latitude, longitude: longitude)
+            tracker.updateCoordinates()
         }
     }
     
@@ -74,7 +74,7 @@ public class TrackerProxy: Tracker {
     
     @objc private func updateCoordinatesFromNotification(notification: NSNotification) {
         if let location = notification.object as? CLLocation {
-            updateCoordinates(location.coordinate.latitude, longitude: location.coordinate.longitude)
+            updateCoordinates()
         }
     }
 }

@@ -263,7 +263,7 @@ public class EditUserLocationViewModel: BaseViewModel {
             var long = currentPlace.location!.longitude as CLLocationDegrees
             var location = CLLocation(latitude: lat, longitude: long)
             LocationManager.sharedInstance.userDidSetManualLocation(location, place: currentPlace)
-            TrackerProxy.sharedInstance.updateCoordinates(lat, longitude: long)
+            TrackerProxy.sharedInstance.updateCoordinates()
         }
     }
     

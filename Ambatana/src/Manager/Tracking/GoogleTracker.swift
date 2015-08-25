@@ -73,7 +73,7 @@ public class GoogleTracker: Tracker {
         }
     }
     
-    public func updateCoordinates(latitude: Double, longitude: Double) {
+    public func updateCoordinates() {
         
     }
 
