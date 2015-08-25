@@ -57,9 +57,6 @@ public class RememberPasswordViewModel: BaseViewModel {
                     // Notify the delegate
                     actualDelegate.viewModel(strongSelf, didFinishResettingPasswordWithResult: result)
                     
-                    // Tracking
-                    let trackerEvent = TrackerEvent.resetPassword(strongSelf.loginSource)
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 }
             }
         }

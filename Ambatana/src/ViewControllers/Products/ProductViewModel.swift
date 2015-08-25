@@ -337,11 +337,26 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     // MARK: > Share
+
+    public func shareInEmail(buttonPosition: String) {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "email", buttonPosition: buttonPosition)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    public func shareInFacebook(buttonPosition: String) {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "facebook", buttonPosition: buttonPosition)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
     
     public func shareInFBCompleted() {
+        let trackerEvent = TrackerEvent.productShareFbComplete(self.product)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBCancelled() {
+        let trackerEvent = TrackerEvent.productShareFbCancel(self.product)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInWhatsApp() -> Bool {
@@ -353,14 +368,29 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             let application = UIApplication.sharedApplication()
             if application.canOpenURL(url) {
                 success = application.openURL(url)
+                let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "whatsapp", buttonPosition: "bottom")
+                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             }
         }
         return success
     }
     
+    public func shareInWhatsappActivity() {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "whatsapp", buttonPosition: "top")
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    public func shareInTwitterActivity() {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "twitter", buttonPosition: "top")
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+    }
+
     // MARK: >  Report
     
     public func reportStarted() {
+        let trackerEvent = TrackerEvent.productReport(self.product, user: MyUserManager.sharedInstance.myUser())
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func reportAbandon() {
@@ -400,10 +430,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public func deleteAbandon() {
-        // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let trackerEvent = TrackerEvent.productDeleteAbandon(product, user: myUser)
-        tracker.trackEvent(trackerEvent)
     }
     
     public func delete() {
@@ -530,6 +556,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     private func saveFavouriteCompleted() {
+        let trackerEvent = TrackerEvent.productFavorite(self.product, user: MyUserManager.sharedInstance.myUser())
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     private func deleteFavouriteCompleted() {

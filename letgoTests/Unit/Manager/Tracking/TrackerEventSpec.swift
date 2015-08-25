@@ -294,11 +294,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("signupEmail") {
                 it("has its event name") {
-                    sut = TrackerEvent.signupEmail(.Sell, email: "test@test.com")
+                    sut = TrackerEvent.signupEmail(.Sell)
                     expect(sut.name.rawValue).to(equal("signup-email"))
                 }
                 it("contains the appropiate login source signing in via email from posting") {
-                    sut = TrackerEvent.signupEmail(.Sell, email: "test@test.com")
+                    sut = TrackerEvent.signupEmail(.Sell)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -306,7 +306,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("posting"))
                 }
                 it("contains the appropiate login source signing in via email from chats") {
-                    sut = TrackerEvent.signupEmail(.Chats, email: "test@test.com")
+                    sut = TrackerEvent.signupEmail(.Chats)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -314,7 +314,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("messages"))
                 }
                 it("contains the appropiate login source signing in via email from profile") {
-                    sut = TrackerEvent.signupEmail(.Profile, email: "test@test.com")
+                    sut = TrackerEvent.signupEmail(.Profile)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -322,7 +322,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("view-profile"))
                 }
                 it("contains the appropiate login source signing in via email from mark as favourite") {
-                    sut = TrackerEvent.signupEmail(.Favourite, email: "test@test.com")
+                    sut = TrackerEvent.signupEmail(.Favourite)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -330,7 +330,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("favourite"))
                 }
                 it("contains the appropiate login source signing in via email from make an offer") {
-                    sut = TrackerEvent.signupEmail(.MakeOffer, email: "test@test.com")
+                    sut = TrackerEvent.signupEmail(.MakeOffer)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -338,7 +338,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("offer"))
                 }
                 it("contains the appropiate login source signing in via email from mark as sold") {
-                    sut = TrackerEvent.signupEmail(.MarkAsSold, email: "test@test.com")
+                    sut = TrackerEvent.signupEmail(.MarkAsSold)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -346,7 +346,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("mark-as-sold"))
                 }
                 it("contains the appropiate login source signing in via email from as a question") {
-                    sut = TrackerEvent.signupEmail(.AskQuestion, email: "test@test.com")
+                    sut = TrackerEvent.signupEmail(.AskQuestion)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
@@ -354,92 +354,14 @@ class TrackerEventSpec: QuickSpec {
                     expect(loginType).to(equal("question"))
                 }
                 it("contains the appropiate login source signing in via email from report fraud") {
-                    sut = TrackerEvent.signupEmail(.ReportFraud, email: "test@test.com")
+                    sut = TrackerEvent.signupEmail(.ReportFraud)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
                     let loginType = sut.params!.stringKeyParams["login-type"] as? String
                     expect(loginType).to(equal("report-fraud"))
                 }
-                it("contains the passed by email") {
-                    sut = TrackerEvent.signupEmail(.ReportFraud, email: "test@test.com")
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-email"]).notTo(beNil())
-                    let userEmail = sut.params!.stringKeyParams["user-email"] as? String
-                    expect(userEmail).to(equal("test@test.com"))
-                }
-            }
-            
-            describe("resetPassword") {
-                it("has its event name") {
-                    sut = TrackerEvent.resetPassword(.Sell)
-                    expect(sut.name.rawValue).to(equal("login-reset-password"))
-                }
-                it("contains the appropiate login source resetting pwd from posting") {
-                    sut = TrackerEvent.resetPassword(.Sell)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("posting"))
-                }
-                it("contains the appropiate login source resetting pwd from chats") {
-                    sut = TrackerEvent.resetPassword(.Chats)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("messages"))
-                }
-                it("contains the appropiate login source resetting pwd from profile") {
-                    sut = TrackerEvent.resetPassword(.Profile)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("view-profile"))
-                }
-                it("contains the appropiate login source resetting pwd from mark as favourite") {
-                    sut = TrackerEvent.resetPassword(.Favourite)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("favourite"))
-                }
-                it("contains the appropiate login source resetting pwd from make an offer") {
-                    sut = TrackerEvent.resetPassword(.MakeOffer)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("offer"))
-                }
-                it("contains the appropiate login source resetting pwd from mark as sold") {
-                    sut = TrackerEvent.resetPassword(.MarkAsSold)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("mark-as-sold"))
-                }
-                it("contains the appropiate login source resetting pwd from as a question") {
-                    sut = TrackerEvent.resetPassword(.AskQuestion)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("question"))
-                }
-                it("contains the appropiate login source resetting pwd from report fraud") {
-                    sut = TrackerEvent.resetPassword(.ReportFraud)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["login-type"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["login-type"] as? String
-                    expect(loginType).to(equal("report-fraud"))
-                }
+               
             }
             
             describe("logout") {
@@ -453,32 +375,6 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil, pageNumber: 0)
                     expect(sut.name.rawValue).to(equal("product-list"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productList(user, categories: nil, searchQuery: nil, pageNumber: 0)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
                 }
                 it("contains the category related params when passing by a category") {
                     let categories: [ProductCategory] = [.HomeAndGarden]
@@ -522,64 +418,12 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.searchStart(nil)
                     expect(sut.name.rawValue).to(equal("search-start"))
                 }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.searchStart(user)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
             }
             
             describe("searchComplete") {
                 it("has its event name") {
                     sut = TrackerEvent.searchComplete(nil, searchQuery: "")
                     expect(sut.name.rawValue).to(equal("search-complete"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.searchComplete(user, searchQuery: "")
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
                 }
                 it("contains the search keyword related params when passing by the search query") {
                     sut = TrackerEvent.searchComplete(nil, searchQuery: "iPhone")
@@ -630,10 +474,6 @@ class TrackerEventSpec: QuickSpec {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
                     
-                    expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
-                    let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(product.name))
-                    
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!.doubleValue))
@@ -645,18 +485,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(productCategory).to(equal(product.categoryId!.integerValue))
-                    
-                    expect(sut.params!.stringKeyParams["product-country"]).notTo(beNil())
-                    let productCountry = sut.params!.stringKeyParams["product-country"] as? String
-                    expect(productCountry).to(equal(product.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["product-zipcode"]).notTo(beNil())
-                    let productZipCode = sut.params!.stringKeyParams["product-zipcode"] as? String
-                    expect(productZipCode).to(equal(product.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["product-city"]).notTo(beNil())
-                    let productCity = sut.params!.stringKeyParams["product-city"] as? String
-                    expect(productCity).to(equal(product.postalAddress.city))
                     
                     expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
                     let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
@@ -674,13 +502,205 @@ class TrackerEventSpec: QuickSpec {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("real"))
                     
-                    // My user
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let myUserId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(myUserId).to(equal(myUser.objectId))
                 }
             }
+
+            describe("productFavorite") {
+                it("has its event name") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productFavorite(product, user: nil)
+                    expect(sut.name.rawValue).to(equal("product-detail-favorite"))
+                }
+                it("contains the product related params when passing by a product and my user") {
+                    let myUser = MockUser()
+                    myUser.objectId = "12345"
+                    myUser.postalAddress.countryCode = "ES"
+                    myUser.postalAddress.zipCode = "08026"
+                    myUser.postalAddress.city = "Barcelona"
+                    
+                    let productUser = MockUser()
+                    productUser.objectId = "56897"
+                    productUser.postalAddress.countryCode = "NL"
+                    productUser.postalAddress.zipCode = "GD 1013"
+                    productUser.postalAddress.city = "Amsterdam"
+                    
+                    let product = MockProduct()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = NSNumber(double: 123.983)
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.categoryId = NSNumber(integer: 4)
+                    product.user = productUser
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress.countryCode = "US"
+                    product.postalAddress.zipCode = "12345"
+                    product.postalAddress.city = "Baltimore"
+                    
+                    sut = TrackerEvent.productFavorite(product, user: myUser)
+                    expect(sut.params).notTo(beNil())
+                    
+                    // Product
+                    
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
+                    
+                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice).to(equal(product.price!.doubleValue))
+                    
+                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
+                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(productCurrency).to(equal(product.currency!.code))
+                    
+                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(productCategory).to(equal(product.categoryId!.integerValue))
+                    
+                    expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
+                    let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
+                    expect(productLat).to(equal(product.location!.latitude))
+                    
+                    expect(sut.params!.stringKeyParams["product-lng"]).notTo(beNil())
+                    let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
+                    expect(productLng).to(equal(product.location!.longitude))
+                    
+                    expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
+                    let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(productUserId).to(equal(product.user!.objectId))
+                    
+                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
+                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType).to(equal("real"))
+                    
+                }
+            }
+            
+            describe("productShare") {
+                it("has its event name") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productShare(product, user: nil, network: "", buttonPosition: "")
+                    expect(sut.name.rawValue).to(equal("product-detail-share"))
+                }
+                it("contains the product related params when passing by a product and my user") {
+                    let myUser = MockUser()
+                    myUser.objectId = "12345"
+                    myUser.postalAddress.countryCode = "ES"
+                    myUser.postalAddress.zipCode = "08026"
+                    myUser.postalAddress.city = "Barcelona"
+                    
+                    let productUser = MockUser()
+                    productUser.objectId = "56897"
+                    productUser.postalAddress.countryCode = "NL"
+                    productUser.postalAddress.zipCode = "GD 1013"
+                    productUser.postalAddress.city = "Amsterdam"
+                    
+                    let product = MockProduct()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = NSNumber(double: 123.983)
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.categoryId = NSNumber(integer: 4)
+                    product.user = productUser
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress.countryCode = "US"
+                    product.postalAddress.zipCode = "12345"
+                    product.postalAddress.city = "Baltimore"
+                    
+                    sut = TrackerEvent.productShare(product, user: myUser, network: "", buttonPosition: "")
+                    expect(sut.params).notTo(beNil())
+                    
+                    // Product
+                    
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
+                    
+                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice).to(equal(product.price!.doubleValue))
+                    
+                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
+                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(productCurrency).to(equal(product.currency!.code))
+                    
+                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(productCategory).to(equal(product.categoryId!.integerValue))
+                    
+                    expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
+                    let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
+                    expect(productLat).to(equal(product.location!.latitude))
+                    
+                    expect(sut.params!.stringKeyParams["product-lng"]).notTo(beNil())
+                    let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
+                    expect(productLng).to(equal(product.location!.longitude))
+                    
+                    expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
+                    let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(productUserId).to(equal(product.user!.objectId))
+                    
+                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
+                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType).to(equal("real"))
+                    
+                }
+                it("contains the network where the content has been shared") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productShare(product, user: nil, network: "facebook", buttonPosition: "")
+                    
+                    expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
+                    let network = sut.params!.stringKeyParams["share-network"] as? String
+                    expect(network).to(equal("facebook"))
+                }
+                it("contains the position of the button used to share") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productShare(product, user: nil, network: "", buttonPosition: "bottom")
+                    
+                    expect(sut.params!.stringKeyParams["button-position"]).notTo(beNil())
+                    let buttonPosition = sut.params!.stringKeyParams["button-position"] as? String
+                    expect(buttonPosition).to(equal("bottom"))
+                }
+            }
+            
+            describe("productDetailShareFbCancel") {
+                it("has its event name") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productShareFbCancel(product)
+                    expect(sut.name.rawValue).to(equal("product-detail-share-facebook-cancel"))
+                }
+                it("contains the item type param") {
+                    let product = MockProduct()
+                    let user = MockUser()
+                    product.user = user
+                    sut = TrackerEvent.productShareFbCancel(product)
+                    expect(sut.params).notTo(beNil())
+                    
+                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
+                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType).to(equal("real"))
+                }
+            }
+            
+            describe("productDetailShareFbComplete") {
+                it("has its event name") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productShareFbComplete(product)
+                    expect(sut.name.rawValue).to(equal("product-detail-share-facebook-complete"))
+                }
+                it("contains the item type param") {
+                    let product = MockProduct()
+                    let user = MockUser()
+                    product.user = user
+                    sut = TrackerEvent.productShareFbCancel(product)
+                    expect(sut.params).notTo(beNil())
+                    
+                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
+                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType).to(equal("real"))
+                }
+            }
+            
             
             describe("productOffer") {
                 it("has its event name") {
@@ -723,10 +743,6 @@ class TrackerEventSpec: QuickSpec {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
                     
-                    expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
-                    let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(product.name))
-                    
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!.doubleValue))
@@ -738,18 +754,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(productCategory).to(equal(product.categoryId!.integerValue))
-                    
-                    expect(sut.params!.stringKeyParams["product-country"]).notTo(beNil())
-                    let productCountry = sut.params!.stringKeyParams["product-country"] as? String
-                    expect(productCountry).to(equal(product.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["product-zipcode"]).notTo(beNil())
-                    let productZipCode = sut.params!.stringKeyParams["product-zipcode"] as? String
-                    expect(productZipCode).to(equal(product.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["product-city"]).notTo(beNil())
-                    let productCity = sut.params!.stringKeyParams["product-city"] as? String
-                    expect(productCity).to(equal(product.postalAddress.city))
                     
                     expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
                     let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
@@ -767,11 +771,6 @@ class TrackerEventSpec: QuickSpec {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("dummy"))
                     
-                    // My user
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let myUserId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(myUserId).to(equal(myUser.objectId))
                 }
                 it("contains the offered amount when passing it by") {
                     let product = MockProduct()
@@ -823,10 +822,6 @@ class TrackerEventSpec: QuickSpec {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
                     
-                    expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
-                    let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(product.name))
-                    
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!.doubleValue))
@@ -838,18 +833,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(productCategory).to(equal(product.categoryId!.integerValue))
-                    
-                    expect(sut.params!.stringKeyParams["product-country"]).notTo(beNil())
-                    let productCountry = sut.params!.stringKeyParams["product-country"] as? String
-                    expect(productCountry).to(equal(product.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["product-zipcode"]).notTo(beNil())
-                    let productZipCode = sut.params!.stringKeyParams["product-zipcode"] as? String
-                    expect(productZipCode).to(equal(product.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["product-city"]).notTo(beNil())
-                    let productCity = sut.params!.stringKeyParams["product-city"] as? String
-                    expect(productCity).to(equal(product.postalAddress.city))
                     
                     expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
                     let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
@@ -866,12 +849,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("real"))
-                    
-                    // My user
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let myUserId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(myUserId).to(equal(myUser.objectId))
+
                 }
             }
             
@@ -880,26 +858,6 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, user: nil)
                     expect(sut.name.rawValue).to(equal("product-detail-sold"))
-                }
-                it("contains the appropiate mark as sold source when starting the action from mark as sold") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, user: nil)
-                    
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(loginType).to(equal("product-detail"))
-                }
-                it("contains the appropiate mark as sold source when starting the action from delete") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productMarkAsSold(.Delete, product: product, user: nil)
-
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
-                    let loginType = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(loginType).to(equal("product-delete"))
                 }
                 it("contains the product related params when passing by a product and my user") {
                     let myUser = MockUser()
@@ -929,9 +887,60 @@ class TrackerEventSpec: QuickSpec {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
                     
-                    expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
-                    let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(product.name))
+                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice).to(equal(product.price!.doubleValue))
+                    
+                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
+                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(productCurrency).to(equal(product.currency!.code))
+                    
+                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(productCategory).to(equal(product.categoryId!.integerValue))
+                    
+                }
+            }
+            
+            describe("productReport") {
+                it("has its event name") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productReport(product, user: nil)
+                    expect(sut.name.rawValue).to(equal("product-detail-report"))
+                }
+                it("contains the product related params when passing by a product and my user") {
+                    let myUser = MockUser()
+                    myUser.objectId = "12345"
+                    myUser.postalAddress.countryCode = "ES"
+                    myUser.postalAddress.zipCode = "08026"
+                    myUser.postalAddress.city = "Barcelona"
+                    
+                    let productUser = MockUser()
+                    productUser.objectId = "56897"
+                    productUser.postalAddress.countryCode = "NL"
+                    productUser.postalAddress.zipCode = "GD 1013"
+                    productUser.postalAddress.city = "Amsterdam"
+                    
+                    let product = MockProduct()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = NSNumber(double: 123.983)
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.categoryId = NSNumber(integer: 4)
+                    product.user = productUser
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress.countryCode = "US"
+                    product.postalAddress.zipCode = "12345"
+                    product.postalAddress.city = "Baltimore"
+                    
+                    sut = TrackerEvent.productReport(product, user: myUser)
+                    expect(sut.params).notTo(beNil())
+                    
+                    // Product
+                    
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
@@ -945,18 +954,6 @@ class TrackerEventSpec: QuickSpec {
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(productCategory).to(equal(product.categoryId!.integerValue))
                     
-                    expect(sut.params!.stringKeyParams["product-country"]).notTo(beNil())
-                    let productCountry = sut.params!.stringKeyParams["product-country"] as? String
-                    expect(productCountry).to(equal(product.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["product-zipcode"]).notTo(beNil())
-                    let productZipCode = sut.params!.stringKeyParams["product-zipcode"] as? String
-                    expect(productZipCode).to(equal(product.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["product-city"]).notTo(beNil())
-                    let productCity = sut.params!.stringKeyParams["product-city"] as? String
-                    expect(productCity).to(equal(product.postalAddress.city))
-                    
                     expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
                     let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
                     expect(productLat).to(equal(product.location!.latitude))
@@ -965,18 +962,14 @@ class TrackerEventSpec: QuickSpec {
                     let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
                     expect(productLng).to(equal(product.location!.longitude))
                     
-                    // Does not include user-to-id
-                    expect(sut.params!.stringKeyParams["user-to-id"]).to(beNil())
+                    expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
+                    let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(productUserId).to(equal(product.user!.objectId))
                     
                     expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("real"))
                     
-                    // My user
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let myUserId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(myUserId).to(equal(myUser.objectId))
                 }
             }
 
@@ -986,268 +979,6 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.productSellStart(user)
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
                 }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productSellStart(user)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-            }
-            
-            describe("productSellAddPicture") {
-                it("has its event name") {
-                    let user = MockUser()
-                    sut = TrackerEvent.productSellAddPicture(user, imageCount: 3)
-                    expect(sut.name.rawValue).to(equal("product-sell-add-picture"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productSellAddPicture(user, imageCount: 3)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains picture number when passing it by") {
-                    sut = TrackerEvent.productSellAddPicture(nil, imageCount: 3)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["number"]).notTo(beNil())
-                    let pageNumber = sut.params!.stringKeyParams["number"] as? Int
-                    expect(pageNumber).to(equal(3))
-                }
-            }
-
-            describe("productSellEditTitle") {
-                it("has its event name") {
-                    let user = MockUser()
-                    sut = TrackerEvent.productSellEditTitle(user)
-                    expect(sut.name.rawValue).to(equal("product-sell-edit-title"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productSellEditTitle(user)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-            }
-
-            describe("productSellEditPrice") {
-                it("has its event name") {
-                    let user = MockUser()
-                    sut = TrackerEvent.productSellEditPrice(user)
-                    expect(sut.name.rawValue).to(equal("product-sell-edit-price"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productSellEditPrice(user)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-            }
-            
-            describe("productSellEditDescription") {
-                it("has its event name") {
-                    let user = MockUser()
-                    sut = TrackerEvent.productSellEditDescription(user)
-                    expect(sut.name.rawValue).to(equal("product-sell-edit-description"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productSellEditDescription(user)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-            }
-            
-            describe("productSellEditCategory") {
-                it("has its event name") {
-                    let user = MockUser()
-                    sut = TrackerEvent.productSellEditCategory(user, category: nil)
-                    expect(sut.name.rawValue).to(equal("product-sell-edit-category"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productSellEditCategory(user, category: nil)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the category related params when passing by a nil category") {
-                    sut = TrackerEvent.productSellEditCategory(nil, category: nil)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
-                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(categoryId).to(equal(0))
-                }
-                it("contains the category related params when passing by a category") {
-                    sut = TrackerEvent.productSellEditCategory(nil, category: .HomeAndGarden)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
-                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(categoryId).to(equal(4))
-                }
-            }
-            
-            describe("productSellEditShareFB") {
-                it("has its event name") {
-                    let user = MockUser()
-                    sut = TrackerEvent.productSellEditShareFB(nil, enabled: true)
-                    expect(sut.name.rawValue).to(equal("product-sell-edit-share-fb"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productSellEditShareFB(user, enabled: true)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the switch enabled related params when passing it by") {
-                    sut = TrackerEvent.productSellEditShareFB(nil, enabled: true)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["enabled"]).notTo(beNil())
-                    let categoryId = sut.params!.stringKeyParams["enabled"] as? Bool
-                    expect(categoryId).to(equal(true))
-                }
             }
             
             describe("productSellFormValidationFailed") {
@@ -1255,32 +986,6 @@ class TrackerEventSpec: QuickSpec {
                     let user = MockUser()
                     sut = TrackerEvent.productSellFormValidationFailed(nil, description: "whatever")
                     expect(sut.name.rawValue).to(equal("product-sell-form-validation-failed"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productSellFormValidationFailed(user, description: "whatever")
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
                 }
                 it("contains the description related params") {
                     sut = TrackerEvent.productSellFormValidationFailed(nil, description: "whatever")
@@ -1298,77 +1003,16 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.productSellSharedFB(nil, product: product)
                     expect(sut.name.rawValue).to(equal("product-sell-shared-fb"))
                 }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productSellSharedFB(user, product: product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
                 it("contains the product related params when passing by a product") {
                     let product = MockProduct()
-                    product.name = "Bocata de paté"
+                    product.objectId = "r4nd0m1D"
                     
                     sut = TrackerEvent.productSellSharedFB(nil, product: product)
                     expect(sut.params).notTo(beNil())
                     
-                    expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
-                    let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(product.name))
-                }
-            }
-
-            describe("productSellAbandon") {
-                it("has its event name") {
-                    let user = MockUser()
-                    sut = TrackerEvent.productSellAbandon(user)
-                    expect(sut.name.rawValue).to(equal("product-sell-abandon"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    
-                    sut = TrackerEvent.productSellAbandon(user)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
                 }
             }
 
@@ -1378,36 +1022,9 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.productSellComplete(nil, product: product)
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
                 }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productSellComplete(user, product: product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
                 it("contains the product related params when passing by a product") {
                     let product = MockProduct()
-                    product.name = "bruce lee poster"
+                    product.objectId = "r4nd0m1D"
                     product.categoryId = NSNumber(integer: 4)
                     
                     sut = TrackerEvent.productSellComplete(nil, product: product)
@@ -1417,9 +1034,9 @@ class TrackerEventSpec: QuickSpec {
                     let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(categoryId).to(equal(4))
                     
-                    expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
-                    let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(product.name))
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
                 }
             }
             
@@ -1430,358 +1047,10 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.productEditStart(user, product: product)
                     expect(sut.name.rawValue).to(equal("product-edit-start"))
                 }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    product.objectId = "qwerty"
-                    
-                    sut = TrackerEvent.productEditStart(user, product: product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
                 it("contains the product id") {
                     let product = MockProduct()
                     product.objectId = "q1w2e3"
                     sut = TrackerEvent.productEditStart(nil, product: product)
-                    
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-            
-            describe("productEditAddPicture") {
-                it("has its event name") {
-                    let user = MockUser()
-                    let product = MockProduct()
-                    sut = TrackerEvent.productEditAddPicture(user, product: product, imageCount: 3)
-                    expect(sut.name.rawValue).to(equal("product-edit-add-picture"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    product.objectId = "qwerty"
-                    
-                    sut = TrackerEvent.productEditAddPicture(user, product: product, imageCount: 3)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains picture number when passing it by") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productEditAddPicture(nil, product: product, imageCount: 3)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["number"]).notTo(beNil())
-                    let pageNumber = sut.params!.stringKeyParams["number"] as? Int
-                    expect(pageNumber).to(equal(3))
-                }
-                it("contains the product id") {
-                    let product = MockProduct()
-                    product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditAddPicture(nil, product: product, imageCount: 3)
-                    
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-            
-            describe("productEditEditTitle") {
-                it("has its event name") {
-                    let user = MockUser()
-                    let product = MockProduct()
-                    sut = TrackerEvent.productEditEditTitle(user, product: product)
-                    expect(sut.name.rawValue).to(equal("product-edit-edit-title"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    product.objectId = "qwerty"
-                    
-                    sut = TrackerEvent.productEditEditTitle(user, product: product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the product id") {
-                    let product = MockProduct()
-                    product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditEditTitle(nil, product: product)
-                    
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-            
-            describe("productEditEditPrice") {
-                it("has its event name") {
-                    let user = MockUser()
-                    let product = MockProduct()
-                    sut = TrackerEvent.productEditEditPrice(user, product: product)
-                    expect(sut.name.rawValue).to(equal("product-edit-edit-price"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    product.objectId = "qwerty"
-                    
-                    sut = TrackerEvent.productEditEditPrice(user, product: product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the product id") {
-                    let product = MockProduct()
-                    product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditEditPrice(nil, product: product)
-                    
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-            
-            describe("productEditEditDescription") {
-                it("has its event name") {
-                    let user = MockUser()
-                    let product = MockProduct()
-                    sut = TrackerEvent.productEditEditDescription(user, product: product)
-                    expect(sut.name.rawValue).to(equal("product-edit-edit-description"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    product.objectId = "qwerty"
-                    
-                    sut = TrackerEvent.productEditEditDescription(user, product: product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the product id") {
-                    let product = MockProduct()
-                    product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditEditDescription(nil, product: product)
-                    
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-            
-            describe("productEditEditCategory") {
-                it("has its event name") {
-                    let user = MockUser()
-                    let product = MockProduct()
-                    sut = TrackerEvent.productEditEditCategory(user, product: product, category: nil)
-                    expect(sut.name.rawValue).to(equal("product-edit-edit-category"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    product.objectId = "qwerty"
-                    
-                    sut = TrackerEvent.productEditEditCategory(user, product: product, category: nil)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the category related params when passing by a nil category") {
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productEditEditCategory(nil, product: product, category: nil)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
-                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(categoryId).to(equal(0))
-                }
-                it("contains the category related params when passing by a category") {
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productEditEditCategory(nil, product: product, category: .HomeAndGarden)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
-                    let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(categoryId).to(equal(4))
-                }
-                it("contains the product id") {
-                    let product = MockProduct()
-                    product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditEditCategory(nil, product: product, category: nil)
-                    
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-            
-            describe("productEditEditShareFB") {
-                it("has its event name") {
-                    let user = MockUser()
-                    let product = MockProduct()
-                    sut = TrackerEvent.productEditEditShareFB(nil, product: product, enabled: true)
-                    expect(sut.name.rawValue).to(equal("product-edit-edit-share-fb"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    product.objectId = "qwerty"
-                    
-                    sut = TrackerEvent.productEditEditShareFB(user, product: product, enabled: true)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the switch enabled related params when passing it by") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productEditEditShareFB(nil, product: product, enabled: true)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["enabled"]).notTo(beNil())
-                    let categoryId = sut.params!.stringKeyParams["enabled"] as? Bool
-                    expect(categoryId).to(equal(true))
-                }
-                it("contains the product id") {
-                    let product = MockProduct()
-                    product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditEditShareFB(nil, product: product, enabled: true)
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1796,34 +1065,6 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
                     expect(sut.name.rawValue).to(equal("product-edit-form-validation-failed"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    product.objectId = "qwerty"
-                    
-                    sut = TrackerEvent.productEditFormValidationFailed(user, product: product, description: "whatever")
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
                 }
                 it("contains the description related params") {
                     let product = MockProduct()
@@ -1850,97 +1091,13 @@ class TrackerEventSpec: QuickSpec {
             describe("productEditSharedFB") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product, name: "name")
+                    sut = TrackerEvent.productEditSharedFB(nil, product: product)
                     expect(sut.name.rawValue).to(equal("product-edit-shared-fb"))
                 }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productEditSharedFB(user, product: product, name: "name")
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the product related params when passing by a product") {
-                    let product = MockProduct()
-                    let newName = "Bocata de paté"
-                    
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product, name: newName)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
-                    let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(newName))
-                }
                 it("contains the product id") {
                     let product = MockProduct()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditSharedFB(nil, product: product, name: "name")
-                    
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-            
-            describe("productEditAbandon") {
-                it("has its event name") {
-                    let user = MockUser()
-                    let product = MockProduct()
-                    sut = TrackerEvent.productEditAbandon(user, product: product)
-                    expect(sut.name.rawValue).to(equal("product-edit-abandon"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productEditAbandon(user, product: product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the product id") {
-                    let product = MockProduct()
-                    product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditAbandon(nil, product: product)
+                    sut = TrackerEvent.productEditSharedFB(nil, product: product)
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1952,58 +1109,21 @@ class TrackerEventSpec: QuickSpec {
             describe("productEditComplete") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productEditComplete(nil, product: product, name: "name", category: nil)
+                    sut = TrackerEvent.productEditComplete(nil, product: product, category: nil)
                     expect(sut.name.rawValue).to(equal("product-edit-complete"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productEditComplete(user, product: product, name: "name", category: nil)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
                 }
                 it("contains the product related params when passing by a product, name & category") {
                     let product = MockProduct()
-                    let newName = "bruce lee poster"
                     let newCategory = ProductCategory.CarsAndMotors
-                    
-                    sut = TrackerEvent.productEditComplete(nil, product: product, name: newName, category: newCategory)
+                    product.objectId = "q1w2e3"
+
+                    sut = TrackerEvent.productEditComplete(nil, product: product, category: newCategory)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let categoryId = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(categoryId).to(equal(newCategory.rawValue))
-                    
-                    expect(sut.params!.stringKeyParams["product-name"]).notTo(beNil())
-                    let productName = sut.params!.stringKeyParams["product-name"] as? String
-                    expect(productName).to(equal(newName))
-                }
-                it("contains the product id") {
-                    let product = MockProduct()
-                    product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productEditComplete(nil, product: product, name: "name", category: nil)
-                    
-                    expect(sut.params).notTo(beNil())
+
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
@@ -2016,33 +1136,6 @@ class TrackerEventSpec: QuickSpec {
                     sut = TrackerEvent.productDeleteStart(product, user: nil)
                     expect(sut.name.rawValue).to(equal("product-delete-start"))
                 }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productDeleteStart(product, user: user)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
                 it("contains the product id") {
                     let product = MockProduct()
                     product.objectId = "q1w2e3"
@@ -2055,83 +1148,11 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productDeleteAbandon") {
-                it("has its event name") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productDeleteAbandon(product, user: nil)
-                    expect(sut.name.rawValue).to(equal("product-delete-abandon"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productDeleteAbandon(product, user: user)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
-                }
-                it("contains the product id") {
-                    let product = MockProduct()
-                    product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productDeleteAbandon(product, user: nil)
-
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
-                    let productId = sut.params!.stringKeyParams["product-id"] as? String
-                    expect(productId).to(equal(product.objectId))
-                }
-            }
-            
             describe("productDeleteComplete") {
                 it("has its event name") {
                     let product = MockProduct()
                     sut = TrackerEvent.productDeleteComplete(product, user: nil)
                     expect(sut.name.rawValue).to(equal("product-delete-complete"))
-                }
-                it("contains the user related params when passing by a user") {
-                    let user = MockUser()
-                    user.objectId = "12345"
-                    user.postalAddress.countryCode = "ES"
-                    user.postalAddress.zipCode = "08026"
-                    user.postalAddress.city = "Barcelona"
-                    let product = MockProduct()
-                    
-                    sut = TrackerEvent.productDeleteComplete(product, user: user)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let userId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(userId).to(equal(user.objectId))
-                    
-                    expect(sut.params!.stringKeyParams["user-country"]).notTo(beNil())
-                    let userCountry = sut.params!.stringKeyParams["user-country"] as? String
-                    expect(userCountry).to(equal(user.postalAddress.countryCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-zipcode"]).notTo(beNil())
-                    let userZipCode = sut.params!.stringKeyParams["user-zipcode"] as? String
-                    expect(userZipCode).to(equal(user.postalAddress.zipCode))
-                    
-                    expect(sut.params!.stringKeyParams["user-city"]).notTo(beNil())
-                    let userCity = sut.params!.stringKeyParams["user-city"] as? String
-                    expect(userCity).to(equal(user.postalAddress.city))
                 }
                 it("contains the product id") {
                     let product = MockProduct()
@@ -2185,21 +1206,29 @@ class TrackerEventSpec: QuickSpec {
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
                     
+                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice).to(equal(product.price!.doubleValue))
+                    
+                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
+                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(productCurrency).to(equal(product.currency!.code))
+                    
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(productCategory).to(equal(product.categoryId!.integerValue))
                     
-                    expect(sut.params!.stringKeyParams["product-country"]).notTo(beNil())
-                    let productCountry = sut.params!.stringKeyParams["product-country"] as? String
-                    expect(productCountry).to(equal(product.postalAddress.countryCode))
+                    expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
+                    let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
+                    expect(productLat).to(equal(product.location!.latitude))
                     
-                    expect(sut.params!.stringKeyParams["product-zipcode"]).notTo(beNil())
-                    let productZipCode = sut.params!.stringKeyParams["product-zipcode"] as? String
-                    expect(productZipCode).to(equal(product.postalAddress.zipCode))
+                    expect(sut.params!.stringKeyParams["product-lng"]).notTo(beNil())
+                    let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
+                    expect(productLng).to(equal(product.location!.longitude))
                     
-                    expect(sut.params!.stringKeyParams["product-city"]).notTo(beNil())
-                    let productCity = sut.params!.stringKeyParams["product-city"] as? String
-                    expect(productCity).to(equal(product.postalAddress.city))
+                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
+                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType).to(equal("real"))
                     
                     // Product user / the other user
                     
@@ -2207,13 +1236,46 @@ class TrackerEventSpec: QuickSpec {
                     let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
                     expect(productUserId).to(equal(product.user!.objectId))
                     
-                    // My user
-                    
-                    expect(sut.params!.stringKeyParams["user-id"]).notTo(beNil())
-                    let myUserId = sut.params!.stringKeyParams["user-id"] as? String
-                    expect(myUserId).to(equal(myUser.objectId))
                 }
             }
+            
+            describe("profileEditStart") {
+                it("has its event name") {
+                    sut = TrackerEvent.profileEditStart()
+                    expect(sut.name.rawValue).to(equal("profile-edit-start"))
+                }
+            }
+            
+            describe("profileEditEditName") {
+                it("has its event name") {
+                    sut = TrackerEvent.profileEditEditName()
+                    expect(sut.name.rawValue).to(equal("profile-edit-edit-name"))
+                }
+            }
+            
+            describe("profileEditEditLocation") {
+                it("has its event name") {
+                    sut = TrackerEvent.profileEditEditLocation(true)
+                    expect(sut.name.rawValue).to(equal("profile-edit-edit-location"))
+                }
+                it("contains the location type info") {
+                    let isAutomaticLocation = true
+                    sut = TrackerEvent.profileEditEditLocation(isAutomaticLocation)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-type"]).notTo(beNil())
+                    let locationType = sut.params!.stringKeyParams["location-type"] as? String
+                    expect(locationType).to(equal("auto"))
+                }
+            }
+            
+            describe("profileEditEditPicture") {
+                it("has its event name") {
+                    sut = TrackerEvent.profileEditEditPicture()
+                    expect(sut.name.rawValue).to(equal("profile-edit-edit-picture"))
+                }
+            }
+            
         }
     }
 }

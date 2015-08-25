@@ -59,4 +59,9 @@ public class AppsflyerTracker: Tracker {
             AppsFlyerTracker.sharedTracker().trackEvent(event.actualName, withValues: event.params?.stringKeyParams)
         }
     }
+    
+    public func updateCoordinates() {
+        
+    }
+
 }

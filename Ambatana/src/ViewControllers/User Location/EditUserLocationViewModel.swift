@@ -253,6 +253,9 @@ public class EditUserLocationViewModel: BaseViewModel {
 
         UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
         
+        let trackerEvent = TrackerEvent.profileEditEditLocation(usingGPSLocation)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
         if usingGPSLocation {
             LocationManager.sharedInstance.userDidSetAutomaticLocation(currentPlace)
         } else {
@@ -260,6 +263,7 @@ public class EditUserLocationViewModel: BaseViewModel {
             var long = currentPlace.location!.longitude as CLLocationDegrees
             var location = CLLocation(latitude: lat, longitude: long)
             LocationManager.sharedInstance.userDidSetManualLocation(location, place: currentPlace)
+            TrackerProxy.sharedInstance.updateCoordinates()
         }
     }
     

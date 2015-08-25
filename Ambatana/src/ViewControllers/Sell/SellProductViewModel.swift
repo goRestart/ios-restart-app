@@ -98,29 +98,6 @@ public class SellProductViewModel: BaseViewModel {
         
     }
     
-    internal func trackAddedImage() {
-        
-    }
-    
-    public func trackEditedTitle() {
-        
-    }
-    
-    public func trackEditedPrice() {
-        
-    }
-    
-    public func trackEditedDescription() {
-        
-    }
-    
-    internal func trackEditedCategory() {
-        
-    }
-    
-    public func trackEditedFBChanged() {
-        
-    }
     
     internal func trackValidationFailedWithError(error: ProductSaveServiceError) {
         
@@ -131,10 +108,6 @@ public class SellProductViewModel: BaseViewModel {
     }
     
     internal func trackComplete() {
-        
-    }
-    
-    internal func trackAbandon() {
         
     }
     
@@ -170,13 +143,11 @@ public class SellProductViewModel: BaseViewModel {
         category = ProductCategory(rawValue: index+1) // ???????? index from 0 to N and prodCat from 1 to N+1
         delegate?.sellProductViewModel(self, didSelectCategoryWithName: category?.name() ?? "")
         
-        trackEditedCategory()
     }
     
     public func appendImage(image: UIImage) {
         images.append(image)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
-        trackAddedImage()
     }
 
     public func deleteImageAtIndex(index: Int) {

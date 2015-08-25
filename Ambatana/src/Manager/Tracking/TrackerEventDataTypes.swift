@@ -22,9 +22,17 @@ public enum EventName: String {
     case SearchComplete                     = "search-complete"
     
     case ProductDetailVisit                 = "product-detail-visit"
+    
+    case ProductFavorite                    = "product-detail-favorite"
+    case ProductShare                       = "product-detail-share"
+    case ProductShareFbCancel               = "product-detail-share-facebook-cancel"
+    case ProductShareFbComplete             = "product-detail-share-facebook-complete"
+    
     case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
     case ProductMarkAsSold                  = "product-detail-sold"
+    
+    case ProductReport                      = "product-detail-report"
     
     case ProductSellStart                   = "product-sell-start"
     case ProductSellAddPicture              = "product-sell-add-picture"
@@ -57,6 +65,11 @@ public enum EventName: String {
     
     case UserMessageSent                    = "user-sent-message"
     
+    case ProfileEditStart                   = "profile-edit-start"
+    case ProfileEditEditName                = "profile-edit-edit-name"
+    case ProfileEditEditLocation            = "profile-edit-edit-location"
+    case ProfileEditEditPicture             = "profile-edit-edit-picture"
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -81,8 +94,7 @@ public enum EventName: String {
 }
 
 public enum EventParameterName: String {
-    case UserEmail            = "user-email"
-    case CategoryId           = "category-id"       // 0 if there's no category
+    case CategoryId           = "category-id"           // 0 if there's no category
     case ProductId            = "product-id"
     case ProductCity          = "product-city"
     case ProductCountry       = "product-country"
@@ -92,20 +104,24 @@ public enum EventParameterName: String {
     case ProductName          = "product-name"
     case ProductPrice         = "product-price"
     case ProductCurrency      = "product-currency"
-    case ProductType          = "item-type"         // real / dummy.
+    case ProductType          = "item-type"             // real / dummy.
     case ProductOfferAmount   = "amount-offer"
     case PageNumber           = "page-number"
     case UserId               = "user-id"
     case UserToId             = "user-to-id"
+    case UserEmail            = "user-email"
     case UserCity             = "user-city"
     case UserCountry          = "user-country"
     case UserZipCode          = "user-zipcode"
     case SearchString         = "search-keyword"
-    case Number               = "number"            // the number/index of the picture
-    case Enabled              = "enabled"           // true/false. if a checkbox / switch is changed to enabled or disabled
-    case Description          = "description"       // error description: why form validation failure.
-    case LoginSource          = "login-type"        // the login source
-    case MarkAsSoldSource     = "type-page"         // the mark as sold action source
+    case Number               = "number"                // the number/index of the picture
+    case Enabled              = "enabled"               // true/false. if a checkbox / switch is changed to enabled or disabled
+    case Description          = "description"           // error description: why form validation failure.
+    case LoginSource          = "login-type"            // the login source
+    case MarkAsSoldSource     = "type-page"             // the mark as sold action source
+    case LocationType         = "location-type"
+    case ShareNetwork         = "share-network"
+    case ButtonPosition       = "button-position"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -131,6 +147,11 @@ public enum EventParameterProductItemType: String {
     case Dummy = "dummy"
 }
 
+public enum EventParameterLocationType: String {
+    case Manual = "manual"
+    case Auto = "auto"
+}
+
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
     
@@ -149,34 +170,32 @@ public struct EventParameters {
         params[.LoginSource] = source.rawValue
     }
     
-    internal mutating func addUserParamsWithUser(user: User?) {
-        if let actualUser = user {
-            if let userId = actualUser.objectId {
-                params[.UserId] = userId
-            }
-            if let userCity = actualUser.postalAddress.city {
-                params[.UserCity] = userCity
-            }
-            if let userCountry = actualUser.postalAddress.countryCode {
-                params[.UserCountry] = userCountry
-            }
-            if let userZipCode = actualUser.postalAddress.zipCode {
-                params[.UserZipCode] = userZipCode
-            }
-        }
-    }
+//    internal mutating func addUserParamsWithUser(user: User?) {
+//        if let actualUser = user {
+//
+//            if let userId = actualUser.objectId {
+//                params[.UserId] = userId
+//            }
+//            if let userEmail = actualUser.email {
+//                params[.UserEmail] = userEmail
+//            }
+//            if let userCity = actualUser.postalAddress.city {
+//                params[.UserCity] = userCity
+//            }
+//            if let userCountry = actualUser.postalAddress.countryCode {
+//                params[.UserCountry] = userCountry
+//            }
+//            if let userZipCode = actualUser.postalAddress.zipCode {
+//                params[.UserZipCode] = userZipCode
+//            }
+//        }
+//    }
     
     internal mutating func addProductParamsWithProduct(product: Product, user: User?) {
         
         // Product
-        if let city = product.postalAddress.city {
-            params[.ProductCity] = city
-        }
-        if let countryCode = product.postalAddress.countryCode {
-            params[.ProductCountry] = countryCode
-        }
-        if let zipCode = product.postalAddress.zipCode {
-            params[.ProductZipCode] = zipCode
+        if let productId = product.objectId {
+            params[.ProductId] = productId
         }
         if let lat = product.location?.latitude {
             params[.ProductLatitude] = lat
@@ -184,27 +203,16 @@ public struct EventParameters {
         if let lng = product.location?.longitude {
             params[.ProductLongitude] = lng
         }
-        if let categoryId = product.categoryId {
-            params[.CategoryId] = categoryId.integerValue
-        }
-        if let productName = product.name {
-            params[.ProductName] = productName
-        }
         if let productPrice = product.price {
             params[.ProductPrice] = productPrice
         }
         if let productCurrency = product.currency {
             params[.ProductCurrency] = productCurrency.code
         }
-        if let productUser = product.user {
-            params[.ProductType] = productUser.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
+        if let categoryId = product.categoryId {
+            params[.CategoryId] = categoryId.integerValue
         }
-        if let productId = product.objectId {
-            params[.ProductId] = productId
-        }
-        if let actualUser = user, let userId = actualUser.objectId {
-            params[.UserId] = userId
-        }
+        
         if let productUser = product.user, let productUserId = productUser.objectId {
             if let userId = params[.UserId] as? String {
                 if userId != productUserId {
@@ -215,6 +223,11 @@ public struct EventParameters {
                 params[.UserToId] = productUserId
             }
         }
+
+        if let productUser = product.user {
+            params[.ProductType] = productUser.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
+        }
+
     }
     
     internal subscript(paramName: EventParameterName) -> AnyObject? {

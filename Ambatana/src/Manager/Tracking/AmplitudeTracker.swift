@@ -13,6 +13,11 @@ public class AmplitudeTracker: Tracker {
     
     // Constants
     // > User properties
+    private static let userPropIdKey = "user-id"
+    private static let userPropEmailKey = "user-email"
+    private static let userPropLatitudeKey = "user-lat"
+    private static let userPropLongitudeKey = "user-lon"
+
     private static let userPropTypeKey = "UserType"
     private static let userPropTypeValueReal = "Real"
     private static let userPropTypeValueDummy = "Dummy"
@@ -35,7 +40,8 @@ public class AmplitudeTracker: Tracker {
     }
     
     public func applicationDidBecomeActive(application: UIApplication) {
-        AppsFlyerTracker.sharedTracker().trackAppLaunch()
+        // TODO:  WAT?  Appsflyer???
+//        AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
     
     public func setUser(user: User?) {
@@ -44,11 +50,21 @@ public class AmplitudeTracker: Tracker {
 
         let isDummy = startsWith(user?.email ?? "", AmplitudeTracker.dummyEmailPrefix)
         var properties: [NSObject : AnyObject] = [:]
+        properties[AmplitudeTracker.userPropIdKey] = user?.objectId ?? ""
+        properties[AmplitudeTracker.userPropLatitudeKey] = user?.gpsCoordinates?.latitude
+        properties[AmplitudeTracker.userPropLongitudeKey] = user?.gpsCoordinates?.longitude
+        
         properties[AmplitudeTracker.userPropTypeKey] = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
         Amplitude.instance().setUserProperties(properties, replace: true)
     }
     
     public func trackEvent(event: TrackerEvent) {
         Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
+    }
+    
+    public func updateCoordinates() {
+
+        setUser(MyUserManager.sharedInstance.myUser())
+        
     }
 }

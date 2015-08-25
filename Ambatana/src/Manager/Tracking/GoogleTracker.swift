@@ -72,4 +72,9 @@ public class GoogleTracker: Tracker {
             ACTConversionReporter.reportWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId, label: gctParams.label, value: gctParams.value, isRepeatable: gctParams.isRepeatable)
         }
     }
+    
+    public func updateCoordinates() {
+        
+    }
+
 }

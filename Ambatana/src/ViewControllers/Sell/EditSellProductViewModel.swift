@@ -80,48 +80,6 @@ public class EditSellProductViewModel: SellProductViewModel {
         trackEvent(event)
     }
     
-    internal override func trackAddedImage() {
-        super.trackAddedImage()
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditAddPicture(myUser, product: product, imageCount: images.count)
-        trackEvent(event)
-    }
-
-    public override func trackEditedTitle() {
-        super.trackEditedTitle()
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditEditTitle(myUser, product: product)
-        trackEvent(event)
-    }
-    
-    public override func trackEditedPrice() {
-        super.trackEditedPrice()
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditEditPrice(myUser, product: product)
-        trackEvent(event)
-    }
-    
-    public override func trackEditedDescription() {
-        super.trackEditedDescription()
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditEditDescription(myUser, product: product)
-        trackEvent(event)
-    }
-    
-    internal override func trackEditedCategory() {
-        super.trackEditedCategory()
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditEditCategory(myUser, product: product, category: category)
-        trackEvent(event)
-    }
-    
-    public override func trackEditedFBChanged() {
-        super.trackEditedFBChanged()
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditEditShareFB(myUser, product: product, enabled: shouldShareInFB)
-        trackEvent(event)
-    }
-    
     
     internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
@@ -153,23 +111,17 @@ public class EditSellProductViewModel: SellProductViewModel {
     public override func trackSharedFB() {
         super.trackSharedFB()
         let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditSharedFB(myUser, product: product, name: title)
+        let event = TrackerEvent.productEditSharedFB(myUser, product: product)
         trackEvent(event)
     }
     
     internal override func trackComplete() {
         super.trackComplete()
         let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditComplete(myUser, product: product, name: title, category: category)
+        let event = TrackerEvent.productEditComplete(myUser, product: product, category: category)
         trackEvent(event)
     }
     
-    internal override func trackAbandon() {
-        super.trackAbandon()
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditAbandon(myUser, product: product)
-        trackEvent(event)
-    }
     
     // MARK: - Tracking Private methods
     

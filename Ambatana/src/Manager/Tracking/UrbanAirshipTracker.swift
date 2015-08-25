@@ -65,4 +65,9 @@ public class UrbanAirshipTracker: Tracker {
             UAirship.shared().analytics.addEvent(uaEvent)
         }
     }
+    
+    public func updateCoordinates() {
+        
+    }
+
 }
