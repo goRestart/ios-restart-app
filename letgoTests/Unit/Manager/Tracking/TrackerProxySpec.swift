@@ -143,6 +143,17 @@ class TrackerProxySpec: QuickSpec {
                     expect(flag).to(beTrue())
                 }
             }
+            it("redirects to each tracker updateCoords:") {
+                var flags = [false, false, false]
+                tracker1.updateCoordsBlock = { (tracker: Tracker) in flags[0] = true }
+                tracker2.updateCoordsBlock = { (tracker: Tracker) in flags[1] = true }
+                tracker3.updateCoordsBlock = { (tracker: Tracker) in flags[2] = true }
+                
+                sut.updateCoordinates()
+                for flag in flags {
+                    expect(flag).to(beTrue())
+                }
+            }
         }
     }
 }

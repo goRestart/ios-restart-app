@@ -17,6 +17,7 @@ internal class MockTracker: Tracker {
     var didBecomeActiveBlock: (Tracker -> ())?
     var setUserBlock: (Tracker -> ())?
     var trackEventBlock: (Tracker -> ())?
+    var updateCoordsBlock: (Tracker -> ())?
     
     // MARK: - Tracker
     
@@ -45,6 +46,6 @@ internal class MockTracker: Tracker {
     }
     
     func updateCoordinates() {
-        
+        updateCoordsBlock?(self)
     }
 }
