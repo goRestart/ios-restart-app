@@ -518,6 +518,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         vc.completionWithItemsHandler = {
             (activity, success, items, error) in
 
+            // TODO: comment left here as a clue to manage future activities
             /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
             
             println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
