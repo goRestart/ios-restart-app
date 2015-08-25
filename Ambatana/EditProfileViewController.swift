@@ -185,7 +185,12 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
                 userImageView.image = UIImage(named: "no_photo")
             }
             userNameLabel.text = user.publicUsername ?? ""
-            userLocationLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
+            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
+                userLocationLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
+            }
+            else {
+                userLocationLabel.text = user.postalAddress.city ?? ""
+            }
             
             // If it's me, then allow go to settings
             if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let userId = user.objectId {
