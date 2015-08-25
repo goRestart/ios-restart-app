@@ -154,12 +154,12 @@ public class PushManager {
         // Call takeOff (which creates the UAirship singleton)
         UAirship.takeOff(config)
         
-        UAirship.push().userNotificationTypes = (.Alert | .Badge | .Sound)
-        UAirship.push().userPushNotificationsEnabled = true
+        UAirship.push()!.userNotificationTypes = (.Alert | .Badge | .Sound)
+        UAirship.push()!.userPushNotificationsEnabled = true
     }
     
     public func updateUrbanAirshipNamedUser(user: User?) {
-        UAirship.push().namedUser.identifier = user?.objectId
+        UAirship.push()!.namedUser.identifier = user?.objectId
     }
     
     

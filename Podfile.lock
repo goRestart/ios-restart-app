@@ -55,7 +55,7 @@ PODS:
   - SwiftyJSON (2.2.1)
   - Timepiece (0.4.0)
   - UIDeviceUtil (1.1.2)
-  - UrbanAirship-iOS-SDK/Core (6.1.4)
+  - UrbanAirship-iOS-SDK/Core (6.2.0)
 
 DEPENDENCIES:
   - Alamofire (~> 1.2)
@@ -93,6 +93,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
   Timepiece: d38302bf6fce6146e9d8feb289e0837811ee1342
   UIDeviceUtil: df88dd5ba4ae482f1d766dd0d180b066c2a4cb7e
-  UrbanAirship-iOS-SDK: bf2792b2c1367deaa4d0fe89370f97c8985efa83
+  UrbanAirship-iOS-SDK: c4a2b219ef0681470b82209a4921e93e205c8944
 
 COCOAPODS: 0.38.2
