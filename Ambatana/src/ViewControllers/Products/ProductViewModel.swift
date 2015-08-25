@@ -23,6 +23,7 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidStartRetrievingReported(viewModel: ProductViewModel)
     func viewModelDidStartReporting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
+    func viewModelDidCompleteReporting(viewModel: ProductViewModel)
     
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishDeleting result: Result<Nil, ProductDeleteServiceError>)
@@ -526,6 +527,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: - Private methods
     
     private func reportCompleted() {
+        delegate?.viewModelDidCompleteReporting(self)
     }
     
     private func markSoldCompleted(soldProduct: Product, source: EventParameterSellSourceValue) {
@@ -533,6 +535,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let myUser = MyUserManager.sharedInstance.myUser()
         let trackerEvent = TrackerEvent.productMarkAsSold(source, product: soldProduct, user: myUser)
         tracker.trackEvent(trackerEvent)
+        
     }
     
     private func deleteCompleted() {
