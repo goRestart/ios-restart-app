@@ -156,6 +156,19 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             if let actualVC = vc {
                 let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
                 actualVC.location = coordinate
+                actualVC.annotationTitle = product.name
+                
+                var subtitle = ""
+                if let city = product.postalAddress.city {
+                    subtitle += city
+                }
+                if let countryCode = product.postalAddress.countryCode {
+                    if !subtitle.isEmpty {
+                        subtitle += ", "
+                    }
+                    subtitle += countryCode
+                }
+                actualVC.annotationSubtitle = subtitle
             }
         }
         return vc
