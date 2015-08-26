@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Bebés e Crianças";
 "categories_cars_and_motors" = "Carros e Motores";
 "categories_electronics" = "Aparelhos eletrónicos";
-"categories_fashion_and_accesories" = "Moda e Acessórios";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Casa e Jardim";
 "categories_movies_books_and_music" = "Filmes, Livros e Música";
 "categories_other" = "Outros";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Eliminar produto";
 "product_delete_send_error_generic" = "Ops! Não conseguimos eliminar o seu produto. Por favor tente novamente.";
 "product_delete_sold_confirm_message" = "Tem a certeza que deseja eliminar este produto?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "de si";
 "product_gallery_title" = "Fotos";
 "product_list_first_page_error_generic_button" = "Tente novamente";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Marcar como vendido";
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
 "product_mark_as_sold_error_generic" = "Ocorreu um erro ao marcar o produto como vendido. Por favor tente novamente mais tarde.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Cancelar";
 "product_report_confirm_message" = "Tem a certeza que deseja denunciar este produto?";
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Denunciar produto";
 "product_report_product_button" = "Denunciar produto";
 "product_reported_product_label" = "O produto foi denunciado";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "A denunciar o produto...";
 "product_share_body" = "Vê só que eu acabei de encontrar no letgo!";
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email";

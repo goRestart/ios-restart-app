@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "နို့စို့ကလေးနှင့်ကလေးသူငယ်";
 "categories_cars_and_motors" = "ကားနှင့်မော်တာများ";
 "categories_electronics" = "လျှပ်စစ်ပစ္စည်းများ";
-"categories_fashion_and_accesories" = "ဖက်ရှင်နှင့်အသုံးအဆောင်များ";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "အိမ်နှင့်ဉယျာဉ်";
 "categories_movies_books_and_music" = "ရုပ်ရှင်များ၊ စာအုပ်များနှင့် သီချင်း";
 "categories_other" = "အခြား";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "ထုတ်ကုန်ပယ်ဖျက်ပါ";
 "product_delete_send_error_generic" = "မှားပါတယ်၊ ကျွန်ုပ်တို့သည် သင့်ထုတ်ကုန်ကိုမဖျက်ပစ်နိုင်ပါ။ ကျေးဇူးပြုပြီး ပြန်ကြိုးစားပါ။";
 "product_delete_sold_confirm_message" = "သင်သည် ထိုထုတ်ကုန်ကို ဖျက်ချင်သည်မှာ သေချာပါသလား။";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "သင့်ထံမှ";
 "product_gallery_title" = "ဓါတ်ပုံများ";
 "product_list_first_page_error_generic_button" = "ပြန်ကြိုးစားပါ";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "ရောင်းပြီးသားအနေဖြင့် မှတ်သားပါ";
 "product_mark_as_sold_confirm_title" = "ရောင်းပြီးသားအနေဖြင့် မှတ်သားပါ";
 "product_mark_as_sold_error_generic" = "ထုတ်ကုန်ကိုရောင်းပြီးအနေဖြင့် မှတ်သားစဉ် အမှားတစ်ခုရှိသည်။ ကျေးဇူးပြုပြီးပြန်ကြိုးစားပါ။";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "ရပ်ဆိုင်းပါ";
 "product_report_confirm_message" = "ဒီထုတ်ကုန်ကို အစီရင်ခံမှာ သင် သေချာပါသလား။";
 "product_report_confirm_ok_button" = "ကောင်းပြီ";
 "product_report_confirm_title" = "ထုတ်ကုန်ကို အစီရင်ခံပါ";
 "product_report_product_button" = "ထုတ်ကုန်ကို အစီရင်ခံပါ";
 "product_reported_product_label" = "ထုတ်ကုန်ကို အစီရင်ခံပြီးပြီ";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "ထုတ်ကုန်ကို အစီရင်ခံခြင်း...";
 "product_share_body" = "letgo တွင် ကျွန်ုပ်တွေ့ခဲ့သည့် အရာကိုကြည့်ပါ။";
 "product_share_email_error" = "မှားပါတယ်၊ ဒါက သင်သည် မေးလ်ပရိုဂရမ်တွင် အကောင့်မသတ်မှတ်ရသေးဟန် ရှိပါတယ်";

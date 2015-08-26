@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Bébé et Enfant";
 "categories_cars_and_motors" = "Voitures et Motos";
 "categories_electronics" = "Electroniques";
-"categories_fashion_and_accesories" = "Mode et Accessoires";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Maison et Jardin";
 "categories_movies_books_and_music" = "Films, Livres et Musique";
 "categories_other" = "Autre";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Supprimer le bien";
 "product_delete_send_error_generic" = "Oops ! Nous n'avons pas pu supprimer votre bien. Veuillez réessayer.";
 "product_delete_sold_confirm_message" = "Etes-vous certain de vouloir supprimer ce bien ?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "de votre position";
 "product_gallery_title" = "Photos";
 "product_list_first_page_error_generic_button" = "Réessayer";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Marquer comme vendu";
 "product_mark_as_sold_confirm_title" = "Marquer comme vendu";
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Annuler";
 "product_report_confirm_message" = "Êtes-vous certain de vouloir signaler ce produit ?";
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Signaler le produit";
 "product_report_product_button" = "Signaler le produit";
 "product_reported_product_label" = "Ce produit a été signalé";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "Signalement du produit...";
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail";

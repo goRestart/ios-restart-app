@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Vauvat ja lapset";
 "categories_cars_and_motors" = "Autot ja moottoriajoneuvot";
 "categories_electronics" = "Elektroniikka";
-"categories_fashion_and_accesories" = "Muoti ja asusteet";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Koti ja puutarha";
 "categories_movies_books_and_music" = "Elokuvat, kirjat ja musiikki";
 "categories_other" = "Muut";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Poista tuote";
 "product_delete_send_error_generic" = "Ups! Emme pystyneet poistamaan tuotettasi. Ole hyvä ja yritä uudelleen.";
 "product_delete_sold_confirm_message" = "Oletko varma että haluat poistaa tämän tuotteen?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "sinusta";
 "product_gallery_title" = "Kuvat";
 "product_list_first_page_error_generic_button" = "Yritä uudelleen";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Merkitse myydyksi";
 "product_mark_as_sold_confirm_title" = "Merkitse myydyksi";
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Peruuta";
 "product_report_confirm_message" = "Oletko varma että haluat tehdä ilmoituksen tästä tuotteesta?";
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Ilmianna tuote";
 "product_report_product_button" = "Tee ilmoitus tuotteesta";
 "product_reported_product_label" = "Tuotteesta on tehty ilmoitus";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "Tehdään ilmoitusta tuotteesta...";
 "product_share_body" = "Katso mitä juuri löysin letgosta!";
 "product_share_email_error" = "Ups, näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen";

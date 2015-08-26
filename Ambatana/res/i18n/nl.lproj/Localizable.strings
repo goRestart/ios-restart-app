@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Baby en kind";
 "categories_cars_and_motors" = "Auto's en motors";
 "categories_electronics" = "Elektronica";
-"categories_fashion_and_accesories" = "Mode en accessoires";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Huis en tuin";
 "categories_movies_books_and_music" = "Films, boeken en muziek";
 "categories_other" = "Overige";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Verwijder Product";
 "product_delete_send_error_generic" = "Oeps! We konden jouw product niet verwijderen. Probeer het opnieuw.";
 "product_delete_sold_confirm_message" = "Weet je zeker dat je dit product wilt verwijderen?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "Van jou";
 "product_gallery_title" = "Foto's";
 "product_list_first_page_error_generic_button" = "Probeer het nog eens";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Markeer als verkocht";
 "product_mark_as_sold_confirm_title" = "Markeer als verkocht";
 "product_mark_as_sold_error_generic" = "Er is een fout opgetreden bij het markeren van het product als verkocht. Probeer het later nog eens.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Annuleren";
 "product_report_confirm_message" = "Weet je zeker dat je dit product wil rapporteren?";
 "product_report_confirm_ok_button" = "Ok";
 "product_report_confirm_title" = "Rapporteer product";
 "product_report_product_button" = "Rapporteer product";
 "product_reported_product_label" = "Het product is gerapporteerd";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "Rapporteren van product";
 "product_share_body" = "Kijk wat ik net gevonden heb bij Letgo!";
 "product_share_email_error" = "Oeps, het lijkt erop dat je geen account hebt aangemaakt in de Mail app";

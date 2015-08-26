@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Baby og Barn";
 "categories_cars_and_motors" = "Biler og Motorer";
 "categories_electronics" = "Elektronikk";
-"categories_fashion_and_accesories" = "Mote og Tilbehør";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Hus og Hage";
 "categories_movies_books_and_music" = "Filmer, Bøker og Musikk";
 "categories_other" = "Annet";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Slett Produkt";
 "product_delete_send_error_generic" = "Oisann! Vi kunne ikke slette ditt produkt. Vennligst prøv igjen.";
 "product_delete_sold_confirm_message" = "Er du sikker på at du vil slette dette produktet?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "fra deg";
 "product_gallery_title" = "Bilder";
 "product_list_first_page_error_generic_button" = "Prøv igjen";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Merk som Solgt";
 "product_mark_as_sold_confirm_title" = "Merk som Solgt";
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Avbryt";
 "product_report_confirm_message" = "Er du sikker på at du ønsker å rapportere dette produktet?";
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Rapportér Produkt";
 "product_report_product_button" = "Rapportér produkt";
 "product_reported_product_label" = "Produktet ble rapportert";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "Rapporterer produkt...";
 "product_share_body" = "Se hva jeg fant på letgo!";
 "product_share_email_error" = "Oops, det ser ut som at du ikke har satt opp en konto i din Epost app";

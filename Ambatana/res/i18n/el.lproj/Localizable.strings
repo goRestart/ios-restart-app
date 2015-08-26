@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Μπεμπέ και Παιδικά";
 "categories_cars_and_motors" = "Αυτοκίνητα και Μηχανές";
 "categories_electronics" = "Ηλεκτρονικά";
-"categories_fashion_and_accesories" = "Μόδα και Αξεσουάρ";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Σπίτι και Κήπος";
 "categories_movies_books_and_music" = "Ταινίες, Βιβλία και Μουσική";
 "categories_other" = "Άλλα";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Διαγραφή Προϊόντος";
 "product_delete_send_error_generic" = "Ooops! Δε μπορέσαμε να διαγράψουμε το προϊόν σου! Θα πρέπει να προσπαθήσεις ξανά!";
 "product_delete_sold_confirm_message" = "Επιβεβαίωση διαγραφής προϊόντος?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "από σένα";
 "product_gallery_title" = "Φωτογραφίες";
 "product_list_first_page_error_generic_button" = "Προσπάθησε ξανά";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Μάρκαρε πως έχει Πωληθεί";
 "product_mark_as_sold_confirm_title" = "Μάρκαρε πως έχει Πωληθεί";
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Ακύρωση";
 "product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτό το προϊόν;";
 "product_report_confirm_ok_button" = "ΟΚ";
 "product_report_confirm_title" = "Αναφορά Προϊόντος";
 "product_report_product_button" = "Αναφορά Προϊόντος";
 "product_reported_product_label" = "Έγινε αναφορά για το προϊόν";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "Αναφορά Προϊόντος...";
 "product_share_body" = "Δες τι βρήκα στο letgo!";
 "product_share_email_error" = "Ooops! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail";

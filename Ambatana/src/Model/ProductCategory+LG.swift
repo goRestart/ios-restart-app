@@ -22,7 +22,7 @@ extension ProductCategory {
         case .MoviesBooksAndMusic:
             return NSLocalizedString("categories_movies_books_and_music", comment: "")
         case .FashionAndAccesories:
-            return NSLocalizedString("categories_fashion_and_accesories", comment: "")
+            return NSLocalizedString("categories_fashion_and_accessories", comment: "")
         case .BabyAndChild:
             return NSLocalizedString("categories_baby_and_child", comment: "")
         case .Other:

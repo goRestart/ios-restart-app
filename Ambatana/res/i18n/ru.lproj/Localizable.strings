@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Все для детей";
 "categories_cars_and_motors" = "Автомобили и Запчасти";
 "categories_electronics" = "Электроника";
-"categories_fashion_and_accesories" = "Мода и Аксессуары";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Для дома и дачи";
 "categories_movies_books_and_music" = "Фильмы, Книги и Музыка";
 "categories_other" = "Другое";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Удалить товар";
 "product_delete_send_error_generic" = "Упс! Мы не смогли удалить товар. Пожалуйста, попробуйте еще раз.";
 "product_delete_sold_confirm_message" = "Вы точно хотите удалить этот товар?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "от вас";
 "product_gallery_title" = "Фотографии";
 "product_list_first_page_error_generic_button" = "Попробуйте еще раз";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Отметить как проданный";
 "product_mark_as_sold_confirm_title" = "Отметить как проданный";
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Отменена";
 "product_report_confirm_message" = "Вы уверены, что хотите пожаловаться на продукт?";
 "product_report_confirm_ok_button" = "ОК";
 "product_report_confirm_title" = "Пожаловаться на продукт";
 "product_report_product_button" = "Отчет о товаре";
 "product_reported_product_label" = "Отчет о товаре был отправлен";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "Отправка отчета...";
 "product_share_body" = "Посмотрите, что я нашел на letgo!";
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении";

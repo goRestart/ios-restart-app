@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Bebis och barn";
 "categories_cars_and_motors" = "Bilar och motorer";
 "categories_electronics" = "Elektronik";
-"categories_fashion_and_accesories" = "Mode och accessoarer";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Hem och trädgård";
 "categories_movies_books_and_music" = "Filmer, böcker och musik";
 "categories_other" = "Övrigt";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Ta bort produkt";
 "product_delete_send_error_generic" = "Hoppsan! Vi kunde inte ta bort din produkt, var god försök igen.";
 "product_delete_sold_confirm_message" = "Är du säker på att du vill ta bort denna produkt?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "från dig";
 "product_gallery_title" = "Bilder";
 "product_list_first_page_error_generic_button" = "Försök igen";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Markera som såld";
 "product_mark_as_sold_confirm_title" = "Markera som såld";
 "product_mark_as_sold_error_generic" = "Ett fel uppstod vid markering av produkten som såld. Var god försök igen.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Avbryt";
 "product_report_confirm_message" = "Är du säker på att du vill rapportera denna produkt?";
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Rapportera produkt";
 "product_report_product_button" = "Rapportera produkt";
 "product_reported_product_label" = "Denna produkt har rapporterats";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "Rapporterar produkt...";
 "product_share_body" = "Titta vad jag hittade på letgo!";
 "product_share_email_error" = "Hoppsan, det verkar som att du inte har något konto i dina mailinstllningar";

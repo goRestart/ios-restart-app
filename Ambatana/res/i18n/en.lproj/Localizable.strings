@@ -440,7 +440,7 @@
 "product_mark_as_sold_confirm_cancel_button" = "Cancel";
 
 // Product mark as sold confirm message. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
-"product_mark_as_sold_confirm_message" = "Congratulations, you got it! Are you sure you want to mark it as sold?";
+"product_mark_as_sold_confirm_message" = "Congratulations, you got it! Are you sure you want to mark your product as sold?";
 
 // Product mark as sold confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
 "product_mark_as_sold_confirm_ok_button" = "Mark as Sold";

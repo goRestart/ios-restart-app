@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Baba és gyerek";
 "categories_cars_and_motors" = "Autók és motorok";
 "categories_electronics" = "Elektronika";
-"categories_fashion_and_accesories" = "Divat és kiegészítők";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Otthon és kert";
 "categories_movies_books_and_music" = "Filmek, könyvek, zenék";
 "categories_other" = "Egyéb";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Portéka törlése";
 "product_delete_send_error_generic" = "Hopsz! Nem sikerült törölni a portékát. Próbálkozz újra!";
 "product_delete_sold_confirm_message" = "Biztosan törölni szerenéd ezt a portékát?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "tőled";
 "product_gallery_title" = "Fotók";
 "product_list_first_page_error_generic_button" = "Újra";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Megjelölés eladottként";
 "product_mark_as_sold_confirm_title" = "Megjelölés eladottként";
 "product_mark_as_sold_error_generic" = "Hiba történt a megjelölés során. Kérjük, próbálkozz később.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Mégse";
 "product_report_confirm_message" = "Biztosan jelenteni szeretnéd ezt a portékát?";
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Portéka jelentése";
 "product_report_product_button" = "Portéka jelentése";
 "product_reported_product_label" = "A portéka sikeresen jelentve";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "Portéka jelentése...";
 "product_share_body" = "Nézzétek, mit találtam a letgo-n!";
 "product_share_email_error" = "Hopp, úgy tűnik, hogy nem állítottál be fiókot a Mail appban";

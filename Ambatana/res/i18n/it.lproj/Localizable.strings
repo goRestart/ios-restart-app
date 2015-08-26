@@ -1,7 +1,7 @@
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_cars_and_motors" = "Auto e Motori";
 "categories_electronics" = "Elettronica";
-"categories_fashion_and_accesories" = "Moda e Accessori";
+"categories_fashion_and_accessories" = "Fashion and Accessories";
 "categories_home_and_garden" = "Casa e Giardino";
 "categories_movies_books_and_music" = "Film, Libri e Musica";
 "categories_other" = "Altro";
@@ -124,6 +124,7 @@
 "product_delete_confirm_title" = "Elimina Prodotto";
 "product_delete_send_error_generic" = "Oops! Non siamo riusciti ad eliminare il tuo prodotto. Ti preghiamo di riprovare.";
 "product_delete_sold_confirm_message" = "Sei sicuro di voler eliminare questo prodotto?";
+"product_delete_success_message" = "Your product was deleted successfully.";
 "product_distance_from_you" = "da te";
 "product_gallery_title" = "Foto";
 "product_list_first_page_error_generic_button" = "Riprova";
@@ -148,12 +149,15 @@
 "product_mark_as_sold_confirm_ok_button" = "Segna come venduto";
 "product_mark_as_sold_confirm_title" = "Segna come venduto";
 "product_mark_as_sold_error_generic" = "Si è verificato un errore durante il tentativo di segnare il prodotto come venduto. Riprova più tardi.";
+"product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 "product_report_confirm_cancel_button" = "Annulla";
 "product_report_confirm_message" = "Sei sicuro di voler segnalare questo prodotto?";
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Segnala Prodotto";
 "product_report_product_button" = "Segnala Prodotto";
 "product_reported_product_label" = "Il prodotto è stato segnalato";
+"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reporting_loading_message" = "Reporting Product...";
 "product_reporting_product_label" = "Segnalazione Prodotto...";
 "product_share_body" = "Guarda cosa ho appena trovato su letgo!";
 "product_share_email_error" = "Oops, sembra che tu non abbia impostato un account nella app di Posta";
