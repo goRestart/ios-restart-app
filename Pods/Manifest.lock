@@ -42,11 +42,11 @@ PODS:
     - Parse (~> 1.7.5.3)
   - pop (1.0.7)
   - Quick (0.3.1)
-  - Realm (0.94.1):
-    - Realm/Headers (= 0.94.1)
-  - Realm/Headers (0.94.1)
-  - RealmSwift (0.94.1):
-    - Realm (= 0.94.1)
+  - Realm (0.95.0):
+    - Realm/Headers (= 0.95.0)
+  - Realm/Headers (0.95.0)
+  - RealmSwift (0.95.0):
+    - Realm (= 0.95.0)
   - Result (0.4.4):
     - Box (~> 1.2)
   - SDWebImage (3.7.3):
@@ -55,7 +55,7 @@ PODS:
   - SwiftyJSON (2.2.1)
   - Timepiece (0.4.0)
   - UIDeviceUtil (1.1.2)
-  - UrbanAirship-iOS-SDK/Core (6.1.4)
+  - UrbanAirship-iOS-SDK/Core (6.2.0)
 
 DEPENDENCIES:
   - Alamofire (~> 1.2)
@@ -86,13 +86,13 @@ SPEC CHECKSUMS:
   ParseFacebookUtilsV4: ea5db22e87b91cbf99b9d156642e2b97a4db7d51
   pop: 628ffc631644601567ee8bfaaaea493ebd7d0923
   Quick: 824572d3d198d51e52cf4aa722cebf7e59952a35
-  Realm: d999a6cf0b41577a077349c9cc9d496cc62a7d17
-  RealmSwift: 06b60ff5b1338755654d39aab44ac38001600f76
+  Realm: bbb171b96728ea136ed5cd354dca2a3d6529923c
+  RealmSwift: 35eeb642bf0b43dedfe363451ba3288d0e72ebb9
   Result: b44f6bc8762bbffaf2c5df58f2c7d12c3496ced8
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SwiftyJSON: ae2d0a3d68025d136602a33c4ee215091ced3e33
   Timepiece: d38302bf6fce6146e9d8feb289e0837811ee1342
   UIDeviceUtil: df88dd5ba4ae482f1d766dd0d180b066c2a4cb7e
-  UrbanAirship-iOS-SDK: bf2792b2c1367deaa4d0fe89370f97c8985efa83
+  UrbanAirship-iOS-SDK: c4a2b219ef0681470b82209a4921e93e205c8944
 
 COCOAPODS: 0.38.2
