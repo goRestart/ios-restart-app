@@ -62,7 +62,7 @@ public class UrbanAirshipTracker: Tracker {
     public func trackEvent(event: TrackerEvent) {
         if event.shouldTrack {
             let uaEvent = UACustomEvent(name: event.actualName)
-            UAirship.shared().analytics.addEvent(uaEvent)
+            UAirship.shared()!.analytics.addEvent(uaEvent)
         }
     }
     

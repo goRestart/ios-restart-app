@@ -203,9 +203,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
             footerViewVisible = false
-
         case .Approved:
             footerViewVisible = true
+            break
         }
         return footerViewVisible
     }
@@ -216,6 +216,79 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
         vc.product = product
         return vc
+    }
+    
+    public var isProductStatusLabelVisible: Bool {
+        let statusLabelVisible: Bool
+        switch product.status {
+        case .Pending:
+            statusLabelVisible = false
+            break
+        case .Approved:
+            statusLabelVisible = false
+            break
+        case .Discarded:
+            statusLabelVisible = false
+            break
+        case .Sold:
+            statusLabelVisible = true
+            break
+        case .SoldOld:
+            statusLabelVisible = true
+            break
+        case .Deleted:
+            statusLabelVisible = true
+            break
+        }
+        return statusLabelVisible
+    }
+    
+    public var productStatusLabelBackgroundColor: UIColor {
+        let color: UIColor
+        switch product.status {
+        case .Pending, .Approved, .Discarded, .Deleted:
+            color = UIColor.whiteColor()
+            break
+        case .Sold, .SoldOld:
+            color = StyleHelper.soldColor
+            break
+        }
+        return color
+    }
+    
+    public var productStatusLabelFontColor: UIColor {
+        let color: UIColor
+        switch product.status {
+        case .Pending, .Approved, .Discarded, .Deleted:
+            color = UIColor.blackColor()
+            break
+        case .Sold, .SoldOld:
+            color = UIColor.whiteColor()
+            break
+        }
+        return color
+    }
+    
+    public var productStatusLabelText: String {
+        let text: String
+        switch product.status {
+        case .Pending:
+            text = NSLocalizedString("product_status_label_pending", comment: "")
+            break
+        case .Approved:
+            text = NSLocalizedString("product_status_label_approved", comment: "")
+            break
+        case .Discarded:
+            text = NSLocalizedString("product_status_label_discarded", comment: "")
+            break
+        case .Sold, .SoldOld:
+            text = NSLocalizedString("product_status_label_sold", comment: "")
+            break
+        case .Deleted:
+            text = NSLocalizedString("product_status_label_deleted", comment: "")
+            break
+        }
+        return text
     }
     
     // MARK: - Lifecycle

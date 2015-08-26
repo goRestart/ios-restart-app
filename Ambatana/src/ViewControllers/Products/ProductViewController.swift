@@ -38,6 +38,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
 
+    // Rounded views can't have shadow the standard way, so there's an extra view:
+    // http://stackoverflow.com/questions/3690972/why-maskstobounds-yes-prevents-calayer-shadow
+    @IBOutlet weak var productStatusLabel: UILabel!
+    @IBOutlet weak var productStatusShadow: UIView!     // just for the shadow
+    
     // > Bottom
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var reportButton: UIButton!
@@ -343,6 +348,20 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // MARK: > UI
     
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        view.layoutIfNeeded()
+        productStatusLabel.sizeToFit()
+        
+        productStatusLabel.preferredMaxLayoutWidth = productStatusLabel.frame.size.width + 30
+        
+        var size = CGSize(width: productStatusLabel.preferredMaxLayoutWidth, height: 36)
+
+        productStatusLabel.frame = CGRect(origin: CGPoint(x: -15.0, y: 0.0), size: size)
+        view.layoutIfNeeded()
+    }
+    
     private func setupUI() {
         // Setup
         // > Navigation Bar
@@ -352,6 +371,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         // > Main
         usernameContainerView.layer.cornerRadius = 2
         
+        productStatusLabel.layer.cornerRadius = 18
+        productStatusLabel.layer.masksToBounds = true
+        
+        productStatusShadow.layer.shadowColor = UIColor.grayColor().CGColor
+        productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
+        productStatusShadow.layer.shadowOpacity = 1
+        productStatusShadow.layer.shadowRadius = 8.0
+
         userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
         userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
         userAvatarImageView.layer.borderWidth = 2
@@ -430,6 +457,13 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             }
         }
        
+        // Product Status Label
+        
+        productStatusLabel.hidden = !viewModel.isProductStatusLabelVisible
+        productStatusLabel.backgroundColor = viewModel.productStatusLabelBackgroundColor
+        productStatusLabel.textColor = viewModel.productStatusLabelFontColor
+        productStatusLabel.text = viewModel.productStatusLabelText
+        
         // Gallery
         galleryView.removePages()
         for i in 0..<viewModel.numberOfImages {
