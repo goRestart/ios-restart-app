@@ -633,10 +633,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     private func showReportAlert() {
         let alert = UIAlertController(title: NSLocalizedString("product_report_confirm_title", comment: ""), message: NSLocalizedString("product_report_confirm_message", comment: ""), preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("product_report_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("common_no", comment: ""), style: .Cancel, handler: { (_) -> Void in
             self.viewModel.reportAbandon()
         })
-        let reportAction = UIAlertAction(title: NSLocalizedString("product_report_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
+        let reportAction = UIAlertAction(title: NSLocalizedString("common_yes", comment: ""), style: .Default, handler: { (_) -> Void in
             self.viewModel.report()
         })
         alert.addAction(cancelAction)
