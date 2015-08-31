@@ -28,6 +28,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb699538486794082</string>
+				<string>letgo</string>
 			</array>
 		</dict>
 	</array>
