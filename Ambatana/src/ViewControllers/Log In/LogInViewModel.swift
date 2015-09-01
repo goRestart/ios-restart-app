@@ -60,7 +60,7 @@ public class LogInViewModel: BaseViewModel {
             delegate?.viewModel(self, didFinishLoggingInWithResult: Result<User, UserLogInEmailServiceError>.failure(.InvalidPassword))
         }
         else {
-            MyUserManager.sharedInstance.logInWithEmail(email.lowercaseString, password: password) { [weak self] (result: Result<User, UserLogInEmailServiceError>) in
+            MyUserManager.sharedInstance.logInWithEmail(email, password: password) { [weak self] (result: Result<User, UserLogInEmailServiceError>) in
                 if let strongSelf = self {
 
                     // Tracking
