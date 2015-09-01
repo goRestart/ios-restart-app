@@ -295,7 +295,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             text = NSLocalizedString("product_status_label_discarded", comment: "")
             break
         case .Sold, .SoldOld:
-            text = NSLocalizedString("product_status_label_sold", comment: "")
+            text = NSLocalizedString("product_list_item_sold_status_label", comment: "")
             break
         case .Deleted:
             text = NSLocalizedString("product_status_label_deleted", comment: "")
