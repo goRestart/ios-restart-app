@@ -322,7 +322,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         
         // Manager
         let productSaveService = PAProductSaveService()
-        let fileUploadService = PAFileUploadService()
+        let fileUploadService = LGFileUploadService()
         let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = PAProductMarkSoldService()

@@ -65,8 +65,8 @@ public class SellProductViewModel: BaseViewModel {
         images = []
         shouldShareInFB = true
         
-        let productSaveService = PAProductSaveService()
-        let fileUploadService = PAFileUploadService()
+        let productSaveService = LGProductSaveService()
+        let fileUploadService = LGFileUploadService()
         let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = PAProductMarkSoldService()
