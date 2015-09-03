@@ -326,9 +326,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = PAProductMarkSoldService()
-        let productFavouriteRetrieveService = PAProductFavouriteRetrieveService()
-        let productFavouriteSaveService = PAProductFavouriteSaveService()
-        let productFavouriteDeleteService = PAProductFavouriteDeleteService()
+        let productFavouriteRetrieveService = LGProductFavouriteRetrieveService()
+        let productFavouriteSaveService = LGProductFavouriteSaveService()
+        let productFavouriteDeleteService = LGProductFavouriteDeleteService()
         let productReportRetrieveService = PAProductReportRetrieveService()
         let productReportSaveService = PAProductReportSaveService()
 
@@ -351,6 +351,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             productManager.retrieveFavourite(product) { [weak self] (result: Result<ProductFavourite, ProductFavouriteRetrieveServiceError>) -> Void in
                 if let strongSelf = self {
                     // Update the flag
+                    println(result.value)
                     strongSelf.isFavourite = (result.value != nil)
                     
                     // Notify the delegate

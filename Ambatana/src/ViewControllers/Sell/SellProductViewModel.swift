@@ -70,9 +70,9 @@ public class SellProductViewModel: BaseViewModel {
         let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = PAProductMarkSoldService()
-        let productFavouriteRetrieveService = PAProductFavouriteRetrieveService()
-        let productFavouriteSaveService = PAProductFavouriteSaveService()
-        let productFavouriteDeleteService = PAProductFavouriteDeleteService()
+        let productFavouriteRetrieveService = LGProductFavouriteRetrieveService()
+        let productFavouriteSaveService = LGProductFavouriteSaveService()
+        let productFavouriteDeleteService = LGProductFavouriteDeleteService()
         let productReportRetrieveService = PAProductReportRetrieveService()
         let productReportSaveService = PAProductReportSaveService()
         
