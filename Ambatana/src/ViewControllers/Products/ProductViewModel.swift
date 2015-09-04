@@ -24,6 +24,7 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidStartReporting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
     func viewModelDidCompleteReporting(viewModel: ProductViewModel)
+    func viewModelDidFailReporting(viewModel: ProductViewModel)
     
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishDeleting result: Result<Nil, ProductDeleteServiceError>)
@@ -325,12 +326,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let fileUploadService = LGFileUploadService()
         let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
-        let productMarkSoldService = PAProductMarkSoldService()
+        let productMarkSoldService = LGProductMarkSoldService()
         let productFavouriteRetrieveService = LGProductFavouriteRetrieveService()
         let productFavouriteSaveService = LGProductFavouriteSaveService()
         let productFavouriteDeleteService = LGProductFavouriteDeleteService()
-        let productReportRetrieveService = PAProductReportRetrieveService()
-        let productReportSaveService = PAProductReportSaveService()
+        let productReportRetrieveService = LGProductReportRetrieveService()
+        let productReportSaveService = LGProductReportSaveService()
 
         self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteRetrieveService: productFavouriteRetrieveService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportRetrieveService: productReportRetrieveService, productReportSaveService: productReportSaveService)
         self.tracker = TrackerProxy.sharedInstance
@@ -346,6 +347,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     internal override func didSetActive(active: Bool) {
         
         if active {
+            // TODO: use reported and favorited of the LGProduct
             // Update favourite
             delegate?.viewModelDidStartRetrievingFavourite(self)
             productManager.retrieveFavourite(product) { [weak self] (result: Result<ProductFavourite, ProductFavouriteRetrieveServiceError>) -> Void in
@@ -501,9 +503,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                     
                     // Run completed
                     strongSelf.reportCompleted()
+                    // Notify the delegate
+                    strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
+                } else {
+                    let failure = result.error ?? .Internal
+                    strongSelf.delegate?.viewModelDidFailReporting(strongSelf)
                 }
-                // Notify the delegate
-                strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
+                
             }
         }
     }

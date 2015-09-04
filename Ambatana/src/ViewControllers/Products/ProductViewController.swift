@@ -280,6 +280,16 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         dismissLoadingMessageAlert(completion: completion)
     }
+    
+    public func viewModelDidFailReporting(viewModel: ProductViewModel) {
+        
+        var completion = {
+            self.showAutoFadingOutMessageAlert(NSLocalizedString("product_reported_error_generic", comment: ""), time: 3)
+        }
+        
+        dismissLoadingMessageAlert(completion: completion)
+        setReportButtonAsReported(viewModel.isReported)
+    }
 
     
     public func viewModelDidStartDeleting(viewModel: ProductViewModel) {
