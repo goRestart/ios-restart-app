@@ -44,7 +44,7 @@ public class NanigansTracker: Tracker {
     // MARK: - Tracker
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        NANTracking.setNanigansAppId(EnvironmentProxy.sharedInstance.nanigansAppId, fbAppId: EnvironmentProxy.sharedInstance.nanigansAppId)
+        NANTracking.setNanigansAppId(EnvironmentProxy.sharedInstance.nanigansAppId, fbAppId: EnvironmentProxy.sharedInstance.facebookAppId)
         
         if EnvironmentProxy.sharedInstance.environment is DevelopmentEnvironment {
             NANTracking.setDebugMode(true)
@@ -71,12 +71,41 @@ public class NanigansTracker: Tracker {
     
     public func trackEvent(event: TrackerEvent) {
         if let nanigansParams = event.nanigansParams {
-            NANTracking.trackNanigansEvent(nanigansParams.eventType, name: nanigansParams.name, extraParams: event.params?.stringKeyParams)
+
+            var nanStringKeyParams : [String: AnyObject] = [:]
+            
+            if let params = event.params?.stringKeyParams {
+                for (name, value) in params {
+                    nanStringKeyParams[name] = value
+                }
+                if let email = MyUserManager.sharedInstance.myUser()?.email {
+                    nanStringKeyParams["ut1"] = stringSha256(email)
+                }
+            }
+
+            NANTracking.trackNanigansEvent(nanigansParams.eventType, name: nanigansParams.name, extraParams: nanStringKeyParams)
         }
     }
     
     public func updateCoordinates() {
         
+    }
+    
+    private func stringSha256(email: String) -> NSString? {
+        
+        var cleanEmail = email.stringByReplacingOccurrencesOfString(" ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil).lowercaseString
+        
+        if let data = cleanEmail.dataUsingEncoding(NSUTF8StringEncoding) {
+
+            var hash = [UInt8](count: Int(CC_SHA256_DIGEST_LENGTH), repeatedValue: 0)
+            CC_SHA256(data.bytes, CC_LONG(data.length), &hash)
+            let resstr = NSMutableString()
+            for byte in hash {
+                resstr.appendFormat("%02hhx", byte)
+            }
+            return resstr
+        }
+        return ""
     }
 
 }

@@ -28,11 +28,12 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb699538486794082</string>
+				<string>letgo</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>21</string>
+	<string>22</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

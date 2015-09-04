@@ -27,6 +27,13 @@ public class FacebookTracker: Tracker {
     
     public func applicationDidBecomeActive(application: UIApplication) {
         FBSDKAppEvents.activateApp()
+        
+        FBSDKAppLinkUtility.fetchDeferredAppLink { (url, error) -> Void in
+            if let actualURL = url {
+                UIApplication.sharedApplication().openURL(url)
+            }
+        }
+
     }
     
     public func setUser(user: User?) {
