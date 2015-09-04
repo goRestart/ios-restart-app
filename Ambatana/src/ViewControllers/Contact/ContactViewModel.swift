@@ -64,7 +64,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
         email = MyUserManager.sharedInstance.myUser()?.email ?? ""
         subject = nil
         message = ""
-        contactService = PAContactSendService()
+        contactService = LGContactSendService()
         super.init()
     }
     
@@ -88,32 +88,36 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
         
         if self.email.isEmail() {
             
-            var contact : Contact
-            contact = PAContact()
-            contact.email = email
-            contact.title = subject?.name ?? ""
-            contact.message = self.message + systemInfoForMessage() + " " + self.email
-
-            contact.user = MyUserManager.sharedInstance.myUser()
-            contact.processed = NSNumber(bool: false)
-            
-            delegate?.viewModelDidStartSendingContact(self)
-            
-            self.contactService.sendContact(contact) { [weak self] (finalResult: Result<Contact, ContactSendServiceError>) in
+            if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+                var contact : Contact
+                contact = PAContact()
+                contact.email = email
+                contact.title = subject?.name ?? ""
+                contact.message = self.message + systemInfoForMessage() + " " + self.email
                 
-                if let strongSelf = self {
-                    if let actualDelegate = strongSelf.delegate {
-                        if let contact = finalResult.value {
-                            // success
-                            actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
-                        }
-                        else if let someError = finalResult.error {
-                            // error
-                            actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
-                            
+                contact.user = MyUserManager.sharedInstance.myUser()
+                contact.processed = NSNumber(bool: false)
+                
+                delegate?.viewModelDidStartSendingContact(self)
+                
+                self.contactService.sendContact(contact, sessionToken: sessionToken) { [weak self] (finalResult: Result<Contact, ContactSendServiceError>) in
+                    
+                    if let strongSelf = self {
+                        if let actualDelegate = strongSelf.delegate {
+                            if let contact = finalResult.value {
+                                // success
+                                actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
+                            }
+                            else if let someError = finalResult.error {
+                                // error
+                                actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
+                                
+                            }
                         }
                     }
                 }
+            } else {
+                delegate?.viewModel(self, didFailValidationWithError: .Internal)
             }
         } else {
             delegate?.viewModel(self, didFailValidationWithError: .InvalidEmail)
