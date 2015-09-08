@@ -238,6 +238,19 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
             switchToTab(.Profile)
+            
+            // If never shown before, show app rating view
+            if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+                if let nav = selectedViewController as? UINavigationController{
+                    let screenFrame = nav.view.frame
+                    if let ratingView = AppRatingView.ratingView() {
+                        ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
+                            nav.pushViewController(vc, animated: true)
+                        })
+                        self.view.addSubview(ratingView)
+                    }
+                }
+            }
         }
     }
     
