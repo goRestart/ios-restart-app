@@ -55,29 +55,29 @@ public class AppRatingView: UIView {
         rateView.layer.cornerRadius = 4
         suggestView.layer.cornerRadius = 4
         suggestView.layer.borderColor = StyleHelper.badgeBgColor.CGColor
-        suggestView.layer.borderWidth = 3
+        suggestView.layer.borderWidth = 2
         
         doYouLoveLetgoLabel.text = NSLocalizedString("rating_view_title_label", comment: "")
         
-        loveItLabel.text = NSLocalizedString("rating_view_love_it_label", comment: "")
+        loveItLabel.text = NSLocalizedString("rating_view_love_it_label", comment: "").uppercaseString
         ratUslabel.text = NSLocalizedString("rating_view_rate_us_label", comment: "")
         
-        needsImprLabel.text = NSLocalizedString("rating_view_needs_improvements_label", comment: "")
+        needsImprLabel.text = NSLocalizedString("rating_view_needs_improvements_label", comment: "").uppercaseString
         shareSuggestionsLabel.text = NSLocalizedString("rating_view_suggest_label", comment: "")
         
-        dontAskButton.setTitle(NSLocalizedString("rating_view_dont_ask_again_button", comment: ""), forState: .Normal)
+        dontAskButton.setTitle(NSLocalizedString("rating_view_dont_ask_again_button", comment: "").uppercaseString, forState: .Normal)
         
-        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+        let trackerEvent = TrackerEvent.appRatingStart()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
-    }
-    
-    public func setupRatingViewWithContactBlock(contactBlock: ((UIViewController) -> Void)?) {
-        
     }
     
     
     @IBAction func ratePressed(sender: AnyObject) {
         
+        let trackerEvent = TrackerEvent.appRatingRate()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
         let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
         UIApplication.sharedApplication().openURL(NSURL(string: itunesURL)!)
         self.closeWithFadeOut()
@@ -85,6 +85,9 @@ public class AppRatingView: UIView {
     
     @IBAction func suggestPressed(sender: AnyObject) {
         
+        let trackerEvent = TrackerEvent.appRatingSuggest()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
         self.removeFromSuperview()
         let contactVC = ContactViewController()
         
@@ -92,6 +95,10 @@ public class AppRatingView: UIView {
     }
     
     @IBAction func dontAskPressed(sender: AnyObject) {
+        
+        let trackerEvent = TrackerEvent.appRatingDontAsk()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
         self.closeWithFadeOut()
     }
     

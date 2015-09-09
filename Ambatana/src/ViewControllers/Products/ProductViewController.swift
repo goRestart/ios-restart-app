@@ -333,20 +333,21 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             completion = {
                 self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_success_message", comment: ""), time: 3) {
 
-                    if UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-                        // Don't ask for rating if already asked for it at any time
-                        self.popBackViewController()
-                    }
-                    else {
+                    if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
                         // Ask for rating if never asked for it before
                         if let screenFrame = self.navigationController?.view.frame {
                             if let ratingView = AppRatingView.ratingView() {
+                                UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
                                 ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
                                     self.navigationController?.pushViewController(vc, animated: true)
                                 })
                                 self.navigationController?.view.addSubview(ratingView)
                             }
                         }
+                    }
+                    else {
+                        // Don't ask for rating if already asked for it at any time
+                        self.popBackViewController()
                     }
                 }
             }

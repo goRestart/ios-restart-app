@@ -17,8 +17,9 @@ public class UserDefaultsManager {
     private static let manualLocationKey = "manualLocation"
     private static let isManualLocationKey = "isManualLocation"
     private static let isApproximateLocationKey = "isApproximateLocation"
-    
-    private let keysArray = [latitudeKey, longitudeKey, manualLocationKey, isManualLocationKey, isApproximateLocationKey]
+    private static let alreadyRatedKey = "alreadyRated"
+
+    private let keysArray = [latitudeKey, longitudeKey, manualLocationKey, isManualLocationKey, isApproximateLocationKey, alreadyRatedKey]
     
     public static let sharedInstance: UserDefaultsManager = UserDefaultsManager()
     
@@ -133,6 +134,32 @@ public class UserDefaultsManager {
         }
         
         return true
+    }
+    
+    /**
+        Saves if the user rated the app
+    
+        :param: alreadyRated true if the user rated the app
+    */
+    
+    public func saveAlreadyRated(alreadyRated: Bool) {
+        userDefaults.setBool(alreadyRated, forKey: UserDefaultsManager.alreadyRatedKey)
+    }
+    
+    
+    /**
+        Loads if the user already ratted the app
+    
+        :return: if the user already ratted the app
+    */
+    
+    public func loadAlreadyRated() -> Bool {
+        
+        if let keyExists = userDefaults.objectForKey(UserDefaultsManager.alreadyRatedKey) as? Bool {
+            return userDefaults.boolForKey(UserDefaultsManager.alreadyRatedKey)
+        }
+        
+        return false
     }
     
 }

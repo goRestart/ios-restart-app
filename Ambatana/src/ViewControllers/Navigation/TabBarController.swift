@@ -244,6 +244,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
                 if let nav = selectedViewController as? UINavigationController{
                     let screenFrame = nav.view.frame
                     if let ratingView = AppRatingView.ratingView() {
+                        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
                         ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
                             nav.pushViewController(vc, animated: true)
                         })

@@ -273,6 +273,28 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                         let trackerEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
                         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                     }
+                    
+                    // since there's a 1 sec delay, we have to add an extra control here to avoid showing the rating view more than once
+                    if !UserDefaultsManager.sharedInstance.loadAlreadyRated() && !strongSelf.alreadyAskedForRating {
+                        strongSelf.alreadyAskedForRating = true
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                            
+                            // hide message field keyboard
+                            strongSelf.messageTextfield.resignFirstResponder()
+                            
+                            // show app rating view
+                            if let screenFrame = strongSelf.navigationController?.view.frame {
+                                if let ratingView = AppRatingView.ratingView() {
+                                    UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+                                    ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
+                                        strongSelf.navigationController?.pushViewController(vc, animated: true)
+                                    })
+                                    strongSelf.navigationController?.view.addSubview(ratingView)
+                                }
+                            }
+                        }
+                    }
+
                 }
                 else {
                     strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
@@ -328,26 +350,6 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        // since there's a 1 sec delay, we have to add an extra control here to avoid showing the rating view more than once
-        if !UserDefaultsManager.sharedInstance.loadAlreadyRated() && !alreadyAskedForRating {
-            alreadyAskedForRating = true
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                
-                // hide message field keyboard
-                self.messageTextfield.resignFirstResponder()
-                
-                // show app rating view
-                if let screenFrame = self.navigationController?.view.frame {
-                    if let ratingView = AppRatingView.ratingView() {
-                        ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
-                            self.navigationController?.pushViewController(vc, animated: true)
-                        })
-                        self.navigationController?.view.addSubview(ratingView)
-                    }
-                }
-            }
-        }
-
         // data
         let msgObject = messages![indexPath.row]
         let userFrom = msgObject["user_from"] as! PFUser

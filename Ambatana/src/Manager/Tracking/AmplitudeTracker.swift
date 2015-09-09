@@ -28,6 +28,7 @@ public class AmplitudeTracker: Tracker {
     // MARK: - Tracker
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+        Amplitude.instance().trackingSessionEvents = true
         Amplitude.instance().initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
     }
     
@@ -40,8 +41,6 @@ public class AmplitudeTracker: Tracker {
     }
     
     public func applicationDidBecomeActive(application: UIApplication) {
-        // TODO:  WAT?  Appsflyer???
-//        AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
     
     public func setUser(user: User?) {
