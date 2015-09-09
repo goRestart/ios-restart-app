@@ -14,11 +14,13 @@
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E93FBE91B666A1400C97927 /* SellProductCell.swift */; };
 		2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E93FBEA1B666A1400C97927 /* SellProductCell.xib */; };
+		2ECEAD131B9E0E3E00C8B40C /* AppRatingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ECEAD121B9E0E3E00C8B40C /* AppRatingView.xib */; };
 		2ED65CFC1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65CFA1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift */; };
 		2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED65CFB1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib */; };
 		2ED65CFF1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65CFE1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift */; };
 		2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65D001B81F4040004D6A1 /* SubjectCell.swift */; };
 		2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED65D011B81F4040004D6A1 /* SubjectCell.xib */; };
+		2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDBE4461B9EE13700B2811A /* AppRatingView.swift */; };
 		2EE0011B1B8C630A00B1D774 /* UrbanAirshipTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE0011A1B8C630A00B1D774 /* UrbanAirshipTracker.swift */; };
 		2EE5EEDF1B5E4C860056BF76 /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */; };
 		2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
@@ -219,11 +221,13 @@
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		2E93FBE91B666A1400C97927 /* SellProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductCell.swift; path = Sell/SellProductCell.swift; sourceTree = "<group>"; };
 		2E93FBEA1B666A1400C97927 /* SellProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SellProductCell.xib; path = Sell/SellProductCell.xib; sourceTree = "<group>"; };
+		2ECEAD121B9E0E3E00C8B40C /* AppRatingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppRatingView.xib; path = "App Rating/AppRatingView.xib"; sourceTree = "<group>"; };
 		2ED65CFA1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactSubjectOptionsViewController.swift; path = Contact/ContactSubjectOptionsViewController.swift; sourceTree = "<group>"; };
 		2ED65CFB1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactSubjectOptionsViewController.xib; path = Contact/ContactSubjectOptionsViewController.xib; sourceTree = "<group>"; };
 		2ED65CFE1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactSubjectOptionsViewModel.swift; path = Contact/ContactSubjectOptionsViewModel.swift; sourceTree = "<group>"; };
 		2ED65D001B81F4040004D6A1 /* SubjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubjectCell.swift; path = Contact/SubjectCell.swift; sourceTree = "<group>"; };
 		2ED65D011B81F4040004D6A1 /* SubjectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SubjectCell.xib; path = Contact/SubjectCell.xib; sourceTree = "<group>"; };
+		2EDBE4461B9EE13700B2811A /* AppRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppRatingView.swift; path = "App Rating/AppRatingView.swift"; sourceTree = "<group>"; };
 		2EE0011A1B8C630A00B1D774 /* UrbanAirshipTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrbanAirshipTracker.swift; sourceTree = "<group>"; };
 		2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
 		2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
@@ -497,6 +501,15 @@
 				2ED65D011B81F4040004D6A1 /* SubjectCell.xib */,
 			);
 			name = Contact;
+			sourceTree = "<group>";
+		};
+		2ECEAD0F1B9E0DB300C8B40C /* App Rating */ = {
+			isa = PBXGroup;
+			children = (
+				2ECEAD121B9E0E3E00C8B40C /* AppRatingView.xib */,
+				2EDBE4461B9EE13700B2811A /* AppRatingView.swift */,
+			);
+			name = "App Rating";
 			sourceTree = "<group>";
 		};
 		2EE5FF511B7B3D3A0090E558 /* User Location */ = {
@@ -1053,6 +1066,7 @@
 		D458383C1AEE6A9100B5F181 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				2ECEAD0F1B9E0DB300C8B40C /* App Rating */,
 				50DBEC371B3D79C8006CBDE0 /* TabBarToolTip.swift */,
 				508E4CEB1B4281F1007BD301 /* Cells */,
 				D458383D1AEE6A9100B5F181 /* helper */,
@@ -1265,6 +1279,7 @@
 				508E4CEF1B4281F2007BD301 /* ProductCell.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
+				2ECEAD131B9E0E3E00C8B40C /* AppRatingView.xib in Resources */,
 				50560B9A1B25D18F0021D8D9 /* LogInViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
 				50C9E4D21B73637D001E4E92 /* Pods.adhoc.xcconfig in Resources */,
@@ -1505,6 +1520,7 @@
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
+				2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */,
 				50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */,
 				50E8A0921B7B3B2D00DE49CC /* ProductViewController.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
