@@ -17,6 +17,7 @@ import SwiftyJSON
     private static let totalProductsJSONKey = "total_products"
     private static let offsetJSONKey = "offset"
     
+    // iVars
     public var products: NSArray
     public var totalProducts: NSNumber
     public var offset: NSNumber

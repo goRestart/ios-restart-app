@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import <Bolts/Bolts.h>
 
 //! Project version number for LGCoreKit.
 FOUNDATION_EXPORT double LGCoreKitVersionNumber;
@@ -16,5 +15,3 @@ FOUNDATION_EXPORT double LGCoreKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char LGCoreKitVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <LGCoreKit/PublicHeader.h>
-
-

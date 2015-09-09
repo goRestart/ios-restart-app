@@ -73,6 +73,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // iVars
     private var locationService: LocationService
+    private var ipLookupLocationService: IPLookupLocationService
     
     private var lastManualLocation: CLLocation?
     public private(set) var lastGPSLocation: CLLocation?
@@ -92,8 +93,9 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // MARK: - Lifecycle
     
-    public init(locationService: LocationService = CLLocationManager()) {
+    public init(locationService: LocationService = CLLocationManager(), ipLookupLocationService: IPLookupLocationService = LGIPLookupLocationService()) {
         self.locationService = locationService
+        self.ipLookupLocationService = ipLookupLocationService
         
         self.lastGPSLocation = self.locationService.lastKnownLocation
         self.lastManualLocation = UserDefaultsManager.sharedInstance.loadManualLocation()
@@ -117,8 +119,12 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     */
     public func startLocationUpdates() -> LocationServiceStatus {
         
-        // If LBS are not enabled then notify about it
-        if !self.locationService.locationEnabled() {
+        // If LBS are enabled then start updating the location
+        if locationService.locationEnabled() {
+            locationService.startUpdatingLocation()
+        }
+        // Otherwise, notify about it
+        else {
             NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didFailRequestingLocationServices, object: nil)
         }
         
@@ -128,18 +134,13 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         case .Enabled(let authStatus):
             switch authStatus {
             case .NotDetermined:
-                if UIDevice.isOSAtLeast(OSVersion.iOS8_0_0) {
-                    self.locationService.requestWhenInUseAuthorization()
-                }
+                locationService.requestWhenInUseAuthorization()
             default:
                 break
             }
         default:
             break
         }
-        
-        // Start updating the location
-        self.locationService.startUpdatingLocation()
         
         return status
     }
@@ -148,7 +149,17 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         Stops updating location.
     */
     public func stopLocationUpdates() {
-        self.locationService.stopUpdatingLocation()
+        locationService.stopUpdatingLocation()
+    }
+    
+    public func userDoesntAllowLocationServices() {
+        ipLookupLocationService.retrieveLocation { (result: Result<LGLocationCoordinates2D, IPLookupLocationServiceError>) -> Void in
+            // If success then notify about it
+            if let coordinates = result.value {
+                let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+                NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didReceiveLocationNotification, object: location)
+            }
+        }
     }
     
     public func userDidSetManualLocation(location: CLLocation, place: Place?) {
@@ -177,7 +188,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         let locationStatus = LocationServiceStatus(enabled: self.locationService.locationEnabled(), authStatus: self.locationService.authorizationStatus())
         
         if locationStatus == .Enabled(LocationServicesAuthStatus.Authorized) {
-            self.locationService.startUpdatingLocation()
+            locationService.startUpdatingLocation()
         }
         else {
             NSNotificationCenter.defaultCenter().postNotificationName(LocationManager.didFailRequestingLocationServices, object: nil)
