@@ -283,14 +283,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                             strongSelf.messageTextfield.resignFirstResponder()
                             
                             // show app rating view
-                            if let screenFrame = strongSelf.navigationController?.view.frame {
-                                if let ratingView = AppRatingView.ratingView() {
-                                    UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
-                                    ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
-                                        strongSelf.navigationController?.pushViewController(vc, animated: true)
-                                    })
-                                    strongSelf.navigationController?.view.addSubview(ratingView)
-                                }
+                            if let tabBarCtrl = strongSelf.tabBarController as? TabBarController {
+                                tabBarCtrl.showAppRatingViewIfNeeded()
                             }
                         }
                     }

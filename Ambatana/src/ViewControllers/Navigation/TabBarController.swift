@@ -197,6 +197,20 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         }
     }
     
+    func showAppRatingViewIfNeeded() {
+        // If never shown before, show app rating view
+        if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+            if let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() {
+                let screenFrame = nav.view.frame
+                UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+                ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
+                    nav.pushViewController(vc, animated: true)
+                })
+                self.view.addSubview(ratingView)
+            }
+        }
+    }
+    
     /**
         Shows the tooltip and starts its bounce animation.
     */
@@ -239,19 +253,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         if successfully {
             switchToTab(.Profile)
             
-            // If never shown before, show app rating view
-            if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-                if let nav = selectedViewController as? UINavigationController{
-                    let screenFrame = nav.view.frame
-                    if let ratingView = AppRatingView.ratingView() {
-                        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
-                        ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
-                            nav.pushViewController(vc, animated: true)
-                        })
-                        self.view.addSubview(ratingView)
-                    }
-                }
-            }
+            showAppRatingViewIfNeeded()
         }
     }
     
