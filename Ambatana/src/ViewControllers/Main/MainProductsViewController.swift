@@ -133,15 +133,19 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
     // MARK: - ProductListViewLocationDelegate
     
     public func mainProductListView(mainProductListView: MainProductListView, didFailRequestingLocationServices status: LocationServiceStatus) {
-        var alertMessage: String?
-        var alertButtonTitle: String?
+        let alertMessage: String?
+        let alertButtonTitle: String?
         
         switch status {
         case .Disabled:
             alertMessage = NSLocalizedString("product_list_location_disabled_label", comment: "")
             alertButtonTitle = NSLocalizedString("product_list_location_disabled_button", comment: "")
         case .Enabled(let authStatus):
-            if authStatus == .Restricted || authStatus == .Denied {
+            switch authStatus {
+            case .Authorized, .NotDetermined:
+                alertMessage = nil
+                alertButtonTitle = nil
+            case .Restricted, .Denied:
                 alertMessage = NSLocalizedString("product_list_location_unauthorized_label", comment: "")
                 alertButtonTitle = NSLocalizedString("product_list_location_unauthorized_button", comment: "")
             }
@@ -149,9 +153,16 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
         
         if let alertMsg = alertMessage, let alertButTitle = alertButtonTitle {
             let alert = UIAlertController(title: nil, message: alertMsg, preferredStyle:.Alert)
-            alert.addAction(UIAlertAction(title: alertButTitle, style:.Default, handler: { (action) -> Void in
-                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-            }))
+            let cancelAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel, handler: { (action) -> Void in
+                self.viewModel.cancelOpenAppSettingsAlert()
+                
+            })
+            let openSettingsAction = UIAlertAction(title: alertButTitle, style:.Default, handler: { (action) -> Void in
+                self.viewModel.openAppSettings()
+            })
+            alert.addAction(cancelAction)
+            alert.addAction(openSettingsAction)           
+            
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }

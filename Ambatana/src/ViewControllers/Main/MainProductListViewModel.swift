@@ -50,50 +50,26 @@ public class MainProductListViewModel: ProductListViewModel {
             notificationCenter.addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: LocationManager.didReceiveLocationNotification, object: nil)
             notificationCenter.addObserver(self, selector: Selector("didFailRequestingLocationServicesWithNotification:"), name: LocationManager.didFailRequestingLocationServices, object: nil)
             
-            // If we can retrieve products and we do not any, then run the first page retrieval
-            if canRetrieveProducts && numberOfProducts == 0 {
-                retrieveProductsFirstPage()
-            }
-            // If we cannot retrieve products but have products, then it's about location
-            else if numberOfProducts == 0 {
-
-                // If location status is not enabled & authorized notify then delegate know
-                let locationStatus = locationManager.locationServiceStatus
-                if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
-                    locationDelegate?.viewModel(self, didFailRequestingLocationServices: locationStatus)
-                }
-                
-                // Re/start the location retrieval timer
-                if locationRetrievalTimeoutTimer != nil {
-                    locationRetrievalTimeoutTimer!.invalidate()
-                    locationRetrievalTimeoutTimer = nil
-                }
-                locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(MainProductListViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
-            }
-            
-            // If we can retrieve products and we do not any, then run the first page retrieval
+            // If we do not have products
             if numberOfProducts == 0 {
                
-                // Reload if possible
+                // Reload if possible (has coordinates & the manager is not loading)
                 if canRetrieveProducts {
                      retrieveProductsFirstPage()
                 }
-                // Otherwise
+                // Otherwise, if there are not coordinates
                 else if queryCoordinates == nil {
                     
-                    // If location status is not enabled & authorized notify the delegate
+                    // If location status is not enabled nor authorized notify the delegate
                     let locationStatus = locationManager.locationServiceStatus
                     if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
                         locationDelegate?.viewModel(self, didFailRequestingLocationServices: locationStatus)
                     }
                     
                     // Restart the location retrieval timer
-                    if locationRetrievalTimeoutTimer != nil {
-                        locationRetrievalTimeoutTimer!.invalidate()
-                        locationRetrievalTimeoutTimer = nil
-                    }
-                    locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(MainProductListViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
+                    restartTimer()
                 }
+                // Else, will eventually got the products response
             }
         }
         // Inactive
@@ -121,6 +97,17 @@ public class MainProductListViewModel: ProductListViewModel {
     // MARK: - Private methods
     
     // MARK: > Timer
+    
+    /**
+        Restarts the location retrieval timeout timer.
+    */
+    private func restartTimer() {
+        if locationRetrievalTimeoutTimer != nil {
+            locationRetrievalTimeoutTimer!.invalidate()
+            locationRetrievalTimeoutTimer = nil
+        }
+        locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(MainProductListViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
+    }
     
     /**
         Called when a location retrieval times out.
