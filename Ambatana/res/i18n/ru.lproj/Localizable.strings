@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Сообщение: %@";
 "push_notification_message_title" = "Новое сообщение - %@";
+"rating_view_dont_ask_again_button" = "Не спрашивать снова";
+"rating_view_love_it_label" = "Мне нравится!";
+"rating_view_needs_improvements_label" = "Нуждается в усовершенствованиях";
+"rating_view_rate_us_label" = "Ваша оценка";
+"rating_view_suggest_label" = "Поделитесь Вашими предложениями";
+"rating_view_title_label" = "Вам нравится letgo?";
 "reset_password_email_field_hint" = "E-mail";
 "reset_password_send_button" = "Сбросить пароль";
 "reset_password_send_error_generic" = "При восстановлении пароля произошла ошибка.";

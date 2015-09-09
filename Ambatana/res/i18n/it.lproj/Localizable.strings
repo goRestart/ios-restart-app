@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Messaggio: %@";
 "push_notification_message_title" = "Nuovo messaggio - %@";
+"rating_view_dont_ask_again_button" = "Non chiedermelo ancora";
+"rating_view_love_it_label" = "Lo adoro!";
+"rating_view_needs_improvements_label" = "Ha bisogno di miglioramenti";
+"rating_view_rate_us_label" = "Lasciaci un giudizio";
+"rating_view_suggest_label" = "Condividi i tuoi suggerimenti";
+"rating_view_title_label" = "Ti piace letgo?";
 "reset_password_email_field_hint" = "Email";
 "reset_password_send_button" = "Reimposta password";
 "reset_password_send_error_generic" = "Si è verificato un errore durante il tentativo di recupero della tua password.";

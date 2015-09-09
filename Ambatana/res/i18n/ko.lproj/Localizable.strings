@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "메세지: %@";
 "push_notification_message_title" = "새로운 메세지 -%@";
+"rating_view_dont_ask_again_button" = "다시 묻지 말아주세요";
+"rating_view_love_it_label" = "마음에 들어요!";
+"rating_view_needs_improvements_label" = "개선이 필요합니다";
+"rating_view_rate_us_label" = "평가해주세요";
+"rating_view_suggest_label" = "제안을 공유해주세요";
+"rating_view_title_label" = "렛고가 마음에 드시나요?";
 "reset_password_email_field_hint" = "이메일";
 "reset_password_send_button" = "비밀번호 재설정";
 "reset_password_send_error_generic" = "비밀번호를 기억하는데 오류가 발생했습니다.";

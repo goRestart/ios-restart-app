@@ -101,7 +101,7 @@
 "log_in_send_button" = "Kirjaudu sisään";
 "log_in_title" = "Kirjaudu sisään";
 "main_sign_up_already_registered_label" = "Oletko jo rekisteröitynyt?";
-"main_sign_up_claim_label" = "Aloita myyminen, ostaminen, ja keskusteleminen";
+"main_sign_up_claim_label" = "Aloita myyminen, ostaminen ja keskusteleminen";
 "main_sign_up_contact_us_button" = "Ota meihin yhteyttä";
 "main_sign_up_facebook_connect_button" = "Yhdistä Facebookin avulla";
 "main_sign_up_fb_connect_error_email_taken" = "Kirjautuminen ei onnistunut, Facebookin sähköpostiosoitteesi on jo rekisteröity. Ole hyvä ja yritä kirjautua sisään.";
@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Viesti: %@";
 "push_notification_message_title" = "Uusi viesti - %@";
+"rating_view_dont_ask_again_button" = "Älä kysy uudelleen";
+"rating_view_love_it_label" = "Rakastan sitä!";
+"rating_view_needs_improvements_label" = "Tarvitsee parannuksia";
+"rating_view_rate_us_label" = "Anna meille arvosana";
+"rating_view_suggest_label" = "Jaa ehdotuksesi";
+"rating_view_title_label" = "Rakastatko letgota?";
 "reset_password_email_field_hint" = "Sähköposti";
 "reset_password_send_button" = "Vaihda salasana";
 "reset_password_send_error_generic" = "Yritettäessä muistaa salasanasi tapahtui virhe.";

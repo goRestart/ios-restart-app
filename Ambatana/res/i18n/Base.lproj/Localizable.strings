@@ -535,6 +535,24 @@
 // Push notification message title
 "push_notification_message_title" = "New message - %@";
 
+// Rating view title label.  Check attached image "rating_view.png"
+"rating_view_title_label" = "Do you love letgo?";
+
+// Rating view love it label.  Check image @ "rating_view_title_label" segment
+"rating_view_love_it_label" = "Love it!";
+
+// Rating view rate us label.  Check image @ "rating_view_title_label" segment
+"rating_view_rate_us_label" = "Rate us";
+
+// Rating view needs improvements label.  Check image @ "rating_view_title_label" segment
+"rating_view_needs_improvements_label" = "Needs improvements";
+
+// Rating view suggest label.  Check image @ "rating_view_title_label" segment
+"rating_view_suggest_label" = "Share your suggestions";
+
+// Rating view don't ask button.  Check image @ "rating_view_title_label" segment
+"rating_view_dont_ask_again_button" = "Don't ask me again";
+
 // Reset password email field hint. Check attached image "reset_password.png"
 "reset_password_email_field_hint" = "Email";
 

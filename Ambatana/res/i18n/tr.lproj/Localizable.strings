@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";
+"rating_view_dont_ask_again_button" = "Bana bir daha sorma";
+"rating_view_love_it_label" = "Seviyorum!";
+"rating_view_needs_improvements_label" = "Geliştirilmesi gerekiyor";
+"rating_view_rate_us_label" = "Bize oy ver";
+"rating_view_suggest_label" = "Tavsiyelerini paylaş";
+"rating_view_title_label" = "letgo'yu seviyor musun?";
 "reset_password_email_field_hint" = "E-posta";
 "reset_password_send_button" = "Şifre yenile";
 "reset_password_send_error_generic" = "Şifreni hatırlamaya çalışırken bir hata oluştu.";
