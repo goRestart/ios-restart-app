@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "メッセージ： %@";
 "push_notification_message_title" = "新着メッセージ - %@";
+"rating_view_dont_ask_again_button" = "二度と表示しない";
+"rating_view_love_it_label" = "気に入った！";
+"rating_view_needs_improvements_label" = "改善が必要";
+"rating_view_rate_us_label" = "評価する";
+"rating_view_suggest_label" = "意見を共有する";
+"rating_view_title_label" = "letgoはいかがでしたか？";
 "reset_password_email_field_hint" = "メール";
 "reset_password_send_button" = "パスワード再設定";
 "reset_password_send_error_generic" = "パスワードを記憶しようとしてエラーが発生しました。";

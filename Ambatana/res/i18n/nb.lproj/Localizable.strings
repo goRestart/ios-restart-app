@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Melding: %@";
 "push_notification_message_title" = "Ny melding - %@";
+"rating_view_dont_ask_again_button" = "Ikke spør meg igjen";
+"rating_view_love_it_label" = "Elsker det!";
+"rating_view_needs_improvements_label" = "Trenger forbedringer";
+"rating_view_rate_us_label" = "Rangér oss";
+"rating_view_suggest_label" = "Del dine forslag";
+"rating_view_title_label" = "Liker du letgo?";
 "reset_password_email_field_hint" = "Epost";
 "reset_password_send_button" = "Tilbakestill passord";
 "reset_password_send_error_generic" = "En feil oppstod ved forsøk på å huske ditt passord.";

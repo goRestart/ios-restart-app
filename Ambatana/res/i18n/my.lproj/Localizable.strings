@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "မက်ဆေ့ - %@";
 "push_notification_message_title" = "မက်ဆေ့အသစ်- %@";
+"rating_view_dont_ask_again_button" = "ကျွန်ပ်ကို ထပ်မမေးပါနှင့်";
+"rating_view_love_it_label" = "၄င်းကို နှစ်သက်ပါသည်။";
+"rating_view_needs_improvements_label" = "တိုးတက်မှုများလိုအပ်ပါသည်";
+"rating_view_rate_us_label" = "ကျွန်ုပ်တို့အား အဆင့်သတ်မှတ်ပေးပါ";
+"rating_view_suggest_label" = "သင့် အကြံပြုချက်များကို မျှဝေပါ";
+"rating_view_title_label" = "letgo ကို သင်နှစ်သက်ပါသလား။";
 "reset_password_email_field_hint" = "အီးမေးလ်";
 "reset_password_send_button" = "စကားဝှက်ကိုပြန်ထားပါ";
 "reset_password_send_error_generic" = "သင့်စကားဝှက်ကိုမှတ်မိအောင်ကြိုးစားစဉ် အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။";

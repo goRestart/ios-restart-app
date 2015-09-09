@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Μήνυμα: %@";
 "push_notification_message_title" = "Νέο μήνυμα- %@";
+"rating_view_dont_ask_again_button" = "Να μην ερωτηθώ ξανά";
+"rating_view_love_it_label" = "Μου αρέσει!";
+"rating_view_needs_improvements_label" = "Χρειάζεται βελτιώσεις";
+"rating_view_rate_us_label" = "Βαθμολόγησε μας";
+"rating_view_suggest_label" = "Μοιράσου τις προτάσεις σου";
+"rating_view_title_label" = "Σου αρέσει το letgo;";
 "reset_password_email_field_hint" = "Email";
 "reset_password_send_button" = "Επαναφορά κωδικού πρόσβασης";
 "reset_password_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την προσπάθεια ενθύμισης του κωδικού πρόσβασης!";

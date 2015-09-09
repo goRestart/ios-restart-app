@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Tin nhắn: %@";
 "push_notification_message_title" = "Tin nhắn mới - %@";
+"rating_view_dont_ask_again_button" = "Đừng hỏi lại tôi";
+"rating_view_love_it_label" = "Tôi thích!";
+"rating_view_needs_improvements_label" = "Cần cải thiện";
+"rating_view_rate_us_label" = "Đánh giá chúng tôi";
+"rating_view_suggest_label" = "Chia sẻ đề xuất của bạn";
+"rating_view_title_label" = "Bạn có thích letgo không?";
 "reset_password_email_field_hint" = "Email";
 "reset_password_send_button" = "Đặt lại mật khẩu";
 "reset_password_send_error_generic" = "Lỗi xảy ra trong khi cố gắng nhớ mật khẩu của bạn.";

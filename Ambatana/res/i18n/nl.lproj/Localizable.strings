@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Bericht: %@";
 "push_notification_message_title" = "Nieuwe bericht - %@";
+"rating_view_dont_ask_again_button" = "Vraag me niet opnieuw";
+"rating_view_love_it_label" = "Heel leuk!";
+"rating_view_needs_improvements_label" = "Heeft verbeteringen nodig";
+"rating_view_rate_us_label" = "Beoordeel ons";
+"rating_view_suggest_label" = "Deel jouw suggesties";
+"rating_view_title_label" = "Vind je letgo leuk?";
 "reset_password_email_field_hint" = "E-mail";
 "reset_password_send_button" = "Reset wachtwoord";
 "reset_password_send_error_generic" = "Er is een fout opgetreden bij het ophalen van jouw wachtwoord.";

@@ -14,7 +14,6 @@ public enum EventName: String {
     case LoginFB                            = "login-fb"
     case LoginEmail                         = "login-email"
     case SignupEmail                        = "signup-email"
-    case ResetPassword                      = "login-reset-password"
     case Logout                             = "logout"
     case ProductList                        = "product-list"
     
@@ -35,32 +34,17 @@ public enum EventName: String {
     case ProductReport                      = "product-detail-report"
     
     case ProductSellStart                   = "product-sell-start"
-    case ProductSellAddPicture              = "product-sell-add-picture"
-    case ProductSellEditTitle               = "product-sell-edit-title"
-    case ProductSellEditPrice               = "product-sell-edit-price"
-    case ProductSellEditDescription         = "product-sell-edit-description"
-    case ProductSellEditCategory            = "product-sell-edit-category"
-    case ProductSellEditShareFB             = "product-sell-edit-share-fb"
     case ProductSellFormValidationFailed    = "product-sell-form-validation-failed"
     case ProductSellSharedFB                = "product-sell-shared-fb"
-    case ProductSellAbandon                 = "product-sell-abandon"
     case ProductSellComplete                = "product-sell-complete"
     
     case ProductEditStart                   = "product-edit-start"
-    case ProductEditAddPicture              = "product-edit-add-picture"
-    case ProductEditEditTitle               = "product-edit-edit-title"
-    case ProductEditEditPrice               = "product-edit-edit-price"
-    case ProductEditEditCategory            = "product-edit-edit-category"
 //    case ProductEditEditCurrency            = "product-edit-edit-currency"
-    case ProductEditEditDescription         = "product-edit-edit-description"
-    case ProductEditEditShareFB             = "product-edit-edit-share-fb"
     case ProductEditFormValidationFailed    = "product-edit-form-validation-failed"
     case ProductEditSharedFB                = "product-edit-shared-fb"
-    case ProductEditAbandon                 = "product-edit-abandon"
     case ProductEditComplete                = "product-edit-complete"
     
     case ProductDeleteStart                 = "product-delete-start"
-    case ProductDeleteAbandon               = "product-delete-abandon"
     case ProductDeleteComplete              = "product-delete-complete"
     
     case UserMessageSent                    = "user-sent-message"
@@ -70,6 +54,12 @@ public enum EventName: String {
     case ProfileEditEditLocation            = "profile-edit-edit-location"
     case ProfileEditEditPicture             = "profile-edit-edit-picture"
 
+    case AppRatingStart                     = "app-rating-start"
+    case AppRatingRate                      = "app-rating-rate"
+    case AppRatingSuggest                   = "app-rating-suggest"
+    case AppRatingDontAsk                   = "app-rating-dont-ask"
+
+    
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -114,8 +104,6 @@ public enum EventParameterName: String {
     case UserCountry          = "user-country"
     case UserZipCode          = "user-zipcode"
     case SearchString         = "search-keyword"
-    case Number               = "number"                // the number/index of the picture
-    case Enabled              = "enabled"               // true/false. if a checkbox / switch is changed to enabled or disabled
     case Description          = "description"           // error description: why form validation failure.
     case LoginSource          = "login-type"            // the login source
     case MarkAsSoldSource     = "type-page"             // the mark as sold action source
@@ -169,27 +157,6 @@ public struct EventParameters {
     internal mutating func addLoginParamsWithSource(source: EventParameterLoginSourceValue) {
         params[.LoginSource] = source.rawValue
     }
-    
-//    internal mutating func addUserParamsWithUser(user: User?) {
-//        if let actualUser = user {
-//
-//            if let userId = actualUser.objectId {
-//                params[.UserId] = userId
-//            }
-//            if let userEmail = actualUser.email {
-//                params[.UserEmail] = userEmail
-//            }
-//            if let userCity = actualUser.postalAddress.city {
-//                params[.UserCity] = userCity
-//            }
-//            if let userCountry = actualUser.postalAddress.countryCode {
-//                params[.UserCountry] = userCountry
-//            }
-//            if let userZipCode = actualUser.postalAddress.zipCode {
-//                params[.UserZipCode] = userZipCode
-//            }
-//        }
-//    }
     
     internal mutating func addProductParamsWithProduct(product: Product, user: User?) {
         

@@ -177,6 +177,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";
+"rating_view_dont_ask_again_button" = "Ne kérdezz többet";
+"rating_view_love_it_label" = "Tetszik!";
+"rating_view_needs_improvements_label" = "Javításokra van szükség";
+"rating_view_rate_us_label" = "Értékelj minket";
+"rating_view_suggest_label" = "Oszd meg velünk javaslataid";
+"rating_view_title_label" = "Ugye tetszik a letgo?";
 "reset_password_email_field_hint" = "E-mail cím";
 "reset_password_send_button" = "Jelszó visszaállítása";
 "reset_password_send_error_generic" = "Hiba történt a jelszóvisszaállítás során.";
