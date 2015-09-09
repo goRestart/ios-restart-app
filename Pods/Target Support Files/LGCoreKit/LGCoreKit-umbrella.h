@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 
+#import "lgcorekit-Bridging-Header.h"
 #import "LGCoreKit.h"
 
 FOUNDATION_EXPORT double LGCoreKitVersionNumber;

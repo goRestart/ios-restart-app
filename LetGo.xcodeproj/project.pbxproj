@@ -148,7 +148,6 @@
 		66A0CFE51A83740D00FAADF0 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFE41A83740D00FAADF0 /* ChatViewController.swift */; };
 		66A0CFE81A83742900FAADF0 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFE71A83742900FAADF0 /* CategoriesViewController.swift */; };
 		66C056D71A97900800F7EEA8 /* PlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C056D61A97900800F7EEA8 /* PlaceholderTextView.swift */; };
-		66C834B11ADBC5DB002FF142 /* RESTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C834B01ADBC5DB002FF142 /* RESTManager.swift */; };
 		66E3D0A91A89073B00BC283C /* UIViewController+LetGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */; };
 		66EF4AD11A8A046000D6F4D2 /* NewSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EF4AD01A8A046000D6F4D2 /* NewSellProductViewController.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
@@ -369,7 +368,6 @@
 		66A0CFE41A83740D00FAADF0 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		66A0CFE71A83742900FAADF0 /* CategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		66C056D61A97900800F7EEA8 /* PlaceholderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceholderTextView.swift; sourceTree = "<group>"; };
-		66C834B01ADBC5DB002FF142 /* RESTManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RESTManager.swift; sourceTree = "<group>"; };
 		66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+LetGo.swift"; sourceTree = "<group>"; };
 		66EF4AD01A8A046000D6F4D2 /* NewSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSellProductViewController.swift; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
@@ -844,7 +842,6 @@
 				6649D1671A8210B4000F6966 /* Assets & Resources */,
 				66A0CF991A8244D100FAADF0 /* Extensions */,
 				6649D16A1A8210D9000F6966 /* Model */,
-				66DCEDF61ADBBE43006FDFD8 /* RESTManager */,
 				6649D1681A8210C9000F6966 /* Views & Controllers */,
 				6608E0441A820FBD005895ED /* LaunchScreen.xib */,
 				6608E0391A820FBD005895ED /* Supporting Files */,
@@ -974,14 +971,6 @@
 				6622AD951A9F471A00C357DE /* ChatManager.swift */,
 			);
 			name = Managers;
-			sourceTree = "<group>";
-		};
-		66DCEDF61ADBBE43006FDFD8 /* RESTManager */ = {
-			isa = PBXGroup;
-			children = (
-				66C834B01ADBC5DB002FF142 /* RESTManager.swift */,
-			);
-			name = RESTManager;
 			sourceTree = "<group>";
 		};
 		66EF4ACF1A8A044F00D6F4D2 /* Sell Product */ = {
@@ -1451,7 +1440,6 @@
 				667562AF1A96380E00039151 /* ImageHelper.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */,
 				2ED65CFC1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift in Sources */,
-				66C834B11ADBC5DB002FF142 /* RESTManager.swift in Sources */,
 				D4BFE5B61B640C36006A8CB6 /* MainProductsViewModel.swift in Sources */,
 				50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */,
 				50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */,
