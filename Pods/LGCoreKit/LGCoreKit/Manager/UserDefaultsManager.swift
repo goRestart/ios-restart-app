@@ -18,6 +18,7 @@ public class UserDefaultsManager {
     private static let isManualLocationKey = "isManualLocation"
     private static let isApproximateLocationKey = "isApproximateLocation"
     private static let alreadyRatedKey = "alreadyRated"
+    private static let chatSafetyTipsLastPageSeen = "chatSafetyTipsLastPageSeen"
 
     private let keysArray = [latitudeKey, longitudeKey, manualLocationKey, isManualLocationKey, isApproximateLocationKey, alreadyRatedKey]
     
@@ -39,7 +40,6 @@ public class UserDefaultsManager {
     /**
         Deletes all user default values
     */
-    
     public func resetUserDefaults() {
         
         for key in keysArray {
@@ -54,7 +54,6 @@ public class UserDefaultsManager {
 
         :param: location the manual location set by the user
     */
-    
     public func saveManualLocation(location: CLLocation) {
         
         var locationDict = [UserDefaultsManager.latitudeKey : location.coordinate.latitude,
@@ -68,7 +67,6 @@ public class UserDefaultsManager {
     
         :return: last manual location saved by the user
     */
-    
     public func loadManualLocation() -> CLLocation? {
         
         if let locationDict = userDefaults.objectForKey(UserDefaultsManager.manualLocationKey) as? NSDictionary {
@@ -81,14 +79,12 @@ public class UserDefaultsManager {
         }
         return nil
     }
-
     
     /**
         Saves if the last time the location changed was set manually by the user
     
         :param: isManualLocation true if the user edited manually the location, false if uses GPS location
     */
-    
     public func saveIsManualLocation(isManualLocation: Bool) {
         userDefaults.setBool(isManualLocation, forKey: UserDefaultsManager.isManualLocationKey)
     }
@@ -99,7 +95,6 @@ public class UserDefaultsManager {
     
         :return: if the user is using manually set location
     */
-
     public func loadIsManualLocation() -> Bool {
         
         if let keyExists = userDefaults.objectForKey(UserDefaultsManager.isManualLocationKey) as? Bool {
@@ -115,7 +110,6 @@ public class UserDefaultsManager {
     
         :param: isApproximateLocation true if the user wants to use approx location, false if wants to use accurate location
     */
-    
     public func saveIsApproximateLocation(isApproximateLocation: Bool) {
         userDefaults.setBool(isApproximateLocation, forKey: UserDefaultsManager.isApproximateLocationKey)
     }
@@ -126,7 +120,6 @@ public class UserDefaultsManager {
     
         :return: if the user wants to use approximate location
     */
-
     public func loadIsApproximateLocation() -> Bool {
         
         if let keyExists = userDefaults.objectForKey(UserDefaultsManager.isApproximateLocationKey) as? Bool {
@@ -141,7 +134,6 @@ public class UserDefaultsManager {
     
         :param: alreadyRated true if the user rated the app
     */
-    
     public func saveAlreadyRated(alreadyRated: Bool) {
         userDefaults.setBool(alreadyRated, forKey: UserDefaultsManager.alreadyRatedKey)
     }
@@ -152,7 +144,6 @@ public class UserDefaultsManager {
     
         :return: if the user already ratted the app
     */
-    
     public func loadAlreadyRated() -> Bool {
         
         if let keyExists = userDefaults.objectForKey(UserDefaultsManager.alreadyRatedKey) as? Bool {
@@ -160,6 +151,27 @@ public class UserDefaultsManager {
         }
         
         return false
+    }
+    
+    /**
+        Saves if the last chat safety tips page that the user has seen.
+    
+        :param: alreadyRated true if the user rated the app
+    */
+    public func saveChatSafetyTipsLastPageSeen(page: Int) {
+        userDefaults.setInteger(page, forKey: UserDefaultsManager.chatSafetyTipsLastPageSeen)
+    }
+    
+    /**
+        Loads the last chat safety tips page that the user did see.
+    
+        :return: the last chat safety tips page that the user did see. Return nil, if never displayed the tips.
+    */
+    public func loadChatSafetyTipsLastPageSeen() -> Int? {
+        if let keyExists = userDefaults.objectForKey(UserDefaultsManager.chatSafetyTipsLastPageSeen) as? Int {
+            return userDefaults.integerForKey(UserDefaultsManager.chatSafetyTipsLastPageSeen)
+        }
+        return nil
     }
     
 }

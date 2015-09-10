@@ -197,6 +197,9 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         }
     }
     
+    /**
+        Shows the app rating if needed.
+    */
     func showAppRatingViewIfNeeded() {
         // If never shown before, show app rating view
         if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {

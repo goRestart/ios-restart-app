@@ -26,7 +26,7 @@ private let kLetGoConversationCellRelativeTimeTag = 3
 private let kLetGoConversationCellAvatarTag = 4
 
 
-class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     // Constants
     private static let myMessageCellIdentifier = "ChatMyMessageCell"
@@ -115,6 +115,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         
+        // navigation bar
+        updateNavigationBarButtons()
+        
         // appearance
         self.productImageView.image = nil
         self.tableView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI)) // 180 º
@@ -152,9 +155,31 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func loadMessages(conversationObject: PFObject) {
         ChatManager.sharedInstance.loadMessagesFromConversation(conversationObject, completion: { [weak self] (success, messages) -> Void in
             if let strongSelf = self {
-                if success {
-                    strongSelf.messages = messages!
-                } else { // no messages yet. Empty conversation view.
+                // Success & with messages
+                if let actualMessages = messages {
+                    // Keep track of them
+                    strongSelf.messages = actualMessages
+                    
+                    // Check if we received a message by other user
+                    var messageByOtherUserReceived = false
+                    for message in actualMessages {
+                        if let userFrom = message["user_from"] as? PFUser, let userFromId = userFrom.objectId, let myUserId =  MyUserManager.sharedInstance.myUser()?.objectId {
+                            if userFromId != myUserId {
+                                messageByOtherUserReceived = true
+                                break
+                            }
+                        }
+                    }
+                    
+                    // Show the safety tips if we received a message by other user & the tips were not shown ever
+                    let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
+                    var shouldShowSafetyTips = ( messageByOtherUserReceived && idxLastPageSeen == nil )
+                    if shouldShowSafetyTips {
+                        strongSelf.showSafetyTips()
+                    }
+                }
+                // Failure or no messages
+                else {
                     strongSelf.messages = []
                 }
                 strongSelf.disableLoadingMessagesInterface()
@@ -222,6 +247,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         else {
             self.usernameLabel.text = ""
         }
+    }
+    
+    func updateNavigationBarButtons() {
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
+        let safetyTipsCompleted = idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
+        let tipsImageName = safetyTipsCompleted ? "ic_tips_black" : "ic_tips_alert"
+        setLetGoRightButtonsWithImageNames([tipsImageName], andSelectors: ["showSafetyTips"])
     }
     
     // MARK: - Loading interface
@@ -335,6 +367,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // MARK: - ChatSafeTipsViewDelegate
+    
+    func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int) {
+        // Update the last page seen
+        updateChatSafetyTipsLastPageSeen(page)
+        
+        // Update navigation bar buttons
+        updateNavigationBarButtons()
+    }
     
     // MARK: - UITableViewDelegate & DataSource methods
     
@@ -349,7 +390,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         let userFrom = msgObject["user_from"] as! PFUser
         
         var cell: UITableViewCell?
-        if userFrom.objectId == PFUser.currentUser()!.objectId { // message from me
+        if userFrom.objectId == MyUserManager.sharedInstance.myUser()?.objectId { // message from me
             let myMessageCell = tableView.dequeueReusableCellWithIdentifier(ChatViewController.myMessageCellIdentifier, forIndexPath: indexPath) as! ChatMyMessageCell
             configureMyMessageCell(myMessageCell, atIndexPath: indexPath)
             cell = myMessageCell
@@ -500,13 +541,63 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.resignRespondingTextfield()
     }
+    
+    // MARK: - Private methods
+    
+    // MARK: > Safety tips
+    
+    /**
+        Shows the safety tips.
+    */
+    @objc private func showSafetyTips() {
+        if let navCtlView = navigationController?.view, let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() {
+           
+            // Delay is needed in order not to mess with the kb show/hide animation
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                
+                // Hide keyboard
+                self.messageTextfield.resignFirstResponder()
+                
+                // Tips setup
+                chatSafetyTipsView.delegate = self
+                chatSafetyTipsView.dismissBlock = {
+                    // Fade out
+                    UIView.animateWithDuration(0.4, animations: { () -> Void in
+                        chatSafetyTipsView.alpha = 0
+                    }) { (_) -> Void in
+                        // Remove from superview
+                        chatSafetyTipsView.removeFromSuperview()
+                            
+                        // Show keyboard
+                        self.messageTextfield.becomeFirstResponder()
+                    }
+                }
+                
+                // Add it w/o alpha
+                let navCtlFrame = navCtlView.frame
+                chatSafetyTipsView.frame = navCtlFrame
+                chatSafetyTipsView.alpha = 0
+                navCtlView.addSubview(chatSafetyTipsView)
+                
+                // Show safety tips
+                self.updateChatSafetyTipsLastPageSeen(0)
+                
+                // Fade it in
+                UIView.animateWithDuration(0.4, animations: { () -> Void in
+                    chatSafetyTipsView.alpha = 1
+                })
+            }
+        }
+    }
+    
+    /**
+        Updates the chat safety tips last page seen to the given one, if possible.
+    
+        :param: page The page.
+    */
+    private func updateChatSafetyTipsLastPageSeen(page: Int) {
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
+        let maxPageSeen = max(idxLastPageSeen, page)
+        UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
+    }
 }
-
-
-
-
-
-
-
-
-

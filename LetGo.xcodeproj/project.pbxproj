@@ -64,6 +64,8 @@
 		508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CEC1B4281F1007BD301 /* ProductCell.swift */; };
 		508E4CEF1B4281F2007BD301 /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508E4CED1B4281F1007BD301 /* ProductCell.xib */; };
 		509273361B172D5B00A346F9 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509273351B172D5B00A346F9 /* PushManager.swift */; };
+		50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */; };
+		50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */; };
 		50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4B81B71FBB7001E4E92 /* Tracker.swift */; };
 		50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */; };
 		50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */; };
@@ -285,6 +287,8 @@
 		508E4CEC1B4281F1007BD301 /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		508E4CED1B4281F1007BD301 /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		509273351B172D5B00A346F9 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
+		50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatSafetyTipsView.xib; sourceTree = "<group>"; };
+		50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSafetyTipsView.swift; sourceTree = "<group>"; };
 		50C9E4B81B71FBB7001E4E92 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEvent.swift; sourceTree = "<group>"; };
 		50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerProxy.swift; sourceTree = "<group>"; };
@@ -670,6 +674,15 @@
 				50C9E4B71B71FBB7001E4E92 /* Tracking */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		50A8DC7C1BA06B5A008296B0 /* Chat Safety Tips */ = {
+			isa = PBXGroup;
+			children = (
+				50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */,
+				50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */,
+			);
+			path = "Chat Safety Tips";
 			sourceTree = "<group>";
 		};
 		50C9E4B71B71FBB7001E4E92 /* Tracking */ = {
@@ -1069,6 +1082,7 @@
 				2ECEAD0F1B9E0DB300C8B40C /* App Rating */,
 				50DBEC371B3D79C8006CBDE0 /* TabBarToolTip.swift */,
 				508E4CEB1B4281F1007BD301 /* Cells */,
+				50A8DC7C1BA06B5A008296B0 /* Chat Safety Tips */,
 				D458383D1AEE6A9100B5F181 /* helper */,
 				505B06A41B15A9910049F9CD /* Widgets */,
 			);
@@ -1309,6 +1323,7 @@
 				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
 				50C9E4D31B73637D001E4E92 /* Pods.debug.xcconfig in Resources */,
+				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
 				50C9E4F91B74C9F6001E4E92 /* README.txt in Resources */,
 				D4BFE5B51B640C36006A8CB6 /* MainProductsViewController.xib in Resources */,
@@ -1517,6 +1532,7 @@
 				2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */,
 				50F0BAAD1B28939F00E50A68 /* SignUpViewController.swift in Sources */,
 				D46FF5321B81299B00D03B37 /* SocialHelper.swift in Sources */,
+				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
