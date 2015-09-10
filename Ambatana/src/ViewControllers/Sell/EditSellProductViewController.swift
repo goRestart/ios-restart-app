@@ -48,7 +48,9 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         self.editViewModel.shouldDisableTracking()
         super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
         
-        editViewModel.updateInfoOfPreviousVC()
+        if let savedProduct = result.value {
+            editViewModel.updateInfoOfPreviousVCWithProduct(savedProduct)
+        }
         
         self.showAutoFadingOutMessageAlert(NSLocalizedString("edit_product_send_ok", comment: "")) { () -> Void in
             self.navigationController?.popViewControllerAnimated(true)

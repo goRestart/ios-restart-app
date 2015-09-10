@@ -616,7 +616,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // MARK: - UpdateDetailInfoDelegate
     
-    public func updateDetailInfo(viewModel: EditSellProductViewModel) {
+    public func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct savedProduct: Product) {
+        product = savedProduct
         delegate?.viewModelDidUpdate(self)
     }
     
@@ -661,4 +662,5 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     private func deleteFavouriteCompleted() {
     }
+    
 }

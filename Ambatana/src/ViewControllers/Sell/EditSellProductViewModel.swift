@@ -14,7 +14,7 @@ public protocol EditSellProductViewModelDelegate : class {
 }
 
 public protocol UpdateDetailInfoDelegate : class {
-    func updateDetailInfo(viewModel: EditSellProductViewModel)
+    func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct: Product)
 }
 
 public class EditSellProductViewModel: SellProductViewModel {
@@ -23,6 +23,7 @@ public class EditSellProductViewModel: SellProductViewModel {
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
     
     public init(product: Product) {
+        
         self.product = product
         super.init()
         
@@ -133,7 +134,7 @@ public class EditSellProductViewModel: SellProductViewModel {
     
     // MARK: - Update info of previous VC
     
-    public func updateInfoOfPreviousVC() {
-        updateDetailDelegate?.updateDetailInfo(self)
+    public func updateInfoOfPreviousVCWithProduct(savedProduct: Product) {
+        updateDetailDelegate?.updateDetailInfo(self, withSavedProduct: savedProduct)
     }
 }
