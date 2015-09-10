@@ -36,6 +36,10 @@
 "chat_list_title" = "채팅";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
+"chat_safety_tips_tip_1" = "항상 판매자와 직접 대면하세요.";
+"chat_safety_tips_tip_2" = "배송하기를 결정하셨다면, 직감적이고 현명하게 거래하세요!";
+"chat_safety_tips_tip_3" = "은행 수표 및 머니 오더를 제시하는 경우 거절하세요.";
+"chat_safety_tips_title" = "안전 정보";
 "chat_send_button" = "발송";
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
 "common_cancel" = "취소";

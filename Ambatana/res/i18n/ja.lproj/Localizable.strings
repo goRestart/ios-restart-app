@@ -36,6 +36,10 @@
 "chat_list_title" = "チャット";
 "chat_message_field_hint" = "あなたのメッセージをここに記入して下さい...";
 "chat_message_load_generic_error" = "会話のデータの検索中にエラーが発生しました。後でもう一度お試しください。";
+"chat_safety_tips_tip_1" = "常に相手と直接取引きしてください。";
+"chat_safety_tips_tip_2" = "送付を決める時は、賢く直感的に！";
+"chat_safety_tips_tip_3" = "銀行小切手や郵便為替の使用は断りましょう。";
+"chat_safety_tips_title" = "安全に関するアドバイス";
 "chat_send_button" = "送信";
 "chat_send_error_generic" = "メッセージの送信でエラーが発生しました。後でもう一度お試しください。";
 "common_cancel" = "キャンセル";

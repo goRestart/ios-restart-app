@@ -36,6 +36,10 @@
 "chat_list_title" = "Chatek";
 "chat_message_field_hint" = "Írd ide az üzenetet...";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
+"chat_safety_tips_tip_1" = "Mindig személyesen, élőben üzletelj. Ne utalj előre pénzt!";
+"chat_safety_tips_tip_2" = "Ha postázol, csak okosan és értelmesen!";
+"chat_safety_tips_tip_3" = "Mondj NEMET a banki csekkekre és a pénzutalványokra.";
+"chat_safety_tips_title" = "Tippek";
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
 "common_cancel" = "Mégse";

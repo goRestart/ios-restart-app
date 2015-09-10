@@ -36,6 +36,10 @@
 "chat_list_title" = "Chats";
 "chat_message_field_hint" = "Escribe tu mensaje";
 "chat_message_load_generic_error" = "¡Ups! Ha habido un error al acceder a los datos de tu conversación. Prueba otra vez.";
+"chat_safety_tips_tip_1" = "Negocia siempre en persona.";
+"chat_safety_tips_tip_2" = "Si decides hacer un envío, ¡hazlo de manera inteligente y sé intuitivo!";
+"chat_safety_tips_tip_3" = "Di NO a los cheques bancarios y transferencias.";
+"chat_safety_tips_title" = "Consejos";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
 "common_cancel" = "Cancelar";

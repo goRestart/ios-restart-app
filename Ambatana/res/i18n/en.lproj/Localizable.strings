@@ -112,6 +112,18 @@
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 
+// Chat safety tips title. Check attached image "chat_safety_tips.png"
+"chat_safety_tips_title" = "Safety Tips";
+
+// Chat safety tips tip 1. Check image @ "chat_safety_tips_title" segment
+"chat_safety_tips_tip_1" = "Always deal face-to-face, in person.";
+
+// Chat safety tips tip 2. Check image @ "chat_safety_tips_title" segment
+"chat_safety_tips_tip_2" = "If you decide to ship, be smart and intuitive!";
+
+// Chat safety tips tip 3. Check image @ "chat_safety_tips_title" segment
+"chat_safety_tips_tip_3" = "Say NO to bank checks or money orders.";
+
 // Chat send button. Check image @ "chat_list_title" segment
 "chat_send_button" = "Send";
 
@@ -750,4 +762,3 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff!";
-

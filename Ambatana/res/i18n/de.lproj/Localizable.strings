@@ -36,6 +36,10 @@
 "chat_list_title" = "Gespräche";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
+"chat_safety_tips_tip_1" = "Verhandle immer persönlich.";
+"chat_safety_tips_tip_2" = "Falls du dich entschließt etwas zu verschicken, vertraue deinem Bauchgefühl!";
+"chat_safety_tips_tip_3" = "Sag NEIN zu Schecks und Zahlungsanweisungen.";
+"chat_safety_tips_title" = "Sicherheitstipps";
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "common_cancel" = "Abbrechen";

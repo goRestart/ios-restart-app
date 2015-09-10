@@ -36,6 +36,10 @@
 "chat_list_title" = "Trò chuyện";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
+"chat_safety_tips_tip_1" = "Luôn luôn giao dịch trực tiếp.";
+"chat_safety_tips_tip_2" = "Nếu bạn quyết định ship hàng, hãy xem xét thật khôn ngoan!";
+"chat_safety_tips_tip_3" = "Nói KHÔNG với séc ngân hàng hay ngân phiếu.";
+"chat_safety_tips_title" = "Mẹo";
 "chat_send_button" = "Gửi đi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
 "common_cancel" = "Hủy";

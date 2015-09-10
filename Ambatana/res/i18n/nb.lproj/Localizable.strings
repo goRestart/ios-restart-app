@@ -36,6 +36,10 @@
 "chat_list_title" = "Samtaler";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
+"chat_safety_tips_tip_1" = "Forhandle alltid ansikt til ansikt, personlig.";
+"chat_safety_tips_tip_2" = "Vær smart og intuitiv hvis du bestemmer deg for å sende varene!";
+"chat_safety_tips_tip_3" = "Si NEI til sjekker og postanvisninger.";
+"chat_safety_tips_title" = "Sikkerhetstips";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
 "common_cancel" = "Avbryt";
