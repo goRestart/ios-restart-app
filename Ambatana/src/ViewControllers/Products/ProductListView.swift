@@ -14,6 +14,8 @@ public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt)
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath)
+    func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError)
+
 }
 
 public enum ProductListViewState {
@@ -331,6 +333,11 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         
         // Notify the delegate
         delegate?.productListView(self, didSucceedRetrievingProductsPage: page)
+    }
+    
+    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+        // Notify the delegate
+        delegate?.productListView(self, didFailRetrievingUserProductsPage: page, error: error)
     }
     
     // MARK: - Private methods

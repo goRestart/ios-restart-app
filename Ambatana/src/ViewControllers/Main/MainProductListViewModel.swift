@@ -38,6 +38,7 @@ public class MainProductListViewModel: ProductListViewModel {
         self.myUserManager = MyUserManager.sharedInstance
         self.locationManager = LocationManager.sharedInstance
         super.init()
+        self.isProfileList = false
     }
     
     internal override func didSetActive(active: Bool) {

@@ -130,6 +130,10 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    public func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+    }
+
+    
     // MARK: - ProductListViewLocationDelegate
     
     public func mainProductListView(mainProductListView: MainProductListView, didFailRequestingLocationServices status: LocationServiceStatus) {

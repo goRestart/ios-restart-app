@@ -14,6 +14,8 @@ public protocol ProductListViewModelDataDelegate: class {
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
     func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
     func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath])
+    func viewModel(viewModel: ProductListViewModel, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError)
+
 }
 
 public class ProductListViewModel: BaseViewModel {
@@ -64,6 +66,7 @@ public class ProductListViewModel: BaseViewModel {
     public weak var dataDelegate: ProductListViewModelDataDelegate?
     
     // Manager
+    public var isProfileList: Bool = false
     private let productsManager: ProductsManager
     
     // Data
@@ -122,7 +125,8 @@ public class ProductListViewModel: BaseViewModel {
     
     public override init() {
         let productsRetrieveService = LGProductsRetrieveService()
-        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService)
+        let userProductsRetrieveService = LGUserProductsRetrieveService()
+        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService, userProductsRetrieveService: userProductsRetrieveService)
         
         self.products = []
         self.pageNumber = 0
@@ -136,9 +140,9 @@ public class ProductListViewModel: BaseViewModel {
         super.didSetActive(active)
         
         // If active and there are no products, then reload if possible
-        if active && numberOfProducts == 0 && canRetrieveProducts {
-            retrieveProductsFirstPage()
-        }
+//        if active && numberOfProducts == 0 && canRetrieveProducts {
+//            retrieveProductsFirstPage()
+//        }
     }
     
     // MARK: - Public methods
@@ -177,7 +181,11 @@ public class ProductListViewModel: BaseViewModel {
                 }
             }
         }
-        productsManager.retrieveProductsWithParams(params, result: myResult)
+        if isProfileList {
+            productsManager.retrieveUserProductsWithParams(params, result: myResult)
+        } else {
+            productsManager.retrieveProductsWithParams(params, result: myResult)
+        }
     }
     
     /**
@@ -212,10 +220,14 @@ public class ProductListViewModel: BaseViewModel {
                 }
             }
         }
-        productsManager.retrieveProductsNextPageWithResult(myResult)
+        if isProfileList {
+            productsManager.retrieveUserProductsNextPageWithResult(myResult)
+        } else {
+            productsManager.retrieveProductsNextPageWithResult(myResult)
+        }
+        
     }
-    
-    
+        
     // MARK: > UI
     
     /**
@@ -229,20 +241,20 @@ public class ProductListViewModel: BaseViewModel {
     }
     
     /**
-    Returns the product object id for the product at the given index.
+        Returns the product object id for the product at the given index.
     
-    :param: index The index of the product.
-    :returns: The product object id.
+        :param: index The index of the product.
+        :returns: The product object id.
     */
     public func productObjectIdForProductAtIndex(index: Int) -> String? {
         return productAtIndex(index).objectId
     }
     
     /**
-    Returns the size of the cell at the given index path.
+        Returns the size of the cell at the given index path.
     
-    :param: index The index of the product.
-    :returns: The cell size.
+        :param: index The index of the product.
+        :returns: The cell size.
     */
     public func sizeForCellAtIndex(index: Int) -> CGSize {
         let product = productAtIndex(index)

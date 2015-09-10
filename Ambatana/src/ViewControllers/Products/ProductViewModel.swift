@@ -353,7 +353,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             productManager.retrieveFavourite(product) { [weak self] (result: Result<ProductFavourite, ProductFavouriteRetrieveServiceError>) -> Void in
                 if let strongSelf = self {
                     // Update the flag
-                    println(result.value)
                     strongSelf.isFavourite = (result.value != nil)
                     
                     // Notify the delegate
@@ -424,6 +423,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func imageURLAtIndex(index: Int) -> NSURL? {
         return product.images[index].fileURL
+    }
+    
+    public func imageTokenAtIndex(index: Int) -> String? {
+        return product.images[index].token
     }
     
     // MARK: > Share

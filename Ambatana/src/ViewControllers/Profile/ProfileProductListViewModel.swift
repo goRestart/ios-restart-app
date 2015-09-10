@@ -38,6 +38,9 @@ public class ProfileProductListViewModel: ProductListViewModel {
         self.type = type
         super.init()
         
+        self.isProfileList = true
+        
         self.sortCriteria = .Creation
     }
+    
 }
