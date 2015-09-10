@@ -143,29 +143,32 @@ public class EditUserLocationViewModel: BaseViewModel {
         usingGPSLocation = true
 
         if !serviceAlreadyLoading {
-            serviceAlreadyLoading = true
-            delegate?.viewModelDidStartSearchingLocation(self)
-            postalAddressService.retrieveAddressForLocation(LocationManager.sharedInstance.lastGPSLocation!) { [weak self] (result: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
-                if let strongSelf = self {
-                    if let actualDelegate = strongSelf.delegate {
-                        if let place = result.value, let postalAddress = place.postalAddress {
-                            actualDelegate.viewModel(strongSelf, centerMapInLocation: LocationManager.sharedInstance.lastGPSLocation!.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
-                            var userLocationString = ""
-                            if let zipCode = postalAddress.zipCode {
-                                userLocationString += zipCode
-                            }
-                            if let city = postalAddress.city {
-                                if !userLocationString.isEmpty {
-                                    userLocationString += ", "
+            if let lastGPSLocation = LocationManager.sharedInstance.lastGPSLocation {
+                serviceAlreadyLoading = true
+                delegate?.viewModelDidStartSearchingLocation(self)
+                
+                postalAddressService.retrieveAddressForLocation(lastGPSLocation) { [weak self] (result: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
+                    if let strongSelf = self {
+                        if let actualDelegate = strongSelf.delegate {
+                            if let place = result.value, let postalAddress = place.postalAddress {
+                                actualDelegate.viewModel(strongSelf, centerMapInLocation: LocationManager.sharedInstance.lastGPSLocation!.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
+                                var userLocationString = ""
+                                if let zipCode = postalAddress.zipCode {
+                                    userLocationString += zipCode
                                 }
-                                userLocationString += city
+                                if let city = postalAddress.city {
+                                    if !userLocationString.isEmpty {
+                                        userLocationString += ", "
+                                    }
+                                    userLocationString += city
+                                }
+                                actualDelegate.viewModel(strongSelf, updateTextFieldWithString: userLocationString)
+                                
+                                strongSelf.currentPlace = place
                             }
-                            actualDelegate.viewModel(strongSelf, updateTextFieldWithString: userLocationString)
-                            
-                            strongSelf.currentPlace = place
                         }
+                        strongSelf.serviceAlreadyLoading = false
                     }
-                    strongSelf.serviceAlreadyLoading = false
                 }
             }
         }
