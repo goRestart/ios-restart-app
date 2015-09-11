@@ -16,7 +16,7 @@ public protocol MainProductListViewModelLocationDelegate: ProductListViewModelDa
 public class MainProductListViewModel: ProductListViewModel {
     
     // Constants
-    private static let locationRetrievalTimeout: NSTimeInterval = 15    // seconds
+    private static let locationRetrievalTimeout: NSTimeInterval = 20    // seconds
     
     // Delegate
     public weak var locationDelegate: MainProductListViewModelLocationDelegate?
