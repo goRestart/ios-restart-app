@@ -22,7 +22,6 @@ pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit" #"0.11.3" #:path =
 
 # Networking (to be removed when migrating to LGCoreKit)
 pod "Alamofire",            "~> 1.2"
-pod "AFNetworking",         "~> 2.0"
 
 # Animation
 pod "pop",                  "~> 1.0"

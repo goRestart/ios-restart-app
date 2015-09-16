@@ -277,11 +277,19 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
             alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_image_source_cancel_button", comment: ""), style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
             
+            if indexPath.item > 1 && indexPath.item < 4 {
+                collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item+1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Right, animated: true)
+            }
+            
         } else if (indexPath.item < viewModel.numberOfImages) {
             // remove image
             let alert = UIAlertController(title: NSLocalizedString("sell_picture_selected_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
             alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_selected_delete_button", comment: ""), style: .Destructive, handler: { (deleteAction) -> Void in
                 self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
+                if indexPath.item > 0 {
+                    collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item-1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
+                }
+
             }))
             alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_selected_save_into_camera_roll_button", comment: ""), style: .Default, handler: { (saveAction) -> Void in
                 self.saveProductImageToDiskAtIndex(indexPath.row)
@@ -290,7 +298,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
             
             self.presentViewController(alert, animated: true, completion: nil)
         }
-        
     }
     
     // MARK: UIImagePicker Delegate
@@ -389,9 +396,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         
         loadingLabel.text = NSLocalizedString("sell_uploading_label", comment: "")
         
-        self.setLetGoNavigationBarStyle(title: NSLocalizedString("edit_product_title", comment: "") ?? UIImage(named: "navbar_logo"))
-
-        var myBackButton = self.navigationItem.leftBarButtonItem
     }
     
     override func popBackViewController() {
