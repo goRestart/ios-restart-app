@@ -1160,9 +1160,10 @@
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
 				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
-				5026B0A61B05E2F3006858BB /* ShellScript */,
+				5026B0A61B05E2F3006858BB /* Fabric Script */,
 				2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */,
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
+				502B70571BA9C7FD00C5D465 /* Warnings Script */,
 			);
 			buildRules = (
 			);
@@ -1338,18 +1339,33 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5026B0A61B05E2F3006858BB /* ShellScript */ = {
+		5026B0A61B05E2F3006858BB /* Fabric Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Fabric Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
+		};
+		502B70571BA9C7FD00C5D465 /* Warnings Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Warnings Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
 		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
