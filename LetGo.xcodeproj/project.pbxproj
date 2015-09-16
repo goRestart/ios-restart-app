@@ -120,7 +120,7 @@
 		6608E0411A820FBD005895ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6608E03F1A820FBD005895ED /* Main.storyboard */; };
 		6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
 		6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0441A820FBD005895ED /* LaunchScreen.xib */; };
-		6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6622AD951A9F471A00C357DE /* ChatManager.swift */; };
+		6622AD961A9F471A00C357DE /* OldChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6622AD951A9F471A00C357DE /* OldChatManager.swift */; };
 		66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */; };
 		66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */; };
 		6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; };
@@ -339,7 +339,7 @@
 		6608E0401A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Launchers.xcassets"; sourceTree = "<group>"; };
 		6608E0451A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		6622AD951A9F471A00C357DE /* ChatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
+		6622AD951A9F471A00C357DE /* OldChatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatManager.swift; sourceTree = "<group>"; };
 		66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+RelativeTime.swift"; sourceTree = "<group>"; };
 		66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MKMapView+ProductPin.swift"; sourceTree = "<group>"; };
 		6640F03F1AE13EBE00004556 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -971,7 +971,7 @@
 			isa = PBXGroup;
 			children = (
 				667562AE1A96380E00039151 /* ImageHelper.swift */,
-				6622AD951A9F471A00C357DE /* ChatManager.swift */,
+				6622AD951A9F471A00C357DE /* OldChatManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -1526,7 +1526,7 @@
 				50560BA31B25DAD50021D8D9 /* LogInViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
 				50F0BAB01B2893B100E50A68 /* SignUpViewModel.swift in Sources */,
-				6622AD961A9F471A00C357DE /* ChatManager.swift in Sources */,
+				6622AD961A9F471A00C357DE /* OldChatManager.swift in Sources */,
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */,

@@ -149,7 +149,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func loadMessages(conversationObject: PFObject) {
-        ChatManager.sharedInstance.loadMessagesFromConversation(conversationObject, completion: { [weak self] (success, messages) -> Void in
+        OldChatManager.sharedInstance.loadMessagesFromConversation(conversationObject, completion: { [weak self] (success, messages) -> Void in
             if let strongSelf = self {
                 if success {
                     strongSelf.messages = messages!
@@ -164,7 +164,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 // now that we have loaded the messages (and are sure the user can read them) we can mark them as read in the conversation.
                 let conversation = strongSelf.letgoConversation!.conversationObject
-                ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: conversation, completion: nil)
+                OldChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: conversation, completion: nil)
             }
         })
     }
@@ -251,7 +251,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.isSendingMessage = true
         
         // send message
-        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.product!, isOffer: false) { [weak self] (success, newlyCreatedMessageObject) -> Void in
+        OldChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.product!, isOffer: false) { [weak self] (success, newlyCreatedMessageObject) -> Void in
             if let strongSelf = self {
                 if success {
                     strongSelf.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)

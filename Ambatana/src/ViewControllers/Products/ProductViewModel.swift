@@ -558,7 +558,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         if let productUser = product.user {
 
             // Retrieve the conversation
-            ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser, aboutProduct: product) { [weak self] (success, conversation) -> Void in
+            OldChatManager.sharedInstance.retrieveMyConversationWithUser(productUser, aboutProduct: product) { [weak self] (success, conversation) -> Void in
                 if let strongSelf = self {
                     
                     // If we've the conversation
@@ -567,7 +567,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                     }
                     // Otherwise, we need to create it
                     else {
-                        ChatManager.sharedInstance.createConversationWithUser(productUser, aboutProduct: strongSelf.product, completion: { (success, conversation) -> Void in
+                        OldChatManager.sharedInstance.createConversationWithUser(productUser, aboutProduct: strongSelf.product, completion: { (success, conversation) -> Void in
 
                             // If we successfully created it
                             if let actualConversation = conversation {

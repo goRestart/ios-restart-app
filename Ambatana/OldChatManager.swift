@@ -16,7 +16,7 @@ private let kLetGoChatMessageTypeOfferMessage = 1
 private let kLetGoPushNotificationMaxPayloadSpaceForText = 180
 
 // private singleton instance
-private let _singletonInstance = ChatManager()
+private let _singletonInstance = OldChatManager()
 
 /** A representation of an LetGo chat conversation with another user */
 public struct LetGoConversation {
@@ -84,12 +84,12 @@ public struct LetGoConversation {
 * The LocationManager is in charge of handling the position of the user, updating it conveniently when the user has changed it significantly.
 * LocationManager follows the Singleton pattern, so it's accessed by means of the shared method sharedInstance().
 */
-class ChatManager: NSObject {
+class OldChatManager: NSObject {
     /** Async queue for dispatching push notifications */
     var pushNotificationsDispatchQueue: dispatch_queue_t
     
     /** Shared instance */
-    class var sharedInstance: ChatManager {
+    class var sharedInstance: OldChatManager {
         return _singletonInstance
     }
 

@@ -77,11 +77,11 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             enableLoadingInterface()
             
             // check if we have some current conversation with the user
-            ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser, aboutProduct: actualProduct) { [weak self] (success, conversation) -> Void in
+            OldChatManager.sharedInstance.retrieveMyConversationWithUser(productUser, aboutProduct: actualProduct) { [weak self] (success, conversation) -> Void in
                 if let strongSelf = self {
                     if success { // we have a conversation.
                         // try to add the offer text first.
-                        ChatManager.sharedInstance.addTextMessage(offerText, toUser: productUser, inConversation: conversation!, fromProduct: actualProduct, isOffer: true, completion: { [weak self] (success, newlyCreatedMessageObject) -> Void in
+                        OldChatManager.sharedInstance.addTextMessage(offerText, toUser: productUser, inConversation: conversation!, fromProduct: actualProduct, isOffer: true, completion: { [weak self] (success, newlyCreatedMessageObject) -> Void in
                             if let strongSelf = self {
                                 if success {
                                     strongSelf.launchChatWithConversation(conversation!)
@@ -102,10 +102,10 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                         })
                     }
                     else { // we need to create a conversation and pass it.
-                        ChatManager.sharedInstance.createConversationWithUser(productUser, aboutProduct: actualProduct, completion: { [weak self] (success, conversation) -> Void in
+                        OldChatManager.sharedInstance.createConversationWithUser(productUser, aboutProduct: actualProduct, completion: { [weak self] (success, conversation) -> Void in
                             if let strongSelf = self {
                                 if success {
-                                    ChatManager.sharedInstance.addTextMessage(offerText, toUser: productUser, inConversation: conversation!, fromProduct: actualProduct, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
+                                    OldChatManager.sharedInstance.addTextMessage(offerText, toUser: productUser, inConversation: conversation!, fromProduct: actualProduct, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
                                         if success {
                                             strongSelf.launchChatWithConversation(conversation!)
                                             

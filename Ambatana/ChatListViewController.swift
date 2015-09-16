@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
+import LGCoreKit
 import Parse
 import UIKit
 
@@ -96,7 +97,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         // retrieve conversations
         if force || (conversations == nil || itsAboutTimeToRefreshConversations()) {
             if conversations == nil { enableLoadingConversationsInterface() }
-            ChatManager.sharedInstance.retrieveMyConversationsWithCompletion({ [weak self] (success, conversations) -> Void in
+            OldChatManager.sharedInstance.retrieveMyConversationsWithCompletion({ [weak self] (success, conversations) -> Void in
                 if let strongSelf = self {
                     if success && conversations?.count > 0 {
                         strongSelf.conversations = conversations
