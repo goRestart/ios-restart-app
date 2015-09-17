@@ -36,9 +36,9 @@
 "chat_list_title" = "Sohbet";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Konuşma verilerin alınırken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
-"chat_safety_tips_tip_1" = "Her zaman yüz yüze, kişisel olarak işlem yap.";
-"chat_safety_tips_tip_2" = "Eğer kargoyu kullanmaya karar verirsen, akıllı ve içgüdüsel davran!";
-"chat_safety_tips_tip_3" = "Çeklere veya para havalelerine HAYIR de.";
+"chat_safety_tips_tip_1" = "Anlaştıktan sonra, kişi ile yüz yüze görüş ve nakit ödeme yap.";
+"chat_safety_tips_tip_2" = "Banka havalesi ve çeklere hayır de.";
+"chat_safety_tips_tip_3" = "Eğer kargo kullanmak istersen, akıllı ve önsezili ol!";
 "chat_safety_tips_title" = "Tavsiyeler";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
@@ -181,7 +181,7 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";
-"rating_view_dont_ask_again_button" = "Bana bir daha sorma";
+"rating_view_dont_ask_again_button" = "Bunu bir daha sorma";
 "rating_view_love_it_label" = "Seviyorum!";
 "rating_view_needs_improvements_label" = "Geliştirilmesi gerekiyor";
 "rating_view_rate_us_label" = "Bize oy ver";

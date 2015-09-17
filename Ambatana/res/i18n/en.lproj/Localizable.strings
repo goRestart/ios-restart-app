@@ -116,13 +116,13 @@
 "chat_safety_tips_title" = "Safety Tips";
 
 // Chat safety tips tip 1. Check image @ "chat_safety_tips_title" segment
-"chat_safety_tips_tip_1" = "Always deal face-to-face, in person.";
+"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
 
 // Chat safety tips tip 2. Check image @ "chat_safety_tips_title" segment
-"chat_safety_tips_tip_2" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
 
 // Chat safety tips tip 3. Check image @ "chat_safety_tips_title" segment
-"chat_safety_tips_tip_3" = "Say NO to bank checks or money orders.";
+"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
 
 // Chat send button. Check image @ "chat_list_title" segment
 "chat_send_button" = "Send";
@@ -491,7 +491,7 @@
 "product_reporting_loading_message" = "Reporting Product...";
 
 // Product reported success message. Message displayal is like the other dialog messages
-"product_reported_success_message" = "The product was reported successfully.  Thanks!";
+"product_reported_success_message" = "The product was reported successfully. Thanks!";
 
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";

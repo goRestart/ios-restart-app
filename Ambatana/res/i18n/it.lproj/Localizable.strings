@@ -36,9 +36,9 @@
 "chat_list_title" = "Conversazioni";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
-"chat_safety_tips_tip_1" = "Contratta sempre di persona.";
-"chat_safety_tips_tip_2" = "Se decidi di effettuare una spedizione, fallo in maniera intelligente e intuitiva!";
-"chat_safety_tips_tip_3" = "RIFIUTA assegni bancari o vaglia postali.";
+"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
+"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
+"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
 "chat_safety_tips_title" = "Consigli utili";
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";

@@ -36,9 +36,9 @@
 "chat_list_title" = "Chatt";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av diskussionsdata. Var god försök senare.";
-"chat_safety_tips_tip_1" = "Kom alltid överens ansikte mot ansikte.";
-"chat_safety_tips_tip_2" = "Om du bestämmer dig för att skicka, var smart!";
-"chat_safety_tips_tip_3" = "Säg NEJ till checkar eller andra pengaöverföringar.";
+"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
+"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
+"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
 "chat_safety_tips_title" = "Säkerhetstips";
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";

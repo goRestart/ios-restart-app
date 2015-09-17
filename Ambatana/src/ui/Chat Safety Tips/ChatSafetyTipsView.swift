@@ -44,10 +44,9 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
     @IBOutlet weak var pageControl: UIPageControl!
     @IBOutlet weak var pageControlBottomMarginConstraint: NSLayoutConstraint!
     @IBOutlet weak var leftButton: UIButton!
+    @IBOutlet weak var downView: UIView!
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
-    
-    private var lines: [CALayer] = []
     
     // > Data
     public static var tipsCount: Int {
@@ -66,19 +65,6 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
             actualView.setupUI()
         }
         return view
-    }
-    
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        // Redraw the lines
-        for line in lines {
-            line.removeFromSuperlayer()
-        }
-        lines = []
-        lines.append(okButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(leftButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(rightButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        
     }
     
     // MARK: - Public methods
@@ -127,6 +113,7 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
 
         // UI
         tipsView.layer.cornerRadius = 4
+        okButton.layer.cornerRadius = 4
         
         // i18n
         titleLabel.text = NSLocalizedString("chat_safety_tips_title", comment: "").uppercaseString
