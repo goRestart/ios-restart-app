@@ -12,9 +12,6 @@ import Parse
 import UIKit
 
 public class MainProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, MainProductsViewModelDelegate, UISearchBarDelegate {
-
-    // Constants
-    private static let TooltipHidingPageCountThreshold: UInt = 4
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -36,6 +33,8 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         viewModel.delegate = self
+        
+        hidesBottomBarWhenPushed = false
     }
 
     public required init(coder: NSCoder) {
@@ -116,12 +115,7 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
     }
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
-        // If exceeding the page threshold, then hide the tip
-        if page >= MainProductsViewController.TooltipHidingPageCountThreshold {
-            if let tabBarCtl = tabBarController as? TabBarController {
-                tabBarCtl.dismissTooltip(animated: true)
-            }
-        }
+
     }
     
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {

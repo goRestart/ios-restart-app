@@ -38,6 +38,8 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     var allowGoingBack = false
     
     override func viewDidLoad() {
+        hidesBottomBarWhenPushed = true
+        
         super.viewDidLoad()
         self.searchTextField.delegate = self
         

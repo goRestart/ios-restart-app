@@ -24,6 +24,8 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
+        hidesBottomBarWhenPushed = true
+        
         super.viewDidLoad()
         self.setLetGoNavigationBarStyle(title: NSLocalizedString("product_location_title", comment: ""))
         

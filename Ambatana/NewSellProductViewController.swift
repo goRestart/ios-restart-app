@@ -77,6 +77,7 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     
     init() {
         super.init(nibName: "NewSellProductViewController", bundle: nil)
+        hidesBottomBarWhenPushed = true
     }
     
     required init(coder aDecoder: NSCoder) {
