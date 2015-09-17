@@ -79,6 +79,8 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         self.user = user
         shouldReload = true
         super.init(nibName: "EditProfileViewController", bundle: nil)
+        
+        hidesBottomBarWhenPushed = false
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -130,15 +132,20 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         
         // Add bottom inset (tabbar) if tabbar visible
         let bottomInset: CGFloat
+        let footerHeight: CGFloat
         if let tabBarCtl = self.tabBarController {
             bottomInset = tabBarCtl.tabBar.hidden ? 0 : tabBarCtl.tabBar.frame.height
+            footerHeight = tabBarCtl.tabBar.hidden ? 0 : 80
         }
         else {
             bottomInset = 0
+            footerHeight = 0
         }
         favouriteCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
         sellingProductListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
+        sellingProductListView.collectionViewFooterHeight = footerHeight
         soldProductListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
+        soldProductListView.collectionViewFooterHeight = footerHeight
         
         // register ProductCell
         let cellNib = UINib(nibName: "ProductCell", bundle: nil)
@@ -170,8 +177,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
             soldProductListView.user = user
             soldProductListView.type = .Sold
             
-            favouriteCollectionView.reloadSections(NSIndexSet(index: 0))
-            
+            favouriteCollectionView.reloadData()
             
             retrieveProductsForTab(ProfileTab.ProductImSelling)
             retrieveProductsForTab(ProfileTab.ProductISold)
@@ -293,6 +299,13 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     // MARK: - UICollectionViewDataSource and Delegate methods
     
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, heightForFooterInSection section: Int) -> CGFloat {
+        if let tabBarCtl = self.tabBarController {
+            return tabBarCtl.tabBar.hidden ? 0 : 80
+        }
+        return 0
+    }
+    
     func collectionView(collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -327,16 +340,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
-    // MARK: - UIScrollViewDelegate
-    
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        // Hide tip when dragging
-        if let tabBarCtl = tabBarController as? TabBarController {
-            tabBarCtl.dismissTooltip(animated: true)
-        }
-    }
-    
+        
     // MARK: - UI
     
     func selectButton(button: UIButton) {

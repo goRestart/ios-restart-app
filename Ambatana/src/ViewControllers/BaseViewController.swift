@@ -29,6 +29,8 @@ public class BaseViewController: UIViewController {
         self.viewModel = viewModel
         self.subviews = []
         super.init(nibName: nibNameOrNil, bundle: nil)
+        
+        hidesBottomBarWhenPushed = true
     }
 
     public required init(coder aDecoder: NSCoder) {

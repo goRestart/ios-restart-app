@@ -38,6 +38,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     @IBOutlet weak var dataView: UIView!
     var refreshControl: UIRefreshControl!
     @IBOutlet weak var collectionView: UICollectionView!
+    var collectionViewFooterHeight: CGFloat
     
     // > Error
     @IBOutlet weak var errorView: UIView!
@@ -193,6 +194,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     public init(viewModel: ProductListViewModel, frame: CGRect) {
         self.state = .FirstLoadView
         self.productListViewModel = viewModel
+        self.collectionViewFooterHeight = 0
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         super.init(viewModel: viewModel, frame: frame)
         
@@ -203,6 +205,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     public init(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
         self.state = .FirstLoadView
         self.productListViewModel = viewModel
+        self.collectionViewFooterHeight = 0
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         super.init(viewModel: viewModel, coder: aDecoder)
 
@@ -269,6 +272,10 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     }
     
     // MARK: - UICollectionViewDataSource
+    
+    public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, heightForFooterInSection section: Int) -> CGFloat {
+        return collectionViewFooterHeight
+    }
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return productListViewModel.sizeForCellAtIndex(indexPath.row)

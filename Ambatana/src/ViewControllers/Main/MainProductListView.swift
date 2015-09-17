@@ -25,6 +25,7 @@ public class MainProductListView: ProductListView, MainProductListViewModelLocat
         super.init(viewModel: viewModel, coder: aDecoder)
         viewModel.dataDelegate = self
         viewModel.locationDelegate = self
+        collectionViewFooterHeight = 80 // safety area for floating sell button
     }
     
     // MARK: - ProductListViewModelDataDelegate

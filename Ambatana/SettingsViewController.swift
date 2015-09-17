@@ -175,7 +175,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func logoutUser() {
         // Logout
-        MyUserManager.sharedInstance.logout { (result: Result<Nil, UserLogOutServiceError>) in }
+        MyUserManager.sharedInstance.logout(nil)
         
         // Tracking
         let trackerEvent = TrackerEvent.logout()

@@ -76,7 +76,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         self.viewModel.delegate = self
         
         automaticallyAdjustsScrollViewInsets = false
-        hidesBottomBarWhenPushed = true
     }
     
     public required init(coder: NSCoder) {

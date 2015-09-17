@@ -44,6 +44,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     init() {
         super.init(nibName: "ChatListViewController", bundle: nil)
+        
+        hidesBottomBarWhenPushed = false
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -196,8 +198,15 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
 
     // MARK: - UITableViewDelegate & DataSource methods
     
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView() // that's a lol
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 80
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        println("count: \(conversations?.count)")
         return conversations?.count ?? 0
     }
     

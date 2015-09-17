@@ -36,9 +36,9 @@
 "chat_list_title" = "Conversazioni";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
-"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
-"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
-"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_tip_1" = "Dopo aver concluso l'affare, incontrati di persona e paga in contanti.";
+"chat_safety_tips_tip_2" = "Rifiutati di pagare tramite vaglia, bonifici bancari o assegni.";
+"chat_safety_tips_tip_3" = "Se decidi di effettuare una spedizione, fallo in maniera intelligente e intuitiva!";
 "chat_safety_tips_title" = "Consigli utili";
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
@@ -252,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "Inserisci un nome utente valido, deve contenere almeno %d caratteri";
 "sign_up_title" = "Registrati";
 "sign_up_username_field_hint" = "Nome e Cognome";
-"tab_bar_tool_tip" = "Vendi le tue cose!";
+"tab_bar_tool_tip" = "Vendi le tue cose";

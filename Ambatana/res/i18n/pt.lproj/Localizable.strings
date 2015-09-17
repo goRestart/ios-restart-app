@@ -252,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "Por favor, insira um nome válido no campo usuário. O nome deve ter no mínimo %d caracteres.";
 "sign_up_title" = "Cadastre-se";
 "sign_up_username_field_hint" = "Nome completo";
-"tab_bar_tool_tip" = "Venda as Suas Coisas!";
+"tab_bar_tool_tip" = "Venda as Suas Coisas";
