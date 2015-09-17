@@ -36,9 +36,9 @@
 "chat_list_title" = "Trò chuyện";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
-"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
-"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
-"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_tip_1" = "Sau khi chốt đơn, hãy gặp trực tiếp và trả bằng tiền mặt.";
+"chat_safety_tips_tip_2" = "Nói không với ngân phiếu trả trước, chuyển khoản ngân hàng hay chi phiếu.";
+"chat_safety_tips_tip_3" = "Nếu bạn quyết định thuê vận chuyển hàng, hãy khôn ngoan và thận trọng!";
 "chat_safety_tips_title" = "Mẹo";
 "chat_send_button" = "Gửi đi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
@@ -252,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "Vui lòng nhập tên hợp lệ, có ít nhất %d ký tự";
 "sign_up_title" = "Đăng ký";
 "sign_up_username_field_hint" = "Tên đầy đủ";
-"tab_bar_tool_tip" = "Bán Đồ Của Bạn!";
+"tab_bar_tool_tip" = "Bán Đồ Của Bạn";

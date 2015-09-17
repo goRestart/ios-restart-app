@@ -252,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "Ole hyvä ja syötä kelvollinen nimi, jossa on vähintään %d merkkiä";
 "sign_up_title" = "Rekisteröidy";
 "sign_up_username_field_hint" = "Koko nimi";
-"tab_bar_tool_tip" = "Myy Tavaroitasi!";
+"tab_bar_tool_tip" = "Myy Tavaroitasi";

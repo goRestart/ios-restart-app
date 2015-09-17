@@ -36,9 +36,9 @@
 "chat_list_title" = "チャット";
 "chat_message_field_hint" = "あなたのメッセージをここに記入して下さい...";
 "chat_message_load_generic_error" = "会話のデータの検索中にエラーが発生しました。後でもう一度お試しください。";
-"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
-"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
-"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_tip_1" = "取引が成立した後、j実際に会って支払をしましょう。";
+"chat_safety_tips_tip_2" = "為替、銀行振り込みや小切手は断りましょう。";
+"chat_safety_tips_tip_3" = "配送を断る場合は賢く直感的に！";
 "chat_safety_tips_title" = "安全に関するアドバイス";
 "chat_send_button" = "送信";
 "chat_send_error_generic" = "メッセージの送信でエラーが発生しました。後でもう一度お試しください。";
@@ -252,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "有効な名前を、少なくとも%d文字入力してください。";
 "sign_up_title" = "登録";
 "sign_up_username_field_hint" = "フルネーム";
-"tab_bar_tool_tip" = "商品を売ろう！";
+"tab_bar_tool_tip" = "商品を売ろう";

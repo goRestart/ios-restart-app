@@ -36,9 +36,9 @@
 "chat_list_title" = "Συνομιλίες";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
-"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
-"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
-"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_tip_1" = "Αφού κλείσετε τη συμφωνία, συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε με μετρητά.";
+"chat_safety_tips_tip_2" = "Πείτε όχι σε εμβάσματα, καταθέσεις τραπεζών ή επιταγές.";
+"chat_safety_tips_tip_3" = "Αν αποφασίσετε να προχωρήσετε σε αποστολή, σκεφτείτε έξυπνα και ακολουθήστε το ένστικτό σας!";
 "chat_safety_tips_title" = "Συμβουλές";
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
@@ -252,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "Παρακαλώ εισάγετε έγκυρο όνομα, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες";
 "sign_up_title" = "Εγγραφή";
 "sign_up_username_field_hint" = "Ονοματεπώνυμο";
-"tab_bar_tool_tip" = "Πούλα τα Πράγματά σου!";
+"tab_bar_tool_tip" = "Πούλα τα Πράγματά σου";
