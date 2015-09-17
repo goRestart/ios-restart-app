@@ -36,9 +36,9 @@
 "chat_list_title" = "Chats";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het later nog eens.";
-"chat_safety_tips_tip_1" = "Deal altijd face-to-face, in persoon.";
-"chat_safety_tips_tip_2" = "Als je besluit om te verzenden, wees slim en intuïtief!";
-"chat_safety_tips_tip_3" = "Zeg NEE tegen bank cheques of postwissels.";
+"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
+"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
+"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
 "chat_safety_tips_title" = "Handige tips";
 "chat_send_button" = "Verstuur";
 "chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens";

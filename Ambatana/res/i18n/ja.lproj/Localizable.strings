@@ -36,9 +36,9 @@
 "chat_list_title" = "チャット";
 "chat_message_field_hint" = "あなたのメッセージをここに記入して下さい...";
 "chat_message_load_generic_error" = "会話のデータの検索中にエラーが発生しました。後でもう一度お試しください。";
-"chat_safety_tips_tip_1" = "常に相手と直接取引きしてください。";
-"chat_safety_tips_tip_2" = "送付を決める時は、賢く直感的に！";
-"chat_safety_tips_tip_3" = "銀行小切手や郵便為替の使用は断りましょう。";
+"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
+"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
+"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
 "chat_safety_tips_title" = "安全に関するアドバイス";
 "chat_send_button" = "送信";
 "chat_send_error_generic" = "メッセージの送信でエラーが発生しました。後でもう一度お試しください。";
@@ -50,7 +50,7 @@
 "common_ok" = "OK";
 "common_product_deleted" = "削除された商品";
 "common_product_not_available" = "この商品はもう売買不可です。";
-"common_product_sold" = "この商品は売約済みです";
+"common_product_sold" = "この商品は売却済みです";
 "common_time_a_minute_ago_label" = "1 分前";
 "common_time_day_ago_label" = "1日前";
 "common_time_days_ago_label" = "%d日前";
@@ -104,10 +104,10 @@
 "log_in_reset_password_button" = "お忘れですか？";
 "log_in_send_button" = "ログイン";
 "log_in_title" = "ログイン";
-"main_sign_up_already_registered_label" = "既に登録されていますか？";
+"main_sign_up_already_registered_label" = "既に登録済みですか？";
 "main_sign_up_claim_label" = "売買とチャットをスタート";
 "main_sign_up_contact_us_button" = "お問い合わせ";
-"main_sign_up_facebook_connect_button" = "フェースブックに接続";
+"main_sign_up_facebook_connect_button" = "Facebookに接続";
 "main_sign_up_fb_connect_error_email_taken" = "ログインできません。fフェースブックのメールアドレスはすでに登録されています。もう一度やり直してください。";
 "main_sign_up_fb_connect_error_generic" = "ログインできません。もう一度お試しください。";
 "main_sign_up_log_in_label" = "ログイン";
@@ -134,7 +134,7 @@
 "product_list_first_page_error_generic_button" = "再実行";
 "product_list_first_page_error_generic_label" = "残念ながらインターネットにつながっていません。すぐインターネットに接続してください。";
 "product_list_item_new_status_label" = "新着";
-"product_list_item_sold_status_label" = "売約済";
+"product_list_item_sold_status_label" = "売却済み";
 "product_list_location_disabled_button" = "設定";
 "product_list_location_disabled_label" = "位置情報がオフになっています。 次の設定個所で、オンにしてください：設定＞プライバシー＞位置情報サービス　";
 "product_list_location_unauthorized_button" = "設定";
@@ -153,7 +153,7 @@
 "product_mark_as_sold_confirm_ok_button" = "売却済にする";
 "product_mark_as_sold_confirm_title" = "売却済みにする";
 "product_mark_as_sold_error_generic" = "商品の売却済マーキング中にエラーが発生しました。後ほどもう一度お試しください。";
-"product_mark_as_sold_success_message" = "おめでとうございます。商品は正常に売約済のマークが付きました。";
+"product_mark_as_sold_success_message" = "おめでとうございます。商品は正常に売却済のマークが付きました。";
 "product_report_confirm_cancel_button" = "キャンセル";
 "product_report_confirm_message" = "この商品を本当に報告しますか？";
 "product_report_confirm_ok_button" = "OK";
@@ -172,7 +172,7 @@
 "product_status_label_pending" = "商品申請中";
 "product_status_label_sold" = "商品は売却されました";
 "profile_favourites_my_user_no_products_label" = "公開またはお気に入りにされた商品はまだありません。";
-"profile_favourites_my_user_no_products_subtitle_label" = "何をためらっているのですか？";
+"profile_favourites_my_user_no_products_subtitle_label" = "何をお待ちですか？";
 "profile_favourites_other_user_no_products_label" = "このユーザーにはまだ、公開またはお気に入りにされた商品はありません。";
 "profile_favourites_products_tab" = "お気に入り";
 "profile_no_products" = "このセクションに商品はありません。";
@@ -189,7 +189,7 @@
 "rating_view_title_label" = "letgoはいかがでしたか？";
 "reset_password_email_field_hint" = "メール";
 "reset_password_send_button" = "パスワード再設定";
-"reset_password_send_error_generic" = "パスワードを記憶しようとしてエラーが発生しました。";
+"reset_password_send_error_generic" = "パスワードを回復しようとしてエラーが発生しました。";
 "reset_password_send_error_invalid_email" = "有効なメールアドレスをメール入力欄に入力してください。";
 "reset_password_send_error_user_not_found_or_wrong_password" = "メールアドレスが見つかりません。";
 "reset_password_send_ok" = "受信ボックスを確認してパスワードの再設定の指示に従ってください。";
@@ -201,7 +201,7 @@
 "sell_picture_image_source_camera_button" = "カメラ";
 "sell_picture_image_source_camera_roll_button" = "フォトライブラリー";
 "sell_picture_image_source_cancel_button" = "キャンセル";
-"sell_picture_image_source_title" = "画像の供給元を選択してください";
+"sell_picture_image_source_title" = "画像ソースを選択してください";
 "sell_picture_label" = "写真";
 "sell_picture_save_into_camera_roll_error_generic" = "フォトライブラリーに画像を保存中にエラーが発生しました。設定アプリで、あなたの写真がletgoで利用できるように設定されているか確認してください。";
 "sell_picture_save_into_camera_roll_loading" = "フォトライブラリーに画像の保存中...";
@@ -239,7 +239,7 @@
 "settings_image_source_camera_button" = "カメラ";
 "settings_image_source_camera_roll_button" = "フォトライブラリー";
 "settings_image_source_cancel_button" = "キャンセル";
-"settings_image_source_title" = "画像の供給元の選択";
+"settings_image_source_title" = "画像ソースの選択";
 "settings_logout_button" = "ログアウト";
 "settings_title" = "設定";
 "sign_up_email_field_hint" = "メール";

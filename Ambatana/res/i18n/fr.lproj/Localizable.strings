@@ -36,9 +36,9 @@
 "chat_list_title" = "Chats";
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
-"chat_safety_tips_tip_1" = "Donnez toujours l'argent de la main à la main.";
-"chat_safety_tips_tip_2" = "Si vous décidez d'expedier le bien, faites preuve de bon sens et d'intuition !";
-"chat_safety_tips_tip_3" = "Dites NON aux chèques.";
+"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
+"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
+"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
 "chat_safety_tips_title" = "Conseils";
 "chat_send_button" = "Envoyer";
 "chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";

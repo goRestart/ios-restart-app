@@ -36,9 +36,9 @@
 "chat_list_title" = "Keskustelut";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
-"chat_safety_tips_tip_1" = "Tee aina kaupat kasvokkain, henkilökohtaisesti.";
-"chat_safety_tips_tip_2" = "Jos päätät lähettää, ola fiksu ja intuitiivinen!";
-"chat_safety_tips_tip_3" = "Sano EI shekeille ja maksumääräyksille.";
+"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
+"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
+"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
 "chat_safety_tips_title" = "Vinkkejä";
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
