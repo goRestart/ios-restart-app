@@ -17,4 +17,7 @@
 #import "ACTReporter.h"
 #import <NanigansSDK/NanigansSDK.h>
 
+// Performance
+#import <NewRelicAgent/NewRelic.h>
+
 #endif

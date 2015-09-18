@@ -18,7 +18,7 @@ pod "FBSDKShareKit",        "~> 4.1"
 pod "Amplitude-iOS",        "~> 3.0"
     
 # letgo Core
-pod "LGCoreKit",            "0.11.2" #:path => "../LGCoreKit"  # :path => "../letgo-ios-lgcorekit"
+pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit" #"0.11.2" #:path => "../LGCoreKit"
 
 
 # Networking (to be removed when migrating to LGCoreKit)
@@ -35,6 +35,9 @@ pod "UIDeviceUtil",         "~> 1.1"
 
 # Push Notifications
 pod "UrbanAirship-iOS-SDK/Core", "~> 6.1"
+
+# New Relic
+pod "NewRelicAgent",         "5.2.2"
 
 target "letgoTests", :exclusive => true do
     ## Testing

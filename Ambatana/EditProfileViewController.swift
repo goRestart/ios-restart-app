@@ -423,7 +423,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
                             strongSelf.favProducts = actualProducts
                         }
                         strongSelf.loadingFavProducts = false
-                        strongSelf.favouriteCollectionView.reloadSections(NSIndexSet(index: 0))
+                        strongSelf.favouriteCollectionView.reloadData()
                         strongSelf.retrievalFinishedForProductsAtTab(tab)
                     }
                 })

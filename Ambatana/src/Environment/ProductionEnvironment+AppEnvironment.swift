@@ -21,4 +21,8 @@ extension ProductionEnvironment: AppEnvironment {
     
     var urbanAirshipAPIKey: String { get { return "554gl4nfTgGQKYpZN_m5aQ"} }
     var urbanAirshipAPISecret: String { get { return "13N1n6bTRuqGsAev6eWDSA"} }
+    
+    // New relic
+    var newRelicToken: String { get { return "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"} }
+
 }

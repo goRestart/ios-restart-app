@@ -1,0 +1,56 @@
+{
+  "name": "LGCoreKit",
+  "version": "0.11.2",
+  "license": "Copyright",
+  "summary": "letgo's CoreKit",
+  "homepage": "https://bitbucket.org/ambatana/letgo-ios-lgcorekit",
+  "social_media_url": "https://twitter.com/ahernandezlopez",
+  "authors": {
+    "Albert Hernández López": "albert@letgo.com"
+  },
+  "source": {
+    "git": "https://bitbucket.org/ambatana/letgo-ios-lgcorekit.git",
+    "tag": "0.11.2"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "LGCoreKit/**/*",
+  "resource_bundles": {
+    "LGCoreKitBundle": [
+      "LGCoreKitBundle/**/*.{realm}",
+      "LGCoreKitBundle/**/*.{json}"
+    ]
+  },
+  "frameworks": "CoreLocation",
+  "dependencies": {
+    "Alamofire": [
+      "~> 1.3"
+    ],
+    "Bolts": [
+      "~> 1.1"
+    ],
+    "FBSDKCoreKit": [
+      "~> 4.1"
+    ],
+    "Parse": [
+      "1.7.5.3"
+    ],
+    "ParseFacebookUtilsV4": [
+      "~> 1.7"
+    ],
+    "RealmSwift": [
+      "~> 0.93"
+    ],
+    "Result": [
+      "~> 0.4"
+    ],
+    "SwiftyJSON": [
+      "2.2.1"
+    ],
+    "Timepiece": [
+      "~> 0.2"
+    ]
+  }
+}
