@@ -29,8 +29,6 @@
 #import "UAMapPresentationController.h"
 #import "UAMapPresentationController.h"
 
-UA_SUPPRESS_UI_DEPRECATION_WARNINGS
-
 @implementation UALocationSettingsViewController
 
 - (void)viewDidLoad {
@@ -178,6 +176,10 @@ UA_SUPPRESS_UI_DEPRECATION_WARNINGS
     
     UALOG(@"LOCATION_UPDATE LAT:%f LONG:%f", newLocation.coordinate.latitude, newLocation.coordinate.longitude);
     [self addLocationToData:newLocation];
+}
+
+- (NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end

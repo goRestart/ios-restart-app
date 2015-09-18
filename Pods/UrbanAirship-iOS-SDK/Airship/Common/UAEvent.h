@@ -25,8 +25,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <CoreTelephony/CTCarrier.h>
 
 #define kUAEventAppInitSize               (NSUInteger) 450//397 w/ push ID, no inbox ID
 #define kUAEventAppExitSize               (NSUInteger) 200//136 w/ only network type

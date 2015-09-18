@@ -173,11 +173,11 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
                     let shouldSelectVC = actualDelegate.tabBarController?(self, shouldSelectViewController: selectedVC) ?? true
                     if shouldSelectVC {
                         
-                        // Pop the navigation back to root
-                        navBarCtl.popToRootViewControllerAnimated(false)
-                        
                         // Change the tab
                         selectedIndex = vcIdx
+                        
+                        // Pop the navigation back to root
+                        navBarCtl.popToRootViewControllerAnimated(false)
                         
                         // Notify the delegate, as programmatically change doesn't do it
                         actualDelegate.tabBarController?(self, didSelectViewController: selectedVC)

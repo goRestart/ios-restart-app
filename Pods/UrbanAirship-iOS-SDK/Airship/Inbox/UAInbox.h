@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface UAInbox : NSObject
 
-+ (null_unspecified instancetype)shared __attribute__((deprecated("As of version 6.0.0. Use [UAirship inbox] instead.")));
++ (nullable instancetype)shared __attribute__((deprecated("As of version 6.0.0. Use [UAirship inbox] instead.")));
 
 /**
  * The list of Rich Push Inbox messages.

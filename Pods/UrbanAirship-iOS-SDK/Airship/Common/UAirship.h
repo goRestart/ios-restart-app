@@ -27,17 +27,6 @@
 #import "UAJavaScriptDelegate.h"
 #import "UAWhitelist.h"
 
-// Frameworks
-#import <SystemConfiguration/SystemConfiguration.h>
-#import <CoreTelephony/CTTelephonyNetworkInfo.h>
-#import <CoreTelephony/CTCarrier.h>
-#import <PassKit/PassKit.h>
-#import <CoreData/CoreData.h>
-#import <CoreLocation/CoreLocation.h>
-#import <Security/Security.h>
-#import <QuartzCore/QuartzCore.h>
-#import <Availability.h>
-
 @class UAConfig;
 @class UAAnalytics;
 @class UALocationService;
@@ -181,7 +170,7 @@ extern NSString * const UAirshipTakeOffBackgroundThreadException;
  *
  * @return The `UAirship` instance.
  */
-+ (null_unspecified UAirship *)shared;
++ (nullable UAirship *)shared;
 
 /**
  * Returns the `UAPush` instance. Used for configuring and managing push
@@ -189,27 +178,27 @@ extern NSString * const UAirshipTakeOffBackgroundThreadException;
  *
  * @return The `UAPush` instance.
  */
-+ (null_unspecified UAPush *)push;
++ (nullable UAPush *)push;
 
 /**
  * Returns the `UAInbox` instance. Provides access to the inbox messages.
  *
  * @return The `UAInbox` instance.
  */
-+ (null_unspecified UAInbox *)inbox;
++ (nullable UAInbox *)inbox;
 
 /**
  * Returns the `UAUser` instance.
  *
  * @return The `UAUser` instance.
  */
-+ (null_unspecified UAUser *)inboxUser;
++ (nullable UAUser *)inboxUser;
 
 /**
  * Returns the `UAInAppMessaging` instance. Used for customizing
  * in-app notifications.
  */
-+ (null_unspecified UAInAppMessaging *)inAppMessaging;
++ (nullable UAInAppMessaging *)inAppMessaging;
 
 NS_ASSUME_NONNULL_END
 

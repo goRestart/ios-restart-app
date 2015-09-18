@@ -197,7 +197,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UAPush : NSObject <UAChannelRegistrarDelegate>
 
 
-+ (null_unspecified instancetype)shared __attribute__((deprecated("As of version 6.0.0. Use [UAirship push] instead.")));
++ (nullable instancetype)shared __attribute__((deprecated("As of version 6.0.0. Use [UAirship push] instead.")));
 
 
 ///---------------------------------------------------------------------------------------

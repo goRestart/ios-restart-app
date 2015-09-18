@@ -25,8 +25,6 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <SystemConfiguration/SCNetworkReachability.h>
-
 
 @class UAHTTPRequest;
 
