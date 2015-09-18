@@ -147,6 +147,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Tracking
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        // New Relic
+        NewRelicAgent.startWithApplicationToken(EnvironmentProxy.sharedInstance.newRelicToken)
+        
     }
     
     private func setupAppearance() {

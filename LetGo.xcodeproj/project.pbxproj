@@ -1184,6 +1184,7 @@
 				5026B0A61B05E2F3006858BB /* ShellScript */,
 				2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */,
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
+				2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */,
 			);
 			buildRules = (
 			);
@@ -1221,6 +1222,7 @@
 		6608E02E1A820FBD005895ED /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = Ambatana;
 				TargetAttributes = {
@@ -1360,6 +1362,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "NewRelic Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c\"";
 		};
 		5026B0A61B05E2F3006858BB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

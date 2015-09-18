@@ -330,6 +330,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             state = .DataView
 
             refreshControl.endRefreshing()
+//            collectionView.reloadSections(NSIndexSet(index: 0))
             collectionView.reloadData()
         }
         else {
