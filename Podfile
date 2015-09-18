@@ -18,7 +18,7 @@ pod "FBSDKShareKit",        "~> 4.1"
 pod "Amplitude-iOS",        "~> 3.0"
     
 # letgo Core
-pod "LGCoreKit",            "0.11.2" #:path => "../LGCoreKit"  # :path => "../letgo-ios-lgcorekit"
+pod "LGCoreKit",            "0.12.0" #:path => "../LGCoreKit"  # :path => "../letgo-ios-lgcorekit"
 
 
 # Networking (to be removed when migrating to LGCoreKit)
@@ -34,7 +34,7 @@ pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 pod "UIDeviceUtil",         "~> 1.1"
 
 # Push Notifications
-pod "UrbanAirship-iOS-SDK/Core", "~> 6.1"
+pod "UrbanAirship-iOS-SDK/Core", "6.2.0"
 
 target "letgoTests", :exclusive => true do
     ## Testing

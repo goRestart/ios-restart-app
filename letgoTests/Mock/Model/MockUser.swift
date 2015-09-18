@@ -23,6 +23,7 @@ class MockUser: MockBaseModel, User {
     
     var isDummy: Bool
     var isAnonymous: Bool
+    var isScammer: NSNumber?
     
     var sessionToken: String?
 
@@ -33,6 +34,7 @@ class MockUser: MockBaseModel, User {
         self.processed = NSNumber(bool: true)
         self.isDummy = false
         self.isAnonymous = false
+        self.isScammer = NSNumber(bool: false)
         super.init()
     }
 }

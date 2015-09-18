@@ -11,7 +11,7 @@ import Parse
 extension PFUser: User {
     
     enum FieldKey: String {
-        case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", PublicUsername = "username_public", ZipCode = "zipcode", Processed = "processed"
+        case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", PublicUsername = "username_public", ZipCode = "zipcode", Processed = "processed", IsScammer = "is_scammer"
     }
     
     // MARK: - User
@@ -94,5 +94,14 @@ extension PFUser: User {
     public var isAnonymous: Bool {
         // `YES` if the user is anonymous. `NO` if the user is not the current user or is not anonymous.
         return PFAnonymousUtils.isLinkedWithUser(self)
+    }
+    
+    public var isScammer: NSNumber? {
+        get {
+            return self[FieldKey.IsScammer.rawValue] as? NSNumber
+        }
+        set {
+            self[FieldKey.IsScammer.rawValue] = newValue ?? NSNull()
+        }
     }
 }

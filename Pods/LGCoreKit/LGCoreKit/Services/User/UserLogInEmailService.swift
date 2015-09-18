@@ -10,8 +10,10 @@ import Result
 
 public enum UserLogInEmailServiceError {
     case Network
-    case InvalidEmail, InvalidPassword
+    case InvalidEmail
+    case InvalidPassword
     case UserNotFoundOrWrongPassword
+    case Forbidden
     case Internal
 }
 

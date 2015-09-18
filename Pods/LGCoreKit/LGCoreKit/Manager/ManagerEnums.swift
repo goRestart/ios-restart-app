@@ -12,6 +12,7 @@ import Result
 public enum UserLogInFBError {
     case Cancelled
     case EmailTaken
+    case Forbidden
     case Network
     case Internal
     
@@ -19,6 +20,8 @@ public enum UserLogInFBError {
         switch(userLogInFBServiceError) {
         case .Cancelled:
             self = .Cancelled
+        case .Forbidden:
+            self = .Forbidden
         case .Internal:
             self = .Internal
         }

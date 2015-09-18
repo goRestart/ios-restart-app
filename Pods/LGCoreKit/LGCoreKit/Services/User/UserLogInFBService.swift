@@ -10,6 +10,7 @@ import Result
 
 public enum UserLogInFBServiceError {
     case Cancelled
+    case Forbidden
     case Internal
 }
 

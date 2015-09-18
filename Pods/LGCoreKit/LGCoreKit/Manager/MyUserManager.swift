@@ -315,12 +315,31 @@ public class MyUserManager {
         :param: result The closure containing the result.
     */
     public func logInWithEmail(email: String, password: String, result: UserLogInEmailServiceResult?) {
+        // 1. Login
         userLogInEmailService.logInUserWithEmail(email, password: password) { (myResult: Result<User, UserLogInEmailServiceError>) in
             // Succeeded
             if let user = myResult.value {
-                self.setupAfterSessionSuccessful()
+                var isScammerUser: Bool = false
+                if let isScammer = user.isScammer?.boolValue {
+                    isScammerUser = isScammer
+                }
+                
+                // 2a. If scammer then logout & notify
+                if isScammerUser {
+                    self.userLogOutService.logOutUser(user) { (logoutResult: Result<Nil, UserLogOutServiceError>) -> Void in
+                        result?(Result<User, UserLogInEmailServiceError>.failure(.Forbidden))
+                    }
+                }
+                // 2b. Otherwise it's a regular user, we're done
+                else {
+                    self.setupAfterSessionSuccessful()
+                    result?(myResult)
+                }
             }
-            result?(myResult)
+            // Error
+            else {
+                result?(myResult)
+            }
         }
     }
     
@@ -340,74 +359,88 @@ public class MyUserManager {
             // Succeeded
             if let user = myResult.value, let userId = user.objectId {
                 
-                // 2. Retrieve the FB Info
-                self.fbUserInfoRetrieveService.retrieveFBUserInfo { (fbResult: Result<FBUserInfo, FBUserInfoRetrieveServiceError>) in
-                    
-                    // Succeeded
-                    if let fbUserInfo = fbResult.value {
+                var isScammerUser: Bool = false
+                if let isScammer = user.isScammer?.boolValue {
+                    isScammerUser = isScammer
+                }
+                
+                // 2a. If scammer then logout & notify
+                if isScammerUser {
+                    self.userLogOutService.logOutUser(user) { (logoutResult: Result<Nil, UserLogOutServiceError>) -> Void in
+                        result?(Result<User, UserLogInFBError>.failure(.Forbidden))
+                    }
+                }
+                // 2b. Otherwise it's a regular user, then retrieve the FB info
+                else {
+                    // 3. Retrieve the FB Info
+                    self.fbUserInfoRetrieveService.retrieveFBUserInfo { (fbResult: Result<FBUserInfo, FBUserInfoRetrieveServiceError>) in
                         
-                        // Set the fields from the graph request
-                        let publicUsername: String
-                        if let firstName = fbUserInfo.firstName, let lastName = fbUserInfo.lastName {
-                            let lastNameInitial: String = count(lastName) > 0 ? lastName.substringToIndex(advance(lastName.startIndex, 1)) : ""
-                            publicUsername = "\(firstName) \(lastNameInitial)."
-                        }
-                        else if let name = fbUserInfo.name {
-                            publicUsername = name
-                        }
-                        else {
-                            publicUsername = ""
-                        }
-                        user.email = fbUserInfo.email
-                        user.publicUsername = publicUsername
-                        user.processed = NSNumber(bool: false)
-                        
-                        // 3. Save my user
-                        self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
-                         
-                            // Succeeded
-                            if let savedUser = userSaveResult.value {
+                        // Succeeded
+                        if let fbUserInfo = fbResult.value {
+                            
+                            // Set the fields from the graph request
+                            let publicUsername: String
+                            if let firstName = fbUserInfo.firstName, let lastName = fbUserInfo.lastName {
+                                let lastNameInitial: String = count(lastName) > 0 ? lastName.substringToIndex(advance(lastName.startIndex, 1)) : ""
+                                publicUsername = "\(firstName) \(lastNameInitial)."
+                            }
+                            else if let name = fbUserInfo.name {
+                                publicUsername = name
+                            }
+                            else {
+                                publicUsername = ""
+                            }
+                            user.email = fbUserInfo.email
+                            user.publicUsername = publicUsername
+                            user.processed = NSNumber(bool: false)
+                            
+                            // 4. Save my user
+                            self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
                                 
-                                // 4. Upload the avatar
-                                let filename = "\(userId).jpg"
-                                self.fileUploadService.uploadFile(filename, sourceURL: fbUserInfo.avatarURL) { (uploadResult: Result<File, FileUploadServiceError>) in
+                                // Succeeded
+                                if let savedUser = userSaveResult.value {
                                     
-                                    // Succeeded
-                                    if let file = uploadResult.value {
+                                    // 5. Upload the avatar
+                                    let filename = "\(userId).jpg"
+                                    self.fileUploadService.uploadFile(filename, sourceURL: fbUserInfo.avatarURL) { (uploadResult: Result<File, FileUploadServiceError>) in
                                         
-                                        // 5a. Set the user's avatar & mark as non-processed
-                                        savedUser.avatar = file
-                                        savedUser.processed = NSNumber(bool: false)
-                                        
-                                        // 5b. Save my user again
-                                        self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                                        // Succeeded
+                                        if let file = uploadResult.value {
                                             
-                                            // Success or Error, but in case of error report success as avatar is not strictly necessary
-                                            let savedUser = userSaveResult.value ?? user
+                                            // 6. Set the user's avatar & mark as non-processed
+                                            savedUser.avatar = file
+                                            savedUser.processed = NSNumber(bool: false)
+                                            
+                                            // 7. Save my user again
+                                            self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                                                
+                                                // Success or Error, but in case of error report success as avatar is not strictly necessary
+                                                let savedUser = userSaveResult.value ?? user
+                                                
+                                                self.setupAfterSessionSuccessful()
+                                                result?(Result<User, UserLogInFBError>.success(savedUser))
+                                            }
+                                        }
+                                        // Error, but report success as avatar is not strictly necessary
+                                        else if let uploadError = uploadResult.error {
                                             
                                             self.setupAfterSessionSuccessful()
-                                            result?(Result<User, UserLogInFBError>.success(savedUser))
+                                            result?(Result<User, UserLogInFBError>.success(user))
                                         }
                                     }
-                                    // Error, but report success as avatar is not strictly necessary
-                                    else if let uploadError = uploadResult.error {
-                                        
-                                        self.setupAfterSessionSuccessful()
-                                        result?(Result<User, UserLogInFBError>.success(user))
-                                    }
+                                }
+                                // Error, then logout & report it as the user could not be saved (i.e.: EmailTaken)
+                                else if let saveUserError = userSaveResult.error {
+                                    self.logout(nil)
+                                    result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(saveUserError)))
                                 }
                             }
-                            // Error, then logout & report it as the user could not be saved (i.e.: EmailTaken)
-                            else if let saveUserError = userSaveResult.error {
-                                self.logout(nil)
-                                result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(saveUserError)))
-                            }
                         }
-                    }
-                    // Error, then logout & report it as the info couldn't be loaded
-                    else if let fbError = fbResult.error {
-                        self.logout(nil)
-                        result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbError)))
+                        // Error, then logout & report it as the info couldn't be loaded
+                        else if let fbError = fbResult.error {
+                            self.logout(nil)
+                            result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbError)))
+                        }
                     }
                 }
             }
@@ -434,7 +467,6 @@ public class MyUserManager {
 
             // set default gps location
             LocationManager.sharedInstance.userDidSetAutomaticLocation(nil)
-            
             
             // Request
             userLogOutService.logOutUser(myUser) { (myResult: Result<Nil, UserLogOutServiceError>) in
@@ -493,7 +525,7 @@ public class MyUserManager {
         // If we already have a location, then save it into my user
         if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
             saveUserCoordinates(lastKnownLocation.coordinate, result: nil, place: nil)
-      }
+        }
         
         if let user = MyUserManager.sharedInstance.myUser() {
             

@@ -21,6 +21,7 @@
     
     var isDummy: Bool { get }
     var isAnonymous: Bool { get }
+    var isScammer: NSNumber? { get }
     
     var sessionToken: String? { get }
 }

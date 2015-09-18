@@ -23,6 +23,7 @@
     
     public var isDummy: Bool
     public var isAnonymous: Bool
+    public var isScammer: NSNumber?
     
     public var sessionToken: String?
     
@@ -33,6 +34,7 @@
         self.processed = NSNumber(bool: true)
         self.isDummy = false
         self.isAnonymous = false
+        self.isScammer = NSNumber(bool: false)
         super.init()
     }
 }
