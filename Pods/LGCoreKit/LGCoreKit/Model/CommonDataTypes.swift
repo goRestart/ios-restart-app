@@ -43,6 +43,11 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
         }
     }
     
+    public init(location: LGLocation) {
+        self.latitude = location.location.coordinate.latitude
+        self.longitude = location.location.coordinate.longitude
+    }
+    
     public func coordinates2DfromLocation() -> CLLocationCoordinate2D {
         var lat = self.latitude as CLLocationDegrees
         var long = self.longitude as CLLocationDegrees

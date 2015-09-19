@@ -17,6 +17,33 @@ public struct TrackerEvent {
     }
     public private(set) var params: EventParameters?
     
+    public static func location(location: LGLocation, locationServiceStatus: LocationServiceStatus) -> TrackerEvent {
+        var params = EventParameters()
+        let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
+        if let actualLocationTypeParamValue = locationTypeParamValue {
+            params[.LocationType] = location.type.rawValue
+        }
+        let enabled: Bool
+        let allowed: Bool
+        switch locationServiceStatus {
+        case .Enabled(let authStatus):
+            enabled = true
+            switch authStatus {
+            case .Authorized:
+                allowed = true
+            case .NotDetermined, .Restricted, .Denied:
+                allowed = false
+            }
+        case .Disabled:
+            enabled = false
+            allowed = false
+            break
+        }
+        params[.LocationEnabled] = enabled
+        params[.LocationAllowed] = allowed
+        return TrackerEvent(name: .Location, params: params)
+    }
+    
     public static func loginVisit(source: EventParameterLoginSourceValue) -> TrackerEvent {
         var params = EventParameters()
         params.addLoginParamsWithSource(source)
@@ -261,9 +288,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProfileEditEditName, params: params)
     }
     
-    public static func profileEditEditLocation(autoLocation: Bool) -> TrackerEvent {
+    public static func profileEditEditLocation(location: LGLocation) -> TrackerEvent {
         var params = EventParameters()
-        params[.LocationType] = autoLocation ? EventParameterLocationType.Auto.rawValue : EventParameterLocationType.Manual.rawValue
+        let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
+        if let actualLocationTypeParamValue = locationTypeParamValue {
+            params[.LocationType] = location.type.rawValue
+        }
         return TrackerEvent(name: .ProfileEditEditLocation, params: params)
     }
     
@@ -292,4 +322,20 @@ public struct TrackerEvent {
         return TrackerEvent(name: .AppRatingDontAsk, params: params)
     }
     
+    // MARK: - Private methods
+    
+    private static func eventParameterLocationTypeForLocation(location: LGLocation) -> EventParameterLocationType? {
+        let locationTypeParamValue: EventParameterLocationType?
+        switch (location.type) {
+        case .Manual:
+            locationTypeParamValue = .Manual
+        case .Sensor:
+            locationTypeParamValue = .Sensor
+        case .IPLookup:
+            locationTypeParamValue = .IPLookUp
+        case .LastSaved:
+            locationTypeParamValue = nil
+        }
+        return locationTypeParamValue
+    }
 }

@@ -147,11 +147,11 @@ public class EditUserLocationViewModel: BaseViewModel {
                 serviceAlreadyLoading = true
                 delegate?.viewModelDidStartSearchingLocation(self)
                 
-                postalAddressService.retrieveAddressForLocation(lastGPSLocation) { [weak self] (result: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
+                postalAddressService.retrieveAddressForLocation(lastGPSLocation.location) { [weak self] (result: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
                     if let strongSelf = self {
                         if let actualDelegate = strongSelf.delegate {
                             if let place = result.value, let postalAddress = place.postalAddress {
-                                actualDelegate.viewModel(strongSelf, centerMapInLocation: LocationManager.sharedInstance.lastGPSLocation!.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
+                                actualDelegate.viewModel(strongSelf, centerMapInLocation: lastGPSLocation.location.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
                                 var userLocationString = ""
                                 if let zipCode = postalAddress.zipCode {
                                     userLocationString += zipCode
@@ -256,9 +256,6 @@ public class EditUserLocationViewModel: BaseViewModel {
 
         UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
         
-        let trackerEvent = TrackerEvent.profileEditEditLocation(usingGPSLocation)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
         if usingGPSLocation {
             LocationManager.sharedInstance.userDidSetAutomaticLocation(currentPlace)
         } else {
@@ -267,6 +264,12 @@ public class EditUserLocationViewModel: BaseViewModel {
             var location = CLLocation(latitude: lat, longitude: long)
             LocationManager.sharedInstance.userDidSetManualLocation(location, place: currentPlace)
             TrackerProxy.sharedInstance.updateCoordinates()
+        }
+        
+        // Tracking
+        if let location = LocationManager.sharedInstance.lastKnownLocation {
+            let trackerEvent = TrackerEvent.profileEditEditLocation(location)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
     }
     

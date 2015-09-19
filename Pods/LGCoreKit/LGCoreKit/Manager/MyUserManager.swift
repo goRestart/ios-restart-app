@@ -524,7 +524,7 @@ public class MyUserManager {
         
         // If we already have a location, then save it into my user
         if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            saveUserCoordinates(lastKnownLocation.coordinate, result: nil, place: nil)
+            saveUserCoordinates(lastKnownLocation.location.coordinate, result: nil, place: nil)
         }
         
         if let user = MyUserManager.sharedInstance.myUser() {
@@ -573,8 +573,8 @@ public class MyUserManager {
     // MARK: > NSNotificationCenter
     
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
-        if let location = notification.object as? CLLocation {
-            saveUserCoordinates(location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, place: nil)
+        if let location = notification.object as? LGLocation {
+            saveUserCoordinates(location.location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, place: nil)
 
         }
     }

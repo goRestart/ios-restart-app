@@ -9,6 +9,8 @@
 import LGCoreKit
 
 public enum EventName: String {
+    case Location                           = "location"
+    
     case LoginVisit                         = "login-screen"
     case LoginAbandon                       = "login-abandon"
     case LoginFB                            = "login-fb"
@@ -110,6 +112,8 @@ public enum EventParameterName: String {
     case LocationType         = "location-type"
     case ShareNetwork         = "share-network"
     case ButtonPosition       = "button-position"
+    case LocationEnabled      = "location-enabled"
+    case LocationAllowed      = "location-allowed"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -137,7 +141,8 @@ public enum EventParameterProductItemType: String {
 
 public enum EventParameterLocationType: String {
     case Manual = "manual"
-    case Auto = "auto"
+    case Sensor = "sensor"
+    case IPLookUp = "iplookup"
 }
 
 public struct EventParameters {

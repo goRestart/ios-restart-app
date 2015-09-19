@@ -1,3 +1,4 @@
+import CoreLocation
 import LetGo
 import LGCoreKit
 import Quick
@@ -8,6 +9,133 @@ class TrackerEventSpec: QuickSpec {
         var sut: TrackerEvent!
         
         describe("factory methods") {
+            describe("location") {
+                it("has its event name") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .Sensor)
+                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    expect(sut.name.rawValue).to(equal("location"))
+                }
+                it("contains the location type when retrieving from sensors") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .Sensor)
+                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-type"]).notTo(beNil())
+                    let locationType = sut.params!.stringKeyParams["location-type"] as? String
+                    expect(locationType).to(equal("sensor"))
+                }
+                it("contains the location type when setting manually") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .Manual)
+                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-type"]).notTo(beNil())
+                    let locationType = sut.params!.stringKeyParams["location-type"] as? String
+                    expect(locationType).to(equal("manual"))
+                }
+                it("contains the location type when retrieving from ip lookup") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .IPLookup)
+                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-type"]).notTo(beNil())
+                    let locationType = sut.params!.stringKeyParams["location-type"] as? String
+                    expect(locationType).to(equal("iplookup"))
+                }
+                it("contains the location enabled false & location allowed false when location Disabled") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .IPLookup)
+                    let locationServiceStatus: LocationServiceStatus = .Disabled
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-enabled"]).notTo(beNil())
+                    let locationEnabled = sut.params!.stringKeyParams["location-enabled"] as? Bool
+                    expect(locationEnabled).to(beFalse())
+                    expect(sut.params!.stringKeyParams["location-allowed"]).notTo(beNil())
+                    let locationAllowed = sut.params!.stringKeyParams["location-allowed"] as? Bool
+                    expect(locationAllowed).to(beFalse())
+                }
+                it("contains the location enabled true & location allowed false when location Enabled/NotDetermined") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .IPLookup)
+                    let locationServiceStatus: LocationServiceStatus = .Enabled(.NotDetermined)
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-enabled"]).notTo(beNil())
+                    let locationEnabled = sut.params!.stringKeyParams["location-enabled"] as? Bool
+                    expect(locationEnabled).to(beTrue())
+                    expect(sut.params!.stringKeyParams["location-allowed"]).notTo(beNil())
+                    let locationAllowed = sut.params!.stringKeyParams["location-allowed"] as? Bool
+                    expect(locationAllowed).to(beFalse())
+                }
+                it("contains the location enabled true & location allowed false when location Enabled/Restricted") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .IPLookup)
+                    let locationServiceStatus: LocationServiceStatus = .Enabled(.Restricted)
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-enabled"]).notTo(beNil())
+                    let locationEnabled = sut.params!.stringKeyParams["location-enabled"] as? Bool
+                    expect(locationEnabled).to(beTrue())
+                    expect(sut.params!.stringKeyParams["location-allowed"]).notTo(beNil())
+                    let locationAllowed = sut.params!.stringKeyParams["location-allowed"] as? Bool
+                    expect(locationAllowed).to(beFalse())
+                }
+                it("contains the location enabled true & location allowed false when location Enabled/Denied") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .IPLookup)
+                    let locationServiceStatus: LocationServiceStatus = .Enabled(.Denied)
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-enabled"]).notTo(beNil())
+                    let locationEnabled = sut.params!.stringKeyParams["location-enabled"] as? Bool
+                    expect(locationEnabled).to(beTrue())
+                    expect(sut.params!.stringKeyParams["location-allowed"]).notTo(beNil())
+                    let locationAllowed = sut.params!.stringKeyParams["location-allowed"] as? Bool
+                    expect(locationAllowed).to(beFalse())
+                }
+                it("contains the location enabled true & location allowed true when location Enabled/AuthorizedAlways") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .IPLookup)
+                    let locationServiceStatus: LocationServiceStatus = .Enabled(.Authorized)
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-enabled"]).notTo(beNil())
+                    let locationEnabled = sut.params!.stringKeyParams["location-enabled"] as? Bool
+                    expect(locationEnabled).to(beTrue())
+                    expect(sut.params!.stringKeyParams["location-allowed"]).notTo(beNil())
+                    let locationAllowed = sut.params!.stringKeyParams["location-allowed"] as? Bool
+                    expect(locationAllowed).to(beTrue())
+                }
+                it("contains the location enabled true & location allowed true when location Enabled/AuthorizedWhenInUse") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .IPLookup)
+                    let locationServiceStatus: LocationServiceStatus = .Enabled(.Authorized)
+                    sut = TrackerEvent.location(lgLocation, locationServiceStatus: locationServiceStatus)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-enabled"]).notTo(beNil())
+                    let locationEnabled = sut.params!.stringKeyParams["location-enabled"] as? Bool
+                    expect(locationEnabled).to(beTrue())
+                    expect(sut.params!.stringKeyParams["location-allowed"]).notTo(beNil())
+                    let locationAllowed = sut.params!.stringKeyParams["location-allowed"] as? Bool
+                    expect(locationAllowed).to(beTrue())
+                }
+            }
+            
             describe("loginVisit") {
                 it("has its event name") {
                     sut = TrackerEvent.loginVisit(.Sell)
@@ -1255,17 +1383,40 @@ class TrackerEventSpec: QuickSpec {
             
             describe("profileEditEditLocation") {
                 it("has its event name") {
-                    sut = TrackerEvent.profileEditEditLocation(true)
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .Sensor)
+                    sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     expect(sut.name.rawValue).to(equal("profile-edit-edit-location"))
                 }
-                it("contains the location type info") {
-                    let isAutomaticLocation = true
-                    sut = TrackerEvent.profileEditEditLocation(isAutomaticLocation)
+                it("contains the location type when retrieving from sensors") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .Sensor)
+                    sut = TrackerEvent.profileEditEditLocation(lgLocation)
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["location-type"]).notTo(beNil())
                     let locationType = sut.params!.stringKeyParams["location-type"] as? String
-                    expect(locationType).to(equal("auto"))
+                    expect(locationType).to(equal("sensor"))
+                }
+                it("contains the location type when setting manually") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .Manual)
+                    sut = TrackerEvent.profileEditEditLocation(lgLocation)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-type"]).notTo(beNil())
+                    let locationType = sut.params!.stringKeyParams["location-type"] as? String
+                    expect(locationType).to(equal("manual"))
+                }
+                it("contains the location type when retrieving from ip lookup") {
+                    let location = CLLocation(latitude: 42, longitude: 2)
+                    let lgLocation = LGLocation(location: location, type: .IPLookup)
+                    sut = TrackerEvent.profileEditEditLocation(lgLocation)
+                    
+                    expect(sut.params).notTo(beNil())
+                    expect(sut.params!.stringKeyParams["location-type"]).notTo(beNil())
+                    let locationType = sut.params!.stringKeyParams["location-type"] as? String
+                    expect(locationType).to(equal("iplookup"))
                 }
             }
             
