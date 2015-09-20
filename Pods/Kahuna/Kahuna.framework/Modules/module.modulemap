@@ -1,0 +1,6 @@
+framework module Kahuna {
+umbrella header "Kahuna.h"
+export *
+module *
+{ export * }
+}

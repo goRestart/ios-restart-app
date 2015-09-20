@@ -23,7 +23,8 @@ protocol AppEnvironment: Environment {
     var urbanAirshipAPIKey: String { get }
     var urbanAirshipAPISecret: String { get }
     
+    var kahunaAPIKey: String { get }
+    
     // New relic
     var newRelicToken: String { get }
-
 }
