@@ -16,11 +16,14 @@ public protocol ProductViewModelDelegate: class {
     
     func viewModelDidUpdate(viewModel: ProductViewModel)
     
-    func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel)
+//    func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel)
     func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsFavourite(viewModel: ProductViewModel)
 
-    func viewModelDidStartRetrievingReported(viewModel: ProductViewModel)
+//    func viewModelDidStartRetrievingReported(viewModel: ProductViewModel)
+    
+    func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel)
+
     func viewModelDidStartReporting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
     func viewModelDidCompleteReporting(viewModel: ProductViewModel)
@@ -327,13 +330,14 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = LGProductMarkSoldService()
-        let productFavouriteRetrieveService = LGProductFavouriteRetrieveService()
+//        let productFavouriteRetrieveService = LGProductFavouriteRetrieveService()
         let productFavouriteSaveService = LGProductFavouriteSaveService()
         let productFavouriteDeleteService = LGProductFavouriteDeleteService()
-        let productReportRetrieveService = LGProductReportRetrieveService()
+//        let productReportRetrieveService = LGProductReportRetrieveService()
         let productReportSaveService = LGProductReportSaveService()
+        let userProductRelationService = LGUserProductRelationService()
 
-        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteRetrieveService: productFavouriteRetrieveService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportRetrieveService: productReportRetrieveService, productReportSaveService: productReportSaveService)
+        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportSaveService: productReportSaveService, userProductRelationService: userProductRelationService)
         self.tracker = TrackerProxy.sharedInstance
         
         super.init()
@@ -347,27 +351,19 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     internal override func didSetActive(active: Bool) {
         
         if active {
-            // TODO: use reported and favorited of the LGProduct
-            // Update favourite
-            delegate?.viewModelDidStartRetrievingFavourite(self)
-            productManager.retrieveFavourite(product) { [weak self] (result: Result<ProductFavourite, ProductFavouriteRetrieveServiceError>) -> Void in
-                if let strongSelf = self {
-                    // Update the flag
-                    strongSelf.isFavourite = (result.value != nil)
-                    
-                    // Notify the delegate
-                    strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
-                }
-            }
+            delegate?.viewModelDidStartRetrievingUserProductRelation(self)
             
-            // Update reported
-            delegate?.viewModelDidStartRetrievingReported(self)
-            productManager.retrieveReport(product) { [weak self] (result: Result<ProductReport, ProductReportRetrieveServiceError>) -> Void in
+            productManager.retrieveUserProductRelation(product) { [weak self] (result: Result<UserProductRelation, UserProductRelationServiceError>) -> Void in
+                
                 if let strongSelf = self {
-                    // Update the flag
-                    strongSelf.isReported = (result.value != nil)
-                    
-                    // Notify the delegate
+                    if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
+                        strongSelf.isFavourite = favorited
+                        strongSelf.isReported = reported
+                        
+                        strongSelf.product.favorited = NSNumber(bool: favorited)
+                        strongSelf.product.reported = NSNumber(bool: reported)
+                    }
+                    strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
                     strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
                 }
             }

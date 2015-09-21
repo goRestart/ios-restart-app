@@ -71,13 +71,14 @@ public class SellProductViewModel: BaseViewModel {
         let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = LGProductMarkSoldService()
-        let productFavouriteRetrieveService = LGProductFavouriteRetrieveService()
+//        let productFavouriteRetrieveService = LGProductFavouriteRetrieveService()
         let productFavouriteSaveService = LGProductFavouriteSaveService()
         let productFavouriteDeleteService = LGProductFavouriteDeleteService()
-        let productReportRetrieveService = LGProductReportRetrieveService()
+//        let productReportRetrieveService = LGProductReportRetrieveService()
         let productReportSaveService = LGProductReportSaveService()
-        
-        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteRetrieveService: productFavouriteRetrieveService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportRetrieveService: productReportRetrieveService, productReportSaveService: productReportSaveService)
+        let userProductRelationService = LGUserProductRelationService()
+
+        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportSaveService: productReportSaveService, userProductRelationService: userProductRelationService)
         
         super.init()
         

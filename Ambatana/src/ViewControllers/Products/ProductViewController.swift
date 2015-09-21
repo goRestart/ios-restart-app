@@ -244,9 +244,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         updateUI()
     }
     
-    public func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel) {
-        favoriteButton?.userInteractionEnabled = false
-    }
     
     public func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel) {
         favoriteButton?.userInteractionEnabled = false
@@ -257,9 +254,19 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         setFavouriteButtonAsFavourited(viewModel.isFavourite)
     }
     
-    public func viewModelDidStartRetrievingReported(viewModel: ProductViewModel) {
-        
+    
+    public func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel) {
+        favoriteButton?.userInteractionEnabled = false
     }
+
+    
+//    public func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel) {
+//        favoriteButton?.userInteractionEnabled = false
+//    }
+//
+//    public func viewModelDidStartRetrievingReported(viewModel: ProductViewModel) {
+//        
+//    }
 
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
         reportButton.enabled = false
