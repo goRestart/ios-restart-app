@@ -34,6 +34,10 @@ class MockProduct: MockBaseModel, Product {
     var user: User?
     
     var processed: NSNumber?
+
+    var reported: NSNumber?
+    var favorited: NSNumber?
+
     
     // MARK: - Lifecycle
     
