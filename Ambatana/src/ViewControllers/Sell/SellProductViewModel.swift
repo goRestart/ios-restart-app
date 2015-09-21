@@ -45,6 +45,7 @@ public class SellProductViewModel: BaseViewModel {
 
     // Data
     internal var images: [UIImage?]
+    internal var savedProduct: Product?
     
     // Managers
     private let productManager: ProductManager
@@ -103,11 +104,11 @@ public class SellProductViewModel: BaseViewModel {
         
     }
     
-    public func trackSharedFB() {
+    internal func trackSharedFB() {
         
     }
     
-    internal func trackComplete() {
+    internal func trackComplete(product: Product) {
         
     }
     
@@ -212,6 +213,7 @@ public class SellProductViewModel: BaseViewModel {
         delegate?.sellProductViewModelDidStartSavingProduct(self)
         
         productManager.saveProduct(product, withImages: images, progress: { [weak self] (p: Float) -> Void in
+            println(product)
             
             if let strongSelf = self {
                 strongSelf.delegate?.sellProductViewModel(strongSelf, didUpdateProgressWithPercentage: p)
@@ -220,7 +222,10 @@ public class SellProductViewModel: BaseViewModel {
             }) { [weak self] (r: Result<Product, ProductSaveServiceError>) -> Void in
                 if let strongSelf = self {
                     if let actualProduct = r.value {
-                        strongSelf.trackComplete()
+                        println(actualProduct)
+                        strongSelf.savedProduct = actualProduct
+                        
+                        strongSelf.trackComplete(actualProduct)
                         strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
                         
                         if strongSelf.shouldShareInFB {

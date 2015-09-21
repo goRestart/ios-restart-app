@@ -52,7 +52,6 @@ code_sign_if_enabled() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework 'Pods/AFNetworking.framework'
   install_framework 'Pods/Alamofire.framework'
   install_framework 'Pods/Amplitude_iOS.framework'
   install_framework 'Pods/Bolts.framework'
@@ -75,7 +74,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework 'Pods/pop.framework'
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework 'Pods/AFNetworking.framework'
   install_framework 'Pods/Alamofire.framework'
   install_framework 'Pods/Amplitude_iOS.framework'
   install_framework 'Pods/Bolts.framework'
@@ -98,7 +96,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework 'Pods/pop.framework'
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
-  install_framework 'Pods/AFNetworking.framework'
   install_framework 'Pods/Alamofire.framework'
   install_framework 'Pods/Amplitude_iOS.framework'
   install_framework 'Pods/Bolts.framework'

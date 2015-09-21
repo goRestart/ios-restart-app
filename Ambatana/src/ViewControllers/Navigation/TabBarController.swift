@@ -376,7 +376,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
    
     private func presentSellVC() {
         if let vc = Tab.Sell.viewController as? NewSellProductViewController {
-            vc.delegate = self
+            vc.completedSellDelegate = self
             let navCtl = UINavigationController(rootViewController: vc)
             presentViewController(navCtl, animated: true, completion: nil)
         }
