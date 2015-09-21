@@ -312,25 +312,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         dismissLoadingMessageAlert(completion: completion)
     }
     
-    public func viewModelDidStartAskingQuestion(viewModel: ProductViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    public func viewModel(viewModel: ProductViewModel, didFinishAskingQuestion viewController: UIViewController?) {
-        let completion: () -> Void
-        if let actualVC = viewController {
-            completion = {
-                self.navigationController?.pushViewController(actualVC, animated: true)
-            }
-        }
-        else {
-            completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
-            }
-        }
-        dismissLoadingMessageAlert(completion: completion)
-    }
-    
     public func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
     }
@@ -633,8 +614,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         }
     }
 
+    // TODO: Refactor to retrieve a viewModel and build an VC, when ChatVC is switched to MVVM
     private func ask() {
-        viewModel.ask()
+        if let vc = viewModel.ask() {
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
+        }
     }
     
     // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM

@@ -117,12 +117,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo, notActiveCompletion: { [weak self] (type) -> Void in
-            if type == .Offer || type == .Message {
+            switch type {
+            case .Offer, .Message:
                 self?.openChatListViewController()
+            case .Marketing:
+                break
             }
-//            else if type == .Marketing {
-//                self?.showMarketingAlertWithNotificationMessage()
-//            }
         })
     }
     
@@ -167,22 +167,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tabBarCtl.switchToTab(.Chats)
         }
     }
-
-    // FIXME: Legacy...
-    
-//    private func showMarketingAlertWithNotificationMessage(message: String) {
-//        if let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController {
-//            tabBarCtl.displayMessage(message)
-//        }
-//    }
-    
-    // MARK: > Push notification
-    
-//    func getNotificationAlertMessage(userInfo: [NSObject: AnyObject]) -> String? {
-//        if let msg = userInfo["alert"] as? String { return msg }
-//        else if let aps = userInfo["aps"] as? [String: AnyObject] { // compatibility with iOS APS push notification & android
-//            return aps["alert"] as? String
-//        } else { return nil }
-//    }
 }
 

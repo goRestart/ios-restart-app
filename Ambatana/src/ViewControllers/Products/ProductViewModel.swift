@@ -9,7 +9,6 @@
 import CoreLocation
 import FBSDKShareKit
 import LGCoreKit
-import Parse
 import Result
 
 public protocol ProductViewModelDelegate: class {
@@ -28,9 +27,6 @@ public protocol ProductViewModelDelegate: class {
     
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishDeleting result: Result<Nil, ProductDeleteServiceError>)
-    
-    func viewModelDidStartAskingQuestion(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishAskingQuestion viewController: UIViewController?)
     
     func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: Result<Product, ProductMarkSoldServiceError>)
@@ -552,39 +548,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public func askStarted() {
     }
     
-    public func ask() {
-        delegate?.viewModelDidStartAskingQuestion(self)
-        
-        if let productUser = product.user {
-
-            // Retrieve the conversation
-            OldChatManager.sharedInstance.retrieveMyConversationWithUser(productUser, aboutProduct: product) { [weak self] (success, conversation) -> Void in
-                if let strongSelf = self {
-                    
-                    // If we've the conversation
-                    if let actualConversation = conversation {
-                        strongSelf.askCompleted(actualConversation)
-                    }
-                    // Otherwise, we need to create it
-                    else {
-                        OldChatManager.sharedInstance.createConversationWithUser(productUser, aboutProduct: strongSelf.product, completion: { (success, conversation) -> Void in
-
-                            // If we successfully created it
-                            if let actualConversation = conversation {
-                                strongSelf.askCompleted(actualConversation)
-                            }
-                            // Otherwise it's an error
-                            else {
-                                strongSelf.delegate?.viewModel(strongSelf, didFinishAskingQuestion: nil)
-                            }
-                        })
-                    }
-                }
-            }
-        }
-        else {
-            delegate?.viewModel(self, didFinishAskingQuestion: nil)
-        }
+    // TODO: Refactor when Chat is following MVVM
+    public func ask() -> UIViewController? {
+        return ChatViewController(product: product)
     }
     
     // MARK: > Mark as Sold
@@ -640,19 +606,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let myUser = MyUserManager.sharedInstance.myUser()
         let trackerEvent = TrackerEvent.productDeleteComplete(product, user: myUser)
         tracker.trackEvent(trackerEvent)
-    }
-    
-    private func askCompleted(conversation: PFObject) {
-        // TODO: Needs refactor
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
-            let chatVC = ChatViewController()
-            chatVC.letgoConversation = LetGoConversation(parseConversationObject: conversation)
-            chatVC.askQuestion = true
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                delegate?.viewModel(self, didFinishAskingQuestion: chatVC)
-            })
-        })
     }
     
     private func saveFavouriteCompleted() {

@@ -215,7 +215,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // cell size
-        let cellWidth = kLetGoFullScreenWidth * 0.50
+        let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.50
         let cellHeight = cellWidth * kLetGoEditProfileCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
     }
@@ -434,7 +434,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
                 // Retrieve the products
                 loadingFavProducts = true
                 
-                productsFavouriteRetrieveService.retrieveFavouriteProducts(user) { [weak self] (myResult: Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>)  in
+                productsFavouriteRetrieveService.retrieveFavouriteProducts(user) { [weak self] (myResult: Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>) in
                     
                     if let strongSelf = self {
                         if let actualResult = myResult.value {
@@ -444,15 +444,13 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
                         else {
                             // Failure
                             if let actualError = myResult.error {
-                                println(actualError)
-                                //                                result?(Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>.failure(actualError))
+//                                result?(Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>.failure(actualError))
                             }
                         }
                         
                         strongSelf.loadingFavProducts = false
                         strongSelf.favouriteCollectionView.reloadData()
-                        strongSelf.retrievalFinishedForProductsAtTab(tab)
-                        
+                        strongSelf.retrievalFinishedForProductsAtTab(tab)     
                     }
                 }
             }

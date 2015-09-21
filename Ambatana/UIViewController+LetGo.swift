@@ -9,7 +9,7 @@
 import Parse
 import UIKit
 
-private let kLetGoFadingAlertDismissalTime: Double = 1.5
+private let kLetGoFadingAlertDismissalTime: Double = 2.5
 private let kLetGoSearchBarHeight: CGFloat = 44
 private let kLetGoBadgeContainerViewTag = 500
 
@@ -125,7 +125,7 @@ extension UIViewController {
         let statusBarSize = UIApplication.sharedApplication().statusBarFrame.size
         let statusBarHeight = Swift.min(statusBarSize.width, statusBarSize.height)
         let originY = statusBarHeight + (self.navigationController?.navigationBar.frame.size.height ?? 0)
-        letGoSearchBar = UISearchBar(frame: CGRectMake(0, animated ? -kLetGoSearchBarHeight : originY, kLetGoFullScreenWidth, kLetGoSearchBarHeight))
+        letGoSearchBar = UISearchBar(frame: CGRectMake(0, animated ? -kLetGoSearchBarHeight : originY, UIScreen.mainScreen().bounds.size.width, kLetGoSearchBarHeight))
         letGoSearchBar!.showsCancelButton = true
         letGoSearchBar!.backgroundColor = UIColor.whiteColor()
         letGoSearchBar!.delegate = delegate

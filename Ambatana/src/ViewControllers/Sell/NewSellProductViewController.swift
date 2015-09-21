@@ -51,7 +51,6 @@ class NewSellProductViewController: SellProductViewController {
         
         
         self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: "")) { () -> Void in
-            println(self.completedSellDelegate)
             self.dismissViewControllerAnimated(true, completion: { [weak self] in
                 if let strongSelf = self {
                     strongSelf.completedSellDelegate?.sellProductViewController?(self, didCompleteSell: true)

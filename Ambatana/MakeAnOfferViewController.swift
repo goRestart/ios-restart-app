@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import Parse
+import Result
 import UIKit
 
 class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UITextViewDelegate {
@@ -67,72 +68,57 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
     
     @IBAction func makeAnOffer(sender: AnyObject) {
-        
-        if let actualProduct = product, let productUser = product?.user {
+        if let actualProduct = product, let productUser = product?.user, let myUser = MyUserManager.sharedInstance.myUser(), let productPrice = priceTextField?.text.toInt() {
             
-            // safety checks
-            let productPrice = priceTextField?.text.toInt()
-            if productPrice == nil { showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_invalid_price", comment: "") , time: 3.5); return }
-            var offerText = self.generateOfferText(productPrice!)
-            
-            // enable loading interface
+            // Loading
             enableLoadingInterface()
-            
-            // check if we have some current conversation with the user
-            OldChatManager.sharedInstance.retrieveMyConversationWithUser(productUser, aboutProduct: actualProduct) { [weak self] (success, conversation) -> Void in
+
+            // 1. Send the offer
+            var offerText = generateOfferText(productPrice)
+            ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) { [weak self] (sendResult: Result<Message, ChatSendMessageServiceError>) -> Void in
                 if let strongSelf = self {
-                    if success { // we have a conversation.
-                        // try to add the offer text first.
-                        OldChatManager.sharedInstance.addTextMessage(offerText, toUser: productUser, inConversation: conversation!, fromProduct: actualProduct, isOffer: true, completion: { [weak self] (success, newlyCreatedMessageObject) -> Void in
-                            if let strongSelf = self {
-                                if success {
-                                    strongSelf.launchChatWithConversation(conversation!)
+
+                    // Success
+                    if let success = sendResult.value {
+
+                        // 2. Retrieve the chat
+                        ChatManager.sharedInstance.retrieveChatWithProduct(actualProduct, buyer: myUser) { [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
+                            if let strongSelf2 = self {
+
+                                // Not loading
+                                strongSelf2.disableLoadingInterface()
+                                
+                                // Success
+                                if let chat = retrieveResult.value {
+                                    
+                                    // 3. Open chat
+                                    strongSelf2.openChatViewControllerWithChat(chat)
                                     
                                     // Tracking
                                     let myUser = MyUserManager.sharedInstance.myUser()
-                                    let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser, amount: Double(productPrice!))
+                                    let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser, amount: Double(productPrice))
                                     TrackerProxy.sharedInstance.trackEvent(offerEvent)
                                     
                                     let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
                                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                                 }
+                                // Error
                                 else {
-                                    strongSelf.disableLoadingInterface()
-                                    strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+                                    strongSelf2.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
                                 }
                             }
-                        })
+                        }
                     }
-                    else { // we need to create a conversation and pass it.
-                        OldChatManager.sharedInstance.createConversationWithUser(productUser, aboutProduct: actualProduct, completion: { [weak self] (success, conversation) -> Void in
-                            if let strongSelf = self {
-                                if success {
-                                    OldChatManager.sharedInstance.addTextMessage(offerText, toUser: productUser, inConversation: conversation!, fromProduct: actualProduct, isOffer: true, completion: { (success, newlyCreatedMessageObject) -> Void in
-                                        if success {
-                                            strongSelf.launchChatWithConversation(conversation!)
-                                            
-                                            // Tracking
-                                            let myUser = MyUserManager.sharedInstance.myUser()
-                                            let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser, amount: Double(productPrice!))
-                                            TrackerProxy.sharedInstance.trackEvent(offerEvent)
-                                            
-                                            let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
-                                            TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-                                        }
-                                        else {
-                                            strongSelf.disableLoadingInterface(); strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
-                                        }
-                                    })
-                                }
-                                else {
-                                    strongSelf.disableLoadingInterface()
-                                    strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
-                                }
-                            }
-                        })
+                    // Error
+                    else {
+                        strongSelf.disableLoadingInterface()
+                        strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
                     }
                 }
             }
+        }
+        else {
+            showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_invalid_price", comment: "") , time: 3.5);
         }
     }
     
@@ -142,26 +128,27 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         return String(format: NSLocalizedString("make_an_offer_new_offer_message", comment: ""), formattedAmount)
     }
     
-    func launchChatWithConversation(conversation: PFObject) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
-            let letgoConversation = LetGoConversation(parseConversationObject: conversation)
-            dispatch_async(dispatch_get_main_queue(), { [weak self] () -> Void in
-                if let strongSelf = self {
-                    strongSelf.disableLoadingInterface()
-                    let chatVC = ChatViewController()
-                    chatVC.letgoConversation = letgoConversation
-                    
-                    if var controllers = strongSelf.navigationController?.viewControllers as? [UIViewController] {
-                        controllers.removeLast()
-                        controllers.append(chatVC)
-                        strongSelf.navigationController!.viewControllers = controllers
-                    }
-                    else {
-                        strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
-                    }
-                }
-            })
-        })
+    func openChatViewControllerWithChat(chat: Chat) {
+        if let chatVC = ChatViewController(chat: chat), var controllers = navigationController?.viewControllers as? [UIViewController] {
+            controllers.removeLast()
+            controllers.append(chatVC)
+            navigationController?.viewControllers = controllers
+        }
+        else {
+            showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+        }
+        
+    }
+    
+    func launchChatVC(chat: Chat) {
+        if let chatVC = ChatViewController(chat: chat), var controllers = navigationController?.viewControllers as? [UIViewController] {
+            controllers.removeLast()
+            controllers.append(chatVC)
+            navigationController?.viewControllers = controllers
+        }
+        else {
+            showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+        }
     }
 }
 
