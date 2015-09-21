@@ -10,7 +10,7 @@ import LGCoreKit
 
 public protocol ProductListViewLocationDelegate {
     func mainProductListView(mainProductListView: MainProductListView, didFailRequestingLocationServices status: LocationServiceStatus)
-    func mainProductListView(mainProductListView: MainProductListView, didTimeOutRetrievingLocation timeout: NSTimeInterval)
+    func mainProductListViewDidTimeOutRetrievingLocation(mainProductListView: MainProductListView)
 }
 
 public class MainProductListView: ProductListView, MainProductListViewModelLocationDelegate {
@@ -25,6 +25,7 @@ public class MainProductListView: ProductListView, MainProductListViewModelLocat
         super.init(viewModel: viewModel, coder: aDecoder)
         viewModel.dataDelegate = self
         viewModel.locationDelegate = self
+        collectionViewFooterHeight = 80 // safety area for floating sell button
     }
     
     // MARK: - ProductListViewModelDataDelegate
@@ -71,7 +72,7 @@ public class MainProductListView: ProductListView, MainProductListViewModelLocat
         locationDelegate?.mainProductListView(self, didFailRequestingLocationServices: status)
     }
     
-    public func viewModel(viewModel: MainProductListViewModel, didTimeOutRetrievingLocation timeout: NSTimeInterval) {
-        locationDelegate?.mainProductListView(self, didTimeOutRetrievingLocation: timeout)
+    public func viewModelDidTimeOutRetrievingLocation(viewModel: MainProductListViewModel) {
+        locationDelegate?.mainProductListViewDidTimeOutRetrievingLocation(self)
     }
 }

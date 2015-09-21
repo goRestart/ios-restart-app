@@ -68,7 +68,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     }
     
     // UI
-    var tooltip: TabBarToolTip!
+    var floatingSellButton: FloatingButton!
     var sellButton: UIButton!
     var chatsTabBarItem: UITabBarItem?
     
@@ -98,16 +98,19 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         sellButton = UIButton(frame: CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth, height: tabBar.frame.height))
         sellButton.addTarget(self, action: Selector("sellButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
         sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
-        sellButton.backgroundColor = StyleHelper.tabBarSellIconBgColor
+//        sellButton.backgroundColor = StyleHelper.tabBarSellIconBgColor
         tabBar.addSubview(sellButton)
         
-        // Add the tooltip
-        let tooltipFrame =  CGRectZero
-        tooltip = TabBarToolTip(frame: CGRectZero)
-        tooltip.addTarget(self, action: Selector("tooltipPressed"), forControlEvents: UIControlEvents.TouchUpInside)
-        tooltip.text = NSLocalizedString("tab_bar_tool_tip", comment: "")
-        tooltip.alpha = 0
-        view.addSubview(tooltip)
+        // Add the floating sell button
+        floatingSellButton = FloatingButton.floatingButtonWithTitle(NSLocalizedString("tab_bar_tool_tip", comment: ""), icon: UIImage(named: "ic_sell_white"))
+        floatingSellButton.addTarget(self, action: Selector("sellButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
+        floatingSellButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        view.addSubview(floatingSellButton)
+        
+        let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
+//        let sellBottomMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: tabBar, attribute: .Top, multiplier: 1, constant: -15)
+        let sellBottomMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: -65) // 44 (tabbar size= + 15
+        view.addConstraints([sellCenterXConstraint,sellBottomMarginConstraint])
         
         // Initially set the chats tab badge to the app icon badge number
         if let chatsTab = chatsTabBarItem {
@@ -117,7 +120,6 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         
         // Update chats badge
         updateChatsBadge()
-        
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -132,13 +134,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // If tooltip is displayed then animate it
-        let tooltipIsShown = tooltip.superview != nil
-        if tooltipIsShown {
-            showTooltip()
-        }
-        
+
         // NSNotificationCenter
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:", name: PushManager.Notification.unreadMessagesDidChange.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: MyUserManager.Notification.logout.rawValue, object: nil)
@@ -154,12 +150,6 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     }
     
     override func viewWillLayoutSubviews() {
-        
-        // @ahl: can be tested enabling rotation
-        
-        // Center the tooltip
-        tooltip.center = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height)
-        
         // Move the sell button
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
         sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth, height: tabBar.frame.height)
@@ -198,60 +188,36 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     }
     
     /**
-        Shows the tooltip and starts its bounce animation.
+        Shows the app rating if needed.
     */
-    func showTooltip() {
-        if tooltip.superview == nil {
-            view.addSubview(tooltip)
+    func showAppRatingViewIfNeeded() {
+        // If never shown before, show app rating view
+        if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+            if let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() {
+                let screenFrame = nav.view.frame
+                UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+                ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
+                    nav.pushViewController(vc, animated: true)
+                })
+                self.view.addSubview(ratingView)
+            }
         }
-        
-        startTooltipBounceAnimation()
-    }
-    
-    /**
-        Dismissed the tooltip.
-    
-        :param: animated If it show be dismissed with an animation.
-    */
-    func dismissTooltip(#animated: Bool) {
-        let removeFromSuperview: () -> Void = { [weak self] in
-            self?.tooltip.removeFromSuperview()
-        }
-        if animated {
-            startTooltipFadeOutAnimation(removeFromSuperview)
-        }
-        else {
-            removeFromSuperview()
-        }
-    }
-    
-    /**
-        Displays a message to the user.
-        
-        :param: message The message.
-    */
-    func displayMessage(message: String) {
-        showAutoFadingOutMessageAlert(message)
     }
     
     // MARK: - SellProductViewControllerDelegate
     func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
             switchToTab(.Profile)
+            
+            showAppRatingViewIfNeeded()
         }
     }
     
     // MARK: - UINavigationControllerDelegate
     
     func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-        // When navigating deeper
-        if navigationController.viewControllers.count > 1 {
-            // Dismisses the tooltip, if present, when pushing a vc that's not a ProductsViewController / CategoriesViewController
-            let shouldKeepTooltip = viewController is MainProductsViewController || viewController is CategoriesViewController
-            if !shouldKeepTooltip {
-                dismissTooltip(animated: false)
-            }
-        }
+        let hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
+        setSellFloatingButtonHidden(hidden, animated: true)
     }
     
     // MARK: - UITabBarControllerDelegate
@@ -295,9 +261,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
                 // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
                 if let actualLoginSource = loginSource {
                     ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
-                        self?.dismissTooltip(animated: false)
                         self?.switchToTab(tab)
-                        self?.showTooltip()
                     },
                     elsePresentSignUpWithSuccessAction: { [weak self] in
                         self?.switchToTab(tab)
@@ -349,20 +313,12 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     // MARK: > Action
     
     dynamic private func sellButtonPressed() {
-        // Dismiss the tooltip, if present
-        dismissTooltip(animated: false)
-        
         // If logged present the sell, otherwise present the login VC (and if successful the sell)
         ifLoggedInThen(.Sell, loggedInAction: {
             self.presentSellVC()
         }, elsePresentSignUpWithSuccessAction: {
             self.presentSellVC()
         })
-    }
-    
-    dynamic private func tooltipPressed() {
-        // Dismiss the tooltip, if present
-        dismissTooltip(animated: true)
     }
     
     // MARK: > UI
@@ -381,7 +337,26 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
             presentViewController(navCtl, animated: true, completion: nil)
         }
     }
-        
+    
+    /**
+        Shows/hides the sell floating button
+    
+        :param: hidden If should be hidden
+        :param: animated If transition should be animated
+    */
+    private func setSellFloatingButtonHidden(hidden: Bool, animated: Bool) {
+        let alpha: CGFloat = hidden ? 0 : 1
+        if animated {
+            floatingSellButton.hidden = hidden
+           
+            UIView.animateWithDuration(0.35) { [weak self] in
+                self?.floatingSellButton.alpha = alpha
+            }
+        }
+        else {
+            floatingSellButton.hidden = hidden
+        }
+    }
     
     // MARK: > NSNotification
     
@@ -402,11 +377,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     }
     
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
-        // If we're showing a product list or the categories view, then show again the tooltip
-        let topVC = UIApplication.topViewController()
-        if topVC is MainProductsViewController || topVC is CategoriesViewController {
-            showTooltip()
-        }
+
     }
     
     dynamic private func askUserToUpdateLocation() {
@@ -435,119 +406,4 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         NSNotificationCenter.defaultCenter().removeObserver(self, name: LocationManager.didMoveFromManualLocationNotification, object: nil)
         
     }
-    
-    
-    // MARK: > Animation
-    
-    // MARK: >> Tooltip bounce
-    
-    private func startTooltipBounceAnimation() {
-        if tooltip.superview == nil {
-            return
-        }
-        
-        // Remove all animations
-        tooltip.pop_removeAllAnimations()
-        
-        // It should be visible
-        tooltip.alpha = 1
-        
-        // Loop between move up & down
-        startTooltipBounceUpAnimation { [weak self] in
-            if let strongSelf = self {
-                strongSelf.startTooltipBounceDownAnimation { [weak self] in
-                    if let strongSelf = self {
-                        strongSelf.startTooltipBounceAnimation()
-                    }
-                }
-            }
-        }
-    }
-    
-    private func startTooltipBounceUpAnimation(completion: () -> Void) {
-        if tooltip.superview == nil {
-            return
-        }
-        
-        let centerUp = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimTop)
-        let centerDown = CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimBottom)
-        
-        let up = POPBasicAnimation(propertyNamed: kPOPViewCenter)
-        up.fromValue = NSValue(CGPoint: tooltipAnimBottomCenter)
-        up.toValue = NSValue(CGPoint: tooltipAnimTopCenter)
-        up.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
-        up.completionBlock = { (animation: POPAnimation!, finished: Bool) -> Void in
-            if finished {
-                completion()
-            }
-        }
-        tooltip.pop_addAnimation(up, forKey: "up")
-        
-    }
-    
-    private func startTooltipBounceDownAnimation(completion: () -> Void) {
-        if tooltip.superview == nil {
-            return
-        }
-        
-        let down = POPBasicAnimation(propertyNamed: kPOPViewCenter)
-        down.fromValue = NSValue(CGPoint: tooltipAnimTopCenter)
-        down.toValue = NSValue(CGPoint: tooltipAnimBottomCenter)
-        down.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
-        down.completionBlock = { [weak self] (animation: POPAnimation!, finished: Bool) -> Void in
-            if finished {
-                completion()
-            }
-        }
-        tooltip.pop_addAnimation(down, forKey: "down")
-    }
-    
-    private var tooltipAnimTopCenter: CGPoint {
-        return CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimTop)
-    }
-    
-    private var tooltipAnimBottomCenter: CGPoint {
-        return CGPoint(x: view.center.x, y: view.frame.size.height - tabBar.frame.height - 0.5 * tooltip.frame.size.height - TabBarController.tooltipVerticalSpacingAnimBottom)
-    }
-    
-    // MARK: >> Tooltip fade in
-    
-    private func startTooltipFadeInAnimation(completion: () -> Void) {
-        if tooltip.superview == nil {
-            return
-        }
-        
-        // Remove all animations
-        tooltip.pop_removeAllAnimations()
-        
-        // Perform the animation
-        let alphaAnimation = POPBasicAnimation(propertyNamed: kPOPViewAlpha)
-        alphaAnimation.toValue = 1
-        alphaAnimation.removedOnCompletion = true
-        alphaAnimation.completionBlock = { (animation: POPAnimation!, finished: Bool) -> Void in
-            completion()
-        }
-        tooltip.pop_addAnimation(alphaAnimation, forKey: "fade in")
-    }
-    
-    // MARK: >> Tooltip fade out
-
-    private func startTooltipFadeOutAnimation(completion: () -> Void) {
-        if tooltip.superview == nil {
-            return
-        }
-        
-        // Remove all animations
-        tooltip.pop_removeAllAnimations()
-        
-        // Perform the animation, on completion remove it from superview
-        let alphaAnimation = POPBasicAnimation(propertyNamed: kPOPViewAlpha)
-        alphaAnimation.toValue = 0
-        alphaAnimation.removedOnCompletion = true
-        alphaAnimation.completionBlock = { [weak self] (animation: POPAnimation!, finished: Bool) -> Void in
-            self?.tooltip.removeFromSuperview()
-        }
-        
-        tooltip.pop_addAnimation(alphaAnimation, forKey: "alphaAnimation")
-    }
-}
+ }

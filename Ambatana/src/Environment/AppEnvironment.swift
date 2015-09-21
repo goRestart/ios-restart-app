@@ -22,4 +22,8 @@ protocol AppEnvironment: Environment {
     // Push notifications
     var urbanAirshipAPIKey: String { get }
     var urbanAirshipAPISecret: String { get }
+    
+    // New relic
+    var newRelicToken: String { get }
+
 }

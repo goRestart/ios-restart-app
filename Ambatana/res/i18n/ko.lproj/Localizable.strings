@@ -36,6 +36,10 @@
 "chat_list_title" = "채팅";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
+"chat_safety_tips_tip_1" = "거래를 하시기로 약속하셨다면, 거래자와 직접 만나 거래를 진행하세요.";
+"chat_safety_tips_tip_2" = "계좌이체, 송금 및 수표 거래는 거절하십시오.";
+"chat_safety_tips_tip_3" = "배송하기로 결정하셨다면, 보다 영리하고 직관을 믿으며 거래를 성사하세요.";
+"chat_safety_tips_title" = "안전 정보";
 "chat_send_button" = "발송";
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
 "common_cancel" = "취소";
@@ -177,6 +181,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "메세지: %@";
 "push_notification_message_title" = "새로운 메세지 -%@";
+"rating_view_dont_ask_again_button" = "다시 묻지 말아주세요";
+"rating_view_love_it_label" = "마음에 들어요!";
+"rating_view_needs_improvements_label" = "개선이 필요합니다";
+"rating_view_rate_us_label" = "평가해주세요";
+"rating_view_suggest_label" = "제안을 공유해주세요";
+"rating_view_title_label" = "렛고가 마음에 드시나요?";
 "reset_password_email_field_hint" = "이메일";
 "reset_password_send_button" = "비밀번호 재설정";
 "reset_password_send_error_generic" = "비밀번호를 기억하는데 오류가 발생했습니다.";
@@ -242,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "%d자 이상 등록 가능한 이름을 입력해 주세요";
 "sign_up_title" = "회원가입";
 "sign_up_username_field_hint" = "이름";
-"tab_bar_tool_tip" = "고객님의 물건을 판매해보세요!";
+"tab_bar_tool_tip" = "고객님의 물건을 판매해보세요";

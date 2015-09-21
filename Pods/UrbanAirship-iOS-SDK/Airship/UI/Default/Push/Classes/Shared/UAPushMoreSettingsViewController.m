@@ -36,8 +36,6 @@
 #define kUAPushDeviceTokenPath @"deviceToken"
 #define kUAPushChannelIDPath @"channelID"
 
-UA_SUPPRESS_UI_DEPRECATION_WARNINGS
-
 enum {
     SectionDeviceToken = 0,
     SectionHelp        = 2,

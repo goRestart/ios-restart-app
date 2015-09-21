@@ -38,6 +38,8 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
     var allowGoingBack = false
     
     override func viewDidLoad() {
+        hidesBottomBarWhenPushed = true
+        
         super.viewDidLoad()
         self.searchTextField.delegate = self
         
@@ -65,8 +67,8 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
 
         // if we have a current location (we are accessing through the "Change my location" option in settings, start with that location.
         var initialLocation: CLLocationCoordinate2D?
-        if LocationManager.sharedInstance.lastKnownLocation != nil {
-            initialLocation = LocationManager.sharedInstance.lastKnownLocation!.coordinate
+        if let location = LocationManager.sharedInstance.lastKnownLocation?.location {
+            initialLocation = location.coordinate
         }
 
         // do we have an initial location?

@@ -62,13 +62,15 @@ public class LogInViewModel: BaseViewModel {
         else {
             MyUserManager.sharedInstance.logInWithEmail(email, password: password) { [weak self] (result: Result<User, UserLogInEmailServiceError>) in
                 if let strongSelf = self {
-
-                    // Tracking
+                    // Success
                     if let user = result.value {
+                        // Tracking
                         TrackerProxy.sharedInstance.setUser(user)
+
+                        let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
+                        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                     }
-                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                    
                     
                     // Notify the delegate about it finished
                     if let actualDelegate = strongSelf.delegate {

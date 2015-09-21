@@ -36,6 +36,10 @@
 "chat_list_title" = "Chats";
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
+"chat_safety_tips_tip_1" = "Après le deal convenu, rencontrez en personne et payez cash.";
+"chat_safety_tips_tip_2" = "Refusez les virements bancaires, mandats cash ou chèques.";
+"chat_safety_tips_tip_3" = "Si vous choisissez d’expédier, faites preuve de bon sens et écoutez votre intuition !";
+"chat_safety_tips_title" = "Conseils";
 "chat_send_button" = "Envoyer";
 "chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
 "common_cancel" = "Annuler";
@@ -177,6 +181,12 @@
 "push_notification_message_body" = "%@ : %@";
 "push_notification_message_body_no_username" = "Message : %@";
 "push_notification_message_title" = "Nouveau message - %@";
+"rating_view_dont_ask_again_button" = "Ne plus me demander";
+"rating_view_love_it_label" = "J'aime !";
+"rating_view_needs_improvements_label" = "Doit être amélioré";
+"rating_view_rate_us_label" = "Notez-nous";
+"rating_view_suggest_label" = "Partagez vos suggestions";
+"rating_view_title_label" = "Vous aimez letgo ?";
 "reset_password_email_field_hint" = "Email";
 "reset_password_send_button" = "Réinitialiser le mot de passe";
 "reset_password_send_error_generic" = "Une erreur est survenue lors de la sauvegarde de votre mot de passe.";
@@ -242,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "Veuillez entrer un nom valide, avec au moins %d caractères";
 "sign_up_title" = "S'inscrire";
 "sign_up_username_field_hint" = "Nom complet";
-"tab_bar_tool_tip" = "Vendez Vos Biens !";
+"tab_bar_tool_tip" = "Vendez Vos Biens";

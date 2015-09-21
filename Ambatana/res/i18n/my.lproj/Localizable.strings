@@ -36,6 +36,10 @@
 "chat_list_title" = "စကားစမြည်ပြောဆိုခြင်းများ";
 "chat_message_field_hint" = "ဒီမှာမက်ဆေ့ရိုက်ထည့်ပါ";
 "chat_message_load_generic_error" = "သင့်ပြောဆိုချက်ဒေတာဆွဲထုတ်စဉ် အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။ ကျေးဇူးပြုပြီး နောက်ပြန်ကြိုးစားပါ။";
+"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
+"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
+"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_title" = "လုံခြုံစိတ်ချရသည့်အချက်များ";
 "chat_send_button" = "ပို့မည်";
 "chat_send_error_generic" = "မက်ဆေ့ပေးပို့သည့် အမှားတစ်ခုရှိသည်။ ကျေးဇူးပြုပြီးပြန်ကြိုးစားပါ။";
 "common_cancel" = "ရပ်ဆိုင်းပါ";
@@ -177,6 +181,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "မက်ဆေ့ - %@";
 "push_notification_message_title" = "မက်ဆေ့အသစ်- %@";
+"rating_view_dont_ask_again_button" = "ကျွန်ပ်ကို ထပ်မမေးပါနှင့်";
+"rating_view_love_it_label" = "၄င်းကို နှစ်သက်ပါသည်။";
+"rating_view_needs_improvements_label" = "တိုးတက်မှုများလိုအပ်ပါသည်";
+"rating_view_rate_us_label" = "ကျွန်ုပ်တို့အား အဆင့်သတ်မှတ်ပေးပါ";
+"rating_view_suggest_label" = "သင့် အကြံပြုချက်များကို မျှဝေပါ";
+"rating_view_title_label" = "letgo ကို သင်နှစ်သက်ပါသလား။";
 "reset_password_email_field_hint" = "အီးမေးလ်";
 "reset_password_send_button" = "စကားဝှက်ကိုပြန်ထားပါ";
 "reset_password_send_error_generic" = "သင့်စကားဝှက်ကိုမှတ်မိအောင်ကြိုးစားစဉ် အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။";

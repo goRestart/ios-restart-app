@@ -143,29 +143,32 @@ public class EditUserLocationViewModel: BaseViewModel {
         usingGPSLocation = true
 
         if !serviceAlreadyLoading {
-            serviceAlreadyLoading = true
-            delegate?.viewModelDidStartSearchingLocation(self)
-            postalAddressService.retrieveAddressForLocation(LocationManager.sharedInstance.lastGPSLocation!) { [weak self] (result: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
-                if let strongSelf = self {
-                    if let actualDelegate = strongSelf.delegate {
-                        if let place = result.value, let postalAddress = place.postalAddress {
-                            actualDelegate.viewModel(strongSelf, centerMapInLocation: LocationManager.sharedInstance.lastGPSLocation!.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
-                            var userLocationString = ""
-                            if let zipCode = postalAddress.zipCode {
-                                userLocationString += zipCode
-                            }
-                            if let city = postalAddress.city {
-                                if !userLocationString.isEmpty {
-                                    userLocationString += ", "
+            if let lastGPSLocation = LocationManager.sharedInstance.lastGPSLocation {
+                serviceAlreadyLoading = true
+                delegate?.viewModelDidStartSearchingLocation(self)
+                
+                postalAddressService.retrieveAddressForLocation(lastGPSLocation.location) { [weak self] (result: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
+                    if let strongSelf = self {
+                        if let actualDelegate = strongSelf.delegate {
+                            if let place = result.value, let postalAddress = place.postalAddress {
+                                actualDelegate.viewModel(strongSelf, centerMapInLocation: lastGPSLocation.location.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
+                                var userLocationString = ""
+                                if let zipCode = postalAddress.zipCode {
+                                    userLocationString += zipCode
                                 }
-                                userLocationString += city
+                                if let city = postalAddress.city {
+                                    if !userLocationString.isEmpty {
+                                        userLocationString += ", "
+                                    }
+                                    userLocationString += city
+                                }
+                                actualDelegate.viewModel(strongSelf, updateTextFieldWithString: userLocationString)
+                                
+                                strongSelf.currentPlace = place
                             }
-                            actualDelegate.viewModel(strongSelf, updateTextFieldWithString: userLocationString)
-                            
-                            strongSelf.currentPlace = place
                         }
+                        strongSelf.serviceAlreadyLoading = false
                     }
-                    strongSelf.serviceAlreadyLoading = false
                 }
             }
         }
@@ -253,9 +256,6 @@ public class EditUserLocationViewModel: BaseViewModel {
 
         UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
         
-        let trackerEvent = TrackerEvent.profileEditEditLocation(usingGPSLocation)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
         if usingGPSLocation {
             LocationManager.sharedInstance.userDidSetAutomaticLocation(currentPlace)
         } else {
@@ -264,6 +264,12 @@ public class EditUserLocationViewModel: BaseViewModel {
             var location = CLLocation(latitude: lat, longitude: long)
             LocationManager.sharedInstance.userDidSetManualLocation(location, place: currentPlace)
             TrackerProxy.sharedInstance.updateCoordinates()
+        }
+        
+        // Tracking
+        if let location = LocationManager.sharedInstance.lastKnownLocation {
+            let trackerEvent = TrackerEvent.profileEditEditLocation(location)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
     }
     

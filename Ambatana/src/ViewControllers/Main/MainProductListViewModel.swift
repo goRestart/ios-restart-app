@@ -1,4 +1,4 @@
-//
+    //
 //  MainProductListViewModel.swift
 //  LetGo
 //
@@ -10,21 +10,23 @@ import LGCoreKit
 
 public protocol MainProductListViewModelLocationDelegate: ProductListViewModelDataDelegate {
     func viewModel(viewModel: MainProductListViewModel, didFailRequestingLocationServices status: LocationServiceStatus)
-    func viewModel(viewModel: MainProductListViewModel, didTimeOutRetrievingLocation timeout: NSTimeInterval)
+    func viewModelDidTimeOutRetrievingLocation(viewModel: MainProductListViewModel)
 }
 
 public class MainProductListViewModel: ProductListViewModel {
     
-    // Constants
-    private static let locationRetrievalTimeout: NSTimeInterval = 15    // seconds
-    
     // Delegate
     public weak var locationDelegate: MainProductListViewModelLocationDelegate?
     
-    // Manager & timer
+    // Manager
     private let myUserManager: MyUserManager
     private let locationManager: LocationManager
-    private var locationRetrievalTimeoutTimer: NSTimer?
+    
+    // Data
+    private var lastReceivedLocation: LGLocation?
+    
+    // Flags
+    private var didNotifyAboutLocationTimeOut: Bool
     
     // MARK: - Computed iVars
     
@@ -37,6 +39,8 @@ public class MainProductListViewModel: ProductListViewModel {
     override init() {
         self.myUserManager = MyUserManager.sharedInstance
         self.locationManager = LocationManager.sharedInstance
+        self.didNotifyAboutLocationTimeOut = false
+        self.lastReceivedLocation = self.locationManager.lastKnownLocation
         super.init()
         self.isProfileList = false
     }
@@ -46,67 +50,25 @@ public class MainProductListViewModel: ProductListViewModel {
         
         // Active
         if (active) {
-            // Observe when receiving new location notifications by LocationManager
+            // Observe LocationManager
             let notificationCenter = NSNotificationCenter.defaultCenter()
             notificationCenter.addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: LocationManager.didReceiveLocationNotification, object: nil)
             notificationCenter.addObserver(self, selector: Selector("didFailRequestingLocationServicesWithNotification:"), name: LocationManager.didFailRequestingLocationServices, object: nil)
+            notificationCenter.addObserver(self, selector: Selector("didTimeOutRetrievingLocationWithNotification:"), name: LocationManager.didTimeOutRetrievingLocation, object: nil)
             
-            // If we can retrieve products and we do not any, then run the first page retrieval
-            if canRetrieveProducts && numberOfProducts == 0 {
-                retrieveProductsFirstPage()
+            // If we do not have products & we can retrieve products (has coordinates & the manager is not loading), then do it
+            if numberOfProducts == 0 && canRetrieveProducts {
+               retrieveProductsFirstPage()
             }
-            // If we cannot retrieve products but have products, then it's about location
-            else if numberOfProducts == 0 {
-
-                // If location status is not enabled & authorized notify then delegate know
-                let locationStatus = locationManager.locationServiceStatus
-                if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
-                    locationDelegate?.viewModel(self, didFailRequestingLocationServices: locationStatus)
-                }
-                
-                // Re/start the location retrieval timer
-                if locationRetrievalTimeoutTimer != nil {
-                    locationRetrievalTimeoutTimer!.invalidate()
-                    locationRetrievalTimeoutTimer = nil
-                }
-                locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(MainProductListViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
-            }
-            
-            // If we can retrieve products and we do not any, then run the first page retrieval
-            if numberOfProducts == 0 {
-               
-                // Reload if possible
-                if canRetrieveProducts {
-                     retrieveProductsFirstPage()
-                }
-                // Otherwise
-                else if queryCoordinates == nil {
-                    
-                    // If location status is not enabled & authorized notify the delegate
-                    let locationStatus = locationManager.locationServiceStatus
-                    if locationStatus != .Enabled(LocationServicesAuthStatus.Authorized) {
-                        locationDelegate?.viewModel(self, didFailRequestingLocationServices: locationStatus)
-                    }
-                    
-                    // Restart the location retrieval timer
-                    if locationRetrievalTimeoutTimer != nil {
-                        locationRetrievalTimeoutTimer!.invalidate()
-                        locationRetrievalTimeoutTimer = nil
-                    }
-                    locationRetrievalTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(MainProductListViewModel.locationRetrievalTimeout, target: self, selector: Selector("locationRetrievalTimedOut"), userInfo: nil, repeats: false)
-                }
+            // If location manager location retrieval already timed out, we didn't notify and there's no location, then notify
+            else if !didNotifyAboutLocationTimeOut && locationManager.locationRetrievalDidTimeOut && locationManager.lastKnownLocation == nil {
+                notifyTimeOutRetrievingLocation()
             }
         }
         // Inactive
         else {
             // Stop observing
             NSNotificationCenter.defaultCenter().removeObserver(self)
-            
-            // Stop the location retrieval timer
-            if locationRetrievalTimeoutTimer != nil {
-                locationRetrievalTimeoutTimer!.invalidate()
-                locationRetrievalTimeoutTimer = nil
-            }
         }
     }
     
@@ -114,24 +76,12 @@ public class MainProductListViewModel: ProductListViewModel {
     
     internal override func didSucceedRetrievingProducts() {
         // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserManager.myUser()
         let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     // MARK: - Private methods
-    
-    // MARK: > Timer
-    
-    /**
-        Called when a location retrieval times out.
-    */
-    @objc func locationRetrievalTimedOut() {
-        // If we do not have query coordinates then notify the delegate about the location retrieal timeout
-        if queryCoordinates == nil {
-            locationDelegate?.viewModel(self, didTimeOutRetrievingLocation: MainProductListViewModel.locationRetrievalTimeout)
-        }
-    }
     
     // MARK: > NSNotificationCenter
     
@@ -139,10 +89,22 @@ public class MainProductListViewModel: ProductListViewModel {
         Called when a new location is received. It retrieves the first product page in case we do not have products.
     */
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
-        // If we had a timer running, kill it
-        if locationRetrievalTimeoutTimer != nil {
-            locationRetrievalTimeoutTimer!.invalidate()
-            locationRetrievalTimeoutTimer = nil
+        
+        if let newLocation = notification.object as? LGLocation {
+            // If we improved the location type to sensors then run the first page retrieval
+            if let actualLastReceivedLocation = lastReceivedLocation {
+                if actualLastReceivedLocation.type != .Sensor && newLocation.type == .Sensor && canRetrieveProducts {
+                    retrieveProductsFirstPage()
+                }
+                
+                // Track the received location
+                lastReceivedLocation = newLocation
+            }
+            
+            // Tracking
+            let locationServiceStatus = LocationManager.sharedInstance.locationServiceStatus
+            let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
         
         // If we can retrieve products and we do not any, then run the first page retrieval
@@ -158,5 +120,22 @@ public class MainProductListViewModel: ProductListViewModel {
         // Notify the delegate
         let status = locationManager.locationServiceStatus
         locationDelegate?.viewModel(self, didFailRequestingLocationServices: status)
+    }
+    
+    /**
+        Called when a location services request times out.
+    */
+    @objc private func didTimeOutRetrievingLocationWithNotification(notification: NSNotification) {
+        if !didNotifyAboutLocationTimeOut {
+            notifyTimeOutRetrievingLocation()
+        }
+    }
+    
+    /**
+        Notifies about the time out retriving location.
+    */
+    private func notifyTimeOutRetrievingLocation() {
+        didNotifyAboutLocationTimeOut = true
+        locationDelegate?.viewModelDidTimeOutRetrievingLocation(self)
     }
 }

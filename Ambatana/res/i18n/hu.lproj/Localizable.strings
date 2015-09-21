@@ -36,6 +36,10 @@
 "chat_list_title" = "Chatek";
 "chat_message_field_hint" = "Írd ide az üzenetet...";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
+"chat_safety_tips_tip_1" = "Ha megegyeztetek, találkozzatok személyesen és készpénzt használjatok.";
+"chat_safety_tips_tip_2" = "Utasítsd el a pénzutalványokat, a banki átutalásokat és a csekkeket.";
+"chat_safety_tips_tip_3" = "Ha kiszállíttatsz, okosan és körültekintően intézkedj!";
+"chat_safety_tips_title" = "Tippek";
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
 "common_cancel" = "Mégse";
@@ -177,6 +181,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";
+"rating_view_dont_ask_again_button" = "Ne kérdezz többet";
+"rating_view_love_it_label" = "Tetszik!";
+"rating_view_needs_improvements_label" = "Javításokra van szükség";
+"rating_view_rate_us_label" = "Értékelj minket";
+"rating_view_suggest_label" = "Oszd meg velünk javaslataid";
+"rating_view_title_label" = "Ugye tetszik a letgo?";
 "reset_password_email_field_hint" = "E-mail cím";
 "reset_password_send_button" = "Jelszó visszaállítása";
 "reset_password_send_error_generic" = "Hiba történt a jelszóvisszaállítás során.";
@@ -242,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon";
 "sign_up_title" = "Regisztráció";
 "sign_up_username_field_hint" = "Teljes név";
-"tab_bar_tool_tip" = "Add el a Dolgaid!";
+"tab_bar_tool_tip" = "Add el a Dolgaid";

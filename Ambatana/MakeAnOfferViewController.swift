@@ -21,6 +21,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     var product: Product?
     
     override func viewDidLoad() {
+        hidesBottomBarWhenPushed = true
+        
         super.viewDidLoad()
 
         // appearance

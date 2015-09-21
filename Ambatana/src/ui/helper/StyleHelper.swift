@@ -17,6 +17,7 @@ class StyleHelper {
     private static let white = UIColor(rgb: 0xFFFFFF)
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
+    private static let gray75 = UIColor(rgb: 0x757575)
     private static let gray204 = UIColor(rgb: 0xCCCCCC)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
     private static let gray225 = UIColor(rgb: 0xE1E1E1)
@@ -136,6 +137,16 @@ class StyleHelper {
     
     static var badgeBgColor: UIColor {
         return red
+    }
+    
+    // MARK: - Chat safety tips
+    
+    static var tipTextColor: UIColor {
+        return gray75
+    }
+    
+    static var tipTextFont: UIFont {
+        return helveticaNeueMediumFont(size: 14)
     }
     
     // MARK: - LGTextField

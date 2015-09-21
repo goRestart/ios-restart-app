@@ -36,6 +36,10 @@
 "chat_list_title" = "Sohbet";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Konuşma verilerin alınırken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
+"chat_safety_tips_tip_1" = "Anlaştıktan sonra kişi ile yüz yüze görüş ve nakit ödeme yap.";
+"chat_safety_tips_tip_2" = "Banka havalelerine veya banka çeklerine hayır de.";
+"chat_safety_tips_tip_3" = "Eğer kargoya vermeye karar verirsen, akıllı ve önsezili ol!";
+"chat_safety_tips_title" = "Tavsiyeler";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "common_cancel" = "İptal et";
@@ -177,6 +181,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";
+"rating_view_dont_ask_again_button" = "Bunu bir daha sorma";
+"rating_view_love_it_label" = "Seviyorum!";
+"rating_view_needs_improvements_label" = "Geliştirilmesi gerekiyor";
+"rating_view_rate_us_label" = "Bize oy ver";
+"rating_view_suggest_label" = "Tavsiyelerini paylaş";
+"rating_view_title_label" = "letgo'yu seviyor musun?";
 "reset_password_email_field_hint" = "E-posta";
 "reset_password_send_button" = "Şifre yenile";
 "reset_password_send_error_generic" = "Şifreni hatırlamaya çalışırken bir hata oluştu.";
@@ -242,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "Lütfen, en az %d karakterden oluşan bir kullanıcı adı gir.";
 "sign_up_title" = "Üye ol";
 "sign_up_username_field_hint" = "Tam isim";
-"tab_bar_tool_tip" = "Eşyalarını Sat!";
+"tab_bar_tool_tip" = "Eşyalarını Sat";

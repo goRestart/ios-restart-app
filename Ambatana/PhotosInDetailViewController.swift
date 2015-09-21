@@ -24,6 +24,8 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
     var productName = NSLocalizedString("product_gallery_title", comment: "")
     
     override func viewDidLoad() {
+        hidesBottomBarWhenPushed = true
+        
         super.viewDidLoad()
         self.setLetGoNavigationBarStyle(title: productName)
 //        self.pageControl.numberOfPages = 0

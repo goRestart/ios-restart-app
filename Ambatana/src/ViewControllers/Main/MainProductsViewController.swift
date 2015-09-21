@@ -12,9 +12,6 @@ import Parse
 import UIKit
 
 public class MainProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, MainProductsViewModelDelegate, UISearchBarDelegate {
-
-    // Constants
-    private static let TooltipHidingPageCountThreshold: UInt = 4
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -36,6 +33,8 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         viewModel.delegate = self
+        
+        hidesBottomBarWhenPushed = false
     }
 
     public required init(coder: NSCoder) {
@@ -116,12 +115,7 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
     }
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
-        // If exceeding the page threshold, then hide the tip
-        if page >= MainProductsViewController.TooltipHidingPageCountThreshold {
-            if let tabBarCtl = tabBarController as? TabBarController {
-                tabBarCtl.dismissTooltip(animated: true)
-            }
-        }
+
     }
     
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -137,36 +131,47 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
     // MARK: - ProductListViewLocationDelegate
     
     public func mainProductListView(mainProductListView: MainProductListView, didFailRequestingLocationServices status: LocationServiceStatus) {
-        var alertMessage: String?
-        var alertButtonTitle: String?
-        
-        switch status {
-        case .Disabled:
-            alertMessage = NSLocalizedString("product_list_location_disabled_label", comment: "")
-            alertButtonTitle = NSLocalizedString("product_list_location_disabled_button", comment: "")
-        case .Enabled(let authStatus):
-            if authStatus == .Restricted || authStatus == .Denied {
-                alertMessage = NSLocalizedString("product_list_location_unauthorized_label", comment: "")
-                alertButtonTitle = NSLocalizedString("product_list_location_unauthorized_button", comment: "")
-            }
-        }
-        
-        if let alertMsg = alertMessage, let alertButTitle = alertButtonTitle {
-            let alert = UIAlertController(title: nil, message: alertMsg, preferredStyle:.Alert)
-            alert.addAction(UIAlertAction(title: alertButTitle, style:.Default, handler: { (action) -> Void in
-                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-            }))
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
+//        let alertMessage: String?
+//        let alertButtonTitle: String?
+//        
+//        switch status {
+//        case .Disabled:
+//            alertMessage = NSLocalizedString("product_list_location_disabled_label", comment: "")
+//            alertButtonTitle = NSLocalizedString("product_list_location_disabled_button", comment: "")
+//        case .Enabled(let authStatus):
+//            switch authStatus {
+//            case .Authorized, .NotDetermined:
+//                alertMessage = nil
+//                alertButtonTitle = nil
+//            case .Restricted, .Denied:
+//                alertMessage = NSLocalizedString("product_list_location_unauthorized_label", comment: "")
+//                alertButtonTitle = NSLocalizedString("product_list_location_unauthorized_button", comment: "")
+//            }
+//        }
+//        
+//        if let alertMsg = alertMessage, let alertButTitle = alertButtonTitle {
+//            let alert = UIAlertController(title: nil, message: alertMsg, preferredStyle:.Alert)
+//            let cancelAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel, handler: { (action) -> Void in
+//                self.viewModel.cancelOpenAppSettingsAlert()
+//                
+//            })
+//            let openSettingsAction = UIAlertAction(title: alertButTitle, style:.Default, handler: { (action) -> Void in
+//                self.viewModel.openAppSettings()
+//            })
+//            alert.addAction(cancelAction)
+//            alert.addAction(openSettingsAction)           
+//            
+//            self.presentViewController(alert, animated: true, completion: nil)
+//        }
     }
     
-    public func mainProductListView(mainProductListView: MainProductListView, didTimeOutRetrievingLocation timeout: NSTimeInterval) {
+    public func mainProductListViewDidTimeOutRetrievingLocation(mainProductListView: MainProductListView) {
         // Push indicate location VC
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
         vc.delegate = self
         let navCtl = UINavigationController(rootViewController: vc)
-        self.navigationController?.presentViewController(navCtl, animated: true, completion: nil)
+        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
     
     // MARK: - MainProductsViewModelDelegate

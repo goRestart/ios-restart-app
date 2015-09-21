@@ -41,13 +41,9 @@ public class ProductListViewModel: BaseViewModel {
         if let specifiedCoordinates = coordinates {
             coords = specifiedCoordinates
         }
-            // Try to use last LocationManager location
+        // Try to use last LocationManager location (might be GPS, IP look up, manual or last user saved)
         else if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            coords = LGLocationCoordinates2D(coordinates: lastKnownLocation.coordinate)
-        }
-            // Else if possible try to use last user saved location
-        else if let userCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
-            coords = userCoordinates
+            coords = LGLocationCoordinates2D(location: lastKnownLocation)
         }
         else {
             coords = nil

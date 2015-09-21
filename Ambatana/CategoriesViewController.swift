@@ -33,6 +33,8 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         categoriesManager = CategoriesManager.sharedInstance
         categories = []
         super.init(nibName: "CategoriesViewController", bundle: nil)
+        
+        hidesBottomBarWhenPushed = false
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -111,10 +113,8 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
 
     // MARK: - UICollectionViewDelegate & DataSource methods
     
-    func collectionView(collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return cellSize
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return cellSize
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

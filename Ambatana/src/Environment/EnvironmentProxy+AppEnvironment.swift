@@ -79,4 +79,17 @@ extension EnvironmentProxy: AppEnvironment {
             return ""
         }
     }
+    
+    // New relic
+
+    var newRelicToken: String {
+        get {
+            if let appEnvironment = environment as? AppEnvironment {
+                return appEnvironment.newRelicToken
+            }
+            return ""
+        }
+    }
+
+
 }

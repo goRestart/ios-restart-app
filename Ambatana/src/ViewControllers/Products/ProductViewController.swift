@@ -76,7 +76,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         self.viewModel.delegate = self
         
         automaticallyAdjustsScrollViewInsets = false
-        hidesBottomBarWhenPushed = true
     }
     
     public required init(coder: NSCoder) {
@@ -301,7 +300,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         if let success = result.value {
             completion = {
                 self.showAutoFadingOutMessageAlert(NSLocalizedString("product_delete_success_message", comment: ""), time: 3) {
-                    self.popBackViewController()
+                    self.navigationController?.popViewControllerAnimated(true)
                 }
             }
         }
@@ -339,9 +338,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: Result<Product, ProductMarkSoldServiceError>) {
         let completion: (() -> Void)?
         if let success = result.value {
+            
             completion = {
                 self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_success_message", comment: ""), time: 3) {
-                    self.popBackViewController()
+
+                    if let tabBarCtrl = self.tabBarController as? TabBarController {
+                        tabBarCtrl.showAppRatingViewIfNeeded()
+                    }
+                    self.navigationController?.popViewControllerAnimated(true)
                 }
             }
             updateUI()

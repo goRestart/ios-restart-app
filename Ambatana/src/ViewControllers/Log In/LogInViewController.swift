@@ -121,7 +121,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
                 message = NSLocalizedString("log_in_error_send_error_user_not_found_or_wrong_password", comment: "")
             case .Network:
                 message = NSLocalizedString("common_error_connection_failed", comment: "")
-            case .Internal:
+            case .Internal, .Forbidden:
                 message = NSLocalizedString("log_in_error_send_error_generic", comment: "")
             }
             completion = {

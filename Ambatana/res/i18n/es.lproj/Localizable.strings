@@ -36,6 +36,10 @@
 "chat_list_title" = "Chats";
 "chat_message_field_hint" = "Escribe tu mensaje";
 "chat_message_load_generic_error" = "¡Ups! Ha habido un error al acceder a los datos de tu conversación. Prueba otra vez.";
+"chat_safety_tips_tip_1" = "Después de que hayas cerrado el trato, encontraros en persona y paga en efectivo.";
+"chat_safety_tips_tip_2" = "Di no a los giros postales, transferencias bancarias o cheques.";
+"chat_safety_tips_tip_3" = "¡Si decides hacer un envío, sé inteligente e intuitivo!";
+"chat_safety_tips_title" = "Consejos";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
 "common_cancel" = "Cancelar";
@@ -177,6 +181,12 @@
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mensaje: %@";
 "push_notification_message_title" = "Nuevo mensaje - %@";
+"rating_view_dont_ask_again_button" = "No me preguntes de nuevo";
+"rating_view_love_it_label" = "¡Dinos que te encanta!";
+"rating_view_needs_improvements_label" = "Necesita mejoras";
+"rating_view_rate_us_label" = "Puntúanos";
+"rating_view_suggest_label" = "Comparte tus sugerencias";
+"rating_view_title_label" = "¿Te gusta letgo?";
 "reset_password_email_field_hint" = "Email";
 "reset_password_send_button" = "Restablecer la contraseña";
 "reset_password_send_error_generic" = "¡Ups! Ha habido un error al intentar restablecer tu contraseña.";
@@ -242,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "¡Ups! Introduce un nombre válido, debe tener al menos %d caracteres";
 "sign_up_title" = "Regístrate";
 "sign_up_username_field_hint" = "Nombre y apellido";
-"tab_bar_tool_tip" = "¡Empieza a Vender!";
+"tab_bar_tool_tip" = "Empieza a Vender";

@@ -36,6 +36,10 @@
 "chat_list_title" = "Chatt";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av diskussionsdata. Var god försök senare.";
+"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
+"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
+"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_title" = "Säkerhetstips";
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
 "common_cancel" = "Avbryt";
@@ -93,7 +97,7 @@
 "indicate_location_title" = "Välj din plats";
 "log_in_email_field_hint" = "E-post";
 "log_in_error_send_error_generic" = "Ett fel uppstod när du loggade in.";
-"log_in_error_send_error_invalid_email" = "Var god ange en giltig e-postadress";
+"log_in_error_send_error_invalid_email" = "Var god ange en giltig e-postadress i e-postfältet.";
 "log_in_error_send_error_invalid_password" = "Var god ange ett giltigt lösenord på minst %d tecken";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Kunde inte logga in: okänd användare eller inkorrekta referenser";
 "log_in_password_field_hint" = "Lösenord";
@@ -177,6 +181,12 @@
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Meddelande: %@";
 "push_notification_message_title" = "Nytt meddelande - %@";
+"rating_view_dont_ask_again_button" = "Fråga mig inte igen";
+"rating_view_love_it_label" = "Älskar!";
+"rating_view_needs_improvements_label" = "Behöver förbättringar";
+"rating_view_rate_us_label" = "Bedöm oss";
+"rating_view_suggest_label" = "Dela dina förslag";
+"rating_view_title_label" = "Älskar du letgo?";
 "reset_password_email_field_hint" = "E-post";
 "reset_password_send_button" = "Återställ lösenord";
 "reset_password_send_error_generic" = "Ett fel uppstod när vi försökte komma ihåg ditt lösenord.";
@@ -242,4 +252,4 @@
 "sign_up_send_error_invalid_username" = "Var god ange ett giltigt namn på minst %d tecken";
 "sign_up_title" = "Registrera dig";
 "sign_up_username_field_hint" = "Fullständigt namn";
-"tab_bar_tool_tip" = "Sälj Dina Prylar!";
+"tab_bar_tool_tip" = "Sälj Dina Prylar";
