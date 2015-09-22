@@ -9,6 +9,7 @@
 import LGCoreKit
 import Parse
 import UrbanAirship_iOS_SDK
+import Kahuna
 
 
 @objc public enum PushNotificationType: Int {
@@ -35,6 +36,10 @@ public class PushManager {
     
     public init() {
         unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "login:", name: MyUserManager.Notification.login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: MyUserManager.Notification.logout.rawValue, object: nil)
+
     }
     
     deinit {
@@ -50,6 +55,11 @@ public class PushManager {
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
+        
+        setupUrbanAirship()
+        
+        setupKahuna()
+
     }
     
     public func application(application: UIApplication, didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) {
@@ -138,11 +148,20 @@ public class PushManager {
     }
     
     
-    public func setupUrbanAirship() {
+    public func updateUrbanAirshipNamedUser(user: User?) {
+        UAirship.push()!.namedUser.identifier = user?.objectId
+    }
+    
+    
+    // MARK: - Private methods
+    
+    private func setupKahuna() {
+        Kahuna.launchWithKey(EnvironmentProxy.sharedInstance.kahunaAPIKey);
+    }
+    
+    private func setupUrbanAirship() {
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.logout.rawValue, object: nil)
-
+        
         let config = UAConfig.defaultConfig()
         config.developmentAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
         config.developmentAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
@@ -158,16 +177,33 @@ public class PushManager {
         UAirship.push()!.userPushNotificationsEnabled = true
     }
     
-    public func updateUrbanAirshipNamedUser(user: User?) {
-        UAirship.push()!.namedUser.identifier = user?.objectId
+    dynamic private func login(notification: NSNotification) {
+        if let user = notification.object as? User {
+            updateUrbanAirshipNamedUser(user)
+            
+            let uc = Kahuna.createUserCredentials()
+            var loginError: NSError?
+            if let userId = user.objectId {
+//                uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
+                uc.addCredential("user_id", withValue: userId)
+            }
+            if let email = user.email {
+//                uc.addCredential(KAHUNA_CREDENTIAL_EMAIL, withValue: email)
+                uc.addCredential("email", withValue: email)
+            }
+            Kahuna.loginWithCredentials(uc, error: &loginError)
+            if (loginError != nil) {
+                print("Login Error : \(loginError!.localizedDescription)")
+            }
+        }
+        
     }
     
-    
-    // MARK: - Private methods
-    
-    dynamic private func updateUrbanAirshipNamedUserFromNotification(notification: NSNotification) {
+    dynamic private func logout(notification: NSNotification) {
         updateUrbanAirshipNamedUser(notification.object as? User)
+        Kahuna.logout()
     }
+    
     
     // MARK: > NSNotificationCenter
     

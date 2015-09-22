@@ -556,8 +556,8 @@
 			children = (
 				50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */,
 				50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */,
-				50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */,
 				50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */,
+				50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */,
 			);
 			path = Environment;
 			sourceTree = "<group>";

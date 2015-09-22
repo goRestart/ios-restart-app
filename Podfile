@@ -34,7 +34,7 @@ pod "UIDeviceUtil",         "~> 1.1"
 
 # Push Notifications
 pod "UrbanAirship-iOS-SDK/Core", "6.2.0"
-pod "Kahuna",               "2.0.5"
+pod "Kahuna",               "2.0.3"
 
 # New Relic
 pod "NewRelicAgent",         "5.2.2"

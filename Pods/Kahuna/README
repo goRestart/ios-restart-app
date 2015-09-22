@@ -1,5 +1,0 @@
-InAppMessaging templates
-========================
-To use the templates please drag and drop the files "KahunaInAppMessageView.h" & "KahunaInAppMessageView.m" into your main app.
-Uncheck the "Copy items if needed" option to just create a reference to the templates.
-If you are developing in SWIFT, please import the "KahunaInAppMessageView.h" in your bridging header file. https://developer.apple.com/library/ios/documentation/Swift/Conceptual/BuildingCocoaApps/MixandMatch.html

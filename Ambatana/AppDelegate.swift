@@ -143,7 +143,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Push notifications
         PushManager.sharedInstance.prepareApplicationForRemoteNotifications(application)
-        PushManager.sharedInstance.setupUrbanAirship()
         
         // Tracking
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
