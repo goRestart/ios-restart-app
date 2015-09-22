@@ -52,9 +52,9 @@ public class KahunaTracker: Tracker {
     }
     
     public func trackEvent(event: TrackerEvent) {
-        if event.shouldTrack {
-    
-        }
+//        if event.shouldTrack {
+//    
+//        }
     }
     
     public func updateCoordinates() {
