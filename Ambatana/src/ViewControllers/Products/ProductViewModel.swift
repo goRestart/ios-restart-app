@@ -333,7 +333,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let productReportSaveService = LGProductReportSaveService()
         let userProductRelationService = LGUserProductRelationService()
 
-        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportSaveService: productReportSaveService, userProductRelationService: userProductRelationService)
+        self.productManager = ProductManager()
         self.tracker = TrackerProxy.sharedInstance
         
         super.init()

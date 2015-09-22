@@ -8,10 +8,10 @@
 
 import LGCoreKit
 import Parse
-import pop
+import Result
 import UIKit
 
-class TabBarController: UITabBarController, NewSellProductViewControllerDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate {
+public final class TabBarController: UITabBarController, NewSellProductViewControllerDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Constants & enums
     private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
@@ -67,6 +67,10 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         }
     }
     
+    // Managers
+    var productManager: ProductManager
+    var userManager: UserManager
+    
     // UI
     var floatingSellButton: FloatingButton!
     var sellButton: UIButton!
@@ -74,7 +78,17 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     
     // MARK: - Lifecycle
     
-    init() {
+    public convenience init() {
+        let productManager = ProductManager()
+        let userManager = UserManager()
+        self.init(productManager: productManager, userManager: userManager)
+    }
+    
+    public required init(productManager: ProductManager, userManager: UserManager) {
+        // Managers
+        self.productManager = productManager
+        self.userManager = userManager
+        
        super.init(nibName: nil, bundle: nil)
         
         // Generate the view controllers
@@ -122,17 +136,17 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         updateChatsBadge()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    public required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "askUserToUpdateLocation", name: LocationManager.didMoveFromManualLocationNotification, object: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         // NSNotificationCenter
@@ -141,14 +155,14 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
         // NSNotificationCenter
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    override func viewWillLayoutSubviews() {
+    public override func viewWillLayoutSubviews() {
         // Move the sell button
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
         sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth, height: tabBar.frame.height)
@@ -187,6 +201,37 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     }
     
     /**
+        Opens a deep link.
+    
+        :param: deepLink The deep link.
+        :returns: If succesfully handled opening the deep link.
+    */
+    func openDeepLink(deepLink: DeepLink) -> Bool {
+        if deepLink.isValid {
+            switch deepLink.type {
+            case .Home:
+                switchToTab(.Home)
+                break
+            case .Sell:
+                openSell()
+            case .Product:
+                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+                dispatch_after(delayTime, dispatch_get_main_queue()) { [weak self] in
+                    let productId = deepLink.components[0]
+                    self?.openProductWithId(productId)
+                }
+            case .User:
+                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+                dispatch_after(delayTime, dispatch_get_main_queue()) { [weak self] in
+                    let userId = deepLink.components[0]
+                    self?.openUserWithId(userId)
+                }
+           }
+        }
+        return true
+    }
+    
+    /**
         Shows the app rating if needed.
     */
     func showAppRatingViewIfNeeded() {
@@ -214,14 +259,14 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     
     // MARK: - UINavigationControllerDelegate
     
-    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
+    public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
         let hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
         setSellFloatingButtonHidden(hidden, animated: true)
     }
     
     // MARK: - UITabBarControllerDelegate
     
-    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
+    public func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
         
         let vcIdx = (viewControllers! as NSArray).indexOfObject(viewController)
         if let tab = Tab(rawValue: vcIdx) {
@@ -274,7 +319,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         return true
     }
     
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+    public func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
 
         // If we have a user
         if let user = MyUserManager.sharedInstance.myUser() {
@@ -312,12 +357,7 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
     // MARK: > Action
     
     dynamic private func sellButtonPressed() {
-        // If logged present the sell, otherwise present the login VC (and if successful the sell)
-        ifLoggedInThen(.Sell, loggedInAction: {
-            self.presentSellVC()
-        }, elsePresentSignUpWithSuccessAction: {
-            self.presentSellVC()
-        })
+        openSell()
     }
     
     // MARK: > UI
@@ -329,11 +369,77 @@ class TabBarController: UITabBarController, NewSellProductViewControllerDelegate
         }
     }
    
+    private func openSell() {
+        // If logged present the sell, otherwise present the login VC (and if successful the sell)
+        ifLoggedInThen(.Sell, loggedInAction: {
+            self.presentSellVC()
+        }, elsePresentSignUpWithSuccessAction: {
+            self.presentSellVC()
+        })
+    }
+    
     private func presentSellVC() {
         if let vc = Tab.Sell.viewController as? NewSellProductViewController {
             vc.completedSellDelegate = self
             let navCtl = UINavigationController(rootViewController: vc)
             presentViewController(navCtl, animated: true, completion: nil)
+        }
+    }
+    
+    private func openProductWithId(productId: String) {
+        // Show loading
+        showLoadingMessageAlert()
+        
+        // Retrieve the product
+        productManager.retrieveProductWithId(productId) { [weak self] (result: Result<Product, ProductRetrieveServiceError>) in
+            
+            var loadingDismissCompletion: (() -> Void)? = nil
+            
+            // Success
+            if let product = result.value {
+                
+                // Dismiss the loading and push the product vc on dismissal
+                loadingDismissCompletion = { () -> Void in
+                    if let navBarCtl = self?.selectedViewController as? UINavigationController {
+                        
+                        // TODO: Refactor TabBarController with MVVM
+                        let vm = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
+                        let vc = ProductViewController(viewModel: vm)
+                        navBarCtl.pushViewController(vc, animated: true)
+                    }
+                }
+            }
+            
+            // Dismiss loading
+            self?.dismissLoadingMessageAlert(completion: loadingDismissCompletion)
+        }
+    }
+
+    private func openUserWithId(userId: String) {
+        // Show loading
+        showLoadingMessageAlert()
+        
+        // Retrieve the product
+        userManager.retrieveUserWithId(userId) { [weak self] (result: Result<User, UserRetrieveServiceError>) in
+            
+            var loadingDismissCompletion: (() -> Void)? = nil
+            
+            // Success
+            if let user = result.value {
+                
+                // Dismiss the loading and push the product vc on dismissal
+                loadingDismissCompletion = { () -> Void in
+                    if let navBarCtl = self?.selectedViewController as? UINavigationController {
+                        
+                        // TODO: Refactor TabBarController with MVVM
+                        let vc = EditProfileViewController(user: user)
+                        navBarCtl.pushViewController(vc, animated: true)
+                    }
+                }
+            }
+            
+            // Dismiss loading
+            self?.dismissLoadingMessageAlert(completion: loadingDismissCompletion)
         }
     }
     

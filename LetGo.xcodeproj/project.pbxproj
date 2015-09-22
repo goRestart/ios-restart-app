@@ -45,6 +45,7 @@
 		502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
 		502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 502374541B3D3E8D00E02656 /* InfoPlist.strings */; };
 		502374591B3D3EAB00E02656 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5023745B1B3D3EAB00E02656 /* Localizable.strings */; };
+		5025A8961BB12AAF00462086 /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5025A8951BB12AAF00462086 /* DeepLink.swift */; };
 		50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */; };
 		50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */; };
 		50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */; };
@@ -258,6 +259,7 @@
 		5023745D1B3D3EDA00E02656 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5023745E1B3D403500E02656 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5023745F1B3D403900E02656 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5025A8951BB12AAF00462086 /* DeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeepLink.swift; sourceTree = "<group>"; };
 		50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppEnvironment.swift; sourceTree = "<group>"; };
 		50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DevelopmentEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
 		50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductionEnvironment+AppEnvironment.swift"; sourceTree = "<group>"; };
@@ -657,6 +659,7 @@
 			isa = PBXGroup;
 			children = (
 				50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */,
+				5025A8951BB12AAF00462086 /* DeepLink.swift */,
 				508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */,
 			);
 			path = Model;
@@ -1485,6 +1488,7 @@
 				2EE60AF21B60D8EF00E56E7D /* SellProductViewController.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */,
 				2ED65CFC1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift in Sources */,
+				5025A8961BB12AAF00462086 /* DeepLink.swift in Sources */,
 				D4BFE5B61B640C36006A8CB6 /* MainProductsViewModel.swift in Sources */,
 				50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */,
 				50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */,
