@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (1.3.1)
-  - Amplitude-iOS (3.0.0)
+  - Amplitude-iOS (3.0.1)
   - Bolts (1.2.2):
     - Bolts/AppLinks (= 1.2.2)
     - Bolts/Tasks (= 1.2.2)
@@ -64,7 +64,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 3.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - FBSDKShareKit (~> 4.1)
-  - LGCoreKit (from `../LGCoreKit`)
+  - LGCoreKit (from `../letgo-ios-lgcorekit`)
   - NewRelicAgent (= 5.2.2)
   - Nimble (~> 0.4.2)
   - Parse (= 1.7.5.3)
@@ -76,11 +76,11 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   LGCoreKit:
-    :path: ../LGCoreKit
+    :path: ../letgo-ios-lgcorekit
 
 SPEC CHECKSUMS:
   Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
-  Amplitude-iOS: 07875b822c2c935ea7f8021830d375ed4d812d31
+  Amplitude-iOS: 4016a201afba201865b4c84d23df0d49ed13d5a6
   Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
