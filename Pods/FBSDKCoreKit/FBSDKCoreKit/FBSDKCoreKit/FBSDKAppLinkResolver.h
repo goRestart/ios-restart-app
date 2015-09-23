@@ -20,11 +20,11 @@
 
 @class BFTask;
 
-// Check if Bolts.framework is available for import
-#if __has_include(<Bolts/BFAppLinkResolving.h>)
-// Import it if it's available
-# import <Bolts/BFAppLinkResolving.h>
-#else
+//// Check if Bolts.framework is available for import
+//#if __has_include(<Bolts/BFAppLinkResolving.h>)
+//// Import it if it's available
+//# import <Bolts/BFAppLinkResolving.h>
+//#else
 // Otherwise - redeclare BFAppLinkResolving protocol to resolve the problem of missing symbols
 // Please note: Bolts.framework is still required for AppLink resolving to work,
 // but this allows FBSDKCoreKit to weakly link Bolts.framework as well as this enables clang modulemaps to work.
@@ -46,7 +46,7 @@
 
 @end
 
-#endif
+//#endif
 
 /*!
  @class FBSDKAppLinkResolver

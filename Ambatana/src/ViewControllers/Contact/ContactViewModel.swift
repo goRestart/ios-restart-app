@@ -90,13 +90,12 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
             
             if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
                 var contact : Contact
-                contact = PAContact()
+                contact = LGContact()
                 contact.email = email
                 contact.title = subject?.name ?? ""
                 contact.message = self.message + systemInfoForMessage() + " " + self.email
                 
                 contact.user = MyUserManager.sharedInstance.myUser()
-                contact.processed = NSNumber(bool: false)
                 
                 delegate?.viewModelDidStartSendingContact(self)
                 

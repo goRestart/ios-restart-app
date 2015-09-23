@@ -321,18 +321,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         self.product = product
         
         // Manager
-        let productSaveService = LGProductSaveService()
-        let fileUploadService = LGFileUploadService()
-        let productSynchronizeService = LGProductSynchronizeService()
-        let productDeleteService = LGProductDeleteService()
-        let productMarkSoldService = LGProductMarkSoldService()
-//        let productFavouriteRetrieveService = LGProductFavouriteRetrieveService()
-        let productFavouriteSaveService = LGProductFavouriteSaveService()
-        let productFavouriteDeleteService = LGProductFavouriteDeleteService()
-//        let productReportRetrieveService = LGProductReportRetrieveService()
-        let productReportSaveService = LGProductReportSaveService()
-        let userProductRelationService = LGUserProductRelationService()
-
         self.productManager = ProductManager()
         self.tracker = TrackerProxy.sharedInstance
         

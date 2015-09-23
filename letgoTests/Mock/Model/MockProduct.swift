@@ -77,8 +77,6 @@ class MockProduct: MockBaseModel, Product {
         images = product.images
         
         user = product.user
-        
-        processed = product.processed
     }
     
     // MARK: - Public methods
@@ -103,7 +101,6 @@ class MockProduct: MockBaseModel, Product {
         
         mockProduct.user = product.user
         
-        mockProduct.processed = product.processed
         return mockProduct
     }
 }

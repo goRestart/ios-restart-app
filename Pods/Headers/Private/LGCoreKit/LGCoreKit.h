@@ -1,1 +1,1 @@
-../../../../../LGCoreKit/LGCoreKit/LGCoreKit.h
+../../../LGCoreKit/LGCoreKit/LGCoreKit.h
