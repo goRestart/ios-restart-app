@@ -271,7 +271,7 @@ public class MyUserManager {
     }
     
     /**
-        Updates my user passwords.
+        Updates my user password.
     
         :param: password The password.
         :param: result The closure containing the result.
@@ -279,6 +279,23 @@ public class MyUserManager {
     public func updatePassword(password: String, result: UserSaveServiceResult?) {
         if let myUser = myUser() {
             myUser.password = password
+            myUser.processed = NSNumber(bool: false)
+            saveMyUser(result)
+        }
+        else {
+            result?(Result<User, UserSaveServiceError>.failure(.Internal))
+        }
+    }
+    
+    /**
+        Updates my user email.
+    
+        :param: email The email.
+        :param: result The closure containing the result.
+    */
+    public func updateEmail(email: String, result: UserSaveServiceResult?) {
+        if let myUser = myUser() {
+            myUser.email = email
             myUser.processed = NSNumber(bool: false)
             saveMyUser(result)
         }

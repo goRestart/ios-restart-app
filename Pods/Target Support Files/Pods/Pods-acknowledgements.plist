@@ -238,6 +238,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
+			<string>All text and design is copyright &#169; 2012-2015 Kahuna, Inc.
+
+All rights reserved.
+
+http://www.kahuna.com/privacy/
+</string>
+			<key>Title</key>
+			<string>Kahuna</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
 			<string>Copyright (c) 2015 Ambatana Inc. &lt;albert@letgo.com&gt;
 </string>
 			<key>Title</key>

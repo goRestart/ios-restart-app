@@ -18,7 +18,7 @@ pod "FBSDKShareKit",        "~> 4.1"
 pod "Amplitude-iOS",        "~> 3.0"
     
 # letgo Core
-pod "LGCoreKit",            "0.13.1" #:path => "../letgo-ios-lgcorekit" #:path => "../LGCoreKit"
+pod "LGCoreKit",            "0.13.3" #:path => "../letgo-ios-lgcorekit" #:path => "../LGCoreKit"
 
 # Networking (to be removed when migrating to LGCoreKit)
 pod "Alamofire",            "~> 1.2"
@@ -34,13 +34,19 @@ pod "UIDeviceUtil",         "~> 1.1"
 
 # Push Notifications
 pod "UrbanAirship-iOS-SDK/Core", "6.2.0"
+pod "Kahuna",               "2.0.4"
 
 # New Relic
 pod "NewRelicAgent",         "5.2.2"
+
+pod "RealmSwift",           "0.95.0"  # delete!!
 
 target "letgoTests", :exclusive => true do
     ## Testing
     pod "Quick",            "~> 0.3.1"    # Update to 0.4+ when upgrading to Swift 2.0
     pod "Nimble",           "~> 0.4.2"    # Update to 1.0+ when upgrading to Swift 2.0
+    
+    pod "Kahuna",               "2.0.4"
+
 end
 

@@ -60,6 +60,10 @@ public class NanigansTracker: Tracker {
         
     }
     
+    public func applicationDidEnterBackground(application: UIApplication) {
+        
+    }
+    
     public func applicationWillEnterForeground(application: UIApplication) {
         NANTracking.trackAppLaunch(nil)
     }

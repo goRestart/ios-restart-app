@@ -47,6 +47,10 @@ public class UrbanAirshipTracker: Tracker {
     
     }
     
+    public func applicationDidEnterBackground(application: UIApplication) {
+        
+    }
+    
     public func applicationWillEnterForeground(application: UIApplication) {
     
     }

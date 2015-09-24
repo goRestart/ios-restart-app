@@ -23,11 +23,15 @@ public protocol ContactViewModelDelegate: class {
 
 public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDelegate {
     
-    // Services & delegate
+    // Manager & Services
+    private let myUserManager: MyUserManager
     private let contactService : ContactSendService
-    public weak var delegate: ContactViewModelDelegate?
-
+    
+    // View Model
     private var subjectOptionsViewModel : ContactSubjectOptionsViewModel!
+    
+    // Delegate
+    public weak var delegate: ContactViewModelDelegate?
     
     // Input
     public var email: String {
@@ -60,12 +64,19 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     
     // MARK: - Lifecycle
     
-    override init() {
-        email = MyUserManager.sharedInstance.myUser()?.email ?? ""
-        subject = nil
-        message = ""
-        contactService = LGContactSendService()
+    public required init(myUserManager: MyUserManager, contactService: ContactSendService) {
+        self.myUserManager = myUserManager
+        self.contactService = contactService
+        self.email = myUserManager.myUser()?.email ?? ""
+        self.subject = nil
+        self.message = ""
         super.init()
+    }
+    
+    public convenience override init() {
+        let myUserManager = MyUserManager.sharedInstance
+        let contactService = LGContactSendService()
+        self.init(myUserManager: myUserManager, contactService: contactService)
     }
     
     // MARK: - Public methods
@@ -88,7 +99,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
         
         if self.email.isEmail() {
             
-            if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+            if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken { 
                 var contact : Contact
                 contact = LGContact()
                 contact.email = email
@@ -99,6 +110,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
                 
                 delegate?.viewModelDidStartSendingContact(self)
                 
+                // Send the contact
                 self.contactService.sendContact(contact, sessionToken: sessionToken) { [weak self] (finalResult: Result<Contact, ContactSendServiceError>) in
                     
                     if let strongSelf = self {
@@ -115,6 +127,11 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
                         }
                     }
                 }
+                
+                // Save the email if
+                if shouldUpdateMyEmail() {
+                    self.myUserManager.updateEmail(email, result: nil)
+                }
             } else {
                 delegate?.viewModel(self, didFailValidationWithError: .Internal)
             }
@@ -126,8 +143,15 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     // MARK: Private methods
     
     private func enableSendButton() -> Bool {
-        
         return !email.isEmpty && subject != nil && (!message.isEmpty && message != NSLocalizedString("contact_body_field_hint", comment: ""))
+    }
+    
+    private func shouldUpdateMyEmail() -> Bool {
+        // Should update the email if nil or empty
+        if let myUserEmail = MyUserManager.sharedInstance.myUser()?.email {
+            return myUserEmail.isEmpty
+        }
+        return true
     }
     
     // Add app, OS and device info to contact messages
