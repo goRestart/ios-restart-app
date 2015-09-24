@@ -343,11 +343,6 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         delegate?.productListView(self, didSucceedRetrievingProductsPage: page)
     }
     
-    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError) {
-        // Notify the delegate
-        delegate?.productListView(self, didFailRetrievingUserProductsPage: page, error: error)
-    }
-    
     // MARK: - Private methods
     
     // MARK: > UI

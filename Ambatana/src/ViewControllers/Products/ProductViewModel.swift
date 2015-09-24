@@ -15,12 +15,9 @@ public protocol ProductViewModelDelegate: class {
     
     func viewModelDidUpdate(viewModel: ProductViewModel)
     
-//    func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel)
     func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsFavourite(viewModel: ProductViewModel)
 
-//    func viewModelDidStartRetrievingReported(viewModel: ProductViewModel)
-    
     func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel)
 
     func viewModelDidStartReporting(viewModel: ProductViewModel)

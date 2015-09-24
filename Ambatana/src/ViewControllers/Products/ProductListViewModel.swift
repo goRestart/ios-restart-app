@@ -14,8 +14,6 @@ public protocol ProductListViewModelDataDelegate: class {
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
     func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
     func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath])
-    func viewModel(viewModel: ProductListViewModel, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError)
-
 }
 
 public class ProductListViewModel: BaseViewModel {
