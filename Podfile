@@ -45,5 +45,8 @@ target "letgoTests", :exclusive => true do
     ## Testing
     pod "Quick",            "~> 0.3.1"    # Update to 0.4+ when upgrading to Swift 2.0
     pod "Nimble",           "~> 0.4.2"    # Update to 1.0+ when upgrading to Swift 2.0
+    
+    pod "Kahuna",               "2.0.4"
+
 end
 
