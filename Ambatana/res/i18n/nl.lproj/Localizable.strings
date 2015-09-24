@@ -89,6 +89,7 @@
 "forced_update_message" = "Een nieuwe versie van letgo is beschikbaar. Gelieve het nu te updaten.";
 "forced_update_title" = "Update beschikbaar";
 "forced_update_update_button" = "Update";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Vul je adres in";
 "indicate_location_address_search_error_generic" = "Ik was niet in staat om die locatie te vinden. Gelieve, het opnieuw te proberen.";
 "indicate_location_long_press_tip_label" = "Of houd je vinger ingedrukt op jouw locatie";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "Ok";
 "product_report_confirm_title" = "Rapporteer product";
 "product_report_product_button" = "Rapporteer product";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Het product is succesvol gerapporteerd";
 "product_reported_success_message" = "Het product werd succesvol gerapporteerd.    Bedankt!";
 "product_reporting_loading_message" = "Rapporteren van product...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Instellen van jouw profielfoto, even geduld a.u.b.";
 "settings_change_username_button" = "Naam";
 "settings_contact_us_button" = "Contacteer ons";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Camera";
 "settings_image_source_camera_roll_button" = "Fotobibliotheek";
 "settings_image_source_cancel_button" = "Annuleren";
@@ -252,4 +255,4 @@
 "sign_up_send_error_invalid_username" = "Gelieve, een geldige naam in te voeren, deze moet minstens %d tekens bevatten. ";
 "sign_up_title" = "Word lid";
 "sign_up_username_field_hint" = "Volledige naam";
-"tab_bar_tool_tip" = "Verkoop Jouw Spullen";
+"tab_bar_tool_tip" = "Verkoop je spullen";

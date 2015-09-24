@@ -36,9 +36,9 @@
 "chat_list_title" = "Chatt";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av diskussionsdata. Var god försök senare.";
-"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
-"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
-"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_tip_1" = "När ni har kommit överens om affär, träffas och betala kontant.";
+"chat_safety_tips_tip_2" = "Säg nej till checkar eller andra pengaöverföringar.";
+"chat_safety_tips_tip_3" = "Om du väljer att skeppa, var smart och använd din intuition.";
 "chat_safety_tips_title" = "Säkerhetstips";
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
@@ -89,6 +89,7 @@
 "forced_update_message" = "Det finns en ny version av letgo. Var god uppdatera nu.";
 "forced_update_title" = "Uppdatering tillgänglig";
 "forced_update_update_button" = "Uppdatera";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Skriv in din adress";
 "indicate_location_address_search_error_generic" = "Kunde inte hitta platsen. Var god försök igen.";
 "indicate_location_long_press_tip_label" = "Eller tryck ned ditt finger för att välja plats";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Rapportera produkt";
 "product_report_product_button" = "Rapportera produkt";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Denna produkt har rapporterats";
 "product_reported_success_message" = "Denna produkt har rapporterats. Tack!";
 "product_reporting_loading_message" = "Rapporterar produkt...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Ställer in din profilbild, var god vänta...";
 "settings_change_username_button" = "Namn";
 "settings_contact_us_button" = "Kontakta oss";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Fotobibliotek";
 "settings_image_source_cancel_button" = "Avbryt";

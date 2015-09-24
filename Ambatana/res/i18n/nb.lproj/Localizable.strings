@@ -89,6 +89,7 @@
 "forced_update_message" = "En ny versjon av letgo er tilgjengelig. Vennligst oppdater nå.";
 "forced_update_title" = "Oppdatering tilgjengelig";
 "forced_update_update_button" = "Oppdater";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Skriv din adresse";
 "indicate_location_address_search_error_generic" = "Vi kunne ikke finne stedet. Vennligst prøv igjen.";
 "indicate_location_long_press_tip_label" = "Eller hold inne fingeren på stedet";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Rapportér Produkt";
 "product_report_product_button" = "Rapportér produkt";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Rapportering av produktet var vellykket";
 "product_reported_success_message" = "Rapportering av produkt var vellykket. Takk!";
 "product_reporting_loading_message" = "Rapporterer Produkt...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Legger inn ditt profilbilde, vennligst vent...";
 "settings_change_username_button" = "Navn";
 "settings_contact_us_button" = "Kontakt oss";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Bildegalleri";
 "settings_image_source_cancel_button" = "Avbryt";

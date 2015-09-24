@@ -89,6 +89,7 @@
 "forced_update_message" = "Yeni bir letgo versiyonu mevcut. Lütfen şimdi güncelle.";
 "forced_update_title" = "Güncelleme var";
 "forced_update_update_button" = "Güncelle";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Adresini yaz";
 "indicate_location_address_search_error_generic" = "Belirtilen yeri bulamadım. Lütfen, tekrar dene.";
 "indicate_location_long_press_tip_label" = "Veya bulunduğun yere parmağını basılı tut";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "Tamam";
 "product_report_confirm_title" = "Ürünü bildir";
 "product_report_product_button" = "Ürünü bildir";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Ürün bildirimi başarıyla gerçekleşti.";
 "product_reported_success_message" = "Ürün bildirimi başarıyla gerçekleşti. Teşekkürler!";
 "product_reporting_loading_message" = "Ürün bildiriliyor...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Profil resmin oluşturuluyor, lütfen bekle...";
 "settings_change_username_button" = "İsim değiştir";
 "settings_contact_us_button" = "Bize ulaşın.";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Resim galerisi";
 "settings_image_source_cancel_button" = "İptal et";

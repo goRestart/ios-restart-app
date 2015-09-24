@@ -89,6 +89,7 @@
 "forced_update_message" = "Μια πιο πρόσφατη έκδοση του letgo είναι διαθέσιμη. Κάνε ενημέρωση τώρα!";
 "forced_update_title" = "Διαθέσιμη ενημέρωση";
 "forced_update_update_button" = "Αναβάθμιση";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Γράψε τη διεύθυνσή σου";
 "indicate_location_address_search_error_generic" = "Δε μπόρεσα να εντοπίσω αυτή τη τοποθεσία. Προσπάθησε ξανά.";
 "indicate_location_long_press_tip_label" = "Ή κράτα το δάχτυλό σου πατημένο στη τοποθεσία σου";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "ΟΚ";
 "product_report_confirm_title" = "Αναφορά Προϊόντος";
 "product_report_product_button" = "Αναφορά Προϊόντος";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Έγινε επιτυχής αναφορά του προϊόντος";
 "product_reported_success_message" = "Η αναφορά προϊόντος πραγματοποιήθηκε επιτυχώς.  Ευχαριστούμε!";
 "product_reporting_loading_message" = "Αναφορά Προϊόντος...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Ορισμός φωτογραφίας προφίλ, παρακαλώ περιμένετε...";
 "settings_change_username_button" = "Αλλαγή Ονόματος";
 "settings_contact_us_button" = "Επικοινωνία";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Κάμερα";
 "settings_image_source_camera_roll_button" = "Βιβλιοθήκη Φωτογραφιών";
 "settings_image_source_cancel_button" = "Ακύρωση";

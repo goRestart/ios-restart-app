@@ -89,6 +89,7 @@
 "forced_update_message" = "Доступна новая версия letgo. Пожалуйста, обновите приложение.";
 "forced_update_title" = "Доступно обновление";
 "forced_update_update_button" = "Обновить";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Укажите ваш адрес";
 "indicate_location_address_search_error_generic" = "Не удалось найти этот адрес. Пожалуйста, попробуйте еще раз.";
 "indicate_location_long_press_tip_label" = "Или задержите нажатие на вашем местоположении";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "ОК";
 "product_report_confirm_title" = "Пожаловаться на продукт";
 "product_report_product_button" = "Отчет о товаре";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Ваша жалоба была отправлена.";
 "product_reported_success_message" = "Спасибо! Ваша жалоба была отправлена.";
 "product_reporting_loading_message" = "Пожаловаться на продукт";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Установка фотографии профиля, пожалуйста, подождите...";
 "settings_change_username_button" = "Изменить имя";
 "settings_contact_us_button" = "Контакты";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Камера";
 "settings_image_source_camera_roll_button" = "Библиотека фотографий";
 "settings_image_source_cancel_button" = "Отмена";

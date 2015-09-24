@@ -89,6 +89,7 @@
 "forced_update_message" = "Elérhető a letgo új verziója. Kérjük, frissíts!";
 "forced_update_title" = "Frissítés elérhető";
 "forced_update_update_button" = "Frissítés";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Add meg a címedet";
 "indicate_location_address_search_error_generic" = "Nem sikerült megtalálni a címet, próbálkozz újra.";
 "indicate_location_long_press_tip_label" = "Vagy tartsd nyomva az ujjadat a tartózkodási helyeden";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Portéka jelentése";
 "product_report_product_button" = "Portéka jelentése";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "A portéka sikeresen jelentve";
 "product_reported_success_message" = "A portéka sikeresen jelentve. Köszönjük!";
 "product_reporting_loading_message" = "Portéka jelentése...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Profilkép beállítása, türelem...";
 "settings_change_username_button" = "Név";
 "settings_contact_us_button" = "Kapcsolat";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Fotótár";
 "settings_image_source_cancel_button" = "Mégse";

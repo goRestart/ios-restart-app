@@ -18,7 +18,7 @@ private let kLetGoSettingsTableCellTitleTag = 2
 private let kLetGoUserImageSquareSize: CGFloat = 1024
 
 enum LetGoUserSettings: Int {
-    case ChangePhoto = 0, ChangeUsername = 1, ChangeLocation = 2, ChangePassword = 3, ContactUs = 4, LogOut = 5
+    case ChangePhoto = 0, ChangeUsername = 1, ChangeLocation = 2, ChangePassword = 3, ContactUs = 4, Help = 5, LogOut = 6
     
     static func numberOfOptions() -> Int { return 6 }
     
@@ -34,6 +34,8 @@ enum LetGoUserSettings: Int {
             return NSLocalizedString("settings_change_password_button", comment: "")
         case .ContactUs:
             return NSLocalizedString("settings_contact_us_button", comment: "")
+        case .Help:
+            return NSLocalizedString("settings_help_button", comment: "")
         case .LogOut:
             return NSLocalizedString("settings_logout_button", comment: "")
         }
@@ -49,6 +51,8 @@ enum LetGoUserSettings: Int {
             return UIImage(named: "edit_profile_password")
         case .ContactUs:
             return UIImage(named: "ic_contact")
+        case .Help:
+            return UIImage(named: "ic_help")
         case .LogOut:
             return UIImage(named: "edit_profile_logout")
         default:
@@ -165,6 +169,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let vc = storyboard.instantiateViewControllerWithIdentifier("ChangePasswordViewController") as! ChangePasswordViewController
             self.navigationController?.pushViewController(vc, animated: true)
+        case .Help:
+            let vc = HelpViewController()
+            navigationController?.pushViewController(vc, animated: true)
         case .ContactUs:
             let vc = ContactViewController()
             navigationController?.pushViewController(vc, animated: true)

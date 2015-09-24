@@ -36,9 +36,9 @@
 "chat_list_title" = "စကားစမြည်ပြောဆိုခြင်းများ";
 "chat_message_field_hint" = "ဒီမှာမက်ဆေ့ရိုက်ထည့်ပါ";
 "chat_message_load_generic_error" = "သင့်ပြောဆိုချက်ဒေတာဆွဲထုတ်စဉ် အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။ ကျေးဇူးပြုပြီး နောက်ပြန်ကြိုးစားပါ။";
-"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
-"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
-"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_tip_1" = "သင်သည် ညှိနှိုင်းမှု သေချာပြီးနောက် လူချင်းတွေ့ဆုံပြီး ငွေသားပေးချေပါ။";
+"chat_safety_tips_tip_2" = "ငွေကြေးအော်ဒါများ၊ ဘဏ်လွှဲပြောင်းခြင်းများ သို့မဟုတ် ငွေပေးချေသူ၏ ချက်လက်မှတ်များကို လက်မခံနိုင်ကြောင်းပြောပါ။";
+"chat_safety_tips_tip_3" = "သင်သည် ပေးပို့ရန်ဆုံးဖြတ်ပါက၊ စမတ်ဖြစ်ပြီး အလိုလိုသိမြင်ထားပါ။";
 "chat_safety_tips_title" = "လုံခြုံစိတ်ချရသည့်အချက်များ";
 "chat_send_button" = "ပို့မည်";
 "chat_send_error_generic" = "မက်ဆေ့ပေးပို့သည့် အမှားတစ်ခုရှိသည်။ ကျေးဇူးပြုပြီးပြန်ကြိုးစားပါ။";
@@ -89,6 +89,7 @@
 "forced_update_message" = "letgo ဗားရှင်းအသစ်ကို ရနိုင်ပါသည်။ ကျေးဇူးပြုပြီး ယင်းကိုယခု ပြင်ဆင်ပါ။";
 "forced_update_title" = "ပြင်ဆင်ချက်ရနိုင်သည်";
 "forced_update_update_button" = "ပြင်ဆင်မည်";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "သင့်လိပ်စာကိုရေးသားပါ";
 "indicate_location_address_search_error_generic" = "၄င်းသည် တည်နေရာမရှာနိုင်ပါ။ ကျေးဇူးပြုပြီး ပြန်ကြိုးစားပါ။";
 "indicate_location_long_press_tip_label" = "သို့မဟုတ် သင့်တည်နေရာပေါ်နှိပ်ထားသည့် သင့်လက်ချောင်းကိုထိန်းထားပါ";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "ကောင်းပြီ";
 "product_report_confirm_title" = "ထုတ်ကုန်ကို အစီရင်ခံပါ";
 "product_report_product_button" = "ထုတ်ကုန်ကို အစီရင်ခံပါ";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "ထုတ်ကုန်ကို အောင်မြင်စွာအစီရင်ခံပြီးပြီ";
 "product_reported_success_message" = "ထုတ်ကုန်ကို အောင်မြင်စွာ အစီရင်ခံပြီးပါပြီ။  ကျေးဇူးပါ!";
 "product_reporting_loading_message" = "ထုတ်ကုန်ကို အစီရင်ခံခြင်း...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "သင့် ပရိုဖိုင်ရုပ်ပုံကိုသတ်မှတ်ခြင်း၊ ကျေးဇူးပြုပြီး စောင့်ပါ...";
 "settings_change_username_button" = "အမည်";
 "settings_contact_us_button" = "ကျွန်ုပ်တို့အား ဆက်သွယ်ပါ";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "ကင်မရာ";
 "settings_image_source_camera_roll_button" = "ဓါတ်ပုံပြတိုက်";
 "settings_image_source_cancel_button" = "ရပ်ဆိုင်းပါ";
@@ -252,4 +255,4 @@
 "sign_up_send_error_invalid_username" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့် အမည်ကို ထည့်သွင်းပါ၊ ၄င်းသည် အနည်းဆုံး အက္ခရာစာလုံး %d လုံးရှိရမည်";
 "sign_up_title" = "စာရင်းသွင်းပါ";
 "sign_up_username_field_hint" = "အမည် အပြည့်အစုံ";
-"tab_bar_tool_tip" = "သင့်ပစ္စည်းကို ရောင်းပါ။";
+"tab_bar_tool_tip" = "သင့်ပစ္စည်းကို ရောင်းပါ";
