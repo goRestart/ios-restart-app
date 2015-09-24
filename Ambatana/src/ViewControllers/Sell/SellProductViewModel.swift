@@ -45,6 +45,7 @@ public class SellProductViewModel: BaseViewModel {
 
     // Data
     internal var images: [UIImage?]
+    internal var savedProduct: Product?
     
     // Managers
     private let productManager: ProductManager
@@ -64,19 +65,8 @@ public class SellProductViewModel: BaseViewModel {
         category = nil
         images = []
         shouldShareInFB = true
-        
-        let productSaveService = PAProductSaveService()
-        let fileUploadService = PAFileUploadService()
-        let productSynchronizeService = LGProductSynchronizeService()
-        let productDeleteService = LGProductDeleteService()
-        let productMarkSoldService = PAProductMarkSoldService()
-        let productFavouriteRetrieveService = PAProductFavouriteRetrieveService()
-        let productFavouriteSaveService = PAProductFavouriteSaveService()
-        let productFavouriteDeleteService = PAProductFavouriteDeleteService()
-        let productReportRetrieveService = PAProductReportRetrieveService()
-        let productReportSaveService = PAProductReportSaveService()
-        
-        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteRetrieveService: productFavouriteRetrieveService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportRetrieveService: productReportRetrieveService, productReportSaveService: productReportSaveService)
+
+        self.productManager = ProductManager()
         
         super.init()
         
@@ -103,11 +93,11 @@ public class SellProductViewModel: BaseViewModel {
         
     }
     
-    public func trackSharedFB() {
+    internal func trackSharedFB() {
         
     }
     
-    internal func trackComplete() {
+    internal func trackComplete(product: Product) {
         
     }
     
@@ -160,7 +150,8 @@ public class SellProductViewModel: BaseViewModel {
     }
     
     internal func saveProduct(product: Product? = nil) {
-        let theProduct = product ?? PAProduct()
+        
+        let theProduct = product ?? LGProduct()
         theProduct.name = title
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
@@ -211,7 +202,6 @@ public class SellProductViewModel: BaseViewModel {
         delegate?.sellProductViewModelDidStartSavingProduct(self)
         
         productManager.saveProduct(product, withImages: images, progress: { [weak self] (p: Float) -> Void in
-            
             if let strongSelf = self {
                 strongSelf.delegate?.sellProductViewModel(strongSelf, didUpdateProgressWithPercentage: p)
             }
@@ -219,7 +209,9 @@ public class SellProductViewModel: BaseViewModel {
             }) { [weak self] (r: Result<Product, ProductSaveServiceError>) -> Void in
                 if let strongSelf = self {
                     if let actualProduct = r.value {
-                        strongSelf.trackComplete()
+                        strongSelf.savedProduct = actualProduct
+                        
+                        strongSelf.trackComplete(actualProduct)
                         strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
                         
                         if strongSelf.shouldShareInFB {

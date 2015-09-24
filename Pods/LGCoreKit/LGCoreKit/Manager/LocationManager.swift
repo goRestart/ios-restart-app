@@ -74,6 +74,7 @@ public class LGLocation: Printable {
     public var description : String {
         return "location: \(location.description); type: \(type.rawValue)"
     }
+
 }
 
 public class LocationManager: NSObject, CLLocationManagerDelegate {
@@ -108,6 +109,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     
     public var lastKnownLocation: LGLocation? {
         // If it's forced manual & we've it, then return it
+        
         if isManualLocation && lastManualLocation != nil {
             return lastManualLocation
         }
@@ -115,15 +117,15 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         else if lastGPSLocation != nil {
             return lastGPSLocation
         }
-        // Otherwise, if we have IP look up location, then return it
-        else if let lastIPLookupLocation = lastIPLookupLocationResult?.value {
-            let location = CLLocation(latitude: lastIPLookupLocation.latitude, longitude: lastIPLookupLocation.longitude)
-            return LGLocation(location: location, type: .IPLookup)
-        }
         // Otherwise, if the user has an already saved coordinates then return it
         else if let savedUserCoordinates = MyUserManager.sharedInstance.myUser()?.gpsCoordinates {
             let location = CLLocation(latitude: savedUserCoordinates.latitude, longitude: savedUserCoordinates.longitude)
             return LGLocation(location: location, type: .LastSaved)
+        }
+        // Otherwise, if we have IP look up location, then return it
+        else if let lastIPLookupLocation = lastIPLookupLocationResult?.value {
+            let location = CLLocation(latitude: lastIPLookupLocation.latitude, longitude: lastIPLookupLocation.longitude)
+            return LGLocation(location: location, type: .IPLookup)
         }
         return nil
     }
@@ -160,8 +162,10 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         self.locationService.locationManagerDelegate = self
         
         // Retrieve the IP look up location
-        retrieveIPLookupLocation()
-        
+        if !isManualLocation {
+            retrieveIPLookupLocation()
+        }
+                
         // NSNotification Center: observe when app is going/coming to/from background
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidEnterBackground:"), name: UIApplicationDidEnterBackgroundNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)

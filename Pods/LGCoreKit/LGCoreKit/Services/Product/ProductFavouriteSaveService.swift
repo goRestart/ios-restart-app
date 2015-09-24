@@ -12,6 +12,7 @@ import Result
 public enum ProductFavouriteSaveServiceError: Printable {
     case Network
     case Internal
+    case AlreadyExists
     
     public var description: String {
         switch (self) {
@@ -19,6 +20,8 @@ public enum ProductFavouriteSaveServiceError: Printable {
             return "Network"
         case Internal:
             return "Internal"
+        case .AlreadyExists:
+            return "AlreadyExists"
         }
     }
 }
@@ -34,5 +37,5 @@ public protocol ProductFavouriteSaveService {
         :param: user the user.
         :param: result The closure containing the result.
     */
-    func saveFavouriteProduct(product: Product, user: User, result: ProductFavouriteSaveServiceResult?)
+    func saveFavouriteProduct(product: Product, user: User, sessionToken: String, result: ProductFavouriteSaveServiceResult?)
 }

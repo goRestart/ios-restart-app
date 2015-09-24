@@ -7,24 +7,8 @@
 //
 
 import LGCoreKit
-import Parse
+import Result
 import UIKit
-
-private let kLetGoConversationMyMessagesCell = "MyMessagesCell"
-private let kLetGoConversationOthersMessagesCell = "OthersMessagesCell"
-private let kLetGoChatBubbleCornerRadius: CGFloat = 4.0
-
-private let kLetGoConversationProductImageTag = 1
-private let kLetGoConversationProductUserNameTag = 2
-private let kLetGoConversationProductProductNameTag = 3
-private let kLetGoConversationProductRelativeDateTag = 4
-private let kLetGoConversationProductPriceTag = 5
-
-private let kLetGoConversationCellBubbleTag = 1
-private let kLetGoConversationCellTextTag = 2
-private let kLetGoConversationCellRelativeTimeTag = 3
-private let kLetGoConversationCellAvatarTag = 4
-
 
 class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -51,24 +35,68 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     @IBOutlet weak var messageLabel: UILabel!
     
     // data
-    var letgoConversation: LetGoConversation?
-    var messages: [PFObject]?
-    var otherUser: PFUser?
-    var product: Product?
-    var isSendingMessage: Bool = false {
+    var chat: Chat
+    var otherUser: User!
+    var buyer: User!
+    
+    var newChat: Bool
+    var isSendingMessage: Bool {
         didSet {
             self.sendButton.tintColor = isSendingMessage ? UIColor.lightGrayColor() : UIColor.blackColor()
         }
     }
-    var askQuestion: Bool = false
-    var alreadyAskedForRating: Bool = false
+    var alreadyAskedForRating: Bool
     
-    init() {
+    init?(chat: Chat) {
+        self.chat = chat
+
+        // Figure out who's the other user and who's the buyer
+        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
+            if let userFrom = chat.userFrom, let userFromId = userFrom.objectId, let userTo = chat.userTo, let userToId = userTo.objectId {
+                if myUserId == userFromId {
+                    self.otherUser = userTo
+                }
+                else if myUserId == userToId {
+                    self.otherUser = userFrom
+                }
+                
+                if let productOwner = chat.product?.user, let productOwnerId = productOwner.objectId {
+                    if productOwnerId == userFromId {
+                        self.buyer = userTo
+                    }
+                    else if productOwnerId == userToId {
+                        self.buyer = userFrom
+                    }
+                }
+            }
+        }
+        self.newChat = false
+        self.isSendingMessage = false
+        self.alreadyAskedForRating = false
+
         super.init(nibName: "ChatViewController", bundle: nil)
+        
+        if self.otherUser == nil || self.buyer == nil {
+            return nil
+        }
+        
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = true
     }
+    
+    convenience init?(product: Product) {
+        // TODO: Refactor!
+        var chat = LGChat()
+        chat.product = product
+        chat.userFrom = MyUserManager.sharedInstance.myUser()
+        chat.userTo = product.user
+        chat.msgUnreadCount = 0
+        chat.messages = []
+        self.init(chat: chat)
 
+        self.newChat = true
+    }
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -122,83 +150,56 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         self.productImageView.image = nil
         self.tableView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI)) // 180 º
         
-        if letgoConversation != nil {
-            let conversationObject = letgoConversation!.conversationObject
+        if let product = chat.product {
+            // Load product info
+            loadInformationFromProductObject(product)
+            
+            // Load messages
             enableLoadingMessagesInterface()
-            // load previous messages
-            loadMessages(conversationObject)
             
-            // load the other user.
-            // According to specification, if I am selling the product, I am the user_to, and the other user is the user_from
-            var otherUserField = self.letgoConversation!.amISellingTheProduct ? "user_from" : "user_to"
-            self.otherUser = conversationObject[otherUserField] as? PFUser
-            // now try to fetch it in the background.
-            self.otherUser?.fetchIfNeededInBackgroundWithBlock(nil)
-            
-            // load product information
-            if let actualProduct = conversationObject["product"] as? PAProduct {
-                product = actualProduct
-                loadInformationFromProductObject(actualProduct)
-            } else { // We don't have information about the product itself... This shouldn't happen.
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""), completionBlock: { () -> Void in
-                    self.popBackViewController()
-                })
+            // ... if needed
+            if !newChat {
+                loadMessages()
             }
-            
-        } else { // no conversation object? notify the error and get back.
+            else {
+                disableLoadingMessagesInterface()
+                tableView.reloadData()
+            }
+        }
+        else { // no conversation object? notify the error and get back.
             self.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""), completionBlock: { () -> Void in
                 self.popBackViewController()
             })
         }
     }
-    
-    func loadMessages(conversationObject: PFObject) {
-        ChatManager.sharedInstance.loadMessagesFromConversation(conversationObject, completion: { [weak self] (success, messages) -> Void in
-            if let strongSelf = self {
-                // Success & with messages
-                if let actualMessages = messages {
-                    // Keep track of them
-                    strongSelf.messages = actualMessages
-                    
-                    // Check if we received a message by other user
-                    var messageByOtherUserReceived = false
-                    for message in actualMessages {
-                        if let userFrom = message["user_from"] as? PFUser, let userFromId = userFrom.objectId, let myUserId =  MyUserManager.sharedInstance.myUser()?.objectId {
-                            if userFromId != myUserId {
-                                messageByOtherUserReceived = true
-                                break
-                            }
-                        }
+
+    func loadMessages() {
+        if let product = chat.product {
+            ChatManager.sharedInstance.retrieveChatWithProduct(product, buyer: buyer) { [weak self] (result: Result<Chat, ChatRetrieveServiceError>) -> Void in
+                if let strongSelf = self {
+                    // Success
+                    if let chat = result.value {
+                        strongSelf.chat = chat
                     }
-                    
-                    // Show the safety tips if we received a message by other user & the tips were not shown ever
-                    let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
-                    var shouldShowSafetyTips = ( messageByOtherUserReceived && idxLastPageSeen == nil )
-                    if shouldShowSafetyTips {
-                        strongSelf.showSafetyTips()
+                    // Error
+                    else if let error = result.error {
+                        strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""), completionBlock: { () -> Void in
+                            strongSelf.popBackViewController()
+                        })
                     }
+                    strongSelf.disableLoadingMessagesInterface()
+                    strongSelf.tableView.reloadData()
+                    // scroll to the last message.
+                    strongSelf.scrollToTopOfMessagesList(false)
+                    strongSelf.tableView.reloadData()
                 }
-                // Failure or no messages
-                else {
-                    strongSelf.messages = []
-                }
-                strongSelf.disableLoadingMessagesInterface()
-                strongSelf.tableView.reloadData()
-                // scroll to the last message.
-                strongSelf.scrollToTopOfMessagesList(false)
-                strongSelf.tableView.reloadData()
-                
-                // now that we have loaded the messages (and are sure the user can read them) we can mark them as read in the conversation.
-                let conversation = strongSelf.letgoConversation!.conversationObject
-                ChatManager.sharedInstance.markMessagesAsReadFromUser(PFUser.currentUser()!, inConversation: conversation, completion: nil)
             }
-        })
+        }
     }
     
     func refreshMessages() {
-        if let conversationObject = self.letgoConversation?.conversationObject {
-            loadMessages(conversationObject)
-        }
+        enableLoadingMessagesInterface()
+        loadMessages()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -276,63 +277,65 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         // safety checks
         if isSendingMessage { return }
         if count(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 { return }
-        if self.otherUser == nil || self.letgoConversation?.conversationObject == nil || self.product == nil { showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
-            return
-        }
         
-        // enable loading interface.
-        self.isSendingMessage = true
-        
-        // send message
-        ChatManager.sharedInstance.addTextMessage(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()), toUser: self.otherUser!, inConversation: letgoConversation!.conversationObject, fromProduct: self.product!, isOffer: false) { [weak self] (success, newlyCreatedMessageObject) -> Void in
-            if let strongSelf = self {
-                if success {
-                    strongSelf.messages!.insert(newlyCreatedMessageObject!, atIndex: 0)
-                    
-                    // update UI and scroll to the bottom of the messages list
-                    strongSelf.tableView.reloadData()
-                    strongSelf.scrollToTopOfMessagesList(false)
-                    //self.tableView.reloadData()
-                    strongSelf.messageTextfield.text = ""
-                    
-                    // Tracking
-                    let myUser = MyUserManager.sharedInstance.myUser()
-                    if let actualProduct = strongSelf.product {
-                        if strongSelf.askQuestion {
-                            let trackerEvent = TrackerEvent.productAskQuestion(actualProduct, user: myUser)
-                            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                        }
-                        let trackerEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
-                        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                    }
-                    
-                    // since there's a 1 sec delay, we have to add an extra control here to avoid showing the rating view more than once
-                    if !UserDefaultsManager.sharedInstance.loadAlreadyRated() && !strongSelf.alreadyAskedForRating {
-                        strongSelf.alreadyAskedForRating = true
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                            
-                            // hide message field keyboard
-                            strongSelf.messageTextfield.resignFirstResponder()
-                            
-                            // show app rating view
-                            if let tabBarCtrl = strongSelf.tabBarController as? TabBarController {
-                                tabBarCtrl.showAppRatingViewIfNeeded()
+        if let product = chat.product {
+            
+            // Update flag
+            self.isSendingMessage = true
+            
+            // Send the message
+            let message = self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            ChatManager.sharedInstance.sendText(message, product: product, recipient: otherUser) { [weak self] (result: Result<Message, ChatSendMessageServiceError>) -> Void in
+                if let strongSelf = self {
+                    // Success
+                    if let sentMessage = result.value {
+                        // Update the data
+                        var messages = strongSelf.chat.messages ?? []
+                        messages.insert(sentMessage, atIndex: 0)
+                        strongSelf.chat.messages = messages
+                        
+                        // Update UI and scroll to the bottom of the messages list
+                        strongSelf.tableView.reloadData()
+                        strongSelf.scrollToTopOfMessagesList(false)
+                        //self.tableView.reloadData()
+                        strongSelf.messageTextfield.text = ""
+                        
+                        // Since there's a 1 sec delay, we have to add an extra control here to avoid showing the rating view more than once
+                        if !UserDefaultsManager.sharedInstance.loadAlreadyRated() && !strongSelf.alreadyAskedForRating {
+                            strongSelf.alreadyAskedForRating = true
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                                
+                                // Hide message field keyboard
+                                strongSelf.messageTextfield.resignFirstResponder()
+                                
+                                // Show app rating view
+                                if let tabBarCtrl = strongSelf.tabBarController as? TabBarController {
+                                    tabBarCtrl.showAppRatingViewIfNeeded()
+                                }
                             }
                         }
+                        
+                        // Tracking
+                        let myUser = MyUserManager.sharedInstance.myUser()
+                        if let product = strongSelf.chat.product {
+                            let trackerEvent = TrackerEvent.userMessageSent(product, user: myUser)
+                            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                        }
                     }
-
+                    // Error
+                    else {
+                        strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
+                    }
+                    
+                    // Update flag
+                    strongSelf.isSendingMessage = false
                 }
-                else {
-                    strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
-                }
-                // disable loading interface
-                strongSelf.isSendingMessage = false
             }
         }
     }
     
     @IBAction func productButtonPressed(sender: AnyObject) {
-        if let actualProduct = product {
+        if let actualProduct = chat.product {
             switch actualProduct.status {
             
             // If product is deleted, then show a message
@@ -380,17 +383,20 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     // MARK: - UITableViewDelegate & DataSource methods
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages != nil ? messages!.count : 0
+        if let messages = chat.messages {
+            return messages.count
+        }
+        return 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         // data
-        let msgObject = messages![indexPath.row]
-        let userFrom = msgObject["user_from"] as! PFUser
+        let message = chat.messages?[indexPath.row]
+        let messageUserId = message?.userId ?? ""
         
         var cell: UITableViewCell?
-        if userFrom.objectId == MyUserManager.sharedInstance.myUser()?.objectId { // message from me
+        if messageUserId == MyUserManager.sharedInstance.myUser()?.objectId { // message from me
             let myMessageCell = tableView.dequeueReusableCellWithIdentifier(ChatViewController.myMessageCellIdentifier, forIndexPath: indexPath) as! ChatMyMessageCell
             configureMyMessageCell(myMessageCell, atIndexPath: indexPath)
             cell = myMessageCell
@@ -411,47 +417,32 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     }
 
     func configureMyMessageCell(cell: ChatMyMessageCell, atIndexPath indexPath: NSIndexPath) {
-        if let message = messages?[indexPath.row] {
-            cell.messageLabel.text = message["message"] as? String ?? ""
-            cell.dateLabel.text = message.createdAt!.relativeTimeString()
+        if let message = chat.messages?[indexPath.row] {
+            cell.messageLabel.text = message.text ?? ""
+            cell.dateLabel.text = message.updatedAt?.relativeTimeString() ?? ""
         }
     }
     
     func configureOthersMessageCell(cell: ChatOthersMessageCell, atIndexPath indexPath: NSIndexPath) {
-        if let message = messages?[indexPath.row] {
-            cell.messageLabel.text = message["message"] as? String ?? ""
-            cell.dateLabel.text = message.createdAt!.relativeTimeString()
+        if let message = chat.messages?[indexPath.row] {
+            cell.messageLabel.text = message.text ?? ""
+            cell.dateLabel.text = message.updatedAt?.relativeTimeString() ?? ""
             
-            if let user = message["user_from"] as? User {
-                if let avatar = user.avatar {
-                    cell.avatarImageView.sd_setImageWithURL(avatar.fileURL, placeholderImage: UIImage(named: "no_photo"))
-                }
-                else {
-                    cell.avatarImageView.image = UIImage(named: "no_photo")
-                }
-                
-                cell.avatarButtonPressed = { [weak self] in
+            if let avatar = otherUser.avatar {
+                cell.avatarImageView.sd_setImageWithURL(avatar.fileURL, placeholderImage: UIImage(named: "no_photo"))
+            }
+            else {
+                cell.avatarImageView.image = UIImage(named: "no_photo")
+            }
+            
+            cell.avatarButtonPressed = { [weak self] in
+                if let user = self?.otherUser {
                     let vc = EditProfileViewController(user: user)
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             }
         }
     }
-    
-    // MARK: - Cell height estimation
-    
-//    var prototypeCell: UITableViewCell!
-//    
-//    // Because we are supporting iOS 7, we need to perform a calculation of the cell content view size using autolayout.
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        let msgObject = messages![indexPath.row]
-//        // lazily instanciate the prototype cell
-//        if prototypeCell == nil { prototypeCell = tableView.dequeueReusableCellWithIdentifier(kLetGoConversationOthersMessagesCell) as? UITableViewCell }
-//        self.configureCell(prototypeCell, fromTableView: tableView, atIndexPath: indexPath, withMessageObject: msgObject, type: .MyMessages) // no need to configure the image.
-//        prototypeCell.layoutIfNeeded()
-//        let size = prototypeCell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize)
-//        return size.height + 1
-//    }
 
     // MARK: - Allow copying text / highlighted state in cells
     
@@ -472,8 +463,8 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     func didReceiveUserInteraction(notification: NSNotification) {
         if let userInfo = notification.object as? [NSObject: AnyObject], let conversationId = userInfo["c_id"] as? String {
             // It's the current conversation then refresh
-            if self.letgoConversation?.conversationObject.objectId == conversationId {
-                self.refreshMessages()
+            if chat.objectId == conversationId {
+                refreshMessages()
             }
          }
     }

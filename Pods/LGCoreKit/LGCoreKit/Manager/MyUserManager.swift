@@ -575,7 +575,6 @@ public class MyUserManager {
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
         if let location = notification.object as? LGLocation {
             saveUserCoordinates(location.location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, place: nil)
-
         }
     }
 }

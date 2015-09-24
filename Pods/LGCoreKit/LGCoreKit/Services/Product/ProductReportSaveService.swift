@@ -37,5 +37,5 @@ public protocol ProductReportSaveService {
         :param: user the reporter user.
         :param: result The closure containing the result.
     */
-    func saveReportProduct(product: Product, user: User, result: ProductReportSaveServiceResult?)
+    func saveReportProduct(product: Product, user: User, sessionToken: String, result: ProductReportSaveServiceResult?)
 }

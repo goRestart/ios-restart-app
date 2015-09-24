@@ -67,6 +67,42 @@ public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool
         lhs.distanceRadius == rhs.distanceRadius && lhs.userObjectId == rhs.userObjectId
 }
 
+public struct SaveProductParams: Printable, Equatable {
+    
+    public var name: String?
+    public var category: String?
+    public var languageCode: String?
+    public var userId: String?
+    public var descr: String?
+    public var price: String?
+    public var currency: String?
+    public var latitude: String?
+    public var longitude: String?
+    public var countryCode: String?
+    public var city: String?
+    public var address: String?
+    public var zipCode: String?
+    public var images: [String]?
+    
+    public init() {
+        
+    }
+    
+    public var description: String { return "name: \(name); category: \(category); languageCode: \(languageCode); userId: \(userId); descr: \(descr); price: \(price); currency: \(currency); latitude: \(latitude); longitude: \(longitude); countryCode: \(countryCode); city: \(city); address: \(address); zipCode: \(zipCode); images: \(images)" }
+}
+
+public func ==(lhs: SaveProductParams, rhs: SaveProductParams) -> Bool {
+    
+    return lhs.name == rhs.name && lhs.category == rhs.category &&
+        lhs.languageCode == rhs.languageCode && lhs.userId == rhs.userId &&
+        lhs.price == rhs.price && lhs.currency == rhs.currency &&
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude &&
+        lhs.countryCode == rhs.countryCode && lhs.city == rhs.city &&
+        lhs.address == rhs.address && lhs.zipCode == rhs.zipCode &&
+        lhs.images == rhs.images && lhs.descr == rhs.descr
+}
+
+
 // MARK: - ENUMS & STRUCTS
 
 @objc public enum ProductSortCriteria: Int, Equatable {
@@ -85,4 +121,9 @@ public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool
             }
         }
     }
+}
+
+public enum UserProductStatus: String {
+    case Selling = "selling"
+    case Sold = "sold"
 }

@@ -31,7 +31,9 @@
     
     public var user: User?
     
-    public var processed: NSNumber?
+    public var reported: NSNumber?
+    public var favorited: NSNumber?
+    
     
     // MARK: - Lifecycle
     
@@ -84,8 +86,6 @@
         images = product.images
         
         user = product.user
-        
-        processed = product.processed
     }
     
     // MARK: - Public methods
@@ -110,7 +110,12 @@
         
         letgoProduct.user = product.user
         
-        letgoProduct.processed = product.processed
         return letgoProduct
+    }
+}
+
+extension LGProduct: Printable {
+    public var description: String {
+        return "name: \(name); descr: \(descr); price: \(price); currency: \(currency); location: \(location); distance: \(distance); distanceType: \(distanceType); postalAddress: \(postalAddress); languageCode: \(languageCode); categoryId: \(categoryId); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); descr: \(descr);reported: \(reported); favorited: \(favorited);"
     }
 }

@@ -33,5 +33,5 @@ public protocol ProductFavouriteDeleteService {
         :param: productFavourite the favourite product.
         :param: result The closure containing the result.
     */
-    func deleteProductFavourite(productFavourite: ProductFavourite, result: ProductFavouriteDeleteServiceResult?)
+    func deleteProductFavourite(productFavourite: ProductFavourite, sessionToken: String, result: ProductFavouriteDeleteServiceResult?)
 }

@@ -31,11 +31,10 @@ final public class LGProductDeleteService: ProductDeleteService {
     
     public func deleteProductWithId(productId: String, sessionToken: String, result: ProductDeleteServiceResult?) {
         let productURL = "\(url)/\(productId)"
-        var parameters = Dictionary<String, AnyObject>()
         let headers = [
             LGCoreKitConstants.httpHeaderUserToken: sessionToken
         ]
-        Alamofire.request(.DELETE, productURL, parameters: nil, headers: headers)
+        Alamofire.request(.DELETE, productURL, headers: headers)
             .validate(statusCode: 200..<400)
             .response { (_, _, _, error: NSError?) -> Void in
                 // Error

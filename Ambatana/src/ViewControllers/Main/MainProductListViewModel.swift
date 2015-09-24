@@ -42,6 +42,7 @@ public class MainProductListViewModel: ProductListViewModel {
         self.didNotifyAboutLocationTimeOut = false
         self.lastReceivedLocation = self.locationManager.lastKnownLocation
         super.init()
+        self.isProfileList = false
     }
     
     internal override func didSetActive(active: Bool) {

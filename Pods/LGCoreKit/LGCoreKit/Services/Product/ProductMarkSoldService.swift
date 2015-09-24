@@ -32,5 +32,6 @@ public protocol ProductMarkSoldService {
         :param: product The product.
         :param: result The completion closure.
     */
-    func markAsSoldProduct(product: Product, result: ProductMarkSoldServiceResult?)
+    // TODO: User product id instead of product
+    func markAsSoldProduct(product: Product, sessionToken: String, result: ProductMarkSoldServiceResult?)
 }

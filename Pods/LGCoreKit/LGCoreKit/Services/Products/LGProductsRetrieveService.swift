@@ -12,7 +12,7 @@ import Result
 final public class LGProductsRetrieveService: ProductsRetrieveService {
     
     // Constants
-    public static let endpoint = "/api/list.json"
+    public static let endpoint = "/api/products"
     
     // iVars
     var url: String
@@ -31,9 +31,16 @@ final public class LGProductsRetrieveService: ProductsRetrieveService {
     
     public func retrieveProductsWithParams(params: RetrieveProductsParams, result: ProductsRetrieveServiceResult?) {        
         let parameters = params.letgoApiParams
-        Alamofire.request(.GET, url, parameters: parameters)
+        
+        let sessionToken : String = MyUserManager.sharedInstance.myUser()?.sessionToken ?? ""
+                
+        let headers = [
+            LGCoreKitConstants.httpHeaderUserToken: sessionToken
+        ]
+        
+        Alamofire.request(.GET, url, parameters: parameters, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (_, _, productsResponse: LGProductsResponse?, error: NSError?) -> Void in
+            .responseObject { (req, resp, productsResponse: LGProductsResponse?, error: NSError?) -> Void in
                 // Error
                 if let actualError = error {
                     let myError: NSError
@@ -56,42 +63,19 @@ extension RetrieveProductsParams {
     var letgoApiParams: Dictionary<String, AnyObject> {
         get {
             var params = Dictionary<String, AnyObject>()
+
             if let queryString = self.queryString {
-                params["query_string"] = queryString
+                params["search_term"] = queryString
             }
             
             if let coordinates = self.coordinates {
-                params["latitude"] = coordinates.latitude
-                params["longitude"] = coordinates.longitude
+                params["quadkey"] = coordinates.coordsToQuadKey(14)
             }
             
             if let categoryIds = self.categoryIds {
                 if !categoryIds.isEmpty {
                     let categoryIdsString = categoryIds.map { String($0) }
-                    params["category_id"] = ",".join(categoryIdsString)
-                }
-            }
-            
-            if let sortCriteria = self.sortCriteria, let sortCriteriaValue = sortCriteria.string {
-                params["sort_by"] = sortCriteriaValue
-            }
-            
-            if let distanceType = self.distanceType {
-                params["distance_type"] = distanceType.string
-            }
-            
-            if let offset = self.offset {
-                params["offset"] = offset
-            }
-            
-            if let numProducts = self.numProducts {
-                params["nr_products"] = numProducts
-            }
-            
-            if let statuses = self.statuses {
-                if !statuses.isEmpty {
-                    let statusesString = statuses.map { String($0.rawValue) }
-                    params["status"] = ",".join(statusesString)
+                    params["categories"] = ",".join(categoryIdsString)
                 }
             }
             
@@ -103,15 +87,28 @@ extension RetrieveProductsParams {
                 params["min_price"] = minPrice
             }
             
+            if let distanceType = self.distanceType {
+                params["distance_type"] = distanceType.string
+            }
+            
             if let distanceRadius = self.distanceRadius {
                 params["distance_radius"] = distanceRadius
             }
             
-            if let userObjectId = self.userObjectId {
-                params["user_object_id"] = userObjectId
+            if let numProducts = self.numProducts {
+                params["num_results"] = numProducts
+            }
+            
+            if let offset = self.offset {
+                params["offset"] = offset
+            }
+            
+            if let sortCriteria = self.sortCriteria, let sortCriteriaValue = sortCriteria.string {
+                params["sort"] = sortCriteriaValue
             }
             
             return params
+
         }
     }
 }

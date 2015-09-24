@@ -25,33 +25,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
+        // Setup
         setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
-
-        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
-            PushManager.sharedInstance.application(application, didFinishLaunchingWithRemoteNotification: remoteNotification)
+        
+        // Deep linking
+        var appCanHandleURL = false
+        if let actualLaunchOptions = launchOptions, let url = actualLaunchOptions[UIApplicationLaunchOptionsURLKey] as? NSURL {
+            appCanHandleURL = true
         }
         
+        // UI
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         if let actualWindow = window {
+            
+            // Open Splash...
             let splashVC = SplashViewController()
             let navCtl = UINavigationController(rootViewController: splashVC)
             splashVC.completionBlock = { [weak self] (succeeded: Bool) -> Void in
-                actualWindow.rootViewController = TabBarController()
+                
+                // ...and the TabBar afterwards
+                let tabBarCtl = TabBarController()
+                actualWindow.rootViewController = tabBarCtl
+                
+                // ... and open the deep link, if any
+                if let actualLaunchOptions = launchOptions, let url = actualLaunchOptions[UIApplicationLaunchOptionsURLKey] as? NSURL, let deepLink = DeepLink(url: url) {
+                    tabBarCtl.openDeepLink(deepLink)
+                }
             }
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }
         
-        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        // Push notifications
+        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
+            PushManager.sharedInstance.application(application, didFinishLaunchingWithRemoteNotification: remoteNotification)
+        }
+
+        // Facebook
+        appCanHandleURL = appCanHandleURL || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        return appCanHandleURL
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        
         // Tracking
         TrackerProxy.sharedInstance.application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         
+        // Deep linking
+        if let deepLink = DeepLink(url: url), let tabBarCtl = self.window?.rootViewController as? TabBarController {
+            return tabBarCtl.openDeepLink(deepLink)
+        }
         // Facebook
-        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        else {
+            return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        }
     }
 
     func applicationWillResignActive(application: UIApplication) {
@@ -122,12 +150,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo, notActiveCompletion: { [weak self] (type) -> Void in
-            if type == .Offer || type == .Message {
+            switch type {
+            case .Offer, .Message:
                 self?.openChatListViewController()
+            case .Marketing:
+                break
             }
-//            else if type == .Marketing {
-//                self?.showMarketingAlertWithNotificationMessage()
-//            }
         })
     }
     
@@ -176,23 +204,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tabBarCtl.switchToTab(.Chats)
         }
     }
-
-    
-    // FIXME: Legacy...
-    
-//    private func showMarketingAlertWithNotificationMessage(message: String) {
-//        if let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController {
-//            tabBarCtl.displayMessage(message)
-//        }
-//    }
-    
-    // MARK: > Push notification
-    
-//    func getNotificationAlertMessage(userInfo: [NSObject: AnyObject]) -> String? {
-//        if let msg = userInfo["alert"] as? String { return msg }
-//        else if let aps = userInfo["aps"] as? [String: AnyObject] { // compatibility with iOS APS push notification & android
-//            return aps["alert"] as? String
-//        } else { return nil }
-//    }
 }
 

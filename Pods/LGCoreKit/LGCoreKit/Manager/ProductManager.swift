@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+// TODO: In the services use just product ids whenever possible, user ids as well and handling in here.
+
 import Parse
 import Result
 
@@ -16,28 +18,56 @@ public class ProductManager {
     private var productSynchronizeService: ProductSynchronizeService
     private var productDeleteService: ProductDeleteService
     private var productMarkSoldService : ProductMarkSoldService
-    private var productFavouriteRetrieveService: ProductFavouriteRetrieveService
     private var productFavouriteSaveService: ProductFavouriteSaveService
     private var productFavouriteDeleteService: ProductFavouriteDeleteService
-    private var productReportRetrieveService: ProductReportRetrieveService
+    private var productRetrieveService: ProductRetrieveService
     private var productReportSaveService: ProductReportSaveService
+    private var userProductRelationService : UserProductRelationService
+    
+    private var productFavouriteList: [ProductFavourite]
     
     // MARK: - Lifecycle
     
-    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productSynchronizeService: ProductSynchronizeService, productDeleteService: ProductDeleteService, productMarkSoldService: ProductMarkSoldService, productFavouriteRetrieveService: ProductFavouriteRetrieveService, productFavouriteSaveService: ProductFavouriteSaveService, productFavouriteDeleteService: ProductFavouriteDeleteService, productReportRetrieveService: ProductReportRetrieveService, productReportSaveService: ProductReportSaveService) {
+    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productSynchronizeService: ProductSynchronizeService, productDeleteService: ProductDeleteService, productMarkSoldService: ProductMarkSoldService, productFavouriteSaveService: ProductFavouriteSaveService, productFavouriteDeleteService: ProductFavouriteDeleteService, productRetrieveService: ProductRetrieveService, productReportSaveService: ProductReportSaveService, userProductRelationService : UserProductRelationService) {
         self.productSaveService = productSaveService
         self.fileUploadService = fileUploadService
         self.productSynchronizeService = productSynchronizeService
         self.productDeleteService = productDeleteService
         self.productMarkSoldService = productMarkSoldService
-        self.productFavouriteRetrieveService = productFavouriteRetrieveService
         self.productFavouriteSaveService = productFavouriteSaveService
         self.productFavouriteDeleteService = productFavouriteDeleteService
-        self.productReportRetrieveService = productReportRetrieveService
+        self.productRetrieveService = productRetrieveService
         self.productReportSaveService = productReportSaveService
+        self.userProductRelationService = userProductRelationService
+        self.productFavouriteList = []
+    }
+    
+    public convenience init() {
+        let productSaveService = LGProductSaveService()
+        let fileUploadService = LGFileUploadService()
+        let productSynchronizeService = LGProductSynchronizeService()
+        let productDeleteService = LGProductDeleteService()
+        let productMarkSoldService = LGProductMarkSoldService()
+        let productFavouriteSaveService = LGProductFavouriteSaveService()
+        let productFavouriteDeleteService = LGProductFavouriteDeleteService()
+        let productRetrieveService = LGProductRetrieveService()
+        let productReportSaveService = LGProductReportSaveService()
+        let userProductRelationService = LGUserProductRelationService()
+        
+        self.init(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productRetrieveService: productRetrieveService, productReportSaveService: productReportSaveService, userProductRelationService: userProductRelationService)
     }
     
     // MARK: - Public methods
+    
+    /**
+        Retrieves a product with the given id.
+    
+        :param: productId The product identifier.
+        :param: result The completion closure.
+    */
+    public func retrieveProductWithId(productId: String, result: ProductRetrieveServiceResult) {
+        productRetrieveService.retrieveProductWithId(productId, result: result)
+    }
     
     /**
         Saves (new/edit) the product for my user. If it's new, it's responsibility of the user that it has valid coordinates.
@@ -74,7 +104,7 @@ public class ProductManager {
             
         }) { [weak self] (multipleFilesUploadResult: Result<[File], FileUploadServiceError>) -> Void in
             // Success and we have my user, and it has coordinates
-            if let images = multipleFilesUploadResult.value, let myUser = user, let location = myUser.gpsCoordinates {
+            if let images = multipleFilesUploadResult.value, let myUser = user, let location = myUser.gpsCoordinates, let myUserSessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
                 product.images = images
                 
                 // If it's a new product, then set the location
@@ -85,17 +115,12 @@ public class ProductManager {
                 }
               
                 // 2. Save
-                self?.productSaveService.saveProduct(product, forUser: myUser) { [weak self] (saveResult: Result<Product, ProductSaveServiceError>) -> Void in
+                self?.productSaveService.saveProduct(product, forUser: myUser, sessionToken: myUserSessionToken) { [weak self] (saveResult: Result<Product, ProductSaveServiceError>) -> Void in
 
                     // Success
                     if let savedProduct = saveResult.value, productId = savedProduct.objectId {
                         
-                        // 3. Synchronize
-                        self?.productSynchronizeService.synchronizeProductWithId(productId) { () -> Void in
-                            
-                            // Notify the sender, we do not care about synch result
-                            result?(Result<Product, ProductSaveServiceError>.success(savedProduct))
-                        }
+                        result?(Result<Product, ProductSaveServiceError>.success(savedProduct))
                     }
                     // Error
                     else {
@@ -145,38 +170,38 @@ public class ProductManager {
         :param: result The closure containing the result.
     */
     public func markProductAsSold(product: Product, result: ProductMarkSoldServiceResult?) {
-        productMarkSoldService.markAsSoldProduct(product) { [weak self] (markAsSoldResult: Result<Product, ProductMarkSoldServiceError>) -> Void in
-            if let soldProduct = markAsSoldResult.value, let productId = soldProduct.objectId {
-                // synchronize
-                self?.productSynchronizeService.synchronizeProductWithId(productId) { () -> Void in
-                    // Notify the sender, we do not care about synch result
+        
+        if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+            productMarkSoldService.markAsSoldProduct(product, sessionToken: sessionToken) { [weak self] (markAsSoldResult: Result<Product, ProductMarkSoldServiceError>) -> Void in
+                if let soldProduct = markAsSoldResult.value, let productId = soldProduct.objectId {
                     result?(Result<Product, ProductMarkSoldServiceError>.success(soldProduct))
                 }
-            }
-            else {
-                let error = markAsSoldResult.error ?? .Internal
-                switch (error) {
-                case .Internal:
-                    result?(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
-                case .Network:
-                    result?(Result<Product, ProductMarkSoldServiceError>.failure(.Network))
+                else {
+                    let error = markAsSoldResult.error ?? .Internal
+                    switch (error) {
+                    case .Internal:
+                        result?(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
+                    case .Network:
+                        result?(Result<Product, ProductMarkSoldServiceError>.failure(.Network))
+                    }
                 }
             }
         }
     }
     
     /**
-        Retrieves if a product is favourited.
+        Retrieves if a product is favourited and reported
     
+        :param: user The user.
         :param: product The product.
         :param: result The closure containing the result.
     */
-    public func retrieveFavourite(product: Product, result: ProductFavouriteRetrieveServiceResult?) {
+    public func retrieveUserProductRelation(product: Product, result: UserProductRelationServiceResult?) {
         if let myUser = MyUserManager.sharedInstance.myUser() {
-            productFavouriteRetrieveService.retrieveProductFavourite(product, user: myUser, result: result)
+            userProductRelationService.retrieveUserProductRelationWithId(myUser.objectId, productId: product.objectId, result: result)
         }
         else {
-            result?(Result<ProductFavourite, ProductFavouriteRetrieveServiceError>.failure(.Internal))
+            result?(Result<UserProductRelation, UserProductRelationServiceError>.failure(.Internal))
         }
     }
     
@@ -188,25 +213,13 @@ public class ProductManager {
     */
     public func saveFavourite(product: Product, result: ProductFavouriteSaveServiceResult?) {
         if let myUser = MyUserManager.sharedInstance.myUser() {
-            let myResult: ProductFavouriteRetrieveServiceResult = { [weak self] (retrieveResult: Result<ProductFavourite, ProductFavouriteRetrieveServiceError>) -> Void in
-                if let error = retrieveResult.error {
-                    switch (error) {
-                    // If does not exist, then save
-                    case .DoesNotExist:
-                        self?.productFavouriteSaveService.saveFavouriteProduct(product, user: myUser, result: result)
-                    case .Internal:
-                        result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Internal))
-                    case .Network:
-                        result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Network))
-                    }
+            if product.favorited == NSNumber(bool: false) {
+                if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+                    self.productFavouriteSaveService.saveFavouriteProduct(product, user: myUser, sessionToken: sessionToken, result: result)
                 }
-                else {
-                    result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Internal))
-                }
+            } else {
+                result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.AlreadyExists))
             }
-            
-            // Retrieve & then, if possible, save
-            retrieveFavourite(product, result: myResult)
         }
         else {
             result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Internal))
@@ -221,45 +234,17 @@ public class ProductManager {
     */
     public func deleteFavourite(product: Product, result: ProductFavouriteDeleteServiceResult?) {
         if let myUser = MyUserManager.sharedInstance.myUser() {
-            let myResult: ProductFavouriteRetrieveServiceResult = { [weak self] (retrieveResult: Result<ProductFavourite, ProductFavouriteRetrieveServiceError>) -> Void in
-                
-                // Success
-                if let productFavourite = retrieveResult.value {
-                    // Then delete
-                    self?.productFavouriteDeleteService.deleteProductFavourite(productFavourite, result: result)
-                }
-                // Error
-                else {
-                    let error = retrieveResult.error ?? .Internal
-                    switch (error) {
-                    case .DoesNotExist, .Internal:
-                        result?(Result<Nil, ProductFavouriteDeleteServiceError>.failure(.Internal))
-                    case .Network:
-                        result?(Result<Nil, ProductFavouriteDeleteServiceError>.failure(.Network))
-                    }
+            if product.favorited == NSNumber(bool: true) {
+                if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+                    var productFavourite = LGProductFavourite()
+                    productFavourite.product = product
+                    productFavourite.user = myUser
+                    self.productFavouriteDeleteService.deleteProductFavourite(productFavourite, sessionToken: sessionToken, result: result)
                 }
             }
-            
-            // Retrieve & then, if possible, delete
-            retrieveFavourite(product, result: myResult)
         }
         else {
             result?(Result<Nil, ProductFavouriteDeleteServiceError>.failure(.Internal))
-        }
-    }
-    
-    /**
-        Retrieves if a product is reported.
-    
-        :param: product The product.
-        :param: result The closure containing the result.
-    */
-    public func retrieveReport(product: Product, result: ProductReportRetrieveServiceResult?) {
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            productReportRetrieveService.retrieveReportForProduct(product, user: myUser, result: result)
-        }
-        else {
-            result?(Result<ProductReport, ProductReportRetrieveServiceError>.failure(.Internal))
         }
     }
     
@@ -271,28 +256,13 @@ public class ProductManager {
     */
     public func saveReport(product: Product, result: ProductReportSaveServiceResult?) {
         if let myUser = MyUserManager.sharedInstance.myUser() {
-            let myResult: ProductReportRetrieveServiceResult = { [weak self] (retrieveResult: Result<ProductReport, ProductReportRetrieveServiceError>) -> Void in
-                if let productReport = retrieveResult.value {
-                    result?(Result<Nil, ProductReportSaveServiceError>.failure(.AlreadyExists))
+            if product.reported == NSNumber(bool: false) {
+                if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+                    self.productReportSaveService.saveReportProduct(product, user: myUser, sessionToken: sessionToken, result: result)
                 }
-                else if let error = retrieveResult.error {
-                    switch (error) {
-                    // If does not exist, then save
-                    case .DoesNotExist:
-                        self?.productReportSaveService.saveReportProduct(product, user: myUser, result: result)
-                    case .Internal:
-                        result?(Result<Nil, ProductReportSaveServiceError>.failure(.Internal))
-                    case .Network:
-                        result?(Result<Nil, ProductReportSaveServiceError>.failure(.Network))
-                    }
-                }
-                else {
-                    result?(Result<Nil, ProductReportSaveServiceError>.failure(.Internal))
-                }
+            } else {
+                result?(Result<Nil, ProductReportSaveServiceError>.failure(.AlreadyExists))
             }
-            
-            // Retrieve & then, if possible, save
-            retrieveReport(product, result: myResult)
         }
         else {
             result?(Result<Nil, ProductReportSaveServiceError>.failure(.Internal))
@@ -335,30 +305,30 @@ public class ProductManager {
             var fileImages: [File] = []
             
             for imageNameAndData in imageNameAndDatas {
-                let fileUploadServiceResult = self.fileUploadService.synchUploadFile(imageNameAndData.0, data: imageNameAndData.1)
                 
-                // Success
-                if let file = fileUploadServiceResult.value {
-                    fileImages.append(file)
+                self.fileUploadService.uploadFile(imageNameAndData.0, data: imageNameAndData.1) { (fileUploadResult: Result<File, FileUploadServiceError>) in
                     
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    // Succeeded
+                    if let file = fileUploadResult.value {
+                        fileImages.append(file)
                         
-                        // Notify the current step
-                        step(fileImages.count)
-                        
-                        // If finished, then notify about it
-                        if fileImages.count >= imageNameAndDatas.count {
-                            result?(Result<[File], FileUploadServiceError>.success(fileImages))
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
+                            // Notify the current step
+                            step(fileImages.count)
+                            
+                            // If finished, then notify about it
+                            if fileImages.count >= imageNameAndDatas.count {
+                                result?(Result<[File], FileUploadServiceError>.success(fileImages))
+                            }
+                        })
+                    }
+                    // Error, the overall image upload process is reported as a failure
+                    else {
+                        if let actualError = fileUploadResult.error {
+                            result?(Result<[File], FileUploadServiceError>.failure(actualError))
                         }
-                    })
-                }
-                // Error, the overall image upload process is reported as a failure
-                else {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        let error = fileUploadServiceResult.error ?? .Internal
-                        result?(Result<[File], FileUploadServiceError>.failure(error))
-                    })
-                    break
+                    }
                 }
             }
         })

@@ -6,24 +6,14 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import Parse
+import LGCoreKit
+import Result
 import UIKit
 
-private let kLetGoConversationCellImageTag = 1
-private let kLetGoConversationCellUserNameTag = 2
-private let kLetGoConversationCellProductNameTag = 3
-private let kLetGoConversationCellRelativeDateTag = 4
-
-private let kLetGoConversationsRefreshTimeout: NSTimeInterval = 300 // seconds.
-
-/**
- * The ChatListViewController manages all the conversations of the user. It reads the list of PFObjects
- * of the "Conversations" class and processes them to properly show them to the user.
- */
 class ChatListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    // outlets & buttons
     
-    // no conversations interface
+    // UI
+    // > no conversations interface
     @IBOutlet weak var noConversationsYet: UILabel!
     @IBOutlet weak var startSellingOrBuyingLabel: UILabel!
     @IBOutlet weak var searchButton: UIButton!
@@ -31,16 +21,17 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var separatorView: UIView!
     @IBOutlet weak var messageImageView: UIImageView!
     
-    // table of conversations
+    // > table of conversations
     @IBOutlet weak var tableView: UITableView!
     
-    // loading conversations
+    // > loading conversations
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     var refreshControl: UIRefreshControl!
     
-    // data
-    var conversations: [LetGoConversation]?
-    var lastTimeConversationsWhereRetrieved: NSDate?
+    // Data
+    var chats: [Chat]?
+    
+    // MARK: - Lifecycle
     
     init() {
         super.init(nibName: "ChatListViewController", bundle: nil)
@@ -64,8 +55,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
        
         // add a pull to refresh control
         self.refreshControl = UIRefreshControl()
-//        self.refreshControl.attributedTitle = NSAttributedString(string: NSLocalizedString("common_pull_to_refresh", comment: ""))
-        self.refreshControl.addTarget(self, action: "refreshConversations", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: "updateConversations", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
                 
         // register cell
@@ -80,7 +70,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
         
         // Update conversations (always forced, so the badges are updated)
-        updateConversations(force: true)
+        updateConversations()
         
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
@@ -94,44 +84,41 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: - Conversation management
     
-    func updateConversations(force: Bool = false) {
-        // retrieve conversations
-        if force || (conversations == nil || itsAboutTimeToRefreshConversations()) {
-            if conversations == nil { enableLoadingConversationsInterface() }
-            ChatManager.sharedInstance.retrieveMyConversationsWithCompletion({ [weak self] (success, conversations) -> Void in
-                if let strongSelf = self {
-                    if success && conversations?.count > 0 {
-                        strongSelf.conversations = conversations
+    func updateConversations() {
+        
+        let firstLoad: Bool
+        if let actualChats = chats {
+            firstLoad = actualChats.isEmpty
+        }
+        else {
+            firstLoad = true
+        }
+        
+        if firstLoad {
+            enableLoadingConversationsInterface()
+        }
+        tableView.userInteractionEnabled = false
+        
+        ChatManager.sharedInstance.retrieveChats({ [weak self] (result: Result<[Chat], ChatsRetrieveServiceError>) -> Void in
+            if let strongSelf = self {
+                // Success
+                if let chats = result.value {
+                    if chats.count > 0 {
+                        strongSelf.chats = chats
                         strongSelf.enableConversationsInterface()
                     }
                     else {
                         strongSelf.enableNoConversationsInterface()
                     }
-                    // release pull to refresh
-                    strongSelf.refreshControl.endRefreshing()
-                    // register that we have updated our conversation records.
-                    strongSelf.lastTimeConversationsWhereRetrieved = NSDate()
                 }
-            })
-        } else { // we already tried to load some conversations.
-            if conversations!.count > 0 { // we do have some conversations
-                enableConversationsInterface()
+                
+                // allow interaction
+                strongSelf.tableView.userInteractionEnabled = true
+                
+                // release pull to refresh
+                strongSelf.refreshControl.endRefreshing()
             }
-            else { // no conversations.
-                enableNoConversationsInterface()
-            }
-            // release pull to refresh
-            self.refreshControl.endRefreshing()
-        }
-        
-    }
-    
-    func refreshConversations() { updateConversations(force: true) }
-    
-    // Determines if we should refresh the conversations.
-    func itsAboutTimeToRefreshConversations() -> Bool {
-        if lastTimeConversationsWhereRetrieved == nil { return true }
-        else { return NSDate().timeIntervalSinceDate(lastTimeConversationsWhereRetrieved!) > kLetGoConversationsRefreshTimeout }
+        })
     }
     
     // MARK: - Appearance & different contexts interfaces
@@ -207,7 +194,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return conversations?.count ?? 0
+        return chats?.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -215,24 +202,22 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath) as! ConversationCell
         
         cell.tag = indexPath.hash
-        if let conversation = conversations?[indexPath.row] {
-            cell.setupCellWithConversation(conversation, indexPath: indexPath)
+        if let chat = chats?[indexPath.row] {
+            cell.setupCellWithChat(chat, indexPath: indexPath)
         }
         return cell
 
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let letgoConversation = self.conversations?[indexPath.row] {
-            let chatVC = ChatViewController()
-            chatVC.letgoConversation = letgoConversation
-            self.navigationController?.pushViewController(chatVC, animated: true)
+        if let chat = chats?[indexPath.row], let chatVC = ChatViewController(chat: chat) {
+            navigationController?.pushViewController(chatVC, animated: true)
         }
     }
     
     // MARK: - NSNotificationCenter
     
     func didReceiveUserInteraction(notification: NSNotification) {
-        self.refreshConversations()
+        updateConversations()
     }
 }
