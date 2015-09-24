@@ -248,26 +248,14 @@ static void RLMValidateArrayBounds(__unsafe_unretained RLMArray *const ar,
     RLMValidateArrayBounds(self, sourceIndex);
     RLMValidateArrayBounds(self, destinationIndex);
     RLMObjectBase *original = _backingArray[sourceIndex];
-
-    auto start = std::min(sourceIndex, destinationIndex);
-    auto len = std::max(sourceIndex, destinationIndex) - start + 1;
-    changeArray(self, NSKeyValueChangeReplacement, {start, len}, ^{
-        [_backingArray removeObjectAtIndex:sourceIndex];
-        [_backingArray insertObject:original atIndex:destinationIndex];
-    });
+    [_backingArray removeObjectAtIndex:sourceIndex];
+    [_backingArray insertObject:original atIndex:destinationIndex];
 }
 
 - (void)exchangeObjectAtIndex:(NSUInteger)index1 withObjectAtIndex:(NSUInteger)index2 {
     RLMValidateArrayBounds(self, index1);
     RLMValidateArrayBounds(self, index2);
-
-    changeArray(self, NSKeyValueChangeReplacement, ^{
-        [_backingArray exchangeObjectAtIndex:index1 withObjectAtIndex:index2];
-    }, [=] {
-        NSMutableIndexSet *set = [[NSMutableIndexSet alloc] initWithIndex:index1];
-        [set addIndex:index2];
-        return set;
-    });
+    [_backingArray exchangeObjectAtIndex:index1 withObjectAtIndex:index2];
 }
 
 - (NSUInteger)indexOfObject:(RLMObject *)object {

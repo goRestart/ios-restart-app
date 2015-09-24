@@ -53,7 +53,7 @@ the `objects(_:)` instance method on `Realm`.
 
 See our [Cocoa guide](http://realm.io/docs/cocoa) for more details.
 */
-public class Object: RLMObjectBase {
+public class Object: RLMObjectBase, Equatable, Printable {
 
     // MARK: Initializers
 
@@ -61,7 +61,7 @@ public class Object: RLMObjectBase {
     Initialize a standalone (unpersisted) Object.
     Call `add(_:)` on a `Realm` to add standalone objects to a realm.
 
-    - see: Realm().add(_:)
+    :see: Realm().add(_:)
     */
     public required override init() {
         super.init()
@@ -71,10 +71,10 @@ public class Object: RLMObjectBase {
     Initialize a standalone (unpersisted) `Object` with values from an `Array<AnyObject>` or `Dictionary<String, AnyObject>`.
     Call `add(_:)` on a `Realm` to add standalone objects to a realm.
 
-    - parameter value: The value used to populate the object. This can be any key/value coding compliant
-                       object, or a JSON object such as those returned from the methods in `NSJSONSerialization`,
-                       or an `Array` with one object for each persisted property. An exception will be
-                       thrown if any required properties are not present and no default is set.
+    :param: value   The value used to populate the object. This can be any key/value coding compliant
+                    object, or a JSON object such as those returned from the methods in `NSJSONSerialization`,
+                    or an `Array` with one object for each persisted property. An exception will be
+                    thrown if any required properties are not present and no default is set.
     */
     public init(value: AnyObject) {
         self.dynamicType.sharedSchema() // ensure this class' objectSchema is loaded in the partialSharedSchema
@@ -120,7 +120,7 @@ public class Object: RLMObjectBase {
     properties enforce uniqueness for each value whenever the property is set which incurs some overhead.
     Indexes are created automatically for primary key properties.
 
-    - returns: Name of the property designated as the primary key, or `nil` if the model has no primary key.
+    :returns: Name of the property designated as the primary key, or `nil` if the model has no primary key.
     */
     public class func primaryKey() -> String? { return nil }
 
@@ -128,15 +128,14 @@ public class Object: RLMObjectBase {
     Override to return an array of property names to ignore. These properties will not be persisted
     and are treated as transient.
 
-    - returns: `Array` of property names to ignore.
+    :returns: `Array` of property names to ignore.
     */
     public class func ignoredProperties() -> [String] { return [] }
 
     /**
     Return an array of property names for properties which should be indexed. Only supported
     for string and int properties.
-
-    - returns: `Array` of property names to index.
+    :returns: `Array` of property names to index.
     */
     public class func indexedProperties() -> [String] { return [] }
 
@@ -146,15 +145,12 @@ public class Object: RLMObjectBase {
     /**
     Get an `Array` of objects of type `className` which have this object as the given property value. This can
     be used to get the inverse relationship value for `Object` and `List` properties.
-
-    - parameter className: The type of object on which the relationship to query is defined.
-    - parameter property:  The name of the property which defines the relationship.
-
-    - returns: An `Array` of objects of type `className` which have this object as their value for the `propertyName` property.
+    :param: className The type of object on which the relationship to query is defined.
+    :param: property  The name of the property which defines the relationship.
+    :returns: An `Array` of objects of type `className` which have this object as their value for the `propertyName` property.
     */
     public func linkingObjects<T: Object>(type: T.Type, forProperty propertyName: String) -> [T] {
-        // FIXME: use T.className()
-        return RLMObjectBaseLinkingObjectsOfClass(self, (T.self as Object.Type).className(), propertyName) as! [T]
+        return RLMObjectBaseLinkingObjectsOfClass(self, T.className(), propertyName) as! [T]
     }
 
     // MARK: Key-Value Coding & Subscripting
@@ -179,15 +175,6 @@ public class Object: RLMObjectBase {
                 RLMDynamicValidatedSet(self, key, value)
             }
         }
-    }
-
-    // MARK: Equatable
-
-    /// Returns whether both objects are equal.
-    /// Objects are considered equal when they are both from the same Realm
-    /// and point to the same underlying object in the database.
-    public override func isEqual(object: AnyObject?) -> Bool {
-        return RLMObjectBaseAreEqual(self as RLMObjectBase?, object as? RLMObjectBase);
     }
 
     // MARK: Private functions
@@ -216,7 +203,14 @@ public class Object: RLMObjectBase {
     }
 }
 
+// MARK: Equatable
 
+/// Returns whether both objects are equal.
+/// Objects are considered equal when they are both from the same Realm
+/// and point to the same underlying object in the database.
+public func == <T: Object>(lhs: T, rhs: T) -> Bool {
+    return RLMObjectBaseAreEqual(lhs, rhs)
+}
 
 /// Object interface which allows untyped getters and setters for Objects.
 /// :nodoc:
@@ -266,13 +260,22 @@ public class ObjectUtil: NSObject {
         return nil
     }
 
-    // Get the names of all properties in the object which are of type List<>.
-    @objc private class func getGenericListPropertyNames(object: AnyObject) -> NSArray {
-        return Mirror(reflecting: object).children.filter { (prop: Mirror.Child) in
-            return prop.value.dynamicType is RLMListBase.Type
-        }.flatMap { (prop: Mirror.Child) in
-            return prop.label
+    // Get the names of all properties in the object which are of type List<>
+    @objc private class func getGenericListPropertyNames(obj: AnyObject) -> NSArray {
+        let reflection = reflect(obj)
+
+        var properties = [String]()
+
+        // Skip the first property (super):
+        // super is an implicit property on Swift objects
+        for i in 1..<reflection.count {
+            let mirror = reflection[i].1
+            if mirror.valueType is RLMListBase.Type {
+                properties.append(reflection[i].0)
+            }
         }
+
+        return properties
     }
 
     @objc private class func initializeListProperty(object: RLMObjectBase, property: RLMProperty, array: RLMArray) {
@@ -280,11 +283,20 @@ public class ObjectUtil: NSObject {
     }
 
     @objc private class func getOptionalPropertyNames(object: AnyObject) -> NSArray {
-        return Mirror(reflecting: object).children.filter { (prop: Mirror.Child) in
-            return Mirror(reflecting: prop.value).displayStyle == .Optional
-        }.flatMap { (prop: Mirror.Child) in
-            return prop.label
+        let reflection = reflect(object)
+
+        var properties = [String]()
+
+        // Skip the first property (super):
+        // super is an implicit property on Swift objects
+        for i in 1..<reflection.count {
+            let mirror = reflection[i].1
+            if mirror.disposition == .Optional {
+                properties.append(reflection[i].0)
+            }
         }
+
+        return properties
     }
 
     @objc private class func requiredPropertiesForClass(_: AnyClass) -> NSArray? {

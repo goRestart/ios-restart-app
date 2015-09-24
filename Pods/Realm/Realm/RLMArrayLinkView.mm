@@ -312,11 +312,7 @@ static void RLMInsertObject(RLMArrayLinkView *ar, RLMObject *object, NSUInteger 
     RLMValidateArrayBounds(self, sourceIndex);
     RLMValidateArrayBounds(self, destinationIndex);
 
-    auto start = std::min(sourceIndex, destinationIndex);
-    auto len = std::max(sourceIndex, destinationIndex) - start + 1;
-    changeArray(self, NSKeyValueChangeReplacement, {start, len}, ^{
-        _backingLinkView->move(sourceIndex, destinationIndex);
-    });
+    _backingLinkView->move(sourceIndex, destinationIndex);
 }
 
 - (void)exchangeObjectAtIndex:(NSUInteger)index1 withObjectAtIndex:(NSUInteger)index2 {
@@ -324,13 +320,7 @@ static void RLMInsertObject(RLMArrayLinkView *ar, RLMObject *object, NSUInteger 
     RLMValidateArrayBounds(self, index1);
     RLMValidateArrayBounds(self, index2);
 
-    changeArray(self, NSKeyValueChangeReplacement, ^{
-        _backingLinkView->swap(index1, index2);
-    }, [=] {
-        NSMutableIndexSet *set = [[NSMutableIndexSet alloc] initWithIndex:index1];
-        [set addIndex:index2];
-        return set;
-    });
+    _backingLinkView->swap(index1, index2);
 }
 
 - (NSUInteger)indexOfObject:(RLMObject *)object {

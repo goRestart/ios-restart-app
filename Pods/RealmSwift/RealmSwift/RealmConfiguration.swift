@@ -22,14 +22,14 @@ import Realm.Private
 
 extension Realm {
     /**
-    A `Realm.Configuration` is used to describe the different options used to
+    A `Configuration` is used to describe the different options used to
     create a `Realm` instance.
     */
     public struct Configuration {
 
         // MARK: Default Configuration
 
-        /// Returns the default Realm.Configuration used to create Realms when no other
+        /// Returns the default Configuration used to create Realms when no other
         /// configuration is explicitly specified (i.e. `Realm()`).
         public static var defaultConfiguration: Configuration {
             get {
@@ -43,17 +43,17 @@ extension Realm {
         // MARK: Initialization
 
         /**
-        Initializes a `Realm.Configuration`, suitable for creating new `Realm` instances.
+        Initializes a `Configuration`, suitable for creating new `Realm` instances.
 
-        - parameter path:               The path to the realm file.
-        - parameter inMemoryIdentifier: A string used to identify a particular in-memory Realm.
-        - parameter encryptionKey:      64-byte key to use to encrypt the data.
-        - parameter readOnly:           Whether the Realm is read-only (must be true for read-only files).
-        - parameter schemaVersion:      The current schema version.
-        - parameter migrationBlock:     The block which migrates the Realm to the current version.
-        - parameter objectTypes:        The subset of `Object` subclasses persisted in the Realm.
+        :param: path               The path to the realm file.
+        :param: inMemoryIdentifier A string used to identify a particular in-memory Realm.
+        :param: encryptionKey      64-byte key to use to encrypt the data.
+        :param: readOnly           Whether the Realm is read-only (must be true for read-only files).
+        :param: schemaVersion      The current schema version.
+        :param: migrationBlock     The block which migrates the Realm to the current version.
+        :param: objectTypes        The subset of `Object` subclasses persisted in the Realm.
 
-        - returns: An initialized `Realm.Configuration`.
+        :returns: An initialized `Configuration`.
         */
         public init(path: String? = RLMRealmConfiguration.defaultRealmPath(),
             inMemoryIdentifier: String? = nil,
@@ -117,7 +117,6 @@ extension Realm {
 
         private var _encryptionKey: NSData? = nil
 
-
         /// Whether the Realm is read-only (must be true for read-only files).
         public var readOnly: Bool = false
 
@@ -130,7 +129,15 @@ extension Realm {
         /// The classes persisted in the Realm.
         public var objectTypes: [Object.Type]? {
             set {
-                self.customSchema = newValue.map { RLMSchema(objectClasses: $0) }
+                if let types = newValue {
+                    let classes = NSMutableArray() // This is necessary to due bridging bugs fixed in 2.0
+                    for cls in types {
+                      classes.addObject(cls as! AnyClass)
+                    }
+                    self.customSchema = RLMSchema(objectClasses: classes as [AnyObject])
+                } else {
+                    self.customSchema = nil
+                }
             }
             get {
                 return self.customSchema.map { $0.objectSchema.map { $0.objectClass as! Object.Type } }
@@ -139,6 +146,7 @@ extension Realm {
 
         /// A custom schema to use for the Realm.
         private var customSchema: RLMSchema? = nil
+
 
         // MARK: Private Methods
 
@@ -160,7 +168,7 @@ extension Realm {
                 encryptionKey: rlmConfiguration.encryptionKey,
                 readOnly: rlmConfiguration.readOnly,
                 schemaVersion: UInt64(rlmConfiguration.schemaVersion),
-                migrationBlock: rlmConfiguration.migrationBlock.map { rlmMigration in
+                migrationBlock: map(rlmConfiguration.migrationBlock) { rlmMigration in
                     return { migration, schemaVersion in
                         rlmMigration(migration.rlmMigration, schemaVersion)
                     }
@@ -172,11 +180,11 @@ extension Realm {
     }
 }
 
-// MARK: CustomStringConvertible
+// MARK: Printable
 
-extension Realm.Configuration: CustomStringConvertible {
+extension Realm.Configuration: Printable {
     /// Returns a human-readable description of the configuration.
     public var description: String {
-        return gsub("\\ARLMRealmConfiguration", template: "Realm.Configuration", string: rlmConfiguration.description) ?? ""
+        return gsub("\\ARLMRealmConfiguration", "Configuration", rlmConfiguration.description) ?? ""
     }
 }

@@ -39,6 +39,8 @@ pod "Kahuna",               "2.0.4"
 # New Relic
 pod "NewRelicAgent",         "5.2.2"
 
+pod "RealmSwift",           "0.95.0"  # delete!!
+
 target "letgoTests", :exclusive => true do
     ## Testing
     pod "Quick",            "~> 0.3.1"    # Update to 0.4+ when upgrading to Swift 2.0

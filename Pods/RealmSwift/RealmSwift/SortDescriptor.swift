@@ -45,8 +45,8 @@ public struct SortDescriptor {
     /**
     Creates a `SortDescriptor` with the given property and ascending values.
 
-    - parameter property:  The name of the property which this sort descriptor orders results by.
-    - parameter ascending: Whether this descriptor sorts in ascending or descending order.
+    :param: property  The name of the property which this sort descriptor orders results by.
+    :param: ascending Whether this descriptor sorts in ascending or descending order.
     */
     public init(property: String, ascending: Bool = true) {
         self.property = property
@@ -61,9 +61,9 @@ public struct SortDescriptor {
     }
 }
 
-// MARK: CustomStringConvertible
+// MARK: Printable
 
-extension SortDescriptor: CustomStringConvertible {
+extension SortDescriptor: Printable {
     /// Returns a human-readable description of the sort descriptor.
     public var description: String {
         let direction = ascending ? "ascending" : "descending"
@@ -94,7 +94,7 @@ extension SortDescriptor: StringLiteralConvertible {
     /**
     Creates a `SortDescriptor` from a `UnicodeScalarLiteralType`.
 
-    - parameter unicodeScalarLiteral: Property name literal.
+    :param: unicodeScalarLiteral Property name literal.
     */
     public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(property: value)
@@ -103,7 +103,7 @@ extension SortDescriptor: StringLiteralConvertible {
     /**
     Creates a `SortDescriptor` from an `ExtendedGraphemeClusterLiteralType`.
 
-    - parameter extendedGraphemeClusterLiteral: Property name literal.
+    :param: extendedGraphemeClusterLiteral Property name literal.
     */
     public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(property: value)
@@ -112,7 +112,7 @@ extension SortDescriptor: StringLiteralConvertible {
     /**
     Creates a `SortDescriptor` from a `StringLiteralType`.
 
-    - parameter stringLiteral: Property name literal.
+    :param: stringLiteral Property name literal.
     */
     public init(stringLiteral value: StringLiteralType) {
         self.init(property: value)
