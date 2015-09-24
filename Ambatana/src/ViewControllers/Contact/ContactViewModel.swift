@@ -60,12 +60,18 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     
     // MARK: - Lifecycle
     
-    override init() {
-        email = MyUserManager.sharedInstance.myUser()?.email ?? ""
-        subject = nil
-        message = ""
-        contactService = LGContactSendService()
+    public required init(myUserManager: MyUserManager, contactService: ContactSendService) {
+        self.email = myUserManager.myUser()?.email ?? ""
+        self.subject = nil
+        self.message = ""
+        self.contactService = contactService
         super.init()
+    }
+    
+    public convenience override init() {
+        let myUserManager = MyUserManager.sharedInstance
+        let contactService = LGContactSendService()
+        self.init(myUserManager: myUserManager, contactService: contactService)
     }
     
     // MARK: - Public methods
