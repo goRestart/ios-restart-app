@@ -11,76 +11,43 @@ import SwiftyJSON
 
 @objc public class LGProductsResponse: ProductsResponse, ResponseObjectSerializable {
     
-    // Constant
-    private static let dataJSONKey = "data"
-    private static let infoJSONKey = "info"
-    private static let totalProductsJSONKey = "total_products"
-    private static let offsetJSONKey = "offset"
-    
-    // iVars
     public var products: NSArray
-    public var totalProducts: NSNumber
-    public var offset: NSNumber
-    
-    public var lastPage: NSNumber {
-        get {
-            let isLastPage = products.count + offset.intValue >= totalProducts.intValue
-            return NSNumber(bool: isLastPage)
-        }
-    }
     
     // MARK: - Lifecycle
     
     public init() {
         products = []
-        totalProducts = NSNumber(integer: 0)
-        offset = NSNumber(integer: 0)
     }
     
     // MARK: - ResponseObjectSerializable
     
-//    {
-//        "data": [...],
-//        "info": {
-//            "total_products": "960",
-//            "offset": "0"
-//        }
-//    }
+    //    [
+    //        {...},
+    //        ...
+    //    ]
     public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
         self.init()
         
         let json = JSON(representation)
         let parsedProducts = NSMutableArray()
-        if let data = json[LGProductsResponse.dataJSONKey].array {
-
-            let countryCurrencyInfoDao = RLMCountryCurrencyInfoDAO()
-            let currencyHelper = CurrencyHelper(countryCurrencyInfoDAO: countryCurrencyInfoDao)
-            
-            for productJson in data {
-                parsedProducts.addObject(LGProductParser.productWithJSON(productJson, currencyHelper: currencyHelper))
+        
+        let countryCurrencyInfoDao = RLMCountryCurrencyInfoDAO()
+        let currencyHelper = CurrencyHelper(countryCurrencyInfoDAO: countryCurrencyInfoDao)
+        
+        // since the response gives distance in the units passed per parameters,
+        // we retrieve distance type the same way we do in productlistviewmodel
+        var distanceType = DistanceType.Km
+        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
+            distanceType = usesMetric ? .Km : .Mi
+        }
+        
+        if let productsArrayJson = json.array {
+            for productJson in productsArrayJson {
+                parsedProducts.addObject(LGProductParser.productWithJSON(productJson, currencyHelper: currencyHelper, distanceType: distanceType))
             }
         }
+        
         products = parsedProducts
         
-        let pagingInfo = json[LGProductsResponse.infoJSONKey]
-        if let actualTotalProducts = pagingInfo[LGProductsResponse.totalProductsJSONKey].string?.toInt() {
-            totalProducts = actualTotalProducts
-        }
-        else if let actualTotalProducts = pagingInfo[LGProductsResponse.totalProductsJSONKey].int {
-            totalProducts = actualTotalProducts
-        }
-        else {
-            return nil
-        }
-        
-        if let actualOffset = pagingInfo[LGProductsResponse.offsetJSONKey].string?.toInt() {
-            offset = actualOffset
-        }
-        else if let actualOffset = pagingInfo[LGProductsResponse.offsetJSONKey].int {
-            offset = actualOffset
-        }
-        else {
-            return nil
-        }
     }
 }

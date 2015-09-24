@@ -11,20 +11,13 @@ import ParseFacebookUtilsV4
 
 public class LGCoreKit {
     public static func initialize(launchOptions: [NSObject: AnyObject]?) {
-        
-        // Parse
-        // > Register subclasses
-        PAProduct.registerSubclass()
-        PAContact.registerSubclass()
-        PAProductFavourite.registerSubclass()
-        PAProductReport.registerSubclass()
-        
-        // > Setup
+       
+        // Parse setup
         Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId, clientKey: EnvironmentProxy.sharedInstance.parseClientId)
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
         
-        // > Automatic anonymous user creation
+        // Automatic anonymous user creation
         PFUser.enableAutomaticUser()
         
         // Shared instances

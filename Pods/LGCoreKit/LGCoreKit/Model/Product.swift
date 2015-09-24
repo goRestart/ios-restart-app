@@ -32,8 +32,9 @@ import UIKit
     
     var user: User? { get set }
     
-    var processed: NSNumber? { get set }
-    
+    var reported: NSNumber? { get set }
+    var favorited: NSNumber? { get set }
+
     func formattedPrice() -> String
     func formattedDistance() -> String
     func updateWithProduct(product: Product)

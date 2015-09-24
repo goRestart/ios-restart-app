@@ -54,6 +54,70 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
         var coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
         return coordinate
     }
+    
+    private func toBinary(value: Double, zoomLevel: Int) -> String {
+        
+        var modValue = value
+        var finalString = ""
+        var x = 0.0
+        var y = 0.0
+        
+        for i in 0...zoomLevel-1 {
+            x = modValue * 2
+            y = floor(x)
+            finalString += "\(Int(y))"
+            modValue = x - y
+        }
+        
+        return finalString
+    }
+    
+    private func getCharAtIndexOrZero(value: String, index: Int) -> Int {
+        
+        if !value.isEmpty && index < count(value) {
+            
+            let singleChar = Array(value)[index]
+            if let singleInt = String(singleChar).toInt() {
+                return singleInt
+            } else {
+                return 0
+            }
+        }
+        return 0
+    }
+    
+    private func binValuesToQuadKey(latBin: String, longBin: String) -> String {
+        
+        if latBin.isEmpty || longBin.isEmpty {
+            return ""
+        }
+        
+        var finalString = ""
+        var maxLength = max(count(latBin), count(longBin))
+        
+        for i in 0...maxLength-1 {
+            var lat = getCharAtIndexOrZero(latBin, index: i)
+            var long = getCharAtIndexOrZero(longBin, index: i)
+            var n = lat * 2 + long
+            
+            finalString += "\(Int(n))"
+        }
+        return finalString
+    }
+
+    public func coordsToQuadKey(zoomLevel: Int) -> String {
+        
+        let π = M_PI
+        
+        var sinLat = sin(self.latitude * π/180)
+        var latDec = 0.5 - log((1+sinLat)/(1-sinLat))/(4*π)
+        var longDec = (self.longitude + 180)/360
+        
+        var latBin = toBinary(latDec, zoomLevel: zoomLevel)
+        var longBin = toBinary(longDec, zoomLevel: zoomLevel)
+        
+        return binValuesToQuadKey(latBin, longBin: longBin)
+    }
 }
 
 public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bool {
@@ -66,9 +130,9 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
         get {
             switch self {
             case .Mi:
-                return "ML"
+                return "mi" //"ML"
             case .Km:
-                return "KM"
+                return "km" //"KM"
             }
         }
     }

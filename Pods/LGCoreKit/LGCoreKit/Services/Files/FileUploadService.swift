@@ -35,13 +35,4 @@ public protocol FileUploadService {
         :param: result The closure containing the result.
     */
     func uploadFile(name: String?, sourceURL: NSURL, result: FileUploadServiceResult?)
-    
-    /**
-        Synchronously, upload the data into a file.
-    
-        :param: name The filename.
-        :param: data The data to upload.
-        :returns: The result.
-    */
-    func synchUploadFile(name: String?, data: NSData) -> Result<File, FileUploadServiceError>
 }

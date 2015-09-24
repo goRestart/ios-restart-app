@@ -162,8 +162,8 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     private func setupUI() {
         
         // Navigation bar
-        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeButtonPressed"))
-        self.navigationItem.leftBarButtonItem = closeButton;
+        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self, action: Selector("closeButtonPressed"))
+        navigationItem.leftBarButtonItem = closeButton
 
         // Appearance
         connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)

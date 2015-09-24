@@ -209,10 +209,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellFormValidationFailed, params: params)
     }
     
-    public static func productSellSharedFB(user: User?, product: Product) -> TrackerEvent {
+    public static func productSellSharedFB(user: User?, product: Product?) -> TrackerEvent {
         var params = EventParameters()
         // Product name
-        params[.ProductId] = product.objectId ?? ""
+        if let productId = product?.objectId {
+            params[.ProductId] = productId
+        }
         return TrackerEvent(name: .ProductSellSharedFB, params: params)
     }
     
@@ -241,10 +243,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductEditFormValidationFailed, params: params)
     }
     
-    public static func productEditSharedFB(user: User?, product: Product) -> TrackerEvent {
+    public static func productEditSharedFB(user: User?, product: Product?) -> TrackerEvent {
         var params = EventParameters()
         // Product
-        params[.ProductId] = product.objectId
+        if let productId = product?.objectId {
+            params[.ProductId] = productId
+        }
         return TrackerEvent(name: .ProductEditSharedFB, params: params)
     }
     

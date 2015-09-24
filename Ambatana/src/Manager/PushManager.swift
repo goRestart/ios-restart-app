@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import Parse
+import Result
 import UrbanAirship_iOS_SDK
 
 
@@ -28,13 +29,22 @@ public class PushManager {
     // Singleton
     public static let sharedInstance: PushManager = PushManager()
     
+    // Services
+    private var installationSaveService: InstallationSaveService
+    
     // iVars
-    public var unreadMessagesCount: Int
+    public private(set) var unreadMessagesCount: Int
     
     // MARK: - Lifecycle
     
-    public init() {
+    public init(installationSaveService: InstallationSaveService) {
+        self.installationSaveService = installationSaveService
         unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
+    }
+    
+    public convenience init() {
+        let installationSaveService = PAInstallationSaveService()
+        self.init(installationSaveService: installationSaveService)
     }
     
     deinit {
@@ -65,10 +75,8 @@ public class PushManager {
     public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], notActiveCompletion: (PushNotificationType) -> Void) {
         if let type = getNotificationType(userInfo) {
             notifyDidReceiveRemoteNotificationType(type, userInfo: userInfo)
-
-            if type == .Offer || type == .Message {
-                updateUnreadMessagesCount()
-            }
+            
+            updateUnreadMessagesCount()
             
             if application.applicationState != .Active {
                 notActiveCompletion(type)
@@ -102,38 +110,26 @@ public class PushManager {
     */
     public func updateUnreadMessagesCount() {
        
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            let conversationsFrom = PFQuery(className: "Conversations")
-            conversationsFrom.whereKey("user_from", equalTo: myUser) // I am the user that started the conversation
-            let conversationsTo = PFQuery(className: "Conversations")
-            conversationsTo.whereKey("user_to", equalTo: myUser)     // I am the user that received the conversation.
-            
-            let query = PFQuery.orQueryWithSubqueries([conversationsFrom, conversationsTo])
-            query.includeKey("product")
-            query.includeKey("user_to")
-            query.includeKey("user_from")
-            query.orderByDescending("updatedAt")
-            
-            // Run the query
-            query.findObjectsInBackgroundWithBlock({ [weak self] (results, error) -> Void in
-                if error == nil {
-                    if let conversations = results as? [PFObject] {
-                        // Update the unread messages count
-                        let unreadMessageCount = PushManager.getUnreadMessageCountFromConversations(conversations)
-                        self?.unreadMessagesCount = unreadMessageCount
-                        
-                        // Update app's badge
-                        UIApplication.sharedApplication().applicationIconBadgeNumber = unreadMessageCount
-                        
-                        // Update installation's badge
-                        PFInstallation.currentInstallation().badge = unreadMessageCount
-                        PFInstallation.currentInstallation().saveInBackground()
-                        
-                        // Notify about it
-                        NSNotificationCenter.defaultCenter().postNotificationName(Notification.unreadMessagesDidChange.rawValue, object: nil)
-                    }
+        ChatManager.sharedInstance.retrieveUnreadMessageCount { [weak self] (result: Result<Int, ChatsUnreadCountRetrieveServiceError>) -> Void in
+            // Success
+            if let count = result.value {
+                if let strongSelf = self {
+                    
+                    // Update the unread message count
+                    self?.unreadMessagesCount = count
+                    
+                    // Update installation's badge
+                    var installation = PFInstallation.currentInstallation()
+                    installation.badge = count
+                    self?.installationSaveService.save(installation, result: nil)
                 }
-            })
+                
+                // Update app's badge
+                UIApplication.sharedApplication().applicationIconBadgeNumber = count
+                
+                // Notify about it
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.unreadMessagesDidChange.rawValue, object: nil)
+            }
         }
     }
     

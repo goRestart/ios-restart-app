@@ -15,6 +15,14 @@ extension PFFile: File {
         }
         return nil
     }
+    
+    public var token: String? {
+        if let actualToken = self.token {
+            return actualToken
+        }
+        return nil
+    }
+    
     public var isSaved: Bool {
         return url != nil
     }

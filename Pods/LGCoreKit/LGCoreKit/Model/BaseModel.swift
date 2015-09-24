@@ -7,7 +7,7 @@
 //
 
 @objc public protocol BaseModel {
-    var objectId: String! { get }
+    var objectId: String! { get set }
     var updatedAt: NSDate! { get }
     var createdAt: NSDate! { get }
     

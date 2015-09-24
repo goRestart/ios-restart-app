@@ -493,6 +493,9 @@
 // Product reported success message. Message displayal is like the other dialog messages
 "product_reported_success_message" = "The product was reported successfully. Thanks!";
 
+// Product reported fail message. Message displayal is like the other dialog messages
+"product_reported_error_generic" = "We couldn't report the product at the time.  Please try again later.";
+
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
 

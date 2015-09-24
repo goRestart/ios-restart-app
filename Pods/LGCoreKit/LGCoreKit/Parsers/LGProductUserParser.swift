@@ -12,37 +12,37 @@ public class LGProductUserParser {
     
     // Constant
     // > JSON keys
-    private static let objectIdJSONKey = "object_id"
+    private static let idJSONKey = "id"
     
-    private static let publicUsernameJSONKey = "public_username"
-    private static let avatarURLJSONKey = "avatar"
+    private static let nameJSONKey = "name"
+    private static let avatarURLJSONKey = "avatar_url"
     
     private static let countryCodeJSONKey = "country_code"
     private static let cityJSONKey = "city"
     private static let zipCodeJSONKey = "zipcode"
     private static let isDummyJSONKey = "is_richy"
-    
-//    {
-//        "object_id": "WHmGjAxX8L",
-//        "public_username": "Valy F.",
-//        "avatar": "http://files.parsetfss.com/abbc9384-9790-4bbb-9db2-1c3522889e96/tfss-bcc7eccf-7b18-4ed7-9b87-7c6d3925e39b-WHmGjAxX8L.jpg",
-//        "zipcode": "08002",
-//        "city": "Barcelona",
-//        "country_code": "ES",
-//        "is_richy": true
-//    }
+
+    //{
+    //    "id": "gpPAiKx5ch-d142342134-1241243d2134",
+    //    "name": "Bruce W. Fuckencio",
+    //    "avatar_url": "http://files.parsetfss.com/e2e3717f-b418-4017-8c7d-7b3d301e50d4/tfss-8fb0e5e2-548f-4b3f-9a4a-a5c5a95af171-QfgBfio9Zu.jpg",
+    //    "zip_code": "33948",
+    //    "city": "Gotham",
+    //    "country_code": "ES",
+    //    "is_richy": false
+    //}
     public static func userWithJSON(json: JSON) -> User {
         let user = LGUser()
-        user.objectId = json[LGProductUserParser.objectIdJSONKey].string
-        user.publicUsername = json[LGProductUserParser.publicUsernameJSONKey].string
+        user.objectId = json[LGProductUserParser.idJSONKey].string
+        user.publicUsername = json[LGProductUserParser.nameJSONKey].string
         if let avatarURLStr = json[LGProductUserParser.avatarURLJSONKey].string {
             user.avatar = LGFile(url: NSURL(string: avatarURLStr))
         }
-        
         let postalAddress = PostalAddress()
         postalAddress.countryCode = json[LGProductUserParser.countryCodeJSONKey].string
         postalAddress.city = json[LGProductUserParser.cityJSONKey].string
         postalAddress.zipCode = json[LGProductUserParser.zipCodeJSONKey].string
+        postalAddress.address = nil
         user.postalAddress = postalAddress
         
         if let isDummy = json[LGProductUserParser.isDummyJSONKey].bool {

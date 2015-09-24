@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (1.3.1)
-  - Amplitude-iOS (3.0.0)
+  - Amplitude-iOS (3.0.1)
   - Bolts (1.2.2):
     - Bolts/AppLinks (= 1.2.2)
     - Bolts/Tasks (= 1.2.2)
@@ -22,7 +22,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.6.0):
     - FBSDKCoreKit
-  - LGCoreKit (0.12.1):
+  - LGCoreKit (0.13.1):
     - Alamofire (~> 1.3)
     - FBSDKCoreKit (~> 4.1)
     - Parse (= 1.7.5.3)
@@ -64,7 +64,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 3.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - FBSDKShareKit (~> 4.1)
-  - LGCoreKit (= 0.12.1)
+  - LGCoreKit (= 0.13.1)
   - NewRelicAgent (= 5.2.2)
   - Nimble (~> 0.4.2)
   - Parse (= 1.7.5.3)
@@ -76,14 +76,14 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: e4ab637e3195b645c814b87a652373439e59f2a4
-  Amplitude-iOS: 07875b822c2c935ea7f8021830d375ed4d812d31
+  Amplitude-iOS: 4016a201afba201865b4c84d23df0d49ed13d5a6
   Bolts: 20a2bd788273360cb1e31530dc19b8544eef2544
   Box: a92e8aa4c099e6bc0733829665caf9e668ef53b8
   CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
   FBSDKCoreKit: 9954492d90c5fd65ae831395697a1660360d61f1
   FBSDKLoginKit: 3d07febbfa884b9878cacba54f705bb41f07d4b6
   FBSDKShareKit: f474f1123791e215d0299b98b3ee92ddd9187d86
-  LGCoreKit: bbb6aaa88c8a98cf19031f6392dd95a511777c71
+  LGCoreKit: 413d3af4b123d75d102eaa0514284e6cfbc3f3a3
   NewRelicAgent: ab64e8cf418a75185d52c1b2257933846fe496de
   Nimble: 49b7a7da8919f42823d37c6d68cc6d15a7009f32
   Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881

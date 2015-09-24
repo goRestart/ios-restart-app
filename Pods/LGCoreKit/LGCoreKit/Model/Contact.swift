@@ -14,7 +14,4 @@
     var message: String? { get set }
     
     var user: User? { get set }
-    
-    var processed: NSNumber? { get set }
-    
 }

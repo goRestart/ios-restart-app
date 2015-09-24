@@ -9,27 +9,27 @@
 import CoreLocation
 import FBSDKShareKit
 import LGCoreKit
-import Parse
 import Result
 
 public protocol ProductViewModelDelegate: class {
     
     func viewModelDidUpdate(viewModel: ProductViewModel)
     
-    func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel)
+//    func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel)
     func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsFavourite(viewModel: ProductViewModel)
 
-    func viewModelDidStartRetrievingReported(viewModel: ProductViewModel)
+//    func viewModelDidStartRetrievingReported(viewModel: ProductViewModel)
+    
+    func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel)
+
     func viewModelDidStartReporting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
     func viewModelDidCompleteReporting(viewModel: ProductViewModel)
+    func viewModelDidFailReporting(viewModel: ProductViewModel)
     
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishDeleting result: Result<Nil, ProductDeleteServiceError>)
-    
-    func viewModelDidStartAskingQuestion(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishAskingQuestion viewController: UIViewController?)
     
     func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: Result<Product, ProductMarkSoldServiceError>)
@@ -321,18 +321,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         self.product = product
         
         // Manager
-        let productSaveService = PAProductSaveService()
-        let fileUploadService = PAFileUploadService()
-        let productSynchronizeService = LGProductSynchronizeService()
-        let productDeleteService = LGProductDeleteService()
-        let productMarkSoldService = PAProductMarkSoldService()
-        let productFavouriteRetrieveService = PAProductFavouriteRetrieveService()
-        let productFavouriteSaveService = PAProductFavouriteSaveService()
-        let productFavouriteDeleteService = PAProductFavouriteDeleteService()
-        let productReportRetrieveService = PAProductReportRetrieveService()
-        let productReportSaveService = PAProductReportSaveService()
-
-        self.productManager = ProductManager(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteRetrieveService: productFavouriteRetrieveService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productReportRetrieveService: productReportRetrieveService, productReportSaveService: productReportSaveService)
+        self.productManager = ProductManager()
         self.tracker = TrackerProxy.sharedInstance
         
         super.init()
@@ -346,26 +335,19 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     internal override func didSetActive(active: Bool) {
         
         if active {
-            // Update favourite
-            delegate?.viewModelDidStartRetrievingFavourite(self)
-            productManager.retrieveFavourite(product) { [weak self] (result: Result<ProductFavourite, ProductFavouriteRetrieveServiceError>) -> Void in
-                if let strongSelf = self {
-                    // Update the flag
-                    strongSelf.isFavourite = (result.value != nil)
-                    
-                    // Notify the delegate
-                    strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
-                }
-            }
+            delegate?.viewModelDidStartRetrievingUserProductRelation(self)
             
-            // Update reported
-            delegate?.viewModelDidStartRetrievingReported(self)
-            productManager.retrieveReport(product) { [weak self] (result: Result<ProductReport, ProductReportRetrieveServiceError>) -> Void in
+            productManager.retrieveUserProductRelation(product) { [weak self] (result: Result<UserProductRelation, UserProductRelationServiceError>) -> Void in
+                
                 if let strongSelf = self {
-                    // Update the flag
-                    strongSelf.isReported = (result.value != nil)
-                    
-                    // Notify the delegate
+                    if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
+                        strongSelf.isFavourite = favorited
+                        strongSelf.isReported = reported
+                        
+                        strongSelf.product.favorited = NSNumber(bool: favorited)
+                        strongSelf.product.reported = NSNumber(bool: reported)
+                    }
+                    strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
                     strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
                 }
             }
@@ -421,6 +403,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func imageURLAtIndex(index: Int) -> NSURL? {
         return product.images[index].fileURL
+    }
+    
+    public func imageTokenAtIndex(index: Int) -> String? {
+        return product.images[index].token
     }
     
     // MARK: > Share
@@ -500,9 +486,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                     
                     // Run completed
                     strongSelf.reportCompleted()
+                    // Notify the delegate
+                    strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
+                } else {
+                    let failure = result.error ?? .Internal
+                    strongSelf.delegate?.viewModelDidFailReporting(strongSelf)
                 }
-                // Notify the delegate
-                strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
+                
             }
         }
     }
@@ -542,39 +532,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public func askStarted() {
     }
     
-    public func ask() {
-        delegate?.viewModelDidStartAskingQuestion(self)
-        
-        if let productUser = product.user {
-
-            // Retrieve the conversation
-            ChatManager.sharedInstance.retrieveMyConversationWithUser(productUser, aboutProduct: product) { [weak self] (success, conversation) -> Void in
-                if let strongSelf = self {
-                    
-                    // If we've the conversation
-                    if let actualConversation = conversation {
-                        strongSelf.askCompleted(actualConversation)
-                    }
-                    // Otherwise, we need to create it
-                    else {
-                        ChatManager.sharedInstance.createConversationWithUser(productUser, aboutProduct: strongSelf.product, completion: { (success, conversation) -> Void in
-
-                            // If we successfully created it
-                            if let actualConversation = conversation {
-                                strongSelf.askCompleted(actualConversation)
-                            }
-                            // Otherwise it's an error
-                            else {
-                                strongSelf.delegate?.viewModel(strongSelf, didFinishAskingQuestion: nil)
-                            }
-                        })
-                    }
-                }
-            }
-        }
-        else {
-            delegate?.viewModel(self, didFinishAskingQuestion: nil)
-        }
+    // TODO: Refactor when Chat is following MVVM
+    public func ask() -> UIViewController? {
+        return ChatViewController(product: product)
     }
     
     // MARK: > Mark as Sold
@@ -606,7 +566,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // MARK: - UpdateDetailInfoDelegate
     
-    public func updateDetailInfo(viewModel: EditSellProductViewModel) {
+    public func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct savedProduct: Product) {
+        product = savedProduct
         delegate?.viewModelDidUpdate(self)
     }
     
@@ -631,19 +592,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         tracker.trackEvent(trackerEvent)
     }
     
-    private func askCompleted(conversation: PFObject) {
-        // TODO: Needs refactor
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), { () -> Void in
-            let chatVC = ChatViewController()
-            chatVC.letgoConversation = LetGoConversation(parseConversationObject: conversation)
-            chatVC.askQuestion = true
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                delegate?.viewModel(self, didFinishAskingQuestion: chatVC)
-            })
-        })
-    }
-    
     private func saveFavouriteCompleted() {
         let trackerEvent = TrackerEvent.productFavorite(self.product, user: MyUserManager.sharedInstance.myUser())
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
@@ -651,4 +599,5 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     private func deleteFavouriteCompleted() {
     }
+    
 }

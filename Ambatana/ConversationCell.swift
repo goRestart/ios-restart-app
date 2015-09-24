@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
 import SDWebImage
 import UIKit
 
@@ -42,11 +43,11 @@ public class ConversationCell: UITableViewCell {
     
     // MARK: - Public methods
        
-    public func setupCellWithConversation(conversation: LetGoConversation, indexPath: NSIndexPath) {
+    public func setupCellWithChat(chat: Chat, indexPath: NSIndexPath) {
         let tag = indexPath.hash
     
         // thumbnail
-        if let thumbURL = NSURL(string: conversation.userAvatarURL) {
+        if let thumbURL = chat.product?.user?.avatar?.fileURL {
             thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo"), completed: {
                 [weak self] (image, error, cacheType, url) -> Void in
                 // tag check to prevent wrong image placement cos' of recycling
@@ -57,23 +58,39 @@ public class ConversationCell: UITableViewCell {
         }
         
         // product name
-        productLabel.text = conversation.productName
+        productLabel.text = chat.product?.name ?? ""
         
         // user name
-        userLabel.text = conversation.userName
+        userLabel.text = chat.product?.user?.publicUsername ?? ""
         
         // time / deleted
-        switch conversation.productStatus {
-        case .Deleted:
-            timeLabel.text = NSLocalizedString("common_product_deleted", comment: "")
-        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-            timeLabel.text = conversation.lastUpdated.relativeTimeString()
+        var timeLabelValue: String = ""
+        if let productStatus = chat.product?.status {
+            switch productStatus {
+            case .Deleted:
+                timeLabelValue = NSLocalizedString("common_product_deleted", comment: "")
+            case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+                if let lastUpdated = chat.updatedAt {
+                    timeLabelValue = lastUpdated.relativeTimeString()
+                }
+            }
         }
+        timeLabel.text = timeLabelValue
         
         // badge
-        if conversation.myUnreadMessages > 0 {
+        var badge: String? = nil
+        if let msgUnreadCount = chat.msgUnreadCount {
+            if msgUnreadCount.integerValue > 0 {
+                badge = msgUnreadCount.stringValue
+            }
+        }
+
+        if let actualBadge = badge {
             badgeView.hidden = false
-            badgeLabel.text = String(conversation.myUnreadMessages)
+            badgeLabel.text = actualBadge
+        }
+        else {
+            badgeView.hidden = true
         }
     }
     

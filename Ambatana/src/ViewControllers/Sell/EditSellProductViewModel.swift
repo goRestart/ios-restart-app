@@ -14,16 +14,17 @@ public protocol EditSellProductViewModelDelegate : class {
 }
 
 public protocol UpdateDetailInfoDelegate : class {
-    func updateDetailInfo(viewModel: EditSellProductViewModel)
+    func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct: Product)
 }
 
 public class EditSellProductViewModel: SellProductViewModel {
  
-    private var product: Product
+    private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
     
     public init(product: Product) {
-        self.product = product
+        
+        self.editedProduct = product
         super.init()
         
         if let name = product.name {
@@ -52,12 +53,12 @@ public class EditSellProductViewModel: SellProductViewModel {
     // MARK: - Public methods
     
     public override func save() {
-        super.saveProduct(product: product)
+        super.saveProduct(product: editedProduct)
     }
     
     public func loadPictures() {
         // Download the images
-        for (index, image) in enumerate(product.images) {
+        for (index, image) in enumerate(editedProduct.images) {
             if let imageURL = image.fileURL {
                 let imageManager = SDWebImageManager.sharedManager()
                 imageManager.downloadImageWithURL(imageURL, options: .allZeros, progress: nil) { [weak self] (image: UIImage!, _, _, _, _) -> Void in
@@ -76,47 +77,28 @@ public class EditSellProductViewModel: SellProductViewModel {
     internal override func trackStart() {
         super.trackStart()
         let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditStart(myUser, product: product)
+        let event = TrackerEvent.productEditStart(myUser, product: editedProduct)
         trackEvent(event)
     }
     
     
     internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
-        let message: String?
-        switch error {
-        case .NoImages:
-            message = "no images present"
-        case .NoTitle:
-            message = "no title"
-        case .NoPrice:
-            message = "invalid price"
-        case .NoDescription:
-            message = "no description"
-        case .LongDescription:
-            message = "description too long"
-        case .NoCategory:
-            message = "no category selected"
-        default:
-            message = nil
-        }
-        
-        if let actualMessage = message {
-            let myUser = MyUserManager.sharedInstance.myUser()
-            let event = TrackerEvent.productEditFormValidationFailed(myUser, product: product, description: actualMessage)
-            trackEvent(event)
-        }
-    }
-    
-    public override func trackSharedFB() {
-        super.trackSharedFB()
+
         let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditSharedFB(myUser, product: product)
+        let event = TrackerEvent.productEditFormValidationFailed(myUser, product: editedProduct, description: error.rawValue)
         trackEvent(event)
     }
     
-    internal override func trackComplete() {
-        super.trackComplete()
+    internal override func trackSharedFB() {
+        super.trackSharedFB()
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productEditSharedFB(myUser, product: savedProduct)
+        trackEvent(event)
+    }
+    
+    internal override func trackComplete(product: Product) {
+        super.trackComplete(product)
         let myUser = MyUserManager.sharedInstance.myUser()
         let event = TrackerEvent.productEditComplete(myUser, product: product, category: category)
         trackEvent(event)
@@ -133,7 +115,7 @@ public class EditSellProductViewModel: SellProductViewModel {
     
     // MARK: - Update info of previous VC
     
-    public func updateInfoOfPreviousVC() {
-        updateDetailDelegate?.updateDetailInfo(self)
+    public func updateInfoOfPreviousVCWithProduct(savedProduct: Product) {
+        updateDetailDelegate?.updateDetailInfo(self, withSavedProduct: savedProduct)
     }
 }

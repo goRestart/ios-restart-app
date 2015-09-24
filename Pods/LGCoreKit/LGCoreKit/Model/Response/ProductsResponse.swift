@@ -8,7 +8,4 @@
 
 @objc public protocol ProductsResponse {
     var products: NSArray { get }
-    var totalProducts: NSNumber { get }
-    var offset: NSNumber { get }
-    var lastPage: NSNumber { get }
 }

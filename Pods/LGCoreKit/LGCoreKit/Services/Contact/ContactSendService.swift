@@ -24,5 +24,5 @@ public protocol ContactSendService {
     :param: contact -> the contact (email, title, message...).
     :param: result The closure containing the result.
     */
-    func sendContact(contact: Contact, result: ContactSendServiceResult?)
+    func sendContact(contact: Contact, sessionToken: String, result: ContactSendServiceResult?)
 }

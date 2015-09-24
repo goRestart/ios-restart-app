@@ -9,6 +9,7 @@
 import CHTCollectionViewWaterfallLayout
 import LGCoreKit
 import Parse
+import Result
 import UIKit
 import SDWebImage
 
@@ -56,6 +57,9 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     @IBOutlet weak var startSearchingNowButton: UIButton!
     
     // data
+    
+    private let productsFavouriteRetrieveService: ProductsFavouriteRetrieveService
+    
     var user: User {
         didSet {
             shouldReload = true
@@ -78,6 +82,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     init(user: User) {
         self.user = user
         shouldReload = true
+        self.productsFavouriteRetrieveService = LGProductsFavouriteRetrieveService()
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
         hidesBottomBarWhenPushed = false
@@ -210,7 +215,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // cell size
-        let cellWidth = kLetGoFullScreenWidth * 0.50
+        let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.50
         let cellHeight = cellWidth * kLetGoEditProfileCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
     }
@@ -256,7 +261,12 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
     }
     
+    
+    
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+    }
+    
+    func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError) {
         
         if productListView == sellingProductListView {
             isSellProductsEmpty = productListView.isEmpty
@@ -279,6 +289,12 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
             loadingSellProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductImSelling)
+        }
+        else if productListView == soldProductListView {
+            isSoldProductsEmpty = productListView.isEmpty
+            loadingSoldProducts = false
+            
+            retrievalFinishedForProductsAtTab(.ProductISold)
         }
         else if productListView == soldProductListView {
             isSoldProductsEmpty = productListView.isEmpty
@@ -417,16 +433,26 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
 
                 // Retrieve the products
                 loadingFavProducts = true
-                self.retrieveFavouriteProductsForUserId(userId, completion: { [weak self] (products, error) -> Void in
+                
+                productsFavouriteRetrieveService.retrieveFavouriteProducts(user) { [weak self] (myResult: Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>) in
+                    
                     if let strongSelf = self {
-                        if let actualProducts = products {
-                            strongSelf.favProducts = actualProducts
+                        if let actualResult = myResult.value {
+                            // Success
+                            strongSelf.favProducts = actualResult.products as! [LGProduct]
                         }
+                        else {
+                            // Failure
+                            if let actualError = myResult.error {
+//                                result?(Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>.failure(actualError))
+                            }
+                        }
+                        
                         strongSelf.loadingFavProducts = false
                         strongSelf.favouriteCollectionView.reloadData()
-                        strongSelf.retrievalFinishedForProductsAtTab(tab)
+                        strongSelf.retrievalFinishedForProductsAtTab(tab)     
                     }
-                })
+                }
             }
         }
         else {
@@ -434,49 +460,9 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         }
     }
     
-//    func retrieveProductsForUserId(userId: String, statuses: [LetGoProductStatus], completion: (products: [PAProduct]!, error: NSError!) -> (Void)) {
-//        let user = PFObject(withoutDataWithClassName: PFUser.parseClassName(), objectId: userId)
-//        let query = PFQuery(className: PAProduct.parseClassName())
-//        query.whereKey("user", equalTo: user)
-//        // statuses
-//        var statusesIncluded: [Int] = []
-//        for status in statuses { statusesIncluded.append(status.rawValue) }
-//        
-//        //query.whereKey("status", equalTo: status.rawValue)
-//        query.whereKey("status", containedIn: statusesIncluded)
-//        query.includeKey("user")
-//        query.orderByDescending("createdAt")
-//        query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
-//            let products = objects as? [PAProduct]
-//            completion(products: products, error: error)
-//        })
-//    }
-    
-    func retrieveFavouriteProductsForUserId(userId: String?, completion: (favProducts: [PAProduct]!, error: NSError!) -> (Void)) {
-        let user = PFObject(withoutDataWithClassName: PFUser.parseClassName(), objectId: userId)
-        let query = PFQuery(className: "UserFavoriteProducts")
-        query.whereKey("user", equalTo: user)
-        query.includeKey("product")
-        query.includeKey("product.user")
-        query.orderByDescending("createdAt")
-        query.findObjectsInBackgroundWithBlock( { (objects, error) -> Void in
-            
-            var productList: [PAProduct] = []
-            if let favorites = objects as? [PFObject] {
-                for favorite in favorites {
-                    if let product = favorite["product"] as? PAProduct {
-                        // If deleted then do nothing, otherwise append it to the list
-                        switch product.status {
-                        case .Deleted:
-                            break
-                        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-                            productList.append(product)
-                        }
-                    }
-                }
-            }
-            completion(favProducts: productList, error: error)
-        })
+    func retrieveFavouriteProducts(user: User, result: ProductsFavouriteRetrieveServiceResult?) {
+        
+        productsFavouriteRetrieveService.retrieveFavouriteProducts(user, result: result)
     }
     
     

@@ -52,7 +52,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "CategoryCell")
         
         // cell size
-        let cellWidth = kLetGoFullScreenWidth * 0.50
+        let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.50
         let cellHeight = cellWidth * kLetGoCategoriesCellFactor
         cellSize = CGSizeMake(cellWidth, cellHeight)
         

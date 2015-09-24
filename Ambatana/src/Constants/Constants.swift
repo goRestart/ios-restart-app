@@ -24,4 +24,5 @@ struct Constants {
     static let websiteURL = "http://www.letgo.com"
     static let productURL = "\(Constants.websiteURL)/product/%@"
     static let whatsAppShareURL = "whatsapp://send?text=%@"
+    
 }

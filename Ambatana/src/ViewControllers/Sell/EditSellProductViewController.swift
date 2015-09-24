@@ -34,6 +34,10 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         
         sendButton.setTitle(NSLocalizedString("edit_product_send_button", comment: ""), forState: .Normal)
         categoryButton.setTitle(editViewModel.categoryName, forState: .Normal)
+        
+        self.setLetGoNavigationBarStyle(title: NSLocalizedString("edit_product_title", comment: "") ?? UIImage(named: "navbar_logo"))
+        var myBackButton = self.navigationItem.leftBarButtonItem
+
     }
     
     // MARK: - EditSellProductViewModelDelegate Methods
@@ -48,7 +52,9 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         self.editViewModel.shouldDisableTracking()
         super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
         
-        editViewModel.updateInfoOfPreviousVC()
+        if let savedProduct = result.value {
+            editViewModel.updateInfoOfPreviousVCWithProduct(savedProduct)
+        }
         
         self.showAutoFadingOutMessageAlert(NSLocalizedString("edit_product_send_ok", comment: "")) { () -> Void in
             self.navigationController?.popViewControllerAnimated(true)

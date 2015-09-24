@@ -244,9 +244,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         updateUI()
     }
     
-    public func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel) {
-        favoriteButton?.userInteractionEnabled = false
-    }
     
     public func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel) {
         favoriteButton?.userInteractionEnabled = false
@@ -257,9 +254,19 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         setFavouriteButtonAsFavourited(viewModel.isFavourite)
     }
     
-    public func viewModelDidStartRetrievingReported(viewModel: ProductViewModel) {
-        
+    
+    public func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel) {
+        favoriteButton?.userInteractionEnabled = false
     }
+
+    
+//    public func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel) {
+//        favoriteButton?.userInteractionEnabled = false
+//    }
+//
+//    public func viewModelDidStartRetrievingReported(viewModel: ProductViewModel) {
+//        
+//    }
 
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
         reportButton.enabled = false
@@ -279,6 +286,16 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         dismissLoadingMessageAlert(completion: completion)
     }
+    
+    public func viewModelDidFailReporting(viewModel: ProductViewModel) {
+        
+        var completion = {
+            self.showAutoFadingOutMessageAlert(NSLocalizedString("product_reported_error_generic", comment: ""), time: 3)
+        }
+        
+        dismissLoadingMessageAlert(completion: completion)
+        setReportButtonAsReported(viewModel.isReported)
+    }
 
     
     public func viewModelDidStartDeleting(viewModel: ProductViewModel) {
@@ -297,25 +314,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         else {
             completion = {
                 self.showAutoFadingOutMessageAlert(NSLocalizedString("product_delete_send_error_generic", comment: ""))
-            }
-        }
-        dismissLoadingMessageAlert(completion: completion)
-    }
-    
-    public func viewModelDidStartAskingQuestion(viewModel: ProductViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    public func viewModel(viewModel: ProductViewModel, didFinishAskingQuestion viewController: UIViewController?) {
-        let completion: () -> Void
-        if let actualVC = viewController {
-            completion = {
-                self.navigationController?.pushViewController(actualVC, animated: true)
-            }
-        }
-        else {
-            completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
             }
         }
         dismissLoadingMessageAlert(completion: completion)
@@ -378,9 +376,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         productStatusLabel.layer.cornerRadius = 18
         productStatusLabel.layer.masksToBounds = true
         
-        productStatusShadow.layer.shadowColor = UIColor.grayColor().CGColor
+        productStatusShadow.layer.shadowColor = UIColor.blackColor().CGColor
         productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
-        productStatusShadow.layer.shadowOpacity = 1
+        productStatusShadow.layer.shadowOpacity = 0.8
         productStatusShadow.layer.shadowRadius = 8.0
 
         userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
@@ -623,8 +621,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         }
     }
 
+    // TODO: Refactor to retrieve a viewModel and build an VC, when ChatVC is switched to MVVM
     private func ask() {
-        viewModel.ask()
+        if let vc = viewModel.ask() {
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
+        }
     }
     
     // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM

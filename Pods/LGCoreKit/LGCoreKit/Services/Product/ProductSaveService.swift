@@ -8,15 +8,15 @@
 
 import Result
 
-public enum ProductSaveServiceError {
-    case Network
-    case Internal
-    case NoImages
-    case NoTitle
-    case NoPrice
-    case NoDescription
-    case LongDescription
-    case NoCategory
+public enum ProductSaveServiceError: String {
+    case Network = "network"
+    case Internal = "internal"
+    case NoImages = "no images present"
+    case NoTitle  = "no title"
+    case NoPrice = "invalid price"
+    case NoDescription = "no description"
+    case LongDescription = "description too long"
+    case NoCategory = "no category selected"
 }
 
 public typealias ProductSaveServiceResult = (Result<Product, ProductSaveServiceError>) -> Void
@@ -30,6 +30,6 @@ public protocol ProductSaveService {
         :param: user the user
         :param: result The closure containing the result.
     */
-    
-    func saveProduct(product: Product, forUser user: User, result: ProductSaveServiceResult?)
+    // TODO: Change this user to user_id
+    func saveProduct(product: Product, forUser user: User, sessionToken: String, result: ProductSaveServiceResult?)
 }
