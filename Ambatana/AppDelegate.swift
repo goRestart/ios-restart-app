@@ -65,6 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
@@ -115,6 +116,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PushManager.sharedInstance.application(application, didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
     }
     
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        PushManager.sharedInstance.application(application, didFailToRegisterForRemoteNotificationsWithError: error)
+    }
+    
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo, notActiveCompletion: { [weak self] (type) -> Void in
             if type == .Offer || type == .Message {
@@ -125,6 +130,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            }
         })
     }
+    
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        
+    }
+
     
     // MARK: - Private methods
     
@@ -167,6 +177,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+    
     // FIXME: Legacy...
     
 //    private func showMarketingAlertWithNotificationMessage(message: String) {

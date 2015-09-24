@@ -16,7 +16,7 @@ import Kahuna
     case Offer = 0, Message = 1, Marketing = 2
 }
 
-public class PushManager {
+public class PushManager: NSObject, KahunaDelegate {
 
     // Constants & enum
     enum Notification: String {
@@ -34,12 +34,13 @@ public class PushManager {
     
     // MARK: - Lifecycle
     
-    public init() {
+    public override init() {
         unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
         
+        super.init()
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "login:", name: MyUserManager.Notification.login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: MyUserManager.Notification.logout.rawValue, object: nil)
-
     }
     
     deinit {
@@ -73,6 +74,9 @@ public class PushManager {
     }
     
     public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], notActiveCompletion: (PushNotificationType) -> Void) {
+        
+        Kahuna.handleNotification(userInfo, withApplicationState: UIApplication.sharedApplication().applicationState);
+        
         if let type = getNotificationType(userInfo) {
             notifyDidReceiveRemoteNotificationType(type, userInfo: userInfo)
 
@@ -97,14 +101,21 @@ public class PushManager {
         }
         else {
             PFPush.handlePush(userInfo)
-            
-            
         }
     }
     
     public func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         // Save the installation with the received device token
         MyUserManager.sharedInstance.saveInstallationDeviceToken(deviceToken)
+        Kahuna.setDeviceToken(deviceToken);
+    }
+    
+    public func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        Kahuna.handleNotificationRegistrationFailure(error);
+    }
+    
+    public func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        Kahuna.handleNotification(userInfo, withActionIdentifier: identifier, withApplicationState: UIApplication.sharedApplication().applicationState);
     }
     
     /**
@@ -156,11 +167,14 @@ public class PushManager {
     // MARK: - Private methods
     
     private func setupKahuna() {
+//        Kahuna.setDeepIntegrationMode(1)
+//        Kahuna.sharedInstance().delegate = self
+        
         Kahuna.launchWithKey(EnvironmentProxy.sharedInstance.kahunaAPIKey);
+
     }
     
     private func setupUrbanAirship() {
-        
         
         let config = UAConfig.defaultConfig()
         config.developmentAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
@@ -279,5 +293,34 @@ public class PushManager {
             }
         }
         return unreadMessagesCount
+    }
+    
+    // - KAHUNA Delegate Method:
+    
+    public func kahunaPushMessageReceived(message: String!, withDictionary extras: [NSObject : AnyObject]!, withApplicationState applicationState: UIApplicationState) {
+
+        NSLog("Received Push from Kahuna!");
+        
+        // Check on the applicationState before deep-linking into the app
+        // Push received when app is in Foreground should not take users to specific view via DeepLinking.
+        // Non view navigation code can still be performed when Push is received with app in foreground.
+        
+        if (extras["url"] != nil) {
+            if (applicationState != UIApplicationState.Active) {
+                // Deep link into the app.
+            } else {
+                // Push came when the app is in Foreground. You can show an UIAlertView dialog with the message.
+                // When the user clicks on the "OK" button, Deep link into the app.
+            }
+        }
+        
+        // For iOS8 actionable push notifications we will send the selected action in this callback.
+        // Actionable push notifications does not need the applicationState check as the user cannot
+        // take an action when the app in foreground.
+        
+        if (extras["k_action_identifier"] != nil) {
+            var pushAction : AnyObject = extras["k_action_identifier"]!;
+            // Act on the pushAction to perform actions for the user.
+        }
     }
 }

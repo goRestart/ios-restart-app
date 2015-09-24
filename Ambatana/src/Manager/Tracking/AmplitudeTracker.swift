@@ -36,6 +36,10 @@ public class AmplitudeTracker: Tracker {
         
     }
     
+    public func applicationDidEnterBackground(application: UIApplication) {
+        
+    }
+    
     public func applicationWillEnterForeground(application: UIApplication) {
         
     }

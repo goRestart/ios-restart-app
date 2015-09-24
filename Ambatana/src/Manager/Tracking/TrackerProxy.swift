@@ -12,7 +12,7 @@ import CoreLocation
 public class TrackerProxy: Tracker {
     
     // Constants
-    private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(), GoogleTracker(), NanigansTracker(), UrbanAirshipTracker()]
+    private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(), GoogleTracker(), NanigansTracker(), UrbanAirshipTracker(), KahunaTracker()]
     
     // iVars
     public var trackers: [Tracker] = []
@@ -40,10 +40,17 @@ public class TrackerProxy: Tracker {
         }
     }
     
+    public func applicationDidEnterBackground(application: UIApplication) {
+        for tracker in trackers {
+            tracker.applicationDidEnterBackground(application)
+        }
+    }
+
     public func applicationWillEnterForeground(application: UIApplication) {
         for tracker in trackers {
             tracker.applicationWillEnterForeground(application)
         }
+        
     }
     
     public func applicationDidBecomeActive(application: UIApplication) {

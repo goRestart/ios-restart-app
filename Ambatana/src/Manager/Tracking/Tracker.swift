@@ -11,6 +11,7 @@ import LGCoreKit
 public protocol Tracker {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?)
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?)
+    func applicationDidEnterBackground(application: UIApplication)
     func applicationWillEnterForeground(application: UIApplication)
     func applicationDidBecomeActive(application: UIApplication)
     func setUser(user: User?)
