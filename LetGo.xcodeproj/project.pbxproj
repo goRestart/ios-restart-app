@@ -11,6 +11,7 @@
 		2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF431B580E4600747610 /* ContactViewModel.swift */; };
 		2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF451B580E5900747610 /* ContactViewController.swift */; };
 		2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1CFF491B58212C00747610 /* ContactViewController.xib */; };
+		2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E93FBE91B666A1400C97927 /* SellProductCell.swift */; };
 		2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E93FBEA1B666A1400C97927 /* SellProductCell.xib */; };
@@ -220,6 +221,7 @@
 		2E1CFF431B580E4600747610 /* ContactViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewModel.swift; path = Contact/ContactViewModel.swift; sourceTree = "<group>"; };
 		2E1CFF451B580E5900747610 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewController.swift; path = Contact/ContactViewController.swift; sourceTree = "<group>"; };
 		2E1CFF491B58212C00747610 /* ContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactViewController.xib; path = Contact/ContactViewController.xib; sourceTree = "<group>"; };
+		2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KahunaTracker.swift; sourceTree = "<group>"; };
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		2E93FBE91B666A1400C97927 /* SellProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductCell.swift; path = Sell/SellProductCell.swift; sourceTree = "<group>"; };
 		2E93FBEA1B666A1400C97927 /* SellProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SellProductCell.xib; path = Sell/SellProductCell.xib; sourceTree = "<group>"; };
@@ -557,8 +559,8 @@
 			children = (
 				50261B1C1AFB48C6006E88E0 /* AppEnvironment.swift */,
 				50261B1E1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift */,
-				50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */,
 				50261B201AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift */,
+				50261B221AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift */,
 			);
 			path = Environment;
 			sourceTree = "<group>";
@@ -699,6 +701,7 @@
 				50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */,
 				50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */,
 				50C9E4BE1B721FBB001E4E92 /* GoogleTracker.swift */,
+				2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */,
 				50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */,
 				2EE0011A1B8C630A00B1D774 /* UrbanAirshipTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
@@ -1495,6 +1498,7 @@
 				D4BFE5B91B640E26006A8CB6 /* ProfileProductListView.swift in Sources */,
 				508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */,
 				66C056D71A97900800F7EEA8 /* PlaceholderTextView.swift in Sources */,
+				2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */,
 				50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */,
 				2EE5EEE71B5E759F0056BF76 /* ChangeUsernameViewModel.swift in Sources */,
 				6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */,

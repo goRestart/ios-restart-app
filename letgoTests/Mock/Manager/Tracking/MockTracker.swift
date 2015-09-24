@@ -13,6 +13,7 @@ internal class MockTracker: Tracker {
     
     var didFinishLaunchingWithOptionsBlock: (Tracker -> ())?
     var openURLBlock: (Tracker -> ())?
+    var didEnterBackground: (Tracker -> ())?
     var willEnterForegroundBlock: (Tracker -> ())?
     var didBecomeActiveBlock: (Tracker -> ())?
     var setUserBlock: (Tracker -> ())?
@@ -27,6 +28,10 @@ internal class MockTracker: Tracker {
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
         openURLBlock?(self)
+    }
+    
+    func applicationDidEnterBackground(application: UIApplication) {
+        didEnterBackground?(self)
     }
     
     func applicationWillEnterForeground(application: UIApplication) {

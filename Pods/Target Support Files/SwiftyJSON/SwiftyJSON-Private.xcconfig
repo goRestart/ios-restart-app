@@ -1,6 +1,6 @@
 #include "SwiftyJSON.xcconfig"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/SwiftyJSON" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/NewRelicAgent" "${PODS_ROOT}/Headers/Public/NewRelicAgent/NewRelicAgent"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/SwiftyJSON" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/Kahuna" "${PODS_ROOT}/Headers/Public/Kahuna/Kahuna" "${PODS_ROOT}/Headers/Public/NewRelicAgent" "${PODS_ROOT}/Headers/Public/NewRelicAgent/NewRelicAgent"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_ROOT = ${SRCROOT}
 SKIP_INSTALL = YES

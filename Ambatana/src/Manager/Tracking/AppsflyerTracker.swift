@@ -41,6 +41,10 @@ public class AppsflyerTracker: Tracker {
         AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication, withAnnotaion: annotation)
     }
     
+    public func applicationDidEnterBackground(application: UIApplication) {
+        
+    }
+    
     public func applicationWillEnterForeground(application: UIApplication) {
         
     }

@@ -10,13 +10,14 @@ import LGCoreKit
 import Parse
 import Result
 import UrbanAirship_iOS_SDK
+import Kahuna
 
 
 @objc public enum PushNotificationType: Int {
     case Offer = 0, Message = 1, Marketing = 2
 }
 
-public class PushManager {
+public class PushManager: NSObject, KahunaDelegate {
 
     // Constants & enum
     enum Notification: String {
@@ -37,12 +38,17 @@ public class PushManager {
     
     // MARK: - Lifecycle
     
-    public init(installationSaveService: InstallationSaveService) {
+    public required init(installationSaveService: InstallationSaveService) {
         self.installationSaveService = installationSaveService
         unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
+        
+        super.init()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "login:", name: MyUserManager.Notification.login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: MyUserManager.Notification.logout.rawValue, object: nil)
     }
     
-    public convenience init() {
+    public convenience override init() {
         let installationSaveService = PAInstallationSaveService()
         self.init(installationSaveService: installationSaveService)
     }
@@ -60,6 +66,11 @@ public class PushManager {
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
+        
+        setupUrbanAirship()
+        
+        setupKahuna()
+
     }
     
     public func application(application: UIApplication, didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) {
@@ -73,6 +84,9 @@ public class PushManager {
     }
     
     public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], notActiveCompletion: (PushNotificationType) -> Void) {
+        
+        Kahuna.handleNotification(userInfo, withApplicationState: UIApplication.sharedApplication().applicationState);
+        
         if let type = getNotificationType(userInfo) {
             notifyDidReceiveRemoteNotificationType(type, userInfo: userInfo)
             
@@ -95,14 +109,21 @@ public class PushManager {
         }
         else {
             PFPush.handlePush(userInfo)
-            
-            
         }
     }
     
     public func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         // Save the installation with the received device token
         MyUserManager.sharedInstance.saveInstallationDeviceToken(deviceToken)
+        Kahuna.setDeviceToken(deviceToken);
+    }
+    
+    public func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        Kahuna.handleNotificationRegistrationFailure(error);
+    }
+    
+    public func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        Kahuna.handleNotification(userInfo, withActionIdentifier: identifier, withApplicationState: UIApplication.sharedApplication().applicationState);
     }
     
     /**
@@ -134,11 +155,23 @@ public class PushManager {
     }
     
     
-    public func setupUrbanAirship() {
+    public func updateUrbanAirshipNamedUser(user: User?) {
+        UAirship.push()!.namedUser.identifier = user?.objectId
+    }
+    
+    
+    // MARK: - Private methods
+    
+    private func setupKahuna() {
+//        Kahuna.setDeepIntegrationMode(1)
+//        Kahuna.sharedInstance().delegate = self
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUrbanAirshipNamedUserFromNotification:", name: MyUserManager.Notification.logout.rawValue, object: nil)
+        Kahuna.launchWithKey(EnvironmentProxy.sharedInstance.kahunaAPIKey);
 
+    }
+    
+    private func setupUrbanAirship() {
+        
         let config = UAConfig.defaultConfig()
         config.developmentAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
         config.developmentAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
@@ -154,16 +187,33 @@ public class PushManager {
         UAirship.push()!.userPushNotificationsEnabled = true
     }
     
-    public func updateUrbanAirshipNamedUser(user: User?) {
-        UAirship.push()!.namedUser.identifier = user?.objectId
+    dynamic private func login(notification: NSNotification) {
+        if let user = notification.object as? User {
+            updateUrbanAirshipNamedUser(user)
+            
+            let uc = Kahuna.createUserCredentials()
+            var loginError: NSError?
+            if let userId = user.objectId {
+//                uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
+                uc.addCredential("user_id", withValue: userId)
+            }
+            if let email = user.email {
+//                uc.addCredential(KAHUNA_CREDENTIAL_EMAIL, withValue: email)
+                uc.addCredential("email", withValue: email)
+            }
+            Kahuna.loginWithCredentials(uc, error: &loginError)
+            if (loginError != nil) {
+                print("Login Error : \(loginError!.localizedDescription)")
+            }
+        }
+        
     }
     
-    
-    // MARK: - Private methods
-    
-    dynamic private func updateUrbanAirshipNamedUserFromNotification(notification: NSNotification) {
+    dynamic private func logout(notification: NSNotification) {
         updateUrbanAirshipNamedUser(notification.object as? User)
+        Kahuna.logout()
     }
+    
     
     // MARK: > NSNotificationCenter
     
@@ -240,4 +290,5 @@ public class PushManager {
         }
         return unreadMessagesCount
     }
+
 }
