@@ -1,4 +1,4 @@
-"categories_baby_and_child" = "ベビーと子供用品";
+"categories_baby_and_child" = "ベビー・子供用品";
 "categories_cars_and_motors" = "自動車と車関連";
 "categories_electronics" = "電気製品";
 "categories_fashion_and_accessories" = "ファッションとアクセサリー";
@@ -89,6 +89,7 @@
 "forced_update_message" = "letgoの新バージョンが使用可能です。今すぐ更新してください。";
 "forced_update_title" = "更新可能";
 "forced_update_update_button" = "更新";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "住所を記入する";
 "indicate_location_address_search_error_generic" = "住所を見つけることができませんでした。もう一度やり直してください。";
 "indicate_location_long_press_tip_label" = "または、あなたの居る場所を押し続けてください";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "商品報告";
 "product_report_product_button" = "商品の報告";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "商品は正常に報告されました。";
 "product_reported_success_message" = "商品は無事に報告されました。";
 "product_reporting_loading_message" = "商品報告中…";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "プロフィール画像の設定中。しばらくお待ちください…";
 "settings_change_username_button" = "名前";
 "settings_contact_us_button" = "お問い合わせ";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "カメラ";
 "settings_image_source_camera_roll_button" = "フォトライブラリー";
 "settings_image_source_cancel_button" = "キャンセル";

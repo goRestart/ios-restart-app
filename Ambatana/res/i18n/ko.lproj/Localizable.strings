@@ -89,6 +89,7 @@
 "forced_update_message" = "새로운 버전의 렛고가 있습니다. 지금 업데이트 하세요.";
 "forced_update_title" = "업데이트 사용가능";
 "forced_update_update_button" = "업데이트";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "주소를 입력하세요";
 "indicate_location_address_search_error_generic" = "위치를 찾는데 실패했습니다. 다시 시도해주세요.";
 "indicate_location_long_press_tip_label" = "혹은 고객님의 위치를 터치해주세요";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "예";
 "product_report_confirm_title" = "제품 신고";
 "product_report_product_button" = "제품 신고하기";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "신고가 접수된 제품입니다";
 "product_reported_success_message" = "제품이 성공적으로 신고되었습니다.   감사합니다!";
 "product_reporting_loading_message" = "제품 신고하기...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "프로필사진을 등록중입니다. 잠시만 기다려주세요...";
 "settings_change_username_button" = "이름";
 "settings_contact_us_button" = "문의하기";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "카메라";
 "settings_image_source_camera_roll_button" = "앨범에서 이미지 선택";
 "settings_image_source_cancel_button" = "취소";
@@ -252,4 +255,4 @@
 "sign_up_send_error_invalid_username" = "%d자 이상 등록 가능한 이름을 입력해 주세요";
 "sign_up_title" = "회원가입";
 "sign_up_username_field_hint" = "이름";
-"tab_bar_tool_tip" = "고객님의 물건을 판매해보세요";
+"tab_bar_tool_tip" = "고객님의 물건을 판매하세요";

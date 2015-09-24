@@ -271,6 +271,9 @@
 // Forced update appstore button.
 "forced_update_update_button" = "Update";
 
+// Help title.
+"help_title" = "Help";
+
 // Indicate location address field hint. Check attached image "indicate_location.png"
 "indicate_location_address_field_hint" = "Write your address";
 
@@ -323,7 +326,7 @@
 "main_sign_up_claim_label" = "Start to sell, buy and chat";
 
 // Main sign up contact us button. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_contact_us_button" = "Contact us";
+"main_sign_up_contact_us_button" = "Need help?";
 
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_facebook_connect_button" = "Connect with Facebook";
@@ -494,7 +497,7 @@
 "product_reported_success_message" = "The product was reported successfully. Thanks!";
 
 // Product reported fail message. Message displayal is like the other dialog messages
-"product_reported_error_generic" = "We couldn't report the product at the time.  Please try again later.";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
@@ -714,6 +717,9 @@
 
 // Settings contact us button. Check attached image @ "settings_change_password_button" segment
 "settings_contact_us_button" = "Contact us";
+
+// Settings help button. Check attached image @ "settings_change_password_button" segment
+"settings_help_button" = "Help";
 
 // Settings image source camera button. Check attached image "settings_change_profile_picture.png"
 "settings_image_source_camera_button" = "Camera";

@@ -89,6 +89,7 @@
 "forced_update_message" = "Đã có phiên bản letgo mới. Hãy tải xuống ngay bây giờ.";
 "forced_update_title" = "Có bản cập nhật mới";
 "forced_update_update_button" = "Cập nhật";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Nhập địa chỉ của bạn";
 "indicate_location_address_search_error_generic" = "Tôi không thể tìm thấy vị trí của bạn. Xin vui lòng thử lại.";
 "indicate_location_long_press_tip_label" = "Hoặc nhấn vào địa điểm của bạn";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Báo cáo Sản phẩm";
 "product_report_product_button" = "Báo cáo Sản phẩm";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Sản phẩm đã được báo cáo thành công";
 "product_reported_success_message" = "Sản phẩm đã được báo cáo thành công. Xin cảm ơn!";
 "product_reporting_loading_message" = "Đang báo cáo sản phẩm...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Đang cài đặt hình ảnh hồ sơ của bạn, xin chờ...";
 "settings_change_username_button" = "Tên";
 "settings_contact_us_button" = "Liên hệ";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Máy ảnh";
 "settings_image_source_camera_roll_button" = "Thư viện hình ảnh";
 "settings_image_source_cancel_button" = "Hủy";

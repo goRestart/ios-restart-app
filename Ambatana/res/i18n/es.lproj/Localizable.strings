@@ -1,5 +1,5 @@
 "categories_baby_and_child" = "Niños y Bebés";
-"categories_cars_and_motors" = "Coches y Motor";
+"categories_cars_and_motors" = "Coches y Motos";
 "categories_electronics" = "Electrónica";
 "categories_fashion_and_accessories" = "Moda y Accesorios";
 "categories_home_and_garden" = "Hogar y Jardín";
@@ -89,6 +89,7 @@
 "forced_update_message" = "Está disponible una nueva versión de letgo. Por favor, actualiza ahora.";
 "forced_update_title" = "Actualización disponible";
 "forced_update_update_button" = "Actualizar";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Escribe tu dirección";
 "indicate_location_address_search_error_generic" = "¡Ups! No hemos podido encontrar tu ubicación. Prueba otra vez.";
 "indicate_location_long_press_tip_label" = "O pulsa durante unos segundos sobre tu ubicación";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Denunciar Artículo";
 "product_report_product_button" = "Denunciar artículo";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Tu denuncia ha sido enviada con éxito";
 "product_reported_success_message" = "El artículo fue denunciado con éxito. ¡Gracias!";
 "product_reporting_loading_message" = "Denunciando el artículo...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Estamos actualizando la foto de tu perfil, espera...";
 "settings_change_username_button" = "Nombre";
 "settings_contact_us_button" = "Contáctanos";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Cámara";
 "settings_image_source_camera_roll_button" = "Galería";
 "settings_image_source_cancel_button" = "Cancelar";

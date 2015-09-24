@@ -36,9 +36,9 @@
 "chat_list_title" = "Keskustelut";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
-"chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
-"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
-"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_tip_1" = "Kun sopimus on sinetöity, tavatkaa henkilökohtaisesti ja maksa käteisellä.";
+"chat_safety_tips_tip_2" = "Sano ei maksumääräyksille, tilisiirroille tai pankkishekeille.";
+"chat_safety_tips_tip_3" = "Jos päätät lähettää, ole fiksu ja intuitiivinen!";
 "chat_safety_tips_title" = "Vinkkejä";
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
@@ -89,6 +89,7 @@
 "forced_update_message" = "Letgon uusi versio on saatavilla. Ole hyvä ja päivitä nyt.";
 "forced_update_title" = "Päivitys saatavilla";
 "forced_update_update_button" = "Päivitä";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Kirjoita osoitteesi";
 "indicate_location_address_search_error_generic" = "En löytänyt sijaintia. Ole hyvä, ja yritä uudelleen.";
 "indicate_location_long_press_tip_label" = "Tai paina sormella sijaintiasi";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Ilmianna tuote";
 "product_report_product_button" = "Tee ilmoitus tuotteesta";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Tuote ilmiannettiin onnistuneesti";
 "product_reported_success_message" = "Tuote ilmiannettiin onnistuneesti.  Kiitos!";
 "product_reporting_loading_message" = "Ilmiannetaan tuotetta...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Profiilikuvaasi asetetaan, ole hyvä ja odota...";
 "settings_change_username_button" = "Nimi";
 "settings_contact_us_button" = "Ota meihin yhteyttä";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Kuvakirjasto";
 "settings_image_source_cancel_button" = "Peruuta";

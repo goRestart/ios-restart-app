@@ -89,6 +89,7 @@
 "forced_update_message" = "Eine neue Version von letgo ist verfügbar. Bitte aktualisiere sie jetzt.";
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
+"help_title" = "Help";
 "indicate_location_address_field_hint" = "Gib deine Adresse ein";
 "indicate_location_address_search_error_generic" = "Ich konnte den Standort nicht finden. Bitte versuche es erneut.";
 "indicate_location_long_press_tip_label" = "Oder halte deinen Finger auf deinem Standort gedrückt";
@@ -159,6 +160,7 @@
 "product_report_confirm_ok_button" = "Ok";
 "product_report_confirm_title" = "Produkt melden";
 "product_report_product_button" = "Produkt melden";
+"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Das Produkt wurde erfolgreich gemeldet";
 "product_reported_success_message" = "Das Produkt wurde erfolgreich gemeldet.  Danke!";
 "product_reporting_loading_message" = "Melde Produkt...";
@@ -236,6 +238,7 @@
 "settings_change_profile_picture_loading" = "Dein Profilbild wird eingerichtet, bitte warten...";
 "settings_change_username_button" = "Name";
 "settings_contact_us_button" = "Schreib uns";
+"settings_help_button" = "Help";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Fotoarchiv";
 "settings_image_source_cancel_button" = "Abbrechen";
@@ -252,4 +255,4 @@
 "sign_up_send_error_invalid_username" = "Bitte gib einen gültigen Namen mit mindestens %d Zeichen ein";
 "sign_up_title" = "Registrieren";
 "sign_up_username_field_hint" = "Vollständiger Name";
-"tab_bar_tool_tip" = "Verkaufen";
+"tab_bar_tool_tip" = "Verkaufe deine Dinge";
