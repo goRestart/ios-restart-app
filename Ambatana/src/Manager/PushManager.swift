@@ -290,33 +290,5 @@ public class PushManager: NSObject, KahunaDelegate {
         }
         return unreadMessagesCount
     }
-    
-    // - KAHUNA Delegate Method:
-    
-    public func kahunaPushMessageReceived(message: String!, withDictionary extras: [NSObject : AnyObject]!, withApplicationState applicationState: UIApplicationState) {
 
-        NSLog("Received Push from Kahuna!");
-        
-        // Check on the applicationState before deep-linking into the app
-        // Push received when app is in Foreground should not take users to specific view via DeepLinking.
-        // Non view navigation code can still be performed when Push is received with app in foreground.
-        
-        if (extras["url"] != nil) {
-            if (applicationState != UIApplicationState.Active) {
-                // Deep link into the app.
-            } else {
-                // Push came when the app is in Foreground. You can show an UIAlertView dialog with the message.
-                // When the user clicks on the "OK" button, Deep link into the app.
-            }
-        }
-        
-        // For iOS8 actionable push notifications we will send the selected action in this callback.
-        // Actionable push notifications does not need the applicationState check as the user cannot
-        // take an action when the app in foreground.
-        
-        if (extras["k_action_identifier"] != nil) {
-            var pushAction : AnyObject = extras["k_action_identifier"]!;
-            // Act on the pushAction to perform actions for the user.
-        }
-    }
 }
