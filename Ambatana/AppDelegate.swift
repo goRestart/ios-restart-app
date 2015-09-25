@@ -50,7 +50,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let splashVC = SplashViewController()
             let navCtl = UINavigationController(rootViewController: splashVC)
             splashVC.completionBlock = { [weak self] (succeeded: Bool) -> Void in
-                
+            
+                // rebuild user defaults
+                UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
+                                
                 // ...and the TabBar afterwards
                 let tabBarCtl = TabBarController()
                 actualWindow.rootViewController = tabBarCtl
