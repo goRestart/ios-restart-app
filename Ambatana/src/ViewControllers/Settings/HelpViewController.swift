@@ -29,7 +29,7 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
         
         // Navigation Bar
         title = NSLocalizedString("help_title", comment: "")
-        setLetGoRightButtonsWithImageNames(["ic_contact"], andSelectors: ["openContact"])
+        setLetGoRightButtonsWithImageNames(["ic_contact_small"], andSelectors: ["openContact"])
     }
     
     public required init(coder: NSCoder) {

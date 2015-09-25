@@ -20,7 +20,7 @@ private let kLetGoUserImageSquareSize: CGFloat = 1024
 enum LetGoUserSettings: Int {
     case ChangePhoto = 0, ChangeUsername = 1, ChangeLocation = 2, ChangePassword = 3, ContactUs = 4, Help = 5, LogOut = 6
     
-    static func numberOfOptions() -> Int { return 6 }
+    static func numberOfOptions() -> Int { return 7 }
     
     func titleForSetting() -> String {
         switch (self) {

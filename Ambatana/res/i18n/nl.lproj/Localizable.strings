@@ -120,7 +120,7 @@
 "make_an_offer_send_error_generic" = "Er is een fout opgetreden bij het maken van een bod op het product. Probeer het later nog eens";
 "make_an_offer_send_error_invalid_price" = "Voer a.u.b. een geldige prijs in voor het product. Het hoeft alleen maar een getal te zijn.";
 "make_an_offer_title" = "Doe een bod";
-"product_ask_a_question_button" = "Stel een Vraag";
+"product_ask_a_question_button" = "Stel een vraag";
 "product_chat_error_generic" = "Er is een fout opgetreden bij het opstarten van de chat. Probeer het later nog eens.";
 "product_delete_confirm_cancel_button" = "Annuleren";
 "product_delete_confirm_message" = "Waarom wil je jouw product verwijderen?";
