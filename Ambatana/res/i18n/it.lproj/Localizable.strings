@@ -89,7 +89,7 @@
 "forced_update_message" = "È disponibile una nuova versione di letgo. Aggiornalo adesso.";
 "forced_update_title" = "Aggiornamento disponibile";
 "forced_update_update_button" = "Aggiorna";
-"help_title" = "Help";
+"help_title" = "Aiuto";
 "indicate_location_address_field_hint" = "Scrivi il tuo indirizzo";
 "indicate_location_address_search_error_generic" = "Non sono riuscito a trovare quella posizione. Riprova.";
 "indicate_location_long_press_tip_label" = "Oppure tieni premuto il dito sulla tua posizione";
@@ -107,7 +107,7 @@
 "log_in_title" = "Accedi";
 "main_sign_up_already_registered_label" = "Già registrato?";
 "main_sign_up_claim_label" = "Inizia a vendere, compra e chatta";
-"main_sign_up_contact_us_button" = "Contattaci";
+"main_sign_up_contact_us_button" = "Bisogno di Aiuto?";
 "main_sign_up_facebook_connect_button" = "Accedi con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Impossibile effettuare l'accesso, il tuo indirizzo email è già registrato su Facebook. Riprova ad effettuare l'accesso.";
 "main_sign_up_fb_connect_error_generic" = "Impossibile effettuare l'accesso. Riprova.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "NUOVO";
 "product_list_item_sold_status_label" = "VENDUTO";
 "product_list_location_disabled_button" = "Impostazioni";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Oops! La tua posizione non è attiva. Per attivarla, vai su:\n Impostazioni > Privacy > Servizi Posizione.";
 "product_list_location_unauthorized_button" = "Impostazioni";
 "product_list_location_unauthorized_label" = "Permettici di accedere alla tua posizione.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Impostazione immagine del profilo in corso, attendere...";
 "settings_change_username_button" = "Nome";
 "settings_contact_us_button" = "Contattaci";
-"settings_help_button" = "Help";
+"settings_help_button" = "Aiuto";
 "settings_image_source_camera_button" = "Fotocamera";
 "settings_image_source_camera_roll_button" = "Libreria fotografica";
 "settings_image_source_cancel_button" = "Annulla";

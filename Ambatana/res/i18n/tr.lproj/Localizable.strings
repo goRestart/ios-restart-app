@@ -89,7 +89,7 @@
 "forced_update_message" = "Yeni bir letgo versiyonu mevcut. Lütfen şimdi güncelle.";
 "forced_update_title" = "Güncelleme var";
 "forced_update_update_button" = "Güncelle";
-"help_title" = "Help";
+"help_title" = "Yardım";
 "indicate_location_address_field_hint" = "Adresini yaz";
 "indicate_location_address_search_error_generic" = "Belirtilen yeri bulamadım. Lütfen, tekrar dene.";
 "indicate_location_long_press_tip_label" = "Veya bulunduğun yere parmağını basılı tut";
@@ -107,7 +107,7 @@
 "log_in_title" = "Oturum aç";
 "main_sign_up_already_registered_label" = "Zaten hesabın var mı?";
 "main_sign_up_claim_label" = "Satmaya, almaya ve mesajlaşmaya başla";
-"main_sign_up_contact_us_button" = "Bize ulaşın.";
+"main_sign_up_contact_us_button" = "Yardıma mı ihtiyacın var?";
 "main_sign_up_facebook_connect_button" = "Facebook ile bağlan";
 "main_sign_up_fb_connect_error_email_taken" = "Giriş yapılamıyor. Facebook'daki e-posta adresin zaten kaydedilmiş. Lütfen oturum açmayı dene.";
 "main_sign_up_fb_connect_error_generic" = "Giriş yapılamıyor. Lütfen, tekrar dene.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "YENİ";
 "product_list_item_sold_status_label" = "SATILDI";
 "product_list_location_disabled_button" = "Ayarlar";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Hoppala! Konum bilgin kapalı. Açmak için:\nAyarlar > Gizlilik > Konum Hizmetleri.";
 "product_list_location_unauthorized_button" = "Ayarlar";
 "product_list_location_unauthorized_label" = "Lütfen, konum bilgine ulaşmamıza izin ver.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Profil resmin oluşturuluyor, lütfen bekle...";
 "settings_change_username_button" = "İsim değiştir";
 "settings_contact_us_button" = "Bize ulaşın.";
-"settings_help_button" = "Help";
+"settings_help_button" = "Yardım";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Resim galerisi";
 "settings_image_source_cancel_button" = "İptal et";

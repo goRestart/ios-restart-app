@@ -89,7 +89,7 @@
 "forced_update_message" = "새로운 버전의 렛고가 있습니다. 지금 업데이트 하세요.";
 "forced_update_title" = "업데이트 사용가능";
 "forced_update_update_button" = "업데이트";
-"help_title" = "Help";
+"help_title" = "도움";
 "indicate_location_address_field_hint" = "주소를 입력하세요";
 "indicate_location_address_search_error_generic" = "위치를 찾는데 실패했습니다. 다시 시도해주세요.";
 "indicate_location_long_press_tip_label" = "혹은 고객님의 위치를 터치해주세요";
@@ -107,7 +107,7 @@
 "log_in_title" = "로그인";
 "main_sign_up_already_registered_label" = "등록하셨나요?";
 "main_sign_up_claim_label" = "판매, 구매 그리고 채팅을 시작하세요";
-"main_sign_up_contact_us_button" = "문의하기";
+"main_sign_up_contact_us_button" = "도움이 필요하신가요?";
 "main_sign_up_facebook_connect_button" = "페이스북으로 로그인하기";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "새로운";
 "product_list_item_sold_status_label" = "품절";
 "product_list_location_disabled_button" = "설정";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "앗! 위치검색이 꺼져있네요. 켜기위해서: \n세팅>개인정보> 위치정보로 가세요.";
 "product_list_location_unauthorized_button" = "설정";
 "product_list_location_unauthorized_label" = "위치정보를 사용할 수 있게 허가해주세요.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "프로필사진을 등록중입니다. 잠시만 기다려주세요...";
 "settings_change_username_button" = "이름";
 "settings_contact_us_button" = "문의하기";
-"settings_help_button" = "Help";
+"settings_help_button" = "도움";
 "settings_image_source_camera_button" = "카메라";
 "settings_image_source_camera_roll_button" = "앨범에서 이미지 선택";
 "settings_image_source_cancel_button" = "취소";

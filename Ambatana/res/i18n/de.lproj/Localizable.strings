@@ -89,7 +89,7 @@
 "forced_update_message" = "Eine neue Version von letgo ist verfügbar. Bitte aktualisiere sie jetzt.";
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
-"help_title" = "Help";
+"help_title" = "Hilfe";
 "indicate_location_address_field_hint" = "Gib deine Adresse ein";
 "indicate_location_address_search_error_generic" = "Ich konnte den Standort nicht finden. Bitte versuche es erneut.";
 "indicate_location_long_press_tip_label" = "Oder halte deinen Finger auf deinem Standort gedrückt";
@@ -107,7 +107,7 @@
 "log_in_title" = "Anmelden";
 "main_sign_up_already_registered_label" = "Bereits registriert?";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche";
-"main_sign_up_contact_us_button" = "Schreib uns";
+"main_sign_up_contact_us_button" = "Brauchst du Hilfe?";
 "main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
 "main_sign_up_fb_connect_error_email_taken" = "Registrierung fehlgeschlagen. Deine E-Mail-Adresse bei Facebook ist bereits registriert. Bitte versuche dich anzumelden.";
 "main_sign_up_fb_connect_error_generic" = "Anmeldung fehlgeschlagen. Bitte versuche es erneut.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "NEU";
 "product_list_item_sold_status_label" = "VERKAUFT";
 "product_list_location_disabled_button" = "Einstellungen";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Hoppla! Dein Standort ist ausgeschaltet. Um ihn einzuschalten, gehe zu: \nEinstellungen > Privatsphäre > Positionsbestimmung.";
 "product_list_location_unauthorized_button" = "Einstellungen";
 "product_list_location_unauthorized_label" = "Bitte erlaube uns, auf deinen Standort zuzugreifen.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Dein Profilbild wird eingerichtet, bitte warten...";
 "settings_change_username_button" = "Name";
 "settings_contact_us_button" = "Schreib uns";
-"settings_help_button" = "Help";
+"settings_help_button" = "Hilfe";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Fotoarchiv";
 "settings_image_source_cancel_button" = "Abbrechen";

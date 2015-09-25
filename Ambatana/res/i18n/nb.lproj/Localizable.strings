@@ -89,7 +89,7 @@
 "forced_update_message" = "En ny versjon av letgo er tilgjengelig. Vennligst oppdater nå.";
 "forced_update_title" = "Oppdatering tilgjengelig";
 "forced_update_update_button" = "Oppdater";
-"help_title" = "Help";
+"help_title" = "Hjelp";
 "indicate_location_address_field_hint" = "Skriv din adresse";
 "indicate_location_address_search_error_generic" = "Vi kunne ikke finne stedet. Vennligst prøv igjen.";
 "indicate_location_long_press_tip_label" = "Eller hold inne fingeren på stedet";
@@ -107,7 +107,7 @@
 "log_in_title" = "Logg inn";
 "main_sign_up_already_registered_label" = "Allerede registrert?";
 "main_sign_up_claim_label" = "Begynn å selge, kjøpe og chatte";
-"main_sign_up_contact_us_button" = "Kontakt oss";
+"main_sign_up_contact_us_button" = "Trenger du hjelp?";
 "main_sign_up_facebook_connect_button" = "Koble til Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Innlogging feilet, din epost på Facebook er allerede registrert. Vennligst prøv igjen.";
 "main_sign_up_fb_connect_error_generic" = "Feil ved innlogging. Vennligst prøv igjen.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "NY";
 "product_list_item_sold_status_label" = "SOLGT";
 "product_list_location_disabled_button" = "Innstillinger";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Oops! Ditt sted er deaktivert. Aktiver ved å gå til: Innstillinger > Personvern > Stedstjenester";
 "product_list_location_unauthorized_button" = "Innstillinger";
 "product_list_location_unauthorized_label" = "Vennligst gi oss tillatelse til å bruke ditt sted.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Legger inn ditt profilbilde, vennligst vent...";
 "settings_change_username_button" = "Navn";
 "settings_contact_us_button" = "Kontakt oss";
-"settings_help_button" = "Help";
+"settings_help_button" = "Hjelp";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Bildegalleri";
 "settings_image_source_cancel_button" = "Avbryt";

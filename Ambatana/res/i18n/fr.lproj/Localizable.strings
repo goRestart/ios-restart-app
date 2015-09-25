@@ -89,7 +89,7 @@
 "forced_update_message" = "Une nouvelle version de letgo est disponible. Veuillez mettre à jour maintenant.";
 "forced_update_title" = "Mise à jour disponible";
 "forced_update_update_button" = "Mettre à jour";
-"help_title" = "Help";
+"help_title" = "Aide";
 "indicate_location_address_field_hint" = "Ecrivez votre adresse";
 "indicate_location_address_search_error_generic" = "Je n'ai pas trouvé ce lieu. Veuillez réessayer.";
 "indicate_location_long_press_tip_label" = "Ou laissez votre doigt appuyé sur votre position.";
@@ -107,7 +107,7 @@
 "log_in_title" = "Se Connecter";
 "main_sign_up_already_registered_label" = "Déjà enregistré ?";
 "main_sign_up_claim_label" = "Commencez à vendre, acheter et chatter.";
-"main_sign_up_contact_us_button" = "Contactez-nous";
+"main_sign_up_contact_us_button" = "Besoin d'Aide ?";
 "main_sign_up_facebook_connect_button" = "Se Connecter avec Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Impossible de se connecter, votre adresse email dans Facebook est déjà utilisée. Veuillez essayer de vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "NOUVEAU";
 "product_list_item_sold_status_label" = "VENDU";
 "product_list_location_disabled_button" = "Paramètres";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Oops ! Votre location est désactivé. Pour l'activer, rendez-vous dans Réglages > Confidentialité > Services de Localisation.";
 "product_list_location_unauthorized_button" = "Paramètres";
 "product_list_location_unauthorized_label" = "S'il vous plait, permettez-nous d'accéder à votre localisation";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Paramétrage de votre image de profil, veuillez patienter...";
 "settings_change_username_button" = "Nom";
 "settings_contact_us_button" = "Contactez-nous";
-"settings_help_button" = "Help";
+"settings_help_button" = "Aide";
 "settings_image_source_camera_button" = "Appareil Photo";
 "settings_image_source_camera_roll_button" = "Bibliothèque photos";
 "settings_image_source_cancel_button" = "Annuler";

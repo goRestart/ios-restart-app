@@ -21,16 +21,16 @@ public class EnvironmentProxy: Environment {
     // MARK: - Lifecycle
     
     private init() {
-        let arguments = NSProcessInfo.processInfo().arguments as NSArray
-        if arguments.containsObject(EnvironmentType.Production.rawValue) {
-            environment = ProductionEnvironment()
-        }
-        else if arguments.containsObject(EnvironmentType.Development.rawValue) {
+//        let arguments = NSProcessInfo.processInfo().arguments as NSArray
+//        if arguments.containsObject(EnvironmentType.Production.rawValue) {
+//            environment = ProductionEnvironment()
+//        }
+//        else if arguments.containsObject(EnvironmentType.Development.rawValue) {
             environment = DevelopmentEnvironment()
-        }
-        else {
-            environment = ProductionEnvironment()
-        }
+//        }
+//        else {
+//            environment = ProductionEnvironment()
+//        }
     }
     
     // MARK: - Public methods

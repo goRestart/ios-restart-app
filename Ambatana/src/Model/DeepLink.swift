@@ -17,6 +17,7 @@ public enum DeepLinkType: String {
     Deep link.
 */
 public struct DeepLink: Printable {
+    var url: NSURL
     var type: DeepLinkType
     var components: [String]
     var query: [String: String]
@@ -33,6 +34,7 @@ public struct DeepLink: Printable {
     // MARK: - Lifecycle
     
     public init?(url: NSURL) {
+        self.url = url
         if let host = url.host, type = DeepLinkType(rawValue: host) {
             self.type = type
         }

@@ -89,7 +89,7 @@
 "forced_update_message" = "letgoの新バージョンが使用可能です。今すぐ更新してください。";
 "forced_update_title" = "更新可能";
 "forced_update_update_button" = "更新";
-"help_title" = "Help";
+"help_title" = "ヘルプ";
 "indicate_location_address_field_hint" = "住所を記入する";
 "indicate_location_address_search_error_generic" = "住所を見つけることができませんでした。もう一度やり直してください。";
 "indicate_location_long_press_tip_label" = "または、あなたの居る場所を押し続けてください";
@@ -107,7 +107,7 @@
 "log_in_title" = "ログイン";
 "main_sign_up_already_registered_label" = "既に登録済みですか？";
 "main_sign_up_claim_label" = "売買とチャットをスタート";
-"main_sign_up_contact_us_button" = "お問い合わせ";
+"main_sign_up_contact_us_button" = "サポートが必要ですか？";
 "main_sign_up_facebook_connect_button" = "Facebookに接続";
 "main_sign_up_fb_connect_error_email_taken" = "ログインできません。fフェースブックのメールアドレスはすでに登録されています。もう一度やり直してください。";
 "main_sign_up_fb_connect_error_generic" = "ログインできません。もう一度お試しください。";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "新着";
 "product_list_item_sold_status_label" = "売却済み";
 "product_list_location_disabled_button" = "設定";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "位置情報がオフになっています。 次の設定個所で、オンにしてください：設定＞プライバシー＞位置情報サービス　";
 "product_list_location_unauthorized_button" = "設定";
 "product_list_location_unauthorized_label" = "位置情報へのアクセスを許可してください。";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "プロフィール画像の設定中。しばらくお待ちください…";
 "settings_change_username_button" = "名前";
 "settings_contact_us_button" = "お問い合わせ";
-"settings_help_button" = "Help";
+"settings_help_button" = "ヘルプ";
 "settings_image_source_camera_button" = "カメラ";
 "settings_image_source_camera_roll_button" = "フォトライブラリー";
 "settings_image_source_cancel_button" = "キャンセル";

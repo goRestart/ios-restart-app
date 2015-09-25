@@ -29,10 +29,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
         
+        // Push notifications
+        var url: NSURL?
+        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
+            if let deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithRemoteNotification: remoteNotification) {
+                url = deepLink.url
+            }
+        }
+        
         // Deep linking
-        var appCanHandleURL = false
-        if let actualLaunchOptions = launchOptions, let url = actualLaunchOptions[UIApplicationLaunchOptionsURLKey] as? NSURL {
-            appCanHandleURL = true
+        if let actualLaunchOptions = launchOptions, let deepLinkURL = actualLaunchOptions[UIApplicationLaunchOptionsURLKey] as? NSURL {
+            url = deepLinkURL
         }
         
         // UI
@@ -49,22 +56,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 actualWindow.rootViewController = tabBarCtl
                 
                 // ... and open the deep link, if any
-                if let actualLaunchOptions = launchOptions, let url = actualLaunchOptions[UIApplicationLaunchOptionsURLKey] as? NSURL, let deepLink = DeepLink(url: url) {
+                if let deepLinkURL = url, let deepLink = DeepLink(url: deepLinkURL) {
                     tabBarCtl.openDeepLink(deepLink)
                 }
             }
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }
-        
-        // Push notifications
-        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
-            PushManager.sharedInstance.application(application, didFinishLaunchingWithRemoteNotification: remoteNotification)
-        }
 
-        // Facebook
-        appCanHandleURL = appCanHandleURL || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
-        return appCanHandleURL
+        // We handle the URL if we pressed a deep link or it was received via APNS or Facebook does handle it
+        return url != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
@@ -131,7 +132,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Location
         LocationManager.sharedInstance.startLocationUpdates()
-        
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -149,14 +149,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo, notActiveCompletion: { [weak self] (type) -> Void in
-            switch type {
-            case .Offer, .Message:
-                self?.openChatListViewController()
-            case .Marketing:
-                break
-            }
-        })
+        if let deepLink = PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo), let tabBarCtl = self.window?.rootViewController as? TabBarController {
+            tabBarCtl.openDeepLink(deepLink)
+        }
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {

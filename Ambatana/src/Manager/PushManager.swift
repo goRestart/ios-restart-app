@@ -12,9 +12,22 @@ import Result
 import UrbanAirship_iOS_SDK
 import Kahuna
 
+public enum Action {
+    case Message(Int, String, String)    // messageType (0: message, 1: offer), productId, buyerId
+    case URL(DeepLink)
+    
+    public init?(userInfo: [NSObject: AnyObject]) {
 
-@objc public enum PushNotificationType: Int {
-    case Offer = 0, Message = 1, Marketing = 2
+        if let urlStr = userInfo["url"] as? String, let url = NSURL(string: urlStr), let deepLink = DeepLink(url: url) {
+            self = .URL(deepLink)
+        }
+        else if let type = userInfo["n_t"]?.integerValue, let productId = userInfo["p"] as? String, let buyerId = userInfo["u"] as? String {    // n_t: notification type, p: product id, u: buyer
+            self = .Message(type, productId, buyerId)
+        }
+        else {
+            return nil
+        }
+    }
 }
 
 public class PushManager: NSObject, KahunaDelegate {
@@ -22,8 +35,6 @@ public class PushManager: NSObject, KahunaDelegate {
     // Constants & enum
     enum Notification: String {
         case didReceiveUserInteraction = "didReceiveUserInteraction"
-        case didReceiveMarketingMessage = "didReceiveMarketingMessage"
-        
         case unreadMessagesDidChange = "unreadMessagesDidChange"
     }
     
@@ -68,53 +79,64 @@ public class PushManager: NSObject, KahunaDelegate {
         application.registerForRemoteNotifications()
         
         setupUrbanAirship()
-        
         setupKahuna()
-
     }
     
-    public func application(application: UIApplication, didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) {
-        if let type = getNotificationType(userInfo) {
-            notifyDidReceiveRemoteNotificationType(type, userInfo: userInfo)
-            
-            if type == .Offer || type == .Message {
-                updateUnreadMessagesCount()
+    public func application(application: UIApplication, didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) -> DeepLink? {
+        var deepLink: DeepLink?
+        if let action = Action(userInfo: userInfo) {
+            switch action {
+            case .Message(_, _, _):
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
+            case .URL(let dL):
+                deepLink = dL
             }
         }
+        return deepLink
     }
     
-    public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], notActiveCompletion: (PushNotificationType) -> Void) {
+    public func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) -> DeepLink? {
         
         Kahuna.handleNotification(userInfo, withApplicationState: UIApplication.sharedApplication().applicationState);
         
-        if let type = getNotificationType(userInfo) {
-            notifyDidReceiveRemoteNotificationType(type, userInfo: userInfo)
-            
-            updateUnreadMessagesCount()
-            
-            if application.applicationState != .Active {
-                notActiveCompletion(type)
+        var deepLink: DeepLink?
+        if let action = Action(userInfo: userInfo) {
+            switch action {
+            case .Message(_, _, _):
+                // Update the unread messages count
+                updateUnreadMessagesCount()
+                
+                // Notify about the received user interaction
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
+                
+                // If active, then update the badge
+                if application.applicationState == .Active {
+
+                    if let newBadge = self.getBadgeNumberFromNotification(userInfo) {
+                        UIApplication.sharedApplication().applicationIconBadgeNumber = newBadge
+                        PFInstallation.currentInstallation().badge = newBadge
+                        PFInstallation.currentInstallation().saveInBackgroundWithBlock({ (success, error) -> Void in
+                            if !success {
+                                PFInstallation.currentInstallation().saveEventually(nil)
+                            }
+                        })
+                    }
+                }
+                else {
+                    PFPush.handlePush(userInfo)
+                }
+            case .URL(let dL):
+                deepLink = dL
+                break
             }
         }
-        
-        if application.applicationState == .Active {
-            // Update the badge
-            if let newBadge = self.getBadgeNumberFromNotification(userInfo) {
-                UIApplication.sharedApplication().applicationIconBadgeNumber = newBadge
-                PFInstallation.currentInstallation().badge = newBadge
-                PFInstallation.currentInstallation().saveInBackgroundWithBlock({ (success, error) -> Void in
-                    if !success { PFInstallation.currentInstallation().saveEventually(nil) }
-                })
-            }
-        }
-        else {
-            PFPush.handlePush(userInfo)
-        }
+        return deepLink
     }
     
     public func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         // Save the installation with the received device token
         MyUserManager.sharedInstance.saveInstallationDeviceToken(deviceToken)
+        
         Kahuna.setDeviceToken(deviceToken);
     }
     
@@ -214,24 +236,6 @@ public class PushManager: NSObject, KahunaDelegate {
         Kahuna.logout()
     }
     
-    
-    // MARK: > NSNotificationCenter
-    
-    /**
-        Notifies the notification listeners that a remote notification arrived.
-        
-        :param: type The notification type.
-        :param: userInfo The push notification extra info.
-    */
-    private func notifyDidReceiveRemoteNotificationType(type: PushNotificationType, userInfo: [NSObject: AnyObject]) {
-        if type == .Offer || type == .Message {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
-        }
-        else if type == .Marketing {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveMarketingMessage.rawValue, object: userInfo)
-        }
-    }
-    
     /**
         Returns the badge value from the given push notification dictionary.
     
@@ -243,52 +247,28 @@ public class PushManager: NSObject, KahunaDelegate {
         else if let aps = userInfo["aps"] as? [NSObject: AnyObject] { return self.getBadgeNumberFromNotification(aps) } // compatibility with iOS APS push notification & android.
         else { return nil }
     }
-    
-    /**
-        Returns the notification type from the given push notification dictionary.
-    
-        :param: userInfo The push notification extra info.
-        :returns: The notification type.
-    */
-    func getNotificationType(userInfo: [NSObject: AnyObject]) -> PushNotificationType? {
-        if let oldNotificationType = userInfo["notification_type"]?.integerValue { return PushNotificationType(rawValue: oldNotificationType) }
-        else if let newNotificationType = userInfo["n_t"]?.integerValue { return PushNotificationType(rawValue: newNotificationType) }
-        else if let aps = userInfo["aps"] as? [NSObject: AnyObject] { return self.getNotificationType(aps) } // compatibility with iOS APS push notification & android.
-        else { return nil }
-    }
-    
-//    func getNotificationAlertMessage(userInfo: [NSObject: AnyObject]) -> String? {
-//        if let msg = userInfo["alert"] as? String { return msg }
-//        else if let aps = userInfo["aps"] as? [String: AnyObject] { // compatibility with iOS APS push notification & android
-//            return aps["alert"] as? String
-//        } else { return nil }
+//    
+//    /**
+//        Returns the notification type from the given push notification dictionary.
+//    
+//        :param: userInfo The push notification extra info.
+//        :returns: The notification type.
+//    */
+//    func getNotificationType(userInfo: [NSObject: AnyObject]) -> PushNotificationType? {
+//        if let oldNotificationType = userInfo["notification_type"]?.integerValue {
+//            return PushNotificationType(rawValue: oldNotificationType)
+//        }
+//        else if let newNotificationType = userInfo["n_t"]?.integerValue {
+//            return PushNotificationType(rawValue: newNotificationType)
+//        }
+//        else if let deepLinkURL = userInfo["url"] as? String {
+//            return .DeepLink
+//        }
+//        else if let aps = userInfo["aps"] as? [NSObject: AnyObject] {   // compatibility with iOS APS push notification & android
+//            return self.getNotificationType(aps)
+//        }
+//        else {
+//            return .None
+//        }
 //    }
-    
-    // MARK: > Helper
-    
-    /**
-        Retrieves the total unread message count from the given conversations.
-    
-        :param: conversations The conversations.
-        :returns: The total unread message count.
-    */
-    private static func getUnreadMessageCountFromConversations(conversations: [PFObject]) -> Int {
-        var unreadMessagesCount = 0
-        
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            for conversation in conversations {
-                if let userFrom = conversation["user_from"] as? User,
-                   let userTo = conversation["user_to"] as? User {
-                    if userFrom.objectId == myUser.objectId {
-                        unreadMessagesCount += conversation["nr_msg_to_read_from"]?.integerValue ?? 0
-                    }
-                    else if userTo.objectId == myUser.objectId {
-                        unreadMessagesCount += conversation["nr_msg_to_read_to"]?.integerValue ?? 0
-                    }
-                }
-            }
-        }
-        return unreadMessagesCount
-    }
-
 }

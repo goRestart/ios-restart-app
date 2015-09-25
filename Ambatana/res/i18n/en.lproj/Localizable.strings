@@ -418,6 +418,9 @@
 // Product list location disabled label. Check image @ "product_list_location_unauthorized_button" segment
 "product_list_location_disabled_label" = "Oops! Your location is turned off. To turn it on, go to:\n Settings > Privacy > Location Services.";
 
+// Product list location disabled go to indicate location label.
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+
 // Product list location unauthorized button. Check attached image "product_list_location_unauthorized.png"
 "product_list_location_unauthorized_button" = "Settings";
 

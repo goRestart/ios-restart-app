@@ -89,7 +89,7 @@
 "forced_update_message" = "Đã có phiên bản letgo mới. Hãy tải xuống ngay bây giờ.";
 "forced_update_title" = "Có bản cập nhật mới";
 "forced_update_update_button" = "Cập nhật";
-"help_title" = "Help";
+"help_title" = "Trợ giúp";
 "indicate_location_address_field_hint" = "Nhập địa chỉ của bạn";
 "indicate_location_address_search_error_generic" = "Tôi không thể tìm thấy vị trí của bạn. Xin vui lòng thử lại.";
 "indicate_location_long_press_tip_label" = "Hoặc nhấn vào địa điểm của bạn";
@@ -107,7 +107,7 @@
 "log_in_title" = "Đăng nhập";
 "main_sign_up_already_registered_label" = "Đã đăng ký?";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua và trò chuyện";
-"main_sign_up_contact_us_button" = "Liên hệ";
+"main_sign_up_contact_us_button" = "Bạn cần trợ giúp?";
 "main_sign_up_facebook_connect_button" = "Kết nối với Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Không thể đăng nhập, địa chỉ email Facebook của bạn đã được đăng kí. Xin vui lòng thử đăng nhập lại.";
 "main_sign_up_fb_connect_error_generic" = "Không thể đăng nhập. Xin vui lòng thử lại.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "MỚI";
 "product_list_item_sold_status_label" = "ĐÃ BÁN";
 "product_list_location_disabled_button" = "Cài đặt";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Ồ! Vị trí của bạn đã bị tắt. Để bật vị trí, hãy vào Cài đặt > Riêng tư > Dịch vụ sử dụng Vị trí.";
 "product_list_location_unauthorized_button" = "Cài đặt";
 "product_list_location_unauthorized_label" = "Vui lòng cho phép chúng tôi truy cập địa điểm của bạn.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Đang cài đặt hình ảnh hồ sơ của bạn, xin chờ...";
 "settings_change_username_button" = "Tên";
 "settings_contact_us_button" = "Liên hệ";
-"settings_help_button" = "Help";
+"settings_help_button" = "Trợ giúp";
 "settings_image_source_camera_button" = "Máy ảnh";
 "settings_image_source_camera_roll_button" = "Thư viện hình ảnh";
 "settings_image_source_cancel_button" = "Hủy";

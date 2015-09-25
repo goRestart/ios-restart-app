@@ -89,7 +89,7 @@
 "forced_update_message" = "Een nieuwe versie van letgo is beschikbaar. Gelieve het nu te updaten.";
 "forced_update_title" = "Update beschikbaar";
 "forced_update_update_button" = "Update";
-"help_title" = "Help";
+"help_title" = "Hulp";
 "indicate_location_address_field_hint" = "Vul je adres in";
 "indicate_location_address_search_error_generic" = "Ik was niet in staat om die locatie te vinden. Gelieve, het opnieuw te proberen.";
 "indicate_location_long_press_tip_label" = "Of houd je vinger ingedrukt op jouw locatie";
@@ -107,7 +107,7 @@
 "log_in_title" = "Inloggen";
 "main_sign_up_already_registered_label" = "Al geregistreerd?";
 "main_sign_up_claim_label" = "Start met verkopen, kopen en chatten";
-"main_sign_up_contact_us_button" = "Contacteer ons";
+"main_sign_up_contact_us_button" = "Hulp nodig?";
 "main_sign_up_facebook_connect_button" = "Verbind met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Niet in staat om in te loggen, jouw e-mailadres is al geregistreerd bij Facebook. Probeer a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen. ";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "NIEUW";
 "product_list_item_sold_status_label" = "VERKOCHT";
 "product_list_location_disabled_button" = "Instellingen";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Oeps! Jouw locatie staat uit. Om het aan te zetten, ga naar: Instellingen > Privacy > Locatievoorzieningen.";
 "product_list_location_unauthorized_button" = "Instellingen";
 "product_list_location_unauthorized_label" = "Geef ons a.u.b. toegang tot jouw locatie.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Instellen van jouw profielfoto, even geduld a.u.b.";
 "settings_change_username_button" = "Naam";
 "settings_contact_us_button" = "Contacteer ons";
-"settings_help_button" = "Help";
+"settings_help_button" = "Hulp";
 "settings_image_source_camera_button" = "Camera";
 "settings_image_source_camera_roll_button" = "Fotobibliotheek";
 "settings_image_source_cancel_button" = "Annuleren";

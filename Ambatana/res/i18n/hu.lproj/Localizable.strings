@@ -89,7 +89,7 @@
 "forced_update_message" = "Elérhető a letgo új verziója. Kérjük, frissíts!";
 "forced_update_title" = "Frissítés elérhető";
 "forced_update_update_button" = "Frissítés";
-"help_title" = "Help";
+"help_title" = "Segítség";
 "indicate_location_address_field_hint" = "Add meg a címedet";
 "indicate_location_address_search_error_generic" = "Nem sikerült megtalálni a címet, próbálkozz újra.";
 "indicate_location_long_press_tip_label" = "Vagy tartsd nyomva az ujjadat a tartózkodási helyeden";
@@ -107,7 +107,7 @@
 "log_in_title" = "Bejelentkezés";
 "main_sign_up_already_registered_label" = "Már regisztráltál?";
 "main_sign_up_claim_label" = "Kezdj chatelni, vásárolni, eladni";
-"main_sign_up_contact_us_button" = "Kapcsolat";
+"main_sign_up_contact_us_button" = "Segítségre van szükséged?";
 "main_sign_up_facebook_connect_button" = "Csatlakozz Facebookkal";
 "main_sign_up_fb_connect_error_email_taken" = "A bejelentkezés sikertelen. A Facebookban tárolt e-mail cím már regisztrált. Próbálkozz újra.";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "ÚJ";
 "product_list_item_sold_status_label" = "ELADVA";
 "product_list_location_disabled_button" = "Beállítások";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Hopsz! A helyadatok le vannak tiltva. Így engedélyezheted: \nBeállítások > Adatvédelem > Helymeghatározás.";
 "product_list_location_unauthorized_button" = "Beállítások";
 "product_list_location_unauthorized_label" = "Kérjük, engedélyezd, hogy hozzáférjünk a helyadatokhoz.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Profilkép beállítása, türelem...";
 "settings_change_username_button" = "Név";
 "settings_contact_us_button" = "Kapcsolat";
-"settings_help_button" = "Help";
+"settings_help_button" = "Segítség";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Fotótár";
 "settings_image_source_cancel_button" = "Mégse";

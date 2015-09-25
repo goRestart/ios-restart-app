@@ -1,5 +1,5 @@
 "categories_baby_and_child" = "Bebis och barn";
-"categories_cars_and_motors" = "Bilar och motorer";
+"categories_cars_and_motors" = "Bil och motor";
 "categories_electronics" = "Elektronik";
 "categories_fashion_and_accessories" = "Mode och accessoarer";
 "categories_home_and_garden" = "Hem och trädgård";
@@ -89,7 +89,7 @@
 "forced_update_message" = "Det finns en ny version av letgo. Var god uppdatera nu.";
 "forced_update_title" = "Uppdatering tillgänglig";
 "forced_update_update_button" = "Uppdatera";
-"help_title" = "Help";
+"help_title" = "Hjälp";
 "indicate_location_address_field_hint" = "Skriv in din adress";
 "indicate_location_address_search_error_generic" = "Kunde inte hitta platsen. Var god försök igen.";
 "indicate_location_long_press_tip_label" = "Eller tryck ned ditt finger för att välja plats";
@@ -107,7 +107,7 @@
 "log_in_title" = "Logga in";
 "main_sign_up_already_registered_label" = "Redan registrerad?";
 "main_sign_up_claim_label" = "Börja sälja, köpa och chatta";
-"main_sign_up_contact_us_button" = "Kontakta oss";
+"main_sign_up_contact_us_button" = "Behöver du hjälp?";
 "main_sign_up_facebook_connect_button" = "Anslut med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Kunde inte logga in, din e-postadress på Facebook är redan registrerad. Var god försök logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Var god försök igen.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "NYSKICK";
 "product_list_item_sold_status_label" = "SÅLD";
 "product_list_location_disabled_button" = "Inställningar";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Hoppsan. Din plats är avstängd. För att sätta på det gå till: \nInställningar > Privat > Platstjänster.";
 "product_list_location_unauthorized_button" = "Inställningar";
 "product_list_location_unauthorized_label" = "Var god tillåt åtkomst till din plats.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Ställer in din profilbild, var god vänta...";
 "settings_change_username_button" = "Namn";
 "settings_contact_us_button" = "Kontakta oss";
-"settings_help_button" = "Help";
+"settings_help_button" = "Hjälp";
 "settings_image_source_camera_button" = "Kamera";
 "settings_image_source_camera_roll_button" = "Fotobibliotek";
 "settings_image_source_cancel_button" = "Avbryt";

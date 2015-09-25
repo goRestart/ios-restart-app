@@ -198,7 +198,13 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     }
     
     func refreshMessages() {
-        enableLoadingMessagesInterface()
+        var shouldEnabledLoadingInterface: Bool = true
+        if chat.messages?.count > 0 {
+            shouldEnabledLoadingInterface = false
+        }
+        if shouldEnabledLoadingInterface {
+            enableLoadingMessagesInterface()
+        }
         loadMessages()
     }
     
@@ -461,9 +467,9 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     // MARK: - Check changes in conversation.
     
     func didReceiveUserInteraction(notification: NSNotification) {
-        if let userInfo = notification.object as? [NSObject: AnyObject], let conversationId = userInfo["c_id"] as? String {
-            // It's the current conversation then refresh
-            if chat.objectId == conversationId {
+        if let userInfo = notification.object as? [NSObject: AnyObject], let productId = userInfo["p"] as? String {
+            // It's the current conversation (same product) then refresh
+            if chat.product?.objectId == productId {
                 refreshMessages()
             }
          }

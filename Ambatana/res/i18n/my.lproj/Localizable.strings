@@ -89,7 +89,7 @@
 "forced_update_message" = "letgo ဗားရှင်းအသစ်ကို ရနိုင်ပါသည်။ ကျေးဇူးပြုပြီး ယင်းကိုယခု ပြင်ဆင်ပါ။";
 "forced_update_title" = "ပြင်ဆင်ချက်ရနိုင်သည်";
 "forced_update_update_button" = "ပြင်ဆင်မည်";
-"help_title" = "Help";
+"help_title" = "အကူအညီ";
 "indicate_location_address_field_hint" = "သင့်လိပ်စာကိုရေးသားပါ";
 "indicate_location_address_search_error_generic" = "၄င်းသည် တည်နေရာမရှာနိုင်ပါ။ ကျေးဇူးပြုပြီး ပြန်ကြိုးစားပါ။";
 "indicate_location_long_press_tip_label" = "သို့မဟုတ် သင့်တည်နေရာပေါ်နှိပ်ထားသည့် သင့်လက်ချောင်းကိုထိန်းထားပါ";
@@ -107,7 +107,7 @@
 "log_in_title" = "လော့အင်၀င်ပါ";
 "main_sign_up_already_registered_label" = "စာရင်းသွင်းပြီးသားလား။";
 "main_sign_up_claim_label" = "ရောင်းခြင်း၊ ၀ယ်ခြင်းနှင့်စကားပြောခြင်းလုပ်ရန် စတင်ပါ";
-"main_sign_up_contact_us_button" = "ကျွန်ုပ်တို့အား ဆက်သွယ်ပါ";
+"main_sign_up_contact_us_button" = "အကူအညီ လိုအပ်လား။";
 "main_sign_up_facebook_connect_button" = "Facebook နှင့်ဆက်သွယ်ပါ";
 "main_sign_up_fb_connect_error_email_taken" = "လော့အင်မ၀င်နိုင်ပါ၊ သင့်အီးမေးလ်လိပ်စာသည် Facebook တွင် ကြိုတင်စာရင်းသွင်းပြီးသားဖြစ်သည်၊ ကျေးဇူးပြုပြီး လော့အင်၀င်ရန် ကြိုးစားပါ။";
 "main_sign_up_fb_connect_error_generic" = "လော့အင်မ၀င်နိုင်ပါ။ ကျေူးဇူးပြုပြီးပြန်ကြိုးစားပါ။";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "အသစ်";
 "product_list_item_sold_status_label" = "ရောင်းပြီး";
 "product_list_location_disabled_button" = "ဆက်တင်များ";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "မှားပါတယ်။ သင့်တည်နေရာသည် ပိတ်ထားပါတယ်။ ၄င်းကိုဖွင့်ရန် ဆက်တင်များ>ကိုယ်ရေး>‌တည်နေရာ ၀န်ဆောင်မှုများ သို့သွားပါ။";
 "product_list_location_unauthorized_button" = "ဆက်တင်များ";
 "product_list_location_unauthorized_label" = "သင့်တည်နေရာကို အသုံးပြုနိုင်ရန် ကျွန်ုပ်တို့အား ကျေးဇူးပြုပြီး ခွင့်ပေးပါ။";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "သင့် ပရိုဖိုင်ရုပ်ပုံကိုသတ်မှတ်ခြင်း၊ ကျေးဇူးပြုပြီး စောင့်ပါ...";
 "settings_change_username_button" = "အမည်";
 "settings_contact_us_button" = "ကျွန်ုပ်တို့အား ဆက်သွယ်ပါ";
-"settings_help_button" = "Help";
+"settings_help_button" = "အကူအညီ";
 "settings_image_source_camera_button" = "ကင်မရာ";
 "settings_image_source_camera_roll_button" = "ဓါတ်ပုံပြတိုက်";
 "settings_image_source_cancel_button" = "ရပ်ဆိုင်းပါ";

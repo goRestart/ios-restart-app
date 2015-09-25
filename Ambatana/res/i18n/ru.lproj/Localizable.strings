@@ -89,7 +89,7 @@
 "forced_update_message" = "Доступна новая версия letgo. Пожалуйста, обновите приложение.";
 "forced_update_title" = "Доступно обновление";
 "forced_update_update_button" = "Обновить";
-"help_title" = "Help";
+"help_title" = "Помощь";
 "indicate_location_address_field_hint" = "Укажите ваш адрес";
 "indicate_location_address_search_error_generic" = "Не удалось найти этот адрес. Пожалуйста, попробуйте еще раз.";
 "indicate_location_long_press_tip_label" = "Или задержите нажатие на вашем местоположении";
@@ -107,7 +107,7 @@
 "log_in_title" = "Войти";
 "main_sign_up_already_registered_label" = "Уже зарегистрированы?";
 "main_sign_up_claim_label" = "Начните продавать, покупать и общаться";
-"main_sign_up_contact_us_button" = "Контакты";
+"main_sign_up_contact_us_button" = "Нужна помощь?";
 "main_sign_up_facebook_connect_button" = "Войти через Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Невозможно войти, ваш e-mail уже зарегистрирован в Facebook. Пожалуйста, попробуйте войти.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";
@@ -137,6 +137,7 @@
 "product_list_item_new_status_label" = "НОВОЕ";
 "product_list_item_sold_status_label" = "ПРОДАНО";
 "product_list_location_disabled_button" = "Настройки";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
 "product_list_location_disabled_label" = "Упс! Определение местоположения выключено. Для включения пройдите : Настройки > Безопасность > Местоположение";
 "product_list_location_unauthorized_button" = "Настройки";
 "product_list_location_unauthorized_label" = "Пожалуйста, разрешите доступ к вашему местоположению.";
@@ -238,7 +239,7 @@
 "settings_change_profile_picture_loading" = "Установка фотографии профиля, пожалуйста, подождите...";
 "settings_change_username_button" = "Изменить имя";
 "settings_contact_us_button" = "Контакты";
-"settings_help_button" = "Help";
+"settings_help_button" = "Помощь";
 "settings_image_source_camera_button" = "Камера";
 "settings_image_source_camera_roll_button" = "Библиотека фотографий";
 "settings_image_source_cancel_button" = "Отмена";
