@@ -21,6 +21,6 @@ public class LGCoreKit {
         PFUser.enableAutomaticUser()
         
         // Shared instances
-        MyUserManager.sharedInstance
+        MyUserManager.sharedInstance    // instance it in order to start listening to LocationManager
     }
 }

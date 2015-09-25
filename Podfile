@@ -18,7 +18,7 @@ pod "FBSDKShareKit",        "~> 4.1"
 pod "Amplitude-iOS",        "~> 3.0"
     
 # letgo Core
-pod "LGCoreKit",            "0.13.3" #:path => "../letgo-ios-lgcorekit" #:path => "../LGCoreKit"
+pod "LGCoreKit",            "0.13.5" #:path => "../letgo-ios-lgcorekit" #:path => "../LGCoreKit"
 
 # Networking (to be removed when migrating to LGCoreKit)
 pod "Alamofire",            "~> 1.2"
