@@ -203,9 +203,9 @@ public class ChatManager {
         :param: completion The completion closure.
     */
     private func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User, completion: (Result<Message, ChatSendMessageServiceError> -> Void)?) {
-        if let sessionToken = myUserManager.myUser()?.sessionToken {
+        if let myUser = myUserManager.myUser(), let sessionToken = myUser.sessionToken, let myUserId = myUser.objectId {
             if let recipientUserId = recipient.objectId, let productId = product.objectId {
-                chatSendMessageService.sendMessageWithSessionToken(sessionToken, message: message, type: messageType, recipientUserId: recipientUserId, productId: productId, result: completion)
+                chatSendMessageService.sendMessageWithSessionToken(sessionToken, userId: myUserId, message: message, type: messageType, recipientUserId: recipientUserId, productId: productId, result: completion)
             }
             else {
                 completion?(Result<Message, ChatSendMessageServiceError>.failure(.NotFound))

@@ -43,11 +43,16 @@ public class ConversationCell: UITableViewCell {
     
     // MARK: - Public methods
        
-    public func setupCellWithChat(chat: Chat, indexPath: NSIndexPath) {
+    public func setupCellWithChat(chat: Chat, myUser: User, indexPath: NSIndexPath) {
         let tag = indexPath.hash
     
+        var otherUser: User?
+        if let myUserId = myUser.objectId, let userFrom = chat.userFrom, let userFromId = userFrom.objectId, let userTo = chat.userTo, let userToId = userTo.objectId {
+                otherUser = (myUserId == userFromId) ? userTo : userFrom
+        }
+        
         // thumbnail
-        if let thumbURL = chat.product?.user?.avatar?.fileURL {
+        if let thumbURL = otherUser?.avatar?.fileURL {
             thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo"), completed: {
                 [weak self] (image, error, cacheType, url) -> Void in
                 // tag check to prevent wrong image placement cos' of recycling
@@ -61,7 +66,7 @@ public class ConversationCell: UITableViewCell {
         productLabel.text = chat.product?.name ?? ""
         
         // user name
-        userLabel.text = chat.product?.user?.publicUsername ?? ""
+        userLabel.text = otherUser?.publicUsername ?? ""
         
         // time / deleted
         var timeLabelValue: String = ""
@@ -104,7 +109,7 @@ public class ConversationCell: UITableViewCell {
         productLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         userLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
         timeLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
-        badgeView.layer.cornerRadius = 5//thumbnailImageView.frame.size.height / 2.0
+        badgeView.layer.cornerRadius = 5
     }
     
     // Resets the UI to the initial state

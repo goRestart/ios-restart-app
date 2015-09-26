@@ -31,7 +31,7 @@ public class LGChatSendMessageService: ChatSendMessageService {
     
     // MARK: - ChatSendMessageService
     
-    public func sendMessageWithSessionToken(sessionToken: String, message: String, type: MessageType, recipientUserId: String, productId: String, result: ChatSendMessageServiceResult?) {
+    public func sendMessageWithSessionToken(sessionToken: String, userId: String, message: String, type: MessageType, recipientUserId: String, productId: String, result: ChatSendMessageServiceResult?) {
         let url = EnvironmentProxy.sharedInstance.apiBaseURL + LGChatSendMessageService.endpointWithProductId(productId)
         var parameters = Dictionary<String, AnyObject>()
         parameters["type"] = type.rawValue
@@ -67,9 +67,9 @@ public class LGChatSendMessageService: ChatSendMessageService {
                 // Success (status code 201)
                 else {
                     var msg = LGMessage()
+                    msg.userId = userId
                     msg.text = message
                     msg.type = type
-                    msg.userId = recipientUserId
                     result?(Result<Message, ChatSendMessageServiceError>.success(msg))
                 }
         }

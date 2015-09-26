@@ -202,8 +202,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath) as! ConversationCell
         
         cell.tag = indexPath.hash
-        if let chat = chats?[indexPath.row] {
-            cell.setupCellWithChat(chat, indexPath: indexPath)
+        if let chat = chats?[indexPath.row], let myUser = MyUserManager.sharedInstance.myUser() {
+            cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
         return cell
 
