@@ -114,7 +114,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     }
     
     @IBAction func contactUsButtonPressed() {
-        let vc = ContactViewController()
+        let vc = HelpViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     
