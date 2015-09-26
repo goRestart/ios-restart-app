@@ -346,6 +346,25 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         dismissLoadingMessageAlert(completion: completion)
     }
     
+    public func viewModelDidStartAsking(viewModel: ProductViewModel) {
+        showLoadingMessageAlert()
+    }
+
+    public func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>) {
+        let completion: (() -> Void)?
+        if let viewController = result.value {
+            completion = {
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
+        else {
+            completion = {
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
+            }
+        }
+        dismissLoadingMessageAlert(completion: completion)
+    }
+    
     // MARK: - Private methods
     
     // MARK: > UI
@@ -621,14 +640,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         }
     }
 
-    // TODO: Refactor to retrieve a viewModel and build an VC, when ChatVC is switched to MVVM
     private func ask() {
-        if let vc = viewModel.ask() {
-            navigationController?.pushViewController(vc, animated: true)
-        }
-        else {
-            showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
-        }
+        viewModel.ask()
     }
     
     // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM

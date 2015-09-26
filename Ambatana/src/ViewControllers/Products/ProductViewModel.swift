@@ -30,6 +30,10 @@ public protocol ProductViewModelDelegate: class {
     
     func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: Result<Product, ProductMarkSoldServiceError>)
+    
+    func viewModelDidStartAsking(viewModel: ProductViewModel)
+    // TODO: Refactor to return a ViewModel
+    func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>)
 }
 
 public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
@@ -530,8 +534,40 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     // TODO: Refactor when Chat is following MVVM
-    public func ask() -> UIViewController? {
-        return ChatViewController(product: product)
+    public func ask() {
+        if let myUser = MyUserManager.sharedInstance.myUser() {
+
+            // Notify the delegate
+            delegate?.viewModelDidStartAsking(self)
+            
+            // Retrieve the chat
+            ChatManager.sharedInstance.retrieveChatWithProduct(product, buyer: myUser) { [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
+                if let strongSelf = self, let actualDelegate = strongSelf.delegate {
+                    
+                    var result = Result<UIViewController, ChatRetrieveServiceError>.failure(.Internal)
+                    
+                    // Success
+                    if let chat = retrieveResult.value, let vc = ChatViewController(chat: chat) {
+                        result = Result<UIViewController, ChatRetrieveServiceError>.success(vc)
+                    }
+                    // Error
+                    if let error = retrieveResult.error {
+                        switch error {
+                        // If not found, then no conversation has been created yet, it's a success
+                        case .NotFound:
+                            if let vc = ChatViewController(product: strongSelf.product) {
+                                result = Result<UIViewController, ChatRetrieveServiceError>.success(vc)
+                            }
+                        case .Network, .Unauthorized, .Internal:
+                            result = Result<UIViewController, ChatRetrieveServiceError>.failure(error)
+                        }
+                    }
+                    
+                    // Notify the delegate
+                    actualDelegate.viewModel(strongSelf, didFinishAsking: result)
+                }
+            }
+        }
     }
     
     // MARK: > Mark as Sold

@@ -25,50 +25,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        // Setup
-        setupLibraries(application, launchOptions: launchOptions)
+        // Setup (get the deep link, if any)
+        var deepLink = setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
-        
-        // Push notifications
-        var url: NSURL?
-        if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
-            if let deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithRemoteNotification: remoteNotification) {
-                url = deepLink.url
-            }
-        }
-        
-        // Deep linking
-        if let actualLaunchOptions = launchOptions, let deepLinkURL = actualLaunchOptions[UIApplicationLaunchOptionsURLKey] as? NSURL {
-            url = deepLinkURL
-        }
         
         // UI
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         if let actualWindow = window {
             
-            // Open Splash...
+            // Open Splash
             let splashVC = SplashViewController()
             let navCtl = UINavigationController(rootViewController: splashVC)
             splashVC.completionBlock = { [weak self] (succeeded: Bool) -> Void in
             
-                // rebuild user defaults
+                // Rebuild user defaults
                 UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
                                 
-                // ...and the TabBar afterwards
+                // Show TabBar afterwards
                 let tabBarCtl = TabBarController()
                 actualWindow.rootViewController = tabBarCtl
                 
-                // ... and open the deep link, if any
-                if let deepLinkURL = url, let deepLink = DeepLink(url: deepLinkURL) {
-                    tabBarCtl.openDeepLink(deepLink)
+                // Open the deep link, if any
+                if let actualDeepLink = deepLink {
+                    tabBarCtl.openDeepLink(actualDeepLink)
                 }
             }
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }
 
-        // We handle the URL if we pressed a deep link or it was received via APNS or Facebook does handle it
-        return url != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        // We handle the URL if we're via deep link or Facebook handles it
+        return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
@@ -166,7 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: > Setup
     
-    private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) {
+    private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
 
         // LGCoreKit
         LGCoreKit.initialize(launchOptions)
@@ -177,8 +164,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Fabric.with([Crashlytics()])
 #endif
         
-        // Push notifications
-        PushManager.sharedInstance.prepareApplicationForRemoteNotifications(application)
+        // Push notifications, get the deep link if any
+        var deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+        // Deep link (in case comes via regular clicked link letgo://...)
+        if let actualLaunchOptions = launchOptions, let url = actualLaunchOptions[UIApplicationLaunchOptionsURLKey] as? NSURL {
+            deepLink = DeepLink(url: url)
+        }
         
         // Tracking
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -186,6 +178,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // New Relic
         NewRelicAgent.startWithApplicationToken(EnvironmentProxy.sharedInstance.newRelicToken)
         
+        return deepLink
     }
     
     private func setupAppearance() {

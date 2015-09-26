@@ -70,16 +70,33 @@ public class PushManager: NSObject, KahunaDelegate {
     
     // MARK: - Public methods
     
-    public func prepareApplicationForRemoteNotifications(application: UIApplication) {
+    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
+        
+        // Ask for push permissions
         let userNotificationTypes = (UIUserNotificationType.Alert |
-                                     UIUserNotificationType.Badge |
-                                     UIUserNotificationType.Sound)
+            UIUserNotificationType.Badge |
+            UIUserNotificationType.Sound)
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
         
+        // Setup push notification libraries
         setupUrbanAirship()
         setupKahuna()
+        
+        // Get the deep link, if any
+        var deepLink: DeepLink?
+        if let userInfo = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
+            if let action = Action(userInfo: userInfo) {
+                switch action {
+                case .Message(_, _, _):
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
+                case .URL(let actualDeepLink):
+                    deepLink = actualDeepLink
+                }
+            }
+        }
+        return deepLink
     }
     
     public func application(application: UIApplication, didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) -> DeepLink? {
@@ -216,6 +233,7 @@ public class PushManager: NSObject, KahunaDelegate {
             let uc = Kahuna.createUserCredentials()
             var loginError: NSError?
             if let userId = user.objectId {
+                // TODO: Use Kahuna constants when updating to Xcode 7
 //                uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
                 uc.addCredential("user_id", withValue: userId)
             }
