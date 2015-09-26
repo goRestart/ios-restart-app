@@ -15,7 +15,6 @@ public class ProductManager {
     
     private var productSaveService: ProductSaveService
     private var fileUploadService: FileUploadService
-    private var productSynchronizeService: ProductSynchronizeService
     private var productDeleteService: ProductDeleteService
     private var productMarkSoldService : ProductMarkSoldService
     private var productFavouriteSaveService: ProductFavouriteSaveService
@@ -28,10 +27,9 @@ public class ProductManager {
     
     // MARK: - Lifecycle
     
-    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productSynchronizeService: ProductSynchronizeService, productDeleteService: ProductDeleteService, productMarkSoldService: ProductMarkSoldService, productFavouriteSaveService: ProductFavouriteSaveService, productFavouriteDeleteService: ProductFavouriteDeleteService, productRetrieveService: ProductRetrieveService, productReportSaveService: ProductReportSaveService, userProductRelationService : UserProductRelationService) {
+    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productDeleteService: ProductDeleteService, productMarkSoldService: ProductMarkSoldService, productFavouriteSaveService: ProductFavouriteSaveService, productFavouriteDeleteService: ProductFavouriteDeleteService, productRetrieveService: ProductRetrieveService, productReportSaveService: ProductReportSaveService, userProductRelationService : UserProductRelationService) {
         self.productSaveService = productSaveService
         self.fileUploadService = fileUploadService
-        self.productSynchronizeService = productSynchronizeService
         self.productDeleteService = productDeleteService
         self.productMarkSoldService = productMarkSoldService
         self.productFavouriteSaveService = productFavouriteSaveService
@@ -45,7 +43,6 @@ public class ProductManager {
     public convenience init() {
         let productSaveService = LGProductSaveService()
         let fileUploadService = LGFileUploadService()
-        let productSynchronizeService = LGProductSynchronizeService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = LGProductMarkSoldService()
         let productFavouriteSaveService = LGProductFavouriteSaveService()
@@ -54,7 +51,7 @@ public class ProductManager {
         let productReportSaveService = LGProductReportSaveService()
         let userProductRelationService = LGUserProductRelationService()
         
-        self.init(productSaveService: productSaveService, fileUploadService: fileUploadService, productSynchronizeService: productSynchronizeService, productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productRetrieveService: productRetrieveService, productReportSaveService: productReportSaveService, userProductRelationService: userProductRelationService)
+        self.init(productSaveService: productSaveService, fileUploadService: fileUploadService,productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productRetrieveService: productRetrieveService, productReportSaveService: productReportSaveService, userProductRelationService: userProductRelationService)
     }
     
     // MARK: - Public methods
