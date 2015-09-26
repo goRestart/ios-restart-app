@@ -39,7 +39,6 @@ final public class LGProductDeleteService: ProductDeleteService {
             .response { (_, _, _, error: NSError?) -> Void in
                 // Error
                 if let actualError = error {
-                    println(actualError)
                     if actualError.domain == NSURLErrorDomain {
                         result?(Result<Nil, ProductDeleteServiceError>.failure(.Network))
                     }

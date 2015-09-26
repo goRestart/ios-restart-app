@@ -216,11 +216,10 @@ public class MyUserManager {
         :param: result The closure containing the result.
     */
     public func updateAvatarWithImage(image: UIImage, result: FileUploadResult?) {
-        if let myUser = myUser(), let myUserId = myUser.objectId, let data = UIImageJPEGRepresentation(image, 0.9) {
+        if let myUser = myUser(), let myUserId = myUser.objectId, let sessionToken = myUser.sessionToken, let data = UIImageJPEGRepresentation(image, 0.9) {
 
             // 1. Upload the picture
-            let filename = "\(myUserId).jpg"
-            fileUploadService.uploadFile(filename, data: data) { (fileUploadResult: Result<File, FileUploadServiceError>) in
+            fileUploadService.uploadFileWithUserId(myUserId, sessionToken: sessionToken, data: data) { (fileUploadResult: Result<File, FileUploadServiceError>) in
 
                 // Succeeded
                 if let file = fileUploadResult.value {
@@ -415,11 +414,10 @@ public class MyUserManager {
                             self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
                                 
                                 // Succeeded
-                                if let savedUser = userSaveResult.value {
+                                if let savedUser = userSaveResult.value, let sessionToken = savedUser.sessionToken {
                                     
                                     // 5. Upload the avatar
-                                    let filename = "\(userId).jpg"
-                                    self.fileUploadService.uploadFile(filename, sourceURL: fbUserInfo.avatarURL) { (uploadResult: Result<File, FileUploadServiceError>) in
+                                    self.fileUploadService.uploadFileWithUserId(savedUser.objectId, sessionToken: sessionToken, sourceURL: fbUserInfo.avatarURL) { (uploadResult: Result<File, FileUploadServiceError>) in
                                         
                                         // Succeeded
                                         if let file = uploadResult.value {

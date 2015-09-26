@@ -29,9 +29,9 @@ public class UserDefaultsManager {
     
     private var ownerUserId : String? {
         
-        println(MyUserManager.sharedInstance.myUser()?.gpsCoordinates?.latitude)
-        println(MyUserManager.sharedInstance.myUser()?.gpsCoordinates?.longitude)
-        println(MyUserManager.sharedInstance.myUser()?.postalAddress.city)
+//        println(MyUserManager.sharedInstance.myUser()?.gpsCoordinates?.latitude)
+//        println(MyUserManager.sharedInstance.myUser()?.gpsCoordinates?.longitude)
+//        println(MyUserManager.sharedInstance.myUser()?.postalAddress.city)
         return MyUserManager.sharedInstance.myUser()?.objectId
     }
     
@@ -119,8 +119,6 @@ public class UserDefaultsManager {
         
         if let defaults = userDefaults.objectForKey(userId) as? NSDictionary {
             let userDict : NSMutableDictionary = NSMutableDictionary(dictionary: defaults)
-            println(userId)
-            println(userDict)
             return userDict
         }
         return NSMutableDictionary()

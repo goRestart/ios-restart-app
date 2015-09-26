@@ -21,18 +21,31 @@ public protocol FileUploadService {
     /**
         Upload the data into a file.
     
-        :param: name The filename.
+        :param: userId The user id.
+        :param: sessionToken The user session token.
         :param: data The data to upload.
         :param: result The closure containing the result.
     */
-    func uploadFile(name: String?, data: NSData, result: FileUploadServiceResult?)
+    func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, result: FileUploadServiceResult?)
     
     /**
         Upload the data into a file.
     
-        :param: name The filename.
+        :param: userId The user id.
+        :param: sessionToken The user session token.
         :param: sourceURL The URL where data is, that should be downloaded and later uploaded to a remote file.
         :param: result The closure containing the result.
     */
-    func uploadFile(name: String?, sourceURL: NSURL, result: FileUploadServiceResult?)
+    func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL, result: FileUploadServiceResult?)
+    
+    
+    /**
+        Synchronously, upload the data into a file.
+    
+        :param: userId The user id.
+        :param: sessionToken The user session token.
+        :param: data The data to upload.
+        :returns: The result.
+    */
+    func synchUploadFileWithUserId(userId: String, sessionToken: String, data: NSData) -> Result<File, FileUploadServiceError>
 }

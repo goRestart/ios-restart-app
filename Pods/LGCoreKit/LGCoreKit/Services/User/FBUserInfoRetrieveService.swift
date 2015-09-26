@@ -26,7 +26,8 @@ final public class FBUserInfoRetrieveService {
         :param: result The closure containing the result.
     */
     public func retrieveFBUserInfo(result: FBUserInfoRetrieveServiceResult?) {
-        let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: nil)
+        let parameters = ["fields": "id ,name, first_name, last_name, email"]
+        let meRequest = FBSDKGraphRequest(graphPath: "me", parameters: parameters)
         meRequest.startWithCompletionHandler { (connection: FBSDKGraphRequestConnection?, myResult: AnyObject?, error: NSError?) in
             // Error
             if let actualError = error {

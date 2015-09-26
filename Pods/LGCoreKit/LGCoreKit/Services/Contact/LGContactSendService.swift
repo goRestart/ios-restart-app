@@ -48,7 +48,6 @@ final public class LGContactSendService: ContactSendService {
             .response { (request, response, _, error: NSError?) -> Void in
                 // Error
                 if let actualError = error {
-                    println(actualError)
                     let myError : NSError
                     if actualError.domain == NSURLErrorDomain {
                         result?(Result<Contact, ContactSendServiceError>.failure(.Network))

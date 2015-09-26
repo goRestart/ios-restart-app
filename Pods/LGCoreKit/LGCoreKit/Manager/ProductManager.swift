@@ -75,9 +75,10 @@ public class ProductManager {
     */
     public func saveProduct(product: Product, withImages images: [UIImage], progress: (Float) -> Void, result: ProductSaveServiceResult?) {
 
-        // If we don't have a user, or it's a new product and the user doesn't have coordinates, then it's an error
+        /* If we don't have a user (with id & session token), or it's a new product and the user doesn't have coordinates, then it's an error */
         let user = MyUserManager.sharedInstance.myUser()
-        if user == nil || (!product.isSaved && user?.gpsCoordinates == nil) {
+        if  (user == nil && user!.objectId != nil && user!.sessionToken == nil) ||
+            (!product.isSaved && user?.gpsCoordinates == nil) {
             result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
             return
         }
@@ -94,7 +95,7 @@ public class ProductManager {
         
         // 1. Upload them
         let totalSteps = Float(images.count)    // #images + product save
-        uploadImagesWithNameAndData(imageNameAndDatas, step: { (imagesUploadStep: Int) -> Void in
+        uploadImagesWithUserId(user!.objectId!, sessionToken: user!.sessionToken!, imageNameAndDatas:imageNameAndDatas, step: { (imagesUploadStep: Int) -> Void in
 
             // Notify about the progress
             progress(Float(imagesUploadStep)/totalSteps)
@@ -284,11 +285,13 @@ public class ProductManager {
     /**
         Uploads the given images with name and data, notifies about the current step and when finished executes the result closure.
     
+        :param: myUserId My user id.
+        :param: sessionToken The user session token.
         :param: imageNameAndDatas The images name and data tuples
         :param: step The step closure informing about the current upload step
         :param: result The result closure
     */
-    private func uploadImagesWithNameAndData(imageNameAndDatas: [(String, NSData)], step: (Int) -> Void, result: MultipleFilesUploadServiceResult?) {
+    private func uploadImagesWithUserId(myUserId: String, sessionToken: String, imageNameAndDatas: [(String, NSData)], step: (Int) -> Void, result: MultipleFilesUploadServiceResult?) {
         
         if imageNameAndDatas.isEmpty {
             result?(Result<[File], FileUploadServiceError>.failure(.Internal))
@@ -297,35 +300,35 @@ public class ProductManager {
         
         let fileUploadQueue = dispatch_queue_create("ProductManager", DISPATCH_QUEUE_SERIAL) // serial upload of images
         dispatch_async(fileUploadQueue, { () -> Void in
-
+            
             // For each image name and data, upload it
             var fileImages: [File] = []
             
             for imageNameAndData in imageNameAndDatas {
+                let fileUploadResult = self.fileUploadService.synchUploadFileWithUserId(myUserId, sessionToken: sessionToken, data: imageNameAndData.1)
                 
-                self.fileUploadService.uploadFile(imageNameAndData.0, data: imageNameAndData.1) { (fileUploadResult: Result<File, FileUploadServiceError>) in
+                // Succeeded
+                if let file = fileUploadResult.value {
+                    fileImages.append(file)
                     
-                    // Succeeded
-                    if let file = fileUploadResult.value {
-                        fileImages.append(file)
+                    dispatch_async(dispatch_get_main_queue()) {
                         
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            
-                            // Notify the current step
-                            step(fileImages.count)
-                            
-                            // If finished, then notify about it
-                            if fileImages.count >= imageNameAndDatas.count {
-                                result?(Result<[File], FileUploadServiceError>.success(fileImages))
-                            }
-                        })
-                    }
-                    // Error, the overall image upload process is reported as a failure
-                    else {
-                        if let actualError = fileUploadResult.error {
-                            result?(Result<[File], FileUploadServiceError>.failure(actualError))
+                        // Notify the current step
+                        step(fileImages.count)
+                        
+                        // If finished, then notify about it
+                        if fileImages.count >= imageNameAndDatas.count {
+                            result?(Result<[File], FileUploadServiceError>.success(fileImages))
                         }
                     }
+                }
+                // Error, the overall image upload process is reported as a failure
+                else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        let error = fileUploadResult.error ?? .Internal
+                        result?(Result<[File], FileUploadServiceError>.failure(error))
+                    }
+                    break
                 }
             }
         })
