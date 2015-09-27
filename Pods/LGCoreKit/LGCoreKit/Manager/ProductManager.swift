@@ -210,14 +210,8 @@ public class ProductManager {
         :param: result The closure containing the result.
     */
     public func saveFavourite(product: Product, result: ProductFavouriteSaveServiceResult?) {
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            if product.favorited == NSNumber(bool: false) {
-                if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-                    self.productFavouriteSaveService.saveFavouriteProduct(product, user: myUser, sessionToken: sessionToken, result: result)
-                }
-            } else {
-                result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.AlreadyExists))
-            }
+        if let myUser = MyUserManager.sharedInstance.myUser(), let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+            self.productFavouriteSaveService.saveFavouriteProduct(product, user: myUser, sessionToken: sessionToken, result: result)
         }
         else {
             result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Internal))
@@ -231,15 +225,11 @@ public class ProductManager {
         :param: result The closure containing the result.
     */
     public func deleteFavourite(product: Product, result: ProductFavouriteDeleteServiceResult?) {
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            if product.favorited == NSNumber(bool: true) {
-                if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-                    var productFavourite = LGProductFavourite()
-                    productFavourite.product = product
-                    productFavourite.user = myUser
-                    self.productFavouriteDeleteService.deleteProductFavourite(productFavourite, sessionToken: sessionToken, result: result)
-                }
-            }
+        if let myUser = MyUserManager.sharedInstance.myUser(), let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+            var productFavourite = LGProductFavourite()
+            productFavourite.product = product
+            productFavourite.user = myUser
+            self.productFavouriteDeleteService.deleteProductFavourite(productFavourite, sessionToken: sessionToken, result: result)
         }
         else {
             result?(Result<Nil, ProductFavouriteDeleteServiceError>.failure(.Internal))
