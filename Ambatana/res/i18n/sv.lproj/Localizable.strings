@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "NYSKICK";
 "product_list_item_sold_status_label" = "SÅLD";
 "product_list_location_disabled_button" = "Inställningar";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "Hoppsan! Din navigation är avstängd. Välj din Plats för att se de bästa erbjudandena i närområdet!";
 "product_list_location_disabled_label" = "Hoppsan. Din plats är avstängd. För att sätta på det gå till: \nInställningar > Privat > Platstjänster.";
 "product_list_location_unauthorized_button" = "Inställningar";
 "product_list_location_unauthorized_label" = "Var god tillåt åtkomst till din plats.";
@@ -161,7 +161,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Rapportera produkt";
 "product_report_product_button" = "Rapportera produkt";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "Vi kunde tyvärr inte rapportera produkten just nu. Var vänlig försök igen senare.";
 "product_reported_product_label" = "Denna produkt har rapporterats";
 "product_reported_success_message" = "Denna produkt har rapporterats. Tack!";
 "product_reporting_loading_message" = "Rapporterar produkt...";
@@ -248,7 +248,7 @@
 "settings_title" = "Inställningar";
 "sign_up_email_field_hint" = "E-post";
 "sign_up_password_field_hint" = "Lösenord";
-"sign_up_send_button" = "Registrera";
+"sign_up_send_button" = "Registrera dig";
 "sign_up_send_error_email_taken" = "Användare finns redan";
 "sign_up_send_error_generic" = "Ett fel uppstod vid skapande av användare.";
 "sign_up_send_error_invalid_email" = "Var god ange en giltig e-postadress";

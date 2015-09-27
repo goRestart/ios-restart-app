@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "MỚI";
 "product_list_item_sold_status_label" = "ĐÃ BÁN";
 "product_list_location_disabled_button" = "Cài đặt";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "Ồ! Địa điểm của bạn đã bị tắt. Hãy thiết lập địa điểm để xem những giao dịch gần bạn!";
 "product_list_location_disabled_label" = "Ồ! Vị trí của bạn đã bị tắt. Để bật vị trí, hãy vào Cài đặt > Riêng tư > Dịch vụ sử dụng Vị trí.";
 "product_list_location_unauthorized_button" = "Cài đặt";
 "product_list_location_unauthorized_label" = "Vui lòng cho phép chúng tôi truy cập địa điểm của bạn.";
@@ -161,7 +161,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Báo cáo Sản phẩm";
 "product_report_product_button" = "Báo cáo Sản phẩm";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "Chúng tôi không thể báo cáo sản phẩm tại thời điểm này. Vui lòng thử lại sau.";
 "product_reported_product_label" = "Sản phẩm đã được báo cáo thành công";
 "product_reported_success_message" = "Sản phẩm đã được báo cáo thành công. Xin cảm ơn!";
 "product_reporting_loading_message" = "Đang báo cáo sản phẩm...";

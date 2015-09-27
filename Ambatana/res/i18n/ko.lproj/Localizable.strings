@@ -160,7 +160,7 @@
 "product_report_confirm_message" = "이 제품을 신고하시기를 원하시나요?";
 "product_report_confirm_ok_button" = "예";
 "product_report_confirm_title" = "제품 신고";
-"product_report_product_button" = "제품 신고하기";
+"product_report_product_button" = "제품 신고";
 "product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "신고가 접수된 제품입니다";
 "product_reported_success_message" = "제품이 성공적으로 신고되었습니다.   감사합니다!";

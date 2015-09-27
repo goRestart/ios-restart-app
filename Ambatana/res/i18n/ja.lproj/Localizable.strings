@@ -38,7 +38,7 @@
 "chat_message_load_generic_error" = "会話のデータの検索中にエラーが発生しました。後でもう一度お試しください。";
 "chat_safety_tips_tip_1" = "取引が成立した後、j実際に会って支払をしましょう。";
 "chat_safety_tips_tip_2" = "為替、銀行振り込みや小切手は断りましょう。";
-"chat_safety_tips_tip_3" = "配送を断る場合は賢く直感的に！";
+"chat_safety_tips_tip_3" = "配送を決める場合は賢く直感的に！";
 "chat_safety_tips_title" = "安全に関するアドバイス";
 "chat_send_button" = "送信";
 "chat_send_error_generic" = "メッセージの送信でエラーが発生しました。後でもう一度お試しください。";
@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "新着";
 "product_list_item_sold_status_label" = "売却済み";
 "product_list_location_disabled_button" = "設定";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "位置情報はオフになっています。近くで、最適な商品を見つけるには位置情報を設定してください。";
 "product_list_location_disabled_label" = "位置情報がオフになっています。 次の設定個所で、オンにしてください：設定＞プライバシー＞位置情報サービス　";
 "product_list_location_unauthorized_button" = "設定";
 "product_list_location_unauthorized_label" = "位置情報へのアクセスを許可してください。";
@@ -160,8 +160,8 @@
 "product_report_confirm_message" = "この商品を本当に報告しますか？";
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "商品報告";
-"product_report_product_button" = "商品の報告";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_report_product_button" = "商品報告";
+"product_reported_error_generic" = "現在、商品の報告ができません。しばらくしてもう一度お試しください。";
 "product_reported_product_label" = "商品は正常に報告されました。";
 "product_reported_success_message" = "商品は無事に報告されました。";
 "product_reporting_loading_message" = "商品報告中…";

@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "NY";
 "product_list_item_sold_status_label" = "SOLGT";
 "product_list_location_disabled_button" = "Innstillinger";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Din plassering er avskrudd. Benytt plassering for å kunne se de beste tilbudene i ditt nærområde!";
 "product_list_location_disabled_label" = "Oops! Ditt sted er deaktivert. Aktiver ved å gå til: Innstillinger > Personvern > Stedstjenester";
 "product_list_location_unauthorized_button" = "Innstillinger";
 "product_list_location_unauthorized_label" = "Vennligst gi oss tillatelse til å bruke ditt sted.";
@@ -159,9 +159,9 @@
 "product_report_confirm_cancel_button" = "Avbryt";
 "product_report_confirm_message" = "Er du sikker på at du ønsker å rapportere dette produktet?";
 "product_report_confirm_ok_button" = "OK";
-"product_report_confirm_title" = "Rapportér Produkt";
+"product_report_confirm_title" = "Rapportér produkt";
 "product_report_product_button" = "Rapportér produkt";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "Vi klarte ikke å rapportere produkt på nåværende tidspunkt. Vennligst prøv igjen senere.";
 "product_reported_product_label" = "Rapportering av produktet var vellykket";
 "product_reported_success_message" = "Rapportering av produkt var vellykket. Takk!";
 "product_reporting_loading_message" = "Rapporterer Produkt...";

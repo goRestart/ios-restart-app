@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "НОВОЕ";
 "product_list_item_sold_status_label" = "ПРОДАНО";
 "product_list_location_disabled_button" = "Настройки";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "Упс! Определение местоположения выключено. Укажите свое местоположение, чтобы видеть лучшие предложения недалеко от вас!";
 "product_list_location_disabled_label" = "Упс! Определение местоположения выключено. Для включения пройдите : Настройки > Безопасность > Местоположение";
 "product_list_location_unauthorized_button" = "Настройки";
 "product_list_location_unauthorized_label" = "Пожалуйста, разрешите доступ к вашему местоположению.";
@@ -160,8 +160,8 @@
 "product_report_confirm_message" = "Вы уверены, что хотите пожаловаться на продукт?";
 "product_report_confirm_ok_button" = "ОК";
 "product_report_confirm_title" = "Пожаловаться на продукт";
-"product_report_product_button" = "Отчет о товаре";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_report_product_button" = "Пожаловаться на продукт";
+"product_reported_error_generic" = "Не получилось отправить отчет. Пожалуйста, попробуйте еще раз позже.";
 "product_reported_product_label" = "Ваша жалоба была отправлена.";
 "product_reported_success_message" = "Спасибо! Ваша жалоба была отправлена.";
 "product_reporting_loading_message" = "Пожаловаться на продукт";

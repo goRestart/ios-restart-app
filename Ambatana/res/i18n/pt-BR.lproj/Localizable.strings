@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "NOVO";
 "product_list_item_sold_status_label" = "VENDIDO";
 "product_list_location_disabled_button" = "Configurações";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Sua localização foi desativada. Defina a sua localização para poder visualizar as melhores ofertas em sua região!";
 "product_list_location_disabled_label" = "Ops! A sua localização está desativada. Para ativá-la acesse:\nConfigurações > Privacidade > Serviços de Localização.";
 "product_list_location_unauthorized_button" = "Configurações";
 "product_list_location_unauthorized_label" = "Por favor, nos dê permissão para acessar sua localização.";
@@ -161,10 +161,10 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Denunciar produto";
 "product_report_product_button" = "Denunciar produto";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "Não foi possível fazer a denúncia do produto neste momento. Por favor, tente mais tarde.";
 "product_reported_product_label" = "O produto foi denunciado com sucesso";
 "product_reported_success_message" = "O produto foi denunciado com sucesso. Obrigado!";
-"product_reporting_loading_message" = "Denunciando produto...";
+"product_reporting_loading_message" = "Denunciando o produto...";
 "product_reporting_product_label" = "Denunciando o produto...";
 "product_share_body" = "Veja o que eu acabei de encontrar no letgo!";
 "product_share_email_error" = "Ops, aparentemente você não configurou uma conta no Mail app";

@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "ΝΕΟ";
 "product_list_item_sold_status_label" = "ΠΩΛΗΘΗΚΕ";
 "product_list_location_disabled_button" = "Ρυθμίσεις";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "Όπα! Η τοποθεσία σου είναι απενεργοποιημένη. Ενεργοποίησε την και δες τις καλύτερες προσφορές κοντά σου!";
 "product_list_location_disabled_label" = "Ooops! Η τοποθεσία σου είναι απενεργοποιημένη! Για να την ενεργοποιήσεις, πήγαινε: Ρυθμίσεις > Απόρρητο > Υπηρεσίες Τοποθεσίας.";
 "product_list_location_unauthorized_button" = "Ρυθμίσεις";
 "product_list_location_unauthorized_label" = "Παρακαλώ, επιτρέψτε μας να έχουμε πρόσβαση στην τοποθεσία σας.";
@@ -161,7 +161,7 @@
 "product_report_confirm_ok_button" = "ΟΚ";
 "product_report_confirm_title" = "Αναφορά Προϊόντος";
 "product_report_product_button" = "Αναφορά Προϊόντος";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "Παρουσιάστηκε σφάλμα κατά την αναφορά του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
 "product_reported_product_label" = "Έγινε επιτυχής αναφορά του προϊόντος";
 "product_reported_success_message" = "Η αναφορά προϊόντος πραγματοποιήθηκε επιτυχώς.  Ευχαριστούμε!";
 "product_reporting_loading_message" = "Αναφορά Προϊόντος...";

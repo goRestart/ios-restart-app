@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "အသစ်";
 "product_list_item_sold_status_label" = "ရောင်းပြီး";
 "product_list_location_disabled_button" = "ဆက်တင်များ";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "မှားပါတယ်။ သင့်တည်နေရာသည် ပိတ်ထားပါတယ်။ အနီးနားရှိ အကောင်းဆုံးကမ်းလှမ်းချက်များကို ကြည့်ရန် သင့်တည်နေရာကို သတ်မှတ်ပါ။";
 "product_list_location_disabled_label" = "မှားပါတယ်။ သင့်တည်နေရာသည် ပိတ်ထားပါတယ်။ ၄င်းကိုဖွင့်ရန် ဆက်တင်များ>ကိုယ်ရေး>‌တည်နေရာ ၀န်ဆောင်မှုများ သို့သွားပါ။";
 "product_list_location_unauthorized_button" = "ဆက်တင်များ";
 "product_list_location_unauthorized_label" = "သင့်တည်နေရာကို အသုံးပြုနိုင်ရန် ကျွန်ုပ်တို့အား ကျေးဇူးပြုပြီး ခွင့်ပေးပါ။";
@@ -161,7 +161,7 @@
 "product_report_confirm_ok_button" = "ကောင်းပြီ";
 "product_report_confirm_title" = "ထုတ်ကုန်ကို အစီရင်ခံပါ";
 "product_report_product_button" = "ထုတ်ကုန်ကို အစီရင်ခံပါ";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "ဤအချိန်တွင် ထုတ်ကုန်ကို မတင်ပြနိုင်ပါ။ ကျေးဇူးပြုပြီးပြန်ကြိုးစားပါ။";
 "product_reported_product_label" = "ထုတ်ကုန်ကို အောင်မြင်စွာအစီရင်ခံပြီးပြီ";
 "product_reported_success_message" = "ထုတ်ကုန်ကို အောင်မြင်စွာ အစီရင်ခံပြီးပါပြီ။  ကျေးဇူးပါ!";
 "product_reporting_loading_message" = "ထုတ်ကုန်ကို အစီရင်ခံခြင်း...";

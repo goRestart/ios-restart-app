@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "ÚJ";
 "product_list_item_sold_status_label" = "ELADVA";
 "product_list_location_disabled_button" = "Beállítások";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "Hoppá! A helyadatok le vannak tiltva. Engedélyezd, hogy láthasd a közeli ajánlatokat!";
 "product_list_location_disabled_label" = "Hopsz! A helyadatok le vannak tiltva. Így engedélyezheted: \nBeállítások > Adatvédelem > Helymeghatározás.";
 "product_list_location_unauthorized_button" = "Beállítások";
 "product_list_location_unauthorized_label" = "Kérjük, engedélyezd, hogy hozzáférjünk a helyadatokhoz.";
@@ -161,7 +161,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "Portéka jelentése";
 "product_report_product_button" = "Portéka jelentése";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "Hiba történt a portéka jelentése során. Kérjük, próbálkozz később.";
 "product_reported_product_label" = "A portéka sikeresen jelentve";
 "product_reported_success_message" = "A portéka sikeresen jelentve. Köszönjük!";
 "product_reporting_loading_message" = "Portéka jelentése...";

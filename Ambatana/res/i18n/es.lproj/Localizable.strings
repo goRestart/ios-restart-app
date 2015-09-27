@@ -159,13 +159,13 @@
 "product_report_confirm_cancel_button" = "Cancelar";
 "product_report_confirm_message" = "¿Estás seguro de que quieres denunciar este artículo?";
 "product_report_confirm_ok_button" = "OK";
-"product_report_confirm_title" = "Denunciar Artículo";
+"product_report_confirm_title" = "Denunciar artículo";
 "product_report_product_button" = "Denunciar artículo";
 "product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
 "product_reported_product_label" = "Tu denuncia ha sido enviada con éxito";
 "product_reported_success_message" = "El artículo fue denunciado con éxito. ¡Gracias!";
 "product_reporting_loading_message" = "Denunciando el artículo...";
-"product_reporting_product_label" = "Enviando denuncia sobre el artículo...";
+"product_reporting_product_label" = "Denunciando el artículo...";
 "product_share_body" = "¡Mira lo que he encontrado en letgo!";
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado un email en este dispositivo";
 "product_share_whatsapp_error" = "Oops, parece que no has instalado la aplicación de WhatsApp";

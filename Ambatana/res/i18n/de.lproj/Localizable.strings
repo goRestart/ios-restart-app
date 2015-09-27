@@ -137,7 +137,7 @@
 "product_list_item_new_status_label" = "NEU";
 "product_list_item_sold_status_label" = "VERKAUFT";
 "product_list_location_disabled_button" = "Einstellungen";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
+"product_list_location_disabled_go_to_indicate_location_label" = "Hoppla! Dein Standort ist nicht eingestellt. Stelle ihn ein, um die besten Angebote in deiner Umgebung zu sehen!";
 "product_list_location_disabled_label" = "Hoppla! Dein Standort ist ausgeschaltet. Um ihn einzuschalten, gehe zu: \nEinstellungen > Privatsphäre > Positionsbestimmung.";
 "product_list_location_unauthorized_button" = "Einstellungen";
 "product_list_location_unauthorized_label" = "Bitte erlaube uns, auf deinen Standort zuzugreifen.";
@@ -161,7 +161,7 @@
 "product_report_confirm_ok_button" = "Ok";
 "product_report_confirm_title" = "Produkt melden";
 "product_report_product_button" = "Produkt melden";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "Das Produkt konnte nicht gemeldet werden. Bitte versuche es später noch einmal.";
 "product_reported_product_label" = "Das Produkt wurde erfolgreich gemeldet";
 "product_reported_success_message" = "Das Produkt wurde erfolgreich gemeldet.  Danke!";
 "product_reporting_loading_message" = "Melde Produkt...";
