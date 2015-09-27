@@ -28,10 +28,6 @@ public class UserDefaultsManager {
     public private(set) var userDefaults: NSUserDefaults
     
     private var ownerUserId : String? {
-        
-//        println(MyUserManager.sharedInstance.myUser()?.gpsCoordinates?.latitude)
-//        println(MyUserManager.sharedInstance.myUser()?.gpsCoordinates?.longitude)
-//        println(MyUserManager.sharedInstance.myUser()?.postalAddress.city)
         return MyUserManager.sharedInstance.myUser()?.objectId
     }
     

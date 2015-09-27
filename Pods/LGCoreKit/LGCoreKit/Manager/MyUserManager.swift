@@ -476,9 +476,6 @@ public class MyUserManager {
             
             // Notify
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.logout.rawValue, object: nil)
-            
-            // Reset User Defaults
-            UserDefaultsManager.sharedInstance.resetUserDefaults()
 
             // set default gps location
             LocationManager.sharedInstance.userDidSetAutomaticLocation(nil)
