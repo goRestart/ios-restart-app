@@ -66,7 +66,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     }
     
     override func viewWillAppear(animated: Bool) {
-        super.viewWillDisappear(animated)
+        super.viewWillAppear(animated)
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
