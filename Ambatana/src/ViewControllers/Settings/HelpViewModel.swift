@@ -8,14 +8,17 @@
 
 public class HelpViewModel: BaseViewModel {
    
+    private static let availableHelpLangs = ["de", "el", "en", "es", "fi", "fr", "hu", "it", "nb", "nl", "ru", "sv", "tr", "vi"]
+    private static let defaultLang = "en"
+    
     public var url: NSURL? {
         let preferredLanguages = NSLocale.preferredLanguages()
-        let language: String
+        var language: String = HelpViewModel.defaultLang
         if !preferredLanguages.isEmpty {
-            language = preferredLanguages[0] as? String ?? "en"
-        }
-        else {
-            language = "en"
+            language = preferredLanguages[0] as? String ?? HelpViewModel.defaultLang
+            if !contains(HelpViewModel.availableHelpLangs, language) {
+                language = HelpViewModel.defaultLang
+            }
         }
         let urlString = String(format: Constants.helpURL, arguments: [language])
         return NSURL(string: urlString)
