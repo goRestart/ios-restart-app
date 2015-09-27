@@ -67,6 +67,8 @@ public class LGChatSendMessageService: ChatSendMessageService {
                 // Success (status code 201)
                 else {
                     var msg = LGMessage()
+                    msg.createdAt = NSDate()
+                    msg.updatedAt = NSDate()
                     msg.userId = userId
                     msg.text = message
                     msg.type = type
