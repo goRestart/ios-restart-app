@@ -34,7 +34,7 @@ public class LGMessageParser {
     public static func messageWithJSON(json: JSON) -> LGMessage {
         let message = LGMessage()
 //        message.objectId = json[LGMessageParser.objectIdJSONKey].string  // @ahl: id ignored
-        if let updatedAtStr = json[LGMessageParser.createdAtJSONKey].string, let date = LGDateFormatter.sharedInstance.dateFromString(updatedAtStr) {
+        if let createdAtStr = json[LGMessageParser.createdAtJSONKey].string, let date = LGDateFormatter.sharedInstance.dateFromString(createdAtStr) {
             message.createdAt = date
         }
         message.text = json[LGMessageParser.textJSONKey].string
