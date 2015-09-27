@@ -49,16 +49,17 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     // MARK: - SellProductViewModelDelegate Methods
 
     override func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: Result<Product, ProductSaveServiceError>) {
-        self.editViewModel.shouldDisableTracking()
         super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
         
         if let savedProduct = result.value {
             editViewModel.updateInfoOfPreviousVCWithProduct(savedProduct)
         }
-        
-        self.showAutoFadingOutMessageAlert(NSLocalizedString("edit_product_send_ok", comment: "")) { () -> Void in
+    }
+    
+    internal override func sellCompleted() {
+        super.sellCompleted()
+        showAutoFadingOutMessageAlert(NSLocalizedString("edit_product_send_ok", comment: "")) { () -> Void in
             self.navigationController?.popViewControllerAnimated(true)
-            self.editViewModel.shouldEnableTracking()
         }
     }
     

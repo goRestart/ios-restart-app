@@ -244,7 +244,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         updateUI()
     }
     
-    
     public func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel) {
         favoriteButton?.userInteractionEnabled = false
     }
@@ -254,19 +253,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         setFavouriteButtonAsFavourited(viewModel.isFavourite)
     }
     
-    
     public func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel) {
         favoriteButton?.userInteractionEnabled = false
+        reportButton.enabled = false
     }
-
-    
-//    public func viewModelDidStartRetrievingFavourite(viewModel: ProductViewModel) {
-//        favoriteButton?.userInteractionEnabled = false
-//    }
-//
-//    public func viewModelDidStartRetrievingReported(viewModel: ProductViewModel) {
-//        
-//    }
 
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
         reportButton.enabled = false
@@ -289,7 +279,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     public func viewModelDidFailReporting(viewModel: ProductViewModel) {
         
-        var completion = {
+        var completion: () -> Void = {
+            self.reportButton.enabled = true
             self.showAutoFadingOutMessageAlert(NSLocalizedString("product_reported_error_generic", comment: ""), time: 3)
         }
         

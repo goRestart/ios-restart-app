@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import FBSDKShareKit
 import LGCoreKit
 import Result
 
@@ -38,26 +39,15 @@ class NewSellProductViewController: SellProductViewController {
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeButtonPressed"))
         self.navigationItem.leftBarButtonItem = closeButton;
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-
-    override func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: Result<Product, ProductSaveServiceError>) {
-        self.newSellViewModel.shouldDisableTracking()
-        super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
-        
-        
-        self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: "")) { () -> Void in
+    internal override func sellCompleted() {
+        super.sellCompleted()
+        showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_ok", comment: "")) { () -> Void in
             self.dismissViewControllerAnimated(true, completion: { [weak self] in
                 if let strongSelf = self {
                     strongSelf.completedSellDelegate?.sellProductViewController?(self, didCompleteSell: true)
                 }
             })
-            
-            self.newSellViewModel.shouldEnableTracking()
         }
     }
     

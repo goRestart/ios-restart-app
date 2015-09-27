@@ -129,19 +129,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         categoryButton.setTitle(categoryName, forState: .Normal)
     }
     
-    func sellProductViewModelDidStartSavingProduct(viewModel: SellProductViewModel) {
-        loadingView.hidden = false
-        loadingProgressView.setProgress(0, animated: false)
-    }
-    
-    func sellProductViewModel(viewModel: SellProductViewModel, didUpdateProgressWithPercentage percentage: Float) {
-        loadingProgressView.setProgress(percentage, animated: false)
-    }
-    
-    func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: Result<Product, ProductSaveServiceError>) {
-        loadingView.hidden = true
-    }
-
     func sellProductViewModel(viewModel: SellProductViewModel, shouldUpdateDescriptionWithCount count: Int) {
         
         if count <= 0 {
@@ -156,18 +143,33 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         imageCollectionView.reloadSections(NSIndexSet(index: 0))
     }
     
+    func sellProductViewModelDidStartSavingProduct(viewModel: SellProductViewModel) {
+        loadingView.hidden = false
+        loadingProgressView.setProgress(0, animated: false)
+    }
+    
+    func sellProductViewModel(viewModel: SellProductViewModel, didUpdateProgressWithPercentage percentage: Float) {
+        loadingProgressView.setProgress(percentage, animated: false)
+    }
+    
+    func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: Result<Product, ProductSaveServiceError>) {
+        loadingView.hidden = true
+        
+        if viewModel.shouldShareInFB {
+            viewModel.shouldDisableTracking()
+            let content = viewModel.fbShareContent
+            FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
+        }
+        else {
+            sellCompleted()
+        }
+    }
+    
     func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
         loadingView.hidden = true
     }
-
-    func sellProductViewModelShareContentinFacebook(viewModel: SellProductViewModel, withContent content: FBSDKShareLinkContent) {
-        FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
-    }
-
-
     
     // MARK: - TextField Delegate Methods
-    
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
@@ -402,19 +404,36 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         super.popBackViewController()
     }
     
+    internal func sellCompleted() {
+        // Note: overriden in children
+    }
+    
     // MARK: - Share in facebook.
     
     func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        viewModel.shouldEnableTracking()
         viewModel.trackSharedFB()
+        // @ahl: delayed is needed thanks to facebook
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            self.sellCompleted()
+        }
     }
     
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""))
+        viewModel.shouldEnableTracking()
+        // @ahl: delayed is needed thanks to facebook
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: "")) {
+                self.sellCompleted()
+            }
+        }
     }
     
     func sharerDidCancel(sharer: FBSDKSharing!) {
-        
+        viewModel.shouldEnableTracking()
+        // @ahl: delayed is needed thanks to facebook
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            self.sellCompleted()
+        }
     }
-
-
 }

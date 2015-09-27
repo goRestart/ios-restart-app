@@ -22,8 +22,6 @@ protocol SellProductViewModelDelegate : class {
     func sellProductViewModel(viewModel: SellProductViewModel, shouldUpdateDescriptionWithCount count: Int)
     func sellProductViewModeldidAddOrDeleteImage(viewModel: SellProductViewModel)
     func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError)
-
-    func sellProductViewModelShareContentinFacebook(viewModel: SellProductViewModel, withContent content: FBSDKShareLinkContent)
 }
 
 public class SellProductViewModel: BaseViewModel {
@@ -34,7 +32,7 @@ public class SellProductViewModel: BaseViewModel {
     var price: String
     internal var category: ProductCategory?
     var shouldShareInFB: Bool
-
+    
     var descr: String {
         didSet {
             delegate?.sellProductViewModel(self, shouldUpdateDescriptionWithCount: descriptionCharCount)
@@ -149,6 +147,16 @@ public class SellProductViewModel: BaseViewModel {
         saveProduct(product: nil)
     }
     
+    public var fbShareContent: FBSDKShareLinkContent? {
+        if let product = savedProduct {
+            let title = NSLocalizedString("sell_share_fb_content", comment: "")
+            return SocialHelper.socialMessageWithTitle(title, product: product).fbShareContent
+        }
+        return nil
+    }
+    
+    // MARK: - Private methods
+    
     internal func saveProduct(product: Product? = nil) {
         
         let theProduct = product ?? LGProduct()
@@ -213,12 +221,8 @@ public class SellProductViewModel: BaseViewModel {
                         
                         strongSelf.trackComplete(actualProduct)
                         strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
-                        
-                        if strongSelf.shouldShareInFB {
-                            strongSelf.shareCurrentProductInFacebook(actualProduct)
-                        }
-                        
-                    } else {
+                    }
+                    else {
                         let error = r.error ?? ProductSaveServiceError.Internal
                         strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: error)
                     }
@@ -235,20 +239,4 @@ public class SellProductViewModel: BaseViewModel {
         }
         return noNilImages
     }
-    
-    // MARK: - FB Share
-
-    // TODO: Actual sharing must happen in VC (see ProductVC / ProductVM)
-    func shareCurrentProductInFacebook(product: Product) {
-        delegate?.sellProductViewModelShareContentinFacebook(self, withContent: shareFacebookContent(product))
-    }
-    
-    // TODO: Refactor, this should be a computed iVar, and product should be generated in here or in parent class
-    func shareFacebookContent(product: Product) -> FBSDKShareLinkContent {
-        let title = NSLocalizedString("sell_share_fb_content", comment: "")
-        return SocialHelper.socialMessageWithTitle(title, product: product).fbShareContent
-    }
 }
-
-
-
