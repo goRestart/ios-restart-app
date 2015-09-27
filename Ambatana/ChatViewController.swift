@@ -180,6 +180,25 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
                     // Success
                     if let chat = result.value {
                         strongSelf.chat = chat
+                        
+                        // Check if we received a message by other user
+                        var messageByOtherUserReceived = false
+                        if let messages = chat.messages {
+                            for message in messages {
+                                if let otherUserId = strongSelf.otherUser.objectId, let messageUserId = message.userId {
+                                    if otherUserId == messageUserId {
+                                        messageByOtherUserReceived = true
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                        // Show the safety tips if we received a message by other user & the tips were not shown ever
+                        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
+                        var shouldShowSafetyTips = ( messageByOtherUserReceived && idxLastPageSeen == nil )
+                        if shouldShowSafetyTips {
+                            strongSelf.showSafetyTips()
+                        }
                     }
                     // Error
                     else if let error = result.error {
@@ -425,14 +444,14 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     func configureMyMessageCell(cell: ChatMyMessageCell, atIndexPath indexPath: NSIndexPath) {
         if let message = chat.messages?[indexPath.row] {
             cell.messageLabel.text = message.text ?? ""
-            cell.dateLabel.text = message.updatedAt?.relativeTimeString() ?? ""
+            cell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
         }
     }
     
     func configureOthersMessageCell(cell: ChatOthersMessageCell, atIndexPath indexPath: NSIndexPath) {
         if let message = chat.messages?[indexPath.row] {
             cell.messageLabel.text = message.text ?? ""
-            cell.dateLabel.text = message.updatedAt?.relativeTimeString() ?? ""
+            cell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
             
             if let avatar = otherUser.avatar {
                 cell.avatarImageView.sd_setImageWithURL(avatar.fileURL, placeholderImage: UIImage(named: "no_photo"))
