@@ -59,6 +59,10 @@ class IndicateLocationViewController: UIViewController, MKMapViewDelegate, UIGes
         // localization
         searchTextField.placeholder = NSLocalizedString("indicate_location_address_field_hint", comment: "")
         keepFingerPressedLabel.text = NSLocalizedString("indicate_location_long_press_tip_label", comment: "")
+        
+        let trackerEvent = TrackerEvent.locationMapShown()
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
     }
     
     override func viewWillAppear(animated: Bool) {

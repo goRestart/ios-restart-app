@@ -62,6 +62,8 @@ public enum EventName: String {
     case AppRatingSuggest                   = "app-rating-suggest"
     case AppRatingDontAsk                   = "app-rating-dont-ask"
 
+    case LocationMap                        = "location-map"
+
     
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"

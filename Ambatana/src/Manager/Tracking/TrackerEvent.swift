@@ -326,6 +326,13 @@ public struct TrackerEvent {
         return TrackerEvent(name: .AppRatingDontAsk, params: params)
     }
     
+    
+    public static func locationMapShown() -> TrackerEvent {
+        var params = EventParameters()
+        return TrackerEvent(name: .LocationMap, params: params)
+    }
+
+    
     // MARK: - Private methods
     
     private static func eventParameterLocationTypeForLocation(location: LGLocation) -> EventParameterLocationType? {
