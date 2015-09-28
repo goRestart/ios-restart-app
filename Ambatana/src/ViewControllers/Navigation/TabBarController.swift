@@ -45,7 +45,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
             case Categories:
                 return CategoriesViewController()
             case Sell:
-                return NewSellProductViewController()
+                return nil
             case Chats:
                 return ChatListViewController()
             case Profile:
@@ -379,11 +379,10 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     }
     
     private func presentSellVC() {
-        if let vc = Tab.Sell.viewController as? NewSellProductViewController {
-            vc.completedSellDelegate = self
-            let navCtl = UINavigationController(rootViewController: vc)
-            presentViewController(navCtl, animated: true, completion: nil)
-        }
+        let vc = NewSellProductViewController()
+        vc.completedSellDelegate = self
+        let navCtl = UINavigationController(rootViewController: vc)
+        presentViewController(navCtl, animated: true, completion: nil)
     }
     
     private func openProductWithId(productId: String) {
