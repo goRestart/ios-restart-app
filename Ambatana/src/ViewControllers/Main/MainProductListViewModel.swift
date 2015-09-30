@@ -1,4 +1,4 @@
-    //
+//
 //  MainProductListViewModel.swift
 //  LetGo
 //
@@ -8,25 +8,13 @@
 
 import LGCoreKit
 
-public protocol MainProductListViewModelLocationDelegate: ProductListViewModelDataDelegate {
-    func viewModel(viewModel: MainProductListViewModel, didFailRequestingLocationServices status: LocationServiceStatus)
-    func viewModelDidTimeOutRetrievingLocation(viewModel: MainProductListViewModel)
-}
-
 public class MainProductListViewModel: ProductListViewModel {
-    
-    // Delegate
-    public weak var locationDelegate: MainProductListViewModelLocationDelegate?
-    
+
     // Manager
     private let myUserManager: MyUserManager
-    private let locationManager: LocationManager
     
     // Data
     private var lastReceivedLocation: LGLocation?
-    
-    // Flags
-    private var didNotifyAboutLocationTimeOut: Bool
     
     // MARK: - Computed iVars
     
@@ -38,37 +26,26 @@ public class MainProductListViewModel: ProductListViewModel {
     
     override init() {
         self.myUserManager = MyUserManager.sharedInstance
-        self.locationManager = LocationManager.sharedInstance
-        self.didNotifyAboutLocationTimeOut = false
-        self.lastReceivedLocation = self.locationManager.lastKnownLocation
+        self.lastReceivedLocation = self.myUserManager.currentLocation
         super.init()
         self.isProfileList = false
+        
+        // Observe MyUserManager location updates
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: MyUserManager.Notification.locationUpdate.rawValue, object: nil)
+    }
+    
+     deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     internal override func didSetActive(active: Bool) {
         super.didSetActive(active)
-        
+
         // Active
         if (active) {
-            // Observe LocationManager
-            let notificationCenter = NSNotificationCenter.defaultCenter()
-            notificationCenter.addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: LocationManager.didReceiveLocationNotification, object: nil)
-            notificationCenter.addObserver(self, selector: Selector("didFailRequestingLocationServicesWithNotification:"), name: LocationManager.didFailRequestingLocationServices, object: nil)
-            notificationCenter.addObserver(self, selector: Selector("didTimeOutRetrievingLocationWithNotification:"), name: LocationManager.didTimeOutRetrievingLocation, object: nil)
-            
-            // If we do not have products & we can retrieve products (has coordinates & the manager is not loading), then do it
-            if numberOfProducts == 0 && canRetrieveProducts {
-               retrieveProductsFirstPage()
+            if let currentLocation = MyUserManager.sharedInstance.currentLocation {
+                retrieveProductsIfNeededWithNewLocation(currentLocation)
             }
-            // If location manager location retrieval already timed out, we didn't notify and there's no location, then notify
-            else if !didNotifyAboutLocationTimeOut && locationManager.locationRetrievalDidTimeOut && locationManager.lastKnownLocation == nil {
-                notifyTimeOutRetrievingLocation()
-            }
-        }
-        // Inactive
-        else {
-            // Stop observing
-            NSNotificationCenter.defaultCenter().removeObserver(self)
         }
     }
     
@@ -83,6 +60,28 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Private methods
     
+    private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
+        // If new location is manual
+        if canRetrieveProducts {
+            
+            // If there are no products, then refresh
+            if numberOfProducts == 0 {
+                retrieveProductsFirstPage()
+            }
+            // If new location is manual OR last location was manual, then refresh
+            else if newLocation.type == .Manual || lastReceivedLocation?.type == .Manual {
+                retrieveProductsFirstPage()
+            }
+            // If new location is not manual and we improved the location type to sensors
+            else if lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
+                retrieveProductsFirstPage()
+            }
+        }
+        
+        // Track the received location
+        lastReceivedLocation = newLocation
+    }
+    
     // MARK: > NSNotificationCenter
     
     /** 
@@ -91,51 +90,13 @@ public class MainProductListViewModel: ProductListViewModel {
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
         
         if let newLocation = notification.object as? LGLocation {
-            // If we improved the location type to sensors then run the first page retrieval
-            if let actualLastReceivedLocation = lastReceivedLocation {
-                if actualLastReceivedLocation.type != .Sensor && newLocation.type == .Sensor && canRetrieveProducts {
-                    retrieveProductsFirstPage()
-                }
-                
-                // Track the received location
-                lastReceivedLocation = newLocation
-            }
+            
+            retrieveProductsIfNeededWithNewLocation(newLocation)
             
             // Tracking
-            let locationServiceStatus = LocationManager.sharedInstance.locationServiceStatus
+            let locationServiceStatus = myUserManager.locationServiceStatus
             let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
-        
-        // If we can retrieve products and we do not any, then run the first page retrieval
-        if canRetrieveProducts && numberOfProducts == 0 {
-            retrieveProductsFirstPage()
-        }
-    }
-    
-    /** 
-        Called when a location services request fails. 
-    */
-    @objc private func didFailRequestingLocationServicesWithNotification(notification: NSNotification) {
-        // Notify the delegate
-        let status = locationManager.locationServiceStatus
-        locationDelegate?.viewModel(self, didFailRequestingLocationServices: status)
-    }
-    
-    /**
-        Called when a location services request times out.
-    */
-    @objc private func didTimeOutRetrievingLocationWithNotification(notification: NSNotification) {
-        if !didNotifyAboutLocationTimeOut {
-            notifyTimeOutRetrievingLocation()
-        }
-    }
-    
-    /**
-        Notifies about the time out retriving location.
-    */
-    private func notifyTimeOutRetrievingLocation() {
-        didNotifyAboutLocationTimeOut = true
-        locationDelegate?.viewModelDidTimeOutRetrievingLocation(self)
     }
 }

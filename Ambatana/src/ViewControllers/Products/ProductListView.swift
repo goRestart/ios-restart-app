@@ -189,7 +189,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     }
     
     // Delegate
-    public var delegate: ProductListViewDataDelegate?
+    weak public var delegate: ProductListViewDataDelegate?
     
     // MARK: - Lifecycle
     

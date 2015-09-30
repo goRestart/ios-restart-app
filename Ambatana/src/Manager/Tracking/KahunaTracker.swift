@@ -194,5 +194,4 @@ public class KahunaTracker: Tracker {
     public func updateCoordinates() {
         
     }
-    
 }

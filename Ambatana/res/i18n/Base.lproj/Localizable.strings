@@ -274,24 +274,6 @@
 // Help title.
 "help_title" = "Help";
 
-// Indicate location address field hint. Check attached image "indicate_location.png"
-"indicate_location_address_field_hint" = "Write your address";
-
-// Indicate location address search error generic
-"indicate_location_address_search_error_generic" = "I was unable to find that location. Please, try again.";
-
-// Indicate location long press tip label
-"indicate_location_long_press_tip_label" = "Or keep your finger pressed in your location";
-
-// Indicate location marker label
-"indicate_location_marker_label" = "I am here!";
-
-// Indicate location save error invalid location
-"indicate_location_save_error_invalid_location" = "Please select a valid location in the map with a long tap";
-
-// Indicate location title. Check image @ "indicate_location_address_field_hint" segment
-"indicate_location_title" = "Set your location";
-
 // Log in email field hint. Check attached image "log_in.png"
 "log_in_email_field_hint" = "Email";
 
@@ -412,20 +394,8 @@
 // Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"
 "product_list_item_sold_status_label" = "SOLD";
 
-// Product list location disabled button. Check image @ "product_list_location_unauthorized_button" segment
-"product_list_location_disabled_button" = "Settings";
-
-// Product list location disabled label. Check image @ "product_list_location_unauthorized_button" segment
-"product_list_location_disabled_label" = "Oops! Your location is turned off. To turn it on, go to:\n Settings > Privacy > Location Services.";
-
 // Product list location disabled go to indicate location label.
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
-
-// Product list location unauthorized button. Check attached image "product_list_location_unauthorized.png"
-"product_list_location_unauthorized_button" = "Settings";
-
-// Product list location unauthorized label. Check image @ "product_list_location_unauthorized_button" segment
-"product_list_location_unauthorized_label" = "Please, allow us to access your location.";
 
 // Product list next page error generic button. Check image @ "product_list_first_page_error_generic_button" segment
 "product_list_next_page_error_generic_button" = "Try again";

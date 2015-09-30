@@ -63,20 +63,6 @@ public class MainProductsViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
     }
     
-    /**
-        Called when cancel button is pressed in "open app settings" alert.
-    */
-    public func cancelOpenAppSettingsAlert() {
-        LocationManager.sharedInstance.userDoesntAllowLocationServices()
-    }
-    
-    /**
-        Called when settings button is pressed in "open app settings" alert.
-    */
-    public func openAppSettings() {
-        UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-    }
-    
     // MARK: - Private methods
     
     /**

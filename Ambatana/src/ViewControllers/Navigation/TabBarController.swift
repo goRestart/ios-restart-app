@@ -143,7 +143,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "askUserToUpdateLocation", name: LocationManager.didMoveFromManualLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "askUserToUpdateLocation", name: MyUserManager.Notification.didMoveFromManualLocationNotification.rawValue, object: nil)
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -487,14 +487,14 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     dynamic private func askUserToUpdateLocation() {
         
         let firstAlert = UIAlertController(title: nil, message: NSLocalizedString("change_location_ask_update_location_message", comment: ""), preferredStyle: .Alert)
-        let yesAction = UIAlertAction(title: NSLocalizedString("common_ok", comment: ""), style: .Default) { (updateToGPSLocation) -> Void in
-            LocationManager.sharedInstance.userDidSetAutomaticLocation(nil)
+        let yesAction = UIAlertAction(title: NSLocalizedString("common_ok", comment: ""), style: UIAlertActionStyle.Default) { (updateToGPSLocation) -> Void in
+            MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
         }
         let noAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel) { (showSecondAlert) -> Void in
             let secondAlert = UIAlertController(title: nil, message: NSLocalizedString("change_location_recommend_update_location_message", comment: ""), preferredStyle: .Alert)
             let cancelAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel, handler: nil)
             let updateAction = UIAlertAction(title: NSLocalizedString("change_location_confirm_update_button", comment: ""), style: .Default) { (updateToGPSLocation) -> Void in
-                LocationManager.sharedInstance.userDidSetAutomaticLocation(nil)
+                MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
             }
             secondAlert.addAction(cancelAction)
             secondAlert.addAction(updateAction)
@@ -507,7 +507,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         self.presentViewController(firstAlert, animated: true, completion: nil)
         
         // We should ask only one time
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: LocationManager.didMoveFromManualLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MyUserManager.Notification.didMoveFromManualLocationNotification.rawValue, object: nil)
         
     }
  }

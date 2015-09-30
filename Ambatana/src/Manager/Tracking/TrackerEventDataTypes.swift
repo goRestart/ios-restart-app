@@ -146,6 +146,7 @@ public enum EventParameterLocationType: String {
     case Manual = "manual"
     case Sensor = "sensor"
     case IPLookUp = "iplookup"
+    case Regional = "regional"
 }
 
 public struct EventParameters {

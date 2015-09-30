@@ -344,6 +344,8 @@ public struct TrackerEvent {
             locationTypeParamValue = .Sensor
         case .IPLookup:
             locationTypeParamValue = .IPLookUp
+        case .Regional:
+            locationTypeParamValue = .Regional
         case .LastSaved:
             locationTypeParamValue = nil
         }
