@@ -200,6 +200,8 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         // Appearance
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         signUpButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        signUpButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+
         signUpButton.layer.cornerRadius = 4
         
         // i18n
@@ -209,6 +211,10 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         passwordTextField.placeholder = NSLocalizedString("sign_up_password_field_hint", comment: "")
         signUpButton.setTitle(NSLocalizedString("sign_up_send_button", comment: ""), forState: .Normal)
         
+        usernameTextField.tintColor = StyleHelper.textFieldTintColor
+        emailTextField.tintColor = StyleHelper.textFieldTintColor
+        passwordTextField.tintColor = StyleHelper.textFieldTintColor
+
         // Tags
         usernameTextField.tag = TextFieldTag.Username.rawValue
         emailTextField.tag = TextFieldTag.Email.rawValue
