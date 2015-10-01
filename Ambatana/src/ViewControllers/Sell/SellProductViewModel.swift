@@ -224,7 +224,11 @@ public class SellProductViewModel: BaseViewModel {
                     }
                     else {
                         let error = r.error ?? ProductSaveServiceError.Internal
-                        strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: error)
+                        if error == .Forbidden {
+                            MyUserManager.sharedInstance.logout(nil)
+                        } else {
+                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: error)
+                        }
                     }
                 }
         }

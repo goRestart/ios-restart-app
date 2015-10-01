@@ -73,6 +73,9 @@ class NewSellProductViewController: SellProductViewController {
             message = String(format: NSLocalizedString("sell_send_error_invalid_description_too_long", comment: ""), Constants.productDescriptionMaxLength)
         case .NoCategory:
             message = NSLocalizedString("sell_send_error_invalid_category", comment: "")
+        case .Forbidden:
+            // already logging out in viewModel
+            message = NSLocalizedString("sell_send_error_uploading_product", comment: "")
         }
         self.showAutoFadingOutMessageAlert(message) { () -> Void in
             self.newSellViewModel.shouldEnableTracking()

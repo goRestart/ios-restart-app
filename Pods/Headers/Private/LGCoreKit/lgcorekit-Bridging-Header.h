@@ -1,1 +1,1 @@
-../../../LGCoreKit/LGCoreKit/lgcorekit-Bridging-Header.h
+../../../../../letgo-ios-lgcorekit/LGCoreKit/lgcorekit-Bridging-Header.h

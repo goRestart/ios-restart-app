@@ -560,6 +560,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                             }
                         case .Network, .Unauthorized, .Internal:
                             result = Result<UIViewController, ChatRetrieveServiceError>.failure(error)
+                        case .Forbidden:
+                            MyUserManager.sharedInstance.logout(nil)
                         }
                     }
                     
