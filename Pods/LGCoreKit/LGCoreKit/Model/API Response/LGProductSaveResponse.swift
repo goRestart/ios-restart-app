@@ -26,8 +26,8 @@ import SwiftyJSON
         
         let json = JSON(representation)
         
-        let countryCurrencyInfoDao = RLMCountryCurrencyInfoDAO()
-        let currencyHelper = CurrencyHelper(countryCurrencyInfoDAO: countryCurrencyInfoDao)
+        let countryInfoDao = RLMCountryInfoDAO()
+        let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
         
         // since the response gives distance in the units passed per parameters,
         // we retrieve distance type the same way we do in productlistviewmodel

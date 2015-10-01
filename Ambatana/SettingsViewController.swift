@@ -166,8 +166,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             let vc = EditUserLocationViewController()
             navigationController?.pushViewController(vc, animated: true)
         case .ChangePassword:
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("ChangePasswordViewController") as! ChangePasswordViewController
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = storyboard.instantiateViewControllerWithIdentifier("ChangePasswordViewController") as! ChangePasswordViewController
+            let vc = ChangePasswordViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case .Help:
             let vc = HelpViewController()

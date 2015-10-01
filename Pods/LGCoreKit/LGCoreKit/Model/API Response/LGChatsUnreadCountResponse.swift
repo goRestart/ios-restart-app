@@ -28,8 +28,8 @@ import SwiftyJSON
     public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
         self.init()
         
-        let countryCurrencyInfoDao = RLMCountryCurrencyInfoDAO()
-        let currencyHelper = CurrencyHelper(countryCurrencyInfoDAO: countryCurrencyInfoDao)
+        let countryInfoDao = RLMCountryInfoDAO()
+        let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
         
         let json = JSON(representation)
         if let actualCount = json[LGChatsUnreadCountResponse.countJSONKey].int {

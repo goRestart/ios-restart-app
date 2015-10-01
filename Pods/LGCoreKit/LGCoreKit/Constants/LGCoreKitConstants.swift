@@ -6,9 +6,16 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+import CoreLocation
+
 public struct LGCoreKitConstants {
+    static let usdCurrency = Currency(code: "USD", symbol: "$")
+    static let eurCurrency = Currency(code: "EUR", symbol: "€")
+
+    static let defaultCurrency = LGCoreKitConstants.usdCurrency
     static let defaultCurrencyCode = "USD"
     static let defaultDistanceType = DistanceType.Km
+    static let defaultCoordinate = CLLocationCoordinate2DMake(38.897746, -77.037741)    // Washington
     static let productImageMaxSide: CGFloat = 1024
     static let productImageJPEGQuality: CGFloat = 0.9
     
@@ -16,4 +23,7 @@ public struct LGCoreKitConstants {
     
     static let maxDistanceToAskUpdateLocation = 1000.0
     static let locationRetrievalTimeout: NSTimeInterval = 10    // seconds
+    
+    static let locationDistanceFilter: CLLocationDistance = 250
+    static let locationDesiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
 }

@@ -388,7 +388,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         productStatusShadow.layer.shadowColor = UIColor.blackColor().CGColor
         productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
-        productStatusShadow.layer.shadowOpacity = 0.8
+        productStatusShadow.layer.shadowOpacity = 0.5
         productStatusShadow.layer.shadowRadius = 8.0
 
         userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2

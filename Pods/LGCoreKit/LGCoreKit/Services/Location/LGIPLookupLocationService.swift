@@ -16,25 +16,36 @@ final public class LGIPLookupLocationService: IPLookupLocationService {
     
     // iVars
     var url: String
+    private var manager: Manager
     
     // MARK: - Lifecycle
     
-    public init(baseURL: String) {
+    public init(baseURL: String, manager: Manager) {
         self.url = baseURL + LGIPLookupLocationService.endpoint
+        self.manager = manager
     }
     
     public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
+        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+        configuration.timeoutIntervalForRequest = LGCoreKitConstants.locationRetrievalTimeout
+        configuration.timeoutIntervalForResource = LGCoreKitConstants.locationRetrievalTimeout
+        let manager = Alamofire.Manager(configuration: configuration)
+        
+        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL, manager: manager)
     }
     
     // MARK: - IPLookupLocationService
     
     public func retrieveLocation(result: IPLookupLocationServiceResult?) {
-        Alamofire.request(.GET, url)
+        manager.request(.GET, url)
             .validate(statusCode: 200..<400)
             .responseObject { (_, _, lookupLocationResponse: LGIPLookupLocationResponse?, error: NSError?) -> Void in
+                // Success
+                if let actualLookupLocationResponse = lookupLocationResponse {
+                    result?(Result<LGLocationCoordinates2D, IPLookupLocationServiceError>.success(actualLookupLocationResponse.coordinates))
+                }
                 // Error
-                if let actualError = error {
+                else if let actualError = error {
                     let myError: NSError
                     if actualError.domain == NSURLErrorDomain {
                         result?(Result<LGLocationCoordinates2D, IPLookupLocationServiceError>.failure(.Network))
@@ -43,9 +54,8 @@ final public class LGIPLookupLocationService: IPLookupLocationService {
                         result?(Result<LGLocationCoordinates2D, IPLookupLocationServiceError>.failure(.Internal))
                     }
                 }
-                    // Success
-                else if let actualLookupLocationResponse = lookupLocationResponse {
-                    result?(Result<LGLocationCoordinates2D, IPLookupLocationServiceError>.success(actualLookupLocationResponse.coordinates))
+                else {
+                    result?(Result<LGLocationCoordinates2D, IPLookupLocationServiceError>.failure(.Internal))
                 }
         }   
     }

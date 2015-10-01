@@ -13,6 +13,7 @@ class StyleHelper {
 
     // Colors
     private static let red = UIColor(rgb: 0xFF3F55)
+    private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
     
     private static let white = UIColor(rgb: 0xFFFFFF)
     private static let gray21 = UIColor(rgb: 0x212121)
@@ -20,6 +21,7 @@ class StyleHelper {
     private static let gray75 = UIColor(rgb: 0x757575)
     private static let gray204 = UIColor(rgb: 0xCCCCCC)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
+    private static let gray222 = UIColor(rgb: 0xDEDEDE)
     private static let gray225 = UIColor(rgb: 0xE1E1E1)
     private static let gray235 = UIColor(rgb: 0xEBEBEB)
     private static let black = UIColor(rgb: 0x000000)
@@ -60,7 +62,7 @@ class StyleHelper {
     }
     
     static var disabledButtonBackgroundColor: UIColor {
-        return gray235
+        return gray204
     }
 
     static var emptypictureCellBackgroundColor: UIColor {
@@ -153,5 +155,11 @@ class StyleHelper {
     
     static var textFieldTintColor: UIColor {
         return red
+    }
+    
+    // MARK: Button
+    
+    static var highlightedRedButtonColor: UIColor {
+        return highlightedRed
     }
 }

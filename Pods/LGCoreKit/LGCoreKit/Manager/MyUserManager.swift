@@ -10,12 +10,14 @@ import CoreLocation
 import Parse
 import Result
 
-public class MyUserManager {
+public class MyUserManager: LocationManagerDelegate {
     
     // Constants & enum
     public enum Notification: String {
         case login = "MyUserManager.login"
         case logout = "MyUserManager.logout"
+        case locationUpdate = "MyUserManager.locationUpdate"
+        case didMoveFromManualLocationNotification = "MyUserManager.didMoveFromManualLocationNotification"
     }
     
     // iVars
@@ -37,7 +39,13 @@ public class MyUserManager {
         return myUser()?.postalAddress.city ?? myUser()?.postalAddress.countryCode
     }
     
+    private var locationManager: LocationManager
+    private var userDefaultsManager: UserDefaultsManager
     
+    public var locationServiceStatus: LocationServiceStatus {
+        return locationManager.locationServiceStatus
+    }
+
     // Singleton
     public static let sharedInstance: MyUserManager = MyUserManager()
     
@@ -61,15 +69,22 @@ public class MyUserManager {
         self.postalAddressRetrievalService = CLPostalAddressRetrievalService()
         self.fileUploadService = PAFileUploadService()
         
-        // Start observing location changes
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveLocationWithNotification:", name: LocationManager.didReceiveLocationNotification, object: nil)
+        self.locationManager = LocationManager()
+        self.userDefaultsManager = UserDefaultsManager.sharedInstance
+        
+        // Setup
+        self.locationManager.delegate = self
+        
+        // > If location was manual set it up at location manager
+        if let myUserId = PFUser.currentUser()?.objectId {
+            let userDefaultManager = UserDefaultsManager.sharedInstance           
+            if userDefaultManager.loadIsManualLocationForUser(myUserId) {
+                if let location = userDefaultManager.loadManualLocationForUser(myUserId) {
+                    locationManager.manualLocation = LGLocation(location: location, type: .Manual)
+                }
+            }
+        }
     }
-    
-    deinit {
-        // Stop observing
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
     
     // MARK: - Public methods
     
@@ -112,89 +127,6 @@ public class MyUserManager {
         }
         else {
             result?(Result<User, UserSaveServiceError>.failure(.Internal))
-        }
-    }
-    
-    /**
-        Saves the given coordinates into the user.
-    
-        :returns: The task that performs the user save.
-    */
-    public func saveUserCoordinates(coordinates: CLLocationCoordinate2D, result: SaveUserCoordinatesResult?, place: Place?) {
-        if let user = myUser() {
-            // Set the coordinates, reset the address & mark as non-processed
-            user.gpsCoordinates = LGLocationCoordinates2D(coordinates: coordinates)
-            
-            // If we receive a place, we set the postal address to the user
-            if let actualPlace = place, actualPostalAddress = place?.postalAddress {
-                user.postalAddress = actualPostalAddress
-            }
-            // Otherwise, we create a new one that will be retrieved later (check step 2b)
-            else {
-                
-                let address = PostalAddress()
-                user.postalAddress = address
-            }
-            
-            user.processed = NSNumber(bool: false)
-            
-            // 1. Save it
-            saveMyUser { (saveUserResult: Result<User, UserSaveServiceError>) in
-                
-                // Success
-                if let savedUser = saveUserResult.value {
-                    
-                    // 2a. User already has an address
-                    if let actualPlace = place, actualPostalAddress = place?.postalAddress {
-                        
-                        // 3. Set the currency code, if any
-                        if let countryCode = actualPostalAddress.countryCode {
-                            if !countryCode.isEmpty {
-                                CurrencyHelper.sharedInstance.setCountryCode(countryCode)
-                            }
-                        }
-                        result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
-                    }
-                    // 2b. User doesn't has an address. Retrieve the address for the coordinates
-                    else {
-                        let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
-                        self.postalAddressRetrievalService.retrieveAddressForLocation(location) { (postalAddressRetrievalResult: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
-                            
-                            // Success
-                            if let actualPlace = postalAddressRetrievalResult.value, let postalAddress = actualPlace.postalAddress {
-                                
-                                // 3a. Update the postal address & mark as non-processed
-                                user.postalAddress = postalAddress
-                                user.processed = NSNumber(bool: false)
-                                
-                                // 3b. Set the currency code, if any
-                                if let countryCode = postalAddress.countryCode {
-                                    if !countryCode.isEmpty {
-                                        CurrencyHelper.sharedInstance.setCountryCode(countryCode)
-                                    }
-                                }
-                                // 4. Save the user again
-                                self.saveMyUser { (secondSaveUserResult: Result<User, UserSaveServiceError>) in
-                                    
-                                    // Success or Error
-                                    result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(coordinates))
-                                }
-                            }
-                            // Error
-                            else if let postalAddressRetrievalError = postalAddressRetrievalResult.error {
-                                result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(postalAddressRetrievalError)))
-                            }
-                        }
-                    }
-                }
-                // Error
-                else if let saveUserError = saveUserResult.error {
-                    result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(saveUserError)))
-                }
-            }
-        }
-        else {
-            result?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(.Internal))
         }
     }
     
@@ -253,10 +185,10 @@ public class MyUserManager {
     }
     
     /**
-    Updates my usename.
+        Updates my usename.
     
-    :param: username The username.
-    :param: result The closure containing the result.
+        :param: username The username.
+        :param: result The closure containing the result.
     */
     public func updateUsername(username: String, result: UserSaveServiceResult?) {
         if let myUser = myUser() {
@@ -300,6 +232,91 @@ public class MyUserManager {
         }
         else {
             result?(Result<User, UserSaveServiceError>.failure(.Internal))
+        }
+    }
+    
+    // MARK: > Location
+    
+    /**
+        Asks location manager to start sensor updates
+    */
+    public func startSensorLocationUpdates() {
+        locationManager.startSensorLocationUpdates()
+    }
+
+    /**
+        Asks location manager to stop sensor updates
+    */
+    public func stopSensorLocationUpdates() {
+        locationManager.stopSensorLocationUpdates()
+    }
+
+    /**
+        Returns the current location. Prio: manual, sensor, last saved (into user @ backend), ip lookup, regional
+    */
+    public var currentLocation: LGLocation? {
+        if let location = locationManager.currentLocation {
+            switch location.type {
+            case .Manual, .Sensor, .LastSaved:
+                return location
+            case .IPLookup, .Regional:
+                if let coords = myUser()?.gpsCoordinates, let location = CLLocation(latitude: coords.latitude, longitude: coords.longitude) {
+                    return LGLocation(location: location, type: .LastSaved)
+                }
+                else {
+                    return location
+                }
+            }
+        }
+        return nil
+    }
+    
+    /**
+        Returns the auto current location. Prio: sensor, ip lookup, regional
+    */
+    public var currentAutoLocation: LGLocation? {
+        return locationManager.currentAutoLocation
+    }
+    
+    /**
+        Sets manual location with the given location and place.
+    
+        :param: location The location.
+        :param: place The place.
+    */
+    public func setManualLocation(location: CLLocation, place: Place) {
+        // Save location & place into the user
+        let manualLocation = LGLocation(location: location, type: .Manual)
+        saveCoordinates(manualLocation, place: place, completion: nil)
+        
+        // Save manual location into user defaults
+        userDefaultsManager.saveIsManualLocation(true)
+        userDefaultsManager.saveManualLocation(location)
+        
+        // Notify location manager
+        locationManager.manualLocation = manualLocation
+        
+        // Notify the listeners
+        NSNotificationCenter.defaultCenter().postNotificationName(Notification.locationUpdate.rawValue, object: manualLocation)
+    }
+    
+    /**
+        Sets automatic location associating the current location with the given place.
+        
+        :param: place The place.
+    */
+    public func setAutomaticLocationWithPlace(place: Place?) {
+        // Notify location manager (so, location retrieve is guaranteed to be automatic (sensor, iplookup or regional)
+        locationManager.manualLocation = nil
+        
+        // Save automatic location into user defaults
+        userDefaultsManager.saveIsManualLocation(false)
+        
+        // If we've a current auto location then save it
+        if let location = locationManager.currentLocation {
+            saveCoordinates(location, place: place, completion: nil)
+            // Notify the listeners
+            NSNotificationCenter.defaultCenter().postNotificationName(Notification.locationUpdate.rawValue, object: location)
         }
     }
     
@@ -473,14 +490,11 @@ public class MyUserManager {
     */
     public func logout(result: UserLogOutServiceResult?) {
         if let myUser = myUser() {
-            
-            // Notify
-            NSNotificationCenter.defaultCenter().postNotificationName(Notification.logout.rawValue, object: nil)
 
-            // set default gps location
-            LocationManager.sharedInstance.userDidSetAutomaticLocation(nil)
+            // Notify location manager that there's no manual location
+            locationManager.manualLocation = nil
             
-            // Request
+            // Logout
             userLogOutService.logOutUser(myUser) { (myResult: Result<Nil, UserLogOutServiceError>) in
                 
                 // Notify the callback
@@ -495,6 +509,9 @@ public class MyUserManager {
                     self.installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
                 }
             }
+            
+            // Notify
+            NSNotificationCenter.defaultCenter().postNotificationName(Notification.logout.rawValue, object: nil)
         }
         else {
             result?(Result<Nil, UserLogOutServiceError>.failure(.Internal))
@@ -513,6 +530,22 @@ public class MyUserManager {
         userPasswordResetService.resetPassword(email, result: result)
     }
     
+    // MARK: - LocationManagerDelegate
+    
+    func locationManager(locationManager: LocationManager, didUpdateAutoLocation location: LGLocation) {
+        // If location is manual, then check if we should notify about moving too much
+        if userDefaultsManager.loadIsManualLocation() {
+            if location.location.distanceFromLocation(userDefaultsManager.loadManualLocation()) > LGCoreKitConstants.maxDistanceToAskUpdateLocation{
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.didMoveFromManualLocationNotification.rawValue, object: location)
+            }
+        }
+        // If not manual, then save & notify
+        else {
+            saveCoordinates(location, place: nil, completion: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(Notification.locationUpdate.rawValue, object: location)
+        }
+    }
+   
     // MARK: - Private methods
     
     // MARK: > Helper
@@ -531,16 +564,29 @@ public class MyUserManager {
     */
     private func setupAfterSessionSuccessful() {
         
-        // If we already have a location, then save it into my user
-        if let lastKnownLocation = LocationManager.sharedInstance.lastKnownLocation {
-            saveUserCoordinates(lastKnownLocation.location.coordinate, result: nil, place: nil)
+        // Ask to user default if current user has manual location
+        if userDefaultsManager.loadIsManualLocation() {
+            
+            // If so, then notify the location manager, in case we have it
+            if let location = userDefaultsManager.loadManualLocation() {
+                let manualLocation = LGLocation(location: location, type: .Manual)
+                locationManager.manualLocation = manualLocation
+            }
+        }
+        
+        // If we already have a location
+        if let location = locationManager.currentLocation {
+            
+            // And source is more accurate than the one saved, then save it into my user
+            switch location.type {
+            case .Sensor, .Manual:
+                saveCoordinates(location, place: nil, completion: nil)
+            case .Regional, .IPLookup, .LastSaved:
+                break
+            }
         }
         
         if let user = MyUserManager.sharedInstance.myUser() {
-            
-            // Mark the user as non-processed and save it
-            user.processed = NSNumber(bool: false)
-            saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in }
             
             // If it has a country code, then set it in the currency helper
             if let countryCode = user.postalAddress.countryCode {
@@ -580,12 +626,87 @@ public class MyUserManager {
         }
     }
     
+    /**
+        Saves the given coordinates & place, if any, into the user.
     
-    // MARK: > NSNotificationCenter
-    
-    @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
-        if let location = notification.object as? LGLocation {
-            saveUserCoordinates(location.location.coordinate, result: { (result: Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) in }, place: nil)
+        :param: location The location.
+        :param: place The place. If nil, it will be retrieved.
+        :returns: The completion closure.
+    */
+    private func saveCoordinates(location: LGLocation, place: Place?, completion: SaveUserCoordinatesResult?) {
+        
+        if let user = myUser() {
+            // Set the coordinates, reset the address & mark as non-processed
+            user.gpsCoordinates = LGLocationCoordinates2D(coordinates: location.coordinate)
+            
+            // If we receive a place, we set the postal address to the user
+            if let actualPlace = place, let actualPostalAddress = place?.postalAddress {
+                user.postalAddress = actualPostalAddress
+                
+                // Set the currency code, if any
+                if let countryCode = actualPostalAddress.countryCode {
+                    if !countryCode.isEmpty {
+                        CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                    }
+                }
+            }
+            // Otherwise, we create a new one that will be retrieved later (check step 2b)
+            else {
+                let address = PostalAddress()
+                user.postalAddress = address
+            }
+            
+            user.processed = NSNumber(bool: false)
+            
+            // 1. Save it
+            saveMyUser { (saveUserResult: Result<User, UserSaveServiceError>) in
+                
+                // Success
+                if let savedUser = saveUserResult.value {
+                    
+                    // 2a. User already has an address, we're done
+                    if let actualPlace = place, let actualPostalAddress = place?.postalAddress {
+                        completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(location.coordinate))
+                    }
+                    // 2b. User hasn't an address. Retrieve the address with the given coordinates
+                    else {
+                        self.postalAddressRetrievalService.retrieveAddressForLocation(location.location) { (postalAddressRetrievalResult: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
+                            
+                            // Success
+                            if let actualPlace = postalAddressRetrievalResult.value, let postalAddress = actualPlace.postalAddress {
+                                
+                                // 3a. Update the postal address & mark as non-processed
+                                user.postalAddress = postalAddress
+                                user.processed = NSNumber(bool: false)
+                                
+                                // 3b. Set the currency code, if any
+                                if let countryCode = postalAddress.countryCode {
+                                    if !countryCode.isEmpty {
+                                        CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+                                    }
+                                }
+                                // 4. Save the user again
+                                self.saveMyUser { (secondSaveUserResult: Result<User, UserSaveServiceError>) in
+                                    
+                                    // Success or Error
+                                    completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(location.coordinate))
+                                }
+                            }
+                            // Error
+                            else if let postalAddressRetrievalError = postalAddressRetrievalResult.error {
+                                completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(postalAddressRetrievalError)))
+                            }
+                        }
+                    }
+                }
+                // Error
+                else if let saveUserError = saveUserResult.error {
+                    completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(saveUserError)))
+                }
+            }
+        }
+        else {
+            completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(.Internal))
         }
     }
 }

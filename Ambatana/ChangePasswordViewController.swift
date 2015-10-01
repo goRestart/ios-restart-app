@@ -10,29 +10,35 @@ import LGCoreKit
 import Result
 import UIKit
 
-class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
+class ChangePasswordViewController: UIViewController, UITextFieldDelegate, ChangePasswordViewModelDelegate {
+    
     // outlets & buttons
     @IBOutlet weak var passwordTextfield: LGTextField!
     @IBOutlet weak var confirmPasswordTextfield: LGTextField!
     @IBOutlet weak var sendButton : UIButton!
     
+    var viewModel : ChangePasswordViewModel!
+    
+    enum TextFieldTag: Int {
+        case Password = 1000, ConfirmPassword
+    }
     var lines : [CALayer] = []
+    
+    init() {
+        self.viewModel = ChangePasswordViewModel()
+        self.lines = []
+        super.init(nibName: "ChangePasswordViewController", bundle: NSBundle.mainBundle())
+        self.viewModel.delegate = self
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // UI/UX & Appearance
-        passwordTextfield.delegate = self
-        confirmPasswordTextfield.delegate = self
-        setLetGoNavigationBarStyle(title: NSLocalizedString("change_password_title", comment: ""))
-//        setLetGoRightButtonsWithImageNames(["actionbar_save"], andSelectors: ["changePassword"])
-        
-        sendButton.setTitle(NSLocalizedString("change_password_title", comment: ""), forState: UIControlState.Normal)
-        sendButton.layer.cornerRadius = 4
-        
-        // internationalization
-        passwordTextfield.placeholder = NSLocalizedString("change_password_new_password_field_hint", comment: "")
-        confirmPasswordTextfield.placeholder = NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
+        setupUI()
     }
     
     
@@ -50,53 +56,140 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate {
     }
    
     @IBAction func sendChangePasswordButtonPressed(sender: AnyObject) {
-        changePassword()
+        viewModel.changePassword()
     }
     
-    func changePassword() {
-        // safety checks
-        if count(passwordTextfield.text) < Constants.passwordMinLength || count(confirmPasswordTextfield.text) < Constants.passwordMinLength { // min length not fulfilled
-            showAutoFadingOutMessageAlert(String(format: NSLocalizedString("change_password_send_error_invalid_password", comment: ""), Constants.passwordMinLength))
-        } else if passwordTextfield.text != confirmPasswordTextfield.text { // passwords do not match.
-            showAutoFadingOutMessageAlert(NSLocalizedString("change_password_send_error_passwords_mismatch", comment: ""))
-        } else {
-            // dismiss keyboard
-            self.view.resignFirstResponder()
-            self.view.endEditing(true)
-            
-            showLoadingMessageAlert()
-            
-            MyUserManager.sharedInstance.updatePassword(passwordTextfield.text) { [weak self] (result: Result<User, UserSaveServiceError>) in
-                if let strongSelf = self {
-                    // Success
-                    if let user = result.value {
-                        strongSelf.dismissLoadingMessageAlert(completion: { () -> Void in
-                            // clean fields
-                            strongSelf.passwordTextfield.text = ""
-                            strongSelf.confirmPasswordTextfield.text = ""
-                            // show alert message and pop back to settings after finished.
-                            strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("change_password_send_ok", comment: ""), completionBlock: { (_) -> Void in
-                                strongSelf.popBackViewController()
-                            })
-                        })
-                    }
-                    // Error
-                    else {
-                        strongSelf.dismissLoadingMessageAlert(completion: { () -> Void in
-                            strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("change_password_send_error_generic", comment: ""))
-                        })
-                    }
-                }
+    
+    // MARK: - TextFieldDelegate
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        
+        if let tag = TextFieldTag(rawValue: textField.tag) {
+            switch (tag) {
+            case .Password:
+                viewModel.password = text
+            case .ConfirmPassword:
+                viewModel.confirmPassword = text
             }
         }
+        return true
     }
-
+    
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        if let tag = TextFieldTag(rawValue: textField.tag) {
+            switch (tag) {
+            case .Password:
+                viewModel.password = ""
+            case .ConfirmPassword:
+                viewModel.confirmPassword = ""
+            }
+        }
+        return true
+    }
+    
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == self.passwordTextfield {
             self.confirmPasswordTextfield.becomeFirstResponder()
         } else if textField == self.confirmPasswordTextfield {
-            changePassword()
+            viewModel.changePassword()
         }
         return false
     }
+    
+    
+    // MARK : - ChangePasswordViewModelDelegate Methods
+    
+    func viewModelDidStartSendingPassword(viewModel: ChangePasswordViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    func viewModel(viewModel: ChangePasswordViewModel, didFailValidationWithError error: UserSaveServiceError) {
+        let message: String
+        switch (error) {
+        case .Network:
+            message = NSLocalizedString("change_password_send_error_generic", comment: "")
+        case .Internal, .InvalidUsername, .EmailTaken:
+            message = NSLocalizedString("change_password_send_error_generic", comment: "")
+        case .InvalidPassword:
+            message = String(format: NSLocalizedString("change_password_send_error_invalid_password", comment: ""), Constants.passwordMinLength)
+        case .PasswordMismatch:
+            message = NSLocalizedString("change_password_send_error_passwords_mismatch", comment: "")
+        }
+        self.showAutoFadingOutMessageAlert(message)
+    }
+    
+    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult result: Result<User, UserSaveServiceError>) {
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            completion = {
+                // clean fields
+                self.passwordTextfield.text = ""
+                self.confirmPasswordTextfield.text = ""
+
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("change_password_send_ok", comment: "")) {
+                    navigationController?.popViewControllerAnimated(true)
+                }
+            }
+            break
+        case .Failure(let error):
+            let message: String
+            switch (error.value) {
+            case .Network:
+                message = NSLocalizedString("common_error_connection_failed", comment: "")
+            case .Internal:
+                message = NSLocalizedString("common_error_connection_failed", comment: "")
+            case .InvalidPassword:
+                message = String(format: NSLocalizedString("change_password_send_error_invalid_password", comment: ""), Constants.passwordMinLength)
+            case .PasswordMismatch:
+                message = NSLocalizedString("change_password_send_error_passwords_mismatch", comment: "")
+            case .InvalidUsername, .EmailTaken:
+                // should never happen
+                message = NSLocalizedString("change_password_send_error_generic", comment: "")
+            }
+            completion = {
+                self.showAutoFadingOutMessageAlert(message)
+            }
+        }
+        dismissLoadingMessageAlert(completion: completion)
+    }
+    
+    func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
+        sendButton.enabled = enabled
+    }
+    
+    
+    // MARK: Private methods
+    
+    private func setupUI() {
+        
+        // UI/UX & Appearance
+        passwordTextfield.delegate = self
+        passwordTextfield.tag = TextFieldTag.Password.rawValue
+        passwordTextfield.tintColor = StyleHelper.textFieldTintColor
+
+        confirmPasswordTextfield.delegate = self
+        confirmPasswordTextfield.tag = TextFieldTag.ConfirmPassword.rawValue
+        confirmPasswordTextfield.tintColor = StyleHelper.textFieldTintColor
+        
+        setLetGoNavigationBarStyle(title: NSLocalizedString("change_password_title", comment: ""))
+        
+        sendButton.setTitle(NSLocalizedString("change_password_title", comment: ""), forState: UIControlState.Normal)
+        sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+
+        sendButton.layer.cornerRadius = 4
+        sendButton.enabled = false
+        
+        // internationalization
+        passwordTextfield.placeholder = NSLocalizedString("change_password_new_password_field_hint", comment: "")
+        confirmPasswordTextfield.placeholder = NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
+
+        passwordTextfield.becomeFirstResponder()
+    }
+
 }

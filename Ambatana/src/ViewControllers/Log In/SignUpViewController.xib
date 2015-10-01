@@ -25,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bGM-pu-5ZB" userLabel="Main View">
-                    <rect key="frame" x="0.0" y="64" width="320" height="132"/>
+                    <rect key="frame" x="0.0" y="90" width="320" height="132"/>
                     <subviews>
                         <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Cb-XL-Y98" userLabel="Username Button">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -42,7 +42,7 @@
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Username" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="8Wn-MG-p8U" userLabel="Username Text Field">
                             <rect key="frame" x="45" y="0.0" width="267" height="44"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="next"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="2EZ-H1-bos"/>
@@ -66,7 +66,7 @@
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Email" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="qpl-xP-Xea" userLabel="Email Text Field">
                             <rect key="frame" x="45" y="44" width="267" height="44"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="4cs-on-YUW"/>
@@ -90,7 +90,7 @@
                         </button>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="wAf-gc-YDz" userLabel="Password Text Field">
                             <rect key="frame" x="45" y="88" width="267" height="44"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="join" secureTextEntry="YES"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="GcK-KI-9tY"/>
@@ -139,12 +139,12 @@
                     </variation>
                 </view>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scd-Qj-v4h" userLabel="Sign Up Button">
-                    <rect key="frame" x="16" y="211" width="288" height="44"/>
+                    <rect key="frame" x="16" y="237" width="288" height="44"/>
                     <color key="backgroundColor" red="1" green="0.24705882352941178" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="Rgd-7V-vax"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                     <state key="normal" title="_Sign up">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -154,13 +154,13 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="bGM-pu-5ZB" secondAttribute="trailing" id="8iV-rm-0GW"/>
                 <constraint firstItem="scd-Qj-v4h" firstAttribute="leading" secondItem="rD8-Au-m1S" secondAttribute="leading" constant="16" id="DpE-gO-4wz"/>
                 <constraint firstItem="scd-Qj-v4h" firstAttribute="top" secondItem="bGM-pu-5ZB" secondAttribute="bottom" constant="15" id="EbB-Iz-uP0"/>
                 <constraint firstAttribute="trailing" secondItem="scd-Qj-v4h" secondAttribute="trailing" constant="16" id="Jxd-xx-YeZ"/>
-                <constraint firstItem="bGM-pu-5ZB" firstAttribute="top" secondItem="rD8-Au-m1S" secondAttribute="top" constant="64" id="RvW-0b-HvB"/>
+                <constraint firstItem="bGM-pu-5ZB" firstAttribute="top" secondItem="rD8-Au-m1S" secondAttribute="top" constant="90" id="RvW-0b-HvB"/>
                 <constraint firstItem="bGM-pu-5ZB" firstAttribute="leading" secondItem="rD8-Au-m1S" secondAttribute="leading" id="bge-hf-oKP"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>

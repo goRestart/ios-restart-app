@@ -19,8 +19,5 @@ public class LGCoreKit {
         
         // Automatic anonymous user creation
         PFUser.enableAutomaticUser()
-        
-        // Shared instances
-        MyUserManager.sharedInstance    // instance it in order to start listening to LocationManager
     }
 }
