@@ -23,6 +23,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     var viewModel: SignUpViewModel!
     
     // UI
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var usernameIconImageView: UIImageView!
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var usernameButton: UIButton!
@@ -47,6 +48,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         self.lines = []
         super.init(viewModel: viewModel, nibName: "SignUpViewController")
         self.viewModel.delegate = self
+        automaticallyAdjustsScrollViewInsets = false
     }
     
     required init(coder: NSCoder) {
@@ -152,6 +154,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
             }
             iconImageView.highlighted = true
         }
+        scrollView.setContentOffset(CGPointMake(0,textField.frame.origin.y), animated: true)
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
