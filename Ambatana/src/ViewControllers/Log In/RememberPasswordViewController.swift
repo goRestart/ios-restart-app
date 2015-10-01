@@ -48,6 +48,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         setupUI()
         
         emailTextField.becomeFirstResponder()
+        emailTextField.tintColor = StyleHelper.textFieldTintColor
+
     }
     
     override func viewWillLayoutSubviews() {
@@ -164,6 +166,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         // Appearance
         resetPasswordButton.setBackgroundImage(resetPasswordButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         resetPasswordButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        resetPasswordButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+
         resetPasswordButton.layer.cornerRadius = 4
         
         // i18n

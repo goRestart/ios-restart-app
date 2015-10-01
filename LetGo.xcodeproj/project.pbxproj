@@ -15,6 +15,8 @@
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E93FBE91B666A1400C97927 /* SellProductCell.swift */; };
 		2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E93FBEA1B666A1400C97927 /* SellProductCell.xib */; };
+		2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */; };
+		2EC1C17A1BBC17F400834D64 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */; };
 		2ECEAD131B9E0E3E00C8B40C /* AppRatingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ECEAD121B9E0E3E00C8B40C /* AppRatingView.xib */; };
 		2ED65CFC1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65CFA1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift */; };
 		2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED65CFB1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib */; };
@@ -229,6 +231,8 @@
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		2E93FBE91B666A1400C97927 /* SellProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductCell.swift; path = Sell/SellProductCell.swift; sourceTree = "<group>"; };
 		2E93FBEA1B666A1400C97927 /* SellProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SellProductCell.xib; path = Sell/SellProductCell.xib; sourceTree = "<group>"; };
+		2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
+		2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
 		2ECEAD121B9E0E3E00C8B40C /* AppRatingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppRatingView.xib; path = "App Rating/AppRatingView.xib"; sourceTree = "<group>"; };
 		2ED65CFA1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactSubjectOptionsViewController.swift; path = Contact/ContactSubjectOptionsViewController.swift; sourceTree = "<group>"; };
 		2ED65CFB1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactSubjectOptionsViewController.xib; path = Contact/ContactSubjectOptionsViewController.xib; sourceTree = "<group>"; };
@@ -867,7 +871,9 @@
 				50E64F241B09D24A00544DE3 /* SettingsViewController.xib */,
 				50E64F261B09D36500544DE3 /* SettingsCell.swift */,
 				50E64F271B09D36500544DE3 /* SettingsCell.xib */,
+				2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */,
 				66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */,
+				2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */,
 				2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */,
 				2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */,
 				2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */,
@@ -1335,6 +1341,7 @@
 				2EEBF62F1BA96A1E0042E73C /* NewSellProductViewController.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */,
+				2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				50560BA11B25D18F0021D8D9 /* SplashViewController.xib in Resources */,
 				2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */,
@@ -1576,6 +1583,7 @@
 				66A0CFE51A83740D00FAADF0 /* ChatViewController.swift in Sources */,
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */,
+				2EC1C17A1BBC17F400834D64 /* ChangePasswordViewModel.swift in Sources */,
 				D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,

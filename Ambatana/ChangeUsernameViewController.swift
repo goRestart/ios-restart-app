@@ -36,6 +36,11 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         setupUI()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        usernameTextfield.becomeFirstResponder()
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Redraw the lines
@@ -106,7 +111,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             switch (error.value) {
             case .Network:
                 message = NSLocalizedString("common_error_connection_failed", comment: "")
-            case .Internal:
+            case .Internal, .InvalidPassword, .PasswordMismatch:
                 message = NSLocalizedString("common_error_connection_failed", comment: "")
             case .EmailTaken:
                 // should never happen
@@ -139,6 +144,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         saveButton.setTitle(NSLocalizedString("change_username_save_button", comment: ""), forState: .Normal)
         saveButton.setBackgroundImage(saveButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         saveButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        saveButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+
         saveButton.layer.cornerRadius = 4
         saveButton.enabled = false
     }

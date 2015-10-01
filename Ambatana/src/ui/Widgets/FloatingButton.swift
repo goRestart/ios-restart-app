@@ -19,6 +19,7 @@ public class FloatingButton: UIButton {
         }
     }
 
+
     // MARK: - Lifecycle
     
     public static func floatingButtonWithTitle(title: String?, icon: UIImage?) -> FloatingButton? {
@@ -63,13 +64,14 @@ public class FloatingButton: UIButton {
     private func setupUIWithTitle(title: String?, icon: UIImage?) {
         innerButton.layer.cornerRadius = CGRectGetHeight(innerButton.frame) / 2
         innerButton.setBackgroundImage(innerButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        innerButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
         
         setTitle(title)
         setImage(icon)
         
         layer.shadowColor = UIColor.blackColor().CGColor
         layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
-        layer.shadowOpacity = 0.8
+        layer.shadowOpacity = 0.5
         layer.shadowRadius = 8.0
     }
 }

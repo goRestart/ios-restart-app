@@ -85,7 +85,9 @@ class ContactSubjectOptionsViewController: BaseViewController, UITableViewDelega
         let cell = tableView.dequeueReusableCellWithIdentifier("subjectCell", forIndexPath: indexPath) as! SubjectCell
 
         cell.nameLabel.text = viewModel.subjectNameAtIndex(indexPath.row)
-        
+        if indexPath.row == 0 {
+            cell.addTopBorderWithWidth(1, color: StyleHelper.lineColor)
+        }
         cell.addBottomBorderWithWidth(1, color: StyleHelper.lineColor)
         
         return cell

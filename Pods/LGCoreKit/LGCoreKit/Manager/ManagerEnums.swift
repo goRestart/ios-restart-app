@@ -15,6 +15,8 @@ public enum UserLogInFBError {
     case Forbidden
     case Network
     case Internal
+    case InvalidPassword
+    case PasswordMismatch
     
     init(_ userLogInFBServiceError: UserLogInFBServiceError) {
         switch(userLogInFBServiceError) {
@@ -55,6 +57,10 @@ public enum UserLogInFBError {
             self = .Internal
         case .InvalidUsername:    // Should never happen
             self = .Internal
+        case .InvalidPassword:
+            self = .InvalidPassword
+        case .PasswordMismatch:
+            self = .InvalidPassword
         }
     }
 }
@@ -83,6 +89,10 @@ public enum FileUploadError {
             self = .Internal
         case .InvalidUsername:   // Should never happen
             self = .Internal
+        case .InvalidPassword:   // Should never happen
+            self = .Internal
+        case .PasswordMismatch:   // Should never happen
+            self = .Internal
         }
     }
 }
@@ -110,6 +120,10 @@ public enum SaveUserCoordinatesError {
         case .EmailTaken:   // Should never happen
             self = .Internal
         case .InvalidUsername:   // Should never happen
+            self = .Internal
+        case .InvalidPassword:   // Should never happen
+            self = .Internal
+        case .PasswordMismatch:   // Should never happen
             self = .Internal
         }
     }

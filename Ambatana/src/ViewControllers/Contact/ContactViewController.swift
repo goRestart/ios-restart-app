@@ -202,7 +202,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
             }
         }
         
-        return true;
+        return true
     }
     
     func textFieldShouldClear(textField: UITextField) -> Bool {
@@ -229,6 +229,8 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         sendButton.setTitle(NSLocalizedString("contact_send_button", comment: ""), forState: UIControlState.Normal)
         sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
         

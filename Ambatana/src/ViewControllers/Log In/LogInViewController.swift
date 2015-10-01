@@ -191,6 +191,8 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         // Navigation bar
         logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         logInButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
+        logInButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+
         logInButton.layer.cornerRadius = 4
         
         // i18n
@@ -200,6 +202,9 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         rememberPasswordButton.setTitle(NSLocalizedString("log_in_reset_password_button", comment: ""), forState: .Normal)
         logInButton.setTitle(NSLocalizedString("log_in_send_button", comment: ""), forState: .Normal)
         
+        emailTextField.tintColor = StyleHelper.textFieldTintColor
+        passwordTextField.tintColor = StyleHelper.textFieldTintColor
+
         // Tags
         emailTextField.tag = TextFieldTag.Email.rawValue
         passwordTextField.tag = TextFieldTag.Password.rawValue
