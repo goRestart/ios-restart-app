@@ -115,7 +115,53 @@ extension UIViewController {
     func dismissLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
         dismissViewControllerAnimated(true, completion: completion)
     }
+
     
+    // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert().  Used to patch FB login in iOS 9
+    func showCustomLoadingMessageAlert(customMessage: String? = NSLocalizedString("common_loading", comment: "")) {
+        let bgVC = UIViewController()
+        bgVC.modalPresentationStyle =  UIModalPresentationStyle.OverCurrentContext // UIModalPresentationOverCurrentContext
+        bgVC.view.backgroundColor =  UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3) // UIColor.clearColor() //
+        bgVC.view.frame = self.view.frame
+        bgVC.view.center = self.view.center
+        
+        let alert = UIView(frame: CGRectMake(0, 0, 260, 120))
+        alert.center = bgVC.view.center
+        alert.backgroundColor = UIColor.whiteColor()
+        alert.layer.cornerRadius = 10
+        
+        let messageLabel = UILabel(frame:CGRectMake(10, 0, 240, 50))
+        messageLabel.font = UIFont.boldSystemFontOfSize(17)
+        messageLabel.textAlignment = NSTextAlignment.Center
+        messageLabel.numberOfLines = 0
+        messageLabel.text = customMessage
+        alert.addSubview(messageLabel)
+        
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        activityIndicator.color = UIColor.blackColor()
+        activityIndicator.center = CGPointMake(130.5, 85.5)
+        alert.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        bgVC.view.addSubview(alert)
+        alert.alpha = 0
+        
+        presentViewController(bgVC, animated: false) { () -> Void in
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                alert.alpha = 1
+            })
+        }
+    }
+    
+    // dismisses a previously shown custom loading alert message.  Used to patch FB login in iOS 9
+    func dismissCustomLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
+        UIView.animateWithDuration(0.1, animations: { () -> Void in
+            self.presentedViewController!.view.alpha = 0
+            }) { (finished) -> Void in
+                self.dismissViewControllerAnimated(true, completion: completion)
+        }
+    }
+
+
     // Creates and shows a searching bar, that will be placed just below the UINavigationController, and allow the user to look for products.
     func showSearchBarAnimated(animated: Bool, delegate: UISearchBarDelegate) {
         // safety check
