@@ -155,7 +155,7 @@ extension UIViewController {
     // dismisses a previously shown custom loading alert message.  Used to patch FB login in iOS 9
     func dismissCustomLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
         UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.presentedViewController!.view.alpha = 0
+            self.presentedViewController?.view.alpha = 0
             }) { (finished) -> Void in
                 self.dismissViewControllerAnimated(true, completion: completion)
         }
