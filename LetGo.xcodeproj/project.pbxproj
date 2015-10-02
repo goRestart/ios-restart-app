@@ -68,6 +68,7 @@
 		505B06A81B15A9910049F9CD /* GalleryPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B06A51B15A9910049F9CD /* GalleryPageView.swift */; };
 		505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B06A61B15A9910049F9CD /* GalleryPageView.xib */; };
 		505B06AA1B15A9910049F9CD /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B06A71B15A9910049F9CD /* GalleryView.swift */; };
+		506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
 		5080FC811BA2C5EB00B66EC1 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5080FC801BA2C5EB00B66EC1 /* libAppsFlyerLib.a */; };
 		508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */; };
 		508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CEC1B4281F1007BD301 /* ProductCell.swift */; };
@@ -296,6 +297,7 @@
 		505B06A71B15A9910049F9CD /* GalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		5063B7D11B4676ED00039D05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5063B7D21B4676ED00039D05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		506DC19B1BBE7D8A00E59D27 /* levelup.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = levelup.caf; sourceTree = "<group>"; };
 		5080FC7F1BA2C5EB00B66EC1 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		5080FC801BA2C5EB00B66EC1 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductCategory+LG.swift"; sourceTree = "<group>"; };
@@ -656,6 +658,14 @@
 				502B705C1BAAC3B500C5D465 /* FloatingButton.xib */,
 			);
 			path = Widgets;
+			sourceTree = "<group>";
+		};
+		506DC19A1BBE7D8A00E59D27 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				506DC19B1BBE7D8A00E59D27 /* levelup.caf */,
+			);
+			path = sound;
 			sourceTree = "<group>";
 		};
 		5080FC7E1BA2C5EB00B66EC1 /* AF-iOS-SDK-v3.3.0 */ = {
@@ -1060,6 +1070,7 @@
 			children = (
 				502374531B3D3E8D00E02656 /* i18n */,
 				D40DA2851AEE274600B64CE1 /* data */,
+				506DC19A1BBE7D8A00E59D27 /* sound */,
 			);
 			path = res;
 			sourceTree = "<group>";
@@ -1324,6 +1335,7 @@
 				2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */,
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
 				D4A478901B08CA500046D301 /* EditProfileViewController.xib in Resources */,
+				506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */,
 				50E81CF91B0B2D0100807D1B /* ChatMyMessageCell.xib in Resources */,
 				50E81CF51B0B1A2000807D1B /* ChatViewController.xib in Resources */,
 				50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */,
