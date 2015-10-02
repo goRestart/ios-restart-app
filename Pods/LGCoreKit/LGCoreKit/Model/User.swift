@@ -24,4 +24,6 @@
     var isScammer: NSNumber? { get }
     
     var sessionToken: String? { get }
+
+    var didLogInByFacebook: Bool { get }
 }

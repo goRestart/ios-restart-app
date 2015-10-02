@@ -27,6 +27,8 @@
     
     public var sessionToken: String?
     
+    public private(set) var didLogInByFacebook: Bool
+    
     // Lifecycle
     
     public override init() {
@@ -35,6 +37,7 @@
         self.isDummy = false
         self.isAnonymous = false
         self.isScammer = NSNumber(bool: false)
+        self.didLogInByFacebook = false
         super.init()
     }
 }

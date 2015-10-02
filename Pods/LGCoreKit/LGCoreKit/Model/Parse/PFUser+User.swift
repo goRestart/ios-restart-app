@@ -7,6 +7,7 @@
 //
 
 import Parse
+import ParseFacebookUtilsV4
 
 extension PFUser: User {
     
@@ -103,5 +104,9 @@ extension PFUser: User {
         set {
             self[FieldKey.IsScammer.rawValue] = newValue ?? NSNull()
         }
+    }
+    
+    public var didLogInByFacebook: Bool {
+        return PFFacebookUtils.isLinkedWithUser(self)
     }
 }
