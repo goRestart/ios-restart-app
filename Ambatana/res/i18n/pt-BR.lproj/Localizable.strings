@@ -1,4 +1,4 @@
-"categories_baby_and_child" = "Bebê e Criança";
+"categories_baby_and_child" = "Bebê e Infantil";
 "categories_cars_and_motors" = "Veículos";
 "categories_electronics" = "Eletrônicos";
 "categories_fashion_and_accessories" = "Moda e Acessórios";
@@ -62,6 +62,7 @@
 "common_time_seconds_ago_label" = "Há %d segundos";
 "common_time_week_ago_label" = "Há uma semana";
 "common_time_weeks_ago_label" = "Há %d semanas";
+"common_user_not_available" = "Oops! User not found!";
 "common_yes" = "Sim";
 "contact_body_field_hint" = "Mensagem";
 "contact_choose_subject_dialog_title" = "Escolha um assunto";
@@ -90,12 +91,6 @@
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";
 "help_title" = "Ajuda";
-"indicate_location_address_field_hint" = "Insira o seu endereço";
-"indicate_location_address_search_error_generic" = "Não foi possível encontrar essa localização. Por favor, tente novamente.";
-"indicate_location_long_press_tip_label" = "Ou mantenha o dedo pressionado na sua localização";
-"indicate_location_marker_label" = "Estou aqui!";
-"indicate_location_save_error_invalid_location" = "Por favor, selecione um local válido no mapa pressionando alguns segundos";
-"indicate_location_title" = "Indique a sua localização";
 "log_in_email_field_hint" = "E-mail";
 "log_in_error_send_error_generic" = "Ocorreu uma falha ao iniciar a sessão.";
 "log_in_error_send_error_invalid_email" = "Por favor, insira um e-mail válido.";
@@ -128,20 +123,16 @@
 "product_delete_confirm_sold_button" = "Já vendi";
 "product_delete_confirm_title" = "Deletar produto";
 "product_delete_send_error_generic" = "Ops! Não foi possível excluir seu produto. Por favor, tente novamente.";
-"product_delete_sold_confirm_message" = "Deseja mesmo excluír esse produto?";
+"product_delete_sold_confirm_message" = "Deseja mesmo excluir esse produto?";
 "product_delete_success_message" = "Seu produto foi deletado com sucesso.";
 "product_distance_from_you" = "de você";
 "product_gallery_title" = "Fotos";
-"product_list_first_page_error_generic_button" = "Tente novamente";
+"product_list_first_page_error_generic_button" = "Tentar novamente";
 "product_list_first_page_error_generic_label" = "Olá! Você não está conectado! Vamos lá, conecte-se!";
 "product_list_item_new_status_label" = "NOVO";
 "product_list_item_sold_status_label" = "VENDIDO";
-"product_list_location_disabled_button" = "Configurações";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Sua localização foi desativada. Defina a sua localização para poder visualizar as melhores ofertas em sua região!";
-"product_list_location_disabled_label" = "Ops! A sua localização está desativada. Para ativá-la acesse:\nConfigurações > Privacidade > Serviços de Localização.";
-"product_list_location_unauthorized_button" = "Configurações";
-"product_list_location_unauthorized_label" = "Por favor, nos dê permissão para acessar sua localização.";
-"product_list_next_page_error_generic_button" = "Tente novamente";
+"product_list_next_page_error_generic_button" = "Tentar novamente";
 "product_list_next_page_error_generic_label" = "Olá! Você não está conectado! Vamos lá, conecte-se!";
 "product_list_no_products_button" = "Recarregar produtos";
 "product_list_no_products_label" = "Nenhum item localizado na sua região. Seja o primeiro a vender";
@@ -244,7 +235,7 @@
 "settings_image_source_camera_roll_button" = "Galeria de fotos";
 "settings_image_source_cancel_button" = "Cancelar";
 "settings_image_source_title" = "Escolha a fonte da imagem";
-"settings_logout_button" = "Logout";
+"settings_logout_button" = "Sair";
 "settings_title" = "Configurações";
 "sign_up_email_field_hint" = "E-mail";
 "sign_up_password_field_hint" = "Senha";
@@ -256,4 +247,4 @@
 "sign_up_send_error_invalid_username" = "Por favor, insira um nome válido no campo usuário. O nome deve ter no mínimo %d caracteres.";
 "sign_up_title" = "Cadastre-se";
 "sign_up_username_field_hint" = "Nome completo";
-"tab_bar_tool_tip" = "Venda as Suas Coisas";
+"tab_bar_tool_tip" = "Venda suas coisas";

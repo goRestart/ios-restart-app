@@ -408,6 +408,19 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                     }
                 }
             }
+            // Error
+            else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = NSLocalizedString("common_error_connection_failed", comment: "")
+                case .Internal:
+                    message = NSLocalizedString("common_product_not_available", comment: "")
+                }
+                loadingDismissCompletion = { () -> Void in
+                    self?.showAutoFadingOutMessageAlert(message)
+                }
+            }
             
             // Dismiss loading
             self?.dismissLoadingMessageAlert(completion: loadingDismissCompletion)
@@ -434,6 +447,19 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                         let vc = EditProfileViewController(user: user)
                         navBarCtl.pushViewController(vc, animated: true)
                     }
+                }
+            }
+            // Error
+            else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = NSLocalizedString("common_error_connection_failed", comment: "")
+                case .Internal:
+                    message = NSLocalizedString("common_user_not_available", comment: "")
+                }
+                loadingDismissCompletion = { () -> Void in
+                    self?.showAutoFadingOutMessageAlert(message)
                 }
             }
             

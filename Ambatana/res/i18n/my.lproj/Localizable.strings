@@ -62,6 +62,7 @@
 "common_time_seconds_ago_label" = "%d စက္ကန့်အလိုက";
 "common_time_week_ago_label" = "တစ်ပတ်အလိုက";
 "common_time_weeks_ago_label" = "%d ပတ်အလိုက";
+"common_user_not_available" = "Oops! User not found!";
 "common_yes" = "ရှိသည်";
 "contact_body_field_hint" = "မက်ဆေ့";
 "contact_choose_subject_dialog_title" = "အကြောင်းအရာတစ်ခုရွေးပါ";
@@ -90,12 +91,6 @@
 "forced_update_title" = "ပြင်ဆင်ချက်ရနိုင်သည်";
 "forced_update_update_button" = "ပြင်ဆင်မည်";
 "help_title" = "အကူအညီ";
-"indicate_location_address_field_hint" = "သင့်လိပ်စာကိုရေးသားပါ";
-"indicate_location_address_search_error_generic" = "၄င်းသည် တည်နေရာမရှာနိုင်ပါ။ ကျေးဇူးပြုပြီး ပြန်ကြိုးစားပါ။";
-"indicate_location_long_press_tip_label" = "သို့မဟုတ် သင့်တည်နေရာပေါ်နှိပ်ထားသည့် သင့်လက်ချောင်းကိုထိန်းထားပါ";
-"indicate_location_marker_label" = "ကျွန်ုပ် ဒီမှာပါ။";
-"indicate_location_save_error_invalid_location" = "ရှည်လျားသည့် တက်ပ်တစ်ခုနှင့်အတူ မြေပုံတွင် မှန်ကန်သည့်တည်နေရာကိုကျေးဇူးပြုပြီး ရွေးပါ။";
-"indicate_location_title" = "သင့်တည်နေရာကိုသတ်မှတ်ပါ";
 "log_in_email_field_hint" = "အီးမေးလ်";
 "log_in_error_send_error_generic" = "လော့အင်၀င်သောအခါ အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။";
 "log_in_error_send_error_invalid_email" = "သုံးစွဲသူအီးမေးလ်စာသားအချက်အလက်တွင် မှန်ကန်သည့်အီးမေးလ်ကို ကျေးဇူးပြုပြီး ထည့်သွင်းပါ";
@@ -136,11 +131,7 @@
 "product_list_first_page_error_generic_label" = "ဟေ့ ဟိုမှာပါ။ သင်တွင် ဆက်သွယ်ရေးမရှိပါ။ လာပါ၊ သင်ကိုယ်တိုင်ဆက်သွယ်ပါ။";
 "product_list_item_new_status_label" = "အသစ်";
 "product_list_item_sold_status_label" = "ရောင်းပြီး";
-"product_list_location_disabled_button" = "ဆက်တင်များ";
 "product_list_location_disabled_go_to_indicate_location_label" = "မှားပါတယ်။ သင့်တည်နေရာသည် ပိတ်ထားပါတယ်။ အနီးနားရှိ အကောင်းဆုံးကမ်းလှမ်းချက်များကို ကြည့်ရန် သင့်တည်နေရာကို သတ်မှတ်ပါ။";
-"product_list_location_disabled_label" = "မှားပါတယ်။ သင့်တည်နေရာသည် ပိတ်ထားပါတယ်။ ၄င်းကိုဖွင့်ရန် ဆက်တင်များ>ကိုယ်ရေး>‌တည်နေရာ ၀န်ဆောင်မှုများ သို့သွားပါ။";
-"product_list_location_unauthorized_button" = "ဆက်တင်များ";
-"product_list_location_unauthorized_label" = "သင့်တည်နေရာကို အသုံးပြုနိုင်ရန် ကျွန်ုပ်တို့အား ကျေးဇူးပြုပြီး ခွင့်ပေးပါ။";
 "product_list_next_page_error_generic_button" = "ပြန်ကြိုးစားပါ";
 "product_list_next_page_error_generic_label" = "ဟေ့ ဟိုမှာပါ။ သင်တွင် ဆက်သွယ်ရေးမရှိပါ။ လာပါ၊ သင်ကိုယ်တိုင်ဆက်သွယ်ပါ။";
 "product_list_no_products_button" = "ထုတ်ကုန်များပြန်တင်ပါ";

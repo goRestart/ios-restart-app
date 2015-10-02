@@ -157,6 +157,9 @@
 // Common ok
 "common_ok" = "OK";
 
+// Common user not available
+"common_user_not_available" = "Oops! User not found!";
+
 // Common time a minute ago label
 "common_time_a_minute_ago_label" = "a minute ago";
 

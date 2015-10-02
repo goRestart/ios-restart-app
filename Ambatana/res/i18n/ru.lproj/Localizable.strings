@@ -62,6 +62,7 @@
 "common_time_seconds_ago_label" = "%d секунд назад";
 "common_time_week_ago_label" = "неделю назад";
 "common_time_weeks_ago_label" = "%d недель назад";
+"common_user_not_available" = "Oops! User not found!";
 "common_yes" = "Да";
 "contact_body_field_hint" = "Сообщение";
 "contact_choose_subject_dialog_title" = "Выберите тему";
@@ -90,12 +91,6 @@
 "forced_update_title" = "Доступно обновление";
 "forced_update_update_button" = "Обновить";
 "help_title" = "Помощь";
-"indicate_location_address_field_hint" = "Укажите ваш адрес";
-"indicate_location_address_search_error_generic" = "Не удалось найти этот адрес. Пожалуйста, попробуйте еще раз.";
-"indicate_location_long_press_tip_label" = "Или задержите нажатие на вашем местоположении";
-"indicate_location_marker_label" = "Я здесь!";
-"indicate_location_save_error_invalid_location" = "Пожалуйста, выберите реальное местоположение на карте долгим нажатием";
-"indicate_location_title" = "Указать местоположение";
 "log_in_email_field_hint" = "E-mail";
 "log_in_error_send_error_generic" = "При входе произошла ошибка.";
 "log_in_error_send_error_invalid_email" = "Пожалуйста, укажите действующий E-mail";
@@ -136,11 +131,7 @@
 "product_list_first_page_error_generic_label" = "Привет! У вас отсутствует подключение! Подключитесь к интернету!";
 "product_list_item_new_status_label" = "НОВОЕ";
 "product_list_item_sold_status_label" = "ПРОДАНО";
-"product_list_location_disabled_button" = "Настройки";
 "product_list_location_disabled_go_to_indicate_location_label" = "Упс! Определение местоположения выключено. Укажите свое местоположение, чтобы видеть лучшие предложения недалеко от вас!";
-"product_list_location_disabled_label" = "Упс! Определение местоположения выключено. Для включения пройдите : Настройки > Безопасность > Местоположение";
-"product_list_location_unauthorized_button" = "Настройки";
-"product_list_location_unauthorized_label" = "Пожалуйста, разрешите доступ к вашему местоположению.";
 "product_list_next_page_error_generic_button" = "Попробуйте еще раз";
 "product_list_next_page_error_generic_label" = "Привет! У вас отсутствует подключение! Подключитесь к интернету!";
 "product_list_no_products_button" = "Перезагрузить товары";

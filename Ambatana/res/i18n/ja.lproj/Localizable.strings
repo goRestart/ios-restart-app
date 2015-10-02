@@ -62,6 +62,7 @@
 "common_time_seconds_ago_label" = "%d 秒前";
 "common_time_week_ago_label" = "1週間前";
 "common_time_weeks_ago_label" = "%d週間前";
+"common_user_not_available" = "Oops! User not found!";
 "common_yes" = "はい";
 "contact_body_field_hint" = "メッセージ";
 "contact_choose_subject_dialog_title" = "件名を選択";
@@ -90,12 +91,6 @@
 "forced_update_title" = "更新可能";
 "forced_update_update_button" = "更新";
 "help_title" = "ヘルプ";
-"indicate_location_address_field_hint" = "住所を記入する";
-"indicate_location_address_search_error_generic" = "住所を見つけることができませんでした。もう一度やり直してください。";
-"indicate_location_long_press_tip_label" = "または、あなたの居る場所を押し続けてください";
-"indicate_location_marker_label" = "ここ";
-"indicate_location_save_error_invalid_location" = "有効な位置情報を地図上で長押しして選択してください。";
-"indicate_location_title" = "位置情報設定";
 "log_in_email_field_hint" = "メール";
 "log_in_error_send_error_generic" = "ログイン中にエラーが発生しました。";
 "log_in_error_send_error_invalid_email" = "有効なメールアドレスをメールアドレス入力欄に入力してください。";
@@ -136,11 +131,7 @@
 "product_list_first_page_error_generic_label" = "残念ながらインターネットにつながっていません。すぐインターネットに接続してください。";
 "product_list_item_new_status_label" = "新着";
 "product_list_item_sold_status_label" = "売却済み";
-"product_list_location_disabled_button" = "設定";
 "product_list_location_disabled_go_to_indicate_location_label" = "位置情報はオフになっています。近くで、最適な商品を見つけるには位置情報を設定してください。";
-"product_list_location_disabled_label" = "位置情報がオフになっています。 次の設定個所で、オンにしてください：設定＞プライバシー＞位置情報サービス　";
-"product_list_location_unauthorized_button" = "設定";
-"product_list_location_unauthorized_label" = "位置情報へのアクセスを許可してください。";
 "product_list_next_page_error_generic_button" = "再試行";
 "product_list_next_page_error_generic_label" = "残念ながらインターネットにつながっていません。すぐインターネットに接続してください。";
 "product_list_no_products_button" = "製品の再読み込み";
