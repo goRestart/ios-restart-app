@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>FooterText</key>
+			<string>This application makes use of the following third party media:</string>
+			<key>Title</key>
+			<string>Acknowledgements</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>This app uses the original sound &quot;Level Up 01&quot; of the user &quot;rhodesmas&quot; onfreesound.org (https://freesound.org/people/rhodesmas/sounds/320655/)with a Creative Commons license under the Attribution 3.0 Unported terms(http://creativecommons.org/licenses/by/3.0/).</string>
+			<key>Title</key>
+			<string>Level Up 01</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+	</array>
+	<key>StringsTable</key>
+	<string>Media Acknowledgements</string>
+	<key>Title</key>
+	<string>Media Acknowledgements</string>
+</dict>
+</plist>
