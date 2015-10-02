@@ -120,8 +120,8 @@ extension UIViewController {
     // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert().  Used to patch FB login in iOS 9
     func showCustomLoadingMessageAlert(customMessage: String? = NSLocalizedString("common_loading", comment: "")) {
         let bgVC = UIViewController()
-        bgVC.modalPresentationStyle =  UIModalPresentationStyle.OverCurrentContext // UIModalPresentationOverCurrentContext
-        bgVC.view.backgroundColor =  UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3) // UIColor.clearColor() //
+        bgVC.modalPresentationStyle =  UIModalPresentationStyle.OverCurrentContext
+        bgVC.view.backgroundColor =  UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3)
         bgVC.view.frame = self.view.frame
         bgVC.view.center = self.view.center
         
