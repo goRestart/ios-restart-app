@@ -26,10 +26,10 @@ public class MainProductListView: ProductListView {
         // If it's the first page with no results
         let isFirstPageWithNoResults = ( page == 0 && indexPaths.isEmpty )
         if isFirstPageWithNoResults {
-
             let errBody: String?
             let errButTitle: String?
             let errButAction: (() -> Void)?
+            
             
             // Search
             if viewModel.queryString != nil {
@@ -46,7 +46,7 @@ public class MainProductListView: ProductListView {
                 }
             }
             
-            state = .ErrorView(errImage: nil, errTitle: nil, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+            state = .ErrorView(errBgColor: nil, errBorderColor: nil, errImage: nil, errTitle: nil, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
             
             // Notify the delegate
             delegate?.productListView(self, didSucceedRetrievingProductsPage: page)
@@ -54,6 +54,45 @@ public class MainProductListView: ProductListView {
         // Otherwise (has results), let super work
         else {
             super.viewModel(viewModel, didSucceedRetrievingProductsPage: page, atIndexPaths: indexPaths)
+        }
+    }
+    
+    public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+        
+        // If it's the first page, the set the error state
+        if page == 0 {
+            let errBgColor: UIColor?
+            let errBorderColor: UIColor?
+            let errImage: UIImage?
+            let errTitle: String?
+            let errBody: String?
+            let errButTitle: String?
+            let errButAction: (() -> Void)?
+            
+            switch error {
+            case .Network:
+                errImage = UIImage(named: "err_network")
+                errTitle = NSLocalizedString("common_error_title", comment: "")
+                errBody = NSLocalizedString("common_error_network_body", comment: "")
+                errButTitle = NSLocalizedString("common_error_retry_button", comment: "")
+            case .Internal:
+                errImage = UIImage(named: "err_generic")
+                errTitle = NSLocalizedString("common_error_title", comment: "")
+                errBody = NSLocalizedString("common_error_generic_body", comment: "")
+                errButTitle = NSLocalizedString("common_error_retry_button", comment: "")
+            }
+            errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
+            errBorderColor = StyleHelper.lineColor
+            
+            errButAction = {
+                self.refresh()
+            }
+            
+            state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+        }
+        // Otherwise (has results), let super work
+        else {
+            super.viewModel(viewModel, didFailRetrievingProductsPage: page, error: error)
         }
     }
 }

@@ -45,6 +45,10 @@
 "common_cancel" = "취소";
 "common_error" = "오류";
 "common_error_connection_failed" = "작업을 완료할 수 없습니다. 인터넷 연결상태를 확인해주세요.";
+"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_network_body" = "Please check your network settings and try again";
+"common_error_retry_button" = "Try again";
+"common_error_title" = "OOPS!";
 "common_loading" = "로딩중...";
 "common_no" = "아니요";
 "common_ok" = "확인";

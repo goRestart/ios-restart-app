@@ -45,6 +45,10 @@
 "common_cancel" = "Annuleren";
 "common_error" = "Fout";
 "common_error_connection_failed" = "Bewerking kon niet worden voltooid. Controleer a.u.b. jouw internetverbinding.";
+"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_network_body" = "Please check your network settings and try again";
+"common_error_retry_button" = "Try again";
+"common_error_title" = "OOPS!";
 "common_loading" = "Laden...";
 "common_no" = "Nee";
 "common_ok" = "OK";

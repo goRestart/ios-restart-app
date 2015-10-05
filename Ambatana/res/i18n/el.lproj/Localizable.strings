@@ -45,6 +45,10 @@
 "common_cancel" = "Ακύρωση";
 "common_error" = "Σφάλμα";
 "common_error_connection_failed" = "Η εργασία δεν ήταν δυνατό να ολοκληρωθεί. Θα πρέπει να ελέγξεις τη σύνδεσή σου στο διαδίκτυο!";
+"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_network_body" = "Please check your network settings and try again";
+"common_error_retry_button" = "Try again";
+"common_error_title" = "OOPS!";
 "common_loading" = "Φόρτωση…";
 "common_no" = "Όχι";
 "common_ok" = "ΟΚ";

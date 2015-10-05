@@ -139,6 +139,18 @@
 // Common error connection failed
 "common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
 
+// Common error generic body
+"common_error_generic_body" = "Go get some fresh air and try again";
+
+// Common error network body
+"common_error_network_body" = "Please check your network settings and try again";
+
+// Common error retry button
+"common_error_retry_button" = "Try again";
+
+// Common error title
+"common_error_title" = "OOPS!";
+
 // Common loading. Check attached image "common_loading.png"
 "common_loading" = "Loading...";
 
@@ -747,3 +759,4 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
+

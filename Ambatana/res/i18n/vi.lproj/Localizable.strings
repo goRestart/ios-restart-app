@@ -45,6 +45,10 @@
 "common_cancel" = "Hủy";
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Không thể hoàn thành hoạt động. Vui lòng kiểm tra lại kết nối Internet của bạn.";
+"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_network_body" = "Please check your network settings and try again";
+"common_error_retry_button" = "Try again";
+"common_error_title" = "OOPS!";
 "common_loading" = "Đang tải...";
 "common_no" = "Không";
 "common_ok" = "OK";

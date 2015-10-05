@@ -45,6 +45,10 @@
 "common_cancel" = "Avbryt";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Kunde inte slutföras.Var god kontrollera din internetanslutning.";
+"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_network_body" = "Please check your network settings and try again";
+"common_error_retry_button" = "Try again";
+"common_error_title" = "OOPS!";
 "common_loading" = "Laddar...";
 "common_no" = "Nej";
 "common_ok" = "Ok";

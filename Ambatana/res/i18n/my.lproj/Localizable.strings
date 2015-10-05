@@ -45,6 +45,10 @@
 "common_cancel" = "ရပ်ဆိုင်းပါ";
 "common_error" = "အမှားအယွင်း";
 "common_error_connection_failed" = "လုပ်ဆောင်ချက်သည် မပြည့်စုံနိုင်ပါ။ ကျေးဇူးပြုပြီး သင့်အင်တာနက်ဆက်သွယ်ရေးကို စစ်ဆေးပါ။";
+"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_network_body" = "Please check your network settings and try again";
+"common_error_retry_button" = "Try again";
+"common_error_title" = "OOPS!";
 "common_loading" = "တင်နေတုန်း...";
 "common_no" = "မရှိပါ";
 "common_ok" = "ကောင်းပြီ";

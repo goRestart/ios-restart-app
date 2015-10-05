@@ -45,6 +45,10 @@
 "common_cancel" = "Отмена";
 "common_error" = "Ошибка";
 "common_error_connection_failed" = "Операция не может быть завершена. Пожалуйста, проверьте соединение с Интернет.";
+"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_network_body" = "Please check your network settings and try again";
+"common_error_retry_button" = "Try again";
+"common_error_title" = "OOPS!";
 "common_loading" = "Загрузка...";
 "common_no" = "Нет";
 "common_ok" = "OK";

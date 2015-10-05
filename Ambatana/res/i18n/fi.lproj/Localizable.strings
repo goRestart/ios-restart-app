@@ -45,6 +45,10 @@
 "common_cancel" = "Peruuta";
 "common_error" = "Virhe";
 "common_error_connection_failed" = "Toimintoa ei voitu suorittaa. Ole hyvä, ja tarkista Internet-yhteytesi.";
+"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_network_body" = "Please check your network settings and try again";
+"common_error_retry_button" = "Try again";
+"common_error_title" = "OOPS!";
 "common_loading" = "Ladataan...";
 "common_no" = "Ei";
 "common_ok" = "OK";

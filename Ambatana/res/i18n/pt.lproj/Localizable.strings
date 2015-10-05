@@ -45,6 +45,10 @@
 "common_cancel" = "Cancelar";
 "common_error" = "Erro";
 "common_error_connection_failed" = "A operação não pode ser concluída. Por favor, verifique sua conexão com a internet.";
+"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_network_body" = "Please check your network settings and try again";
+"common_error_retry_button" = "Try again";
+"common_error_title" = "OOPS!";
 "common_loading" = "Carregando...";
 "common_no" = "Não";
 "common_ok" = "OK";
