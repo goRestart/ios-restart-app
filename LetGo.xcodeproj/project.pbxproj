@@ -108,6 +108,7 @@
 		50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */; };
 		50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
 		50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
+		50CD8F5D1BC27DE30031DCD3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5C1BC27DE30031DCD3 /* Info.plist */; };
 		50D2CACD1BB41FB800EC5C30 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */; };
 		50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */; };
 		50D2CAD01BB41FD600EC5C30 /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACF1BB41FD600EC5C30 /* HelpViewModel.swift */; };
@@ -337,6 +338,7 @@
 		50C9E5061B74EAE3001E4E92 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLImageResizing.swift; sourceTree = "<group>"; };
+		50CD8F5C1BC27DE30031DCD3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
 		50D2CACF1BB41FD600EC5C30 /* HelpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewModel.swift; sourceTree = "<group>"; };
@@ -363,7 +365,6 @@
 		621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6608E03B1A820FBD005895ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6608E0401A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Launchers.xcassets"; sourceTree = "<group>"; };
@@ -844,6 +845,14 @@
 			path = "3rd-Party/DLImageResizing";
 			sourceTree = "<group>";
 		};
+		50CD8F5B1BC27D960031DCD3 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				50CD8F5C1BC27DE30031DCD3 /* Info.plist */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		50D2CACA1BB412D800EC5C30 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -922,18 +931,9 @@
 				66A0CF991A8244D100FAADF0 /* Extensions */,
 				6649D1681A8210C9000F6966 /* Views & Controllers */,
 				6608E0441A820FBD005895ED /* LaunchScreen.xib */,
-				6608E0391A820FBD005895ED /* Supporting Files */,
 			);
 			name = LetGo;
 			path = Ambatana;
-			sourceTree = "<group>";
-		};
-		6608E0391A820FBD005895ED /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6608E03A1A820FBD005895ED /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		6649D1651A8210A6000F6966 /* Application */ = {
@@ -1099,6 +1099,7 @@
 		D458383B1AEE6A9100B5F181 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				50CD8F5B1BC27D960031DCD3 /* Application */,
 				D45D88CA1B10F45E0059A165 /* Constants */,
 				50261B191AFB4873006E88E0 /* Environment */,
 				D412E0801B4F03D700683FFD /* Helper */,
@@ -1215,6 +1216,7 @@
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
 				502B70571BA9C7FD00C5D465 /* Warnings Script */,
 				2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */,
+				50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */,
 			);
 			buildRules = (
 			);
@@ -1362,6 +1364,7 @@
 				50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */,
 				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
+				50CD8F5D1BC27DE30031DCD3 /* Info.plist in Resources */,
 				50C9E4D31B73637D001E4E92 /* Pods.debug.xcconfig in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
@@ -1438,6 +1441,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+		};
+		50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "App Version to Settings.bundle Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/Settings.bundle/Root.plist\"";
 		};
 		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1829,7 +1846,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				INFOPLIST_FILE = Ambatana/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1860,7 +1877,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				INFOPLIST_FILE = Ambatana/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1927,7 +1944,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				INFOPLIST_FILE = Ambatana/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
