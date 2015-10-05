@@ -17,13 +17,14 @@ public protocol ProductViewModelDelegate: class {
     
     func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsFavourite(viewModel: ProductViewModel)
+    func viewModelForbiddenAccessToFavourite(viewModel: ProductViewModel)
 
     func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel)
 
     func viewModelDidStartReporting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
     func viewModelDidCompleteReporting(viewModel: ProductViewModel)
-    func viewModelDidFailReporting(viewModel: ProductViewModel)
+    func viewModelDidFailReporting(viewModel: ProductViewModel, error: ProductReportSaveServiceError)
     
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishDeleting result: Result<Nil, ProductDeleteServiceError>)
@@ -392,6 +393,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                         // Run completed
                         strongSelf.saveFavouriteCompleted()
                     }
+                    else {
+                        if let actualError = result.error {
+                            if actualError == .Forbidden {
+                                strongSelf.delegate?.viewModelForbiddenAccessToFavourite(strongSelf)
+                            }
+                        }
+                    }
                     
                     // Notify the delegate
                     strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
@@ -491,7 +499,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                     strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
                 } else {
                     let failure = result.error ?? .Internal
-                    strongSelf.delegate?.viewModelDidFailReporting(strongSelf)
+                    strongSelf.delegate?.viewModelDidFailReporting(strongSelf, error: failure)
                 }
                 
             }
@@ -558,10 +566,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                             if let vc = ChatViewController(product: strongSelf.product) {
                                 result = Result<UIViewController, ChatRetrieveServiceError>.success(vc)
                             }
-                        case .Network, .Unauthorized, .Internal:
+                        case .Network, .Unauthorized, .Internal, .Forbidden:
                             result = Result<UIViewController, ChatRetrieveServiceError>.failure(error)
-                        case .Forbidden:
-                            MyUserManager.sharedInstance.logout(nil)
                         }
                     }
                     

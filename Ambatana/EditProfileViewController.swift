@@ -264,6 +264,12 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+        if error == .Forbidden {
+            // logout the scammer!
+            showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                MyUserManager.sharedInstance.logout(nil)
+            })
+        }
     }
     
     func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError) {
@@ -279,6 +285,13 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
             loadingSoldProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductISold)
+        }
+        
+        if error == .Forbidden {
+            // logout the scammer!
+            showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                MyUserManager.sharedInstance.logout(nil)
+            })
         }
     }
     

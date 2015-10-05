@@ -67,6 +67,9 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         self.editViewModel.shouldDisableTracking()
         super.sellProductViewModel(viewModel, didFailWithError: error)
 
+        var completion = {
+            self.editViewModel.shouldEnableTracking()
+        }
         let message: String
         switch (error) {
         case .Network:
@@ -86,12 +89,15 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         case .NoCategory:
             message = NSLocalizedString("sell_send_error_invalid_category", comment: "")
         case .Forbidden:
-            // already logging out in viewModel
-            message = NSLocalizedString("sell_send_error_uploading_product", comment: "")
+            message = NSLocalizedString("log_in_error_send_error_generic", comment: "")
+            completion = {
+                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    MyUserManager.sharedInstance.logout(nil)
+                })
+                self.editViewModel.shouldEnableTracking()
+            }
         }
-        self.showAutoFadingOutMessageAlert(message) { () -> Void in
-            self.editViewModel.shouldEnableTracking()
-        }
+        self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
     }
 
 }
