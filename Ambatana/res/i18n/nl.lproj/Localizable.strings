@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "%d seconden geleden";
 "common_time_week_ago_label" = "Een week geleden";
 "common_time_weeks_ago_label" = "%d weken geleden";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Oeps! Gebruiker niet gevonden!";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Bericht";
 "contact_choose_subject_dialog_title" = "Kies een onderwerp";

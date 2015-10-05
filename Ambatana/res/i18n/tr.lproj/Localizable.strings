@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "%d saniye önce";
 "common_time_week_ago_label" = "bir hafta önce";
 "common_time_weeks_ago_label" = "%d hafta önce";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Eyvah! Kullanıcı bulunamadı!";
 "common_yes" = "Evet";
 "contact_body_field_hint" = "Mesaj";
 "contact_choose_subject_dialog_title" = "Bir konu seç";

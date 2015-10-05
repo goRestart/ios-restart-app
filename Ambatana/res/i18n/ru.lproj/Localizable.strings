@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "%d секунд назад";
 "common_time_week_ago_label" = "неделю назад";
 "common_time_weeks_ago_label" = "%d недель назад";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Упс! Пользователь не найден!";
 "common_yes" = "Да";
 "contact_body_field_hint" = "Сообщение";
 "contact_choose_subject_dialog_title" = "Выберите тему";

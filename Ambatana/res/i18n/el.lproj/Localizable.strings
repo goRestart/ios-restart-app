@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "%d δευτερόλεπτα πριν";
 "common_time_week_ago_label" = "πριν από μια εβδομάδα";
 "common_time_weeks_ago_label" = "%d εβδομάδες πριν";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Όπα! Δε βρέθηκε ο χρήστης!";
 "common_yes" = "Ναι";
 "contact_body_field_hint" = "Μήνυμα";
 "contact_choose_subject_dialog_title" = "Επιλογή θέματος";

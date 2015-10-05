@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "for %d sekunder siden";
 "common_time_week_ago_label" = "for en uke siden";
 "common_time_weeks_ago_label" = "for %d uker siden";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Oops! Fant ikke bruker!";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Melding";
 "contact_choose_subject_dialog_title" = "Velg et emne";

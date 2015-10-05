@@ -734,10 +734,10 @@
 "sign_up_send_error_invalid_email" = "Please insert a valid email address.";
 
 // Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_password" = "Please insert a valid password. It must be at least 4 characters long.";
+"sign_up_send_error_invalid_password" = "Please insert a valid password. It must be at least %d characters long.";
 
 // Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least 2 characters long.";
+"sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 
 // Sign up title. Check image @ "sign_up_email_field_hint" segment
 "sign_up_title" = "Sign up";
@@ -747,4 +747,3 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
-

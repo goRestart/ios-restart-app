@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "%d másodperccel ezelőtt";
 "common_time_week_ago_label" = "egy héttel ezelőtt";
 "common_time_weeks_ago_label" = "%d héttel ezelőtt";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Hoppá! A felhasználó nem található!";
 "common_yes" = "Igen";
 "contact_body_field_hint" = "Üzenet";
 "contact_choose_subject_dialog_title" = "Válassz témát";

@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "il y a %d secondes";
 "common_time_week_ago_label" = "il y a une semaine";
 "common_time_weeks_ago_label" = "il y a %d semaines";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Oups ! Nom d'utilisateur invalide.";
 "common_yes" = "Oui";
 "contact_body_field_hint" = "Message";
 "contact_choose_subject_dialog_title" = "Choisir un sujet";

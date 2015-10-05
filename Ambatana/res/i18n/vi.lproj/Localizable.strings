@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "%d giây trước";
 "common_time_week_ago_label" = "một tuần trước";
 "common_time_weeks_ago_label" = "%d tuần trước";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Ồ! Không tìm thấy người dùng!";
 "common_yes" = "Có";
 "contact_body_field_hint" = "Tin nhắn";
 "contact_choose_subject_dialog_title" = "Chọn một tiêu đề";

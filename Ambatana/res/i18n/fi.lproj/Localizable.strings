@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "%d sekuntia sitten";
 "common_time_week_ago_label" = "viikko sitten";
 "common_time_weeks_ago_label" = "%d viikkoa sitten";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Hups! Käyttäjää ei löytynyt!";
 "common_yes" = "Kyllä";
 "contact_body_field_hint" = "Viesti";
 "contact_choose_subject_dialog_title" = "Valitse aihe";

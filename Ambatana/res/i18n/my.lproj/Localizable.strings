@@ -62,7 +62,7 @@
 "common_time_seconds_ago_label" = "%d စက္ကန့်အလိုက";
 "common_time_week_ago_label" = "တစ်ပတ်အလိုက";
 "common_time_weeks_ago_label" = "%d ပတ်အလိုက";
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "အိုး၊ မှားပါတယ်။ သုံးစွဲသူမတွေ့ပါ။";
 "common_yes" = "ရှိသည်";
 "contact_body_field_hint" = "မက်ဆေ့";
 "contact_choose_subject_dialog_title" = "အကြောင်းအရာတစ်ခုရွေးပါ";
