@@ -122,7 +122,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     // MARK: - MainSignUpViewModelDelegate
     
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel) {
-        showLoadingMessageAlert()
+        showCustomLoadingMessageAlert()
     }
     
     func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: Result<User, UserLogInFBError>) {
@@ -152,7 +152,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
                 }
             }
         }
-        dismissLoadingMessageAlert(completion: completion)
+        dismissCustomLoadingMessageAlert(completion: completion)
     }
     
     // MARK: - Private methods
