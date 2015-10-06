@@ -261,6 +261,11 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     
     public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
         let hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
+        setSellFloatingButtonHidden(hidden, animated: false)
+    }
+    
+    public func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
+        let hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
         setSellFloatingButtonHidden(hidden, animated: true)
     }
     
