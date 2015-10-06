@@ -12,6 +12,7 @@ public enum ChatsUnreadCountRetrieveServiceError: Printable {
     case Network
     case Unauthorized
     case Internal
+    case Forbidden
     
     public var description: String {
         switch (self) {
@@ -21,6 +22,8 @@ public enum ChatsUnreadCountRetrieveServiceError: Printable {
             return "Unauthorized"
         case Internal:
             return "Internal"
+        case Forbidden:
+            return "Forbidden"
         }
     }
 }

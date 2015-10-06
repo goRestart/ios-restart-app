@@ -45,43 +45,43 @@ public class LGProductParser {
     
     private static let ownerJSONKey = "owner"
 
-    //{
-    //    "id": "283jcsBPuR",
-    //    "name": "Ylg smartwatch",
-    //    "category_id": 3,
-    //    "language_code": "YES",
-    //    "description": "Ylg smartwatch new",
-    //    "price": 1,
-    //    "currency": "YEUR",
-    //    "status": 1,
-    //    "geo": {
-    //        "lat": 1,
-    //        "lng": 1,
-    //        "country_code": "YES",
-    //        "city": "YVallés",
-    //        "zip_code": "46818",
-    //        "distance": 351.51723732342
-    //    },
-    //    "owner": {
-    //        "id": "Jfp19JJRqb",
-    //        "public_username": "Mark markrz",
-    //        "avatar_url": "http://files.parsetfss.com/abbc9384-9790-4bbb-9db2-1c3522889e96/tfss-7b0e929c-f177-485b-8f31-d47c37f3bf77-Jfp19JJRqb.jpg",
-    //        "is_richy": false
-    //    },
-    //    "images": [
-    //        {
-    //            "url": "http://devel.cdn.letgo.com/images/56/82/91/fd/e3866f07983557cd8619433ff4fc3177.jpg",
-    //            "id": null
-    //        }
-    //    ],
-    //    "thumb": {
-    //        "url": "http://devel.cdn.letgo.com/images/56/82/91/fd/e3866f07983557cd8619433ff4fc3177_thumb.jpg",
-    //        "width": 720,
-    //        "height": 1280
-    //    },
-    //    "created_at": "2015-08-25T15:47:47+0000",
-    //    "updated_at": "2015-08-25T15:47:47+0000",
-    //}
+//    {
+//        "id": "283jcsBPuR",
+//        "name": "Ylg smartwatch",
+//        "category_id": 3,
+//        "language_code": "YES",
+//        "description": "Ylg smartwatch new",
+//        "price": 1,
+//        "currency": "YEUR",
+//        "status": 1,
+//        "geo": {
+//            "lat": 1,
+//            "lng": 1,
+//            "country_code": "YES",
+//            "city": "YVallés",
+//            "zip_code": "46818",
+//            "distance": 351.51723732342
+//        },
+//        "owner": {
+//            "id": "Jfp19JJRqb",
+//            "public_username": "Mark markrz",
+//            "avatar_url": "http://files.parsetfss.com/abbc9384-9790-4bbb-9db2-1c3522889e96/tfss-7b0e929c-f177-485b-8f31-d47c37f3bf77-Jfp19JJRqb.jpg",
+//            "is_richy": false
+//        },
+//        "images": [
+//            {
+//                "url": "http://devel.cdn.letgo.com/images/56/82/91/fd/e3866f07983557cd8619433ff4fc3177.jpg",
+//                "id": null
+//            }
+//        ],
+//        "thumb": {
+//            "url": "http://devel.cdn.letgo.com/images/56/82/91/fd/e3866f07983557cd8619433ff4fc3177_thumb.jpg",
+//            "width": 720,
+//            "height": 1280
+//        },
+//        "created_at": "2015-08-25T15:47:47+0000",
+//        "updated_at": "2015-08-25T15:47:47+0000",
+//    }
     public static func productWithJSON(json: JSON, currencyHelper: CurrencyHelper, distanceType: DistanceType) -> LGProduct {
         let product = LGProduct()
         product.objectId = json[LGProductParser.idJSONKey].string
@@ -131,7 +131,6 @@ public class LGProductParser {
             }
             postalAddress.address = nil
             product.postalAddress = postalAddress
-
         }
         
         product.languageCode = json[LGProductParser.languageCodeJSONKey].string
@@ -171,17 +170,7 @@ public class LGProductParser {
         if json[LGProductParser.ownerJSONKey] != nil {
             product.user = LGProductUserParser.userWithJSON(json[LGProductParser.ownerJSONKey])
         }
-        
-//        println("===================================")
-//        println(product.name)
-//        println(product.status)
-//        println("app  user: \(MyUserManager.sharedInstance.myUser()?.objectId) - X-Letgo-Parse-User-Token: \(MyUserManager.sharedInstance.myUser()?.sessionToken)")
-//        println("prod user: \(product.user?.objectId) - product id: \(product.objectId)")
-//        for image in product.images {
-//            println(image.fileURL)
-//            println(image.token)
-//        }
-        
+
         return product
     }
 }

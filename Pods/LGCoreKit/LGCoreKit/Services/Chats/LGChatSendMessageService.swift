@@ -53,6 +53,8 @@ public class LGChatSendMessageService: ChatSendMessageService {
                         switch statusCode {
                         case 401:
                             result?(Result<Message, ChatSendMessageServiceError>.failure(.Unauthorized))
+                        case 403:
+                            result?(Result<Message, ChatSendMessageServiceError>.failure(.Forbidden))
                         case 404:
                             result?(Result<Message, ChatSendMessageServiceError>.failure(.NotFound))
                         default:

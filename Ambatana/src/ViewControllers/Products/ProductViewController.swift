@@ -253,6 +253,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         setFavouriteButtonAsFavourited(viewModel.isFavourite)
     }
     
+    public func viewModelForbiddenAccessToFavourite(viewModel: ProductViewModel) {
+        showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+            MyUserManager.sharedInstance.logout(nil)
+        })
+    }
+    
     public func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel) {
         favoriteButton?.userInteractionEnabled = false
         reportButton.enabled = false
@@ -277,11 +283,22 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         dismissLoadingMessageAlert(completion: completion)
     }
     
-    public func viewModelDidFailReporting(viewModel: ProductViewModel) {
+    public func viewModelDidFailReporting(viewModel: ProductViewModel, error: ProductReportSaveServiceError) {
+
+        var completion: () -> Void
         
-        var completion: () -> Void = {
-            self.reportButton.enabled = true
-            self.showAutoFadingOutMessageAlert(NSLocalizedString("product_reported_error_generic", comment: ""), time: 3)
+        if error == .Forbidden {
+            completion = {
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                    MyUserManager.sharedInstance.logout(nil)
+                })
+            }
+        }
+        else {
+            completion = {
+                self.reportButton.enabled = true
+                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_reported_error_generic", comment: ""), time: 3)
+            }
         }
         
         dismissLoadingMessageAlert(completion: completion)
@@ -342,7 +359,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
 
     public func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>) {
-        let completion: (() -> Void)?
+        var completion: (() -> Void)?
         if let viewController = result.value {
             completion = {
                 self.navigationController?.pushViewController(viewController, animated: true)
@@ -351,6 +368,15 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         else {
             completion = {
                 self.showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
+            }
+            if let actualError = result.error {
+                if actualError == .Forbidden {
+                    completion = {
+                        self.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                            MyUserManager.sharedInstance.logout(nil)
+                        })
+                    }
+                }
             }
         }
         dismissLoadingMessageAlert(completion: completion)

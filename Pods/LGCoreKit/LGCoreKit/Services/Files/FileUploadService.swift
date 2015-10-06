@@ -11,6 +11,7 @@ import Result
 public enum FileUploadServiceError {
     case Network
     case Internal
+    case Forbidden
 }
 
 public typealias FileUploadServiceResult = (Result<File, FileUploadServiceError>) -> Void

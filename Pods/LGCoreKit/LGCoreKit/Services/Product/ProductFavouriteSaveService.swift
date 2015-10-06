@@ -13,6 +13,7 @@ public enum ProductFavouriteSaveServiceError: Printable {
     case Network
     case Internal
     case AlreadyExists
+    case Forbidden
     
     public var description: String {
         switch (self) {
@@ -22,6 +23,8 @@ public enum ProductFavouriteSaveServiceError: Printable {
             return "Internal"
         case .AlreadyExists:
             return "AlreadyExists"
+        case .Forbidden:
+            return "Forbidden"
         }
     }
 }

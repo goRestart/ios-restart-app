@@ -45,6 +45,10 @@ public class ProfileProductListView: ProductListView {
     
     // MARK: - ProductListViewModelDataDelegate
     
+    public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+        delegate?.productListView(self, didFailRetrievingProductsPage: page, error: error)
+    }
+    
     public override func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath]) {
         
         // If it's the first page with no results & notify the delegate

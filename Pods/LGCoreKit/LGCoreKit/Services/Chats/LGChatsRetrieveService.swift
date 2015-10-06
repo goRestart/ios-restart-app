@@ -47,6 +47,8 @@ public class LGChatsRetrieveService: ChatsRetrieveService {
                         switch statusCode {
                         case 401:
                             result?(Result<ChatsResponse, ChatsRetrieveServiceError>.failure(.Unauthorized))
+                        case 403:
+                            result?(Result<ChatsResponse, ChatsRetrieveServiceError>.failure(.Forbidden))
                         default:
                             result?(Result<ChatsResponse, ChatsRetrieveServiceError>.failure(.Internal))
                         }

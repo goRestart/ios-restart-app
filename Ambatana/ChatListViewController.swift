@@ -110,6 +110,13 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
                     else {
                         strongSelf.enableNoConversationsInterface()
                     }
+                } else if let actualError = result.error {
+                    if actualError == .Forbidden {
+                        // logout the scammer!
+                        self?.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                            MyUserManager.sharedInstance.logout(nil)
+                        })
+                    }
                 }
                 
                 // allow interaction

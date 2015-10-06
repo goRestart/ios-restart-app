@@ -104,7 +104,16 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                 }
                                 // Error
                                 else {
-                                    strongSelf2.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+                                    
+                                    if let actualError = retrieveResult.error {
+                                        if actualError == .Forbidden {
+                                            strongSelf2.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                                                MyUserManager.sharedInstance.logout(nil)
+                                            })
+                                        } else {
+                                            strongSelf2.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -112,7 +121,16 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                     // Error
                     else {
                         strongSelf.disableLoadingInterface()
-                        strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+                        
+                        if let actualError = sendResult.error {
+                            if actualError == .Forbidden {
+                                strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                                    MyUserManager.sharedInstance.logout(nil)
+                                })
+                            } else {
+                                strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+                            }
+                        }
                     }
                 }
             }

@@ -44,6 +44,8 @@ public enum UserLogInFBError {
             self = .Network
         case .Internal:
             self = .Internal
+        case .Forbidden:
+            self = .Forbidden
         }
     }
     
@@ -69,6 +71,7 @@ public typealias UserLogInFBResult = (Result<User, UserLogInFBError>) -> Void
 public enum FileUploadError {
     case Network
     case Internal
+    case Forbidden
     
     init(_ fileUploadServiceError: FileUploadServiceError) {
         switch(fileUploadServiceError) {
@@ -76,6 +79,8 @@ public enum FileUploadError {
             self = .Network
         case .Internal:
             self = .Internal
+        case .Forbidden:
+            self = .Forbidden
         }
     }
     
