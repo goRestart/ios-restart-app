@@ -45,10 +45,10 @@
 "common_cancel" = "キャンセル";
 "common_error" = "エラー";
 "common_error_connection_failed" = "操作を完了できませんでした。インターネット接続を確認してください。";
-"common_error_generic_body" = "Go get some fresh air and try again";
-"common_error_network_body" = "Please check your network settings and try again";
-"common_error_retry_button" = "Try again";
-"common_error_title" = "OOPS!";
+"common_error_generic_body" = "やリ方をを変えてもう一度お試しください";
+"common_error_network_body" = "ネットワークを確認してもう一度お試しください";
+"common_error_retry_button" = "もう一度お試しください";
+"common_error_title" = "失敗しました！";
 "common_loading" = "読み込み中...";
 "common_no" = "いいえ";
 "common_ok" = "OK";
@@ -131,13 +131,9 @@
 "product_delete_success_message" = "あなたの商品は正常に削除されました。";
 "product_distance_from_you" = "あなたからの距離";
 "product_gallery_title" = "写真";
-"product_list_first_page_error_generic_button" = "再実行";
-"product_list_first_page_error_generic_label" = "残念ながらインターネットにつながっていません。すぐインターネットに接続してください。";
 "product_list_item_new_status_label" = "新着";
 "product_list_item_sold_status_label" = "売却済み";
 "product_list_location_disabled_go_to_indicate_location_label" = "位置情報はオフになっています。近くで、最適な商品を見つけるには位置情報を設定してください。";
-"product_list_next_page_error_generic_button" = "再試行";
-"product_list_next_page_error_generic_label" = "残念ながらインターネットにつながっていません。すぐインターネットに接続してください。";
 "product_list_no_products_button" = "製品の再読み込み";
 "product_list_no_products_label" = "あなたの近所に商品はありません。先にに販売をはじめましょう";
 "product_list_search_no_products_button" = "商品再読み込み";
@@ -156,7 +152,7 @@
 "product_report_confirm_ok_button" = "OK";
 "product_report_confirm_title" = "商品報告";
 "product_report_product_button" = "商品報告";
-"product_reported_error_generic" = "現在、商品の報告ができません。しばらくしてもう一度お試しください。";
+"product_reported_error_generic" = "現在、商品の報告中にエラーが発生しました。しばらくしてもう一度お試しください。";
 "product_reported_product_label" = "商品は正常に報告されました。";
 "product_reported_success_message" = "商品は無事に報告されました。";
 "product_reporting_loading_message" = "商品報告中…";
