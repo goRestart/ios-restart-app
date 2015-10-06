@@ -46,7 +46,7 @@ final public class LGProductSaveService: ProductSaveService {
             fullUrl = "\(url)/\(idProduct)"
             requestMethod = Method.PUT
         }
-        
+                
         Alamofire.request(requestMethod, fullUrl, parameters: params, headers: headers)
             .validate(statusCode: 200..<400)
             .responseObject { (request, response, productSaveResponse: LGProductSaveResponse?, error: NSError?) -> Void in
@@ -54,6 +54,13 @@ final public class LGProductSaveService: ProductSaveService {
                 if let actualError = error {
                     if actualError.domain == NSURLErrorDomain {
                         result?(Result<Product, ProductSaveServiceError>.failure(.Network))
+                    } else if let statusCode = response?.statusCode {
+                        switch statusCode {
+                        case 403:
+                            result?(Result<Product, ProductSaveServiceError>.failure(.Forbidden))
+                        default:
+                            result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
+                        }
                     }
                     else {
                         result?(Result<Product, ProductSaveServiceError>.failure(.Internal))

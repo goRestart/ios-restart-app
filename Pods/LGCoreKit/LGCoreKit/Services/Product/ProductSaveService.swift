@@ -17,6 +17,7 @@ public enum ProductSaveServiceError: String {
     case NoDescription = "no description"
     case LongDescription = "description too long"
     case NoCategory = "no category selected"
+    case Forbidden = "forbidden"
 }
 
 public typealias ProductSaveServiceResult = (Result<Product, ProductSaveServiceError>) -> Void

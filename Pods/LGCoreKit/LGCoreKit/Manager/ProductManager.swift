@@ -122,16 +122,19 @@ public class ProductManager {
                     }
                     // Error
                     else {
-                        let error = multipleFilesUploadResult.error ?? .Internal
+                        let error = saveResult.error ?? .Internal
                         switch (error) {
                         case .Internal:
                             result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
                         case .Network:
                             result?(Result<Product, ProductSaveServiceError>.failure(.Network))
+                        case .Forbidden:
+                            result?(Result<Product, ProductSaveServiceError>.failure(.Forbidden))
+                        case .NoImages, .NoTitle, .NoPrice, .NoDescription, .LongDescription, .NoCategory:
+                            result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
                         }
                     }
                 }
-                
             }
             // Error
             else {
@@ -141,6 +144,8 @@ public class ProductManager {
                     result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
                 case .Network:
                     result?(Result<Product, ProductSaveServiceError>.failure(.Network))
+                case .Forbidden:
+                    result?(Result<Product, ProductSaveServiceError>.failure(.Forbidden))  
                 }
             }
         }
@@ -195,8 +200,8 @@ public class ProductManager {
         :param: result The closure containing the result.
     */
     public func retrieveUserProductRelation(product: Product, result: UserProductRelationServiceResult?) {
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-            userProductRelationService.retrieveUserProductRelationWithId(myUser.objectId, productId: product.objectId, result: result)
+        if let myUserId = MyUserManager.sharedInstance.myUser()?.objectId, let productId = product.objectId {
+            userProductRelationService.retrieveUserProductRelationWithId(myUserId, productId: productId, result: result)
         }
         else {
             result?(Result<UserProductRelation, UserProductRelationServiceError>.failure(.Internal))

@@ -13,6 +13,7 @@ public enum ChatSendMessageServiceError: Printable {
     case Unauthorized
     case NotFound
     case Internal
+    case Forbidden
     
     public var description: String {
         switch (self) {
@@ -24,6 +25,8 @@ public enum ChatSendMessageServiceError: Printable {
             return "NotFound"
         case Internal:
             return "Internal"
+        case Forbidden:
+            return "Forbidden"
         }
     }
 }

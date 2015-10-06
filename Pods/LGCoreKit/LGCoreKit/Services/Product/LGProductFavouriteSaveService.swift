@@ -46,6 +46,13 @@ final public class LGProductFavouriteSaveService: ProductFavouriteSaveService {
                     let myError : NSError
                     if actualError.domain == NSURLErrorDomain {
                         result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Network))
+                    } else if let statusCode = response?.statusCode {
+                        switch statusCode {
+                        case 403:
+                            result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Forbidden))
+                        default:
+                            result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Internal))
+                        }
                     }
                     else {
                         result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Internal))

@@ -56,6 +56,13 @@ final public class LGUserProductsRetrieveService: UserProductsRetrieveService {
                     let myError: NSError
                     if actualError.domain == NSURLErrorDomain {
                         result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Network))
+                    } else if let statusCode = response?.statusCode {
+                        switch statusCode {
+                        case 403:
+                            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Forbidden))
+                        default:
+                            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+                        }
                     }
                     else {
                         result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))

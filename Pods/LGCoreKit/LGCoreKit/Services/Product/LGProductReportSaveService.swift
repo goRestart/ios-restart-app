@@ -46,6 +46,13 @@ final public class LGProductReportSaveService: ProductReportSaveService {
                     let myError : NSError
                     if actualError.domain == NSURLErrorDomain {
                         result?(Result<Nil, ProductReportSaveServiceError>.failure(.Network))
+                    } else if let statusCode = response?.statusCode {
+                        switch statusCode {
+                        case 403:
+                            result?(Result<Nil, ProductReportSaveServiceError>.failure(.Forbidden))
+                        default:
+                            result?(Result<Nil, ProductReportSaveServiceError>.failure(.Internal))
+                        }
                     }
                     else {
                         result?(Result<Nil, ProductReportSaveServiceError>.failure(.Internal))

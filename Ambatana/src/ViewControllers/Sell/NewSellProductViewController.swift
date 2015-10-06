@@ -55,6 +55,9 @@ class NewSellProductViewController: SellProductViewController {
         self.newSellViewModel.shouldDisableTracking()
         super.sellProductViewModel(viewModel, didFailWithError: error)
         
+        var completion = {
+            self.newSellViewModel.shouldEnableTracking()
+        }
         let message: String
         switch (error) {
         case .Network:
@@ -73,10 +76,16 @@ class NewSellProductViewController: SellProductViewController {
             message = String(format: NSLocalizedString("sell_send_error_invalid_description_too_long", comment: ""), Constants.productDescriptionMaxLength)
         case .NoCategory:
             message = NSLocalizedString("sell_send_error_invalid_category", comment: "")
+        case .Forbidden:
+            message = NSLocalizedString("log_in_error_send_error_generic", comment: "")
+            completion = {
+                self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                    MyUserManager.sharedInstance.logout(nil)
+                })
+                self.newSellViewModel.shouldEnableTracking()
+            }
         }
-        self.showAutoFadingOutMessageAlert(message) { () -> Void in
-            self.newSellViewModel.shouldEnableTracking()
-        }
+        self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
     }
     
     // button actions

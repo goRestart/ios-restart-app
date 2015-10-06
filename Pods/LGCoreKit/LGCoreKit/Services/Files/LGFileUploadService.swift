@@ -48,11 +48,18 @@ final public class LGFileUploadService: FileUploadService {
                 switch encodingResult {
                 case .Success(let upload, _, _ ):
                     upload.validate(statusCode: 200..<400)
-                    .responseObject { (_, _, uploadFileResponse: LGUploadFileResponse?, error: NSError?) -> Void in
+                    .responseObject { (_, response, uploadFileResponse: LGUploadFileResponse?, error: NSError?) -> Void in
                         // Error
                         if let actualError = error {
                             if actualError.domain == NSURLErrorDomain {
                                 result?(Result<File, FileUploadServiceError>.failure(.Network))
+                            } else if let statusCode = response?.statusCode {
+                                switch statusCode {
+                                case 403:
+                                    result?(Result<File, FileUploadServiceError>.failure(.Forbidden))
+                                default:
+                                    result?(Result<File, FileUploadServiceError>.failure(.Internal))
+                                }
                             }
                             else {
                                 result?(Result<File, FileUploadServiceError>.failure(.Internal))
@@ -124,6 +131,8 @@ final public class LGFileUploadService: FileUploadService {
                             file.token = fileUploadResponse.imageId
                             result = Result<File, FileUploadServiceError>.success(file)
                         }
+                    } else if statusCode == 403 {
+                        result = Result<File, FileUploadServiceError>.failure(.Forbidden)
                     }
                     // Otherwise, gives an error internal
                 }

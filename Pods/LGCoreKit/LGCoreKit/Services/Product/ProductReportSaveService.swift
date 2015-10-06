@@ -13,6 +13,7 @@ public enum ProductReportSaveServiceError: Printable {
     case Network
     case AlreadyExists
     case Internal
+    case Forbidden
     
     public var description: String {
         switch (self) {
@@ -22,6 +23,8 @@ public enum ProductReportSaveServiceError: Printable {
             return "AlreadyExists"
         case Internal:
             return "Internal"
+        case Forbidden:
+            return "Forbidden"
         }
     }
 }

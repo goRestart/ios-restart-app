@@ -202,9 +202,17 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
                     }
                     // Error
                     else if let error = result.error {
-                        strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""), completionBlock: { () -> Void in
-                            strongSelf.popBackViewController()
-                        })
+                        switch (error) {
+                        case .Internal, .Network, .NotFound, .Unauthorized:
+                            strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""), completionBlock: { () -> Void in
+                                strongSelf.popBackViewController()
+                            })
+                        case .Forbidden:
+                            // logout the scammer!
+                            self?.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                                MyUserManager.sharedInstance.logout(nil)
+                            })
+                        }
                     }
                     strongSelf.disableLoadingMessagesInterface()
                     strongSelf.tableView.reloadData()
@@ -348,8 +356,17 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
                         }
                     }
                     // Error
-                    else {
-                        strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
+                    else if let error = result.error {
+                        switch (error) {
+                        case .Internal, .Network, .NotFound, .Unauthorized:
+                            strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
+                        case .Forbidden:
+                            // logout the scammer!
+                            self?.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                                MyUserManager.sharedInstance.logout(nil)
+                            })
+
+                        }
                     }
                     
                     // Update flag

@@ -11,6 +11,7 @@ import Result
 public enum ProductsRetrieveServiceError: Printable {
     case Network
     case Internal
+    case Forbidden
     
     public var description: String {
         switch (self) {
@@ -18,6 +19,8 @@ public enum ProductsRetrieveServiceError: Printable {
             return "Network"
         case Internal:
             return "Internal"
+        case .Forbidden:
+            return "Forbidden"
         }
     }
 }
