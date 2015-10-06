@@ -77,24 +77,32 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
 
-        let message = NSLocalizedString("common_error_connection_failed", comment: "")
-        if page == 0 {
-            showAutoFadingOutMessageAlert(message)
-        }
-        else {
-            let buttonTitle = NSLocalizedString("common_error_retry_button", comment: "")
-            let buttonAction = { () -> Void in
-                productListView.retrieveProductsNextPage()
+        // If we already have data then show alert
+        switch productListView.state {
+        case .DataView:
+            let message = NSLocalizedString("common_error_connection_failed", comment: "")
+            if page == 0 {
+                showAutoFadingOutMessageAlert(message)
             }
-            let alert = UIAlertController(title: nil, message: message, preferredStyle:.Alert)
-            alert.addAction(UIAlertAction(title: buttonTitle, style:.Default, handler: { [weak self] (action) -> Void in
-                if let strongSelf = self {
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                        buttonAction()
-                    })
+            else {
+                let buttonTitle = NSLocalizedString("common_error_retry_button", comment: "")
+                let buttonAction = { () -> Void in
+                    productListView.retrieveProductsNextPage()
                 }
-                }))
-            presentViewController(alert, animated: true, completion: nil)
+                let alert = UIAlertController(title: nil, message: message, preferredStyle:.Alert)
+                alert.addAction(UIAlertAction(title: buttonTitle, style:.Default, handler: { [weak self] (action) -> Void in
+                    if let strongSelf = self {
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                            buttonAction()
+                        })
+                    }
+                    }))
+                presentViewController(alert, animated: true, completion: nil)
+            }
+            break
+        case .ErrorView(_, _, _, _, _, _, _), .FirstLoadView:
+            // La mandanga del floating button
+            break
         }
     }
     

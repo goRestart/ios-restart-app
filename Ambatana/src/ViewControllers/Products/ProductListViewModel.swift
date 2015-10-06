@@ -130,15 +130,6 @@ public class ProductListViewModel: BaseViewModel {
         super.init()
     }
     
-    internal override func didSetActive(active: Bool) {
-        super.didSetActive(active)
-        
-        // If active and there are no products, then reload if possible
-//        if active && numberOfProducts == 0 && canRetrieveProducts {
-//            retrieveProductsFirstPage()
-//        }
-    }
-    
     // MARK: - Public methods
     
     // MARK: > Requests

@@ -56,7 +56,7 @@ public class MainProductListView: ProductListView {
     }
     
     public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
-        
+
         // If it's the first page & we have no data, the set the error state
         if page == 0 && viewModel.numberOfProducts == 0 {
             let errBgColor: UIColor?
@@ -73,7 +73,7 @@ public class MainProductListView: ProductListView {
                 errTitle = NSLocalizedString("common_error_title", comment: "")
                 errBody = NSLocalizedString("common_error_network_body", comment: "")
                 errButTitle = NSLocalizedString("common_error_retry_button", comment: "")
-            case .Internal:
+            case .Internal, .Forbidden:
                 errImage = UIImage(named: "err_generic")
                 errTitle = NSLocalizedString("common_error_title", comment: "")
                 errBody = NSLocalizedString("common_error_generic_body", comment: "")
@@ -88,9 +88,7 @@ public class MainProductListView: ProductListView {
             
             state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
         }
-        // Otherwise (has results), let super work
-        else {
-            super.viewModel(viewModel, didFailRetrievingProductsPage: page, error: error)
-        }
+
+        super.viewModel(viewModel, didFailRetrievingProductsPage: page, error: error)
     }
 }
