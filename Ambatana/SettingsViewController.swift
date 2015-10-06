@@ -295,11 +295,4 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
-    // MARK: - Navigation.
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let ilvc = segue.destinationViewController as? IndicateLocationViewController {
-            ilvc.allowGoingBack = true
-        }
-    }
 }

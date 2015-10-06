@@ -47,7 +47,7 @@
 "change_location_search_field_hint" = "Enter city or zip code";
 
 // Change location approximate location label. Check image @ "change_location_title" segment
-"change_location_approximate_location_label" = "Show approximate address";
+"change_location_approximate_location_label" = "Use approximate location";
 
 // Change location apply button. Check image @ "change_location_title" segment
 "change_location_apply_button" = "Apply";
@@ -86,19 +86,19 @@
 "change_username_field_hint" = "Full name";
 
 // Change name invalid name error.  Check image @ "change_username_title" segment
-"change_username_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"change_username_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 
 // Change name save button.  Check image @ "change_username_title" segment
 "change_username_save_button" = "Save";
 
 // Change name loading message. Check image @ "change_username_title" segment
-"change_username_loading" = "Saving your user name...";
+"change_username_loading" = "Saving username...";
 
 // Change username send ok. Check image @ "change_username_title" segment
-"change_username_send_ok" = "User name changed successfully.";
+"change_username_send_ok" = "Username changed succesfully!";
 
 // Chat list empty label. Check attached image  "chat_list (empty).png"
-"chat_list_empty_label" = "No conversations yet";
+"chat_list_empty_label" = "No conversations (yet!)";
 
 // Chat list start selling or buying label. Check image @ "chat_list_empty_label" segment
 "chat_list_start_selling_or_buying_label" = "Start selling or buying!";
@@ -113,16 +113,16 @@
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 
 // Chat safety tips title. Check attached image "chat_safety_tips.png"
-"chat_safety_tips_title" = "Safety Tips";
+"chat_safety_tips_title" = "Stay safe";
 
 // Chat safety tips tip 1. Check image @ "chat_safety_tips_title" segment
 "chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
 
 // Chat safety tips tip 2. Check image @ "chat_safety_tips_title" segment
-"chat_safety_tips_tip_2" = "Say no to money orders, bank transfers or cashier's checks.";
+"chat_safety_tips_tip_2" = "If you decide to ship, be smart and careful!";
 
 // Chat safety tips tip 3. Check image @ "chat_safety_tips_title" segment
-"chat_safety_tips_tip_3" = "If you decide to ship, be smart and intuitive!";
+"chat_safety_tips_tip_3" = "If it's too good to be true, it probably isn't!";
 
 // Chat send button. Check image @ "chat_list_title" segment
 "chat_send_button" = "Send";
@@ -137,7 +137,7 @@
 "common_error" = "Error";
 
 // Common error connection failed
-"common_error_connection_failed" = "Operation could not be completed. Please, check your Internet connection.";
+"common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
 
 // Common loading. Check attached image "common_loading.png"
 "common_loading" = "Loading...";
@@ -146,16 +146,19 @@
 "common_no" = "No";
 
 // Common product deleted.
-"common_product_deleted" = "Product deleted";
+"common_product_deleted" = "Product deleted.";
 
 // Common product sold.
-"common_product_sold" = "This product has been sold";
+"common_product_sold" = "This product has been sold.";
 
 // Common product not available.
-"common_product_not_available" = "This product is no longer available";
+"common_product_not_available" = "This product is no longer available.";
 
 // Common ok
 "common_ok" = "OK";
+
+// Common user not available
+"common_user_not_available" = "Oops! User not found!";
 
 // Common time a minute ago label
 "common_time_a_minute_ago_label" = "a minute ago";
@@ -206,19 +209,19 @@
 "contact_subject_field_hint" = "Subject";
 
 // Contact subject option profile edit. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_profile_edit" = "Edit/delete profile";
+"contact_subject_option_profile_edit" = "Edit or delete profile";
 
 // Contact subject option product edit. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_product_edit" = "Edit/delete product";
+"contact_subject_option_product_edit" = "Edit or delete product";
 
 // Contact subject option location. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_location" = "Location issues";
 
 // Contact subject option login. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_login" = "Log in access";
+"contact_subject_option_login" = "Issues logging in";
 
 // Contact subject option report. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_report" = "Report user/spam";
+"contact_subject_option_report" = "Report user or spam";
 
 // Contact subject option feedback. Check attached image @ "contact_email_field_hint" segment
 "contact_subject_option_feedback" = "Suggestions/feedback";
@@ -236,19 +239,19 @@
 "contact_send_button" = "Send";
 
 // Contact send error invalid email. Message displayal is like the other error messages
-"contact_send_error_invalid_email" = "Please, provide a valid e-mail address so we can reply to you.";
+"contact_send_error_invalid_email" = "Please provide a valid email address so we can get back to you.";
 
 // Contact send error invalid subject. Message displayal is like the other error messages
-"contact_send_error_invalid_subject" = "Please, provide a subject.";
+"contact_send_error_invalid_subject" = "Please provide a subject.";
 
 // Contact send error invalid body. Message displayal is like the other error messages
-"contact_send_error_invalid_body" = "Please, type a message.";
+"contact_send_error_invalid_body" = "Please type a message.";
 
 // Contact send ok. Message displayal is like the other error messages
-"contact_send_ok" = "Your message has been sent correctly.";
+"contact_send_ok" = "Your message has been sent!";
 
 // Contact send error generic. Message displayal is like the other error messages
-"contact_send_error_generic" = "Error sending message, please check your connection and try again.";
+"contact_send_error_generic" = "An error occurred while sending your message. Please check your connection and try again.";
 
 // Edit product title. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_title" = "Edit Product";
@@ -257,7 +260,7 @@
 "edit_product_send_button" = "Update";
 
 // Edit product send error uploading product. Message displayal is like the other error messages.
-"edit_product_send_error_uploading_product" = "An error happened while updating your product.";
+"edit_product_send_error_uploading_product" = "An error occurred while updating your product.";
 
 // Edit product send ok. Message displayal is like the other messages.
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
@@ -266,31 +269,13 @@
 "forced_update_title" = "Update Available";
 
 // Forced update message.
-"forced_update_message" = "A new version of letgo is available. Please update it now.";
+"forced_update_message" = "A new version of letgo is available. Please update now!";
 
 // Forced update appstore button.
 "forced_update_update_button" = "Update";
 
 // Help title.
 "help_title" = "Help";
-
-// Indicate location address field hint. Check attached image "indicate_location.png"
-"indicate_location_address_field_hint" = "Write your address";
-
-// Indicate location address search error generic
-"indicate_location_address_search_error_generic" = "I was unable to find that location. Please, try again.";
-
-// Indicate location long press tip label
-"indicate_location_long_press_tip_label" = "Or keep your finger pressed in your location";
-
-// Indicate location marker label
-"indicate_location_marker_label" = "I am here!";
-
-// Indicate location save error invalid location
-"indicate_location_save_error_invalid_location" = "Please select a valid location in the map with a long tap";
-
-// Indicate location title. Check image @ "indicate_location_address_field_hint" segment
-"indicate_location_title" = "Set your location";
 
 // Log in email field hint. Check attached image "log_in.png"
 "log_in_email_field_hint" = "Email";
@@ -299,13 +284,13 @@
 "log_in_error_send_error_generic" = "An error occurred while logging in.";
 
 // Log in error send error invalid email. Check image @ "log_in_error_send_error_generic" segment
-"log_in_error_send_error_invalid_email" = "Please, insert a valid email in the user email textfield";
+"log_in_error_send_error_invalid_email" = "Please insert a valid email address.";
 
 // Log in error send error invalid password. Check image @ "log_in_error_send_error_generic" segment
-"log_in_error_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters";
+"log_in_error_send_error_invalid_password" = "Please insert a valid password. It must be at least %d characters long.";
 
 // Log in error send error user not found or wrong password. Check image @ "log_in_error_send_error_generic" segment
-"log_in_error_send_error_user_not_found_or_wrong_password" = "Unable to login: unknown user or incorrect credentials";
+"log_in_error_send_error_user_not_found_or_wrong_password" = "Unable to log in: invalid user or incorrect credentials.";
 
 // Log in password field hint. Check image @ "log_in_email_field_hint" segment
 "log_in_password_field_hint" = "Password";
@@ -323,7 +308,7 @@
 "main_sign_up_already_registered_label" = "Already registered?";
 
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_claim_label" = "Start to sell, buy and chat";
+"main_sign_up_claim_label" = "Start to sell and buy— by chat!";
 
 // Main sign up contact us button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_contact_us_button" = "Need help?";
@@ -332,10 +317,10 @@
 "main_sign_up_facebook_connect_button" = "Connect with Facebook";
 
 // Main sign up fb connect error email taken. Message displayal is like the other error messages
-"main_sign_up_fb_connect_error_email_taken" = "Unable to login, your email address in Facebook is already registered. Please, try to login.";
+"main_sign_up_fb_connect_error_email_taken" = "Unable to log in. Your email address is already registered, so please use it to log in.";
 
 // Main sign up fb connect error generic. Message displayal is like the other error messages
-"main_sign_up_fb_connect_error_generic" = "Unable to login. Please, try again.";
+"main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
 
 // Main sign up log in label. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_log_in_label" = "Log in";
@@ -347,7 +332,7 @@
 "main_sign_up_sign_up_button" = "Sign up with your email";
 
 // Make an offer new offer message. Check attached image "make_an_offer.png"
-"make_an_offer_new_offer_message" = "New offer of %@";
+"make_an_offer_new_offer_message" = "New offer: %@";
 
 // Make an offer price field hint. Check image @ "make_an_offer_new_offer_message" segment
 "make_an_offer_price_field_hint" = "Price";
@@ -356,10 +341,10 @@
 "make_an_offer_send_button" = "Send";
 
 // Make an offer send error generic. Message displayal is like the other error messages
-"make_an_offer_send_error_generic" = "An error happened while making an offer for the product. Please, try again later.";
+"make_an_offer_send_error_generic" = "An error occurred while making an offer for the product. Please try again later.";
 
 // Make an offer send error invalid price. Message displayal is like the other error messages
-"make_an_offer_send_error_invalid_price" = "Please, insert a valid price for the product. It has to be just a number.";
+"make_an_offer_send_error_invalid_price" = "Please insert a valid price for the product. It should only include numbers.";
 
 // Make an offer title. Check image @ "make_an_offer_new_offer_message" segment
 "make_an_offer_title" = "Make an Offer";
@@ -368,7 +353,7 @@
 "product_ask_a_question_button" = "Ask a Question";
 
 // Product chat error generic. Message displayal is like the other error messages
-"product_chat_error_generic" = "An error occurred when starting the chat. Please try again later.";
+"product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 
 // Product delete alert title. Check attached image @ segment "product_delete_confirm_cancel_button"
 "product_delete_confirm_title" = "Delete Product";
@@ -404,7 +389,7 @@
 "product_list_first_page_error_generic_button" = "Try again";
 
 // Product list first page error generic label. Check image @ "product_list_first_page_error_generic_button" segment
-"product_list_first_page_error_generic_label" = "Hey there! You don't have connection! Come on, connect yourself!";
+"product_list_first_page_error_generic_label" = "Oops! You don't seem to be connected to the Internet. Please check your network settings.";
 
 // Product list item new status label. Check attached image "product_list_item_new_status_label.png". New like "Novelty",  NOT like a non-used item
 "product_list_item_new_status_label" = "NEW";
@@ -412,32 +397,20 @@
 // Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"
 "product_list_item_sold_status_label" = "SOLD";
 
-// Product list location disabled button. Check image @ "product_list_location_unauthorized_button" segment
-"product_list_location_disabled_button" = "Settings";
-
-// Product list location disabled label. Check image @ "product_list_location_unauthorized_button" segment
-"product_list_location_disabled_label" = "Oops! Your location is turned off. To turn it on, go to:\n Settings > Privacy > Location Services.";
-
 // Product list location disabled go to indicate location label.
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
-
-// Product list location unauthorized button. Check attached image "product_list_location_unauthorized.png"
-"product_list_location_unauthorized_button" = "Settings";
-
-// Product list location unauthorized label. Check image @ "product_list_location_unauthorized_button" segment
-"product_list_location_unauthorized_label" = "Please, allow us to access your location.";
+"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Enable location to see the best offers nearby!";
 
 // Product list next page error generic button. Check image @ "product_list_first_page_error_generic_button" segment
 "product_list_next_page_error_generic_button" = "Try again";
 
 // Product list next page error generic label. Check image @ "product_list_first_page_error_generic_button" segment
-"product_list_next_page_error_generic_label" = "Hey there! You don't have connection! Come on, connect yourself!";
+"product_list_next_page_error_generic_label" = "Oops! You don't seem to be connected to the Internet. Please check your network settings.";
 
 // Product list no products button
 "product_list_no_products_button" = "Reload products";
 
 // Product list no products label
-"product_list_no_products_label" = "There are no items in your neighborhood. Be the first to start selling";
+"product_list_no_products_label" = "There are no products in your neighborhood. Be the first to start selling!";
 
 // Product list search no products button
 "product_list_search_no_products_button" = "Reload products";
@@ -458,7 +431,7 @@
 "product_mark_as_sold_confirm_cancel_button" = "Cancel";
 
 // Product mark as sold confirm message. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
-"product_mark_as_sold_confirm_message" = "Congratulations, you got it! Are you sure you want to mark your product as sold?";
+"product_mark_as_sold_confirm_message" = "Congratulations! Are you sure you want to mark your product as sold?";
 
 // Product mark as sold confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
 "product_mark_as_sold_confirm_ok_button" = "Mark as Sold";
@@ -467,7 +440,7 @@
 "product_mark_as_sold_confirm_title" = "Mark as Sold";
 
 // Product mark as sold error generic. Message displayal is like the other error messages
-"product_mark_as_sold_error_generic" = "There was an error while marking the product as sold. Please, try again later.";
+"product_mark_as_sold_error_generic" = "An error occurred while marking your product as sold. Please try again later.";
 
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
@@ -488,10 +461,10 @@
 "product_report_product_button" = "Report Product";
 
 // Product reported product label. Check image @ "product_report_product_button" segment
-"product_reported_product_label" = "The product was reported successfully";
+"product_reported_product_label" = "Product reported. Thanks!";
 
 // Product reporting product label. Check image @ "product_report_product_button" segment
-"product_reporting_product_label" = "Reporting Product...";
+"product_reporting_product_label" = "Reporting product...";
 
 // Product reporting laoding message. Message displayal is like the other dialog messages
 "product_reporting_loading_message" = "Reporting Product...";
@@ -500,16 +473,16 @@
 "product_reported_success_message" = "The product was reported successfully. Thanks!";
 
 // Product reported fail message. Message displayal is like the other dialog messages
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "An error occurred while reporting the product. Please try again later.";
 
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
 
 // Product share email error. Message displayal is like the other error messages
-"product_share_email_error" = "Oops, it seems that you haven't set up an account in the Mail app";
+"product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
 
 // Product share whatsapp error. Message displayal is like the other error messages
-"product_share_whatsapp_error" = "Oops, it seems that you haven't installed the WhatsApp app";
+"product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
 
 // Product detail status label, status pending. Check attached image "item_page_sold_ios.png"
 "product_status_label_pending" = "PRODUCT PENDING";
@@ -527,19 +500,19 @@
 "product_status_label_deleted" = "PRODUCT DELETED";
 
 // Profile favourites my user no products label. Check attached image "profile (empty).png"
-"profile_favourites_my_user_no_products_label" = "You still don't have any published or favorited product";
+"profile_favourites_my_user_no_products_label" = "You still haven't published or favorited any products.";
 
 // Profile favourites my user no products label. Check attached image "profile (empty).png"
-"profile_favourites_my_user_no_products_subtitle_label" = "What are you waiting for?";
+"profile_favourites_my_user_no_products_subtitle_label" = "What's stopping you?";
 
 // Profile favourites other user no products label. Check "profile_favourites_my_user_no_products_label" segment
-"profile_favourites_other_user_no_products_label" = "This user still doesn't have any published or favorited product";
+"profile_favourites_other_user_no_products_label" = "This user still hasn't published or favorited any products.";
 
 // Profile favourites products tab. Check attached image "profile (full).png"
 "profile_favourites_products_tab" = "Favorites";
 
 // Profile no products. Check attached image "profile_no_products.png"
-"profile_no_products" = "There are no items in this section";
+"profile_no_products" = "The are no products in this section (yet!)";
 
 // Profile selling products tab. Check image @ "profile_favourites_products_tab" segment
 "profile_selling_products_tab" = "Selling";
@@ -566,7 +539,7 @@
 "rating_view_rate_us_label" = "Rate us";
 
 // Rating view needs improvements label.  Check image @ "rating_view_title_label" segment
-"rating_view_needs_improvements_label" = "Needs improvements";
+"rating_view_needs_improvements_label" = "Needs improvement";
 
 // Rating view suggest label.  Check image @ "rating_view_title_label" segment
 "rating_view_suggest_label" = "Share your suggestions";
@@ -584,10 +557,10 @@
 "reset_password_send_error_generic" = "An error occurred while trying to remember your password.";
 
 // Reset password send error invalid email. Check image @ "reset_password_send_error_generic" segment
-"reset_password_send_error_invalid_email" = "Please, insert a valid email in the user email textfield";
+"reset_password_send_error_invalid_email" = "Please insert a valid email address.";
 
 // Reset password send error user not found or wrong password. Check image @ "reset_password_send_error_generic" segment
-"reset_password_send_error_user_not_found_or_wrong_password" = "Email address not found";
+"reset_password_send_error_user_not_found_or_wrong_password" = "Email address not found.";
 
 // Reset password send ok. Check image @ "reset_password_send_error_generic" segment
 "reset_password_send_ok" = "Check your inbox and follow the password reset instructions.";
@@ -623,10 +596,10 @@
 "sell_picture_label" = "Photo";
 
 // Sell picture save into camera roll error generic. Message displayal is like the other error messages
-"sell_picture_save_into_camera_roll_error_generic" = "An error occurred while saving the image in your photo library. Please, make sure letgo is allowed to access your photos in the Settings App.";
+"sell_picture_save_into_camera_roll_error_generic" = "An error occurred while saving the image to your photo library. Please check your phone's settings and make sure letgo is allowed to access your photos.";
 
 // Sell picture save into camera roll loading
-"sell_picture_save_into_camera_roll_loading" = "Saving image in photo library...";
+"sell_picture_save_into_camera_roll_loading" = "Saving image to photo library...";
 
 // Sell picture save into camera roll ok
 "sell_picture_save_into_camera_roll_ok" = "Successfully saved image to photo library.";
@@ -638,7 +611,7 @@
 "sell_picture_selected_delete_button" = "Delete";
 
 // Sell picture selected save into camera roll button
-"sell_picture_selected_save_into_camera_roll_button" = "Save to disk";
+"sell_picture_selected_save_into_camera_roll_button" = "Save to camera roll";
 
 // Sell picture selected title
 "sell_picture_selected_title" = "Choose an action";
@@ -650,43 +623,43 @@
 "sell_send_button" = "Sell";
 
 // Sell send error invalid category. Check attached image "sell_send_error.png"
-"sell_send_error_invalid_category" = "Please, choose a category for the product.";
+"sell_send_error_invalid_category" = "Please choose a category for the product.";
 
 // Sell send error invalid description. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_description" = "Please, insert a valid description for the product.";
+"sell_send_error_invalid_description" = "Please insert a valid description for your product.";
 
 // Sell send error invalid description too long. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_description_too_long" = "Max length for the description of the product is %d characters.";
+"sell_send_error_invalid_description_too_long" = "Please insert a valid description for your product. It must be under %d characters.";
 
 // Sell send error invalid image count. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_image_count" = "At least one photo is required for selling a product.";
+"sell_send_error_invalid_image_count" = "At least one photo is required to sell a product.";
 
 // Sell send error invalid location. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_location" = "I was unable to find your current location. For selling the product, I need to be able to find it. Please, try again later.";
+"sell_send_error_invalid_location" = "We were unable to find your current location. A location is required to sell a product. Please try again later.";
 
 // Sell send error invalid price. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_price" = "Please, insert a valid price for the product. It has to be just a number.";
+"sell_send_error_invalid_price" = "Please insert a valid price for the product. It should only include numbers.";
 
 // Sell send error invalid title. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_invalid_title" = "Please, insert a valid title for the product.";
+"sell_send_error_invalid_title" = "Please insert a valid title for your product.";
 
 // Sell send error sharing facebook. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_sharing_facebook" = "An error happened while sharing in Facebook. Please, try again later.";
+"sell_send_error_sharing_facebook" = "An error occurred while sharing on Facebook. Please try again later.";
 
 // Sell send error sharing facebook cancelled. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_sharing_facebook_cancelled" = "Cancelled by user";
+"sell_send_error_sharing_facebook_cancelled" = "Canceled by user.";
 
 // Sell send error uploading picture. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_uploading_picture" = "An error happened while registering your product. Unable to upload photo. Please, try again.";
+"sell_send_error_uploading_picture" = "An error occurred while registering your product. We were unable to upload photos. Please try again.";
 
 // Sell send error uploading product. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_error_uploading_product" = "An error happened while registering your product. ";
+"sell_send_error_uploading_product" = "An error occurred while registering your product.";
 
 // Sell send ok. Check attached image "sell_send_ok.png"
 "sell_send_ok" = "Congratulations! Your item was successfully posted. It will appear in our listings shortly.";
 
 // Sell share fb content
-"sell_share_fb_content" = "Look what I am selling on letgo!";
+"sell_share_fb_content" = "I'm selling something on letgo. Check it out!";
 
 // Sell share on facebook label
 "sell_share_on_facebook_label" = "Share my product on Facebook";
@@ -713,10 +686,10 @@
 "settings_change_profile_picture_button" = "Photo";
 
 // Settings change profile picture error generic. Message displayal is like the other error messages.
-"settings_change_profile_picture_error_generic" = "There was an error setting the profile picture";
+"settings_change_profile_picture_error_generic" = "There was an error setting the profile picture.";
 
 // Settings change profile picture loading. Check attached image "settings_change_profile_picture_loading.png"
-"settings_change_profile_picture_loading" = "Setting your profile image, please wait...";
+"settings_change_profile_picture_loading" = "Setting profile image. Please wait...";
 
 // Settings contact us button. Check attached image @ "settings_change_password_button" segment
 "settings_contact_us_button" = "Contact us";
@@ -737,7 +710,7 @@
 "settings_image_source_title" = "Choose image source";
 
 // Settings logout button. Check image @ "settings_change_password_button" segment
-"settings_logout_button" = "Logout";
+"settings_logout_button" = "Log out";
 
 // Settings title. Check image @ "settings_change_password_button" segment
 "settings_title" = "Settings";
@@ -758,13 +731,13 @@
 "sign_up_send_error_generic" = "An error occurred while creating the user.";
 
 // Sign up send error invalid email. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_email" = "Please, insert a valid email in the user email textfield";
+"sign_up_send_error_invalid_email" = "Please insert a valid email address.";
 
 // Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters";
+"sign_up_send_error_invalid_password" = "Please insert a valid password. It must be at least %d characters long.";
 
 // Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_username" = "Please, insert a valid name, it must have at least %d characters";
+"sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 
 // Sign up title. Check image @ "sign_up_email_field_hint" segment
 "sign_up_title" = "Sign up";
@@ -774,4 +747,3 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
-

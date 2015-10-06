@@ -26,6 +26,8 @@ class MockUser: MockBaseModel, User {
     var isScammer: NSNumber?
     
     var sessionToken: String?
+    
+    var didLogInByFacebook: Bool
 
     // Lifecycle
     
@@ -35,6 +37,7 @@ class MockUser: MockBaseModel, User {
         self.isDummy = false
         self.isAnonymous = false
         self.isScammer = NSNumber(bool: false)
+        self.didLogInByFacebook = false
         super.init()
     }
 }

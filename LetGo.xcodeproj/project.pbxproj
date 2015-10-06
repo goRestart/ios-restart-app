@@ -25,6 +25,7 @@
 		2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED65D011B81F4040004D6A1 /* SubjectCell.xib */; };
 		2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDBE4461B9EE13700B2811A /* AppRatingView.swift */; };
 		2EE0011B1B8C630A00B1D774 /* UrbanAirshipTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE0011A1B8C630A00B1D774 /* UrbanAirshipTracker.swift */; };
+		2EE47E5A1BBEA5B70034C19D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47E591BBEA5B70034C19D /* Settings.bundle */; };
 		2EE5EEDF1B5E4C860056BF76 /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */; };
 		2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
 		2EE5EEE71B5E759F0056BF76 /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */; };
@@ -68,6 +69,7 @@
 		505B06A81B15A9910049F9CD /* GalleryPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B06A51B15A9910049F9CD /* GalleryPageView.swift */; };
 		505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B06A61B15A9910049F9CD /* GalleryPageView.xib */; };
 		505B06AA1B15A9910049F9CD /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B06A71B15A9910049F9CD /* GalleryView.swift */; };
+		506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
 		5080FC811BA2C5EB00B66EC1 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5080FC801BA2C5EB00B66EC1 /* libAppsFlyerLib.a */; };
 		508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */; };
 		508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CEC1B4281F1007BD301 /* ProductCell.swift */; };
@@ -106,6 +108,7 @@
 		50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */; };
 		50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
 		50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
+		50CD8F5D1BC27DE30031DCD3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5C1BC27DE30031DCD3 /* Info.plist */; };
 		50D2CACD1BB41FB800EC5C30 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */; };
 		50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */; };
 		50D2CAD01BB41FD600EC5C30 /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACF1BB41FD600EC5C30 /* HelpViewModel.swift */; };
@@ -143,7 +146,6 @@
 		6674FF8A1A9DF706006321C2 /* UIImage+Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */; };
 		667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 667562B01A9749AE00039151 /* ChatListViewController.swift */; };
 		66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */; };
-		66911D931A853A46006CFBE1 /* IndicateLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D921A853A46006CFBE1 /* IndicateLocationViewController.swift */; };
 		66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */; };
 		669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */; };
 		66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */; };
@@ -241,6 +243,7 @@
 		2ED65D011B81F4040004D6A1 /* SubjectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SubjectCell.xib; path = Contact/SubjectCell.xib; sourceTree = "<group>"; };
 		2EDBE4461B9EE13700B2811A /* AppRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppRatingView.swift; path = "App Rating/AppRatingView.swift"; sourceTree = "<group>"; };
 		2EE0011A1B8C630A00B1D774 /* UrbanAirshipTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrbanAirshipTracker.swift; sourceTree = "<group>"; };
+		2EE47E591BBEA5B70034C19D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
 		2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
 		2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
@@ -297,6 +300,7 @@
 		505B06A71B15A9910049F9CD /* GalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		5063B7D11B4676ED00039D05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5063B7D21B4676ED00039D05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		506DC19B1BBE7D8A00E59D27 /* levelup.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = levelup.caf; sourceTree = "<group>"; };
 		5080FC7F1BA2C5EB00B66EC1 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		5080FC801BA2C5EB00B66EC1 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductCategory+LG.swift"; sourceTree = "<group>"; };
@@ -334,6 +338,7 @@
 		50C9E5061B74EAE3001E4E92 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLImageResizing.swift; sourceTree = "<group>"; };
+		50CD8F5C1BC27DE30031DCD3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
 		50D2CACF1BB41FD600EC5C30 /* HelpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewModel.swift; sourceTree = "<group>"; };
@@ -360,7 +365,6 @@
 		621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		6608E03A1A820FBD005895ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6608E03B1A820FBD005895ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6608E0401A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Launchers.xcassets"; sourceTree = "<group>"; };
@@ -374,7 +378,6 @@
 		6674FF891A9DF706006321C2 /* UIImage+Gradients.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Gradients.swift"; sourceTree = "<group>"; };
 		667562B01A9749AE00039151 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUtils.swift; sourceTree = "<group>"; };
-		66911D921A853A46006CFBE1 /* IndicateLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicateLocationViewController.swift; sourceTree = "<group>"; };
 		66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Backgrounds-and-Images.xcassets"; sourceTree = "<group>"; };
 		669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosInDetailViewController.swift; sourceTree = "<group>"; };
 		66A0CF9F1A82533500FAADF0 /* letgo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "letgo-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -660,6 +663,14 @@
 			path = Widgets;
 			sourceTree = "<group>";
 		};
+		506DC19A1BBE7D8A00E59D27 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				506DC19B1BBE7D8A00E59D27 /* levelup.caf */,
+			);
+			path = sound;
+			sourceTree = "<group>";
+		};
 		5080FC7E1BA2C5EB00B66EC1 /* AF-iOS-SDK-v3.3.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -834,6 +845,14 @@
 			path = "3rd-Party/DLImageResizing";
 			sourceTree = "<group>";
 		};
+		50CD8F5B1BC27D960031DCD3 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				50CD8F5C1BC27DE30031DCD3 /* Info.plist */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
 		50D2CACA1BB412D800EC5C30 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -912,18 +931,9 @@
 				66A0CF991A8244D100FAADF0 /* Extensions */,
 				6649D1681A8210C9000F6966 /* Views & Controllers */,
 				6608E0441A820FBD005895ED /* LaunchScreen.xib */,
-				6608E0391A820FBD005895ED /* Supporting Files */,
 			);
 			name = LetGo;
 			path = Ambatana;
-			sourceTree = "<group>";
-		};
-		6608E0391A820FBD005895ED /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6608E03A1A820FBD005895ED /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		6649D1651A8210A6000F6966 /* Application */ = {
@@ -975,7 +985,6 @@
 		66911D911A853A2E006CFBE1 /* Location */ = {
 			isa = PBXGroup;
 			children = (
-				66911D921A853A46006CFBE1 /* IndicateLocationViewController.swift */,
 			);
 			name = Location;
 			sourceTree = "<group>";
@@ -1063,6 +1072,8 @@
 			children = (
 				502374531B3D3E8D00E02656 /* i18n */,
 				D40DA2851AEE274600B64CE1 /* data */,
+				506DC19A1BBE7D8A00E59D27 /* sound */,
+				2EE47E591BBEA5B70034C19D /* Settings.bundle */,
 			);
 			path = res;
 			sourceTree = "<group>";
@@ -1088,6 +1099,7 @@
 		D458383B1AEE6A9100B5F181 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				50CD8F5B1BC27D960031DCD3 /* Application */,
 				D45D88CA1B10F45E0059A165 /* Constants */,
 				50261B191AFB4873006E88E0 /* Environment */,
 				D412E0801B4F03D700683FFD /* Helper */,
@@ -1204,6 +1216,7 @@
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
 				502B70571BA9C7FD00C5D465 /* Warnings Script */,
 				2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */,
+				50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */,
 			);
 			buildRules = (
 			);
@@ -1327,7 +1340,9 @@
 				2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */,
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
 				D4A478901B08CA500046D301 /* EditProfileViewController.xib in Resources */,
+				506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */,
 				50E81CF91B0B2D0100807D1B /* ChatMyMessageCell.xib in Resources */,
+				2EE47E5A1BBEA5B70034C19D /* Settings.bundle in Resources */,
 				50E81CF51B0B1A2000807D1B /* ChatViewController.xib in Resources */,
 				50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */,
 				D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */,
@@ -1349,6 +1364,7 @@
 				50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */,
 				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
+				50CD8F5D1BC27DE30031DCD3 /* Info.plist in Resources */,
 				50C9E4D31B73637D001E4E92 /* Pods.debug.xcconfig in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
@@ -1425,6 +1441,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
+		};
+		50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "App Version to Settings.bundle Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/Settings.bundle/Root.plist\"";
 		};
 		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1575,7 +1605,6 @@
 				50C9E5081B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */,
 				D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */,
 				D4BFE5BB1B640E3B006A8CB6 /* ProfileProductListViewModel.swift in Sources */,
-				66911D931A853A46006CFBE1 /* IndicateLocationViewController.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
 				50C9E4C71B723F44001E4E92 /* NanigansTracker.swift in Sources */,
 				6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */,
@@ -1817,7 +1846,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				INFOPLIST_FILE = Ambatana/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1848,7 +1877,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				INFOPLIST_FILE = Ambatana/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1915,7 +1944,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
-				INFOPLIST_FILE = Ambatana/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

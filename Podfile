@@ -15,10 +15,10 @@ pod "FBSDKShareKit",        "~> 4.1"
     
 # Tracking
 # pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
-pod "Amplitude-iOS",        "~> 3.0"
+pod "Amplitude-iOS",        "3.0.1"
     
 # letgo Core
-pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit" #"0.13.14" #:path => "../LGCoreKit"
+pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit" #"0.14.1" #:path => "../LGCoreKit"
 
 # Networking (to be removed when migrating to LGCoreKit)
 pod "Alamofire",            "~> 1.2"
@@ -48,5 +48,10 @@ target "letgoTests", :exclusive => true do
     
     pod "Kahuna",               "2.0.4"
 
+end
+
+post_install do | installer |
+    require 'fileutils'
+    FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-Acknowledgements.plist', 'Ambatana/res/Settings.bundle/Acknowledgements.plist', :remove_destination => true)
 end
 

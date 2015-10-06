@@ -8,15 +8,7 @@
 
 import LGCoreKit
 
-public protocol ProductListViewLocationDelegate {
-    func mainProductListView(mainProductListView: MainProductListView, didFailRequestingLocationServices status: LocationServiceStatus)
-    func mainProductListViewDidTimeOutRetrievingLocation(mainProductListView: MainProductListView)
-}
-
-public class MainProductListView: ProductListView, MainProductListViewModelLocationDelegate {
-
-    // Delegate
-    public var locationDelegate: ProductListViewLocationDelegate?
+public class MainProductListView: ProductListView {
 
     // MARK: - Lifecycle
     
@@ -24,7 +16,6 @@ public class MainProductListView: ProductListView, MainProductListViewModelLocat
         var viewModel = MainProductListViewModel()
         super.init(viewModel: viewModel, coder: aDecoder)
         viewModel.dataDelegate = self
-        viewModel.locationDelegate = self
         collectionViewFooterHeight = 80 // safety area for floating sell button
     }
     
@@ -64,15 +55,5 @@ public class MainProductListView: ProductListView, MainProductListViewModelLocat
         else {
             super.viewModel(viewModel, didSucceedRetrievingProductsPage: page, atIndexPaths: indexPaths)
         }
-    }
-    
-    // MARK: - MainProductListViewModelLocationDelegate
-    
-    public func viewModel(viewModel: MainProductListViewModel, didFailRequestingLocationServices status: LocationServiceStatus) {
-        locationDelegate?.mainProductListView(self, didFailRequestingLocationServices: status)
-    }
-    
-    public func viewModelDidTimeOutRetrievingLocation(viewModel: MainProductListViewModel) {
-        locationDelegate?.mainProductListViewDidTimeOutRetrievingLocation(self)
     }
 }

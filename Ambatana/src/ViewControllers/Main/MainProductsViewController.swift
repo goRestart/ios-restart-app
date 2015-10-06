@@ -11,7 +11,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-public class MainProductsViewController: BaseViewController, IndicateLocationViewControllerDelegate, ProductListViewDataDelegate, ProductListViewLocationDelegate, MainProductsViewModelDelegate, UISearchBarDelegate {
+public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, MainProductsViewModelDelegate, UISearchBarDelegate {
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -41,13 +41,13 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
         fatalError("init(coder:) has not been implemented")
     }
    
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
 
         // UI
         // > Main product list view
         mainProductListView.delegate = self
-        mainProductListView.locationDelegate = self
         mainProductListView.queryString = viewModel.searchString
         if let category = viewModel.category {
             mainProductListView.categories = [category]
@@ -70,13 +70,6 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
         if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
     }
 
-    // MARK: - IndicateLocationViewControllerDelegate
-    
-    public func userDidManuallySetCoordinates(coordinates: CLLocationCoordinate2D) {
-        mainProductListView.coordinates = LGLocationCoordinates2D(coordinates: coordinates)
-        mainProductListView.refresh()
-    }
-    
     // MARK: - ProductListViewDataDelegate
     
     public func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
@@ -115,63 +108,15 @@ public class MainProductsViewController: BaseViewController, IndicateLocationVie
     }
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
-
     }
     
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
         let vc = ProductViewController(viewModel: productVM)
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     public func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError) {
-    }
-
-    
-    // MARK: - ProductListViewLocationDelegate
-    
-    public func mainProductListView(mainProductListView: MainProductListView, didFailRequestingLocationServices status: LocationServiceStatus) {
-//        let alertMessage: String?
-//        let alertButtonTitle: String?
-//        
-//        switch status {
-//        case .Disabled:
-//            alertMessage = NSLocalizedString("product_list_location_disabled_label", comment: "")
-//            alertButtonTitle = NSLocalizedString("product_list_location_disabled_button", comment: "")
-//        case .Enabled(let authStatus):
-//            switch authStatus {
-//            case .Authorized, .NotDetermined:
-//                alertMessage = nil
-//                alertButtonTitle = nil
-//            case .Restricted, .Denied:
-//                alertMessage = NSLocalizedString("product_list_location_unauthorized_label", comment: "")
-//                alertButtonTitle = NSLocalizedString("product_list_location_unauthorized_button", comment: "")
-//            }
-//        }
-//        
-//        if let alertMsg = alertMessage, let alertButTitle = alertButtonTitle {
-//            let alert = UIAlertController(title: nil, message: alertMsg, preferredStyle:.Alert)
-//            let cancelAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel, handler: { (action) -> Void in
-//                self.viewModel.cancelOpenAppSettingsAlert()
-//                
-//            })
-//            let openSettingsAction = UIAlertAction(title: alertButTitle, style:.Default, handler: { (action) -> Void in
-//                self.viewModel.openAppSettings()
-//            })
-//            alert.addAction(cancelAction)
-//            alert.addAction(openSettingsAction)           
-//            
-//            self.presentViewController(alert, animated: true, completion: nil)
-//        }
-    }
-    
-    public func mainProductListViewDidTimeOutRetrievingLocation(mainProductListView: MainProductListView) {
-        // Push indicate location VC
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
-        vc.delegate = self
-        let navCtl = UINavigationController(rootViewController: vc)
-        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
     
     // MARK: - MainProductsViewModelDelegate

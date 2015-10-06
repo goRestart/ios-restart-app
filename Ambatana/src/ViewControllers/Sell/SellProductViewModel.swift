@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import FBSDKShareKit
 import LGCoreKit
 import Result
-import FBSDKShareKit
 
 protocol SellProductViewModelDelegate : class {
     func sellProductViewModel(viewModel: SellProductViewModel, archetype: Bool)
@@ -62,7 +62,8 @@ public class SellProductViewModel: BaseViewModel {
         descr = ""
         category = nil
         images = []
-        shouldShareInFB = true
+        
+        shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
 
         self.productManager = ProductManager()
         

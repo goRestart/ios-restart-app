@@ -62,6 +62,7 @@
 "common_time_seconds_ago_label" = "vor %d Sekunden";
 "common_time_week_ago_label" = "vor einer Woche";
 "common_time_weeks_ago_label" = "vor %d Wochen";
+"common_user_not_available" = "Hoppla! Benutzer nicht gefunden!";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Nachricht";
 "contact_choose_subject_dialog_title" = "Wähle einen Betreff";
@@ -90,12 +91,6 @@
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
 "help_title" = "Hilfe";
-"indicate_location_address_field_hint" = "Gib deine Adresse ein";
-"indicate_location_address_search_error_generic" = "Ich konnte den Standort nicht finden. Bitte versuche es erneut.";
-"indicate_location_long_press_tip_label" = "Oder halte deinen Finger auf deinem Standort gedrückt";
-"indicate_location_marker_label" = "Ich bin hier!";
-"indicate_location_save_error_invalid_location" = "Bitte wähle einen gültigen Standort auf der Karte durch langes Drücken aus";
-"indicate_location_title" = "Lege deinen Standort fest";
 "log_in_email_field_hint" = "E-Mail-Adresse";
 "log_in_error_send_error_generic" = "Beim Anmelden ist ein Fehler aufgetreten.";
 "log_in_error_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse im E-Mail-Feld ein";
@@ -136,11 +131,7 @@
 "product_list_first_page_error_generic_label" = "Hoppla! Du bist leider nicht mit dem Internet verbunden. Stelle eine Verbindung her und versuche es einfach noch einmal!";
 "product_list_item_new_status_label" = "NEU";
 "product_list_item_sold_status_label" = "VERKAUFT";
-"product_list_location_disabled_button" = "Einstellungen";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hoppla! Dein Standort ist nicht eingestellt. Stelle ihn ein, um die besten Angebote in deiner Umgebung zu sehen!";
-"product_list_location_disabled_label" = "Hoppla! Dein Standort ist ausgeschaltet. Um ihn einzuschalten, gehe zu: \nEinstellungen > Privatsphäre > Positionsbestimmung.";
-"product_list_location_unauthorized_button" = "Einstellungen";
-"product_list_location_unauthorized_label" = "Bitte erlaube uns, auf deinen Standort zuzugreifen.";
 "product_list_next_page_error_generic_button" = "Versuch's noch einmal";
 "product_list_next_page_error_generic_label" = "Hoppla! Du bist leider nicht mit dem Internet verbunden. Stelle eine Verbindung her und versuche es einfach noch einmal!";
 "product_list_no_products_button" = "Produkte neu laden";

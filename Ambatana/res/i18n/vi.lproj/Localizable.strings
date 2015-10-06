@@ -62,6 +62,7 @@
 "common_time_seconds_ago_label" = "%d giây trước";
 "common_time_week_ago_label" = "một tuần trước";
 "common_time_weeks_ago_label" = "%d tuần trước";
+"common_user_not_available" = "Ồ! Không tìm thấy người dùng!";
 "common_yes" = "Có";
 "contact_body_field_hint" = "Tin nhắn";
 "contact_choose_subject_dialog_title" = "Chọn một tiêu đề";
@@ -90,12 +91,6 @@
 "forced_update_title" = "Có bản cập nhật mới";
 "forced_update_update_button" = "Cập nhật";
 "help_title" = "Trợ giúp";
-"indicate_location_address_field_hint" = "Nhập địa chỉ của bạn";
-"indicate_location_address_search_error_generic" = "Tôi không thể tìm thấy vị trí của bạn. Xin vui lòng thử lại.";
-"indicate_location_long_press_tip_label" = "Hoặc nhấn vào địa điểm của bạn";
-"indicate_location_marker_label" = "Tôi ở đây!";
-"indicate_location_save_error_invalid_location" = "Vui lòng lựa chọn một địa điểm hợp lệ trên bản đồ bằng cách nhấp và giữ chuột";
-"indicate_location_title" = "Thiết lập địa điểm của bạn";
 "log_in_email_field_hint" = "Email";
 "log_in_error_send_error_generic" = "Lỗi xảy ra trong khi đăng nhập";
 "log_in_error_send_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ vào trường email người dùng";
@@ -136,11 +131,7 @@
 "product_list_first_page_error_generic_label" = "Hey! Bạn chưa có kết Internet! Hãy nhanh chóng kết nối thôi nào!";
 "product_list_item_new_status_label" = "MỚI";
 "product_list_item_sold_status_label" = "ĐÃ BÁN";
-"product_list_location_disabled_button" = "Cài đặt";
 "product_list_location_disabled_go_to_indicate_location_label" = "Ồ! Địa điểm của bạn đã bị tắt. Hãy thiết lập địa điểm để xem những giao dịch gần bạn!";
-"product_list_location_disabled_label" = "Ồ! Vị trí của bạn đã bị tắt. Để bật vị trí, hãy vào Cài đặt > Riêng tư > Dịch vụ sử dụng Vị trí.";
-"product_list_location_unauthorized_button" = "Cài đặt";
-"product_list_location_unauthorized_label" = "Vui lòng cho phép chúng tôi truy cập địa điểm của bạn.";
 "product_list_next_page_error_generic_button" = "Thử lại";
 "product_list_next_page_error_generic_label" = "Hey! Bạn chưa có kết Internet! Hãy nhanh chóng kết nối thôi nào!";
 "product_list_no_products_button" = "Tải lại sản phẩm";

@@ -51,7 +51,12 @@ public class EditUserLocationViewModel: BaseViewModel {
         approximateLocation =  UserDefaultsManager.sharedInstance.loadIsApproximateLocation()
         goingToLocation = false
         serviceAlreadyLoading = false
-        usingGPSLocation = !LocationManager.sharedInstance.isManualLocation
+        if let location = MyUserManager.sharedInstance.currentLocation {
+            usingGPSLocation = location.type == .Manual
+        }
+        else {
+            usingGPSLocation = true
+        }
         predictiveResults = []
         currentPlace = Place()
         searchService = CLSearchLocationSuggestionsService()
@@ -143,15 +148,18 @@ public class EditUserLocationViewModel: BaseViewModel {
         usingGPSLocation = true
 
         if !serviceAlreadyLoading {
-            if let lastGPSLocation = LocationManager.sharedInstance.lastGPSLocation {
-                serviceAlreadyLoading = true
+            if let location = MyUserManager.sharedInstance.currentAutoLocation {
+                
+                // Notify
                 delegate?.viewModelDidStartSearchingLocation(self)
                 
-                postalAddressService.retrieveAddressForLocation(lastGPSLocation.location) { [weak self] (result: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
+                // Retrieve the address
+                serviceAlreadyLoading = true
+                postalAddressService.retrieveAddressForLocation(location.location) { [weak self] (result: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
                     if let strongSelf = self {
                         if let actualDelegate = strongSelf.delegate {
                             if let place = result.value, let postalAddress = place.postalAddress {
-                                actualDelegate.viewModel(strongSelf, centerMapInLocation: lastGPSLocation.location.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
+                                actualDelegate.viewModel(strongSelf, centerMapInLocation: location.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
                                 var userLocationString = ""
                                 if let zipCode = postalAddress.zipCode {
                                     userLocationString += zipCode
@@ -234,7 +242,7 @@ public class EditUserLocationViewModel: BaseViewModel {
         }
     }
 
-    
+
     /**
         Manages the change in the view when the user switches from aproxximate to accurate
     */
@@ -257,20 +265,18 @@ public class EditUserLocationViewModel: BaseViewModel {
         UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
         
         if usingGPSLocation {
-            LocationManager.sharedInstance.userDidSetAutomaticLocation(currentPlace)
+            MyUserManager.sharedInstance.setAutomaticLocationWithPlace(currentPlace)
         } else {
-            var lat = currentPlace.location!.latitude as CLLocationDegrees
-            var long = currentPlace.location!.longitude as CLLocationDegrees
-            var location = CLLocation(latitude: lat, longitude: long)
-            LocationManager.sharedInstance.userDidSetManualLocation(location, place: currentPlace)
-            TrackerProxy.sharedInstance.updateCoordinates()
+            if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
+                var location = CLLocation(latitude: lat, longitude: long)
+                MyUserManager.sharedInstance.setManualLocation(location, place: currentPlace)
+            }
         }
         
         // Tracking
-        if let location = LocationManager.sharedInstance.lastKnownLocation {
+        if let location = MyUserManager.sharedInstance.currentLocation {
             let trackerEvent = TrackerEvent.profileEditEditLocation(location)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
     }
-    
 }

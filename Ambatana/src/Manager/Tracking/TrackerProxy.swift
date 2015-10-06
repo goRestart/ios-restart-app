@@ -22,8 +22,7 @@ public class TrackerProxy: Tracker {
     public init(trackers: [Tracker] = TrackerProxy.defaultTrackers) {
         self.trackers = trackers
         
-        // TODO: check if observing notification here is the best solution (main tab controller is already observing this notification)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCoordinatesFromNotification:", name: LocationManager.didReceiveLocationNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCoordinatesFromNotification:", name: MyUserManager.Notification.locationUpdate.rawValue, object: nil)
     }
     
     // MARK: - Tracker
@@ -80,8 +79,6 @@ public class TrackerProxy: Tracker {
     // MARK: private methods
     
     @objc private func updateCoordinatesFromNotification(notification: NSNotification) {
-        if let location = notification.object as? CLLocation {
-            updateCoordinates()
-        }
+        updateCoordinates()
     }
 }

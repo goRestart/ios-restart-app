@@ -78,7 +78,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         
         // Location
-        LocationManager.sharedInstance.stopLocationUpdates()
+        MyUserManager.sharedInstance.stopSensorLocationUpdates()
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -121,7 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
         
         // Location
-        LocationManager.sharedInstance.startLocationUpdates()
+        MyUserManager.sharedInstance.startSensorLocationUpdates()
     }
     
     func applicationWillTerminate(application: UIApplication) {

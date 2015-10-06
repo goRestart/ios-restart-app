@@ -62,6 +62,7 @@
 "common_time_seconds_ago_label" = "%d초 전";
 "common_time_week_ago_label" = "1 주 전";
 "common_time_weeks_ago_label" = "%d 주 전";
+"common_user_not_available" = "이런! 사용자를 찾을 수 없습니다!";
 "common_yes" = "예";
 "contact_body_field_hint" = "메세지";
 "contact_choose_subject_dialog_title" = "항목을 선택해주세요";
@@ -90,12 +91,6 @@
 "forced_update_title" = "업데이트 사용가능";
 "forced_update_update_button" = "업데이트";
 "help_title" = "도움";
-"indicate_location_address_field_hint" = "주소를 입력하세요";
-"indicate_location_address_search_error_generic" = "위치를 찾는데 실패했습니다. 다시 시도해주세요.";
-"indicate_location_long_press_tip_label" = "혹은 고객님의 위치를 터치해주세요";
-"indicate_location_marker_label" = "여기있어요!";
-"indicate_location_save_error_invalid_location" = "길게 눌러서 가능한 위치를 골라주세요.";
-"indicate_location_title" = "위치 설정하기";
 "log_in_email_field_hint" = "이메일";
 "log_in_error_send_error_generic" = "로그인 과정중 오류가 발생했습니다.";
 "log_in_error_send_error_invalid_email" = "회원 가입 시 사용하셨던 이메일을 입력해 주세요";
@@ -136,11 +131,7 @@
 "product_list_first_page_error_generic_label" = "네트워크 오류가 발생했습니다. 네트워크 연결 상태를 확인하신 후 다시 시도해 주세요";
 "product_list_item_new_status_label" = "새로운";
 "product_list_item_sold_status_label" = "품절";
-"product_list_location_disabled_button" = "설정";
-"product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Set your location to see the best offers nearby!";
-"product_list_location_disabled_label" = "앗! 위치검색이 꺼져있네요. 켜기위해서: \n세팅>개인정보> 위치정보로 가세요.";
-"product_list_location_unauthorized_button" = "설정";
-"product_list_location_unauthorized_label" = "위치정보를 사용할 수 있게 허가해주세요.";
+"product_list_location_disabled_go_to_indicate_location_label" = "위치정보가 꺼져있네요. 최고의 상품 할인정보를 위해서 위치를 성절해주세요!";
 "product_list_next_page_error_generic_button" = "새로 고침";
 "product_list_next_page_error_generic_label" = "네트워크 오류가 발생했습니다. 네트워크 연결 상태를 확인하신 후 다시 시도해 주세요";
 "product_list_no_products_button" = "제품 새로고침";
@@ -161,7 +152,7 @@
 "product_report_confirm_ok_button" = "예";
 "product_report_confirm_title" = "제품 신고";
 "product_report_product_button" = "제품 신고";
-"product_reported_error_generic" = "We couldn't report the product at the time. Please try again later.";
+"product_reported_error_generic" = "상품을 신고하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "product_reported_product_label" = "신고가 접수된 제품입니다";
 "product_reported_success_message" = "제품이 성공적으로 신고되었습니다.   감사합니다!";
 "product_reporting_loading_message" = "제품 신고하기...";
