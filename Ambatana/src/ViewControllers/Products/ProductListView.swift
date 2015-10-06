@@ -325,6 +325,12 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     }
     
     public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+        
+        // Update the UI
+        if page == 0 {
+            refreshControl.endRefreshing()
+        }
+        
         // Notify the delegate
         delegate?.productListView(self, didFailRetrievingProductsPage: page, error: error)
     }

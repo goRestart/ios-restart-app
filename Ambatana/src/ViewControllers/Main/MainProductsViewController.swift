@@ -76,35 +76,26 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
     
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
-        
-        // Notify the user setting up an alert with different message, button & button action depending if it's the first page or nexts
-        let message: String
-        let buttonTitle: String
-        let buttonAction: () -> Void
+
+        let message = NSLocalizedString("common_error_connection_failed", comment: "")
         if page == 0 {
-            message = NSLocalizedString("product_list_first_page_error_generic_label", comment: "")
-            buttonTitle = NSLocalizedString("product_list_first_page_error_generic_button", comment: "")
-            buttonAction = { () -> Void in
-                productListView.refresh()
-            }
+            showAutoFadingOutMessageAlert(message)
         }
         else {
-            message = NSLocalizedString("product_list_next_page_error_generic_label", comment: "")
-            buttonTitle = NSLocalizedString("product_list_next_page_error_generic_button", comment: "")
-            buttonAction = { () -> Void in
+            let buttonTitle = NSLocalizedString("common_error_retry_button", comment: "")
+            let buttonAction = { () -> Void in
                 productListView.retrieveProductsNextPage()
             }
+            let alert = UIAlertController(title: nil, message: message, preferredStyle:.Alert)
+            alert.addAction(UIAlertAction(title: buttonTitle, style:.Default, handler: { [weak self] (action) -> Void in
+                if let strongSelf = self {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
+                        buttonAction()
+                    })
+                }
+                }))
+            presentViewController(alert, animated: true, completion: nil)
         }
-        
-        let alert = UIAlertController(title: nil, message: message, preferredStyle:.Alert)
-        alert.addAction(UIAlertAction(title: buttonTitle, style:.Default, handler: { [weak self] (action) -> Void in
-            if let strongSelf = self {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                    buttonAction()
-                })
-            }
-            }))
-        presentViewController(alert, animated: true, completion: nil)
     }
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {

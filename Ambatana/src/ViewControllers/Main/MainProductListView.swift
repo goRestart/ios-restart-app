@@ -24,12 +24,10 @@ public class MainProductListView: ProductListView {
     public override func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath]) {
 
         // If it's the first page with no results
-        let isFirstPageWithNoResults = ( page == 0 && indexPaths.isEmpty )
-        if isFirstPageWithNoResults {
+        if page == 0 && viewModel.numberOfProducts == 0 {
             let errBody: String?
             let errButTitle: String?
             let errButAction: (() -> Void)?
-            
             
             // Search
             if viewModel.queryString != nil {
@@ -59,8 +57,8 @@ public class MainProductListView: ProductListView {
     
     public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
         
-        // If it's the first page, the set the error state
-        if page == 0 {
+        // If it's the first page & we have no data, the set the error state
+        if page == 0 && viewModel.numberOfProducts == 0 {
             let errBgColor: UIColor?
             let errBorderColor: UIColor?
             let errImage: UIImage?
