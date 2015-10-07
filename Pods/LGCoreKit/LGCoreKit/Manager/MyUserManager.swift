@@ -124,6 +124,9 @@ public class MyUserManager: LocationManagerDelegate {
 
                     // Save my installation
                     if let installation = self?.myInstallation() {
+                        if let userId = myUser.objectId {
+                            installation.userId = userId
+                        }
                         self?.installationSaveService.save(installation, result: nil)
                     }
                 }
