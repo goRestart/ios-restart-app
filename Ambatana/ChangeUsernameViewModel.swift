@@ -39,7 +39,11 @@ public class ChangeUsernameViewModel: BaseViewModel {
     
     public func saveUsername() {
         // check if username is ok (func in extension?)
-        if isValidUsername(username) {
+
+        if usernameContainsLetgoString(username) {
+            delegate?.viewModel(self, didFailValidationWithError:UserSaveServiceError.InvalidUsername)
+        }
+        else if isValidUsername(username) {
             
             delegate?.viewModelDidStartSendingUser(self)
 
@@ -70,12 +74,24 @@ public class ChangeUsernameViewModel: BaseViewModel {
     }
     
     public func isValidUsername(theUsername: String) -> Bool {
-        return theUsername.isValidUsername() && (theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != MyUserManager.sharedInstance.myUser()?.publicUsername)
+        return theUsername.isValidUsername() &&
+            (theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != MyUserManager.sharedInstance.myUser()?.publicUsername)
     }
     
     
     // MARK: - private methods
     
+    private func usernameContainsLetgoString(theUsername: String) -> Bool {
+        let lowerCaseUsername = theUsername.lowercaseString
+        return lowerCaseUsername.rangeOfString("letgo") != nil ||
+            lowerCaseUsername.rangeOfString("ietgo") != nil ||
+            lowerCaseUsername.rangeOfString("letg0") != nil ||
+            lowerCaseUsername.rangeOfString("ietg0") != nil ||
+            lowerCaseUsername.rangeOfString("let go") != nil ||
+            lowerCaseUsername.rangeOfString("iet go") != nil ||
+            lowerCaseUsername.rangeOfString("let g0") != nil ||
+            lowerCaseUsername.rangeOfString("iet g0") != nil
+    }
     
     func enableSaveButton() -> Bool {
         return isValidUsername(username)
