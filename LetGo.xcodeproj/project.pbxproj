@@ -108,8 +108,8 @@
 		50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */; };
 		50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
 		50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
-		50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */; };
 		50CD8F5D1BC27DE30031DCD3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5C1BC27DE30031DCD3 /* Info.plist */; };
+		50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */; };
 		50D2CACD1BB41FB800EC5C30 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */; };
 		50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */; };
 		50D2CAD01BB41FD600EC5C30 /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACF1BB41FD600EC5C30 /* HelpViewModel.swift */; };
@@ -339,8 +339,8 @@
 		50C9E5061B74EAE3001E4E92 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLImageResizing.swift; sourceTree = "<group>"; };
-		50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Errors.xcassets; sourceTree = "<group>"; };
 		50CD8F5C1BC27DE30031DCD3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Errors.xcassets; sourceTree = "<group>"; };
 		50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
 		50D2CACF1BB41FD600EC5C30 /* HelpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewModel.swift; sourceTree = "<group>"; };

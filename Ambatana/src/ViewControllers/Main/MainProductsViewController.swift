@@ -35,6 +35,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         viewModel.delegate = self
         
         hidesBottomBarWhenPushed = false
+        floatingSellButtonHidden = false
     }
 
     public required init(coder: NSCoder) {
@@ -73,13 +74,19 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     // MARK: - ProductListViewDataDelegate
     
     public func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
+        // !!!
+        if let tabBarCtl = tabBarController as? TabBarController {
+
+            // Floating sell button should be hidden
+            floatingSellButtonHidden = false
+            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: false)
+        }
     }
     
-    public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+    public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
 
-        // If we already have data then show alert
-        switch productListView.state {
-        case .DataView:
+        // If we already have data then show an alert
+        if hasProducts {
             let message = NSLocalizedString("common_error_connection_failed", comment: "")
             if page == 0 {
                 showAutoFadingOutMessageAlert(message)
@@ -99,23 +106,28 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
                     }))
                 presentViewController(alert, animated: true, completion: nil)
             }
-            break
-        case .ErrorView(_, _, _, _, _, _, _), .FirstLoadView:
-            // La mandanga del floating button
-            break
+        }
+        
+        // Floating sell button should be shown if has products
+        if let tabBarCtl = tabBarController as? TabBarController {
+            floatingSellButtonHidden = !hasProducts
+            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: false)
         }
     }
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
+
+        // Floating sell button should be shown
+        if let tabBarCtl = tabBarController as? TabBarController {
+            floatingSellButtonHidden = false
+            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: false)
+        }
     }
     
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
         let vc = ProductViewController(viewModel: productVM)
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    public func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError) {
     }
     
     // MARK: - MainProductsViewModelDelegate

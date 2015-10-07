@@ -11,7 +11,8 @@ import LGCoreKit
 import UIKit
 
 public protocol ProductListViewDataDelegate: class {
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
+    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt)
+    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError)
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt)
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath)
 }
@@ -322,9 +323,12 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         if page == 0 && viewModel.numberOfProducts == 0 {
             state = .FirstLoadView
         }
+        
+        // Notify the delegate
+        delegate?.productListView(self, didStartRetrievingProductsPage: page)
     }
     
-    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
         
         // Update the UI
         if page == 0 {
@@ -332,10 +336,10 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         }
         
         // Notify the delegate
-        delegate?.productListView(self, didFailRetrievingProductsPage: page, error: error)
+        delegate?.productListView(self, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
     }
     
-    public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath]) {
+    public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
         // Update the UI
         if page == 0 {
             state = .DataView

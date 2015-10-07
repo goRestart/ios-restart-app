@@ -12,8 +12,8 @@ import Result
 
 public protocol ProductListViewModelDataDelegate: class {
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
-    func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
-    func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath])
+    func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError)
+    func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath])
 }
 
 public class ProductListViewModel: BaseViewModel {
@@ -153,8 +153,9 @@ public class ProductListViewModel: BaseViewModel {
                     strongSelf.pageNumber = 0
                     
                     // Notify the delegate
+                    let hasProducts = strongSelf.products.count > 0
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: products.count)
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: 0, atIndexPaths: indexPaths)
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: 0, hasProducts: hasProducts, atIndexPaths: indexPaths)
                     
                     // Notify me
                     strongSelf.didSucceedRetrievingProducts()
@@ -162,7 +163,8 @@ public class ProductListViewModel: BaseViewModel {
                 // Error
                 else if let error = result.error {
                     // Notify the delegate
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: 0, error: error)
+                    let hasProducts = strongSelf.products.count > 0
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: 0, hasProducts: hasProducts, error: error)
                 }
             }
         }
@@ -191,17 +193,19 @@ public class ProductListViewModel: BaseViewModel {
                     let newProducts = productsResponse.products
                     strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     strongSelf.pageNumber = nextPageNumber
-                    
+
                     // Notify the delegate
+                    let hasProducts = strongSelf.products.count > 0
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber, atIndexPaths: indexPaths)
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber, hasProducts: hasProducts, atIndexPaths: indexPaths)
                     
                     // Notify me
                     strongSelf.didSucceedRetrievingProducts()
                 }
                 // Error
                 else if let error = result.error {
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber, error: error)
+                    let hasProducts = strongSelf.products.count > 0
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber, hasProducts: hasProducts, error: error)
                 }
             }
         }

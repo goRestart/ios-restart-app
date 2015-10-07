@@ -248,7 +248,28 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         }
     }
     
+    /**
+        Shows/hides the sell floating button
+    
+        :param: hidden If should be hidden
+        :param: animated If transition should be animated
+    */
+    func setSellFloatingButtonHidden(hidden: Bool, animated: Bool) {
+        let alpha: CGFloat = hidden ? 0 : 1
+        if animated {
+            floatingSellButton.hidden = hidden
+            
+            UIView.animateWithDuration(0.35) { [weak self] in
+                self?.floatingSellButton.alpha = alpha
+            }
+        }
+        else {
+            floatingSellButton.hidden = hidden
+        }
+    }
+    
     // MARK: - SellProductViewControllerDelegate
+    
     func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
             switchToTab(.Profile)
@@ -260,12 +281,19 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     // MARK: - UINavigationControllerDelegate
     
     public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-        let hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
+        
+        var hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
+        if let baseVC = viewController as? BaseViewController {
+            hidden = hidden || baseVC.floatingSellButtonHidden
+        }
         setSellFloatingButtonHidden(hidden, animated: false)
     }
     
     public func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
-        let hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
+        var hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
+        if let baseVC = viewController as? BaseViewController {
+            hidden = hidden || baseVC.floatingSellButtonHidden
+        }
         setSellFloatingButtonHidden(hidden, animated: true)
     }
     
@@ -470,26 +498,6 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
             
             // Dismiss loading
             self?.dismissLoadingMessageAlert(completion: loadingDismissCompletion)
-        }
-    }
-    
-    /**
-        Shows/hides the sell floating button
-    
-        :param: hidden If should be hidden
-        :param: animated If transition should be animated
-    */
-    private func setSellFloatingButtonHidden(hidden: Bool, animated: Bool) {
-        let alpha: CGFloat = hidden ? 0 : 1
-        if animated {
-            floatingSellButton.hidden = hidden
-           
-            UIView.animateWithDuration(0.35) { [weak self] in
-                self?.floatingSellButton.alpha = alpha
-            }
-        }
-        else {
-            floatingSellButton.hidden = hidden
         }
     }
     

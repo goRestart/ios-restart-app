@@ -10,21 +10,25 @@ import LGCoreKit
 
 public class MainProductListView: ProductListView {
 
+    // View Model
+    private var mainProductListViewModel: MainProductListViewModel
+    
     // MARK: - Lifecycle
     
     public required init(coder aDecoder: NSCoder) {
-        var viewModel = MainProductListViewModel()
-        super.init(viewModel: viewModel, coder: aDecoder)
-        viewModel.dataDelegate = self
+        mainProductListViewModel = MainProductListViewModel()
+        
+        super.init(viewModel: mainProductListViewModel, coder: aDecoder)
+        mainProductListViewModel.dataDelegate = self
         collectionViewFooterHeight = 80 // safety area for floating sell button
     }
     
     // MARK: - ProductListViewModelDataDelegate
     
-    public override func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath]) {
+    public override func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
 
         // If it's the first page with no results
-        if page == 0 && viewModel.numberOfProducts == 0 {
+        if page == 0 && !hasProducts {
             let errBody: String?
             let errButTitle: String?
             let errButAction: (() -> Void)?
@@ -51,14 +55,16 @@ public class MainProductListView: ProductListView {
         }
         // Otherwise (has results), let super work
         else {
-            super.viewModel(viewModel, didSucceedRetrievingProductsPage: page, atIndexPaths: indexPaths)
+            super.viewModel(viewModel, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts, atIndexPaths: indexPaths)
         }
     }
     
-    public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+    public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
 
-        // If it's the first page & we have no data, the set the error state
-        if page == 0 && viewModel.numberOfProducts == 0 {
+        // If it's the first page & we have no data
+        if page == 0 && !hasProducts {
+            
+            // Set the error state
             let errBgColor: UIColor?
             let errBorderColor: UIColor?
             let errImage: UIImage?
@@ -89,6 +95,6 @@ public class MainProductListView: ProductListView {
             state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
         }
 
-        super.viewModel(viewModel, didFailRetrievingProductsPage: page, error: error)
+        super.viewModel(viewModel, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
     }
 }
