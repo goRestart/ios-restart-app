@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 @objc public protocol GalleryViewDelegate {
      optional func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int)
@@ -15,6 +16,8 @@ import UIKit
 @IBDesignable public class GalleryView: UIView, UIScrollViewDelegate {
     
     // UI
+    private var previewImageView: UIImageView
+    private var previewEffectView: UIVisualEffectView
     private var scrollView: UIScrollView
     private var pageControl: UIPageControl
     private var tapRecognizer: UITapGestureRecognizer!
@@ -28,6 +31,9 @@ import UIKit
     // MARK: - Lifecycle
     
     public required init(coder aDecoder: NSCoder) {
+        previewImageView = UIImageView(frame: CGRectZero)
+        let effect = UIBlurEffect(style: .ExtraLight)
+        previewEffectView = UIVisualEffectView(effect: effect)
         scrollView = UIScrollView(frame: CGRectZero)
         pageControl = UIPageControl(frame: CGRectZero)
         super.init(coder: aDecoder)
@@ -36,6 +42,9 @@ import UIKit
     }
     
     public override init(frame: CGRect) {
+        previewImageView = UIImageView(frame: frame)
+        let effect = UIBlurEffect(style: .ExtraLight)
+        previewEffectView = UIVisualEffectView(effect: effect)
         scrollView = UIScrollView(frame: frame)
         pageControl = UIPageControl(frame: frame)
         super.init(frame: frame)
@@ -45,19 +54,28 @@ import UIKit
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        
-        // Place the subview at their correct positions
-        var x: CGFloat = 0
         let width = CGRectGetWidth(frame)
         let height = CGRectGetHeight(frame)
+        
+        // Adjust the preview image view & the effect
+        previewImageView.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        previewEffectView.frame = CGRect(x: 0, y: 0, width: width, height: height)
+
+        // Place the subview at their correct positions
+        var x: CGFloat = 0
         for page in pages {
             page.frame = CGRect(x: x, y: 0, width: width, height: height)
             x += width
         }
+        // Adjust the scroll view content size
         scrollView.contentSize = CGSize(width: x, height: height)
     }
     
     // MARK: - Public methods
+    
+    public func setPreview(url: NSURL) {
+        previewImageView.sd_setImageWithURL(url)
+    }
     
     public func addPageWithImageAtURL(url: NSURL) {
         // Create the page
@@ -115,6 +133,16 @@ import UIKit
     // MARK: > Setup
     
     private func setupUI() {
+        clipsToBounds = true
+        
+        // Preview image view
+        previewImageView.contentMode = .ScaleAspectFill
+        previewImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        addSubview(previewImageView)
+       
+        // Add the effect view (blur)
+        previewImageView.addSubview(previewEffectView)
+        
         // Scroll view
         scrollView.delegate = self
         scrollView.pagingEnabled = true
@@ -138,6 +166,10 @@ import UIKit
         addSubview(pageControl)
         
         // Constraints
+        let previewImageViewViews = ["previewImageView": previewImageView]
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[previewImageView]|", options: .allZeros, metrics: nil, views: previewImageViewViews))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[previewImageView]|", options: .allZeros, metrics: nil, views: previewImageViewViews))
+        
         let scrollViewViews = ["scrollView": scrollView]
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: .allZeros, metrics: nil, views: scrollViewViews))
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: .allZeros, metrics: nil, views: scrollViewViews))

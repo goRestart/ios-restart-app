@@ -76,6 +76,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var location: LGLocationCoordinates2D? {
         return product.location
     }
+    public var thumbnailURL : NSURL? {
+        return product.thumbnail?.fileURL
+    }
     
     // > User
     public var userName: String {

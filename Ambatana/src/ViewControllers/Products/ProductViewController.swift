@@ -496,13 +496,16 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         }
        
         // Product Status Label
-        
         productStatusLabel.hidden = !viewModel.isProductStatusLabelVisible
         productStatusLabel.backgroundColor = viewModel.productStatusLabelBackgroundColor
         productStatusLabel.textColor = viewModel.productStatusLabelFontColor
         productStatusLabel.text = viewModel.productStatusLabelText
         
         // Gallery
+        if let thumbnailURL = viewModel.thumbnailURL {
+            galleryView.setPreview(thumbnailURL)
+        }
+        
         galleryView.removePages()
         for i in 0..<viewModel.numberOfImages {
             if let imageURL = viewModel.imageURLAtIndex(i) {
