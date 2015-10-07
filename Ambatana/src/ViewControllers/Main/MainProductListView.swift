@@ -10,23 +10,25 @@ import LGCoreKit
 
 public class MainProductListView: ProductListView {
 
+    // View Model
+    private var mainProductListViewModel: MainProductListViewModel
+    
     // MARK: - Lifecycle
     
     public required init(coder aDecoder: NSCoder) {
-        var viewModel = MainProductListViewModel()
-        super.init(viewModel: viewModel, coder: aDecoder)
-        viewModel.dataDelegate = self
+        mainProductListViewModel = MainProductListViewModel()
+        
+        super.init(viewModel: mainProductListViewModel, coder: aDecoder)
+        mainProductListViewModel.dataDelegate = self
         collectionViewFooterHeight = 80 // safety area for floating sell button
     }
     
     // MARK: - ProductListViewModelDataDelegate
     
-    public override func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath]) {
+    public override func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
 
         // If it's the first page with no results
-        let isFirstPageWithNoResults = ( page == 0 && indexPaths.isEmpty )
-        if isFirstPageWithNoResults {
-
+        if page == 0 && !hasProducts {
             let errBody: String?
             let errButTitle: String?
             let errButAction: (() -> Void)?
@@ -46,14 +48,53 @@ public class MainProductListView: ProductListView {
                 }
             }
             
-            state = .ErrorView(errImage: nil, errTitle: nil, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+            state = .ErrorView(errBgColor: nil, errBorderColor: nil, errImage: nil, errTitle: nil, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
             
             // Notify the delegate
-            delegate?.productListView(self, didSucceedRetrievingProductsPage: page)
+            delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
         }
         // Otherwise (has results), let super work
         else {
-            super.viewModel(viewModel, didSucceedRetrievingProductsPage: page, atIndexPaths: indexPaths)
+            super.viewModel(viewModel, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts, atIndexPaths: indexPaths)
         }
+    }
+    
+    public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
+
+        // If it's the first page & we have no data
+        if page == 0 && !hasProducts {
+            
+            // Set the error state
+            let errBgColor: UIColor?
+            let errBorderColor: UIColor?
+            let errImage: UIImage?
+            let errTitle: String?
+            let errBody: String?
+            let errButTitle: String?
+            let errButAction: (() -> Void)?
+            
+            switch error {
+            case .Network:
+                errImage = UIImage(named: "err_network")
+                errTitle = NSLocalizedString("common_error_title", comment: "")
+                errBody = NSLocalizedString("common_error_network_body", comment: "")
+                errButTitle = NSLocalizedString("common_error_retry_button", comment: "")
+            case .Internal, .Forbidden:
+                errImage = UIImage(named: "err_generic")
+                errTitle = NSLocalizedString("common_error_title", comment: "")
+                errBody = NSLocalizedString("common_error_generic_body", comment: "")
+                errButTitle = NSLocalizedString("common_error_retry_button", comment: "")
+            }
+            errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
+            errBorderColor = StyleHelper.lineColor
+            
+            errButAction = {
+                self.refresh()
+            }
+            
+            state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+        }
+
+        super.viewModel(viewModel, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
     }
 }

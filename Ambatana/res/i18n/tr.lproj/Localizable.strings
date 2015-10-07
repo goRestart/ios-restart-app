@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "Hoppala! Ürününü silemedik. Lütfen tekrar dene.";
 "product_delete_sold_confirm_message" = "Bu ürünü silmek istediğine emin misin?";
 "product_delete_success_message" = "Ürün silme işlemi başarıyla gerçekleşti.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_from_you" = "senden";
 "product_distance_more_than_from_you" = "Senden olan uzaklığı %@'den daha fazla";
 "product_gallery_title" = "Fotoğraflar";

@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "Hoppla! Wir konnten dein Produkt leider nicht löschen. Bitte versuche es erneut.";
 "product_delete_sold_confirm_message" = "Bist du sicher, dass du dieses Produkt löschen möchtest?";
 "product_delete_success_message" = "Dein Produkt wurde erfolgreich gelöscht.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "%@ von dir";
 "product_distance_from_you" = "von dir";
 "product_distance_more_than_from_you" = "Mehr als %@ von dir";
 "product_gallery_title" = "Fotos";

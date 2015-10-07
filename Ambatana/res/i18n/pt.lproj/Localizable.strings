@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "Ops! Não foi possível excluir seu produto. Por favor, tente novamente.";
 "product_delete_sold_confirm_message" = "Deseja mesmo excluir esse produto?";
 "product_delete_success_message" = "Seu produto foi deletado com sucesso.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "%@ de você";
 "product_distance_from_you" = "de você";
 "product_distance_more_than_from_you" = "A %@  de você";
 "product_gallery_title" = "Fotos";

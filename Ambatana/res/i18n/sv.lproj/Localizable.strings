@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "Hoppsan! Vi kunde inte ta bort din produkt, var god försök igen.";
 "product_delete_sold_confirm_message" = "Är du säker på att du vill ta bort denna produkt?";
 "product_delete_success_message" = "Din produkt har tagits bort.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "%@ från dig";
 "product_distance_from_you" = "från dig";
 "product_distance_more_than_from_you" = "Mer än %@ från dig";
 "product_gallery_title" = "Bilder";

@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "商品を削除できませんでした。もう一度やり直してください。";
 "product_delete_sold_confirm_message" = "本当にこの商品を削除しますか？";
 "product_delete_success_message" = "あなたの商品は正常に削除されました。";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "あなたから%@";
 "product_distance_from_you" = "あなたからの距離";
 "product_distance_more_than_from_you" = "あなたから%@以上";
 "product_gallery_title" = "写真";

@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "Oeps! We konden jouw product niet verwijderen. Probeer het opnieuw.";
 "product_delete_sold_confirm_message" = "Weet je zeker dat je dit product wilt verwijderen?";
 "product_delete_success_message" = "Jouw product werd succesvol verwijderd.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "%@ van bij jou";
 "product_distance_from_you" = "Van jou";
 "product_distance_more_than_from_you" = "Meer dan %@ van bij jou";
 "product_gallery_title" = "Foto's";

@@ -259,29 +259,19 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     // MARK: - ProductListViewDataDelegate
     
     func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
+        
     }
     
-    
-    
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
-        if error == .Forbidden {
-            // logout the scammer!
-            showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
-                MyUserManager.sharedInstance.logout(nil)
-            })
-        }
-    }
-    
-    func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
         
         if productListView == sellingProductListView {
-            isSellProductsEmpty = productListView.isEmpty
+            isSellProductsEmpty = !hasProducts
             loadingSellProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductImSelling)
         }
         else if productListView == soldProductListView {
-            isSoldProductsEmpty = productListView.isEmpty
+            isSoldProductsEmpty = !hasProducts
             loadingSoldProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductISold)
@@ -295,27 +285,20 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         }
     }
     
-    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
+    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
         
         if productListView == sellingProductListView {
-            isSellProductsEmpty = productListView.isEmpty
+            isSellProductsEmpty = !hasProducts
             loadingSellProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductImSelling)
         }
         else if productListView == soldProductListView {
-            isSoldProductsEmpty = productListView.isEmpty
+            isSoldProductsEmpty = !hasProducts
             loadingSoldProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductISold)
-        }
-        else if productListView == soldProductListView {
-            isSoldProductsEmpty = productListView.isEmpty
-            loadingSoldProducts = false
-            
-            retrievalFinishedForProductsAtTab(.ProductISold)
-        }
-        
+        }       
     }
     
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {

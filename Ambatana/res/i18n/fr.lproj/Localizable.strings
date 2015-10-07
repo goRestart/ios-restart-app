@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "Oops ! Nous n'avons pas pu supprimer votre bien. Veuillez réessayer.";
 "product_delete_sold_confirm_message" = "Etes-vous certain de vouloir supprimer ce bien ?";
 "product_delete_success_message" = "Votre bien a été supprimé avec succès.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "à %@";
 "product_distance_from_you" = "de votre position";
 "product_distance_more_than_from_you" = "A plus de %@";
 "product_gallery_title" = "Photos";

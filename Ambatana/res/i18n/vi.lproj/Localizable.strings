@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "Ối! Chúng tôi không thể xóa sản phẩm của bạn. Xin vui lòng thử lại.";
 "product_delete_sold_confirm_message" = "Bạn có chắc chắn muốn xóa sản phẩm này?";
 "product_delete_success_message" = "Sản phẩm của bạn đã được xóa thành công.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "%@ từ bạn";
 "product_distance_from_you" = "từ bạn";
 "product_distance_more_than_from_you" = "Hơn %@ từ bạn";
 "product_gallery_title" = "Ảnh";

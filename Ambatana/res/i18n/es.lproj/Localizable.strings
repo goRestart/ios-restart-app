@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "¡Ups! No hemos podido borrar tu artículo. Por favor, prueba otra vez.";
 "product_delete_sold_confirm_message" = "¿Seguro que quieres eliminar este artículo?";
 "product_delete_success_message" = "El artículo ha sido eliminado con éxito.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "%@ de ti";
 "product_distance_from_you" = "de ti";
 "product_distance_more_than_from_you" = "Más de %@ de ti";
 "product_gallery_title" = "Fotos";

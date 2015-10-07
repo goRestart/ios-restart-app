@@ -129,7 +129,7 @@
 "product_delete_send_error_generic" = "앗! 제품을 삭제할 수 없습니다. 다시 시도해주세요";
 "product_delete_sold_confirm_message" = "이 상품을 정말 삭제하기를 원하세요?";
 "product_delete_success_message" = "고객님의 상품을 성공적으로 삭제되었습니다.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "당신으로부터 %@";
 "product_distance_from_you" = "고객님으로부터";
 "product_distance_more_than_from_you" = "당신에게 %@ 더 많이";
 "product_gallery_title" = "사진";
