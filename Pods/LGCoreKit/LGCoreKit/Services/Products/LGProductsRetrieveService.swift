@@ -69,7 +69,7 @@ extension RetrieveProductsParams {
             }
             
             if let coordinates = self.coordinates {
-                params["quadkey"] = coordinates.coordsToQuadKey(14)
+                params["quadkey"] = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
             }
             
             if let categoryIds = self.categoryIds {
