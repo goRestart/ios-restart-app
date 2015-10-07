@@ -119,7 +119,14 @@ public class MyUserManager: LocationManagerDelegate {
     public func saveMyUserIfNew(result: UserSaveServiceResult?) {
         if let myUser = myUser() {
             if !myUser.isSaved {
-                userSaveService.saveUser(myUser, result: result)
+                userSaveService.saveUser(myUser) { [weak self] (myResult: Result<User, UserSaveServiceError>) in
+                    result?(myResult)
+
+                    // Save my installation
+                    if let installation = self?.myInstallation() {
+                        self?.installationSaveService.save(installation, result: nil)
+                    }
+                }
             }
             else {
                 result?(Result<User, UserSaveServiceError>.success(myUser))
