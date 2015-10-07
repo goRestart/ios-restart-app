@@ -25,4 +25,7 @@ struct Constants {
     static let helpURL = "http://%@.letgo.com/%@/help_app"
     static let productURL = "\(Constants.websiteURL)/product/%@"
     static let whatsAppShareURL = "whatsapp://send?text=%@"
+    
+    // Product List
+    static let productListMaxDistanceLabel = 20
 }

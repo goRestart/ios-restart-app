@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainProductsViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="distanceLabel" destination="6Qi-9b-goZ" id="4VZ-7Q-YdI"/>
+                <outlet property="distanceShadow" destination="xYw-ae-DlH" id="Xyz-WP-lyH"/>
                 <outlet property="mainProductListView" destination="cx9-GQ-2WN" id="pbG-Sb-J7c"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -19,13 +21,37 @@
                     <rect key="frame" x="0.0" y="64" width="600" height="486"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xYw-ae-DlH" userLabel="distanceShadow">
+                    <rect key="frame" x="245" y="76" width="110" height="30"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_15 Km from you" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Qi-9b-goZ">
+                            <rect key="frame" x="0.0" y="0.0" width="110" height="30"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="6Qi-9b-goZ" secondAttribute="bottom" id="DOE-VD-2s1"/>
+                        <constraint firstAttribute="centerX" secondItem="6Qi-9b-goZ" secondAttribute="centerX" id="TDL-BG-1CJ"/>
+                        <constraint firstAttribute="trailing" secondItem="6Qi-9b-goZ" secondAttribute="trailing" id="VXt-kg-epm"/>
+                        <constraint firstAttribute="height" constant="30" id="rts-dy-xYj"/>
+                        <constraint firstItem="6Qi-9b-goZ" firstAttribute="top" secondItem="xYw-ae-DlH" secondAttribute="top" id="voB-b0-bCY"/>
+                        <constraint firstItem="6Qi-9b-goZ" firstAttribute="leading" secondItem="xYw-ae-DlH" secondAttribute="leading" id="zkX-Bl-kCA"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3DU-dL-AwZ"/>
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="9MN-w9-TNK"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xYw-ae-DlH" secondAttribute="trailing" constant="20" id="9ub-mn-Dw1"/>
+                <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="76" id="A8W-il-cd7"/>
                 <constraint firstAttribute="trailing" secondItem="cx9-GQ-2WN" secondAttribute="trailing" id="MXl-BZ-HJO"/>
+                <constraint firstItem="xYw-ae-DlH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="RvD-Q0-iag"/>
                 <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" constant="50" id="eCp-yK-QmV"/>
+                <constraint firstAttribute="centerX" secondItem="xYw-ae-DlH" secondAttribute="centerX" id="ern-bv-UNB"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>

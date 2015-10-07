@@ -15,8 +15,10 @@ public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt)
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath)
     func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError)
-
+    func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType)
 }
+
+
 
 public enum ProductListViewState {
     case FirstLoadView
@@ -41,6 +43,10 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     var refreshControl: UIRefreshControl!
     @IBOutlet weak var collectionView: UICollectionView!
     var collectionViewFooterHeight: CGFloat
+    
+    private var lastContentOffset: CGFloat
+    private var maxDistance: Float
+    private var scrollingDown: Bool
     
     // > Error
     @IBOutlet weak var errorView: UIView!
@@ -198,6 +204,9 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.productListViewModel = viewModel
         self.collectionViewFooterHeight = 0
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        self.maxDistance = 1
+        self.lastContentOffset = 0
+        self.scrollingDown = false
         super.init(viewModel: viewModel, frame: frame)
         
         viewModel.dataDelegate = self
@@ -209,6 +218,9 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.productListViewModel = viewModel
         self.collectionViewFooterHeight = 0
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        self.maxDistance = 1
+        self.lastContentOffset = 0
+        self.scrollingDown = false
         super.init(viewModel: viewModel, coder: aDecoder)
 
         viewModel.dataDelegate = self
@@ -235,6 +247,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     */
     public func refresh() {
         if productListViewModel.canRetrieveProducts {
+            maxDistance = 1
             productListViewModel.retrieveProductsFirstPage()
         }
         else {
@@ -303,6 +316,19 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         
         productListViewModel.setCurrentItemIndex(indexPath.row)
         
+        if let distance = product.distance?.floatValue {
+            
+            // instance var max distance or MIN distance to avoid updating the label everytime
+
+            if scrollingDown && distance > maxDistance {
+                maxDistance = distance
+            } else if !scrollingDown && distance < maxDistance {
+                maxDistance = distance
+            }
+            
+            delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: product.distanceType)
+        }
+        
         return cell
     }
     
@@ -310,6 +336,17 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         delegate?.productListView(self, didSelectItemAtIndexPath: indexPath)
+    }
+    
+    // MARK: - UIScrollViewDelegate
+    
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+        if lastContentOffset >= scrollView.contentOffset.y {
+            scrollingDown = false
+        } else {
+            scrollingDown = true
+        }
+        lastContentOffset = scrollView.contentOffset.y
     }
     
     // MARK: - ProductListViewModelDataDelegate
@@ -350,6 +387,10 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     /**
         Sets up the UI.
     */
+    
+    // MARK: > UI
+    
+    
     private func setupUI() {
         // Load the view, and add it as Subview
         NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)

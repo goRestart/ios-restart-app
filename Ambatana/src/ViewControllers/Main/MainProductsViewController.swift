@@ -19,6 +19,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     // UI
     @IBOutlet weak var mainProductListView: MainProductListView!
     
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var distanceShadow: UIView!
+    
     // MARK: - Lifecycle
     
     public convenience init() {
@@ -60,7 +63,32 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         if viewModel.hasSearchButton {
             setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
         }
+        
+        distanceLabel.layer.cornerRadius = 15
+        distanceLabel.layer.masksToBounds = true
+        
+        distanceShadow.layer.shadowColor = UIColor.blackColor().CGColor
+        distanceShadow.layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
+        distanceShadow.layer.shadowOpacity = 0.5
+        distanceShadow.layer.shadowRadius = 8.0
+        distanceShadow.hidden = true
+
     }
+    
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        view.layoutIfNeeded()
+        distanceLabel.sizeToFit()
+        
+        distanceLabel.preferredMaxLayoutWidth = distanceLabel.frame.size.width + 30
+        
+        var size = CGSize(width: distanceLabel.preferredMaxLayoutWidth, height: 30)
+        
+        distanceLabel.frame = CGRect(origin: CGPoint(x: -15.0, y: 0.0), size: size)
+        view.layoutIfNeeded()
+    }
+    
     
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -72,11 +100,24 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
     // MARK: - ProductListViewDataDelegate
     
+    public func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType) {
+
+        // Update distance label
+        let distanceString = String(format: "%d %@", arguments: [min(20, distance), type.string])
+        if distance <= Constants.productListMaxDistanceLabel {
+            distanceLabel.text = String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), distanceString)
+        } else {
+            distanceLabel.text = String(format: NSLocalizedString("product_distance_more_than_from_you", comment: ""), distanceString)
+        }
+    }
+    
     public func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
     }
     
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
         
+        distanceShadow.hidden = true
+
         // Notify the user setting up an alert with different message, button & button action depending if it's the first page or nexts
         let message: String
         let buttonTitle: String
@@ -108,6 +149,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
+        distanceShadow.hidden = false
     }
     
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {

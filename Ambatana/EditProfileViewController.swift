@@ -326,6 +326,10 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType) {
+        
+    }
+    
     // MARK: - UICollectionViewDataSource and Delegate methods
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, heightForFooterInSection section: Int) -> CGFloat {
