@@ -60,7 +60,10 @@ public class SignUpViewModel: BaseViewModel {
         
         // Validation
         let fullName = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        if count(fullName) < Constants.fullNameMinLength {
+        if usernameContainsLetgoString(fullName) {
+            delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidUsername))
+        }
+        else if count(fullName) < Constants.fullNameMinLength {
             delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidUsername))
         }
         else if !email.isEmail() {
@@ -93,4 +96,17 @@ public class SignUpViewModel: BaseViewModel {
     private func sendButtonShouldBeEnabled() -> Bool {
         return count(username) > 0 && count(email) > 0 && count(password) > 0
     }
+    
+    private func usernameContainsLetgoString(theUsername: String) -> Bool {
+        let lowerCaseUsername = theUsername.lowercaseString
+        return lowerCaseUsername.rangeOfString("letgo") != nil ||
+            lowerCaseUsername.rangeOfString("ietgo") != nil ||
+            lowerCaseUsername.rangeOfString("letg0") != nil ||
+            lowerCaseUsername.rangeOfString("ietg0") != nil ||
+            lowerCaseUsername.rangeOfString("let go") != nil ||
+            lowerCaseUsername.rangeOfString("iet go") != nil ||
+            lowerCaseUsername.rangeOfString("let g0") != nil ||
+            lowerCaseUsername.rangeOfString("iet g0") != nil
+    }
+
 }
