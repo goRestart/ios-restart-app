@@ -23,11 +23,14 @@ public class BaseViewController: UIViewController {
         }
     }
     
+    public internal(set) var floatingSellButtonHidden: Bool
+    
     // MARK: Lifecycle
     
     init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         self.subviews = []
+        self.floatingSellButtonHidden = false
         super.init(nibName: nibNameOrNil, bundle: nil)
         
         hidesBottomBarWhenPushed = true

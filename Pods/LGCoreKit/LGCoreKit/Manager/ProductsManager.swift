@@ -27,7 +27,7 @@ final public class ProductsManager {
         self.userProductsRetrieveService = userProductsRetrieveService
         
         self.products = []
-        self.lastPage = true
+        self.lastPage = false
         self.isLoading = false
     }
 
@@ -75,9 +75,9 @@ final public class ProductsManager {
             return
         }
         
-        // Initial state
+        // Initial state, but loading
         products = []
-        lastPage = true
+        lastPage = false
         isLoading = true
         
         productsRetrieveService.retrieveProductsWithParams(params) { [weak self] (myResult: Result<ProductsResponse, ProductsRetrieveServiceError>) in

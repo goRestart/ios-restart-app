@@ -12,8 +12,8 @@ import Result
 
 public protocol ProductListViewModelDataDelegate: class {
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
-    func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
-    func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath])
+    func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError)
+    func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath])
 }
 
 public class ProductListViewModel: BaseViewModel {
@@ -130,15 +130,6 @@ public class ProductListViewModel: BaseViewModel {
         super.init()
     }
     
-    internal override func didSetActive(active: Bool) {
-        super.didSetActive(active)
-        
-        // If active and there are no products, then reload if possible
-//        if active && numberOfProducts == 0 && canRetrieveProducts {
-//            retrieveProductsFirstPage()
-//        }
-    }
-    
     // MARK: - Public methods
     
     // MARK: > Requests
@@ -153,7 +144,7 @@ public class ProductListViewModel: BaseViewModel {
         let currentCount = numberOfProducts
         
         let myResult = { [weak self] (result: Result<ProductsResponse, ProductsRetrieveServiceError>) -> Void in
-            if let strongSelf = self, let delegate = strongSelf.dataDelegate {
+            if let strongSelf = self {
                 // Success
                 if let productsResponse = result.value {
                     // Update the products & the current page number
@@ -162,8 +153,9 @@ public class ProductListViewModel: BaseViewModel {
                     strongSelf.pageNumber = 0
                     
                     // Notify the delegate
+                    let hasProducts = strongSelf.products.count > 0
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: products.count)
-                    delegate.viewModel(strongSelf, didSucceedRetrievingProductsPage: 0, atIndexPaths: indexPaths)
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: 0, hasProducts: hasProducts, atIndexPaths: indexPaths)
                     
                     // Notify me
                     strongSelf.didSucceedRetrievingProducts()
@@ -171,7 +163,8 @@ public class ProductListViewModel: BaseViewModel {
                 // Error
                 else if let error = result.error {
                     // Notify the delegate
-                    delegate.viewModel(strongSelf, didFailRetrievingProductsPage: 0, error: error)
+                    let hasProducts = strongSelf.products.count > 0
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: 0, hasProducts: hasProducts, error: error)
                 }
             }
         }
@@ -193,24 +186,26 @@ public class ProductListViewModel: BaseViewModel {
         dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
         
         let myResult = { [weak self] (result: Result<ProductsResponse, ProductsRetrieveServiceError>) -> Void in
-            if let strongSelf = self, let delegate = strongSelf.dataDelegate {
+            if let strongSelf = self {
                 // Success
                 if let productsResponse = result.value {
                     // Add the new products & update the page number
                     let newProducts = productsResponse.products
                     strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     strongSelf.pageNumber = nextPageNumber
-                    
+
                     // Notify the delegate
+                    let hasProducts = strongSelf.products.count > 0
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
-                    delegate.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber, atIndexPaths: indexPaths)
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber, hasProducts: hasProducts, atIndexPaths: indexPaths)
                     
                     // Notify me
                     strongSelf.didSucceedRetrievingProducts()
                 }
                 // Error
                 else if let error = result.error {
-                    delegate.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber, error: error)
+                    let hasProducts = strongSelf.products.count > 0
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber, hasProducts: hasProducts, error: error)
                 }
             }
         }

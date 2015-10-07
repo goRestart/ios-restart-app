@@ -45,6 +45,10 @@
 "common_cancel" = "Hủy";
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Không thể hoàn thành hoạt động. Vui lòng kiểm tra lại kết nối Internet của bạn.";
+"common_error_generic_body" = "Hãy thử ra ngoài hít thở không khí trong lành và quay lại thử sau";
+"common_error_network_body" = "Vui lòng kiểm tra cài đặt mạng và thử lại";
+"common_error_retry_button" = "Thử lại";
+"common_error_title" = "Ồ!";
 "common_loading" = "Đang tải...";
 "common_no" = "Không";
 "common_ok" = "OK";
@@ -127,13 +131,9 @@
 "product_delete_success_message" = "Sản phẩm của bạn đã được xóa thành công.";
 "product_distance_from_you" = "từ bạn";
 "product_gallery_title" = "Ảnh";
-"product_list_first_page_error_generic_button" = "Thử lại";
-"product_list_first_page_error_generic_label" = "Hey! Bạn chưa có kết Internet! Hãy nhanh chóng kết nối thôi nào!";
 "product_list_item_new_status_label" = "MỚI";
 "product_list_item_sold_status_label" = "ĐÃ BÁN";
 "product_list_location_disabled_go_to_indicate_location_label" = "Ồ! Địa điểm của bạn đã bị tắt. Hãy thiết lập địa điểm để xem những giao dịch gần bạn!";
-"product_list_next_page_error_generic_button" = "Thử lại";
-"product_list_next_page_error_generic_label" = "Hey! Bạn chưa có kết Internet! Hãy nhanh chóng kết nối thôi nào!";
 "product_list_no_products_button" = "Tải lại sản phẩm";
 "product_list_no_products_label" = "Không có sản phẩm nào ở quanh khu vực của bạn. Hãy là người đầu tiên bán tại đây";
 "product_list_search_no_products_button" = "Tải lại sản phẩm";
