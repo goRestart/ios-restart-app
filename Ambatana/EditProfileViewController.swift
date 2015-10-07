@@ -258,8 +258,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     // MARK: - ProductListViewDataDelegate
     
-    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
-        
+    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {  
     }
     
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {

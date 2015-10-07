@@ -46,6 +46,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         }
     }
     var alreadyAskedForRating: Bool
+    var askQuestion: Bool
     
     init?(chat: Chat) {
         self.chat = chat
@@ -73,6 +74,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         self.newChat = false
         self.isSendingMessage = false
         self.alreadyAskedForRating = false
+        self.askQuestion = false
 
         super.init(nibName: "ChatViewController", bundle: nil)
         
@@ -351,8 +353,14 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
                         // Tracking
                         let myUser = MyUserManager.sharedInstance.myUser()
                         if let product = strongSelf.chat.product {
-                            let trackerEvent = TrackerEvent.userMessageSent(product, user: myUser)
-                            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                            if strongSelf.askQuestion {
+                                strongSelf.askQuestion = false
+                                let askQuestionEvent = TrackerEvent.productAskQuestion(product, user: myUser)
+                                TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
+                            }
+                            
+                            let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser)
+                            TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                         }
                     }
                     // Error

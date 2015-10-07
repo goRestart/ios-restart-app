@@ -559,6 +559,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                     
                     // Success
                     if let chat = retrieveResult.value, let vc = ChatViewController(chat: chat) {
+                        vc.askQuestion = true
                         result = Result<UIViewController, ChatRetrieveServiceError>.success(vc)
                     }
                     // Error
