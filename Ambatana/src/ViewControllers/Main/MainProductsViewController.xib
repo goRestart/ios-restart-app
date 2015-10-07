@@ -22,7 +22,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xYw-ae-DlH" userLabel="distanceShadow">
-                    <rect key="frame" x="245" y="76" width="110" height="30"/>
+                    <rect key="frame" x="245" y="80" width="110" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_15 Km from you" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Qi-9b-goZ">
                             <rect key="frame" x="0.0" y="0.0" width="110" height="30"/>
@@ -47,7 +47,7 @@
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3DU-dL-AwZ"/>
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="9MN-w9-TNK"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xYw-ae-DlH" secondAttribute="trailing" constant="20" id="9ub-mn-Dw1"/>
-                <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="76" id="A8W-il-cd7"/>
+                <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="A8W-il-cd7"/>
                 <constraint firstAttribute="trailing" secondItem="cx9-GQ-2WN" secondAttribute="trailing" id="MXl-BZ-HJO"/>
                 <constraint firstItem="xYw-ae-DlH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="RvD-Q0-iag"/>
                 <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" constant="50" id="eCp-yK-QmV"/>

@@ -313,6 +313,9 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         
     }
     
+    func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool) {
+    }
+
     // MARK: - UICollectionViewDataSource and Delegate methods
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, heightForFooterInSection section: Int) -> CGFloat {

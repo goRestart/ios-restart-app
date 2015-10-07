@@ -74,6 +74,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         distanceShadow.layer.shadowOpacity = 0.5
         distanceShadow.layer.shadowRadius = 8.0
         distanceShadow.hidden = true
+        distanceShadow.alpha = 0
 
     }
     
@@ -113,6 +114,13 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         }
     }
     
+    public func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool) {
+
+        UIView.animateWithDuration(0.35, animations: { () -> Void in
+            self.distanceShadow.alpha = hidden ? 0:1
+        })
+    }
+
     public func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
         if let tabBarCtl = tabBarController as? TabBarController {
 
@@ -148,7 +156,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         }
         
         distanceShadow.hidden = !hasProducts
-        
+        distanceShadow.alpha = hasProducts ? 1:0
+
         // Floating sell button should be shown if has products
         if let tabBarCtl = tabBarController as? TabBarController {
             floatingSellButtonHidden = !hasProducts
@@ -159,6 +168,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
         
         distanceShadow.hidden = !hasProducts
+        distanceShadow.alpha = hasProducts ? 1:0
 
         // Floating sell button should be shown
         if let tabBarCtl = tabBarController as? TabBarController {

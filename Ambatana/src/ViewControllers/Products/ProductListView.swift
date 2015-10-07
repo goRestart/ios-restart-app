@@ -16,6 +16,7 @@ public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath)
     func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType)
+    func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool)
 }
 
 
@@ -341,6 +342,15 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     // MARK: - UIScrollViewDelegate
     
     public func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        // when refreshing the distance label should be hidden
+        if lastContentOffset >= 0 && scrollView.contentOffset.y < 0 {
+            delegate?.productListView(self, shouldHideDistanceLabel: true)
+        } else if lastContentOffset < 0 && scrollView.contentOffset.y >= 0 {
+            delegate?.productListView(self, shouldHideDistanceLabel: false)
+        }
+        
+        // while going down, increase distance in label, when going up, decrease
         if lastContentOffset >= scrollView.contentOffset.y {
             scrollingDown = false
         } else {
