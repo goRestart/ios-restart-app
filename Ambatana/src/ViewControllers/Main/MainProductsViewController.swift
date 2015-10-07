@@ -19,6 +19,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     // UI
     @IBOutlet weak var mainProductListView: MainProductListView!
     
+    @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var distanceShadow: UIView!
+    
     // MARK: - Lifecycle
     
     public convenience init() {
@@ -61,7 +64,34 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         if viewModel.hasSearchButton {
             setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
         }
+        
+        distanceLabel.layer.cornerRadius = 15
+        distanceLabel.layer.masksToBounds = true
+        distanceLabel.text = ""
+        
+        distanceShadow.layer.shadowColor = UIColor.blackColor().CGColor
+        distanceShadow.layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
+        distanceShadow.layer.shadowOpacity = 0.5
+        distanceShadow.layer.shadowRadius = 8.0
+        distanceShadow.hidden = true
+        distanceShadow.alpha = 0
+
     }
+    
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        view.layoutIfNeeded()
+        distanceLabel.sizeToFit()
+        
+        distanceLabel.preferredMaxLayoutWidth = distanceLabel.frame.size.width + 30
+        
+        var size = CGSize(width: distanceLabel.preferredMaxLayoutWidth, height: 30)
+        
+        distanceLabel.frame = CGRect(origin: CGPoint(x: -15.0, y: 0.0), size: size)
+        view.layoutIfNeeded()
+    }
+    
     
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -72,9 +102,26 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
 
     // MARK: - ProductListViewDataDelegate
+
+    public func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType) {
+
+        // Update distance label
+        let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance), type.string])
+        if distance <= Constants.productListMaxDistanceLabel {
+            distanceLabel.text = String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), distanceString)
+        } else {
+            distanceLabel.text = String(format: NSLocalizedString("product_distance_more_than_from_you", comment: ""), distanceString)
+        }
+    }
     
+    public func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool) {
+
+        UIView.animateWithDuration(0.35, animations: { () -> Void in
+            self.distanceShadow.alpha = hidden ? 0:1
+        })
+    }
+
     public func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
-        // !!!
         if let tabBarCtl = tabBarController as? TabBarController {
 
             // Floating sell button should be hidden
@@ -82,7 +129,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: false)
         }
     }
-    
+
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
 
         // If we already have data then show an alert
@@ -108,6 +155,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             }
         }
         
+        distanceShadow.hidden = !hasProducts
+        distanceShadow.alpha = hasProducts ? 1:0
+
         // Floating sell button should be shown if has products
         if let tabBarCtl = tabBarController as? TabBarController {
             floatingSellButtonHidden = !hasProducts
@@ -115,7 +165,10 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         }
     }
     
-    public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
+    public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+        
+        distanceShadow.hidden = !hasProducts
+        distanceShadow.alpha = hasProducts ? 1:0
 
         // Floating sell button should be shown
         if let tabBarCtl = tabBarController as? TabBarController {

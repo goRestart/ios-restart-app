@@ -51,7 +51,7 @@ public class MainProductListView: ProductListView {
             state = .ErrorView(errBgColor: nil, errBorderColor: nil, errImage: nil, errTitle: nil, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
             
             // Notify the delegate
-            delegate?.productListView(self, didSucceedRetrievingProductsPage: page)
+            delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
         }
         // Otherwise (has results), let super work
         else {

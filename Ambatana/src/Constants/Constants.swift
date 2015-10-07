@@ -12,7 +12,7 @@ struct Constants {
     
     // Input validation
     static let fullNameMinLength = 2
-    static let passwordMinLength = 4
+    static let passwordMinLength = 1
     static let productDescriptionMaxLength = 256
 
     // Map
@@ -25,4 +25,7 @@ struct Constants {
     static let helpURL = "http://%@.letgo.com/%@/help_app"
     static let productURL = "\(Constants.websiteURL)/product/%@"
     static let whatsAppShareURL = "whatsapp://send?text=%@"
+    
+    // Product List
+    static let productListMaxDistanceLabel = 20
 }

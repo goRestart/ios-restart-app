@@ -54,7 +54,7 @@ public class ProfileProductListView: ProductListView {
             let errBody: String = NSLocalizedString("profile_no_products", comment: "")
             state = .ErrorView(errBgColor: nil, errBorderColor: nil, errImage: nil, errTitle: nil, errBody: errBody, errButTitle: nil, errButAction: nil)
 
-            delegate?.productListView(self, didSucceedRetrievingProductsPage: page)
+            delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
         }
         // Otherwise (has results), let super work
         else {

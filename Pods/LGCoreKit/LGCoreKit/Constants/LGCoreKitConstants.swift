@@ -26,4 +26,6 @@ public struct LGCoreKitConstants {
     
     static let locationDistanceFilter: CLLocationDistance = 250
     static let locationDesiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
+    
+    static let defaultQuadKeyPrecision: Int = 15
 }

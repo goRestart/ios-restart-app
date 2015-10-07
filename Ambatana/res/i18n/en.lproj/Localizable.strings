@@ -394,6 +394,12 @@
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_from_you" = "from you";
 
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_distance_X_from_you" = "%@ from you";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_distance_more_than_from_you" = "More than %@ from you";
+
 // Product gallery title
 "product_gallery_title" = "Photos";
 
@@ -747,4 +753,3 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
-

@@ -265,13 +265,13 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
         
         if productListView == sellingProductListView {
-            isSellProductsEmpty = productListView.isEmpty
+            isSellProductsEmpty = !hasProducts
             loadingSellProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductImSelling)
         }
         else if productListView == soldProductListView {
-            isSoldProductsEmpty = productListView.isEmpty
+            isSoldProductsEmpty = !hasProducts
             loadingSoldProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductISold)
@@ -285,27 +285,20 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         }
     }
     
-    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt) {
+    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
         
         if productListView == sellingProductListView {
-            isSellProductsEmpty = productListView.isEmpty
+            isSellProductsEmpty = !hasProducts
             loadingSellProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductImSelling)
         }
         else if productListView == soldProductListView {
-            isSoldProductsEmpty = productListView.isEmpty
+            isSoldProductsEmpty = !hasProducts
             loadingSoldProducts = false
             
             retrievalFinishedForProductsAtTab(.ProductISold)
-        }
-        else if productListView == soldProductListView {
-            isSoldProductsEmpty = productListView.isEmpty
-            loadingSoldProducts = false
-            
-            retrievalFinishedForProductsAtTab(.ProductISold)
-        }
-        
+        }       
     }
     
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -316,6 +309,13 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType) {
+        
+    }
+    
+    func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool) {
+    }
+
     // MARK: - UICollectionViewDataSource and Delegate methods
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, heightForFooterInSection section: Int) -> CGFloat {

@@ -17,7 +17,6 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
-    @IBOutlet weak var distanceLabel: UILabel!
     
     // Stripe
     @IBOutlet weak var stripeImageView: UIImageView!
@@ -60,9 +59,6 @@ class ProductCell: UICollectionViewCell {
             })
         }
         
-        // Distance
-        distanceLabel.text = product.formattedDistance()
-        
         // Status (stripe)
         switch product.status {
         case .Sold, .SoldOld:
@@ -93,7 +89,6 @@ class ProductCell: UICollectionViewCell {
         priceLabel.text = ""
         thumbnailBgColorView.backgroundColor = StyleHelper.productCellBgColor
         thumbnailImageView.image = nil
-        distanceLabel.text = ""
         stripeImageView.image = nil
         stripeLabel.text = ""
         let rotation = CGFloat(M_PI_4)
