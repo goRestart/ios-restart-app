@@ -258,19 +258,10 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     // MARK: - ProductListViewDataDelegate
     
-    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
-    }   
-    
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
-        if error == .Forbidden {
-            // logout the scammer!
-            showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
-                MyUserManager.sharedInstance.logout(nil)
-            })
-        }
+    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {  
     }
     
-    func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
         
         if productListView == sellingProductListView {
             isSellProductsEmpty = productListView.isEmpty

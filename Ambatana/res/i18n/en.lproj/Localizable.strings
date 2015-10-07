@@ -139,6 +139,18 @@
 // Common error connection failed
 "common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
 
+// Common error generic body
+"common_error_generic_body" = "Go get some fresh air and try again";
+
+// Common error network body
+"common_error_network_body" = "Please check your network settings and try again";
+
+// Common error retry button
+"common_error_retry_button" = "Try again";
+
+// Common error title
+"common_error_title" = "OOPS!";
+
 // Common loading. Check attached image "common_loading.png"
 "common_loading" = "Loading...";
 
@@ -385,12 +397,6 @@
 // Product gallery title
 "product_gallery_title" = "Photos";
 
-// Product list first page error generic button. Check attached image "product_list_first_page_error.png"
-"product_list_first_page_error_generic_button" = "Try again";
-
-// Product list first page error generic label. Check image @ "product_list_first_page_error_generic_button" segment
-"product_list_first_page_error_generic_label" = "Oops! You don't seem to be connected to the Internet. Please check your network settings.";
-
 // Product list item new status label. Check attached image "product_list_item_new_status_label.png". New like "Novelty",  NOT like a non-used item
 "product_list_item_new_status_label" = "NEW";
 
@@ -399,12 +405,6 @@
 
 // Product list location disabled go to indicate location label.
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Enable location to see the best offers nearby!";
-
-// Product list next page error generic button. Check image @ "product_list_first_page_error_generic_button" segment
-"product_list_next_page_error_generic_button" = "Try again";
-
-// Product list next page error generic label. Check image @ "product_list_first_page_error_generic_button" segment
-"product_list_next_page_error_generic_label" = "Oops! You don't seem to be connected to the Internet. Please check your network settings.";
 
 // Product list no products button
 "product_list_no_products_button" = "Reload products";
@@ -747,3 +747,4 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
+

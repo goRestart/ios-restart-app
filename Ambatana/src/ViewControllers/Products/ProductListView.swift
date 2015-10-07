@@ -11,17 +11,16 @@ import LGCoreKit
 import UIKit
 
 public protocol ProductListViewDataDelegate: class {
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError)
+    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt)
+    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError)
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt)
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath)
-    func productListView(productListView: ProductListView, didFailRetrievingUserProductsPage page: UInt, error: ProductsRetrieveServiceError)
-
 }
 
 public enum ProductListViewState {
     case FirstLoadView
     case DataView
-    case ErrorView(errImage: UIImage?, errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
+    case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?, errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
 public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -44,6 +43,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     
     // > Error
     @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var errorContentView: UIView!
     @IBOutlet weak var errorImageView: UIImageView!
     @IBOutlet weak var errorImageViewHeightConstraint: NSLayoutConstraint!
     
@@ -96,8 +96,12 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
                 firstLoadView.hidden = true
                 dataView.hidden = false
                 errorView.hidden = true
-            case .ErrorView(let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
+            case .ErrorView(let errBgColor, let errBorderColor, let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
                 // UI
+                errorView.backgroundColor = errBgColor
+                errorContentView.layer.borderColor = errBorderColor?.CGColor
+                errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
+                
                 errorImageView.image = errImage
                 // > If there's no image then hide it
                 if let actualErrImage = errImage {
@@ -319,14 +323,23 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         if page == 0 && viewModel.numberOfProducts == 0 {
             state = .FirstLoadView
         }
-    }
-    
-    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, error: ProductsRetrieveServiceError) {
+        
         // Notify the delegate
-        delegate?.productListView(self, didFailRetrievingProductsPage: page, error: error)
+        delegate?.productListView(self, didStartRetrievingProductsPage: page)
     }
     
-    public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, atIndexPaths indexPaths: [NSIndexPath]) {
+    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
+        
+        // Update the UI
+        if page == 0 {
+            refreshControl.endRefreshing()
+        }
+        
+        // Notify the delegate
+        delegate?.productListView(self, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
+    }
+    
+    public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
         // Update the UI
         if page == 0 {
             state = .DataView
@@ -376,6 +389,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         
         // > Error View
         errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
+        errorButton.layer.cornerRadius = 4
+        errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         errorButton.addTarget(self, action: Selector("errorButtonPressed"), forControlEvents: .TouchUpInside)
         
         // Initial UI state is Loading (by xib)
@@ -386,7 +401,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     */
     @objc private func errorButtonPressed() {
         switch state {
-        case .ErrorView(_, _, _, _, let errButAction):
+        case .ErrorView(_, _, _, _, _, _, let errButAction):
             errButAction?()
         default:
             break
