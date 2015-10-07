@@ -106,7 +106,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     public func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType) {
 
         // Update distance label
-        let distanceString = String(format: "%d %@", arguments: [min(20, distance), type.string])
+        let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance), type.string])
         if distance <= Constants.productListMaxDistanceLabel {
             distanceLabel.text = String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), distanceString)
         } else {
