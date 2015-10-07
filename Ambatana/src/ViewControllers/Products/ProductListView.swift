@@ -207,7 +207,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.maxDistance = 1
         self.lastContentOffset = 0
-        self.scrollingDown = false
+        self.scrollingDown = true
         super.init(viewModel: viewModel, frame: frame)
         
         viewModel.dataDelegate = self
@@ -221,7 +221,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.maxDistance = 1
         self.lastContentOffset = 0
-        self.scrollingDown = false
+        self.scrollingDown = true
         super.init(viewModel: viewModel, coder: aDecoder)
 
         viewModel.dataDelegate = self
@@ -318,9 +318,13 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         productListViewModel.setCurrentItemIndex(indexPath.row)
         
         if let distance = product.distance?.floatValue {
+        
+            // the first item will ALWAYS set the 1st distance to show
+            if indexPath.item == 0 {
+                maxDistance = distance
+            }
             
             // instance var max distance or MIN distance to avoid updating the label everytime
-
             if scrollingDown && distance > maxDistance {
                 maxDistance = distance
             } else if !scrollingDown && distance < maxDistance {
