@@ -28,7 +28,7 @@ public class AmplitudeTracker: Tracker {
     // MARK: - Tracker
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        Amplitude.instance().trackingSessionEvents = true
+        Amplitude.instance().trackingSessionEvents = false
         Amplitude.instance().initializeApiKey(EnvironmentProxy.sharedInstance.amplitudeAPIKey)
     }
     
