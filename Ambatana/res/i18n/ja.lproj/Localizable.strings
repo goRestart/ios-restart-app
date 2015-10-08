@@ -23,7 +23,7 @@
 "change_password_send_error_generic" = "パスワードの変更中にエラーが発生しました。後でもう一度お試しください。";
 "change_password_send_error_invalid_password" = "有効なパスワードを少なくとも%d文字入力してください。";
 "change_password_send_error_passwords_mismatch" = "パスワードが一致していません。もう一度やり直してください。";
-"change_password_send_ok" = "パスワードは正しく変更されました";
+"change_password_send_ok" = "パスワードは正しく変更されました。";
 "change_password_title" = "パスワード変更";
 "change_username_error_invalid_username" = "フルネームには最低 %d 文字以上の入力が必要です。";
 "change_username_field_hint" = "フルネーム";
@@ -52,9 +52,9 @@
 "common_loading" = "読み込み中...";
 "common_no" = "いいえ";
 "common_ok" = "OK";
-"common_product_deleted" = "削除された商品";
+"common_product_deleted" = "削除された商品。";
 "common_product_not_available" = "この商品はもう売買不可です。";
-"common_product_sold" = "この商品は売却済みです";
+"common_product_sold" = "この商品は売却済みです。";
 "common_time_a_minute_ago_label" = "1 分前";
 "common_time_day_ago_label" = "1日前";
 "common_time_days_ago_label" = "%d日前";
@@ -73,9 +73,9 @@
 "contact_email_field_hint" = "メール";
 "contact_send_button" = "送信";
 "contact_send_error_generic" = "メッセージ送信エラー、インターネット接続を確認してもう一度お試しください。";
-"contact_send_error_invalid_body" = "メッセージを入力してください";
+"contact_send_error_invalid_body" = "メッセージを入力してください。";
 "contact_send_error_invalid_email" = "返信可能な、有効なメールアドレスを記入してください。";
-"contact_send_error_invalid_subject" = "件名を入力してください";
+"contact_send_error_invalid_subject" = "件名を入力してください。";
 "contact_send_ok" = "メッセージは正常に送信されました。";
 "contact_subject_field_hint" = "件名";
 "contact_subject_option_feedback" = "ご意見/評価";
@@ -98,7 +98,7 @@
 "log_in_email_field_hint" = "メール";
 "log_in_error_send_error_generic" = "ログイン中にエラーが発生しました。";
 "log_in_error_send_error_invalid_email" = "有効なメールアドレスをメールアドレス入力欄に入力してください。";
-"log_in_error_send_error_invalid_password" = "有効なパスワードを少なくとも%d文字入力してください";
+"log_in_error_send_error_invalid_password" = "有効なパスワードを少なくとも%d文字入力してください。";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "ログインできませんでした：不明なユーザーか間違ったパスワードです。";
 "log_in_password_field_hint" = "パスワード";
 "log_in_reset_password_button" = "お忘れですか？";
@@ -137,7 +137,7 @@
 "product_list_item_sold_status_label" = "売却済み";
 "product_list_location_disabled_go_to_indicate_location_label" = "位置情報はオフになっています。近くで、最適な商品を見つけるには位置情報を設定してください。";
 "product_list_no_products_button" = "製品の再読み込み";
-"product_list_no_products_label" = "あなたの近所に商品はありません。先にに販売をはじめましょう";
+"product_list_no_products_label" = "あなたの近所に商品はありません。先にに販売をはじめましょう。";
 "product_list_search_no_products_button" = "商品再読み込み";
 "product_list_search_no_products_label" = "商品がありません。";
 "product_location_title" = "位置情報";
@@ -216,9 +216,9 @@
 "sell_send_error_invalid_price" = "数字のみで、有効な価格を入力してください。";
 "sell_send_error_invalid_title" = "商品の有効なタイトルを入力してください。";
 "sell_send_error_sharing_facebook" = "フェースブックとの共有でエラーが発生しました。後でもう一度お試しください。";
-"sell_send_error_sharing_facebook_cancelled" = "ユーザによってキャンセルされました";
+"sell_send_error_sharing_facebook_cancelled" = "ユーザによってキャンセルされました。";
 "sell_send_error_uploading_picture" = "商品が登録できませんでした。写真がアップロードできません。もう一度お試しください。";
-"sell_send_error_uploading_product" = "商品の登録中にエラーが発生しました。 ";
+"sell_send_error_uploading_product" = "商品の登録中にエラーが発生しました。";
 "sell_send_ok" = "おめでとうございます。商品は無事に投稿されました。しばらくすると一覧上に表示されます。";
 "sell_share_fb_content" = "わたしがLetgoで売っているものを見て！";
 "sell_share_on_facebook_label" = "私の商品をフェースブックで共有する。";
@@ -245,7 +245,7 @@
 "sign_up_send_error_email_taken" = "ユーザーは既に存在します";
 "sign_up_send_error_generic" = "ユーザー作成中にエラーが発生しました。";
 "sign_up_send_error_invalid_email" = "有効なメールアドレスをメールアドレス入力欄に入力してください。";
-"sign_up_send_error_invalid_password" = "有効なパスワードを少なくとも%d文字入力してください";
+"sign_up_send_error_invalid_password" = "有効なパスワードを少なくとも%d文字入力してください。";
 "sign_up_send_error_invalid_username" = "有効な名前を、少なくとも%d文字入力してください。";
 "sign_up_title" = "登録";
 "sign_up_username_field_hint" = "フルネーム";
