@@ -129,9 +129,9 @@
 "product_delete_send_error_generic" = "Oops! Vi kunne ikke slette produktet ditt. Vennligst prøv igjen.";
 "product_delete_sold_confirm_message" = "Er du sikker på at du vil slette dette produktet?";
 "product_delete_success_message" = "Sletting av ditt produkt var vellykket.";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "%@ fra deg";
 "product_distance_from_you" = "fra deg";
-"product_distance_more_than_from_you" = "More than %@ from you";
+"product_distance_more_than_from_you" = "Mer enn %@ fra deg";
 "product_gallery_title" = "Bilder";
 "product_list_item_new_status_label" = "NY";
 "product_list_item_sold_status_label" = "SOLGT";

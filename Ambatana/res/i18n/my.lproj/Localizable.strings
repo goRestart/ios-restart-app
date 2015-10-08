@@ -129,9 +129,9 @@
 "product_delete_send_error_generic" = "မှားပါတယ်၊ ကျွန်ုပ်တို့သည် သင့်ထုတ်ကုန်ကိုမဖျက်ပစ်နိုင်ပါ။ ကျေးဇူးပြုပြီး ပြန်ကြိုးစားပါ။";
 "product_delete_sold_confirm_message" = "သင်သည် ထိုထုတ်ကုန်ကို ဖျက်ချင်သည်မှာ သေချာပါသလား။";
 "product_delete_success_message" = "သင့်ထုတ်ကုန်ကို အောင်မြင်စွာ ပယ်ဖျက်ခဲ့သည်။";
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_X_from_you" = "သင့်ထံမှ %@";
 "product_distance_from_you" = "သင့်ထံမှ";
-"product_distance_more_than_from_you" = "More than %@ from you";
+"product_distance_more_than_from_you" = "သင်ထံမှ %@ ထက်ပို";
 "product_gallery_title" = "ဓါတ်ပုံများ";
 "product_list_item_new_status_label" = "အသစ်";
 "product_list_item_sold_status_label" = "ရောင်းပြီး";

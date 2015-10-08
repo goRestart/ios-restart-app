@@ -320,7 +320,7 @@
 "main_sign_up_already_registered_label" = "Already registered?";
 
 // Main sign up claim label. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_claim_label" = "Start to sell and buy— by chat!";
+"main_sign_up_claim_label" = "Start to sell and buy—by chat!";
 
 // Main sign up contact us button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_contact_us_button" = "Need help?";
@@ -569,7 +569,7 @@
 "reset_password_send_error_user_not_found_or_wrong_password" = "Email address not found.";
 
 // Reset password send ok. Check image @ "reset_password_send_error_generic" segment
-"reset_password_send_ok" = "Check your inbox and follow the password reset instructions.";
+"reset_password_send_ok" = "We've sent you an email! Click the link in the email to reset your password.";
 
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset Password";
@@ -753,3 +753,4 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
+
