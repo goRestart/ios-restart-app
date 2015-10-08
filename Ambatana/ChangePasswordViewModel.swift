@@ -80,7 +80,10 @@ public class ChangePasswordViewModel: BaseViewModel {
     }
     
     public func isValidPassword() -> Bool {
-        if count(password) < Constants.passwordMinLength || count(confirmPassword) < Constants.passwordMinLength { // min length not fulfilled
+        if count(password) < Constants.passwordMinLength ||
+            count(password) < Constants.passwordMaxLength ||
+            count(confirmPassword) < Constants.passwordMinLength ||
+            count(confirmPassword) < Constants.passwordMaxLength { // min or max length not fulfilled
             return false
         }
         return true

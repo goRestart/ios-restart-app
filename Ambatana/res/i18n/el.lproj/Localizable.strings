@@ -22,6 +22,7 @@
 "change_password_new_password_field_hint" = "Νέος Κωδικός Πρόσβασης";
 "change_password_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αλλαγή του κωδικού πρόσβασης! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "change_password_send_error_invalid_password" = "Παρακαλώ εισάγετε έναν έγκυρο κωδικό πρόσβασης, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
+"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "change_password_send_error_passwords_mismatch" = "Οι κωδικοί πρόσβασης δεν ταιριάζουν! Παρακαλώ προσπαθήστε ξανά.";
 "change_password_send_ok" = "Ο κωδικός πρόσβασης άλλαξε επιτυχώς!";
 "change_password_title" = "Αλλαγή κωδικού πρόσβασης";
@@ -136,10 +137,8 @@
 "product_list_item_new_status_label" = "ΝΕΟ";
 "product_list_item_sold_status_label" = "ΠΩΛΗΘΗΚΕ";
 "product_list_location_disabled_go_to_indicate_location_label" = "Όπα! Η τοποθεσία σου είναι απενεργοποιημένη. Ενεργοποίησε την και δες τις καλύτερες προσφορές κοντά σου!";
-"product_list_no_products_button" = "Επαναφόρτωση Προϊόντων";
-"product_list_no_products_label" = "Δεν υπάρχουν αντικείμενα στη γειτονιά σου. Γίνε ο πρώτος που θα ξεκινήσει να πουλάει!";
-"product_list_search_no_products_button" = "Επαναφόρτωση Προϊόντων";
-"product_list_search_no_products_label" = "Δε βρέθηκαν προϊόντα!";
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+"product_list_no_products_title" = "CITY UNLOCKED!";
 "product_location_title" = "Τοποθεσία";
 "product_make_an_offer_button" = "Κάνε Προσφορά";
 "product_mark_as_sold_button" = "Μάρκαρε ότι πωλήθηκε";
@@ -159,6 +158,8 @@
 "product_reported_success_message" = "Η αναφορά προϊόντος πραγματοποιήθηκε επιτυχώς. Ευχαριστούμε!";
 "product_reporting_loading_message" = "Αναφορά Προϊόντος...";
 "product_reporting_product_label" = "Αναφορά Προϊόντος...";
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
 "product_share_body" = "Δες τι βρήκα στο letgo!";
 "product_share_email_error" = "Ooops! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_whatsapp_error" = "Ουπς! Φαίνεται πως δεν έχει γίνει εγκατάσταση της εφαρμογής WhatsApp.";
@@ -246,6 +247,7 @@
 "sign_up_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά τη δημιουργία χρήστη!";
 "sign_up_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
 "sign_up_send_error_invalid_password" = "Παρακαλώ εισάγετε έναν έγκυρο κωδικό πρόσβασης, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
+"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "sign_up_send_error_invalid_username" = "Παρακαλώ εισάγετε έγκυρο όνομα, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
 "sign_up_title" = "Εγγραφή";
 "sign_up_username_field_hint" = "Ονοματεπώνυμο";

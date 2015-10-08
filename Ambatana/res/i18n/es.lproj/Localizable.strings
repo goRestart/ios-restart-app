@@ -22,6 +22,7 @@
 "change_password_new_password_field_hint" = "Nueva contraseña";
 "change_password_send_error_generic" = "¡Ups! Ha habido un error al cambiar la contraseña. Prueba otra vez.";
 "change_password_send_error_invalid_password" = "¡Ups! Introduce una contraseña válida, debe tener al menos %d caracteres.";
+"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "change_password_send_error_passwords_mismatch" = "¡Ups! La contraseña no coincide. Prueba otra vez.";
 "change_password_send_ok" = "Has cambiado con éxito la contraseña.";
 "change_password_title" = "Cambiar contraseña";
@@ -136,10 +137,8 @@
 "product_list_item_new_status_label" = "NUEVO";
 "product_list_item_sold_status_label" = "VENDIDO";
 "product_list_location_disabled_go_to_indicate_location_label" = "¡Ups! Tu ubicación está desactivada. Elige tu ubicación para ver las mejores ofertas cerca de ti!";
-"product_list_no_products_button" = "Actualizar listado de artículos";
-"product_list_no_products_label" = "No hay artículos en tu zona. ¡Sé el primero en empezar a vender!";
-"product_list_search_no_products_button" = "Actualizar listado de artículos";
-"product_list_search_no_products_label" = "¡Ups! No hemos encontrado el artículo que buscas";
+"product_list_no_products_body" = "Eres el primer explorador de esta ciudad. ¡Bienvenido!";
+"product_list_no_products_title" = "¡CIUDAD DESBLOQUEADA!";
 "product_location_title" = "Ubicación";
 "product_make_an_offer_button" = "Haz tu oferta";
 "product_mark_as_sold_button" = "Marcar como vendido";
@@ -159,6 +158,8 @@
 "product_reported_success_message" = "El artículo fue denunciado con éxito. ¡Gracias!";
 "product_reporting_loading_message" = "Denunciando el artículo...";
 "product_reporting_product_label" = "Denunciando el artículo...";
+"product_search_no_products_body" = "Pero no hay productos que se correspondan con tu búsqueda. Vuelve a intentarlo pronto, ¡hay productos nuevos cada día!";
+"product_search_no_products_title" = "HEMOS BUSCADO Y BUSCADO...";
 "product_share_body" = "¡Mira lo que he encontrado en letgo!";
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado un email en este dispositivo.";
 "product_share_whatsapp_error" = "Oops, parece que no has instalado la aplicación de WhatsApp.";
@@ -246,6 +247,7 @@
 "sign_up_send_error_generic" = "¡Ups! Ha habido un error al crear tu cuenta.";
 "sign_up_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
 "sign_up_send_error_invalid_password" = "¡Ups! Introduce una contraseña válida, debe tener al menos %d caracteres.";
+"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "sign_up_send_error_invalid_username" = "¡Ups! Introduce un nombre válido, debe tener al menos %d caracteres.";
 "sign_up_title" = "Regístrate";
 "sign_up_username_field_hint" = "Nombre y apellido";
