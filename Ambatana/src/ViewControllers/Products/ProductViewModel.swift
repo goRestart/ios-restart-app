@@ -50,9 +50,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var descr: String {
         return product.descr ?? ""
     }
-    public var distance: String {
-        return product.formattedDistance()
-    }
     public var addressIconVisible: Bool {
         return !address.isEmpty
     }

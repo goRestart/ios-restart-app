@@ -18,7 +18,6 @@ class MockProduct: MockBaseModel, Product {
     
     var location: LGLocationCoordinates2D?
     var distance: NSNumber?
-    var distanceType: DistanceType
     
     var postalAddress: PostalAddress
     
@@ -45,7 +44,6 @@ class MockProduct: MockBaseModel, Product {
         self.images = []
         self.postalAddress = PostalAddress()
         self.status = .Pending
-        self.distanceType = .Km
         super.init()
     }
     

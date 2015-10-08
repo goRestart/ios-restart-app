@@ -168,6 +168,7 @@ public class ProductListViewModel: BaseViewModel {
                 }
             }
         }
+        
         if isProfileList {
             productsManager.retrieveUserProductsWithParams(params, result: myResult)
         } else {
@@ -216,7 +217,46 @@ public class ProductListViewModel: BaseViewModel {
         }
         
     }
+    
+    
+    public func distanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
         
+        var meters = 0.0
+        
+        if let actualQueryCoords = retrieveProductsFirstPageParams.coordinates {
+            let queryLocation = CLLocation(latitude: actualQueryCoords.latitude, longitude: actualQueryCoords.longitude)
+            let productLocation = CLLocation(latitude: productCoords.latitude, longitude: productCoords.longitude)
+            
+            meters = queryLocation.distanceFromLocation(productLocation)
+        }
+        
+        let distanceType = queryDistanceType()
+        switch (distanceType) {
+        case .Km:
+            return meters * 0.001
+        case .Mi:
+            return meters * 0.000621371
+        }
+        
+    }
+    
+    public func queryDistanceType() -> DistanceType {
+        // if the query has distancetype we use the query distance type
+        var distanceType: DistanceType
+        if let queryDistanceType = retrieveProductsFirstPageParams.distanceType {
+            distanceType = queryDistanceType
+        }
+        // otherwise, we use whatever the locale says
+        else if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
+            distanceType = usesMetric ? .Km : .Mi
+        }
+        // fallback: km
+        else {
+            distanceType = DistanceType.Km
+        }
+        return distanceType
+    }
+    
     // MARK: > UI
     
     /**

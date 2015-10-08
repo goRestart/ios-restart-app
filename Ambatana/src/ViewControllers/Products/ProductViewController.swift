@@ -392,11 +392,18 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         view.layoutIfNeeded()
         productStatusLabel.sizeToFit()
         
-        productStatusLabel.preferredMaxLayoutWidth = productStatusLabel.frame.size.width + 30
+        var originX = 0.0
+        if productStatusLabel.frame.size.width >= 60 {
+            originX = -20.0
+        } else {
+            originX = -20.0 + Double((productStatusLabel.frame.size.width - 60)/2)
+        }
+        
+        productStatusLabel.preferredMaxLayoutWidth = max(60, productStatusLabel.frame.size.width) + 40 // min width = 100
         
         var size = CGSize(width: productStatusLabel.preferredMaxLayoutWidth, height: 36)
 
-        productStatusLabel.frame = CGRect(origin: CGPoint(x: -15.0, y: 0.0), size: size)
+        productStatusLabel.frame = CGRect(origin: CGPoint(x: originX, y: 0.0), size: size)
         view.layoutIfNeeded()
     }
     
@@ -413,8 +420,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         productStatusLabel.layer.masksToBounds = true
         
         productStatusShadow.layer.shadowColor = UIColor.blackColor().CGColor
-        productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
-        productStatusShadow.layer.shadowOpacity = 0.5
+        productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
+        productStatusShadow.layer.shadowOpacity = 0.24
         productStatusShadow.layer.shadowRadius = 8.0
 
         userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2

@@ -15,9 +15,6 @@
     public var currency: Currency?
     
     public var location: LGLocationCoordinates2D?
-    public var distance: NSNumber?
-    public var distanceType: DistanceType
-    
     public var postalAddress: PostalAddress
     
     public var languageCode: String?
@@ -41,7 +38,6 @@
         self.images = []
         self.postalAddress = PostalAddress()
         self.status = .Pending
-        self.distanceType = .Km
         super.init()
     }
     
@@ -58,16 +54,6 @@
         }
     }
     
-    public func formattedDistance() -> String {
-        if let actualDistance = distance {
-            let actualDistanceType = distanceType ?? LGCoreKitConstants.defaultDistanceType
-            return actualDistanceType.formatDistance(actualDistance.floatValue)
-        }
-        else {
-            return ""
-        }
-    }
-
     public func updateWithProduct(product: Product) {
         name = product.name
         descr = product.descr
@@ -116,6 +102,6 @@
 
 extension LGProduct: Printable {
     public var description: String {
-        return "name: \(name); descr: \(descr); price: \(price); currency: \(currency); location: \(location); distance: \(distance); distanceType: \(distanceType); postalAddress: \(postalAddress); languageCode: \(languageCode); categoryId: \(categoryId); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); descr: \(descr);reported: \(reported); favorited: \(favorited);"
+        return "name: \(name); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); categoryId: \(categoryId); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); descr: \(descr);reported: \(reported); favorited: \(favorited);"
     }
 }

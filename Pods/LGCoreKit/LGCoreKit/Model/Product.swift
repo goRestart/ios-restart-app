@@ -16,9 +16,6 @@ import UIKit
     var currency: Currency? { get set }
     
     var location: LGLocationCoordinates2D? { get set }
-    var distance: NSNumber? { get }
-    var distanceType: DistanceType { get }
-    
     var postalAddress: PostalAddress { get set }
     
     var languageCode: String? { get set }
@@ -36,6 +33,5 @@ import UIKit
     var favorited: NSNumber? { get set }
 
     func formattedPrice() -> String
-    func formattedDistance() -> String
     func updateWithProduct(product: Product)
 }

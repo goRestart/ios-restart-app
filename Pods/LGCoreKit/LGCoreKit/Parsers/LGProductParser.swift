@@ -28,7 +28,6 @@ public class LGProductParser {
     private static let countryCodeJSONKey = "country_code"
     private static let cityJSONKey = "city"
     private static let zipCodeJSONKey = "zip_code"
-    private static let distanceJSONKey = "distance"
     
     private static let languageCodeJSONKey = "language_code"
     private static let categoryIdJSONKey = "category_id"
@@ -108,15 +107,6 @@ public class LGProductParser {
             if let latitude = geo[LGProductParser.latJSONKey]?.double, let longitude = geo[LGProductParser.lngJSONKey]?.double {
                 product.location = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
             }
-            
-            if let distanceStr = geo[LGProductParser.distanceJSONKey]?.string {
-                product.distance = (distanceStr as NSString).doubleValue
-            }
-            else if let distance = geo[LGProductParser.distanceJSONKey]?.double {
-                product.distance = distance
-            }
-
-            product.distanceType = distanceType
             
             let postalAddress = PostalAddress()
             

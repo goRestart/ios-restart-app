@@ -137,30 +137,6 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
         }
     }
     
-    public static func fromString(string: String) -> DistanceType {
-        switch string {
-        case "ML", "Ml", "ml", "MI", "Mi", "mi":
-            return .Mi
-        case "KM", "Km", "km":
-            return .Km
-        default:
-            return .Km
-        }
-    }
-    
-    public func formatDistance(distance: Float) -> String {
-        var format: String
-        switch self {
-        case .Mi:
-            format = "%.1f mi"
-        case .Km:
-            format = "%.1f km"
-        default:
-            format = "%.1f mi"
-        }
-        return NSString(format: format, distance) as String
-    }
-    
     public var description: String { return "\(string)" }
 }
 
