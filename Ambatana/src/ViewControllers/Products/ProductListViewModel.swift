@@ -168,6 +168,7 @@ public class ProductListViewModel: BaseViewModel {
                 }
             }
         }
+        
         if isProfileList {
             productsManager.retrieveUserProductsWithParams(params, result: myResult)
         } else {
@@ -216,7 +217,31 @@ public class ProductListViewModel: BaseViewModel {
         }
         
     }
+    
+    
+    public func calculateDistanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
         
+        var meters = 0.0
+        
+        if let actualQueryCoords = retrieveProductsFirstPageParams.coordinates {
+            let queryLocation = CLLocation(latitude: actualQueryCoords.latitude, longitude: actualQueryCoords.longitude)
+            let productLocation = CLLocation(latitude: productCoords.latitude, longitude: productCoords.longitude)
+            
+            meters = queryLocation.distanceFromLocation(productLocation)
+        }
+        
+        if retrieveProductsFirstPageParams.distanceType == .Km {
+            return meters * 0.001
+        }
+        else {
+            return meters * 0.000621371
+        }
+    }
+    
+    public func queryDistanceType() -> DistanceType {
+        return retrieveProductsFirstPageParams.distanceType!
+    }
+    
     // MARK: > UI
     
     /**

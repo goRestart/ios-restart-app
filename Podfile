@@ -11,14 +11,14 @@ xcodeproj "LetGo.xcodeproj"
 pod "Parse",                "1.7.5.3"
 pod "SDWebImage"
 
-pod "FBSDKShareKit",        "~> 4.1"
+pod "FBSDKShareKit",        "4.6.0"
     
 # Tracking
 # pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
 pod "Amplitude-iOS",        "3.0.1"
     
 # letgo Core
-pod "LGCoreKit",            "0.14.6" # :path => "../letgo-ios-lgcorekit" #:path => "../LGCoreKit"
+pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit" #"0.14.6" # :path => "../LGCoreKit"
 
 # Networking (to be removed when migrating to LGCoreKit)
 pod "Alamofire",            "~> 1.2"

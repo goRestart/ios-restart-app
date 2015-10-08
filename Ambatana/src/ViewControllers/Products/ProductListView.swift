@@ -329,7 +329,9 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             
             let topProduct = productListViewModel.productAtIndex(lowerIndex)
             
-            if let distance = topProduct.distance?.floatValue {
+            if let productCoords = topProduct.location {
+                
+                let distance = Float(productListViewModel.calculateDistanceFromProductCoordinates(productCoords))
                 
                 // instance var max distance or MIN distance to avoid updating the label everytime
                 if scrollingDown && distance > maxDistance {
@@ -338,7 +340,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
                     maxDistance = distance
                 }
                 
-                delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: product.distanceType)
+                delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: productListViewModel.queryDistanceType())
             }
         }
         
