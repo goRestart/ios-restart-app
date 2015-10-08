@@ -70,6 +70,9 @@
 // Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters.";
 
+// Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
+"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+
 // Change password send error passwords mismatch. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_passwords_mismatch" = "Passwords don't match. Please try again.";
 
@@ -412,17 +415,11 @@
 // Product list location disabled go to indicate location label.
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Enable location to see the best offers nearby!";
 
-// Product list no products button
-"product_list_no_products_button" = "Reload products";
+// <strong>SEE SCREENSHOT</strong> Product list no products title.
+"product_list_no_products_title" = "CITY UNLOCKED!";
 
-// Product list no products label
-"product_list_no_products_label" = "There are no products in your neighborhood. Be the first to start selling!";
-
-// Product list search no products button
-"product_list_search_no_products_button" = "Reload products";
-
-// Product list search no products label
-"product_list_search_no_products_label" = "No products found";
+// Product list no products body.
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
 
 // Product location title. Check attached image "product_location.png"
 "product_location_title" = "Location";
@@ -480,6 +477,12 @@
 
 // Product reported fail message. Message displayal is like the other dialog messages
 "product_reported_error_generic" = "An error occurred while reporting the product. Please try again later.";
+
+// Product search no products title.
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
+
+// Product search no products body.
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
 
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
@@ -741,6 +744,9 @@
 
 // Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_password" = "Please insert a valid password. It must be at least %d characters long.";
+
+// Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 
 // Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";

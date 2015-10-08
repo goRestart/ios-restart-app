@@ -69,7 +69,7 @@ public class SignUpViewModel: BaseViewModel {
         else if !email.isEmail() {
             delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidEmail))
         }
-        else if count(password) < Constants.passwordMinLength {
+        else if count(password) < Constants.passwordMinLength || count(password) > Constants.passwordMaxLength {
             delegate?.viewModel(self, didFinishSigningUpWithResult: Result<Nil, UserSignUpServiceError>.failure(.InvalidPassword))
         }
         else {
