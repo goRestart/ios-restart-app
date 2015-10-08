@@ -307,7 +307,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let product = productListViewModel.productAtIndex(indexPath.row)
+        let product = productListViewModel.productAtIndex(indexPath.item)
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
         cell.tag = indexPath.hash
@@ -315,27 +315,36 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         // TODO: VC should not handle data -> ask to VM about title etc etc...
         cell.setupCellWithProduct(product, indexPath: indexPath)
         
-        productListViewModel.setCurrentItemIndex(indexPath.row)
-        
-        if let distance = product.distance?.floatValue {
-        
-            // the first item will ALWAYS set the 1st distance to show
-            if indexPath.item == 0 {
-                maxDistance = distance
+        productListViewModel.setCurrentItemIndex(indexPath.item)
+
+        if !collectionView.indexPathsForVisibleItems().isEmpty {
+            
+            // show distance of the FIRST VISIBLE cell, must loop bc "indexPathsForVisibleItems" gives an unordered array
+            var lowerIndex = indexPath.item
+            for index in collectionView.indexPathsForVisibleItems() {
+                if index.item < lowerIndex {
+                    lowerIndex = index.item
+                }
             }
             
-            // instance var max distance or MIN distance to avoid updating the label everytime
-            if scrollingDown && distance > maxDistance {
-                maxDistance = distance
-            } else if !scrollingDown && distance < maxDistance {
-                maxDistance = distance
-            }
+            let topProduct = productListViewModel.productAtIndex(lowerIndex)
             
-            delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: product.distanceType)
+            if let distance = topProduct.distance?.floatValue {
+                
+                // instance var max distance or MIN distance to avoid updating the label everytime
+                if scrollingDown && distance > maxDistance {
+                    maxDistance = distance
+                } else if !scrollingDown && distance < maxDistance {
+                    maxDistance = distance
+                }
+                
+                delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: product.distanceType)
+            }
         }
         
         return cell
     }
+    
     
     // MARK: - UICollectionViewDelegate
     
