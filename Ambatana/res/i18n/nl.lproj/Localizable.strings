@@ -105,7 +105,7 @@
 "log_in_send_button" = "Inloggen";
 "log_in_title" = "Inloggen";
 "main_sign_up_already_registered_label" = "Al geregistreerd?";
-"main_sign_up_claim_label" = "Start met verkopen, kopen en chatten";
+"main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
 "main_sign_up_contact_us_button" = "Hulp nodig?";
 "main_sign_up_facebook_connect_button" = "Verbind met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Niet in staat om in te loggen, jouw e-mailadres is al geregistreerd bij Facebook. Probeer a.u.b. om in te loggen.";
@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "NIEUW";
 "product_list_item_sold_status_label" = "VERKOCHT";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oeps! Jouw locatie is uitgeschakeld. Stel jouw locatie in om de beste aanbiedingen in jouw omgeving te zien!";
-"product_list_no_products_button" = "Herladen producten";
-"product_list_no_products_label" = "Er zijn geen items in jouw buurt. Ben de eerste om iets te verkopen.";
-"product_list_search_no_products_button" = "Herladen producten";
-"product_list_search_no_products_label" = "Geen producten gevonden";
+"product_list_no_products_body" = "Jij bent de eerste verkenner van jouw stad. Welkom!";
+"product_list_no_products_title" = "STAD ONTGRENDELD!";
 "product_location_title" = "Plaats";
 "product_make_an_offer_button" = "Doe een bod";
 "product_mark_as_sold_button" = "Markeer als verkocht";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "Het product werd succesvol gerapporteerd. Bedankt!";
 "product_reporting_loading_message" = "Rapporteren van product...";
 "product_reporting_product_label" = "Rapporteren van product.";
+"product_search_no_products_body" = "Maar geen producten voldoen aan jouw zoekopdracht. Probeer het binnenkort opnieuw, er worden elke dag nieuwe items geplaatst!";
+"product_search_no_products_title" = "We hebben gezocht en gezocht...";
 "product_share_body" = "Kijk wat ik net gevonden heb bij Letgo!";
 "product_share_email_error" = "Oeps, het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_whatsapp_error" = "Oeps, het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";
@@ -171,7 +171,7 @@
 "profile_favourites_my_user_no_products_subtitle_label" = "Waar wacht je nog op?";
 "profile_favourites_other_user_no_products_label" = "Deze gebruiker heeft nog steeds geen gepubliceerd of favoriet product.";
 "profile_favourites_products_tab" = "Favorieten";
-"profile_no_products" = "Er zijn geen items in deze sectie";
+"profile_no_products" = "Er zijn (nog) geen items in deze sectie";
 "profile_selling_products_tab" = "Verkopen";
 "profile_sold_products_tab" = "Verkocht";
 "push_notification_message_body" = "%@:%@";
@@ -188,7 +188,7 @@
 "reset_password_send_error_generic" = "Er is een fout opgetreden bij het ophalen van jouw wachtwoord.";
 "reset_password_send_error_invalid_email" = "Gelieve, een geldig e-mailadres in te voeren in het gebruikers tekstveld.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-mailadres is niet gevonden.";
-"reset_password_send_ok" = "Controleer uw inbox en volg de wachtwoord reset instructies.";
+"reset_password_send_ok" = "We hebben je een e-mail gestuurd! Klik op de link in de e-mail om je wachtwoord te resetten.";
 "reset_password_title" = "Reset wachtwoord";
 "sell_category_selection_label" = "Kies een categorie";
 "sell_choose_category_dialog_cancel_button" = "Annuleren";

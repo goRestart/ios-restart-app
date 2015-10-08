@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "NY";
 "product_list_item_sold_status_label" = "SOLGT";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Din plassering er avskrudd. Benytt plassering for å kunne se de beste tilbudene i ditt nærområde!";
-"product_list_no_products_button" = "Oppdater produkter";
-"product_list_no_products_label" = "Det er ingen produkter i ditt nærområde. Bli den første til å selge.";
-"product_list_search_no_products_button" = "Oppdater produkter";
-"product_list_search_no_products_label" = "Ingen produkter ble funnet";
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+"product_list_no_products_title" = "CITY UNLOCKED!";
 "product_location_title" = "Sted";
 "product_make_an_offer_button" = "Legg inn bud";
 "product_mark_as_sold_button" = "Merk som solgt";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "Rapportering av produkt var vellykket. Takk!";
 "product_reporting_loading_message" = "Rapporterer produktet…";
 "product_reporting_product_label" = "Rapporterer produktet…";
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
 "product_share_body" = "Se hva jeg fant på letgo!";
 "product_share_email_error" = "Oops, det ser ut som at du ikke har satt opp en konto i din Epost app.";
 "product_share_whatsapp_error" = "Oops, det ser du som ut ikke har installert WhatsApp.";

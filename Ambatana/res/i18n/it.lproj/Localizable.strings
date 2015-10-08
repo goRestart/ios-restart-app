@@ -105,7 +105,7 @@
 "log_in_send_button" = "Accedi";
 "log_in_title" = "Accedi";
 "main_sign_up_already_registered_label" = "Già registrato?";
-"main_sign_up_claim_label" = "Inizia a vendere, compra e chatta";
+"main_sign_up_claim_label" = "Inizia a vendere e comprare, chattando!";
 "main_sign_up_contact_us_button" = "Bisogno di Aiuto?";
 "main_sign_up_facebook_connect_button" = "Accedi con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Impossibile effettuare l'accesso, il tuo indirizzo email è già registrato su Facebook. Riprova ad effettuare l'accesso.";
@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "NUOVO";
 "product_list_item_sold_status_label" = "VENDUTO";
 "product_list_location_disabled_go_to_indicate_location_label" = "Ops! La tua posizione non è attiva. Imposta la tua posizione per visualizzare le migliori offerte nelle vicinanze!";
-"product_list_no_products_button" = "Ricarica prodotti";
-"product_list_no_products_label" = "Non sono presenti articoli nel tuo quartiere. Inizia a vendere per primo.";
-"product_list_search_no_products_button" = "Ricarica prodotti";
-"product_list_search_no_products_label" = "Nessun prodotto trovato";
+"product_list_no_products_body" = "Sei il primo esploratore della tua città. Benvenuto!";
+"product_list_no_products_title" = "CITTÀ SBLOCCATA!";
 "product_location_title" = "Posizione";
 "product_make_an_offer_button" = "Fai un'Offerta";
 "product_mark_as_sold_button" = "Segna come venduto";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "Il prodotto è stato segnalato con successo. Grazie!";
 "product_reporting_loading_message" = "Segnalazione Prodotto...";
 "product_reporting_product_label" = "Segnalazione Prodotto...";
+"product_search_no_products_body" = "Ma nessun prodotto corrisponde alla tua ricerca. Riprova più tardi, nuovi articoli vengono pubblicati ogni giorno!";
+"product_search_no_products_title" = "ABBIAMO CERCATO E RICERCATO...";
 "product_share_body" = "Guarda cosa ho appena trovato su letgo!";
 "product_share_email_error" = "Oops, sembra che tu non abbia impostato un account nella app di Posta.";
 "product_share_whatsapp_error" = "Ops, sembra che tu non abbia installato l'app WhatsApp.";
@@ -171,7 +171,7 @@
 "profile_favourites_my_user_no_products_subtitle_label" = "Cosa stai aspettando?";
 "profile_favourites_other_user_no_products_label" = "Questo utente non ha ancora nessun prodotto preferito o pubblicato.";
 "profile_favourites_products_tab" = "Preferiti";
-"profile_no_products" = "Non ci sono articoli in questa sezione";
+"profile_no_products" = "Non ci sono prodotti in questa sezione (ancora!)";
 "profile_selling_products_tab" = "In vendita";
 "profile_sold_products_tab" = "Venduto";
 "push_notification_message_body" = "%@: %@";
@@ -188,7 +188,7 @@
 "reset_password_send_error_generic" = "Si è verificato un errore durante il tentativo di recupero della tua password.";
 "reset_password_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Indirizzo email non trovato.";
-"reset_password_send_ok" = "Controlla la tua casella di posta e segui le istruzioni per reimpostare la password.";
+"reset_password_send_ok" = "Ti abbiamo inviato un'email! Clicca sul link all'interno dell'email per ripristinare la tua password.";
 "reset_password_title" = "Reimposta Password";
 "sell_category_selection_label" = "Scegli una categoria";
 "sell_choose_category_dialog_cancel_button" = "Annulla";

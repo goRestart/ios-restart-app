@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "ΝΕΟ";
 "product_list_item_sold_status_label" = "ΠΩΛΗΘΗΚΕ";
 "product_list_location_disabled_go_to_indicate_location_label" = "Όπα! Η τοποθεσία σου είναι απενεργοποιημένη. Ενεργοποίησε την και δες τις καλύτερες προσφορές κοντά σου!";
-"product_list_no_products_button" = "Επαναφόρτωση Προϊόντων";
-"product_list_no_products_label" = "Δεν υπάρχουν αντικείμενα στη γειτονιά σου. Γίνε ο πρώτος που θα ξεκινήσει να πουλάει!";
-"product_list_search_no_products_button" = "Επαναφόρτωση Προϊόντων";
-"product_list_search_no_products_label" = "Δε βρέθηκαν προϊόντα!";
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+"product_list_no_products_title" = "CITY UNLOCKED!";
 "product_location_title" = "Τοποθεσία";
 "product_make_an_offer_button" = "Κάνε Προσφορά";
 "product_mark_as_sold_button" = "Μάρκαρε ότι πωλήθηκε";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "Η αναφορά προϊόντος πραγματοποιήθηκε επιτυχώς. Ευχαριστούμε!";
 "product_reporting_loading_message" = "Αναφορά Προϊόντος...";
 "product_reporting_product_label" = "Αναφορά Προϊόντος...";
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
 "product_share_body" = "Δες τι βρήκα στο letgo!";
 "product_share_email_error" = "Ooops! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_whatsapp_error" = "Ουπς! Φαίνεται πως δεν έχει γίνει εγκατάσταση της εφαρμογής WhatsApp.";

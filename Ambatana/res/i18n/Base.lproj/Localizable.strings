@@ -412,17 +412,11 @@
 // Product list location disabled go to indicate location label.
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Enable location to see the best offers nearby!";
 
-// Product list no products button
-"product_list_no_products_button" = "Reload products";
+// <strong>SEE SCREENSHOT</strong> Product list no products title.
+"product_list_no_products_title" = "CITY UNLOCKED!";
 
-// Product list no products label
-"product_list_no_products_label" = "There are no products in your neighborhood. Be the first to start selling!";
-
-// Product list search no products button
-"product_list_search_no_products_button" = "Reload products";
-
-// Product list search no products label
-"product_list_search_no_products_label" = "No products found";
+// Product list no products body.
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
 
 // Product location title. Check attached image "product_location.png"
 "product_location_title" = "Location";
@@ -480,6 +474,12 @@
 
 // Product reported fail message. Message displayal is like the other dialog messages
 "product_reported_error_generic" = "An error occurred while reporting the product. Please try again later.";
+
+// Product search no products title.
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
+
+// Product search no products body.
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
 
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";

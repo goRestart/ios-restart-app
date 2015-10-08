@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "ÚJ";
 "product_list_item_sold_status_label" = "ELADVA";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hoppá! A helyadatok le vannak tiltva. Engedélyezd, hogy láthasd a közeli ajánlatokat!";
-"product_list_no_products_button" = "Portékák újratöltése";
-"product_list_no_products_label" = "Nincsenek portékák a környékeden. Kezdj árulni elsőként!";
-"product_list_search_no_products_button" = "Portékák újratöltése";
-"product_list_search_no_products_label" = "Nem találhatóak portékák";
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+"product_list_no_products_title" = "CITY UNLOCKED!";
 "product_location_title" = "Tartózkodási hely";
 "product_make_an_offer_button" = "Ajánlatot teszek";
 "product_mark_as_sold_button" = "Megjelölés eladottként";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "A portéka sikeresen jelentve. Köszönjük!";
 "product_reporting_loading_message" = "Portéka jelentése...";
 "product_reporting_product_label" = "Portéka jelentése...";
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
 "product_share_body" = "Nézzétek, mit találtam a letgo-n!";
 "product_share_email_error" = "Hopp, úgy tűnik, hogy nem állítottál be fiókot a Mail appban.";
 "product_share_whatsapp_error" = "Hopp, úgy tűnik, hogy még nem telepítetted a WhatsApp alkalmazást.";
@@ -218,7 +218,7 @@
 "sell_send_error_sharing_facebook" = "Hiba történt a Facebook-megosztás során. Kérjük, próbálkozz újra később.";
 "sell_send_error_sharing_facebook_cancelled" = "Felhasználói megszakítás.";
 "sell_send_error_uploading_picture" = "Hiba történt a portéka regisztrálása során. A kép feltöltése sikertelen. Kérjük, próbálkozz újra.";
-"sell_send_error_uploading_product" = "Hiba történt a portéka regisztrálása során. ";
+"sell_send_error_uploading_product" = "Hiba történt a portéka regisztrálása során.";
 "sell_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
 "sell_share_fb_content" = "Nézzétek, mit árulok a letgo-n!";
 "sell_share_on_facebook_label" = "Portékám megosztása a Facebookon";

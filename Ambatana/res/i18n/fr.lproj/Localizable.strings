@@ -9,7 +9,7 @@
 "categories_title" = "Catégories";
 "change_location_apply_button" = "Confirmer";
 "change_location_approximate_location_label" = "Afficher l'adresse approximative";
-"change_location_ask_update_location_message" = "Trouver des affaires près de chez vous ! Souhaitez-vous éditer votre localisation ?";
+"change_location_ask_update_location_message" = "Trouvez des affaires près de chez vous ! Souhaitez-vous actualiser votre localisation ?";
 "change_location_ask_update_location_title" = "Changer de localisation";
 "change_location_confirm_update_button" = "Mettre à jour";
 "change_location_error_search_location_message" = "Je n'ai pas trouvé ce lieu. Veuillez réessayer.";
@@ -105,7 +105,7 @@
 "log_in_send_button" = "Se Connecter";
 "log_in_title" = "Se Connecter";
 "main_sign_up_already_registered_label" = "Déjà enregistré ?";
-"main_sign_up_claim_label" = "Commencez à vendre, acheter et chatter.";
+"main_sign_up_claim_label" = "Commencez à vendre et acheter - en chattant !";
 "main_sign_up_contact_us_button" = "Besoin d'Aide ?";
 "main_sign_up_facebook_connect_button" = "Se Connecter avec Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Impossible de se connecter, votre adresse email dans Facebook est déjà utilisée. Veuillez essayer de vous connecter.";
@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "NOUVEAU";
 "product_list_item_sold_status_label" = "VENDU";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops ! Votre localisation est désactivée. Paramétrez-là pour voir les biens près de chez vous !";
-"product_list_no_products_button" = "Recharger les biens";
-"product_list_no_products_label" = "Il n'y a aucun bien à proximité. Soyez le premier à vendre.";
-"product_list_search_no_products_button" = "Recharger les biens";
-"product_list_search_no_products_label" = "Aucun bien trouvé";
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+"product_list_no_products_title" = "CITY UNLOCKED!";
 "product_location_title" = "Localisation";
 "product_make_an_offer_button" = "Faire une offre";
 "product_mark_as_sold_button" = "Marquer comme vendu";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "Ce bien a été signalé avec succès. Merci !";
 "product_reporting_loading_message" = "Signalement du produit...";
 "product_reporting_product_label" = "Signalement du produit...";
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_whatsapp_error" = "Oops, il semble que vous n'avez pas installé l'application WhatsApp.";
@@ -188,7 +188,7 @@
 "reset_password_send_error_generic" = "Une erreur est survenue lors de la sauvegarde de votre mot de passe.";
 "reset_password_send_error_invalid_email" = "Veuillez insérer un email valide dans le champ email.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Adresse email non trouvée.";
-"reset_password_send_ok" = "Vérifiez votre boite de réception et suivez les instructions de réinitialisation du mot de passe.";
+"reset_password_send_ok" = "Nous vous avons envoyé un email ! Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
 "reset_password_title" = "Réinitialiser le mot de passe";
 "sell_category_selection_label" = "Choisissez une catégorie";
 "sell_choose_category_dialog_cancel_button" = "Annuler";

@@ -109,6 +109,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
                 errorView.backgroundColor = errBgColor
                 errorContentView.layer.borderColor = errBorderColor?.CGColor
                 errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
+                errorContentView.layer.cornerRadius = 4
                 
                 errorImageView.image = errImage
                 // > If there's no image then hide it

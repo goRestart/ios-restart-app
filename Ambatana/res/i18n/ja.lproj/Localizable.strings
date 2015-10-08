@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "新着";
 "product_list_item_sold_status_label" = "売却済み";
 "product_list_location_disabled_go_to_indicate_location_label" = "位置情報はオフになっています。近くで、最適な商品を見つけるには位置情報を設定してください。";
-"product_list_no_products_button" = "製品の再読み込み";
-"product_list_no_products_label" = "あなたの近所に商品はありません。先にに販売をはじめましょう。";
-"product_list_search_no_products_button" = "商品再読み込み";
-"product_list_search_no_products_label" = "商品がありません。";
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+"product_list_no_products_title" = "CITY UNLOCKED!";
 "product_location_title" = "位置情報";
 "product_make_an_offer_button" = "購入する";
 "product_mark_as_sold_button" = "売却済にする";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "商品は無事に報告されました。";
 "product_reporting_loading_message" = "商品報告中…";
 "product_reporting_product_label" = "商品報告中…";
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
 "product_share_body" = "Letogoで見つけたので見て！";
 "product_share_email_error" = "メールアプリのアカウントが設定されていないようです。";
 "product_share_whatsapp_error" = "残念ですが、WhatsAppがインストールされていないようです。";

@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "အသစ်";
 "product_list_item_sold_status_label" = "ရောင်းပြီး";
 "product_list_location_disabled_go_to_indicate_location_label" = "မှားပါတယ်။ သင့်တည်နေရာသည် ပိတ်ထားပါတယ်။ အနီးနားရှိ အကောင်းဆုံးကမ်းလှမ်းချက်များကို ကြည့်ရန် သင့်တည်နေရာကို သတ်မှတ်ပါ။";
-"product_list_no_products_button" = "ထုတ်ကုန်များပြန်တင်ပါ";
-"product_list_no_products_label" = "သင့်အနီးနားတွင် အိုက်တမ်များမရှိပါ။ ရောင်းချခြင်းစတင်ရန် အရင်ဆုံးဖြစ်ပါစေ။";
-"product_list_search_no_products_button" = "ထုတ်ကုန်များပြန်တင်ပါ";
-"product_list_search_no_products_label" = "ထုတ်ကုန်များမတွေ့ပါ";
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+"product_list_no_products_title" = "CITY UNLOCKED!";
 "product_location_title" = "တည်နေရာ";
 "product_make_an_offer_button" = "အမှာစာတစ်ခုပြုလုပ်ပါ";
 "product_mark_as_sold_button" = "ရောင်းပြီးသားအနေဖြင့် မှတ်သားပါ";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "ထုတ်ကုန်ကို အောင်မြင်စွာ အစီရင်ခံပြီးပါပြီ။ ကျေးဇူးပါ!";
 "product_reporting_loading_message" = "ထုတ်ကုန်ကို အစီရင်ခံခြင်း...";
 "product_reporting_product_label" = "ထုတ်ကုန်ကို အစီရင်ခံခြင်း...";
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
 "product_share_body" = "letgo တွင် ကျွန်ုပ်တွေ့ခဲ့သည့် အရာကိုကြည့်ပါ။";
 "product_share_email_error" = "မှားပါတယ်၊ ဒါက သင်သည် မေးလ်ပရိုဂရမ်တွင် အကောင့်မသတ်မှတ်ရသေးဟန် ရှိပါတယ်။";
 "product_share_whatsapp_error" = "အိုး၊ မှားပါတယ်၊ WhatsApp အက်ပ်ကို သင် အင်စတောမလုပ်သေးဘူးထင်တယ်။";

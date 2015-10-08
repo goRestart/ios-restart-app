@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "UUTUUS";
 "product_list_item_sold_status_label" = "MYYTY";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hups! Sijaintitietosi on pois päältä. Aseta sijaintisi, jotta näet parhaat tarjoukset lähelläsi!";
-"product_list_no_products_button" = "Lataa tuotteet uudelleen";
-"product_list_no_products_label" = "Asuinalueellasi ei ole tuotteita. Ole ensimmäinen, joka aloittaa myymisen.";
-"product_list_search_no_products_button" = "Lataa tuotteet uudelleen";
-"product_list_search_no_products_label" = "Tuotteita ei löytynyt";
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+"product_list_no_products_title" = "CITY UNLOCKED!";
 "product_location_title" = "Sijainti";
 "product_make_an_offer_button" = "Tee tarjous";
 "product_mark_as_sold_button" = "Merkitse myydyksi";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "Tuote ilmiannettiin onnistuneesti. Kiitos!";
 "product_reporting_loading_message" = "Ilmiannetaan tuotetta...";
 "product_reporting_product_label" = "Ilmiannetaan tuotetta…";
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
 "product_share_body" = "Katso mitä juuri löysin letgosta!";
 "product_share_email_error" = "Ups, näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
 "product_share_whatsapp_error" = "Hups, vaikuttaa siltä että et ole asentanut WhatsApp-sovellusta.";

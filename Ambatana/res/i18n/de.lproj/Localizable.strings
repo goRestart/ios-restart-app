@@ -136,10 +136,8 @@
 "product_list_item_new_status_label" = "NEU";
 "product_list_item_sold_status_label" = "VERKAUFT";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hoppla! Dein Standort ist nicht eingestellt. Stelle ihn ein, um die besten Angebote in deiner Umgebung zu sehen!";
-"product_list_no_products_button" = "Produkte neu laden";
-"product_list_no_products_label" = "Es gibt keine Angebote in deiner Nachbarschaft. Sei der Erste, der verkauft.";
-"product_list_search_no_products_button" = "Produkte neu laden";
-"product_list_search_no_products_label" = "Keine Produkte gefunden";
+"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+"product_list_no_products_title" = "CITY UNLOCKED!";
 "product_location_title" = "Standort";
 "product_make_an_offer_button" = "Angebot machen";
 "product_mark_as_sold_button" = "Als verkauft markieren";
@@ -159,6 +157,8 @@
 "product_reported_success_message" = "Das Produkt wurde erfolgreich gemeldet. Danke!";
 "product_reporting_loading_message" = "Melde Produkt...";
 "product_reporting_product_label" = "Melde Produkt...";
+"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
 "product_share_body" = "Schau mal, was ich gerade auf letgo gefunden habe!";
 "product_share_email_error" = "Hoppla, du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_whatsapp_error" = "Hoppla, anscheinend hast du Whatsapp nicht installiert.";

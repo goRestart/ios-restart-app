@@ -29,26 +29,28 @@ public class MainProductListView: ProductListView {
 
         // If it's the first page with no results
         if page == 0 && !hasProducts {
-            let errBody: String?
-            let errButTitle: String?
-            let errButAction: (() -> Void)?
             
+            // Set the error state
+            let errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
+            let errBorderColor = StyleHelper.lineColor
+            let errImage: UIImage?
+            let errTitle: String?
+            let errBody: String?
+
             // Search
             if viewModel.queryString != nil {
-                errBody = NSLocalizedString("product_list_search_no_products_label", comment: "")
-                errButTitle = nil
-                errButAction = nil
+                errImage = UIImage(named: "err_search_no_products")
+                errTitle = NSLocalizedString("product_search_no_products_title", comment: "")
+                errBody = NSLocalizedString("product_search_no_products_body", comment: "")
             }
             // Listing
             else {
-                errBody = NSLocalizedString("product_list_no_products_label", comment: "")
-                errButTitle = NSLocalizedString("product_list_no_products_button", comment: "")
-                errButAction = {
-                    self.refresh()
-                }
+                errImage = UIImage(named: "err_list_no_products")
+                errTitle = NSLocalizedString("product_list_no_products_title", comment: "")
+                errBody = NSLocalizedString("product_list_no_products_body", comment: "")
             }
             
-            state = .ErrorView(errBgColor: nil, errBorderColor: nil, errImage: nil, errTitle: nil, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+            state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: nil, errButAction: nil)
             
             // Notify the delegate
             delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
