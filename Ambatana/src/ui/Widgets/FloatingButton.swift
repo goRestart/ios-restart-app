@@ -70,8 +70,8 @@ public class FloatingButton: UIButton {
         setImage(icon)
         
         layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
-        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
+        layer.shadowOpacity = 0.24
         layer.shadowRadius = 8.0
     }
 }

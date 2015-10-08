@@ -219,7 +219,7 @@ public class ProductListViewModel: BaseViewModel {
     }
     
     
-    public func calculateDistanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
+    public func distanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
         
         var meters = 0.0
         
@@ -230,16 +230,29 @@ public class ProductListViewModel: BaseViewModel {
             meters = queryLocation.distanceFromLocation(productLocation)
         }
         
-        if retrieveProductsFirstPageParams.distanceType == .Km {
-            return meters * 0.001
+        // initially will use Km, then if the query has distancetype we use the query distance type
+        // if it doesn't, we use whatever the locale says, but there should always be a query distance type
+        var actualDistanceType = DistanceType.Km
+        if let queryDistanceType = retrieveProductsFirstPageParams.distanceType {
+            actualDistanceType = queryDistanceType
+        } else {
+            // should never get in there
+            if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
+                actualDistanceType = usesMetric ? .Km : .Mi
+            }
         }
-        else {
+        
+        switch (actualDistanceType) {
+        case .Km:
+            return meters * 0.001
+        case .Mi:
             return meters * 0.000621371
         }
+        
     }
     
     public func queryDistanceType() -> DistanceType {
-        return retrieveProductsFirstPageParams.distanceType!
+        return retrieveProductsFirstPageParams.distanceType ?? DistanceType.Km
     }
     
     // MARK: > UI

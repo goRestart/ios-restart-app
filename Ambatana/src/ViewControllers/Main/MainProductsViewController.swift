@@ -71,7 +71,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         distanceShadow.layer.shadowColor = UIColor.blackColor().CGColor
         distanceShadow.layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
-        distanceShadow.layer.shadowOpacity = 0.5
+        distanceShadow.layer.shadowOpacity = 0.12
         distanceShadow.layer.shadowRadius = 8.0
         distanceShadow.hidden = true
         distanceShadow.alpha = 0

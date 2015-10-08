@@ -331,7 +331,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             
             if let productCoords = topProduct.location {
                 
-                let distance = Float(productListViewModel.calculateDistanceFromProductCoordinates(productCoords))
+                let distance = Float(productListViewModel.distanceFromProductCoordinates(productCoords))
                 
                 // instance var max distance or MIN distance to avoid updating the label everytime
                 if scrollingDown && distance > maxDistance {
