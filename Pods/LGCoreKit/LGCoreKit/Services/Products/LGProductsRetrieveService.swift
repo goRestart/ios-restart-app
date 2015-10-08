@@ -72,6 +72,10 @@ extension RetrieveProductsParams {
                 params["quadkey"] = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
             }
             
+            if let countryCode = self.countryCode {
+                params["country_code"] = countryCode
+            }
+            
             if let categoryIds = self.categoryIds {
                 if !categoryIds.isEmpty {
                     let categoryIdsString = categoryIds.map { String($0) }
@@ -85,10 +89,6 @@ extension RetrieveProductsParams {
             
             if let minPrice = self.minPrice {
                 params["min_price"] = minPrice
-            }
-            
-            if let distanceType = self.distanceType {
-                params["distance_type"] = distanceType.string
             }
             
             if let distanceRadius = self.distanceRadius {

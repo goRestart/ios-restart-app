@@ -23,11 +23,13 @@ public class MainProductListViewModel: ProductListViewModel {
     }
     
     // MARK: - Lifecycle
-    
+
     override init() {
         self.myUserManager = MyUserManager.sharedInstance
         self.lastReceivedLocation = self.myUserManager.currentLocation
         super.init()
+        
+        self.countryCode = self.myUserManager.myUser()?.postalAddress.countryCode
         self.isProfileList = false
         
         // Observe MyUserManager location updates
@@ -47,6 +49,14 @@ public class MainProductListViewModel: ProductListViewModel {
                 retrieveProductsIfNeededWithNewLocation(currentLocation)
             }
         }
+    }
+    
+    // MARK: - Public methods
+    
+    public override func retrieveProductsFirstPage() {
+        // Update before requesting the first page
+        countryCode = self.myUserManager.myUser()?.postalAddress.countryCode
+        super.retrieveProductsFirstPage()
     }
     
     // MARK: - Internal methods

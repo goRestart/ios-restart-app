@@ -48,7 +48,8 @@ public class ProductListViewModel: BaseViewModel {
         }
         return coords
     }
-    
+
+    public var countryCode: String?
     public var categories: [ProductCategory]?
     public var sortCriteria: ProductSortCriteria?
     public var statuses: [ProductStatus]?
@@ -96,6 +97,7 @@ public class ProductListViewModel: BaseViewModel {
         var params: RetrieveProductsParams = RetrieveProductsParams()
         params.coordinates = coordinates ?? queryCoordinates
         params.queryString = queryString
+        params.countryCode = countryCode
         var categoryIds: [Int]?
         if let actualCategories = categories {
             categoryIds = []
@@ -109,9 +111,6 @@ public class ProductListViewModel: BaseViewModel {
         params.maxPrice = maxPrice
         params.minPrice = minPrice
         params.userObjectId = userObjectId
-        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
-            params.distanceType = usesMetric ? .Km : .Mi
-        }
         return params
     }
     
@@ -241,13 +240,9 @@ public class ProductListViewModel: BaseViewModel {
     }
     
     public func queryDistanceType() -> DistanceType {
-        // if the query has distancetype we use the query distance type
-        var distanceType: DistanceType
-        if let queryDistanceType = retrieveProductsFirstPageParams.distanceType {
-            distanceType = queryDistanceType
-        }
-        // otherwise, we use whatever the locale says
-        else if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
+        let distanceType: DistanceType
+        // use whatever the locale says
+        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
             distanceType = usesMetric ? .Km : .Mi
         }
         // fallback: km
