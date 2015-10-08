@@ -317,6 +317,9 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         
         productListViewModel.setCurrentItemIndex(indexPath.item)
 
+        // Decides the product of which we will show distance to shoew in the label
+        let topProduct: Product
+        
         if !collectionView.indexPathsForVisibleItems().isEmpty {
             
             // show distance of the FIRST VISIBLE cell, must loop bc "indexPathsForVisibleItems" gives an unordered array
@@ -327,21 +330,25 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
                 }
             }
             
-            let topProduct = productListViewModel.productAtIndex(lowerIndex)
+            topProduct = productListViewModel.productAtIndex(lowerIndex)
             
-            if let productCoords = topProduct.location {
-                
-                let distance = Float(productListViewModel.distanceFromProductCoordinates(productCoords))
-                
-                // instance var max distance or MIN distance to avoid updating the label everytime
-                if scrollingDown && distance > maxDistance {
-                    maxDistance = distance
-                } else if !scrollingDown && distance < maxDistance {
-                    maxDistance = distance
-                }
-                
-                delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: productListViewModel.queryDistanceType())
+        } else {
+            // the 1st appeareance of the 1st cell doesn't know about visible cells yet
+            topProduct = product
+        }
+        
+        if let productCoords = topProduct.location {
+            
+            let distance = Float(productListViewModel.distanceFromProductCoordinates(productCoords))
+            
+            // instance var max distance or MIN distance to avoid updating the label everytime
+            if scrollingDown && distance > maxDistance {
+                maxDistance = distance
+            } else if !scrollingDown && distance < maxDistance {
+                maxDistance = distance
             }
+            
+            delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: productListViewModel.queryDistanceType())
         }
         
         return cell
