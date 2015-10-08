@@ -22,6 +22,7 @@
 "change_password_new_password_field_hint" = "新しいパスワード";
 "change_password_send_error_generic" = "パスワードの変更中にエラーが発生しました。後でもう一度お試しください。";
 "change_password_send_error_invalid_password" = "有効なパスワードを少なくとも%d文字入力してください。";
+"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "change_password_send_error_passwords_mismatch" = "パスワードが一致していません。もう一度やり直してください。";
 "change_password_send_ok" = "パスワードは正しく変更されました。";
 "change_password_title" = "パスワード変更";
@@ -246,6 +247,7 @@
 "sign_up_send_error_generic" = "ユーザー作成中にエラーが発生しました。";
 "sign_up_send_error_invalid_email" = "有効なメールアドレスをメールアドレス入力欄に入力してください。";
 "sign_up_send_error_invalid_password" = "有効なパスワードを少なくとも%d文字入力してください。";
+"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "sign_up_send_error_invalid_username" = "有効な名前を、少なくとも%d文字入力してください。";
 "sign_up_title" = "登録";
 "sign_up_username_field_hint" = "フルネーム";

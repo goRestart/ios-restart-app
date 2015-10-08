@@ -22,6 +22,7 @@
 "change_password_new_password_field_hint" = "Új jelszó";
 "change_password_send_error_generic" = "Hiba történt a jelszó megváltoztatása során. Kérjük, próbálkozz újra később.";
 "change_password_send_error_invalid_password" = "Kérjük, érvényes jelszót adj meg: legalább %d karakterből kell állnia!";
+"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "change_password_send_error_passwords_mismatch" = "A jelszavak nem egyeznek, próbálkozz újra!";
 "change_password_send_ok" = "Sikeres jelszóváltoztatás.";
 "change_password_title" = "Jelszóváltás";
@@ -136,8 +137,8 @@
 "product_list_item_new_status_label" = "ÚJ";
 "product_list_item_sold_status_label" = "ELADVA";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hoppá! A helyadatok le vannak tiltva. Engedélyezd, hogy láthasd a közeli ajánlatokat!";
-"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
-"product_list_no_products_title" = "CITY UNLOCKED!";
+"product_list_no_products_body" = "Te vagy az első felfedező ebből a városból. Üdv!";
+"product_list_no_products_title" = "VÁROS FELOLDVA!";
 "product_location_title" = "Tartózkodási hely";
 "product_make_an_offer_button" = "Ajánlatot teszek";
 "product_mark_as_sold_button" = "Megjelölés eladottként";
@@ -157,8 +158,8 @@
 "product_reported_success_message" = "A portéka sikeresen jelentve. Köszönjük!";
 "product_reporting_loading_message" = "Portéka jelentése...";
 "product_reporting_product_label" = "Portéka jelentése...";
-"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
-"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
+"product_search_no_products_body" = "De nem találtunk semmit. Próbálkozz később, nap mint nap újabb hirdetések kerülnek fel!";
+"product_search_no_products_title" = "KERESTÜNK ÉS KERESTÜNK...";
 "product_share_body" = "Nézzétek, mit találtam a letgo-n!";
 "product_share_email_error" = "Hopp, úgy tűnik, hogy nem állítottál be fiókot a Mail appban.";
 "product_share_whatsapp_error" = "Hopp, úgy tűnik, hogy még nem telepítetted a WhatsApp alkalmazást.";
@@ -246,6 +247,7 @@
 "sign_up_send_error_generic" = "Hiba történt a felhasználó létrehozása során.";
 "sign_up_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
 "sign_up_send_error_invalid_password" = "Kérjük, érvényes jelszót adj meg: legalább %d karakterből kell állnia!";
+"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
 "sign_up_title" = "Regisztráció";
 "sign_up_username_field_hint" = "Teljes név";

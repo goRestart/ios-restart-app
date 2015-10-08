@@ -22,6 +22,7 @@
 "change_password_new_password_field_hint" = "Nieuw wachtwoord";
 "change_password_send_error_generic" = "Er is een fout opgetreden bij het wijzigen van het wachtwoord. Probeer het later nog eens.";
 "change_password_send_error_invalid_password" = "Voer a.u.b. een geldig wachtwoord in, het moet minstens %d tekens bevatten.";
+"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "change_password_send_error_passwords_mismatch" = "Wachtwoorden komen niet overeen. Probeer het opnieuw.";
 "change_password_send_ok" = "Wachtwoord wijzigen is geslaagd.";
 "change_password_title" = "Wijzig Wachtwoord";
@@ -246,6 +247,7 @@
 "sign_up_send_error_generic" = "Er is een fout opgetreden bij het creeren van de gebruiker.";
 "sign_up_send_error_invalid_email" = "Gelieve, een geldig e-mailadres in te voeren in het gebruikers tekstveld.";
 "sign_up_send_error_invalid_password" = "Voer a.u.b. een geldig wachtwoord in, het moet minstens %d tekens bevatten.";
+"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "sign_up_send_error_invalid_username" = "Gelieve, een geldige naam in te voeren, deze moet minstens %d tekens bevatten.";
 "sign_up_title" = "Word lid";
 "sign_up_username_field_hint" = "Volledige naam";

@@ -12,7 +12,8 @@ struct Constants {
     
     // Input validation
     static let fullNameMinLength = 2
-    static let passwordMinLength = 1
+    static let passwordMinLength = 4
+    static let passwordMaxLength = 20
     static let productDescriptionMaxLength = 256
 
     // Map

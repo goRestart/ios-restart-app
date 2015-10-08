@@ -22,6 +22,7 @@
 "change_password_new_password_field_hint" = "Nytt lösenord";
 "change_password_send_error_generic" = "Ett fel uppstod vid byte av lösenord. Var god försök igen.";
 "change_password_send_error_invalid_password" = "Var god ange ett giltigt lösenord på minst %d tecken.";
+"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "change_password_send_error_passwords_mismatch" = "Lösenorden matchar inte. Var god försök igen.";
 "change_password_send_ok" = "Lösenordet har ändrats.";
 "change_password_title" = "Byt lösenord";
@@ -246,6 +247,7 @@
 "sign_up_send_error_generic" = "Ett fel uppstod vid skapande av användare.";
 "sign_up_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
 "sign_up_send_error_invalid_password" = "Var god ange ett giltigt lösenord på minst %d tecken.";
+"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "sign_up_send_error_invalid_username" = "Var god ange ett giltigt namn på minst %d tecken.";
 "sign_up_title" = "Registrera dig";
 "sign_up_username_field_hint" = "Fullständigt namn";

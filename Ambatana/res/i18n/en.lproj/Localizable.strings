@@ -70,6 +70,9 @@
 // Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters.";
 
+// Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
+"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+
 // Change password send error passwords mismatch. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_passwords_mismatch" = "Passwords don't match. Please try again.";
 
@@ -741,6 +744,9 @@
 
 // Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_password" = "Please insert a valid password. It must be at least %d characters long.";
+
+// Sign up send error invalid password. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 
 // Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";

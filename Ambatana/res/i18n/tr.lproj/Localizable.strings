@@ -22,6 +22,7 @@
 "change_password_new_password_field_hint" = "Yeni şifre";
 "change_password_send_error_generic" = "Şifre değiştirilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "change_password_send_error_invalid_password" = "Lütfen, en az %d karakterden oluşan geçerli bir şifre gir.";
+"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "change_password_send_error_passwords_mismatch" = "Şifreler eşleşmiyor. Lütfen tekrar dene.";
 "change_password_send_ok" = "Şifre başarıyla değiştirildi.";
 "change_password_title" = "Şifre değiştir";
@@ -136,8 +137,8 @@
 "product_list_item_new_status_label" = "YENİ";
 "product_list_item_sold_status_label" = "SATILDI";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hoppala! Konumun kapalı. Yakınındaki en iyi teklifleri görmek için konumunu ayarla.";
-"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
-"product_list_no_products_title" = "CITY UNLOCKED!";
+"product_list_no_products_body" = "Şehrindeki ilk kaşif sensin. Hoş geldin!";
+"product_list_no_products_title" = "ŞEHRİN KİLİDİ AÇILDI!";
 "product_location_title" = "Konum";
 "product_make_an_offer_button" = "Bir teklif yap";
 "product_mark_as_sold_button" = "Satıldı olarak işaretle";
@@ -157,8 +158,8 @@
 "product_reported_success_message" = "Ürün bildirimi başarıyla gerçekleşti. Teşekkürler!";
 "product_reporting_loading_message" = "Ürün bildiriliyor...";
 "product_reporting_product_label" = "Ürün bildiriliyor...";
-"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
-"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
+"product_search_no_products_body" = "Ama aramana uygun bir sonuç bulamadık. Lütfen daha sonra tekrar dene, her gün yeni eşyalar için ilan veriliyor!";
+"product_search_no_products_title" = "ARADIK VE ARADIK...";
 "product_share_body" = "Az önce letgo'da ne bulduğuma bak!";
 "product_share_email_error" = "Hoppala, görünüşe bakılırsa Posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_whatsapp_error" = "Hoppala! WhatsApp uygulaması yüklü değil gibi görünüyor.";
@@ -246,6 +247,7 @@
 "sign_up_send_error_generic" = "Kullanıcı oluşturulurken bir hata meydana geldi.";
 "sign_up_send_error_invalid_email" = "Lütfen, kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";
 "sign_up_send_error_invalid_password" = "Lütfen, en az %d karakterden oluşan bir şifre gir.";
+"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "sign_up_send_error_invalid_username" = "Lütfen, en az %d karakterden oluşan bir kullanıcı adı gir.";
 "sign_up_title" = "Üye ol";
 "sign_up_username_field_hint" = "Tam isim";
