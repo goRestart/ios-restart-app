@@ -52,7 +52,7 @@ public class EditUserLocationViewModel: BaseViewModel {
         goingToLocation = false
         serviceAlreadyLoading = false
         if let location = MyUserManager.sharedInstance.currentLocation {
-            usingGPSLocation = location.type == .Manual
+            usingGPSLocation = location.type != .Manual
         }
         else {
             usingGPSLocation = true
@@ -96,11 +96,11 @@ public class EditUserLocationViewModel: BaseViewModel {
     func showInitialUserLocation() {
         goingToLocation = true
         var user = MyUserManager.sharedInstance.myUser()
-        if let location = user?.gpsCoordinates {
+        if let location =  MyUserManager.sharedInstance.currentLocation {
             delegate?.viewModel(self, updateTextFieldWithString: "")
             var place = Place()
             place.postalAddress = user?.postalAddress
-            place.location = location
+            place.location = LGLocationCoordinates2D(location: location)
             self.currentPlace = place
             var userLocationString = ""
             
@@ -130,8 +130,8 @@ public class EditUserLocationViewModel: BaseViewModel {
                 userLocationString += country
             }
             delegate?.viewModel(self, updateTextFieldWithString: userLocationString)
-            var lat = location.latitude as CLLocationDegrees
-            var long = location.longitude as CLLocationDegrees
+            var lat = location.coordinate.latitude
+            var long = location.coordinate.longitude
             var coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress, approximate: self.approximateLocation)
         }
