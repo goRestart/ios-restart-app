@@ -60,7 +60,6 @@ final public class ProductsManager {
             }
         }
     }
-    
 
     /**
         Retrieves the products with the given parameters.

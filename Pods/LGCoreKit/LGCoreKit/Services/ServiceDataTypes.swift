@@ -40,9 +40,9 @@ public func ==(lhs: RetrieveProductParams, rhs: RetrieveProductParams) -> Bool {
 public struct RetrieveProductsParams: Printable, Equatable {
     public var queryString: String?
     public var coordinates: LGLocationCoordinates2D?
+    public var countryCode: String?
     public var categoryIds: [Int]?
     public var sortCriteria: ProductSortCriteria?
-    public var distanceType: DistanceType?
     public var offset: Int?                 // skip results
     public var numProducts: Int?            // number products to return
     public var statuses: [ProductStatus]?   // Default 1,3
@@ -55,13 +55,13 @@ public struct RetrieveProductsParams: Printable, Equatable {
         
     }
     
-    public var description: String { return "queryString: \(queryString); latitude: \(coordinates?.latitude); longitude: \(coordinates?.longitude); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); distanceType: \(distanceType); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); userObjectId: \(userObjectId)" }
+    public var description: String { return "queryString: \(queryString); latitude: \(coordinates?.latitude); longitude: \(coordinates?.longitude); countryCode: \(countryCode); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); userObjectId: \(userObjectId)" }
 }
 
 public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool {
     return lhs.queryString == rhs.queryString && lhs.coordinates == rhs.coordinates &&
-        lhs.categoryIds == rhs.categoryIds && lhs.sortCriteria == rhs.sortCriteria &&
-        lhs.distanceType == rhs.distanceType && lhs.offset == rhs.offset &&
+        lhs.countryCode == rhs.countryCode && lhs.categoryIds == rhs.categoryIds &&
+        lhs.sortCriteria == rhs.sortCriteria && lhs.offset == rhs.offset &&
         lhs.numProducts == rhs.numProducts && lhs.statuses == rhs.statuses &&
         lhs.maxPrice == rhs.maxPrice && lhs.minPrice == rhs.minPrice &&
         lhs.distanceRadius == rhs.distanceRadius && lhs.userObjectId == rhs.userObjectId
