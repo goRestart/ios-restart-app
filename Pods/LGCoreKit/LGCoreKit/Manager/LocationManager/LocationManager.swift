@@ -167,7 +167,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
                 }
 
                 // If the current location is not the same as the one received then we notify the delegate
-                if strongSelf.currentLocation?.location != strongSelf.inaccurateLocation?.location {
+                if strongSelf.currentLocation?.location != strongSelf.inaccurateLocation?.location  || (strongSelf.sensorLocation == nil && strongSelf.manualLocation == nil) {
                     strongSelf.delegate?.locationManager(strongSelf, didUpdateAutoLocation: strongSelf.currentLocation!)
                 }
             }
