@@ -157,17 +157,21 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     private func retrieveInaccurateLocation() {
         ipLookupLocationService.retrieveLocation { [weak self] (result: Result<LGLocationCoordinates2D, IPLookupLocationServiceError>) -> Void in
             if let strongSelf = self {
+                // If there's no previous location it should notify
+                var shouldNotify = strongSelf.currentLocation == nil
+                
                 // Success
                 if let coordinates = result.value {
                     strongSelf.inaccurateLocation = LGLocation(location: CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude), type: .IPLookup)
                 }
-                // Error
+                    // Error
                 else {
                     strongSelf.inaccurateLocation = strongSelf.retrieveRegionalLocational()
                 }
-
+                
                 // If the current location is not the same as the one received then we notify the delegate
-                if strongSelf.currentLocation?.location != strongSelf.inaccurateLocation?.location  || (strongSelf.sensorLocation == nil && strongSelf.manualLocation == nil) {
+                shouldNotify = shouldNotify || strongSelf.currentLocation?.location != strongSelf.inaccurateLocation?.location
+                if shouldNotify {
                     strongSelf.delegate?.locationManager(strongSelf, didUpdateAutoLocation: strongSelf.currentLocation!)
                 }
             }
