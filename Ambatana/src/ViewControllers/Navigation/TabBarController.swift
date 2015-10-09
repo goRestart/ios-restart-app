@@ -288,12 +288,20 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     // MARK: - UINavigationControllerDelegate
     
     public func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
-        
         var hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
         if let baseVC = viewController as? BaseViewController {
             hidden = hidden || baseVC.floatingSellButtonHidden
         }
-        setSellFloatingButtonHidden(hidden, animated: false)
+       
+        let vcIdx = (viewControllers! as NSArray).indexOfObject(navigationController)
+        if let tab = Tab(rawValue: vcIdx) {
+            switch tab {
+            case .Home, .Categories, .Sell, .Profile:
+                setSellFloatingButtonHidden(hidden, animated: false)
+            case .Chats:
+                setSellFloatingButtonHidden(true, animated: false)
+            }
+        }
     }
     
     public func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
@@ -301,7 +309,16 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         if let baseVC = viewController as? BaseViewController {
             hidden = hidden || baseVC.floatingSellButtonHidden
         }
-        setSellFloatingButtonHidden(hidden, animated: true)
+        
+        let vcIdx = (viewControllers! as NSArray).indexOfObject(navigationController)
+        if let tab = Tab(rawValue: vcIdx) {
+            switch tab {
+            case .Home, .Categories, .Sell, .Profile:
+                setSellFloatingButtonHidden(hidden, animated: true)
+            case .Chats:
+                setSellFloatingButtonHidden(true, animated: false)
+            }
+        }
     }
     
     // MARK: - UITabBarControllerDelegate

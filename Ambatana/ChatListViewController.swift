@@ -192,14 +192,6 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
 
     // MARK: - UITableViewDelegate & DataSource methods
     
-    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return UIView() // that's a lol
-    }
-    
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 80
-    }
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return chats?.count ?? 0
     }

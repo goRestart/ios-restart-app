@@ -45,7 +45,7 @@
                         <constraint firstAttribute="height" constant="1" id="V6B-bd-Eay"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sfi-nB-VxD" userLabel="Search Button">
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sfi-nB-VxD" userLabel="Search Button">
                     <rect key="frame" x="208" y="375" width="80" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="EUq-8g-ZBT"/>
@@ -58,7 +58,7 @@
                         <action selector="searchProducts:" destination="-1" eventType="touchUpInside" id="piW-Rc-jY4"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Da-Gb-MUC" userLabel="Sell Button">
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Da-Gb-MUC" userLabel="Sell Button">
                     <rect key="frame" x="313" y="375" width="80" height="80"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="QAh-Ty-dUk"/>
@@ -71,7 +71,7 @@
                         <action selector="sellProducts:" destination="-1" eventType="touchUpInside" id="Lca-ih-1i4"/>
                     </connections>
                 </button>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vfs-fo-vuB">
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vfs-fo-vuB">
                     <rect key="frame" x="300" y="375" width="1" height="80"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
