@@ -365,7 +365,13 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                         self?.switchToTab(tab)
                     },
                     elsePresentSignUpWithSuccessAction: { [weak self] in
-                        self?.switchToTab(tab)
+                        // FIXME: UX Patch: https://ambatana.atlassian.net/browse/ABIOS-503
+                        if tab == .Profile {
+                            self?.switchToTab(.Home)
+                        }
+                        else {
+                            self?.switchToTab(tab)
+                        }
                     })
                 }
             }
