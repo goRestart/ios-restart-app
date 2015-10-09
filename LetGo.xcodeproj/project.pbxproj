@@ -35,10 +35,9 @@
 		2EE60AF21B60D8EF00E56E7D /* SellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF11B60D8EF00E56E7D /* SellProductViewController.swift */; };
 		2EE60AF41B60D90200E56E7D /* SellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF31B60D90200E56E7D /* SellProductViewModel.swift */; };
 		2EE60AF71B60D97300E56E7D /* EditSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */; };
-		2EE60AF81B60D97300E56E7D /* EditSellProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE60AF61B60D97300E56E7D /* EditSellProductViewController.xib */; };
+		2EE60AF81B60D97300E56E7D /* SellProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE60AF61B60D97300E56E7D /* SellProductViewController.xib */; };
 		2EE60AFA1B60D9A600E56E7D /* EditSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */; };
 		2EEBF62E1BA96A1E0042E73C /* NewSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEBF62C1BA96A1E0042E73C /* NewSellProductViewController.swift */; };
-		2EEBF62F1BA96A1E0042E73C /* NewSellProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EEBF62D1BA96A1E0042E73C /* NewSellProductViewController.xib */; };
 		2EEBF6311BA96A460042E73C /* NewSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEBF6301BA96A460042E73C /* NewSellProductViewModel.swift */; };
 		500391B71B04EFE60081C141 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500391B51B04EFE60081C141 /* CategoryCell.swift */; };
 		500391B81B04EFE60081C141 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B61B04EFE60081C141 /* CategoryCell.xib */; };
@@ -254,10 +253,9 @@
 		2EE60AF11B60D8EF00E56E7D /* SellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductViewController.swift; path = Sell/SellProductViewController.swift; sourceTree = "<group>"; };
 		2EE60AF31B60D90200E56E7D /* SellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductViewModel.swift; path = Sell/SellProductViewModel.swift; sourceTree = "<group>"; };
 		2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSellProductViewController.swift; path = Sell/EditSellProductViewController.swift; sourceTree = "<group>"; };
-		2EE60AF61B60D97300E56E7D /* EditSellProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditSellProductViewController.xib; path = Sell/EditSellProductViewController.xib; sourceTree = "<group>"; };
+		2EE60AF61B60D97300E56E7D /* SellProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SellProductViewController.xib; path = Sell/SellProductViewController.xib; sourceTree = "<group>"; };
 		2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSellProductViewModel.swift; path = Sell/EditSellProductViewModel.swift; sourceTree = "<group>"; };
 		2EEBF62C1BA96A1E0042E73C /* NewSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewSellProductViewController.swift; path = Sell/NewSellProductViewController.swift; sourceTree = "<group>"; };
-		2EEBF62D1BA96A1E0042E73C /* NewSellProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewSellProductViewController.xib; path = Sell/NewSellProductViewController.xib; sourceTree = "<group>"; };
 		2EEBF6301BA96A460042E73C /* NewSellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewSellProductViewModel.swift; path = Sell/NewSellProductViewModel.swift; sourceTree = "<group>"; };
 		32EAA2F0A47FAE66469DCDBC /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		500391B51B04EFE60081C141 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
@@ -548,16 +546,15 @@
 		2EE60AF01B60D8CD00E56E7D /* Sell */ = {
 			isa = PBXGroup;
 			children = (
-				2EE60AF31B60D90200E56E7D /* SellProductViewModel.swift */,
-				2EE60AF11B60D8EF00E56E7D /* SellProductViewController.swift */,
-				2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */,
-				2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */,
-				2EE60AF61B60D97300E56E7D /* EditSellProductViewController.xib */,
-				2EEBF6301BA96A460042E73C /* NewSellProductViewModel.swift */,
-				2EEBF62C1BA96A1E0042E73C /* NewSellProductViewController.swift */,
-				2EEBF62D1BA96A1E0042E73C /* NewSellProductViewController.xib */,
 				2E93FBE91B666A1400C97927 /* SellProductCell.swift */,
 				2E93FBEA1B666A1400C97927 /* SellProductCell.xib */,
+				2EE60AF31B60D90200E56E7D /* SellProductViewModel.swift */,
+				2EE60AF11B60D8EF00E56E7D /* SellProductViewController.swift */,
+				2EE60AF61B60D97300E56E7D /* SellProductViewController.xib */,
+				2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */,
+				2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */,
+				2EEBF6301BA96A460042E73C /* NewSellProductViewModel.swift */,
+				2EEBF62C1BA96A1E0042E73C /* NewSellProductViewController.swift */,
 			);
 			name = Sell;
 			sourceTree = "<group>";
@@ -1350,13 +1347,12 @@
 				50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */,
 				D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */,
 				D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */,
-				2EE60AF81B60D97300E56E7D /* EditSellProductViewController.xib in Resources */,
+				2EE60AF81B60D97300E56E7D /* SellProductViewController.xib in Resources */,
 				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
 				50E8A0931B7B3B2D00DE49CC /* ProductViewController.xib in Resources */,
 				50C9E4D41B73637D001E4E92 /* Pods.release.xcconfig in Resources */,
 				2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */,
 				2EE5FF551B7B3DAB0090E558 /* EditUserLocationViewController.xib in Resources */,
-				2EEBF62F1BA96A1E0042E73C /* NewSellProductViewController.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */,
 				2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */,

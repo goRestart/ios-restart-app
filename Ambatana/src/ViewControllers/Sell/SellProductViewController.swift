@@ -52,7 +52,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     init(viewModel: SellProductViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "EditSellProductViewController")
+        super.init(viewModel: viewModel, nibName: "SellProductViewController")
         
         self.viewModel.delegate = self
         
@@ -84,8 +84,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         }
         lines = []
         lines.append(titleTextField.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(priceTextField.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(currencyButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(titleTextField.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(descriptionTextView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(categoryButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(categoryButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
@@ -363,7 +362,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         titleTextField.text = viewModel.title
         titleTextField.tag = TextFieldTag.ProductTitle.rawValue
         currencyButton.setTitle(viewModel.currency.symbol, forState: .Normal)
-        currencyButton.titleEdgeInsets = UIEdgeInsetsMake(12.0, 17.0, 12.0, 11.0);
 
         priceTextField.placeholder = NSLocalizedString("sell_price_field_hint", comment: "")
         priceTextField.text = viewModel.price

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
@@ -57,22 +57,35 @@
                                 <outlet property="delegate" destination="-1" id="V3p-DZ-ewB"/>
                             </connections>
                         </textField>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m8D-hk-ADm" userLabel="Currency Button">
-                            <rect key="frame" x="0.0" y="176" width="44" height="44"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="l6H-hm-Hy0">
+                            <rect key="frame" x="0.0" y="176" width="16" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="16" id="RZq-Ua-cTs"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m8D-hk-ADm" userLabel="Currency Button">
+                            <rect key="frame" x="16" y="176" width="30" height="44"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="44" id="kwP-3b-6w1"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="7Xn-h1-X6Z"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="kwP-3b-6w1"/>
                                 <constraint firstAttribute="height" constant="44" id="plg-k0-gKF"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <state key="normal" title="_$">
+                            <state key="normal" title="$">
                                 <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="kwP-3b-6w1"/>
+                                </mask>
+                            </variation>
                         </button>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="toV-Ym-Hah" userLabel="Price Text Field" customClass="LGTextField" customModule="LetGo" customModuleProvider="target">
-                            <rect key="frame" x="44" y="176" width="556" height="44"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="toV-Ym-Hah" userLabel="Price Text Field" customClass="LGTextField" customModule="LetGo" customModuleProvider="target">
+                            <rect key="frame" x="46" y="176" width="554" height="44"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="SVX-LB-y7M"/>
                             </constraints>
@@ -100,7 +113,7 @@
                             </connections>
                         </textView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="256" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6B-rc-8J5" userLabel="Description Char Count Label">
-                            <rect key="frame" x="571" y="315" width="21" height="15"/>
+                            <rect key="frame" x="571" y="315.5" width="21" height="14.5"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -166,10 +179,12 @@
                         <constraint firstItem="qdC-Fw-bM6" firstAttribute="trailing" secondItem="0nL-Mc-8GI" secondAttribute="trailing" constant="16" id="8J8-Hj-u8a"/>
                         <constraint firstItem="6uL-xI-PQq" firstAttribute="leading" secondItem="eiL-oq-GEV" secondAttribute="leading" id="8ib-bV-nGe"/>
                         <constraint firstAttribute="trailing" secondItem="C9r-Wg-bEG" secondAttribute="trailing" id="98d-j9-114"/>
+                        <constraint firstItem="l6H-hm-Hy0" firstAttribute="top" secondItem="C9r-Wg-bEG" secondAttribute="bottom" id="9e2-8N-3q8"/>
                         <constraint firstItem="6uL-xI-PQq" firstAttribute="bottom" secondItem="R6B-rc-8J5" secondAttribute="bottom" id="BnF-y6-FO6"/>
                         <constraint firstAttribute="trailing" secondItem="toV-Ym-Hah" secondAttribute="trailing" id="GGH-IV-Le5"/>
                         <constraint firstItem="qdC-Fw-bM6" firstAttribute="top" secondItem="R6B-rc-8J5" secondAttribute="bottom" id="HyZ-Ud-6ds"/>
                         <constraint firstAttribute="trailing" secondItem="R6B-rc-8J5" secondAttribute="trailing" constant="8" id="JVN-xQ-YXJ"/>
+                        <constraint firstItem="l6H-hm-Hy0" firstAttribute="leading" secondItem="eiL-oq-GEV" secondAttribute="leading" id="K9m-pz-rHK"/>
                         <constraint firstAttribute="width" secondItem="YDb-eR-n02" secondAttribute="width" constant="12" id="NR9-fu-bWS"/>
                         <constraint firstItem="qdC-Fw-bM6" firstAttribute="centerY" secondItem="0nL-Mc-8GI" secondAttribute="centerY" id="NYm-vr-TIn"/>
                         <constraint firstItem="qdC-Fw-bM6" firstAttribute="leading" secondItem="eiL-oq-GEV" secondAttribute="leading" id="Psq-du-Hci"/>
@@ -186,11 +201,12 @@
                         <constraint firstItem="omw-7q-aKH" firstAttribute="top" secondItem="zs3-HW-uL1" secondAttribute="top" id="o8b-LA-AES"/>
                         <constraint firstItem="YDb-eR-n02" firstAttribute="leading" secondItem="eiL-oq-GEV" secondAttribute="leading" constant="12" id="ofH-vu-7yX"/>
                         <constraint firstItem="omw-7q-aKH" firstAttribute="leading" secondItem="zs3-HW-uL1" secondAttribute="trailing" constant="15" id="owc-1n-mDx"/>
-                        <constraint firstItem="m8D-hk-ADm" firstAttribute="leading" secondItem="eiL-oq-GEV" secondAttribute="leading" id="q7h-Sb-VRk"/>
                         <constraint firstItem="C9r-Wg-bEG" firstAttribute="leading" secondItem="eiL-oq-GEV" secondAttribute="leading" id="u3o-Gu-0Jh"/>
                         <constraint firstItem="m8D-hk-ADm" firstAttribute="top" secondItem="C9r-Wg-bEG" secondAttribute="bottom" id="vXU-Rq-jkJ"/>
+                        <constraint firstItem="6uL-xI-PQq" firstAttribute="top" secondItem="l6H-hm-Hy0" secondAttribute="bottom" id="wm4-6R-B8P"/>
                         <constraint firstAttribute="trailing" secondItem="YDb-eR-n02" secondAttribute="trailing" id="z0F-Bf-tsQ"/>
                         <constraint firstAttribute="trailing" secondItem="6uL-xI-PQq" secondAttribute="trailing" id="zNi-Gq-iQS"/>
+                        <constraint firstItem="m8D-hk-ADm" firstAttribute="leading" secondItem="l6H-hm-Hy0" secondAttribute="trailing" id="ztn-Td-Xbw"/>
                     </constraints>
                 </scrollView>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0ZP-zJ-OwV" userLabel="Loading View">
