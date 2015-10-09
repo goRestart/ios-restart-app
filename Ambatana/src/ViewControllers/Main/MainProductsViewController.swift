@@ -120,13 +120,23 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             self.distanceShadow.alpha = hidden ? 0:1
         })
     }
+    
+    public func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
+        if let tabBarCtl = tabBarController as? TabBarController {
+            floatingSellButtonHidden = hidden
+            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
+        }
+    }
 
     public func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
-        if let tabBarCtl = tabBarController as? TabBarController {
-
-            // Floating sell button should be hidden
-            floatingSellButtonHidden = false
-            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: false)
+        // If it's the first page load
+        if page == 0 {
+            if let tabBarCtl = tabBarController as? TabBarController {
+                
+                // then floating sell button should be hidden
+                floatingSellButtonHidden = false
+                tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
+            }
         }
     }
 
@@ -155,25 +165,39 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             }
         }
         
+        // Update distance label visibility
         distanceShadow.hidden = !hasProducts
         distanceShadow.alpha = hasProducts ? 1:0
 
         // Floating sell button should be shown if has products
         if let tabBarCtl = tabBarController as? TabBarController {
+            
+            // Only if there's a change
+            let previouslyHidden = floatingSellButtonHidden
             floatingSellButtonHidden = !hasProducts
-            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: false)
+            if floatingSellButtonHidden != previouslyHidden  {
+                tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
+            }
         }
     }
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
         
+        // Update distance label visibility
         distanceShadow.hidden = !hasProducts
         distanceShadow.alpha = hasProducts ? 1:0
 
-        // Floating sell button should be shown
-        if let tabBarCtl = tabBarController as? TabBarController {
-            floatingSellButtonHidden = false
-            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: false)
+        // If the first page load succeeds
+        if page == 0 {
+            // Floating sell button should be shown
+            if let tabBarCtl = tabBarController as? TabBarController {
+                // Only if there's a change
+                let previouslyHidden = floatingSellButtonHidden
+                floatingSellButtonHidden = false
+                if floatingSellButtonHidden != previouslyHidden  {
+                    tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
+                }
+            }
         }
     }
     

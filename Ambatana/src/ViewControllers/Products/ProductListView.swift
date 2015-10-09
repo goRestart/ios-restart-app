@@ -17,6 +17,7 @@ public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath)
     func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType)
     func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool)
+    func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool)
 }
 
 
@@ -380,6 +381,19 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             scrollingDown = true
         }
         lastContentOffset = scrollView.contentOffset.y
+    }
+    
+    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        delegate?.productListView(self, shouldHideFloatingSellButton: true)
+    }
+
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let moving = abs(velocity.y) > 0
+        delegate?.productListView(self, shouldHideFloatingSellButton: moving)
+    }
+    
+    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        delegate?.productListView(self, shouldHideFloatingSellButton: false)
     }
     
     // MARK: - ProductListViewModelDataDelegate

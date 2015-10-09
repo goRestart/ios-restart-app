@@ -309,10 +309,12 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     }
     
     func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType) {
-        
     }
     
     func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool) {
+    }
+    
+    func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
     }
 
     // MARK: - UICollectionViewDataSource and Delegate methods

@@ -257,11 +257,18 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     func setSellFloatingButtonHidden(hidden: Bool, animated: Bool) {
         let alpha: CGFloat = hidden ? 0 : 1
         if animated {
-            floatingSellButton.hidden = hidden
+
+            if !hidden {
+                floatingSellButton.hidden = hidden
+            }           
             
-            UIView.animateWithDuration(0.35) { [weak self] in
+            UIView.animateWithDuration(0.35, animations: { [weak self] () -> Void in
                 self?.floatingSellButton.alpha = alpha
-            }
+            }, completion: { [weak self] (_) -> Void in
+                if hidden {
+                    self?.floatingSellButton.hidden = hidden
+                }
+            })
         }
         else {
             floatingSellButton.hidden = hidden
