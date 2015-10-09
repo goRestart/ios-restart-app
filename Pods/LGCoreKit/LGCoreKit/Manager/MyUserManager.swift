@@ -84,6 +84,11 @@ public class MyUserManager: LocationManagerDelegate {
                 }
             }
         }
+        
+        // Set currency
+        if let countryCode = myUser()?.postalAddress.countryCode {
+            CurrencyHelper.sharedInstance.setCountryCode(countryCode)
+        }
     }
     
     // MARK: - Public methods
