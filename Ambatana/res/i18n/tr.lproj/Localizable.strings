@@ -22,7 +22,7 @@
 "change_password_new_password_field_hint" = "Yeni şifre";
 "change_password_send_error_generic" = "Şifre değiştirilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "change_password_send_error_invalid_password" = "Lütfen, en az %d karakterden oluşan geçerli bir şifre gir.";
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"change_password_send_error_invalid_password_with_max" = "Lütfen geçerli bir şifre gir. Şifre en az %d, en fazla %d karakterden oluşmalıdır.";
 "change_password_send_error_passwords_mismatch" = "Şifreler eşleşmiyor. Lütfen tekrar dene.";
 "change_password_send_ok" = "Şifre başarıyla değiştirildi.";
 "change_password_title" = "Şifre değiştir";
@@ -106,7 +106,7 @@
 "log_in_send_button" = "Giriş yap";
 "log_in_title" = "Giriş yap";
 "main_sign_up_already_registered_label" = "Zaten hesabın var mı?";
-"main_sign_up_claim_label" = "Satmaya, almaya ve mesajlaşmaya başla";
+"main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
 "main_sign_up_contact_us_button" = "Yardıma mı ihtiyacın var?";
 "main_sign_up_facebook_connect_button" = "Facebook ile bağlan";
 "main_sign_up_fb_connect_error_email_taken" = "Giriş yapılamıyor. Facebook'taki e-posta adresin zaten kaydedilmiş. Lütfen oturum açmayı dene.";
@@ -172,7 +172,7 @@
 "profile_favourites_my_user_no_products_subtitle_label" = "Haydi, hemen alışverişe başla!";
 "profile_favourites_other_user_no_products_label" = "Bu kullanıcı hala herhangi bir yayınlanmış veya favorilere eklenmiş bir ürüne sahip değil.";
 "profile_favourites_products_tab" = "Favoriler";
-"profile_no_products" = "Bu bölümde herhangi bir eşya yok";
+"profile_no_products" = "Bu bölümde (henüz!) herhangi bir ürün yok";
 "profile_selling_products_tab" = "Satıyor";
 "profile_sold_products_tab" = "Satıldı";
 "push_notification_message_body" = "%@: %@";
@@ -189,7 +189,7 @@
 "reset_password_send_error_generic" = "Şifreni hatırlamaya çalışırken bir hata oluştu.";
 "reset_password_send_error_invalid_email" = "Lütfen, kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-posta adresi bulunamadı.";
-"reset_password_send_ok" = "Posta kutunu kontrol et ve şifre yenileme talimatlarını uygula.";
+"reset_password_send_ok" = "Sana bir e-posta gönderdik. Şifreni sıfırlamak için e-postayla gelen linke tıkla.";
 "reset_password_title" = "Şifre yenile";
 "sell_category_selection_label" = "Bir kategori seç";
 "sell_choose_category_dialog_cancel_button" = "İptal et";
@@ -247,7 +247,7 @@
 "sign_up_send_error_generic" = "Kullanıcı oluşturulurken bir hata meydana geldi.";
 "sign_up_send_error_invalid_email" = "Lütfen, kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";
 "sign_up_send_error_invalid_password" = "Lütfen, en az %d karakterden oluşan bir şifre gir.";
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "Lütfen geçerli bir şifre gir. Şifre en az %d, en fazla %d karakterden oluşmalıdır.";
 "sign_up_send_error_invalid_username" = "Lütfen, en az %d karakterden oluşan bir kullanıcı adı gir.";
 "sign_up_title" = "Üye ol";
 "sign_up_username_field_hint" = "Tam isim";

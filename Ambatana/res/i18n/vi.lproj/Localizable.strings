@@ -22,7 +22,7 @@
 "change_password_new_password_field_hint" = "Mật khẩu mới";
 "change_password_send_error_generic" = "Lỗi xảy ra khi thay đổi mật khẩu. Xin vui lòng thử lại sau.";
 "change_password_send_error_invalid_password" = "Vui lòng nhập mật khẩu hợp lệ, có ít nhất %d ký tự.";
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"change_password_send_error_invalid_password_with_max" = "Vui lòng nhập mật khẩu hợp lệ. Mật khẩu cần có từ %d đến %d ký tự.";
 "change_password_send_error_passwords_mismatch" = "Mật khẩu không khớp. Xin vui lòng thử lại.";
 "change_password_send_ok" = "Mật khẩu thay đổi thành công.";
 "change_password_title" = "Thay đổi mật khẩu";
@@ -247,7 +247,7 @@
 "sign_up_send_error_generic" = "Lỗi xảy ra trong khi tạo người dùng.";
 "sign_up_send_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ vào trường email người dùng.";
 "sign_up_send_error_invalid_password" = "Vui lòng nhập mật khẩu hợp lệ, có ít nhất %d kí tự.";
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "Vui lòng nhập mật khẩu hợp lệ. Mật khẩu cần có từ %d đến %d ký tự.";
 "sign_up_send_error_invalid_username" = "Vui lòng nhập tên hợp lệ, có ít nhất %d ký tự.";
 "sign_up_title" = "Đăng ký";
 "sign_up_username_field_hint" = "Tên đầy đủ";

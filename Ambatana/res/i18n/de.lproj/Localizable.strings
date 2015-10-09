@@ -22,7 +22,7 @@
 "change_password_new_password_field_hint" = "Neues Kennwort";
 "change_password_send_error_generic" = "Beim Ändern des Kennworts ist ein Fehler aufgetreten. Versuche es bitte später erneut.";
 "change_password_send_error_invalid_password" = "Bitte gib ein gültiges Kennwort mit mindestens %d Zeichen ein.";
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"change_password_send_error_invalid_password_with_max" = "Bitte gib ein gültiges Kennwort ein. Es muss zwischen %d und %d Zeichen lang sein.";
 "change_password_send_error_passwords_mismatch" = "Die Kennwörter stimmen nicht überein. Bitte versuche es erneut.";
 "change_password_send_ok" = "Kennwort erfolgreich geändert.";
 "change_password_title" = "Kennwort ändern";
@@ -106,7 +106,7 @@
 "log_in_send_button" = "Anmelden";
 "log_in_title" = "Anmelden";
 "main_sign_up_already_registered_label" = "Bereits registriert?";
-"main_sign_up_claim_label" = "Kaufe, verkaufe und plausche";
+"main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
 "main_sign_up_contact_us_button" = "Brauchst du Hilfe?";
 "main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
 "main_sign_up_fb_connect_error_email_taken" = "Registrierung fehlgeschlagen. Deine E-Mail-Adresse bei Facebook ist bereits registriert. Bitte versuche dich anzumelden.";
@@ -137,8 +137,8 @@
 "product_list_item_new_status_label" = "NEU";
 "product_list_item_sold_status_label" = "VERKAUFT";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hoppla! Dein Standort ist nicht eingestellt. Stelle ihn ein, um die besten Angebote in deiner Umgebung zu sehen!";
-"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
-"product_list_no_products_title" = "CITY UNLOCKED!";
+"product_list_no_products_body" = "Du bist der erste Entdecker aus deiner Stadt. Willkommen!";
+"product_list_no_products_title" = "STADT FREIGESCHALTET!";
 "product_location_title" = "Standort";
 "product_make_an_offer_button" = "Angebot machen";
 "product_mark_as_sold_button" = "Als verkauft markieren";
@@ -158,8 +158,8 @@
 "product_reported_success_message" = "Das Produkt wurde erfolgreich gemeldet. Danke!";
 "product_reporting_loading_message" = "Melde Produkt...";
 "product_reporting_product_label" = "Melde Produkt...";
-"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
-"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
+"product_search_no_products_body" = "Aber keine Produkte entsprachen deiner Suche. Versuche es bald noch einmal, denn es werden jeden Tag neue Artikel eingestellt!";
+"product_search_no_products_title" = "WIR HABEN GESUCHT UND GESUCHT...";
 "product_share_body" = "Schau mal, was ich gerade auf letgo gefunden habe!";
 "product_share_email_error" = "Hoppla, du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_whatsapp_error" = "Hoppla, anscheinend hast du Whatsapp nicht installiert.";
@@ -172,7 +172,7 @@
 "profile_favourites_my_user_no_products_subtitle_label" = "Worauf wartest du?";
 "profile_favourites_other_user_no_products_label" = "Dieser Nutzer hat noch keine veröffentlichten oder favorisierten Produkte.";
 "profile_favourites_products_tab" = "Favoriten";
-"profile_no_products" = "Es gibt keine Artikel in diesem Abschnitt";
+"profile_no_products" = "Es gibt (noch) keine Artikel in diesem Abschnitt";
 "profile_selling_products_tab" = "Verkaufen";
 "profile_sold_products_tab" = "Verkauft";
 "push_notification_message_body" = "%@: %@";
@@ -247,7 +247,7 @@
 "sign_up_send_error_generic" = "Beim Erstellen des Nutzers ist ein Fehler aufgetreten.";
 "sign_up_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse im E-Mail-Feld ein.";
 "sign_up_send_error_invalid_password" = "Bitte gib ein gültiges Kennwort mit mindestens %d Zeichen ein.";
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "Bitte gib ein gültiges Kennwort ein. Es muss zwischen %d und %d Zeichen lang sein.";
 "sign_up_send_error_invalid_username" = "Bitte gib einen gültigen Namen mit mindestens %d Zeichen ein.";
 "sign_up_title" = "Registrieren";
 "sign_up_username_field_hint" = "Vollständiger Name";

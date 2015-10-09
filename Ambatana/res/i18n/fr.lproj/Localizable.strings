@@ -22,7 +22,7 @@
 "change_password_new_password_field_hint" = "Nouveau mot de passe";
 "change_password_send_error_generic" = "Une erreur est survenue lors du changement de mot de passe. Veuillez réessayer plus tard.";
 "change_password_send_error_invalid_password" = "Veuillez insérer un mot de passe valide. Il doit avoir au moins %d caractères.";
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"change_password_send_error_invalid_password_with_max" = "Veuillez entrer un mot de passe valide. Il doit contenir entre %d et %d caractères.";
 "change_password_send_error_passwords_mismatch" = "Les mots de passe ne correspondent pas. Veuillez réessayer.";
 "change_password_send_ok" = "Mot de passe modifié avec succès.";
 "change_password_title" = "Changer le mot de passe";
@@ -137,8 +137,8 @@
 "product_list_item_new_status_label" = "NOUVEAU";
 "product_list_item_sold_status_label" = "VENDU";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops ! Votre localisation est désactivée. Paramétrez-là pour voir les biens près de chez vous !";
-"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
-"product_list_no_products_title" = "CITY UNLOCKED!";
+"product_list_no_products_body" = "Vous êtes le premier dans votre ville. Bienvenue !";
+"product_list_no_products_title" = "VILLE DÉBLOQUÉE !";
 "product_location_title" = "Localisation";
 "product_make_an_offer_button" = "Faire une offre";
 "product_mark_as_sold_button" = "Marquer comme vendu";
@@ -158,8 +158,8 @@
 "product_reported_success_message" = "Ce bien a été signalé avec succès. Merci !";
 "product_reporting_loading_message" = "Signalement du produit...";
 "product_reporting_product_label" = "Signalement du produit...";
-"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
-"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
+"product_search_no_products_body" = "Mais aucun bien ne correspond à votre recherche. Réessayez prochainement, de nouveaux biens sont ajoutés chaque jour !";
+"product_search_no_products_title" = "NOUS AVONS RECHERCHE...";
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_whatsapp_error" = "Oops, il semble que vous n'avez pas installé l'application WhatsApp.";
@@ -247,7 +247,7 @@
 "sign_up_send_error_generic" = "Une erreur est survenue lors de la création de l'utilisateur.";
 "sign_up_send_error_invalid_email" = "Veuillez entrer un email valide dans le champ 'email'.";
 "sign_up_send_error_invalid_password" = "Veuillez entrer un mot de passe valide, d'au moins %d caractères.";
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "Veuillez entrer un mot de passe valide. Il doit contenir entre %d et %d caractères.";
 "sign_up_send_error_invalid_username" = "Veuillez entrer un nom valide, avec au moins %d caractères.";
 "sign_up_title" = "S'inscrire";
 "sign_up_username_field_hint" = "Nom complet";
