@@ -17,6 +17,7 @@ public class GalleryPageView: UIView {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     // Data
+    var previewURL: NSURL?
     var imageURL: NSURL?
     var loaded: Bool = false
     
@@ -36,27 +37,40 @@ public class GalleryPageView: UIView {
         if loaded {
             return
         }
-        
-        // Start loading
-        activityIndicator.startAnimating()
-        
-        imageView.sd_setImageWithURL(imageURL, placeholderImage: nil, completed: {
-            [weak self] (image, error, cacheType, url) -> Void in
+
+        // If has preview then show preview and then the actual image (w/o spinner)
+        if let actualPreviewURL = previewURL {
+            SDWebImageManager.sharedManager().imageDownloader.downloadImageWithURL(actualPreviewURL, options: .ProgressiveDownload, progress: nil, completed: { (previewImage, _, _, _) -> Void in
+                self.imageView.sd_setImageWithURL(self.imageURL, placeholderImage: previewImage, completed: { (_, error, cacheType, _) -> Void in
+                    self.loaded = error == nil
+                })
+            })
+        }
+        // Otherwise show the actual image (with spinner)
+        else {
+            // Start loading
+            activityIndicator.startAnimating()
             
-            // Finished loading
-            self?.activityIndicator.stopAnimating()
-            
-            if error == nil{
-                self?.loaded = true
-            }
-            
-            // If not cached, then animate
-            if cacheType == .None {
-                let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-                alphaAnim.fromValue = 0
-                alphaAnim.toValue = 1
-                self?.imageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
-            }
+            imageView.sd_setImageWithURL(imageURL, placeholderImage: nil, completed: { (_, error, cacheType, _) -> Void in
+                // Finished loading
+                self.activityIndicator.stopAnimating()
+                
+                self.loaded = error == nil
+                
+                // If not cached, then animate
+                if cacheType == .None {
+                    let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+                    alphaAnim.fromValue = 0
+                    alphaAnim.toValue = 1
+                    self.imageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
+                }
+            })
+        }
+    }
+    
+    private func kk(previewImage: UIImage) {
+        imageView.sd_setImageWithURL(self.imageURL, placeholderImage: previewImage, completed: { (_, error, cacheType, _) -> Void in
+            self.loaded = error == nil
         })
     }
 }

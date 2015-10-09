@@ -509,14 +509,21 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         productStatusLabel.text = viewModel.productStatusLabelText
         
         // Gallery
-        if let thumbnailURL = viewModel.thumbnailURL {
-            galleryView.setPreview(thumbnailURL)
-        }
-        
         galleryView.removePages()
         for i in 0..<viewModel.numberOfImages {
             if let imageURL = viewModel.imageURLAtIndex(i) {
-                galleryView.addPageWithImageAtURL(imageURL)
+                if i == 0 {
+                    if let thumbnailURL = viewModel.thumbnailURL {
+                        galleryView.addPageWithImageAtURL(imageURL, previewURL: thumbnailURL)
+                    }
+                    else {
+                        galleryView.addPageWithImageAtURL(imageURL, previewURL: nil)
+                    }
+                    
+                }
+                else {
+                    galleryView.addPageWithImageAtURL(imageURL, previewURL: nil)
+                }
             }
         }
         

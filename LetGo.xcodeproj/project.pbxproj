@@ -107,7 +107,6 @@
 		50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */; };
 		50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
 		50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
-		50CD8F5D1BC27DE30031DCD3 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5C1BC27DE30031DCD3 /* Info.plist */; };
 		50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */; };
 		50D2CACD1BB41FB800EC5C30 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */; };
 		50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */; };
@@ -1363,7 +1362,6 @@
 				50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */,
 				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
-				50CD8F5D1BC27DE30031DCD3 /* Info.plist in Resources */,
 				50C9E4D31B73637D001E4E92 /* Pods.debug.xcconfig in Resources */,
 				50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,

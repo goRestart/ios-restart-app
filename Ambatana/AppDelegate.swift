@@ -161,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Crashlytics
 #if DEBUG
 #else
-            Fabric.with([Crashlytics()])
+        Fabric.with([Crashlytics()])
 #endif
         
         // Push notifications, get the deep link if any
