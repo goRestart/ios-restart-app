@@ -22,11 +22,12 @@
 "change_password_new_password_field_hint" = "Új jelszó";
 "change_password_send_error_generic" = "Hiba történt a jelszó megváltoztatása során. Kérjük, próbálkozz újra később.";
 "change_password_send_error_invalid_password" = "Kérjük, érvényes jelszót adj meg: legalább %d karakterből kell állnia!";
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
-"change_password_send_error_passwords_mismatch" = "A jelszavak nem egyeznek, próbálkozz újra!";
+"change_password_send_error_invalid_password_with_max" = "Kérjük, érvényes jelszót adj meg. A hossza %d és %d között lehet.";
+"change_password_send_error_passwords_mismatch" = "A jelszavak nem egyeznek. Próbálkozz újra!";
 "change_password_send_ok" = "Sikeres jelszóváltoztatás.";
 "change_password_title" = "Jelszóváltás";
 "change_username_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
+"change_username_error_invalid_username_letgo" = "A felhasználónév nem tartalmazhatja a letgo szót, és ahhoz hasonlóakat sem.";
 "change_username_field_hint" = "Teljes név";
 "change_username_loading" = "Felhasználói név mentése...";
 "change_username_save_button" = "Mentés";
@@ -106,7 +107,7 @@
 "log_in_send_button" = "Bejelentkezés";
 "log_in_title" = "Bejelentkezés";
 "main_sign_up_already_registered_label" = "Már regisztráltál?";
-"main_sign_up_claim_label" = "Kezdj chatelni, vásárolni, eladni";
+"main_sign_up_claim_label" = "Kezdj vásárolni és eladni – chaten!";
 "main_sign_up_contact_us_button" = "Segítségre van szükséged?";
 "main_sign_up_facebook_connect_button" = "Csatlakozás Facebookkal";
 "main_sign_up_fb_connect_error_email_taken" = "A bejelentkezés sikertelen. A Facebookban tárolt e-mail cím már regisztrált. Próbálkozz újra.";
@@ -172,7 +173,7 @@
 "profile_favourites_my_user_no_products_subtitle_label" = "Mire vársz?";
 "profile_favourites_other_user_no_products_label" = "Ennek a felhasználónak még nincs semmilyen meghirdetett vagy kedvenc portékája.";
 "profile_favourites_products_tab" = "Kedvencek";
-"profile_no_products" = "Itt nincs semmi";
+"profile_no_products" = "Ebben a kategóriában (még!) nincsenek portékák";
 "profile_selling_products_tab" = "Árult";
 "profile_sold_products_tab" = "Eladott";
 "push_notification_message_body" = "%@: %@";
@@ -189,7 +190,7 @@
 "reset_password_send_error_generic" = "Hiba történt a jelszóvisszaállítás során.";
 "reset_password_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Az e-mail cím nem található.";
-"reset_password_send_ok" = "Ellenőrizd a bejövő leveleket és kövesd a visszaállítás lépéseit!";
+"reset_password_send_ok" = "Küldtünk egy e-mailt! A benne lévő linkre kattintva tudod visszaállítani a jelszót.";
 "reset_password_title" = "Jelszó visszaállítása";
 "sell_category_selection_label" = "Válassz kategóriát!";
 "sell_choose_category_dialog_cancel_button" = "Mégse";
@@ -247,8 +248,9 @@
 "sign_up_send_error_generic" = "Hiba történt a felhasználó létrehozása során.";
 "sign_up_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
 "sign_up_send_error_invalid_password" = "Kérjük, érvényes jelszót adj meg: legalább %d karakterből kell állnia!";
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "Kérjük, érvényes jelszót adj meg. A hossza %d és %d között lehet.";
 "sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
+"sign_up_send_error_invalid_username_letgo" = "A felhasználónév nem tartalmazhatja a letgo szót, és ahhoz hasonlóakat sem.";
 "sign_up_title" = "Regisztráció";
 "sign_up_username_field_hint" = "Teljes név";
 "tab_bar_tool_tip" = "Add el a dolgaid";

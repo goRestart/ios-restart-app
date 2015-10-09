@@ -22,11 +22,12 @@
 "change_password_new_password_field_hint" = "Nuova password";
 "change_password_send_error_generic" = "Si è verificato un errore durante il cambiamento della password. Riprova più tardi.";
 "change_password_send_error_invalid_password" = "Inserisci una password valida, deve contenere almeno %d caratteri.";
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"change_password_send_error_invalid_password_with_max" = "Inserisci una password valida. Deve contenere tra i %d e i %d caratteri.";
 "change_password_send_error_passwords_mismatch" = "Le password non corrispondono. Riprova.";
 "change_password_send_ok" = "Password modificata con successo.";
 "change_password_title" = "Cambia password";
 "change_username_error_invalid_username" = "Inserisci un nome valido, deve contenere almeno %d caratteri.";
+"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "change_username_field_hint" = "Nome e Cognome";
 "change_username_loading" = "Salvataggio nome utente...";
 "change_username_save_button" = "Salva";
@@ -247,8 +248,9 @@
 "sign_up_send_error_generic" = "Si è verificato un errore durante la creazione dell'utente.";
 "sign_up_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
 "sign_up_send_error_invalid_password" = "Inserisci una password valida, deve contenere almeno %d caratteri.";
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "Inserisci una password valida. Deve contenere tra i %d e i %d caratteri.";
 "sign_up_send_error_invalid_username" = "Inserisci un nome utente valido, deve contenere almeno %d caratteri.";
+"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "sign_up_title" = "Registrati";
 "sign_up_username_field_hint" = "Nome e Cognome";
 "tab_bar_tool_tip" = "Vendi le tue cose";

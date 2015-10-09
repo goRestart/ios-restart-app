@@ -27,6 +27,7 @@
 "change_password_send_ok" = "Salasana vaihdettu onnistuneesti.";
 "change_password_title" = "Vaihda salasana";
 "change_username_error_invalid_username" = "Ole hyvä ja syötä kelvollinen nimi, jossa on vähintään %d merkkiä.";
+"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "change_username_field_hint" = "Koko nimi";
 "change_username_loading" = "Tallennetaan käyttäjänimeäsi...";
 "change_username_save_button" = "Tallenna";
@@ -249,6 +250,7 @@
 "sign_up_send_error_invalid_password" = "Ole hyvä ja syötä kelvollinen salasana, jossa on vähintään %d merkkiä.";
 "sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "sign_up_send_error_invalid_username" = "Ole hyvä ja syötä kelvollinen nimi, jossa on vähintään %d merkkiä.";
+"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "sign_up_title" = "Rekisteröidy";
 "sign_up_username_field_hint" = "Koko nimi";
 "tab_bar_tool_tip" = "Myy tavaroitasi";

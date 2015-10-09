@@ -91,6 +91,9 @@
 // Change name invalid name error.  Check image @ "change_username_title" segment
 "change_username_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 
+// Change name invalid username letgo. Check image @ "change_username_title" segment
+"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+
 // Change name save button.  Check image @ "change_username_title" segment
 "change_username_save_button" = "Save";
 
@@ -665,7 +668,7 @@
 "sell_send_error_uploading_product" = "An error occurred while registering your product.";
 
 // Sell send ok. Check attached image "sell_send_ok.png"
-"sell_send_ok" = "Congratulations! Your item was successfully posted. It will appear in our listings shortly.";
+"sell_send_ok" = "Congratulations! Your item will appear in our listings shortly. It's time to letgo!";
 
 // Sell share fb content
 "sell_share_fb_content" = "I'm selling something on letgo. Check it out!";
@@ -750,6 +753,9 @@
 
 // Sign up send error invalid username. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
+
+// Sign up send error invalid username letgo. Check image @ "sign_up_send_error_email_taken" segment
+"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 
 // Sign up title. Check image @ "sign_up_email_field_hint" segment
 "sign_up_title" = "Sign up";

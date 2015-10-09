@@ -22,11 +22,12 @@
 "change_password_new_password_field_hint" = "Nytt lösenord";
 "change_password_send_error_generic" = "Ett fel uppstod vid byte av lösenord. Var god försök igen.";
 "change_password_send_error_invalid_password" = "Var god ange ett giltigt lösenord på minst %d tecken.";
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"change_password_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
 "change_password_send_error_passwords_mismatch" = "Lösenorden matchar inte. Var god försök igen.";
 "change_password_send_ok" = "Lösenordet har ändrats.";
 "change_password_title" = "Byt lösenord";
 "change_username_error_invalid_username" = "Var god ange ett giltigt namn på minst %d tecken.";
+"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "change_username_field_hint" = "Fullständigt namn";
 "change_username_loading" = "Sparar ditt användarnamn...";
 "change_username_save_button" = "Spara";
@@ -247,8 +248,9 @@
 "sign_up_send_error_generic" = "Ett fel uppstod vid skapande av användare.";
 "sign_up_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
 "sign_up_send_error_invalid_password" = "Var god ange ett giltigt lösenord på minst %d tecken.";
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
 "sign_up_send_error_invalid_username" = "Var god ange ett giltigt namn på minst %d tecken.";
+"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "sign_up_title" = "Registrera dig";
 "sign_up_username_field_hint" = "Fullständigt namn";
 "tab_bar_tool_tip" = "Sälj dina prylar";

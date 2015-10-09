@@ -27,6 +27,7 @@
 "change_password_send_ok" = "Senha alterada com sucesso.";
 "change_password_title" = "Alterar senha";
 "change_username_error_invalid_username" = "Por favor, insira um nome válido, contendo pelo menos %d caracteres.";
+"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "change_username_field_hint" = "Nome completo";
 "change_username_loading" = "Salvando nome de usuário...";
 "change_username_save_button" = "Salvar";
@@ -249,6 +250,7 @@
 "sign_up_send_error_invalid_password" = "Por favor, insira uma senha válida. A senha deve ter no mínimo %d caracteres.";
 "sign_up_send_error_invalid_password_with_max" = "Por favor, insira uma senha válida. Ela deve ter entre %d e %d caracteres.";
 "sign_up_send_error_invalid_username" = "Por favor, insira um nome válido no campo usuário. O nome deve ter no mínimo %d caracteres.";
+"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "sign_up_title" = "Cadastre-se";
 "sign_up_username_field_hint" = "Nome completo";
 "tab_bar_tool_tip" = "Venda suas coisas";

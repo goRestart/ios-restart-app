@@ -27,6 +27,7 @@
 "change_password_send_ok" = "Mật khẩu thay đổi thành công.";
 "change_password_title" = "Thay đổi mật khẩu";
 "change_username_error_invalid_username" = "Vui lòng nhập một tên hợp lệ, có ít nhất %d ký tự.";
+"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "change_username_field_hint" = "Họ Tên";
 "change_username_loading" = "Đang lưu tên đăng nhập của bạn...";
 "change_username_save_button" = "Lưu";
@@ -249,6 +250,7 @@
 "sign_up_send_error_invalid_password" = "Vui lòng nhập mật khẩu hợp lệ, có ít nhất %d kí tự.";
 "sign_up_send_error_invalid_password_with_max" = "Vui lòng nhập mật khẩu hợp lệ. Mật khẩu cần có từ %d đến %d ký tự.";
 "sign_up_send_error_invalid_username" = "Vui lòng nhập tên hợp lệ, có ít nhất %d ký tự.";
+"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
 "sign_up_title" = "Đăng ký";
 "sign_up_username_field_hint" = "Tên đầy đủ";
 "tab_bar_tool_tip" = "Bán Đồ Của Bạn";
