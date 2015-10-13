@@ -15,6 +15,7 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // Data
     private var lastReceivedLocation: LGLocation?
+    private var locationActivatedWhileLoading: Bool
     
     // MARK: - Computed iVars
     
@@ -27,6 +28,7 @@ public class MainProductListViewModel: ProductListViewModel {
     override init() {
         self.myUserManager = MyUserManager.sharedInstance
         self.lastReceivedLocation = self.myUserManager.currentLocation
+        self.locationActivatedWhileLoading = false
         super.init()
         
         self.countryCode = self.myUserManager.myUser()?.postalAddress.countryCode
@@ -62,16 +64,24 @@ public class MainProductListViewModel: ProductListViewModel {
     // MARK: - Internal methods
     
     internal override func didSucceedRetrievingProducts() {
-        // Tracking
-        let myUser = myUserManager.myUser()
-        let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        
+        if locationActivatedWhileLoading {
+            // in case the user allows sensors while loading the product list with the iplookup parameters
+            locationActivatedWhileLoading = false
+            retrieveProductsFirstPage()
+        } else {
+            // Tracking
+            let myUser = myUserManager.myUser()
+            let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        }
     }
     
     // MARK: - Private methods
     
     private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
         // If new location is manual
+        
         if canRetrieveProducts {
             
             // If there are no products, then refresh
@@ -86,6 +96,9 @@ public class MainProductListViewModel: ProductListViewModel {
             else if lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
                 retrieveProductsFirstPage()
             }
+        } else if numberOfProducts == 0 && lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
+            // in case the user allows sensors while loading the product list with the iplookup parameters
+            locationActivatedWhileLoading = true
         }
         
         // Track the received location
