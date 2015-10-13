@@ -65,15 +65,15 @@ public class MainProductListViewModel: ProductListViewModel {
     
     internal override func didSucceedRetrievingProducts() {
         
+        // Tracking
+        let myUser = myUserManager.myUser()
+        let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
         if locationActivatedWhileLoading {
             // in case the user allows sensors while loading the product list with the iplookup parameters
             locationActivatedWhileLoading = false
             retrieveProductsFirstPage()
-        } else {
-            // Tracking
-            let myUser = myUserManager.myUser()
-            let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
     }
     
