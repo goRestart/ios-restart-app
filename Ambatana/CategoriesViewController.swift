@@ -45,7 +45,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         super.viewDidLoad()
 
         // UX/UI & Appearance
-        setLetGoNavigationBarStyle(title: NSLocalizedString("categories_title", comment: ""))
+        setLetGoNavigationBarStyle(title: LGLocalizedString.categoriesTitle)
         
         // CollectionView
         let cellNib = UINib(nibName: "CategoryCell", bundle: nil)

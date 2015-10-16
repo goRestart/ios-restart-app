@@ -27,7 +27,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         super.viewDidLoad()
 
         // appearance
-        setLetGoNavigationBarStyle(title: NSLocalizedString("make_an_offer_title", comment: ""))
+        setLetGoNavigationBarStyle(title: LGLocalizedString.makeAnOfferTitle)
         // > set the product currency
         if let actualProduct = product {
             let currencyCode = actualProduct.currency?.code ?? Constants.defaultCurrencyCode
@@ -38,8 +38,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         self.activityIndicator.hidden = true
         
         // internationalization
-        priceTextField.placeholder = NSLocalizedString("make_an_offer_price_field_hint", comment: "")
-        makeAnOfferButton.setTitle(NSLocalizedString("make_an_offer_send_button", comment: ""), forState: .Normal)
+        priceTextField.placeholder = LGLocalizedString.makeAnOfferPriceFieldHint
+        makeAnOfferButton.setTitle(LGLocalizedString.makeAnOfferSendButton, forState: .Normal)
         
         // setup
         priceTextField.text = product?.price?.stringValue ?? ""
@@ -107,11 +107,11 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                     
                                     if let actualError = retrieveResult.error {
                                         if actualError == .Forbidden {
-                                            strongSelf2.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                                            strongSelf2.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
                                                 MyUserManager.sharedInstance.logout(nil)
                                             })
                                         } else {
-                                            strongSelf2.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+                                            strongSelf2.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
                                         }
                                     }
                                 }
@@ -124,11 +124,11 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                         
                         if let actualError = sendResult.error {
                             if actualError == .Forbidden {
-                                strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
                                     MyUserManager.sharedInstance.logout(nil)
                                 })
                             } else {
-                                strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
                             }
                         }
                     }
@@ -136,14 +136,14 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             }
         }
         else {
-            showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_invalid_price", comment: "") , time: 3.5);
+            showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorInvalidPrice , time: 3.5);
         }
     }
     
     func generateOfferText(price: Int) -> String {
         let currencyCode = product?.currency?.code ?? Constants.defaultCurrencyCode
         let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
-        return String(format: NSLocalizedString("make_an_offer_new_offer_message", comment: ""), formattedAmount)
+        return String(format: LGLocalizedString.makeAnOfferNewOfferMessage, formattedAmount)
     }
     
     func openChatViewControllerWithChat(chat: Chat) {
@@ -153,7 +153,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             navigationController?.viewControllers = controllers
         }
         else {
-            showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+            showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
         }
         
     }
@@ -165,7 +165,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             navigationController?.viewControllers = controllers
         }
         else {
-            showAutoFadingOutMessageAlert(NSLocalizedString("make_an_offer_send_error_generic", comment: ""))
+            showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
         }
     }
 }

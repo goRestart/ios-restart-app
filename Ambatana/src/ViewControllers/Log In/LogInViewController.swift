@@ -114,15 +114,15 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
             let message: String
             switch (error.value) {
             case .InvalidEmail:
-                message = NSLocalizedString("log_in_error_send_error_invalid_email", comment: "")
+                message = LGLocalizedString.logInErrorSendErrorInvalidEmail
             case .InvalidPassword:
-                message = String(format: NSLocalizedString("log_in_error_send_error_invalid_password", comment: ""), Constants.passwordMinLength)
+                message = String(format: LGLocalizedString.logInErrorSendErrorInvalidPassword, Constants.passwordMinLength)
             case .UserNotFoundOrWrongPassword:
-                message = NSLocalizedString("log_in_error_send_error_user_not_found_or_wrong_password", comment: "")
+                message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
             case .Network:
-                message = NSLocalizedString("common_error_connection_failed", comment: "")
+                message = LGLocalizedString.commonErrorConnectionFailed
             case .Internal, .Forbidden:
-                message = NSLocalizedString("log_in_error_send_error_generic", comment: "")
+                message = LGLocalizedString.logInErrorSendErrorGeneric
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -196,11 +196,11 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         logInButton.layer.cornerRadius = 4
         
         // i18n
-        setLetGoNavigationBarStyle(title: NSLocalizedString("log_in_title", comment: ""))
-        emailTextField.placeholder = NSLocalizedString("log_in_email_field_hint", comment: "")
-        passwordTextField.placeholder = NSLocalizedString("log_in_password_field_hint", comment: "")
-        rememberPasswordButton.setTitle(NSLocalizedString("log_in_reset_password_button", comment: ""), forState: .Normal)
-        logInButton.setTitle(NSLocalizedString("log_in_send_button", comment: ""), forState: .Normal)
+        setLetGoNavigationBarStyle(title: LGLocalizedString.logInTitle)
+        emailTextField.placeholder = LGLocalizedString.logInEmailFieldHint
+        passwordTextField.placeholder = LGLocalizedString.logInPasswordFieldHint
+        rememberPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, forState: .Normal)
+        logInButton.setTitle(LGLocalizedString.logInSendButton, forState: .Normal)
         
         emailTextField.tintColor = StyleHelper.textFieldTintColor
         passwordTextField.tintColor = StyleHelper.textFieldTintColor

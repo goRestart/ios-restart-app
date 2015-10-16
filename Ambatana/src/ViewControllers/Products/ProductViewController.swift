@@ -131,14 +131,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             viewModel.shareInEmail("bottom")
         }
         else {
-            showAutoFadingOutMessageAlert(NSLocalizedString("product_share_email_error", comment: ""))
+            showAutoFadingOutMessageAlert(LGLocalizedString.productShareEmailError)
         }
     }
     
     @IBAction func shareWhatsAppButtonPressed(sender: AnyObject) {
         let isWhatsAppInstalled = viewModel.shareInWhatsApp()
         if !isWhatsAppInstalled {
-            showAutoFadingOutMessageAlert(NSLocalizedString("product_share_whatsapp_error", comment: ""))
+            showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
         }
     }
     
@@ -199,7 +199,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: ""))
+        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
@@ -231,7 +231,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     public func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         var message: String? = nil
         if result.value == MFMailComposeResultFailed.value { // we just give feedback if something nasty happened.
-            message = NSLocalizedString("product_share_email_error", comment: "")
+            message = LGLocalizedString.productShareEmailError
         }
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             if message != nil { self.showAutoFadingOutMessageAlert(message!) }
@@ -254,7 +254,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     public func viewModelForbiddenAccessToFavourite(viewModel: ProductViewModel) {
-        showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+        showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
             MyUserManager.sharedInstance.logout(nil)
         })
     }
@@ -266,8 +266,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
 
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
         reportButton.enabled = false
-        reportButton.setTitle(NSLocalizedString("product_reporting_product_label", comment: ""), forState: .Normal)
-        showLoadingMessageAlert(customMessage: NSLocalizedString("product_reporting_loading_message", comment: ""))
+        reportButton.setTitle(LGLocalizedString.productReportingProductLabel, forState: .Normal)
+        showLoadingMessageAlert(customMessage: LGLocalizedString.productReportingLoadingMessage)
     }
     
     public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
@@ -277,7 +277,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     public func viewModelDidCompleteReporting(viewModel: ProductViewModel) {
         
         var completion = {
-            self.showAutoFadingOutMessageAlert(NSLocalizedString("product_reported_success_message", comment: ""), time: 3)
+            self.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedSuccessMessage, time: 3)
         }
         
         dismissLoadingMessageAlert(completion: completion)
@@ -289,7 +289,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         if error == .Forbidden {
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
                     MyUserManager.sharedInstance.logout(nil)
                 })
             }
@@ -297,7 +297,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         else {
             completion = {
                 self.reportButton.enabled = true
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_reported_error_generic", comment: ""), time: 3)
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedErrorGeneric, time: 3)
             }
         }
         
@@ -314,14 +314,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         let completion: () -> Void
         if let success = result.value {
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_delete_success_message", comment: ""), time: 3) {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productDeleteSuccessMessage, time: 3) {
                     self.navigationController?.popViewControllerAnimated(true)
                 }
             }
         }
         else {
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_delete_send_error_generic", comment: ""))
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productDeleteSendErrorGeneric)
             }
         }
         dismissLoadingMessageAlert(completion: completion)
@@ -336,7 +336,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         if let success = result.value {
             
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_success_message", comment: ""), time: 3) {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldSuccessMessage, time: 3) {
 
                     if let tabBarCtrl = self.tabBarController as? TabBarController {
                         tabBarCtrl.showAppRatingViewIfNeeded()
@@ -348,7 +348,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         }
         else {
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_mark_as_sold_error_generic", comment: ""))
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldErrorGeneric)
             }
         }
         dismissLoadingMessageAlert(completion: completion)
@@ -367,12 +367,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         }
         else {
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("product_chat_error_generic", comment: ""))
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productChatErrorGeneric)
             }
             if let actualError = result.error {
                 if actualError == .Forbidden {
                     completion = {
-                        self.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                        self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
                             MyUserManager.sharedInstance.logout(nil)
                         })
                     }
@@ -449,12 +449,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         markSoldButton.setBackgroundImage(markSoldButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         
         // i18n
-        reportButton.setTitle(NSLocalizedString("product_report_product_button", comment: ""), forState: .Normal)
-        deleteButton.setTitle(NSLocalizedString("product_delete_confirm_title", comment: ""), forState: .Normal)
+        reportButton.setTitle(LGLocalizedString.productReportProductButton, forState: .Normal)
+        deleteButton.setTitle(LGLocalizedString.productDeleteConfirmTitle, forState: .Normal)
         
-        askButton.setTitle(NSLocalizedString("product_ask_a_question_button", comment: ""), forState: .Normal)
-        offerButton.setTitle(NSLocalizedString("product_make_an_offer_button", comment: ""), forState: .Normal)
-        markSoldButton.setTitle(NSLocalizedString("product_mark_as_sold_button", comment: ""), forState: .Normal)
+        askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
+        offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
+        markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
         
         // Delegates
         galleryView.delegate = self
@@ -567,12 +567,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         let reportButtonEnabled: Bool
         
         if reported {
-            reportButtonTitle = NSLocalizedString("product_reported_product_label", comment: "")
+            reportButtonTitle = LGLocalizedString.productReportedProductLabel
             reportButtonEnabled = false
             
         }
         else {
-            reportButtonTitle = NSLocalizedString("product_report_product_button", comment: "")
+            reportButtonTitle = LGLocalizedString.productReportProductButton
             reportButtonEnabled = true
         }
         reportButton.setTitle(reportButtonTitle, forState: .Normal)
@@ -687,11 +687,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     // MARK: > Actions w dialogs
     
     private func showReportAlert() {
-        let alert = UIAlertController(title: NSLocalizedString("product_report_confirm_title", comment: ""), message: NSLocalizedString("product_report_confirm_message", comment: ""), preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("common_no", comment: ""), style: .Cancel, handler: { (_) -> Void in
+        let alert = UIAlertController(title: LGLocalizedString.productReportConfirmTitle, message: LGLocalizedString.productReportConfirmMessage, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: { (_) -> Void in
             self.viewModel.reportAbandon()
         })
-        let reportAction = UIAlertAction(title: NSLocalizedString("common_yes", comment: ""), style: .Default, handler: { (_) -> Void in
+        let reportAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
             self.viewModel.report()
         })
         alert.addAction(cancelAction)
@@ -703,18 +703,18 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     private func showDeleteAlert() {
-        let alert = UIAlertController(title: NSLocalizedString("product_delete_confirm_title", comment: ""), message: NSLocalizedString("product_delete_sold_confirm_message", comment: ""), preferredStyle: .Alert)
+        let alert = UIAlertController(title: LGLocalizedString.productDeleteConfirmTitle, message: LGLocalizedString.productDeleteSoldConfirmMessage, preferredStyle: .Alert)
         
         if viewModel.shouldSuggestMarkSoldWhenDeleting {
             
-            alert.message = NSLocalizedString("product_delete_confirm_message", comment: "")
-            let cancelAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (_) -> Void in
+            alert.message = LGLocalizedString.productDeleteConfirmMessage
+            let cancelAction = UIAlertAction(title: LGLocalizedString.productDeleteConfirmCancelButton, style: .Cancel, handler: { (_) -> Void in
                 self.viewModel.deleteAbandon()
             })
-            let soldAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_sold_button", comment: ""), style: .Default, handler: { (_) -> Void in
+            let soldAction = UIAlertAction(title: LGLocalizedString.productDeleteConfirmSoldButton, style: .Default, handler: { (_) -> Void in
                 self.viewModel.markSold(.Delete)
             })
-            let deleteAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_ok_button", comment: ""), style: .Default, handler: { (_) -> Void in
+            let deleteAction = UIAlertAction(title: LGLocalizedString.productDeleteConfirmOkButton, style: .Default, handler: { (_) -> Void in
                 self.viewModel.delete()
             })
             alert.addAction(cancelAction)
@@ -723,12 +723,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         }
         else {
             
-            alert.message = NSLocalizedString("product_delete_sold_confirm_message", comment: "")
+            alert.message = LGLocalizedString.productDeleteSoldConfirmMessage
 
-            let cancelAction = UIAlertAction(title: NSLocalizedString("product_delete_confirm_cancel_button", comment: ""), style: .Cancel, handler: { (markAction) -> Void in
+            let cancelAction = UIAlertAction(title: LGLocalizedString.productDeleteConfirmCancelButton, style: .Cancel, handler: { (markAction) -> Void in
                 self.viewModel.deleteAbandon()
             })
-            let deleteAction = UIAlertAction(title: NSLocalizedString("common_ok", comment: ""), style: .Default, handler: { (_) -> Void in
+            let deleteAction = UIAlertAction(title: LGLocalizedString.commonOk, style: .Default, handler: { (_) -> Void in
                 self.viewModel.delete()
             })
             alert.addAction(cancelAction)
@@ -741,11 +741,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     private func showMarkSoldAlert() {
         let source: EventParameterSellSourceValue = .MarkAsSold
-        let alert = UIAlertController(title: NSLocalizedString("product_mark_as_sold_confirm_title", comment: ""), message: NSLocalizedString("product_mark_as_sold_confirm_message", comment: ""), preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: NSLocalizedString("common_no", comment: ""), style: .Cancel, handler: { (_) -> Void in
+        let alert = UIAlertController(title: LGLocalizedString.productMarkAsSoldConfirmTitle, message: LGLocalizedString.productMarkAsSoldConfirmMessage, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: { (_) -> Void in
             self.viewModel.markSoldAbandon(source)
         })
-        let soldAction = UIAlertAction(title: NSLocalizedString("common_yes", comment: ""), style: .Default, handler: { (_) -> Void in
+        let soldAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
             self.viewModel.markSold(source)
         })
         alert.addAction(cancelAction)

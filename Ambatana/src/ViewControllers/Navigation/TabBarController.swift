@@ -116,7 +116,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         tabBar.addSubview(sellButton)
         
         // Add the floating sell button
-        floatingSellButton = FloatingButton.floatingButtonWithTitle(NSLocalizedString("tab_bar_tool_tip", comment: ""), icon: UIImage(named: "ic_sell_white"))
+        floatingSellButton = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip, icon: UIImage(named: "ic_sell_white"))
         floatingSellButton.addTarget(self, action: Selector("sellButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
         floatingSellButton.setTranslatesAutoresizingMaskIntoConstraints(false)
         view.addSubview(floatingSellButton)
@@ -476,9 +476,9 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                 let message: String
                 switch error {
                 case .Network:
-                    message = NSLocalizedString("common_error_connection_failed", comment: "")
+                    message = LGLocalizedString.commonErrorConnectionFailed
                 case .Internal:
-                    message = NSLocalizedString("common_product_not_available", comment: "")
+                    message = LGLocalizedString.commonProductNotAvailable
                 }
                 loadingDismissCompletion = { () -> Void in
                     self?.showAutoFadingOutMessageAlert(message)
@@ -517,9 +517,9 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                 let message: String
                 switch error {
                 case .Network:
-                    message = NSLocalizedString("common_error_connection_failed", comment: "")
+                    message = LGLocalizedString.commonErrorConnectionFailed
                 case .Internal:
-                    message = NSLocalizedString("common_user_not_available", comment: "")
+                    message = LGLocalizedString.commonUserNotAvailable
                 }
                 loadingDismissCompletion = { () -> Void in
                     self?.showAutoFadingOutMessageAlert(message)
@@ -555,14 +555,14 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     
     dynamic private func askUserToUpdateLocation() {
         
-        let firstAlert = UIAlertController(title: nil, message: NSLocalizedString("change_location_ask_update_location_message", comment: ""), preferredStyle: .Alert)
-        let yesAction = UIAlertAction(title: NSLocalizedString("common_ok", comment: ""), style: UIAlertActionStyle.Default) { (updateToGPSLocation) -> Void in
+        let firstAlert = UIAlertController(title: nil, message: LGLocalizedString.changeLocationAskUpdateLocationMessage, preferredStyle: .Alert)
+        let yesAction = UIAlertAction(title: LGLocalizedString.commonOk, style: UIAlertActionStyle.Default) { (updateToGPSLocation) -> Void in
             MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
         }
-        let noAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel) { (showSecondAlert) -> Void in
-            let secondAlert = UIAlertController(title: nil, message: NSLocalizedString("change_location_recommend_update_location_message", comment: ""), preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: NSLocalizedString("common_cancel", comment: ""), style: .Cancel, handler: nil)
-            let updateAction = UIAlertAction(title: NSLocalizedString("change_location_confirm_update_button", comment: ""), style: .Default) { (updateToGPSLocation) -> Void in
+        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel) { (showSecondAlert) -> Void in
+            let secondAlert = UIAlertController(title: nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage, preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
+            let updateAction = UIAlertAction(title: LGLocalizedString.changeLocationConfirmUpdateButton, style: .Default) { (updateToGPSLocation) -> Void in
                 MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
             }
             secondAlert.addAction(cancelAction)
