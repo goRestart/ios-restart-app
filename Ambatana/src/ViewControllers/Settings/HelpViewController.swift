@@ -28,7 +28,7 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
         self.init(viewModel: viewModel)
         
         // Navigation Bar
-        title = NSLocalizedString("help_title", comment: "")
+        title = LGLocalizedString.helpTitle
         setLetGoRightButtonsWithImageNames(["ic_contact_small"], andSelectors: ["openContact"])
     }
     

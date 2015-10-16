@@ -111,11 +111,11 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         userImageView.layer.borderWidth = 1
         
         // internationalization
-        sellButton.setTitle(NSLocalizedString("profile_selling_products_tab", comment: ""), forState: .Normal)
-        soldButton.setTitle(NSLocalizedString("profile_sold_products_tab", comment: ""), forState: .Normal)
-        favoriteButton.setTitle(NSLocalizedString("profile_favourites_products_tab", comment: ""), forState: .Normal)
+        sellButton.setTitle(LGLocalizedString.profileSellingProductsTab, forState: .Normal)
+        soldButton.setTitle(LGLocalizedString.profileSoldProductsTab, forState: .Normal)
+        favoriteButton.setTitle(LGLocalizedString.profileFavouritesProductsTab, forState: .Normal)
         
-        noFavouritesLabel.text = NSLocalizedString("profile_no_products", comment: "")
+        noFavouritesLabel.text = LGLocalizedString.profileNoProducts
         
         // center activity indicator (if there's a tabbar)
         let bottomMargin: CGFloat
@@ -278,7 +278,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         
         if error == .Forbidden {
             // logout the scammer!
-            showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
                 MyUserManager.sharedInstance.logout(nil)
             })
         }
@@ -492,15 +492,15 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
             
             // set text depending on if we are the user being shown or not
             if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId { // user is me!
-                youDontHaveTitleLabel.text = NSLocalizedString("profile_favourites_my_user_no_products_label", comment: "")
-                youDontHaveSubtitleLabel.text = NSLocalizedString("profile_favourites_my_user_no_products_subtitle_label", comment: "")
+                youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
+                youDontHaveSubtitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsSubtitleLabel
                 youDontHaveSubtitleLabel.hidden = false
                 
                 startSearchingNowButton.hidden = false
                 startSellingNowButton.hidden = false
             }
             else {
-                youDontHaveTitleLabel.text = NSLocalizedString("profile_favourites_other_user_no_products_label", comment: "")
+                youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesOtherUserNoProductsLabel
                 youDontHaveSubtitleLabel.hidden = true
                 
                 startSearchingNowButton.hidden = true

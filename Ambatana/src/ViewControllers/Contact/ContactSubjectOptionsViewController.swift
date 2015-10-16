@@ -45,7 +45,7 @@ class ContactSubjectOptionsViewController: BaseViewController, UITableViewDelega
         tableView.delegate = self
         tableView.dataSource = self
         
-        setLetGoNavigationBarStyle(title: NSLocalizedString("contact_subject_options_title", comment: ""))
+        setLetGoNavigationBarStyle(title: LGLocalizedString.contactSubjectOptionsTitle)
     }
 
     override func viewWillAppear(animated: Bool) {

@@ -18,7 +18,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         case ProductTitle = 1000, ProductPrice, ProductDescription
     }
     
-    let descrPlaceholder = NSLocalizedString("sell_description_field_hint", comment: "")
+    let descrPlaceholder = LGLocalizedString.sellDescriptionFieldHint
     let descrPlaceholderColor = UIColor(rgb: 0xC7C7CD)
     let sellProductCellReuseIdentifier = "SellProductCell"
     
@@ -97,7 +97,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
   
     @IBAction func categoryButtonPressed(sender: AnyObject) {
         
-        let alert = UIAlertController(title: NSLocalizedString("sell_choose_category_dialog_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil, preferredStyle: .ActionSheet)
 
         for i in 0..<viewModel.numberOfCategories {
             alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(i), style: .Default, handler: { (categoryAction) -> Void in
@@ -105,7 +105,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
             }))
         }
         
-        alert.addAction(UIAlertAction(title: NSLocalizedString("sell_choose_category_dialog_cancel_button", comment: ""), style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: LGLocalizedString.sellChooseCategoryDialogCancelButton, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
 
     }
@@ -268,14 +268,14 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         // add image
         if indexPath.item == viewModel.numberOfImages {
             // launch image picker
-            let alert = UIAlertController(title: NSLocalizedString("sell_picture_image_source_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_image_source_camera_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
+            let alert = UIAlertController(title: LGLocalizedString.sellPictureImageSourceTitle, message: nil, preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraButton, style: .Default, handler: { (alertAction) -> Void in
                 self.openImagePickerWithSource(.Camera)
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_image_source_camera_roll_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraRollButton, style: .Default, handler: { (alertAction) -> Void in
                 self.openImagePickerWithSource(.PhotoLibrary)
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_image_source_cancel_button", comment: ""), style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCancelButton, style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
             
             if indexPath.item > 1 && indexPath.item < 4 {
@@ -284,18 +284,18 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
             
         } else if (indexPath.item < viewModel.numberOfImages) {
             // remove image
-            let alert = UIAlertController(title: NSLocalizedString("sell_picture_selected_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_selected_delete_button", comment: ""), style: .Destructive, handler: { (deleteAction) -> Void in
+            let alert = UIAlertController(title: LGLocalizedString.sellPictureSelectedTitle, message: nil, preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedDeleteButton, style: .Destructive, handler: { (deleteAction) -> Void in
                 self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
                 if indexPath.item > 0 {
                     collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item-1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
                 }
 
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_selected_save_into_camera_roll_button", comment: ""), style: .Default, handler: { (saveAction) -> Void in
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedSaveIntoCameraRollButton, style: .Default, handler: { (saveAction) -> Void in
                 self.saveProductImageToDiskAtIndex(indexPath.row)
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("sell_picture_selected_cancel_button", comment: ""), style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedCancelButton, style: .Cancel, handler: nil))
             
             self.presentViewController(alert, animated: true, completion: nil)
         }
@@ -337,7 +337,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     }
     
     func saveProductImageToDiskAtIndex(index: Int) {
-        showLoadingMessageAlert(customMessage: NSLocalizedString("sell_picture_save_into_camera_roll_loading", comment: ""))
+        showLoadingMessageAlert(customMessage: LGLocalizedString.sellPictureSaveIntoCameraRollLoading)
         
         // get the image and launch the saving action.
         UIImageWriteToSavedPhotosAlbum(viewModel.imageAtIndex(index), self, "image:didFinishSavingWithError:contextInfo:", nil)
@@ -346,9 +346,9 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     func image(image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
         self.dismissLoadingMessageAlert(completion: { () -> Void in
             if error == nil { // success
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_picture_save_into_camera_roll_ok", comment: ""));
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollOk);
             } else {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_picture_save_into_camera_roll_error_generic", comment: ""));
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric);
             }
         })
     }
@@ -358,12 +358,12 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     func setupUI() {
         
-        titleTextField.placeholder = NSLocalizedString("sell_title_field_hint", comment: "")
+        titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint
         titleTextField.text = viewModel.title
         titleTextField.tag = TextFieldTag.ProductTitle.rawValue
         currencyButton.setTitle(viewModel.currency.symbol, forState: .Normal)
 
-        priceTextField.placeholder = NSLocalizedString("sell_price_field_hint", comment: "")
+        priceTextField.placeholder = LGLocalizedString.sellPriceFieldHint
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.ProductPrice.rawValue
         
@@ -380,13 +380,13 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         descriptionTextView.tag = TextFieldTag.ProductDescription.rawValue
         descriptionCharCountLabel.text = "\(viewModel.descriptionCharCount)"
         
-        let categoryButtonTitle = viewModel.categoryName ?? NSLocalizedString("sell_category_selection_label", comment: "")
+        let categoryButtonTitle = viewModel.categoryName ?? LGLocalizedString.sellCategorySelectionLabel
         categoryButton.setTitle(categoryButtonTitle, forState: .Normal)
         
-        sendButton.setTitle(NSLocalizedString("sell_send_button", comment: ""), forState: .Normal)  // edit VC will override this
+        sendButton.setTitle(LGLocalizedString.sellSendButton, forState: .Normal)  // edit VC will override this
         sendButton.layer.cornerRadius = 4
         shareFBSwitch.on = viewModel.shouldShareInFB
-        shareFBLabel.text = NSLocalizedString("sell_share_on_facebook_label", comment: "")
+        shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
         
         // CollectionView
         imageCollectionView.delegate = self
@@ -394,7 +394,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         let sellProductCellNib = UINib(nibName: "SellProductCell", bundle: nil)
         self.imageCollectionView.registerNib(sellProductCellNib, forCellWithReuseIdentifier: sellProductCellReuseIdentifier)
         
-        loadingLabel.text = NSLocalizedString("sell_uploading_label", comment: "")
+        loadingLabel.text = LGLocalizedString.sellUploadingLabel
         
     }
     
@@ -421,7 +421,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         viewModel.shouldEnableTracking()
         // @ahl: delayed is needed thanks to facebook
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            self.showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_error_sharing_facebook", comment: "")) {
+            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook) {
                 self.sellCompleted()
             }
         }

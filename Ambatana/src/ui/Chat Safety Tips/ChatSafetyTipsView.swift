@@ -22,11 +22,11 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
             get {
                 switch(self) {
                 case .One:
-                    return NSLocalizedString("chat_safety_tips_tip_1", comment: "")
+                    return LGLocalizedString.chatSafetyTipsTip1
                 case .Two:
-                    return NSLocalizedString("chat_safety_tips_tip_2", comment: "")
+                    return LGLocalizedString.chatSafetyTipsTip2
                 case .Three:
-                    return NSLocalizedString("chat_safety_tips_tip_3", comment: "")
+                    return LGLocalizedString.chatSafetyTipsTip3
                 }
             }
         }
@@ -116,8 +116,8 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
         okButton.layer.cornerRadius = 4
         
         // i18n
-        titleLabel.text = NSLocalizedString("chat_safety_tips_title", comment: "").uppercaseString
-        okButton.setTitle(NSLocalizedString("common_ok", comment: ""), forState: .Normal)
+        titleLabel.text = LGLocalizedString.chatSafetyTipsTitle.uppercaseString
+        okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
         
         // ScrollView setup
         let tipHMargin: CGFloat = 16

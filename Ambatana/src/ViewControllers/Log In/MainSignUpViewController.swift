@@ -142,9 +142,9 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
             case .Cancelled:
                 break
             case .EmailTaken:
-                message = NSLocalizedString("main_sign_up_fb_connect_error_email_taken", comment: "")
+                message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
             case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch:
-                message = NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
             }
             completion = {
                 if let actualMessage = message {
@@ -172,12 +172,12 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         signUpButton.layer.cornerRadius = 4
         
         // i18n
-        claimLabel.text = NSLocalizedString("main_sign_up_claim_label", comment: "")
-        connectFBButton.setTitle(NSLocalizedString("main_sign_up_facebook_connect_button", comment: ""), forState: .Normal)
-        orLabel.text = NSLocalizedString("main_sign_up_or_label", comment: "")
-        signUpButton.setTitle(NSLocalizedString("main_sign_up_sign_up_button", comment: ""), forState: .Normal)
-        registeredLabel.text = NSLocalizedString("main_sign_up_already_registered_label", comment: "")
-        logInLabel.text = NSLocalizedString("main_sign_up_log_in_label", comment: "")
-        contactUsButton.setTitle(NSLocalizedString("main_sign_up_contact_us_button", comment: ""), forState: .Normal)
+        claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
+        connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
+        orLabel.text = LGLocalizedString.mainSignUpOrLabel
+        signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
+        registeredLabel.text = LGLocalizedString.mainSignUpAlreadyRegisteredLabel
+        logInLabel.text = LGLocalizedString.mainSignUpLogInLabel
+        contactUsButton.setTitle(LGLocalizedString.mainSignUpContactUsButton, forState: .Normal)
     }
 }

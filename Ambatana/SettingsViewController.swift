@@ -25,19 +25,19 @@ enum LetGoUserSettings: Int {
     func titleForSetting() -> String {
         switch (self) {
         case .ChangePhoto:
-            return NSLocalizedString("settings_change_profile_picture_button", comment: "")
+            return LGLocalizedString.settingsChangeProfilePictureButton
         case .ChangeUsername:
-            return NSLocalizedString("settings_change_username_button", comment: "")
+            return LGLocalizedString.settingsChangeUsernameButton
         case .ChangeLocation:
-            return NSLocalizedString("settings_change_location_button", comment: "")
+            return LGLocalizedString.settingsChangeLocationButton
         case .ChangePassword:
-            return NSLocalizedString("settings_change_password_button", comment: "")
+            return LGLocalizedString.settingsChangePasswordButton
         case .ContactUs:
-            return NSLocalizedString("settings_contact_us_button", comment: "")
+            return LGLocalizedString.settingsContactUsButton
         case .Help:
-            return NSLocalizedString("settings_help_button", comment: "")
+            return LGLocalizedString.settingsHelpButton
         case .LogOut:
-            return NSLocalizedString("settings_logout_button", comment: "")
+            return LGLocalizedString.settingsLogoutButton
         }
     }
     
@@ -85,11 +85,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
 
         // internationalization
-        settingProfileImageLabel.text = NSLocalizedString("settings_change_profile_picture_loading", comment: "")
+        settingProfileImageLabel.text = LGLocalizedString.settingsChangeProfilePictureLoading
         
         // appearance
         settingProfileImageView.hidden = true
-        setLetGoNavigationBarStyle(title: NSLocalizedString("settings_title", comment: ""))
+        setLetGoNavigationBarStyle(title: LGLocalizedString.settingsTitle)
         
         // tableview
         let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
@@ -196,21 +196,21 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func showImageSourceSelection() {
         if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: NSLocalizedString("settings_image_source_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
+            let alert = UIAlertController(title: LGLocalizedString.settingsImageSourceTitle, message: nil, preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: LGLocalizedString.settingsImageSourceCameraButton, style: .Default, handler: { (alertAction) -> Void in
                 self.openImagePickerWithSource(.Camera)
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_roll_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
+            alert.addAction(UIAlertAction(title: LGLocalizedString.settingsImageSourceCameraRollButton, style: .Default, handler: { (alertAction) -> Void in
                 self.openImagePickerWithSource(.PhotoLibrary)
             }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_cancel_button", comment: ""), style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: LGLocalizedString.settingsImageSourceCancelButton, style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         } else {
             let actionSheet = UIActionSheet()
             actionSheet.delegate = self
-            actionSheet.title = NSLocalizedString("settings_image_source_title", comment: "")
-            actionSheet.addButtonWithTitle(NSLocalizedString("settings_image_source_camera_button", comment: ""))
-            actionSheet.addButtonWithTitle(NSLocalizedString("settings_image_source_camera_roll_button", comment: ""))
+            actionSheet.title = LGLocalizedString.settingsImageSourceTitle
+            actionSheet.addButtonWithTitle(LGLocalizedString.settingsImageSourceCameraButton)
+            actionSheet.addButtonWithTitle(LGLocalizedString.settingsImageSourceCameraRollButton)
             actionSheet.showInView(self.view)
         }
         
@@ -259,7 +259,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         // upload image.
         if imageFile == nil { // we were unable to generate the image file.
             self.settingProfileImageView.hidden = true
-            self.showAutoFadingOutMessageAlert(NSLocalizedString("settings_change_profile_picture_error_generic", comment: ""))
+            self.showAutoFadingOutMessageAlert(LGLocalizedString.settingsChangeProfilePictureErrorGeneric)
         } else { // we have a valid image PFFile, now update current user's avatar with it.
             imageFile?.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if success { // successfully uploaded image. Now assign it to the user and save him/her.
@@ -275,12 +275,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
                         } else { // unable save user with new avatar.
                             self.settingProfileImageView.hidden = true
-                            self.showAutoFadingOutMessageAlert(NSLocalizedString("settings_change_profile_picture_error_generic", comment: ""))
+                            self.showAutoFadingOutMessageAlert(LGLocalizedString.settingsChangeProfilePictureErrorGeneric)
                         }
                     })
                 } else { // error uploading new user image.
                     self.settingProfileImageView.hidden = true
-                    self.showAutoFadingOutMessageAlert(NSLocalizedString("settings_change_profile_picture_error_generic", comment: ""))
+                    self.showAutoFadingOutMessageAlert(LGLocalizedString.settingsChangeProfilePictureErrorGeneric)
                 }
             }, progressBlock: { (progressAsInt) -> Void in
                 self.settingProfileImageProgressView.setProgress(Float(progressAsInt)/100.0, animated: true)

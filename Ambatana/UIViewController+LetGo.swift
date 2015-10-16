@@ -99,8 +99,8 @@ extension UIViewController {
     }
     
     // Shows a loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert()
-    func showLoadingMessageAlert(customMessage: String? = NSLocalizedString("common_loading", comment: "")) {
-        let finalMessage = (customMessage ?? NSLocalizedString("common_loading", comment: ""))+"\n\n\n"
+    func showLoadingMessageAlert(customMessage: String? = LGLocalizedString.commonLoading) {
+        let finalMessage = (customMessage ?? LGLocalizedString.commonLoading)+"\n\n\n"
         let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .Alert)
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
         activityIndicator.color = UIColor.blackColor()
@@ -118,7 +118,7 @@ extension UIViewController {
 
     
     // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert().  Used to patch FB login in iOS 9
-    func showCustomLoadingMessageAlert(customMessage: String? = NSLocalizedString("common_loading", comment: "")) {
+    func showCustomLoadingMessageAlert(customMessage: String? = LGLocalizedString.commonLoading) {
         let bgVC = UIViewController()
         bgVC.modalPresentationStyle =  UIModalPresentationStyle.OverCurrentContext
         bgVC.view.backgroundColor =  UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3)
