@@ -127,6 +127,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
 
     }
+    
+    // MARK: > App continuation
+    
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+            let webpageURL = userActivity.webpageURL! // Always exists
+            
+            if let deepLink = DeepLink(url: webpageURL), let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                return tabBarCtl.openDeepLink(deepLink)
+            }
+            else {
+                UIApplication.sharedApplication().openURL(webpageURL)
+            }
+        }
+        return true
+    }
 
     // MARK: > Push notification
     
