@@ -163,6 +163,7 @@
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
+		C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = C78448DC1BD5196E00C76199 /* LetGo.entitlements */; settings = {ASSET_TAGS = (); }; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
 		D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28C1AEE2B2900B64CE1 /* LanguageHelper.swift */; };
@@ -395,6 +396,7 @@
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C78448DC1BD5196E00C76199 /* LetGo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LetGo.entitlements; sourceTree = "<group>"; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		D40DA28C1AEE2B2900B64CE1 /* LanguageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageHelper.swift; sourceTree = "<group>"; };
@@ -1067,6 +1069,7 @@
 				D40DA2851AEE274600B64CE1 /* data */,
 				506DC19A1BBE7D8A00E59D27 /* sound */,
 				2EE47E591BBEA5B70034C19D /* Settings.bundle */,
+				C78448DC1BD5196E00C76199 /* LetGo.entitlements */,
 			);
 			path = res;
 			sourceTree = "<group>";
@@ -1262,6 +1265,9 @@
 							com.apple.InAppPurchase = {
 								enabled = 0;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 						};
 					};
 					D4B5462E1AEFDD920062D183 = {
@@ -1314,6 +1320,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */,
@@ -1829,6 +1836,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1860,6 +1868,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1927,6 +1936,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
