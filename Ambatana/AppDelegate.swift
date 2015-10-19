@@ -135,13 +135,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let webpageURL = userActivity.webpageURL! // Always exists
             
             if let deepLink = DeepLink(url: webpageURL), let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                return tabBarCtl.openDeepLink(deepLink)
+                tabBarCtl.openDeepLink(deepLink)
             }
             else {
                 UIApplication.sharedApplication().openURL(webpageURL)
             }
+            return true
         }
-        return true
+        return false
     }
 
     // MARK: > Push notification
