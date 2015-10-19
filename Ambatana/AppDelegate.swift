@@ -197,6 +197,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // New Relic
         NewRelicAgent.startWithApplicationToken(EnvironmentProxy.sharedInstance.newRelicToken)
         
+        // Google app indexing
+        GSDAppIndexing.sharedInstance().registerApp(986339882)
+        
         return deepLink
     }
     

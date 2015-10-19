@@ -39,7 +39,12 @@ pod "Kahuna",               "~> 2.2"
 # New Relic
 pod "NewRelicAgent",         "~> 5.3.1"
 
+# Realm
 pod "RealmSwift",           "~> 0.95.0"  # delete!!
+
+# Google app indexing
+pod "GoogleAppIndexing",    "~> 2.0"
+
 
 target "letgoTests", :exclusive => true do
     ## Testing

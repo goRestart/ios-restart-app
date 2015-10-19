@@ -20,4 +20,7 @@
 // Performance
 #import <NewRelicAgent/NewRelic.h>
 
+// Google app indexing
+#import <GoogleAppIndexing/GoogleAppIndexing.h>
+
 #endif
