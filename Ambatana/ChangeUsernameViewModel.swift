@@ -14,7 +14,7 @@ public protocol ChangeUsernameViewModelDelegate : class {
     func viewModel(viewModel: ChangeUsernameViewModel, updateSaveButtonEnabledState enabled: Bool)
     func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: UserSaveServiceError)
     func viewModelDidStartSendingUser(viewModel: ChangeUsernameViewModel)
-    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult result: Result<User, UserSaveServiceError>)
+    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult result: UserSaveServiceResult)
 
 }
 
@@ -49,17 +49,17 @@ public class ChangeUsernameViewModel: BaseViewModel {
 
             username = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 
-            MyUserManager.sharedInstance.updateUsername(username) { [weak self] (result: Result<User, UserSaveServiceError>) in
+            MyUserManager.sharedInstance.updateUsername(username) { [weak self] (result: UserSaveServiceResult) in
                 if let strongSelf = self {
                     if let actualDelegate = strongSelf.delegate {
-                        if let user = result.value {
+                        if let _ = result.value {
                             // success
                             actualDelegate.viewModel(strongSelf, didFinishSendingUserWithResult: result)
                             let trackerEvent = TrackerEvent.profileEditEditName()
                             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
                         }
-                        else if let someError = result.error {
+                        else if let _ = result.error {
                             // error
                             actualDelegate.viewModel(strongSelf, didFinishSendingUserWithResult: result)
                         }

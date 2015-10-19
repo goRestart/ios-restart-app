@@ -20,7 +20,7 @@ class SplashViewController: BaseViewController {
         super.init(viewModel: nil, nibName: "SplashViewController")
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -48,7 +48,7 @@ class SplashViewController: BaseViewController {
                 self.presentViewController(alert, animated: true, completion: nil)
             }
             else {
-                MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: Result<User, UserSaveServiceError>) in
+                MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: UserSaveServiceResult) in
                     self?.completionBlock?(result.value != nil)
 
                     // TODO: refactor this two calls

@@ -5,10 +5,12 @@
 
 NSString *const kAMPLibrary = @"amplitude-ios";
 NSString *const kAMPPlatform = @"iOS";
-NSString *const kAMPVersion = @"3.0.1";
+NSString *const kAMPVersion = @"3.1.1";
 NSString *const kAMPEventLogDomain = @"api.amplitude.com";
 NSString *const kAMPEventLogUrl = @"https://api.amplitude.com/";
 const int kAMPApiVersion = 2;
+const int kAMPDBVersion = 2;
+const int kAMPDBFirstVersion = 2; // to detect if DB exists yet
 const int kAMPEventUploadThreshold = 30;
 const int kAMPEventUploadMaxBatchSize = 100;
 const int kAMPEventMaxCount = 1000;

@@ -51,7 +51,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         automaticallyAdjustsScrollViewInsets = false
     }
     
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -104,7 +104,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         showLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: SignUpViewModel, didFinishSigningUpWithResult result: Result<Nil, UserSignUpServiceError>) {
+    func viewModel(viewModel: SignUpViewModel, didFinishSigningUpWithResult result: UserSignUpServiceResult) {
         
         var completion: (() -> Void)? = nil
         
@@ -117,7 +117,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         case .Failure(let error):
             
             let message: String
-            switch (error.value) {
+            switch (error) {
             case .InvalidEmail:
                 message = NSLocalizedString("sign_up_send_error_invalid_email", comment: "")
             case .InvalidUsername:
@@ -136,7 +136,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
             }
         }
         
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     // MARK: - UITextFieldDelegate
@@ -190,8 +190,10 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        updateViewModelText(text, fromTextFieldTag: textField.tag)
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            updateViewModelText(text, fromTextFieldTag: textField.tag)
+        }
         return true
     }
     
@@ -208,7 +210,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         signUpButton.layer.cornerRadius = 4
         
         // i18n
-        setLetGoNavigationBarStyle(title: NSLocalizedString("sign_up_title", comment: ""))
+        setLetGoNavigationBarStyle(NSLocalizedString("sign_up_title", comment: ""))
         usernameTextField.placeholder = NSLocalizedString("sign_up_username_field_hint", comment: "")
         emailTextField.placeholder = NSLocalizedString("sign_up_email_field_hint", comment: "")
         passwordTextField.placeholder = NSLocalizedString("sign_up_password_field_hint", comment: "")

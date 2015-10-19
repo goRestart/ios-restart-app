@@ -88,7 +88,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         hidesBottomBarWhenPushed = false
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -128,7 +128,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         activityIndicatorCenterYConstraint.constant = bottomMargin
         
         // collection view.
-        var layout = CHTCollectionViewWaterfallLayout()
+        let layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = 0.0
         layout.minimumInteritemSpacing = 0.0
         self.favouriteCollectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
@@ -162,7 +162,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         
         if shouldReload {
             // UX/UI and Appearance.
-            setLetGoNavigationBarStyle(title: "")
+            setLetGoNavigationBarStyle("")
             
             sellingProductListView.hidden = true
             soldProductListView.hidden = true
@@ -424,7 +424,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     func retrieveProductsForTab(tab: ProfileTab) {
         
-        if let userId = user.objectId {
+        if let _ = user.objectId {
             switch tab {
             case .ProductImSelling:
                 loadingSellProducts = true
@@ -438,7 +438,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
                 // Retrieve the products
                 loadingFavProducts = true
                 
-                productsFavouriteRetrieveService.retrieveFavouriteProducts(user) { [weak self] (myResult: Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>) in
+                productsFavouriteRetrieveService.retrieveFavouriteProducts(user) { [weak self] (myResult: ProductsFavouriteRetrieveServiceResult) in
                     
                     if let strongSelf = self {
                         if let actualResult = myResult.value {
@@ -447,8 +447,8 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
                         }
                         else {
                             // Failure
-                            if let actualError = myResult.error {
-//                                result?(Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>.failure(actualError))
+                            if let _ = myResult.error {
+//                                result?(ProductsFavouriteRetrieveServiceResult(error: actualError))
                             }
                         }
                         
@@ -464,9 +464,9 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         }
     }
     
-    func retrieveFavouriteProducts(user: User, result: ProductsFavouriteRetrieveServiceResult?) {
+    func retrieveFavouriteProducts(user: User, completion: ProductsFavouriteRetrieveServiceCompletion?) {
         
-        productsFavouriteRetrieveService.retrieveFavouriteProducts(user, result: result)
+        productsFavouriteRetrieveService.retrieveFavouriteProducts(user, completion: completion)
     }
     
     

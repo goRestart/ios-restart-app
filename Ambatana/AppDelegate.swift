@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // Setup (get the deep link, if any)
-        var deepLink = setupLibraries(application, launchOptions: launchOptions)
+        let deepLink = setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
         
         // UI
@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
         // Tracking
         TrackerProxy.sharedInstance.application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)

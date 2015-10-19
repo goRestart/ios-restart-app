@@ -51,7 +51,12 @@ public class AmplitudeTracker: Tracker {
         let userId = user?.email ?? ""
         Amplitude.instance().setUserId(userId)
 
-        let isDummy = startsWith(user?.email ?? "", AmplitudeTracker.dummyEmailPrefix)
+        var isDummy = false
+        let dummyRange = (user?.email ?? "").rangeOfString(AmplitudeTracker.dummyEmailPrefix)
+        if let isDummyRange = dummyRange where isDummyRange.startIndex == (user?.email ?? "").startIndex {
+            isDummy = true
+        }
+        
         var properties: [NSObject : AnyObject] = [:]
         properties[AmplitudeTracker.userPropIdKey] = user?.objectId ?? ""
         properties[AmplitudeTracker.userPropLatitudeKey] = user?.gpsCoordinates?.latitude

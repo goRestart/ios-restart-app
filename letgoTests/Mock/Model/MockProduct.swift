@@ -80,7 +80,7 @@ class MockProduct: MockBaseModel, Product {
     // MARK: - Public methods
     
     static func productFromProduct(product: Product) -> MockProduct {
-        var mockProduct = MockProduct()
+        let mockProduct = MockProduct()
         mockProduct.name = product.name
         mockProduct.descr = product.descr
         mockProduct.price = product.price

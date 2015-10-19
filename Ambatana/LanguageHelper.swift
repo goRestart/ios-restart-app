@@ -22,12 +22,21 @@ final public class LanguageHelper {
     // MARK: - Lifecycle
     
     init() {
-        let fileName = LanguageHelper.PREPOSITIONS_FILENAME
-        var error: NSError?
-        if let filePath = NSBundle.mainBundle().pathForResource(fileName.stringByDeletingPathExtension, ofType: fileName.pathExtension),
-           let data = NSData(contentsOfFile: filePath),
-           let preps = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &error) as? [String] {
-            prepositions = preps
+        
+        if let fileName = NSBundle.mainBundle().URLForResource(LanguageHelper.PREPOSITIONS_FILENAME, withExtension: ""),
+           let filePath = NSBundle.mainBundle().pathForResource(fileName.URLByDeletingPathExtension?.lastPathComponent, ofType: fileName.pathExtension),
+            let data = NSData(contentsOfFile: filePath) {
+                
+                do {
+                    if let preps = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String] {
+                        prepositions = preps
+                    }
+                    else {
+                        prepositions = []
+                    }
+                } catch {
+                    prepositions = []
+                }
         }
         else {
             prepositions = []

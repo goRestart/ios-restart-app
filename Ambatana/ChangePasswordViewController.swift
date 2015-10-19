@@ -31,7 +31,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         self.viewModel.delegate = self
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -63,14 +63,15 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
     // MARK: - TextFieldDelegate
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        
-        if let tag = TextFieldTag(rawValue: textField.tag) {
-            switch (tag) {
-            case .Password:
-                viewModel.password = text
-            case .ConfirmPassword:
-                viewModel.confirmPassword = text
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            if let tag = TextFieldTag(rawValue: textField.tag) {
+                switch (tag) {
+                case .Password:
+                    viewModel.password = text
+                case .ConfirmPassword:
+                    viewModel.confirmPassword = text
+                }
             }
         }
         return true
@@ -120,7 +121,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         self.showAutoFadingOutMessageAlert(message)
     }
     
-    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult result: Result<User, UserSaveServiceError>) {
+    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult result: UserSaveServiceResult) {
         var completion: (() -> Void)? = nil
         
         switch (result) {
@@ -137,7 +138,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
             break
         case .Failure(let error):
             let message: String
-            switch (error.value) {
+            switch (error) {
             case .Network:
                 message = NSLocalizedString("common_error_connection_failed", comment: "")
             case .Internal:
@@ -154,7 +155,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
                 self.showAutoFadingOutMessageAlert(message)
             }
         }
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
@@ -175,7 +176,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         confirmPasswordTextfield.tag = TextFieldTag.ConfirmPassword.rawValue
         confirmPasswordTextfield.tintColor = StyleHelper.textFieldTintColor
         
-        setLetGoNavigationBarStyle(title: NSLocalizedString("change_password_title", comment: ""))
+        setLetGoNavigationBarStyle(NSLocalizedString("change_password_title", comment: ""))
         
         sendButton.setTitle(NSLocalizedString("change_password_title", comment: ""), forState: UIControlState.Normal)
         sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)

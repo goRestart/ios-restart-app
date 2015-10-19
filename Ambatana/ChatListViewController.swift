@@ -39,7 +39,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         hidesBottomBarWhenPushed = false
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -47,7 +47,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
 
         // appearance
-        setLetGoNavigationBarStyle(title: NSLocalizedString("chat_list_title", comment: ""))
+        setLetGoNavigationBarStyle(NSLocalizedString("chat_list_title", comment: ""))
         
         // internationalization
         noConversationsYet.text = NSLocalizedString("chat_list_empty_label", comment: "")

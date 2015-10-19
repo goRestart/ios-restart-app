@@ -44,7 +44,7 @@ public class MainProductsViewModel: BaseViewModel {
     */
     public func search() {
         if let actualSearchString = searchString {
-            if count(actualSearchString) > 0 {
+            if actualSearchString.characters.count > 0 {
 
                 // Tracking
                 TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchComplete(MyUserManager.sharedInstance.myUser(), searchQuery: searchString ?? ""))

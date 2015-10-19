@@ -65,9 +65,9 @@ public final class SocialHelper {
     /**
         Returns a social message for the given product with a title.
     
-        :param: title The title
-        :param: product The product
-        :returns: The social message.
+        - parameter title: The title
+        - parameter product: The product
+        - returns: The social message.
     */
     public static func socialMessageWithTitle(title: String, product: Product) -> SocialMessage {
         /* body should be, ideally:

@@ -36,7 +36,7 @@ public class BaseViewController: UIViewController {
         hidesBottomBarWhenPushed = true
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -80,14 +80,14 @@ public class BaseViewController: UIViewController {
     // MARK: > Subview handling
     
     func addSubview(subview: BaseView) {
-        if !contains(subviews, subview) {
+        if !subviews.contains(subview) {
             subview.active = true
             subviews.append(subview)
         }
     }
     
     func removeSubview(subview: BaseView) {
-        if contains(subviews, subview) {
+        if subviews.contains(subview) {
             subview.active = false
             subviews = subviews.filter { return $0 !== subview }
         }

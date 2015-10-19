@@ -39,7 +39,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         self.viewModel.delegate = self
     }
     
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -53,14 +53,16 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         super.viewWillAppear(animated)
 
         // if email is full message becames first responder, else email always 1st resp
-        
-        if emailField.text.isEmpty || !viewModel.subjectIsSelected{
+        if let emailFieldText = emailField.text {
+            if emailFieldText.isEmpty || !viewModel.subjectIsSelected {
+                emailField.becomeFirstResponder()
+            }
+            else {
+                messageField.becomeFirstResponder()
+            }
+        } else {
             emailField.becomeFirstResponder()
         }
-        else {
-            messageField.becomeFirstResponder()
-        }
-        
     }
     
     override func viewWillLayoutSubviews() {
@@ -117,7 +119,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         showLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: Result<Contact, ContactSendServiceError>) {
+    func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: ContactSendServiceResult) {
         
         var completion: (() -> Void)? = nil
         
@@ -131,7 +133,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
             break
         case .Failure(let error):
             let message: String
-            switch (error.value) {
+            switch (error) {
             case .Network:
                 message = NSLocalizedString("contact_send_error_generic", comment: "")
             case .Internal:
@@ -144,7 +146,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
             }
         }
         
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
         
     }
     
@@ -180,25 +182,26 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        
-        let text = (textView.text as NSString).stringByReplacingCharactersInRange(range, withString: text)
-        viewModel.message = text
-        
+        if let textViewText = textView.text {
+            let text = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: text)
+            viewModel.message = text
+        }
         return true
     }
     
     // MARK: - UITextFieldDelegate
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        
-        if let tag = TextFieldTag(rawValue: textField.tag) {
-            switch (tag) {
-            case .Email:
-                viewModel.email = text
-            case .Message:
-                break
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            
+            if let tag = TextFieldTag(rawValue: textField.tag) {
+                switch (tag) {
+                case .Email:
+                    viewModel.email = text
+                case .Message:
+                    break
+                }
             }
         }
         
@@ -234,7 +237,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
         
-        self.setLetGoNavigationBarStyle(title: NSLocalizedString("contact_title", comment: "") ?? UIImage(named: "navbar_logo"))
+        self.setLetGoNavigationBarStyle(NSLocalizedString("contact_title", comment: "") ?? UIImage(named: "navbar_logo"))
         
         sendBarButton = UIBarButtonItem(title: NSLocalizedString("contact_send_button", comment: ""), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("sendBarButtonPressed"))
         sendBarButton.enabled = false

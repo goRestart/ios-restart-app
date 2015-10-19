@@ -73,9 +73,7 @@ public class PushManager: NSObject, KahunaDelegate {
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
         
         // Ask for push permissions
-        let userNotificationTypes = (UIUserNotificationType.Alert |
-            UIUserNotificationType.Badge |
-            UIUserNotificationType.Sound)
+        let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound])
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
@@ -170,18 +168,18 @@ public class PushManager: NSObject, KahunaDelegate {
     */
     public func updateUnreadMessagesCount() {
        
-        ChatManager.sharedInstance.retrieveUnreadMessageCount { [weak self] (result: Result<Int, ChatsUnreadCountRetrieveServiceError>) -> Void in
+        ChatManager.sharedInstance.retrieveUnreadMessageCount { [weak self] (result: ChatsUnreadCountRetrieveServiceResult) -> Void in
             // Success
             if let count = result.value {
-                if let strongSelf = self {
+                if let _ = self {
                     
                     // Update the unread message count
                     self?.unreadMessagesCount = count
                     
                     // Update installation's badge
-                    var installation = PFInstallation.currentInstallation()
+                    let installation = PFInstallation.currentInstallation()
                     installation.badge = count
-                    self?.installationSaveService.save(installation, result: nil)
+                    self?.installationSaveService.save(installation, completion: nil)
                 }
                 
                 // Update app's badge
@@ -213,7 +211,7 @@ public class PushManager: NSObject, KahunaDelegate {
         }
         Kahuna.loginWithCredentials(uc, error: &loginError)
         if (loginError != nil) {
-            print("Login Error : \(loginError!.localizedDescription)")
+            print("Login Error : \(loginError!.localizedDescription)", terminator: "")
         }
     }
     
@@ -240,7 +238,7 @@ public class PushManager: NSObject, KahunaDelegate {
         // Call takeOff (which creates the UAirship singleton)
         UAirship.takeOff(config)
         
-        UAirship.push()!.userNotificationTypes = (.Alert | .Badge | .Sound)
+        UAirship.push()!.userNotificationTypes = [.Alert, .Badge, .Sound]
         UAirship.push()!.userPushNotificationsEnabled = true
     }
     
@@ -275,8 +273,8 @@ public class PushManager: NSObject, KahunaDelegate {
     /**
         Returns the badge value from the given push notification dictionary.
     
-        :param: userInfo The push notification extra info.
-        :returns: The badge value.
+        - parameter userInfo: The push notification extra info.
+        - returns: The badge value.
     */
     func getBadgeNumberFromNotification(userInfo: [NSObject: AnyObject]) -> Int? {
         if let newBadge = userInfo["badge"] as? Int { return newBadge }

@@ -31,7 +31,7 @@ extension UIViewController {
         if includeBackArrow {
             let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBackViewController")
             self.navigationItem.leftBarButtonItem = backButton
-            self.navigationController?.interactivePopGestureRecognizer.delegate = self as? UIGestureRecognizerDelegate
+            self.navigationController?.interactivePopGestureRecognizer!.delegate = self as? UIGestureRecognizerDelegate
         }
     }
     
@@ -43,14 +43,14 @@ extension UIViewController {
         let hSpacing: CGFloat = 24
 
         var x: CGFloat = 0
-        var height: CGFloat = 44
+        let height: CGFloat = 44
         var width: CGFloat = 0
         
         for i in 0..<images.count {
             let image = UIImage(named: images[i])!
             let buttonWidth = image.size.width + hSpacing            // image width + horizontal spacing
 
-            var button = UIButton.buttonWithType(.System) as! UIButton
+            let button = UIButton(type: .System)
             button.frame = CGRectMake(x, 0, buttonWidth, height)
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
 //            button.backgroundColor = UIColor.purpleColor()

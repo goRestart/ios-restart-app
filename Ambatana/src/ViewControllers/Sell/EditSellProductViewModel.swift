@@ -45,7 +45,7 @@ public class EditSellProductViewModel: SellProductViewModel {
         if let categoryId = product.categoryId?.integerValue {
             category = ProductCategory(rawValue: categoryId)
         }
-        for i in 0..<product.images.count {
+        for _ in 0..<product.images.count {
             images.append(nil)
         }
     }
@@ -53,15 +53,15 @@ public class EditSellProductViewModel: SellProductViewModel {
     // MARK: - Public methods
     
     public override func save() {
-        super.saveProduct(product: editedProduct)
+        super.saveProduct(editedProduct)
     }
     
     public func loadPictures() {
         // Download the images
-        for (index, image) in enumerate(editedProduct.images) {
+        for (index, image) in (editedProduct.images).enumerate() {
             if let imageURL = image.fileURL {
                 let imageManager = SDWebImageManager.sharedManager()
-                imageManager.downloadImageWithURL(imageURL, options: .allZeros, progress: nil) { [weak self] (image: UIImage!, _, _, _, _) -> Void in
+                imageManager.downloadImageWithURL(imageURL, options: [], progress: nil) { [weak self] (image: UIImage!, _, _, _, _) -> Void in
                     if let strongSelf = self {
                         // Replace de image & notify the delegate
                         strongSelf.images[index] = image

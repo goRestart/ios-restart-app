@@ -37,7 +37,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         hidesBottomBarWhenPushed = false
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -45,7 +45,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         super.viewDidLoad()
 
         // UX/UI & Appearance
-        setLetGoNavigationBarStyle(title: NSLocalizedString("categories_title", comment: ""))
+        setLetGoNavigationBarStyle(NSLocalizedString("categories_title", comment: ""))
         
         // CollectionView
         let cellNib = UINib(nibName: "CategoryCell", bundle: nil)
@@ -57,13 +57,13 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         cellSize = CGSizeMake(cellWidth, cellHeight)
         
         // Data
-        var myResult: CategoriesRetrieveServiceResult = { (result: Result<[ProductCategory], CategoriesRetrieveServiceServiceError>) in
+        let myCompletion: CategoriesRetrieveServiceCompletion = { (result: CategoriesRetrieveServiceResult) in // (result: Result<[ProductCategory], CategoriesRetrieveServiceServiceError>) in
             if let categories = result.value {
                 self.categories = categories
                 self.collectionView.reloadData()
             }
         }
-        categoriesManager.retrieveCategoriesWithResult(myResult)
+        categoriesManager.retrieveCategoriesWithCompletion(myCompletion)
     }
     
     override func didReceiveMemoryWarning() {
@@ -87,7 +87,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
         let searchString = searchBar.text
         dismissSearchBar(searchBar, animated: true) { () -> Void in
             // analyze search string
-            if searchString != nil && count(searchString) > 0 {
+            if searchString != nil && searchString!.characters.count > 0 {
                 // TODO: Refactor pending!
                 let searchVM = MainProductsViewModel(searchString: searchString)
                 let searchVC = MainProductsViewController(viewModel: searchVM)
@@ -122,7 +122,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) as! UICollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) 
         
         // configure cell
         let category = categories[indexPath.row]

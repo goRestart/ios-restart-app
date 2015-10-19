@@ -27,12 +27,12 @@ public class BaseView: UIView {
         super.init(frame: frame)
     }
 
-    public init(viewModel: BaseViewModel, coder aDecoder: NSCoder) {
+    public init?(viewModel: BaseViewModel, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(coder: aDecoder)
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

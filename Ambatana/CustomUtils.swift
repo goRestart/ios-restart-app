@@ -26,24 +26,24 @@ func iOSVersionAtLeast(version: String) -> Bool {
 /**  Uses regular expressions to test whether a string is a valid email */
 extension String {
     func isEmail() -> Bool {
-        let regex = NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+$", options: .CaseInsensitive, error: nil)
-        return regex?.firstMatchInString(self, options: nil, range: NSMakeRange(0, count(self))) != nil
+        let regex = try? NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+$", options: .CaseInsensitive)
+        return regex?.firstMatchInString(self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
     }
 }
 
 /**  Uses regular expressions to test whether a string is a valid username */
 extension String {
     func isValidUsername() -> Bool {
-        var tmpString = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        return count(tmpString) > 1
+        let tmpString = self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return tmpString.characters.count > 1
     }
 }
 
 /**  Uses regular expressions to test whether a string is a valid price */
 extension String {
     func isValidPrice() -> Bool {
-        let regex = NSRegularExpression(pattern: "^[0-9]+[\\.,]{0,1}[0-9]{0,2}$", options: .CaseInsensitive, error: nil)
-        return regex?.firstMatchInString(self, options: nil, range: NSMakeRange(0, count(self))) != nil
+        let regex = try? NSRegularExpression(pattern: "^[0-9]+[\\.,]{0,1}[0-9]{0,2}$", options: .CaseInsensitive)
+        return regex?.firstMatchInString(self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
     }
 }
 

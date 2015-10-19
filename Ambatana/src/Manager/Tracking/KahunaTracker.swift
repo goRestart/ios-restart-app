@@ -141,7 +141,7 @@ public class KahunaTracker: Tracker {
             var userAttributes : [NSObject:AnyObject] = [:]
             
             let version =  NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
-            let language = NSLocale.preferredLanguages()[0] as? String ?? ""
+            let language = NSLocale.preferredLanguages()[0]
 
             userAttributes["public_username"] = actualUser.publicUsername ?? ""
             userAttributes["language"] = language

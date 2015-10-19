@@ -16,7 +16,7 @@ public enum DeepLinkType: String {
 /**
     Deep link.
 */
-public struct DeepLink: Printable {
+public struct DeepLink: CustomStringConvertible {
     var url: NSURL
     var type: DeepLinkType
     var components: [String]
@@ -43,9 +43,9 @@ public struct DeepLink: Printable {
         }
 
         self.components = []
-        if let path = url.path {
+        if let pathComponents = url.pathComponents {
             // Take the components and remove the first item that is always just a "/"
-            self.components = path.pathComponents
+            self.components = pathComponents
             if !self.components.isEmpty {
                 self.components.removeAtIndex(0)
             }
@@ -57,7 +57,8 @@ public struct DeepLink: Printable {
             for mergedKeyValue in mergedKeyValues {
                 let keyValue = mergedKeyValue.componentsSeparatedByString("=")
                 if keyValue.count == 2 {
-                    if let key = keyValue[0].stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding), let value = keyValue[1].stringByReplacingPercentEscapesUsingEncoding(NSUTF8StringEncoding) {
+//                    if let key = keyValue[0].stringByRemovingPercentEncoding(NSUTF8StringEncoding), let value = keyValue[1].stringByRemovingPercentEncoding(NSUTF8StringEncoding) {
+                    if let key = keyValue[0].stringByRemovingPercentEncoding, let value = keyValue[1].stringByRemovingPercentEncoding {
                         query[key] = value
                     }
                 }
@@ -71,7 +72,7 @@ public struct DeepLink: Printable {
         var output = "letgo://\(type.rawValue)/"
         
         if components.count > 0 {
-            let path = "/".join(components)    // Swift 2.0: components.joinWithSeparator("/")
+            let path = components.joinWithSeparator("/")
             output += "\(path)"
         }
         if !query.isEmpty {
@@ -82,16 +83,16 @@ public struct DeepLink: Printable {
             }
             
             // Remove last "&"
-            let idx = count(output) - 1
-            output = output.substringToIndex(advance(output.startIndex, idx))
+            let idx = output.characters.count - 1
+            output = output.substringToIndex(output.startIndex.advancedBy(idx))
         }
         
         // If last character is "/" then remove it; Swift 2.0: String(output.characters.dropLast())
-        let idx = advance(output.endIndex, -1)
+        let idx = output.endIndex.advancedBy(-1)
         let lastChar = output.substringFromIndex(idx)
         if lastChar == "/" {
-            let idx = count(output) - 1
-            output = output.substringToIndex(advance(output.startIndex, idx))
+            let idx = output.characters.count - 1
+            output = output.substringToIndex(output.startIndex.advancedBy(idx))
         }
         return output
     }

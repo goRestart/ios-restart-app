@@ -14,7 +14,7 @@ extension String {
     
     func lg_capitalizedWord() -> String {
         let prepositions = LanguageHelper.sharedInstance.prepositions
-        if !contains(prepositions, self) {
+        if !prepositions.contains(self) {
             return self.capitalizedString
         }
         return self

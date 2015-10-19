@@ -13,7 +13,7 @@ import Result
 public protocol LogInViewModelDelegate: class {
     func viewModel(viewModel: LogInViewModel, updateSendButtonEnabledState enabled: Bool)
     func viewModelDidStartLoggingIn(viewModel: LogInViewModel)
-    func viewModel(viewModel: LogInViewModel, didFinishLoggingInWithResult result: Result<User, UserLogInEmailServiceError>)
+    func viewModel(viewModel: LogInViewModel, didFinishLoggingInWithResult result: UserLogInEmailServiceResult)
 }
 
 public class LogInViewModel: BaseViewModel {
@@ -54,13 +54,13 @@ public class LogInViewModel: BaseViewModel {
         
         // Validation
         if !email.isEmail() {
-            delegate?.viewModel(self, didFinishLoggingInWithResult: Result<User, UserLogInEmailServiceError>.failure(.InvalidEmail))
+            delegate?.viewModel(self, didFinishLoggingInWithResult: UserLogInEmailServiceResult(error: .InvalidEmail))
         }
-        else if count(password) < Constants.passwordMinLength {
-            delegate?.viewModel(self, didFinishLoggingInWithResult: Result<User, UserLogInEmailServiceError>.failure(.InvalidPassword))
+        else if password.characters.count < Constants.passwordMinLength {
+            delegate?.viewModel(self, didFinishLoggingInWithResult: UserLogInEmailServiceResult(error: .InvalidPassword))
         }
         else {
-            MyUserManager.sharedInstance.logInWithEmail(email, password: password) { [weak self] (result: Result<User, UserLogInEmailServiceError>) in
+            MyUserManager.sharedInstance.logInWithEmail(email, password: password) { [weak self] (result: UserLogInEmailServiceResult) in
                 if let strongSelf = self {
                     // Success
                     if let user = result.value {
@@ -84,6 +84,6 @@ public class LogInViewModel: BaseViewModel {
     // MARK: - Private methods
     
     private func sendButtonShouldBeEnabled() -> Bool {
-        return count(email) > 0 && count(password) > 0
+        return email.characters.count > 0 && password.characters.count > 0
     }
 }
