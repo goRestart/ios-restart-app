@@ -16,7 +16,8 @@ extension ProductionEnvironment: AppEnvironment {
     // Tracking
     var appsFlyerAPIKey: String { get { return "5EKnCjmwmNKjE2e7gYBo6T" } }
     var amplitudeAPIKey: String { get { return "6d37fbd6c25243c57676e6d4ce7948bf" } }
-    var googleConversionTrackingId: String { get { return "947998763" } }
+    var googleConversionPrimaryTrackingId: String { get { return "947998763" } }
+    var googleConversionSecondaryTrackingId: String { get { return "952362970" } }
     var nanigansAppId: String { get { return "298434" } }
     
     var kahunaAPIKey: String { get { return "9188e3c6b7cf47acb94a10ab027a08f3" } }

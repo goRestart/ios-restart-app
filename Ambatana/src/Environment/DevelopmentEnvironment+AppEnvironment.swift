@@ -16,7 +16,8 @@ extension DevelopmentEnvironment: AppEnvironment {
     // Tracking
     var appsFlyerAPIKey: String { get { return "5EKnCjmwmNKjE2e7gYBo6T" } }
     var amplitudeAPIKey: String { get { return "1c32ba5ed444237608436bad4f310307" } }
-    var googleConversionTrackingId: String { get { return "947998763" } }
+    var googleConversionPrimaryTrackingId: String { get { return "947998763" } }
+    var googleConversionSecondaryTrackingId: String { get { return "952362970" } }
     var nanigansAppId: String { get { return "298434" } }
     
     // Push notifications
