@@ -24,7 +24,6 @@
 		2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65D001B81F4040004D6A1 /* SubjectCell.swift */; };
 		2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED65D011B81F4040004D6A1 /* SubjectCell.xib */; };
 		2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDBE4461B9EE13700B2811A /* AppRatingView.swift */; };
-		2EE0011B1B8C630A00B1D774 /* UrbanAirshipTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE0011A1B8C630A00B1D774 /* UrbanAirshipTracker.swift */; };
 		2EE47E5A1BBEA5B70034C19D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47E591BBEA5B70034C19D /* Settings.bundle */; };
 		2EE5EEDF1B5E4C860056BF76 /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */; };
 		2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
@@ -239,7 +238,6 @@
 		2ED65D001B81F4040004D6A1 /* SubjectCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SubjectCell.swift; path = Contact/SubjectCell.swift; sourceTree = "<group>"; };
 		2ED65D011B81F4040004D6A1 /* SubjectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SubjectCell.xib; path = Contact/SubjectCell.xib; sourceTree = "<group>"; };
 		2EDBE4461B9EE13700B2811A /* AppRatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppRatingView.swift; path = "App Rating/AppRatingView.swift"; sourceTree = "<group>"; };
-		2EE0011A1B8C630A00B1D774 /* UrbanAirshipTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrbanAirshipTracker.swift; sourceTree = "<group>"; };
 		2EE47E591BBEA5B70034C19D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
 		2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
@@ -722,7 +720,6 @@
 				50C9E4BE1B721FBB001E4E92 /* GoogleTracker.swift */,
 				2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */,
 				50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */,
-				2EE0011A1B8C630A00B1D774 /* UrbanAirshipTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
 				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
 				50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */,
@@ -1531,7 +1528,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EE0011B1B8C630A00B1D774 /* UrbanAirshipTracker.swift in Sources */,
 				2EE5FF541B7B3DAB0090E558 /* EditUserLocationViewController.swift in Sources */,
 				2EE60AF71B60D97300E56E7D /* EditSellProductViewController.swift in Sources */,
 				D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */,
@@ -1762,6 +1758,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Carles Grau Molto (68TLR78WYR)";
 				COPY_PHASE_STRIP = NO;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1806,6 +1803,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana INC (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1904,6 +1902,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana INC (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

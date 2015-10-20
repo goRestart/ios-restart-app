@@ -9,7 +9,6 @@
 import LGCoreKit
 import Parse
 import Result
-import UrbanAirship_iOS_SDK
 import Kahuna
 
 public enum Action {
@@ -79,7 +78,6 @@ public class PushManager: NSObject, KahunaDelegate {
         application.registerForRemoteNotifications()
         
         // Setup push notification libraries
-        setupUrbanAirship()
         setupKahuna()
         
         // Get the deep link, if any
@@ -192,10 +190,6 @@ public class PushManager: NSObject, KahunaDelegate {
     }
     
     
-    public func updateUrbanAirshipNamedUser(user: User?) {
-        UAirship.push()!.namedUser.identifier = user?.objectId
-    }
-    
     // TODO: Refactor this...
     public func forceKahunaLogin(user: User) {
         let uc = Kahuna.createUserCredentials()
@@ -225,26 +219,8 @@ public class PushManager: NSObject, KahunaDelegate {
 
     }
     
-    private func setupUrbanAirship() {
-        
-        let config = UAConfig.defaultConfig()
-        config.developmentAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
-        config.developmentAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
-        
-        config.productionAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
-        config.productionAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
-        
-        config.developmentLogLevel = UALogLevel.None
-        // Call takeOff (which creates the UAirship singleton)
-        UAirship.takeOff(config)
-        
-        UAirship.push()!.userNotificationTypes = [.Alert, .Badge, .Sound]
-        UAirship.push()!.userPushNotificationsEnabled = true
-    }
-    
     dynamic private func login(notification: NSNotification) {
         if let user = notification.object as? User {
-            updateUrbanAirshipNamedUser(user)
             
             let uc = Kahuna.createUserCredentials()
             var loginError: NSError?
@@ -266,7 +242,6 @@ public class PushManager: NSObject, KahunaDelegate {
     }
     
     dynamic private func logout(notification: NSNotification) {
-        updateUrbanAirshipNamedUser(notification.object as? User)
         Kahuna.logout()
     }
     

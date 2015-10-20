@@ -20,9 +20,6 @@ pod "Amplitude-iOS",        "~> 3.1.1"
 # letgo Core
 pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit" #"0.14.11" # :path => "../LGCoreKit"
 
-# Networking (to be removed when migrating to LGCoreKit)
-pod "Alamofire",            "~> 3.0"
-
 # Animation
 pod "pop",                  "~> 1.0"
 
@@ -33,13 +30,10 @@ pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 pod "UIDeviceUtil",         "~> 1.1"
 
 # Push Notifications
-pod "UrbanAirship-iOS-SDK/Core", "~> 6.3.0"
 pod "Kahuna",               "~> 2.2"
 
 # New Relic
 pod "NewRelicAgent",         "~> 5.3.1"
-
-pod "RealmSwift",           "~> 0.95.0"  # delete!!
 
 target "letgoTests", :exclusive => true do
     ## Testing

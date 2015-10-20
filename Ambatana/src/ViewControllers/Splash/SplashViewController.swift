@@ -51,9 +51,6 @@ class SplashViewController: BaseViewController {
                 MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: UserSaveServiceResult) in
                     self?.completionBlock?(result.value != nil)
 
-                    // TODO: refactor this two calls
-                    PushManager.sharedInstance.updateUrbanAirshipNamedUser(result.value)
-                    
                     if let myUser = MyUserManager.sharedInstance.myUser() {
                         TrackerProxy.sharedInstance.setUser(myUser)
                     }
