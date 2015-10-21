@@ -111,7 +111,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         switch (error) {
         case .Network:
             message = NSLocalizedString("change_password_send_error_generic", comment: "")
-        case .Internal, .InvalidUsername, .EmailTaken:
+        case .Internal, .InvalidUsername, .EmailTaken, .UsernameTaken:
             message = NSLocalizedString("change_password_send_error_generic", comment: "")
         case .InvalidPassword:
             message = String(format: NSLocalizedString("change_password_send_error_invalid_password_with_max", comment: ""), Constants.passwordMinLength, Constants.passwordMaxLength)
@@ -147,7 +147,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
                 message = String(format: NSLocalizedString("change_password_send_error_invalid_password", comment: ""), Constants.passwordMinLength)
             case .PasswordMismatch:
                 message = NSLocalizedString("change_password_send_error_passwords_mismatch", comment: "")
-            case .InvalidUsername, .EmailTaken:
+            case .InvalidUsername, .EmailTaken, .UsernameTaken:
                 // should never happen
                 message = NSLocalizedString("change_password_send_error_generic", comment: "")
             }

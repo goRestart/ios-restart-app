@@ -8,7 +8,7 @@ use_frameworks!
 workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
-pod "Parse",                "1.8.5"
+pod "Parse",                "~> 1.9.0"
 pod "SDWebImage"
 
 pod "FBSDKShareKit",        "~> 4.7"

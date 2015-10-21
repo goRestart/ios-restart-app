@@ -27,7 +27,7 @@
 "change_password_send_ok" = "パスワードは正しく変更されました。";
 "change_password_title" = "パスワード変更";
 "change_username_error_invalid_username" = "フルネームには最低 %d 文字以上の入力が必要です。";
-"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"change_username_error_invalid_username_letgo" = "Another account is using %@";
 "change_username_field_hint" = "フルネーム";
 "change_username_loading" = "ユーザー名保存中...";
 "change_username_save_button" = "保存";
@@ -54,7 +54,7 @@
 "common_loading" = "読み込み中...";
 "common_no" = "いいえ";
 "common_ok" = "OK";
-"common_product_deleted" = "削除された商品。";
+"common_product_deleted" = "商品は削除されました";
 "common_product_not_available" = "この商品はもう売買不可です。";
 "common_product_sold" = "この商品は売却済みです。";
 "common_time_a_minute_ago_label" = "1 分前";
@@ -107,7 +107,7 @@
 "log_in_send_button" = "ログイン";
 "log_in_title" = "ログイン";
 "main_sign_up_already_registered_label" = "既に登録済みですか？";
-"main_sign_up_claim_label" = "売買とチャットをスタート";
+"main_sign_up_claim_label" = "チャットで売買をスタート";
 "main_sign_up_contact_us_button" = "サポートが必要ですか？";
 "main_sign_up_facebook_connect_button" = "Facebookに接続";
 "main_sign_up_fb_connect_error_email_taken" = "ログインできません。fフェースブックのメールアドレスはすでに登録されています。もう一度やり直してください。";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "パスワードを回復しようとしてエラーが発生しました。";
 "reset_password_send_error_invalid_email" = "有効なメールアドレスをメール入力欄に入力してください。";
 "reset_password_send_error_user_not_found_or_wrong_password" = "メールアドレスが見つかりません。";
-"reset_password_send_ok" = "受信ボックスを確認してパスワードの再設定の指示に従ってください。";
+"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_title" = "パスワード再設定";
 "sell_category_selection_label" = "カテゴリーを選択してください";
 "sell_choose_category_dialog_cancel_button" = "キャンセル";
@@ -250,7 +250,7 @@
 "sign_up_send_error_invalid_password" = "有効なパスワードを少なくとも%d文字入力してください。";
 "sign_up_send_error_invalid_password_with_max" = "有効なパスワードを入力してください。%dから%dまでの文字数でなければなりません。";
 "sign_up_send_error_invalid_username" = "有効な名前を、少なくとも%d文字入力してください。";
-"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"sign_up_send_error_invalid_username_letgo" = "ユーザーネームに\"letogo\"や\"let go\"や似た言葉を含むことはできません。";
 "sign_up_title" = "登録";
 "sign_up_username_field_hint" = "フルネーム";
 "tab_bar_tool_tip" = "商品を売ろう";
