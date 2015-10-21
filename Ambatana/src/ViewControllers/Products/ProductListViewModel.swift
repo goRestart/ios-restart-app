@@ -192,7 +192,6 @@ public class ProductListViewModel: BaseViewModel {
                     // Add the new products & update the page number
                     let newProducts = productsResponse.products
                     strongSelf.products.appendContentsOf(newProducts)
-//                    strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     strongSelf.pageNumber = nextPageNumber
 
                     // Notify the delegate
