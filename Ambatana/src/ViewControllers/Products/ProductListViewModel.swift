@@ -65,7 +65,7 @@ public class ProductListViewModel: BaseViewModel {
     private let productsManager: ProductsManager
     
     // Data
-    private var products: NSArray
+    private var products: [Product]
     public private(set) var pageNumber: UInt
     
     // UI
@@ -191,7 +191,8 @@ public class ProductListViewModel: BaseViewModel {
                 if let productsResponse = result.value {
                     // Add the new products & update the page number
                     let newProducts = productsResponse.products
-                    strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
+                    strongSelf.products.appendContentsOf(newProducts)
+//                    strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
                     strongSelf.pageNumber = nextPageNumber
 
                     // Notify the delegate
@@ -261,7 +262,7 @@ public class ProductListViewModel: BaseViewModel {
         - returns: The product.
     */
     public func productAtIndex(index: Int) -> Product {
-        return products.objectAtIndex(index) as! Product
+        return products[index]
     }
     
     /**

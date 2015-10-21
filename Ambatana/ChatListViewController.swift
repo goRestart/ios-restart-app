@@ -99,7 +99,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         }
         tableView.userInteractionEnabled = false
         
-        ChatManager.sharedInstance.retrieveChats({ [weak self] (result: Result<[Chat], ChatsRetrieveServiceError>) -> Void in
+        ChatManager.sharedInstance.retrieveChatsWithCompletion({ [weak self] (result: Result<[Chat], ChatsRetrieveServiceError>) -> Void in
             if let strongSelf = self {
                 // Success
                 if let chats = result.value {
