@@ -98,7 +98,20 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     }
     
     func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: UserSaveServiceError) {
-        self.showAutoFadingOutMessageAlert(String(format: NSLocalizedString("change_username_error_invalid_username", comment: ""), 2))
+        let message: String
+        switch (error) {
+        case .Network, .Internal, .InvalidPassword, .PasswordMismatch:
+            message = NSLocalizedString("common_error_connection_failed", comment: "")
+        case .EmailTaken:
+            // should never happen
+            message = NSLocalizedString("common_error_connection_failed", comment: "")
+        case .InvalidUsername:
+            message = String(format: NSLocalizedString("change_username_error_invalid_username", comment: ""), 2)
+        case .UsernameTaken:
+            message = String(format: NSLocalizedString("change_username_error_invalid_username_letgo", comment: ""), viewModel.username)
+        }
+        
+        self.showAutoFadingOutMessageAlert(message)
     }
     
     func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult result: UserSaveServiceResult) {
@@ -124,6 +137,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
                 message = NSLocalizedString("common_error_connection_failed", comment: "")
             case .InvalidUsername:
                 message = String(format: NSLocalizedString("change_username_error_invalid_username", comment: ""), 2)
+            case .UsernameTaken:
+                message = String(format: NSLocalizedString("change_username_error_invalid_username_letgo", comment: ""), viewModel.username)
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)

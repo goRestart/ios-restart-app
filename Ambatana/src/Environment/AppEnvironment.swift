@@ -20,9 +20,6 @@ protocol AppEnvironment: Environment {
     var nanigansAppId: String { get }
     
     // Push notifications
-    var urbanAirshipAPIKey: String { get }
-    var urbanAirshipAPISecret: String { get }
-    
     var kahunaAPIKey: String { get }
     
     // New relic

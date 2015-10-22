@@ -34,7 +34,7 @@ public class FacebookTracker: Tracker {
         
         FBSDKAppLinkUtility.fetchDeferredAppLink { (url, error) -> Void in
             if let actualURL = url {
-                UIApplication.sharedApplication().openURL(url)
+                UIApplication.sharedApplication().openURL(actualURL)
             }
         }
 

@@ -92,7 +92,7 @@
 "change_username_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 
 // Change name invalid username letgo. Check image @ "change_username_title" segment
-"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"change_username_error_invalid_username_letgo" = "Another account is using %@";
 
 // Change name save button.  Check image @ "change_username_title" segment
 "change_username_save_button" = "Save";
@@ -128,7 +128,7 @@
 "chat_safety_tips_tip_2" = "If you decide to ship, be smart and careful!";
 
 // Chat safety tips tip 3. Check image @ "chat_safety_tips_title" segment
-"chat_safety_tips_tip_3" = "If it's too good to be true, it probably isn't!";
+"chat_safety_tips_tip_3" = "If it sounds too good to be true, it probably is!";
 
 // Chat send button. Check image @ "chat_list_title" segment
 "chat_send_button" = "Send";
@@ -164,7 +164,7 @@
 "common_no" = "No";
 
 // Common product deleted.
-"common_product_deleted" = "Product deleted.";
+"common_product_deleted" = "Product removed";
 
 // Common product sold.
 "common_product_sold" = "This product has been sold.";
@@ -482,10 +482,10 @@
 "product_reported_error_generic" = "An error occurred while reporting the product. Please try again later.";
 
 // Product search no products title.
-"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
+"product_search_no_products_title" = "OOPS! NO RESULTS NEAR YOU";
 
 // Product search no products body.
-"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
+"product_search_no_products_body" = "Try looking for something else or check again soon!";
 
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
@@ -575,7 +575,7 @@
 "reset_password_send_error_user_not_found_or_wrong_password" = "Email address not found.";
 
 // Reset password send ok. Check image @ "reset_password_send_error_generic" segment
-"reset_password_send_ok" = "We've sent you an email! Click the link in the email to reset your password.";
+"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset Password";

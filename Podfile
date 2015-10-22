@@ -8,7 +8,7 @@ use_frameworks!
 workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
-pod "Parse",                "1.8.5"
+pod "Parse",                "~> 1.9.0"
 pod "SDWebImage"
 
 pod "FBSDKShareKit",        "~> 4.7"
@@ -20,9 +20,6 @@ pod "Amplitude-iOS",        "~> 3.1.1"
 # letgo Core
 pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit" #"0.14.11" # :path => "../LGCoreKit"
 
-# Networking (to be removed when migrating to LGCoreKit)
-pod "Alamofire",            "~> 3.0"
-
 # Animation
 pod "pop",                  "~> 1.0"
 
@@ -33,18 +30,13 @@ pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 pod "UIDeviceUtil",         "~> 1.1"
 
 # Push Notifications
-pod "UrbanAirship-iOS-SDK/Core", "~> 6.3.0"
 pod "Kahuna",               "~> 2.2"
 
 # New Relic
 pod "NewRelicAgent",         "~> 5.3.1"
 
-# Realm
-pod "RealmSwift",           "~> 0.95.0"  # delete!!
-
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0"
-
 
 target "letgoTests", :exclusive => true do
     ## Testing

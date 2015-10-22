@@ -86,7 +86,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("reset_password_send_ok", comment: "")) {
+                self.showAutoFadingOutMessageAlert(String(format: NSLocalizedString("reset_password_send_ok", comment: ""), viewModel.email)) {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }

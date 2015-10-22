@@ -143,7 +143,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
                 break
             case .EmailTaken:
                 message = NSLocalizedString("main_sign_up_fb_connect_error_email_taken", comment: "")
-            case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch:
+            case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch, .UsernameTaken:
                 message = NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
             }
             completion = {

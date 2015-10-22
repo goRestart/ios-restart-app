@@ -443,7 +443,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
                     if let strongSelf = self {
                         if let actualResult = myResult.value {
                             // Success
-                            strongSelf.favProducts = actualResult.products as! [LGProduct]
+                            strongSelf.favProducts = actualResult.products
                         }
                         else {
                             // Failure
