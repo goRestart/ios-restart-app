@@ -43,6 +43,8 @@
 		500391B81B04EFE60081C141 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B61B04EFE60081C141 /* CategoryCell.xib */; };
 		500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B91B04F4F70081C141 /* ChatListViewController.xib */; };
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
+		500DC11C1BD9495800B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC11A1BD9495800B494FA /* ios-devel.json */; settings = {ASSET_TAGS = (); }; };
+		500DC11D1BD9495800B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC11B1BD9495800B494FA /* ios-prod.json */; settings = {ASSET_TAGS = (); }; };
 		5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */; };
 		5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */; };
 		502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
@@ -261,6 +263,8 @@
 		500391B61B04EFE60081C141 /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
 		500391B91B04F4F70081C141 /* ChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatListViewController.xib; sourceTree = "<group>"; };
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
+		500DC11A1BD9495800B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
+		500DC11B1BD9495800B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
 		5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewController.swift; sourceTree = "<group>"; };
 		5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RememberPasswordViewController.xib; sourceTree = "<group>"; };
 		5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewModel.swift; sourceTree = "<group>"; };
@@ -557,6 +561,16 @@
 			);
 			name = Sell;
 			sourceTree = "<group>";
+		};
+		500DC1191BD9495800B494FA /* config */ = {
+			isa = PBXGroup;
+			children = (
+				500DC11A1BD9495800B494FA /* ios-devel.json */,
+				500DC11B1BD9495800B494FA /* ios-prod.json */,
+			);
+			name = config;
+			path = Ambatana/res/config;
+			sourceTree = SOURCE_ROOT;
 		};
 		502374531B3D3E8D00E02656 /* i18n */ = {
 			isa = PBXGroup;
@@ -1070,6 +1084,7 @@
 			isa = PBXGroup;
 			children = (
 				502374531B3D3E8D00E02656 /* i18n */,
+				500DC1191BD9495800B494FA /* config */,
 				D40DA2851AEE274600B64CE1 /* data */,
 				506DC19A1BBE7D8A00E59D27 /* sound */,
 				2EE47E591BBEA5B70034C19D /* Settings.bundle */,
@@ -1325,6 +1340,7 @@
 				500391B81B04EFE60081C141 /* CategoryCell.xib in Resources */,
 				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
 				50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */,
+				500DC11D1BD9495800B494FA /* ios-prod.json in Resources */,
 				50DFABE21B04E5A700A3F049 /* CategoriesViewController.xib in Resources */,
 				D48C3E061AEBD165005BD0EF /* ConversationCell.xib in Resources */,
 				508E4CEF1B4281F2007BD301 /* ProductCell.xib in Resources */,
@@ -1362,6 +1378,7 @@
 				50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */,
 				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
+				500DC11C1BD9495800B494FA /* ios-devel.json in Resources */,
 				50C9E4D31B73637D001E4E92 /* Pods.debug.xcconfig in Resources */,
 				50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,

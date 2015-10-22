@@ -77,4 +77,11 @@ extension EnvironmentProxy: AppEnvironment {
         }
         return ""
     }
+    
+    var updateFileCfgName: String {
+        if let appEnvironment = environment as? AppEnvironment {
+            return appEnvironment.updateFileCfgName
+        }
+        return ""
+    }
 }
