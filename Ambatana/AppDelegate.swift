@@ -134,7 +134,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
             let webpageURL = userActivity.webpageURL! // Always exists
             
-            if let deepLink = DeepLink(url: webpageURL), let tabBarCtl = self.window?.rootViewController as? TabBarController {
+            if let deepLink = DeepLink(webUrl: webpageURL), let tabBarCtl = self.window?.rootViewController as? TabBarController {
                 tabBarCtl.openDeepLink(deepLink)
             }
             else {
