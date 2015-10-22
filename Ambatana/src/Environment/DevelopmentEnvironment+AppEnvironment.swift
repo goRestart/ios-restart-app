@@ -24,4 +24,7 @@ extension DevelopmentEnvironment: AppEnvironment {
     
     // New relic
     var newRelicToken: String { get { return "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c" } }
+    
+    // App indexing
+    var googleAppIndexingId: UInt { get { return 986339882} }
 }
