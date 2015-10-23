@@ -108,9 +108,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         // Update distance label
         let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance), type.string])
         if distance <= Constants.productListMaxDistanceLabel {
-            distanceLabel.text = String(format: NSLocalizedString("product_distance_X_from_you", comment: ""), distanceString)
+            distanceLabel.text = String(format: LGLocalizedString.productDistanceXFromYou, distanceString)
         } else {
-            distanceLabel.text = String(format: NSLocalizedString("product_distance_more_than_from_you", comment: ""), distanceString)
+            distanceLabel.text = String(format: LGLocalizedString.productDistanceMoreThanFromYou, distanceString)
         }
     }
     
@@ -144,12 +144,12 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         // If we already have data then show an alert
         if hasProducts {
-            let message = NSLocalizedString("common_error_connection_failed", comment: "")
+            let message = LGLocalizedString.commonErrorConnectionFailed
             if page == 0 {
                 showAutoFadingOutMessageAlert(message)
             }
             else {
-                let buttonTitle = NSLocalizedString("common_error_retry_button", comment: "")
+                let buttonTitle = LGLocalizedString.commonErrorRetryButton
                 let buttonAction = { () -> Void in
                     productListView.retrieveProductsNextPage()
                 }

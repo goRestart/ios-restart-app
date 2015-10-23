@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Has cambiado con éxito la contraseña.";
 "change_password_title" = "Cambiar contraseña";
 "change_username_error_invalid_username" = "¡Ups! Introduce un nombre válido, debe tener al menos %d caracteres.";
-"change_username_error_invalid_username_letgo" = "Another account is using %@";
+"change_username_error_invalid_username_letgo" = "Otra cuenta está usando %@";
 "change_username_field_hint" = "Nombre y apellido";
 "change_username_loading" = "Guardando tu nombre de usuario...";
 "change_username_save_button" = "Guardar";
@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "¡Ups! Ha habido un error al acceder a los datos de tu conversación. Prueba otra vez.";
 "chat_safety_tips_tip_1" = "Después de que hayas cerrado el trato, encontraros en persona y paga en efectivo.";
 "chat_safety_tips_tip_2" = "Di no a los giros postales, transferencias bancarias o cheques.";
-"chat_safety_tips_tip_3" = "¡Si decides hacer un envío, sé inteligente e intuitivo!";
+"chat_safety_tips_tip_3" = "Si parece demasiado bueno para ser cierto, ¡probablemente lo sea!";
 "chat_safety_tips_title" = "Consejos";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "El artículo fue denunciado con éxito. ¡Gracias!";
 "product_reporting_loading_message" = "Denunciando el artículo...";
 "product_reporting_product_label" = "Denunciando el artículo...";
-"product_search_no_products_body" = "Pero no hay productos que se correspondan con tu búsqueda. Vuelve a intentarlo pronto, ¡hay productos nuevos cada día!";
-"product_search_no_products_title" = "HEMOS BUSCADO Y BUSCADO...";
+"product_search_no_products_body" = "¡Prueba buscando algo distinto o vuelve a intentarlo pronto!";
+"product_search_no_products_title" = "¡UPS! NO HAY RESULTADOS CERCA DE TI";
 "product_share_body" = "¡Mira lo que he encontrado en letgo!";
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado un email en este dispositivo.";
 "product_share_whatsapp_error" = "Oops, parece que no has instalado la aplicación de WhatsApp.";
@@ -222,6 +222,7 @@
 "sell_send_error_uploading_picture" = "¡Ups! Ha habido un error al enviar tu artículo. No se ha podido subir la foto. Prueba otra vez.";
 "sell_send_error_uploading_product" = "¡Ups! Ha habido un error al enviar tu artículo.";
 "sell_send_ok" = "¡Enhorabuena! Tu artículo ha sido publicado con éxito. Aparecerá en nuestro tablón de anuncios enseguida.";
+"sell_send_sharing_facebook_ok" = "¡Producto compartido!";
 "sell_share_fb_content" = "Vendo algo en letgo, ¡échale un vistazo!";
 "sell_share_on_facebook_label" = "Compartir mi artículo en Facebook";
 "sell_title" = "Vender";

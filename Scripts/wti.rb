@@ -359,4 +359,6 @@ warnings.each { |warning|
     puts "   #{warning}"
 }
 
+system("ruby", "Scripts/localized_generator.rb", "-s", "Ambatana/res/i18n/Base.lproj/Localizable.strings", "-d", "Ambatana/src/Constants/")
+
 print_main_info("Finished")

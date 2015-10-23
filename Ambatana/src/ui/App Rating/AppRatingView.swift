@@ -57,15 +57,15 @@ public class AppRatingView: UIView {
         suggestView.layer.borderColor = StyleHelper.badgeBgColor.CGColor
         suggestView.layer.borderWidth = 2
         
-        doYouLoveLetgoLabel.text = NSLocalizedString("rating_view_title_label", comment: "")
+        doYouLoveLetgoLabel.text = LGLocalizedString.ratingViewTitleLabel
         
-        loveItLabel.text = NSLocalizedString("rating_view_love_it_label", comment: "").uppercaseString
-        ratUslabel.text = NSLocalizedString("rating_view_rate_us_label", comment: "")
+        loveItLabel.text = LGLocalizedString.ratingViewLoveItLabel.uppercaseString
+        ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
         
-        needsImprLabel.text = NSLocalizedString("rating_view_needs_improvements_label", comment: "").uppercaseString
-        shareSuggestionsLabel.text = NSLocalizedString("rating_view_suggest_label", comment: "")
+        needsImprLabel.text = LGLocalizedString.ratingViewNeedsImprovementsLabel.uppercaseString
+        shareSuggestionsLabel.text = LGLocalizedString.ratingViewSuggestLabel
         
-        dontAskButton.setTitle(NSLocalizedString("rating_view_dont_ask_again_button", comment: "").uppercaseString, forState: .Normal)
+        dontAskButton.setTitle(LGLocalizedString.ratingViewDontAskAgainButton.uppercaseString, forState: .Normal)
         
         let trackerEvent = TrackerEvent.appRatingStart()
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)

@@ -12,7 +12,7 @@
 "change_location_ask_update_location_message" = "Finde Schnäppchen in deiner Nähe! Möchtest du deinen Standort aktualisieren?";
 "change_location_ask_update_location_title" = "Standort ändern";
 "change_location_confirm_update_button" = "Aktualisieren";
-"change_location_error_search_location_message" = "Ich konnte den Standort nicht finden. Bitte versuche es erneut.";
+"change_location_error_search_location_message" = "Dein Standort konnte nicht gefunden werden. Bitte versuche es erneut.";
 "change_location_error_unknown_location_message" = "Keine Ergebnisse für %@";
 "change_location_recommend_update_location_message" = "Wir empfehlen deinen Standort zu aktualisieren, um die besten Angebote in deiner Nähe zu sehen!";
 "change_location_recommend_update_location_title" = "Standort ändern";
@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Kennwort erfolgreich geändert.";
 "change_password_title" = "Kennwort ändern";
 "change_username_error_invalid_username" = "Bitte gib einen gültigen Namen mit mindestens %d Zeichen ein.";
-"change_username_error_invalid_username_letgo" = "Another account is using %@";
+"change_username_error_invalid_username_letgo" = "Ein anderes Benutzerkonto benutzt bereits %@";
 "change_username_field_hint" = "Vollständiger Name";
 "change_username_loading" = "Dein Name wird gespeichert.";
 "change_username_save_button" = "Speichern";
@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "chat_safety_tips_tip_1" = "Triff dich, nachdem alle Details geklärt sind, mit dem Verkäufer persönlich und zahle bar.";
 "chat_safety_tips_tip_2" = "Sage nein zu Zahlungsanweisungen, Überweisungen und Bankschecks.";
-"chat_safety_tips_tip_3" = "Falls du dich entschließt etwas zu verschicken, sei schlau und höre auf dein Bauchgefühl!";
+"chat_safety_tips_tip_3" = "Falls es zu gut klingt um wahr zu sein, ist es das wahrscheinlich auch!";
 "chat_safety_tips_title" = "Sicherheitstipps";
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "Das Produkt wurde erfolgreich gemeldet. Danke!";
 "product_reporting_loading_message" = "Melde Produkt...";
 "product_reporting_product_label" = "Melde Produkt...";
-"product_search_no_products_body" = "Aber keine Produkte entsprachen deiner Suche. Versuche es bald noch einmal, denn es werden jeden Tag neue Artikel eingestellt!";
-"product_search_no_products_title" = "WIR HABEN GESUCHT UND GESUCHT...";
+"product_search_no_products_body" = "Suche nach etwas anderem oder probiere es später noch mal!";
+"product_search_no_products_title" = "HOPPLA! KEINE ERGEBNISSE IN DEINER NÄHE";
 "product_share_body" = "Schau mal, was ich gerade auf letgo gefunden habe!";
 "product_share_email_error" = "Hoppla, du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_whatsapp_error" = "Hoppla, anscheinend hast du Whatsapp nicht installiert.";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "Beim Zurücksetzen des Kennworts ist ein Fehler aufgetreten.";
 "reset_password_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse im E-Mail-Feld ein.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Diese E-Mail-Adresse ist uns nicht bekannt.";
-"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
+"reset_password_send_ok" = "Wir haben eine E-Mail an %@ geschickt. Klicke bitte auf den Link in der E-Mail, um dein Kennwort zurückzusetzen.";
 "reset_password_title" = "Kennwort zurücksetzen";
 "sell_category_selection_label" = "Wähle eine Kategorie";
 "sell_choose_category_dialog_cancel_button" = "Abbrechen";
@@ -222,6 +222,7 @@
 "sell_send_error_uploading_picture" = "Beim Registrieren deines Produkts ist ein Fehler aufgetreten. Das Foto konnte nicht hochgeladen werden. Bitte versuche es erneut.";
 "sell_send_error_uploading_product" = "Beim Registrieren deines Produkts ist ein Fehler aufgetreten.";
 "sell_send_ok" = "Glückwunsch! Dein Artikel wurde erfolgreich eingestellt. Er wird in Kürze in unseren Listen erscheinen.";
+"sell_send_sharing_facebook_ok" = "Produkt erfolgreich geteilt!";
 "sell_share_fb_content" = "Schau mal, was ich bei letgo verkaufe!";
 "sell_share_on_facebook_label" = "Mein Produkt auf Facebook teilen";
 "sell_title" = "Verkaufen";

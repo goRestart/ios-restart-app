@@ -114,15 +114,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         // Force Update Check
-
-        if !(window?.rootViewController is SplashViewController) {
-            configManager.update { (forceUpdate: Bool) -> Void in
+        var configManagerUpdate = false
+        if let navCtl = window?.rootViewController as? UINavigationController {
+            if !(navCtl.topViewController is SplashViewController) {
+                configManagerUpdate = true
+            }
+        }
+        else if !(window?.rootViewController is SplashViewController) {
+            configManagerUpdate = true
+        }
+        if configManagerUpdate {
+            configManager.updateWithCompletion { () -> Void in
                 if let actualWindow = self.window {
                     let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
-                    if forceUpdate && UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
+                    if self.configManager.shouldForceUpdate && UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
                         // show blocking alert
-                        let alert = UIAlertController(title: NSLocalizedString("forced_update_title", comment: ""), message: NSLocalizedString("forced_update_message", comment: ""), preferredStyle: .Alert)
-                        let openAppStore = UIAlertAction(title: NSLocalizedString("forced_update_update_button", comment: ""), style: .Default, handler: { (action :UIAlertAction!) -> Void in
+                        let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle, message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
+                        let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton, style: .Default, handler: { (action :UIAlertAction!) -> Void in
                             UIApplication.sharedApplication().openURL(NSURL(string:itunesURL)!)
                         })
                         

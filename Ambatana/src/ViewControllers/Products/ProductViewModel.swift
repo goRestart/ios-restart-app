@@ -193,7 +193,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     private var shareSocialMessage: SocialMessage {
-        let title = NSLocalizedString("product_share_body", comment: "")
+        let title = LGLocalizedString.productShareBody
         return SocialHelper.socialMessageWithTitle(title, product: product)
     }
     
@@ -288,19 +288,19 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let text: String
         switch product.status {
         case .Pending:
-            text = NSLocalizedString("product_status_label_pending", comment: "")
+            text = LGLocalizedString.productStatusLabelPending
             break
         case .Approved:
-            text = NSLocalizedString("product_status_label_approved", comment: "")
+            text = LGLocalizedString.productStatusLabelApproved
             break
         case .Discarded:
-            text = NSLocalizedString("product_status_label_discarded", comment: "")
+            text = LGLocalizedString.productStatusLabelDiscarded
             break
         case .Sold, .SoldOld:
-            text = NSLocalizedString("product_list_item_sold_status_label", comment: "")
+            text = LGLocalizedString.productListItemSoldStatusLabel
             break
         case .Deleted:
-            text = NSLocalizedString("product_status_label_deleted", comment: "")
+            text = LGLocalizedString.productStatusLabelDeleted
             break
         }
         return text
