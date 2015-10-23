@@ -16,11 +16,9 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var searchBar: UISearchBar!
-    
     // data
-    var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
-    var lastContentOffset: CGFloat = 0.0
+    private var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
+    private var lastContentOffset: CGFloat = 0.0
     
     // ViewModel
     private var viewModel : CategoriesViewModel!
@@ -69,11 +67,6 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
         
     }
 
-    override public func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
 
     // MARK: - CategoriesViewModelDelegate
     

@@ -19,8 +19,6 @@ class CategoriesViewModelSpec: QuickSpec, CategoriesViewModelDelegate {
     override func spec() {
         var sut: CategoriesViewModel!
         
-//        var resultCategories : [ProductCategory]!
-        
         describe ("initial state") {
             
             context("default init") {

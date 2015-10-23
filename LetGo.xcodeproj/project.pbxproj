@@ -48,6 +48,8 @@
 		2EF2F0091BD7D57300234DB9 /* NanigansSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */; settings = {ASSET_TAGS = (); }; };
 		500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 500391B91B04F4F70081C141 /* ChatListViewController.xib */; };
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
+		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; settings = {ASSET_TAGS = (); }; };
+		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; settings = {ASSET_TAGS = (); }; };
 		5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */; };
 		5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */; };
 		502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
@@ -90,9 +92,6 @@
 		50C9E4C71B723F44001E4E92 /* NanigansTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */; };
 		50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */; };
 		50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4CD1B735402001E4E92 /* TrackerEventSpec.swift */; };
-		50C9E4D21B73637D001E4E92 /* Pods.adhoc.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50C9E4CF1B73637D001E4E92 /* Pods.adhoc.xcconfig */; };
-		50C9E4D31B73637D001E4E92 /* Pods.debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50C9E4D01B73637D001E4E92 /* Pods.debug.xcconfig */; };
-		50C9E4D41B73637D001E4E92 /* Pods.release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 50C9E4D11B73637D001E4E92 /* Pods.release.xcconfig */; };
 		50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4D71B73A017001E4E92 /* MockUser.swift */; };
 		50C9E4DA1B73A047001E4E92 /* MockBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4D91B73A047001E4E92 /* MockBaseModel.swift */; };
 		50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4DB1B73A238001E4E92 /* MockProduct.swift */; };
@@ -262,6 +261,8 @@
 		32EAA2F0A47FAE66469DCDBC /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		500391B91B04F4F70081C141 /* ChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatListViewController.xib; sourceTree = "<group>"; };
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
+		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
+		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
 		5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewController.swift; sourceTree = "<group>"; };
 		5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RememberPasswordViewController.xib; sourceTree = "<group>"; };
 		5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewModel.swift; sourceTree = "<group>"; };
@@ -576,6 +577,15 @@
 			);
 			name = "AF-iOS-SDK-v3.3.2";
 			path = "3rd-Party/AF-iOS-SDK-v3.3.2";
+			sourceTree = "<group>";
+		};
+		500DC1281BDA1C4C00B494FA /* config */ = {
+			isa = PBXGroup;
+			children = (
+				500DC1291BDA1C4C00B494FA /* ios-devel.json */,
+				500DC12A1BDA1C4C00B494FA /* ios-prod.json */,
+			);
+			path = config;
 			sourceTree = "<group>";
 		};
 		502374531B3D3E8D00E02656 /* i18n */ = {
@@ -1074,6 +1084,7 @@
 		D40DA2841AEE274600B64CE1 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				500DC1281BDA1C4C00B494FA /* config */,
 				502374531B3D3E8D00E02656 /* i18n */,
 				D40DA2851AEE274600B64CE1 /* data */,
 				506DC19A1BBE7D8A00E59D27 /* sound */,
@@ -1260,7 +1271,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Ambatana;
 				TargetAttributes = {
 					6608E0351A820FBD005895ED = {
@@ -1333,11 +1344,11 @@
 				D48C3E061AEBD165005BD0EF /* ConversationCell.xib in Resources */,
 				508E4CEF1B4281F2007BD301 /* ProductCell.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
+				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
 				2ECEAD131B9E0E3E00C8B40C /* AppRatingView.xib in Resources */,
 				50560B9A1B25D18F0021D8D9 /* LogInViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
-				50C9E4D21B73637D001E4E92 /* Pods.adhoc.xcconfig in Resources */,
 				D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */,
 				500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */,
 				2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */,
@@ -1354,7 +1365,6 @@
 				2EE60AF81B60D97300E56E7D /* SellProductViewController.xib in Resources */,
 				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
 				50E8A0931B7B3B2D00DE49CC /* ProductViewController.xib in Resources */,
-				50C9E4D41B73637D001E4E92 /* Pods.release.xcconfig in Resources */,
 				2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */,
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
 				2EE5FF551B7B3DAB0090E558 /* EditUserLocationViewController.xib in Resources */,
@@ -1368,12 +1378,12 @@
 				50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */,
 				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
-				50C9E4D31B73637D001E4E92 /* Pods.debug.xcconfig in Resources */,
 				50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
 				502B705D1BAAC3B500C5D465 /* FloatingButton.xib in Resources */,
 				50C9E4F91B74C9F6001E4E92 /* README.txt in Resources */,
+				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				D4BFE5B51B640C36006A8CB6 /* MainProductsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1776,6 +1786,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1859,10 +1870,10 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 					"$(PROJECT_DIR)/3rd-Party/GoogleConversionTrackingSDK-iOS-3.2.0",
-					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v3.3.0",
 					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v3.3.2",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
+				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/letgo-Bridging-Header.h";
@@ -1896,6 +1907,7 @@
 					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v3.3.2",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/letgo-Bridging-Header.h";
@@ -1966,6 +1978,7 @@
 					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v3.3.2",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/letgo-Bridging-Header.h";
@@ -2000,6 +2013,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.letgo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoTests/letgoTests-Bridging-Header.h";
@@ -2033,6 +2047,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.letgo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoTests/letgoTests-Bridging-Header.h";
@@ -2065,6 +2080,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.letgo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "letgoTests/letgoTests-Bridging-Header.h";

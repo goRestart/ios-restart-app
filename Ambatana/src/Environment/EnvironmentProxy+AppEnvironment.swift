@@ -63,4 +63,11 @@ extension EnvironmentProxy: AppEnvironment {
         }
         return ""
     }
+    
+    var configFileName: String {
+        if let appEnvironment = environment as? AppEnvironment {
+            return appEnvironment.configFileName
+        }
+        return ""
+    }
 }

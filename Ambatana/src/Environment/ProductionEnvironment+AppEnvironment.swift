@@ -19,8 +19,14 @@ extension ProductionEnvironment: AppEnvironment {
     var googleConversionTrackingId: String { get { return "947998763" } }
     var nanigansAppId: String { get { return "298434" } }
     
+    var urbanAirshipAPIKey: String { get { return "554gl4nfTgGQKYpZN_m5aQ"} }
+    var urbanAirshipAPISecret: String { get { return "13N1n6bTRuqGsAev6eWDSA"} }
+    
     var kahunaAPIKey: String { get { return "9188e3c6b7cf47acb94a10ab027a08f3" } }
     
     // New relic
     var newRelicToken: String { get { return "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"} }
+    
+    // Config
+    var configFileName: String { get { return "ios-prod" } }
 }

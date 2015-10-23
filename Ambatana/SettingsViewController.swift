@@ -195,25 +195,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - UIImagePickerControllerDelegate methods
     
     func showImageSourceSelection() {
-        if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: NSLocalizedString("settings_image_source_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
-                self.openImagePickerWithSource(.Camera)
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_roll_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
-                self.openImagePickerWithSource(.PhotoLibrary)
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_cancel_button", comment: ""), style: .Cancel, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        } else {
-            let actionSheet = UIActionSheet()
-            actionSheet.delegate = self
-            actionSheet.title = NSLocalizedString("settings_image_source_title", comment: "")
-            actionSheet.addButtonWithTitle(NSLocalizedString("settings_image_source_camera_button", comment: ""))
-            actionSheet.addButtonWithTitle(NSLocalizedString("settings_image_source_camera_roll_button", comment: ""))
-            actionSheet.showInView(self.view)
-        }
-        
+        let alert = UIAlertController(title: NSLocalizedString("settings_image_source_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
+            self.openImagePickerWithSource(.Camera)
+        }))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_roll_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
+            self.openImagePickerWithSource(.PhotoLibrary)
+        }))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_cancel_button", comment: ""), style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     // iOS 7 compatibility action sheet for image source selection

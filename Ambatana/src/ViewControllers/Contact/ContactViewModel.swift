@@ -163,9 +163,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
             finalMessage = finalMessage + "App Version:  \(appVersion)\n"
         }
 
-        if let iOSVersion = NSBundle.mainBundle().infoDictionary?["DTPlatformVersion"] as? String {
-            finalMessage = finalMessage + "OS Version:  iOS \(iOSVersion)\n"
-        }
+        finalMessage = finalMessage + "OS Version:  iOS \(UIDevice.currentDevice().systemVersion)\n"
         
         if let hwVersion = UIDeviceUtil.hardwareDescription() {
             finalMessage = finalMessage + "Device model: \(hwVersion)\n"
