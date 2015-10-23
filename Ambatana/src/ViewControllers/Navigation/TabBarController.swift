@@ -57,9 +57,9 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         }
         
         static var all:[Tab]{
-            return Array(SequenceOf { () -> GeneratorOf<Tab> in
+            return Array(AnySequence { () -> AnyGenerator<Tab> in
                     var i = 0
-                    return GeneratorOf<Tab>{
+                    return anyGenerator{
                         return Tab(rawValue: i++)
                     }
                 }
@@ -93,7 +93,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         
         // Generate the view controllers
         var vcs: [UIViewController] = []
-        let iconInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
+//        let iconInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
         for tab in Tab.all {
             vcs.append(controllerForTab(tab))
         }
@@ -118,7 +118,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         // Add the floating sell button
         floatingSellButton = FloatingButton.floatingButtonWithTitle(NSLocalizedString("tab_bar_tool_tip", comment: ""), icon: UIImage(named: "ic_sell_white"))
         floatingSellButton.addTarget(self, action: Selector("sellButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
-        floatingSellButton.setTranslatesAutoresizingMaskIntoConstraints(false)
+        floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
         
         let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
@@ -136,7 +136,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         updateChatsBadge()
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -173,7 +173,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     /**
         Pops the current navigation controller to root and switches to the given tab.
         
-        :param: The tab to go to.
+        - parameter The: tab to go to.
     */
     func switchToTab(tab: Tab) {
         if let navBarCtl = selectedViewController as? UINavigationController {
@@ -203,8 +203,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     /**
         Opens a deep link.
     
-        :param: deepLink The deep link.
-        :returns: If succesfully handled opening the deep link.
+        - parameter deepLink: The deep link.
+        - returns: If succesfully handled opening the deep link.
     */
     func openDeepLink(deepLink: DeepLink) -> Bool {
         if deepLink.isValid {
@@ -251,8 +251,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     /**
         Shows/hides the sell floating button
     
-        :param: hidden If should be hidden
-        :param: animated If transition should be animated
+        - parameter hidden: If should be hidden
+        - parameter animated: If transition should be animated
     */
     func setSellFloatingButtonHidden(hidden: Bool, animated: Bool) {
         let alpha: CGFloat = hidden ? 0 : 1
@@ -410,7 +410,13 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
 
         // Customize the selected appereance
-        tabBarItem.image = tabBarItem.selectedImage.imageWithColor(StyleHelper.tabBarIconUnselectedColor).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        if let imageItem = tabBarItem.selectedImage {
+            tabBarItem.image = imageItem.imageWithColor(StyleHelper.tabBarIconUnselectedColor).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        }
+        else {
+            tabBarItem.image = UIImage()
+        }
+        
         tabBarItem.imageInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
         
         navCtl.tabBarItem = tabBarItem
@@ -453,7 +459,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         showLoadingMessageAlert()
         
         // Retrieve the product
-        productManager.retrieveProductWithId(productId) { [weak self] (result: Result<Product, ProductRetrieveServiceError>) in
+        productManager.retrieveProductWithId(productId) { [weak self] (result: ProductRetrieveServiceResult) in
             
             var loadingDismissCompletion: (() -> Void)? = nil
             
@@ -486,7 +492,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
             }
             
             // Dismiss loading
-            self?.dismissLoadingMessageAlert(completion: loadingDismissCompletion)
+            self?.dismissLoadingMessageAlert(loadingDismissCompletion)
         }
     }
 
@@ -495,7 +501,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         showLoadingMessageAlert()
         
         // Retrieve the product
-        userManager.retrieveUserWithId(userId) { [weak self] (result: Result<User, UserRetrieveServiceError>) in
+        userManager.retrieveUserWithId(userId) { [weak self] (result: UserRetrieveServiceResult) in
             
             var loadingDismissCompletion: (() -> Void)? = nil
             
@@ -527,7 +533,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
             }
             
             // Dismiss loading
-            self?.dismissLoadingMessageAlert(completion: loadingDismissCompletion)
+            self?.dismissLoadingMessageAlert(loadingDismissCompletion)
         }
     }
     
@@ -543,7 +549,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         selectedViewController?.navigationController?.popToRootViewControllerAnimated(false)
 
         // Switch to home tab
-        var dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
         dispatch_after(dispatchTime, dispatch_get_main_queue(), {
             self.switchToTab(.Home)
         })

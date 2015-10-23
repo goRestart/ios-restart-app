@@ -14,7 +14,7 @@ public protocol ChangePasswordViewModelDelegate : class {
     func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool)
     func viewModel(viewModel: ChangePasswordViewModel, didFailValidationWithError error: UserSaveServiceError)
     func viewModelDidStartSendingPassword(viewModel: ChangePasswordViewModel)
-    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult result: Result<User, UserSaveServiceError>)
+    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult result: UserSaveServiceResult)
     
 }
 
@@ -49,11 +49,11 @@ public class ChangePasswordViewModel: BaseViewModel {
             
             delegate?.viewModelDidStartSendingPassword(self)
             
-            MyUserManager.sharedInstance.updatePassword(password) { [weak self] (result: Result<User, UserSaveServiceError>) in
+            MyUserManager.sharedInstance.updatePassword(password) { [weak self] (result: UserSaveServiceResult) in
                 if let strongSelf = self {
                     // Success
                     if let actualDelegate = strongSelf.delegate {
-                        if let password = result.value {
+                        if let _ = result.value {
                             actualDelegate.viewModel(strongSelf, didFinishSendingPasswordWithResult: result)
                         }
                             // Error
@@ -80,10 +80,10 @@ public class ChangePasswordViewModel: BaseViewModel {
     }
     
     public func isValidPassword() -> Bool {
-        if count(password) < Constants.passwordMinLength ||
-            count(password) > Constants.passwordMaxLength ||
-            count(confirmPassword) < Constants.passwordMinLength ||
-            count(confirmPassword) > Constants.passwordMaxLength { // min or max length not fulfilled
+        if password.characters.count < Constants.passwordMinLength ||
+            password.characters.count > Constants.passwordMaxLength ||
+            confirmPassword.characters.count < Constants.passwordMinLength ||
+            confirmPassword.characters.count > Constants.passwordMaxLength { // min or max length not fulfilled
             return false
         }
         return true

@@ -52,7 +52,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         self.viewModel.delegate = self
     }
     
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -125,7 +125,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         showCustomLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: Result<User, UserLogInFBError>) {
+    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: UserLogInFBResult) {
         
         var completion: (() -> Void)? = nil
         
@@ -138,12 +138,12 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         case .Failure(let error):
             
             var message: String?
-            switch (error.value) {
+            switch (error) {
             case .Cancelled:
                 break
             case .EmailTaken:
                 message = NSLocalizedString("main_sign_up_fb_connect_error_email_taken", comment: "")
-            case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch:
+            case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch, .UsernameTaken:
                 message = NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
             }
             completion = {
@@ -152,7 +152,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
                 }
             }
         }
-        dismissCustomLoadingMessageAlert(completion: completion)
+        dismissCustomLoadingMessageAlert(completion)
     }
     
     // MARK: - Private methods

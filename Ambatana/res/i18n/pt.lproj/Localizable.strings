@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Senha alterada com sucesso.";
 "change_password_title" = "Alterar senha";
 "change_username_error_invalid_username" = "Por favor, insira um nome válido, contendo pelo menos %d caracteres.";
-"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"change_username_error_invalid_username_letgo" = "Another account is using %@";
 "change_username_field_hint" = "Nome completo";
 "change_username_loading" = "Salvando nome de usuário...";
 "change_username_save_button" = "Salvar";
@@ -54,7 +54,7 @@
 "common_loading" = "Carregando...";
 "common_no" = "Não";
 "common_ok" = "OK";
-"common_product_deleted" = "Produto deletado.";
+"common_product_deleted" = "Item excluído";
 "common_product_not_available" = "Esse produto não está mais disponível.";
 "common_product_sold" = "Este produto foi vendido.";
 "common_time_a_minute_ago_label" = "Há cerca de um minuto";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "Ocorreu uma falha ao tentar lembrar a senha.";
 "reset_password_send_error_invalid_email" = "Por favor, insira um e-mail válido.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Endereço de e-mail não encontrado.";
-"reset_password_send_ok" = "Enviamos um e-mail. Clique no link da mensagem para redefinir a sua senha.";
+"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_title" = "Redefinir Senha";
 "sell_category_selection_label" = "Escolher uma categoria";
 "sell_choose_category_dialog_cancel_button" = "Cancelar";
@@ -250,7 +250,7 @@
 "sign_up_send_error_invalid_password" = "Por favor, insira uma senha válida. A senha deve ter no mínimo %d caracteres.";
 "sign_up_send_error_invalid_password_with_max" = "Por favor, insira uma senha válida. Ela deve ter entre %d e %d caracteres.";
 "sign_up_send_error_invalid_username" = "Por favor, insira um nome válido no campo usuário. O nome deve ter no mínimo %d caracteres.";
-"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"sign_up_send_error_invalid_username_letgo" = "Os nomes de usuários não podem conter a palavra letgo, a expressão let go ou palavras semelhantes.";
 "sign_up_title" = "Cadastre-se";
 "sign_up_username_field_hint" = "Nome completo";
 "tab_bar_tool_tip" = "Venda suas coisas";

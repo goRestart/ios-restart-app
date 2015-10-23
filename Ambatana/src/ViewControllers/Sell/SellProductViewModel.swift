@@ -18,7 +18,7 @@ protocol SellProductViewModelDelegate : class {
     
     func sellProductViewModel(viewModel: SellProductViewModel, didUpdateProgressWithPercentage percentage: Float)
     
-    func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: Result<Product, ProductSaveServiceError>)
+    func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: ProductSaveServiceResult)
     func sellProductViewModel(viewModel: SellProductViewModel, shouldUpdateDescriptionWithCount count: Int)
     func sellProductViewModeldidAddOrDeleteImage(viewModel: SellProductViewModel)
     func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError)
@@ -119,7 +119,7 @@ public class SellProductViewModel: BaseViewModel {
     
     var descriptionCharCount: Int {
         
-        return Constants.productDescriptionMaxLength-count(descr)
+        return Constants.productDescriptionMaxLength-descr.characters.count
     }
     
     // fills action sheet
@@ -145,7 +145,7 @@ public class SellProductViewModel: BaseViewModel {
     }
 
     public func save() {
-        saveProduct(product: nil)
+        saveProduct(nil)
     }
     
     public var fbShareContent: FBSDKShareLinkContent? {
@@ -192,13 +192,13 @@ public class SellProductViewModel: BaseViewModel {
         if images.count < 1 {
             // iterar x assegurar-se que hi ha imatges
             return .NoImages
-        } else if count(title) < 1 {
+        } else if title.characters.count < 1 {
             return .NoTitle
         } else if !price.isValidPrice() {
             return .NoPrice
-        } else if count(descr) < 1 {
+        } else if descr.characters.count < 1 {
             return .NoDescription
-        } else if count(descr) > Constants.productDescriptionMaxLength {
+        } else if descr.characters.count > Constants.productDescriptionMaxLength {
             return .LongDescription
         } else if category == nil {
             return .NoCategory
@@ -215,7 +215,7 @@ public class SellProductViewModel: BaseViewModel {
                 strongSelf.delegate?.sellProductViewModel(strongSelf, didUpdateProgressWithPercentage: p)
             }
             
-            }) { [weak self] (r: Result<Product, ProductSaveServiceError>) -> Void in
+            }) { [weak self] (r: ProductSaveServiceResult) -> Void in
                 if let strongSelf = self {
                     if let actualProduct = r.value {
                         strongSelf.savedProduct = actualProduct

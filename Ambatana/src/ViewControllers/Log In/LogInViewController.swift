@@ -47,7 +47,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         self.viewModel.delegate = self
     }
     
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -100,7 +100,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         showLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: LogInViewModel, didFinishLoggingInWithResult result: Result<User, UserLogInEmailServiceError>) {
+    func viewModel(viewModel: LogInViewModel, didFinishLoggingInWithResult result: UserLogInEmailServiceResult) {
         
         var completion: (() -> Void)? = nil
         
@@ -112,7 +112,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
             break
         case .Failure(let error):
             let message: String
-            switch (error.value) {
+            switch (error) {
             case .InvalidEmail:
                 message = NSLocalizedString("log_in_error_send_error_invalid_email", comment: "")
             case .InvalidPassword:
@@ -129,7 +129,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
             }
         }
         
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     // MARK: - UITextFieldDelegate
@@ -178,8 +178,10 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        updateViewModelText(text, fromTextFieldTag: textField.tag)
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            updateViewModelText(text, fromTextFieldTag: textField.tag)
+        }
         return true
     }
     
@@ -196,7 +198,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
         logInButton.layer.cornerRadius = 4
         
         // i18n
-        setLetGoNavigationBarStyle(title: NSLocalizedString("log_in_title", comment: ""))
+        setLetGoNavigationBarStyle(NSLocalizedString("log_in_title", comment: ""))
         emailTextField.placeholder = NSLocalizedString("log_in_email_field_hint", comment: "")
         passwordTextField.placeholder = NSLocalizedString("log_in_password_field_hint", comment: "")
         rememberPasswordButton.setTitle(NSLocalizedString("log_in_reset_password_button", comment: ""), forState: .Normal)

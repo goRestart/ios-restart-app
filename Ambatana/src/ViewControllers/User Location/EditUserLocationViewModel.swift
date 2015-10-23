@@ -16,7 +16,7 @@ public protocol EditUserLocationViewModelDelegate: class {
     func viewModel(viewModel: EditUserLocationViewModel, updateTextFieldWithString locationName: String)
     func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String])
     func viewModelDidFailFindingSuggestions(viewModel: EditUserLocationViewModel)
-    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult result: Result<[Place], SearchLocationSuggestionsServiceError>)
+    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult result: SearchLocationSuggestionsServiceResult)
     func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D, withPostalAddress postalAddress: PostalAddress?, approximate: Bool)
 }
 
@@ -95,10 +95,10 @@ public class EditUserLocationViewModel: BaseViewModel {
     
     func showInitialUserLocation() {
         goingToLocation = true
-        var user = MyUserManager.sharedInstance.myUser()
+        let user = MyUserManager.sharedInstance.myUser()
         if let location =  MyUserManager.sharedInstance.currentLocation {
             delegate?.viewModel(self, updateTextFieldWithString: "")
-            var place = Place()
+            let place = Place()
             place.postalAddress = user?.postalAddress
             place.location = LGLocationCoordinates2D(location: location)
             self.currentPlace = place
@@ -130,9 +130,9 @@ public class EditUserLocationViewModel: BaseViewModel {
                 userLocationString += country
             }
             delegate?.viewModel(self, updateTextFieldWithString: userLocationString)
-            var lat = location.coordinate.latitude
-            var long = location.coordinate.longitude
-            var coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            let lat = location.coordinate.latitude
+            let long = location.coordinate.longitude
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress, approximate: self.approximateLocation)
         }
         
@@ -155,7 +155,7 @@ public class EditUserLocationViewModel: BaseViewModel {
                 
                 // Retrieve the address
                 serviceAlreadyLoading = true
-                postalAddressService.retrieveAddressForLocation(location.location) { [weak self] (result: Result<Place, PostalAddressRetrievalServiceError>) -> Void in
+                postalAddressService.retrieveAddressForLocation(location.location) { [weak self] (result: PostalAddressRetrievalServiceResult) -> Void in
                     if let strongSelf = self {
                         if let actualDelegate = strongSelf.delegate {
                             if let place = result.value, let postalAddress = place.postalAddress {
@@ -190,7 +190,7 @@ public class EditUserLocationViewModel: BaseViewModel {
 
         if !serviceAlreadyLoading {
             serviceAlreadyLoading = true
-            searchService.retrieveAddressForLocation(self.searchText) { [weak self] (suggestionsResult: Result<[Place], SearchLocationSuggestionsServiceError>) -> Void in
+            searchService.retrieveAddressForLocation(self.searchText) { [weak self] (suggestionsResult: SearchLocationSuggestionsServiceResult) -> Void in
                 
                 if let strongSelf = self {
                     if let actualDelegate = strongSelf.delegate {
@@ -224,11 +224,11 @@ public class EditUserLocationViewModel: BaseViewModel {
         if !serviceAlreadyLoading {
             serviceAlreadyLoading = true
             delegate?.viewModelDidStartSearchingLocation(self)
-            searchService.retrieveAddressForLocation(self.searchText) { [weak self](result: Result<[Place], SearchLocationSuggestionsServiceError>) -> Void in
+            searchService.retrieveAddressForLocation(self.searchText) { [weak self](result: SearchLocationSuggestionsServiceResult) -> Void in
                 if let strongSelf = self {
                     if let actualDelegate = strongSelf.delegate {
                         if let places = result.value, let place = places.first, let location = place.location {
-                            var coordinate = location.coordinates2DfromLocation()
+                            let coordinate = location.coordinates2DfromLocation()
                             strongSelf.currentPlace = place
                             actualDelegate.viewModel(strongSelf, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress, approximate: strongSelf.approximateLocation)
                         }
@@ -250,7 +250,7 @@ public class EditUserLocationViewModel: BaseViewModel {
     func updateApproximateSwitchChanged() {
         
         if let location = currentPlace.location {
-            var coordinate = location.coordinates2DfromLocation()
+            let coordinate = location.coordinates2DfromLocation()
             delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: currentPlace.postalAddress, approximate: self.approximateLocation)
         }
     }
@@ -268,7 +268,7 @@ public class EditUserLocationViewModel: BaseViewModel {
             MyUserManager.sharedInstance.setAutomaticLocationWithPlace(currentPlace)
         } else {
             if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
-                var location = CLLocation(latitude: lat, longitude: long)
+                let location = CLLocation(latitude: lat, longitude: long)
                 MyUserManager.sharedInstance.setManualLocation(location, place: currentPlace)
             }
         }

@@ -15,7 +15,7 @@ public class MainProductListView: ProductListView {
     
     // MARK: - Lifecycle
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         mainProductListViewModel = MainProductListViewModel()
         
         super.init(viewModel: mainProductListViewModel, coder: aDecoder)

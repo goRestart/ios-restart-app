@@ -20,7 +20,7 @@ public struct TrackerEvent {
     public static func location(location: LGLocation, locationServiceStatus: LocationServiceStatus) -> TrackerEvent {
         var params = EventParameters()
         let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
-        if let actualLocationTypeParamValue = locationTypeParamValue {
+        if let _ = locationTypeParamValue {
             params[.LocationType] = location.type.rawValue
         }
         let enabled: Bool
@@ -88,7 +88,7 @@ public struct TrackerEvent {
                 categoryIds.append(String(category.rawValue))
             }
         }
-        params[.CategoryId] = categoryIds.isEmpty ? "0" : ",".join(categoryIds)
+        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
         // Search query
         if let actualSearchQuery = searchQuery {
             params[.SearchString] = actualSearchQuery
@@ -100,7 +100,7 @@ public struct TrackerEvent {
     }
     
     public static func searchStart(user: User?) -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         
         return TrackerEvent(name: .SearchStart, params: params)
     }
@@ -198,7 +198,7 @@ public struct TrackerEvent {
     }
     
     public static func productSellStart(user: User?) -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .ProductSellStart, params: params)
     }
     
@@ -283,52 +283,52 @@ public struct TrackerEvent {
     }
     
     public static func profileEditStart() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .ProfileEditStart, params: params)
     }
     
     public static func profileEditEditName() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .ProfileEditEditName, params: params)
     }
     
     public static func profileEditEditLocation(location: LGLocation) -> TrackerEvent {
         var params = EventParameters()
         let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
-        if let actualLocationTypeParamValue = locationTypeParamValue {
+        if let _ = locationTypeParamValue {
             params[.LocationType] = location.type.rawValue
         }
         return TrackerEvent(name: .ProfileEditEditLocation, params: params)
     }
     
     public static func profileEditEditPicture() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .ProfileEditEditPicture, params: params)
     }
     
     public static func appRatingStart() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .AppRatingStart, params: params)
     }
     
     public static func appRatingRate() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .AppRatingRate, params: params)
     }
     
     public static func appRatingSuggest() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .AppRatingSuggest, params: params)
     }
     
     public static func appRatingDontAsk() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .AppRatingDontAsk, params: params)
     }
     
     
     public static func locationMapShown() -> TrackerEvent {
-        var params = EventParameters()
+        let params = EventParameters()
         return TrackerEvent(name: .LocationMap, params: params)
     }
 

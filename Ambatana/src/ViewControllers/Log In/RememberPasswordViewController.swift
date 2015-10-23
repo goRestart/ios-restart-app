@@ -38,7 +38,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         self.viewModel.delegate = self
     }
         
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -79,21 +79,21 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         showLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: RememberPasswordViewModel, didFinishResettingPasswordWithResult result: Result<Nil, UserPasswordResetServiceError>) {
+    func viewModel(viewModel: RememberPasswordViewModel, didFinishResettingPasswordWithResult result: UserPasswordResetServiceResult) {
         
         var completion: (() -> Void)? = nil
         
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("reset_password_send_ok", comment: "")) {
+                self.showAutoFadingOutMessageAlert(String(format: NSLocalizedString("reset_password_send_ok", comment: ""), viewModel.email)) {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
             break
         case .Failure(let error):
             let message: String
-            switch (error.value) {
+            switch (error) {
             case .InvalidEmail:
                 message = NSLocalizedString("reset_password_send_error_invalid_email", comment: "")
             case .UserNotFound:
@@ -108,7 +108,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             }
         }
         
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     // MARK: - UITextFieldDelegate
@@ -153,8 +153,10 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        updateViewModelText(text, fromTextFieldTag: textField.tag)
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            updateViewModelText(text, fromTextFieldTag: textField.tag)
+        }
         return true
     }
     
@@ -171,7 +173,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         resetPasswordButton.layer.cornerRadius = 4
         
         // i18n
-        setLetGoNavigationBarStyle(title: NSLocalizedString("reset_password_title", comment: ""))
+        setLetGoNavigationBarStyle(NSLocalizedString("reset_password_title", comment: ""))
         emailTextField.placeholder = NSLocalizedString("reset_password_email_field_hint", comment: "")
         resetPasswordButton.setTitle(NSLocalizedString("reset_password_send_button", comment: ""), forState: .Normal)
         
@@ -180,7 +182,11 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     }
     
     private func updateSendButtonEnabledState() {
-        resetPasswordButton.enabled = count(emailTextField.text) > 0
+        if let email = emailTextField.text {
+            resetPasswordButton.enabled = email.characters.count > 0
+        } else {
+            resetPasswordButton.enabled = false
+        }
     }
     
     // MARK: > Helper

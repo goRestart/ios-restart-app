@@ -8,19 +8,17 @@
 
 import LGCoreKit
 
-@objc class MockBaseModel: BaseModel {
-    var objectId: String!
-    var createdAt: NSDate!
-    var updatedAt: NSDate!
+class MockBaseModel: BaseModel {
+    var objectId: String?
+    var createdAt: NSDate?
+    var updatedAt: NSDate?
     
     var isSaved: Bool {
         return objectId != nil
     }
-    var acl: AccessControlList?
     
     // MARK: - Lifecycle
     
     init() {
-        self.acl = nil
     }
 }

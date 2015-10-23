@@ -7,10 +7,10 @@
     "5C4077437CD0E03249EB1406D3805FAF13DE47BC" : 0,
     "BDB65CBF806F7718EF9E948676549EAFF6355B13" : 0
   },
-  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "5DCD5166-523B-4901-935D-7B214D2F08CB",
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "0B9D3277-CF6C-447C-9BC7-3E7839EE1FF9",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "5C4077437CD0E03249EB1406D3805FAF13DE47BC" : "letgo-ios-lgcorekit",
-    "BDB65CBF806F7718EF9E948676549EAFF6355B13" : "letgo-ios"
+    "5C4077437CD0E03249EB1406D3805FAF13DE47BC" : "letgo-ios-lgcorekit\/",
+    "BDB65CBF806F7718EF9E948676549EAFF6355B13" : "letgo-ios\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "LetGo",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,

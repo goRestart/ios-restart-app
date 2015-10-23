@@ -10,23 +10,23 @@ import LGCoreKit
 
 extension ProductionEnvironment: AppEnvironment {
     // General
-    let appleAppId = "986339882"
-    let facebookAppId = "699538486794082"
+    var appleAppId: String { get { return "986339882" } }
+    var facebookAppId: String { get { return "699538486794082" } }
     
     // Tracking
-    let appsFlyerAPIKey = "5EKnCjmwmNKjE2e7gYBo6T"
-    let amplitudeAPIKey = "6d37fbd6c25243c57676e6d4ce7948bf"
-    let googleConversionTrackingId = "947998763"
-    let nanigansAppId = "298434"
+    var appsFlyerAPIKey: String { get { return "5EKnCjmwmNKjE2e7gYBo6T" } }
+    var amplitudeAPIKey: String { get { return "6d37fbd6c25243c57676e6d4ce7948bf" } }
+    var googleConversionTrackingId: String { get { return "947998763" } }
+    var nanigansAppId: String { get { return "298434" } }
     
-    let urbanAirshipAPIKey = "554gl4nfTgGQKYpZN_m5aQ"
-    let urbanAirshipAPISecret = "13N1n6bTRuqGsAev6eWDSA"
+    var urbanAirshipAPIKey: String { get { return "554gl4nfTgGQKYpZN_m5aQ"} }
+    var urbanAirshipAPISecret: String { get { return "13N1n6bTRuqGsAev6eWDSA"} }
     
-    let kahunaAPIKey = "9188e3c6b7cf47acb94a10ab027a08f3"
+    var kahunaAPIKey: String { get { return "9188e3c6b7cf47acb94a10ab027a08f3" } }
     
     // New relic
-    let newRelicToken = "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"
+    var newRelicToken: String { get { return "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"} }
     
     // Config
-    let updateFileCfgName = "ios-prod"
+    var configFileName: String { get { return "ios-prod" } }
 }

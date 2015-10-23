@@ -1,6 +1,0 @@
-framework module UrbanAirship_iOS_SDK {
-  umbrella header "UrbanAirship-iOS-SDK-umbrella.h"
-
-  export *
-  module * { export * }
-}

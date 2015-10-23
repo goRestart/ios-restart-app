@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Пароль успешно изменен.";
 "change_password_title" = "Сменить пароль";
 "change_username_error_invalid_username" = "Пожалуйста, введите настоящее имя, оно должно содержать как минимум %d символа.";
-"change_username_error_invalid_username_letgo" = "Имя пользователя не может содержать слово \"letgo\", \"let go\" или похожие.";
+"change_username_error_invalid_username_letgo" = "Another account is using %@";
 "change_username_field_hint" = "Полное имя";
 "change_username_loading" = "Сохранение имени пользователя...";
 "change_username_save_button" = "Сохранить";
@@ -54,7 +54,7 @@
 "common_loading" = "Загрузка...";
 "common_no" = "Нет";
 "common_ok" = "OK";
-"common_product_deleted" = "Товар удален.";
+"common_product_deleted" = "Товар удален";
 "common_product_not_available" = "Этот товар больше не доступен.";
 "common_product_sold" = "Это товар уже продан.";
 "common_time_a_minute_ago_label" = "минуту назад";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "При восстановлении пароля произошла ошибка.";
 "reset_password_send_error_invalid_email" = "Пожалуйста, укажите действующий E-mail.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-mail не найден.";
-"reset_password_send_ok" = "Мы отправили вам письмо! Пройдите по ссылке в нем для сброса пароля.";
+"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_title" = "Сбросить пароль";
 "sell_category_selection_label" = "Выберите категорию";
 "sell_choose_category_dialog_cancel_button" = "Отмена";

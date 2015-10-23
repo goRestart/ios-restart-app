@@ -16,7 +16,7 @@ public protocol ContactViewModelDelegate: class {
     func viewModel(viewModel: ContactViewModel, updateSendButtonEnabledState enabled: Bool)
     func viewModel(viewModel: ContactViewModel, didFailValidationWithError error: ContactSendServiceError)
     func viewModelDidStartSendingContact(viewModel: ContactViewModel)
-    func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: Result<Contact, ContactSendServiceError>)
+    func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: ContactSendServiceResult)
     func viewModel(viewModel: ContactViewModel, updateSubjectButtonWithText text: String)
     func pushSubjectOptionsViewWithModel(viewModel: ContactSubjectOptionsViewModel, selectedRow: Int?)
 }
@@ -111,15 +111,15 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
                 delegate?.viewModelDidStartSendingContact(self)
                 
                 // Send the contact
-                self.contactService.sendContact(contact, sessionToken: sessionToken) { [weak self] (finalResult: Result<Contact, ContactSendServiceError>) in
+                self.contactService.sendContact(contact, sessionToken: sessionToken) { [weak self] (finalResult: ContactSendServiceResult) in
                     
                     if let strongSelf = self {
                         if let actualDelegate = strongSelf.delegate {
-                            if let contact = finalResult.value {
+                            if let _ = finalResult.value {
                                 // success
                                 actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
                             }
-                            else if let someError = finalResult.error {
+                            else if let _ = finalResult.error {
                                 // error
                                 actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
                                 
@@ -130,7 +130,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
                 
                 // Save the email if
                 if shouldUpdateMyEmail() {
-                    self.myUserManager.updateEmail(email, result: nil)
+                    self.myUserManager.updateEmail(email, completion: nil)
                 }
             } else {
                 delegate?.viewModel(self, didFailValidationWithError: .Internal)
@@ -171,9 +171,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
             finalMessage = finalMessage + "Device model: \(hwVersion)\n"
         }
         
-        if let language = NSLocale.preferredLanguages()[0] as? String {
-            finalMessage = finalMessage + "Language :    \(language)\n"
-        }
+        finalMessage = finalMessage + "Language :    \(NSLocale.preferredLanguages()[0])\n"
 
         finalMessage = finalMessage + "------------\n\n"
 

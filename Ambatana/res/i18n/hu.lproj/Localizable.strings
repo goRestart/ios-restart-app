@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Sikeres jelszóváltoztatás.";
 "change_password_title" = "Jelszóváltás";
 "change_username_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
-"change_username_error_invalid_username_letgo" = "A felhasználónév nem tartalmazhatja a letgo szót, és ahhoz hasonlóakat sem.";
+"change_username_error_invalid_username_letgo" = "Another account is using %@";
 "change_username_field_hint" = "Teljes név";
 "change_username_loading" = "Felhasználói név mentése...";
 "change_username_save_button" = "Mentés";
@@ -54,7 +54,7 @@
 "common_loading" = "Betöltés...";
 "common_no" = "Nem";
 "common_ok" = "OK";
-"common_product_deleted" = "Portéka törölve.";
+"common_product_deleted" = "Portéka eltávolítva";
 "common_product_not_available" = "Ez a portéka már nem elérhető.";
 "common_product_sold" = "Ez a portéka eladásra került.";
 "common_time_a_minute_ago_label" = "egy perccel ezelőtt";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "Hiba történt a jelszóvisszaállítás során.";
 "reset_password_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Az e-mail cím nem található.";
-"reset_password_send_ok" = "Küldtünk egy e-mailt! A benne lévő linkre kattintva tudod visszaállítani a jelszót.";
+"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_title" = "Jelszó visszaállítása";
 "sell_category_selection_label" = "Válassz kategóriát!";
 "sell_choose_category_dialog_cancel_button" = "Mégse";

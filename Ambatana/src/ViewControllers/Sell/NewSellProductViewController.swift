@@ -22,7 +22,7 @@ class NewSellProductViewController: SellProductViewController {
     private var newSellViewModel : NewSellProductViewModel
 
 
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -35,7 +35,7 @@ class NewSellProductViewController: SellProductViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.setLetGoNavigationBarStyle(title: NSLocalizedString("sell_title", comment: "") ?? UIImage(named: "navbar_logo"))
+        self.setLetGoNavigationBarStyle(NSLocalizedString("sell_title", comment: "") ?? UIImage(named: "navbar_logo"))
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("closeButtonPressed"))
         self.navigationItem.leftBarButtonItem = closeButton;
     }

@@ -32,7 +32,7 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
         setLetGoRightButtonsWithImageNames(["ic_contact_small"], andSelectors: ["openContact"])
     }
     
-    public required init(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

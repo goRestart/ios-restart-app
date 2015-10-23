@@ -12,15 +12,17 @@ import Result
 
 class SplashViewController: BaseViewController {
 
+    let configManager: ConfigManager
     var completionBlock: (Bool -> Void)?
     
     // MARK: - Lifecycle
     
-    init() {
+    init(configManager: ConfigManager) {
+        self.configManager = configManager
         super.init(viewModel: nil, nibName: "SplashViewController")
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -32,7 +34,7 @@ class SplashViewController: BaseViewController {
     internal override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
         
-        UpdateFileCfgManager.sharedInstance.getUpdateCfgFileFromServer { (forceUpdate: Bool) -> Void in
+        configManager.update { (forceUpdate) -> Void in
             
             let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
             
@@ -48,11 +50,8 @@ class SplashViewController: BaseViewController {
                 self.presentViewController(alert, animated: true, completion: nil)
             }
             else {
-                MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: Result<User, UserSaveServiceError>) in
+                MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: UserSaveServiceResult) in
                     self?.completionBlock?(result.value != nil)
-
-                    // TODO: refactor this two calls
-                    PushManager.sharedInstance.updateUrbanAirshipNamedUser(result.value)
                     
                     if let myUser = MyUserManager.sharedInstance.myUser() {
                         TrackerProxy.sharedInstance.setUser(myUser)

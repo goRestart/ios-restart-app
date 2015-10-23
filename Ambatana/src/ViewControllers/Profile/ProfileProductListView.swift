@@ -36,7 +36,7 @@ public class ProfileProductListView: ProductListView {
     
     // MARK: - Lifecycle
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         self.profileProductListViewModel = ProfileProductListViewModel()
         super.init(viewModel: self.profileProductListViewModel, coder: aDecoder)
         self.profileProductListViewModel.dataDelegate = self

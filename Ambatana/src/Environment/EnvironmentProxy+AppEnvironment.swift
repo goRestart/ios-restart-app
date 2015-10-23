@@ -50,20 +50,6 @@ extension EnvironmentProxy: AppEnvironment {
         return ""
     }
     
-    var urbanAirshipAPIKey: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.urbanAirshipAPIKey
-        }
-        return ""
-    }
-
-    var urbanAirshipAPISecret: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.urbanAirshipAPISecret
-        }
-        return ""
-    }
-    
     var kahunaAPIKey: String {
         if let appEnvironment = environment as? AppEnvironment {
             return appEnvironment.kahunaAPIKey
@@ -78,9 +64,9 @@ extension EnvironmentProxy: AppEnvironment {
         return ""
     }
     
-    var updateFileCfgName: String {
+    var configFileName: String {
         if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.updateFileCfgName
+            return appEnvironment.configFileName
         }
         return ""
     }

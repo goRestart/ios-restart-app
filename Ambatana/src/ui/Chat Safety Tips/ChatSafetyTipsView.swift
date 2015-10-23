@@ -163,8 +163,8 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
     /**
         Sets the current page, updating the page control & the scroll view.
     
-        :param: page The page.
-        :param: animated If the scroll view should be scrolled with animation.
+        - parameter page: The page.
+        - parameter animated: If the scroll view should be scrolled with animation.
     */
     private func setCurrentPage(page: Int, animated: Bool) {
         // If page is negative or exceeds the tips count then exit

@@ -77,7 +77,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         hidesBottomBarWhenPushed = true
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
  
@@ -89,7 +89,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         // appearance
         settingProfileImageView.hidden = true
-        setLetGoNavigationBarStyle(title: NSLocalizedString("settings_title", comment: ""))
+        setLetGoNavigationBarStyle(NSLocalizedString("settings_title", comment: ""))
         
         // tableview
         let cellNib = UINib(nibName: "SettingsCell", bundle: nil)
@@ -195,25 +195,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - UIImagePickerControllerDelegate methods
     
     func showImageSourceSelection() {
-        if iOSVersionAtLeast("8.0") {
-            let alert = UIAlertController(title: NSLocalizedString("settings_image_source_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
-                self.openImagePickerWithSource(.Camera)
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_roll_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
-                self.openImagePickerWithSource(.PhotoLibrary)
-            }))
-            alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_cancel_button", comment: ""), style: .Cancel, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-        } else {
-            let actionSheet = UIActionSheet()
-            actionSheet.delegate = self
-            actionSheet.title = NSLocalizedString("settings_image_source_title", comment: "")
-            actionSheet.addButtonWithTitle(NSLocalizedString("settings_image_source_camera_button", comment: ""))
-            actionSheet.addButtonWithTitle(NSLocalizedString("settings_image_source_camera_roll_button", comment: ""))
-            actionSheet.showInView(self.view)
-        }
-        
+        let alert = UIAlertController(title: NSLocalizedString("settings_image_source_title", comment: ""), message: nil, preferredStyle: .ActionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
+            self.openImagePickerWithSource(.Camera)
+        }))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_camera_roll_button", comment: ""), style: .Default, handler: { (alertAction) -> Void in
+            self.openImagePickerWithSource(.PhotoLibrary)
+        }))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("settings_image_source_cancel_button", comment: ""), style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     // iOS 7 compatibility action sheet for image source selection
@@ -230,7 +220,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         self.presentViewController(picker, animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         var imageFile: PFFile? = nil
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
@@ -242,12 +232,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         // generate cropped image to 1024x1024 at most.
         if image != nil {
-            if let croppedImage = image!.croppedCenteredImage() {
-                if let resizedImage = croppedImage.resizedImageToSize(CGSizeMake(kLetGoUserImageSquareSize, kLetGoUserImageSquareSize), interpolationQuality: kCGInterpolationMedium) {
-                    // update parse DDBB
-                    let imageData = UIImageJPEGRepresentation(croppedImage, 0.9)
-                    imageFile = PFFile(data: imageData)
-                }
+            if let croppedImage = image!.croppedCenteredImage(),
+                let resizedImage = croppedImage.resizedImageToSize(CGSizeMake(kLetGoUserImageSquareSize, kLetGoUserImageSquareSize), interpolationQuality: CGInterpolationQuality.Medium),
+                let imageData = UIImageJPEGRepresentation(resizedImage, 0.9) {
+                    
+                imageFile = PFFile(data: imageData)
             }
         }
 

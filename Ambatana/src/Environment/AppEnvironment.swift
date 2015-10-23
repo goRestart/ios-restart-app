@@ -20,14 +20,11 @@ protocol AppEnvironment: Environment {
     var nanigansAppId: String { get }
     
     // Push notifications
-    var urbanAirshipAPIKey: String { get }
-    var urbanAirshipAPISecret: String { get }
-    
     var kahunaAPIKey: String { get }
     
     // New relic
     var newRelicToken: String { get }
     
     // Config
-    var updateFileCfgName: String { get }
+    var configFileName: String { get }
 }

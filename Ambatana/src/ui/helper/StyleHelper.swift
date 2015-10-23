@@ -36,19 +36,19 @@ class StyleHelper {
     private static let greenMedium = UIColor(rgb: 0xC7C8B5)
     private static let turquoise = UIColor(rgb: 0x179BAA)
     // Fonts
-    private static func helveticaNeueFont(#size: Int) -> UIFont {
+    private static func helveticaNeueFont(size size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
     }
     
-    private static func helveticaNeueMediumFont(#size: Int) -> UIFont {
+    private static func helveticaNeueMediumFont(size size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
     }
     
-    private static func helveticaNeueBoldFont(#size: Int) -> UIFont {
+    private static func helveticaNeueBoldFont(size size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue-Bold", size: CGFloat(size))!
     }
     
-    private static func helveticaNeueItalicFont(#size: Int) -> UIFont {
+    private static func helveticaNeueItalicFont(size size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue-Italic", size: CGFloat(size))!
     }
     

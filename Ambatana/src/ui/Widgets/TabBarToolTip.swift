@@ -42,7 +42,7 @@ public class TabBarToolTip: UIView {
         setupLayout()
     }
 
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -73,10 +73,10 @@ public class TabBarToolTip: UIView {
         Sets up the UI.
     */
     private func setupUI() {
-        setTranslatesAutoresizingMaskIntoConstraints(false)
-        boxButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        label.setTranslatesAutoresizingMaskIntoConstraints(false)
-        arrowImageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        translatesAutoresizingMaskIntoConstraints = false
+        boxButton.translatesAutoresizingMaskIntoConstraints = false
+        label.translatesAutoresizingMaskIntoConstraints = false
+        arrowImageView.translatesAutoresizingMaskIntoConstraints = false
     
         boxButton.addSubview(label)
         addSubview(boxButton)
@@ -95,13 +95,13 @@ public class TabBarToolTip: UIView {
         // Box: Full size horizontally, full size vertically with bottom margin (arrow height, againt self)
         let views = ["boxButton": boxButton]
         let metrics = ["height": TabBarToolTip.boxHeight, "bottom": CGRectGetHeight(arrowImageView.frame) - 1]  // -1: @ahl: Visual adjustment: when aligned a thin line flicks
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[boxButton(height)]-bottom-|", options: .allZeros, metrics: metrics, views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[boxButton]|", options: .allZeros, metrics: nil, views: views))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[boxButton(height)]-bottom-|", options: [], metrics: metrics, views: views))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[boxButton]|", options: [], metrics: nil, views: views))
         
         // Label: vertically aligned & with horizontal margins (against box)
         let boxViewViews = ["label": label]
         let boxViewMetrics = ["labelMargins": TabBarToolTip.labelMargins]
-        boxButton.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-labelMargins-[label]-labelMargins-|", options: .allZeros, metrics: boxViewMetrics, views: boxViewViews))
+        boxButton.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-labelMargins-[label]-labelMargins-|", options: [], metrics: boxViewMetrics, views: boxViewViews))
         boxButton.addConstraint(NSLayoutConstraint(item: label, attribute: .CenterY, relatedBy: .Equal, toItem: label.superview, attribute: .CenterY, multiplier: 1, constant: 0))
         
         // Arrow: horizontally centered & aligned to bottom (againt self)
