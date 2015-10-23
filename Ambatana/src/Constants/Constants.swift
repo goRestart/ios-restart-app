@@ -29,4 +29,8 @@ struct Constants {
     
     // Product List
     static let productListMaxDistanceLabel = 20
+    
+    // Categories
+    static let categoriesCellFactor: CGFloat = 150.0 / 160.0
+
 }

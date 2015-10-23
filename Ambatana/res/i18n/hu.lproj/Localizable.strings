@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Sikeres jelszóváltoztatás.";
 "change_password_title" = "Jelszóváltás";
 "change_username_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
-"change_username_error_invalid_username_letgo" = "Another account is using %@";
+"change_username_error_invalid_username_letgo" = "Másik fiók használja a következőt: %@";
 "change_username_field_hint" = "Teljes név";
 "change_username_loading" = "Felhasználói név mentése...";
 "change_username_save_button" = "Mentés";
@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
 "chat_safety_tips_tip_1" = "Ha megegyeztetek, találkozzatok személyesen és készpénzt használjatok.";
 "chat_safety_tips_tip_2" = "Utasítsd el a pénzutalványokat, a banki átutalásokat és a csekkeket.";
-"chat_safety_tips_tip_3" = "Ha kiszállíttatsz, okosan és körültekintően intézkedj!";
+"chat_safety_tips_tip_3" = "Ha túl szép ahhoz, hogy igaz legyen, valószínűleg átverés!";
 "chat_safety_tips_title" = "Tippek";
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "A portéka sikeresen jelentve. Köszönjük!";
 "product_reporting_loading_message" = "Portéka jelentése...";
 "product_reporting_product_label" = "Portéka jelentése...";
-"product_search_no_products_body" = "De nem találtunk semmit. Próbálkozz később, nap mint nap újabb hirdetések kerülnek fel!";
-"product_search_no_products_title" = "KERESTÜNK ÉS KERESTÜNK...";
+"product_search_no_products_body" = "Keress valami másra, vagy próbálkozz később!";
+"product_search_no_products_title" = "HOPPÁ! NINCS TALÁLAT A KÖRNYÉKEDRŐL";
 "product_share_body" = "Nézzétek, mit találtam a letgo-n!";
 "product_share_email_error" = "Hopp, úgy tűnik, hogy nem állítottál be fiókot a Mail appban.";
 "product_share_whatsapp_error" = "Hopp, úgy tűnik, hogy még nem telepítetted a WhatsApp alkalmazást.";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "Hiba történt a jelszóvisszaállítás során.";
 "reset_password_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Az e-mail cím nem található.";
-"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
+"reset_password_send_ok" = "Küldtünk egy e-mailt a %@ címre! A benne lévő linkre kattintva tudod visszaállítani a jelszót.";
 "reset_password_title" = "Jelszó visszaállítása";
 "sell_category_selection_label" = "Válassz kategóriát!";
 "sell_choose_category_dialog_cancel_button" = "Mégse";
@@ -221,7 +221,8 @@
 "sell_send_error_sharing_facebook_cancelled" = "Felhasználói megszakítás.";
 "sell_send_error_uploading_picture" = "Hiba történt a portéka regisztrálása során. A kép feltöltése sikertelen. Kérjük, próbálkozz újra.";
 "sell_send_error_uploading_product" = "Hiba történt a portéka regisztrálása során.";
-"sell_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
+"sell_send_ok" = "Gratulálunk! Portékád hamarosan megjelenik a hirdetések között. Üzletelésre fel!";
+"sell_send_sharing_facebook_ok" = "Sikeresen megosztottad a portékát!";
 "sell_share_fb_content" = "Nézzétek, mit árulok a letgo-n!";
 "sell_share_on_facebook_label" = "Portékám megosztása a Facebookon";
 "sell_title" = "Eladás";
