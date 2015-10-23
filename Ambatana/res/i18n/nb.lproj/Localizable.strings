@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Endring av passordet var vellykket.";
 "change_password_title" = "Endre passord";
 "change_username_error_invalid_username" = "Vennligst skriv inn et brukernavn på minst %d tegn.";
-"change_username_error_invalid_username_letgo" = "Another account is using %@";
+"change_username_error_invalid_username_letgo" = "En annen konto benytter %@";
 "change_username_field_hint" = "Fullt navn";
 "change_username_loading" = "Lagrer brukernavn...";
 "change_username_save_button" = "Lagre";
@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
 "chat_safety_tips_tip_1" = "Møt ansikt til ansikt og betal i kontanter, når avtalen er i boks.";
 "chat_safety_tips_tip_2" = "Unngå postanvisning eller bankoverføring.";
-"chat_safety_tips_tip_3" = "Vær smart og intuitiv, hvis du velger ordne forsendelse.";
+"chat_safety_tips_tip_3" = "Hvis det er for godt til å være sant, er det nok det!";
 "chat_safety_tips_title" = "Sikkerhetstips";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
@@ -54,7 +54,7 @@
 "common_loading" = "Laster...";
 "common_no" = "Nei";
 "common_ok" = "Ok";
-"common_product_deleted" = "Produktet er slettet";
+"common_product_deleted" = "Produktet er fjernet";
 "common_product_not_available" = "Dette produktet er ikke tilgjengelig lenger.";
 "common_product_sold" = "Dette produktet er solgt.";
 "common_time_a_minute_ago_label" = "for et minutt siden";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "Rapportering av produkt var vellykket. Takk!";
 "product_reporting_loading_message" = "Rapporterer produktet…";
 "product_reporting_product_label" = "Rapporterer produktet…";
-"product_search_no_products_body" = "Men ingen produkter matcher ditt søk. Prøv igjen snart, nye ting publiseres hver dag!";
-"product_search_no_products_title" = "VI LETET OG LETET...";
+"product_search_no_products_body" = "Prøv å se etter noe annet eller se igjen snart!";
+"product_search_no_products_title" = "OOPS! INGEN RESULTATER I DITT NÆROMRÅDE";
 "product_share_body" = "Se hva jeg fant på letgo!";
 "product_share_email_error" = "Oops, det ser ut som at du ikke har satt opp en konto i din Epost app.";
 "product_share_whatsapp_error" = "Oops, det ser du som ut ikke har installert WhatsApp.";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "En feil oppstod ved forsøk på å huske ditt passord.";
 "reset_password_send_error_invalid_email" = "Vennligst skriv inn en gyldig e-post.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-postadressen ble ikke funnet.";
-"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
+"reset_password_send_ok" = "Vi har sendt en e-post til %@. Klikk på linken e-posten for å gjenopprette ditt passord.";
 "reset_password_title" = "Tilbakestill passord";
 "sell_category_selection_label" = "Velg en kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
@@ -222,6 +222,7 @@
 "sell_send_error_uploading_picture" = "En feil oppstod ved registrering av ditt produkt. Kunne ikke laste opp bilde. Vennligst prøv igjen.";
 "sell_send_error_uploading_product" = "En feil oppstod ved oppretting av ditt produkt.";
 "sell_send_ok" = "Gratulerer! Produktet ditt blir publisert om kort tid, og vil snart vises blant våre annonser. Det er på tide å selge dine ting!";
+"sell_send_sharing_facebook_ok" = "Deling av produkt var vellykket!";
 "sell_share_fb_content" = "Se hva jeg selger på letgo!";
 "sell_share_on_facebook_label" = "Del mitt produkt på Facebook";
 "sell_title" = "Selg";

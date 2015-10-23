@@ -53,7 +53,7 @@
 "change_location_apply_button" = "Apply";
 
 // Change location error searching location message. Message displayal is like the other error messages
-"change_location_error_search_location_message" = "I was unable to find that location. Please, try again.";
+"change_location_error_search_location_message" = "We were unable to find that location. Please try again.";
 
 // Change location unknown location message. Message displayal is like the other error messages
 "change_location_error_unknown_location_message" = "No results for %@";
@@ -65,10 +65,10 @@
 "change_password_new_password_field_hint" = "New password";
 
 // Change password send error generic. Check attached image "change_password_send_error.png"
-"change_password_send_error_generic" = "An error occurred when changing the password. Please, try again later.";
+"change_password_send_error_generic" = "An error occurred when changing the password. Please try again later.";
 
 // Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
-"change_password_send_error_invalid_password" = "Please, insert a valid password, it must have at least %d characters.";
+"change_password_send_error_invalid_password" = "Please insert a valid password, it must have at least %d characters.";
 
 // Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
@@ -134,7 +134,7 @@
 "chat_send_button" = "Send";
 
 // Chat send error generic. Message displayal is like the other error messages
-"chat_send_error_generic" = "There was an error sending the message. Please, try again later.";
+"chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
 // Common cancel
 "common_cancel" = "Cancel";
@@ -660,6 +660,9 @@
 
 // Sell send error sharing facebook cancelled. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_sharing_facebook_cancelled" = "Canceled by user.";
+
+// Sell send sharing facebook OK. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_sharing_facebook_ok" = "Product successfully shared!";
 
 // Sell send error uploading picture. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_uploading_picture" = "An error occurred while registering your product. We were unable to upload photos. Please try again.";

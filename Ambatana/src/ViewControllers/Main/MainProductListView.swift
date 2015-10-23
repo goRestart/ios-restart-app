@@ -40,14 +40,14 @@ public class MainProductListView: ProductListView {
             // Search
             if viewModel.queryString != nil {
                 errImage = UIImage(named: "err_search_no_products")
-                errTitle = NSLocalizedString("product_search_no_products_title", comment: "")
-                errBody = NSLocalizedString("product_search_no_products_body", comment: "")
+                errTitle = LGLocalizedString.productSearchNoProductsTitle
+                errBody = LGLocalizedString.productSearchNoProductsBody
             }
             // Listing
             else {
                 errImage = UIImage(named: "err_list_no_products")
-                errTitle = NSLocalizedString("product_list_no_products_title", comment: "")
-                errBody = NSLocalizedString("product_list_no_products_body", comment: "")
+                errTitle = LGLocalizedString.productListNoProductsTitle
+                errBody = LGLocalizedString.productListNoProductsBody
             }
             
             state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: nil, errButAction: nil)
@@ -78,14 +78,14 @@ public class MainProductListView: ProductListView {
             switch error {
             case .Network:
                 errImage = UIImage(named: "err_network")
-                errTitle = NSLocalizedString("common_error_title", comment: "")
-                errBody = NSLocalizedString("common_error_network_body", comment: "")
-                errButTitle = NSLocalizedString("common_error_retry_button", comment: "")
+                errTitle = LGLocalizedString.commonErrorTitle
+                errBody = LGLocalizedString.commonErrorNetworkBody
+                errButTitle = LGLocalizedString.commonErrorRetryButton
             case .Internal, .Forbidden:
                 errImage = UIImage(named: "err_generic")
-                errTitle = NSLocalizedString("common_error_title", comment: "")
-                errBody = NSLocalizedString("common_error_generic_body", comment: "")
-                errButTitle = NSLocalizedString("common_error_retry_button", comment: "")
+                errTitle = LGLocalizedString.commonErrorTitle
+                errBody = LGLocalizedString.commonErrorGenericBody
+                errButTitle = LGLocalizedString.commonErrorRetryButton
             }
             errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
             errBorderColor = StyleHelper.lineColor

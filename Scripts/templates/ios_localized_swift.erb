@@ -1,0 +1,15 @@
+//
+//  LGLocalized.swift
+//  LetGo
+//
+//  Created by Eli Kohen on 15/10/15.
+//  Copyright (c) 2015 Ambatana. All rights reserved.
+//
+
+struct LGLocalizedString {
+	<% @keys.each do |key| %>
+	static var <%= key.keyword_constant_swift %>: String {
+		return NSLocalizedString("<%= key.keyword %>", comment: "")
+	}
+	<%end %>
+}

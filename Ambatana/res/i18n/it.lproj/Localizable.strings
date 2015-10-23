@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Password modificata con successo.";
 "change_password_title" = "Cambia password";
 "change_username_error_invalid_username" = "Inserisci un nome valido, deve contenere almeno %d caratteri.";
-"change_username_error_invalid_username_letgo" = "Another account is using %@";
+"change_username_error_invalid_username_letgo" = "Un altro account sta già utilizzando %@";
 "change_username_field_hint" = "Nome e Cognome";
 "change_username_loading" = "Salvataggio nome utente...";
 "change_username_save_button" = "Salva";
@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
 "chat_safety_tips_tip_1" = "Dopo aver concluso l'affare, incontrati di persona e paga in contanti.";
 "chat_safety_tips_tip_2" = "Rifiutati di pagare tramite vaglia, bonifici bancari o assegni.";
-"chat_safety_tips_tip_3" = "Se decidi di effettuare una spedizione, fallo in maniera intelligente e intuitiva!";
+"chat_safety_tips_tip_3" = "Se è troppo bello per essere vero, probabilmente c'è qualcosa sotto!";
 "chat_safety_tips_title" = "Consigli utili";
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
@@ -54,7 +54,7 @@
 "common_loading" = "Caricamento...";
 "common_no" = "No";
 "common_ok" = "OK";
-"common_product_deleted" = "Articolo rimosso";
+"common_product_deleted" = "Prodotto rimosso";
 "common_product_not_available" = "Questo prodotto non è più disponibile.";
 "common_product_sold" = "Questo prodotto è stato venduto.";
 "common_time_a_minute_ago_label" = "Un minuto fa";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "Il prodotto è stato segnalato con successo. Grazie!";
 "product_reporting_loading_message" = "Segnalazione Prodotto...";
 "product_reporting_product_label" = "Segnalazione Prodotto...";
-"product_search_no_products_body" = "Ma nessun prodotto corrisponde alla tua ricerca. Riprova più tardi, nuovi articoli vengono pubblicati ogni giorno!";
-"product_search_no_products_title" = "ABBIAMO CERCATO E RICERCATO...";
+"product_search_no_products_body" = "Prova a cercare qualcosa di diverso o controlla di nuovo più tardi!";
+"product_search_no_products_title" = "OPS! NESSUN RISULTATO VICINO A TE";
 "product_share_body" = "Guarda cosa ho appena trovato su letgo!";
 "product_share_email_error" = "Oops, sembra che tu non abbia impostato un account nella app di Posta.";
 "product_share_whatsapp_error" = "Ops, sembra che tu non abbia installato l'app WhatsApp.";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "Si è verificato un errore durante il tentativo di recupero della tua password.";
 "reset_password_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Indirizzo email non trovato.";
-"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
+"reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
 "reset_password_title" = "Reimposta Password";
 "sell_category_selection_label" = "Scegli una categoria";
 "sell_choose_category_dialog_cancel_button" = "Annulla";
@@ -222,6 +222,7 @@
 "sell_send_error_uploading_picture" = "Si è verificato un errore durante la registrazione del tuo prodotto. Impossibile caricare la foto. Riprova.";
 "sell_send_error_uploading_product" = "Si è verificato un errore durante la registrazione del tuo prodotto.";
 "sell_send_ok" = "Complimenti! Il tuo articolo apparirà a breve tra le nostre inserzioni. È il momento di andare in scena!";
+"sell_send_sharing_facebook_ok" = "Prodotto condiviso con successo!";
 "sell_share_fb_content" = "Guarda cosa sto vendendo su letgo!";
 "sell_share_on_facebook_label" = "Condividi il mio prodotto su Facebook";
 "sell_title" = "Vendi";

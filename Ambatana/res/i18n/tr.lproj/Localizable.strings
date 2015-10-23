@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Şifre başarıyla değiştirildi.";
 "change_password_title" = "Şifre değiştir";
 "change_username_error_invalid_username" = "Lütfen, geçerli bir isim gir. En az %d karakterden oluşmalıdır.";
-"change_username_error_invalid_username_letgo" = "Another account is using %@";
+"change_username_error_invalid_username_letgo" = "%@ adresi başka bir hesap tarafından kullanılıyor";
 "change_username_field_hint" = "Tam isim";
 "change_username_loading" = "Kullanıcı adın kaydediliyor...";
 "change_username_save_button" = "Kaydet";
@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "Konuşma verilerin alınırken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "chat_safety_tips_tip_1" = "Anlaştıktan sonra kişi ile yüz yüze görüş ve nakit ödeme yap.";
 "chat_safety_tips_tip_2" = "Banka havalelerine veya banka çeklerine hayır de.";
-"chat_safety_tips_tip_3" = "Eğer kargoya vermeye karar verirsen, akıllı ve önsezili ol!";
+"chat_safety_tips_tip_3" = "Bir anlaşma gerçek olamayacak kadar iyi görünüysa, büyük olasılıkla gerçek değildir!";
 "chat_safety_tips_title" = "Tavsiyeler";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "Ürün bildirimi başarıyla gerçekleşti. Teşekkürler!";
 "product_reporting_loading_message" = "Ürün bildiriliyor...";
 "product_reporting_product_label" = "Ürün bildiriliyor...";
-"product_search_no_products_body" = "Ama aramana uygun bir sonuç bulamadık. Lütfen daha sonra tekrar dene, her gün yeni eşyalar için ilan veriliyor!";
-"product_search_no_products_title" = "ARADIK VE ARADIK...";
+"product_search_no_products_body" = "Başka bir arama yap ya da daha sonra tekrar dene!";
+"product_search_no_products_title" = "HOPPALA! ARAMANA UYGUN BİR SONUÇ BULAMADIK";
 "product_share_body" = "Az önce letgo'da ne bulduğuma bak!";
 "product_share_email_error" = "Hoppala, görünüşe bakılırsa Posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_whatsapp_error" = "Hoppala! WhatsApp uygulaması yüklü değil gibi görünüyor.";
@@ -222,6 +222,7 @@
 "sell_send_error_uploading_picture" = "Ürünün kaydedilirken bir hata oluştu. Fotoğraf yüklenemiyor. Lütfen, daha sonra tekrar dene.";
 "sell_send_error_uploading_product" = "Ürünün kaydedilirken bir hata oluştu.";
 "sell_send_ok" = "Tebrikler! Eşyan kısa bir süre içinde listelerimizde yer alacak. Şimdi letgo zamanı!";
+"sell_send_sharing_facebook_ok" = "Ürün başarılı bir şekilde paylaşıldı!";
 "sell_share_fb_content" = "Letgo'da ne sattığıma bir bak!";
 "sell_share_on_facebook_label" = "Ürünümü Facebook'ta paylaş";
 "sell_title" = "Sat";

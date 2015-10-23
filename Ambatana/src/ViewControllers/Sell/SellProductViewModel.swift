@@ -150,7 +150,7 @@ public class SellProductViewModel: BaseViewModel {
     
     public var fbShareContent: FBSDKShareLinkContent? {
         if let product = savedProduct {
-            let title = NSLocalizedString("sell_share_fb_content", comment: "")
+            let title = LGLocalizedString.sellShareFbContent
             return SocialHelper.socialMessageWithTitle(title, product: product).fbShareContent
         }
         return nil

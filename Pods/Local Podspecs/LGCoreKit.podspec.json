@@ -26,7 +26,7 @@
   "frameworks": "CoreLocation",
   "dependencies": {
     "Alamofire": [
-      "~> 3.0"
+      "~> 3.0.1"
     ],
     "FBSDKCoreKit": [
       "~> 4.7.0"
@@ -47,10 +47,10 @@
       "0.6.0-beta.4"
     ],
     "SwiftyJSON": [
-      "~> 2.2"
+      "~> 2.3.0"
     ],
     "Timepiece": [
-      "~> 0.4.0"
+      "~> 0.4.2"
     ]
   }
 }
