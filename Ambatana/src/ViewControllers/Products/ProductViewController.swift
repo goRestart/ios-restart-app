@@ -196,6 +196,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         viewModel.shareInFBCompleted()
+        showAutoFadingOutMessageAlert(NSLocalizedString("sell_send_sharing_facebook_ok", comment: ""))
     }
     
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
