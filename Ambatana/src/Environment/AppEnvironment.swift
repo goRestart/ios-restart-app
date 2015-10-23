@@ -27,4 +27,7 @@ protocol AppEnvironment: Environment {
     
     // App indexing
     var googleAppIndexingId: UInt { get }
+    
+    // Config
+    var configFileName: String { get }
 }

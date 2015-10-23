@@ -20,6 +20,9 @@ extension DevelopmentEnvironment: AppEnvironment {
     var nanigansAppId: String { get { return "298434" } }
     
     // Push notifications
+    var urbanAirshipAPIKey: String { get { return "psjAmPh7RD-qPQXMykcPXQ" } }
+    var urbanAirshipAPISecret: String { get { return "GfoA9hGdSOC0_JyFWqmGdQ" } }
+    
     var kahunaAPIKey: String { get { return "9188e3c6b7cf47acb94a10ab027a08f3" } }
     
     // New relic
@@ -27,4 +30,7 @@ extension DevelopmentEnvironment: AppEnvironment {
     
     // App indexing
     var googleAppIndexingId: UInt { get { return 986339882} }
+
+    // Config
+    var configFileName: String { get { return "ios-devel" } }
 }

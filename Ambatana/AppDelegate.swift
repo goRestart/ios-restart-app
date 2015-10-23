@@ -19,25 +19,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // iVars
     var window: UIWindow?
     var userContinuationUrl: NSURL?
+    var configManager: ConfigManager!
 
     // MARK: - UIApplicationDelegate
     
     // MARK: > Lifecycle
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-
+        
         // Setup (get the deep link, if any)
         let deepLink = setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
         
-        // UI
+        // iVars
+        let configFileName = EnvironmentProxy.sharedInstance.configFileName
+        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
+        self.configManager = ConfigManager(dao: dao)
+        
+        // > UI
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         if let actualWindow = window {
             
             // Open Splash
-            let splashVC = SplashViewController()
+            let splashVC = SplashViewController(configManager: configManager)
             let navCtl = UINavigationController(rootViewController: splashVC)
-            splashVC.completionBlock = { [weak self] (succeeded: Bool) -> Void in
+            splashVC.completionBlock = { (succeeded: Bool) -> Void in
             
                 // Rebuild user defaults
                 UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
@@ -110,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Force Update Check
 
         if !(window?.rootViewController is SplashViewController) {
-            UpdateFileCfgManager.sharedInstance.getUpdateCfgFileFromServer { (forceUpdate: Bool) -> Void in
+            configManager.update { (forceUpdate: Bool) -> Void in
                 if let actualWindow = self.window {
                     let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
                     if forceUpdate && UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {

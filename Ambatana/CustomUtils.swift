@@ -10,19 +10,6 @@ import LGCoreKit
 import UIKit
 import Parse
 
-/** Checks if the iOS version is at least "version" */
-func iOSVersionAtLeast(version: String) -> Bool {
-    // TODO: Revert the iOS 7 method when supporting it back.
-    return true
-    
-    switch UIDevice.currentDevice().systemVersion.compare(version, options: NSStringCompareOptions.NumericSearch) {
-    case .OrderedSame, .OrderedDescending:
-        return true
-    case .OrderedAscending:
-        return false
-    }
-}
-
 /**  Uses regular expressions to test whether a string is a valid email */
 extension String {
     func isEmail() -> Bool {
