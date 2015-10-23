@@ -61,7 +61,7 @@ public class SignUpViewModel: BaseViewModel {
         // Validation
         let fullName = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         if usernameContainsLetgoString(fullName) {
-            delegate?.viewModel(self, didFinishSigningUpWithResult: UserSignUpServiceResult(error: .InvalidUsername))
+            delegate?.viewModel(self, didFinishSigningUpWithResult: UserSignUpServiceResult(error: .UsernameTaken))
         }
         else if fullName.characters.count < Constants.fullNameMinLength {
             delegate?.viewModel(self, didFinishSigningUpWithResult: UserSignUpServiceResult(error: .InvalidUsername))

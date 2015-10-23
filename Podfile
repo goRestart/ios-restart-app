@@ -8,7 +8,7 @@ use_frameworks!
 workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
-pod "Parse",                "1.8.5"
+pod "Parse",                "~> 1.9.0"
 pod "SDWebImage"
 
 pod "FBSDKShareKit",        "~> 4.7"
@@ -18,7 +18,7 @@ pod "FBSDKShareKit",        "~> 4.7"
 pod "Amplitude-iOS",        "~> 3.1.1"
     
 # letgo Core
-pod "LGCoreKit",            :path => "../letgo-ios-lgcorekit" #"0.14.11" # :path => "../LGCoreKit"
+pod "LGCoreKit",            :path => "../LGCoreKit"
 
 # Animation
 pod "pop",                  "~> 1.0"

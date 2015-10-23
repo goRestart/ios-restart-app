@@ -57,8 +57,7 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
             imageView.contentMode = .ScaleAspectFit
             imageView.clipsToBounds = true
             imageView.tag = kLetGoPhotoDetailsInnerImageViewTag
-            imageView.sd_setImageWithURL(imageURL, placeholderImage: nil, completed: {
-                [weak self] (image, error, cacheType, url) -> Void in
+            imageView.sd_setImageWithURL(imageURL, placeholderImage: nil, completed: { (image, error, cacheType, url) -> Void in
                 
                 if error == nil {
                     if cacheType == .None {

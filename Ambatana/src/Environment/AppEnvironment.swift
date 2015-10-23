@@ -25,4 +25,7 @@ protocol AppEnvironment: Environment {
     
     // New relic
     var newRelicToken: String { get }
+    
+    // Config
+    var configFileName: String { get }
 }

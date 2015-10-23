@@ -41,7 +41,7 @@ public class ChangeUsernameViewModel: BaseViewModel {
         // check if username is ok (func in extension?)
 
         if usernameContainsLetgoString(username) {
-            delegate?.viewModel(self, didFailValidationWithError:UserSaveServiceError.InvalidUsername)
+            delegate?.viewModel(self, didFailValidationWithError:UserSaveServiceError.UsernameTaken)
         }
         else if isValidUsername(username) {
             

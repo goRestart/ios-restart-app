@@ -22,12 +22,12 @@
 "change_password_new_password_field_hint" = "Nieuw wachtwoord";
 "change_password_send_error_generic" = "Er is een fout opgetreden bij het wijzigen van het wachtwoord. Probeer het later nog eens.";
 "change_password_send_error_invalid_password" = "Voer a.u.b. een geldig wachtwoord in, het moet minstens %d tekens bevatten.";
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"change_password_send_error_invalid_password_with_max" = "Voer a.u.b. een geldig wachtwoord in, het moeten tussen %d en %d tekens bevatten.";
 "change_password_send_error_passwords_mismatch" = "Wachtwoorden komen niet overeen. Probeer het opnieuw.";
 "change_password_send_ok" = "Wachtwoord wijzigen is geslaagd.";
 "change_password_title" = "Wijzig Wachtwoord";
 "change_username_error_invalid_username" = "Gelieve een geldige naam in te voeren, deze moet minstens %d tekens bevatten.";
-"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"change_username_error_invalid_username_letgo" = "Another account is using %@";
 "change_username_field_hint" = "Volledige naam";
 "change_username_loading" = "Opslaan van jouw gebruikersnaam...";
 "change_username_save_button" = "Opslaan";
@@ -54,7 +54,7 @@
 "common_loading" = "Laden...";
 "common_no" = "Nee";
 "common_ok" = "OK";
-"common_product_deleted" = "Product verwijderd.";
+"common_product_deleted" = "Item verwijderd";
 "common_product_not_available" = "Dit product is niet meer beschikbaar.";
 "common_product_sold" = "Dit product is verkocht.";
 "common_time_a_minute_ago_label" = "Een minuut geleden";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "Er is een fout opgetreden bij het ophalen van jouw wachtwoord.";
 "reset_password_send_error_invalid_email" = "Vul een geldig e-mailadres in.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-mailadres is niet gevonden.";
-"reset_password_send_ok" = "We hebben je een e-mail gestuurd! Klik op de link in de e-mail om je wachtwoord te resetten.";
+"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_title" = "Reset wachtwoord";
 "sell_category_selection_label" = "Kies een categorie";
 "sell_choose_category_dialog_cancel_button" = "Annuleren";
@@ -248,9 +248,9 @@
 "sign_up_send_error_generic" = "Er is een fout opgetreden bij het creeren van de gebruiker.";
 "sign_up_send_error_invalid_email" = "Vul een geldig e-mailadres in.";
 "sign_up_send_error_invalid_password" = "Voer a.u.b. een geldig wachtwoord in, het moet minstens %d tekens bevatten.";
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "Voer a.u.b. een geldig wachtwoord in, het moeten tussen %d en %d tekens bevatten.";
 "sign_up_send_error_invalid_username" = "Gelieve een geldige naam in te voeren, deze moet minstens %d tekens bevatten.";
-"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"sign_up_send_error_invalid_username_letgo" = "Gebruikersnamen mogen niet het woord letgo, let go of vergelijkbare woorden bevatten.";
 "sign_up_title" = "Word lid";
 "sign_up_username_field_hint" = "Volledige naam";
 "tab_bar_tool_tip" = "Verkoop je spullen";

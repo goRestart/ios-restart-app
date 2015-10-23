@@ -128,6 +128,8 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
                 message = NSLocalizedString("common_error_connection_failed", comment: "")
             case .EmailTaken:
                 message = NSLocalizedString("sign_up_send_error_email_taken", comment: "")
+            case .UsernameTaken:
+                message = String(format: NSLocalizedString("sign_up_send_error_invalid_username_letgo", comment: ""), viewModel.username)
             case .Internal:
                 message = NSLocalizedString("sign_up_send_error_generic", comment: "")
             }

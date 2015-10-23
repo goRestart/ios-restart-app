@@ -85,8 +85,8 @@ public class ConversationCell: UITableViewCell {
         // badge
         var badge: String? = nil
         if let msgUnreadCount = chat.msgUnreadCount {
-            if msgUnreadCount.integerValue > 0 {
-                badge = msgUnreadCount.stringValue
+            if msgUnreadCount > 0 {
+                badge = String(msgUnreadCount)
             }
         }
 

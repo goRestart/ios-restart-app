@@ -27,7 +27,7 @@
 "change_password_send_ok" = "비밀번호가 성공적으로 변경되었습니다.";
 "change_password_title" = "비밀번호 변경";
 "change_username_error_invalid_username" = "%d자 이상 등록 가능한 이름을 입력해 주세요.";
-"change_username_error_invalid_username_letgo" = "사용자명은 letgo, let go 혹은 유사한 의미를 포함하는 단어를 포함할 수 없습니다.";
+"change_username_error_invalid_username_letgo" = "Another account is using %@";
 "change_username_field_hint" = "전체 이름";
 "change_username_loading" = "유저명을 저장하고 있습니다...";
 "change_username_save_button" = "저장";
@@ -54,7 +54,7 @@
 "common_loading" = "로딩중...";
 "common_no" = "아니요";
 "common_ok" = "확인";
-"common_product_deleted" = "제품 삭제.";
+"common_product_deleted" = "제품 삭제";
 "common_product_not_available" = "이 제품은 더이상 존재하지 않습니다.";
 "common_product_sold" = "제품이 이미 판매되었습니다.";
 "common_time_a_minute_ago_label" = "1분 전";
@@ -107,7 +107,7 @@
 "log_in_send_button" = "로그인";
 "log_in_title" = "로그인";
 "main_sign_up_already_registered_label" = "등록하셨나요?";
-"main_sign_up_claim_label" = "판매, 구매 그리고 채팅을 시작하세요";
+"main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
 "main_sign_up_contact_us_button" = "도움이 필요하신가요?";
 "main_sign_up_facebook_connect_button" = "페이스북으로 로그인하기";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
@@ -173,7 +173,7 @@
 "profile_favourites_my_user_no_products_subtitle_label" = "주저하지마세요";
 "profile_favourites_other_user_no_products_label" = "이 유저는 관심품목이나 판매가 없습니다.";
 "profile_favourites_products_tab" = "관심";
-"profile_no_products" = "이 항목에는 상품이 존재하지 않습니다";
+"profile_no_products" = "이 항목에는 상품이 존재하지 않습니다(아직이에요!)";
 "profile_selling_products_tab" = "판매중";
 "profile_sold_products_tab" = "품절";
 "push_notification_message_body" = "%@: %@";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "비밀번호를 기억하는데 오류가 발생했습니다.";
 "reset_password_send_error_invalid_email" = "회원 가입 시 사용하셨던 이메일을 입력해 주세요.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "이메일 주소를 찾지 못했습니다.";
-"reset_password_send_ok" = "수신함을 확인하시고 비밀번호 재설정 지시를 따라주세요";
+"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_title" = "비밀번호 재설정";
 "sell_category_selection_label" = "목록 고르기";
 "sell_choose_category_dialog_cancel_button" = "취소";
