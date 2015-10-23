@@ -12,21 +12,21 @@ extension ProductCategory {
     public func name() -> String {
         switch(self) {
         case .Electronics:
-            return NSLocalizedString("categories_electronics", comment: "")
+            return LGLocalizedString.categoriesElectronics
         case .CarsAndMotors:
-            return NSLocalizedString("categories_cars_and_motors", comment: "")
+            return LGLocalizedString.categoriesCarsAndMotors
         case .SportsLeisureAndGames:
-            return NSLocalizedString("categories_sports_leisure_and_games", comment: "")
+            return LGLocalizedString.categoriesSportsLeisureAndGames
         case .HomeAndGarden:
-            return NSLocalizedString("categories_home_and_garden", comment: "")
+            return LGLocalizedString.categoriesHomeAndGarden
         case .MoviesBooksAndMusic:
-            return NSLocalizedString("categories_movies_books_and_music", comment: "")
+            return LGLocalizedString.categoriesMoviesBooksAndMusic
         case .FashionAndAccesories:
-            return NSLocalizedString("categories_fashion_and_accessories", comment: "")
+            return LGLocalizedString.categoriesFashionAndAccessories
         case .BabyAndChild:
-            return NSLocalizedString("categories_baby_and_child", comment: "")
+            return LGLocalizedString.categoriesBabyAndChild
         case .Other:
-            return NSLocalizedString("categories_other", comment: "")
+            return LGLocalizedString.categoriesOther
         }
     }
     

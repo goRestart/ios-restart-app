@@ -51,7 +51,7 @@ public class ProfileProductListView: ProductListView {
         let isFirstPageWithNoResults = ( page == 0 && !hasProducts )
         if isFirstPageWithNoResults {
             
-            let errBody: String = NSLocalizedString("profile_no_products", comment: "")
+            let errBody: String = LGLocalizedString.profileNoProducts
             state = .ErrorView(errBgColor: nil, errBorderColor: nil, errImage: nil, errTitle: nil, errBody: errBody, errButTitle: nil, errButAction: nil)
 
             delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)

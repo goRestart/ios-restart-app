@@ -143,7 +143,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     // MARK: Private methods
     
     private func enableSendButton() -> Bool {
-        return !email.isEmpty && subject != nil && (!message.isEmpty && message != NSLocalizedString("contact_body_field_hint", comment: ""))
+        return !email.isEmpty && subject != nil && (!message.isEmpty && message != LGLocalizedString.contactBodyFieldHint)
     }
     
     private func shouldUpdateMyEmail() -> Bool {

@@ -13,17 +13,17 @@ public enum ContactSubject {
         get {
             switch(self) {
             case .ProfileEdit:
-                return NSLocalizedString("contact_subject_option_profile_edit", comment: "")
+                return LGLocalizedString.contactSubjectOptionProfileEdit
             case .ProductEdit:
-                return NSLocalizedString("contact_subject_option_product_edit", comment: "")
+                return LGLocalizedString.contactSubjectOptionProductEdit
             case .Location:
-                return NSLocalizedString("contact_subject_option_location", comment: "")
+                return LGLocalizedString.contactSubjectOptionLocation
             case .Login:
-                return NSLocalizedString("contact_subject_option_login", comment: "")
+                return LGLocalizedString.contactSubjectOptionLogin
             case .Report:
-                return NSLocalizedString("contact_subject_option_report", comment: "")
+                return LGLocalizedString.contactSubjectOptionReport
             case .Other:
-                return NSLocalizedString("contact_subject_option_other", comment: "")
+                return LGLocalizedString.contactSubjectOptionOther
             }
         }
     }

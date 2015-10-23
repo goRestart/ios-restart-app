@@ -73,7 +73,7 @@ public class ConversationCell: UITableViewCell {
         if let productStatus = chat.product?.status {
             switch productStatus {
             case .Deleted:
-                timeLabelValue = NSLocalizedString("common_product_deleted", comment: "")
+                timeLabelValue = LGLocalizedString.commonProductDeleted
             case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
                 if let lastUpdated = chat.updatedAt {
                     timeLabelValue = lastUpdated.relativeTimeString()
