@@ -52,7 +52,7 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
 
         
         // UX/UI & Appearance
-        setLetGoNavigationBarStyle(NSLocalizedString("categories_title", comment: ""))
+        setLetGoNavigationBarStyle(LGLocalizedString.categoriesTitle)
         
         // CollectionView
         let cellNib = UINib(nibName: "CategoryCell", bundle: nil)

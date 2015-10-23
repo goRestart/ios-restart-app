@@ -65,7 +65,7 @@ DEPENDENCIES:
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - FBSDKShareKit (~> 4.7)
   - Kahuna (~> 2.2)
-  - LGCoreKit (from `../LGCoreKit`)
+  - LGCoreKit (~> 0.15.0)
   - NewRelicAgent (~> 5.3.1)
   - Nimble (~> 2.0)
   - Parse (~> 1.9.0)
@@ -73,10 +73,6 @@ DEPENDENCIES:
   - Quick (~> 0.4)
   - SDWebImage
   - UIDeviceUtil (~> 1.1)
-
-EXTERNAL SOURCES:
-  LGCoreKit:
-    :path: ../LGCoreKit
 
 SPEC CHECKSUMS:
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
@@ -88,7 +84,7 @@ SPEC CHECKSUMS:
   FBSDKShareKit: 1f927bb05e4d36a99d5d5bf2f4b1ff294ce3e15c
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   Kahuna: d28b8c5aa190f66ddc5a8e98bb39463da2f60597
-  LGCoreKit: dacd5b558cf1c2fb959f4d5c362007036c8ae59b
+  LGCoreKit: a52b5b5c9178b96ac68a16a8797f00b9adecaa3c
   NewRelicAgent: 8d8b27bea8d046f42a4a03c0ca4b571021f100d8
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Parse: 712efbc476d4f47b0f96b70db7e53101575753aa

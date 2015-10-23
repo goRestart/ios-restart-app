@@ -1,1 +1,1 @@
-../../../../../LGCoreKit/LGCoreKit/lgcorekit-Bridging-Header.h
+../../../LGCoreKit/LGCoreKit/lgcorekit-Bridging-Header.h
