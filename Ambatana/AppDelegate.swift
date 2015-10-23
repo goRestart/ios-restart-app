@@ -56,8 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let actualDeepLink = deepLink {
                     tabBarCtl.openDeepLink(actualDeepLink)
                 }
-                else if self!.userContinuationUrl != nil {
-                    self!.consumeUserContinuation(usingTabBar: tabBarCtl)
+                else if self.userContinuationUrl != nil {
+                    self.consumeUserContinuation(usingTabBar: tabBarCtl)
                 }
             }
             actualWindow.rootViewController = navCtl

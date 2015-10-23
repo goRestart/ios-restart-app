@@ -58,18 +58,21 @@ install_resource()
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "GoogleAppIndexing/Resources/GoogleAppIndexingResources.bundle"
   install_resource "Kahuna/KahunaInAppMessageView.h"
   install_resource "Kahuna/KahunaInAppMessageView.m"
   install_resource "Kahuna/README"
   install_resource "Kahuna/CHANGELOG"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "GoogleAppIndexing/Resources/GoogleAppIndexingResources.bundle"
   install_resource "Kahuna/KahunaInAppMessageView.h"
   install_resource "Kahuna/KahunaInAppMessageView.m"
   install_resource "Kahuna/README"
   install_resource "Kahuna/CHANGELOG"
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
+  install_resource "GoogleAppIndexing/Resources/GoogleAppIndexingResources.bundle"
   install_resource "Kahuna/KahunaInAppMessageView.h"
   install_resource "Kahuna/KahunaInAppMessageView.m"
   install_resource "Kahuna/README"

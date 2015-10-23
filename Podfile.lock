@@ -25,6 +25,7 @@ PODS:
   - FMDB/common (2.5)
   - FMDB/standard (2.5):
     - FMDB/common
+  - GoogleAppIndexing (2.0.1)
   - Kahuna (2.2.2)
   - LGCoreKit (0.15.0):
     - Alamofire (~> 3.0.1)
@@ -64,6 +65,7 @@ DEPENDENCIES:
   - Amplitude-iOS (~> 3.1.1)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - FBSDKShareKit (~> 4.7)
+  - GoogleAppIndexing (~> 2.0)
   - Kahuna (~> 2.2)
   - LGCoreKit (~> 0.15.0)
   - NewRelicAgent (~> 5.3.1)
@@ -83,6 +85,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 028c5a205990441123764609fe795e65027c447f
   FBSDKShareKit: 1f927bb05e4d36a99d5d5bf2f4b1ff294ce3e15c
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
+  GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: d28b8c5aa190f66ddc5a8e98bb39463da2f60597
   LGCoreKit: a52b5b5c9178b96ac68a16a8797f00b9adecaa3c
   NewRelicAgent: 8d8b27bea8d046f42a4a03c0ca4b571021f100d8
