@@ -244,8 +244,8 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         suggestionsTableView.hidden = true
 
         if let searchFieldText = searchField.text {
-            viewModel.searchText = searchFieldText
             viewModel.goingToLocation = true
+            viewModel.searchText = searchFieldText
             goToLocation()
         }
     }
