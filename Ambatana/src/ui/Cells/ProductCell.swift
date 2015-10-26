@@ -37,9 +37,7 @@ class ProductCell: UICollectionViewCell {
     
     // MARK: - Public / internal methods
     
-    func setupCellWithProduct(product: Product, indexPath: NSIndexPath) {
-//        let tag = indexPath.hash
-        
+    func setupCellWithProduct(product: Product, indexPath: NSIndexPath) {       
         // Name
         nameLabel.text = product.name?.lg_capitalizedWords() ?? ""
         

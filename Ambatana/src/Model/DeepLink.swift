@@ -118,7 +118,6 @@ public struct DeepLink: CustomStringConvertible {
             for mergedKeyValue in mergedKeyValues {
                 let keyValue = mergedKeyValue.componentsSeparatedByString("=")
                 if keyValue.count == 2 {
-                    //if let key = keyValue[0].stringByRemovingPercentEncoding(NSUTF8StringEncoding), let value = keyValue[1].stringByRemovingPercentEncoding(NSUTF8StringEncoding) {
                     if let key = keyValue[0].stringByRemovingPercentEncoding, let value = keyValue[1].stringByRemovingPercentEncoding {
                         query[key] = value
                     }
@@ -148,7 +147,7 @@ public struct DeepLink: CustomStringConvertible {
             output = output.substringToIndex(output.startIndex.advancedBy(idx))
         }
         
-        // If last character is "/" then remove it; Swift 2.0: String(output.characters.dropLast())
+        // If last character is "/" then remove it
         let idx = output.endIndex.advancedBy(-1)
         let lastChar = output.substringFromIndex(idx)
         if lastChar == "/" {

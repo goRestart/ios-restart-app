@@ -93,7 +93,6 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         
         // Generate the view controllers
         var vcs: [UIViewController] = []
-//        let iconInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
         for tab in Tab.all {
             vcs.append(controllerForTab(tab))
         }

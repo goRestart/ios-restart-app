@@ -156,7 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
         if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            userContinuationUrl = userActivity.webpageURL! // Always exists
+            userContinuationUrl = userActivity.webpageURL
             if let tabBarCtl = self.window?.rootViewController as? TabBarController {
                 consumeUserContinuation(usingTabBar: tabBarCtl)
             }
