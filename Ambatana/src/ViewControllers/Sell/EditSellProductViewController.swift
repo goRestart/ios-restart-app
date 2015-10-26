@@ -32,12 +32,10 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         
         editViewModel.loadPictures()
         
-        sendButton.setTitle(NSLocalizedString("edit_product_send_button", comment: ""), forState: .Normal)
+        sendButton.setTitle(LGLocalizedString.editProductSendButton, forState: .Normal)
         categoryButton.setTitle(editViewModel.categoryName, forState: .Normal)
         
-        self.setLetGoNavigationBarStyle(NSLocalizedString("edit_product_title", comment: "") ?? UIImage(named: "navbar_logo"))
-        _ = self.navigationItem.leftBarButtonItem
-
+        self.setLetGoNavigationBarStyle(LGLocalizedString.editProductTitle)
     }
     
     // MARK: - EditSellProductViewModelDelegate Methods
@@ -58,7 +56,7 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     
     internal override func sellCompleted() {
         super.sellCompleted()
-        showAutoFadingOutMessageAlert(NSLocalizedString("edit_product_send_ok", comment: "")) { () -> Void in
+        showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { () -> Void in
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
@@ -73,23 +71,23 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         let message: String
         switch (error) {
         case .Network:
-            message = NSLocalizedString("edit_product_send_error_uploading_product", comment: "")
+            message = LGLocalizedString.editProductSendErrorUploadingProduct
         case .Internal:
-            message = NSLocalizedString("sell_send_error_uploading_product", comment: "")
+            message = LGLocalizedString.editProductSendErrorUploadingProduct
         case .NoImages:
-            message = NSLocalizedString("sell_send_error_invalid_image_count", comment: "")
+            message = LGLocalizedString.sellSendErrorInvalidImageCount
         case .NoTitle:
-            message = NSLocalizedString("sell_send_error_invalid_title", comment: "")
+            message = LGLocalizedString.sellSendErrorInvalidTitle
         case .NoPrice:
-            message = NSLocalizedString("sell_send_error_invalid_price", comment: "")
+            message = LGLocalizedString.sellSendErrorInvalidPrice
         case .NoDescription:
-            message = NSLocalizedString("sell_send_error_invalid_description", comment: "")
+            message = LGLocalizedString.sellSendErrorInvalidDescription
         case .LongDescription:
-            message = String(format: NSLocalizedString("sell_send_error_invalid_description_too_long", comment: ""), Constants.productDescriptionMaxLength)
+            message = String(format: LGLocalizedString.sellSendErrorInvalidDescriptionTooLong, Constants.productDescriptionMaxLength)
         case .NoCategory:
-            message = NSLocalizedString("sell_send_error_invalid_category", comment: "")
+            message = LGLocalizedString.sellSendErrorInvalidCategory
         case .Forbidden:
-            message = NSLocalizedString("log_in_error_send_error_generic", comment: "")
+            message = LGLocalizedString.logInErrorSendErrorGeneric
             completion = {
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in
                     MyUserManager.sharedInstance.logout(nil)
@@ -99,5 +97,4 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         }
         self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
     }
-
 }

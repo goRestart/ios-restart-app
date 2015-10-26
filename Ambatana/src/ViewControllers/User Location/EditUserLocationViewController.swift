@@ -117,18 +117,18 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("change_location_error_search_location_message", comment: ""))
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeLocationErrorSearchLocationMessage)
             }
             break
         case .Failure(let error):
             let message: String
             switch (error) {
             case .Network:
-                message = NSLocalizedString("change_location_error_search_location_message", comment: "")
+                message = LGLocalizedString.changeLocationErrorSearchLocationMessage
             case .Internal:
-                message = NSLocalizedString("change_location_error_search_location_message", comment: "")
+                message = LGLocalizedString.changeLocationErrorSearchLocationMessage
             case .NotFound:
-                message = String(format: NSLocalizedString("change_location_error_unknown_location_message", comment: ""), arguments: [searchField.text ?? ""])
+                message = String(format: LGLocalizedString.changeLocationErrorUnknownLocationMessage, arguments: [searchField.text ?? ""])
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -255,18 +255,18 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     private func setupUI() {
         
         searchField.insetX = 40
-        searchField.placeholder = NSLocalizedString("change_location_search_field_hint", comment: "")
+        searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
         searchField.layer.cornerRadius = 4
         searchField.layer.borderColor = UIColor.lightGrayColor().CGColor
         searchField.layer.borderWidth = 1
 
-        approximateLocationLabel.text = NSLocalizedString("change_location_approximate_location_label", comment: "")
+        approximateLocationLabel.text = LGLocalizedString.changeLocationApproximateLocationLabel
         
         gpsLocationButton.layer.cornerRadius = 10
         
-        self.setLetGoNavigationBarStyle(NSLocalizedString("change_location_title", comment: "") ?? UIImage(named: "navbar_logo"))
+        self.setLetGoNavigationBarStyle(LGLocalizedString.changeLocationTitle)
         
-        applyBarButton = UIBarButtonItem(title: NSLocalizedString("change_location_apply_button", comment: ""), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("applyBarButtonPressed"))
+        applyBarButton = UIBarButtonItem(title: LGLocalizedString.changeLocationApplyButton, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("applyBarButtonPressed"))
         self.navigationItem.rightBarButtonItem = applyBarButton;
 
         suggestionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")

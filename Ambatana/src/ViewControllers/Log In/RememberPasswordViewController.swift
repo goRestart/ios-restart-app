@@ -86,7 +86,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(String(format: NSLocalizedString("reset_password_send_ok", comment: ""), viewModel.email)) {
+                self.showAutoFadingOutMessageAlert(String(format: LGLocalizedString.resetPasswordSendOk, viewModel.email)) {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
@@ -95,13 +95,13 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             let message: String
             switch (error) {
             case .InvalidEmail:
-                message = NSLocalizedString("reset_password_send_error_invalid_email", comment: "")
+                message = LGLocalizedString.resetPasswordSendErrorInvalidEmail
             case .UserNotFound:
-                message = NSLocalizedString("reset_password_send_error_user_not_found_or_wrong_password", comment: "")
+                message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword
             case .Network:
-                message = NSLocalizedString("common_error_connection_failed", comment: "")
+                message = LGLocalizedString.commonErrorConnectionFailed
             case .Internal:
-                message = NSLocalizedString("reset_password_send_error_generic", comment: "")
+                message = LGLocalizedString.resetPasswordSendErrorGeneric
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -173,9 +173,9 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         resetPasswordButton.layer.cornerRadius = 4
         
         // i18n
-        setLetGoNavigationBarStyle(NSLocalizedString("reset_password_title", comment: ""))
-        emailTextField.placeholder = NSLocalizedString("reset_password_email_field_hint", comment: "")
-        resetPasswordButton.setTitle(NSLocalizedString("reset_password_send_button", comment: ""), forState: .Normal)
+        setLetGoNavigationBarStyle(LGLocalizedString.resetPasswordTitle)
+        emailTextField.placeholder = LGLocalizedString.resetPasswordEmailFieldHint
+        resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, forState: .Normal)
         
         // Tags
         emailTextField.tag = TextFieldTag.Email.rawValue

@@ -119,19 +119,19 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
             let message: String
             switch (error) {
             case .InvalidEmail:
-                message = NSLocalizedString("sign_up_send_error_invalid_email", comment: "")
+                message = LGLocalizedString.signUpSendErrorInvalidEmail
             case .InvalidUsername:
-                message = String(format: NSLocalizedString("sign_up_send_error_invalid_username", comment: ""), Constants.fullNameMinLength)
+                message = String(format: LGLocalizedString.signUpSendErrorInvalidUsername, Constants.fullNameMinLength)
             case .InvalidPassword:
-                message = String(format: NSLocalizedString("sign_up_send_error_invalid_password_with_max", comment: ""), Constants.passwordMinLength, Constants.passwordMaxLength)
+                message = String(format: LGLocalizedString.signUpSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
             case .Network:
-                message = NSLocalizedString("common_error_connection_failed", comment: "")
+                message = LGLocalizedString.commonErrorConnectionFailed
             case .EmailTaken:
-                message = NSLocalizedString("sign_up_send_error_email_taken", comment: "")
+                message = LGLocalizedString.signUpSendErrorEmailTaken
             case .UsernameTaken:
-                message = String(format: NSLocalizedString("sign_up_send_error_invalid_username_letgo", comment: ""), viewModel.username)
+                message = String(format: LGLocalizedString.signUpSendErrorInvalidUsernameLetgo, viewModel.username)
             case .Internal:
-                message = NSLocalizedString("sign_up_send_error_generic", comment: "")
+                message = LGLocalizedString.signUpSendErrorGeneric
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -212,11 +212,11 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
         signUpButton.layer.cornerRadius = 4
         
         // i18n
-        setLetGoNavigationBarStyle(NSLocalizedString("sign_up_title", comment: ""))
-        usernameTextField.placeholder = NSLocalizedString("sign_up_username_field_hint", comment: "")
-        emailTextField.placeholder = NSLocalizedString("sign_up_email_field_hint", comment: "")
-        passwordTextField.placeholder = NSLocalizedString("sign_up_password_field_hint", comment: "")
-        signUpButton.setTitle(NSLocalizedString("sign_up_send_button", comment: ""), forState: .Normal)
+        setLetGoNavigationBarStyle(LGLocalizedString.signUpTitle)
+        usernameTextField.placeholder = LGLocalizedString.signUpUsernameFieldHint
+        emailTextField.placeholder = LGLocalizedString.signUpEmailFieldHint
+        passwordTextField.placeholder = LGLocalizedString.signUpPasswordFieldHint
+        signUpButton.setTitle(LGLocalizedString.signUpSendButton, forState: .Normal)
         
         usernameTextField.tintColor = StyleHelper.textFieldTintColor
         emailTextField.tintColor = StyleHelper.textFieldTintColor

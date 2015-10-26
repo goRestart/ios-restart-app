@@ -892,6 +892,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("sell_send_error_sharing_facebook_cancelled", comment: "")
 	}
 	
+	static var sellSendSharingFacebookOk: String {
+		return NSLocalizedString("sell_send_sharing_facebook_ok", comment: "")
+	}
+	
 	static var sellSendErrorUploadingPicture: String {
 		return NSLocalizedString("sell_send_error_uploading_picture", comment: "")
 	}

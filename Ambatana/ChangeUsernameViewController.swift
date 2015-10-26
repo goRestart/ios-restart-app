@@ -83,7 +83,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
                 return true
             }
             else {
-                self.showAutoFadingOutMessageAlert(String(format: NSLocalizedString("change_username_error_invalid_username", comment: ""), 2), time: 3.5)
+                self.showAutoFadingOutMessageAlert(String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength), time: 3.5)
                 return false
             }
         } else {
@@ -94,21 +94,21 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     // MARK : - ChangeUsernameViewModelDelegate Methods
     
     func viewModelDidStartSendingUser(viewModel: ChangeUsernameViewModel) {
-        showLoadingMessageAlert(NSLocalizedString("change_username_loading", comment: ""))
+        showLoadingMessageAlert(LGLocalizedString.changeUsernameLoading)
     }
     
     func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: UserSaveServiceError) {
         let message: String
         switch (error) {
         case .Network, .Internal, .InvalidPassword, .PasswordMismatch:
-            message = NSLocalizedString("common_error_connection_failed", comment: "")
+            message = LGLocalizedString.commonErrorConnectionFailed
         case .EmailTaken:
             // should never happen
-            message = NSLocalizedString("common_error_connection_failed", comment: "")
+            message = LGLocalizedString.commonErrorConnectionFailed
         case .InvalidUsername:
-            message = String(format: NSLocalizedString("change_username_error_invalid_username", comment: ""), 2)
+            message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength)
         case .UsernameTaken:
-            message = String(format: NSLocalizedString("change_username_error_invalid_username_letgo", comment: ""), viewModel.username)
+            message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo, viewModel.username)
         }
         
         self.showAutoFadingOutMessageAlert(message)
@@ -120,7 +120,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("change_username_send_ok", comment: "")) {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) {
                     navigationController?.popViewControllerAnimated(true)
                 }
             }
@@ -129,16 +129,16 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             let message: String
             switch (error) {
             case .Network:
-                message = NSLocalizedString("common_error_connection_failed", comment: "")
+                message = LGLocalizedString.commonErrorConnectionFailed
             case .Internal, .InvalidPassword, .PasswordMismatch:
-                message = NSLocalizedString("common_error_connection_failed", comment: "")
+                message = LGLocalizedString.commonErrorConnectionFailed
             case .EmailTaken:
                 // should never happen
-                message = NSLocalizedString("common_error_connection_failed", comment: "")
+                message = LGLocalizedString.commonErrorConnectionFailed
             case .InvalidUsername:
-                message = String(format: NSLocalizedString("change_username_error_invalid_username", comment: ""), 2)
+                message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength)
             case .UsernameTaken:
-                message = String(format: NSLocalizedString("change_username_error_invalid_username_letgo", comment: ""), viewModel.username)
+                message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo, viewModel.username)
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -157,12 +157,12 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         
         usernameTextfield.delegate = self
 
-        setLetGoNavigationBarStyle(NSLocalizedString("change_username_title", comment: ""))
+        setLetGoNavigationBarStyle(LGLocalizedString.changeUsernameTitle)
         
-        usernameTextfield.placeholder = NSLocalizedString("change_username_field_hint", comment: "")
+        usernameTextfield.placeholder = LGLocalizedString.changeUsernameFieldHint
         usernameTextfield.text = viewModel.username
         
-        saveButton.setTitle(NSLocalizedString("change_username_save_button", comment: ""), forState: .Normal)
+        saveButton.setTitle(LGLocalizedString.changeUsernameSaveButton, forState: .Normal)
         saveButton.setBackgroundImage(saveButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         saveButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         saveButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)

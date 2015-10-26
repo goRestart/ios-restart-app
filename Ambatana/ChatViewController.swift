@@ -128,10 +128,10 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         tableView.registerNib(othersMessageCellNib, forCellReuseIdentifier: ChatViewController.othersMessageCellIdentifier)
         
         // internationalization
-        sendButton.setTitle(NSLocalizedString("chat_send_button", comment: ""), forState: .Normal)
-        messageTextfield.placeholder = NSLocalizedString("chat_message_field_hint", comment: "")
+        sendButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
+        messageTextfield.placeholder = LGLocalizedString.chatMessageFieldHint
         
-        messageLabel.text = NSLocalizedString("common_product_not_available", comment: "")
+        messageLabel.text = LGLocalizedString.commonProductNotAvailable
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -169,7 +169,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
             }
         }
         else { // no conversation object? notify the error and get back.
-            self.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""), completionBlock: { () -> Void in
+            self.showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError, completionBlock: { () -> Void in
                 self.popBackViewController()
             })
         }
@@ -206,12 +206,12 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
                     else if let error = result.error {
                         switch (error) {
                         case .Internal, .Network, .NotFound, .Unauthorized:
-                            strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""), completionBlock: { () -> Void in
+                            strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError, completionBlock: { () -> Void in
                                 strongSelf.popBackViewController()
                             })
                         case .Forbidden:
                             // logout the scammer!
-                            self?.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                            self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
                                 MyUserManager.sharedInstance.logout(nil)
                             })
                         }
@@ -369,10 +369,10 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
                         else if let error = result.error {
                             switch (error) {
                             case .Internal, .Network, .NotFound, .Unauthorized:
-                                strongSelf.showAutoFadingOutMessageAlert(NSLocalizedString("chat_message_load_generic_error", comment: ""))
+                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
                             case .Forbidden:
                                 // logout the scammer!
-                                self?.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                                self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
                                     MyUserManager.sharedInstance.logout(nil)
                                 })
                                 
