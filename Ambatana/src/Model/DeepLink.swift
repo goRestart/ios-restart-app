@@ -17,7 +17,7 @@ public enum DeepLinkType: String {
     Deep link.
 */
 public struct DeepLink: CustomStringConvertible {
-    var url: NSURL
+    private var url: NSURL
     var type: DeepLinkType
     var components: [String]
     var query: [String: String]
@@ -33,6 +33,9 @@ public struct DeepLink: CustomStringConvertible {
     
     // MARK: - Lifecycle
     
+    /**
+        Initializer using Url scheme links
+    */
     public init?(url: NSURL) {
         self.url = url
         if let host = url.host, type = DeepLinkType(rawValue: host) {
@@ -52,12 +55,70 @@ public struct DeepLink: CustomStringConvertible {
         }
         
         self.query = [:]
-        if let q = url.query {
+        parseQuery(url.query)
+    }
+    
+    /**
+    Initializer using Universal and Handoff links (Links in the web form)
+    
+        Valid urls are in the form:
+        {country}.letgo.com/{language} -> main screen
+        {country}.letgo.com/{language}/u/{userslug}_{user_id} -> user profile
+        {country}.letgo.com/{language}/i/{productslug}_{product_id} -> product
+    
+    - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/...
+    */
+    public init?(webUrl: NSURL) {
+        self.url = webUrl
+        self.components = []
+        self.query = [:]
+        self.type = DeepLinkType.Home
+        
+        guard let components = NSURLComponents(URL: url, resolvingAgainstBaseURL: true), let host = components.host, let pathComponents = url.pathComponents where host.hasSuffix("letgo.com") else {
+            //Any nil object or host different than *letgo.com will be treated as error
+            return nil
+        }
+        
+        // Take the components and remove the first item that is always just a "/"
+        var urlComponents = pathComponents
+        if !urlComponents.isEmpty {
+            urlComponents.removeAtIndex(0)
+        }
+        
+        if urlComponents.count == 1 { // just the language -> main screen
+            self.type = DeepLinkType.Home
+        }
+        else if urlComponents.count == 3 { //Product or user
+            //Decomposing slug
+            let slugComponents = urlComponents[2].componentsSeparatedByString("_")
+            if slugComponents.count > 1 {
+                let slugId = slugComponents[slugComponents.count - 1]
+                self.components.append(slugId)
+            }
+            
+            switch urlComponents[1]{
+                case "u":
+                    self.type = DeepLinkType.User
+                case "i":
+                    self.type = DeepLinkType.Product
+                default:
+                    return nil
+            }
+        }
+        else {
+            return nil
+        }
+
+        parseQuery(url.query)
+    }
+    
+    private mutating func parseQuery(queryString: String?){
+        if let q = queryString {
             let mergedKeyValues = q.componentsSeparatedByString("&")
             for mergedKeyValue in mergedKeyValues {
                 let keyValue = mergedKeyValue.componentsSeparatedByString("=")
                 if keyValue.count == 2 {
-//                    if let key = keyValue[0].stringByRemovingPercentEncoding(NSUTF8StringEncoding), let value = keyValue[1].stringByRemovingPercentEncoding(NSUTF8StringEncoding) {
+                    //if let key = keyValue[0].stringByRemovingPercentEncoding(NSUTF8StringEncoding), let value = keyValue[1].stringByRemovingPercentEncoding(NSUTF8StringEncoding) {
                     if let key = keyValue[0].stringByRemovingPercentEncoding, let value = keyValue[1].stringByRemovingPercentEncoding {
                         query[key] = value
                     }

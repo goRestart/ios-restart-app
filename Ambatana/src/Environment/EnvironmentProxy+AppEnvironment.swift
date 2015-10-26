@@ -70,6 +70,13 @@ extension EnvironmentProxy: AppEnvironment {
         return ""
     }
     
+    var googleAppIndexingId: UInt {
+        if let appEnvironment = environment as? AppEnvironment {
+            return appEnvironment.googleAppIndexingId
+        }
+        return 0
+    }
+
     var configFileName: String {
         if let appEnvironment = environment as? AppEnvironment {
             return appEnvironment.configFileName

@@ -26,6 +26,9 @@ protocol AppEnvironment: Environment {
     // New relic
     var newRelicToken: String { get }
     
+    // App indexing
+    var googleAppIndexingId: UInt { get }
+    
     // Config
     var configFileName: String { get }
 }

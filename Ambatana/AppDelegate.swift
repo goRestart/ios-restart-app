@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // iVars
     var window: UIWindow?
+    var userContinuationUrl: NSURL?
     var configManager: ConfigManager!
 
     // MARK: - UIApplicationDelegate
@@ -55,13 +56,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let actualDeepLink = deepLink {
                     tabBarCtl.openDeepLink(actualDeepLink)
                 }
+                else if self.userContinuationUrl != nil {
+                    self.consumeUserContinuation(usingTabBar: tabBarCtl)
+                }
             }
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }
+        
+        //In case of user activity we must return true to handle link in application(continueUserActivity...
+        var userContinuation = false
+        if let actualLaunchOptions = launchOptions {
+            userContinuation = actualLaunchOptions[UIApplicationLaunchOptionsUserActivityDictionaryKey] != nil
+        }
 
         // We handle the URL if we're via deep link or Facebook handles it
-        return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions) || userContinuation
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
@@ -141,6 +151,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication) {
 
     }
+    
+    // MARK: > App continuation
+    
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+            userContinuationUrl = userActivity.webpageURL! // Always exists
+            if let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                consumeUserContinuation(usingTabBar: tabBarCtl)
+            }
+            //else we leave it pending until splash screen finishes
+            return true
+        }
+        return false
+    }
 
     // MARK: > Push notification
     
@@ -194,6 +218,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // New Relic
         NewRelicAgent.startWithApplicationToken(EnvironmentProxy.sharedInstance.newRelicToken)
         
+        // Google app indexing
+        GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
+        
         return deepLink
     }
     
@@ -209,6 +236,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func openChatListViewController() {
         if let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController {
             tabBarCtl.switchToTab(.Chats)
+        }
+    }
+    
+    private func consumeUserContinuation(usingTabBar tabBarCtl: TabBarController) {
+        guard let webpageURL = userContinuationUrl else {
+            return
+        }
+        
+        userContinuationUrl = nil
+        
+        if let deepLink = DeepLink(webUrl: webpageURL) {
+            tabBarCtl.openDeepLink(deepLink)
+        }
+        else {
+            UIApplication.sharedApplication().openURL(webpageURL)
         }
     }
 }

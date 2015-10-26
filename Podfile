@@ -11,7 +11,7 @@ xcodeproj "LetGo.xcodeproj"
 pod "Parse",                "~> 1.9.0"
 pod "SDWebImage"
 
-pod "FBSDKShareKit",        "~> 4.7"
+pod "FBSDKShareKit",        "~> 4.7.0"
     
 # Tracking
 # pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
@@ -21,19 +21,22 @@ pod "Amplitude-iOS",        "~> 3.1.1"
 pod "LGCoreKit",            "~> 0.15.0" #:path => "../letgo-ios-lgcorekit" #:path => "../LGCoreKit"
 
 # Animation
-pod "pop",                  "~> 1.0"
+pod "pop",                  "~> 1.0.8"
 
 # Collection View Custom Layout
 pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 
 # Device info helper
-pod "UIDeviceUtil",         "~> 1.1"
+pod "UIDeviceUtil",         "~> 1.1.2"
 
 # Push Notifications
-pod "Kahuna",               "~> 2.2"
+pod "Kahuna",               "~> 2.2.2"
 
 # New Relic
 pod "NewRelicAgent",         "~> 5.3.1"
+
+# Google app indexing
+pod "GoogleAppIndexing",    "~> 2.0.1"
 
 target "letgoTests", :exclusive => true do
     ## Testing
