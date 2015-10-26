@@ -15,7 +15,7 @@ pod "FBSDKShareKit",        "~> 4.7.0"
     
 # Tracking
 # pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
-pod "Amplitude-iOS",        "~> 3.1.1"
+pod "Amplitude-iOS",        "~> 3.2.0"
     
 # letgo Core
 pod "LGCoreKit",            "~> 0.15.0" #:path => "../letgo-ios-lgcorekit" #:path => "../LGCoreKit"
@@ -43,7 +43,7 @@ target "letgoTests", :exclusive => true do
     pod "Quick",            "~> 0.4"
     pod "Nimble",           "~> 2.0"
     
-    pod "Kahuna",           "~> 2.2"
+    pod "Kahuna",           "~> 2.2.2"
 
 end
 

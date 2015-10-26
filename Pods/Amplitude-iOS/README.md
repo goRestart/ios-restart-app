@@ -9,7 +9,7 @@ A [demo application](https://github.com/amplitude/iOS-Demo) is available to show
 
 # Setup #
 1. If you haven't already, go to https://amplitude.com and register for an account. You will receive an API Key.
-2. [Download the source code](https://github.com/amplitude/Amplitude-iOS/archive/master.zip) and extract the zip file. Alternatively, you can pull directly from GitHub. If you use Cocoapods, add the following line to your Podfile: `pod 'Amplitude-iOS', '~> 3.1.1'`
+2. [Download the source code](https://github.com/amplitude/Amplitude-iOS/archive/master.zip) and extract the zip file. Alternatively, you can pull directly from GitHub. If you use CocoaPods, add the following line to your Podfile: `pod 'Amplitude-iOS', '~> 3.2.0'`
 3. Copy the Amplitude-iOS folder into the source of your project in XCode. Check "Copy items into destination group's folder (if needed)".
 
 4. In every file that uses analytics, import Amplitude.h at the top:
@@ -101,6 +101,49 @@ NSMutableDictionary *userProperties = [NSMutableDictionary dictionary];
 [[Amplitude instance] setUserProperties:userProperties replace:YES];
 ```
 
+# User Property Operations #
+
+The SDK supports the operations set, setOnce, unset, and add on individual user properties. The operations are declared via a provided `AMPIdentify` interface. Multiple operations can be chained together in a single `AMPIdentify` object. The `AMPIdentify` object is then passed to the Amplitude client to send to the server. The results of the operations will be visible immediately in the dashboard, and take effect for events logged after. Note, each
+operation on the `AMPIdentify` object returns the same instance, allowing you to chain multiple operations together.
+
+1. `set`: this sets the value of a user property.
+
+    ``` objective-c
+    AMPIdentify *identify = [[[AMPIdentify identify] set:@"gender" value:@"female"] set:@"age" value:[NSNumber numberForInt:20]];
+    [[Amplitude instance] identify:identify];
+    ```
+
+2. `setOnce`: this sets the value of a user property only once. Subsequent `setOnce` operations on that user property will be ignored. In the following example, `sign_up_date` will be set once to `08/24/2015`, and the following setOnce to `09/14/2015` will be ignored:
+
+    ``` objective-c
+    AMPIdentify *identify1 = [[AMPIdentify identify] setOnce:@"sign_up_date" value:@"09/06/2015"];
+    [[Amplitude instance] identify:identify1];
+
+    AMPIdentify *identify2 = [[AMPIdentify identify] setOnce:@"sign_up_date" value:@"10/06/2015"];
+    [[Amplitude instance] identify:identify2];
+    ```
+
+3. `unset`: this will unset and remove a user property.
+
+    ``` objective-c
+    AMPIdentify *identify = [[[AMPIdentify identify] unset:@"gender"] unset:@"age"];
+    [[Amplitude instance] identify:identify];
+    ```
+
+4. `add`: this will increment a user property by some numerical value. If the user property does not have a value set yet, it will be initialized to 0 before being incremented.
+
+    ``` objective-c
+    AMPIdentify *identify = [[[AMPIdentify identify] add:@"karma" value:[NSNumber numberWithFloat:0.123]] add:@"friends" value:[NSNumber numberWithInt:1]];
+    [[Amplitude instance] identify:identify];
+    ```
+
+Note: if a user property is used in multiple operations on the same `Identify` object, only the first operation will be saved, and the rest will be ignored. In this example, only the set operation will be saved, and the add and unset will be ignored:
+
+```objective-c
+AMPIdentify *identify = [[[[AMPIdentify identify] set:@"karma" value:[NSNumber numberWithInt:10]] add:@"friends" value:[NSNumber numberWithInt:1]] unset:@"karma"];
+    [[Amplitude instance] identify:identify];
+```
+
 # Allowing Users to Opt Out
 
 To stop all event and session logging for a user, call setOptOut:
@@ -155,7 +198,9 @@ This SDK automatically grabs useful data from the phone, including app version, 
 
 User IDs are automatically generated and will default to device specific identifiers if not specified.
 
-Device IDs use identifierForVendor if available, or a random ID otherwise. You can retrieve the Device ID that Amplitude uses with `[[Amplitude instance] getDeviceId]`.
+Device IDs use identifierForVendor if available, or a randomly generated ID otherwise. You can retrieve the Device ID that Amplitude uses with `[[Amplitude instance] getDeviceId]`.
+
+If you have your own system for tracking device IDs and would like to set a custom device ID, you can do so with `[[Amplitude instance] setDeviceId:@"CUSTOM_DEVICE_ID"];` **Note: this is not recommended unless you really know what you are doing.** Make sure the device ID you set is sufficiently unique (we recommend something like a UUID - see `[AMPUtils generateUUID]` for an example on how to generate) to prevent conflicts with other devices in our system.
 
 This code will work with both ARC and non-ARC projects. Preprocessor macros are used to determine which version of the compiler is being used.
 

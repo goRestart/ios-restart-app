@@ -4,6 +4,7 @@
 #import "AMPConstants.h"
 #import "AMPDatabaseHelper.h"
 #import "AMPDeviceInfo.h"
+#import "AMPIdentify.h"
 #import "Amplitude+SSLPinning.h"
 #import "Amplitude.h"
 #import "AMPLocationManagerDelegate.h"
