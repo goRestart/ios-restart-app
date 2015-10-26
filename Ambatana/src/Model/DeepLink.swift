@@ -59,12 +59,14 @@ public struct DeepLink: CustomStringConvertible {
     }
     
     /**
-        Initializer using Universal and Handoff links (Links in the web form)
+    Initializer using Universal and Handoff links (Links in the web form)
     
         Valid urls are in the form:
         {country}.letgo.com/{language} -> main screen
         {country}.letgo.com/{language}/u/{userslug}_{user_id} -> user profile
         {country}.letgo.com/{language}/i/{productslug}_{product_id} -> product
+    
+    - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/...
     */
     public init?(webUrl: NSURL) {
         self.url = webUrl
