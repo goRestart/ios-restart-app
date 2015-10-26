@@ -16,7 +16,8 @@ protocol AppEnvironment: Environment {
     // Tracking
     var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
-    var googleConversionTrackingId: String { get }
+    var googleConversionPrimaryTrackingId: String { get }
+    var googleConversionSecondaryTrackingId: String { get }
     var nanigansAppId: String { get }
     
     // Push notifications

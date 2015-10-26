@@ -41,7 +41,6 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         setupUI()
     }
     
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Redraw the lines
@@ -58,7 +57,6 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
     @IBAction func sendChangePasswordButtonPressed(sender: AnyObject) {
         viewModel.changePassword()
     }
-    
     
     // MARK: - TextFieldDelegate
     
@@ -89,7 +87,6 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         return true
     }
     
-    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == self.passwordTextfield {
             self.confirmPasswordTextfield.becomeFirstResponder()
@@ -98,7 +95,6 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         }
         return false
     }
-    
     
     // MARK : - ChangePasswordViewModelDelegate Methods
     
@@ -110,13 +106,13 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         let message: String
         switch (error) {
         case .Network:
-            message = NSLocalizedString("change_password_send_error_generic", comment: "")
+            message = LGLocalizedString.changePasswordSendErrorGeneric
         case .Internal, .InvalidUsername, .EmailTaken, .UsernameTaken:
-            message = NSLocalizedString("change_password_send_error_generic", comment: "")
+            message = LGLocalizedString.changePasswordSendErrorGeneric
         case .InvalidPassword:
-            message = String(format: NSLocalizedString("change_password_send_error_invalid_password_with_max", comment: ""), Constants.passwordMinLength, Constants.passwordMaxLength)
+            message = String(format: LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
         case .PasswordMismatch:
-            message = NSLocalizedString("change_password_send_error_passwords_mismatch", comment: "")
+            message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
         }
         self.showAutoFadingOutMessageAlert(message)
     }
@@ -131,7 +127,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
                 self.passwordTextfield.text = ""
                 self.confirmPasswordTextfield.text = ""
 
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("change_password_send_ok", comment: "")) {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.changePasswordSendOk) {
                     navigationController?.popViewControllerAnimated(true)
                 }
             }
@@ -140,16 +136,16 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
             let message: String
             switch (error) {
             case .Network:
-                message = NSLocalizedString("common_error_connection_failed", comment: "")
+                message = LGLocalizedString.commonErrorConnectionFailed
             case .Internal:
-                message = NSLocalizedString("common_error_connection_failed", comment: "")
+                message = LGLocalizedString.commonErrorConnectionFailed
             case .InvalidPassword:
-                message = String(format: NSLocalizedString("change_password_send_error_invalid_password", comment: ""), Constants.passwordMinLength)
+                message = String(format: LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
             case .PasswordMismatch:
-                message = NSLocalizedString("change_password_send_error_passwords_mismatch", comment: "")
+                message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
             case .InvalidUsername, .EmailTaken, .UsernameTaken:
                 // should never happen
-                message = NSLocalizedString("change_password_send_error_generic", comment: "")
+                message = LGLocalizedString.changePasswordSendErrorGeneric
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -161,7 +157,6 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
     func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
     }
-    
     
     // MARK: Private methods
     
@@ -176,9 +171,9 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         confirmPasswordTextfield.tag = TextFieldTag.ConfirmPassword.rawValue
         confirmPasswordTextfield.tintColor = StyleHelper.textFieldTintColor
         
-        setLetGoNavigationBarStyle(NSLocalizedString("change_password_title", comment: ""))
+        setLetGoNavigationBarStyle(LGLocalizedString.changePasswordTitle)
         
-        sendButton.setTitle(NSLocalizedString("change_password_title", comment: ""), forState: UIControlState.Normal)
+        sendButton.setTitle(LGLocalizedString.changePasswordTitle, forState: UIControlState.Normal)
         sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
@@ -187,10 +182,9 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         sendButton.enabled = false
         
         // internationalization
-        passwordTextfield.placeholder = NSLocalizedString("change_password_new_password_field_hint", comment: "")
-        confirmPasswordTextfield.placeholder = NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
+        passwordTextfield.placeholder = LGLocalizedString.changePasswordNewPasswordFieldHint
+        confirmPasswordTextfield.placeholder = LGLocalizedString.changePasswordConfirmPasswordFieldHint
 
         passwordTextfield.becomeFirstResponder()
     }
-
 }

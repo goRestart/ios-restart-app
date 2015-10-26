@@ -47,11 +47,11 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
 
         // appearance
-        setLetGoNavigationBarStyle(NSLocalizedString("chat_list_title", comment: ""))
+        setLetGoNavigationBarStyle(LGLocalizedString.chatListTitle)
         
         // internationalization
-        noConversationsYet.text = NSLocalizedString("chat_list_empty_label", comment: "")
-        startSellingOrBuyingLabel.text = NSLocalizedString("chat_list_start_selling_or_buying_label", comment: "")
+        noConversationsYet.text = LGLocalizedString.chatListEmptyLabel
+        startSellingOrBuyingLabel.text = LGLocalizedString.chatListStartSellingOrBuyingLabel
        
         // add a pull to refresh control
         self.refreshControl = UIRefreshControl()
@@ -113,7 +113,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
                 } else if let actualError = result.error {
                     if actualError == .Forbidden {
                         // logout the scammer!
-                        self?.showAutoFadingOutMessageAlert(NSLocalizedString("log_in_error_send_error_generic", comment: ""), completionBlock: { (completion) -> Void in
+                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
                             MyUserManager.sharedInstance.logout(nil)
                         })
                     }

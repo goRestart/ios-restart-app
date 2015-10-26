@@ -16,7 +16,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         case Email = 1000, Message
     }
     
-    let messagePlaceholder = NSLocalizedString("contact_body_field_hint", comment: "")
+    let messagePlaceholder = LGLocalizedString.contactBodyFieldHint
     let messagePlaceholderColor = UIColor(rgb: 0xC7C7CD)
     
     @IBOutlet weak var emailField : LGTextField!
@@ -105,11 +105,11 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         let message: String
         switch (error) {
         case .Network:
-            message = NSLocalizedString("contact_send_error_generic", comment: "")
+            message = LGLocalizedString.contactSendErrorGeneric
         case .Internal:
-            message = NSLocalizedString("contact_send_error_generic", comment: "")
+            message = LGLocalizedString.contactSendErrorGeneric
         case .InvalidEmail:
-            message = NSLocalizedString("contact_send_error_invalid_email", comment: "")
+            message = LGLocalizedString.contactSendErrorInvalidEmail
         }
         self.showAutoFadingOutMessageAlert(message)
     }
@@ -126,7 +126,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(NSLocalizedString("contact_send_ok", comment: "")) {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.contactSendOk) {
                     navigationController?.popViewControllerAnimated(true)
                 }
             }
@@ -135,11 +135,11 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
             let message: String
             switch (error) {
             case .Network:
-                message = NSLocalizedString("contact_send_error_generic", comment: "")
+                message = LGLocalizedString.contactSendErrorGeneric
             case .Internal:
-                message = NSLocalizedString("contact_send_error_generic", comment: "")
+                message = LGLocalizedString.contactSendErrorGeneric
             case .InvalidEmail:
-                message = NSLocalizedString("contact_send_error_invalid_email", comment: "")
+                message = LGLocalizedString.contactSendErrorInvalidEmail
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
@@ -218,18 +218,18 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
     // MARK: > UI
     
     private func setupUI() {
-        emailField.placeholder = NSLocalizedString("contact_email_field_hint", comment: "")
+        emailField.placeholder = LGLocalizedString.contactEmailFieldHint
         emailField.tag = TextFieldTag.Email.rawValue
         emailField.text = viewModel.email
 
-        subjectButton.setTitle(NSLocalizedString("contact_subject_field_hint", comment: ""), forState: .Normal)
+        subjectButton.setTitle(LGLocalizedString.contactSubjectFieldHint, forState: .Normal)
         subjectButton.setBackgroundImage(subjectButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         
         messageField.text = messagePlaceholder
         messageField.textColor = messagePlaceholderColor
         messageField.tag = TextFieldTag.Message.rawValue
 
-        sendButton.setTitle(NSLocalizedString("contact_send_button", comment: ""), forState: UIControlState.Normal)
+        sendButton.setTitle(LGLocalizedString.contactSendButton, forState: UIControlState.Normal)
         sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
@@ -237,9 +237,9 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
         
-        self.setLetGoNavigationBarStyle(NSLocalizedString("contact_title", comment: "") ?? UIImage(named: "navbar_logo"))
+        self.setLetGoNavigationBarStyle(LGLocalizedString.contactTitle)
         
-        sendBarButton = UIBarButtonItem(title: NSLocalizedString("contact_send_button", comment: ""), style: UIBarButtonItemStyle.Plain, target: self, action: Selector("sendBarButtonPressed"))
+        sendBarButton = UIBarButtonItem(title: LGLocalizedString.contactSendButton, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("sendBarButtonPressed"))
         sendBarButton.enabled = false
         self.navigationItem.rightBarButtonItem = sendBarButton;
     }

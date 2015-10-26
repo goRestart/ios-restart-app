@@ -9,10 +9,12 @@
 import LGCoreKit
 
 struct GoogleConversionParams {
+    let trackingId: String
     let label: String
     let value: String
     let isRepeatable: Bool
-    init(label: String, value: String, isRepeatable: Bool) {
+    init(trackingId: String, label: String, value: String, isRepeatable: Bool) {
+        self.trackingId = trackingId
         self.label = label
         self.value = value
         self.isRepeatable = isRepeatable
@@ -20,11 +22,12 @@ struct GoogleConversionParams {
 }
 
 private extension TrackerEvent {
-    var gctParams: GoogleConversionParams? {
+    var gctParams: [GoogleConversionParams]? {
         get {
             switch name {
             case .ProductSellComplete:
-                return GoogleConversionParams(label: "RErZCKHw414Qq6CFxAM", value: "0.00", isRepeatable: true)
+                return [GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.googleConversionPrimaryTrackingId, label: "RErZCKHw414Qq6CFxAM", value: "0.00", isRepeatable: true),
+                        GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.googleConversionSecondaryTrackingId, label: "b5bQCNq38V8Q2s-PxgM", value: "0.00", isRepeatable: true)]
             default:
                 return nil
             }
@@ -34,20 +37,24 @@ private extension TrackerEvent {
 
 public class GoogleTracker: Tracker {
     
-    var googleConversionInstallParams: GoogleConversionParams {
+    var googleConversionInstallParams: [GoogleConversionParams] {
         get {
-            return GoogleConversionParams(label: "tjkBCOnz414Qq6CFxAM", value: "0.00", isRepeatable: false)
+            return [GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.googleConversionPrimaryTrackingId, label: "tjkBCOnz414Qq6CFxAM", value: "0.00", isRepeatable: false),
+                    GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.googleConversionSecondaryTrackingId, label: "z34BCPS_8V8Q2s-PxgM", value: "0.00", isRepeatable: false)]
         }
     }
     
     // MARK: - Tracker
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId)
+        ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionPrimaryTrackingId)
+        ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionSecondaryTrackingId)
 
         // Track the install
         let gctParams = googleConversionInstallParams
-        ACTConversionReporter.reportWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId, label: gctParams.label, value: gctParams.value, isRepeatable: gctParams.isRepeatable)
+        for gctParam in gctParams {
+            ACTConversionReporter.reportWithConversionID(gctParam.trackingId, label: gctParam.label, value: gctParam.value, isRepeatable: gctParam.isRepeatable)
+        }
 
     }
     
@@ -73,7 +80,9 @@ public class GoogleTracker: Tracker {
     
     public func trackEvent(event: TrackerEvent) {
         if let gctParams = event.gctParams {
-            ACTConversionReporter.reportWithConversionID(EnvironmentProxy.sharedInstance.googleConversionTrackingId, label: gctParams.label, value: gctParams.value, isRepeatable: gctParams.isRepeatable)
+            for gctParam in gctParams {
+                ACTConversionReporter.reportWithConversionID(gctParam.trackingId, label: gctParam.label, value: gctParam.value, isRepeatable: gctParam.isRepeatable)
+            }
         }
     }
     
