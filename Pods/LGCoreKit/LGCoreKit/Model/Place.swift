@@ -7,7 +7,7 @@
 //
 
 
-@objc public class Place {
+public class Place {
 
     public var name : String?
     public var postalAddress : PostalAddress?

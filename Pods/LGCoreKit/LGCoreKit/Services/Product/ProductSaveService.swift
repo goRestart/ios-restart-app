@@ -8,7 +8,7 @@
 
 import Result
 
-public enum ProductSaveServiceError: String {
+public enum ProductSaveServiceError: String, ErrorType {
     case Network = "network"
     case Internal = "internal"
     case NoImages = "no images present"
@@ -20,17 +20,18 @@ public enum ProductSaveServiceError: String {
     case Forbidden = "forbidden"
 }
 
-public typealias ProductSaveServiceResult = (Result<Product, ProductSaveServiceError>) -> Void
+public typealias ProductSaveServiceResult = Result<Product, ProductSaveServiceError>
+public typealias ProductSaveServiceCompletion = ProductSaveServiceResult -> Void
 
 public protocol ProductSaveService {
     
     /**
         Saves the product.
     
-        :param: product the product
-        :param: user the user
-        :param: result The closure containing the result.
+        - parameter product: the product
+        - parameter user: the user
+        - parameter completion: The completion closure.
     */
     // TODO: Change this user to user_id
-    func saveProduct(product: Product, forUser user: User, sessionToken: String, result: ProductSaveServiceResult?)
+    func saveProduct(product: Product, forUser user: User, sessionToken: String, completion: ProductSaveServiceCompletion?)
 }

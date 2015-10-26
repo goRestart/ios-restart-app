@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class LGProductReport: LGBaseModel, ProductReport {
+public class LGProductReport: LGBaseModel, ProductReport {
     
     public var product: Product?
     public var userReporter: User?

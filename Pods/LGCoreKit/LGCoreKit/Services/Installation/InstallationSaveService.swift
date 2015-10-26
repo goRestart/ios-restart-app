@@ -8,20 +8,21 @@
 
 import Result
 
-public enum InstallationSaveServiceError {
+public enum InstallationSaveServiceError: ErrorType {
     case Network
     case Internal
 }
 
-public typealias InstallationSaveServiceResult = (Result<Installation, InstallationSaveServiceError>) -> Void
+public typealias InstallationSaveServiceResult = Result<Installation, InstallationSaveServiceError>
+public typealias InstallationSaveServiceCompletion = InstallationSaveServiceResult -> Void
 
 public protocol InstallationSaveService {
     
     /**
         Saves the installation.
     
-        :param: installation The installation.
-        :param: result The closure containing the result.
+        - parameter installation: The installation.
+        - parameter completion: The completion closure.
     */
-    func save(installation: Installation, result: InstallationSaveServiceResult?)
+    func save(installation: Installation, completion: InstallationSaveServiceCompletion?)
 }

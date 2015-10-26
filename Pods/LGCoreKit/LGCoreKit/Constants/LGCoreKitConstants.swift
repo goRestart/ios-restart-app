@@ -28,4 +28,6 @@ public struct LGCoreKitConstants {
     static let locationDesiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyHundredMeters
     
     static let defaultQuadKeyPrecision: Int = 15
+    
+    static let defaultConfigTimeOut: Double = 3    // seconds
 }

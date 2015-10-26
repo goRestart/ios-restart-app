@@ -8,7 +8,7 @@
 
 import Result
 
-public enum ProductRetrieveServiceError: Printable {
+public enum ProductRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
     
@@ -22,15 +22,16 @@ public enum ProductRetrieveServiceError: Printable {
     }
 }
 
-public typealias ProductRetrieveServiceResult = (Result<Product, ProductRetrieveServiceError>) -> Void
+public typealias ProductRetrieveServiceResult = Result<Product, ProductRetrieveServiceError>
+public typealias ProductRetrieveServiceCompletion = ProductRetrieveServiceResult -> Void
 
 public protocol ProductRetrieveService {
     
     /**
-    Retrieves the product with the given parameters.
+        Retrieves the product with the given parameters.
     
-    :param: productId The product id.
-    :param: result The completion closure.
+        - parameter productId: The product id.
+        - parameter completion: The completion closure.
     */
-    func retrieveProductWithId(productId: String, result: ProductRetrieveServiceResult?)
+    func retrieveProductWithId(productId: String, completion: ProductRetrieveServiceCompletion?)
 }

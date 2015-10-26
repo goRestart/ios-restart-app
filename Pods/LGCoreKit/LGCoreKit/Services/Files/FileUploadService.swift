@@ -8,45 +8,37 @@
 
 import Result
 
-public enum FileUploadServiceError {
+public enum FileUploadServiceError: ErrorType {
     case Network
     case Internal
     case Forbidden
 }
 
-public typealias FileUploadServiceResult = (Result<File, FileUploadServiceError>) -> Void
-public typealias MultipleFilesUploadServiceResult = (Result<[File], FileUploadServiceError>) -> Void
+public typealias FileUploadServiceResult = Result<File, FileUploadServiceError>
+public typealias FileUploadServiceCompletion = FileUploadServiceResult -> Void
+
+public typealias MultipleFilesUploadServiceResult = Result<[File], FileUploadServiceError>
+public typealias MultipleFilesUploadServiceCompletion = MultipleFilesUploadServiceResult -> Void
 
 public protocol FileUploadService {
     
     /**
         Upload the data into a file.
     
-        :param: userId The user id.
-        :param: sessionToken The user session token.
-        :param: data The data to upload.
-        :param: result The closure containing the result.
+        - parameter userId: The user id.
+        - parameter sessionToken: The user session token.
+        - parameter data: The data to upload.
+        - parameter completion: The completion closure.
     */
-    func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, result: FileUploadServiceResult?)
+    func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, completion: FileUploadServiceCompletion?)
     
     /**
         Upload the data into a file.
     
-        :param: userId The user id.
-        :param: sessionToken The user session token.
-        :param: sourceURL The URL where data is, that should be downloaded and later uploaded to a remote file.
-        :param: result The closure containing the result.
+        - parameter userId: The user id.
+        - parameter sessionToken: The user session token.
+        - parameter sourceURL: The URL where data is, that should be downloaded and later uploaded to a remote file.
+        - parameter completion: The completion closure.
     */
-    func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL, result: FileUploadServiceResult?)
-    
-    
-    /**
-        Synchronously, upload the data into a file.
-    
-        :param: userId The user id.
-        :param: sessionToken The user session token.
-        :param: data The data to upload.
-        :returns: The result.
-    */
-    func synchUploadFileWithUserId(userId: String, sessionToken: String, data: NSData) -> Result<File, FileUploadServiceError>
+    func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL, completion: FileUploadServiceCompletion?)
 }

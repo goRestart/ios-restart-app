@@ -8,7 +8,7 @@
 
 import CoreLocation
 
-@objc public class LGSize: Equatable {
+public class LGSize: Equatable {
     public var width: Float
     public var height: Float
     
@@ -22,7 +22,7 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
     return lhs.width == rhs.width && lhs.height == rhs.height
 }
 
-@objc public class LGLocationCoordinates2D: Equatable {
+public class LGLocationCoordinates2D: Equatable {
     public var latitude: Double
     public var longitude: Double
     
@@ -48,10 +48,23 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
         self.longitude = location.location.coordinate.longitude
     }
     
+    public init(fromCenterOfQuadKey quadKey: String) {
+        //Initializing local properties to avoid compiler errors
+        self.latitude = 0.0
+        self.longitude = 0.0
+        
+        let (latBin,longBin) = quadkeyToBinValues(quadKey)
+        let latDec = valueFromBinary(latBin)
+        let longDec = valueFromBinary(longBin)
+        let (lat, lon) = coordinatesFromDecimalValues(latDec, longDec)
+        self.latitude = lat
+        self.longitude = lon
+    }
+    
     public func coordinates2DfromLocation() -> CLLocationCoordinate2D {
-        var lat = self.latitude as CLLocationDegrees
-        var long = self.longitude as CLLocationDegrees
-        var coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        let lat = self.latitude as CLLocationDegrees
+        let long = self.longitude as CLLocationDegrees
+        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
         return coordinate
     }
     
@@ -62,7 +75,7 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
         var x = 0.0
         var y = 0.0
         
-        for i in 0...zoomLevel-1 {
+        for _ in 0...zoomLevel-1 {
             x = modValue * 2
             y = floor(x)
             finalString += "\(Int(y))"
@@ -74,10 +87,10 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
     
     private func getCharAtIndexOrZero(value: String, index: Int) -> Int {
         
-        if !value.isEmpty && index < count(value) {
+        if !value.isEmpty && index < value.characters.count {
             
-            let singleChar = Array(value)[index]
-            if let singleInt = String(singleChar).toInt() {
+            let singleChar = Array(value.characters)[index]
+            if let singleInt = Int(String(singleChar)) {
                 return singleInt
             } else {
                 return 0
@@ -93,12 +106,12 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
         }
         
         var finalString = ""
-        var maxLength = max(count(latBin), count(longBin))
+        let maxLength = max(latBin.characters.count, longBin.characters.count)
         
         for i in 0...maxLength-1 {
-            var lat = getCharAtIndexOrZero(latBin, index: i)
-            var long = getCharAtIndexOrZero(longBin, index: i)
-            var n = lat * 2 + long
+            let lat = getCharAtIndexOrZero(latBin, index: i)
+            let long = getCharAtIndexOrZero(longBin, index: i)
+            let n = lat * 2 + long
             
             finalString += "\(Int(n))"
         }
@@ -109,14 +122,41 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
         
         let π = M_PI
         
-        var sinLat = sin(self.latitude * π/180)
-        var latDec = 0.5 - log((1+sinLat)/(1-sinLat))/(4*π)
-        var longDec = (self.longitude + 180)/360
+        let sinLat = sin(self.latitude * π/180)
+        let latDec = 0.5 - log((1+sinLat)/(1-sinLat))/(4*π)
+        let longDec = (self.longitude + 180)/360
         
-        var latBin = toBinary(latDec, zoomLevel: zoomLevel)
-        var longBin = toBinary(longDec, zoomLevel: zoomLevel)
+        let latBin = toBinary(latDec, zoomLevel: zoomLevel)
+        let longBin = toBinary(longDec, zoomLevel: zoomLevel)
         
         return binValuesToQuadKey(latBin, longBin: longBin)
+    }
+    
+    private func quadkeyToBinValues(quadKey: String) -> (String,String) {
+        
+        var latBin = ""
+        var lonBin = ""
+        for i in 0...quadKey.characters.count - 1 {
+            let quadCharInt = getCharAtIndexOrZero(quadKey, index: i)
+            latBin += String(quadCharInt >> 1)
+            lonBin += String(quadCharInt & 1)
+        }
+        
+        return (latBin,lonBin)
+    }
+    
+    private func valueFromBinary(value: String) -> Double {
+        let oneVal = value + "1"
+        let decimal = strtoul(oneVal, nil, 2)
+        return Double(decimal) / pow(2.0, Double(oneVal.characters.count))
+    }
+    
+    private func coordinatesFromDecimalValues(latDec: Double,_ longDec: Double) -> (Double, Double) {
+        let π = M_PI
+        
+        let exponent = exp((0.5 - latDec) * 4 * π)
+        
+        return (asin((exponent - 1) / (exponent + 1)) * 180 / π, longDec * 360 - 180)
     }
 }
 
@@ -124,7 +164,7 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
     return lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
 }
 
-@objc public enum DistanceType: Int, Printable {
+@objc public enum DistanceType: Int, CustomStringConvertible {
     case Mi, Km
     public var string: String {
         get {
@@ -141,7 +181,7 @@ public func ==(lhs: LGLocationCoordinates2D, rhs: LGLocationCoordinates2D) -> Bo
 }
 
 // @see: https://ambatana.atlassian.net/wiki/display/BAPI/IDs+reference
-@objc public enum ProductStatus: Int, Printable {
+@objc public enum ProductStatus: Int, CustomStringConvertible {
     case Pending = 0, Approved = 1, Discarded = 2, Sold = 3, SoldOld = 5, Deleted = 6
     public var string: String {
         get {

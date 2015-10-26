@@ -22,6 +22,5 @@ public struct DevelopmentEnvironment: Environment {
     public let imagesBaseURL = "http://devel.cdn.letgo.com/images"  // @ahl: to be removed when full image URL is coming in the products response
     
     // Config
-    public let updateFileCfgName = "ios-devel"
-    public let staticCfgFileURL = "https://letgo-images-devel.s3.amazonaws.com/config/ios.json"
+    public let configURL = "http://letgo-images-devel.s3.amazonaws.com/config/ios.json"
 }

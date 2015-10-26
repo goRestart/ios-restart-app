@@ -13,7 +13,7 @@ final public class PAUserSignUpService: UserSignUpService {
     
     // MARK: - UserSignUpService
     
-    public func signUpUserWithEmail(email: String, password: String, publicUsername: String, result: UserSignUpServiceResult?) {
+    public func signUpUserWithEmail(email: String, password: String, publicUsername: String, completion: UserSignUpServiceCompletion?) {
         let user = PFUser()
         user.username = email
         user.email = email
@@ -22,25 +22,25 @@ final public class PAUserSignUpService: UserSignUpService {
         user.signUpInBackgroundWithBlock( { (success: Bool, error: NSError?) -> Void in
             // Success
             if success {
-                result?(Result<Nil, UserSignUpServiceError>.success(Nil()))
+                completion?(UserSignUpServiceResult(value: Nil()))
             }
             // Error
             else if let actualError = error {
                 switch(actualError.code) {
                 case PFErrorCode.ErrorConnectionFailed.rawValue:
-                    result?(Result<Nil, UserSignUpServiceError>.failure(.Network))
+                    completion?(UserSignUpServiceResult(error: .Network))
                 case PFErrorCode.ErrorUsernameMissing.rawValue:
-                    result?(Result<Nil, UserSignUpServiceError>.failure(.InvalidUsername))
+                    completion?(UserSignUpServiceResult(error: .InvalidUsername))
                 case PFErrorCode.ErrorUserEmailMissing.rawValue, PFErrorCode.ErrorInvalidEmailAddress.rawValue:
-                    result?(Result<Nil, UserSignUpServiceError>.failure(.InvalidEmail))
+                    completion?(UserSignUpServiceResult(error: .InvalidEmail))
                 case PFErrorCode.ErrorUsernameTaken.rawValue, PFErrorCode.ErrorUserEmailTaken.rawValue:
-                    result?(Result<Nil, UserSignUpServiceError>.failure(.EmailTaken))
+                    completion?(UserSignUpServiceResult(error: .EmailTaken))
                 default:
-                    result?(Result<Nil, UserSignUpServiceError>.failure(.Internal))
+                    completion?(UserSignUpServiceResult(error: .Internal))
                 }
             }
             else {
-                result?(Result<Nil, UserSignUpServiceError>.failure(.Internal))
+                completion?(UserSignUpServiceResult(error: .Internal))
             }
         })
     }

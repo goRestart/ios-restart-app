@@ -25,7 +25,7 @@ public enum LoginSource: String {
 
 public protocol MainSignUpViewModelDelegate: class {
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel)
-    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: Result<User, UserLogInFBError>)
+    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: UserLogInFBResult)
 }
 
 public class MainSignUpViewModel: BaseViewModel {
@@ -51,7 +51,7 @@ public class MainSignUpViewModel: BaseViewModel {
         delegate?.viewModelDidStartLoggingWithFB(self)
         
         // Log in
-        MyUserManager.sharedInstance.logInWithFacebook { [weak self] (result: Result<User, UserLogInFBError>) in
+        MyUserManager.sharedInstance.logInWithFacebook { [weak self] (result: UserLogInFBResult) in
             if let strongSelf = self {
 
                 // Tracking

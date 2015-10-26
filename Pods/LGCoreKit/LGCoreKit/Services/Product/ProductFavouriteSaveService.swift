@@ -6,10 +6,9 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import LGCoreKit
 import Result
 
-public enum ProductFavouriteSaveServiceError: Printable {
+public enum ProductFavouriteSaveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
     case AlreadyExists
@@ -29,16 +28,17 @@ public enum ProductFavouriteSaveServiceError: Printable {
     }
 }
 
-public typealias ProductFavouriteSaveServiceResult = (Result<ProductFavourite, ProductFavouriteSaveServiceError>) -> Void
+public typealias ProductFavouriteSaveServiceResult = Result<ProductFavourite, ProductFavouriteSaveServiceError>
+public typealias ProductFavouriteSaveServiceCompletion = ProductFavouriteSaveServiceResult -> Void
 
 public protocol ProductFavouriteSaveService {
     
     /**
         Adds a product to favourites for the given user.
     
-        :param: product the product.
-        :param: user the user.
-        :param: result The closure containing the result.
+        - parameter product: the product.
+        - parameter user: the user.
+        - parameter completion: The completion closure.
     */
-    func saveFavouriteProduct(product: Product, user: User, sessionToken: String, result: ProductFavouriteSaveServiceResult?)
+    func saveFavouriteProduct(product: Product, user: User, sessionToken: String, completion: ProductFavouriteSaveServiceCompletion?)
 }

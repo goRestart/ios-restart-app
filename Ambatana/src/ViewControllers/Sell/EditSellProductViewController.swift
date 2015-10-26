@@ -15,7 +15,7 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     
     private var editViewModel : EditSellProductViewModel
     
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -35,9 +35,7 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         sendButton.setTitle(LGLocalizedString.editProductSendButton, forState: .Normal)
         categoryButton.setTitle(editViewModel.categoryName, forState: .Normal)
         
-        self.setLetGoNavigationBarStyle(title: LGLocalizedString.editProductTitle ?? UIImage(named: "navbar_logo"))
-        var myBackButton = self.navigationItem.leftBarButtonItem
-
+        self.setLetGoNavigationBarStyle(LGLocalizedString.editProductTitle)
     }
     
     // MARK: - EditSellProductViewModelDelegate Methods
@@ -48,7 +46,7 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     
     // MARK: - SellProductViewModelDelegate Methods
 
-    override func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: Result<Product, ProductSaveServiceError>) {
+    override func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: ProductSaveServiceResult) {
         super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
         
         if let savedProduct = result.value {
@@ -75,7 +73,7 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         case .Network:
             message = LGLocalizedString.editProductSendErrorUploadingProduct
         case .Internal:
-            message = LGLocalizedString.sellSendErrorUploadingProduct
+            message = LGLocalizedString.editProductSendErrorUploadingProduct
         case .NoImages:
             message = LGLocalizedString.sellSendErrorInvalidImageCount
         case .NoTitle:
@@ -99,5 +97,4 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         }
         self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
     }
-
 }

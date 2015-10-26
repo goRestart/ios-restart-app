@@ -6,10 +6,9 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import LGCoreKit
 import Result
 
-public enum ProductReportSaveServiceError: Printable {
+public enum ProductReportSaveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case AlreadyExists
     case Internal
@@ -29,16 +28,17 @@ public enum ProductReportSaveServiceError: Printable {
     }
 }
 
-public typealias ProductReportSaveServiceResult = (Result<Nil, ProductReportSaveServiceError>) -> Void
+public typealias ProductReportSaveServiceResult = Result<Nil, ProductReportSaveServiceError>
+public typealias ProductReportSaveServiceCompletion = ProductReportSaveServiceResult -> Void
 
 public protocol ProductReportSaveService {
     
     /**
         Reports a product.
     
-        :param: product the product.
-        :param: user the reporter user.
-        :param: result The closure containing the result.
+        - parameter product: the product.
+        - parameter user: the reporter user.
+        - parameter completion: The completion closure.
     */
-    func saveReportProduct(product: Product, user: User, sessionToken: String, result: ProductReportSaveServiceResult?)
+    func saveReportProduct(product: Product, user: User, sessionToken: String, completion: ProductReportSaveServiceCompletion?)
 }

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public protocol ProductReport: BaseModel {
+public protocol ProductReport: BaseModel {
     var product: Product? { get set }
     var userReporter: User? { get set }
     var userReported: User? { get set }

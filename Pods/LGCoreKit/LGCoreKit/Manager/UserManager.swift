@@ -26,10 +26,10 @@ public class UserManager {
     /**
         Retrieves a product with the given id.
     
-        :param: productId The product identifier.
-        :param: result The completion closure.
+        - parameter productId: The product identifier.
+        - parameter result: The completion closure.
     */
-    public func retrieveUserWithId(userId: String, result: UserRetrieveServiceResult) {
-        userRetrieveService.retrieveUserWithId(userId, result: result)
+    public func retrieveUserWithId(userId: String, completion: UserRetrieveServiceCompletion) {
+        userRetrieveService.retrieveUserWithId(userId, completion: completion)
     }
 }

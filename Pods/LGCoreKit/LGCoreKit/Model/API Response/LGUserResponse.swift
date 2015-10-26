@@ -9,7 +9,7 @@
 import Alamofire
 import SwiftyJSON
 
-@objc public class LGUserResponse: UserResponse, ResponseObjectSerializable {
+public class LGUserResponse: UserResponse, ResponseObjectSerializable {
     
     public var user: User
     

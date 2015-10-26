@@ -6,6 +6,6 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public protocol ProductResponse {
+public protocol ProductResponse {
     var product: Product { get }
 }

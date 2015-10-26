@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class LGProduct: LGBaseModel, Product {
+public class LGProduct: LGBaseModel, Product {
     
     // Product iVars
     public var name: String?
@@ -77,7 +77,7 @@
     // MARK: - Public methods
     
     public static func productFromProduct(product: Product) -> LGProduct {
-        var letgoProduct = LGProduct()
+        let letgoProduct = LGProduct()
         letgoProduct.name = product.name
         letgoProduct.descr = product.descr
         letgoProduct.price = product.price
@@ -100,7 +100,7 @@
     }
 }
 
-extension LGProduct: Printable {
+extension LGProduct: CustomStringConvertible {
     public var description: String {
         return "name: \(name); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); categoryId: \(categoryId); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); descr: \(descr);reported: \(reported); favorited: \(favorited);"
     }

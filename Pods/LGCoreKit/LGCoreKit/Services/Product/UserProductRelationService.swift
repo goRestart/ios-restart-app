@@ -9,7 +9,7 @@
 
 import Result
 
-public enum UserProductRelationServiceError: Printable {
+public enum UserProductRelationServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
     
@@ -23,16 +23,17 @@ public enum UserProductRelationServiceError: Printable {
     }
 }
 
-public typealias UserProductRelationServiceResult = (Result<UserProductRelation, UserProductRelationServiceError>) -> Void
+public typealias UserProductRelationServiceResult = Result<UserProductRelation, UserProductRelationServiceError>
+public typealias UserProductRelationServiceCompletion = UserProductRelationServiceResult -> Void
 
 public protocol UserProductRelationService {
     
     /**
     Retrieves the relation between a user and a product (is favorite and is reported)
     
-    :param: userId The user id.
-    :param: productId The product id.
-    :param: result The completion closure.
+    - parameter userId: The user id.
+    - parameter productId: The product id.
+    - parameter completion: The completion closure.
     */
-    func retrieveUserProductRelationWithId(userId: String, productId: String, result: UserProductRelationServiceResult?)
+    func retrieveUserProductRelationWithId(userId: String, productId: String, completion: UserProductRelationServiceCompletion?)
 }

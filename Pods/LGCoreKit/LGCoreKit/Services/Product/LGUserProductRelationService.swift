@@ -30,37 +30,33 @@ final public class LGUserProductRelationService: UserProductRelationService {
     
     // MARK: - ProductsRetrieveService
     
+    public func retrieveUserProductRelationWithId(userId: String, productId: String, completion: UserProductRelationServiceCompletion?) {
     
-    public func retrieveUserProductRelationWithId(userId: String, productId: String, result: UserProductRelationServiceResult?) {
-    
-        var fullUrl = "\(url)/\(productId)/users/\(userId)"
-        
+        let fullUrl = "\(url)/\(productId)/users/\(userId)"
         let sessionToken : String = MyUserManager.sharedInstance.myUser()?.sessionToken ?? ""
-        
         let headers = [
             LGCoreKitConstants.httpHeaderUserToken: sessionToken
         ]
         
         Alamofire.request(.GET, fullUrl, parameters: nil, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (_, _, relationResponse: LGUserProductRelationResponse?, error: NSError?) -> Void in
+            .responseObject { (relationResponse: Response<LGUserProductRelationResponse, NSError>) -> Void in
                 // Error
-                if let actualError = error {
-                    let myError: NSError
+                if let actualError = relationResponse.result.error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<UserProductRelation, UserProductRelationServiceError>.failure(.Network))
+                        completion?(UserProductRelationServiceResult(error: .Network))
                     }
                     else {
-                        result?(Result<UserProductRelation, UserProductRelationServiceError>.failure(.Internal))
+                        completion?(UserProductRelationServiceResult(error: .Internal))
                     }
                 }
-                    // Success
-                else if let actualRelationResponse = relationResponse {
-                    var relation = LGUserProductRelation()
+                // Success
+                else if let actualRelationResponse = relationResponse.result.value {
+                    let relation = LGUserProductRelation()
                     relation.isFavorited = actualRelationResponse.isFavorited
                     relation.isReported = actualRelationResponse.isReported
-                    result?(Result<UserProductRelation, UserProductRelationServiceError>.success(relation))
+                    completion?(UserProductRelationServiceResult(value: relation))
                 }
-        }
+            }
     }
 }

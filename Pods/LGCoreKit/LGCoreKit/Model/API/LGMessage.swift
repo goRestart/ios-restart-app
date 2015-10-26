@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class LGMessage: LGBaseModel, Message {
+public class LGMessage: LGBaseModel, Message {
     
     // Message iVars
     public var text: String?

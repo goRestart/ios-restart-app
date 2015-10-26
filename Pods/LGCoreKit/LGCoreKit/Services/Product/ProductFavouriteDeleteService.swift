@@ -6,10 +6,9 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import LGCoreKit
 import Result
 
-public enum ProductFavouriteDeleteServiceError: Printable {
+public enum ProductFavouriteDeleteServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
     
@@ -23,15 +22,16 @@ public enum ProductFavouriteDeleteServiceError: Printable {
     }
 }
 
-public typealias ProductFavouriteDeleteServiceResult = (Result<Nil, ProductFavouriteDeleteServiceError>) -> Void
+public typealias ProductFavouriteDeleteServiceResult = Result<Nil, ProductFavouriteDeleteServiceError>
+public typealias ProductFavouriteDeleteServiceCompletion = ProductFavouriteDeleteServiceResult -> Void
 
 public protocol ProductFavouriteDeleteService {
     
     /**
         Deletes a product from favourites for the given user.
     
-        :param: productFavourite the favourite product.
-        :param: result The closure containing the result.
+        - parameter productFavourite: the favourite product.
+        - parameter completion: The completion closure.
     */
-    func deleteProductFavourite(productFavourite: ProductFavourite, sessionToken: String, result: ProductFavouriteDeleteServiceResult?)
+    func deleteProductFavourite(productFavourite: ProductFavourite, sessionToken: String, completion: ProductFavouriteDeleteServiceCompletion?)
 }

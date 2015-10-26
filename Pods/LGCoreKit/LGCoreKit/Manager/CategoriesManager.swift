@@ -28,22 +28,22 @@ public class CategoriesManager {
     /**
         Retrieves all product categories.
     
-        :param: result The closure containing the result.
+        - parameter completion: The completion closure.
     */
-    public func retrieveCategoriesWithResult(result: CategoriesRetrieveServiceResult?) {
+    public func retrieveCategoriesWithCompletion(completion: CategoriesRetrieveServiceCompletion?) {
         // If not cached then retrieve
         if categories.isEmpty {
-            let myResult: CategoriesRetrieveServiceResult = { (theResult: Result<[ProductCategory], CategoriesRetrieveServiceServiceError>) in
+            let myCompletion: CategoriesRetrieveServiceCompletion = { (theResult: CategoriesRetrieveServiceResult) in
                 if let actualCategories = theResult.value {
                     self.categories = actualCategories
                 }
-                result?(theResult)
+                completion?(theResult)
             }
-            categoriesRetrieveService.retrieveCategoriesWithResult(myResult)
+            categoriesRetrieveService.retrieveCategoriesWithCompletion(myCompletion)
         }
         // Otherwise, return the cached categories
         else {
-            result?(Result<[ProductCategory], CategoriesRetrieveServiceServiceError>.success(categories))
+            completion?(CategoriesRetrieveServiceResult(value: categories))
         }
         
     }

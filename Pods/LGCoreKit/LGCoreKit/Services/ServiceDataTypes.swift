@@ -24,7 +24,7 @@ public struct RetrieveTokenParams {
     }
 }
 
-public struct RetrieveProductParams: Printable, Equatable {
+public struct RetrieveProductParams: CustomStringConvertible, Equatable {
     public var objectId: String
     public init(objectId: String) {
         self.objectId = objectId
@@ -37,7 +37,7 @@ public func ==(lhs: RetrieveProductParams, rhs: RetrieveProductParams) -> Bool {
     return lhs.objectId == rhs.objectId
 }
 
-public struct RetrieveProductsParams: Printable, Equatable {
+public struct RetrieveProductsParams: CustomStringConvertible, Equatable {
     public var queryString: String?
     public var coordinates: LGLocationCoordinates2D?
     public var countryCode: String?
@@ -67,7 +67,7 @@ public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool
         lhs.distanceRadius == rhs.distanceRadius && lhs.userObjectId == rhs.userObjectId
 }
 
-public struct SaveProductParams: Printable, Equatable {
+public struct SaveProductParams: CustomStringConvertible, Equatable {
     
     public var name: String?
     public var category: String?

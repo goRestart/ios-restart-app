@@ -9,7 +9,7 @@
 import CoreGraphics
 import UIKit
 
-@objc public protocol Product: BaseModel {
+public protocol Product: BaseModel {
     var name: String? { get set }
     var descr: String? { get set }
     var price: NSNumber? { get set }
@@ -33,5 +33,5 @@ import UIKit
     var favorited: NSNumber? { get set }
 
     func formattedPrice() -> String
-    func updateWithProduct(product: Product)
+    func updateWithProduct(product: Product )
 }

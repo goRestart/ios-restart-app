@@ -23,24 +23,23 @@ public class CLPostalAddressRetrievalService: PostalAddressRetrievalService {
     
     // MARK: - PostalAddressRetrievalService
     
-    public func retrieveAddressForLocation(location: CLLocation, result: PostalAddressRetrievalServiceResult?) {
-        geocoder.reverseGeocodeLocation(location) { (placemarks: [AnyObject]!, error: NSError!) -> Void in
+    public func retrieveAddressForLocation(location: CLLocation, completion: PostalAddressRetrievalServiceCompletion?) {
+        geocoder.reverseGeocodeLocation(location) { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
             // Success
-            if let actualPlacemarks = placemarks as? [CLPlacemark] {
-                var postalAddress: PostalAddress = PostalAddress()
+            if let actualPlacemarks = placemarks {
                 var place = Place()
                 if !actualPlacemarks.isEmpty {
                     let placemark = actualPlacemarks.last!
                     place = placemark.place()
                 }
-                result?(Result<Place, PostalAddressRetrievalServiceError>.success(place))
+                completion?(PostalAddressRetrievalServiceResult(value: place))
             }
             // Error
-            else if let actualError = error {
-                result?(Result<Place, PostalAddressRetrievalServiceError>.failure(.Network))
+            else if let _ = error {
+                completion?(PostalAddressRetrievalServiceResult(error: .Network))
             }
             else {
-                result?(Result<Place, PostalAddressRetrievalServiceError>.failure(.Internal))
+                completion?(PostalAddressRetrievalServiceResult(error: .Internal))
             }
         }
     }

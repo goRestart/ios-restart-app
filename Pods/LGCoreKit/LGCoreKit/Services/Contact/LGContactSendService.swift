@@ -31,7 +31,7 @@ final public class LGContactSendService: ContactSendService {
     
     // MARK: - ContactSendService
     
-    public func sendContact(contact: Contact, sessionToken: String, result: ContactSendServiceResult?) {
+    public func sendContact(contact: Contact, sessionToken: String, completion: ContactSendServiceCompletion?) {
         
         var params = Dictionary<String, AnyObject>()
         
@@ -48,20 +48,19 @@ final public class LGContactSendService: ContactSendService {
             .response { (request, response, _, error: NSError?) -> Void in
                 // Error
                 if let actualError = error {
-                    let myError : NSError
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<Contact, ContactSendServiceError>.failure(.Network))
+                        completion?(ContactSendServiceResult(error: .Network))
                     }
                     else {
-                        result?(Result<Contact, ContactSendServiceError>.failure(.Internal))
+                        completion?(ContactSendServiceResult(error: .Internal))
                     }
                 } else {
                     if response?.statusCode == 201 {
                         // success
-                        result?(Result<Contact, ContactSendServiceError>.success(contact))
+                        completion?(ContactSendServiceResult(value: contact))
                     } else {
                         // error
-                        result?(Result<Contact, ContactSendServiceError>.failure(.Internal))
+                        completion?(ContactSendServiceResult(error: .Internal))
                     }
                 }
         }

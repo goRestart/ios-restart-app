@@ -19,66 +19,47 @@ final public class PAFileUploadService: FileUploadService {
     
     // MARK: - FileUploadService
     
-    public func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, result: FileUploadServiceResult?) {
-        let file = PFFile(name: "image.jpg", data: data)
+    public func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, completion: FileUploadServiceCompletion?) {
+        
+        guard let file = PFFile(name: "image.jpg", data: data) else {
+            completion?(FileUploadServiceResult(error: .Internal))
+            return
+        }
+        
         file.saveInBackgroundWithBlock { (success: Bool, error: NSError?) in
             // Success
             if success {
-                result?(Result<File, FileUploadServiceError>.success(file))
+                completion?(FileUploadServiceResult(value: file))
             }
             // Error
             else if let actualError = error {
                 switch(actualError.code) {
                 case PFErrorCode.ErrorConnectionFailed.rawValue:
-                    result?(Result<File, FileUploadServiceError>.failure(.Network))
+                    completion?(FileUploadServiceResult(error: .Network))
                 default:
-                    result?(Result<File, FileUploadServiceError>.failure(.Internal))
+                    completion?(FileUploadServiceResult(error: .Internal))
                 }
             }
             else {
-                result?(Result<File, FileUploadServiceError>.failure(.Internal))
+                completion?(FileUploadServiceResult(error: .Internal))
             }
         }
     }
     
-    public func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL, result: FileUploadServiceResult?) {
+    public func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL, completion: FileUploadServiceCompletion?) {
         let request = NSURLRequest(URL: sourceURL)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
             // Success
             if let actualData = data {
-                self.uploadFileWithUserId(userId, sessionToken: sessionToken, data: actualData, result: result)
+                self.uploadFileWithUserId(userId, sessionToken: sessionToken, data: actualData, completion: completion)
             }
             // Error
-            else if let actualError = error {
-                result?(Result<File, FileUploadServiceError>.failure(.Network))
+            else if let _ = error {
+                completion?(FileUploadServiceResult(error: .Network))
             }
             else {
-                result?(Result<File, FileUploadServiceError>.failure(.Internal))
+                completion?(FileUploadServiceResult(error: .Internal))
             }
         }
-    }
-    
-    public func synchUploadFileWithUserId(userId: String, sessionToken: String, data: NSData) -> Result<File, FileUploadServiceError> {
-        let file = PFFile(name: "image.jpg", data: data)
-        
-        var error: NSError?
-        let success = file.save(&error)
-        
-        // Success
-        if success {
-            return Result<File, FileUploadServiceError>.success(file)
-        }
-            // Error
-        else if let actualError = error {
-            switch(actualError.code) {
-            case PFErrorCode.ErrorConnectionFailed.rawValue:
-                return Result<File, FileUploadServiceError>.failure(.Network)
-            default:
-                return Result<File, FileUploadServiceError>.failure(.Internal)
-            }
-        }
-        
-        // Otherwise, it's an internal error
-        return Result<File, FileUploadServiceError>.failure(.Internal)
     }
 }

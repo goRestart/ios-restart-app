@@ -60,7 +60,7 @@ public class UserDefaultsManager {
         if let userId = ownerUserId {
             if loadDefaultsDictionaryForUser(userId).count == 0 {
                 
-                var itemsDict : NSMutableDictionary = NSMutableDictionary()
+                let itemsDict : NSMutableDictionary = NSMutableDictionary()
                 
                 if let locationDict = userDefaults.objectForKey(UserDefaultsManager.manualLocationKey) as? NSDictionary {
                     itemsDict.setObject(locationDict, forKey: UserDefaultsManager.manualLocationKey)
@@ -109,7 +109,7 @@ public class UserDefaultsManager {
 
     /**
         Loads all the current defaults of a user
-        :param: userId theID of the user owner of the defaults
+        - parameter userId: theID of the user owner of the defaults
     */
     public func loadDefaultsDictionaryForUser(userId: String) ->  NSMutableDictionary {
         
@@ -123,7 +123,7 @@ public class UserDefaultsManager {
     /**
         Saves the location set manually by the user
 
-        :param: location the manual location set by the user
+        - parameter location: the manual location set by the user
     */
     public func saveManualLocation(location: CLLocation) {
         
@@ -135,15 +135,15 @@ public class UserDefaultsManager {
     /**
         Saves the location set manually by the user
     
-        :param: location the manual location set by the user
-        :param: userId The ID of the user who sets the location
+        - parameter location: the manual location set by the user
+        - parameter userId: The ID of the user who sets the location
     */
     public func saveManualLocation(location: CLLocation, forUserId userId: String) {
 
-        var locationDict = [UserDefaultsManager.latitudeKey : location.coordinate.latitude,
+        let locationDict = [UserDefaultsManager.latitudeKey : location.coordinate.latitude,
                             UserDefaultsManager.longitudeKey : location.coordinate.longitude]
 
-        var userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
+        let userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
         
         userDict.setValue(locationDict, forKey: UserDefaultsManager.manualLocationKey)
         
@@ -167,10 +167,10 @@ public class UserDefaultsManager {
         
         let userDict = loadDefaultsDictionaryForUser(userId)
         if let locationDict = userDict.objectForKey(UserDefaultsManager.manualLocationKey) as? NSDictionary {
-            var lat = locationDict[UserDefaultsManager.latitudeKey] as! CLLocationDegrees
-            var long = locationDict[UserDefaultsManager.longitudeKey] as! CLLocationDegrees
+            let lat = locationDict[UserDefaultsManager.latitudeKey] as! CLLocationDegrees
+            let long = locationDict[UserDefaultsManager.longitudeKey] as! CLLocationDegrees
             
-            var location = CLLocation(latitude: lat, longitude: long)
+            let location = CLLocation(latitude: lat, longitude: long)
             
             return location
         }
@@ -180,7 +180,7 @@ public class UserDefaultsManager {
     /**
         Saves if the last time the location changed was set manually by the user
     
-        :param: isManualLocation true if the user edited manually the location, false if uses GPS location
+        - parameter isManualLocation: true if the user edited manually the location, false if uses GPS location
     */
     public func saveIsManualLocation(isManualLocation: Bool) {
         if let userId = ownerUserId {
@@ -190,7 +190,7 @@ public class UserDefaultsManager {
 
     public func saveIsManualLocation(isManualLocation: Bool, forUserId userId: String) {
         
-        var userDict = loadDefaultsDictionaryForUser(userId)
+        let userDict = loadDefaultsDictionaryForUser(userId)
         
         userDict.setValue(isManualLocation, forKey: UserDefaultsManager.isManualLocationKey)
         
@@ -224,7 +224,7 @@ public class UserDefaultsManager {
     /**
         Saves if the user wants to use approximate location
     
-        :param: isApproximateLocation true if the user wants to use approx location, false if wants to use accurate location
+        - parameter isApproximateLocation: true if the user wants to use approx location, false if wants to use accurate location
     */
     public func saveIsApproximateLocation(isApproximateLocation: Bool) {
         if let userId = ownerUserId {
@@ -234,7 +234,7 @@ public class UserDefaultsManager {
     
     public func saveIsApproximateLocation(isApproximateLocation: Bool, forUserId userId: String) {
         
-        var userDict = loadDefaultsDictionaryForUser(userId)
+        let userDict = loadDefaultsDictionaryForUser(userId)
         
         userDict.setValue(isApproximateLocation, forKey: UserDefaultsManager.isApproximateLocationKey)
         
@@ -266,7 +266,7 @@ public class UserDefaultsManager {
     /**
         Saves if the user rated the app
     
-        :param: alreadyRated true if the user rated the app
+        - parameter alreadyRated: true if the user rated the app
     */
     public func saveAlreadyRated(alreadyRated: Bool) {
         if let userId = ownerUserId {
@@ -275,7 +275,7 @@ public class UserDefaultsManager {
     }
     
     public func saveAlreadyRated(alreadyRated: Bool, forUserId userId: String) {
-        var userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
+        let userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
         
         userDict.setValue(alreadyRated, forKey: UserDefaultsManager.alreadyRatedKey)
         
@@ -307,7 +307,7 @@ public class UserDefaultsManager {
     /**
         Saves if the last chat safety tips page that the user has seen.
     
-        :param: alreadyRated true if the user rated the app
+        - parameter alreadyRated: true if the user rated the app
     */
     public func saveChatSafetyTipsLastPageSeen(page: Int) {
         if let userId = ownerUserId {
@@ -316,7 +316,7 @@ public class UserDefaultsManager {
     }
     
     public func saveChatSafetyTipsLastPageSeen(page: Int, forUserId userId: String) {
-        var userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
+        let userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
         
         userDict.setValue(page, forKey: UserDefaultsManager.chatSafetyTipsLastPageSeen)
         

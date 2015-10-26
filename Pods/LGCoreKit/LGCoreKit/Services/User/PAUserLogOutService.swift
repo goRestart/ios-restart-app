@@ -13,13 +13,13 @@ final public class PAUserLogOutService: UserLogOutService {
  
     // MARK: - UserLogOutService
     
-    public func logOutUser(user: User, result: UserLogOutServiceResult?) {
+    public func logOutUser(user: User, completion: UserLogOutServiceCompletion?) {
         PFUser.logOutInBackgroundWithBlock { (error: NSError?) -> Void in
-            if let actualError = error {
-                result?(Result<Nil, UserLogOutServiceError>.failure(.Internal))
+            if let _ = error {
+                completion?(UserLogOutServiceResult(error: .Internal))
             }
             else {
-                result?(Result<Nil, UserLogOutServiceError>.success(Nil()))
+                completion?(UserLogOutServiceResult(value: Nil()))
             }
         }
     }

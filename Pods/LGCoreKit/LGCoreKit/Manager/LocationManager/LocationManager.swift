@@ -69,7 +69,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         
         // iVars
         if let lastKnownLocation = sensorLocationService.lastKnownLocation {
-            self.sensorLocation = LGLocation(location: sensorLocationService.lastKnownLocation, type: .Sensor)
+            self.sensorLocation = LGLocation(location: lastKnownLocation, type: .Sensor)
         }
         
         super.init()
@@ -98,7 +98,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     /**
         Starts updating sensor location.
     
-        :returns: The location service status.
+        - returns: The location service status.
     */
     public func startSensorLocationUpdates() -> LocationServiceStatus {
         let enabled = sensorLocationService.locationEnabled()
@@ -126,7 +126,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     
     // MARK: - CLLocationManagerDelegate
     
-    public func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    public func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         switch status {
         case .AuthorizedAlways, .AuthorizedWhenInUse:
             // Start the location updates
@@ -138,8 +138,8 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    public func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        if let actualLocations = locations, let lastLocation = actualLocations.last as? CLLocation {
+    public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let lastLocation = locations.last {
             
             // Update last gps location
             sensorLocation = LGLocation(location: lastLocation, type: .Sensor)
@@ -155,7 +155,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         Requests the IP lookup location retrieval and, if fails it uses the regional.
     */
     private func retrieveInaccurateLocation() {
-        ipLookupLocationService.retrieveLocation { [weak self] (result: Result<LGLocationCoordinates2D, IPLookupLocationServiceError>) -> Void in
+        ipLookupLocationService.retrieveLocationWithCompletion { [weak self] (result: IPLookupLocationServiceResult) -> Void in
             if let strongSelf = self {
                 // If there's no previous location it should notify
                 var shouldNotify = strongSelf.currentLocation == nil
@@ -181,7 +181,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     /**
         Requests the regional location.
     
-        :returns: The regional location.
+        - returns: The regional location.
     */
     private func retrieveRegionalLocational() -> LGLocation {
         let coordinate = countryHelper.regionCoordinate

@@ -48,8 +48,6 @@ extension ProductCategory {
             return UIImage(named: "categories_babies")!
         case .Other:
             return UIImage(named: "categories_others")!
-        default:
-            return nil
         }
     }
 }

@@ -80,6 +80,7 @@ public class MainProductListViewModel: ProductListViewModel {
     // MARK: - Private methods
     
     private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
+        
         // If new location is manual
         
         if canRetrieveProducts {
@@ -113,7 +114,7 @@ public class MainProductListViewModel: ProductListViewModel {
     @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
         
         if let newLocation = notification.object as? LGLocation {
-            
+
             retrieveProductsIfNeededWithNewLocation(newLocation)
             
             // Tracking

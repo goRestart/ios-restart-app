@@ -41,7 +41,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         floatingSellButtonHidden = false
     }
 
-    public required init(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
    
@@ -60,7 +60,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         addSubview(mainProductListView)
         
         // > Navigation bar
-        self.setLetGoNavigationBarStyle(title: viewModel.title)
+        self.setLetGoNavigationBarStyle(viewModel.title)
         if viewModel.hasSearchButton {
             setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
         }
@@ -86,7 +86,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         distanceLabel.preferredMaxLayoutWidth = distanceLabel.frame.size.width + 30
         
-        var size = CGSize(width: distanceLabel.preferredMaxLayoutWidth, height: 30)
+        let size = CGSize(width: distanceLabel.preferredMaxLayoutWidth, height: 30)
         
         distanceLabel.frame = CGRect(origin: CGPoint(x: -15.0, y: 0.0), size: size)
         view.layoutIfNeeded()
@@ -155,7 +155,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
                 }
                 let alert = UIAlertController(title: nil, message: message, preferredStyle:.Alert)
                 alert.addAction(UIAlertAction(title: buttonTitle, style:.Default, handler: { [weak self] (action) -> Void in
-                    if let strongSelf = self {
+                    if let _ = self {
                         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
                             buttonAction()
                         })

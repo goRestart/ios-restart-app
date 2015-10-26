@@ -63,14 +63,14 @@ public class ChatManager {
     /**
         Retrieves the chats.
     
-        :param: completion The completion closure.
+        - parameter completion: The completion closure.
     */
-    public func retrieveChats(completion: (Result<[Chat], ChatsRetrieveServiceError> -> Void)?) {
+    public func retrieveChatsWithCompletion(completion: (Result<[Chat], ChatsRetrieveServiceError> -> Void)?) {
         if let sessionToken = myUserManager.myUser()?.sessionToken {
             if !loadingChats {
                 loadingChats = true
                 
-                chatsRetrieveService.retrieveChatsWithSessionToken(sessionToken) { [weak self] (myResult: Result<ChatsResponse, ChatsRetrieveServiceError>) -> Void in
+                chatsRetrieveService.retrieveChatsWithSessionToken(sessionToken) { [weak self] (myResult: ChatsRetrieveServiceResult) -> Void in
                     self?.loadingChats = false
                     
                     // Success
@@ -81,34 +81,34 @@ public class ChatManager {
                         self?.chats = chats
                         
                         // Notify
-                        completion?(Result<[Chat], ChatsRetrieveServiceError>.success(chats))
+                        completion?(Result<[Chat], ChatsRetrieveServiceError>(value: chats))
                     }
                     // Error
                     else if let error = myResult.error {
-                        completion?(Result<[Chat], ChatsRetrieveServiceError>.failure(error))
+                        completion?(Result<[Chat], ChatsRetrieveServiceError>(error: error))
                     }
                 }
             }
             else {
-                completion?(Result<[Chat], ChatsRetrieveServiceError>.failure(.Internal))
+                completion?(Result<[Chat], ChatsRetrieveServiceError>(error: .Internal))
             }
         }
         else {
-            completion?(Result<[Chat], ChatsRetrieveServiceError>.failure(.Unauthorized))
+            completion?(Result<[Chat], ChatsRetrieveServiceError>(error: .Unauthorized))
         }
     }
     
     /**
         Retrieves the unread message count.
     
-        :param: completion The completion closure.
+        - parameter completion: The completion closure.
     */
-    public func retrieveUnreadMessageCount(completion: (Result<Int, ChatsUnreadCountRetrieveServiceError> -> Void)?) {
+    public func retrieveUnreadMessageCountWithCompletion(completion: ChatsUnreadCountRetrieveServiceCompletion?) {
         if let sessionToken = myUserManager.myUser()?.sessionToken {
             if !loadingUnreadCount {
                 loadingUnreadCount = true
                 
-                chatsUnreadCountRetrieveService.retrieveUnreadMessageCountWithSessionToken(sessionToken) { [weak self] (myResult: Result<Int, ChatsUnreadCountRetrieveServiceError>) -> Void in
+                chatsUnreadCountRetrieveService.retrieveUnreadMessageCountWithSessionToken(sessionToken) { [weak self] (myResult: ChatsUnreadCountRetrieveServiceResult) -> Void in
                     self?.loadingUnreadCount = false
                     
                     // Success
@@ -118,51 +118,51 @@ public class ChatManager {
                         self?.unreadMsgCount = count
                         
                         // Notify
-                        completion?(Result<Int, ChatsUnreadCountRetrieveServiceError>.success(count))
+                        completion?(ChatsUnreadCountRetrieveServiceResult(value: count))
                     }
                     // Error
                     else if let error = myResult.error {
-                        completion?(Result<Int, ChatsUnreadCountRetrieveServiceError>.failure(error))
+                        completion?(ChatsUnreadCountRetrieveServiceResult(error: error))
                     }
                 }
             }
             else {
-                completion?(Result<Int, ChatsUnreadCountRetrieveServiceError>.failure(.Internal))
+                completion?(ChatsUnreadCountRetrieveServiceResult(error: .Internal))
             }
         }
         else {
-            completion?(Result<Int, ChatsUnreadCountRetrieveServiceError>.failure(.Unauthorized))
+            completion?(ChatsUnreadCountRetrieveServiceResult(error: .Unauthorized))
         }
     }
     
     /**
         Retrieves a chat for the given product and buyer.
     
-        :param: product The product.
-        :param: buyer The buyer.
-        :param: completion The completion closure.
+        - parameter product: The product.
+        - parameter buyer: The buyer.
+        - parameter completion: The completion closure.
     */
     public func retrieveChatWithProduct(product: Product, buyer: User, completion: (Result<Chat, ChatRetrieveServiceError> -> Void)?) {
         if let sessionToken = myUserManager.myUser()?.sessionToken {
             if let productId = product.objectId, buyerId = buyer.objectId {
-                chatRetrieveService.retrieveChatWithSessionToken(sessionToken, productId: productId, buyerId: buyerId) { [weak self] (myResult: Result<ChatResponse, ChatRetrieveServiceError>) -> Void in
+                chatRetrieveService.retrieveChatWithSessionToken(sessionToken, productId: productId, buyerId: buyerId) { (myResult: ChatRetrieveServiceResult) -> Void in
                     
                     // Success
                     if let chatResponse = myResult.value {
-                        completion?(Result<Chat, ChatRetrieveServiceError>.success(chatResponse.chat))
+                        completion?(Result<Chat, ChatRetrieveServiceError>(value: chatResponse.chat))
                     }
                     // Error
                     else if let error = myResult.error {
-                        completion?(Result<Chat, ChatRetrieveServiceError>.failure(error))
+                        completion?(Result<Chat, ChatRetrieveServiceError>(error: error))
                     }
                 }
             }
             else {
-                completion?(Result<Chat, ChatRetrieveServiceError>.failure(.NotFound))
+                completion?(Result<Chat, ChatRetrieveServiceError>(error: .NotFound))
             }
         }
         else {
-            completion?(Result<Chat, ChatRetrieveServiceError>.failure(.Unauthorized))
+            completion?(Result<Chat, ChatRetrieveServiceError>(error: .Unauthorized))
         }
     }
     
@@ -170,24 +170,24 @@ public class ChatManager {
     /**
         Sends a text message to given recipient for the given product.
     
-        :param: message The message.
-        :param: product The product.
-        :param: recipient The recipient user.
-        :param: completion The completion closure.
+        - parameter message: The message.
+        - parameter product: The product.
+        - parameter recipient: The recipient user.
+        - parameter completion: The completion closure.
     */
-    public func sendText(message: String, product: Product, recipient: User, completion: (Result<Message, ChatSendMessageServiceError> -> Void)?) {
+    public func sendText(message: String, product: Product, recipient: User, completion: ChatSendMessageServiceCompletion?) {
         sendMessage(.Text, message: message, product: product, recipient: recipient, completion: completion)
     }
     
     /**
         Sends an offer to given recipient for the given product.
     
-        :param: message The message.
-        :param: product The product.
-        :param: recipient The recipient user.
-        :param: completion The completion closure.
+        - parameter message: The message.
+        - parameter product: The product.
+        - parameter recipient: The recipient user.
+        - parameter completion: The completion closure.
     */
-    public func sendOffer(message: String, product: Product, recipient: User, completion: (Result<Message, ChatSendMessageServiceError> -> Void)?) {
+    public func sendOffer(message: String, product: Product, recipient: User, completion: ChatSendMessageServiceCompletion?) {
         sendMessage(.Offer, message: message, product: product, recipient: recipient, completion: completion)
     }
     
@@ -196,23 +196,23 @@ public class ChatManager {
     /**
         Sends a message to given recipient for the given product.
     
-        :param: messageType The message type.
-        :param: message The message.
-        :param: product The product.
-        :param: recipient The recipient user.
-        :param: completion The completion closure.
+        - parameter messageType: The message type.
+        - parameter message: The message.
+        - parameter product: The product.
+        - parameter recipient: The recipient user.
+        - parameter completion: The completion closure.
     */
-    private func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User, completion: (Result<Message, ChatSendMessageServiceError> -> Void)?) {
+    private func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User, completion: ChatSendMessageServiceCompletion?) {
         if let myUser = myUserManager.myUser(), let sessionToken = myUser.sessionToken, let myUserId = myUser.objectId {
             if let recipientUserId = recipient.objectId, let productId = product.objectId {
-                chatSendMessageService.sendMessageWithSessionToken(sessionToken, userId: myUserId, message: message, type: messageType, recipientUserId: recipientUserId, productId: productId, result: completion)
+                chatSendMessageService.sendMessageWithSessionToken(sessionToken, userId: myUserId, message: message, type: messageType, recipientUserId: recipientUserId, productId: productId, completion: completion)
             }
             else {
-                completion?(Result<Message, ChatSendMessageServiceError>.failure(.NotFound))
+                completion?(ChatSendMessageServiceResult(error: .NotFound))
             }
         }
         else {
-            completion?(Result<Message, ChatSendMessageServiceError>.failure(.Unauthorized))
+            completion?(ChatSendMessageServiceResult(error: .Unauthorized))
         }
     }
 }

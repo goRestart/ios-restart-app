@@ -30,17 +30,13 @@ final public class LGFileUploadService: FileUploadService {
     
     // MARK: - FileUploadService
 
-    public func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, result: FileUploadServiceResult?) {
-        
-        var params = Dictionary<String, AnyObject>()
-        
-        let stringSessionToken : String = sessionToken
+    public func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, completion: FileUploadServiceCompletion?) {
         let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: stringSessionToken
+            LGCoreKitConstants.httpHeaderUserToken: sessionToken
         ]
-        Alamofire.upload(.POST, URLString: url, headers: headers, multipartFormData: {
+        Alamofire.upload(.POST, url, headers: headers, multipartFormData: {
                 multipartFormData in
-                multipartFormData.appendBodyPart(data: userId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!, name: userId)
+                multipartFormData.appendBodyPart(data: userId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!, name: "userId")
                 multipartFormData.appendBodyPart(data: data, name: "image", fileName: "image.jpg", mimeType: "image/jpg")
             },
             encodingCompletion: {
@@ -48,101 +44,51 @@ final public class LGFileUploadService: FileUploadService {
                 switch encodingResult {
                 case .Success(let upload, _, _ ):
                     upload.validate(statusCode: 200..<400)
-                    .responseObject { (_, response, uploadFileResponse: LGUploadFileResponse?, error: NSError?) -> Void in
+                    .responseObject { (response: Response<LGUploadFileResponse, NSError>) in
+                        // Success                        
+                        if let uploadFileResponse = response.result.value {
+                            let file = LGFile(url: nil)
+                            file.token = uploadFileResponse.imageId
+                            completion?(FileUploadServiceResult(value: file))
+                        }
                         // Error
-                        if let actualError = error {
-                            if actualError.domain == NSURLErrorDomain {
-                                result?(Result<File, FileUploadServiceError>.failure(.Network))
-                            } else if let statusCode = response?.statusCode {
+                        else if let error = response.result.error {
+                            if error.domain == NSURLErrorDomain {
+                                completion?(FileUploadServiceResult(error: .Network))
+                            }
+                            else if let statusCode = response.response?.statusCode {
                                 switch statusCode {
                                 case 403:
-                                    result?(Result<File, FileUploadServiceError>.failure(.Forbidden))
+                                    completion?(FileUploadServiceResult(error: .Forbidden))
                                 default:
-                                    result?(Result<File, FileUploadServiceError>.failure(.Internal))
+                                    completion?(FileUploadServiceResult(error: .Internal))
                                 }
                             }
                             else {
-                                result?(Result<File, FileUploadServiceError>.failure(.Internal))
-                            }
-                        }
-                        // Success
-                        else {
-                            if let response = uploadFileResponse {
-                                var file = LGFile(url: nil)
-                                file.token = response.imageId
-                                result?(Result<File, FileUploadServiceError>.success(file))
+                                completion?(FileUploadServiceResult(error: .Internal))
                             }
                         }
                     }
-                case .Failure(let encodingError):
-                    result?(Result<File, FileUploadServiceError>.failure(.Internal))
+                case .Failure(_):
+                    completion?(FileUploadServiceResult(error: .Internal))
                 }
             })
     }
     
-    public func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL, result: FileUploadServiceResult?) {
+    public func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL, completion: FileUploadServiceCompletion?) {
         let request = NSURLRequest(URL: sourceURL)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
             // Success
             if let actualData = data {
-                self.uploadFileWithUserId(userId, sessionToken: sessionToken, data: actualData, result: result)
+                self.uploadFileWithUserId(userId, sessionToken: sessionToken, data: actualData, completion: completion)
             }
             // Error
-            else if let actualError = error {
-                result?(Result<File, FileUploadServiceError>.failure(.Network))
+            else if let _ = error {
+                completion?(FileUploadServiceResult(error: .Network))
             }
             else {
-                result?(Result<File, FileUploadServiceError>.failure(.Internal))
+                completion?(FileUploadServiceResult(error: .Internal))
             }
         }
-    }
-    
-    public func synchUploadFileWithUserId(userId: String, sessionToken: String, data: NSData) -> Result<File, FileUploadServiceError> {
-        
-        var result = Result<File, FileUploadServiceError>.failure(.Internal)
-        
-        let formData = LGMultipartFormData()
-        formData.appendBodyPart(data: userId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!, name: "userId")
-        formData.appendBodyPart(data: data, name: "image", fileName: "image.jpg", mimeType: "image/jpg")
-        let httpHeaders = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken,
-            "Accept": "*/*"
-        ]
-        
-        // Build the request
-        if let url = NSURL(string: url), request = NSMutableURLRequest.synchFileUpload(data, formData: formData, url: url, httpHeaders: httpHeaders) {
-            
-            // Run the connection
-            var error: NSError?
-            var response: NSURLResponse?
-            if let data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error) {
-                
-                // Success
-                if let httpResponse = response as? NSHTTPURLResponse {
-                    let statusCode = httpResponse.statusCode
-                    
-                    // Validate status code (200..<400)
-                    if statusCode >= 200 && statusCode < 400 {
-
-                        // Build the response & the file
-                        if  let json: AnyObject = NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments, error: nil),
-                            let fileUploadResponse = LGUploadFileResponse(response: httpResponse, representation: json) {
-                            var file = LGFile(url: nil)
-                            file.token = fileUploadResponse.imageId
-                            result = Result<File, FileUploadServiceError>.success(file)
-                        }
-                    } else if statusCode == 403 {
-                        result = Result<File, FileUploadServiceError>.failure(.Forbidden)
-                    }
-                    // Otherwise, gives an error internal
-                }
-                // Error (network)
-                else {
-                    result = Result<File, FileUploadServiceError>.failure(.Network)
-                }
-            }
-        }
-        
-        return result
     }
 }

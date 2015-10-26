@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Lösenordet har ändrats.";
 "change_password_title" = "Byt lösenord";
 "change_username_error_invalid_username" = "Var god ange ett giltigt namn på minst %d tecken.";
-"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"change_username_error_invalid_username_letgo" = "Ett annat konto använder %@.";
 "change_username_field_hint" = "Fullständigt namn";
 "change_username_loading" = "Sparar ditt användarnamn...";
 "change_username_save_button" = "Spara";
@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av diskussionsdata. Var god försök senare.";
 "chat_safety_tips_tip_1" = "När ni har kommit överens om affär, träffas och betala kontant.";
 "chat_safety_tips_tip_2" = "Säg nej till checkar eller andra pengaöverföringar.";
-"chat_safety_tips_tip_3" = "Om du väljer att skeppa, var smart och använd din intuition.";
+"chat_safety_tips_tip_3" = "Om det låter för bra för att vara sant, är det säkert det!";
 "chat_safety_tips_title" = "Säkerhetstips";
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
@@ -54,7 +54,7 @@
 "common_loading" = "Laddar...";
 "common_no" = "Nej";
 "common_ok" = "Ok";
-"common_product_deleted" = "Produkt borttagen.";
+"common_product_deleted" = "Produkt borttagen";
 "common_product_not_available" = "Denna produkt är inte längre tillgänglig.";
 "common_product_sold" = "Denna produkt är redan såld.";
 "common_time_a_minute_ago_label" = "en minut sedan";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "Denna produkt har rapporterats. Tack!";
 "product_reporting_loading_message" = "Rapporterar produkt...";
 "product_reporting_product_label" = "Rapporterar produkt...";
-"product_search_no_products_body" = "Inga produkter matchar din sökning. Försök igen senare. Nya saker läggs upp varje dag!";
-"product_search_no_products_title" = "VI SÖKTE OCH SÖKTE...";
+"product_search_no_products_body" = "Försök att söka efter något annat eller kom tillbaka och kolla snart igen!";
+"product_search_no_products_title" = "HOPPSAN! VI HITTADE INGET NÄRA DIG";
 "product_share_body" = "Kolla vad jag hittade på letgo!";
 "product_share_email_error" = "Hoppsan, det verkar som att du inte har något konto i dina mailinstllningar.";
 "product_share_whatsapp_error" = "Hoppsan, det verkar som att du inte har installerat appen WhatsApp.";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "Ett fel uppstod när vi försökte komma ihåg ditt lösenord.";
 "reset_password_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-postadressen hittades ej.";
-"reset_password_send_ok" = "Vi har skickat dig ett e-mejl. Klicka på länken i mejlet för att återställa ditt lösenord.";
+"reset_password_send_ok" = "Vi har skickat ett e-mejl till %@. Klicka på länken i mejlet för att återställa ditt lösenord.";
 "reset_password_title" = "Återställ lösenord";
 "sell_category_selection_label" = "Välj kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
@@ -221,7 +221,8 @@
 "sell_send_error_sharing_facebook_cancelled" = "Avbruten av användaren.";
 "sell_send_error_uploading_picture" = "Ett fel uppstod vid registrering av din produkt. Kunde ej ladda upp bild. Var god försök igen.";
 "sell_send_error_uploading_product" = "Ett fel uppstod vid registrering av din produkt.";
-"sell_send_ok" = "Grattis! Din produkt har lagts upp. Den kommer synas i din lista snart.";
+"sell_send_ok" = "Grattis! Din produkt kommer att synas i vår lista snart. Det är dags att letgo!";
+"sell_send_sharing_facebook_ok" = "Produkten har delats!";
 "sell_share_fb_content" = "Kolla vad jag säljer på letgo!";
 "sell_share_on_facebook_label" = "Dela min produkt på Facebook";
 "sell_title" = "Sälj";
@@ -250,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Var god ange ett giltigt lösenord på minst %d tecken.";
 "sign_up_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
 "sign_up_send_error_invalid_username" = "Var god ange ett giltigt namn på minst %d tecken.";
-"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"sign_up_send_error_invalid_username_letgo" = "Användarnamnet kan inte innehålla letgo, let go, eller liknande.";
 "sign_up_title" = "Registrera dig";
 "sign_up_username_field_hint" = "Fullständigt namn";
 "tab_bar_tool_tip" = "Sälj dina prylar";

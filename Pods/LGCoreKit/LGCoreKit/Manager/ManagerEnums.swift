@@ -9,9 +9,10 @@
 import CoreLocation
 import Result
 
-public enum UserLogInFBError {
+public enum UserLogInFBError: ErrorType {
     case Cancelled
     case EmailTaken
+    case UsernameTaken
     case Forbidden
     case Network
     case Internal
@@ -55,6 +56,8 @@ public enum UserLogInFBError {
             self = .Network
         case .EmailTaken:
             self = .EmailTaken
+        case .UsernameTaken:
+            self = .Internal      // Should never happen
         case .Internal:
             self = .Internal
         case .InvalidUsername:    // Should never happen
@@ -66,9 +69,10 @@ public enum UserLogInFBError {
         }
     }
 }
-public typealias UserLogInFBResult = (Result<User, UserLogInFBError>) -> Void
+public typealias UserLogInFBResult = Result<User, UserLogInFBError>
+public typealias UserLogInFBCompletion = UserLogInFBResult -> Void
 
-public enum FileUploadError {
+public enum FileUploadError: ErrorType {
     case Network
     case Internal
     case Forbidden
@@ -92,6 +96,8 @@ public enum FileUploadError {
             self = .Internal
         case .EmailTaken:   // Should never happen
             self = .Internal
+        case .UsernameTaken:   // Should never happen
+            self = .Internal
         case .InvalidUsername:   // Should never happen
             self = .Internal
         case .InvalidPassword:   // Should never happen
@@ -101,9 +107,11 @@ public enum FileUploadError {
         }
     }
 }
-public typealias FileUploadResult = (Result<File, FileUploadError>) -> Void
 
-public enum SaveUserCoordinatesError {
+public typealias FileUploadResult = Result<File, FileUploadError>
+public typealias FileUploadCompletion = FileUploadResult -> Void
+
+public enum SaveUserCoordinatesError: ErrorType {
     case Network
     case Internal
     
@@ -124,6 +132,8 @@ public enum SaveUserCoordinatesError {
             self = .Internal
         case .EmailTaken:   // Should never happen
             self = .Internal
+        case .UsernameTaken:   // Should never happen
+            self = .Internal
         case .InvalidUsername:   // Should never happen
             self = .Internal
         case .InvalidPassword:   // Should never happen
@@ -133,4 +143,8 @@ public enum SaveUserCoordinatesError {
         }
     }
 }
-public typealias SaveUserCoordinatesResult = (Result<CLLocationCoordinate2D, SaveUserCoordinatesError>) -> Void
+
+public typealias SaveUserCoordinatesResult = Result<CLLocationCoordinate2D, SaveUserCoordinatesError>
+public typealias SaveUserCoordinatesCompletion = SaveUserCoordinatesResult -> Void
+
+

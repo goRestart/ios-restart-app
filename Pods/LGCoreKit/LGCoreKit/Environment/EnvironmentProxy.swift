@@ -21,11 +21,12 @@ public class EnvironmentProxy: Environment {
     // MARK: - Lifecycle
     
     private init() {
-        let arguments = NSProcessInfo.processInfo().arguments as NSArray
-        if arguments.containsObject(EnvironmentType.Production.rawValue) {
+        
+        let envArgs = NSProcessInfo.processInfo().environment       
+        if envArgs[EnvironmentType.Production.rawValue] != nil {
             environment = ProductionEnvironment()
         }
-        else if arguments.containsObject(EnvironmentType.Development.rawValue) {
+        else if envArgs[EnvironmentType.Development.rawValue] != nil {
             environment = DevelopmentEnvironment()
         }
         else {
@@ -52,6 +53,5 @@ public class EnvironmentProxy: Environment {
     public var apiClientId: String { get { return environment.apiClientId } }
     public var apiClientSecret: String { get { return environment.apiClientSecret } }
     public var imagesBaseURL: String { get { return environment.imagesBaseURL } }
-    public var updateFileCfgName: String { get { return environment.updateFileCfgName } }
-    public var staticCfgFileURL: String { get { return environment.staticCfgFileURL } }
+    public var configURL: String { get { return environment.configURL } }
 }

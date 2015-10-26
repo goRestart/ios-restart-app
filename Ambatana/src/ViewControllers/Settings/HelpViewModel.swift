@@ -36,12 +36,12 @@ public class HelpViewModel: BaseViewModel {
         var country = HelpViewModel.defaultCountry
         
         if !preferredLanguages.isEmpty {
-            language = preferredLanguages[0] as? String ?? HelpViewModel.defaultLang
+            language = preferredLanguages[0] ?? HelpViewModel.defaultLang
             
             // In case it's like es-ES, just take the first "es"
             let components = language.componentsSeparatedByString("-")
             language = components.count > 0 ? components[0] : HelpViewModel.defaultLang
-            if !contains(HelpViewModel.langsCountryDict.keys, language) {
+            if !HelpViewModel.langsCountryDict.keys.contains(language) {
                 language = HelpViewModel.defaultLang
             }
             country = HelpViewModel.langsCountryDict[language] ?? HelpViewModel.defaultCountry

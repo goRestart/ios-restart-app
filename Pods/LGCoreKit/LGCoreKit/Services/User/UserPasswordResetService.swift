@@ -8,22 +8,23 @@
 
 import Result
 
-public enum UserPasswordResetServiceError {
+public enum UserPasswordResetServiceError: ErrorType {
     case Network
     case InvalidEmail
     case UserNotFound
     case Internal
 }
 
-public typealias UserPasswordResetServiceResult = (Result<Nil, UserPasswordResetServiceError>) -> Void
+public typealias UserPasswordResetServiceResult = Result<Nil, UserPasswordResetServiceError>
+public typealias UserPasswordResetServiceCompletion = UserPasswordResetServiceResult -> Void
 
 public protocol UserPasswordResetService {
     
     /**
-    Saves the user.
+        Saves the user.
     
-    :param: email An email.
-    :param: result The closure containing the result.
+        - parameter email: An email.
+        - parameter completion: The completion closure.
     */
-    func resetPassword(email: String, result: UserPasswordResetServiceResult?)
+    func resetPassword(email: String, completion: UserPasswordResetServiceCompletion?)
 }

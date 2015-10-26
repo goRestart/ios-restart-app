@@ -9,30 +9,13 @@
 
 import Result
 
-//public enum UserProductsRetrieveServiceError: Printable {
-//    case Network
-//    case Internal
-//    
-//    public var description: String {
-//        switch (self) {
-//        case Network:
-//            return "Network"
-//        case Internal:
-//            return "Internal"
-//        }
-//    }
-//}
-
-
-//public typealias UserProductsRetrieveServiceResult = (Result<ProductsResponse, UserProductsRetrieveServiceError>) -> Void
-
 public protocol UserProductsRetrieveService {
     
     /**
-    Retrieves the products with the given parameters.
+        Retrieves the products with the given parameters.
     
-    :param: params The product retrieval parameters.
-    :param: completion The completion closure.
+        - parameter params: The product retrieval parameters.
+        - parameter completion: The completion closure.
     */
-    func retrieveUserProductsWithParams(params: RetrieveProductsParams, result: ProductsRetrieveServiceResult?)
+    func retrieveUserProductsWithParams(params: RetrieveProductsParams, completion: ProductsRetrieveServiceCompletion?)
 }

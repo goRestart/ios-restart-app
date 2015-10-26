@@ -31,7 +31,7 @@ public class LGChatSendMessageService: ChatSendMessageService {
     
     // MARK: - ChatSendMessageService
     
-    public func sendMessageWithSessionToken(sessionToken: String, userId: String, message: String, type: MessageType, recipientUserId: String, productId: String, result: ChatSendMessageServiceResult?) {
+    public func sendMessageWithSessionToken(sessionToken: String, userId: String, message: String, type: MessageType, recipientUserId: String, productId: String, completion: ChatSendMessageServiceCompletion?) {
         let url = EnvironmentProxy.sharedInstance.apiBaseURL + LGChatSendMessageService.endpointWithProductId(productId)
         var parameters = Dictionary<String, AnyObject>()
         parameters["type"] = type.rawValue
@@ -47,34 +47,33 @@ public class LGChatSendMessageService: ChatSendMessageService {
                 // Error
                 if let actualError = error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<Message, ChatSendMessageServiceError>.failure(.Network))
+                        completion?(ChatSendMessageServiceResult(error: .Network))
                     }
                     else if let statusCode = httpResponse?.statusCode {
                         switch statusCode {
                         case 401:
-                            result?(Result<Message, ChatSendMessageServiceError>.failure(.Unauthorized))
+                            completion?(ChatSendMessageServiceResult(error: .Unauthorized))
                         case 403:
-                            result?(Result<Message, ChatSendMessageServiceError>.failure(.Forbidden))
+                            completion?(ChatSendMessageServiceResult(error: .Forbidden))
                         case 404:
-                            result?(Result<Message, ChatSendMessageServiceError>.failure(.NotFound))
+                            completion?(ChatSendMessageServiceResult(error: .NotFound))
                         default:
-                            result?(Result<Message, ChatSendMessageServiceError>.failure(.Internal))
+                            completion?(ChatSendMessageServiceResult(error: .Internal))
                         }
-
                     }
                     else {
-                        result?(Result<Message, ChatSendMessageServiceError>.failure(.Internal))
+                        completion?(ChatSendMessageServiceResult(error: .Internal))
                     }
                 }
                 // Success (status code 201)
                 else {
-                    var msg = LGMessage()
+                    let msg = LGMessage()
                     msg.createdAt = NSDate()
                     msg.updatedAt = NSDate()
                     msg.userId = userId
                     msg.text = message
                     msg.type = type
-                    result?(Result<Message, ChatSendMessageServiceError>.success(msg))
+                    completion?(ChatSendMessageServiceResult(value: msg))
                 }
         }
     }

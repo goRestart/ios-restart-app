@@ -8,7 +8,7 @@
 
 import Foundation
 
-@objc public protocol File {   
+public protocol File {   
     var fileURL: NSURL? { get }
     var isSaved: Bool { get }
     var token: String? { get }

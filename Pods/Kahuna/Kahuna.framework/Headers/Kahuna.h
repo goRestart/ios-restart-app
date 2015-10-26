@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#import "KAHEventBuilder.h"
+#import "KAHNSObject+JSON.h"
+#import "KAHEvent.h"
 
 static NSString* const KAHUNA_CREDENTIAL_USERNAME = @"username";
 static NSString* const KAHUNA_CREDENTIAL_EMAIL = @"email";
@@ -102,6 +105,8 @@ typedef enum {
 
 @end
 
+
+@class KAHEvent;
 
 /*!
  @class
@@ -231,6 +236,19 @@ typedef enum {
  @param eventString        A string describing the action
  */
 + (void) trackEvent: (NSString *) eventString;
+
+/*!
+ @method
+ 
+ @abstract
+ This API tracks an event object. Use the KAHEventBuilder to build a event.
+ 
+ @discussion
+ An event is some action performed by the user like watching a video or clicking on a button.
+ 
+ @param event         A event object that can be built using the KAHEventBuilder
+ */
++ (void) track:(KAHEvent *) event;
 
 /*!
  @method

@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Mot de passe modifié avec succès.";
 "change_password_title" = "Changer le mot de passe";
 "change_username_error_invalid_username" = "Veuillez insérer un nom valide avec au moins %d caractères.";
-"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"change_username_error_invalid_username_letgo" = "Un autre compte utilise %@";
 "change_username_field_hint" = "Nom complet";
 "change_username_loading" = "Enregistrement de votre nom d'utilisateur...";
 "change_username_save_button" = "Enregistrer";
@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
 "chat_safety_tips_tip_1" = "Après le deal convenu, rencontrez en personne et payez cash.";
 "chat_safety_tips_tip_2" = "Refusez les virements bancaires, mandats cash ou chèques.";
-"chat_safety_tips_tip_3" = "Si vous choisissez d’expédier, faites preuve de bon sens et écoutez votre intuition !";
+"chat_safety_tips_tip_3" = "Si ça semble trop beau pour être vrai, ça l'est probablement !";
 "chat_safety_tips_title" = "Conseils";
 "chat_send_button" = "Envoyer";
 "chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
@@ -54,7 +54,7 @@
 "common_loading" = "Chargement...";
 "common_no" = "Non";
 "common_ok" = "OK";
-"common_product_deleted" = "Bien supprimé.";
+"common_product_deleted" = "Bien supprimé";
 "common_product_not_available" = "Ce bien n'est plus disponible.";
 "common_product_sold" = "Ce bien a été vendu.";
 "common_time_a_minute_ago_label" = "il y a une minute";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "Ce bien a été signalé avec succès. Merci !";
 "product_reporting_loading_message" = "Signalement du produit...";
 "product_reporting_product_label" = "Signalement du produit...";
-"product_search_no_products_body" = "Mais aucun bien ne correspond à votre recherche. Réessayez prochainement, de nouveaux biens sont ajoutés chaque jour !";
-"product_search_no_products_title" = "NOUS AVONS RECHERCHE...";
+"product_search_no_products_body" = "Essayez de rechercher quelque chose d'autre ou vérifiez à nouveau prochainement !";
+"product_search_no_products_title" = "OOPS ! AUCUN RÉSULTAT PRES DE VOUS";
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_whatsapp_error" = "Oops, il semble que vous n'avez pas installé l'application WhatsApp.";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "Une erreur est survenue lors de la sauvegarde de votre mot de passe.";
 "reset_password_send_error_invalid_email" = "Veuillez insérer un email valide dans le champ email.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Adresse email non trouvée.";
-"reset_password_send_ok" = "Nous vous avons envoyé un email ! Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
+"reset_password_send_ok" = "Nous avons envoyé un email à %@. Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
 "reset_password_title" = "Réinitialiser le mot de passe";
 "sell_category_selection_label" = "Choisissez une catégorie";
 "sell_choose_category_dialog_cancel_button" = "Annuler";
@@ -221,7 +221,8 @@
 "sell_send_error_sharing_facebook_cancelled" = "Annulé par l'utilisateur.";
 "sell_send_error_uploading_picture" = "Une erreur est survenue lors de l'enregistrement du bien. Impossible d'uploader la photo. Veuillez réesayer plus tard.";
 "sell_send_error_uploading_product" = "Une erreur est survenue lors de l'enregistrement de votre bien.";
-"sell_send_ok" = "Félicitations ! Votre bien a été posté avec succès. Il va apparaître dans nos listings sous peu.";
+"sell_send_ok" = "Félicitations ! Votre bien va apparaître dans nos listings sous peu.";
+"sell_send_sharing_facebook_ok" = "Bien partagé avec succès !";
 "sell_share_fb_content" = "Regarde ce que je vend sur Letgo !";
 "sell_share_on_facebook_label" = "Partager mon bien sur Facebook";
 "sell_title" = "Vendre";
@@ -250,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Veuillez entrer un mot de passe valide, d'au moins %d caractères.";
 "sign_up_send_error_invalid_password_with_max" = "Veuillez entrer un mot de passe valide. Il doit contenir entre %d et %d caractères.";
 "sign_up_send_error_invalid_username" = "Veuillez entrer un nom valide, avec au moins %d caractères.";
-"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"sign_up_send_error_invalid_username_letgo" = "Les noms d'utilisateurs ne peuvent pas contenir le mot letgo, let go, ou mot similaire.";
 "sign_up_title" = "S'inscrire";
 "sign_up_username_field_hint" = "Nom complet";
 "tab_bar_tool_tip" = "Vendez Vos Biens";

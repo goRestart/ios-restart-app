@@ -29,7 +29,7 @@ final public class LGProductsRetrieveService: ProductsRetrieveService {
     
     // MARK: - ProductsRetrieveService
     
-    public func retrieveProductsWithParams(params: RetrieveProductsParams, result: ProductsRetrieveServiceResult?) {        
+    public func retrieveProductsWithParams(params: RetrieveProductsParams, completion: ProductsRetrieveServiceCompletion?) {
         let parameters = params.letgoApiParams
         
         let sessionToken : String = MyUserManager.sharedInstance.myUser()?.sessionToken ?? ""
@@ -40,22 +40,35 @@ final public class LGProductsRetrieveService: ProductsRetrieveService {
         
         Alamofire.request(.GET, url, parameters: parameters, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (req, resp, productsResponse: LGProductsResponse?, error: NSError?) -> Void in
+            .responseObject({ (productsResponse: Response<LGProductsResponse, NSError>) -> Void in
                 // Error
-                if let actualError = error {
-                    let myError: NSError
+                if let actualError = productsResponse.result.error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Network))
+                        completion?(ProductsRetrieveServiceResult(error: .Network))
                     }
                     else {
-                        result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+                        completion?(ProductsRetrieveServiceResult(error: .Internal))
                     }
                 }
                 // Success
-                else if let actualProductsResponse = productsResponse {
-                    result?(Result<ProductsResponse, ProductsRetrieveServiceError>.success(actualProductsResponse))
+                else if let actualProductsResponse = productsResponse.result.value {
+                    
+                    if let coordinates = params.coordinates {
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                            // Background thread -> shuffle products
+                            actualProductsResponse.products = actualProductsResponse.shuffledProducts(coordinates)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                // Main thread
+                                completion?(ProductsRetrieveServiceResult(value: actualProductsResponse))
+                            }
+                        }
+                    }
+                    else{
+                        //Without coordinates we just return the results
+                        completion?(ProductsRetrieveServiceResult(value: actualProductsResponse))
+                    }
                 }
-        }
+            })
     }
 }
 
@@ -79,7 +92,7 @@ extension RetrieveProductsParams {
             if let categoryIds = self.categoryIds {
                 if !categoryIds.isEmpty {
                     let categoryIdsString = categoryIds.map { String($0) }
-                    params["categories"] = ",".join(categoryIdsString)
+                    params["categories"] = categoryIdsString.joinWithSeparator(",")
                 }
             }
             

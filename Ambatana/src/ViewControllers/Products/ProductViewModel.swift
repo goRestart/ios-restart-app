@@ -27,10 +27,10 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidFailReporting(viewModel: ProductViewModel, error: ProductReportSaveServiceError)
     
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishDeleting result: Result<Nil, ProductDeleteServiceError>)
+    func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductDeleteServiceResult)
     
     func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: Result<Product, ProductMarkSoldServiceError>)
+    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductMarkSoldServiceResult)
     
     func viewModelDidStartAsking(viewModel: ProductViewModel)
     // TODO: Refactor to return a ViewModel
@@ -139,7 +139,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
     public var productUserProfileViewModel: UIViewController? {
-        let productUserId = product.user?.objectId
+        _ = product.user?.objectId
         if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let productUser = product.user, let productUserId = productUser.objectId {
             if myUserId != productUserId {
                 return EditProfileViewController(user: productUser)
@@ -339,7 +339,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         if active {
             delegate?.viewModelDidStartRetrievingUserProductRelation(self)
             
-            productManager.retrieveUserProductRelation(product) { [weak self] (result: Result<UserProductRelation, UserProductRelationServiceError>) -> Void in
+            productManager.retrieveUserProductRelation(product) { [weak self] (result: UserProductRelationServiceResult) -> Void in
                 
                 if let strongSelf = self {
                     if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
@@ -365,10 +365,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         
         // If favourite, then remove from favourites / delete
         if isFavourite {
-            productManager.deleteFavourite(product) { [weak self] (result: Result<Nil, ProductFavouriteDeleteServiceError>) -> Void in
+            productManager.deleteFavourite(product) { [weak self] (result: ProductFavouriteDeleteServiceResult) -> Void in
                 if let strongSelf = self {
                     // Success
-                    if let success = result.value {
+                    if let _ = result.value {
                         // Update the flag
                         strongSelf.isFavourite = false
                         
@@ -383,10 +383,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         }
         // Otherwise, add it / save
         else {
-            productManager.saveFavourite(product) { [weak self] (result: Result<ProductFavourite, ProductFavouriteSaveServiceError>) -> Void in
+            productManager.saveFavourite(product) { [weak self] (result: ProductFavouriteSaveServiceResult) -> Void in
                 if let strongSelf = self {
                     // Success
-                    if let success = result.value {
+                    if let _ = result.value {
                         // Update the flag
                         strongSelf.isFavourite = true
                         
@@ -486,10 +486,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         
         // Otherwise, start
         delegate?.viewModelDidStartReporting(self)
-        productManager.saveReport(product) { [weak self] (result: Result<Nil, ProductReportSaveServiceError>) -> Void in
+        productManager.saveReport(product) { [weak self] (result: ProductReportSaveServiceResult) -> Void in
             if let strongSelf = self {
                 // Success
-                if let success = result.value {
+                if let _ = result.value {
                     // Update the flag
                     strongSelf.isReported = true
                     
@@ -520,9 +520,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func delete() {
         delegate?.viewModelDidStartDeleting(self)
-        productManager.deleteProduct(product) { [weak self] (result: Result<Nil, ProductDeleteServiceError>) -> Void in
+        productManager.deleteProduct(product) { [weak self] (result: ProductDeleteServiceResult) -> Void in
             if let strongSelf = self {
-                if let success = result.value {
+                if let _ = result.value {
                     // Update the status
                     strongSelf.product.status = .Deleted
                     
@@ -552,12 +552,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             ChatManager.sharedInstance.retrieveChatWithProduct(product, buyer: myUser) { [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
                 if let strongSelf = self, let actualDelegate = strongSelf.delegate {
                     
-                    var result = Result<UIViewController, ChatRetrieveServiceError>.failure(.Internal)
+                    var result = Result<UIViewController, ChatRetrieveServiceError>(error: .Internal)
                     
                     // Success
                     if let chat = retrieveResult.value, let vc = ChatViewController(chat: chat) {
                         vc.askQuestion = true
-                        result = Result<UIViewController, ChatRetrieveServiceError>.success(vc)
+                        result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
                     }
                     // Error
                     if let error = retrieveResult.error {
@@ -565,10 +565,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                         // If not found, then no conversation has been created yet, it's a success
                         case .NotFound:
                             if let vc = ChatViewController(product: strongSelf.product) {
-                                result = Result<UIViewController, ChatRetrieveServiceError>.success(vc)
+                                result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
                             }
                         case .Network, .Unauthorized, .Internal, .Forbidden:
-                            result = Result<UIViewController, ChatRetrieveServiceError>.failure(error)
+                            result = Result<UIViewController, ChatRetrieveServiceError>(error: error)
                         }
                     }
                     
@@ -586,7 +586,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func markSold(source: EventParameterSellSourceValue) {
         delegate?.viewModelDidStartMarkingAsSold(self)
-        productManager.markProductAsSold(product) { [weak self] ( result: Result<Product, ProductMarkSoldServiceError>) -> Void in
+        productManager.markProductAsSold(product) { [weak self] ( result: ProductMarkSoldServiceResult) -> Void in
             if let strongSelf = self {
                 // Success
                 if let soldProduct = result.value {

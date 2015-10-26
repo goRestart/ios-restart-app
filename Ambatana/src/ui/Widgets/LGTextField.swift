@@ -22,7 +22,7 @@ class LGTextField: UITextField {
         setupTextField()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupTextField()
     }
@@ -39,7 +39,7 @@ class LGTextField: UITextField {
 
     // clear button position
     override func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
-        var rect = CGRectMake(bounds.size.width-clearButtonSide-clearButtonOffset , CGRectGetMidY(bounds)-clearButtonSide/2, clearButtonSide, clearButtonSide)
+        let rect = CGRectMake(bounds.size.width-clearButtonSide-clearButtonOffset , CGRectGetMidY(bounds)-clearButtonSide/2, clearButtonSide, clearButtonSide)
         return rect
     }
     

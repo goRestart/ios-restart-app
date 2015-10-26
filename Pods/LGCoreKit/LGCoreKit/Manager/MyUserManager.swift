@@ -98,7 +98,7 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Returns the current user.
     
-        :returns: the current user.
+        - returns: the current user.
     */
     public func myUser() -> User? {
         return PFUser.currentUser()
@@ -107,7 +107,7 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Returns if the current user is anonymous.
     
-        :returns: if the current user is anonymous.
+        - returns: if the current user is anonymous.
     */
     public func isMyUserAnonymous() -> Bool {
         if let myUser = myUser() {
@@ -119,54 +119,54 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Saves the user if it's new.
     
-        :param: result The closure containing the result.
+        - parameter result: The closure containing the result.
     */
-    public func saveMyUserIfNew(result: UserSaveServiceResult?) {
+    public func saveMyUserIfNew(completion: UserSaveServiceCompletion?) {
         if let myUser = myUser() {
             if !myUser.isSaved {
-                userSaveService.saveUser(myUser) { [weak self] (myResult: Result<User, UserSaveServiceError>) in
-                    result?(myResult)
+                userSaveService.saveUser(myUser) { [weak self] (myResult: UserSaveServiceResult) in
+                    completion?(myResult)
 
                     // Save my installation
                     if let installation = self?.myInstallation() {
                         if let userId = myUser.objectId {
                             installation.userId = userId
                         }
-                        self?.installationSaveService.save(installation, result: nil)
+                        self?.installationSaveService.save(installation, completion: nil)
                     }
                 }
             }
             else {
-                result?(Result<User, UserSaveServiceError>.success(myUser))
+                completion?(UserSaveServiceResult(value: myUser))
             }
         }
         else {
-            result?(Result<User, UserSaveServiceError>.failure(.Internal))
+            completion?(UserSaveServiceResult(error: .Internal))
         }
     }
     
     /**
         Saves the installation with the given device token.
         
-        :param: deviceToken The APN device token.
+        - parameter deviceToken: The APN device token.
     */
     public func saveInstallationDeviceToken(deviceToken: NSData) {
-        var installation = myInstallation()
+        let installation = myInstallation()
         installation.setDeviceTokenFromData(deviceToken)
-        installationSaveService.save(installation, result: nil)
+        installationSaveService.save(installation, completion: nil)
     }
     
     /**
         Update the user's avatar with the given image.
     
-        :param: image The image.
-        :param: result The closure containing the result.
+        - parameter image: The image.
+        - parameter result: The closure containing the result.
     */
-    public func updateAvatarWithImage(image: UIImage, result: FileUploadResult?) {
+    public func updateAvatarWithImage(image: UIImage, completion: FileUploadCompletion?) {
         if let myUser = myUser(), let myUserId = myUser.objectId, let sessionToken = myUser.sessionToken, let data = UIImageJPEGRepresentation(image, 0.9) {
 
             // 1. Upload the picture
-            fileUploadService.uploadFileWithUserId(myUserId, sessionToken: sessionToken, data: data) { (fileUploadResult: Result<File, FileUploadServiceError>) in
+            fileUploadService.uploadFileWithUserId(myUserId, sessionToken: sessionToken, data: data) { (fileUploadResult: FileUploadServiceResult) in
 
                 // Succeeded
                 if let file = fileUploadResult.value {
@@ -176,77 +176,77 @@ public class MyUserManager: LocationManagerDelegate {
                     myUser.processed = NSNumber(bool: false)
                     
                     // 2b. Save the user
-                    self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                    self.saveMyUser { (userSaveResult: UserSaveServiceResult) in
                         
                         // Succeeded
-                        if let savedUser = userSaveResult.value {
-                            result?(Result<File, FileUploadError>.success(file))
+                        if let _ = userSaveResult.value {
+                            completion?(FileUploadResult(value: file))
                         }
                         // Error
                         else if let saveError = userSaveResult.error {
-                            result?(Result<File, FileUploadError>.failure(FileUploadError(saveError)))
+                            completion?(FileUploadResult(error: FileUploadError(saveError)))
                         }
                     }
                 }
                 // Error
                 else if let fileUploadError = fileUploadResult.error {
-                    result?(Result<File, FileUploadError>.failure(FileUploadError(fileUploadError)))
+                    completion?(FileUploadResult(error: FileUploadError(fileUploadError)))
                 }
             }
         }
         else {
-            result?(Result<File, FileUploadError>.failure(.Internal))
+            completion?(FileUploadResult(error: .Internal))
         }
     }
     
     /**
         Updates my usename.
     
-        :param: username The username.
-        :param: result The closure containing the result.
+        - parameter username: The username.
+        - parameter result: The closure containing the result.
     */
-    public func updateUsername(username: String, result: UserSaveServiceResult?) {
+    public func updateUsername(username: String, completion: UserSaveServiceCompletion?) {
         if let myUser = myUser() {
             myUser.publicUsername = username
             myUser.processed = NSNumber(bool: false)
-            saveMyUser(result)
+            saveMyUser(completion)
         }
         else {
-            result?(Result<User, UserSaveServiceError>.failure(.Internal))
+            completion?(UserSaveServiceResult(error: .Internal))
         }
     }
     
     /**
         Updates my user password.
     
-        :param: password The password.
-        :param: result The closure containing the result.
+        - parameter password: The password.
+        - parameter result: The closure containing the result.
     */
-    public func updatePassword(password: String, result: UserSaveServiceResult?) {
+    public func updatePassword(password: String, completion: UserSaveServiceCompletion?) {
         if let myUser = myUser() {
             myUser.password = password
             myUser.processed = NSNumber(bool: false)
-            saveMyUser(result)
+            saveMyUser(completion)
         }
         else {
-            result?(Result<User, UserSaveServiceError>.failure(.Internal))
+            completion?(UserSaveServiceResult(error: .Internal))
         }
     }
     
     /**
         Updates my user email.
     
-        :param: email The email.
-        :param: result The closure containing the result.
+        - parameter email: The email.
+        - parameter result: The closure containing the result.
     */
-    public func updateEmail(email: String, result: UserSaveServiceResult?) {
+    public func updateEmail(email: String, completion: UserSaveServiceCompletion?) {
         if let myUser = myUser() {
             myUser.email = email
             myUser.processed = NSNumber(bool: false)
-            saveMyUser(result)
+            saveMyUser(completion)
         }
         else {
-            result?(Result<User, UserSaveServiceError>.failure(.Internal))
+            completion?(UserSaveServiceResult(error: .Internal))
         }
     }
     
@@ -275,7 +275,8 @@ public class MyUserManager: LocationManagerDelegate {
             case .Manual, .Sensor, .LastSaved:
                 return location
             case .IPLookup, .Regional:
-                if let coords = myUser()?.gpsCoordinates, let location = CLLocation(latitude: coords.latitude, longitude: coords.longitude) {
+                if let coords = myUser()?.gpsCoordinates {
+                    let location = CLLocation(latitude: coords.latitude, longitude: coords.longitude)
                     return LGLocation(location: location, type: .LastSaved)
                 }
                 else {
@@ -296,8 +297,8 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Sets manual location with the given location and place.
     
-        :param: location The location.
-        :param: place The place.
+        - parameter location: The location.
+        - parameter place: The place.
     */
     public func setManualLocation(location: CLLocation, place: Place) {
         // Save location & place into the user
@@ -318,7 +319,7 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Sets automatic location associating the current location with the given place.
         
-        :param: place The place.
+        - parameter place: The place.
     */
     public func setAutomaticLocationWithPlace(place: Place?) {
         // Notify location manager (so, location retrieve is guaranteed to be automatic (sensor, iplookup or regional)
@@ -340,31 +341,31 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Signs up a user with the given email, password and public user name.
     
-        :param: email The email.
-        :param: password The password.
-        :param: publicUsername The public user name.
-        :param: result The closure containing the result.
+        - parameter email: The email.
+        - parameter password: The password.
+        - parameter publicUsername: The public user name.
+        - parameter result: The closure containing the result.
     */
-    public func signUpWithEmail(email: String, password: String, publicUsername: String, result: UserSignUpServiceResult?) {
-        userSignUpService.signUpUserWithEmail(email, password: password, publicUsername: publicUsername) { (myResult: Result<Nil, UserSignUpServiceError>) in
+    public func signUpWithEmail(email: String, password: String, publicUsername: String, completion: UserSignUpServiceCompletion?) {
+        userSignUpService.signUpUserWithEmail(email, password: password, publicUsername: publicUsername) { (myResult: UserSignUpServiceResult) in
             // Succeeded
-            if myResult == Result<Nil, UserSignUpServiceError>.success(Nil()) {
+            if myResult == UserSignUpServiceResult(value: Nil()) {
                 self.setupAfterSessionSuccessful()
             }
-            result?(myResult)
+            completion?(myResult)
         }
     }
     
     /**
         Logs in a user with the given email & password.
     
-        :param: email The email.
-        :param: password The password.
-        :param: result The closure containing the result.
+        - parameter email: The email.
+        - parameter password: The password.
+        - parameter result: The closure containing the result.
     */
-    public func logInWithEmail(email: String, password: String, result: UserLogInEmailServiceResult?) {
+    public func logInWithEmail(email: String, password: String, completion: UserLogInEmailServiceCompletion?) {
         // 1. Login
-        userLogInEmailService.logInUserWithEmail(email, password: password) { (myResult: Result<User, UserLogInEmailServiceError>) in
+        userLogInEmailService.logInUserWithEmail(email, password: password) { (myResult: UserLogInEmailServiceResult) in
             // Succeeded
             if let user = myResult.value {
                 var isScammerUser: Bool = false
@@ -374,19 +375,19 @@ public class MyUserManager: LocationManagerDelegate {
                 
                 // 2a. If scammer then logout & notify
                 if isScammerUser {
-                    self.userLogOutService.logOutUser(user) { (logoutResult: Result<Nil, UserLogOutServiceError>) -> Void in
-                        result?(Result<User, UserLogInEmailServiceError>.failure(.Forbidden))
+                    self.userLogOutService.logOutUser(user) { (logoutResult: UserLogOutServiceResult) -> Void in
+                        completion?(UserLogInEmailServiceResult(error: .Forbidden))
                     }
                 }
                 // 2b. Otherwise it's a regular user, we're done
                 else {
                     self.setupAfterSessionSuccessful()
-                    result?(myResult)
+                    completion?(myResult)
                 }
             }
             // Error
             else {
-                result?(myResult)
+                completion?(myResult)
             }
         }
     }
@@ -394,18 +395,15 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Logs in a user via Facebook.
 
-        :param: result The closure containing the result.
+        - parameter result: The closure containing the result.
     */
-    public func logInWithFacebook(result: UserLogInFBResult?) {
-        
-        var user: User? = nil
-        var fbUserInfo: FBUserInfo? = nil
-        
+    public func logInWithFacebook(completion: UserLogInFBCompletion?) {
+
         // 1. Login with Facebook
-        userLogInFBService.logInByFacebooWithCompletion { (myResult: Result<User, UserLogInFBServiceError>) in
+        userLogInFBService.logInByFacebooWithCompletion { (myResult: UserLogInFBServiceResult) in
             
             // Succeeded
-            if let user = myResult.value, let userId = user.objectId {
+            if let user = myResult.value, let _ = user.objectId {
                 
                 var isScammerUser: Bool = false
                 if let isScammer = user.isScammer?.boolValue {
@@ -414,22 +412,23 @@ public class MyUserManager: LocationManagerDelegate {
                 
                 // 2a. If scammer then logout & notify
                 if isScammerUser {
-                    self.userLogOutService.logOutUser(user) { (logoutResult: Result<Nil, UserLogOutServiceError>) -> Void in
-                        result?(Result<User, UserLogInFBError>.failure(.Forbidden))
+                    self.userLogOutService.logOutUser(user) { (logoutResult: UserLogOutServiceResult) -> Void in
+                        completion?(UserLogInFBResult(error: .Forbidden))
                     }
                 }
                 // 2b. Otherwise it's a regular user, then retrieve the FB info
                 else {
                     // 3. Retrieve the FB Info
-                    self.fbUserInfoRetrieveService.retrieveFBUserInfo { (fbResult: Result<FBUserInfo, FBUserInfoRetrieveServiceError>) in
+                    self.fbUserInfoRetrieveService.retrieveFBUserInfoWithCompletion { (fbResult: FBUserInfoRetrieveServiceResult) in
                         
                         // Succeeded
                         if let fbUserInfo = fbResult.value {
                             
                             // Set the fields from the graph request
                             let publicUsername: String
+                            
                             if let firstName = fbUserInfo.firstName, let lastName = fbUserInfo.lastName {
-                                let lastNameInitial: String = count(lastName) > 0 ? lastName.substringToIndex(advance(lastName.startIndex, 1)) : ""
+                                let lastNameInitial: String = lastName.characters.count > 0 ? lastName.substringToIndex(lastName.startIndex.advancedBy(1)) : ""
                                 publicUsername = "\(firstName) \(lastNameInitial)."
                             }
                             else if let name = fbUserInfo.name {
@@ -443,13 +442,13 @@ public class MyUserManager: LocationManagerDelegate {
                             user.processed = NSNumber(bool: false)
                             
                             // 4. Save my user
-                            self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                            self.saveMyUser { (userSaveResult: UserSaveServiceResult) in
                                 
                                 // Succeeded
-                                if let savedUser = userSaveResult.value, let sessionToken = savedUser.sessionToken {
+                                if let savedUser = userSaveResult.value, let sessionToken = savedUser.sessionToken, let userId = savedUser.objectId {
                                     
                                     // 5. Upload the avatar
-                                    self.fileUploadService.uploadFileWithUserId(savedUser.objectId, sessionToken: sessionToken, sourceURL: fbUserInfo.avatarURL) { (uploadResult: Result<File, FileUploadServiceError>) in
+                                    self.fileUploadService.uploadFileWithUserId(userId, sessionToken: sessionToken, sourceURL: fbUserInfo.avatarURL) { (uploadResult: Result<File, FileUploadServiceError>) in
                                         
                                         // Succeeded
                                         if let file = uploadResult.value {
@@ -459,41 +458,41 @@ public class MyUserManager: LocationManagerDelegate {
                                             savedUser.processed = NSNumber(bool: false)
                                             
                                             // 7. Save my user again
-                                            self.saveMyUser { (userSaveResult: Result<User, UserSaveServiceError>) in
+                                            self.saveMyUser { (userSaveResult: UserSaveServiceResult) in
                                                 
                                                 // Success or Error, but in case of error report success as avatar is not strictly necessary
                                                 let savedUser = userSaveResult.value ?? user
                                                 
                                                 self.setupAfterSessionSuccessful()
-                                                result?(Result<User, UserLogInFBError>.success(savedUser))
+                                                completion?(UserLogInFBResult(value: savedUser))
                                             }
                                         }
                                         // Error, but report success as avatar is not strictly necessary
-                                        else if let uploadError = uploadResult.error {
+                                        else if let _ = uploadResult.error {
                                             
                                             self.setupAfterSessionSuccessful()
-                                            result?(Result<User, UserLogInFBError>.success(user))
+                                            completion?(UserLogInFBResult(value: user))
                                         }
                                     }
                                 }
                                 // Error, then logout & report it as the user could not be saved (i.e.: EmailTaken)
                                 else if let saveUserError = userSaveResult.error {
                                     self.logout(nil)
-                                    result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(saveUserError)))
+                                    completion?(UserLogInFBResult(error: UserLogInFBError(saveUserError)))
                                 }
                             }
                         }
                         // Error, then logout & report it as the info couldn't be loaded
                         else if let fbError = fbResult.error {
                             self.logout(nil)
-                            result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbError)))
+                            completion?(UserLogInFBResult(error: UserLogInFBError(fbError)))
                         }
                     }
                 }
             }
             // Error, then report it
             else if let fbLoginError = myResult.error {
-                result?(Result<User, UserLogInFBError>.failure(UserLogInFBError(fbLoginError)))
+                completion?(UserLogInFBResult(error: UserLogInFBError(fbLoginError)))
             }
         }
     }
@@ -501,35 +500,33 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Logs out my user.
     
-        :param: result The closure containing the result.
+        - parameter result: The closure containing the result.
     */
-    public func logout(result: UserLogOutServiceResult?) {
+    public func logout(completion: UserLogOutServiceCompletion?) {
         if let myUser = myUser() {
 
             // Notify location manager that there's no manual location
             locationManager.manualLocation = nil
             
             // Logout
-            userLogOutService.logOutUser(myUser) { (myResult: Result<Nil, UserLogOutServiceError>) in
+            userLogOutService.logOutUser(myUser) { (myResult: UserLogOutServiceResult) in
                 
                 // Notify the callback
-                result?(Result<Nil, UserLogOutServiceError>.success(Nil()))
+                completion?(UserLogOutServiceResult(value: Nil()))
                 
                 // Update my installation in background, unlink userId & username
-                if let myUser = self.myUser(), let userId = myUser.objectId, let username = myUser.username {
-                    var installation = self.myInstallation()
-                    installation.userId = ""
-                    installation.username = ""
-                    installation.channels = [""]
-                    self.installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
-                }
+                let installation = self.myInstallation()
+                installation.userId = self.myUser()?.objectId ?? ""
+                installation.username = self.myUser()?.username ?? ""
+                installation.channels = [""]
+                self.installationSaveService.save(installation) { (result: Result<Installation, InstallationSaveServiceError>) in }
             }
             
             // Notify
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.logout.rawValue, object: nil)
         }
         else {
-            result?(Result<Nil, UserLogOutServiceError>.failure(.Internal))
+            completion?(UserLogOutServiceResult(error: .Internal))
         }
     }
     
@@ -538,11 +535,11 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Resets the password of a my user.
     
-        :param: email The user email.
-        :param: result The closure containing the result.
+        - parameter email: The user email.
+        - parameter result: The closure containing the result.
     */
-    public func resetPassword(email: String, result: UserPasswordResetServiceResult?) {
-        userPasswordResetService.resetPassword(email, result: result)
+    public func resetPassword(email: String, completion: UserPasswordResetServiceCompletion?) {
+        userPasswordResetService.resetPassword(email, completion: completion)
     }
     
     // MARK: - LocationManagerDelegate
@@ -550,8 +547,10 @@ public class MyUserManager: LocationManagerDelegate {
     func locationManager(locationManager: LocationManager, didUpdateAutoLocation location: LGLocation) {
         // If location is manual, then check if we should notify about moving too much
         if userDefaultsManager.loadIsManualLocation() {
-            if location.location.distanceFromLocation(userDefaultsManager.loadManualLocation()) > LGCoreKitConstants.maxDistanceToAskUpdateLocation{
-                NSNotificationCenter.defaultCenter().postNotificationName(Notification.didMoveFromManualLocationNotification.rawValue, object: location)
+            if let manualLocation = userDefaultsManager.loadManualLocation() {
+                if location.location.distanceFromLocation(manualLocation) > LGCoreKitConstants.maxDistanceToAskUpdateLocation {
+                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.didMoveFromManualLocationNotification.rawValue, object: location)
+                }
             }
         }
         // If not manual, then save & notify
@@ -568,7 +567,7 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Returns the current installation.
     
-        :returns: the current installation.
+        - returns: the current installation.
     */
     private func myInstallation() -> Installation {
         return PFInstallation.currentInstallation()
@@ -610,11 +609,11 @@ public class MyUserManager: LocationManagerDelegate {
             
             // Update my installation
             if let userId = user.objectId, let username = user.username {
-                var installation = myInstallation()
+                let installation = myInstallation()
                 installation.userId = userId
                 installation.username = username
                 installation.channels = [""]
-                installationSaveService.save(installation, result: nil)
+                installationSaveService.save(installation, completion: nil)
             }
         }
         
@@ -630,32 +629,32 @@ public class MyUserManager: LocationManagerDelegate {
     /**
         Saves my user.
     
-        :param: result The closure containing the result.
+        - parameter result: The closure containing the result.
     */
-    private func saveMyUser(result: UserSaveServiceResult?) {
+    private func saveMyUser(completion: UserSaveServiceCompletion?) {
         if let myUser = myUser() {
-            userSaveService.saveUser(myUser, result: result)
+            userSaveService.saveUser(myUser, completion: completion)
         }
         else {
-            result?(Result<User, UserSaveServiceError>.failure(.Internal))
+            completion?(UserSaveServiceResult(error: .Internal))
         }
     }
     
     /**
         Saves the given coordinates & place, if any, into the user.
     
-        :param: location The location.
-        :param: place The place. If nil, it will be retrieved.
-        :returns: The completion closure.
+        - parameter location: The location.
+        - parameter place: The place. If nil, it will be retrieved.
+        - returns: The completion closure.
     */
-    private func saveCoordinates(location: LGLocation, place: Place?, completion: SaveUserCoordinatesResult?) {
+    private func saveCoordinates(location: LGLocation, place: Place?, completion: SaveUserCoordinatesCompletion?) {
         
         if let user = myUser() {
             // Set the coordinates, reset the address & mark as non-processed
             user.gpsCoordinates = LGLocationCoordinates2D(coordinates: location.coordinate)
             
             // If we receive a place, we set the postal address to the user
-            if let actualPlace = place, let actualPostalAddress = place?.postalAddress {
+            if let _ = place, let actualPostalAddress = place?.postalAddress {
                 user.postalAddress = actualPostalAddress
                 
                 // Set the currency code, if any
@@ -677,11 +676,11 @@ public class MyUserManager: LocationManagerDelegate {
             saveMyUser { (saveUserResult: Result<User, UserSaveServiceError>) in
                 
                 // Success
-                if let savedUser = saveUserResult.value {
+                if let _ = saveUserResult.value {
                     
                     // 2a. User already has an address, we're done
-                    if let actualPlace = place, let actualPostalAddress = place?.postalAddress {
-                        completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(location.coordinate))
+                    if let _ = place, let _ = place?.postalAddress {
+                        completion?(SaveUserCoordinatesResult(value: location.coordinate))
                     }
                     // 2b. User hasn't an address. Retrieve the address with the given coordinates
                     else {
@@ -701,27 +700,27 @@ public class MyUserManager: LocationManagerDelegate {
                                     }
                                 }
                                 // 4. Save the user again
-                                self.saveMyUser { (secondSaveUserResult: Result<User, UserSaveServiceError>) in
+                                self.saveMyUser { (secondSaveUserResult: UserSaveServiceResult) in
                                     
                                     // Success or Error
-                                    completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.success(location.coordinate))
+                                    completion?(SaveUserCoordinatesResult(value: location.coordinate))
                                 }
                             }
                             // Error
                             else if let postalAddressRetrievalError = postalAddressRetrievalResult.error {
-                                completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(postalAddressRetrievalError)))
+                                completion?(SaveUserCoordinatesResult(error: SaveUserCoordinatesError(postalAddressRetrievalError)))
                             }
                         }
                     }
                 }
                 // Error
                 else if let saveUserError = saveUserResult.error {
-                    completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(SaveUserCoordinatesError(saveUserError)))
+                    completion?(SaveUserCoordinatesResult(error: SaveUserCoordinatesError(saveUserError)))
                 }
             }
         }
         else {
-            completion?(Result<CLLocationCoordinate2D, SaveUserCoordinatesError>.failure(.Internal))
+            completion?(SaveUserCoordinatesResult(error: .Internal))
         }
     }
 }

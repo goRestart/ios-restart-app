@@ -9,7 +9,7 @@
 import Alamofire
 import SwiftyJSON
 
-@objc public class LGChatsUnreadCountResponse : ChatsUnreadCountResponse, ResponseObjectSerializable {
+public class LGChatsUnreadCountResponse : ChatsUnreadCountResponse, ResponseObjectSerializable {
     
     // Constants
     private static let countJSONKey = "count"
@@ -27,9 +27,6 @@ import SwiftyJSON
     
     public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
         self.init()
-        
-        let countryInfoDao = RLMCountryInfoDAO()
-        let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
         
         let json = JSON(representation)
         if let actualCount = json[LGChatsUnreadCountResponse.countJSONKey].int {

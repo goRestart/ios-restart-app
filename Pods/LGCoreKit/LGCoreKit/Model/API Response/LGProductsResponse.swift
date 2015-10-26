@@ -9,9 +9,9 @@
 import Alamofire
 import SwiftyJSON
 
-@objc public class LGProductsResponse: ProductsResponse, ResponseObjectSerializable {
+public class LGProductsResponse: ProductsResponse, ResponseObjectSerializable {
     
-    public var products: NSArray
+    public var products: [Product]
     
     // MARK: - Lifecycle
     
@@ -28,10 +28,12 @@ import SwiftyJSON
     public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
         self.init()
         
-        let json = JSON(representation)
-        let parsedProducts = NSMutableArray()
+        guard let countryInfoDao = RLMCountryInfoDAO() else {
+            return nil
+        }
         
-        let countryInfoDao = RLMCountryInfoDAO()
+        let json = JSON(representation)
+        var parsedProducts: [Product] = []
         let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
         
         // since the response gives distance in the units passed per parameters,
@@ -43,11 +45,10 @@ import SwiftyJSON
         
         if let productsArrayJson = json.array {
             for productJson in productsArrayJson {
-                parsedProducts.addObject(LGProductParser.productWithJSON(productJson, currencyHelper: currencyHelper, distanceType: distanceType))
+                parsedProducts.append(LGProductParser.productWithJSON(productJson, currencyHelper: currencyHelper, distanceType: distanceType))
             }
         }
         
         products = parsedProducts
-        
     }
 }

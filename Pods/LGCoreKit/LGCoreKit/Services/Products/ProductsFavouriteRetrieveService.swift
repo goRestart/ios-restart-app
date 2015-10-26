@@ -8,7 +8,7 @@
 
 import Result
 
-public enum ProductsFavouriteRetrieveServiceError: Printable {
+public enum ProductsFavouriteRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
     
@@ -22,15 +22,16 @@ public enum ProductsFavouriteRetrieveServiceError: Printable {
     }
 }
 
-public typealias ProductsFavouriteRetrieveServiceResult = (Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>) -> Void
+public typealias ProductsFavouriteRetrieveServiceResult = Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>
+public typealias ProductsFavouriteRetrieveServiceCompletion = ProductsFavouriteRetrieveServiceResult -> Void
 
 public protocol ProductsFavouriteRetrieveService {
     
     /**
     Retrieves the products with the given parameters.
     
-    :param: params The product retrieval parameters.
-    :param: completion The completion closure.
+    - parameter params: The product retrieval parameters.
+    - parameter completion: The completion closure.
     */
-    func retrieveFavouriteProducts(user: User, result: ProductsFavouriteRetrieveServiceResult?)
+    func retrieveFavouriteProducts(user: User, completion: ProductsFavouriteRetrieveServiceCompletion?)
 }

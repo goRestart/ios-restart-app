@@ -21,7 +21,7 @@ public class CurrencyHelper {
     
     // MARK: - Lifecycle
     
-    public init(locale: NSLocale = NSLocale.autoupdatingCurrentLocale(), countryInfoDAO: CountryInfoDAO = RLMCountryInfoDAO()) {
+    public init(locale: NSLocale = NSLocale.autoupdatingCurrentLocale(), countryInfoDAO: CountryInfoDAO = RLMCountryInfoDAO()!) {
         
         self.locale = locale
         self.currencyFormatter = NSNumberFormatter()
@@ -54,10 +54,10 @@ public class CurrencyHelper {
     
     public var selectableCurrencies: [Currency] {
         var currencies: [Currency] = [currentCurrency]
-        if !contains(currencies, LGCoreKitConstants.usdCurrency) {
+        if !currencies.contains(LGCoreKitConstants.usdCurrency) {
             currencies.append(LGCoreKitConstants.usdCurrency)
         }
-        if !contains(currencies, LGCoreKitConstants.eurCurrency) {
+        if !currencies.contains(LGCoreKitConstants.eurCurrency) {
             currencies.append(LGCoreKitConstants.eurCurrency)
         }
         return currencies
@@ -66,7 +66,7 @@ public class CurrencyHelper {
     /**
         Sets the current country code and updates the current currency formatter.
         
-        :param: countryCode The country code.
+        - parameter countryCode: The country code.
     */
     public func setCountryCode(countryCode: String) {
         // If the country is found in the DB and has a locale
@@ -87,7 +87,7 @@ public class CurrencyHelper {
     /**
         Returns a formatted string for the given amount with the current currency formatter.
     
-        :returns: A currency formatted string.
+        - returns: A currency formatted string.
     */
     public func formattedAmount(amount: NSNumber) -> String? {
         return currencyFormatter.stringFromNumber(amount)
@@ -96,7 +96,7 @@ public class CurrencyHelper {
     /**
         Returns a formatted string for the given amount with the given currency code.
     
-        :returns: A currency formatted string.
+        - returns: A currency formatted string.
     */
     public func formattedAmountWithCurrencyCode(currencyCode: String, amount: NSNumber) -> String {
         return formatterWithCurrencyCode(currencyCode).stringFromNumber(amount) ?? LGCoreKitConstants.defaultCurrency.code
@@ -105,7 +105,7 @@ public class CurrencyHelper {
     /**
         Returns the currency symbol for the given currency code.
     
-        :returns: A currency formatted string.
+        - returns: A currency formatted string.
     */
     public func currencySymbolWithCurrencyCode(currencyCode: String) -> String {
         return formatterWithCurrencyCode(currencyCode).currencySymbol ?? LGCoreKitConstants.defaultCurrency.symbol
@@ -114,7 +114,7 @@ public class CurrencyHelper {
     /**
         Returns the currency the given currency code.
     
-        :returns: A currency.
+        - returns: A currency.
     */
     public func currencyWithCurrencyCode(code: String) -> Currency {
         let symbol = self.currencySymbolWithCurrencyCode(code)
@@ -126,8 +126,8 @@ public class CurrencyHelper {
     /**
         Returns a currency formatter with the given locale.
     
-        :param: currencyCode A currency code.
-        :returns: A currency formatter.
+        - parameter currencyCode: A currency code.
+        - returns: A currency formatter.
     */
     private func formatterWithCurrencyCode(currencyCode: String) -> NSNumberFormatter {
         // If we find the formatter in the dict then just return it
@@ -158,9 +158,9 @@ public class CurrencyHelper {
     /**
         Creates and returns a currency formatter with the given locale.
     
-        :param: locale A locale.
-        :param: currencySymbol The currency symbol.
-        :returns: A currency formatter.
+        - parameter locale: A locale.
+        - parameter currencySymbol: The currency symbol.
+        - returns: A currency formatter.
     */
     private static func currencyFormatterWithLocale(locale: NSLocale, currencySymbol: String?) -> NSNumberFormatter {
         let currencyFormatter = NSNumberFormatter()

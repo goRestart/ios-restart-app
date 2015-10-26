@@ -8,19 +8,20 @@
 
 import Result
 
-public enum UserLogOutServiceError {
+public enum UserLogOutServiceError: ErrorType {
     case Internal
 }
 
-public typealias UserLogOutServiceResult = (Result<Nil, UserLogOutServiceError>) -> Void
+public typealias UserLogOutServiceResult = Result<Nil, UserLogOutServiceError>
+public typealias UserLogOutServiceCompletion = UserLogOutServiceResult -> Void
 
 public protocol UserLogOutService {
     
     /**
         Logs out a user.
     
-        :param: user The user.
-        :param: result The closure containing the result.
+        - parameter user: The user.
+        - parameter completion: The completion closure.
     */
-    func logOutUser(user: User, result: UserLogOutServiceResult?)
+    func logOutUser(user: User, completion: UserLogOutServiceCompletion?)
 }

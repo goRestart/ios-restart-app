@@ -97,7 +97,7 @@ public class NanigansTracker: Tracker {
     
     private func stringSha256(email: String) -> NSString? {
         
-        var cleanEmail = email.stringByReplacingOccurrencesOfString(" ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil).lowercaseString
+        let cleanEmail = email.stringByReplacingOccurrencesOfString(" ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil).lowercaseString
         
         if let data = cleanEmail.dataUsingEncoding(NSUTF8StringEncoding) {
 

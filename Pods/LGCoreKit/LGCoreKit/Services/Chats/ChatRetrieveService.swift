@@ -8,7 +8,7 @@
 
 import Result
 
-public enum ChatRetrieveServiceError: Printable {
+public enum ChatRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Unauthorized
     case NotFound
@@ -31,17 +31,18 @@ public enum ChatRetrieveServiceError: Printable {
     }
 }
 
-public typealias ChatRetrieveServiceResult = (Result<ChatResponse, ChatRetrieveServiceError>) -> Void
+public typealias ChatRetrieveServiceResult = Result<ChatResponse, ChatRetrieveServiceError>
+public typealias ChatRetrieveServiceCompletion = ChatRetrieveServiceResult -> Void
 
 public protocol ChatRetrieveService {
     
     /**
         Retrieves a chat of a user.
     
-        :param: sessionToken The user session token.
-        :param: productId The product id.
-        :param: buyerId The user id of the buyer.
-        :param: result The completion closure.
+        - parameter sessionToken: The user session token.
+        - parameter productId: The product id.
+        - parameter buyerId: The user id of the buyer.
+        - parameter completion: The completion closure.
     */
-    func retrieveChatWithSessionToken(sessionToken: String, productId: String, buyerId: String, result: ChatRetrieveServiceResult?)
+    func retrieveChatWithSessionToken(sessionToken: String, productId: String, buyerId: String, completion: ChatRetrieveServiceCompletion?)
 }

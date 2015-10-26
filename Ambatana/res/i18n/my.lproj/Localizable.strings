@@ -22,12 +22,12 @@
 "change_password_new_password_field_hint" = "စကားဝှက်အသစ်";
 "change_password_send_error_generic" = "စကားဝှက်ပြောင်းသောအခါ အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။ ကျေးဇူးပြုပြီး နောက်ကြိုးစားပါ။";
 "change_password_send_error_invalid_password" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့် စကားဝှက်ကို ထည့်သွင်းပါ၊ ၄င်းသည် အနည်းဆုံး အက္ခရာစာလုံး %d လုံးရှိရမည်။";
-"change_password_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"change_password_send_error_invalid_password_with_max" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့် စကားဝှက်ကို ထည့်သွင်းပါ၊ ၄င်းသည် အက္ခရာစာလုံးအရေအတွက် %d နှင့် %d ကြားရှိရမည်။";
 "change_password_send_error_passwords_mismatch" = "စကားဝှက်များကိုမကိုက်ညီပါ။ ကျေးဇူးပြုပြီးပြန်ကြိုးစားပါ။";
 "change_password_send_ok" = "စကားဝှက်အောင်မြင်စွာပြောင်းလဲပြီးပြီ။";
 "change_password_title" = "စကားဝှက်ကိုပြောင်းပါ";
 "change_username_error_invalid_username" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့်အမည်ထည့်သွင်းပါ၊ ၄င်းသည် အနည်းဆုံး %d ကာရက်တာရှိရမည်။";
-"change_username_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"change_username_error_invalid_username_letgo" = "Another account is using %@";
 "change_username_field_hint" = "အမည် အပြည့်အစုံ";
 "change_username_loading" = "သင့်သုံးစွဲသူအမည်ကိုသိမ်းခြင်း...";
 "change_username_save_button" = "သိမ်းပါ";
@@ -54,7 +54,7 @@
 "common_loading" = "တင်နေတုန်း...";
 "common_no" = "မရှိပါ";
 "common_ok" = "ကောင်းပြီ";
-"common_product_deleted" = "ထုတ်ကုန်ပယ်ဖျက်ခဲ့သည်။";
+"common_product_deleted" = "အိုက်တမ်ဖယ်ရှားခဲ့သည်";
 "common_product_not_available" = "ဤထုတ်ကုန်ကို နောက်ထပ်မရနိုင်ပါ။";
 "common_product_sold" = "ဒီထုတ်ကုန်ကိုရောင်းပြီးပါပြီ။";
 "common_time_a_minute_ago_label" = "တစ်မိနစ်ခန့်က";
@@ -138,8 +138,8 @@
 "product_list_item_new_status_label" = "အသစ်";
 "product_list_item_sold_status_label" = "ရောင်းပြီး";
 "product_list_location_disabled_go_to_indicate_location_label" = "မှားပါတယ်။ သင့်တည်နေရာသည် ပိတ်ထားပါတယ်။ အနီးနားရှိ အကောင်းဆုံးကမ်းလှမ်းချက်များကို ကြည့်ရန် သင့်တည်နေရာကို သတ်မှတ်ပါ။";
-"product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
-"product_list_no_products_title" = "CITY UNLOCKED!";
+"product_list_no_products_body" = "သင့်မြို့တွင် သင်သည် ပထမဆုံးရှာဖွေသူဖြစ်သည်။ ကြိုဆိုပါသည်။";
+"product_list_no_products_title" = "မြို့ဖွင့်ထားသည်။";
 "product_location_title" = "တည်နေရာ";
 "product_make_an_offer_button" = "အမှာစာတစ်ခုပြုလုပ်ပါ";
 "product_mark_as_sold_button" = "ရောင်းပြီးသားအနေဖြင့် မှတ်သားပါ";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "ထုတ်ကုန်ကို အောင်မြင်စွာ အစီရင်ခံပြီးပါပြီ။ ကျေးဇူးပါ!";
 "product_reporting_loading_message" = "ထုတ်ကုန်ကို အစီရင်ခံခြင်း...";
 "product_reporting_product_label" = "ထုတ်ကုန်ကို အစီရင်ခံခြင်း...";
-"product_search_no_products_body" = "But no products match your search. Try again soon, new items are posted every day!";
-"product_search_no_products_title" = "WE SEARCHED AND SEARCHED...";
+"product_search_no_products_body" = "သို့သော် သင့်ရှာဖွေမှုနှင့်ကိုက်ညီသည့် ထုတ်ကုန်များမရှိပါ။ မကြာမီပြန်ကြိုးစားပါ၊ အိုက်တမ်အသစ်များ နေ့တိုင်းတင်ပါသည်။";
+"product_search_no_products_title" = "ကျွန်ုပ်တို့သည် ရှာဖွေပြီးရင်း ရှာဖွေကြသည်...";
 "product_share_body" = "letgo တွင် ကျွန်ုပ်တွေ့ခဲ့သည့် အရာကိုကြည့်ပါ။";
 "product_share_email_error" = "မှားပါတယ်၊ ဒါက သင်သည် မေးလ်ပရိုဂရမ်တွင် အကောင့်မသတ်မှတ်ရသေးဟန် ရှိပါတယ်။";
 "product_share_whatsapp_error" = "အိုး၊ မှားပါတယ်၊ WhatsApp အက်ပ်ကို သင် အင်စတောမလုပ်သေးဘူးထင်တယ်။";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "သင့်စကားဝှက်ကိုမှတ်မိအောင်ကြိုးစားစဉ် အမှားတစ်ခုဖြစ်ပွားခဲ့သည်။";
 "reset_password_send_error_invalid_email" = "သုံးစွဲသူအီးမေးလ်စာသားအချက်အလက်တွင် မှန်ကန်သည့်အီးမေးလ်ကို ကျေးဇူးပြုပြီး ထည့်သွင်းပါ။";
 "reset_password_send_error_user_not_found_or_wrong_password" = "အီးမေးလ်လိပ်စာ မတွေ့ပါ။";
-"reset_password_send_ok" = "သင့်အ၀င်မေးလ်ဘောက်စ်ကိုစစ်ဆေးပြီး စကားဝှက်ပြန်သတ်မှတ်သည့် ညွှန်ကြားချက်များကိုလိုက်နာပါ။";
+"reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_title" = "စကားဝှက်ပြန်သတ်မှတ်ပါ";
 "sell_category_selection_label" = "အမျိုးအစားတစ်ခုရွေးပါ";
 "sell_choose_category_dialog_cancel_button" = "ရပ်ဆိုင်းပါ";
@@ -222,6 +222,7 @@
 "sell_send_error_uploading_picture" = "သင့်ထုတ်ကုန်ကို စာရင်းသွင်းနေစဉ် အမှားအယွင်းတစ်ခုဖြစ်ပွားခဲ့သည်။ ဓါတ်ပုံတင်လို့မရပါ။ ကျေးဇူးပြုပြီး ပြန်ကြိုးစားပါ။";
 "sell_send_error_uploading_product" = "သင့်ထုတ်ကုန်ကို စာရင်းသွင်းနေစဉ် အမှားအယွင်းတစ်ခုဖြစ်ပွားခဲ့သည်။";
 "sell_send_ok" = "ဂုဏ်ယူပါတယ်။ သင့်အိုက်တမ်ကို အောင်မြင်စွာတင်ပြီးပါပြီ။ ၄င်းသည် ကျွန်ုပ်တို့စာရင်းတွင် မကြာမီပေါ်လာပါလိမ့်မယ်။";
+"sell_send_sharing_facebook_ok" = "ထုတ်ကုန်ကို အောင်မြင်စွာမျှဝေပြီးပါပြီ။";
 "sell_share_fb_content" = "letgo တွင် ကျွန်ုပ်တို့ရောင်းချသည့်အရာများကို ကြည့်ပါ။";
 "sell_share_on_facebook_label" = "Facebook တွင်ကျွန်ုပ်ထုတ်ကုန်ကို မျှ‌‌‌ဝေပါ";
 "sell_title" = "ရောင်းချပါ";
@@ -248,9 +249,9 @@
 "sign_up_send_error_generic" = "သုံးစွဲသူတည်ဆောက်နေစဉ် အမှားတစ်ခုဖြစ်ပေါ်သည်။";
 "sign_up_send_error_invalid_email" = "သုံးစွဲသူအီးမေးလ်စာသားအချက်အလက်တွင် မှန်ကန်သည့်အီးမေးလ်ကို ကျေးဇူးပြုပြီး ထည့်သွင်းပါ";
 "sign_up_send_error_invalid_password" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့် စကားဝှက်ကို ထည့်သွင်းပါ၊ ၄င်းသည် အနည်းဆုံး အက္ခရာစာလုံး %d လုံးရှိရမည်။";
-"sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
+"sign_up_send_error_invalid_password_with_max" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့် စကားဝှက်ကို ထည့်သွင်းပါ၊ ၄င်းသည် အက္ခရာစာလုံးအရေအတွက် %d နှင့် %d ကြားရှိရမည်။";
 "sign_up_send_error_invalid_username" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့် အမည်ကို ထည့်သွင်းပါ၊ ၄င်းသည် အနည်းဆုံး အက္ခရာစာလုံး %d လုံးရှိရမည်။";
-"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"sign_up_send_error_invalid_username_letgo" = "သုံးစွဲသူအမည်များတွင် letgo စကားလုံး၊ let go သို့မဟုတ် အခြားဆင်တူစကားလုံးများ မပါဝင်ရပါ။";
 "sign_up_title" = "စာရင်းသွင်းပါ";
 "sign_up_username_field_hint" = "အမည် အပြည့်အစုံ";
 "tab_bar_tool_tip" = "သင့်ပစ္စည်းကို ရောင်းပါ";

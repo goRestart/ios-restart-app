@@ -16,7 +16,8 @@ extension ProductionEnvironment: AppEnvironment {
     // Tracking
     var appsFlyerAPIKey: String { get { return "5EKnCjmwmNKjE2e7gYBo6T" } }
     var amplitudeAPIKey: String { get { return "6d37fbd6c25243c57676e6d4ce7948bf" } }
-    var googleConversionTrackingId: String { get { return "947998763" } }
+    var googleConversionPrimaryTrackingId: String { get { return "947998763" } }
+    var googleConversionSecondaryTrackingId: String { get { return "952362970" } }
     var nanigansAppId: String { get { return "298434" } }
     
     var urbanAirshipAPIKey: String { get { return "554gl4nfTgGQKYpZN_m5aQ"} }
@@ -26,4 +27,10 @@ extension ProductionEnvironment: AppEnvironment {
     
     // New relic
     var newRelicToken: String { get { return "AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c"} }
+    
+    // App indexing
+    var googleAppIndexingId: UInt { get { return 986339882} }
+
+    // Config
+    var configFileName: String { get { return "ios-prod" } }
 }

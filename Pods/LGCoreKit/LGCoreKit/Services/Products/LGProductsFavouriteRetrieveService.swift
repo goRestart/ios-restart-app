@@ -30,28 +30,26 @@ final public class LGProductsFavouriteRetrieveService: ProductsFavouriteRetrieve
     
     // MARK: - ProductsRetrieveService
     
-    public func retrieveFavouriteProducts(user: User, result: ProductsFavouriteRetrieveServiceResult?) {
+    public func retrieveFavouriteProducts(user: User, completion: ProductsFavouriteRetrieveServiceCompletion?) {
 
-        let fullUrl = "\(url)/\(user.objectId)/favorites/products"
-
+        let fullUrl = "\(url)/\(user.objectId!)/favorites/products"
+        
         Alamofire.request(.GET, fullUrl, parameters: nil)
             .validate(statusCode: 200..<400)
-            .responseObject { (request, response, productsFavouriteResponse: LGProductsFavouriteResponse?, error: NSError?) -> Void in
+            .responseObject { (productsFavouriteResponse: Response<LGProductsFavouriteResponse, NSError>) -> Void in
                 // Error
-                if let actualError = error {
-                    let myError: NSError
+                if let actualError = productsFavouriteResponse.result.error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>.failure(.Network))
+                        completion?(ProductsFavouriteRetrieveServiceResult(error: .Network))
                     }
                     else {
-                        result?(Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>.failure(.Internal))
+                        completion?(ProductsFavouriteRetrieveServiceResult(error: .Internal))
                     }
                 }
                 // Success
-                else if let actualProductsFavouriteResponse = productsFavouriteResponse {
-                    result?(Result<ProductsFavouriteResponse, ProductsFavouriteRetrieveServiceError>.success(actualProductsFavouriteResponse))
+                else if let actualProductsFavouriteResponse = productsFavouriteResponse.result.value {
+                    completion?(ProductsFavouriteRetrieveServiceResult(value: actualProductsFavouriteResponse))
                 }
-        }
+            }
     }
 }
-

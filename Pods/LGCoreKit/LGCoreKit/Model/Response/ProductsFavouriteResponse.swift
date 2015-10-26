@@ -6,6 +6,6 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public protocol ProductsFavouriteResponse {
-    var products: NSArray { get }
+public protocol ProductsFavouriteResponse {
+    var products: [Product] { get }
 }

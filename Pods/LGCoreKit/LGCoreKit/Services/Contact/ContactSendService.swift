@@ -8,21 +8,22 @@
 
 import Result
 
-public enum ContactSendServiceError {
+public enum ContactSendServiceError: ErrorType {
     case Network
     case Internal
     case InvalidEmail
 }
 
-public typealias ContactSendServiceResult = (Result<Contact, ContactSendServiceError>) -> Void
+public typealias ContactSendServiceResult = Result<Contact, ContactSendServiceError>
+public typealias ContactSendServiceCompletion = ContactSendServiceResult -> Void
 
 public protocol ContactSendService {
     
     /**
-    Sends the contact.
+        Sends the contact.
     
-    :param: contact -> the contact (email, title, message...).
-    :param: result The closure containing the result.
+        - parameter contact: The contact (email, title, message...).
+        - parameter completion: The completion closure.
     */
-    func sendContact(contact: Contact, sessionToken: String, result: ContactSendServiceResult?)
+    func sendContact(contact: Contact, sessionToken: String, completion: ContactSendServiceCompletion?)
 }

@@ -87,7 +87,7 @@ extension PFUser: User {
     
     public var isDummy: Bool {
         if let actualUsername = username {
-            startsWith(actualUsername, "usercontent")
+            actualUsername.hasPrefix("usercontent")
         }
         return false
     }

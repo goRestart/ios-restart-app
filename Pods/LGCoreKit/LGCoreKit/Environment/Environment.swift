@@ -22,6 +22,5 @@ public protocol Environment {
     var imagesBaseURL: String { get }
 
     // Config
-    var updateFileCfgName: String { get }
-    var staticCfgFileURL: String { get }
+    var configURL: String { get }
 }

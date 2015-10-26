@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class PostalAddress {
+public class PostalAddress {
     public var address: String?
     public var city: String?
     public var countryCode: String?

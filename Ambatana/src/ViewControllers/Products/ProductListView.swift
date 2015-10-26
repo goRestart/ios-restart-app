@@ -216,7 +216,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         setupUI()
     }
     
-    public init(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
+    public init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
         self.state = .FirstLoadView
         self.productListViewModel = viewModel
         self.collectionViewFooterHeight = 0
@@ -230,7 +230,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         setupUI()
     }
 
-    public required convenience init(coder aDecoder: NSCoder) {
+    public required convenience init?(coder aDecoder: NSCoder) {
         self.init(viewModel: ProductListViewModel(), coder: aDecoder)
     }
     
@@ -281,8 +281,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     /**
         Returns the product view model for the given index.
     
-        :param: index The index of the product.
-        :returns: The product view model.
+        - parameter index: The index of the product.
+        - returns: The product view model.
     */
     public func productViewModelForProductAtIndex(index: Int) -> ProductViewModel {
         let product = productAtIndex(index)
@@ -451,12 +451,12 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         // Load the view, and add it as Subview
         NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
         contentView.frame = self.bounds
-        contentView.autoresizingMask = .FlexibleHeight | .FlexibleWidth
+        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         self.addSubview(contentView)
         
         // Setup UI
         // > Data
-        var layout = CHTCollectionViewWaterfallLayout()
+        let layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = 0.0
         layout.minimumInteritemSpacing = 0.0
         self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
@@ -495,8 +495,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     /**
         Returns the product at the given index.
     
-        :param: index The index of the product.
-        :returns: The product.
+        - parameter index: The index of the product.
+        - returns: The product.
     */
     private func productAtIndex(index: Int) -> Product {
         return productListViewModel.productAtIndex(index)

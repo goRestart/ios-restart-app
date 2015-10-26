@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class Currency: Equatable {
+public class Currency: Equatable {
     public let code: String
     public let symbol: String
     public init(code: String, symbol: String) {

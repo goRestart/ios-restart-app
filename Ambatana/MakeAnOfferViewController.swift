@@ -27,7 +27,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         super.viewDidLoad()
 
         // appearance
-        setLetGoNavigationBarStyle(title: LGLocalizedString.makeAnOfferTitle)
+        setLetGoNavigationBarStyle(LGLocalizedString.makeAnOfferTitle)
         // > set the product currency
         if let actualProduct = product {
             let currencyCode = actualProduct.currency?.code ?? Constants.defaultCurrencyCode
@@ -68,18 +68,18 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
     
     @IBAction func makeAnOffer(sender: AnyObject) {
-        if let actualProduct = product, let productUser = product?.user, let myUser = MyUserManager.sharedInstance.myUser(), let productPrice = priceTextField?.text.toInt() {
+        if let actualProduct = product, let productUser = product?.user, let myUser = MyUserManager.sharedInstance.myUser(), let productPriceStr = priceTextField.text, let productPrice = Int(productPriceStr) {
             
             // Loading
             enableLoadingInterface()
 
             // 1. Send the offer
-            var offerText = generateOfferText(productPrice)
-            ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) { [weak self] (sendResult: Result<Message, ChatSendMessageServiceError>) -> Void in
+            let offerText = generateOfferText(productPrice)
+            ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) { [weak self] (sendResult: ChatSendMessageServiceResult) -> Void in
                 if let strongSelf = self {
 
                     // Success
-                    if let success = sendResult.value {
+                    if let _ = sendResult.value {
 
                         // 2. Retrieve the chat
                         ChatManager.sharedInstance.retrieveChatWithProduct(actualProduct, buyer: myUser) { [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
@@ -147,7 +147,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     }
     
     func openChatViewControllerWithChat(chat: Chat) {
-        if let chatVC = ChatViewController(chat: chat), var controllers = navigationController?.viewControllers as? [UIViewController] {
+        if let chatVC = ChatViewController(chat: chat), var controllers = navigationController?.viewControllers {
             controllers.removeLast()
             controllers.append(chatVC)
             navigationController?.viewControllers = controllers
@@ -159,7 +159,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     }
     
     func launchChatVC(chat: Chat) {
-        if let chatVC = ChatViewController(chat: chat), var controllers = navigationController?.viewControllers as? [UIViewController] {
+        if let chatVC = ChatViewController(chat: chat), var controllers = navigationController?.viewControllers {
             controllers.removeLast()
             controllers.append(chatVC)
             navigationController?.viewControllers = controllers

@@ -8,7 +8,7 @@
 
 import Result
 
-public enum ChatSendMessageServiceError: Printable {
+public enum ChatSendMessageServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Unauthorized
     case NotFound
@@ -31,20 +31,21 @@ public enum ChatSendMessageServiceError: Printable {
     }
 }
 
-public typealias ChatSendMessageServiceResult = (Result<Message, ChatSendMessageServiceError>) -> Void
+public typealias ChatSendMessageServiceResult = Result<Message, ChatSendMessageServiceError>
+public typealias ChatSendMessageServiceCompletion = ChatSendMessageServiceResult -> Void
 
 public protocol ChatSendMessageService {
 
     /**
         Sends a message to a given user and product.
     
-        :param: sessionToken The session token.
-        :param: userId The sender user id.
-        :param: message The message.
-        :param: type The type.
-        :param: recipientUserId The recipient user id.
-        :param: productId The product id.
-        :param: result The completion closure.
+        - parameter sessionToken: The session token.
+        - parameter userId: The sender user id.
+        - parameter message: The message.
+        - parameter type: The type.
+        - parameter recipientUserId: The recipient user id.
+        - parameter productId: The product id.
+        - parameter completion: The completion closure.
     */
-    func sendMessageWithSessionToken(sessionToken: String, userId: String, message: String, type: MessageType, recipientUserId: String, productId: String, result: ChatSendMessageServiceResult?)
+    func sendMessageWithSessionToken(sessionToken: String, userId: String, message: String, type: MessageType, recipientUserId: String, productId: String, completion: ChatSendMessageServiceCompletion?)
 }

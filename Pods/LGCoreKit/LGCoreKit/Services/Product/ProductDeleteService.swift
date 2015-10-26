@@ -8,21 +8,22 @@
 
 import Result
 
-public enum ProductDeleteServiceError {
+public enum ProductDeleteServiceError: ErrorType {
     case Network
     case Internal
 }
 
-public typealias ProductDeleteServiceResult = (Result<Nil, ProductDeleteServiceError>) -> Void
+public typealias ProductDeleteServiceResult = Result<Nil, ProductDeleteServiceError>
+public typealias ProductDeleteServiceCompletion = ProductDeleteServiceResult -> Void
 
 public protocol ProductDeleteService {
     
     /**
         Deletes the product.
     
-        :param: productId the product id.
-        :param: sessionToken the user session token.
-        :param: result The closure containing the result.
+        - parameter productId: the product id.
+        - parameter sessionToken: the user session token.
+        - parameter completion: The completion closure.
     */
-    func deleteProductWithId(productId: String, sessionToken: String, result: ProductDeleteServiceResult?)
+    func deleteProductWithId(productId: String, sessionToken: String, completion: ProductDeleteServiceCompletion?)
 }

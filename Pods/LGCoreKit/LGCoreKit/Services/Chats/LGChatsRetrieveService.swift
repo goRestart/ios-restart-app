@@ -29,7 +29,7 @@ public class LGChatsRetrieveService: ChatsRetrieveService {
     
     // MARK: - ChatsRetrieveService
     
-    public func retrieveChatsWithSessionToken(sessionToken: String, result: ChatsRetrieveServiceResult?) {
+    public func retrieveChatsWithSessionToken(sessionToken: String, completion: ChatsRetrieveServiceCompletion?) {
         var parameters = Dictionary<String, AnyObject>()
         parameters["num_results"] = 1000
         let headers = [
@@ -37,30 +37,30 @@ public class LGChatsRetrieveService: ChatsRetrieveService {
         ]
         Alamofire.request(.GET, url, parameters: parameters, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (req, httpResponse: NSHTTPURLResponse?, response: LGChatsResponse?, error: NSError?) -> Void in
+            .responseObject({ (response: Response<LGChatsResponse, NSError>) -> Void in
+                // Success
+                if let chatsResponse = response.result.value {
+                    completion?(ChatsRetrieveServiceResult(value: chatsResponse))
+                }
                 // Error
-                if let actualError = error {
+                else if let actualError = response.result.error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<ChatsResponse, ChatsRetrieveServiceError>.failure(.Network))
+                        completion?(ChatsRetrieveServiceResult(error: .Network))
                     }
-                    else if let statusCode = httpResponse?.statusCode {
+                    else if let statusCode = response.response?.statusCode {
                         switch statusCode {
                         case 401:
-                            result?(Result<ChatsResponse, ChatsRetrieveServiceError>.failure(.Unauthorized))
+                            completion?(ChatsRetrieveServiceResult(error: .Unauthorized))
                         case 403:
-                            result?(Result<ChatsResponse, ChatsRetrieveServiceError>.failure(.Forbidden))
+                            completion?(ChatsRetrieveServiceResult(error: .Forbidden))
                         default:
-                            result?(Result<ChatsResponse, ChatsRetrieveServiceError>.failure(.Internal))
+                            completion?(ChatsRetrieveServiceResult(error: .Internal))
                         }
                     }
                     else {
-                        result?(Result<ChatsResponse, ChatsRetrieveServiceError>.failure(.Internal))
+                        completion?(ChatsRetrieveServiceResult(error: .Internal))
                     }
                 }
-                // Success
-                else if let chatsResponse = response {
-                    result?(Result<ChatsResponse, ChatsRetrieveServiceError>.success(chatsResponse))
-                }
-        }
+            })
     }
 }

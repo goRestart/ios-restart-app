@@ -30,32 +30,29 @@ final public class LGProductMarkSoldService: ProductMarkSoldService {
 
     // MARK: - ProductMarkSoldService
     
-    public func markAsSoldProduct(product: Product, sessionToken: String, result: ProductMarkSoldServiceResult?) {
+    public func markAsSoldProduct(product: Product, sessionToken: String, completion: ProductMarkSoldServiceCompletion?) {
         
-        let fullUrl = "\(url)/\(product.objectId)"
+        let fullUrl = "\(url)/\(product.objectId!)"
         
         let headers = [
             LGCoreKitConstants.httpHeaderUserToken: sessionToken
         ]
-        
         var params = Dictionary<String, AnyObject>()
-        
-        params["status"] = ProductStatus.Sold.rawValue // NSNumber(integer: )
+        params["status"] = ProductStatus.Sold.rawValue
         
         Alamofire.request(.PATCH, fullUrl, parameters: params, encoding: .JSON, headers: headers)
             .validate(statusCode: 200..<400)
             .response { (request, response, _, error: NSError?) -> Void in
                 // Error
                 if let actualError = error {
-                    let myError : NSError
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<Product, ProductMarkSoldServiceError>.failure(.Network))
+                        completion?(ProductMarkSoldServiceResult(error: .Network))
                     }
                     else {
-                        result?(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
+                        completion?(ProductMarkSoldServiceResult(error: .Internal))
                     }
                 } else {
-                    result?(Result<Product, ProductMarkSoldServiceError>.success(product))
+                    completion?(ProductMarkSoldServiceResult(value: product))
                 }
         }
         

@@ -31,7 +31,7 @@ class ContactSubjectOptionsViewController: BaseViewController, UITableViewDelega
         self.init(viewModel: convenienceViewModel, selectedRow: nil)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -45,7 +45,7 @@ class ContactSubjectOptionsViewController: BaseViewController, UITableViewDelega
         tableView.delegate = self
         tableView.dataSource = self
         
-        setLetGoNavigationBarStyle(title: LGLocalizedString.contactSubjectOptionsTitle)
+        setLetGoNavigationBarStyle(LGLocalizedString.contactSubjectOptionsTitle)
     }
 
     override func viewWillAppear(animated: Bool) {

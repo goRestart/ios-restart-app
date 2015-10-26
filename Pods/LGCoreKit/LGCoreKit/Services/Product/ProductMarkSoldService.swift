@@ -8,7 +8,7 @@
 
 import Result
 
-public enum ProductMarkSoldServiceError: Printable {
+public enum ProductMarkSoldServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
     
@@ -22,16 +22,17 @@ public enum ProductMarkSoldServiceError: Printable {
     }
 }
 
-public typealias ProductMarkSoldServiceResult = (Result<Product, ProductMarkSoldServiceError>) -> Void
+public typealias ProductMarkSoldServiceResult = Result<Product, ProductMarkSoldServiceError>
+public typealias ProductMarkSoldServiceCompletion = ProductMarkSoldServiceResult -> Void
 
 public protocol ProductMarkSoldService {
     
     /**
         Marks a product as sold.
     
-        :param: product The product.
-        :param: result The completion closure.
+        - parameter product: The product.
+        - parameter completion: The completion closure.
     */
     // TODO: User product id instead of product
-    func markAsSoldProduct(product: Product, sessionToken: String, result: ProductMarkSoldServiceResult?)
+    func markAsSoldProduct(product: Product, sessionToken: String, completion: ProductMarkSoldServiceCompletion?)
 }

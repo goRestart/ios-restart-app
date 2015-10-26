@@ -10,7 +10,7 @@
 import Alamofire
 import SwiftyJSON
 
-@objc public class LGUserProductRelationResponse : ResponseObjectSerializable {
+public class LGUserProductRelationResponse : ResponseObjectSerializable {
     
     // Constant
     private static let isFavoritedKey = "is_favorited"

@@ -9,7 +9,7 @@
 
 import Result
 
-public enum UserRetrieveServiceError: Printable {
+public enum UserRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
     
@@ -23,16 +23,17 @@ public enum UserRetrieveServiceError: Printable {
     }
 }
 
-public typealias UserRetrieveServiceResult = (Result<User, UserRetrieveServiceError>) -> Void
+public typealias UserRetrieveServiceResult = Result<User, UserRetrieveServiceError>
+public typealias UserRetrieveServiceCompletion = UserRetrieveServiceResult -> Void
 
 public protocol UserRetrieveService {
     
     /**
         Retrieves a user.
     
-        :param: user The user.
-        :param: completion The completion closure.
+        - parameter user: The user.
+        - parameter completion: The completion closure.
     */
-    func retrieveUserWithId(userId: String, result: UserRetrieveServiceResult?)
+    func retrieveUserWithId(userId: String, completion: UserRetrieveServiceCompletion?)
 }
 

@@ -88,7 +88,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     
     convenience init?(product: Product) {
         // TODO: Refactor!
-        var chat = LGChat()
+        let chat = LGChat()
         chat.product = product
         chat.userFrom = MyUserManager.sharedInstance.myUser()
         chat.userTo = product.user
@@ -99,7 +99,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         self.newChat = true
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -197,7 +197,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
                         }
                         // Show the safety tips if we received a message by other user & the tips were not shown ever
                         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
-                        var shouldShowSafetyTips = ( messageByOtherUserReceived && idxLastPageSeen == nil )
+                        let shouldShowSafetyTips = ( messageByOtherUserReceived && idxLastPageSeen == nil )
                         if shouldShowSafetyTips {
                             strongSelf.showSafetyTips()
                         }
@@ -271,13 +271,13 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         
         // product name & navbar title
         self.productNameLabel.text = product.name ?? ""
-        self.setLetGoNavigationBarStyle(title: self.productNameLabel.text)
+        self.setLetGoNavigationBarStyle(self.productNameLabel.text)
                 
         // price
         self.priceLabel.text = product.formattedPrice()
         
         // product owner
-        if let user = product.user, let myUser = MyUserManager.sharedInstance.myUser() {
+        if let user = product.user, let _ = MyUserManager.sharedInstance.myUser() {
             usernameLabel.text = user.publicUsername ?? ""
         }
         else {
@@ -311,74 +311,77 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     @IBAction func sendMessage(sender: AnyObject) {
         // safety checks
         if isSendingMessage { return }
-        if count(self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())) < 1 { return }
         
-        if let product = chat.product {
-            
-            // Update flag
-            self.isSendingMessage = true
-            
+        if let messageTextFieldText = messageTextfield.text {
             // Send the message
-            let message = self.messageTextfield.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-            ChatManager.sharedInstance.sendText(message, product: product, recipient: otherUser) { [weak self] (result: Result<Message, ChatSendMessageServiceError>) -> Void in
-                if let strongSelf = self {
-                    // Success
-                    if let sentMessage = result.value {
-                        // Update the data
-                        var messages = strongSelf.chat.messages ?? []
-                        messages.insert(sentMessage, atIndex: 0)
-                        strongSelf.chat.messages = messages
-                        
-                        // Update UI and scroll to the bottom of the messages list
-                        strongSelf.tableView.reloadData()
-                        strongSelf.scrollToTopOfMessagesList(false)
-                        //self.tableView.reloadData()
-                        strongSelf.messageTextfield.text = ""
-                        
-                        // Since there's a 1 sec delay, we have to add an extra control here to avoid showing the rating view more than once
-                        if !UserDefaultsManager.sharedInstance.loadAlreadyRated() && !strongSelf.alreadyAskedForRating {
-                            strongSelf.alreadyAskedForRating = true
-                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                                
-                                // Hide message field keyboard
-                                strongSelf.messageTextfield.resignFirstResponder()
-                                
-                                // Show app rating view
-                                if let tabBarCtrl = strongSelf.tabBarController as? TabBarController {
-                                    tabBarCtrl.showAppRatingViewIfNeeded()
+            let message = messageTextFieldText.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            if message.characters.count < 1 { return }
+            
+            if let product = chat.product {
+                
+                // Update flag
+                self.isSendingMessage = true
+                
+                ChatManager.sharedInstance.sendText(message, product: product, recipient: otherUser) { [weak self] (result: ChatSendMessageServiceResult) -> Void in
+                    if let strongSelf = self {
+                        // Success
+                        if let sentMessage = result.value {
+                            // Update the data
+                            var messages = strongSelf.chat.messages ?? []
+                            messages.insert(sentMessage, atIndex: 0)
+                            strongSelf.chat.messages = messages
+                            
+                            // Update UI and scroll to the bottom of the messages list
+                            strongSelf.tableView.reloadData()
+                            strongSelf.scrollToTopOfMessagesList(false)
+                            //self.tableView.reloadData()
+                            strongSelf.messageTextfield.text = ""
+                            
+                            // Since there's a 1 sec delay, we have to add an extra control here to avoid showing the rating view more than once
+                            if !UserDefaultsManager.sharedInstance.loadAlreadyRated() && !strongSelf.alreadyAskedForRating {
+                                strongSelf.alreadyAskedForRating = true
+                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                                    
+                                    // Hide message field keyboard
+                                    strongSelf.messageTextfield.resignFirstResponder()
+                                    
+                                    // Show app rating view
+                                    if let tabBarCtrl = strongSelf.tabBarController as? TabBarController {
+                                        tabBarCtrl.showAppRatingViewIfNeeded()
+                                    }
                                 }
                             }
+                            
+                            // Tracking
+                            let myUser = MyUserManager.sharedInstance.myUser()
+                            if let product = strongSelf.chat.product {
+                                if strongSelf.askQuestion {
+                                    strongSelf.askQuestion = false
+                                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, user: myUser)
+                                    TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
+                                }
+                                
+                                let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser)
+                                TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+                            }
+                        }
+                            // Error
+                        else if let error = result.error {
+                            switch (error) {
+                            case .Internal, .Network, .NotFound, .Unauthorized:
+                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
+                            case .Forbidden:
+                                // logout the scammer!
+                                self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
+                                    MyUserManager.sharedInstance.logout(nil)
+                                })
+                                
+                            }
                         }
                         
-                        // Tracking
-                        let myUser = MyUserManager.sharedInstance.myUser()
-                        if let product = strongSelf.chat.product {
-                            if strongSelf.askQuestion {
-                                strongSelf.askQuestion = false
-                                let askQuestionEvent = TrackerEvent.productAskQuestion(product, user: myUser)
-                                TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
-                            }
-                            
-                            let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser)
-                            TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-                        }
+                        // Update flag
+                        strongSelf.isSendingMessage = false
                     }
-                    // Error
-                    else if let error = result.error {
-                        switch (error) {
-                        case .Internal, .Network, .NotFound, .Unauthorized:
-                            strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
-                        case .Forbidden:
-                            // logout the scammer!
-                            self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                                MyUserManager.sharedInstance.logout(nil)
-                            })
-
-                        }
-                    }
-                    
-                    // Update flag
-                    strongSelf.isSendingMessage = false
                 }
             }
         }
@@ -497,7 +500,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     // MARK: - Allow copying text / highlighted state in cells
     
     func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool { return true }
-    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject) -> Bool { return action == "copy:" }
+    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool { return action == "copy:" }
 //    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject!) {
 //        if action == "copy:" {
 //            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
@@ -535,7 +538,9 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if count(textField.text) > 0 { self.sendMessage(self.sendButton) }
+        if let textFieldText = textField.text {
+            if textFieldText.characters.count > 0 { self.sendMessage(self.sendButton) }
+        }
         return true
     }
     
@@ -549,7 +554,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     
     func moveViewInResponseToKeyboardAppearing(appearing: Bool, withNotification notification: NSNotification) {
         let userInfo = notification.userInfo!
-        var keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue ?? NSValue(CGRect: CGRectZero)).CGRectValue().size
+        let keyboardSize = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue ?? NSValue(CGRect: CGRectZero)).CGRectValue().size
         let kbHeight = keyboardSize.height
         if !appearing {
             // restore autolayout.
@@ -579,7 +584,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         self.view.endEditing(true)
     }
 
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.resignRespondingTextfield()
     }
     
@@ -634,7 +639,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     /**
         Updates the chat safety tips last page seen to the given one, if possible.
     
-        :param: page The page.
+        - parameter page: The page.
     */
     private func updateChatSafetyTipsLastPageSeen(page: Int) {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0

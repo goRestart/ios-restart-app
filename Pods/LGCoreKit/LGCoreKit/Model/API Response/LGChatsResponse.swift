@@ -9,7 +9,7 @@
 import Alamofire
 import SwiftyJSON
 
-@objc public class LGChatsResponse : ChatsResponse, ResponseObjectSerializable {
+public class LGChatsResponse : ChatsResponse, ResponseObjectSerializable {
 
     public var chats: [Chat]
     
@@ -24,9 +24,12 @@ import SwiftyJSON
     public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
         self.init()
         
-        let countryInfoDao = RLMCountryInfoDAO()
-        let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
+        guard let countryInfoDao = RLMCountryInfoDAO() else {
+            return nil
+        }
 
+        let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
+        
         // since the response gives distance in the units passed per parameters,
         // we retrieve distance type the same way we do in productlistviewmodel
         var distanceType = DistanceType.Km
@@ -46,6 +49,7 @@ import SwiftyJSON
         else {
             return nil
         }
+
     }
     
 }

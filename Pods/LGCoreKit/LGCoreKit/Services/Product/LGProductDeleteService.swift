@@ -29,7 +29,7 @@ final public class LGProductDeleteService: ProductDeleteService {
     
     // MARK: - ProductDeleteService
     
-    public func deleteProductWithId(productId: String, sessionToken: String, result: ProductDeleteServiceResult?) {
+    public func deleteProductWithId(productId: String, sessionToken: String, completion: ProductDeleteServiceCompletion?) {
         let productURL = "\(url)/\(productId)"
         let headers = [
             LGCoreKitConstants.httpHeaderUserToken: sessionToken
@@ -40,15 +40,15 @@ final public class LGProductDeleteService: ProductDeleteService {
                 // Error
                 if let actualError = error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<Nil, ProductDeleteServiceError>.failure(.Network))
+                        completion?(ProductDeleteServiceResult(error: .Network))
                     }
                     else {
-                        result?(Result<Nil, ProductDeleteServiceError>.failure(.Internal))
+                        completion?(ProductDeleteServiceResult(error: .Internal))
                     }
                 }
                 // Success
                 else {
-                    result?(Result<Nil, ProductDeleteServiceError>.success(Nil()))
+                    completion?(ProductDeleteServiceResult(value: Nil()))
                 }
         }
     }

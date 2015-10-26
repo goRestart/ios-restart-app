@@ -38,11 +38,9 @@ final public class LGUserRetrieveService: UserRetrieveService {
 //    "created_at": "2015-09-18T08:05:16+0000",
 //    "updated_at": "2015-09-21T13:55:31+0000"
 //    }
-    
-    public func retrieveUserWithId(userId: String, result: UserRetrieveServiceResult?) {
+    public func retrieveUserWithId(userId: String, completion: UserRetrieveServiceCompletion?) {
         
-        var fullUrl = "\(url)/\(userId)"
-        
+        let fullUrl = "\(url)/\(userId)"
         let sessionToken : String = MyUserManager.sharedInstance.myUser()?.sessionToken ?? ""
         
         let headers = [
@@ -51,21 +49,20 @@ final public class LGUserRetrieveService: UserRetrieveService {
         
         Alamofire.request(.GET, fullUrl, parameters: nil, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (_, _, userResponse: LGUserResponse?, error: NSError?) -> Void in
+            .responseObject { (userResponse: Response<LGUserResponse, NSError>) in
                 // Error
-                if let actualError = error {
-                    let myError: NSError
+                if let actualError = userResponse.result.error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<User, UserRetrieveServiceError>.failure(.Network))
+                        completion?(UserRetrieveServiceResult(error: .Network))
                     }
                     else {
-                        result?(Result<User, UserRetrieveServiceError>.failure(.Internal))
+                        completion?(UserRetrieveServiceResult(error: .Internal))
                     }
                 }
                 // Success
-                else if let actualUserResponse = userResponse {
-                    result?(Result<User, UserRetrieveServiceError>.success(actualUserResponse.user))
+                else if let actualUserResponse = userResponse.result.value {
+                    completion?(UserRetrieveServiceResult(value: actualUserResponse.user))
                 }
-        }
+            }
     }
 }

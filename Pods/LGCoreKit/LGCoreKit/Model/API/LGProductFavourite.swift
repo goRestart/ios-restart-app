@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class LGProductFavourite: LGBaseModel, ProductFavourite {
+public class LGProductFavourite: LGBaseModel, ProductFavourite {
     
     public var product: Product?
     public var user: User?

@@ -9,7 +9,7 @@
 import Alamofire
 import SwiftyJSON
 
-@objc public class LGProductSaveResponse: ProductResponse, ResponseObjectSerializable {
+public class LGProductSaveResponse: ProductResponse, ResponseObjectSerializable {
     
     public var product: Product
     
@@ -26,7 +26,11 @@ import SwiftyJSON
         
         let json = JSON(representation)
         
-        let countryInfoDao = RLMCountryInfoDAO()
+        
+        guard let countryInfoDao = RLMCountryInfoDAO() else {
+            return nil
+        }
+        
         let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
         
         // since the response gives distance in the units passed per parameters,

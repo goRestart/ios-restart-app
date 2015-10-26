@@ -36,9 +36,15 @@ extension EnvironmentProxy: AppEnvironment {
         }
         return ""
     }
-    var googleConversionTrackingId: String {
+    var googleConversionPrimaryTrackingId: String {
         if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.googleConversionTrackingId
+            return appEnvironment.googleConversionPrimaryTrackingId
+        }
+        return ""
+    }
+    var googleConversionSecondaryTrackingId: String {
+        if let appEnvironment = environment as? AppEnvironment {
+            return appEnvironment.googleConversionSecondaryTrackingId
         }
         return ""
     }
@@ -46,20 +52,6 @@ extension EnvironmentProxy: AppEnvironment {
     var nanigansAppId: String {
         if let appEnvironment = environment as? AppEnvironment {
             return appEnvironment.nanigansAppId
-        }
-        return ""
-    }
-    
-    var urbanAirshipAPIKey: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.urbanAirshipAPIKey
-        }
-        return ""
-    }
-
-    var urbanAirshipAPISecret: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.urbanAirshipAPISecret
         }
         return ""
     }
@@ -74,6 +66,20 @@ extension EnvironmentProxy: AppEnvironment {
     var newRelicToken: String {
         if let appEnvironment = environment as? AppEnvironment {
             return appEnvironment.newRelicToken
+        }
+        return ""
+    }
+    
+    var googleAppIndexingId: UInt {
+        if let appEnvironment = environment as? AppEnvironment {
+            return appEnvironment.googleAppIndexingId
+        }
+        return 0
+    }
+
+    var configFileName: String {
+        if let appEnvironment = environment as? AppEnvironment {
+            return appEnvironment.configFileName
         }
         return ""
     }

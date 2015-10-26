@@ -36,27 +36,26 @@ final public class LGIPLookupLocationService: IPLookupLocationService {
     
     // MARK: - IPLookupLocationService
     
-    public func retrieveLocation(result: IPLookupLocationServiceResult?) {
+    public func retrieveLocationWithCompletion(completion: IPLookupLocationServiceCompletion?) {
         manager.request(.GET, url)
             .validate(statusCode: 200..<400)
-            .responseObject { (_, _, lookupLocationResponse: LGIPLookupLocationResponse?, error: NSError?) -> Void in
+            .responseObject({ (lookupLocationResponse: Response<LGIPLookupLocationResponse, NSError>) -> Void in
                 // Success
-                if let actualLookupLocationResponse = lookupLocationResponse {
-                    result?(Result<LGLocationCoordinates2D, IPLookupLocationServiceError>.success(actualLookupLocationResponse.coordinates))
+                if let actualLookupLocationResponse = lookupLocationResponse.result.value {
+                    completion?(IPLookupLocationServiceResult(value: actualLookupLocationResponse.coordinates))
                 }
                 // Error
-                else if let actualError = error {
-                    let myError: NSError
-                    if actualError.domain == NSURLErrorDomain {
-                        result?(Result<LGLocationCoordinates2D, IPLookupLocationServiceError>.failure(.Network))
+                else if let error = lookupLocationResponse.result.error {
+                    if error.domain == NSURLErrorDomain {
+                        completion?(IPLookupLocationServiceResult(error: .Network))
                     }
                     else {
-                        result?(Result<LGLocationCoordinates2D, IPLookupLocationServiceError>.failure(.Internal))
+                        completion?(IPLookupLocationServiceResult(error: .Internal))
                     }
                 }
                 else {
-                    result?(Result<LGLocationCoordinates2D, IPLookupLocationServiceError>.failure(.Internal))
+                    completion?(IPLookupLocationServiceResult(error: .Internal))
                 }
-        }   
+            })
     }
 }

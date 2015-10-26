@@ -15,7 +15,7 @@ final public class ProductsManager {
     
     public private(set) var currentParams: RetrieveProductsParams?
     
-    public private(set) var products: NSArray
+    public private(set) var products: [Product]
     public private(set) var lastPage: Bool
     
     public private(set) var isLoading: Bool
@@ -36,7 +36,7 @@ final public class ProductsManager {
     /**
         Returns if it can retrieve the first page of products.
     
-        :returns: If it can retrieve the first page of products. Returns false if already loading.
+        - returns: If it can retrieve the first page of products. Returns false if already loading.
     */
     public var canRetrieveProducts: Bool {
         get {
@@ -47,7 +47,7 @@ final public class ProductsManager {
     /**
         Returns if it can retrieve the next page of products.
     
-        :returns: If it can retrieve the next page of products. Returns false if already loading, is the last page or
+        - returns: If it can retrieve the next page of products. Returns false if already loading, is the last page or
                   we didn't retrieve the first page.
     */
     public var canRetrieveProductsNextPage: Bool {
@@ -64,13 +64,13 @@ final public class ProductsManager {
     /**
         Retrieves the products with the given parameters.
     
-        :param: params The product retrieval parameters.
-        :param: result The result.
+        - parameter params: The product retrieval parameters.
+        - parameter result: The result.
     */
-    public func retrieveProductsWithParams(params: RetrieveProductsParams, result: ProductsRetrieveServiceResult?)  {
+    public func retrieveProductsWithParams(params: RetrieveProductsParams, completion: ProductsRetrieveServiceCompletion?)  {
         
         if !canRetrieveProducts {
-            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+            completion?(ProductsRetrieveServiceResult(error: .Internal))
             return
         }
         
@@ -79,7 +79,7 @@ final public class ProductsManager {
         lastPage = false
         isLoading = true
         
-        productsRetrieveService.retrieveProductsWithParams(params) { [weak self] (myResult: Result<ProductsResponse, ProductsRetrieveServiceError>) in
+        productsRetrieveService.retrieveProductsWithParams(params) { [weak self] (myResult: ProductsRetrieveServiceResult) in
             if let strongSelf = self {
                 
                 strongSelf.isLoading = false
@@ -88,13 +88,14 @@ final public class ProductsManager {
                 if let response = myResult.value {
                     // Update the params as soon as succeeded, for correct handling in subsequent calls
                     strongSelf.currentParams = params
-
+                    
                     // Assign the new products & keep track if it's last page
                     strongSelf.products = response.products
+                    
                     strongSelf.lastPage = response.products.count < 1
                 }
                 
-                result?(myResult)
+                completion?(myResult)
             }
         }
     }
@@ -102,12 +103,13 @@ final public class ProductsManager {
     /**
         Retrieves the products next page with the previous parameters.
     
-        :param: result The result.
+        - parameter result: The result.
     */
-    public func retrieveProductsNextPageWithResult(result: ProductsRetrieveServiceResult?) {
+//    public func retrieveProductsNextPageWithResult(completion: ProductsRetrieveServiceCompletion?) {
+    public func retrieveProductsNextPageWithCompletion(completion: ProductsRetrieveServiceCompletion?) {
         
         if !canRetrieveProductsNextPage {
-            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+            completion?(ProductsRetrieveServiceResult(error: .Internal))
             return
         }
         
@@ -118,7 +120,7 @@ final public class ProductsManager {
         var newParams: RetrieveProductsParams = currentParams!
         newParams.offset = products.count
         
-        productsRetrieveService.retrieveProductsWithParams(newParams) { [weak self] (myResult: Result<ProductsResponse, ProductsRetrieveServiceError>) in
+        productsRetrieveService.retrieveProductsWithParams(newParams) { [weak self] (myResult: ProductsRetrieveServiceResult) in
             if let strongSelf = self {
                 
                 strongSelf.isLoading = false
@@ -129,11 +131,12 @@ final public class ProductsManager {
                     strongSelf.currentParams = newParams
                     
                     // Add the new products & keep track if it's last page
-                    strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(response.products as [AnyObject])
+                    strongSelf.products += response.products
+                    
                     strongSelf.lastPage = response.products.count < 1
                 }
                 
-                result?(myResult)
+                completion?(myResult)
             }
         }
     }
@@ -141,13 +144,13 @@ final public class ProductsManager {
     /**
         Retrieves the products with the given parameters.
     
-        :param: params The product retrieval parameters.
-        :param: result The result.
+        - parameter params: The product retrieval parameters.
+        - parameter result: The result.
     */
-    public func retrieveUserProductsWithParams(params: RetrieveProductsParams, result: ProductsRetrieveServiceResult?)  {
+    public func retrieveUserProductsWithParams(params: RetrieveProductsParams, completion: ProductsRetrieveServiceCompletion?)  {
         
         if !canRetrieveProducts {
-            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+            completion?(ProductsRetrieveServiceResult(error: .Internal))
             return
         }
         
@@ -156,7 +159,7 @@ final public class ProductsManager {
         lastPage = true
         isLoading = true
         
-        userProductsRetrieveService.retrieveUserProductsWithParams(params) { [weak self] (myResult: Result<ProductsResponse, ProductsRetrieveServiceError>) in
+        userProductsRetrieveService.retrieveUserProductsWithParams(params) { [weak self] (myResult: ProductsRetrieveServiceResult) in
             if let strongSelf = self {
                 
                 strongSelf.isLoading = false
@@ -171,7 +174,7 @@ final public class ProductsManager {
                     strongSelf.lastPage = response.products.count < 1
                 }
                 
-                result?(myResult)
+                completion?(myResult)
             }
         }
     }
@@ -179,12 +182,13 @@ final public class ProductsManager {
     /**
         Retrieves the products next page with the previous parameters.
     
-        :param: result The result.
+        - parameter result: The result.
     */
-    public func retrieveUserProductsNextPageWithResult(result: ProductsRetrieveServiceResult?) {
+//    public func retrieveUserProductsNextPageWithResult(result: ProductsRetrieveServiceResult?) {
+    public func retrieveUserProductsNextPageWithCompletion(completion: ProductsRetrieveServiceCompletion?) {
         
         if !canRetrieveProductsNextPage {
-            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+            completion?(ProductsRetrieveServiceResult(error: .Internal))
             return
         }
         
@@ -195,7 +199,7 @@ final public class ProductsManager {
         var newParams: RetrieveProductsParams = currentParams!
         newParams.offset = products.count
         
-        userProductsRetrieveService.retrieveUserProductsWithParams(newParams) { [weak self] (myResult: Result<ProductsResponse, ProductsRetrieveServiceError>) in
+        userProductsRetrieveService.retrieveUserProductsWithParams(newParams) { [weak self] (myResult: ProductsRetrieveServiceResult) in
             if let strongSelf = self {
                 
                 strongSelf.isLoading = false
@@ -206,11 +210,11 @@ final public class ProductsManager {
                     strongSelf.currentParams = newParams
                     
                     // Add the new products & keep track if it's last page
-                    strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(response.products as [AnyObject])
+                    strongSelf.products += response.products
                     strongSelf.lastPage = response.products.count < 1
                 }
                 
-                result?(myResult)
+                completion?(myResult)
             }
         }
     }

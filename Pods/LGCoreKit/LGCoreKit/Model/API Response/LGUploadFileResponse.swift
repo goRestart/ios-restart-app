@@ -9,7 +9,7 @@
 import Alamofire
 import SwiftyJSON
 
-@objc public class LGUploadFileResponse : ResponseObjectSerializable {
+public class LGUploadFileResponse : ResponseObjectSerializable {
     
     // Constant
     private static let imageIdKey = "imageId"

@@ -65,7 +65,7 @@ public class ProductListViewModel: BaseViewModel {
     private let productsManager: ProductsManager
     
     // Data
-    private var products: NSArray
+    private var products: [Product]
     public private(set) var pageNumber: UInt
     
     // UI
@@ -142,7 +142,7 @@ public class ProductListViewModel: BaseViewModel {
         
         let currentCount = numberOfProducts
         
-        let myResult = { [weak self] (result: Result<ProductsResponse, ProductsRetrieveServiceError>) -> Void in
+        let completion = { [weak self] (result: ProductsRetrieveServiceResult) -> Void in
             if let strongSelf = self {
                 // Success
                 if let productsResponse = result.value {
@@ -169,9 +169,9 @@ public class ProductListViewModel: BaseViewModel {
         }
         
         if isProfileList {
-            productsManager.retrieveUserProductsWithParams(params, result: myResult)
+            productsManager.retrieveUserProductsWithParams(params, completion: completion)
         } else {
-            productsManager.retrieveProductsWithParams(params, result: myResult)
+            productsManager.retrieveProductsWithParams(params, completion: completion)
         }
     }
     
@@ -185,13 +185,13 @@ public class ProductListViewModel: BaseViewModel {
         
         dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
         
-        let myResult = { [weak self] (result: Result<ProductsResponse, ProductsRetrieveServiceError>) -> Void in
+        let completion = { [weak self] (result: ProductsRetrieveServiceResult) -> Void in
             if let strongSelf = self {
                 // Success
                 if let productsResponse = result.value {
                     // Add the new products & update the page number
                     let newProducts = productsResponse.products
-                    strongSelf.products = strongSelf.products.arrayByAddingObjectsFromArray(newProducts as [AnyObject])
+                    strongSelf.products.appendContentsOf(newProducts)
                     strongSelf.pageNumber = nextPageNumber
 
                     // Notify the delegate
@@ -210,9 +210,9 @@ public class ProductListViewModel: BaseViewModel {
             }
         }
         if isProfileList {
-            productsManager.retrieveUserProductsNextPageWithResult(myResult)
+            productsManager.retrieveUserProductsNextPageWithCompletion(completion)
         } else {
-            productsManager.retrieveProductsNextPageWithResult(myResult)
+            productsManager.retrieveProductsNextPageWithCompletion(completion)
         }
         
     }
@@ -257,18 +257,18 @@ public class ProductListViewModel: BaseViewModel {
     /**
         Returns the product at the given index.
     
-        :param: index The index of the product.
-        :returns: The product.
+        - parameter index: The index of the product.
+        - returns: The product.
     */
     public func productAtIndex(index: Int) -> Product {
-        return products.objectAtIndex(index) as! Product
+        return products[index]
     }
     
     /**
         Returns the product object id for the product at the given index.
     
-        :param: index The index of the product.
-        :returns: The product object id.
+        - parameter index: The index of the product.
+        - returns: The product object id.
     */
     public func productObjectIdForProductAtIndex(index: Int) -> String? {
         return productAtIndex(index).objectId
@@ -277,8 +277,8 @@ public class ProductListViewModel: BaseViewModel {
     /**
         Returns the size of the cell at the given index path.
     
-        :param: index The index of the product.
-        :returns: The cell size.
+        - parameter index: The index of the product.
+        - returns: The cell size.
     */
     public func sizeForCellAtIndex(index: Int) -> CGSize {
         let product = productAtIndex(index)
@@ -296,7 +296,7 @@ public class ProductListViewModel: BaseViewModel {
     /**
         Sets which item is currently visible on screen. If it exceeds a certain threshold then it loads next page, if possible.
     
-        :param: index The index of the product currently visible on screen.
+        - parameter index: The index of the product currently visible on screen.
     */
     public func setCurrentItemIndex(index: Int) {
         let threshold = Int(Float(numberOfProducts) * ProductListViewModel.itemsPagingThresholdPercentage)

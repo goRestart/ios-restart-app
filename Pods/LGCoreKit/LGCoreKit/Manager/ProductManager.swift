@@ -59,35 +59,35 @@ public class ProductManager {
     /**
         Retrieves a product with the given id.
     
-        :param: productId The product identifier.
-        :param: result The completion closure.
+        - parameter productId: The product identifier.
+        - parameter result: The completion closure.
     */
-    public func retrieveProductWithId(productId: String, result: ProductRetrieveServiceResult) {
-        productRetrieveService.retrieveProductWithId(productId, result: result)
+    public func retrieveProductWithId(productId: String, completion: ProductRetrieveServiceCompletion) {
+        productRetrieveService.retrieveProductWithId(productId, completion: completion)
     }
     
     /**
         Saves (new/edit) the product for my user. If it's new, it's responsibility of the user that it has valid coordinates.
     
-        :param: product the product
-        :param: images the product images
-        :param: result The closure containing the result.
+        - parameter product: the product
+        - parameter images: the product images
+        - parameter result: The closure containing the result.
     */
-    public func saveProduct(product: Product, withImages images: [UIImage], progress: (Float) -> Void, result: ProductSaveServiceResult?) {
+    public func saveProduct(product: Product, withImages images: [UIImage], progress: (Float) -> Void, completion: ProductSaveServiceCompletion?) {
 
         /* If we don't have a user (with id & session token), or it's a new product and the user doesn't have coordinates, then it's an error */
         let user = MyUserManager.sharedInstance.myUser()
         if  (user == nil && user!.objectId != nil && user!.sessionToken == nil) ||
             (!product.isSaved && user?.gpsCoordinates == nil) {
-            result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
+            completion?(ProductSaveServiceResult(error: .Internal))
             return
         }
         
         // Prepare images' file name & their data
         var imageNameAndDatas: [(String, NSData)] = []
-        for (index, image) in enumerate(images) {
+        for (index, image) in images.enumerate() {
             if let data = resizeImageDataFromImage(image) {
-                let name = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "", options: nil, range: nil) + "_\(index).jpg"
+                let name = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "", options: [], range: nil) + "_\(index).jpg"
                 let imageNameAndData = (name, data)
                 imageNameAndDatas.append(imageNameAndData)
             }
@@ -100,7 +100,7 @@ public class ProductManager {
             // Notify about the progress
             progress(Float(imagesUploadStep)/totalSteps)
             
-        }) { [weak self] (multipleFilesUploadResult: Result<[File], FileUploadServiceError>) -> Void in
+        }) { [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
             // Success and we have my user, and it has coordinates
             if let images = multipleFilesUploadResult.value, let myUser = user, let location = myUser.gpsCoordinates, let myUserSessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
                 product.images = images
@@ -113,25 +113,25 @@ public class ProductManager {
                 }
               
                 // 2. Save
-                self?.productSaveService.saveProduct(product, forUser: myUser, sessionToken: myUserSessionToken) { [weak self] (saveResult: Result<Product, ProductSaveServiceError>) -> Void in
+                self?.productSaveService.saveProduct(product, forUser: myUser, sessionToken: myUserSessionToken) { (saveResult: ProductSaveServiceResult) -> Void in
 
                     // Success
-                    if let savedProduct = saveResult.value, productId = savedProduct.objectId {
+                    if let savedProduct = saveResult.value, _ = savedProduct.objectId {
                         
-                        result?(Result<Product, ProductSaveServiceError>.success(savedProduct))
+                        completion?(ProductSaveServiceResult(value: savedProduct))
                     }
                     // Error
                     else {
                         let error = saveResult.error ?? .Internal
                         switch (error) {
                         case .Internal:
-                            result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
+                            completion?(ProductSaveServiceResult(error: .Internal))
                         case .Network:
-                            result?(Result<Product, ProductSaveServiceError>.failure(.Network))
+                            completion?(ProductSaveServiceResult(error: .Network))
                         case .Forbidden:
-                            result?(Result<Product, ProductSaveServiceError>.failure(.Forbidden))
+                            completion?(ProductSaveServiceResult(error: .Forbidden))
                         case .NoImages, .NoTitle, .NoPrice, .NoDescription, .LongDescription, .NoCategory:
-                            result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
+                            completion?(ProductSaveServiceResult(error: .Internal))
                         }
                     }
                 }
@@ -141,11 +141,11 @@ public class ProductManager {
                 let error = multipleFilesUploadResult.error ?? .Internal
                 switch (error) {
                 case .Internal:
-                    result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
+                    completion?(ProductSaveServiceResult(error: .Internal))
                 case .Network:
-                    result?(Result<Product, ProductSaveServiceError>.failure(.Network))
+                    completion?(ProductSaveServiceResult(error: .Network))
                 case .Forbidden:
-                    result?(Result<Product, ProductSaveServiceError>.failure(.Forbidden))  
+                    completion?(ProductSaveServiceResult(error: .Forbidden))
                 }
             }
         }
@@ -154,38 +154,38 @@ public class ProductManager {
     /**
         Delete a product.
     
-        :param: product the product
-        :param: result The closure containing the result.
+        - parameter product: the product
+        - parameter result: The closure containing the result.
     */
-    public func deleteProduct(product: Product, result: ProductDeleteServiceResult?) {
+    public func deleteProduct(product: Product, completion: ProductDeleteServiceCompletion?) {
         if let productId = product.objectId, let myUserSessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-            productDeleteService.deleteProductWithId(productId, sessionToken: myUserSessionToken, result: result)
+            productDeleteService.deleteProductWithId(productId, sessionToken: myUserSessionToken, completion: completion)
         }
         else {
-            result?(Result<Nil, ProductDeleteServiceError>.failure(.Internal))
+            completion?(ProductDeleteServiceResult(error: .Internal))
         }
     }
     
     /**
         Mark Product as Sold.
     
-        :param: product the product
-        :param: result The closure containing the result.
+        - parameter product: the product
+        - parameter result: The closure containing the result.
     */
-    public func markProductAsSold(product: Product, result: ProductMarkSoldServiceResult?) {
+    public func markProductAsSold(product: Product, completion: ProductMarkSoldServiceCompletion?) {
         
         if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-            productMarkSoldService.markAsSoldProduct(product, sessionToken: sessionToken) { [weak self] (markAsSoldResult: Result<Product, ProductMarkSoldServiceError>) -> Void in
-                if let soldProduct = markAsSoldResult.value, let productId = soldProduct.objectId {
-                    result?(Result<Product, ProductMarkSoldServiceError>.success(soldProduct))
+            productMarkSoldService.markAsSoldProduct(product, sessionToken: sessionToken) { (markAsSoldResult: ProductMarkSoldServiceResult) -> Void in
+                if let soldProduct = markAsSoldResult.value, let _ = soldProduct.objectId {
+                    completion?(ProductMarkSoldServiceResult(value: soldProduct))
                 }
                 else {
                     let error = markAsSoldResult.error ?? .Internal
                     switch (error) {
                     case .Internal:
-                        result?(Result<Product, ProductMarkSoldServiceError>.failure(.Internal))
+                        completion?(ProductMarkSoldServiceResult(error: .Internal))
                     case .Network:
-                        result?(Result<Product, ProductMarkSoldServiceError>.failure(.Network))
+                        completion?(ProductMarkSoldServiceResult(error: .Network))
                     }
                 }
             }
@@ -195,70 +195,70 @@ public class ProductManager {
     /**
         Retrieves if a product is favourited and reported
     
-        :param: user The user.
-        :param: product The product.
-        :param: result The closure containing the result.
+        - parameter user: The user.
+        - parameter product: The product.
+        - parameter result: The closure containing the result.
     */
-    public func retrieveUserProductRelation(product: Product, result: UserProductRelationServiceResult?) {
+    public func retrieveUserProductRelation(product: Product, completion: UserProductRelationServiceCompletion?) {
         if let myUserId = MyUserManager.sharedInstance.myUser()?.objectId, let productId = product.objectId {
-            userProductRelationService.retrieveUserProductRelationWithId(myUserId, productId: productId, result: result)
+            userProductRelationService.retrieveUserProductRelationWithId(myUserId, productId: productId, completion: completion)
         }
         else {
-            result?(Result<UserProductRelation, UserProductRelationServiceError>.failure(.Internal))
+            completion?(UserProductRelationServiceResult(error: .Internal))
         }
     }
     
     /**
         Adds a product to favourites.
     
-        :param: product The product.
-        :param: result The closure containing the result.
+        - parameter product: The product.
+        - parameter result: The closure containing the result.
     */
-    public func saveFavourite(product: Product, result: ProductFavouriteSaveServiceResult?) {
+    public func saveFavourite(product: Product, completion: ProductFavouriteSaveServiceCompletion?) {
         if let myUser = MyUserManager.sharedInstance.myUser(), let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-            self.productFavouriteSaveService.saveFavouriteProduct(product, user: myUser, sessionToken: sessionToken, result: result)
+            self.productFavouriteSaveService.saveFavouriteProduct(product, user: myUser, sessionToken: sessionToken, completion: completion)
         }
         else {
-            result?(Result<ProductFavourite, ProductFavouriteSaveServiceError>.failure(.Internal))
+            completion?(ProductFavouriteSaveServiceResult(error: .Internal))
         }
     }
     
     /**
         Removes a product from favourites.
     
-        :param: product The product.
-        :param: result The closure containing the result.
+        - parameter product: The product.
+        - parameter result: The closure containing the result.
     */
-    public func deleteFavourite(product: Product, result: ProductFavouriteDeleteServiceResult?) {
+    public func deleteFavourite(product: Product, completion: ProductFavouriteDeleteServiceCompletion?) {
         if let myUser = MyUserManager.sharedInstance.myUser(), let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-            var productFavourite = LGProductFavourite()
+            let productFavourite = LGProductFavourite()
             productFavourite.product = product
             productFavourite.user = myUser
-            self.productFavouriteDeleteService.deleteProductFavourite(productFavourite, sessionToken: sessionToken, result: result)
+            self.productFavouriteDeleteService.deleteProductFavourite(productFavourite, sessionToken: sessionToken, completion: completion)
         }
         else {
-            result?(Result<Nil, ProductFavouriteDeleteServiceError>.failure(.Internal))
+            completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
         }
     }
     
     /**
         Reports a product.
     
-        :param: product The product.
-        :param: result The closure containing the result.
+        - parameter product: The product.
+        - parameter result: The closure containing the result.
     */
-    public func saveReport(product: Product, result: ProductReportSaveServiceResult?) {
+    public func saveReport(product: Product, completion: ProductReportSaveServiceCompletion?) {
         if let myUser = MyUserManager.sharedInstance.myUser() {
             if product.reported == NSNumber(bool: false) {
                 if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-                    self.productReportSaveService.saveReportProduct(product, user: myUser, sessionToken: sessionToken, result: result)
+                    self.productReportSaveService.saveReportProduct(product, user: myUser, sessionToken: sessionToken, completion: completion)
                 }
             } else {
-                result?(Result<Nil, ProductReportSaveServiceError>.failure(.AlreadyExists))
+                completion?(ProductReportSaveServiceResult(error: .AlreadyExists))
             }
         }
         else {
-            result?(Result<Nil, ProductReportSaveServiceError>.failure(.Internal))
+            completion?(ProductReportSaveServiceResult(error: .Internal))
         }
     }
     
@@ -267,11 +267,11 @@ public class ProductManager {
     /**
         Resizes the given image and returns its data, if possible.
     
-        :param: image The image.
+        - parameter image: The image.
         :return: The data of the resized image, if possible.
     */
     private func resizeImageDataFromImage(image: UIImage) -> NSData? {
-        if let resizedImage = image.resizedImageToMaxSide(LGCoreKitConstants.productImageMaxSide, interpolationQuality:kCGInterpolationMedium) {
+        if let resizedImage = image.resizedImageToMaxSide(LGCoreKitConstants.productImageMaxSide, interpolationQuality:CGInterpolationQuality.Medium) {
             return UIImageJPEGRepresentation(resizedImage, LGCoreKitConstants.productImageJPEGQuality)
         }
         return nil
@@ -280,16 +280,16 @@ public class ProductManager {
     /**
         Uploads the given images with name and data, notifies about the current step and when finished executes the result closure.
     
-        :param: myUserId My user id.
-        :param: sessionToken The user session token.
-        :param: imageNameAndDatas The images name and data tuples
-        :param: step The step closure informing about the current upload step
-        :param: result The result closure
+        - parameter myUserId: My user id.
+        - parameter sessionToken: The user session token.
+        - parameter imageNameAndDatas: The images name and data tuples
+        - parameter step: The step closure informing about the current upload step
+        - parameter result: The result closure
     */
-    private func uploadImagesWithUserId(myUserId: String, sessionToken: String, imageNameAndDatas: [(String, NSData)], step: (Int) -> Void, result: MultipleFilesUploadServiceResult?) {
+    private func uploadImagesWithUserId(myUserId: String, sessionToken: String, imageNameAndDatas: [(String, NSData)], step: (Int) -> Void, completion: MultipleFilesUploadServiceCompletion?) {
         
         if imageNameAndDatas.isEmpty {
-            result?(Result<[File], FileUploadServiceError>.failure(.Internal))
+            completion?(MultipleFilesUploadServiceResult(error: .Internal))
             return
         }
         
@@ -300,7 +300,12 @@ public class ProductManager {
             var fileImages: [File] = []
             
             for imageNameAndData in imageNameAndDatas {
-                let fileUploadResult = self.fileUploadService.synchUploadFileWithUserId(myUserId, sessionToken: sessionToken, data: imageNameAndData.1)
+
+                let fileUploadResult = synchronize({ (synchCompletion) -> Void in
+                    self.fileUploadService.uploadFileWithUserId(myUserId, sessionToken: sessionToken, data: imageNameAndData.1, completion: { (result) -> Void in
+                        synchCompletion(result)
+                    })
+                }, timeoutWith: FileUploadServiceResult(error: .Internal))
                 
                 // Succeeded
                 if let file = fileUploadResult.value {
@@ -313,7 +318,7 @@ public class ProductManager {
                         
                         // If finished, then notify about it
                         if fileImages.count >= imageNameAndDatas.count {
-                            result?(Result<[File], FileUploadServiceError>.success(fileImages))
+                            completion?(MultipleFilesUploadServiceResult(value: fileImages))
                         }
                     }
                 }
@@ -321,7 +326,7 @@ public class ProductManager {
                 else {
                     dispatch_async(dispatch_get_main_queue()) {
                         let error = fileUploadResult.error ?? .Internal
-                        result?(Result<[File], FileUploadServiceError>.failure(error))
+                        completion?(MultipleFilesUploadServiceResult(error: error))
                     }
                     break
                 }

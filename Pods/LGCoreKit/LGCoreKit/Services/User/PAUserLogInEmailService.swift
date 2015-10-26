@@ -13,27 +13,27 @@ final public class PAUserLogInEmailService: UserLogInEmailService {
 
     // MARK: - UserLogInEmailService
     
-    public func logInUserWithEmail(email: String, password: String, result: UserLogInEmailServiceResult?) {
+    public func logInUserWithEmail(email: String, password: String, completion: UserLogInEmailServiceCompletion?) {
         PFUser.logInWithUsernameInBackground(email, password: password)  { (user: PFUser?, error: NSError?) -> Void in
             // Success
             if let actualUser = user as? User {
-                result?(Result<User, UserLogInEmailServiceError>.success(actualUser))
+                completion?(UserLogInEmailServiceResult(value: actualUser))
             }
             // Error
             else if let actualError = error {
                 switch(actualError.code) {
                 case PFErrorCode.ErrorConnectionFailed.rawValue:
-                    result?(Result<User, UserLogInEmailServiceError>.failure(.Network))
+                    completion?(UserLogInEmailServiceResult(error: .Network))
                 case PFErrorCode.ErrorInvalidEmailAddress.rawValue:
-                    result?(Result<User, UserLogInEmailServiceError>.failure(.InvalidEmail))
+                    completion?(UserLogInEmailServiceResult(error: .InvalidEmail))
                 case PFErrorCode.ErrorObjectNotFound.rawValue:
-                    result?(Result<User, UserLogInEmailServiceError>.failure(.UserNotFoundOrWrongPassword))
+                    completion?(UserLogInEmailServiceResult(error: .UserNotFoundOrWrongPassword))
                 default:
-                    result?(Result<User, UserLogInEmailServiceError>.failure(.Internal))
+                    completion?(UserLogInEmailServiceResult(error: .Internal))
                 }
             }
             else {
-                result?(Result<User, UserLogInEmailServiceError>.failure(.Internal))
+                completion?(UserLogInEmailServiceResult(error: .Internal))
             }
         }
     }

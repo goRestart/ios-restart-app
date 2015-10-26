@@ -40,7 +40,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         self.viewModel.delegate = self
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -99,7 +99,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
  
     func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String]) {
 
-        var newHeight = CGFloat(results.count*44)
+        let newHeight = CGFloat(results.count*44)
         suggestionsTableView.frame = CGRectMake(suggestionsTableView.frame.origin.x, suggestionsTableView.frame.origin.y, suggestionsTableView.frame.size.width, newHeight);
         suggestionsTableView.hidden = false
         suggestionsTableView.reloadData()
@@ -110,7 +110,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     }
 
     
-    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult result: Result<[Place], SearchLocationSuggestionsServiceError>) {
+    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult result: SearchLocationSuggestionsServiceResult) {
         
         var completion: (() -> Void)? = nil
         
@@ -122,20 +122,20 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
             break
         case .Failure(let error):
             let message: String
-            switch (error.value) {
+            switch (error) {
             case .Network:
                 message = LGLocalizedString.changeLocationErrorSearchLocationMessage
             case .Internal:
                 message = LGLocalizedString.changeLocationErrorSearchLocationMessage
-            case .UnknownLocation:
-                message = String(format: LGLocalizedString.changeLocationErrorUnknownLocationMessage, arguments: [searchField.text])
+            case .NotFound:
+                message = String(format: LGLocalizedString.changeLocationErrorUnknownLocationMessage, arguments: [searchField.text ?? ""])
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
             }
         }
         
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
 
     
@@ -148,9 +148,9 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     // MARK: - MapView methods
     
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
-        var newAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "annotationViewID")
+        let newAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "annotationViewID")
         newAnnotationView.image = UIImage(named: "map_pin")
         newAnnotationView.layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
         newAnnotationView.annotation = annotation
@@ -160,13 +160,13 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     }
     
     
-    func mapView(mapView: MKMapView!, rendererForOverlay overlay: MKOverlay!) -> MKOverlayRenderer! {
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKCircle {
             let renderer = MKCircleRenderer(overlay: overlay)
             renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
             return renderer
         }
-        return nil;
+        return MKCircleRenderer();
     }
     
     
@@ -175,20 +175,20 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     // "touchesBegan" used to hide the keyboard when touching outside the textField
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         searchField.resignFirstResponder()
         super.touchesBegan(touches, withEvent: event)
     }
 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let searchText = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        
-        if searchText.isEmpty {
-            suggestionsTableView.hidden = true
+        if let textFieldText = textField.text {
+            let searchText = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            
+            if searchText.isEmpty {
+                suggestionsTableView.hidden = true
+            }
+            viewModel.searchText = searchText
         }
-        
-        viewModel.searchText = searchText
-        
         return true
     }
     
@@ -198,8 +198,11 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
-        if count(textField.text) < 1 { return true }
+        if let textFieldText = textField.text {
+            if textFieldText.characters.count < 1 { return true }
 
+        }
+        
         suggestionsTableView.hidden = true
 
         goToLocation()
@@ -227,7 +230,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) 
         
         cell.textLabel!.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         cell.selectionStyle = .None
@@ -240,9 +243,11 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         self.searchField.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         suggestionsTableView.hidden = true
 
-        viewModel.goingToLocation = true
-        viewModel.searchText = self.searchField.text
-        goToLocation()
+        if let searchFieldText = searchField.text {
+            viewModel.searchText = searchFieldText
+            viewModel.goingToLocation = true
+            goToLocation()
+        }
     }
     
     // MARK : - private methods
@@ -259,7 +264,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         
         gpsLocationButton.layer.cornerRadius = 10
         
-        self.setLetGoNavigationBarStyle(title: LGLocalizedString.changeLocationTitle ?? UIImage(named: "navbar_logo"))
+        self.setLetGoNavigationBarStyle(LGLocalizedString.changeLocationTitle)
         
         applyBarButton = UIBarButtonItem(title: LGLocalizedString.changeLocationApplyButton, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("applyBarButtonPressed"))
         self.navigationItem.rightBarButtonItem = applyBarButton;
@@ -277,7 +282,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
             let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius, Constants.accurateRegionRadius)
             self.mapView.setRegion(region, animated: true)
             
-            var annotation = MKPointAnnotation()
+            let annotation = MKPointAnnotation()
             annotation.coordinate = coordinate
             if let title = postalAddress?.address {
                 annotation.title = title

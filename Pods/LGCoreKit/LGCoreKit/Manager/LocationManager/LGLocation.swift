@@ -16,7 +16,7 @@ public enum LGLocationType: String {
     case LastSaved  = "lastsaved"
 }
 
-public class LGLocation: Printable {
+public class LGLocation: CustomStringConvertible {
     
     public private(set) var location : CLLocation
     public private(set) var type: LGLocationType

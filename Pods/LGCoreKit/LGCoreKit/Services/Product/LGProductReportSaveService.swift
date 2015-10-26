@@ -30,9 +30,9 @@ final public class LGProductReportSaveService: ProductReportSaveService {
     
     // MARK: - ProductReportSaveService
     
-    public func saveReportProduct(product: Product, user: User, sessionToken: String, result: ProductReportSaveServiceResult?) {
+    public func saveReportProduct(product: Product, user: User, sessionToken: String, completion: ProductReportSaveServiceCompletion?) {
         
-        let fullUrl = "\(url)/\(user.objectId)/reports/products/\(product.objectId)"
+        let fullUrl = "\(url)/\(user.objectId!)/reports/products/\(product.objectId!)"
         
         let headers = [
             LGCoreKitConstants.httpHeaderUserToken: sessionToken
@@ -43,22 +43,23 @@ final public class LGProductReportSaveService: ProductReportSaveService {
             .response { (request, response, _, error: NSError?) -> Void in
                 // Error
                 if let actualError = error {
-                    let myError : NSError
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<Nil, ProductReportSaveServiceError>.failure(.Network))
+                        completion?(ProductReportSaveServiceResult(error: .Network))
                     } else if let statusCode = response?.statusCode {
                         switch statusCode {
                         case 403:
-                            result?(Result<Nil, ProductReportSaveServiceError>.failure(.Forbidden))
+                            completion?(ProductReportSaveServiceResult(error: .Forbidden))
                         default:
-                            result?(Result<Nil, ProductReportSaveServiceError>.failure(.Internal))
+                            completion?(ProductReportSaveServiceResult(error: .Internal))
                         }
                     }
                     else {
-                        result?(Result<Nil, ProductReportSaveServiceError>.failure(.Internal))
+                        completion?(ProductReportSaveServiceResult(error: .Internal))
                     }
-                } else {
-                    result?(Result<Nil, ProductReportSaveServiceError>.success(Nil()))
+                }
+                // Success
+                else {
+                    completion?(ProductReportSaveServiceResult(value: Nil()))
                 }
         }
     }

@@ -1111,7 +1111,7 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productSellFormValidationFailed") {
                 it("has its event name") {
-                    let user = MockUser()
+                    _ = MockUser()
                     sut = TrackerEvent.productSellFormValidationFailed(nil, description: "whatever")
                     expect(sut.name.rawValue).to(equal("product-sell-form-validation-failed"))
                 }
@@ -1189,7 +1189,7 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productEditFormValidationFailed") {
                 it("has its event name") {
-                    let user = MockUser()
+                    _ = MockUser()
                     let product = MockProduct()
                     sut = TrackerEvent.productEditFormValidationFailed(nil, product: product, description: "whatever")
                     expect(sut.name.rawValue).to(equal("product-edit-form-validation-failed"))

@@ -14,6 +14,12 @@ public class LGChat: LGBaseModel, Chat {
     public var product: Product?
     public var userFrom: User?
     public var userTo: User?
-    public var msgUnreadCount: NSNumber?
+    public var msgUnreadCount: Int?
     public var messages: [Message]?
+    
+    // MARK: - Lifecycle
+    
+    public override init(){
+        super.init()
+    }
 }

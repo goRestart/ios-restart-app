@@ -28,7 +28,7 @@ import SDWebImage
     
     // MARK: - Lifecycle
     
-    public required init(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         scrollView = UIScrollView(frame: CGRectZero)
         pageControl = UIPageControl(frame: CGRectZero)
         super.init(coder: aDecoder)
@@ -128,7 +128,7 @@ import SDWebImage
         scrollView.scrollsToTop = false
         scrollView.bounces = false
         
-        scrollView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(scrollView)
         
         // Tap recognizer
@@ -139,16 +139,16 @@ import SDWebImage
         // Page control
         pageControl.addTarget(self, action: Selector("pageControlPageChanged"), forControlEvents: UIControlEvents.ValueChanged)
         
-        pageControl.setTranslatesAutoresizingMaskIntoConstraints(false)
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pageControl)
         
         // Constraints
         let scrollViewViews = ["scrollView": scrollView]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: .allZeros, metrics: nil, views: scrollViewViews))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: .allZeros, metrics: nil, views: scrollViewViews))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: [], metrics: nil, views: scrollViewViews))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: [], metrics: nil, views: scrollViewViews))
         
         let pageControlViews = ["pageControl": pageControl]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[pageControl]-(-6)-|", options: .allZeros, metrics: nil, views: pageControlViews))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[pageControl]-(-6)-|", options: [], metrics: nil, views: pageControlViews))
         addConstraint(NSLayoutConstraint(item: pageControl, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
     }
     

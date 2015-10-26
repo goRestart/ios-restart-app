@@ -65,20 +65,20 @@ extension UIImage {
         
         // Generate a context for the new size
         let context = CGBitmapContextCreate(nil, Int(newFrame.size.width), Int(newFrame.size.height), CGImageGetBitsPerComponent(imageRef),
-            0, CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef))
+            0, CGImageGetColorSpace(imageRef), CGImageGetBitmapInfo(imageRef).rawValue)
         
         // Apply transform to context.
-        CGContextConcatCTM(context, transform);
+        CGContextConcatCTM(context, transform)
         
         // Use quality level for interpolation.
-        CGContextSetInterpolationQuality(context, interpolationQuality);
+        CGContextSetInterpolationQuality(context, interpolationQuality)
         
         // Scale the image by drawing it in the resized context.
-        CGContextDrawImage(context, needsToBeTransposed ? CGRectMake(0, 0, newFrame.size.height, newFrame.size.width) : newFrame, imageRef);
+        CGContextDrawImage(context, needsToBeTransposed ? CGRectMake(0, 0, newFrame.size.height, newFrame.size.width) : newFrame, imageRef)
         
         // Return the resized image from the context.
-        let resultCGImage = CGBitmapContextCreateImage(context);
-        return UIImage(CGImage: resultCGImage)
+        let resultCGImage = CGBitmapContextCreateImage(context)
+        return UIImage(CGImage: resultCGImage!)
     }
     
     // Returns a transform for correctly displaying the image given its orientation.

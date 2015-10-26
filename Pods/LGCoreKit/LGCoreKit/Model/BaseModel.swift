@@ -6,11 +6,10 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public protocol BaseModel {
-    var objectId: String! { get set }
-    var updatedAt: NSDate! { get }
-    var createdAt: NSDate! { get }
+public protocol BaseModel: class {
+    var objectId: String? { get set }
+    var updatedAt: NSDate? { get }
+    var createdAt: NSDate? { get }
     
     var isSaved: Bool { get }
-    var acl: AccessControlList? { get set }
 }

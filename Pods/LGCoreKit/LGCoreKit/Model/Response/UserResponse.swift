@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-
-@objc public protocol UserResponse {
+public protocol UserResponse {
     var user: User { get }
 }

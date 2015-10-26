@@ -27,7 +27,7 @@
 "change_password_send_ok" = "Пароль успешно изменен.";
 "change_password_title" = "Сменить пароль";
 "change_username_error_invalid_username" = "Пожалуйста, введите настоящее имя, оно должно содержать как минимум %d символа.";
-"change_username_error_invalid_username_letgo" = "Имя пользователя не может содержать слово \"letgo\", \"let go\" или похожие.";
+"change_username_error_invalid_username_letgo" = "%@ используется на другом аккаунте";
 "change_username_field_hint" = "Полное имя";
 "change_username_loading" = "Сохранение имени пользователя...";
 "change_username_save_button" = "Сохранить";
@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_safety_tips_tip_1" = "После заключения сделки встретьтесь лично и платите наличными.";
 "chat_safety_tips_tip_2" = "Не связывайтесь с почтовыми и банковскими переводами и чеками.";
-"chat_safety_tips_tip_3" = "Если вы решили использовать доставку, будьте внимательны и осторожны!";
+"chat_safety_tips_tip_3" = "Если предложение выглядит слишком хорошо, чтобы быть правдой, возможно, так оно и есть!";
 "chat_safety_tips_title" = "Полезные Советы";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
@@ -54,7 +54,7 @@
 "common_loading" = "Загрузка...";
 "common_no" = "Нет";
 "common_ok" = "OK";
-"common_product_deleted" = "Товар удален.";
+"common_product_deleted" = "Товар удален";
 "common_product_not_available" = "Этот товар больше не доступен.";
 "common_product_sold" = "Это товар уже продан.";
 "common_time_a_minute_ago_label" = "минуту назад";
@@ -159,8 +159,8 @@
 "product_reported_success_message" = "Спасибо! Ваша жалоба была отправлена.";
 "product_reporting_loading_message" = "Пожаловаться на продукт.";
 "product_reporting_product_label" = "Отправка отчета...";
-"product_search_no_products_body" = "Но ни один товар не подходит под заданные критерии. Попробуйте еще раз позже, новые товары публикуются каждый день!";
-"product_search_no_products_title" = "МЫ ИСКАЛИ И ИСКАЛИ...";
+"product_search_no_products_body" = "Попробуйте поискать что-то еще или попробуйте еще раз позже!";
+"product_search_no_products_title" = "УПС! НЕТ РЕЗУЛЬТАТОВ РЯДОМ С ВАМИ";
 "product_share_body" = "Посмотрите, что я нашел на letgo!";
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении.";
 "product_share_whatsapp_error" = "Вы не установили приложение WhatsApp.";
@@ -190,7 +190,7 @@
 "reset_password_send_error_generic" = "При восстановлении пароля произошла ошибка.";
 "reset_password_send_error_invalid_email" = "Пожалуйста, укажите действующий E-mail.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-mail не найден.";
-"reset_password_send_ok" = "Мы отправили вам письмо! Пройдите по ссылке в нем для сброса пароля.";
+"reset_password_send_ok" = "Мы отправили письмо %@. Пройдите по ссылке в нем для сброса пароля!";
 "reset_password_title" = "Сбросить пароль";
 "sell_category_selection_label" = "Выберите категорию";
 "sell_choose_category_dialog_cancel_button" = "Отмена";
@@ -222,6 +222,7 @@
 "sell_send_error_uploading_picture" = "При размещении товара произошла ошибка. Невозможно загрузить фото. Пожалуйста, попробуйте еще раз.";
 "sell_send_error_uploading_product" = "При размещении товара произошла ошибка.";
 "sell_send_ok" = "Поздравляем! Ваш товар в скором времени появится в списке. Время для letgo!";
+"sell_send_sharing_facebook_ok" = "Товар успешно размещен!";
 "sell_share_fb_content" = "Посмотрите, что я продаю на letgo!";
 "sell_share_on_facebook_label" = "Поделиться моим товаром на Facebook";
 "sell_title" = "Продать";

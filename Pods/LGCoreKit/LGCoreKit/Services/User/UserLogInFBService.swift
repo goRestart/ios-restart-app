@@ -8,20 +8,21 @@
 
 import Result
 
-public enum UserLogInFBServiceError {
+public enum UserLogInFBServiceError: ErrorType {
     case Cancelled
     case Forbidden
     case Internal
 }
 
-public typealias UserLogInFBServiceResult = (Result<User, UserLogInFBServiceError>) -> Void
+public typealias UserLogInFBServiceResult = Result<User, UserLogInFBServiceError>
+public typealias UserLogInFBServiceCompletion = UserLogInFBServiceResult -> Void
 
 public protocol UserLogInFBService {
     
     /**
         Logs in / signs up a user via Facebook.
     
-        :param: result The closure containing the result.
+        - parameter result: The completion closure.
     */
-    func logInByFacebooWithCompletion(result: UserLogInFBServiceResult?)
+    func logInByFacebooWithCompletion(completion: UserLogInFBServiceCompletion?)
 }

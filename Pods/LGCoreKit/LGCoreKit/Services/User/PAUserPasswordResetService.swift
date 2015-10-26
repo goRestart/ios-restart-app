@@ -13,28 +13,27 @@ final public class PAUserPasswordResetService: UserPasswordResetService {
     
     // MARK: - UserPasswordResetService
     
-    public func resetPassword(email: String, result: UserPasswordResetServiceResult?) {
+    public func resetPassword(email: String, completion: UserPasswordResetServiceCompletion?) {
         PFUser.requestPasswordResetForEmailInBackground(email, block: { (success, error) -> Void in
             // Success
             if success {
-                result?(Result<Nil, UserPasswordResetServiceError>.success(Nil()))
+                completion?(UserPasswordResetServiceResult(value: Nil()))
             }
-                // Error
+            // Error
             else if let actualError = error {
-                kPFParseServer
                 switch(actualError.code) {
                 case PFErrorCode.ErrorConnectionFailed.rawValue:
-                    result?(Result<Nil, UserPasswordResetServiceError>.failure(.Network))
+                    completion?(UserPasswordResetServiceResult(error: .Network))
                 case PFErrorCode.ErrorUserWithEmailNotFound.rawValue:
-                    result?(Result<Nil, UserPasswordResetServiceError>.failure(.UserNotFound))
+                    completion?(UserPasswordResetServiceResult(error: .UserNotFound))
                 case PFErrorCode.ErrorUserEmailMissing.rawValue, PFErrorCode.ErrorInvalidEmailAddress.rawValue:
-                    result?(Result<Nil, UserPasswordResetServiceError>.failure(.InvalidEmail))
+                    completion?(UserPasswordResetServiceResult(error: .InvalidEmail))
                 default:
-                    result?(Result<Nil, UserPasswordResetServiceError>.failure(.Internal))
+                    completion?(UserPasswordResetServiceResult(error: .Internal))
                 }
             }
             else {
-                result?(Result<Nil, UserPasswordResetServiceError>.failure(.Network))
+                completion?(UserPasswordResetServiceResult(error: .Network))
             }
         })
     }

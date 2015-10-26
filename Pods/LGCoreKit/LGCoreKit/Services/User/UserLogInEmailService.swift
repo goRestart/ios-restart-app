@@ -8,7 +8,7 @@
 
 import Result
 
-public enum UserLogInEmailServiceError {
+public enum UserLogInEmailServiceError: ErrorType {
     case Network
     case InvalidEmail
     case InvalidPassword
@@ -17,16 +17,17 @@ public enum UserLogInEmailServiceError {
     case Internal
 }
 
-public typealias UserLogInEmailServiceResult = (Result<User, UserLogInEmailServiceError>) -> Void
+public typealias UserLogInEmailServiceResult = Result<User, UserLogInEmailServiceError>
+public typealias UserLogInEmailServiceCompletion = UserLogInEmailServiceResult -> Void
 
 public protocol UserLogInEmailService {
     
     /**
         Logs in a user using email & password.
     
-        :param: email The user's email.
-        :param: password The user's password.
-        :param: result The closure containing the result.
+        - parameter email: The user's email.
+        - parameter password: The user's password.
+        - parameter completion: The completion closure.
     */
-    func logInUserWithEmail(email: String, password: String, result: UserLogInEmailServiceResult?)
+    func logInUserWithEmail(email: String, password: String, completion: UserLogInEmailServiceCompletion?)
 }

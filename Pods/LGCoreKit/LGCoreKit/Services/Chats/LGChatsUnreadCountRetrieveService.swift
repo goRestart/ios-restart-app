@@ -28,36 +28,36 @@ public class LGChatsUnreadCountRetrieveService: ChatsUnreadCountRetrieveService 
     
     // MARK: - ChatsUnreadCountRetrieveService
     
-    public func retrieveUnreadMessageCountWithSessionToken(sessionToken: String, result: ChatsUnreadCountRetrieveServiceResult?) {
+    public func retrieveUnreadMessageCountWithSessionToken(sessionToken: String, completion: ChatsUnreadCountRetrieveServiceCompletion?) {
         let headers = [
             LGCoreKitConstants.httpHeaderUserToken: sessionToken
         ]
         Alamofire.request(.GET, url, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (_, httpResponse: NSHTTPURLResponse?, response: LGChatsUnreadCountResponse?, error: NSError?) -> Void in
+            .responseObject({ (response: Response<LGChatsUnreadCountResponse, NSError>) -> Void in
+                // Success
+                if let chatsUnreadCountResponse = response.result.value {
+                    completion?(ChatsUnreadCountRetrieveServiceResult(value: chatsUnreadCountResponse.count))
+                }
                 // Error
-                if let actualError = error {
+                else if let actualError = response.result.error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<Int, ChatsUnreadCountRetrieveServiceError>.failure(.Network))
+                        completion?(ChatsUnreadCountRetrieveServiceResult(error: .Network))
                     }
-                    else if let statusCode = httpResponse?.statusCode {
+                    else if let statusCode = response.response?.statusCode {
                         switch statusCode {
                         case 401:
-                            result?(Result<Int, ChatsUnreadCountRetrieveServiceError>.failure(.Unauthorized))
+                            completion?(ChatsUnreadCountRetrieveServiceResult(error: .Unauthorized))
                         case 403:
-                            result?(Result<Int, ChatsUnreadCountRetrieveServiceError>.failure(.Forbidden))
+                            completion?(ChatsUnreadCountRetrieveServiceResult(error: .Forbidden))
                         default:
-                            result?(Result<Int, ChatsUnreadCountRetrieveServiceError>.failure(.Internal))
+                            completion?(ChatsUnreadCountRetrieveServiceResult(error: .Internal))
                         }
                     }
                     else {
-                        result?(Result<Int, ChatsUnreadCountRetrieveServiceError>.failure(.Internal))
+                        completion?(ChatsUnreadCountRetrieveServiceResult(error: .Internal))
                     }
                 }
-                // Success
-                else if let chatsUnreadCountResponse = response {
-                    result?(Result<Int, ChatsUnreadCountRetrieveServiceError>.success(chatsUnreadCountResponse.count))
-                }
-        }
+            })
     }
 }

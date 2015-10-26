@@ -16,7 +16,8 @@ public class CountryHelper {
     
     // MARK: - Lifecycle
     
-    public init(locale: NSLocale = NSLocale.currentLocale(), countryInfoDAO: CountryInfoDAO = RLMCountryInfoDAO()) {
+    public init(locale: NSLocale = NSLocale.currentLocale(), countryInfoDAO: CountryInfoDAO = RLMCountryInfoDAO()!) {
+        
         self.locale = locale
         self.countryInfoDAO = countryInfoDAO
     }

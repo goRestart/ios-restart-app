@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public protocol User: BaseModel {
+public protocol User: BaseModel {
     var username: String? { get set }
     var password: String? { get set }
     var email: String? { get set }

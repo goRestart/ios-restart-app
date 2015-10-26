@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class LGUser: LGBaseModel, User {
+public class LGUser: LGBaseModel, User {
     
     // User iVars
     public var username: String?

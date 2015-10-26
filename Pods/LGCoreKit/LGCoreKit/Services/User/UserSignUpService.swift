@@ -8,15 +8,16 @@
 
 import Result
 
-public enum UserSignUpServiceError {
+public enum UserSignUpServiceError: ErrorType {
     case Network
     case InvalidUsername, InvalidEmail, InvalidPassword
     case EmailTaken
+    case UsernameTaken
     case Internal
 }
 
-public typealias UserSignUpServiceResult = (Result<Nil, UserSignUpServiceError>) -> Void
-
+public typealias UserSignUpServiceResult = Result<Nil, UserSignUpServiceError>
+public typealias UserSignUpServiceCompletion =  UserSignUpServiceResult -> Void
 /**
     User sign up service.
 */
@@ -25,10 +26,10 @@ public protocol UserSignUpService {
     /**
         Signs up a user.
 
-        :param: email The user's email.
-        :param: password The user's password.
-        :param: publicUsername The user's public username
-        :param: result The closure containing the result.
+        - parameter email: The user's email.
+        - parameter password: The user's password.
+        - parameter publicUsername: The user's public username
+        - parameter completion: The completion closure.
     */
-    func signUpUserWithEmail(email: String, password: String, publicUsername: String, result: UserSignUpServiceResult?)
+    func signUpUserWithEmail(email: String, password: String, publicUsername: String, completion: UserSignUpServiceCompletion?)
 }

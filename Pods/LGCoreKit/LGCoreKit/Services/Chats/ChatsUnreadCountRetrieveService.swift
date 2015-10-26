@@ -8,7 +8,7 @@
 
 import Result
 
-public enum ChatsUnreadCountRetrieveServiceError: Printable {
+public enum ChatsUnreadCountRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Unauthorized
     case Internal
@@ -28,15 +28,16 @@ public enum ChatsUnreadCountRetrieveServiceError: Printable {
     }
 }
 
-public typealias ChatsUnreadCountRetrieveServiceResult = (Result<Int, ChatsUnreadCountRetrieveServiceError>) -> Void
+public typealias ChatsUnreadCountRetrieveServiceResult = Result<Int, ChatsUnreadCountRetrieveServiceError>
+public typealias ChatsUnreadCountRetrieveServiceCompletion = ChatsUnreadCountRetrieveServiceResult -> Void
 
 public protocol ChatsUnreadCountRetrieveService {
     
     /**
         Retrieves the unread message count for the current user.
     
-        :param: sessionToken The user session token.
-        :param: result The completion closure.
+        - parameter sessionToken: The user session token.
+        - parameter completion: The completion closure.
     */
-    func retrieveUnreadMessageCountWithSessionToken(sessionToken: String, result: ChatsUnreadCountRetrieveServiceResult?)
+    func retrieveUnreadMessageCountWithSessionToken(sessionToken: String, completion: ChatsUnreadCountRetrieveServiceCompletion?)
 }

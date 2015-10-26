@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public protocol Chat: BaseModel {
+public protocol Chat: BaseModel {
     var product: Product? { get set }
     var userFrom: User? { get set }
     var userTo: User? { get set }
-    var msgUnreadCount: NSNumber? { get set }
+    var msgUnreadCount: Int? { get set }
     var messages: [Message]? { get set }
 }

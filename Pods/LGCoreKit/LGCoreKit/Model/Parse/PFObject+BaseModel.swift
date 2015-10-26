@@ -12,15 +12,4 @@ extension PFObject: BaseModel {
     public var isSaved: Bool {
         return objectId != nil
     }
-    
-    public var acl: AccessControlList? {
-        get {
-            return ACL
-        }
-        set {
-            if let parseACL = newValue as? PFACL {
-                ACL = parseACL
-            }
-        }
-    }
 }

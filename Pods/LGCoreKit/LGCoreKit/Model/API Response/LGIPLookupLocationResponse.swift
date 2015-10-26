@@ -9,7 +9,7 @@
 import Alamofire
 import SwiftyJSON
 
-@objc public class LGIPLookupLocationResponse: IPLookupLocationResponse, ResponseObjectSerializable {
+public class LGIPLookupLocationResponse: IPLookupLocationResponse, ResponseObjectSerializable {
 
     // Constant
     private static let latitudeJSONKey = "latitude"

@@ -31,13 +31,13 @@ final public class LGUserProductsRetrieveService: UserProductsRetrieveService {
     
     // MARK: - ProductsRetrieveService
     
-    public func retrieveUserProductsWithParams(params: RetrieveProductsParams, result: ProductsRetrieveServiceResult?) {
+    public func retrieveUserProductsWithParams(params: RetrieveProductsParams, completion: ProductsRetrieveServiceCompletion?) {
         
         var fullUrl = ""
         if let userId = params.userObjectId {
             fullUrl = "\(url)/\(userId)/products"
         } else {
-            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+            completion?(ProductsRetrieveServiceResult(error: .Internal))
         }
         
         let parameters = params.userProductApiParams
@@ -50,29 +50,28 @@ final public class LGUserProductsRetrieveService: UserProductsRetrieveService {
 
         Alamofire.request(.GET, fullUrl, parameters: parameters, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (request, response, productsResponse: LGProductsResponse?, error: NSError?) -> Void in
+            .responseObject {  (productsResponse: Response<LGProductsResponse, NSError>) in
                 // Error
-                if let actualError = error {
-                    let myError: NSError
+                if let actualError = productsResponse.result.error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Network))
-                    } else if let statusCode = response?.statusCode {
+                        completion?(ProductsRetrieveServiceResult(error: .Network))
+                    } else if let statusCode = productsResponse.response?.statusCode {
                         switch statusCode {
                         case 403:
-                            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Forbidden))
+                            completion?(ProductsRetrieveServiceResult(error: .Forbidden))
                         default:
-                            result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+                            completion?(ProductsRetrieveServiceResult(error: .Internal))
                         }
                     }
                     else {
-                        result?(Result<ProductsResponse, ProductsRetrieveServiceError>.failure(.Internal))
+                        completion?(ProductsRetrieveServiceResult(error: .Internal))
                     }
                 }
-                    // Success
-                else if let actualProductsResponse = productsResponse {
-                    result?(Result<ProductsResponse, ProductsRetrieveServiceError>.success(actualProductsResponse))
+                // Success
+                else if let actualProductsResponse = productsResponse.result.value {
+                    completion?(ProductsRetrieveServiceResult(value: actualProductsResponse))
                 }
-        }
+            }
     }
 }
 

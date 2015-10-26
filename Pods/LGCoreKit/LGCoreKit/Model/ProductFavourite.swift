@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public protocol ProductFavourite: BaseModel {
+public protocol ProductFavourite: BaseModel {
     var product: Product? { get set }
     var user: User? { get set }
 }

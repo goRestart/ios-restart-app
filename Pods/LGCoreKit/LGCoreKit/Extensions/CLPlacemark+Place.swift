@@ -13,13 +13,15 @@ import AddressBookUI
 extension CLPlacemark {
     public func place() -> Place {
 
-        var place = Place()
+        let place = Place()
         
         place.name = self.name
         place.country = self.country
-        place.location = LGLocationCoordinates2D(coordinates: self.location.coordinate)
+        if let placemarkLocation = self.location {
+            place.location = LGLocationCoordinates2D(coordinates: placemarkLocation.coordinate)
+        }
         
-        var postalAddress = PostalAddress()
+        let postalAddress = PostalAddress()
         
         postalAddress.city = self.locality
         postalAddress.countryCode = self.ISOcountryCode

@@ -14,20 +14,20 @@ final public class PAUserLogInFBService: UserLogInFBService {
     
     // MARK: - UserLogInEmailService
     
-    public func logInByFacebooWithCompletion(result: UserLogInFBServiceResult?) {
+    public func logInByFacebooWithCompletion(completion: UserLogInFBServiceCompletion?) {
 
         let permissions = ["user_about_me", "user_location", "email", "public_profile"]
         PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions, block: { (user: PFUser?, error: NSError?) -> Void in
             // Success
             if let actualUser = user as? User {
-                result?(Result<User, UserLogInFBServiceError>.success(actualUser))
+                completion?(UserLogInFBServiceResult(value: actualUser))
             }
             // Error
-            else if let actualError = error {
-                result?(Result<User, UserLogInFBServiceError>.failure(.Internal))
+            else if let _ = error {
+                completion?(UserLogInFBServiceResult(error: .Internal))
             }
             else {
-                result?(Result<User, UserLogInFBServiceError>.failure(.Cancelled))
+                completion?(UserLogInFBServiceResult(error: .Cancelled))
             }
         })
     }

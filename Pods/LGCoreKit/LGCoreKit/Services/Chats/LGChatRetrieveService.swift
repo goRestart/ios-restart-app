@@ -31,7 +31,7 @@ public class LGChatRetrieveService: ChatRetrieveService {
     
     // MARK: - ChatsRetrieveService
     
-    public func retrieveChatWithSessionToken(sessionToken: String, productId: String, buyerId: String, result: ChatRetrieveServiceResult?) {
+    public func retrieveChatWithSessionToken(sessionToken: String, productId: String, buyerId: String, completion: ChatRetrieveServiceCompletion?) {
 
         let url = EnvironmentProxy.sharedInstance.apiBaseURL + LGChatRetrieveService.endpointWithProductId(productId)
         var parameters = Dictionary<String, AnyObject>()
@@ -44,31 +44,29 @@ public class LGChatRetrieveService: ChatRetrieveService {
         ]
         Alamofire.request(.GET, url, parameters: parameters, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (req, httpResponse: NSHTTPURLResponse?, response: LGChatResponse?, error: NSError?) -> Void in
-                // Error
-                if let actualError = error {
-                    if actualError.domain == NSURLErrorDomain {
-                        result?(Result<ChatResponse, ChatRetrieveServiceError>.failure(.Network))
+            .responseObject { (response: Response<LGChatResponse, NSError>) in
+                if let chatResponse = response.result.value {
+                    completion?(ChatRetrieveServiceResult(value: chatResponse))
+                }
+                else if let error = response.result.error {
+                    if error.domain == NSURLErrorDomain {
+                        completion?(ChatRetrieveServiceResult(error: .Network))
                     }
-                    else if let statusCode = httpResponse?.statusCode {
+                    else if let statusCode =  response.response?.statusCode {
                         switch statusCode {
                         case 401:
-                            result?(Result<ChatResponse, ChatRetrieveServiceError>.failure(.Unauthorized))
+                            completion?(ChatRetrieveServiceResult(error: .Unauthorized))
                         case 403:
-                            result?(Result<ChatResponse, ChatRetrieveServiceError>.failure(.Forbidden))
+                            completion?(ChatRetrieveServiceResult(error: .Forbidden))
                         case 404:
-                            result?(Result<ChatResponse, ChatRetrieveServiceError>.failure(.NotFound))
+                            completion?(ChatRetrieveServiceResult(error: .NotFound))
                         default:
-                            result?(Result<ChatResponse, ChatRetrieveServiceError>.failure(.Internal))
+                            completion?(ChatRetrieveServiceResult(error: .Internal))
                         }
                     }
                     else {
-                        result?(Result<ChatResponse, ChatRetrieveServiceError>.failure(.Internal))
+                        completion?(ChatRetrieveServiceResult(error: .Internal))
                     }
-                }
-                // Success
-                else if let chatResponse = response {
-                    result?(Result<ChatResponse, ChatRetrieveServiceError>.success(chatResponse))
                 }
         }
     }

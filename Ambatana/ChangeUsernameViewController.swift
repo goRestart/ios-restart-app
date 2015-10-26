@@ -27,7 +27,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         self.viewModel.delegate = self
     }
     
-    required init(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -64,8 +64,10 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     // MARK: - TextFieldDelegate
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let text = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        viewModel.username = text
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            viewModel.username = text
+        }
         return true
     }
     
@@ -75,12 +77,16 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        if viewModel.isValidUsername(textField.text) {
-            viewModel?.saveUsername()
-            return true
-        }
-        else {
-            self.showAutoFadingOutMessageAlert(String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, 2), time: 3.5)
+        if let textFieldText = textField.text {
+            if viewModel.isValidUsername(textFieldText) {
+                viewModel?.saveUsername()
+                return true
+            }
+            else {
+                self.showAutoFadingOutMessageAlert(String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength), time: 3.5)
+                return false
+            }
+        } else {
             return false
         }
     }
@@ -88,14 +94,27 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     // MARK : - ChangeUsernameViewModelDelegate Methods
     
     func viewModelDidStartSendingUser(viewModel: ChangeUsernameViewModel) {
-        showLoadingMessageAlert(customMessage: LGLocalizedString.changeUsernameLoading)
+        showLoadingMessageAlert(LGLocalizedString.changeUsernameLoading)
     }
     
     func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: UserSaveServiceError) {
-        self.showAutoFadingOutMessageAlert(String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, 2))
+        let message: String
+        switch (error) {
+        case .Network, .Internal, .InvalidPassword, .PasswordMismatch:
+            message = LGLocalizedString.commonErrorConnectionFailed
+        case .EmailTaken:
+            // should never happen
+            message = LGLocalizedString.commonErrorConnectionFailed
+        case .InvalidUsername:
+            message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength)
+        case .UsernameTaken:
+            message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo, viewModel.username)
+        }
+        
+        self.showAutoFadingOutMessageAlert(message)
     }
     
-    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult result: Result<User, UserSaveServiceError>) {
+    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult result: UserSaveServiceResult) {
         var completion: (() -> Void)? = nil
         
         switch (result) {
@@ -108,7 +127,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             break
         case .Failure(let error):
             let message: String
-            switch (error.value) {
+            switch (error) {
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
             case .Internal, .InvalidPassword, .PasswordMismatch:
@@ -117,14 +136,16 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
                 // should never happen
                 message = LGLocalizedString.commonErrorConnectionFailed
             case .InvalidUsername:
-                message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, 2)
+                message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength)
+            case .UsernameTaken:
+                message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo, viewModel.username)
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
             }
         }
         
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     func viewModel(viewModel: ChangeUsernameViewModel, updateSaveButtonEnabledState enabled: Bool) {
@@ -136,7 +157,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         
         usernameTextfield.delegate = self
 
-        setLetGoNavigationBarStyle(title: LGLocalizedString.changeUsernameTitle)
+        setLetGoNavigationBarStyle(LGLocalizedString.changeUsernameTitle)
         
         usernameTextfield.placeholder = LGLocalizedString.changeUsernameFieldHint
         usernameTextfield.text = viewModel.username

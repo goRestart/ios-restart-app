@@ -8,7 +8,7 @@
 
 import Result
 
-public enum IPLookupLocationServiceError: Printable {
+public enum IPLookupLocationServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
     
@@ -22,8 +22,9 @@ public enum IPLookupLocationServiceError: Printable {
     }
 }
 
-public typealias IPLookupLocationServiceResult = (Result<LGLocationCoordinates2D, IPLookupLocationServiceError>) -> Void
+public typealias IPLookupLocationServiceResult = Result<LGLocationCoordinates2D, IPLookupLocationServiceError>
+public typealias IPLookupLocationServiceCompletion = IPLookupLocationServiceResult -> Void
 
 public protocol IPLookupLocationService {
-    func retrieveLocation(result: IPLookupLocationServiceResult?)
+    func retrieveLocationWithCompletion(completion: IPLookupLocationServiceCompletion?)
 }

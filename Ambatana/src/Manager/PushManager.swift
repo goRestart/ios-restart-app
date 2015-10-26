@@ -9,7 +9,6 @@
 import LGCoreKit
 import Parse
 import Result
-import UrbanAirship_iOS_SDK
 import Kahuna
 
 public enum Action {
@@ -73,15 +72,12 @@ public class PushManager: NSObject, KahunaDelegate {
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
         
         // Ask for push permissions
-        let userNotificationTypes = (UIUserNotificationType.Alert |
-            UIUserNotificationType.Badge |
-            UIUserNotificationType.Sound)
+        let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound])
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
         
         // Setup push notification libraries
-        setupUrbanAirship()
         setupKahuna()
         
         // Get the deep link, if any
@@ -170,18 +166,18 @@ public class PushManager: NSObject, KahunaDelegate {
     */
     public func updateUnreadMessagesCount() {
        
-        ChatManager.sharedInstance.retrieveUnreadMessageCount { [weak self] (result: Result<Int, ChatsUnreadCountRetrieveServiceError>) -> Void in
+        ChatManager.sharedInstance.retrieveUnreadMessageCountWithCompletion { [weak self] (result: ChatsUnreadCountRetrieveServiceResult) -> Void in
             // Success
             if let count = result.value {
-                if let strongSelf = self {
+                if let _ = self {
                     
                     // Update the unread message count
                     self?.unreadMessagesCount = count
                     
                     // Update installation's badge
-                    var installation = PFInstallation.currentInstallation()
+                    let installation = PFInstallation.currentInstallation()
                     installation.badge = count
-                    self?.installationSaveService.save(installation, result: nil)
+                    self?.installationSaveService.save(installation, completion: nil)
                 }
                 
                 // Update app's badge
@@ -193,10 +189,6 @@ public class PushManager: NSObject, KahunaDelegate {
         }
     }
     
-    
-    public func updateUrbanAirshipNamedUser(user: User?) {
-        UAirship.push()!.namedUser.identifier = user?.objectId
-    }
     
     // TODO: Refactor this...
     public func forceKahunaLogin(user: User) {
@@ -213,7 +205,7 @@ public class PushManager: NSObject, KahunaDelegate {
         }
         Kahuna.loginWithCredentials(uc, error: &loginError)
         if (loginError != nil) {
-            print("Login Error : \(loginError!.localizedDescription)")
+            print("Login Error : \(loginError!.localizedDescription)", terminator: "")
         }
     }
     
@@ -227,26 +219,8 @@ public class PushManager: NSObject, KahunaDelegate {
 
     }
     
-    private func setupUrbanAirship() {
-        
-        let config = UAConfig.defaultConfig()
-        config.developmentAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
-        config.developmentAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
-        
-        config.productionAppKey = EnvironmentProxy.sharedInstance.urbanAirshipAPIKey
-        config.productionAppSecret = EnvironmentProxy.sharedInstance.urbanAirshipAPISecret
-        
-        config.developmentLogLevel = UALogLevel.None
-        // Call takeOff (which creates the UAirship singleton)
-        UAirship.takeOff(config)
-        
-        UAirship.push()!.userNotificationTypes = (.Alert | .Badge | .Sound)
-        UAirship.push()!.userPushNotificationsEnabled = true
-    }
-    
     dynamic private func login(notification: NSNotification) {
         if let user = notification.object as? User {
-            updateUrbanAirshipNamedUser(user)
             
             let uc = Kahuna.createUserCredentials()
             var loginError: NSError?
@@ -268,15 +242,14 @@ public class PushManager: NSObject, KahunaDelegate {
     }
     
     dynamic private func logout(notification: NSNotification) {
-        updateUrbanAirshipNamedUser(notification.object as? User)
         Kahuna.logout()
     }
     
     /**
         Returns the badge value from the given push notification dictionary.
     
-        :param: userInfo The push notification extra info.
-        :returns: The badge value.
+        - parameter userInfo: The push notification extra info.
+        - returns: The badge value.
     */
     func getBadgeNumberFromNotification(userInfo: [NSObject: AnyObject]) -> Int? {
         if let newBadge = userInfo["badge"] as? Int { return newBadge }

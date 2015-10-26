@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public class LGFile: File {
+public class LGFile: File {
     
     public var fileURL: NSURL?
     public var isSaved: Bool = true
@@ -17,7 +17,7 @@
     }
 }
 
-extension LGFile: Printable {
+extension LGFile: CustomStringConvertible {
     public var description: String {
         return "fileURL: \(fileURL); token: \(token); isSaved: \(isSaved);"
     }

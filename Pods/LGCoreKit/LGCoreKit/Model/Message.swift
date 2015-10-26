@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-@objc public enum MessageType: Int {
+public enum MessageType: Int {
     case Text = 0
     case Offer = 1
 }
 
-@objc public protocol Message: BaseModel {
+public protocol Message: BaseModel {
     var text: String? { get }
     var type: MessageType { get }
     var userId: String? { get }

@@ -78,7 +78,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         automaticallyAdjustsScrollViewInsets = false
     }
     
-    public required init(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -196,10 +196,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         viewModel.shareInFBCompleted()
+        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)  // TODO: Create a string for this screen
     }
     
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)  // TODO: Create a string for this screen
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
@@ -228,9 +229,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // MARK: - MFMailComposeViewControllerDelegate
     
-    public func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    public func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         var message: String? = nil
-        if result.value == MFMailComposeResultFailed.value { // we just give feedback if something nasty happened.
+        if result.rawValue == MFMailComposeResultFailed.rawValue { // we just give feedback if something nasty happened.
             message = LGLocalizedString.productShareEmailError
         }
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
@@ -267,7 +268,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
         reportButton.enabled = false
         reportButton.setTitle(LGLocalizedString.productReportingProductLabel, forState: .Normal)
-        showLoadingMessageAlert(customMessage: LGLocalizedString.productReportingLoadingMessage)
+        showLoadingMessageAlert(LGLocalizedString.productReportingLoadingMessage)
     }
     
     public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
@@ -276,11 +277,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     public func viewModelDidCompleteReporting(viewModel: ProductViewModel) {
         
-        var completion = {
+        let completion = {
             self.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedSuccessMessage, time: 3)
         }
         
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     public func viewModelDidFailReporting(viewModel: ProductViewModel, error: ProductReportSaveServiceError) {
@@ -301,7 +302,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             }
         }
         
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
         setReportButtonAsReported(viewModel.isReported)
     }
 
@@ -310,9 +311,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         showLoadingMessageAlert()
     }
     
-    public func viewModel(viewModel: ProductViewModel, didFinishDeleting result: Result<Nil, ProductDeleteServiceError>) {
+    public func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductDeleteServiceResult) {
         let completion: () -> Void
-        if let success = result.value {
+        if let _ = result.value {
             completion = {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.productDeleteSuccessMessage, time: 3) {
                     self.navigationController?.popViewControllerAnimated(true)
@@ -324,16 +325,16 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.productDeleteSendErrorGeneric)
             }
         }
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     public func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
     }
     
-    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: Result<Product, ProductMarkSoldServiceError>) {
+    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductMarkSoldServiceResult) {
         let completion: (() -> Void)?
-        if let success = result.value {
+        if let _ = result.value {
             
             completion = {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldSuccessMessage, time: 3) {
@@ -351,7 +352,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldErrorGeneric)
             }
         }
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     public func viewModelDidStartAsking(viewModel: ProductViewModel) {
@@ -379,7 +380,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 }
             }
         }
-        dismissLoadingMessageAlert(completion: completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     // MARK: - Private methods
@@ -401,7 +402,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         productStatusLabel.preferredMaxLayoutWidth = max(60, productStatusLabel.frame.size.width) + 40 // min width = 100
         
-        var size = CGSize(width: productStatusLabel.preferredMaxLayoutWidth, height: 36)
+        let size = CGSize(width: productStatusLabel.preferredMaxLayoutWidth, height: 36)
 
         productStatusLabel.frame = CGRect(origin: CGPoint(x: originX, y: 0.0), size: size)
         view.layoutIfNeeded()
@@ -410,7 +411,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     private func setupUI() {
         // Setup
         // > Navigation Bar
-        setLetGoNavigationBarStyle(title: "")
+        setLetGoNavigationBarStyle("")
         setFavouriteButtonAsFavourited(false)
         
         // > Main
@@ -643,7 +644,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                     self.viewModel.shareInTwitterActivity()
                 } else if activity == UIActivityTypeMail {
                     self.viewModel.shareInEmail("top")
-                } else if activity.rangeOfString("whatsapp") != nil {
+                } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
                     self.viewModel.shareInWhatsappActivity()
                 }
             }

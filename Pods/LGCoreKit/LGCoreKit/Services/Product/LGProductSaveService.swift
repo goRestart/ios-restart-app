@@ -30,18 +30,16 @@ final public class LGProductSaveService: ProductSaveService {
     
     // MARK: - ProductSaveService
     
-    public func saveProduct(product: Product, forUser user: User, sessionToken: String, result: ProductSaveServiceResult?) {
+    public func saveProduct(product: Product, forUser user: User, sessionToken: String, completion: ProductSaveServiceCompletion?) {
         
-        var params = parametersForSaveProduct(product, user: user).letgoApiParams
-        
+        let params = parametersForSaveProduct(product, user: user).letgoApiParams
         let headers = [
             LGCoreKitConstants.httpHeaderUserToken: sessionToken
         ]
         
+        var fullUrl = url
         var requestMethod = Method.POST
         
-        var fullUrl = url
-
         if let idProduct = product.objectId {
             fullUrl = "\(url)/\(idProduct)"
             requestMethod = Method.PUT
@@ -49,43 +47,37 @@ final public class LGProductSaveService: ProductSaveService {
                 
         Alamofire.request(requestMethod, fullUrl, parameters: params, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (request, response, productSaveResponse: LGProductSaveResponse?, error: NSError?) -> Void in
+            .responseObject { (productSaveResponse: Response<LGProductSaveResponse, NSError>) -> Void in
                 // Error
-                if let actualError = error {
+                if let actualError = productSaveResponse.result.error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<Product, ProductSaveServiceError>.failure(.Network))
-                    } else if let statusCode = response?.statusCode {
+                        completion?(ProductSaveServiceResult(error: .Network))
+                    }
+                    else if let statusCode = productSaveResponse.response?.statusCode {
                         switch statusCode {
                         case 403:
-                            result?(Result<Product, ProductSaveServiceError>.failure(.Forbidden))
+                            completion?(ProductSaveServiceResult(error: .Forbidden))
                         default:
-                            result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
+                            completion?(ProductSaveServiceResult(error: .Internal))
                         }
                     }
                     else {
-                        result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
+                        completion?(ProductSaveServiceResult(error: .Internal))
                     }
                 }
                 // Success
-                else {
+                else if let response = productSaveResponse.result.value {
                     if requestMethod == .PUT {
-                        if let response = productSaveResponse {
-                            result?(Result<Product, ProductSaveServiceError>.success(response.product))
-                        }
+                        completion?(ProductSaveServiceResult(value: response.product))
                     }
                     else if requestMethod == .POST {
-                        if let response = productSaveResponse {
-                            result?(Result<Product, ProductSaveServiceError>.success(response.product))
-                        }
-                        else {
-                            result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
-                        }
+                        completion?(ProductSaveServiceResult(value: response.product))
                     }
                     else {
-                        result?(Result<Product, ProductSaveServiceError>.failure(.Internal))
+                        completion?(ProductSaveServiceResult(error: .Internal))
                     }
                 }
-        }
+            }
     }
     
     private func parametersForSaveProduct(product: Product, user: User) -> SaveProductParams {

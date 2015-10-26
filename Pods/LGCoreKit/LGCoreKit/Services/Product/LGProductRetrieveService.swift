@@ -30,9 +30,9 @@ final public class LGProductRetrieveService: ProductRetrieveService {
     // MARK: - ProductsRetrieveService
     
 
-    public func retrieveProductWithId(productId: String, result: ProductRetrieveServiceResult?) {
+    public func retrieveProductWithId(productId: String, completion: ProductRetrieveServiceCompletion?) {
         
-        var fullUrl = "\(url)/\(productId)"
+        let fullUrl = "\(url)/\(productId)"
 
         let sessionToken : String = MyUserManager.sharedInstance.myUser()?.sessionToken ?? ""
         
@@ -42,21 +42,21 @@ final public class LGProductRetrieveService: ProductRetrieveService {
         
         Alamofire.request(.GET, fullUrl, parameters: nil, headers: headers)
             .validate(statusCode: 200..<400)
-            .responseObject { (_, _, productResponse: LGProductResponse?, error: NSError?) -> Void in
+            .responseObject { (response: Response<LGProductResponse, NSError>) -> Void in
+                // Success
+                if let productResponse = response.result.value {
+                    completion?(ProductRetrieveServiceResult(value: productResponse.product))
+                }
                 // Error
-                if let actualError = error {
-                    let myError: NSError
+                else if let actualError = response.result.error {
                     if actualError.domain == NSURLErrorDomain {
-                        result?(Result<Product, ProductRetrieveServiceError>.failure(.Network))
+                        completion?(ProductRetrieveServiceResult(error: .Network))
                     }
                     else {
-                        result?(Result<Product, ProductRetrieveServiceError>.failure(.Internal))
+                        completion?(ProductRetrieveServiceResult(error: .Internal))
                     }
                 }
-                // Success
-                else if let actualProductResponse = productResponse {
-                    result?(Result<Product, ProductRetrieveServiceError>.success(actualProductResponse.product))
-                }
+            }
         }
-    }
 }
+

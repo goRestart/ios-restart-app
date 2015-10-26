@@ -30,11 +30,11 @@ final public class LGProductFavouriteDeleteService: ProductFavouriteDeleteServic
     
     // MARK: - ProductFavouriteDeleteService
     
-    public func deleteProductFavourite(productFavourite: ProductFavourite, sessionToken: String, result: ProductFavouriteDeleteServiceResult?) {
+    public func deleteProductFavourite(productFavourite: ProductFavourite, sessionToken: String, completion: ProductFavouriteDeleteServiceCompletion?) {
         
         if let user = productFavourite.user, let product = productFavourite.product {
             
-            let fullUrl = "\(url)/\(user.objectId)/favorites/products/\(product.objectId)"
+            let fullUrl = "\(url)/\(user.objectId!)/favorites/products/\(product.objectId!)"
             
             let headers = [
                 LGCoreKitConstants.httpHeaderUserToken: sessionToken
@@ -45,29 +45,28 @@ final public class LGProductFavouriteDeleteService: ProductFavouriteDeleteServic
                 .response { (_, response, _, error: NSError?) -> Void in
                     // Error
                     if let actualError = error {
-                        let myError : NSError
                         if actualError.domain == NSURLErrorDomain {
-                            result?(Result<Nil, ProductFavouriteDeleteServiceError>.failure(.Network))
+                            completion?(ProductFavouriteDeleteServiceResult(error: .Network))
                         }
                         else {
-                            result?(Result<Nil, ProductFavouriteDeleteServiceError>.failure(.Internal))
+                            completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
                         }
                     }
                     // Success
                     else {
                         if response?.statusCode == 204 {
                             // success
-                            result?(Result<Nil, ProductFavouriteDeleteServiceError>.success(Nil()))
+                            completion?(ProductFavouriteDeleteServiceResult(value: Nil()))
                         } else {
                             // error
-                            result?(Result<Nil, ProductFavouriteDeleteServiceError>.failure(.Internal))
+                            completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
                         }
                     }
             }
             
         } else {
             // Error no user or product
-            result?(Result<Nil, ProductFavouriteDeleteServiceError>.failure(.Internal))
+            completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
         }
         
     }

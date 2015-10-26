@@ -9,7 +9,7 @@
 import Alamofire
 import SwiftyJSON
 
-@objc public class LGProductResponse: ProductResponse, ResponseObjectSerializable {
+public class LGProductResponse: ProductResponse, ResponseObjectSerializable {
     
     public var product: Product
     
@@ -24,9 +24,10 @@ import SwiftyJSON
     public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
         self.init()
         
-        let json = JSON(representation)
+        guard let countryInfoDao = RLMCountryInfoDAO() else {
+            return nil
+        }
         
-        let countryInfoDao = RLMCountryInfoDAO()
         let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
         
         // since the response gives distance in the units passed per parameters,
@@ -35,7 +36,9 @@ import SwiftyJSON
         if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
             distanceType = usesMetric ? .Km : .Mi
         }
-        
+
+        let json = JSON(representation)
+
         product = LGProductParser.productWithJSON(json, currencyHelper: currencyHelper, distanceType: distanceType)
         
     }

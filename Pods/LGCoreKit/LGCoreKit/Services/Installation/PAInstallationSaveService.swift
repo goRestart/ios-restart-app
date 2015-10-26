@@ -18,27 +18,27 @@ final public class PAInstallationSaveService: InstallationSaveService {
     
     // MARK: - UserSaveService
     
-    public func save(installation: Installation, result: InstallationSaveServiceResult?) {
+    public func save(installation: Installation, completion: InstallationSaveServiceCompletion?) {
         if let parseInstallation = installation as? PFInstallation {
             parseInstallation.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
                 if success {
-                    result?(Result<Installation, InstallationSaveServiceError>.success(parseInstallation))
+                    completion?(InstallationSaveServiceResult(value: parseInstallation))
                 }
                 else if let actualError = error {
                     switch(actualError.code) {
                     case PFErrorCode.ErrorConnectionFailed.rawValue:
-                        result?(Result<Installation, InstallationSaveServiceError>.failure(.Network))
+                        completion?(InstallationSaveServiceResult(error: .Network))
                     default:
-                        result?(Result<Installation, InstallationSaveServiceError>.failure(.Internal))
+                        completion?(InstallationSaveServiceResult(error: .Internal))
                     }
                 }
                 else {
-                    result?(Result<Installation, InstallationSaveServiceError>.failure(.Internal))
+                    completion?(InstallationSaveServiceResult(error: .Internal))
                 }
             }
         }
         else {
-            result?(Result<Installation, InstallationSaveServiceError>.failure(.Internal))
+            completion?(InstallationSaveServiceResult(error: .Internal))
         }
     }
 }

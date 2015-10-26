@@ -9,13 +9,14 @@
 import CoreLocation
 import Result
 
-public enum SearchLocationSuggestionsServiceError {
+public enum SearchLocationSuggestionsServiceError: ErrorType {
     case Network
     case Internal
-    case UnknownLocation
+    case NotFound
 }
 
-public typealias SearchLocationSuggestionsServiceResult = (Result<[Place], SearchLocationSuggestionsServiceError>) -> Void
+public typealias SearchLocationSuggestionsServiceResult = Result<[Place], SearchLocationSuggestionsServiceError>
+public typealias SearchLocationSuggestionsServiceCompletion = SearchLocationSuggestionsServiceResult -> Void
 
 public class CLSearchLocationSuggestionsService {
    
@@ -30,29 +31,29 @@ public class CLSearchLocationSuggestionsService {
     
     // MARK: - PostalAddressRetrievalService
     
-    public func retrieveAddressForLocation(searchText: String, result: SearchLocationSuggestionsServiceResult?) {
+    public func retrieveAddressForLocation(searchText: String, completion: SearchLocationSuggestionsServiceCompletion?) {
         
         geocoder.geocodeAddressString(searchText, completionHandler: { (placemarks, error) -> Void in
             
-            if let actualPlacemarks = placemarks as? [CLPlacemark] {
+            if let actualPlacemarks = placemarks {
                 var suggestedResults: [Place] = []
                 if !actualPlacemarks.isEmpty {
                     for placemark in actualPlacemarks {
                         suggestedResults.append(placemark.place())
                     }
                 }
-                result?(Result<[Place], SearchLocationSuggestionsServiceError>.success(suggestedResults))
+                completion?(SearchLocationSuggestionsServiceResult(value: suggestedResults))
             }
-                // Error
+            // Error
             else if let actualError = error {
-                if error.code == CLError.GeocodeFoundNoResult.rawValue {
-                    result?(Result<[Place], SearchLocationSuggestionsServiceError>.failure(.UnknownLocation))
+                if actualError.code == CLError.GeocodeFoundNoResult.rawValue {
+                    completion?(SearchLocationSuggestionsServiceResult(error: .NotFound))
                 } else {
-                    result?(Result<[Place], SearchLocationSuggestionsServiceError>.failure(.Network))
+                    completion?(SearchLocationSuggestionsServiceResult(error: .Network))
                 }
             }
             else {
-                result?(Result<[Place], SearchLocationSuggestionsServiceError>.failure(.Internal))
+                completion?(SearchLocationSuggestionsServiceResult(error: .Internal))
             }
         })
     }
