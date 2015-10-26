@@ -36,9 +36,15 @@ extension EnvironmentProxy: AppEnvironment {
         }
         return ""
     }
-    var googleConversionTrackingId: String {
+    var googleConversionPrimaryTrackingId: String {
         if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.googleConversionTrackingId
+            return appEnvironment.googleConversionPrimaryTrackingId
+        }
+        return ""
+    }
+    var googleConversionSecondaryTrackingId: String {
+        if let appEnvironment = environment as? AppEnvironment {
+            return appEnvironment.googleConversionSecondaryTrackingId
         }
         return ""
     }
