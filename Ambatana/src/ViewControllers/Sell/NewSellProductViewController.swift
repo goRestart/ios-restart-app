@@ -52,18 +52,19 @@ class NewSellProductViewController: SellProductViewController {
     }
     
     override func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
-        self.newSellViewModel.shouldDisableTracking()
+
         super.sellProductViewModel(viewModel, didFailWithError: error)
         
-        var completion = {
-            self.newSellViewModel.shouldEnableTracking()
-        }
+        var completion: ((Void)->Void)? = nil
+        
         let message: String
         switch (error) {
-        case .Network:
+        case .Network, .Internal:
+            self.newSellViewModel.shouldDisableTracking()
             message = LGLocalizedString.sellSendErrorUploadingProduct
-        case .Internal:
-            message = LGLocalizedString.sellSendErrorUploadingProduct
+            completion = {
+                self.newSellViewModel.shouldEnableTracking()
+            }
         case .NoImages:
             message = LGLocalizedString.sellSendErrorInvalidImageCount
         case .NoTitle:
@@ -77,6 +78,7 @@ class NewSellProductViewController: SellProductViewController {
         case .NoCategory:
             message = LGLocalizedString.sellSendErrorInvalidCategory
         case .Forbidden:
+            self.newSellViewModel.shouldDisableTracking()
             message = LGLocalizedString.logInErrorSendErrorGeneric
             completion = {
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in

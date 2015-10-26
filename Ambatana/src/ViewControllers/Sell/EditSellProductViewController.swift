@@ -62,18 +62,19 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     }
     
     override func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
-        self.editViewModel.shouldDisableTracking()
+        
         super.sellProductViewModel(viewModel, didFailWithError: error)
 
-        var completion = {
-            self.editViewModel.shouldEnableTracking()
-        }
+        var completion: ((Void) -> Void)? = nil
+        
         let message: String
         switch (error) {
-        case .Network:
+        case .Network, .Internal:
+            self.editViewModel.shouldDisableTracking()
             message = LGLocalizedString.editProductSendErrorUploadingProduct
-        case .Internal:
-            message = LGLocalizedString.editProductSendErrorUploadingProduct
+            completion = {
+                self.editViewModel.shouldEnableTracking()
+            }
         case .NoImages:
             message = LGLocalizedString.sellSendErrorInvalidImageCount
         case .NoTitle:
@@ -87,12 +88,13 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
         case .NoCategory:
             message = LGLocalizedString.sellSendErrorInvalidCategory
         case .Forbidden:
+            self.editViewModel.shouldDisableTracking()
             message = LGLocalizedString.logInErrorSendErrorGeneric
             completion = {
+                self.editViewModel.shouldEnableTracking()
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in
                     MyUserManager.sharedInstance.logout(nil)
                 })
-                self.editViewModel.shouldEnableTracking()
             }
         }
         self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
