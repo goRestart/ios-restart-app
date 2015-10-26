@@ -90,7 +90,7 @@
 				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
 				<false/>
 			</dict>
-			<key>letgo.com</key>
+			<key>nanigans.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>
@@ -99,6 +99,15 @@
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
 				<string>TLSv1.1</string>
 			</dict>
+            <key>letgo.com</key>
+            <dict>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSTemporaryExceptionMinimumTLSVersion</key>
+                <string>TLSv1.1</string>
+            </dict>
             <key>amazonaws.com</key>
             <dict>
                 <key>NSIncludesSubdomains</key>
