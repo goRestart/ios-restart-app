@@ -565,6 +565,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                         // If not found, then no conversation has been created yet, it's a success
                         case .NotFound:
                             if let vc = ChatViewController(product: strongSelf.product) {
+                                vc.askQuestion = true
                                 result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
                             }
                         case .Network, .Unauthorized, .Internal, .Forbidden:
