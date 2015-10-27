@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Vennligst velg et passord på minst %d tegn.";
 "sign_up_send_error_invalid_password_with_max" = "Vennligst legg til et gyldig passord. Det må inneholde mellom %d og %d tegn.";
 "sign_up_send_error_invalid_username" = "Vennligst skriv inn et brukernavn på minst %d tegn.";
-"sign_up_send_error_invalid_username_letgo" = "Brukernavn kan ikke inneholde ord som \"letgo\", \"let go\" eller lignende ord.";
+"sign_up_send_error_invalid_username_letgo" = "En annen konto benytter %@";
 "sign_up_title" = "Registrer deg";
 "sign_up_username_field_hint" = "Fullt navn";
 "tab_bar_tool_tip" = "Selg tingene dine";

@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Lütfen, en az %d karakterden oluşan bir şifre gir.";
 "sign_up_send_error_invalid_password_with_max" = "Lütfen geçerli bir şifre gir. Şifre en az %d, en fazla %d karakterden oluşmalıdır.";
 "sign_up_send_error_invalid_username" = "Lütfen, en az %d karakterden oluşan bir kullanıcı adı gir.";
-"sign_up_send_error_invalid_username_letgo" = "Kullanıcı adı letgo, let go veya benzeri kelimeleri içermemelidir.";
+"sign_up_send_error_invalid_username_letgo" = "%@ adresi başka bir hesap tarafından kullanılıyor";
 "sign_up_title" = "Üye ol";
 "sign_up_username_field_hint" = "Tam isim";
 "tab_bar_tool_tip" = "Eşyalarını Sat";

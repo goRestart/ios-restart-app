@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Var god ange ett giltigt lösenord på minst %d tecken.";
 "sign_up_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
 "sign_up_send_error_invalid_username" = "Var god ange ett giltigt namn på minst %d tecken.";
-"sign_up_send_error_invalid_username_letgo" = "Användarnamnet kan inte innehålla letgo, let go, eller liknande.";
+"sign_up_send_error_invalid_username_letgo" = "Ett annat konto använder %@.";
 "sign_up_title" = "Registrera dig";
 "sign_up_username_field_hint" = "Fullständigt namn";
 "tab_bar_tool_tip" = "Sälj dina prylar";

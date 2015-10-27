@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Παρακαλώ εισάγετε έναν έγκυρο κωδικό πρόσβασης, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
 "sign_up_send_error_invalid_password_with_max" = "Παρακαλώ, εισάγετε έναν έγκυρο κωδικό πρόσβασης. Θα πρέπει να αποτελείται τουλάχιστον από %d μέχρι %d χαρακτήρες.";
 "sign_up_send_error_invalid_username" = "Παρακαλώ εισάγετε έγκυρο όνομα, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";
-"sign_up_send_error_invalid_username_letgo" = "Το όνομα χρήστη δεν μπορεί να περιέχει τις λέξεις letgo, let go ή παρόμοιες λέξεις.";
+"sign_up_send_error_invalid_username_letgo" = "Κάποιος άλλος λογαριασμός χρησιμοποιεί το %@";
 "sign_up_title" = "Εγγραφή";
 "sign_up_username_field_hint" = "Ονοματεπώνυμο";
 "tab_bar_tool_tip" = "Πούλα τα Πράγματά σου";

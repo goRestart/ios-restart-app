@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Пожалуйста, введите подходящий пароль. Он должен содержать как минимум %d символа.";
 "sign_up_send_error_invalid_password_with_max" = "Пожалуйста, введите корректный пароль. Он должен содержать от %d до %d символов.";
 "sign_up_send_error_invalid_username" = "Пожалуйста, введите настоящее имя, оно должно содержать как минимум %d символа.";
-"sign_up_send_error_invalid_username_letgo" = "Имя пользователя не может содержать слово \"letgo\", \"let go\" или похожие.";
+"sign_up_send_error_invalid_username_letgo" = "%@ используется на другом аккаунте";
 "sign_up_title" = "Регистрация";
 "sign_up_username_field_hint" = "Полное имя";
 "tab_bar_tool_tip" = "Продайте свои вещи";

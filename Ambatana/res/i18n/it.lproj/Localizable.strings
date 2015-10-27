@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Inserisci una password valida, deve contenere almeno %d caratteri.";
 "sign_up_send_error_invalid_password_with_max" = "Inserisci una password valida. Deve contenere tra i %d e i %d caratteri.";
 "sign_up_send_error_invalid_username" = "Inserisci un nome utente valido, deve contenere almeno %d caratteri.";
-"sign_up_send_error_invalid_username_letgo" = "Il nome utente non può contenere le parole letgo, let go o parole simili.";
+"sign_up_send_error_invalid_username_letgo" = "Un altro account sta già utilizzando %@";
 "sign_up_title" = "Registrati";
 "sign_up_username_field_hint" = "Nome e Cognome";
 "tab_bar_tool_tip" = "Vendi le tue cose";

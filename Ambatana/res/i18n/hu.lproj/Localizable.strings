@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Kérjük, érvényes jelszót adj meg: legalább %d karakterből kell állnia!";
 "sign_up_send_error_invalid_password_with_max" = "Kérjük, érvényes jelszót adj meg. A hossza %d és %d között lehet.";
 "sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
-"sign_up_send_error_invalid_username_letgo" = "A felhasználónév nem tartalmazhatja a letgo szót, és ahhoz hasonlóakat sem.";
+"sign_up_send_error_invalid_username_letgo" = "Másik fiók használja a következőt: %@";
 "sign_up_title" = "Regisztráció";
 "sign_up_username_field_hint" = "Teljes név";
 "tab_bar_tool_tip" = "Add el a dolgaid";

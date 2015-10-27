@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Veuillez entrer un mot de passe valide, d'au moins %d caractères.";
 "sign_up_send_error_invalid_password_with_max" = "Veuillez entrer un mot de passe valide. Il doit contenir entre %d et %d caractères.";
 "sign_up_send_error_invalid_username" = "Veuillez entrer un nom valide, avec au moins %d caractères.";
-"sign_up_send_error_invalid_username_letgo" = "Les noms d'utilisateurs ne peuvent pas contenir le mot letgo, let go, ou mot similaire.";
+"sign_up_send_error_invalid_username_letgo" = "Un autre compte utilise %@";
 "sign_up_title" = "S'inscrire";
 "sign_up_username_field_hint" = "Nom complet";
 "tab_bar_tool_tip" = "Vendez Vos Biens";

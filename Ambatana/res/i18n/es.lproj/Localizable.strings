@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "¡Ups! Introduce una contraseña válida, debe tener al menos %d caracteres.";
 "sign_up_send_error_invalid_password_with_max" = "Por favor, introduce una contraseña válida. Debe tener entre %d y %d caracteres.";
 "sign_up_send_error_invalid_username" = "¡Ups! Introduce un nombre válido, debe tener al menos %d caracteres.";
-"sign_up_send_error_invalid_username_letgo" = "Los nombres no pueden contener la palabra letgo, let go o variantes.";
+"sign_up_send_error_invalid_username_letgo" = "Otra cuenta está usando %@";
 "sign_up_title" = "Regístrate";
 "sign_up_username_field_hint" = "Nombre y apellido";
 "tab_bar_tool_tip" = "Empieza a vender";

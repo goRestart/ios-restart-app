@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "common_cancel" = "Abbrechen";
 "common_error" = "Fehler";
-"common_error_connection_failed" = "Vorgang konnte nicht abgeschlossen werden. Bitte überprüfe deine Internetverbindung.";
+"common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
 "common_error_generic_body" = "Atme tief durch und probier's noch mal";
 "common_error_network_body" = "Bitte überprüfe deine Verbindung und probiere es erneut";
 "common_error_retry_button" = "Versuch's noch einmal";
@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Bitte gib ein gültiges Kennwort mit mindestens %d Zeichen ein.";
 "sign_up_send_error_invalid_password_with_max" = "Bitte gib ein gültiges Kennwort ein. Es muss zwischen %d und %d Zeichen lang sein.";
 "sign_up_send_error_invalid_username" = "Bitte gib einen gültigen Namen mit mindestens %d Zeichen ein.";
-"sign_up_send_error_invalid_username_letgo" = "Nutzernamen dürfen nicht das Wort \"letgo\", \"let go\" oder ähnliches enthalten.";
+"sign_up_send_error_invalid_username_letgo" = "Ein anderes Benutzerkonto benutzt bereits %@";
 "sign_up_title" = "Registrieren";
 "sign_up_username_field_hint" = "Vollständiger Name";
 "tab_bar_tool_tip" = "Verkaufe deine Dinge";

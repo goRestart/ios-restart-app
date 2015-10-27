@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Voer a.u.b. een geldig wachtwoord in, het moet minstens %d tekens bevatten.";
 "sign_up_send_error_invalid_password_with_max" = "Voer a.u.b. een geldig wachtwoord in, het moeten tussen %d en %d tekens bevatten.";
 "sign_up_send_error_invalid_username" = "Gelieve een geldige naam in te voeren, deze moet minstens %d tekens bevatten.";
-"sign_up_send_error_invalid_username_letgo" = "Gebruikersnamen mogen niet het woord letgo, let go of vergelijkbare woorden bevatten.";
+"sign_up_send_error_invalid_username_letgo" = "Een ander account gebruikt %@";
 "sign_up_title" = "Word lid";
 "sign_up_username_field_hint" = "Volledige naam";
 "tab_bar_tool_tip" = "Verkoop je spullen";

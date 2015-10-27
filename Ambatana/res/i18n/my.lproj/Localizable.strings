@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့် စကားဝှက်ကို ထည့်သွင်းပါ၊ ၄င်းသည် အနည်းဆုံး အက္ခရာစာလုံး %d လုံးရှိရမည်။";
 "sign_up_send_error_invalid_password_with_max" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့် စကားဝှက်ကို ထည့်သွင်းပါ၊ ၄င်းသည် အက္ခရာစာလုံးအရေအတွက် %d နှင့် %d ကြားရှိရမည်။";
 "sign_up_send_error_invalid_username" = "ကျေးဇူးပြုပြီး မှန်ကန်သည့် အမည်ကို ထည့်သွင်းပါ၊ ၄င်းသည် အနည်းဆုံး အက္ခရာစာလုံး %d လုံးရှိရမည်။";
-"sign_up_send_error_invalid_username_letgo" = "သုံးစွဲသူအမည်များတွင် letgo စကားလုံး၊ let go သို့မဟုတ် အခြားဆင်တူစကားလုံးများ မပါဝင်ရပါ။";
+"sign_up_send_error_invalid_username_letgo" = "Another account is using %@";
 "sign_up_title" = "စာရင်းသွင်းပါ";
 "sign_up_username_field_hint" = "အမည် အပြည့်အစုံ";
 "tab_bar_tool_tip" = "သင့်ပစ္စည်းကို ရောင်းပါ";

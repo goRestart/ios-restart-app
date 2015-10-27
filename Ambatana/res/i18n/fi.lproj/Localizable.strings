@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Ole hyvä ja syötä kelvollinen salasana, jossa on vähintään %d merkkiä.";
 "sign_up_send_error_invalid_password_with_max" = "Ole hyvä ja syötä kelvollinen salasana. Siinä pitää olla %d-%d merkkiä.";
 "sign_up_send_error_invalid_username" = "Ole hyvä ja syötä kelvollinen nimi, jossa on vähintään %d merkkiä.";
-"sign_up_send_error_invalid_username_letgo" = "Käyttäjänimi ei voi sisältää sanoja letgo, let go tai vastaavia.";
+"sign_up_send_error_invalid_username_letgo" = "%@ on toisen tilin käytössä";
 "sign_up_title" = "Rekisteröidy";
 "sign_up_username_field_hint" = "Koko nimi";
 "tab_bar_tool_tip" = "Myy tavaroitasi";

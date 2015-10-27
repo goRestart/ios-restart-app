@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "Vui lòng nhập mật khẩu hợp lệ có ít nhất %d ký tự.";
 "sign_up_send_error_invalid_password_with_max" = "Vui lòng nhập mật khẩu hợp lệ. Mật khẩu cần có từ %d đến %d ký tự.";
 "sign_up_send_error_invalid_username" = "Vui lòng nhập tên hợp lệ có ít nhất %d ký tự.";
-"sign_up_send_error_invalid_username_letgo" = "Tên người dùng không thể chứa từ letgo, let go hay từ tương tự.";
+"sign_up_send_error_invalid_username_letgo" = "Một tài khoản khác đang sử dụng %@";
 "sign_up_title" = "Đăng ký";
 "sign_up_username_field_hint" = "Họ tên";
 "tab_bar_tool_tip" = "Bán Đồ Của Bạn";

@@ -251,7 +251,7 @@
 "sign_up_send_error_invalid_password" = "有効なパスワードを少なくとも%d文字入力してください。";
 "sign_up_send_error_invalid_password_with_max" = "有効なパスワードを入力してください。%dから%dまでの文字数でなければなりません。";
 "sign_up_send_error_invalid_username" = "有効な名前を、少なくとも%d文字入力してください。";
-"sign_up_send_error_invalid_username_letgo" = "ユーザーネームに\"letogo\"や\"let go\"や似た言葉を含むことはできません。";
+"sign_up_send_error_invalid_username_letgo" = "%@のアカウントは既に使われています";
 "sign_up_title" = "登録";
 "sign_up_username_field_hint" = "フルネーム";
 "tab_bar_tool_tip" = "商品を売ろう";
