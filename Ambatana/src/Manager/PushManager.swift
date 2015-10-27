@@ -195,13 +195,10 @@ public class PushManager: NSObject, KahunaDelegate {
         let uc = Kahuna.createUserCredentials()
         var loginError: NSError?
         if let userId = user.objectId {
-            // TODO: Use Kahuna constants when updating to Xcode 7
-//                uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
-            uc.addCredential("user_id", withValue: userId)
+            uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
         }
         if let email = user.email {
-//                uc.addCredential(KAHUNA_CREDENTIAL_EMAIL, withValue: email)
-            uc.addCredential("email", withValue: email)
+            uc.addCredential(KAHUNA_CREDENTIAL_EMAIL, withValue: email)
         }
         Kahuna.loginWithCredentials(uc, error: &loginError)
         if (loginError != nil) {
