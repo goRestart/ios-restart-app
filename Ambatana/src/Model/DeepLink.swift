@@ -62,11 +62,13 @@ public struct DeepLink: CustomStringConvertible {
     Initializer using Universal and Handoff links (Links in the web form)
     
         Valid urls are in the form:
+        {whatever}.letgo.com -> main screen
         {country}.letgo.com/{language} -> main screen
         {country}.letgo.com/{language}/u/{userslug}_{user_id} -> user profile
         {country}.letgo.com/{language}/i/{productslug}_{product_id} -> product
+        {whatever}.letgo.com/products/{product_id} -> product
     
-    - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/...
+    - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/... or http:/www.letgo.com/product/....
     */
     public init?(webUrl: NSURL) {
         self.url = webUrl
@@ -85,31 +87,52 @@ public struct DeepLink: CustomStringConvertible {
             urlComponents.removeAtIndex(0)
         }
         
-        if urlComponents.count == 1 { // just the language -> main screen
-            self.type = DeepLinkType.Home
+        var linkType : DeepLinkType?
+        if urlComponents.isEmpty { //just the domain -> main screen
+            linkType = DeepLinkType.Home
         }
-        else if urlComponents.count == 3 { //Product or user
-            //Decomposing slug
-            let slugComponents = urlComponents[2].componentsSeparatedByString("_")
-            if slugComponents.count > 1 {
-                let slugId = slugComponents[slugComponents.count - 1]
-                self.components.append(slugId)
+        else {
+            if urlComponents[0].characters.count == 2 { // just the language -> main screen
+                linkType = DeepLinkType.Home
             }
-            
-            switch urlComponents[1]{
-                case "u":
-                    self.type = DeepLinkType.User
-                case "i":
-                    self.type = DeepLinkType.Product
-                default:
-                    return nil
+            if (urlComponents.count == 2 && urlComponents[0] == "product") { //Product in share mode
+                if urlComponents[1].characters.count > 0 {
+                    linkType = DeepLinkType.Product
+                    self.components.append(urlComponents[1])
+                }
             }
+            if (urlComponents.count == 3 && urlComponents[1] == "i") { //Product in web mode
+                if let productId = decomposeIdSlug(urlComponents[2]) {
+                    linkType = DeepLinkType.Product
+                    self.components.append(productId)
+                }
+                
+            }
+            if (urlComponents.count == 3 && urlComponents[1] == "u") { //User in web mode
+                if let userId = decomposeIdSlug(urlComponents[2]) {
+                    linkType = DeepLinkType.User
+                    self.components.append(userId)
+                }
+            }
+        }
+        
+        if let successType = linkType {
+            self.type = successType
+            parseQuery(url.query)
         }
         else {
             return nil
         }
+    }
 
-        parseQuery(url.query)
+    
+    private func decomposeIdSlug(sluggedId: String) -> String? {
+        let slugComponents = sluggedId.componentsSeparatedByString("_")
+        if slugComponents.count > 1 {
+            let slugId = slugComponents[slugComponents.count - 1]
+            return slugId
+        }
+        return nil
     }
     
     private mutating func parseQuery(queryString: String?){
