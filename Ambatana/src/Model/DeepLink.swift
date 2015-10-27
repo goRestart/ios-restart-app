@@ -62,11 +62,13 @@ public struct DeepLink: CustomStringConvertible {
     Initializer using Universal and Handoff links (Links in the web form)
     
         Valid urls are in the form:
+        {whatever}.letgo.com -> main screen
         {country}.letgo.com/{language} -> main screen
         {country}.letgo.com/{language}/u/{userslug}_{user_id} -> user profile
         {country}.letgo.com/{language}/i/{productslug}_{product_id} -> product
+        {whatever}.letgo.com/products/{product_id} -> product
     
-    - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/...
+    - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/... or http:/www.letgo.com/product/....
     */
     public init?(webUrl: NSURL) {
         self.url = webUrl
@@ -85,31 +87,55 @@ public struct DeepLink: CustomStringConvertible {
             urlComponents.removeAtIndex(0)
         }
         
-        if urlComponents.count == 1 { // just the language -> main screen
-            self.type = DeepLinkType.Home
+        var linkType : DeepLinkType?
+        if urlComponents.isEmpty { //just the domain -> main screen
+            linkType = DeepLinkType.Home
         }
-        else if urlComponents.count == 3 { //Product or user
-            //Decomposing slug
-            let slugComponents = urlComponents[2].componentsSeparatedByString("_")
-            if slugComponents.count > 1 {
-                let slugId = slugComponents[slugComponents.count - 1]
-                self.components.append(slugId)
+        else {
+            if urlComponents[0].characters.count == 2 { // first component is a language -> web in the form {subdomain}.letgo.com/{language}/{item indicator}/{item slug}
+                if urlComponents.count == 1 { //Just the language -> main screen
+                    linkType = DeepLinkType.Home
+                }
+                else if (urlComponents.count == 3 && urlComponents[1] == "i") { //{subdomain}.letgo.com/{language}/i/{product_slug} -> Product detail
+                    if let productId = decomposeIdSlug(urlComponents[2]) {
+                        linkType = DeepLinkType.Product
+                        self.components.append(productId)
+                    }
+                    
+                }
+                else if (urlComponents.count == 3 && urlComponents[1] == "u") { //{subdomain}.letgo.com/{language}/u/{user_slug} -> User detail
+                    if let userId = decomposeIdSlug(urlComponents[2]) {
+                        linkType = DeepLinkType.User
+                        self.components.append(userId)
+                    }
+                }
+            }
+            if (urlComponents[0] == "product" && urlComponents.count == 2) { // {subdomain}.letgo.com/product/{productId}  -> Product detail
+                if urlComponents[1].characters.count > 0 { // Only if productId is not empty
+                    linkType = DeepLinkType.Product
+                    self.components.append(urlComponents[1])
+                }
             }
             
-            switch urlComponents[1]{
-                case "u":
-                    self.type = DeepLinkType.User
-                case "i":
-                    self.type = DeepLinkType.Product
-                default:
-                    return nil
-            }
+        }
+        
+        if let successType = linkType {
+            self.type = successType
+            parseQuery(url.query)
         }
         else {
             return nil
         }
+    }
 
-        parseQuery(url.query)
+    
+    private func decomposeIdSlug(sluggedId: String) -> String? {
+        let slugComponents = sluggedId.componentsSeparatedByString("_")
+        if slugComponents.count > 1 {
+            let slugId = slugComponents[slugComponents.count - 1]
+            return slugId
+        }
+        return nil
     }
     
     private mutating func parseQuery(queryString: String?){
