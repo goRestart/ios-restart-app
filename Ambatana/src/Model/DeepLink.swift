@@ -92,28 +92,31 @@ public struct DeepLink: CustomStringConvertible {
             linkType = DeepLinkType.Home
         }
         else {
-            if urlComponents[0].characters.count == 2 { // just the language -> main screen
-                linkType = DeepLinkType.Home
+            if urlComponents[0].characters.count == 2 { // first component is a language -> web in the form {subdomain}.letgo.com/{language}/{item indicator}/{item slug}
+                if urlComponents.count == 1 { //Just the language -> main screen
+                    linkType = DeepLinkType.Home
+                }
+                else if (urlComponents.count == 3 && urlComponents[1] == "i") { //{subdomain}.letgo.com/{language}/i/{product_slug} -> Product detail
+                    if let productId = decomposeIdSlug(urlComponents[2]) {
+                        linkType = DeepLinkType.Product
+                        self.components.append(productId)
+                    }
+                    
+                }
+                else if (urlComponents.count == 3 && urlComponents[1] == "u") { //{subdomain}.letgo.com/{language}/u/{user_slug} -> User detail
+                    if let userId = decomposeIdSlug(urlComponents[2]) {
+                        linkType = DeepLinkType.User
+                        self.components.append(userId)
+                    }
+                }
             }
-            if (urlComponents.count == 2 && urlComponents[0] == "product") { //Product in share mode
-                if urlComponents[1].characters.count > 0 {
+            if (urlComponents[0] == "product" && urlComponents.count == 2) { // {subdomain}.letgo.com/product/{productId}  -> Product detail
+                if urlComponents[1].characters.count > 0 { // Only if productId is not empty
                     linkType = DeepLinkType.Product
                     self.components.append(urlComponents[1])
                 }
             }
-            if (urlComponents.count == 3 && urlComponents[1] == "i") { //Product in web mode
-                if let productId = decomposeIdSlug(urlComponents[2]) {
-                    linkType = DeepLinkType.Product
-                    self.components.append(productId)
-                }
-                
-            }
-            if (urlComponents.count == 3 && urlComponents[1] == "u") { //User in web mode
-                if let userId = decomposeIdSlug(urlComponents[2]) {
-                    linkType = DeepLinkType.User
-                    self.components.append(userId)
-                }
-            }
+            
         }
         
         if let successType = linkType {
