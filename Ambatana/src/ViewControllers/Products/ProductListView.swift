@@ -49,6 +49,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     private var lastContentOffset: CGFloat
     private var maxDistance: Float
     private var scrollingDown: Bool
+    private var refreshing: Bool
     
     // > Error
     @IBOutlet weak var errorView: UIView!
@@ -210,6 +211,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.maxDistance = 1
         self.lastContentOffset = 0
         self.scrollingDown = true
+        self.refreshing = false
         super.init(viewModel: viewModel, frame: frame)
         
         viewModel.dataDelegate = self
@@ -224,6 +226,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.maxDistance = 1
         self.lastContentOffset = 0
         self.scrollingDown = true
+        self.refreshing = false
         super.init(viewModel: viewModel, coder: aDecoder)
 
         viewModel.dataDelegate = self
@@ -241,6 +244,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         }
     }
     
+    
     // MARK: Public methods
     
     // MARK: > Actions
@@ -249,6 +253,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         Retrieves the products first page.
     */
     public func refresh() {
+        refreshing = true
         if productListViewModel.canRetrieveProducts {
             maxDistance = 1
             productListViewModel.retrieveProductsFirstPage()
@@ -273,6 +278,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         Refreshes the user interface.
     */
     public func refreshUI() {
+        maxDistance = 1
         collectionView.reloadData()
     }
     
@@ -348,9 +354,12 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
                 maxDistance = distance
             } else if !scrollingDown && distance < maxDistance {
                 maxDistance = distance
+            } else if refreshing {
+                maxDistance = distance
             }
             
             delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: productListViewModel.queryDistanceType())
+            
         }
         
         return cell
@@ -426,6 +435,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
 
             refreshControl.endRefreshing()
 //            collectionView.reloadSections(NSIndexSet(index: 0))
+            maxDistance = 1
+
             collectionView.reloadData()
         }
         else {
