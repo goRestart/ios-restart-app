@@ -101,7 +101,7 @@
 "change_username_loading" = "Saving username...";
 
 // Change username send ok. Check image @ "change_username_title" segment
-"change_username_send_ok" = "Username changed succesfully!";
+"change_username_send_ok" = "Username changed successfully!";
 
 // Chat list empty label. Check attached image  "chat_list (empty).png"
 "chat_list_empty_label" = "No conversations (yet!)";
@@ -758,7 +758,7 @@
 "sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 
 // Sign up send error invalid username letgo. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_username_letgo" = "Usernames cannot contain the word letgo, let go or similar words.";
+"sign_up_send_error_invalid_username_letgo" = "Another account is using %@";
 
 // Sign up title. Check image @ "sign_up_email_field_hint" segment
 "sign_up_title" = "Sign up";

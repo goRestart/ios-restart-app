@@ -101,7 +101,7 @@
 "change_username_loading" = "Saving username...";
 
 // Change username send ok. Check image @ "change_username_title" segment
-"change_username_send_ok" = "Username changed succesfully!";
+"change_username_send_ok" = "Username changed successfully!";
 
 // Chat list empty label. Check attached image  "chat_list (empty).png"
 "chat_list_empty_label" = "No conversations (yet!)";
