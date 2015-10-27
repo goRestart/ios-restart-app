@@ -1879,8 +1879,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
-					"$(PROJECT_DIR)/3rd-Party/GoogleConversionTrackingSDK-iOS-3.2.0",
-					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v3.3.2",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
@@ -1910,9 +1908,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
-					"$(PROJECT_DIR)/3rd-Party/GoogleConversionTrackingSDK-iOS-3.2.0",
-					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v3.3.0",
-					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v3.3.2",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
@@ -1979,9 +1974,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/3rd-Party/**",
-					"$(PROJECT_DIR)/3rd-Party/GoogleConversionTrackingSDK-iOS-3.2.0",
-					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v3.3.0",
-					"$(PROJECT_DIR)/3rd-Party/AF-iOS-SDK-v3.3.2",
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
