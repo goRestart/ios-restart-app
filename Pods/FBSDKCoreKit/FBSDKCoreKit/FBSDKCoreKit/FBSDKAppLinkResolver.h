@@ -22,7 +22,7 @@
 
 // Check if Bolts.framework is available for import
 //#if __has_include(<Bolts/BFAppLinkResolving.h>)
-//// Import it if it's available
+// Import it if it's available
 //# import <Bolts/BFAppLinkResolving.h>
 //#else
 // Otherwise - redeclare BFAppLinkResolving protocol to resolve the problem of missing symbols

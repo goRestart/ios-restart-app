@@ -1,15 +1,6 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
-## Kahuna
-
-All text and design is copyright © 2012-2015 Kahuna, Inc.
-
-All rights reserved.
-
-http://www.kahuna.com/privacy/
-
-
 ## Nimble
 
 Apache License

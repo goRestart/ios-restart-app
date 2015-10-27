@@ -42,9 +42,6 @@ target "letgoTests", :exclusive => true do
     ## Testing
     pod "Quick",            "~> 0.4"
     pod "Nimble",           "~> 2.0"
-    
-    pod "Kahuna",           "~> 2.2.2"
-
 end
 
 post_install do | installer |

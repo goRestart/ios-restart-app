@@ -9,18 +9,18 @@ PODS:
     - Bolts/Tasks
   - Bolts/Tasks (1.4.0)
   - CHTCollectionViewWaterfallLayout (0.9.2)
-  - FBSDKCoreKit (4.7.0):
+  - FBSDKCoreKit (4.7.1):
     - Bolts (~> 1.1)
-    - FBSDKCoreKit/arc (= 4.7.0)
-    - FBSDKCoreKit/no-arc (= 4.7.0)
-  - FBSDKCoreKit/arc (4.7.0):
+    - FBSDKCoreKit/arc (= 4.7.1)
+    - FBSDKCoreKit/no-arc (= 4.7.1)
+  - FBSDKCoreKit/arc (4.7.1):
     - Bolts (~> 1.1)
-  - FBSDKCoreKit/no-arc (4.7.0):
+  - FBSDKCoreKit/no-arc (4.7.1):
     - Bolts (~> 1.1)
     - FBSDKCoreKit/arc
-  - FBSDKLoginKit (4.7.0.1):
+  - FBSDKLoginKit (4.7.1):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.7.0):
+  - FBSDKShareKit (4.7.1):
     - FBSDKCoreKit
   - FMDB/common (2.5)
   - FMDB/standard (2.5):
@@ -47,7 +47,7 @@ PODS:
     - FBSDKLoginKit (~> 4.7)
     - Parse (~> 1.9)
   - pop (1.0.8)
-  - Quick (0.7.0)
+  - Quick (0.8.0)
   - Realm (0.95.3):
     - Realm/Headers (= 0.95.3)
   - Realm/Headers (0.95.3)
@@ -81,9 +81,9 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 6f82e97de436fd145ae9a205933b350fcdfbcddc
   Bolts: 0e9bce58b9b9f5e8a7a4d47b16d2fabec289072b
   CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
-  FBSDKCoreKit: eb580bfc2040ad44f4c0b4f4d0befb1d35bce59c
-  FBSDKLoginKit: 028c5a205990441123764609fe795e65027c447f
-  FBSDKShareKit: 1f927bb05e4d36a99d5d5bf2f4b1ff294ce3e15c
+  FBSDKCoreKit: 9141b70960a37930850370495fe565f4a27ac141
+  FBSDKLoginKit: c11ed3c2833472db3bb4a4aecf27af4a6f69b173
+  FBSDKShareKit: 213adf63e073f41a346b0e7a689805880dc5150e
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: d28b8c5aa190f66ddc5a8e98bb39463da2f60597
@@ -93,7 +93,7 @@ SPEC CHECKSUMS:
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
   ParseFacebookUtilsV4: aadebfaaaf4a45bf0a0992863bf48c8fc49189e3
   pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
-  Quick: 906d8aa995ee0afa96f1f7f01170f40fccfa5898
+  Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
   Realm: 55885fa05865344994ad8b56da96669ffa39fbf1
   RealmSwift: 586df4b5a6d01473d2653b16e9fe7debce4a87ed
   Result: f7927152cbaec0c043abb06ba0bc432678818418

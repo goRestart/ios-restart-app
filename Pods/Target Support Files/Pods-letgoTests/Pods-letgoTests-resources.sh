@@ -57,24 +57,6 @@ install_resource()
       ;;
   esac
 }
-if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_resource "Kahuna/KahunaInAppMessageView.h"
-  install_resource "Kahuna/KahunaInAppMessageView.m"
-  install_resource "Kahuna/README"
-  install_resource "Kahuna/CHANGELOG"
-fi
-if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_resource "Kahuna/KahunaInAppMessageView.h"
-  install_resource "Kahuna/KahunaInAppMessageView.m"
-  install_resource "Kahuna/README"
-  install_resource "Kahuna/CHANGELOG"
-fi
-if [[ "$CONFIGURATION" == "Adhoc" ]]; then
-  install_resource "Kahuna/KahunaInAppMessageView.h"
-  install_resource "Kahuna/KahunaInAppMessageView.m"
-  install_resource "Kahuna/README"
-  install_resource "Kahuna/CHANGELOG"
-fi
 
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
