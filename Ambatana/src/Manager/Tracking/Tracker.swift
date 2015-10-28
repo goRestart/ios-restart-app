@@ -14,7 +14,7 @@ public protocol Tracker {
     func applicationDidEnterBackground(application: UIApplication)
     func applicationWillEnterForeground(application: UIApplication)
     func applicationDidBecomeActive(application: UIApplication)
-    func setUser(user: User?)
+    func setUser(user: MyUser?)
     func trackEvent(event: TrackerEvent)
     func updateCoordinates()
 }

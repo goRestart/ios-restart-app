@@ -160,7 +160,7 @@ public class SellProductViewModel: BaseViewModel {
     
     internal func saveProduct(product: Product? = nil) {
         
-        let theProduct = product ?? LGProduct()
+        var theProduct = product ?? productManager.newProduct()
         theProduct.name = title
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle

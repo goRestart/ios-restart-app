@@ -86,8 +86,10 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/Amplitude_iOS.framework"
+  install_framework "Pods/Argo.framework"
   install_framework "Pods/Bolts.framework"
   install_framework "Pods/CHTCollectionViewWaterfallLayout.framework"
+  install_framework "Pods/Curry.framework"
   install_framework "Pods/FBSDKCoreKit.framework"
   install_framework "Pods/FBSDKLoginKit.framework"
   install_framework "Pods/FBSDKShareKit.framework"
@@ -107,8 +109,10 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/Amplitude_iOS.framework"
+  install_framework "Pods/Argo.framework"
   install_framework "Pods/Bolts.framework"
   install_framework "Pods/CHTCollectionViewWaterfallLayout.framework"
+  install_framework "Pods/Curry.framework"
   install_framework "Pods/FBSDKCoreKit.framework"
   install_framework "Pods/FBSDKLoginKit.framework"
   install_framework "Pods/FBSDKShareKit.framework"
@@ -128,8 +132,10 @@ fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods/Alamofire.framework"
   install_framework "Pods/Amplitude_iOS.framework"
+  install_framework "Pods/Argo.framework"
   install_framework "Pods/Bolts.framework"
   install_framework "Pods/CHTCollectionViewWaterfallLayout.framework"
+  install_framework "Pods/Curry.framework"
   install_framework "Pods/FBSDKCoreKit.framework"
   install_framework "Pods/FBSDKLoginKit.framework"
   install_framework "Pods/FBSDKShareKit.framework"

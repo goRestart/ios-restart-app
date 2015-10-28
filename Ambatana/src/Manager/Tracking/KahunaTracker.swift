@@ -134,7 +134,7 @@ public class KahunaTracker: Tracker {
     }
     
 
-    public func setUser(user: User?) {
+    public func setUser(user: MyUser?) {
         
         if let actualUser = user {
             

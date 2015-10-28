@@ -58,7 +58,7 @@ public class EditUserLocationViewModel: BaseViewModel {
             usingGPSLocation = true
         }
         predictiveResults = []
-        currentPlace = Place()
+        currentPlace = Place.newPlace()
         searchService = CLSearchLocationSuggestionsService()
         postalAddressService = CLPostalAddressRetrievalService()
         super.init()
@@ -98,9 +98,7 @@ public class EditUserLocationViewModel: BaseViewModel {
         let user = MyUserManager.sharedInstance.myUser()
         if let location =  MyUserManager.sharedInstance.currentLocation {
             delegate?.viewModel(self, updateTextFieldWithString: "")
-            let place = Place()
-            place.postalAddress = user?.postalAddress
-            place.location = LGLocationCoordinates2D(location: location)
+            let place = Place.newPlace(postalAddress: user?.postalAddress, location: LGLocationCoordinates2D(location: location))
             self.currentPlace = place
             var userLocationString = ""
             

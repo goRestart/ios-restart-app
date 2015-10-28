@@ -87,16 +87,14 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     }
     
     convenience init?(product: Product) {
-        // TODO: Refactor!
-        let chat = LGChat()
-        chat.product = product
-        chat.userFrom = MyUserManager.sharedInstance.myUser()
-        chat.userTo = product.user
-        chat.msgUnreadCount = 0
-        chat.messages = []
-        self.init(chat: chat)
-
-        self.newChat = true
+        if let chat = ChatManager.sharedInstance.newChatWithProduct(product) {
+            self.init(chat: chat)
+            
+            self.newChat = true
+        }
+        else{
+            return nil
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
