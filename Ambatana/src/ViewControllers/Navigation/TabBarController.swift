@@ -230,6 +230,16 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         return true
     }
     
+    func openShortcut(tab: Tab) {
+        
+        switch (tab) {
+        case .Sell:
+            openSell()
+        case .Home, .Categories, .Chats, .Profile:
+            switchToTab(tab)
+        }
+    }
+    
     /**
         Shows the app rating if needed.
     */

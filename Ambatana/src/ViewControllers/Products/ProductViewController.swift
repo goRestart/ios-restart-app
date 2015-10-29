@@ -196,11 +196,16 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         viewModel.shareInFBCompleted()
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)  // TODO: Create a string for this screen
+        
+        let completion = {
+            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)
+        }
+
+        dismissLoadingMessageAlert(completion)
     }
-    
+
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)  // TODO: Create a string for this screen
+        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)  // TODO: Create a string for this screen
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
@@ -647,6 +652,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
                     self.viewModel.shareInWhatsappActivity()
                 }
+                
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOK)
+            } else {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
             }
         }
 

@@ -496,6 +496,12 @@
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
 
+// Product share generic OK. Message displayal is like the other error messages
+"product_share_generic_ok" = "Product successfully shared!";
+
+// Product share generic error. Message displayal is like the other error messages
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
+
 // Product detail status label, status pending. Check attached image "item_page_sold_ios.png"
 "product_status_label_pending" = "PRODUCT PENDING";
 

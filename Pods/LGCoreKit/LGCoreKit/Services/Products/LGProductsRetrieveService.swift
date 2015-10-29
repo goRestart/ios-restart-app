@@ -43,6 +43,8 @@ final public class LGProductsRetrieveService: ProductsRetrieveService {
             .responseObject({ (productsResponse: Response<LGProductsResponse, NSError>) -> Void in
                 // Error
                 if let actualError = productsResponse.result.error {
+                    print(actualError)
+                    print(productsResponse.response)
                     if actualError.domain == NSURLErrorDomain {
                         completion?(ProductsRetrieveServiceResult(error: .Network))
                     }

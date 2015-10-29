@@ -671,7 +671,15 @@ struct LGLocalizedString {
 	static var productShareWhatsappError: String {
 		return NSLocalizedString("product_share_whatsapp_error", comment: "")
 	}
-	
+    
+    static var productShareGenericOK: String {
+        return NSLocalizedString("product_share_generic_ok", comment: "")
+    }
+
+    static var productShareGenericError: String {
+        return NSLocalizedString("product_share_generic_error", comment: "")
+    }
+    
 	static var productStatusLabelPending: String {
 		return NSLocalizedString("product_status_label_pending", comment: "")
 	}

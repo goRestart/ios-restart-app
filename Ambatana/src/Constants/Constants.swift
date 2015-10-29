@@ -33,4 +33,6 @@ struct Constants {
     // Categories
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
 
+    // Shortcut Items
+    static let sellShortcutItem = "letgo.sell"
 }
