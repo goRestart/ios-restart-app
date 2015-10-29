@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "OEPS! GEEN RESULTATEN IN JOUW OMGEVING";
 "product_share_body" = "Kijk wat ik net gevonden heb bij Letgo!";
 "product_share_email_error" = "Oeps, het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
+"product_share_generic_ok" = "Product successfully shared!";
 "product_share_whatsapp_error" = "Oeps, het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";
 "product_status_label_approved" = "PRODUCT GOED GEKEURD";
 "product_status_label_deleted" = "PRODUCT AFGEKEURD";

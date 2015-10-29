@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "UPS! NENHUM RESULTADO PERTO DE SI";
 "product_share_body" = "Vê o que acabei de encontrar no letgo!";
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
+"product_share_generic_ok" = "Product successfully shared!";
 "product_share_whatsapp_error" = "Ops! parece que não instalou a app WhatsApp.";
 "product_status_label_approved" = "ARTIGO APROVADO";
 "product_status_label_deleted" = "ARTIGO ELIMINADO";

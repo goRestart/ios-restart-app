@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "残念ながら近くに商品はありません";
 "product_share_body" = "Letogoで見つけたので見て！";
 "product_share_email_error" = "メールアプリのアカウントが設定されていないようです。";
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
+"product_share_generic_ok" = "Product successfully shared!";
 "product_share_whatsapp_error" = "残念ですが、WhatsAppがインストールされていないようです。";
 "product_status_label_approved" = "商品は承認されました";
 "product_status_label_deleted" = "商品は削除されました";

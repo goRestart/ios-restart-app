@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "HOPPSAN! VI HITTADE INGET NÄRA DIG";
 "product_share_body" = "Kolla vad jag hittade på letgo!";
 "product_share_email_error" = "Hoppsan, det verkar som att du inte har något konto i dina mailinstllningar.";
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
+"product_share_generic_ok" = "Product successfully shared!";
 "product_share_whatsapp_error" = "Hoppsan, det verkar som att du inte har installerat appen WhatsApp.";
 "product_status_label_approved" = "PRODUKT GODKÄND";
 "product_status_label_deleted" = "PRODUKT BORTTAGEN";
