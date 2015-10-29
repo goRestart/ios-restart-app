@@ -115,12 +115,15 @@ public class MainProductListViewModel: ProductListViewModel {
         
         if let newLocation = notification.object as? LGLocation {
 
+            if let lastLocation = lastReceivedLocation {
+                if lastLocation.type != newLocation.type {
+                    // Tracking.  Only when the location type changes.
+                    let locationServiceStatus = myUserManager.locationServiceStatus
+                    let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                }
+            }
             retrieveProductsIfNeededWithNewLocation(newLocation)
-            
-            // Tracking
-            let locationServiceStatus = myUserManager.locationServiceStatus
-            let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
     }
 }
