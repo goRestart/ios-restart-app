@@ -234,11 +234,15 @@ public class PushManager: NSObject, KahunaDelegate {
             if (loginError != nil) {
                 print("Login Error : \(loginError!.localizedDescription)")
             }
+            
+            updateUnreadMessagesCount()
         }
         
     }
     
     dynamic private func logout(notification: NSNotification) {
+        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         Kahuna.logout()
     }
     

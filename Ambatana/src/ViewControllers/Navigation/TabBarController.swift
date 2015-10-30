@@ -544,6 +544,10 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     
     @objc private func logout(notification: NSNotification) {
         
+        if let chatsTab = chatsTabBarItem {
+            chatsTab.badgeValue = nil
+        }
+        
         // Leave navCtl in its initial state, pop to root
         selectedViewController?.navigationController?.popToRootViewControllerAnimated(false)
 
