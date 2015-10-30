@@ -2147,7 +2147,6 @@
 		6325F14FF05BB9620EAA7545F4E7C5A6 /* FBSDKSharePhoto.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKSharePhoto.h; path = FBSDKShareKit/FBSDKShareKit/FBSDKSharePhoto.h; sourceTree = "<group>"; };
 		633EC723C9BF3FFBB0AB08571C583554 /* Pods-letgoTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-letgoTests-frameworks.sh"; sourceTree = "<group>"; };
 		634FC49F1A9AB2DFAD4B39A321ED6E0E /* POPSpringAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = POPSpringAnimation.h; path = pop/POPSpringAnimation.h; sourceTree = "<group>"; };
-		636AD1520FACF4B0A1C94F2B8D97B702 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = NewRelic_iOS_Agent_5.3.1/NewRelicAgent.framework; sourceTree = "<group>"; };
 		639C1A81FFBA484919781B392AF00F2C /* Parse-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Parse-umbrella.h"; sourceTree = "<group>"; };
 		63F71190CA7250B34517B43D15248BC8 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FBSDKLoginKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		648D580684B01987A3D4E9B3067296B3 /* IPLookupLocationService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IPLookupLocationService.swift; path = LGCoreKit/Services/Location/IPLookupLocationService.swift; sourceTree = "<group>"; };
@@ -2646,6 +2645,7 @@
 		B80B355F3840D5E754EECC6E40A74439 /* FBSDKAppEventsStateManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKAppEventsStateManager.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/AppEvents/FBSDKAppEventsStateManager.m; sourceTree = "<group>"; };
 		B85F730E5BECCEEAC4507ACBB90F4321 /* FBSDKShareOpenGraphValueContainer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKShareOpenGraphValueContainer.h; path = FBSDKShareKit/FBSDKShareKit/FBSDKShareOpenGraphValueContainer.h; sourceTree = "<group>"; };
 		B8743846907448E0CAD14138EEA76756 /* PFRole.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRole.m; path = Parse/PFRole.m; sourceTree = "<group>"; };
+		B90C86D934D79406694BC9FEA3066212 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = NewRelic_iOS_Agent_5.3.2/NewRelicAgent.framework; sourceTree = "<group>"; };
 		B9C68176E037C814630D72B420279685 /* AMPIdentify.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AMPIdentify.h; path = Amplitude/AMPIdentify.h; sourceTree = "<group>"; };
 		B9DB9747EDC3C3238C130EC1F36D0421 /* Functional.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Functional.swift; path = Nimble/Utils/Functional.swift; sourceTree = "<group>"; };
 		BA093BF18C0FBF31276846C5437B9622 /* PFObjectFilePersistenceController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectFilePersistenceController.h; path = Parse/Internal/Object/FilePersistence/PFObjectFilePersistenceController.h; sourceTree = "<group>"; };
@@ -3650,6 +3650,14 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/CHTCollectionViewWaterfallLayout";
+			sourceTree = "<group>";
+		};
+		4509B7BDCA1B2A9489CF01C7517514A4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B90C86D934D79406694BC9FEA3066212 /* NewRelicAgent.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		46A72F99CD607F780EF93B324C2C60D3 /* Support Files */ = {
@@ -4789,14 +4797,6 @@
 			path = "../Target Support Files/Result";
 			sourceTree = "<group>";
 		};
-		BD9DB00664AA32E60B1B759B27506623 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				636AD1520FACF4B0A1C94F2B8D97B702 /* NewRelicAgent.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		BDD77C2BC617C40382AB47CD7CDACA94 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -4814,7 +4814,7 @@
 		BEB62B03B6733DA33E7DF12EAF399EAB /* NewRelicAgent */ = {
 			isa = PBXGroup;
 			children = (
-				BD9DB00664AA32E60B1B759B27506623 /* Frameworks */,
+				4509B7BDCA1B2A9489CF01C7517514A4 /* Frameworks */,
 			);
 			path = NewRelicAgent;
 			sourceTree = "<group>";

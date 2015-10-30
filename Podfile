@@ -30,7 +30,7 @@ pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 pod "UIDeviceUtil",         "~> 1.1.2"
 
 # Push Notifications
-pod "Kahuna",               "~> 2.2.2"
+pod "Kahuna",               "~> 2.2.4"
 
 # New Relic
 pod "NewRelicAgent",         "~> 5.3.1"
