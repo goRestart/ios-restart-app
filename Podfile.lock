@@ -27,7 +27,7 @@ PODS:
     - FMDB/common
   - GoogleAppIndexing (2.0.1)
   - Kahuna (2.2.4)
-  - LGCoreKit (0.15.1):
+  - LGCoreKit (0.15.2):
     - Alamofire (~> 3.0.1)
     - FBSDKCoreKit (~> 4.7.0)
     - FBSDKLoginKit (~> 4.7.0)
@@ -67,7 +67,7 @@ DEPENDENCIES:
   - FBSDKShareKit (~> 4.7.0)
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.2.4)
-  - LGCoreKit (~> 0.15.1)
+  - LGCoreKit (~> 0.15.2)
   - NewRelicAgent (~> 5.3.1)
   - Nimble (~> 2.0)
   - Parse (~> 1.9.0)
@@ -87,7 +87,7 @@ SPEC CHECKSUMS:
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
-  LGCoreKit: 219e96e23aeb697ed871696379a9d05ee5b1d201
+  LGCoreKit: e742b1974b6825e31d661c5bff5006fa37f9e0aa
   NewRelicAgent: aebd84eb0c99b5e4ee7a8629eddd4eb3c273a109
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
