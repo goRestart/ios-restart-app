@@ -98,7 +98,7 @@ public class EditUserLocationViewModel: BaseViewModel {
         let user = MyUserManager.sharedInstance.myUser()
         if let location =  MyUserManager.sharedInstance.currentLocation {
             delegate?.viewModel(self, updateTextFieldWithString: "")
-            let place = Place.newPlace(postalAddress: user?.postalAddress, location: LGLocationCoordinates2D(location: location))
+            let place = Place(postalAddress: user?.postalAddress, location:LGLocationCoordinates2D(location: location))
             self.currentPlace = place
             var userLocationString = ""
             

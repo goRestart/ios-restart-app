@@ -39,7 +39,6 @@ PODS:
     - ParseFacebookUtilsV4 (~> 1.9.0)
     - RealmSwift (~> 0.95.0)
     - Result (= 0.6.0-beta.4)
-    - SwiftyJSON (~> 2.3.0)
     - Timepiece (~> 0.4.2)
   - NewRelicAgent (5.3.1)
   - Nimble (2.0.0)
@@ -61,7 +60,6 @@ PODS:
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
-  - SwiftyJSON (2.3.1)
   - Timepiece (0.4.2)
   - UIDeviceUtil (1.1.2)
 
@@ -97,7 +95,7 @@ SPEC CHECKSUMS:
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: d28b8c5aa190f66ddc5a8e98bb39463da2f60597
-  LGCoreKit: 4a1042d1cc766e2c0a769c965b6766942bac0f41
+  LGCoreKit: a211dc95da0b686bc2c300a0699a744ae1dfc79a
   NewRelicAgent: 8d8b27bea8d046f42a4a03c0ca4b571021f100d8
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
@@ -108,7 +106,6 @@ SPEC CHECKSUMS:
   RealmSwift: 586df4b5a6d01473d2653b16e9fe7debce4a87ed
   Result: f7927152cbaec0c043abb06ba0bc432678818418
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
-  SwiftyJSON: 592b53bee5ef3dd9b3bebc6b9cb7ee35426ae8c3
   Timepiece: cf53bb908bf542acc0e3d5f69cabfed869df4ebd
   UIDeviceUtil: df88dd5ba4ae482f1d766dd0d180b066c2a4cb7e
 

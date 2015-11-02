@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-class MockUser: MockBaseModel, User {
+class MockUser: MockBaseModel, MyUser {
     var username: String?
     var password: String?
     var email: String?
@@ -32,7 +32,7 @@ class MockUser: MockBaseModel, User {
     // Lifecycle
     
     override init() {
-        self.postalAddress = PostalAddress()
+        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
         self.processed = NSNumber(bool: true)
         self.isDummy = false
         self.isAnonymous = false
