@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
 "common_cancel" = "Annuler";
 "common_error" = "Erreur";
-"common_error_connection_failed" = "L'opération ne peux pas être complétée. Veuillez vérifier votre connexion Internet.";
+"common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
 "common_error_generic_body" = "Réessayez un peu plus tard...";
 "common_error_network_body" = "Vérifiez votre connexion et réessayez";
 "common_error_retry_button" = "Réessayez";
@@ -163,8 +163,8 @@
 "product_search_no_products_title" = "OOPS ! AUCUN RÉSULTAT PRES DE VOUS";
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
-"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
-"product_share_generic_ok" = "Product successfully shared!";
+"product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
+"product_share_generic_ok" = "Bien partagé avec succès !";
 "product_share_whatsapp_error" = "Oops, il semble que vous n'avez pas installé l'application WhatsApp.";
 "product_status_label_approved" = "BIEN APPROUVE";
 "product_status_label_deleted" = "BIEN SUPPRIME";

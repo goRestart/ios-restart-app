@@ -232,6 +232,9 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     
     func openShortcut(tab: Tab) {
         
+        // dismiss modal (sell or login) before browsing to shortcut
+        self.dismissViewControllerAnimated(false, completion: nil)
+        
         switch (tab) {
         case .Sell:
             openSell()

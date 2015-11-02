@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
 "common_cancel" = "Avbryt";
 "common_error" = "Fel";
-"common_error_connection_failed" = "Kunde inte slutföras.Var god kontrollera din internetanslutning.";
+"common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
 "common_error_generic_body" = "Ta en nypa frisk luft och försök igen";
 "common_error_network_body" = "Var vänlig kolla dina nätverksinställningar och försök igen";
 "common_error_retry_button" = "Försök igen";
@@ -163,8 +163,8 @@
 "product_search_no_products_title" = "HOPPSAN! VI HITTADE INGET NÄRA DIG";
 "product_share_body" = "Kolla vad jag hittade på letgo!";
 "product_share_email_error" = "Hoppsan, det verkar som att du inte har något konto i dina mailinstllningar.";
-"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
-"product_share_generic_ok" = "Product successfully shared!";
+"product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";
+"product_share_generic_ok" = "Produkten har delats!";
 "product_share_whatsapp_error" = "Hoppsan, det verkar som att du inte har installerat appen WhatsApp.";
 "product_status_label_approved" = "PRODUKT GODKÄND";
 "product_status_label_deleted" = "PRODUKT BORTTAGEN";

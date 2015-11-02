@@ -672,7 +672,7 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_share_whatsapp_error", comment: "")
 	}
 	
-	static var productShareGenericOK: String {
+	static var productShareGenericOk: String {
 		return NSLocalizedString("product_share_generic_ok", comment: "")
 	}
 	

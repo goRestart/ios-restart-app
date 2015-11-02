@@ -35,4 +35,5 @@ struct Constants {
 
     // Shortcut Items
     static let sellShortcutItem = "letgo.sell"
+    static let startBrowsingShortcutItem = "letgo.startBrowsing"
 }

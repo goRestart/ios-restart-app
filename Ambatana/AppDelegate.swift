@@ -115,8 +115,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 tabBarCtl.openShortcut(.Sell)
                 succeeded = true
             }
+        } else if shortcutItem.type == Constants.startBrowsingShortcutItem {
+            if let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                tabBarCtl.openShortcut(.Home)
+                succeeded = true
+            }
         }
-        
         return succeeded
     }
     

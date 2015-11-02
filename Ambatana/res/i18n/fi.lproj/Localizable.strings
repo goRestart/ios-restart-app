@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "common_cancel" = "Peruuta";
 "common_error" = "Virhe";
-"common_error_connection_failed" = "Toimintoa ei voitu suorittaa. Ole hyvä, ja tarkista Internet-yhteytesi.";
+"common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
 "common_error_generic_body" = "Käy haukkaamassa happea ja yritä uudelleen";
 "common_error_network_body" = "Ole hyvä ja tarkista verkkoasetuksesi ja yritä uudelleen";
 "common_error_retry_button" = "Yritä uudelleen";
@@ -163,8 +163,8 @@
 "product_search_no_products_title" = "HUPS! EI TULOKSIA LÄHELLÄSI";
 "product_share_body" = "Katso mitä juuri löysin letgosta!";
 "product_share_email_error" = "Ups, näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
-"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
-"product_share_generic_ok" = "Product successfully shared!";
+"product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"product_share_generic_ok" = "Tuote jaettiin onnistuneesti!";
 "product_share_whatsapp_error" = "Hups, vaikuttaa siltä että et ole asentanut WhatsApp-sovellusta.";
 "product_status_label_approved" = "TUOTE HYVÄKSYTTY";
 "product_status_label_deleted" = "TUOTE POISTETTU";

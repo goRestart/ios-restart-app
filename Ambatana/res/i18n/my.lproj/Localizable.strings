@@ -164,7 +164,7 @@
 "product_share_body" = "letgo တွင် ကျွန်ုပ်တွေ့ခဲ့သည့် အရာကိုကြည့်ပါ။";
 "product_share_email_error" = "မှားပါတယ်၊ ဒါက သင်သည် မေးလ်ပရိုဂရမ်တွင် အကောင့်မသတ်မှတ်ရသေးဟန် ရှိပါတယ်။";
 "product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
-"product_share_generic_ok" = "Product successfully shared!";
+"product_share_generic_ok" = "ထုတ်ကုန်ကို အောင်မြင်စွာမျှဝေပြီးပါပြီ။";
 "product_share_whatsapp_error" = "အိုး၊ မှားပါတယ်၊ WhatsApp အက်ပ်ကို သင် အင်စတောမလုပ်သေးဘူးထင်တယ်။";
 "product_status_label_approved" = "ထုတ်ကုန်အတည်ပြု";
 "product_status_label_deleted" = "ထုတ်ကုန်ပယ်ဖျက်ခဲ့သည်";

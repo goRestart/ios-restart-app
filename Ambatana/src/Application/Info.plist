@@ -159,6 +159,14 @@
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>sell_shortcut_title</string>
 		</dict>
+        <dict>
+            <key>UIApplicationShortcutItemType</key>
+            <string>letgo.startBrowsing</string>
+            <key>UIApplicationShortcutItemIconFile</key>
+            <string>tabbar_home</string>
+            <key>UIApplicationShortcutItemTitle</key>
+            <string>start_browsing_shortcut_title</string>
+        </dict>
 	</array>
 </dict>
 </plist>

@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
 "common_cancel" = "Mégse";
 "common_error" = "Hiba";
-"common_error_connection_failed" = "A művelet sikertelen. Ellenőrizd az internetkapcsolatot.";
+"common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
 "common_error_generic_body" = "Sétálj egyet, majd próbálkozz újra";
 "common_error_network_body" = "Ellenőrizd a hálózati beállításokat, majd próbálkozz újra";
 "common_error_retry_button" = "Próbálkozz újra";
@@ -163,8 +163,8 @@
 "product_search_no_products_title" = "HOPPÁ! NINCS TALÁLAT A KÖRNYÉKEDRŐL";
 "product_share_body" = "Nézzétek, mit találtam a letgo-n!";
 "product_share_email_error" = "Hopp, úgy tűnik, hogy nem állítottál be fiókot a Mail appban.";
-"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
-"product_share_generic_ok" = "Product successfully shared!";
+"product_share_generic_error" = "Hiba történt a portéka megosztása során. Próbálkozz újra később.";
+"product_share_generic_ok" = "Sikeresen megosztottad a portékát!";
 "product_share_whatsapp_error" = "Hopp, úgy tűnik, hogy még nem telepítetted a WhatsApp alkalmazást.";
 "product_status_label_approved" = "PORTÉKA JÓVÁHAGYVA";
 "product_status_label_deleted" = "PORTÉKA TÖRÖLVE";

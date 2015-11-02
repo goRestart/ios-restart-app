@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
 "common_cancel" = "Annuleren";
 "common_error" = "Fout";
-"common_error_connection_failed" = "Bewerking kon niet worden voltooid. Controleer a.u.b. jouw internetverbinding.";
+"common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
 "common_error_generic_body" = "Ga even de frisse lucht in en probeer het nog eens ";
 "common_error_network_body" = "Controleer je netwerkinstellingen en probeer het opnieuw";
 "common_error_retry_button" = "Probeer opnieuw";
@@ -164,7 +164,7 @@
 "product_share_body" = "Kijk wat ik net gevonden heb bij Letgo!";
 "product_share_email_error" = "Oeps, het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
-"product_share_generic_ok" = "Product successfully shared!";
+"product_share_generic_ok" = "Product succesvol gedeeld!";
 "product_share_whatsapp_error" = "Oeps, het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";
 "product_status_label_approved" = "PRODUCT GOED GEKEURD";
 "product_status_label_deleted" = "PRODUCT AFGEKEURD";

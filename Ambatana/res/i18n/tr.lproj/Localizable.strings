@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "common_cancel" = "İptal et";
 "common_error" = "Hata";
-"common_error_connection_failed" = "İşlem tamamlanamadı. Lütfen, İnternet bağlantını kontrol et.";
+"common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Biraz hava almaya çık ve sonra tekrar dene";
 "common_error_network_body" = "Lütfen ağ ayarlarını kontrol et ve tekrar dene";
 "common_error_retry_button" = "Tekrar dene";
@@ -163,8 +163,8 @@
 "product_search_no_products_title" = "HOPPALA! ARAMANA UYGUN BİR SONUÇ BULAMADIK";
 "product_share_body" = "Az önce letgo'da ne bulduğuma bak!";
 "product_share_email_error" = "Hoppala, görünüşe bakılırsa Posta uygulamasında bir hesap oluşturmamışsın.";
-"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
-"product_share_generic_ok" = "Product successfully shared!";
+"product_share_generic_error" = "Ürün paylaşılırken bir hata oluştu. Lütfen daha sonra tekrar dene.";
+"product_share_generic_ok" = "Ürün başarılı bir şekilde paylaşıldı!";
 "product_share_whatsapp_error" = "Hoppala! WhatsApp uygulaması yüklü değil gibi görünüyor.";
 "product_status_label_approved" = "ONAYLANDI";
 "product_status_label_deleted" = "SİLİNDİ";

@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "common_cancel" = "Ακύρωση";
 "common_error" = "Σφάλμα";
-"common_error_connection_failed" = "Η εργασία δεν ήταν δυνατό να ολοκληρωθεί. Θα πρέπει να ελέγξεις τη σύνδεσή σου στο διαδίκτυο!";
+"common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
 "common_error_generic_body" = "Πάρτε λίγο αέρα και προσπαθήστε ξανά";
 "common_error_network_body" = "Παρακαλώ ελέγξτε τις ρυθμίσεις δικτύου και προσπαθήστε ξανά";
 "common_error_retry_button" = "Προσπαθήστε ξανά";
@@ -163,8 +163,8 @@
 "product_search_no_products_title" = "ΌΠΑ! ΔΕ ΒΡΕΘΗΚΑΝ ΑΠΟΤΕΛΕΣΜΑΤΑ ΚΟΝΤΑ ΣΑΣ";
 "product_share_body" = "Δες τι βρήκα στο letgo!";
 "product_share_email_error" = "Ooops! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
-"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
-"product_share_generic_ok" = "Product successfully shared!";
+"product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
+"product_share_generic_ok" = "Επιτυχής κοινοποίηση του προϊόντος!";
 "product_share_whatsapp_error" = "Ουπς! Φαίνεται πως δεν έχει γίνει εγκατάσταση της εφαρμογής WhatsApp.";
 "product_status_label_approved" = "ΤΟ ΠΡΟΪΟΝ ΕΓΚΡΙΘΗΚΕ";
 "product_status_label_deleted" = "ΤΟ ΠΡΟΪΟΝ ΔΙΕΓΡΑΦΗ";
