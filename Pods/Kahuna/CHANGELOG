@@ -1,4 +1,9 @@
 -------------------------
+2.2.4 - October 28, 2015
+-------------------------
+- Turning off iOS 9 flag CLANG_ENABLE_MODULE_DEBUGGING & CLANG_ENABLE_MODULES to avoid linker warnings when integrating Kahuna SDK.
+
+-------------------------
 2.2.2 - September 23, 2015
 -------------------------
 - Enabled BITCODE + MODULES support for iOS9

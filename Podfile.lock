@@ -28,7 +28,7 @@ PODS:
   - FMDB/standard (2.5):
     - FMDB/common
   - GoogleAppIndexing (2.0.1)
-  - Kahuna (2.2.2)
+  - Kahuna (2.2.4)
   - LGCoreKit (0.15.2):
     - Alamofire (~> 3.0.1)
     - Argo (~> 2.2.0)
@@ -40,7 +40,7 @@ PODS:
     - RealmSwift (~> 0.95.0)
     - Result (= 0.6.0-beta.4)
     - Timepiece (~> 0.4.2)
-  - NewRelicAgent (5.3.1)
+  - NewRelicAgent (5.3.2)
   - Nimble (2.0.0)
   - Parse (1.9.1):
     - Bolts/Tasks (>= 1.4.0)
@@ -68,7 +68,7 @@ DEPENDENCIES:
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - FBSDKShareKit (~> 4.7.0)
   - GoogleAppIndexing (~> 2.0.1)
-  - Kahuna (~> 2.2.2)
+  - Kahuna (~> 2.2.4)
   - LGCoreKit (from `../lgcorekit`)
   - NewRelicAgent (~> 5.3.1)
   - Nimble (~> 2.0)
@@ -94,9 +94,9 @@ SPEC CHECKSUMS:
   FBSDKShareKit: 213adf63e073f41a346b0e7a689805880dc5150e
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
-  Kahuna: d28b8c5aa190f66ddc5a8e98bb39463da2f60597
+  Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
   LGCoreKit: 7021d2386f8eb6ea635984e7d71d80ab25f44a7f
-  NewRelicAgent: 8d8b27bea8d046f42a4a03c0ca4b571021f100d8
+  NewRelicAgent: aebd84eb0c99b5e4ee7a8629eddd4eb3c273a109
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
   ParseFacebookUtilsV4: aadebfaaaf4a45bf0a0992863bf48c8fc49189e3

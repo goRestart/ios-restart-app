@@ -2887,7 +2887,7 @@
 		DA850D2B5D0380818048133E20BFF27A /* PFSQLiteDatabaseController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSQLiteDatabaseController.h; path = Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabaseController.h; sourceTree = "<group>"; };
 		DA9E542EA98DE05A70479B0F2861E349 /* PFSessionUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSessionUtilities.h; path = Parse/Internal/Session/Utilities/PFSessionUtilities.h; sourceTree = "<group>"; };
 		DAA34291336EA38457F2549938809F28 /* POPLayerExtras.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = POPLayerExtras.mm; path = pop/POPLayerExtras.mm; sourceTree = "<group>"; };
-		DAFC9F7C7EA15709EEA4F1CCAA2B5ED7 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = NewRelic_iOS_Agent_5.3.1/NewRelicAgent.framework; sourceTree = "<group>"; };
+		DAEAFB79D285B2B10E6495BC8A8FCB2E /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = NewRelic_iOS_Agent_5.3.2/NewRelicAgent.framework; sourceTree = "<group>"; };
 		DB05B89184F556CC9483E42637CE5AF4 /* ServerTrustPolicy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ServerTrustPolicy.swift; path = Source/ServerTrustPolicy.swift; sourceTree = "<group>"; };
 		DB089A296F88BCDA6C5D4D964C18379B /* RLMArray_Private.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; name = RLMArray_Private.hpp; path = include/realm/RLMArray_Private.hpp; sourceTree = "<group>"; };
 		DB4258EE371A39230DF3B5F99B9ADB58 /* basic_system_errors.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; name = basic_system_errors.hpp; path = include/realm/util/basic_system_errors.hpp; sourceTree = "<group>"; };
@@ -3610,14 +3610,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		31A9705C4E9313DDD263772059259BB3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				DAFC9F7C7EA15709EEA4F1CCAA2B5ED7 /* NewRelicAgent.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		339C9CB8C0D95EC9320BF18A852F991D /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -3625,6 +3617,14 @@
 				68037400DE43A9CAE5F330E12ACEB3F8 /* Support Files */,
 			);
 			path = SDWebImage;
+			sourceTree = "<group>";
+		};
+		33C4C0105896027F9AB44594FDE60122 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DAEAFB79D285B2B10E6495BC8A8FCB2E /* NewRelicAgent.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		35B9850EDDEAC323CB299E36D37055F4 /* User */ = {
@@ -5091,7 +5091,7 @@
 		C13EA209D70C7D3075141D4C4C5428C3 /* NewRelicAgent */ = {
 			isa = PBXGroup;
 			children = (
-				31A9705C4E9313DDD263772059259BB3 /* Frameworks */,
+				33C4C0105896027F9AB44594FDE60122 /* Frameworks */,
 			);
 			path = NewRelicAgent;
 			sourceTree = "<group>";

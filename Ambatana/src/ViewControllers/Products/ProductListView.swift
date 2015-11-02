@@ -429,12 +429,13 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         // Update the UI
         if page == 0 {
             state = .DataView
-
-            refreshControl.endRefreshing()
-//            collectionView.reloadSections(NSIndexSet(index: 0))
             maxDistance = 1
 
+//            collectionView.reloadSections(NSIndexSet(index: 0))
             collectionView.reloadData()
+            
+            refreshControl.endRefreshing()
+            refreshing = false
         }
         else {
             collectionView.insertItemsAtIndexPaths(indexPaths)
