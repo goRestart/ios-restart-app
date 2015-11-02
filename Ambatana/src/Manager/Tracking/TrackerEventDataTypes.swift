@@ -33,6 +33,7 @@ public enum EventName: String {
     case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
     case ProductMarkAsSold                  = "product-detail-sold"
+    case ProductMarkAsUnsold                = "product-detail-unsold"
     
     case ProductReport                      = "product-detail-report"
     
@@ -127,6 +128,7 @@ public enum EventParameterLoginSourceValue: String {
     case Favourite = "favourite"
     case MakeOffer = "offer"
     case MarkAsSold = "mark-as-sold"
+    case MarkAsUnsold = "mark-as-unsold"
     case AskQuestion = "question"
     case ReportFraud = "report-fraud"
     case Delete = "delete"

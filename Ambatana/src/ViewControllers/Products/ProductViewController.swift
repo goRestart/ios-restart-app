@@ -183,13 +183,23 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     @IBAction func markSoldPressed(sender: AnyObject) {
-        ifLoggedInThen(.MarkAsSold, loggedInAction: {
-            self.showMarkSoldAlert()
-        },
-        elsePresentSignUpWithSuccessAction: {
-            self.updateUI()
-            self.showMarkSoldAlert()
-        })
+        if viewModel.productIsSold {
+            ifLoggedInThen(.MarkAsSold, loggedInAction: {
+                self.showMarkUnsoldAlert()
+                },
+                elsePresentSignUpWithSuccessAction: {
+                    self.updateUI()
+                    self.showMarkUnsoldAlert()
+            })
+        } else {
+            ifLoggedInThen(.MarkAsSold, loggedInAction: {
+                self.showMarkSoldAlert()
+                },
+                elsePresentSignUpWithSuccessAction: {
+                    self.updateUI()
+                    self.showMarkSoldAlert()
+            })
+        }
     }
     
     // MARK: - FBSDKSharingDelegate
@@ -355,6 +365,29 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         dismissLoadingMessageAlert(completion)
     }
     
+    public func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult) {
+        let completion: (() -> Void)?
+        if let _ = result.value {
+            
+            completion = {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productSellAgainSuccessMessage, time: 3) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+            }
+            updateUI()
+        }
+        else {
+            completion = {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productSellAgainErrorGeneric)
+            }
+        }
+        dismissLoadingMessageAlert(completion)
+    }
+    
     public func viewModelDidStartAsking(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
     }
@@ -455,7 +488,13 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
-        markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
+        
+        if viewModel.productIsSold {
+            markSoldButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
+        } else {
+            markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
+        }
+        
         
         // Delegates
         galleryView.delegate = self
@@ -551,6 +590,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         // Footer
         footerViewHeightConstraint.constant = viewModel.isFooterVisible ? ProductViewController.footerViewVisibleHeight : 0
+        
+        if viewModel.productIsSold {
+            markSoldButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
+        } else {
+            markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
+        }
         
         // Footer other / me selling subviews
         otherSellingView.hidden = viewModel.isMine
@@ -754,6 +799,22 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         presentViewController(alert, animated: true, completion: {
             self.viewModel.markSoldStarted(source)
+        })
+    }
+    
+    private func showMarkUnsoldAlert() {
+        let alert = UIAlertController(title: LGLocalizedString.productSellAgainConfirmTitle, message: LGLocalizedString.productSellAgainConfirmMessage, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: { (_) -> Void in
+            self.viewModel.markUnsoldAbandon()
+        })
+        let unsoldAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
+            self.viewModel.markUnsold()
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(unsoldAction)
+        
+        presentViewController(alert, animated: true, completion: {
+            self.viewModel.markUnsoldStarted()
         })
     }
 }

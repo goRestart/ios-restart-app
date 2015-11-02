@@ -31,7 +31,10 @@ public protocol ProductViewModelDelegate: class {
     
     func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductMarkSoldServiceResult)
-    
+
+    func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel)
+    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult)
+
     func viewModelDidStartAsking(viewModel: ProductViewModel)
     // TODO: Refactor to return a ViewModel
     func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>)
@@ -216,13 +219,25 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var isFooterVisible: Bool {
         let footerViewVisible: Bool
         switch product.status {
-        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
+        case .Pending, .Discarded, .Deleted:
             footerViewVisible = false
-        case .Approved:
+        case .Approved, .Sold, .SoldOld:
             footerViewVisible = true
             break
         }
         return footerViewVisible
+    }
+    
+    public var productIsSold: Bool {
+        let productSold: Bool
+        switch product.status {
+        case .Pending, .Discarded, .Approved, .Deleted:
+            productSold = false
+        case .Sold, .SoldOld:
+            productSold = true
+            break
+        }
+        return productSold
     }
     
     // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
@@ -607,6 +622,32 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public func markSoldAbandon(source: EventParameterSellSourceValue) {
     }
     
+    
+    public func markUnsoldStarted() {
+    }
+    
+    public func markUnsold() {
+        delegate?.viewModelDidStartMarkingAsUnsold(self)
+        productManager.markProductAsUnsold(product) { [weak self] ( result: ProductMarkUnsoldServiceResult) -> Void in
+            if let strongSelf = self {
+                // Success
+                if let unsoldProduct = result.value {
+                    // Update the status
+                    strongSelf.product.status = .Approved
+                    
+                    // Run completed
+                    strongSelf.markUnsoldCompleted(unsoldProduct)
+                }
+                
+                // Notify the delegate
+                strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsUnsold: result)
+            }
+        }
+    }
+    
+    public func markUnsoldAbandon() {
+    }
+    
     // MARK: - UpdateDetailInfoDelegate
     
     public func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct savedProduct: Product) {
@@ -628,6 +669,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         
     }
     
+    private func markUnsoldCompleted(unsoldProduct: Product) {
+        // Tracking
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let trackerEvent = TrackerEvent.productMarkAsUnsold(unsoldProduct, user: myUser)
+        tracker.trackEvent(trackerEvent)
+        
+    }
     private func deleteCompleted() {
         // Tracking
         let myUser = MyUserManager.sharedInstance.myUser()

@@ -1,3 +1,7 @@
 // Message shown when the application asks you to access your location while you use the app
 "NSLocationWhenInUseUsageDescription" = "letgo needs to access your location to show you products nearby";
 
+"sell_shortcut_title" = "Sell Your Stuff";
+
+"start_browsing_shortcut_title" = "Start Browsing!";
+

@@ -612,6 +612,34 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_mark_as_sold_success_message", comment: "")
 	}
 	
+	static var productSellAgainButton: String {
+		return NSLocalizedString("product_sell_again_button", comment: "")
+	}
+	
+	static var productSellAgainConfirmCancelButton: String {
+		return NSLocalizedString("product_sell_again_confirm_cancel_button", comment: "")
+	}
+	
+	static var productSellAgainConfirmMessage: String {
+		return NSLocalizedString("product_sell_again_confirm_message", comment: "")
+	}
+	
+	static var productSellAgainConfirmOkButton: String {
+		return NSLocalizedString("product_sell_again_confirm_ok_button", comment: "")
+	}
+	
+	static var productSellAgainConfirmTitle: String {
+		return NSLocalizedString("product_sell_again_confirm_title", comment: "")
+	}
+	
+	static var productSellAgainErrorGeneric: String {
+		return NSLocalizedString("product_sell_again_error_generic", comment: "")
+	}
+	
+	static var productSellAgainSuccessMessage: String {
+		return NSLocalizedString("product_sell_again_success_message", comment: "")
+	}
+	
 	static var productReportConfirmTitle: String {
 		return NSLocalizedString("product_report_confirm_title", comment: "")
 	}
@@ -670,6 +698,14 @@ struct LGLocalizedString {
 	
 	static var productShareWhatsappError: String {
 		return NSLocalizedString("product_share_whatsapp_error", comment: "")
+	}
+	
+	static var productShareGenericOk: String {
+		return NSLocalizedString("product_share_generic_ok", comment: "")
+	}
+	
+	static var productShareGenericError: String {
+		return NSLocalizedString("product_share_generic_error", comment: "")
 	}
 	
 	static var productStatusLabelPending: String {
@@ -1034,6 +1070,42 @@ struct LGLocalizedString {
 	
 	static var tabBarToolTip: String {
 		return NSLocalizedString("tab_bar_tool_tip", comment: "")
+	}
+	
+	static var tourPage1Body: String {
+		return NSLocalizedString("tour_page_1_body", comment: "")
+	}
+	
+	static var tourPage2Title: String {
+		return NSLocalizedString("tour_page_2_title", comment: "")
+	}
+	
+	static var tourPage2Body: String {
+		return NSLocalizedString("tour_page_2_body", comment: "")
+	}
+	
+	static var tourPage3Title: String {
+		return NSLocalizedString("tour_page_3_title", comment: "")
+	}
+	
+	static var tourPage3Body: String {
+		return NSLocalizedString("tour_page_3_body", comment: "")
+	}
+	
+	static var tourPage4Title: String {
+		return NSLocalizedString("tour_page_4_title", comment: "")
+	}
+	
+	static var tourPage4Body: String {
+		return NSLocalizedString("tour_page_4_body", comment: "")
+	}
+	
+	static var tourPageSkipButton: String {
+		return NSLocalizedString("tour_page_skip_button", comment: "")
+	}
+	
+	static var tourPageOkButton: String {
+		return NSLocalizedString("tour_page_ok_button", comment: "")
 	}
 	
 }
