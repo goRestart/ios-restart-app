@@ -32,41 +32,35 @@ final public class LGProductFavouriteDeleteService: ProductFavouriteDeleteServic
     
     public func deleteProductFavourite(productFavourite: ProductFavourite, sessionToken: String, completion: ProductFavouriteDeleteServiceCompletion?) {
         
-        if let user = productFavourite.user, let product = productFavourite.product {
             
-            let fullUrl = "\(url)/\(user.objectId!)/favorites/products/\(product.objectId!)"
-            
-            let headers = [
-                LGCoreKitConstants.httpHeaderUserToken: sessionToken
-            ]
-            
-            Alamofire.request(.DELETE, fullUrl, parameters: nil, headers: headers)
-                .validate(statusCode: 200..<400)
-                .response { (_, response, _, error: NSError?) -> Void in
-                    // Error
-                    if let actualError = error {
-                        if actualError.domain == NSURLErrorDomain {
-                            completion?(ProductFavouriteDeleteServiceResult(error: .Network))
-                        }
-                        else {
-                            completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
-                        }
+        let fullUrl = "\(url)/\(productFavourite.user.objectId!)/favorites/products/\(productFavourite.product.objectId!)"
+        
+        let headers = [
+            LGCoreKitConstants.httpHeaderUserToken: sessionToken
+        ]
+        
+        Alamofire.request(.DELETE, fullUrl, parameters: nil, headers: headers)
+            .validate(statusCode: 200..<400)
+            .response { (_, response, _, error: NSError?) -> Void in
+                // Error
+                if let actualError = error {
+                    if actualError.domain == NSURLErrorDomain {
+                        completion?(ProductFavouriteDeleteServiceResult(error: .Network))
                     }
-                    // Success
                     else {
-                        if response?.statusCode == 204 {
-                            // success
-                            completion?(ProductFavouriteDeleteServiceResult(value: Nil()))
-                        } else {
-                            // error
-                            completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
-                        }
+                        completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
                     }
-            }
-            
-        } else {
-            // Error no user or product
-            completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
+                }
+                // Success
+                else {
+                    if response?.statusCode == 204 {
+                        // success
+                        completion?(ProductFavouriteDeleteServiceResult(value: Nil()))
+                    } else {
+                        // error
+                        completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
+                    }
+                }
         }
         
     }

@@ -6,27 +6,23 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
-import SwiftyJSON
+import Argo
 
-public class LGUserResponse: UserResponse, ResponseObjectSerializable {
+public struct LGUserResponse: UserResponse {
     
-    public var user: User
+    public let user: User
     
-    // MARK: - Lifecycle
-    
-    public init() {
-        user = LGUser()
-    }
-    
+}
+
+extension LGUserResponse : ResponseObjectSerializable {
     // MARK: - ResponseObjectSerializable
     
-    public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
-        self.init()
+    public init?(response: NSHTTPURLResponse, representation: AnyObject) {
         
-        let json = JSON(representation)
-
-        user = LGProductUserParser.userWithJSON(json)
+        guard let theUser : LGUser = decode(representation) else {
+            return nil
+        }
         
+        self.user = theUser
     }
 }

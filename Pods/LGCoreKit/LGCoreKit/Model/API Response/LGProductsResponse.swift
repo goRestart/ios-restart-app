@@ -6,49 +6,28 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
-import SwiftyJSON
+import Argo
 
-public class LGProductsResponse: ProductsResponse, ResponseObjectSerializable {
+public struct LGProductsResponse: ProductsResponse {
     
-    public var products: [Product]
+    public let products: [Product]
     
-    // MARK: - Lifecycle
-    
-    public init() {
-        products = []
-    }
-    
+}
+
+extension LGProductsResponse : ResponseObjectSerializable {
     // MARK: - ResponseObjectSerializable
     
     //    [
-    //        {...},
+    //        {see: LGProduct},
     //        ...
     //    ]
-    public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
-        self.init()
+    public init?(response: NSHTTPURLResponse, representation: AnyObject) {
         
-        guard let countryInfoDao = RLMCountryInfoDAO() else {
+        guard let theLGProducts : [LGProduct] = decode(representation) else {
             return nil
         }
         
-        let json = JSON(representation)
-        var parsedProducts: [Product] = []
-        let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
-        
-        // since the response gives distance in the units passed per parameters,
-        // we retrieve distance type the same way we do in productlistviewmodel
-        var distanceType = DistanceType.Km
-        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
-            distanceType = usesMetric ? .Km : .Mi
-        }
-        
-        if let productsArrayJson = json.array {
-            for productJson in productsArrayJson {
-                parsedProducts.append(LGProductParser.productWithJSON(productJson, currencyHelper: currencyHelper, distanceType: distanceType))
-            }
-        }
-        
-        products = parsedProducts
+        self.products = theLGProducts.map({$0})
     }
+
 }

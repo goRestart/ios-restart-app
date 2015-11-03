@@ -190,7 +190,7 @@ public class PushManager: NSObject, KahunaDelegate {
     
     
     // TODO: Refactor this...
-    public func forceKahunaLogin(user: User) {
+    public func forceKahunaLogin(user: MyUser) {
         let uc = Kahuna.createUserCredentials()
         var loginError: NSError?
         if let userId = user.objectId {
@@ -216,7 +216,7 @@ public class PushManager: NSObject, KahunaDelegate {
     }
     
     dynamic private func login(notification: NSNotification) {
-        if let user = notification.object as? User {
+        if let user = notification.object as? MyUser {
             
             let uc = Kahuna.createUserCredentials()
             var loginError: NSError?

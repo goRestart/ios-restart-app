@@ -7,7 +7,7 @@
 //
 
 public protocol UserProductRelation {
-    var isFavorited: Bool? { get }
-    var isReported: Bool? { get }
+    var isFavorited: Bool { get } //False as default
+    var isReported: Bool { get }  //False as default
 }
 

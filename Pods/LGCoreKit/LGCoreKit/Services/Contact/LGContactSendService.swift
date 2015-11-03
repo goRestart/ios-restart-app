@@ -31,7 +31,7 @@ final public class LGContactSendService: ContactSendService {
     
     // MARK: - ContactSendService
     
-    public func sendContact(contact: Contact, sessionToken: String, completion: ContactSendServiceCompletion?) {
+    public func sendContact(contact: Contact, sessionToken: String?, completion: ContactSendServiceCompletion?) {
         
         var params = Dictionary<String, AnyObject>()
         
@@ -39,9 +39,13 @@ final public class LGContactSendService: ContactSendService {
         params["title"] = contact.title
         params["description"] = contact.message
 
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
+        let headers: [String: String]?
+        if let actualSessionToken = sessionToken {
+            headers = [LGCoreKitConstants.httpHeaderUserToken: actualSessionToken]
+        }
+        else {
+            headers = nil
+        }
 
         Alamofire.request(.POST, url, parameters: params, headers: headers)
             .validate(statusCode: 200..<400)

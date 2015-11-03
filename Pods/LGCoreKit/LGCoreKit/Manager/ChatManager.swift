@@ -61,6 +61,25 @@ public class ChatManager {
     // MARK: - Public methods
     
     /**
+    Factory method. Will build a new chat from the provided product. Will use myUser as 'userFrom'.
+    
+    - returns: Chat in case myUser and product.user have values. nil otherwise
+    */
+    public func newChatWithProduct(product: Product) -> Chat? {
+        if let myUser = myUserManager.myUser(){
+            return LGChat(
+                objectId: nil,
+                updatedAt: NSDate(),
+                product: product,
+                userFrom: myUser,
+                userTo: product.user,
+                msgUnreadCount: 0,
+                messages: [])
+        }
+        return nil
+    }
+    
+    /**
         Retrieves the chats.
     
         - parameter completion: The completion closure.

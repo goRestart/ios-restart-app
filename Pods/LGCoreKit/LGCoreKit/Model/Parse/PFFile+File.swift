@@ -16,8 +16,8 @@ extension PFFile: File {
         return nil
     }
     
-    public var token: String? {
-        if let actualToken = self.token {
+    public var objectId: String? {
+        if let actualToken = self.objectId {
             return actualToken
         }
         return nil

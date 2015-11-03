@@ -18,7 +18,7 @@ public enum UserSaveServiceError: ErrorType {
     case UsernameTaken
 }
 
-public typealias UserSaveServiceResult = Result<User, UserSaveServiceError>
+public typealias UserSaveServiceResult = Result<MyUser, UserSaveServiceError>
 public typealias UserSaveServiceCompletion = UserSaveServiceResult -> Void
 
 public protocol UserSaveService {
@@ -29,5 +29,5 @@ public protocol UserSaveService {
         - parameter user: The user.
         - parameter completion: The completion closure.
     */
-    func saveUser(user: User, completion: UserSaveServiceCompletion?)
+    func saveUser(user: MyUser, completion: UserSaveServiceCompletion?)
 }

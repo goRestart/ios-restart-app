@@ -7,6 +7,6 @@
 //
 
 public protocol ProductFavourite: BaseModel {
-    var product: Product? { get set }
-    var user: User? { get set }
+    var product: Product { get }
+    var user: User { get } 
 }

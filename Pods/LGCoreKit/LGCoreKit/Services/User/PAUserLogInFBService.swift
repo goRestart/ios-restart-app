@@ -19,7 +19,7 @@ final public class PAUserLogInFBService: UserLogInFBService {
         let permissions = ["email", "public_profile", "user_friends"]
         PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions, block: { (user: PFUser?, error: NSError?) -> Void in
             // Success
-            if let actualUser = user as? User {
+            if let actualUser = user {
                 completion?(UserLogInFBServiceResult(value: actualUser))
             }
             // Error

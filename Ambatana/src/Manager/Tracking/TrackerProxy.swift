@@ -58,7 +58,7 @@ public class TrackerProxy: Tracker {
         }
     }
     
-    public func setUser(user: User?) {
+    public func setUser(user: MyUser?) {
         for tracker in trackers {
             tracker.setUser(user)
         }

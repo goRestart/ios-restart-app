@@ -100,7 +100,7 @@ public class MyUserManager: LocationManagerDelegate {
     
         - returns: the current user.
     */
-    public func myUser() -> User? {
+    public func myUser() -> MyUser? {
         return PFUser.currentUser()
     }
     
@@ -115,6 +115,16 @@ public class MyUserManager: LocationManagerDelegate {
         }
         return true
     }
+    
+    /**
+    Factory method. Will build a new contact from the provided product. Will use myUser as 'userFrom'.
+    
+    - returns: Contact in case myUser and product.user have values. nil otherwise
+    */
+    public func newContactWithEmail(email: String, title: String, message: String) -> Contact {
+        return LGContact(email: email, title: title, message: message)
+    }
+
     
     /**
         Saves the user if it's new.
@@ -666,14 +676,14 @@ public class MyUserManager: LocationManagerDelegate {
             }
             // Otherwise, we create a new one that will be retrieved later (check step 2b)
             else {
-                let address = PostalAddress()
+                let address = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
                 user.postalAddress = address
             }
             
             user.processed = NSNumber(bool: false)
             
             // 1. Save it
-            saveMyUser { (saveUserResult: Result<User, UserSaveServiceError>) in
+            saveMyUser { (saveUserResult: Result<MyUser, UserSaveServiceError>) in
                 
                 // Success
                 if let _ = saveUserResult.value {
