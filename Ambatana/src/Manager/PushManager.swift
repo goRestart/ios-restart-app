@@ -50,8 +50,7 @@ public class PushManager: NSObject, KahunaDelegate {
     
     public required init(installationSaveService: InstallationSaveService) {
         self.installationSaveService = installationSaveService
-        unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
-        
+        unreadMessagesCount = 0
         super.init()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "login:", name: MyUserManager.Notification.login.rawValue, object: nil)

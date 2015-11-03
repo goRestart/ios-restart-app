@@ -143,6 +143,9 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         super.viewDidLoad()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "askUserToUpdateLocation", name: MyUserManager.Notification.didMoveFromManualLocationNotification.rawValue, object: nil)
+        
+        // Update unread messages
+        PushManager.sharedInstance.updateUnreadMessagesCount()
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -559,7 +562,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     }
     
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
-
+        // Update unread messages
+        PushManager.sharedInstance.updateUnreadMessagesCount()
     }
     
     dynamic private func askUserToUpdateLocation() {
