@@ -18,11 +18,7 @@ internal extension Product {
     */
     func groupOfDistance(queryLocation: CLLocation) -> Int {
         
-        let product = self
-        
-        guard let pLocation = product.location else {
-            return Int.max
-        }
+        let pLocation = self.location
         
         let productLocation = CLLocation(latitude: pLocation.latitude, longitude: pLocation.longitude)
         

@@ -32,6 +32,5 @@ public protocol ProductSaveService {
         - parameter user: the user
         - parameter completion: The completion closure.
     */
-    // TODO: Change this user to user_id
     func saveProduct(product: Product, forUser user: User, sessionToken: String, completion: ProductSaveServiceCompletion?)
 }

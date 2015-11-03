@@ -6,23 +6,19 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
-import SwiftyJSON
+import Argo
 
-public class LGIPLookupLocationResponse: IPLookupLocationResponse, ResponseObjectSerializable {
+public struct LGIPLookupLocationResponse: IPLookupLocationResponse {
+    
+    // iVars
+    public let coordinates: LGLocationCoordinates2D
+    
+}
 
+extension LGIPLookupLocationResponse : ResponseObjectSerializable {
     // Constant
     private static let latitudeJSONKey = "latitude"
     private static let longitudeJSONKey = "longitude"
-    
-    // iVars
-    public var coordinates: LGLocationCoordinates2D
-    
-    // MARK: - Lifecycle
-    
-    public init() {
-        coordinates = LGLocationCoordinates2D(latitude: 0, longitude: 0)
-    }
     
     // MARK: - ResponseObjectSerializable
     
@@ -39,15 +35,11 @@ public class LGIPLookupLocationResponse: IPLookupLocationResponse, ResponseObjec
     //      "metro_code": false,
     //      "continent_code": "NA"
     //  }
-    public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
-        self.init()
+    public init?(response: NSHTTPURLResponse, representation: AnyObject) {
         
-        let json = JSON(representation)
-        if let latitude = json[LGIPLookupLocationResponse.latitudeJSONKey].double, let longitude = json[LGIPLookupLocationResponse.longitudeJSONKey].double {
-            coordinates = LGLocationCoordinates2D(latitude: latitude, longitude: longitude)
-        }
-        else {
+        guard let theLocation : LGLocationCoordinates2D = LGArgo.jsonToCoordinates(JSON.parse(representation), latKey: "latitude", lonKey: "longitude").value else {
             return nil
         }
+        self.coordinates = theLocation
     }
 }

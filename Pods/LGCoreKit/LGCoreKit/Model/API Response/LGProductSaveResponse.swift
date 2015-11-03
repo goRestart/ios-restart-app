@@ -6,40 +6,24 @@
 //
 //
 
-import Alamofire
-import SwiftyJSON
+import Argo
 
-public class LGProductSaveResponse: ProductResponse, ResponseObjectSerializable {
+public struct LGProductSaveResponse: ProductResponse {
     
-    public var product: Product
+    public let product: Product
     
-    // MARK: - Lifecycle
-    
-    public init() {
-        product = LGProduct()
-    }
-    
+}
+
+extension LGProductSaveResponse : ResponseObjectSerializable {
     // MARK: - ResponseObjectSerializable
     
-    public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
-        self.init()
+    public init?(response: NSHTTPURLResponse, representation: AnyObject) {
         
-        let json = JSON(representation)
-        
-        
-        guard let countryInfoDao = RLMCountryInfoDAO() else {
+        guard let theProduct : LGProduct = decode(representation) else {
             return nil
         }
         
-        let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
-        
-        // since the response gives distance in the units passed per parameters,
-        // we retrieve distance type the same way we do in productlistviewmodel
-        var distanceType = DistanceType.Km
-        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
-            distanceType = usesMetric ? .Km : .Mi
-        }
-        
-        product = LGProductParser.productWithJSON(json, currencyHelper: currencyHelper, distanceType: distanceType)
+        self.product = theProduct
     }
+
 }

@@ -33,6 +33,5 @@ public protocol ProductMarkSoldService {
         - parameter product: The product.
         - parameter completion: The completion closure.
     */
-    // TODO: User product id instead of product
     func markAsSoldProduct(product: Product, sessionToken: String, completion: ProductMarkSoldServiceCompletion?)
 }

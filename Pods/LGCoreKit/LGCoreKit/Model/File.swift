@@ -8,8 +8,6 @@
 
 import Foundation
 
-public protocol File {   
+public protocol File : BaseModel {
     var fileURL: NSURL? { get }
-    var isSaved: Bool { get }
-    var token: String? { get }
 }

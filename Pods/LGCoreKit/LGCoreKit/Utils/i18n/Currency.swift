@@ -18,3 +18,10 @@ public class Currency: Equatable {
 public func ==(lhs: Currency, rhs: Currency) -> Bool {
     return lhs.code == rhs.code && lhs.symbol == rhs.symbol
 }
+
+public extension Currency {
+    public static func currencyWithCode(currencyCode input: String?) -> Currency {
+        let currCode = input ?? LGCoreKitConstants.defaultCurrencyCode
+        return CurrencyHelper.sharedInstance.currencyWithCurrencyCode(currCode)
+    }
+}

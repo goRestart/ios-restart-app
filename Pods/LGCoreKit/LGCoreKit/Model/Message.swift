@@ -12,7 +12,8 @@ public enum MessageType: Int {
 }
 
 public protocol Message: BaseModel {
-    var text: String? { get }
+    var text: String { get }
     var type: MessageType { get }
-    var userId: String? { get }
+    var userId: String { get }
+    var createdAt: NSDate? { get }
 }

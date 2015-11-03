@@ -7,15 +7,10 @@
 //
 
 
-public class LGContact: LGBaseModel, Contact {
+public struct LGContact: Contact {
     
-    public var email: String?
-    public var title: String?
-    public var message: String?
+    public var email: String
+    public var title: String
+    public var message: String
     
-    public var user: User?
-    
-    public override init() {
-        super.init()
-    }
 }

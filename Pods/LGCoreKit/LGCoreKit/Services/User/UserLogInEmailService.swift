@@ -17,7 +17,7 @@ public enum UserLogInEmailServiceError: ErrorType {
     case Internal
 }
 
-public typealias UserLogInEmailServiceResult = Result<User, UserLogInEmailServiceError>
+public typealias UserLogInEmailServiceResult = Result<MyUser, UserLogInEmailServiceError>
 public typealias UserLogInEmailServiceCompletion = UserLogInEmailServiceResult -> Void
 
 public protocol UserLogInEmailService {

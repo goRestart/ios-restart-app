@@ -10,8 +10,6 @@ import RealmSwift
 
 public class RLMCountryInfoDAO: CountryInfoDAO {
     
-    var realm: Realm!
-    
     public init?() {
         let dbFileName = "country_info-v1"
         let oldDBFilenames = ["country_currency_info, country_currency_info-v2"]
@@ -42,44 +40,56 @@ public class RLMCountryInfoDAO: CountryInfoDAO {
             }
         }
         
-        do {
-            try realm = Realm(path: dbCachePath)
-        } catch _ {
-            return nil
-        }
+        //Set default configuration for realm using the provided path
+        let config = Realm.Configuration(path: dbCachePath, readOnly: true)
+        Realm.Configuration.defaultConfiguration = config
         
-        //        // Export to CSV
-        //        var countryCurrencyInfos = realm.objects(RLMCountryCurrencyInfo)
-        //        for countryCurrencyInfo in countryCurrencyInfos {
-        //            let locale = countryCurrencyInfo.locale
-        //            let currencyFormatter = NSNumberFormatter()
-        //            currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        //            currencyFormatter.locale = locale
-        //            currencyFormatter.maximumFractionDigits = 0
-        //            currencyFormatter.currencySymbol = countryCurrencyInfo.currencySymbol
-        //
-        //            let one = currencyFormatter.stringFromNumber(1)!
-        //            let ten = currencyFormatter.stringFromNumber(10)!
-        //            let hundred = currencyFormatter.stringFromNumber(100)!
-        //            let thousand = currencyFormatter.stringFromNumber(1000)!
-        //            let million = currencyFormatter.stringFromNumber(1000000)!
-        //
-        //            println("\(countryCurrencyInfo.countryCodeAlpha2);\(countryCurrencyInfo.countryCodeAlpha3);\(countryCurrencyInfo.currencyCode);\(countryCurrencyInfo.currencySymbol);\(countryCurrencyInfo.defaultLocale);\(one);\(ten);\(hundred);\(thousand);\(million)")
-        //        }
-        //        println("")
+//                // Export to CSV
+//        let realm = try! Realm()
+//        let countryCurrencyInfos = realm.objects(RLMCountryInfo)
+//        for countryCurrencyInfo in countryCurrencyInfos {
+//            let locale = countryCurrencyInfo.locale
+//            let currencyFormatter = NSNumberFormatter()
+//            currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+//            currencyFormatter.locale = locale
+//            currencyFormatter.maximumFractionDigits = 0
+//            currencyFormatter.currencySymbol = countryCurrencyInfo.currencySymbol
+//
+//            let one = currencyFormatter.stringFromNumber(1)!
+//            let ten = currencyFormatter.stringFromNumber(10)!
+//            let hundred = currencyFormatter.stringFromNumber(100)!
+//            let thousand = currencyFormatter.stringFromNumber(1000)!
+//            let million = currencyFormatter.stringFromNumber(1000000)!
+//
+//            print("\(countryCurrencyInfo.countryCode);\(countryCurrencyInfo.currencyCode);\(countryCurrencyInfo.currencySymbol);\(countryCurrencyInfo.defaultLocale);\(one);\(ten);\(hundred);\(thousand);\(million)")
+//        }
+//        print("")
     }
     
     // MARK: - CountryCurrencyInfoDAO
     
     public func fetchCountryInfoWithCurrencyCode(currencyCode: String) -> CountryInfo? {
-        let predicate = NSPredicate(format: "currencyCode == %@", currencyCode)
-        let countryCurrencyInfos = realm.objects(RLMCountryInfo).filter(predicate)
-        return countryCurrencyInfos.first
+        let realm: Realm
+        do {
+            realm = try Realm()
+            let predicate = NSPredicate(format: "currencyCode == %@", currencyCode)
+            let countryCurrencyInfos = realm.objects(RLMCountryInfo).filter(predicate)
+            return countryCurrencyInfos.first
+        } catch _ {
+            return nil
+        }
+        
     }
     
     public func fetchCountryInfoWithCountryCode(countryCode: String) -> CountryInfo? {
-        let predicate = NSPredicate(format: "countryCode == %@", countryCode, countryCode)
-        let countryCurrencyInfos = realm.objects(RLMCountryInfo).filter(predicate)
-        return countryCurrencyInfos.first
+        let realm: Realm
+        do {
+            realm = try Realm()
+            let predicate = NSPredicate(format: "countryCode == %@", countryCode, countryCode)
+            let countryCurrencyInfos = realm.objects(RLMCountryInfo).filter(predicate)
+            return countryCurrencyInfos.first
+        } catch _ {
+            return nil
+        }
     }
 }
