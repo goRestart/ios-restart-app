@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import SwiftyJSON
-
 public class LGConfigDAO : ConfigDAO {
     let fileCachePath : String
     
@@ -48,8 +46,7 @@ public class LGConfigDAO : ConfigDAO {
             return nil
         }
 
-        let json = JSON(data:data)
-        return Config(json: json)
+        return Config(data: data)
     }
     
     public func save(configFile: Config) {
@@ -59,7 +56,7 @@ public class LGConfigDAO : ConfigDAO {
         
         var jsonData: NSData? = nil
         do {
-            try jsonData = json.rawData()
+            try jsonData =  NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions(rawValue: 0))
         } catch _ {}
         
         guard let actualJSONData = jsonData else {

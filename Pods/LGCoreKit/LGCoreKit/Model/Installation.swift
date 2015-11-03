@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public protocol Installation: BaseModel {
+public protocol Installation: class, BaseModel {
     var badge: Int { get set }
     var userId: String? { get set }
     var username: String? { get set }

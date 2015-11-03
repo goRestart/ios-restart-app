@@ -6,25 +6,19 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
+import Argo
 
-import Alamofire
-import SwiftyJSON
+public struct LGUserProductRelationResponse {
+    
+    public let userProductRelation : UserProductRelation
+    
+}
 
-public class LGUserProductRelationResponse : ResponseObjectSerializable {
+extension LGUserProductRelationResponse : ResponseObjectSerializable {
     
     // Constant
     private static let isFavoritedKey = "is_favorited"
     private static let isReportedKey = "is_reported"
-    
-    public var isFavorited: Bool
-    public var isReported: Bool
-    
-    // MARK: - Lifecycle
-    
-    public init() {
-        isFavorited = false
-        isReported = false
-    }
     
     // MARK: - ResponseObjectSerializable
     //    {
@@ -32,17 +26,12 @@ public class LGUserProductRelationResponse : ResponseObjectSerializable {
     //      "is_favorited": false
     //    }
     
-    public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
-        self.init()
+    public init?(response: NSHTTPURLResponse, representation: AnyObject) {
         
-        let json = JSON(representation)
-        
-        if let favorited = json[LGUserProductRelationResponse.isFavoritedKey].bool, let reported = json[LGUserProductRelationResponse.isReportedKey].bool {
-            isFavorited = favorited
-            isReported = reported
-        }
-        else {
+        guard let relation : LGUserProductRelation = decode(representation) else {
             return nil
         }
+        
+        self.userProductRelation = relation
     }
 }

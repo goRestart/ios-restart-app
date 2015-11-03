@@ -57,9 +57,7 @@ final public class LGProductFavouriteSaveService: ProductFavouriteSaveService {
                         completion?(ProductFavouriteSaveServiceResult(error: .Internal))
                     }
                 } else {
-                    let productFavourite = LGProductFavourite()
-                    productFavourite.product = product
-                    productFavourite.user = user
+                    let productFavourite = LGProductFavourite(objectId: nil, product: product, user: user)
                     completion?(ProductFavouriteSaveServiceResult(value: productFavourite))
                 }
         }

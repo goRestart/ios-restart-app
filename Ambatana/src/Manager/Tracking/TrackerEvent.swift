@@ -139,18 +139,18 @@ public struct TrackerEvent {
     public static func productShareFbCancel(product: Product) -> TrackerEvent {
         var params = EventParameters()
         // Product
-        if let productUser = product.user {
-            params[.ProductType] = productUser.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-        }
+
+        params[.ProductType] = product.user.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
+
         return TrackerEvent(name: .ProductShareFbCancel, params: params)
     }
 
     public static func productShareFbComplete(product: Product) -> TrackerEvent {
         var params = EventParameters()
         // Product
-        if let productUser = product.user {
-            params[.ProductType] = productUser.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-        }
+
+        params[.ProductType] = product.user.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
+
         return TrackerEvent(name: .ProductShareFbComplete, params: params)
     }
 
@@ -184,9 +184,7 @@ public struct TrackerEvent {
         if let productCurrency = product.currency {
             params[.ProductCurrency] = productCurrency.code
         }
-        if let categoryId = product.categoryId {
-            params[.CategoryId] = categoryId.integerValue
-        }
+        params[.CategoryId] = product.category.rawValue
         return TrackerEvent(name: .ProductMarkAsSold, params: params)
     }
     
@@ -223,7 +221,7 @@ public struct TrackerEvent {
         // Product name
         params[.ProductId] = product.objectId ?? ""
         // Category
-        params[.CategoryId] = product.categoryId
+        params[.CategoryId] = product.category.rawValue
         return TrackerEvent(name: .ProductSellComplete, params: params)
     }
     

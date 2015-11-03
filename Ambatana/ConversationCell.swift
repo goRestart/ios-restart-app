@@ -47,8 +47,8 @@ public class ConversationCell: UITableViewCell {
         let tag = indexPath.hash
     
         var otherUser: User?
-        if let myUserId = myUser.objectId, let userFrom = chat.userFrom, let userFromId = userFrom.objectId, let userTo = chat.userTo, let _ = userTo.objectId {
-                otherUser = (myUserId == userFromId) ? userTo : userFrom
+        if let myUserId = myUser.objectId, let userFromId = chat.userFrom.objectId, let _ = chat.userTo.objectId {
+                otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
         }
         
         // thumbnail
@@ -63,32 +63,31 @@ public class ConversationCell: UITableViewCell {
         }
         
         // product name
-        productLabel.text = chat.product?.name ?? ""
+        productLabel.text = chat.product.name ?? ""
         
         // user name
         userLabel.text = otherUser?.publicUsername ?? ""
         
         // time / deleted
         var timeLabelValue: String = ""
-        if let productStatus = chat.product?.status {
-            switch productStatus {
-            case .Deleted:
-                timeLabelValue = LGLocalizedString.commonProductDeleted
-            case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-                if let lastUpdated = chat.updatedAt {
-                    timeLabelValue = lastUpdated.relativeTimeString()
-                }
+
+        switch chat.product.status {
+        case .Deleted:
+            timeLabelValue = LGLocalizedString.commonProductDeleted
+        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+            if let lastUpdated = chat.updatedAt {
+                timeLabelValue = lastUpdated.relativeTimeString()
             }
         }
+
         timeLabel.text = timeLabelValue
         
         // badge
         var badge: String? = nil
-        if let msgUnreadCount = chat.msgUnreadCount {
-            if msgUnreadCount > 0 {
-                badge = String(msgUnreadCount)
-            }
+        if chat.msgUnreadCount > 0 {
+            badge = String(chat.msgUnreadCount)
         }
+
 
         if let actualBadge = badge {
             badgeView.hidden = false

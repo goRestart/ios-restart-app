@@ -56,10 +56,10 @@ final public class LGProductsRetrieveService: ProductsRetrieveService {
                     if let coordinates = params.coordinates {
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                             // Background thread -> shuffle products
-                            actualProductsResponse.products = actualProductsResponse.shuffledProducts(coordinates)
+                            let shuffledProducts = actualProductsResponse.shuffledProducts(coordinates)
                             dispatch_async(dispatch_get_main_queue()) {
                                 // Main thread
-                                completion?(ProductsRetrieveServiceResult(value: actualProductsResponse))
+                                completion?(ProductsRetrieveServiceResult(value: LGProductsResponse(products: shuffledProducts)))
                             }
                         }
                     }
