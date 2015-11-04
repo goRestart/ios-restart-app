@@ -40,29 +40,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         if let actualWindow = window {
             
+            
+            // Open Splash
+            let splashVC = SplashViewController(configManager: configManager)
+            let navCtl = UINavigationController(rootViewController: splashVC)
+            splashVC.completionBlock = { (succeeded: Bool) -> Void in
+            
+                // Rebuild user defaults
+                UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
+                                
+                // Show TabBar afterwards
+                let tabBarCtl = TabBarController()
+                actualWindow.rootViewController = tabBarCtl
+                
+                // Open the deep link, if any
+                if let actualDeepLink = deepLink {
+                    tabBarCtl.openDeepLink(actualDeepLink)
+                }
+                else if self.userContinuationUrl != nil {
+                    self.consumeUserContinuation(usingTabBar: tabBarCtl)
+                }
+            }
             //TODO TESTING PURPOSES
-//            // Open Splash
-//            let splashVC = SplashViewController(configManager: configManager)
-//            let navCtl = UINavigationController(rootViewController: splashVC)
-//            splashVC.completionBlock = { (succeeded: Bool) -> Void in
-//            
-//                // Rebuild user defaults
-//                UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
-//                                
-//                // Show TabBar afterwards
-//                let tabBarCtl = TabBarController()
-//                actualWindow.rootViewController = tabBarCtl
-//                
-//                // Open the deep link, if any
-//                if let actualDeepLink = deepLink {
-//                    tabBarCtl.openDeepLink(actualDeepLink)
-//                }
-//                else if self.userContinuationUrl != nil {
-//                    self.consumeUserContinuation(usingTabBar: tabBarCtl)
-//                }
-//            }
-            let testVC = TestViewController(viewModel: nil, nibName: nil)
-            let navCtl = UINavigationController(rootViewController: testVC)
+//            let testVC = TestViewController(viewModel: nil, nibName: nil)
+//            let navCtl = UINavigationController(rootViewController: testVC)
             
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()

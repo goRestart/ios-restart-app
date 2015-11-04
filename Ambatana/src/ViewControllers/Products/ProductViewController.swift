@@ -13,6 +13,7 @@ import MessageUI
 import Result
 import SDWebImage
 import UIKit
+import LGCollapsibleLabel
 
 public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate, MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
 
@@ -32,7 +33,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
     
     @IBOutlet weak var addressIconHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
@@ -428,6 +429,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
         userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
         userAvatarImageView.layer.borderWidth = 2
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
+        descriptionCollapsible.addGestureRecognizer(tapGesture)
 
         reportButton.titleLabel?.numberOfLines = 2
         reportButton.titleLabel?.lineBreakMode = .ByWordWrapping
@@ -462,6 +466,13 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         // Update the UI
         updateUI()
+    }
+    
+    dynamic private func toggleDescriptionState() {
+        UIView.animateWithDuration(0.5) {
+            self.descriptionCollapsible.toggleState()
+            self.view.layoutIfNeeded()
+        }
     }
     
     private func updateUI() {
@@ -536,7 +547,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         nameLabel.text = viewModel.name
         priceLabel.text = viewModel.price
-        descriptionLabel.text = viewModel.descr
+        descriptionCollapsible.mainText = viewModel.descr
         addressIconHeightConstraint.constant = viewModel.addressIconVisible ? ProductViewController.addressIconVisibleHeight : 0
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
