@@ -13,20 +13,14 @@ import AddressBookUI
 extension CLPlacemark {
     public func place() -> Place {
 
-        let place = Place()
+        var place = Place()
         
         place.name = self.name
-        place.country = self.country
         if let placemarkLocation = self.location {
             place.location = LGLocationCoordinates2D(coordinates: placemarkLocation.coordinate)
         }
         
-        let postalAddress = PostalAddress()
-        
-        postalAddress.city = self.locality
-        postalAddress.countryCode = self.ISOcountryCode
-        postalAddress.zipCode = self.postalCode
-        
+        var postalAddress = PostalAddress(address: nil, city: self.locality, zipCode: self.postalCode, countryCode: self.ISOcountryCode, country: self.country)
         if let addressDict = self.addressDictionary {
             postalAddress.address = ABCreateStringWithAddressDictionary(addressDict, false)
         }

@@ -222,7 +222,8 @@ public class ProductListViewModel: BaseViewModel {
         
         var meters = 0.0
         
-        if let actualQueryCoords = retrieveProductsFirstPageParams.coordinates {
+        if let quadKeyStr = retrieveProductsFirstPageParams.coordinates?.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision) {
+            let actualQueryCoords = LGLocationCoordinates2D(fromCenterOfQuadKey: quadKeyStr)
             let queryLocation = CLLocation(latitude: actualQueryCoords.latitude, longitude: actualQueryCoords.longitude)
             let productLocation = CLLocation(latitude: productCoords.latitude, longitude: productCoords.longitude)
             

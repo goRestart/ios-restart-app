@@ -57,6 +57,26 @@ public class ProductManager {
     // MARK: - Public methods
     
     /**
+    Factory method. Will build a new empty product.
+    */
+    public func newProduct() -> Product {
+        return LGProduct()
+    }
+    
+    /**
+    Factory method. Will return an updated version from the initial product
+    */
+    public func updateProduct(product: Product, name: String?, price: Float?, description: String?, category: ProductCategory, currency: Currency?) -> Product {
+        var product = LGProduct(product: product)
+        product.name = name
+        product.price = price
+        product.descr = description
+        product.category = category
+        product.currency = currency
+        return product
+    }
+    
+    /**
         Retrieves a product with the given id.
     
         - parameter productId: The product identifier.
@@ -73,12 +93,12 @@ public class ProductManager {
         - parameter images: the product images
         - parameter result: The closure containing the result.
     */
-    public func saveProduct(product: Product, withImages images: [UIImage], progress: (Float) -> Void, completion: ProductSaveServiceCompletion?) {
-
+    public func saveProduct(theProduct: Product, withImages images: [UIImage], progress: (Float) -> Void, completion: ProductSaveServiceCompletion?) {
+        
         /* If we don't have a user (with id & session token), or it's a new product and the user doesn't have coordinates, then it's an error */
         let user = MyUserManager.sharedInstance.myUser()
         if  (user == nil && user!.objectId != nil && user!.sessionToken == nil) ||
-            (!product.isSaved && user?.gpsCoordinates == nil) {
+            (!theProduct.isSaved && user?.gpsCoordinates == nil) {
             completion?(ProductSaveServiceResult(error: .Internal))
             return
         }
@@ -101,8 +121,11 @@ public class ProductManager {
             progress(Float(imagesUploadStep)/totalSteps)
             
         }) { [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
+            
             // Success and we have my user, and it has coordinates
             if let images = multipleFilesUploadResult.value, let myUser = user, let location = myUser.gpsCoordinates, let myUserSessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+                
+                var product = LGProduct(product: theProduct)
                 product.images = images
                 
                 // If it's a new product, then set the location
@@ -158,8 +181,8 @@ public class ProductManager {
         - parameter result: The closure containing the result.
     */
     public func deleteProduct(product: Product, completion: ProductDeleteServiceCompletion?) {
-        if let productId = product.objectId, let myUserSessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-            productDeleteService.deleteProductWithId(productId, sessionToken: myUserSessionToken, completion: completion)
+        if let myUserSessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+            productDeleteService.deleteProduct(product, sessionToken: myUserSessionToken, completion: completion)
         }
         else {
             completion?(ProductDeleteServiceResult(error: .Internal))
@@ -231,9 +254,7 @@ public class ProductManager {
     */
     public func deleteFavourite(product: Product, completion: ProductFavouriteDeleteServiceCompletion?) {
         if let myUser = MyUserManager.sharedInstance.myUser(), let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-            let productFavourite = LGProductFavourite()
-            productFavourite.product = product
-            productFavourite.user = myUser
+            let productFavourite = LGProductFavourite(objectId: nil, product: product, user: myUser)
             self.productFavouriteDeleteService.deleteProductFavourite(productFavourite, sessionToken: sessionToken, completion: completion)
         }
         else {
@@ -249,12 +270,8 @@ public class ProductManager {
     */
     public func saveReport(product: Product, completion: ProductReportSaveServiceCompletion?) {
         if let myUser = MyUserManager.sharedInstance.myUser() {
-            if product.reported == NSNumber(bool: false) {
-                if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-                    self.productReportSaveService.saveReportProduct(product, user: myUser, sessionToken: sessionToken, completion: completion)
-                }
-            } else {
-                completion?(ProductReportSaveServiceResult(error: .AlreadyExists))
+            if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+                self.productReportSaveService.saveReportProduct(product, user: myUser, sessionToken: sessionToken, completion: completion)
             }
         }
         else {

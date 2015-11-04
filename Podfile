@@ -18,7 +18,7 @@ pod "FBSDKShareKit",        "~> 4.7.0"
 pod "Amplitude-iOS",        "~> 3.2.0"
     
 # letgo Core
-pod "LGCoreKit",            "~> 0.15.0" #:path => "../letgo-ios-lgcorekit" #:path => "../LGCoreKit"
+pod "LGCoreKit",            "0.16.0" #:path => "../lgcorekit"
 
 # Animation
 pod "pop",                  "~> 1.0.8"
@@ -30,7 +30,7 @@ pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 pod "UIDeviceUtil",         "~> 1.1.2"
 
 # Push Notifications
-pod "Kahuna",               "~> 2.2.2"
+pod "Kahuna",               "~> 2.2.4"
 
 # New Relic
 pod "NewRelicAgent",         "~> 5.3.1"

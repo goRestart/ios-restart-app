@@ -6,50 +6,24 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
-import SwiftyJSON
+import Argo
 
-public class LGChatsResponse : ChatsResponse, ResponseObjectSerializable {
+public struct LGChatsResponse : ChatsResponse {
 
-    public var chats: [Chat]
+    public let chats: [Chat]
     
-    // MARK: - Lifecycle
-    
-    public init() {
-        chats = []
-    }
-    
+}
+
+extension LGChatsResponse : ResponseObjectSerializable {
     // MARK: - ResponseObjectSerializable
     
-    public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
-        self.init()
+    public init?(response: NSHTTPURLResponse, representation: AnyObject) {
         
-        guard let countryInfoDao = RLMCountryInfoDAO() else {
+        guard let theLGChats : [LGChat] = decode(representation) else {
             return nil
         }
-
-        let currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDao)
         
-        // since the response gives distance in the units passed per parameters,
-        // we retrieve distance type the same way we do in productlistviewmodel
-        var distanceType = DistanceType.Km
-        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
-            distanceType = usesMetric ? .Km : .Mi
-        }
-        
-        let json = JSON(representation)
-        if let chatsJSON = json.array {
-            var parsedChats: [Chat] = []
-            for chatJSON in chatsJSON {
-                let parsedChat = LGChatParser.chatWithJSON(chatJSON, currencyHelper: currencyHelper, distanceType: distanceType)
-                parsedChats.append(parsedChat)
-            }
-            chats = parsedChats
-        }
-        else {
-            return nil
-        }
-
+        self.chats = theLGChats.map({$0})
     }
-    
+
 }

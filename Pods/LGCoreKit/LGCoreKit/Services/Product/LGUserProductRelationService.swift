@@ -52,10 +52,7 @@ final public class LGUserProductRelationService: UserProductRelationService {
                 }
                 // Success
                 else if let actualRelationResponse = relationResponse.result.value {
-                    let relation = LGUserProductRelation()
-                    relation.isFavorited = actualRelationResponse.isFavorited
-                    relation.isReported = actualRelationResponse.isReported
-                    completion?(UserProductRelationServiceResult(value: relation))
+                    completion?(UserProductRelationServiceResult(value: actualRelationResponse.userProductRelation))
                 }
             }
     }

@@ -173,23 +173,21 @@ public struct EventParameters {
         if let productId = product.objectId {
             params[.ProductId] = productId
         }
-        if let lat = product.location?.latitude {
-            params[.ProductLatitude] = lat
-        }
-        if let lng = product.location?.longitude {
-            params[.ProductLongitude] = lng
-        }
+
+        params[.ProductLatitude] = product.location.latitude
+        params[.ProductLongitude] = product.location.longitude
+
         if let productPrice = product.price {
             params[.ProductPrice] = productPrice
         }
         if let productCurrency = product.currency {
             params[.ProductCurrency] = productCurrency.code
         }
-        if let categoryId = product.categoryId {
-            params[.CategoryId] = categoryId.integerValue
-        }
+
+        params[.CategoryId] = product.category.rawValue
+
         
-        if let productUser = product.user, let productUserId = productUser.objectId {
+        if let productUserId = product.user.objectId {
             if let userId = params[.UserId] as? String {
                 if userId != productUserId {
                     params[.UserToId] = productUserId
@@ -200,9 +198,8 @@ public struct EventParameters {
             }
         }
 
-        if let productUser = product.user {
-            params[.ProductType] = productUser.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-        }
+
+        params[.ProductType] = product.user.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
 
     }
     

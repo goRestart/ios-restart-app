@@ -8,7 +8,6 @@
 
 import Alamofire
 import Result
-import SwiftyJSON
 
 final public class LGFileUploadService: FileUploadService {
     
@@ -47,8 +46,8 @@ final public class LGFileUploadService: FileUploadService {
                     .responseObject { (response: Response<LGUploadFileResponse, NSError>) in
                         // Success                        
                         if let uploadFileResponse = response.result.value {
-                            let file = LGFile(url: nil)
-                            file.token = uploadFileResponse.imageId
+                            var file = LGFile(url: nil)
+                            file.objectId = uploadFileResponse.imageId
                             completion?(FileUploadServiceResult(value: file))
                         }
                         // Error

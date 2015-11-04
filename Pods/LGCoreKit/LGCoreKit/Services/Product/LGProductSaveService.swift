@@ -8,7 +8,6 @@
 
 import Alamofire
 import Result
-import SwiftyJSON
 
 final public class LGProductSaveService: ProductSaveService {
     
@@ -88,9 +87,7 @@ final public class LGProductSaveService: ProductSaveService {
             params.name = name
         }
         
-        if let category = product.categoryId?.stringValue {
-            params.category = category
-        }
+        params.category = String(product.category.rawValue)
 
         if let languageCode = product.languageCode {
             params.languageCode = languageCode
@@ -104,21 +101,17 @@ final public class LGProductSaveService: ProductSaveService {
             params.descr = description
         }
 
-        if let price = product.price?.stringValue {
-            params.price = price
+        if let price = product.price {
+            params.price = String(price)
         }
 
         if let currency = product.currency?.code {
             params.currency = currency
         }
 
-        if let latitude = product.location?.latitude {
-            params.latitude = String(format:"%f", latitude)
-        }
+        params.latitude = String(format:"%f", product.location.latitude)
 
-        if let longitude = product.location?.longitude {
-            params.longitude = String(format:"%f", longitude)
-        }
+        params.longitude = String(format:"%f", product.location.longitude)
 
         if let countryCode = product.postalAddress.countryCode {
             params.countryCode = countryCode
@@ -140,7 +133,7 @@ final public class LGProductSaveService: ProductSaveService {
             var tokensArray : [String] = []
             
             for image in product.images {
-                if let token = image.token {
+                if let token = image.objectId {
                     tokensArray.append(token)
                 }
             }

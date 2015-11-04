@@ -161,7 +161,8 @@
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
-		C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = C78448DC1BD5196E00C76199 /* LetGo.entitlements */; };
+		C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = C78448DC1BD5196E00C76199 /* LetGo.entitlements */; settings = {ASSET_TAGS = (); }; };
+		C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
 		D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28C1AEE2B2900B64CE1 /* LanguageHelper.swift */; };
@@ -400,6 +401,7 @@
 		B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C78448DC1BD5196E00C76199 /* LetGo.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = LetGo.entitlements; sourceTree = "<group>"; };
+		C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "Pods/../build/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		D40DA28C1AEE2B2900B64CE1 /* LanguageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageHelper.swift; sourceTree = "<group>"; };
@@ -473,6 +475,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */,
+				C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */,
 				6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */,
 				66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */,
 				66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */,
@@ -1070,6 +1073,7 @@
 			isa = PBXGroup;
 			children = (
 				2E4562151BE0F76D00C485D7 /* Accelerate.framework */,
+				C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */,
 				66A0CFC51A83612500FAADF0 /* AudioToolbox.framework */,
 				6640F03F1AE13EBE00004556 /* AdSupport.framework */,
 				66A0CFC61A83612500FAADF0 /* CFNetwork.framework */,
@@ -1875,6 +1879,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
 					"$(PROJECT_DIR)/3rd-Party",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1903,6 +1908,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
 					"$(PROJECT_DIR)/3rd-Party",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1968,6 +1974,7 @@
 					"$(PROJECT_DIR)/Ambatana",
 					"$(PROJECT_DIR)/3rd-Party/**",
 					"$(PROJECT_DIR)/3rd-Party",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Ambatana/src/Application/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

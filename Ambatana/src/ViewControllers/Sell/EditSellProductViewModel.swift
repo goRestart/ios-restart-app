@@ -42,9 +42,7 @@ public class EditSellProductViewModel: SellProductViewModel {
         if let descr = product.descr {
             self.descr = descr
         }
-        if let categoryId = product.categoryId?.integerValue {
-            category = ProductCategory(rawValue: categoryId)
-        }
+        category = product.category
         for _ in 0..<product.images.count {
             images.append(nil)
         }

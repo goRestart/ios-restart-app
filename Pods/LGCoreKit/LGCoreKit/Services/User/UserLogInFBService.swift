@@ -14,7 +14,7 @@ public enum UserLogInFBServiceError: ErrorType {
     case Internal
 }
 
-public typealias UserLogInFBServiceResult = Result<User, UserLogInFBServiceError>
+public typealias UserLogInFBServiceResult = Result<MyUser, UserLogInFBServiceError>
 public typealias UserLogInFBServiceCompletion = UserLogInFBServiceResult -> Void
 
 public protocol UserLogInFBService {

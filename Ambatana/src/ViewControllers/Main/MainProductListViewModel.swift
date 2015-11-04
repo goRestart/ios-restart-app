@@ -82,7 +82,6 @@ public class MainProductListViewModel: ProductListViewModel {
     private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
         
         // If new location is manual
-        
         if canRetrieveProducts {
             
             // If there are no products, then refresh
@@ -115,14 +114,23 @@ public class MainProductListViewModel: ProductListViewModel {
         
         if let newLocation = notification.object as? LGLocation {
 
-            if let lastLocation = lastReceivedLocation {
-                if lastLocation.type != newLocation.type {
-                    // Tracking.  Only when the location type changes.
-                    let locationServiceStatus = myUserManager.locationServiceStatus
-                    let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+            // Tracking: when a new location is received and has different type than previous one
+            var shouldTrack = false
+            if let actualLastReceivedLocation = lastReceivedLocation {
+                if actualLastReceivedLocation.type != newLocation.type {
+                    shouldTrack = true
                 }
             }
+            else {
+                shouldTrack = true
+            }
+            if shouldTrack {
+                let locationServiceStatus = myUserManager.locationServiceStatus
+                let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
+                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+            }
+            
+            // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
             retrieveProductsIfNeededWithNewLocation(newLocation)
         }
     }

@@ -98,42 +98,37 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     public func sendContact() {
         
         if self.email.isEmail() {
+            let contact = MyUserManager.sharedInstance.newContactWithEmail(
+                                    email,
+                                    title: subject?.name ?? "",
+                                    message: self.message + systemInfoForMessage() + " " + self.email
+                                )
             
-            if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken { 
-                var contact : Contact
-                contact = LGContact()
-                contact.email = email
-                contact.title = subject?.name ?? ""
-                contact.message = self.message + systemInfoForMessage() + " " + self.email
+            let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken
+            
+            delegate?.viewModelDidStartSendingContact(self)
+            
+            // Send the contact
+            self.contactService.sendContact(contact, sessionToken: sessionToken) { [weak self] (finalResult: ContactSendServiceResult) in
                 
-                contact.user = MyUserManager.sharedInstance.myUser()
-                
-                delegate?.viewModelDidStartSendingContact(self)
-                
-                // Send the contact
-                self.contactService.sendContact(contact, sessionToken: sessionToken) { [weak self] (finalResult: ContactSendServiceResult) in
-                    
-                    if let strongSelf = self {
-                        if let actualDelegate = strongSelf.delegate {
-                            if let _ = finalResult.value {
-                                // success
-                                actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
-                            }
-                            else if let _ = finalResult.error {
-                                // error
-                                actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
-                                
-                            }
+                if let strongSelf = self {
+                    if let actualDelegate = strongSelf.delegate {
+                        if let _ = finalResult.value {
+                            // success
+                            actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
+                        }
+                        else if let _ = finalResult.error {
+                            // error
+                            actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
+                            
                         }
                     }
                 }
-                
-                // Save the email if
-                if shouldUpdateMyEmail() {
-                    self.myUserManager.updateEmail(email, completion: nil)
-                }
-            } else {
-                delegate?.viewModel(self, didFailValidationWithError: .Internal)
+            }
+            
+            // Save the email if
+            if shouldUpdateMyEmail() {
+                self.myUserManager.updateEmail(email, completion: nil)
             }
         } else {
             delegate?.viewModel(self, didFailValidationWithError: .InvalidEmail)

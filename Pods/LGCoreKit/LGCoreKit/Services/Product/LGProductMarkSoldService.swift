@@ -52,7 +52,9 @@ final public class LGProductMarkSoldService: ProductMarkSoldService {
                         completion?(ProductMarkSoldServiceResult(error: .Internal))
                     }
                 } else {
-                    completion?(ProductMarkSoldServiceResult(value: product))
+                    var result = LGProduct(product: product)
+                    result.status = .Sold
+                    completion?(ProductMarkSoldServiceResult(value: result))
                 }
         }
         
