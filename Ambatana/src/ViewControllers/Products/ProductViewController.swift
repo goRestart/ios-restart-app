@@ -653,7 +653,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                     self.viewModel.shareInWhatsappActivity()
                 }
                 
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOK)
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
             } else {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
             }
