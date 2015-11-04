@@ -38,6 +38,9 @@ pod "NewRelicAgent",         "~> 5.3.1"
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0.1"
 
+# letgo Collapsible label
+pod "LGCollapsibleLabel",   :path => "../collapsiblelabel"
+
 target "letgoTests", :exclusive => true do
     ## Testing
     pod "Quick",            "~> 0.4"
