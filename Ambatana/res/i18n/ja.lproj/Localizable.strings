@@ -161,6 +161,13 @@
 "product_reporting_product_label" = "商品報告中…";
 "product_search_no_products_body" = "他の品物を探してみるか、しばらくしてからもう一度お試しください。";
 "product_search_no_products_title" = "残念ながら近くに商品はありません";
+"product_sell_again_button" = "Sell it Again";
+"product_sell_again_confirm_cancel_button" = "Cancel";
+"product_sell_again_confirm_message" = "Do you want to mark this product as available so it's visible to buyers again?";
+"product_sell_again_confirm_ok_button" = "Sell it Again";
+"product_sell_again_confirm_title" = "Sell it Again";
+"product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again later.";
+"product_sell_again_success_message" = "Congratulations, your product was successfully marked as available!";
 "product_share_body" = "Letogoで見つけたので見て！";
 "product_share_email_error" = "メールアプリのアカウントが設定されていないようです。";
 "product_share_generic_error" = "商品のシェア中にエラーが発生しました。もう一度お試しください。";
@@ -242,6 +249,9 @@
 "settings_image_source_camera_roll_button" = "フォトライブラリー";
 "settings_image_source_cancel_button" = "キャンセル";
 "settings_image_source_title" = "画像ソースの選択";
+"settings_invite_facebook_friends_button" = "Invite Facebook Friends";
+"settings_invite_facebook_friends_error" = "An error occurred while sharing your invitation.";
+"settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
 "settings_logout_button" = "ログアウト";
 "settings_title" = "設定";
 "sign_up_email_field_hint" = "メール";
@@ -257,3 +267,12 @@
 "sign_up_title" = "登録";
 "sign_up_username_field_hint" = "フルネーム";
 "tab_bar_tool_tip" = "商品を売ろう";
+"tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
+"tour_page_2_title" = "Near You";
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+"tour_page_3_title" = "Make Cash";
+"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
+"tour_page_4_title" = "Safe";
+"tour_page_ok_button" = "Start Browsing!";
+"tour_page_skip_button" = "Skip";
