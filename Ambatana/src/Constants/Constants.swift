@@ -32,5 +32,14 @@ struct Constants {
     
     // Categories
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
+    
+    // App sharing
+    static let facebookAppLinkURL = "https://fb.me/900185926729336"
+    static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
 
+    static let shareNetworkEmail = "email"
+    static let shareNetworkFacebook = "facebook"
+    static let shareNetworkWhatsapp = "whatsapp"
+    static let shareNetworkTwitter = "twitter"
+    
 }

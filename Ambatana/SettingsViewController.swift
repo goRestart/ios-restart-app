@@ -160,15 +160,15 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         switch (setting) {
         case .InviteFbFriends:
             let content = FBSDKAppInviteContent()
-            content.appLinkURL = NSURL(string: "https://fb.me/900185926729336")
+            content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
             
             //optionally set previewImageURL
-            content.appInvitePreviewImageURL = NSURL(string: "http://cdn.letgo.com/static/app-invites-facebook.jpg")
+            content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
             
             // present the dialog. Assumes self implements protocol `FBSDKAppInviteDialogDelegate`
             FBSDKAppInviteDialog.showFromViewController(self, withContent: content, delegate: self)
             
-            let trackerEvent = TrackerEvent.appInviteFriend("facebook")
+            let trackerEvent = TrackerEvent.appInviteFriend(Constants.shareNetworkFacebook)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             
         case .ChangePhoto:
@@ -309,12 +309,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         guard let _ = results else {
             // success and no results means app invite has been cancelled
-            let trackerEvent = TrackerEvent.appInviteFriendCancel("facebook")
+            let trackerEvent = TrackerEvent.appInviteFriendCancel(Constants.shareNetworkFacebook)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             return
         }
         
-        let trackerEvent = TrackerEvent.appInviteFriendComplete("facebook")
+        let trackerEvent = TrackerEvent.appInviteFriendComplete(Constants.shareNetworkFacebook)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         
         showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk)
