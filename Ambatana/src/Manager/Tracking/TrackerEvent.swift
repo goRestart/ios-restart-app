@@ -304,6 +304,27 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProfileEditEditPicture, params: params)
     }
     
+    public static func appInviteFriend(network: String) -> TrackerEvent {
+        var params = EventParameters()
+        // Product
+        params[.ShareNetwork] = network
+        return TrackerEvent(name: .AppInviteFriend, params: params)
+    }
+    
+    public static func appInviteFriendCancel(network: String) -> TrackerEvent {
+        var params = EventParameters()
+        // Product
+        params[.ShareNetwork] = network
+        return TrackerEvent(name: .AppInviteFriendCancel, params: params)
+    }
+    
+    public static func appInviteFriendComplete(network: String) -> TrackerEvent {
+        var params = EventParameters()
+        // Product
+        params[.ShareNetwork] = network
+        return TrackerEvent(name: .AppInviteFriendComplete, params: params)
+    }
+    
     public static func appRatingStart() -> TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .AppRatingStart, params: params)
