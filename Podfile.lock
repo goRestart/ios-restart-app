@@ -69,7 +69,7 @@ DEPENDENCIES:
   - FBSDKShareKit (~> 4.7.0)
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.2.4)
-  - LGCoreKit (= 0.16.0)
+  - LGCoreKit (from `../lgcorekit`)
   - NewRelicAgent (~> 5.3.1)
   - Nimble (~> 2.0)
   - Parse (~> 1.9.0)
@@ -77,6 +77,10 @@ DEPENDENCIES:
   - Quick (~> 0.4)
   - SDWebImage
   - UIDeviceUtil (~> 1.1.2)
+
+EXTERNAL SOURCES:
+  LGCoreKit:
+    :path: ../lgcorekit
 
 SPEC CHECKSUMS:
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
@@ -91,7 +95,7 @@ SPEC CHECKSUMS:
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
-  LGCoreKit: 6da71d1efeb0ba1fdde91aca916beb2d3c7e61a5
+  LGCoreKit: 62c70de37c1f67cfc1389fcbee962d7b70f240ce
   NewRelicAgent: aebd84eb0c99b5e4ee7a8629eddd4eb3c273a109
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
