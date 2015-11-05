@@ -40,7 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         if let actualWindow = window {
             
-            
             // Open Splash
             let splashVC = SplashViewController(configManager: configManager)
             let navCtl = UINavigationController(rootViewController: splashVC)
@@ -61,9 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     self.consumeUserContinuation(usingTabBar: tabBarCtl)
                 }
             }
-            //TODO TESTING PURPOSES
-//            let testVC = TestViewController(viewModel: nil, nibName: nil)
-//            let navCtl = UINavigationController(rootViewController: testVC)
             
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
