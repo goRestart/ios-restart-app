@@ -76,6 +76,9 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     }
 
     func goToLocation() {
+        // Dismissing keyboard so that it doesn't show up after searching. If it fails we will show it programmaticaly
+        searchField.resignFirstResponder()
+        
         viewModel.goToLocation()
     }
     
@@ -136,6 +139,9 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         }
         
         dismissLoadingMessageAlert(completion)
+        
+        // Showing keyboard again as the user must update the text
+        searchField.becomeFirstResponder()
     }
 
     
