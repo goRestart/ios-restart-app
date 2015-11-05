@@ -432,6 +432,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
         descriptionCollapsible.addGestureRecognizer(tapGesture)
+        //TODO LOCALIZE EXPAND/COLLAPSE TEXTS
 
         reportButton.titleLabel?.numberOfLines = 2
         reportButton.titleLabel?.lineBreakMode = .ByWordWrapping
@@ -469,7 +470,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     dynamic private func toggleDescriptionState() {
-        UIView.animateWithDuration(0.5) {
+        UIView.animateWithDuration(0.25) {
             self.descriptionCollapsible.toggleState()
             self.view.layoutIfNeeded()
         }

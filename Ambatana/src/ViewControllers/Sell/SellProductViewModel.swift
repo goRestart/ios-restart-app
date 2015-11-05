@@ -160,6 +160,8 @@ public class SellProductViewModel: BaseViewModel {
     
     internal func saveProduct(product: Product? = nil) {
         
+        
+        //TODO MOVE VALIDATION TO PRODUCT CREATION ON PRODUCTMANAGER
         let error = validate()
         if let actualError = error {
             delegate?.sellProductViewModel(self, didFailWithError: actualError)
