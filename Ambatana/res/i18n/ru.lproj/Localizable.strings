@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "common_cancel" = "Отмена";
 "common_error" = "Ошибка";
-"common_error_connection_failed" = "Операция не может быть завершена. Пожалуйста, проверьте соединение с Интернет.";
+"common_error_connection_failed" = "Произошла ошибка. Проверьте ваше соединение с Интернет.";
 "common_error_generic_body" = "Подождите немного и попробуйте еще раз";
 "common_error_network_body" = "Пожалуйста, проверьте настройки сети и попробуйте еще раз";
 "common_error_retry_button" = "Попробуйте еще раз";
@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "УПС! НЕТ РЕЗУЛЬТАТОВ РЯДОМ С ВАМИ";
 "product_share_body" = "Посмотрите, что я нашел на letgo!";
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении.";
+"product_share_generic_error" = "При размещении товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
+"product_share_generic_ok" = "Товар успешно размещен!";
 "product_share_whatsapp_error" = "Вы не установили приложение WhatsApp.";
 "product_status_label_approved" = "ОДОБРЕНО";
 "product_status_label_deleted" = "УДАЛЕНО";
@@ -255,3 +257,12 @@
 "sign_up_title" = "Регистрация";
 "sign_up_username_field_hint" = "Полное имя";
 "tab_bar_tool_tip" = "Продайте свои вещи";
+"tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
+"tour_page_2_title" = "Near You";
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+"tour_page_3_title" = "Make Cash";
+"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
+"tour_page_4_title" = "Safe";
+"tour_page_ok_button" = "Start Browsing!";
+"tour_page_skip_button" = "Skip";

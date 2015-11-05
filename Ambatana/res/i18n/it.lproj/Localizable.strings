@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
 "common_cancel" = "Annulla";
 "common_error" = "Errore";
-"common_error_connection_failed" = "Impossibile completare l'operazione. Verifica la tua connessione Internet.";
+"common_error_connection_failed" = "Si è verificato un errore. Verifica la tua connessione Internet.";
 "common_error_generic_body" = "Prendi una boccata d'aria e riprova";
 "common_error_network_body" = "Controlla le tue impostazioni di rete e riprova";
 "common_error_retry_button" = "Riprova";
@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "OPS! NESSUN RISULTATO VICINO A TE";
 "product_share_body" = "Guarda cosa ho appena trovato su letgo!";
 "product_share_email_error" = "Oops, sembra che tu non abbia impostato un account nella app di Posta.";
+"product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
+"product_share_generic_ok" = "Prodotto condiviso con successo!";
 "product_share_whatsapp_error" = "Ops, sembra che tu non abbia installato l'app WhatsApp.";
 "product_status_label_approved" = "PRODOTTO APPROVATO";
 "product_status_label_deleted" = "PRODOTTO ELIMINATO";
@@ -255,3 +257,12 @@
 "sign_up_title" = "Registrati";
 "sign_up_username_field_hint" = "Nome e Cognome";
 "tab_bar_tool_tip" = "Vendi le tue cose";
+"tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
+"tour_page_2_title" = "Near You";
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+"tour_page_3_title" = "Make Cash";
+"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
+"tour_page_4_title" = "Safe";
+"tour_page_ok_button" = "Start Browsing!";
+"tour_page_skip_button" = "Skip";

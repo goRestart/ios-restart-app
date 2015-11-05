@@ -496,6 +496,12 @@
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
 
+// Product share generic OK. Message displayal is like the other error messages
+"product_share_generic_ok" = "Product successfully shared!";
+
+// Product share generic error. Message displayal is like the other error messages
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
+
 // Product detail status label, status pending. Check attached image "item_page_sold_ios.png"
 "product_status_label_pending" = "PRODUCT PENDING";
 
@@ -768,4 +774,31 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
+
+// Tour page 1 body.
+"tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+
+// Tour page 2 title.
+"tour_page_2_title" = "Near You";
+
+// Tour page 2 body.
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
+
+// Tour page 3 title.
+"tour_page_3_title" = "Make Cash";
+
+// Tour page 3 body.
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+
+// Tour page 4 title.
+"tour_page_4_title" = "Safe";
+
+// Tour page 4 body.
+"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
+
+// Tour page skip button.
+"tour_page_skip_button" = "Skip";
+
+// Tour page ok button.
+"tour_page_ok_button" = "Start Browsing!";
 

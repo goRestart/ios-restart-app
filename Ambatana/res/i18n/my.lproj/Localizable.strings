@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "ကျွန်ုပ်တို့သည် ရှာဖွေပြီးရင်း ရှာဖွေကြသည်...";
 "product_share_body" = "letgo တွင် ကျွန်ုပ်တွေ့ခဲ့သည့် အရာကိုကြည့်ပါ။";
 "product_share_email_error" = "မှားပါတယ်၊ ဒါက သင်သည် မေးလ်ပရိုဂရမ်တွင် အကောင့်မသတ်မှတ်ရသေးဟန် ရှိပါတယ်။";
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
+"product_share_generic_ok" = "ထုတ်ကုန်ကို အောင်မြင်စွာမျှဝေပြီးပါပြီ။";
 "product_share_whatsapp_error" = "အိုး၊ မှားပါတယ်၊ WhatsApp အက်ပ်ကို သင် အင်စတောမလုပ်သေးဘူးထင်တယ်။";
 "product_status_label_approved" = "ထုတ်ကုန်အတည်ပြု";
 "product_status_label_deleted" = "ထုတ်ကုန်ပယ်ဖျက်ခဲ့သည်";
@@ -255,3 +257,12 @@
 "sign_up_title" = "စာရင်းသွင်းပါ";
 "sign_up_username_field_hint" = "အမည် အပြည့်အစုံ";
 "tab_bar_tool_tip" = "သင့်ပစ္စည်းကို ရောင်းပါ";
+"tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
+"tour_page_2_title" = "Near You";
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+"tour_page_3_title" = "Make Cash";
+"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
+"tour_page_4_title" = "Safe";
+"tour_page_ok_button" = "Start Browsing!";
+"tour_page_skip_button" = "Skip";

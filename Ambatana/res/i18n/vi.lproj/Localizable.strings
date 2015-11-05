@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
 "common_cancel" = "Hủy";
 "common_error" = "Lỗi";
-"common_error_connection_failed" = "Không thể hoàn thành hoạt động. Vui lòng kiểm tra lại kết nối Internet của bạn.";
+"common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
 "common_error_generic_body" = "Hãy thử ra ngoài hít thở không khí trong lành và quay lại thử sau";
 "common_error_network_body" = "Vui lòng kiểm tra cài đặt mạng và thử lại";
 "common_error_retry_button" = "Thử lại";
@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "Ồ! KHÔNG CÓ KẾT QUẢ NÀO Ở GẦN BẠN";
 "product_share_body" = "Hãy xem tôi tìm thấy gì trên letgo này!";
 "product_share_email_error" = "Ồ, có vẻ như bạn chưa cài đặt tải khoản email trên Ứng dụng Mail.";
+"product_share_generic_error" = "Lỗi xảy ra trong khi chia sẻ sản phẩm. Xin vui lòng thử lại sau.";
+"product_share_generic_ok" = "Sản phẩm đã được chia sẻ thành công!";
 "product_share_whatsapp_error" = "Ồ, có vẻ như bạn chưa cài đặt ứng dụng WhatsApp.";
 "product_status_label_approved" = "SẢN PHẨM ĐÃ ĐƯỢC DUYỆT";
 "product_status_label_deleted" = "SẢN PHẨM ĐÃ XÓA";
@@ -255,3 +257,12 @@
 "sign_up_title" = "Đăng ký";
 "sign_up_username_field_hint" = "Họ tên";
 "tab_bar_tool_tip" = "Bán Đồ Của Bạn";
+"tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
+"tour_page_2_title" = "Near You";
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+"tour_page_3_title" = "Make Cash";
+"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
+"tour_page_4_title" = "Safe";
+"tour_page_ok_button" = "Start Browsing!";
+"tour_page_skip_button" = "Skip";

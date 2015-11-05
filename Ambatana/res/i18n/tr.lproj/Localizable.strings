@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "common_cancel" = "İptal et";
 "common_error" = "Hata";
-"common_error_connection_failed" = "İşlem tamamlanamadı. Lütfen, İnternet bağlantını kontrol et.";
+"common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Biraz hava almaya çık ve sonra tekrar dene";
 "common_error_network_body" = "Lütfen ağ ayarlarını kontrol et ve tekrar dene";
 "common_error_retry_button" = "Tekrar dene";
@@ -133,7 +133,7 @@
 "product_delete_success_message" = "Ürün silme işlemi başarıyla gerçekleşti.";
 "product_distance_X_from_you" = "senden %@ uzakta";
 "product_distance_from_you" = "senden";
-"product_distance_more_than_from_you" = "Senden olan uzaklığı %@'den daha fazla";
+"product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
 "product_gallery_title" = "Fotoğraflar";
 "product_list_item_new_status_label" = "YENİ";
 "product_list_item_sold_status_label" = "SATILDI";
@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "HOPPALA! ARAMANA UYGUN BİR SONUÇ BULAMADIK";
 "product_share_body" = "Az önce letgo'da ne bulduğuma bak!";
 "product_share_email_error" = "Hoppala, görünüşe bakılırsa Posta uygulamasında bir hesap oluşturmamışsın.";
+"product_share_generic_error" = "Ürün paylaşılırken bir hata oluştu. Lütfen daha sonra tekrar dene.";
+"product_share_generic_ok" = "Ürün başarılı bir şekilde paylaşıldı!";
 "product_share_whatsapp_error" = "Hoppala! WhatsApp uygulaması yüklü değil gibi görünüyor.";
 "product_status_label_approved" = "ONAYLANDI";
 "product_status_label_deleted" = "SİLİNDİ";
@@ -255,3 +257,12 @@
 "sign_up_title" = "Üye ol";
 "sign_up_username_field_hint" = "Tam isim";
 "tab_bar_tool_tip" = "Eşyalarını Sat";
+"tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
+"tour_page_2_title" = "Near You";
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+"tour_page_3_title" = "Make Cash";
+"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
+"tour_page_4_title" = "Safe";
+"tour_page_ok_button" = "Start Browsing!";
+"tour_page_skip_button" = "Skip";

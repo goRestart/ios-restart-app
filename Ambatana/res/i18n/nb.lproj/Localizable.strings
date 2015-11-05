@@ -46,7 +46,7 @@
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
 "common_cancel" = "Avbryt";
 "common_error" = "Feil";
-"common_error_connection_failed" = "Handlingen kunne ikke fullføres. Vennligst sjekk din internett-tilkobling.";
+"common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
 "common_error_generic_body" = "Gå og få deg litt frisk luft, og prøv igjen";
 "common_error_network_body" = "Vennligst sjekk dine nettverksinnstillinger og prøv igjen";
 "common_error_retry_button" = "Prøv igjen";
@@ -163,6 +163,8 @@
 "product_search_no_products_title" = "OOPS! INGEN RESULTATER I DITT NÆROMRÅDE";
 "product_share_body" = "Se hva jeg fant på letgo!";
 "product_share_email_error" = "Oops, det ser ut som at du ikke har satt opp en konto i din Epost app.";
+"product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";
+"product_share_generic_ok" = "Deling av produkt var vellykket!";
 "product_share_whatsapp_error" = "Oops, det ser du som ut ikke har installert WhatsApp.";
 "product_status_label_approved" = "PRODUKT GODKJENT";
 "product_status_label_deleted" = "PRODUKT SLETTET";
@@ -255,3 +257,12 @@
 "sign_up_title" = "Registrer deg";
 "sign_up_username_field_hint" = "Fullt navn";
 "tab_bar_tool_tip" = "Selg tingene dine";
+"tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
+"tour_page_2_title" = "Near You";
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+"tour_page_3_title" = "Make Cash";
+"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
+"tour_page_4_title" = "Safe";
+"tour_page_ok_button" = "Start Browsing!";
+"tour_page_skip_button" = "Skip";
