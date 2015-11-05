@@ -139,6 +139,9 @@
 // Common cancel
 "common_cancel" = "Cancel";
 
+// Common collapse
+"common_collapse" = "Collapse";
+
 // Common error
 "common_error" = "Error";
 
@@ -156,6 +159,9 @@
 
 // Common error title
 "common_error_title" = "OOPS!";
+
+// Common expand
+"common_expand" = "Expand";
 
 // Common loading. Check attached image "common_loading.png"
 "common_loading" = "Loading...";
@@ -451,6 +457,27 @@
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 
+// Product sell again button. Check image @ "product_mark_as_sold_button" segment
+"product_sell_again_button" = "Sell it Again";
+
+// Product sell again confirm cancel button. Check attached image "product_mark_as_sold.png"
+"product_sell_again_confirm_cancel_button" = "Cancel";
+
+// Product sell again confirm message. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_sell_again_confirm_message" = "Do you want to mark this product as available so it's visible to buyers again?";
+
+// Product sell again confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_sell_again_confirm_ok_button" = "Sell it Again";
+
+// Product sell again confirm title. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
+"product_sell_again_confirm_title" = "Sell it Again";
+
+// Product sell again error generic. Message displayal is like the other error messages
+"product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again later.";
+
+// Product sell again success message. Message displayal is like the other error messages
+"product_sell_again_success_message" = "Congratulations, your product was successfully marked as available!";
+
 // Product report confirm title. Message displayal is like the other dialog messages
 "product_report_confirm_title" = "Report Product";
 
@@ -495,6 +522,12 @@
 
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
+
+// Product share generic OK. Message displayal is like the other error messages
+"product_share_generic_ok" = "Product successfully shared!";
+
+// Product share generic error. Message displayal is like the other error messages
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
 
 // Product detail status label, status pending. Check attached image "item_page_sold_ios.png"
 "product_status_label_pending" = "PRODUCT PENDING";
@@ -724,6 +757,15 @@
 // Settings image source title. Check image @ "settings_image_source_camera_button" segment
 "settings_image_source_title" = "Choose image source";
 
+// Settings invite facebook friends. Check image @ "settings_change_password_button" segment
+"settings_invite_facebook_friends_button" = "Invite Facebook Friends";
+
+// Settings invite facebook friends ok. Message displayal is like the other messages.
+"settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
+
+// Settings invite facebook friends error. Message displayal is like the other messages.
+"settings_invite_facebook_friends_error" = "An error occurred while sharing your invitation.";
+
 // Settings logout button. Check image @ "settings_change_password_button" segment
 "settings_logout_button" = "Log out";
 
@@ -768,4 +810,31 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
+
+// Tour page 1 body.
+"tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
+
+// Tour page 2 title.
+"tour_page_2_title" = "Near You";
+
+// Tour page 2 body.
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
+
+// Tour page 3 title.
+"tour_page_3_title" = "Make Cash";
+
+// Tour page 3 body.
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+
+// Tour page 4 title.
+"tour_page_4_title" = "Safe";
+
+// Tour page 4 body.
+"tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
+
+// Tour page skip button.
+"tour_page_skip_button" = "Skip";
+
+// Tour page ok button.
+"tour_page_ok_button" = "Start Browsing!";
 

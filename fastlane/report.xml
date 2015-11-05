@@ -3,17 +3,27 @@
   <testsuite name="run">
     
       
-      <testcase name="0: Verifying required fastlane version" time="0.00027">
+      <testcase name="0: Verifying required fastlane version" time="0.000306">
         
       </testcase>
     
       
-      <testcase name="1: default_platform" time="0.000135">
+      <testcase name="1: default_platform" time="0.000147">
         
       </testcase>
     
       
-      <testcase name="2: cocoapods" time="20.188542">
+      <testcase name="2: cocoapods" time="20.782206">
+        
+      </testcase>
+    
+      
+      <testcase name="3: gym" time="241.844294">
+        
+      </testcase>
+    
+      
+      <testcase name="4: crashlytics" time="58.053966">
         
       </testcase>
     

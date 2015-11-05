@@ -11,7 +11,7 @@ require 'web_translate_it'
 
 ########################################## CONSTANTS ##########################################
 
-i18n_path = "Ambatana/res/i18n"
+i18n_path = "../Ambatana/res/i18n"
 locale_folder_suffix = ".lproj"
 mapping_base_to = "en"
 should_print_missing_or_wrong_keys = true
@@ -215,7 +215,7 @@ non_processed_locales = locales_in_xcode.dup
 
 # Pull all translations from WTI
 print_main_info("Pulling from WTI")
-system 'wti pull'
+system 'wti pull -c ../.wti'
 
 # Find Base localizable files
 base_filenames = find_base_locales_filenames()

@@ -31,9 +31,13 @@ platform :ios do
     # )
     cocoapods
     
-    ruby ./Scripts/wti.rb
+    puts "--------- PRE WEBTRANSLATEIT ---------"
 
-    increment_build_number
+    system "ruby ../Scripts/wti.rb"
+
+    puts "--------- POST WEBTRANSLATEIT ---------"
+
+    # increment_build_number
 
     # xctool # run the tests of your app
   end
@@ -45,19 +49,29 @@ platform :ios do
 
   desc "Build and distribute build to Crashlytics"
   lane :crashlytics do
+    
+    puts "--------- PRE GYM ---------"
+
     gym(
       workspace: "LetGo.xcworkspace",
       configuration: "Adhoc",
       scheme: "LetGo",
-      #silent: true,
-      #clean: true,
-      #output_directory: "path/to/dir", # Destination directory. Defaults to current directory.
-      #output_name: "my-app.ipa",       # specify the name of the .ipa file to generate (including file extension)
-      #sdk: "10.0"                     # use SDK as the name or path of the base SDK when building the project.
+      silent: false,
+      clean: true,
+      use_legacy_build_api: true
     )
 
-    #gym(scheme: "Release")
-    crashlytics(crashlytics_path: "./Crashlytics.framework/submit")
+    puts "--------- PRE CRASHLYTICS ---------"
+
+    crashlytics(
+      crashlytics_path: "./Crashlytics.framework",
+      api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
+      build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
+      groups: ['letgo-testers']
+    )
+
+    puts "--------- FIN ---------"
+
   end
 
   #desc "Submit a new Beta Build to Apple TestFlight"
@@ -85,6 +99,10 @@ platform :ios do
   # You can define as many lanes as you want
 
   after_all do |lane|
+
+    puts "AFTER_ALL"
+
+
     # This block is called, only if the executed lane was successful
     
     #slack(
@@ -93,6 +111,9 @@ platform :ios do
   end
 
   error do |lane, exception|
+
+  puts "exception: #{exception.message}"
+
     #slack(
       #message: exception.message,
       #success: false
