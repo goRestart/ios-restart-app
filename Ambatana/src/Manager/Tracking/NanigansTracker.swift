@@ -68,7 +68,7 @@ public class NanigansTracker: Tracker {
         NANTracking.trackAppLaunch(nil)
     }
     
-    public func setUser(user: User?) {
+    public func setUser(user: MyUser?) {
         let userId = user?.objectId ?? ""
         NANTracking.setUserId(userId)
     }

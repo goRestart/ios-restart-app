@@ -6,34 +6,32 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
-import SwiftyJSON
+import Argo
 
-public class LGChatsUnreadCountResponse : ChatsUnreadCountResponse, ResponseObjectSerializable {
-    
-    // Constants
-    private static let countJSONKey = "count"
+public struct LGChatsUnreadCountResponse : ChatsUnreadCountResponse {
     
     // iVars
-    public var count: Int
-    
-    // MARK: - Lifecycle
-    
-    public init() {
-        count = 0
-    }
+    public let count: Int
+}
+
+extension LGChatsUnreadCountResponse : ResponseObjectSerializable {
     
     // MARK: - ResponseObjectSerializable
     
-    public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
-        self.init()
+    /**
+    Representation will come in the following json form:
+    
+    {
+        "count": 30
+    }
+    */
+    public init?(response: NSHTTPURLResponse, representation: AnyObject) {
         
-        let json = JSON(representation)
-        if let actualCount = json[LGChatsUnreadCountResponse.countJSONKey].int {
-            count = actualCount
-        }
-        else {
+        //Direct parsing
+        guard let theCount : Int = (JSON.parse(representation) <| "count") else {
             return nil
         }
+        
+        self.count = theCount
     }
 }

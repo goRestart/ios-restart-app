@@ -160,16 +160,16 @@ public class SellProductViewModel: BaseViewModel {
     
     internal func saveProduct(product: Product? = nil) {
         
-        let theProduct = product ?? LGProduct()
-        theProduct.name = title
+        var theProduct = product ?? productManager.newProduct()
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
         formatter.usesGroupingSeparator = false
-        theProduct.price = formatter.numberFromString(price)
-
-        theProduct.descr = descr
-        theProduct.categoryId = category?.rawValue
-        theProduct.currency = currency
+        var priceFloat : Float = 0
+        if let number = formatter.numberFromString(price) {
+            priceFloat = number.floatValue
+        }
+        
+        theProduct = productManager.updateProduct(theProduct, name: title, price: priceFloat, description: descr, category: category!, currency: currency)
         
         // TODO: New product handling
 //         if new should add more info (location, user...)

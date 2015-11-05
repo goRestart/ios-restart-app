@@ -50,8 +50,7 @@ public class PushManager: NSObject, KahunaDelegate {
     
     public required init(installationSaveService: InstallationSaveService) {
         self.installationSaveService = installationSaveService
-        unreadMessagesCount = UIApplication.sharedApplication().applicationIconBadgeNumber
-        
+        unreadMessagesCount = 0
         super.init()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "login:", name: MyUserManager.Notification.login.rawValue, object: nil)
@@ -191,7 +190,7 @@ public class PushManager: NSObject, KahunaDelegate {
     
     
     // TODO: Refactor this...
-    public func forceKahunaLogin(user: User) {
+    public func forceKahunaLogin(user: MyUser) {
         let uc = Kahuna.createUserCredentials()
         var loginError: NSError?
         if let userId = user.objectId {
@@ -217,7 +216,7 @@ public class PushManager: NSObject, KahunaDelegate {
     }
     
     dynamic private func login(notification: NSNotification) {
-        if let user = notification.object as? User {
+        if let user = notification.object as? MyUser {
             
             let uc = Kahuna.createUserCredentials()
             var loginError: NSError?
@@ -234,11 +233,15 @@ public class PushManager: NSObject, KahunaDelegate {
             if (loginError != nil) {
                 print("Login Error : \(loginError!.localizedDescription)")
             }
+            
+            updateUnreadMessagesCount()
         }
         
     }
     
     dynamic private func logout(notification: NSNotification) {
+        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         Kahuna.logout()
     }
     

@@ -9,7 +9,7 @@
 import Parse
 import ParseFacebookUtilsV4
 
-extension PFUser: User {
+extension PFUser: MyUser {
     
     enum FieldKey: String {
         case Address = "address", Avatar = "avatar", City = "city", CountryCode = "country_code", GPSCoordinates = "gpscoords", PublicUsername = "username_public", ZipCode = "zipcode", Processed = "processed", IsScammer = "is_scammer"
@@ -59,7 +59,7 @@ extension PFUser: User {
     
     public var postalAddress: PostalAddress {
         get {
-            let address = PostalAddress()
+            var address = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
             address.address = self[FieldKey.Address.rawValue] as? String
             address.city = self[FieldKey.City.rawValue] as? String
             address.zipCode = self[FieldKey.ZipCode.rawValue] as? String

@@ -69,7 +69,7 @@ public enum UserLogInFBError: ErrorType {
         }
     }
 }
-public typealias UserLogInFBResult = Result<User, UserLogInFBError>
+public typealias UserLogInFBResult = Result<MyUser, UserLogInFBError>
 public typealias UserLogInFBCompletion = UserLogInFBResult -> Void
 
 public enum FileUploadError: ErrorType {

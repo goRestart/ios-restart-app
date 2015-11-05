@@ -80,7 +80,7 @@ public final class SocialHelper {
             <product_name>
         */
         var body: String = ""
-        if let username = product.user?.publicUsername {
+        if let username = product.user.publicUsername {
             body += username
         }
         if let productName = product.name {

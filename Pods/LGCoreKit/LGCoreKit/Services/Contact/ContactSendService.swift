@@ -25,5 +25,5 @@ public protocol ContactSendService {
         - parameter contact: The contact (email, title, message...).
         - parameter completion: The completion closure.
     */
-    func sendContact(contact: Contact, sessionToken: String, completion: ContactSendServiceCompletion?)
+    func sendContact(contact: Contact, sessionToken: String?, completion: ContactSendServiceCompletion?)
 }

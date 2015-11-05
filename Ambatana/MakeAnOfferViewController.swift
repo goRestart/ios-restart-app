@@ -42,7 +42,9 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         makeAnOfferButton.setTitle(LGLocalizedString.makeAnOfferSendButton, forState: .Normal)
         
         // setup
-        priceTextField.text = product?.price?.stringValue ?? ""
+        if let price = product?.price {
+            priceTextField.text = String(Int(price)) ?? ""
+        }
         
         // show keyboard
         priceTextField.becomeFirstResponder()

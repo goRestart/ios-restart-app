@@ -13,7 +13,7 @@ public enum ProductDeleteServiceError: ErrorType {
     case Internal
 }
 
-public typealias ProductDeleteServiceResult = Result<Nil, ProductDeleteServiceError>
+public typealias ProductDeleteServiceResult = Result<Product, ProductDeleteServiceError>
 public typealias ProductDeleteServiceCompletion = ProductDeleteServiceResult -> Void
 
 public protocol ProductDeleteService {
@@ -21,9 +21,9 @@ public protocol ProductDeleteService {
     /**
         Deletes the product.
     
-        - parameter productId: the product id.
+        - parameter product: the product to be deleted.
         - parameter sessionToken: the user session token.
         - parameter completion: The completion closure.
     */
-    func deleteProductWithId(productId: String, sessionToken: String, completion: ProductDeleteServiceCompletion?)
+    func deleteProduct(product: Product, sessionToken: String, completion: ProductDeleteServiceCompletion?)
 }

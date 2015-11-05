@@ -6,20 +6,23 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-
-public class Place {
+public struct Place {
 
     public var name : String?
     public var postalAddress : PostalAddress?
     public var location : LGLocationCoordinates2D?
     
-    public var country : String?
-    
     public var placeResumedData : String?
+}
+
+public extension Place {
     
-    // MARK: - Lifecycle
+    public init(postalAddress: PostalAddress?, location: LGLocationCoordinates2D?){
+        self.postalAddress = postalAddress
+        self.location = location
+    }
     
-    public init() {
-        
+    public static func newPlace() -> Place{
+        return Place()
     }
 }

@@ -7,9 +7,12 @@
 //
 
 public protocol Chat: BaseModel {
-    var product: Product? { get set }
-    var userFrom: User? { get set }
-    var userTo: User? { get set }
-    var msgUnreadCount: Int? { get set }
-    var messages: [Message]? { get set }
+    var product: Product { get }
+    var userFrom: User { get }
+    var userTo: User { get }
+    var msgUnreadCount: Int { get }     // Default: 0
+    var messages: [Message] { get }     // Default: []
+    var updatedAt: NSDate? { get }
+    
+    mutating func prependMessage( message: Message)
 }

@@ -16,7 +16,7 @@ final public class PAUserLogInEmailService: UserLogInEmailService {
     public func logInUserWithEmail(email: String, password: String, completion: UserLogInEmailServiceCompletion?) {
         PFUser.logInWithUsernameInBackground(email, password: password)  { (user: PFUser?, error: NSError?) -> Void in
             // Success
-            if let actualUser = user as? User {
+            if let actualUser = user {
                 completion?(UserLogInEmailServiceResult(value: actualUser))
             }
             // Error

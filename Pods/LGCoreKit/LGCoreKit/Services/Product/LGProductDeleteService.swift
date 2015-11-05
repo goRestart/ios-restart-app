@@ -29,8 +29,8 @@ final public class LGProductDeleteService: ProductDeleteService {
     
     // MARK: - ProductDeleteService
     
-    public func deleteProductWithId(productId: String, sessionToken: String, completion: ProductDeleteServiceCompletion?) {
-        let productURL = "\(url)/\(productId)"
+    public func deleteProduct(product: Product, sessionToken: String, completion: ProductDeleteServiceCompletion?) {
+        let productURL = "\(url)/\(product.objectId!)"
         let headers = [
             LGCoreKitConstants.httpHeaderUserToken: sessionToken
         ]
@@ -48,7 +48,9 @@ final public class LGProductDeleteService: ProductDeleteService {
                 }
                 // Success
                 else {
-                    completion?(ProductDeleteServiceResult(value: Nil()))
+                    var result = LGProduct(product: product)
+                    result.status = .Deleted
+                    completion?(ProductDeleteServiceResult(value: result))
                 }
         }
     }
