@@ -102,6 +102,11 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
  
     func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String]) {
 
+        //If searchfield is not first responder means user is not typing so doesn't make sense to show/update suggestions table
+        if !searchField.isFirstResponder() {
+            return
+        }
+        
         let newHeight = CGFloat(results.count*44)
         suggestionsTableView.frame = CGRectMake(suggestionsTableView.frame.origin.x, suggestionsTableView.frame.origin.y, suggestionsTableView.frame.size.width, newHeight);
         suggestionsTableView.hidden = false
