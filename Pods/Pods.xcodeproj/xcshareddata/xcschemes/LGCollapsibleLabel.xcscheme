@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '6BD163B2B0CF4F68DC7AC1D5'
+               BlueprintIdentifier = '5217A7D553EB1D2B1DE32A0F'
                BlueprintName = 'LGCollapsibleLabel'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'LGCollapsibleLabel.framework'>

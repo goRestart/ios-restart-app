@@ -18,7 +18,10 @@ pod "FBSDKShareKit",        "~> 4.7.0"
 pod "Amplitude-iOS",        "~> 3.2.0"
     
 # letgo Core
-pod "LGCoreKit",            "0.16.0" #:path => "../lgcorekit"
+pod "LGCoreKit",            "0.16.0"    #:path => "../lgcorekit"
+
+# letgo Collapsible label
+pod "LGCollapsibleLabel",   "0.1.0"    #:path => "../collapsiblelabel"
 
 # Animation
 pod "pop",                  "~> 1.0.8"
@@ -37,9 +40,6 @@ pod "NewRelicAgent",         "~> 5.3.1"
 
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0.1"
-
-# letgo Collapsible label
-pod "LGCollapsibleLabel",   :path => "../collapsiblelabel"
 
 target "letgoTests", :exclusive => true do
     ## Testing

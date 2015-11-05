@@ -1,1 +1,1 @@
-../../../../../collapsiblelabel/LGCollapsibleLabel/LGCollapsibleLabel.h
+../../../LGCollapsibleLabel/LGCollapsibleLabel/LGCollapsibleLabel.h
