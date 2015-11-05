@@ -8,7 +8,7 @@ class TrackerEventSpec: QuickSpec {
     override func spec() {
         var sut: TrackerEvent!
         
-        describe("factory methods") {
+                    describe("factory methods") {
             describe("location") {
                 it("has its event name") {
                     let location = CLLocation(latitude: 42, longitude: 2)
@@ -1007,6 +1007,55 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress.city = "Baltimore"
                     
                     sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, user: myUser)
+                    expect(sut.params).notTo(beNil())
+                    
+                    // Product
+                    
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
+                    
+                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice).to(equal(product.price!.doubleValue))
+                    
+                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
+                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(productCurrency).to(equal(product.currency!.code))
+                    
+                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(productCategory).to(equal(product.categoryId!.integerValue))
+                    
+                }
+            }
+            
+            describe("productMarkAsUnsold") {
+                it("has its event name") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productMarkAsUnsold(product, user: nil)
+                    expect(sut.name.rawValue).to(equal("product-detail-unsold"))
+                }
+                it("contains the product related params when passing by a product and my user") {
+                    let myUser = MockUser()
+                    myUser.objectId = "12345"
+                    myUser.postalAddress.countryCode = "ES"
+                    myUser.postalAddress.zipCode = "08026"
+                    myUser.postalAddress.city = "Barcelona"
+                    
+                    let product = MockProduct()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = NSNumber(double: 123.983)
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.categoryId = NSNumber(integer: 4)
+                    product.user = myUser
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress.countryCode = "US"
+                    product.postalAddress.zipCode = "12345"
+                    product.postalAddress.city = "Baltimore"
+                    
+                    sut = TrackerEvent.productMarkAsUnsold(product, user: myUser)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
