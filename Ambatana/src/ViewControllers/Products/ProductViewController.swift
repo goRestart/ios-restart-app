@@ -432,7 +432,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
         descriptionCollapsible.addGestureRecognizer(tapGesture)
-        //TODO LOCALIZE EXPAND/COLLAPSE TEXTS
+        descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercaseString
+        descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercaseString
 
         reportButton.titleLabel?.numberOfLines = 2
         reportButton.titleLabel?.lineBreakMode = .ByWordWrapping
