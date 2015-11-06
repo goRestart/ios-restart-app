@@ -13,6 +13,7 @@ import MessageUI
 import Result
 import SDWebImage
 import UIKit
+import LGCollapsibleLabel
 
 public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate, MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
 
@@ -32,7 +33,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
     
     @IBOutlet weak var addressIconHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
@@ -196,11 +197,16 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         viewModel.shareInFBCompleted()
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)  // TODO: Create a string for this screen
+        
+        let completion = {
+            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)
+        }
+
+        dismissLoadingMessageAlert(completion)
     }
-    
+
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)  // TODO: Create a string for this screen
+        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)  // TODO: Create a string for this screen
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
@@ -428,6 +434,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
         userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
         userAvatarImageView.layer.borderWidth = 2
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
+        descriptionCollapsible.addGestureRecognizer(tapGesture)
+        descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercaseString
+        descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercaseString
 
         reportButton.titleLabel?.numberOfLines = 2
         reportButton.titleLabel?.lineBreakMode = .ByWordWrapping
@@ -462,6 +473,13 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         // Update the UI
         updateUI()
+    }
+    
+    dynamic private func toggleDescriptionState() {
+        UIView.animateWithDuration(0.25) {
+            self.descriptionCollapsible.toggleState()
+            self.view.layoutIfNeeded()
+        }
     }
     
     private func updateUI() {
@@ -536,7 +554,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         nameLabel.text = viewModel.name
         priceLabel.text = viewModel.price
-        descriptionLabel.text = viewModel.descr
+        descriptionCollapsible.mainText = viewModel.descr
         addressIconHeightConstraint.constant = viewModel.addressIconVisible ? ProductViewController.addressIconVisibleHeight : 0
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
@@ -647,6 +665,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
                     self.viewModel.shareInWhatsappActivity()
                 }
+                
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
+            } else {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
             }
         }
 

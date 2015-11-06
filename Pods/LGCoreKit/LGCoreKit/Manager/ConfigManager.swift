@@ -29,6 +29,12 @@ public class ConfigManager {
         }
         return false
     }
+    public var shouldShowOnboarding: Bool {
+        guard let actualConfig = config else {
+            return LGCoreKitConstants.defaultShouldShowOnboarding
+        }
+        return actualConfig.showOnboarding
+    }
 
     // MARK: - Lifecycle
 

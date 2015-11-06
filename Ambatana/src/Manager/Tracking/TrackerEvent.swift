@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import LGTour
 
 public struct TrackerEvent {
     public private(set) var name: EventName
@@ -42,6 +43,28 @@ public struct TrackerEvent {
         params[.LocationEnabled] = enabled
         params[.LocationAllowed] = allowed
         return TrackerEvent(name: .Location, params: params)
+    }
+    
+    public static func onboardingStart() -> TrackerEvent {
+        return TrackerEvent(name: .OnboardingStart, params: nil)
+    }
+    
+    public static func onboardingAbandonAtPageNumber(pageNumber: Int, buttonType: CloseButtonType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.PageNumber] = pageNumber
+        let buttonName: String
+        switch buttonType {
+        case .Close:
+            buttonName = "close"
+        case .Skip:
+            buttonName = "skip"
+        }
+        params[.ButtonName] = buttonName
+        return TrackerEvent(name: .OnboardingAbandon, params: params)
+    }
+    
+    public static func onboardingComplete() -> TrackerEvent {
+        return TrackerEvent(name: .OnboardingComplete, params: nil)
     }
     
     public static func loginVisit(source: EventParameterLoginSourceValue) -> TrackerEvent {
@@ -127,11 +150,11 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductFavorite, params: params)
     }
     
-    public static func productShare(product: Product, user: User?, network: String, buttonPosition: String) -> TrackerEvent {
+    public static func productShare(product: Product, user: User?, network: EventParameterShareNetwork, buttonPosition: String) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params.addProductParamsWithProduct(product, user: user)
-        params[.ShareNetwork] = network
+        params[.ShareNetwork] = network.rawValue
         params[.ButtonPosition] = buttonPosition
         return TrackerEvent(name: .ProductShare, params: params)
     }
@@ -302,6 +325,27 @@ public struct TrackerEvent {
     public static func profileEditEditPicture() -> TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .ProfileEditEditPicture, params: params)
+    }
+    
+    public static func appInviteFriend(network: EventParameterShareNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        // Product
+        params[.ShareNetwork] = network.rawValue
+        return TrackerEvent(name: .AppInviteFriend, params: params)
+    }
+    
+    public static func appInviteFriendCancel(network: EventParameterShareNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        // Product
+        params[.ShareNetwork] = network.rawValue
+        return TrackerEvent(name: .AppInviteFriendCancel, params: params)
+    }
+    
+    public static func appInviteFriendComplete(network: EventParameterShareNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        // Product
+        params[.ShareNetwork] = network.rawValue
+        return TrackerEvent(name: .AppInviteFriendComplete, params: params)
     }
     
     public static func appRatingStart() -> TrackerEvent {

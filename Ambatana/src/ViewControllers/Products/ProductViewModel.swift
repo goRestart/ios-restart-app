@@ -419,12 +419,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: > Share
 
     public func shareInEmail(buttonPosition: String) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "email", buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Email, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInFacebook(buttonPosition: String) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "facebook", buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Facebook, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -448,7 +448,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             let application = UIApplication.sharedApplication()
             if application.canOpenURL(url) {
                 success = application.openURL(url)
-                let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "whatsapp", buttonPosition: "bottom")
+                let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Whatsapp, buttonPosition: "bottom")
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             }
         }
@@ -456,12 +456,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "whatsapp", buttonPosition: "top")
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Whatsapp, buttonPosition: "top")
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "twitter", buttonPosition: "top")
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Twitter, buttonPosition: "top")
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
     }

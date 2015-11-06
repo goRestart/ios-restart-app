@@ -21,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var userContinuationUrl: NSURL?
     var configManager: ConfigManager!
 
+    enum ShortcutItemType: String {
+        case Sell = "letgo.sell"
+        case StartBrowsing = "letgo.startBrowsing"
+    }
+    
     // MARK: - UIApplicationDelegate
     
     // MARK: > Lifecycle
@@ -59,7 +64,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 else if self.userContinuationUrl != nil {
                     self.consumeUserContinuation(usingTabBar: tabBarCtl)
                 }
+                
+                // check if app launches from shortcut
+                if #available(iOS 9.0, *) {
+                    if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
+                        // Application launched via shortcut
+                        self.handleShortcut(shortcutItem)
+                    }
+                }
+                
+                // Location
+                MyUserManager.sharedInstance.startSensorLocationUpdates()
             }
+            
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }
@@ -88,7 +105,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         }
     }
+    
+    @available(iOS 9.0, *)
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+        completionHandler(handleShortcut(shortcutItem))
+    }
 
+    @available(iOS 9.0, *)
+    func handleShortcut(shortcutItem:UIApplicationShortcutItem) -> Bool {
+        
+        var succeeded = false
+        
+        if let itemType = ShortcutItemType(rawValue: shortcutItem.type) {
+            switch (itemType) {
+            case .Sell:
+                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                    tabBarCtl.openShortcut(.Sell)
+                    succeeded = true
+                }
+            case .StartBrowsing:
+                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                    tabBarCtl.openShortcut(.Home)
+                    succeeded = true
+                }
+            }
+            
+        }
+        return succeeded
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -139,13 +184,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
+            
+            // Location
+            MyUserManager.sharedInstance.startSensorLocationUpdates()
         }
         
         // Tracking
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
-        
-        // Location
-        MyUserManager.sharedInstance.startSensorLocationUpdates()
     }
     
     func applicationWillTerminate(application: UIApplication) {

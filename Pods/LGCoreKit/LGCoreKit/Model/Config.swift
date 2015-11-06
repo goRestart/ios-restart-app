@@ -16,10 +16,12 @@ public class Config: ResponseObjectSerializable {
     private static let buildNumberJSONKey = "buildNumber"
     private static let forceUpdateVersionsJSONKey = "forceUpdateVersions"
     private static let configURLJSONKey = "configURL"
+    private static let showOnboardingKey = "showOnboarding"
 
     public var buildNumber : Int
     public var forceUpdateVersions : [Int]
     public var configURL : String
+    public var showOnboarding: Bool
     
     // MARK : - Lifecycle
     
@@ -27,6 +29,7 @@ public class Config: ResponseObjectSerializable {
         buildNumber = 0
         forceUpdateVersions = []
         configURL = ""
+        showOnboarding = LGCoreKitConstants.defaultShouldShowOnboarding
     }
     
     public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
@@ -58,6 +61,10 @@ public class Config: ResponseObjectSerializable {
         if let cfgURL : String = json <| Config.configURLJSONKey {
             self.configURL = cfgURL
         }
+        
+        if let showOnboarding: Bool = json <| Config.showOnboardingKey {
+            self.showOnboarding = showOnboarding
+        }
     }
 
     // MARK : - Public Methods
@@ -72,6 +79,7 @@ public class Config: ResponseObjectSerializable {
         
         tmpFinalDic[Config.currentVersionInfoJSONKey] = tmpCurrentVersionDic
         tmpFinalDic[Config.configURLJSONKey] = configURL
+        tmpFinalDic[Config.showOnboardingKey] = showOnboarding
         
         return tmpFinalDic
     }
