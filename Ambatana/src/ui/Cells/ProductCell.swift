@@ -78,7 +78,7 @@ class ProductCell: UICollectionViewCell {
     // Sets up the UI
     private func setupUI() {
         self.contentView.layer.borderColor = StyleHelper.lineColor.CGColor
-        self.contentView.layer.borderWidth = 0.25
+        self.contentView.layer.borderWidth = 0.3
     }
     
     // Resets the UI to the initial state
