@@ -33,7 +33,7 @@ platform :ios do
     
     puts "--------- PRE WEBTRANSLATEIT ---------"
 
-    system "ruby ../Scripts/wti.rb"
+    system "ruby ../Scripts/wti.rb -w ../.wti -i ../Ambatana/res/i18n -o ../Scripts -c ../Ambatana/src/Constants/"
 
     puts "--------- POST WEBTRANSLATEIT ---------"
 
