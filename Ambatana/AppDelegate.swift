@@ -21,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var userContinuationUrl: NSURL?
     var configManager: ConfigManager!
 
+    enum ShortcutItemType: String {
+        case Sell = "letgo.sell"
+        case StartBrowsing = "letgo.startBrowsing"
+    }
+    
     // MARK: - UIApplicationDelegate
     
     // MARK: > Lifecycle
@@ -109,16 +114,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var succeeded = false
         
-        if shortcutItem.type == Constants.sellShortcutItem {
-            if let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                tabBarCtl.openShortcut(.Sell)
-                succeeded = true
+        if let itemType = ShortcutItemType(rawValue: shortcutItem.type) {
+            switch (itemType) {
+            case .Sell:
+                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                    tabBarCtl.openShortcut(.Sell)
+                    succeeded = true
+                }
+            case .StartBrowsing:
+                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                    tabBarCtl.openShortcut(.Home)
+                    succeeded = true
+                }
             }
-        } else if shortcutItem.type == Constants.startBrowsingShortcutItem {
-            if let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                tabBarCtl.openShortcut(.Home)
-                succeeded = true
-            }
+            
         }
         return succeeded
     }

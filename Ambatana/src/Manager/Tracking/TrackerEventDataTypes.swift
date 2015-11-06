@@ -57,6 +57,10 @@ public enum EventName: String {
     case ProfileEditEditLocation            = "profile-edit-edit-location"
     case ProfileEditEditPicture             = "profile-edit-edit-picture"
 
+    case AppInviteFriend                    = "app-invite-friend"
+    case AppInviteFriendCancel              = "app-invite-friend-cancel"
+    case AppInviteFriendComplete            = "app-invite-friend-complete"
+    
     case AppRatingStart                     = "app-rating-start"
     case AppRatingRate                      = "app-rating-rate"
     case AppRatingSuggest                   = "app-rating-suggest"
@@ -147,6 +151,13 @@ public enum EventParameterLocationType: String {
     case Sensor = "sensor"
     case IPLookUp = "iplookup"
     case Regional = "regional"
+}
+
+public enum EventParameterShareNetwork: String {
+    case Email = "email"
+    case Facebook = "facebook"
+    case Whatsapp = "whatsapp"
+    case Twitter = "twitter"
 }
 
 public struct EventParameters {
