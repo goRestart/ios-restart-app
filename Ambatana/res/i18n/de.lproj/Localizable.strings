@@ -45,14 +45,14 @@
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "common_cancel" = "Abbrechen";
-"common_collapse" = "Collapse";
+"common_collapse" = "Einklappen";
 "common_error" = "Fehler";
 "common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
 "common_error_generic_body" = "Atme tief durch und probier's noch mal";
 "common_error_network_body" = "Bitte überprüfe deine Verbindung und probiere es erneut";
 "common_error_retry_button" = "Versuch's noch einmal";
 "common_error_title" = "HOPPLA!";
-"common_expand" = "Expand";
+"common_expand" = "Ausklappen";
 "common_loading" = "Lädt...";
 "common_no" = "Nein";
 "common_ok" = "OK";

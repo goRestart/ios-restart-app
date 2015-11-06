@@ -30,4 +30,6 @@ public struct LGCoreKitConstants {
     public static let defaultQuadKeyPrecision: Int = 15
     
     static let defaultConfigTimeOut: Double = 3    // seconds
+    
+    static let defaultShouldShowOnboarding = true
 }

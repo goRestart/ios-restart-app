@@ -72,7 +72,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.handleShortcut(shortcutItem)
                     }
                 }
-
+                
+                // Location
+                MyUserManager.sharedInstance.startSensorLocationUpdates()
             }
             
             actualWindow.rootViewController = navCtl
@@ -182,13 +184,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
+            
+            // Location
+            MyUserManager.sharedInstance.startSensorLocationUpdates()
         }
         
         // Tracking
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
-        
-        // Location
-        MyUserManager.sharedInstance.startSensorLocationUpdates()
     }
     
     func applicationWillTerminate(application: UIApplication) {
