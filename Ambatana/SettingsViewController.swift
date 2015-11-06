@@ -11,6 +11,7 @@ import Parse
 import Result
 import SDWebImage
 import UIKit
+import FBSDKShareKit
 
 private let kLetGoSettingsTableCellImageTag = 1
 private let kLetGoSettingsTableCellTitleTag = 2
@@ -18,12 +19,14 @@ private let kLetGoSettingsTableCellTitleTag = 2
 private let kLetGoUserImageSquareSize: CGFloat = 1024
 
 enum LetGoUserSettings: Int {
-    case ChangePhoto = 0, ChangeUsername = 1, ChangeLocation = 2, ChangePassword = 3, ContactUs = 4, Help = 5, LogOut = 6
+    case InviteFbFriends = 0, ChangePhoto = 1, ChangeUsername = 2, ChangeLocation = 3, ChangePassword = 4, ContactUs = 5, Help = 6, LogOut = 7
     
-    static func numberOfOptions() -> Int { return 7 }
+    static func numberOfOptions() -> Int { return 8 }
     
     func titleForSetting() -> String {
         switch (self) {
+        case .InviteFbFriends:
+            return LGLocalizedString.settingsInviteFacebookFriendsButton
         case .ChangePhoto:
             return LGLocalizedString.settingsChangeProfilePictureButton
         case .ChangeUsername:
@@ -43,6 +46,8 @@ enum LetGoUserSettings: Int {
     
     func imageForSetting() -> UIImage? {
         switch (self) {
+        case .InviteFbFriends:
+            return UIImage(named: "ic_fb_settings")
         case .ChangeUsername:
             return UIImage(named: "ic_change_username")
         case .ChangeLocation:
@@ -61,7 +66,7 @@ enum LetGoUserSettings: Int {
     }
 }
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate {
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, FBSDKAppInviteDialogDelegate {
 
     // constants
     private static let cellIdentifier = "SettingsCell"
@@ -153,6 +158,19 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let setting = LetGoUserSettings(rawValue: indexPath.row)!
         switch (setting) {
+        case .InviteFbFriends:
+            let content = FBSDKAppInviteContent()
+            content.appLinkURL = NSURL(string: Constants.facebookAppLinkURL)
+            
+            //optionally set previewImageURL
+            content.appInvitePreviewImageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+            
+            // present the dialog. Assumes self implements protocol `FBSDKAppInviteDialogDelegate`
+            FBSDKAppInviteDialog.showFromViewController(self, withContent: content, delegate: self)
+            
+            let trackerEvent = TrackerEvent.appInviteFriend(EventParameterShareNetwork.Facebook)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+            
         case .ChangePhoto:
             showImageSourceSelection()
 //        case .ChangeLocation:
@@ -284,4 +302,27 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         self.dismissViewControllerAnimated(true, completion: nil)
     }
 
+    
+    // MARK: FBSDKAppInviteDialogDelegate
+    
+    func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        
+        guard let _ = results else {
+            // success and no results means app invite has been cancelled
+            let trackerEvent = TrackerEvent.appInviteFriendCancel(EventParameterShareNetwork.Facebook)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+            return
+        }
+        
+        let trackerEvent = TrackerEvent.appInviteFriendComplete(EventParameterShareNetwork.Facebook)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        
+        showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk)
+
+    }
+    
+    func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: NSError!) {
+        showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsError)
+    }
+    
 }

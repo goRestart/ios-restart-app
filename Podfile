@@ -18,7 +18,7 @@ pod "FBSDKShareKit",        "~> 4.7.0"
 pod "Amplitude-iOS",        "~> 3.2.0"
     
 # letgo Core
-pod "LGCoreKit",            "0.16.0" # :path => "../lgcorekit"
+pod "LGCoreKit",            "0.16.1" # :path => "../lgcorekit"
 
 # letgo Tour
 pod "LGTour",               "0.1.0"

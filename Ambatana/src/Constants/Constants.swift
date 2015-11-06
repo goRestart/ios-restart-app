@@ -32,8 +32,9 @@ struct Constants {
     
     // Categories
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
-
-    // Shortcut Items
-    static let sellShortcutItem = "letgo.sell"
-    static let startBrowsingShortcutItem = "letgo.startBrowsing"
+    
+    // App sharing
+    static let facebookAppLinkURL = "https://fb.me/900185926729336"
+    static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
+    
 }

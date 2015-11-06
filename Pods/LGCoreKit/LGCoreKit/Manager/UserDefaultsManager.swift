@@ -20,6 +20,7 @@ public class UserDefaultsManager {
     private static let alreadyRatedKey = "alreadyRated"
     private static let chatSafetyTipsLastPageSeen = "chatSafetyTipsLastPageSeen"
     private static let lastAppVersionKey = "lastAppVersion"
+    private static let didShowOnboarding = "didShowOnboarding"
 
     private let keysArray = [latitudeKey, longitudeKey, manualLocationKey, isManualLocationKey, isApproximateLocationKey, alreadyRatedKey, chatSafetyTipsLastPageSeen]
     
@@ -50,7 +51,7 @@ public class UserDefaultsManager {
 //        alreadyRated:               XX
 //        chatSafetyTipsLastPageSeen: XX
 //    }
-    
+//    didShowOnboarding:  XX
     
     /**
         Will be called the 1st time when updating to version 1.4.0
@@ -189,11 +190,8 @@ public class UserDefaultsManager {
     }
 
     public func saveIsManualLocation(isManualLocation: Bool, forUserId userId: String) {
-        
         let userDict = loadDefaultsDictionaryForUser(userId)
-        
         userDict.setValue(isManualLocation, forKey: UserDefaultsManager.isManualLocationKey)
-        
         userDefaults.setObject(userDict, forKey: userId)
     }
 
@@ -233,11 +231,8 @@ public class UserDefaultsManager {
     }
     
     public func saveIsApproximateLocation(isApproximateLocation: Bool, forUserId userId: String) {
-        
         let userDict = loadDefaultsDictionaryForUser(userId)
-        
         userDict.setValue(isApproximateLocation, forKey: UserDefaultsManager.isApproximateLocationKey)
-        
         userDefaults.setObject(userDict, forKey: userId)
     }
     
@@ -276,9 +271,7 @@ public class UserDefaultsManager {
     
     public func saveAlreadyRated(alreadyRated: Bool, forUserId userId: String) {
         let userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
-        
         userDict.setValue(alreadyRated, forKey: UserDefaultsManager.alreadyRatedKey)
-        
         userDefaults.setObject(userDict, forKey: userId)
     }
     
@@ -317,9 +310,7 @@ public class UserDefaultsManager {
     
     public func saveChatSafetyTipsLastPageSeen(page: Int, forUserId userId: String) {
         let userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
-        
         userDict.setValue(page, forKey: UserDefaultsManager.chatSafetyTipsLastPageSeen)
-        
         userDefaults.setObject(userDict, forKey: userId)
     }
     
@@ -367,4 +358,20 @@ public class UserDefaultsManager {
         return nil
     }
     
+    /**
+        Saves that the onboarding was shown.
+    */
+    public func saveDidShowOnboarding() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowOnboarding)
+    }
+    
+    /**
+        Loads if the onboarding was shown.
+    
+         - returns: if the onboarding was shown.
+    */
+    public func loadDidShowOnboarding() -> Bool {
+        let didShowOnboarding = userDefaults.objectForKey(UserDefaultsManager.didShowOnboarding) as? NSNumber
+        return didShowOnboarding?.boolValue ?? false
+    }
 }
