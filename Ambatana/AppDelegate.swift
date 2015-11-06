@@ -71,6 +71,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Location
                 MyUserManager.sharedInstance.startSensorLocationUpdates()
             }
+            
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }
