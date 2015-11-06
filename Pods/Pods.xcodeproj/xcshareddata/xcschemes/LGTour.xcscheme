@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '6CD5A24F51F58E4FC84C91A0'
-               BlueprintName = 'LGCoreKit'
+               BlueprintIdentifier = 'D663978A5235BACE59DC010C'
+               BlueprintName = 'LGTour'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'LGCoreKit.framework'>
+               BuildableName = 'LGTour.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

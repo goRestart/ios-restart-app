@@ -70,8 +70,8 @@ DEPENDENCIES:
   - FBSDKShareKit (~> 4.7.0)
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.2.2)
-  - LGCoreKit (from `../LGCoreKit`)
-  - LGTour (from `../lgtour`)
+  - LGCoreKit (from `../lgcorekit`)
+  - LGTour (= 0.1.0)
   - NewRelicAgent (~> 5.3.1)
   - Nimble (~> 2.0)
   - Parse (~> 1.9.0)
@@ -82,9 +82,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   LGCoreKit:
-    :path: ../LGCoreKit
-  LGTour:
-    :path: ../lgtour
+    :path: ../lgcorekit
 
 SPEC CHECKSUMS:
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
@@ -100,7 +98,7 @@ SPEC CHECKSUMS:
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
   LGCoreKit: 997b90aed06b6ae85445196d26c828b91dffeddc
-  LGTour: 9767c34a3a40b21b305c76889d7a8769baba82bb
+  LGTour: 26e0938bd10e9b3476290d6a51361003d00ffb22
   NewRelicAgent: aebd84eb0c99b5e4ee7a8629eddd4eb3c273a109
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b

@@ -29,7 +29,7 @@ PODS:
     - FMDB/common
   - GoogleAppIndexing (2.0.1)
   - Kahuna (2.2.4)
-  - LGCoreKit (0.16.0):
+  - LGCoreKit (0.16.1):
     - Alamofire (~> 3.0.1)
     - Argo (~> 2.2.0)
     - Curry (~> 1.3.0)
@@ -40,6 +40,7 @@ PODS:
     - RealmSwift (~> 0.95.0)
     - Result (= 0.6.0-beta.4)
     - Timepiece (~> 0.4.2)
+  - LGTour (0.1.0)
   - NewRelicAgent (5.3.2)
   - Nimble (2.0.0)
   - Parse (1.9.1):
@@ -68,8 +69,9 @@ DEPENDENCIES:
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - FBSDKShareKit (~> 4.7.0)
   - GoogleAppIndexing (~> 2.0.1)
-  - Kahuna (~> 2.2.4)
-  - LGCoreKit (= 0.16.0)
+  - Kahuna (~> 2.2.2)
+  - LGCoreKit (from `../lgcorekit`)
+  - LGTour (= 0.1.0)
   - NewRelicAgent (~> 5.3.1)
   - Nimble (~> 2.0)
   - Parse (~> 1.9.0)
@@ -77,6 +79,10 @@ DEPENDENCIES:
   - Quick (~> 0.4)
   - SDWebImage
   - UIDeviceUtil (~> 1.1.2)
+
+EXTERNAL SOURCES:
+  LGCoreKit:
+    :path: ../lgcorekit
 
 SPEC CHECKSUMS:
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
@@ -91,7 +97,8 @@ SPEC CHECKSUMS:
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
-  LGCoreKit: 6da71d1efeb0ba1fdde91aca916beb2d3c7e61a5
+  LGCoreKit: 997b90aed06b6ae85445196d26c828b91dffeddc
+  LGTour: 26e0938bd10e9b3476290d6a51361003d00ffb22
   NewRelicAgent: aebd84eb0c99b5e4ee7a8629eddd4eb3c273a109
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
