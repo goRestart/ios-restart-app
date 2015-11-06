@@ -29,6 +29,7 @@ PODS:
     - FMDB/common
   - GoogleAppIndexing (2.0.1)
   - Kahuna (2.2.4)
+  - LGCollapsibleLabel (0.1.0)
   - LGCoreKit (0.16.0):
     - Alamofire (~> 3.0.1)
     - Argo (~> 2.2.0)
@@ -69,6 +70,7 @@ DEPENDENCIES:
   - FBSDKShareKit (~> 4.7.0)
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.2.4)
+  - LGCollapsibleLabel (= 0.1.0)
   - LGCoreKit (= 0.16.0)
   - NewRelicAgent (~> 5.3.1)
   - Nimble (~> 2.0)
@@ -91,6 +93,7 @@ SPEC CHECKSUMS:
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
+  LGCollapsibleLabel: 8282ba544ddc1191886f45fa81e6e821c61c9a70
   LGCoreKit: 6da71d1efeb0ba1fdde91aca916beb2d3c7e61a5
   NewRelicAgent: aebd84eb0c99b5e4ee7a8629eddd4eb3c273a109
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a

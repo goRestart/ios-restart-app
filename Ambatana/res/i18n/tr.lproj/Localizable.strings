@@ -45,12 +45,14 @@
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "common_cancel" = "İptal et";
+"common_collapse" = "Collapse";
 "common_error" = "Hata";
 "common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Biraz hava almaya çık ve sonra tekrar dene";
 "common_error_network_body" = "Lütfen ağ ayarlarını kontrol et ve tekrar dene";
 "common_error_retry_button" = "Tekrar dene";
 "common_error_title" = "Eyvah!";
+"common_expand" = "Expand";
 "common_loading" = "Yükleniyor...";
 "common_no" = "Hayır";
 "common_ok" = "TAMAM";

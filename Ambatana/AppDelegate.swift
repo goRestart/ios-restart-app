@@ -69,6 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
 
             }
+            
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }

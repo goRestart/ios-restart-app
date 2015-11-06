@@ -139,6 +139,9 @@
 // Common cancel
 "common_cancel" = "Cancel";
 
+// Common collapse
+"common_collapse" = "Collapse";
+
 // Common error
 "common_error" = "Error";
 
@@ -156,6 +159,9 @@
 
 // Common error title
 "common_error_title" = "OOPS!";
+
+// Common expand
+"common_expand" = "Expand";
 
 // Common loading. Check attached image "common_loading.png"
 "common_loading" = "Loading...";

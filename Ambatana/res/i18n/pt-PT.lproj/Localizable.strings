@@ -45,12 +45,14 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "Ocorreu um erro no envio da mensagem. Por favor tente novamente mais tarde.";
 "common_cancel" = "Cancelar";
+"common_collapse" = "Collapse";
 "common_error" = "Erro";
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
 "common_error_generic_body" = "Vá desanuviar um pouco e tente novamente";
 "common_error_network_body" = "Por favor verifique a configuração da sua internet e tente novamente";
 "common_error_retry_button" = "Tente novamente";
 "common_error_title" = "UPS!";
+"common_expand" = "Expand";
 "common_loading" = "A carregar...";
 "common_no" = "Não";
 "common_ok" = "Ok";

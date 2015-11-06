@@ -45,12 +45,14 @@
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "common_cancel" = "Отмена";
+"common_collapse" = "Collapse";
 "common_error" = "Ошибка";
 "common_error_connection_failed" = "Произошла ошибка. Проверьте ваше соединение с Интернет.";
 "common_error_generic_body" = "Подождите немного и попробуйте еще раз";
 "common_error_network_body" = "Пожалуйста, проверьте настройки сети и попробуйте еще раз";
 "common_error_retry_button" = "Попробуйте еще раз";
 "common_error_title" = "УПС!";
+"common_expand" = "Expand";
 "common_loading" = "Загрузка...";
 "common_no" = "Нет";
 "common_ok" = "OK";

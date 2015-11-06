@@ -45,12 +45,14 @@
 "chat_send_button" = "ပို့မည်";
 "chat_send_error_generic" = "မက်ဆေ့ပေးပို့သည့် အမှားတစ်ခုရှိသည်။ ကျေးဇူးပြုပြီးပြန်ကြိုးစားပါ။";
 "common_cancel" = "ရပ်ဆိုင်းပါ";
+"common_collapse" = "Collapse";
 "common_error" = "အမှားအယွင်း";
 "common_error_connection_failed" = "လုပ်ဆောင်ချက်သည် မပြည့်စုံနိုင်ပါ။ ကျေးဇူးပြုပြီး သင့်အင်တာနက်ဆက်သွယ်ရေးကို စစ်ဆေးပါ။";
 "common_error_generic_body" = "လေကောင်းလေသန့် နည်းနည်းရအောင်သွားပြီး ပြန်ကြိုးစားပါ";
 "common_error_network_body" = "ကျေးဇူးပြုပြီး သင့်ကွန်ရက်ဆက်တင်များကို စစ်ဆေးပြီး ပြန်ကြိုးစားပါ";
 "common_error_retry_button" = "ပြန်ကြိုးစားပါ";
 "common_error_title" = "အိုး၊ မှားပါတယ်။";
+"common_expand" = "Expand";
 "common_loading" = "တင်နေတုန်း...";
 "common_no" = "မရှိပါ";
 "common_ok" = "ကောင်းပြီ";

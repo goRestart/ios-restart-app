@@ -196,6 +196,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_cancel", comment: "")
 	}
 	
+	static var commonCollapse: String {
+		return NSLocalizedString("common_collapse", comment: "")
+	}
+	
 	static var commonError: String {
 		return NSLocalizedString("common_error", comment: "")
 	}
@@ -218,6 +222,10 @@ struct LGLocalizedString {
 	
 	static var commonErrorTitle: String {
 		return NSLocalizedString("common_error_title", comment: "")
+	}
+	
+	static var commonExpand: String {
+		return NSLocalizedString("common_expand", comment: "")
 	}
 	
 	static var commonLoading: String {

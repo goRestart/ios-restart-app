@@ -45,12 +45,14 @@
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
 "common_cancel" = "Hủy";
+"common_collapse" = "Collapse";
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
 "common_error_generic_body" = "Hãy thử ra ngoài hít thở không khí trong lành và quay lại thử sau";
 "common_error_network_body" = "Vui lòng kiểm tra cài đặt mạng và thử lại";
 "common_error_retry_button" = "Thử lại";
 "common_error_title" = "Ồ!";
+"common_expand" = "Expand";
 "common_loading" = "Đang tải...";
 "common_no" = "Không";
 "common_ok" = "OK";

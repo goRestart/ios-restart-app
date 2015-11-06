@@ -45,12 +45,14 @@
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "common_cancel" = "Peruuta";
+"common_collapse" = "Collapse";
 "common_error" = "Virhe";
 "common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
 "common_error_generic_body" = "Käy haukkaamassa happea ja yritä uudelleen";
 "common_error_network_body" = "Ole hyvä ja tarkista verkkoasetuksesi ja yritä uudelleen";
 "common_error_retry_button" = "Yritä uudelleen";
 "common_error_title" = "HUPS!";
+"common_expand" = "Expand";
 "common_loading" = "Ladataan...";
 "common_no" = "Ei";
 "common_ok" = "OK";

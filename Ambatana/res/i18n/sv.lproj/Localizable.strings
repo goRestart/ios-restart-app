@@ -45,12 +45,14 @@
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
 "common_cancel" = "Avbryt";
+"common_collapse" = "Collapse";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
 "common_error_generic_body" = "Ta en nypa frisk luft och försök igen";
 "common_error_network_body" = "Var vänlig kolla dina nätverksinställningar och försök igen";
 "common_error_retry_button" = "Försök igen";
 "common_error_title" = "HOPPSAN!";
+"common_expand" = "Expand";
 "common_loading" = "Laddar...";
 "common_no" = "Nej";
 "common_ok" = "Ok";

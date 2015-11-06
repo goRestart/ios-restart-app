@@ -45,12 +45,14 @@
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "common_cancel" = "Abbrechen";
+"common_collapse" = "Collapse";
 "common_error" = "Fehler";
 "common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
 "common_error_generic_body" = "Atme tief durch und probier's noch mal";
 "common_error_network_body" = "Bitte überprüfe deine Verbindung und probiere es erneut";
 "common_error_retry_button" = "Versuch's noch einmal";
 "common_error_title" = "HOPPLA!";
+"common_expand" = "Expand";
 "common_loading" = "Lädt...";
 "common_no" = "Nein";
 "common_ok" = "OK";
@@ -250,8 +252,8 @@
 "settings_image_source_cancel_button" = "Abbrechen";
 "settings_image_source_title" = "Wähle eine Bildquelle aus";
 "settings_invite_facebook_friends_button" = "Lade Facebook-Freunde ein";
-"settings_invite_facebook_friends_error" = "An error occurred while sharing your invitation.";
-"settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
+"settings_invite_facebook_friends_error" = "Beim Teilen deiner Einladung ist ein Fehler aufgetreten.";
+"settings_invite_facebook_friends_ok" = "Deine Einladung wurde erfolgreich geteilt!";
 "settings_logout_button" = "Abmelden";
 "settings_title" = "Einstellungen";
 "sign_up_email_field_hint" = "E-Mail-Adresse";

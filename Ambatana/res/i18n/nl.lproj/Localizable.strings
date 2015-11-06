@@ -45,12 +45,14 @@
 "chat_send_button" = "Versturen";
 "chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
 "common_cancel" = "Annuleren";
+"common_collapse" = "Collapse";
 "common_error" = "Fout";
 "common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
 "common_error_generic_body" = "Ga even de frisse lucht in en probeer het nog eens ";
 "common_error_network_body" = "Controleer je netwerkinstellingen en probeer het opnieuw";
 "common_error_retry_button" = "Probeer opnieuw";
 "common_error_title" = "OEPS!";
+"common_expand" = "Expand";
 "common_loading" = "Laden...";
 "common_no" = "Nee";
 "common_ok" = "OK";
