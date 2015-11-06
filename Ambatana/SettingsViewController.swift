@@ -168,7 +168,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             // present the dialog. Assumes self implements protocol `FBSDKAppInviteDialogDelegate`
             FBSDKAppInviteDialog.showFromViewController(self, withContent: content, delegate: self)
             
-            let trackerEvent = TrackerEvent.appInviteFriend(Constants.shareNetworkFacebook)
+            let trackerEvent = TrackerEvent.appInviteFriend(EventParameterShareNetwork.Facebook)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             
         case .ChangePhoto:
@@ -309,12 +309,12 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         
         guard let _ = results else {
             // success and no results means app invite has been cancelled
-            let trackerEvent = TrackerEvent.appInviteFriendCancel(Constants.shareNetworkFacebook)
+            let trackerEvent = TrackerEvent.appInviteFriendCancel(EventParameterShareNetwork.Facebook)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             return
         }
         
-        let trackerEvent = TrackerEvent.appInviteFriendComplete(Constants.shareNetworkFacebook)
+        let trackerEvent = TrackerEvent.appInviteFriendComplete(EventParameterShareNetwork.Facebook)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         
         showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk)

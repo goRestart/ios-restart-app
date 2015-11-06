@@ -36,13 +36,5 @@ struct Constants {
     // App sharing
     static let facebookAppLinkURL = "https://fb.me/900185926729336"
     static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
-
-    static let shareNetworkEmail = "email"
-    static let shareNetworkFacebook = "facebook"
-    static let shareNetworkWhatsapp = "whatsapp"
-    static let shareNetworkTwitter = "twitter"
     
-    // Shortcut Items
-    static let sellShortcutItem = "letgo.sell"
-    static let startBrowsingShortcutItem = "letgo.startBrowsing"
 }

@@ -153,6 +153,13 @@ public enum EventParameterLocationType: String {
     case Regional = "regional"
 }
 
+public enum EventParameterShareNetwork: String {
+    case Email = "email"
+    case Facebook = "facebook"
+    case Whatsapp = "whatsapp"
+    case Twitter = "twitter"
+}
+
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
     
