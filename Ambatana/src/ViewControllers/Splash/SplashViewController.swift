@@ -22,7 +22,6 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     
     init(configManager: ConfigManager) {
         self.configManager = configManager
-        self.saveUserDidComplete = false
         
         super.init(viewModel: nil, nibName: "SplashViewController")
     }
@@ -51,8 +50,9 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
             }
             // Otherwise, show onboarding if not shown, or save my user if new
             else {
+                let shouldShowOnboarding = self.configManager.shouldShowOnboarding
                 let didShowOnboarding = UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
-                if !didShowOnboarding {
+                if shouldShowOnboarding && !didShowOnboarding {
                     let page1 = LGTourPage(title: .Image(UIImage(named: "logo_white")), body: LGLocalizedString.tourPage1Body, image: UIImage(named: "tour_1"))
                     let page2 = LGTourPage(title: .Text(LGLocalizedString.tourPage2Title), body: LGLocalizedString.tourPage2Body, image: UIImage(named: "tour_2"))
                     let page3 = LGTourPage(title: .Text(LGLocalizedString.tourPage3Title), body: LGLocalizedString.tourPage3Body, image: UIImage(named: "tour_3"))
@@ -85,18 +85,27 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     // MARK: - LGTourViewControllerDelegate
     
     func tourViewController(tourViewController: LGTourViewController, didShowPageAtIndex index: Int) {
-        
         // Tracking
+        let event = TrackerEvent.onboardingStart()
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
-    func tourViewController(tourViewController: LGTourViewController, didAbandonWithButtonType buttonType: CloseButtonType) {
+    
+    func tourViewController(tourViewController: LGTourViewController, didAbandonWithButtonType buttonType: CloseButtonType, atIndex index: Int) {
+        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
         saveMyUserIfNew()
         
         // Tracking
+        let event = TrackerEvent.onboardingAbandonAtPageNumber(index, buttonType: buttonType)
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
+    
     func tourViewControllerDidFinish(tourViewController: LGTourViewController) {
+        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
         saveMyUserIfNew()
         
         // Tracking
+        let event = TrackerEvent.onboardingComplete()
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     // MARK: - Private methods

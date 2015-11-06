@@ -12,6 +12,10 @@ public enum EventName: String {
     case Location                           = "location"
 //    case IndicateLocationVisit              = "indica"
     
+    case OnboardingStart                    = "onboarding-start"
+    case OnboardingComplete                 = "onboarding-complete"
+    case OnboardingAbandon                  = "onboarding-abandon"
+    
     case LoginVisit                         = "login-screen"
     case LoginAbandon                       = "login-abandon"
     case LoginFB                            = "login-fb"
@@ -117,6 +121,7 @@ public enum EventParameterName: String {
     case ButtonPosition       = "button-position"
     case LocationEnabled      = "location-enabled"
     case LocationAllowed      = "location-allowed"
+    case ButtonName           = "button-name"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -147,6 +152,11 @@ public enum EventParameterLocationType: String {
     case Sensor = "sensor"
     case IPLookUp = "iplookup"
     case Regional = "regional"
+}
+
+public enum EventParameterButtonNameType: String {
+    case Close = "close"
+    case Skip = "skip"
 }
 
 public struct EventParameters {

@@ -41,6 +41,8 @@ pod "NewRelicAgent",         "~> 5.3.1"
 pod "GoogleAppIndexing",    "~> 2.0.1"
 
 target "letgoTests", :exclusive => true do
+    pod "Kahuna",               "~> 2.2.2"
+    
     ## Testing
     pod "Quick",            "~> 0.4"
     pod "Nimble",           "~> 2.0"

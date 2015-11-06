@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import LGTour
 
 public struct TrackerEvent {
     public private(set) var name: EventName
@@ -42,6 +43,28 @@ public struct TrackerEvent {
         params[.LocationEnabled] = enabled
         params[.LocationAllowed] = allowed
         return TrackerEvent(name: .Location, params: params)
+    }
+    
+    public static func onboardingStart() -> TrackerEvent {
+        return TrackerEvent(name: .OnboardingStart, params: nil)
+    }
+    
+    public static func onboardingAbandonAtPageNumber(pageNumber: Int, buttonType: CloseButtonType) -> TrackerEvent {
+        var params = EventParameters()
+        params[.PageNumber] = pageNumber
+        let buttonName: String
+        switch buttonType {
+        case .Close:
+            buttonName = "close"
+        case .Skip:
+            buttonName = "skip"
+        }
+        params[.ButtonName] = buttonName
+        return TrackerEvent(name: .OnboardingAbandon, params: params)
+    }
+    
+    public static func onboardingComplete() -> TrackerEvent {
+        return TrackerEvent(name: .OnboardingComplete, params: nil)
     }
     
     public static func loginVisit(source: EventParameterLoginSourceValue) -> TrackerEvent {
