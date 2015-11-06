@@ -29,11 +29,11 @@ platform :ios do
       # channel: ios-develop
       # message: "FASTLANE - Begining deploy of new App Update."
     # )
-    # cocoapods
+    cocoapods
     
     puts "--------- PRE WEBTRANSLATEIT ---------"
 
-    # system "ruby ../Scripts/wti.rb"
+    system "ruby ../Scripts/wti.rb"
 
     puts "--------- POST WEBTRANSLATEIT ---------"
 
