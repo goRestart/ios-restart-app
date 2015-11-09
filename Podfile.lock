@@ -41,7 +41,7 @@ PODS:
     - RealmSwift (~> 0.95.0)
     - Result (= 0.6.0-beta.4)
     - Timepiece (~> 0.4.2)
-  - LGTour (0.1.1)
+  - LGTour (0.1.2)
   - NewRelicAgent (5.3.2)
   - Nimble (2.0.0)
   - Parse (1.9.1):
@@ -73,7 +73,7 @@ DEPENDENCIES:
   - Kahuna (~> 2.2.2)
   - LGCollapsibleLabel (= 0.1.0)
   - LGCoreKit (= 0.16.1)
-  - LGTour (= 0.1.1)
+  - LGTour (= 0.1.2)
   - NewRelicAgent (~> 5.3.1)
   - Nimble (~> 2.0)
   - Parse (~> 1.9.0)
@@ -97,7 +97,7 @@ SPEC CHECKSUMS:
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
   LGCollapsibleLabel: 8282ba544ddc1191886f45fa81e6e821c61c9a70
   LGCoreKit: 0a67d6a7ce7b79b507fff3563e0384ef2ed1ae53
-  LGTour: ad968b69131b42ff7bf44889efc6b5cd89942bbe
+  LGTour: 097fe4f7107cd08e1cf578c0c45b6b0ba008fa87
   NewRelicAgent: aebd84eb0c99b5e4ee7a8629eddd4eb3c273a109
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b

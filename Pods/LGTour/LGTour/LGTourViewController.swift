@@ -82,12 +82,12 @@ public class LGTourViewController: UIViewController, UIScrollViewDelegate {
     }
     @IBOutlet weak var iPhoneLeftImageView: UIImageView! {
         didSet {
-            iPhoneLeftImageView.image = UIImage(named: "iphone_left", inBundle: NSBundle.LGTourBundle(), compatibleWithTraitCollection: nil)?.resizableImageWithCapInsets(UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0))
+            iPhoneLeftImageView.image = UIImage(named: "iphone_left", inBundle: NSBundle.LGTourBundle(), compatibleWithTraitCollection: nil)?.resizableImageWithCapInsets(UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0))
         }
     }
     @IBOutlet weak var iPhoneRightImageView: UIImageView! {
         didSet {
-            iPhoneRightImageView.image = UIImage(named: "iphone_right", inBundle: NSBundle.LGTourBundle(), compatibleWithTraitCollection: nil)?.resizableImageWithCapInsets(UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0))
+            iPhoneRightImageView.image = UIImage(named: "iphone_right", inBundle: NSBundle.LGTourBundle(), compatibleWithTraitCollection: nil)?.resizableImageWithCapInsets(UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0))
         }
     }
     @IBOutlet weak var iPhoneBottomImageView: UIImageView! {
