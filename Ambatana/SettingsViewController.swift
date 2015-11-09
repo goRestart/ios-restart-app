@@ -308,17 +308,24 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         
         guard let _ = results else {
-            // success and no results means app invite has been cancelled
+            // success and no results means app invite has been cancelled via DONE in webview
             let trackerEvent = TrackerEvent.appInviteFriendCancel(EventParameterShareNetwork.Facebook)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             return
+        }
+        
+        if let completionGesture = results["completionGesture"] as? String {
+            if completionGesture == "cancel" {
+                let trackerEvent = TrackerEvent.appInviteFriendCancel(EventParameterShareNetwork.Facebook)
+                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                return
+            }
         }
         
         let trackerEvent = TrackerEvent.appInviteFriendComplete(EventParameterShareNetwork.Facebook)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         
         showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk)
-
     }
     
     func appInviteDialog(appInviteDialog: FBSDKAppInviteDialog!, didFailWithError error: NSError!) {
