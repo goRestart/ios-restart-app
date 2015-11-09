@@ -40,10 +40,10 @@ desc "Build and distribute build to Crashlytics"
 	)
   end
 
-the 'beta' lane has 2 actions: 'gym' (builds the archive) and 'crashlytics' uploads this archive to test.
+this 'beta' lane has 2 actions: 'gym' (builds the archive) and 'crashlytics' uploads this archive to test.
 
 
-- To call any lane we should just type "fastlane 'lane_name' " in the console, and this will automatically run all the actions in the lane.  In the example we should execute "fastlane beta"
+- To call any lane we should just type "fastlane 'lane_name' " in the console, and this will automatically run all the actions in the lane.  In the example we should execute "fastlane beta". [IMPORTANT: in order to let the crashlytics action upload the archive automatically, the crashlytics mac app, should not be running in the computer at the moment.  If is running will 'intercept' the archive and try to distribute manually]
 
 - There are two special methods in the Fastfile: "before_all" and "after_all".  Whatever is inside those methods will be executed (... guess what...) before and after any lane
 
@@ -68,6 +68,5 @@ For more detailed info check:
 
 https://github.com/fastlane/fastlane/tree/master/docs
 https://github.com/fastlane/examples
-
 
 
