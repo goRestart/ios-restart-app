@@ -47,7 +47,7 @@ public class AmplitudeTracker: Tracker {
     public func applicationDidBecomeActive(application: UIApplication) {
     }
     
-    public func setUser(user: User?) {
+    public func setUser(user: MyUser?) {
         let userId = user?.email ?? ""
         Amplitude.instance().setUserId(userId)
 

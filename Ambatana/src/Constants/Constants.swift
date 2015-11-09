@@ -14,7 +14,7 @@ struct Constants {
     static let fullNameMinLength = 2
     static let passwordMinLength = 4
     static let passwordMaxLength = 20
-    static let productDescriptionMaxLength = 256
+    static let productDescriptionMaxLength = 1500
 
     // Map
     static let accurateRegionRadius = 1000.0    // meters
@@ -32,5 +32,9 @@ struct Constants {
     
     // Categories
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
-
+    
+    // App sharing
+    static let facebookAppLinkURL = "https://fb.me/900185926729336"
+    static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
+    
 }

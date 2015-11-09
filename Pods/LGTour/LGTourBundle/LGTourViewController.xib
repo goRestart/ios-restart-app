@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LGTourViewController" customModule="LGTourBundle" customModuleProvider="target">
+            <connections>
+                <outlet property="backgroundImageView" destination="ZJU-ZQ-hEJ" id="mPt-H3-G7G"/>
+                <outlet property="backgroundImageViewHeightConstraint" destination="ed0-MR-qlv" id="YPP-G0-VYr"/>
+                <outlet property="backgroundImageViewWidthConstraint" destination="0vd-7u-Lqd" id="mk9-Ch-BIK"/>
+                <outlet property="backgroundScrollView" destination="h4v-Yn-GgD" id="mb3-gM-RLr"/>
+                <outlet property="closeButton" destination="R39-24-wsc" id="499-kw-eS6"/>
+                <outlet property="footerView" destination="djC-Vy-F1F" id="CKG-Dd-E7p"/>
+                <outlet property="iPhoneBottomImageView" destination="640-QR-aAZ" id="mEQ-8h-Qym"/>
+                <outlet property="iPhoneLeftImageView" destination="6dC-y9-p4s" id="u7X-3h-fU6"/>
+                <outlet property="iPhoneRightImageView" destination="TpE-gr-2Zr" id="dLr-8R-Lwt"/>
+                <outlet property="iPhoneScreenScrollView" destination="FRo-Pi-f6f" id="QJu-zc-RYM"/>
+                <outlet property="iPhoneTopImageView" destination="NRf-Sg-BDP" id="vVJ-PJ-l9s"/>
+                <outlet property="leftButton" destination="Kwf-l6-vwK" id="0FE-GN-ipp"/>
+                <outlet property="pageControl" destination="BlQ-gJ-6jz" id="KUu-HW-BPr"/>
+                <outlet property="rightButton" destination="Qrj-0n-x9V" id="SXi-sb-dZ9"/>
+                <outlet property="scrollView" destination="kX0-A8-Mma" id="ZND-vs-eNJ"/>
+                <outlet property="skipButton" destination="Ql6-8K-EPG" id="mQs-xb-4Q1"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4v-Yn-GgD" userLabel="Background Scroll View">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZJU-ZQ-hEJ" userLabel="Background Image View">
+                            <rect key="frame" x="0.0" y="0.0" width="640" height="640"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="640" id="0vd-7u-Lqd"/>
+                                <constraint firstAttribute="height" constant="640" id="ed0-MR-qlv"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="ZJU-ZQ-hEJ" secondAttribute="bottom" id="G8d-7V-omC"/>
+                        <constraint firstItem="ZJU-ZQ-hEJ" firstAttribute="leading" secondItem="h4v-Yn-GgD" secondAttribute="leading" multiplier="3" id="Tgj-Bf-vDu"/>
+                        <constraint firstAttribute="trailing" secondItem="ZJU-ZQ-hEJ" secondAttribute="trailing" id="VAe-TM-9Fo"/>
+                        <constraint firstItem="ZJU-ZQ-hEJ" firstAttribute="top" secondItem="h4v-Yn-GgD" secondAttribute="top" id="Ygr-DG-5NO"/>
+                    </constraints>
+                </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ws-ry-nBI" userLabel="Page Control Container">
+                    <rect key="frame" x="0.0" y="218" width="414" height="94"/>
+                    <subviews>
+                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="BlQ-gJ-6jz">
+                            <rect key="frame" x="187" y="28" width="39" height="37"/>
+                            <connections>
+                                <action selector="pageControlPageChanged:" destination="-1" eventType="valueChanged" id="Dwg-1E-aAf"/>
+                            </connections>
+                        </pageControl>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="BlQ-gJ-6jz" firstAttribute="centerY" secondItem="5ws-ry-nBI" secondAttribute="centerY" id="9i4-2p-qL9"/>
+                        <constraint firstItem="BlQ-gJ-6jz" firstAttribute="centerX" secondItem="5ws-ry-nBI" secondAttribute="centerX" id="sgs-O6-xFN"/>
+                    </constraints>
+                </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2VX-XF-p8b" userLabel="iPhone View Container">
+                    <rect key="frame" x="95" y="312" width="224" height="313"/>
+                    <subviews>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jk1-zg-Tcb" userLabel="iPhone View">
+                            <rect key="frame" x="6" y="0.0" width="212" height="313"/>
+                            <subviews>
+                                <scrollView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FRo-Pi-f6f" userLabel="iPhone Screen Scroll View">
+                                    <rect key="frame" x="14" y="48" width="184" height="265"/>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="241" id="NEa-8g-ThF"/>
+                                        <constraint firstAttribute="width" constant="184" id="ge4-VZ-ydy"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="NEa-8g-ThF"/>
+                                        </mask>
+                                    </variation>
+                                </scrollView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top.png" translatesAutoresizingMaskIntoConstraints="NO" id="NRf-Sg-BDP" userLabel="iPhone Top Image View">
+                                    <rect key="frame" x="0.0" y="0.0" width="212" height="48"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="212" id="D4v-K1-zXi"/>
+                                        <constraint firstAttribute="height" constant="48" id="gGe-7l-Hmb"/>
+                                    </constraints>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="iphone_left.png" translatesAutoresizingMaskIntoConstraints="NO" id="6dC-y9-p4s" userLabel="iPhone Left Image View">
+                                    <rect key="frame" x="0.0" y="48" width="16" height="265"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="16" id="Zrk-oF-jAx"/>
+                                        <constraint firstAttribute="height" constant="241" id="kqs-9s-NHK"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="kqs-9s-NHK"/>
+                                        </mask>
+                                    </variation>
+                                </imageView>
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="iphone_right.png" translatesAutoresizingMaskIntoConstraints="NO" id="TpE-gr-2Zr" userLabel="iPhone Right Image View">
+                                    <rect key="frame" x="196" y="48" width="16" height="265"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="241" id="NDP-PP-0hn"/>
+                                        <constraint firstAttribute="width" constant="16" id="xgo-rF-70M"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="NDP-PP-0hn"/>
+                                        </mask>
+                                    </variation>
+                                </imageView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="6dC-y9-p4s" firstAttribute="leading" secondItem="Jk1-zg-Tcb" secondAttribute="leading" id="1Zo-wg-T8o"/>
+                                <constraint firstAttribute="bottom" secondItem="FRo-Pi-f6f" secondAttribute="bottom" id="9w3-U6-e1w"/>
+                                <constraint firstAttribute="trailing" secondItem="TpE-gr-2Zr" secondAttribute="trailing" id="J6p-2l-Smn"/>
+                                <constraint firstItem="TpE-gr-2Zr" firstAttribute="leading" secondItem="FRo-Pi-f6f" secondAttribute="trailing" constant="-2" id="Mh2-RR-CXa"/>
+                                <constraint firstItem="TpE-gr-2Zr" firstAttribute="top" secondItem="NRf-Sg-BDP" secondAttribute="bottom" id="XYP-tZ-Zt7"/>
+                                <constraint firstAttribute="bottom" secondItem="6dC-y9-p4s" secondAttribute="bottom" id="XxU-CZ-udP"/>
+                                <constraint firstAttribute="trailing" secondItem="NRf-Sg-BDP" secondAttribute="trailing" id="YfP-P7-lBk"/>
+                                <constraint firstItem="FRo-Pi-f6f" firstAttribute="leading" secondItem="6dC-y9-p4s" secondAttribute="trailing" constant="-2" id="ZEr-LV-YqP"/>
+                                <constraint firstItem="NRf-Sg-BDP" firstAttribute="leading" secondItem="Jk1-zg-Tcb" secondAttribute="leading" id="pbb-8l-hIT"/>
+                                <constraint firstItem="6dC-y9-p4s" firstAttribute="top" secondItem="NRf-Sg-BDP" secondAttribute="bottom" id="ps0-FG-v0l"/>
+                                <constraint firstItem="FRo-Pi-f6f" firstAttribute="top" secondItem="NRf-Sg-BDP" secondAttribute="bottom" id="qfA-6K-7YJ"/>
+                                <constraint firstItem="NRf-Sg-BDP" firstAttribute="top" secondItem="Jk1-zg-Tcb" secondAttribute="top" id="qwR-dp-jhu"/>
+                                <constraint firstAttribute="bottom" secondItem="TpE-gr-2Zr" secondAttribute="bottom" id="wAj-wE-zol"/>
+                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="289" id="wDB-Jb-04c"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="wDB-Jb-04c"/>
+                                </mask>
+                            </variation>
+                        </view>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="640-QR-aAZ" userLabel="iPhone Bottom Image View">
+                            <rect key="frame" x="0.0" y="308" width="224" height="5"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="5" id="0C1-C4-UiV"/>
+                                <constraint firstAttribute="width" constant="224" id="J39-fI-O4J"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="640-QR-aAZ" firstAttribute="leading" secondItem="2VX-XF-p8b" secondAttribute="leading" id="Jcq-Xl-6Pd"/>
+                        <constraint firstItem="Jk1-zg-Tcb" firstAttribute="top" secondItem="2VX-XF-p8b" secondAttribute="top" id="JtI-Ae-Ri1"/>
+                        <constraint firstItem="Jk1-zg-Tcb" firstAttribute="centerX" secondItem="2VX-XF-p8b" secondAttribute="centerX" id="MSP-Bj-tnx"/>
+                        <constraint firstItem="640-QR-aAZ" firstAttribute="centerX" secondItem="Jk1-zg-Tcb" secondAttribute="centerX" id="RfP-BU-ib5"/>
+                        <constraint firstAttribute="bottom" secondItem="Jk1-zg-Tcb" secondAttribute="bottom" id="TTj-9U-B08"/>
+                        <constraint firstItem="640-QR-aAZ" firstAttribute="bottom" secondItem="Jk1-zg-Tcb" secondAttribute="bottom" id="Ya4-zk-kPD"/>
+                        <constraint firstItem="Jk1-zg-Tcb" firstAttribute="leading" secondItem="2VX-XF-p8b" secondAttribute="leading" id="ZeJ-K5-w0p"/>
+                        <constraint firstAttribute="bottom" secondItem="640-QR-aAZ" secondAttribute="bottom" id="aqx-p2-CIP"/>
+                        <constraint firstAttribute="trailing" secondItem="640-QR-aAZ" secondAttribute="trailing" id="jvY-NL-4DW"/>
+                        <constraint firstAttribute="trailing" secondItem="Jk1-zg-Tcb" secondAttribute="trailing" constant="12" id="nUj-6o-hkU"/>
+                        <constraint firstAttribute="bottom" secondItem="Jk1-zg-Tcb" secondAttribute="bottom" id="tJJ-qD-zYj"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="TTj-9U-B08"/>
+                            <exclude reference="ZeJ-K5-w0p"/>
+                            <exclude reference="nUj-6o-hkU"/>
+                            <exclude reference="RfP-BU-ib5"/>
+                            <exclude reference="Ya4-zk-kPD"/>
+                        </mask>
+                    </variation>
+                </view>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="kX0-A8-Mma">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="625"/>
+                </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R39-24-wsc" userLabel="Close Button">
+                    <rect key="frame" x="0.0" y="20" width="70" height="70"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="R39-24-wsc" secondAttribute="height" multiplier="2:1" id="DKx-vv-q4b"/>
+                        <constraint firstAttribute="width" constant="70" id="Fau-NM-CWq"/>
+                        <constraint firstAttribute="height" constant="70" id="HNQ-XE-3tm"/>
+                        <constraint firstAttribute="width" secondItem="R39-24-wsc" secondAttribute="height" multiplier="1:2" id="dB7-tm-KhE"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="DKx-vv-q4b"/>
+                            <exclude reference="dB7-tm-KhE"/>
+                        </mask>
+                    </variation>
+                    <connections>
+                        <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="SL0-VG-2AY"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="djC-Vy-F1F">
+                    <rect key="frame" x="0.0" y="625" width="414" height="111"/>
+                    <subviews>
+                        <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kwf-l6-vwK" userLabel="Left Button">
+                            <rect key="frame" x="0.0" y="0.0" width="70" height="111"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="70" id="o1l-II-gh2"/>
+                                <constraint firstAttribute="width" secondItem="Kwf-l6-vwK" secondAttribute="height" multiplier="2:3" id="rFX-gZ-p0n"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="rFX-gZ-p0n"/>
+                                </mask>
+                            </variation>
+                            <connections>
+                                <action selector="leftButtonPressed:" destination="-1" eventType="touchUpInside" id="aHg-LG-5Kt"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ql6-8K-EPG" userLabel="Skip Button">
+                            <rect key="frame" x="138" y="38" width="138" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="36" id="VRn-yd-Ut9"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
+                            <state key="normal" title="_Skip"/>
+                            <connections>
+                                <action selector="skipButtonPressed:" destination="-1" eventType="touchUpInside" id="gXz-Wq-BL4"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qrj-0n-x9V" userLabel="Right Button">
+                            <rect key="frame" x="344" y="0.0" width="70" height="111"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="Qrj-0n-x9V" secondAttribute="height" multiplier="2:1" id="BZs-Tb-x3g"/>
+                                <constraint firstAttribute="width" constant="70" id="Vyy-2H-K4b"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="BZs-Tb-x3g"/>
+                                </mask>
+                            </variation>
+                            <connections>
+                                <action selector="rightButtonPressed:" destination="-1" eventType="touchUpInside" id="W7v-GD-5JA"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="Ql6-8K-EPG" firstAttribute="width" relation="greaterThanOrEqual" secondItem="djC-Vy-F1F" secondAttribute="width" multiplier="1:3" id="0Za-mn-oNg"/>
+                        <constraint firstItem="Kwf-l6-vwK" firstAttribute="leading" secondItem="djC-Vy-F1F" secondAttribute="leading" id="5uE-Sp-HDS"/>
+                        <constraint firstAttribute="bottom" secondItem="Qrj-0n-x9V" secondAttribute="bottom" id="Bm5-0H-EVb"/>
+                        <constraint firstItem="Ql6-8K-EPG" firstAttribute="centerY" secondItem="djC-Vy-F1F" secondAttribute="centerY" id="EeA-vm-bo8"/>
+                        <constraint firstItem="Ql6-8K-EPG" firstAttribute="centerX" secondItem="djC-Vy-F1F" secondAttribute="centerX" id="N8q-Fy-Tvx"/>
+                        <constraint firstItem="Kwf-l6-vwK" firstAttribute="top" secondItem="djC-Vy-F1F" secondAttribute="top" id="SG9-PG-07k"/>
+                        <constraint firstItem="Qrj-0n-x9V" firstAttribute="top" secondItem="djC-Vy-F1F" secondAttribute="top" id="UY0-pj-doH"/>
+                        <constraint firstAttribute="trailing" secondItem="Qrj-0n-x9V" secondAttribute="trailing" id="b3D-6l-TyB"/>
+                        <constraint firstItem="Ql6-8K-EPG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Kwf-l6-vwK" secondAttribute="trailing" id="l9G-ws-gAr"/>
+                        <constraint firstItem="Qrj-0n-x9V" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ql6-8K-EPG" secondAttribute="trailing" id="mny-NK-rsB"/>
+                        <constraint firstAttribute="bottom" secondItem="Kwf-l6-vwK" secondAttribute="bottom" id="u6N-Qp-Ca5"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="h4v-Yn-GgD" secondAttribute="trailing" id="0dA-uj-0cf"/>
+                <constraint firstAttribute="trailing" secondItem="5ws-ry-nBI" secondAttribute="trailing" id="3sE-Xo-AQk"/>
+                <constraint firstItem="h4v-Yn-GgD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4bu-Kg-T9t"/>
+                <constraint firstItem="djC-Vy-F1F" firstAttribute="top" secondItem="kX0-A8-Mma" secondAttribute="bottom" id="5ci-jL-fe1"/>
+                <constraint firstItem="R39-24-wsc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="8Md-cJ-dKD"/>
+                <constraint firstItem="kX0-A8-Mma" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="96M-am-DH2"/>
+                <constraint firstItem="kX0-A8-Mma" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="BsH-Lm-iBx"/>
+                <constraint firstItem="djC-Vy-F1F" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="15:100" id="CWw-QT-e7b"/>
+                <constraint firstItem="5ws-ry-nBI" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MiF-Dl-NDo"/>
+                <constraint firstItem="djC-Vy-F1F" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Ul0-sl-IfO"/>
+                <constraint firstItem="R39-24-wsc" firstAttribute="width" secondItem="djC-Vy-F1F" secondAttribute="height" id="ZHO-0Q-DKY"/>
+                <constraint firstAttribute="trailing" secondItem="kX0-A8-Mma" secondAttribute="trailing" id="dza-mQ-etw"/>
+                <constraint firstItem="R39-24-wsc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="fDK-jx-nG5"/>
+                <constraint firstItem="djC-Vy-F1F" firstAttribute="top" secondItem="2VX-XF-p8b" secondAttribute="bottom" id="fOP-9O-Hgn"/>
+                <constraint firstItem="2VX-XF-p8b" firstAttribute="top" secondItem="5ws-ry-nBI" secondAttribute="bottom" id="hcM-xH-kV9"/>
+                <constraint firstAttribute="bottom" secondItem="djC-Vy-F1F" secondAttribute="bottom" id="i9L-EZ-zau"/>
+                <constraint firstItem="2VX-XF-p8b" firstAttribute="height" secondItem="kX0-A8-Mma" secondAttribute="height" multiplier="50:100" id="lVk-mI-htb"/>
+                <constraint firstAttribute="bottom" secondItem="h4v-Yn-GgD" secondAttribute="bottom" id="nUg-tL-TVi"/>
+                <constraint firstItem="2VX-XF-p8b" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="of8-jp-I49"/>
+                <constraint firstItem="h4v-Yn-GgD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="sYi-fH-ipi"/>
+                <constraint firstAttribute="trailing" secondItem="djC-Vy-F1F" secondAttribute="trailing" id="xr1-X9-JR6"/>
+                <constraint firstItem="5ws-ry-nBI" firstAttribute="height" secondItem="kX0-A8-Mma" secondAttribute="height" multiplier="15:100" id="zEx-VW-XBI"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="ZHO-0Q-DKY"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="248" y="571"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="iphone_bottom.png" width="224" height="5"/>
+        <image name="iphone_left.png" width="16" height="241"/>
+        <image name="iphone_right.png" width="16" height="241"/>
+        <image name="iphone_top.png" width="212" height="48"/>
+    </resources>
+</document>

@@ -42,7 +42,7 @@ internal class MockTracker: Tracker {
         didBecomeActiveBlock?(self)
     }
     
-    func setUser(user: User?) {
+    func setUser(user: MyUser?) {
         setUserBlock?(self)
     }
     

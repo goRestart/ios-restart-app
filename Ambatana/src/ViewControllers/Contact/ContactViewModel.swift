@@ -98,13 +98,11 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     public func sendContact() {
         
         if self.email.isEmail() {
-            var contact : Contact
-            contact = LGContact()
-            contact.email = email
-            contact.title = subject?.name ?? ""
-            contact.message = self.message + systemInfoForMessage() + " " + self.email
-            
-            contact.user = MyUserManager.sharedInstance.myUser()
+            let contact = MyUserManager.sharedInstance.newContactWithEmail(
+                                    email,
+                                    title: subject?.name ?? "",
+                                    message: self.message + systemInfoForMessage() + " " + self.email
+                                )
             
             let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken
             

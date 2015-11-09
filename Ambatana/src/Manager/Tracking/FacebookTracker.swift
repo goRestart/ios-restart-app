@@ -40,7 +40,7 @@ public class FacebookTracker: Tracker {
 
     }
     
-    public func setUser(user: User?) {
+    public func setUser(user: MyUser?) {
 
     }
     

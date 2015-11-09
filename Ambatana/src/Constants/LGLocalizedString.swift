@@ -196,6 +196,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_cancel", comment: "")
 	}
 	
+	static var commonCollapse: String {
+		return NSLocalizedString("common_collapse", comment: "")
+	}
+	
 	static var commonError: String {
 		return NSLocalizedString("common_error", comment: "")
 	}
@@ -218,6 +222,10 @@ struct LGLocalizedString {
 	
 	static var commonErrorTitle: String {
 		return NSLocalizedString("common_error_title", comment: "")
+	}
+	
+	static var commonExpand: String {
+		return NSLocalizedString("common_expand", comment: "")
 	}
 	
 	static var commonLoading: String {
@@ -1010,6 +1018,18 @@ struct LGLocalizedString {
 	
 	static var settingsImageSourceTitle: String {
 		return NSLocalizedString("settings_image_source_title", comment: "")
+	}
+	
+	static var settingsInviteFacebookFriendsButton: String {
+		return NSLocalizedString("settings_invite_facebook_friends_button", comment: "")
+	}
+	
+	static var settingsInviteFacebookFriendsOk: String {
+		return NSLocalizedString("settings_invite_facebook_friends_ok", comment: "")
+	}
+	
+	static var settingsInviteFacebookFriendsError: String {
+		return NSLocalizedString("settings_invite_facebook_friends_error", comment: "")
 	}
 	
 	static var settingsLogoutButton: String {

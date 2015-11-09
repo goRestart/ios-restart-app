@@ -45,12 +45,14 @@
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "common_cancel" = "Ακύρωση";
+"common_collapse" = "Δείτε Λιγότερα";
 "common_error" = "Σφάλμα";
 "common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
 "common_error_generic_body" = "Πάρτε λίγο αέρα και προσπαθήστε ξανά";
 "common_error_network_body" = "Παρακαλώ ελέγξτε τις ρυθμίσεις δικτύου και προσπαθήστε ξανά";
 "common_error_retry_button" = "Προσπαθήστε ξανά";
 "common_error_title" = "ΟΠΑ!";
+"common_expand" = "Δείτε Περισσότερα";
 "common_loading" = "Φόρτωση…";
 "common_no" = "Όχι";
 "common_ok" = "ΟΚ";
@@ -249,6 +251,9 @@
 "settings_image_source_camera_roll_button" = "Βιβλιοθήκη Φωτογραφιών";
 "settings_image_source_cancel_button" = "Ακύρωση";
 "settings_image_source_title" = "Επιλογή πηγής εικόνας";
+"settings_invite_facebook_friends_button" = "Προσκαλέστε τους φίλους σας στο Facebook";
+"settings_invite_facebook_friends_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση της πρόσκλησης.";
+"settings_invite_facebook_friends_ok" = "Η πρόσκλησή σας κοινοποιήθηκε επιτυχώς!";
 "settings_logout_button" = "Αποσύνδεση";
 "settings_title" = "Ρυθμίσεις";
 "sign_up_email_field_hint" = "Email";
@@ -264,7 +269,7 @@
 "sign_up_title" = "Εγγραφή";
 "sign_up_username_field_hint" = "Ονοματεπώνυμο";
 "tab_bar_tool_tip" = "Πούλα τα Πράγματά σου";
-"tour_page_1_body" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα. Είναι ώρα για letgo!";
+"tour_page_1_body" = "Κάντε αγοραπωλησίες στην περιοχή σας γρήγορα και ευκολα.";
 "tour_page_2_body" = "Νέα προϊόντα δημοσιεύονται κάθε μέρα από τους γείτονές σας.";
 "tour_page_2_title" = "Κοντά Σας";
 "tour_page_3_body" = "Δημοσιεύστε προϊόντα μέσα σε λίγα δευτερόλεπτα και πουλήστε πράγματα που δε χρειάζεστε πια.";

@@ -139,6 +139,9 @@
 // Common cancel
 "common_cancel" = "Cancel";
 
+// Common collapse
+"common_collapse" = "Show Less";
+
 // Common error
 "common_error" = "Error";
 
@@ -156,6 +159,9 @@
 
 // Common error title
 "common_error_title" = "OOPS!";
+
+// Common expand
+"common_expand" = "Show More";
 
 // Common loading. Check attached image "common_loading.png"
 "common_loading" = "Loading...";
@@ -750,6 +756,15 @@
 
 // Settings image source title. Check image @ "settings_image_source_camera_button" segment
 "settings_image_source_title" = "Choose image source";
+
+// Settings invite facebook friends. Check image @ "settings_change_password_button" segment
+"settings_invite_facebook_friends_button" = "Invite Facebook Friends";
+
+// Settings invite facebook friends ok. Message displayal is like the other messages.
+"settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
+
+// Settings invite facebook friends error. Message displayal is like the other messages.
+"settings_invite_facebook_friends_error" = "An error occurred while sharing your invitation.";
 
 // Settings logout button. Check image @ "settings_change_password_button" segment
 "settings_logout_button" = "Log out";

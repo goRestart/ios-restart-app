@@ -143,6 +143,9 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         super.viewDidLoad()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "askUserToUpdateLocation", name: MyUserManager.Notification.didMoveFromManualLocationNotification.rawValue, object: nil)
+        
+        // Update unread messages
+        PushManager.sharedInstance.updateUnreadMessagesCount()
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -228,6 +231,19 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
            }
         }
         return true
+    }
+    
+    func openShortcut(tab: Tab) {
+        
+        // dismiss modal (sell or login) before browsing to shortcut
+        self.dismissViewControllerAnimated(false, completion: nil)
+        
+        switch (tab) {
+        case .Sell:
+            openSell()
+        case .Home, .Categories, .Chats, .Profile:
+            switchToTab(tab)
+        }
     }
     
     /**
@@ -544,6 +560,10 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     
     @objc private func logout(notification: NSNotification) {
         
+        if let chatsTab = chatsTabBarItem {
+            chatsTab.badgeValue = nil
+        }
+        
         // Leave navCtl in its initial state, pop to root
         selectedViewController?.navigationController?.popToRootViewControllerAnimated(false)
 
@@ -555,7 +575,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     }
     
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
-
+        // Update unread messages
+        PushManager.sharedInstance.updateUnreadMessagesCount()
     }
     
     dynamic private func askUserToUpdateLocation() {

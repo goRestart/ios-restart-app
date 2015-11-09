@@ -33,6 +33,7 @@ public class EditUserLocationViewModel: BaseViewModel {
     var goingToLocation : Bool          // while map is moving to show a location, no call to suggestions is made
     var usingGPSLocation : Bool         // user uses GPS location
     var serviceAlreadyLoading : Bool    // if the service is already waiting for a response, we don't launch another request
+    var pendingGoToLocation : Bool      // In case goToLocation was called while serviceAlreadyLoading
     var predictiveResults : [Place]
     var currentPlace : Place
     
@@ -51,6 +52,7 @@ public class EditUserLocationViewModel: BaseViewModel {
         approximateLocation =  UserDefaultsManager.sharedInstance.loadIsApproximateLocation()
         goingToLocation = false
         serviceAlreadyLoading = false
+        pendingGoToLocation = false
         if let location = MyUserManager.sharedInstance.currentLocation {
             usingGPSLocation = location.type != .Manual
         }
@@ -58,7 +60,7 @@ public class EditUserLocationViewModel: BaseViewModel {
             usingGPSLocation = true
         }
         predictiveResults = []
-        currentPlace = Place()
+        currentPlace = Place.newPlace()
         searchService = CLSearchLocationSuggestionsService()
         postalAddressService = CLPostalAddressRetrievalService()
         super.init()
@@ -98,9 +100,7 @@ public class EditUserLocationViewModel: BaseViewModel {
         let user = MyUserManager.sharedInstance.myUser()
         if let location =  MyUserManager.sharedInstance.currentLocation {
             delegate?.viewModel(self, updateTextFieldWithString: "")
-            let place = Place()
-            place.postalAddress = user?.postalAddress
-            place.location = LGLocationCoordinates2D(location: location)
+            let place = Place(postalAddress: user?.postalAddress, location:LGLocationCoordinates2D(location: location))
             self.currentPlace = place
             var userLocationString = ""
             
@@ -207,7 +207,13 @@ public class EditUserLocationViewModel: BaseViewModel {
                         }
                     }
                     strongSelf.serviceAlreadyLoading = false
+                    
+                    //Make the pending call
+                    if strongSelf.pendingGoToLocation {
+                        strongSelf.goToLocation()
+                    }
                 }
+                
             }
         }
         
@@ -220,6 +226,7 @@ public class EditUserLocationViewModel: BaseViewModel {
     
     func goToLocation() {
         usingGPSLocation = false
+        pendingGoToLocation = false
         
         if !serviceAlreadyLoading {
             serviceAlreadyLoading = true
@@ -239,6 +246,9 @@ public class EditUserLocationViewModel: BaseViewModel {
                     strongSelf.serviceAlreadyLoading = false
                 }
             }
+        }
+        else {
+            pendingGoToLocation = true
         }
     }
 

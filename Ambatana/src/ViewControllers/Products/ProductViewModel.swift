@@ -82,10 +82,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // > User
     public var userName: String {
-        return product.user?.publicUsername ?? ""
+        return product.user.publicUsername ?? ""
     }
     public var userAvatar: NSURL? {
-        return product.user?.avatar?.fileURL
+        return product.user.avatar?.fileURL
     }
     
     // > My User
@@ -142,8 +142,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
     public var productUserProfileViewModel: UIViewController? {
-        _ = product.user?.objectId
-        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let productUser = product.user, let productUserId = productUser.objectId {
+        let productUser = product.user
+        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let productUserId = productUser.objectId {
             if myUserId != productUserId {
                 return EditProfileViewController(user: productUser)
             }
@@ -154,28 +154,28 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
     public var productLocationViewModel: UIViewController? {
         var vc: ProductLocationViewController?
-        if let location = product.location {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController") as? ProductLocationViewController
+        let location = product.location
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController") as? ProductLocationViewController
+        
+        if let actualVC = vc {
+            let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+            actualVC.location = coordinate
+            actualVC.annotationTitle = product.name
             
-            if let actualVC = vc {
-                let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-                actualVC.location = coordinate
-                actualVC.annotationTitle = product.name
-                
-                var subtitle = ""
-                if let city = product.postalAddress.city {
-                    subtitle += city
-                }
-                if let countryCode = product.postalAddress.countryCode {
-                    if !subtitle.isEmpty {
-                        subtitle += ", "
-                    }
-                    subtitle += countryCode
-                }
-                actualVC.annotationSubtitle = subtitle
+            var subtitle = ""
+            if let city = product.postalAddress.city {
+                subtitle += city
             }
+            if let countryCode = product.postalAddress.countryCode {
+                if !subtitle.isEmpty {
+                    subtitle += ", "
+                }
+                subtitle += countryCode
+            }
+            actualVC.annotationSubtitle = subtitle
         }
+        
         return vc
     }
     
@@ -327,7 +327,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         // My user
         self.isFavourite = false
         self.isReported = false
-        if let productUser = product.user, let productUserId = productUser.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
+        let productUser = product.user
+        if let productUserId = productUser.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
             self.isMine = ( productUserId == myUserId )
         }
         else {
@@ -360,9 +361,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                     if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
                         strongSelf.isFavourite = favorited
                         strongSelf.isReported = reported
-                        
-                        strongSelf.product.favorited = NSNumber(bool: favorited)
-                        strongSelf.product.reported = NSNumber(bool: reported)
                     }
                     strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
                     strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
@@ -430,18 +428,18 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public func imageTokenAtIndex(index: Int) -> String? {
-        return product.images[index].token
+        return product.images[index].objectId
     }
     
     // MARK: > Share
 
     public func shareInEmail(buttonPosition: String) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "email", buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Email, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInFacebook(buttonPosition: String) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "facebook", buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Facebook, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -465,7 +463,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             let application = UIApplication.sharedApplication()
             if application.canOpenURL(url) {
                 success = application.openURL(url)
-                let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "whatsapp", buttonPosition: "bottom")
+                let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Whatsapp, buttonPosition: "bottom")
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             }
         }
@@ -473,12 +471,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "whatsapp", buttonPosition: "top")
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Whatsapp, buttonPosition: "top")
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: "twitter", buttonPosition: "top")
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Twitter, buttonPosition: "top")
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
     }
@@ -537,9 +535,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         delegate?.viewModelDidStartDeleting(self)
         productManager.deleteProduct(product) { [weak self] (result: ProductDeleteServiceResult) -> Void in
             if let strongSelf = self {
-                if let _ = result.value {
+                if let product = result.value {
                     // Update the status
-                    strongSelf.product.status = .Deleted
+                    strongSelf.product = product
                     
                     // Run completed
                     strongSelf.deleteCompleted()
@@ -607,7 +605,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                 // Success
                 if let soldProduct = result.value {
                     // Update the status
-                    strongSelf.product.status = .Sold
+                    strongSelf.product = soldProduct
                     
                     // Run completed
                     strongSelf.markSoldCompleted(soldProduct, source: source)
@@ -632,10 +630,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             if let strongSelf = self {
                 // Success
                 if let unsoldProduct = result.value {
-                    // Update the status
-                    strongSelf.product.status = .Approved
-                    
-                    // Run completed
+                    // Run completed. 'unsoldProduct' already has its status updated
                     strongSelf.markUnsoldCompleted(unsoldProduct)
                 }
                 
