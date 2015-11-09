@@ -84,14 +84,21 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     
     // MARK: - LGTourViewControllerDelegate
     
-    func tourViewController(tourViewController: LGTourViewController, didShowPageAtIndex index: Int) {
+    func tourViewControllerDidLoad(tourViewController: LGTourViewController) {
+        // Save that the onboarding was shown so don't show it again
+        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
+        
         // Tracking
         let event = TrackerEvent.onboardingStart()
         TrackerProxy.sharedInstance.trackEvent(event)
     }
     
+    func tourViewController(tourViewController: LGTourViewController, didShowPageAtIndex index: Int) {
+        
+    }
+    
     func tourViewController(tourViewController: LGTourViewController, didAbandonWithButtonType buttonType: CloseButtonType, atIndex index: Int) {
-        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
+        // Save the user
         saveMyUserIfNew()
         
         // Tracking
@@ -100,7 +107,7 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     }
     
     func tourViewControllerDidFinish(tourViewController: LGTourViewController) {
-        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
+        // Save the user
         saveMyUserIfNew()
         
         // Tracking

@@ -1,6 +1,6 @@
 {
   "name": "LGTour",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "summary": "letgo's Tour",
   "homepage": "https://bitbucket.org/letgoteam/letgo-ios-lgtour",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://bitbucket.org/letgoteam/letgo-ios-lgtour.git",
-    "tag": "0.1.1"
+    "tag": "0.1.2"
   },
   "platforms": {
     "ios": "8.0"
