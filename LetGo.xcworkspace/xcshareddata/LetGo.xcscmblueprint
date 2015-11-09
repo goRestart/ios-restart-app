@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BDB65CBF806F7718EF9E948676549EAFF6355B13",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "5DE9014E86E6ECC63903178601B43619DB83051D" : 0,
+    "BDB65CBF806F7718EF9E948676549EAFF6355B13" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6E297883-4523-4F1F-8DCA-85F7028804CE",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "5DE9014E86E6ECC63903178601B43619DB83051D" : "lgtour\/",
+    "BDB65CBF806F7718EF9E948676549EAFF6355B13" : "iOS\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "LetGo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "LetGo.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/letgoteam\/letgo-ios-lgtour.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5DE9014E86E6ECC63903178601B43619DB83051D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/ambatana\/letgo-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BDB65CBF806F7718EF9E948676549EAFF6355B13"
+    }
+  ]
+}
