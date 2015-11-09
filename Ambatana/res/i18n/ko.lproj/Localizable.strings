@@ -45,14 +45,14 @@
 "chat_send_button" = "발송";
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
 "common_cancel" = "취소";
-"common_collapse" = "충돌";
+"common_collapse" = "줄이기";
 "common_error" = "오류";
 "common_error_connection_failed" = "오류가 발생했습니다. 인터넷 연결상태를 확인해주세요.";
 "common_error_generic_body" = "잠시 후 다시 시도하세요";
 "common_error_network_body" = "네트워크 설정을 확인한 후 다시 시도하세요";
 "common_error_retry_button" = "다시 시도하세요";
 "common_error_title" = "웁스";
-"common_expand" = "확장";
+"common_expand" = "더보기";
 "common_loading" = "로딩중...";
 "common_no" = "아니요";
 "common_ok" = "확인";
@@ -269,7 +269,7 @@
 "sign_up_title" = "회원가입";
 "sign_up_username_field_hint" = "이름";
 "tab_bar_tool_tip" = "고객님의 물건을 판매하세요";
-"tour_page_1_body" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요. letgo를 하실 시간입니다!";
+"tour_page_1_body" = "구매와 판매를 빠르고 안전하고 지역적으로 진행하세요.";
 "tour_page_2_body" = "이웃들의 새로운 상품들이 매일 게시됩니다";
 "tour_page_2_title" = "근처";
 "tour_page_3_body" = "순식간에 상품을 등록하고 필요하지 않은 상품을 판매해보세요.";

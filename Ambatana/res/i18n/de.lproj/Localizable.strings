@@ -45,14 +45,14 @@
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "common_cancel" = "Abbrechen";
-"common_collapse" = "Einklappen";
+"common_collapse" = "Weniger anzeigen";
 "common_error" = "Fehler";
 "common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
 "common_error_generic_body" = "Atme tief durch und probier's noch mal";
 "common_error_network_body" = "Bitte überprüfe deine Verbindung und probiere es erneut";
 "common_error_retry_button" = "Versuch's noch einmal";
 "common_error_title" = "HOPPLA!";
-"common_expand" = "Ausklappen";
+"common_expand" = "Mehr anzeigen";
 "common_loading" = "Lädt...";
 "common_no" = "Nein";
 "common_ok" = "OK";
@@ -269,7 +269,7 @@
 "sign_up_title" = "Registrieren";
 "sign_up_username_field_hint" = "Vollständiger Name";
 "tab_bar_tool_tip" = "Verkaufe deine Dinge";
-"tour_page_1_body" = "Verkaufe schnell, sicher und lokal. Ganz einfach mit letgo!";
+"tour_page_1_body" = "Verkaufe schnell, sicher und lokal.";
 "tour_page_2_body" = "Jeden Tag werden von deinen Nachbarn neue Produkte eingestellt.";
 "tour_page_2_title" = "In deiner Nähe";
 "tour_page_3_body" = "Stelle in wenigen Sekunden Produkte ein und verkaufe, was du nicht mehr brauchst.";

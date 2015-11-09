@@ -45,14 +45,14 @@
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
 "common_cancel" = "Hủy";
-"common_collapse" = "Thu gọn";
+"common_collapse" = "Rút gọn";
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
 "common_error_generic_body" = "Hãy thử ra ngoài hít thở không khí trong lành và quay lại thử sau";
 "common_error_network_body" = "Vui lòng kiểm tra cài đặt mạng và thử lại";
 "common_error_retry_button" = "Thử lại";
 "common_error_title" = "Ồ!";
-"common_expand" = "Mở rộng";
+"common_expand" = "Hiện thêm";
 "common_loading" = "Đang tải...";
 "common_no" = "Không";
 "common_ok" = "OK";
@@ -269,7 +269,7 @@
 "sign_up_title" = "Đăng ký";
 "sign_up_username_field_hint" = "Họ tên";
 "tab_bar_tool_tip" = "Bán Đồ Của Bạn";
-"tour_page_1_body" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn. Đã đến lúc giành cho letgo rồi!";
+"tour_page_1_body" = "Mua và bán nhanh chóng, an toàn ở ngay gần bạn.";
 "tour_page_2_body" = "Sản phẩm mới được đăng mỗi ngày bởi những người ở quanh bạn.";
 "tour_page_2_title" = "Gần bạn";
 "tour_page_3_body" = "Đăng sản phẩm chỉ trong vài giây và bán những món đồ bạn không còn cần đến.";

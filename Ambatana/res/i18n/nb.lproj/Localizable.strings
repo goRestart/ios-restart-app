@@ -45,14 +45,14 @@
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
 "common_cancel" = "Avbryt";
-"common_collapse" = "Forminsk";
+"common_collapse" = "Vis mindre";
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
 "common_error_generic_body" = "Gå og få deg litt frisk luft, og prøv igjen";
 "common_error_network_body" = "Vennligst sjekk dine nettverksinnstillinger og prøv igjen";
 "common_error_retry_button" = "Prøv igjen";
 "common_error_title" = "OOPS!";
-"common_expand" = "Utvid";
+"common_expand" = "Vis mer";
 "common_loading" = "Laster...";
 "common_no" = "Nei";
 "common_ok" = "Ok";
@@ -269,7 +269,7 @@
 "sign_up_title" = "Registrer deg";
 "sign_up_username_field_hint" = "Fullt navn";
 "tab_bar_tool_tip" = "Selg tingene dine";
-"tour_page_1_body" = "Kjøp og selg raskt, sikkert og lokalt. Det er på tide å gi slipp på dine ting!";
+"tour_page_1_body" = "Kjøp og selg raskt, sikkert og lokalt.";
 "tour_page_2_body" = "Hver dag publiseres nye produkter av personer i ditt nærområde.";
 "tour_page_2_title" = "Nært deg";
 "tour_page_3_body" = "Publiser produkter i løpet av noen sekunder og selg ting du ikke trenger lenger.";

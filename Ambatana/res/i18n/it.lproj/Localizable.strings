@@ -45,14 +45,14 @@
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
 "common_cancel" = "Annulla";
-"common_collapse" = "Riduci";
+"common_collapse" = "Mostra Meno";
 "common_error" = "Errore";
 "common_error_connection_failed" = "Si è verificato un errore. Verifica la tua connessione Internet.";
 "common_error_generic_body" = "Prendi una boccata d'aria e riprova";
 "common_error_network_body" = "Controlla le tue impostazioni di rete e riprova";
 "common_error_retry_button" = "Riprova";
 "common_error_title" = "OPS!";
-"common_expand" = "Espandi";
+"common_expand" = "Mostra Altro";
 "common_loading" = "Caricamento...";
 "common_no" = "No";
 "common_ok" = "OK";
@@ -269,7 +269,7 @@
 "sign_up_title" = "Registrati";
 "sign_up_username_field_hint" = "Nome e Cognome";
 "tab_bar_tool_tip" = "Vendi le tue cose";
-"tour_page_1_body" = "Compra e vendi localmente, velocemente e in tutta sicurezza. È il momento di andare in scena!";
+"tour_page_1_body" = "Compra e vendi localmente, velocemente e in tutta sicurezza.";
 "tour_page_2_body" = "Ogni giorno vengono pubblicati nuovi prodotti da parte dei tuoi vicini.";
 "tour_page_2_title" = "Vicino a Te";
 "tour_page_3_body" = "Pubblica prodotti in pochi secondi e vendi le cose di cui non hai più bisogno.";

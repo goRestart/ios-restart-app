@@ -45,14 +45,14 @@
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "common_cancel" = "Peruuta";
-"common_collapse" = "Pienennä";
+"common_collapse" = "Näytä vähemmän";
 "common_error" = "Virhe";
 "common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
 "common_error_generic_body" = "Käy haukkaamassa happea ja yritä uudelleen";
 "common_error_network_body" = "Ole hyvä ja tarkista verkkoasetuksesi ja yritä uudelleen";
 "common_error_retry_button" = "Yritä uudelleen";
 "common_error_title" = "HUPS!";
-"common_expand" = "Suurenna";
+"common_expand" = "Näytä enemmän";
 "common_loading" = "Ladataan...";
 "common_no" = "Ei";
 "common_ok" = "OK";
@@ -269,7 +269,7 @@
 "sign_up_title" = "Rekisteröidy";
 "sign_up_username_field_hint" = "Koko nimi";
 "tab_bar_tool_tip" = "Myy tavaroitasi";
-"tour_page_1_body" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti. On aika antaa letgon tehdä taikojaan!";
+"tour_page_1_body" = "Osta ja myy nopeasti, turvallisesti ja paikallisesti.";
 "tour_page_2_body" = "Naapurisi julkaisevat uusia tuotteita päivittäin.";
 "tour_page_2_title" = "Lähellä sinua";
 "tour_page_3_body" = "Julkaise tuotteita muutamassa sekunnissa ja myy tavaroita, joita et enää tarvitse.";

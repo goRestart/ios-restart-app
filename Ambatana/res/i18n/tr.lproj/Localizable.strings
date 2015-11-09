@@ -45,14 +45,14 @@
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "common_cancel" = "İptal et";
-"common_collapse" = "Daralt";
+"common_collapse" = "Daha az göster";
 "common_error" = "Hata";
 "common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Biraz hava almaya çık ve sonra tekrar dene";
 "common_error_network_body" = "Lütfen ağ ayarlarını kontrol et ve tekrar dene";
 "common_error_retry_button" = "Tekrar dene";
 "common_error_title" = "Eyvah!";
-"common_expand" = "Genişlet";
+"common_expand" = "Daha fazla göster";
 "common_loading" = "Yükleniyor...";
 "common_no" = "Hayır";
 "common_ok" = "TAMAM";
@@ -269,7 +269,7 @@
 "sign_up_title" = "Üye ol";
 "sign_up_username_field_hint" = "Tam isim";
 "tab_bar_tool_tip" = "Eşyalarını Sat";
-"tour_page_1_body" = "Hızlı, güvenli ve yerel alım & satımlara başla. letgo zamanı!";
+"tour_page_1_body" = "Hızlı, güvenli ve yerel alım & satımlara başla.";
 "tour_page_2_body" = "Hergün mahallende yeni ürünler listeleniyor.";
 "tour_page_2_title" = "Yakınında";
 "tour_page_3_body" = "Birkaç saniye içerisinde ürünlerini listele ve daha fazla ihtiyaç duymadığın eşyalarını sat.";

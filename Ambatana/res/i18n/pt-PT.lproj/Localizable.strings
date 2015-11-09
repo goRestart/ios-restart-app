@@ -45,14 +45,14 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "Ocorreu um erro no envio da mensagem. Por favor tente novamente mais tarde.";
 "common_cancel" = "Cancelar";
-"common_collapse" = "Colapso";
+"common_collapse" = "Mostrar menos";
 "common_error" = "Erro";
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
 "common_error_generic_body" = "Vá desanuviar um pouco e tente novamente";
 "common_error_network_body" = "Por favor verifique a configuração da sua internet e tente novamente";
 "common_error_retry_button" = "Tente novamente";
 "common_error_title" = "UPS!";
-"common_expand" = "Expandir";
+"common_expand" = "Mostrar mais";
 "common_loading" = "A carregar...";
 "common_no" = "Não";
 "common_ok" = "Ok";
@@ -269,7 +269,7 @@
 "sign_up_title" = "Registar";
 "sign_up_username_field_hint" = "Nome completo";
 "tab_bar_tool_tip" = "Venda as Suas Coisas";
-"tour_page_1_body" = "Compre e venda rápido, com segurança e localmente. Está na hora de letgo!";
+"tour_page_1_body" = "Compre e venda rápido, com segurança e localmente.";
 "tour_page_2_body" = "Novos produtos são publicados todos os dias pelos seus vizinhos.";
 "tour_page_2_title" = "Próximo a si";
 "tour_page_3_body" = "Publique produtos em alguns segundos e vendas as coisas que já não precisa.";

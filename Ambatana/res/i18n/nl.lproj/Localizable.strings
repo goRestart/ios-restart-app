@@ -45,14 +45,14 @@
 "chat_send_button" = "Versturen";
 "chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
 "common_cancel" = "Annuleren";
-"common_collapse" = "Mislukking";
+"common_collapse" = "Toon minder";
 "common_error" = "Fout";
 "common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
 "common_error_generic_body" = "Ga even de frisse lucht in en probeer het nog eens ";
 "common_error_network_body" = "Controleer je netwerkinstellingen en probeer het opnieuw";
 "common_error_retry_button" = "Probeer opnieuw";
 "common_error_title" = "OEPS!";
-"common_expand" = "Uitbreiden";
+"common_expand" = "Toon meer";
 "common_loading" = "Laden...";
 "common_no" = "Nee";
 "common_ok" = "OK";
@@ -269,7 +269,7 @@
 "sign_up_title" = "Word lid";
 "sign_up_username_field_hint" = "Volledige naam";
 "tab_bar_tool_tip" = "Verkoop je spullen";
-"tour_page_1_body" = "Koop en verkoop snel, veilig en lokaal. It's time to letgo!";
+"tour_page_1_body" = "Koop en verkoop snel, veilig en lokaal.";
 "tour_page_2_body" = "Er worden dagelijks nieuwe producten geplaatst door jouw buren.";
 "tour_page_2_title" = "Dichtbij jou";
 "tour_page_3_body" = "Plaats producten binnen enkele seconden en verkoop de spullen die je niet meer nodig hebt.";

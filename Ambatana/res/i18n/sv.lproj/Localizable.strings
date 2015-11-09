@@ -45,14 +45,14 @@
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
 "common_cancel" = "Avbryt";
-"common_collapse" = "Minska";
+"common_collapse" = "Visa mindre";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
 "common_error_generic_body" = "Ta en nypa frisk luft och försök igen";
 "common_error_network_body" = "Var vänlig kolla dina nätverksinställningar och försök igen";
 "common_error_retry_button" = "Försök igen";
 "common_error_title" = "HOPPSAN!";
-"common_expand" = "Utvidga";
+"common_expand" = "Visa mer";
 "common_loading" = "Laddar...";
 "common_no" = "Nej";
 "common_ok" = "Ok";
@@ -269,7 +269,7 @@
 "sign_up_title" = "Registrera dig";
 "sign_up_username_field_hint" = "Fullständigt namn";
 "tab_bar_tool_tip" = "Sälj dina prylar";
-"tour_page_1_body" = "Köp och sälj snabbt, säkert och lokalt. Det är dags att letgo!";
+"tour_page_1_body" = "Köp och sälj snabbt, säkert och lokalt.";
 "tour_page_2_body" = "Dina grannar lägger upp nya produkter varje dag.";
 "tour_page_2_title" = "Nära dig";
 "tour_page_3_body" = "Lägg upp produkter på några sekunder och sälj saker du inte längre behöver.";
