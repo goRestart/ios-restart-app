@@ -9,7 +9,8 @@
 import LGCoreKit
 
 extension ProductCategory {
-    public func name() -> String {
+    
+    public var name : String {
         switch(self) {
         case .Electronics:
             return LGLocalizedString.categoriesElectronics
@@ -29,25 +30,25 @@ extension ProductCategory {
             return LGLocalizedString.categoriesOther
         }
     }
-    
-    public func image() -> UIImage? {
+        
+    public var image : UIImage? {
         switch (self) {
         case .Electronics:
-            return UIImage(named: "categories_electronics")!
+            return UIImage(named: "categories_electronics")
         case .CarsAndMotors:
-            return UIImage(named: "categories_cars")!
+            return UIImage(named: "categories_cars")
         case .SportsLeisureAndGames:
-            return UIImage(named: "categories_sports")!
+            return UIImage(named: "categories_sports")
         case .HomeAndGarden:
-            return UIImage(named: "categories_homes")!
+            return UIImage(named: "categories_homes")
         case .MoviesBooksAndMusic:
-            return UIImage(named: "categories_music")!
+            return UIImage(named: "categories_music")
         case .FashionAndAccesories:
-            return UIImage(named: "categories_fashion")!
+            return UIImage(named: "categories_fashion")
         case .BabyAndChild:
-            return UIImage(named: "categories_babies")!
+            return UIImage(named: "categories_babies")
         case .Other:
-            return UIImage(named: "categories_others")!
+            return UIImage(named: "categories_others")
         }
     }
 }

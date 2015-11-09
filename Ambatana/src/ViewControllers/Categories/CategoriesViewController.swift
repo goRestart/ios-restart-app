@@ -94,8 +94,8 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
             return cell
         }
         
-        cell.titleLabel.text = category.name()
-        cell.imageView.image = category.image()
+        cell.titleLabel.text = category.name
+        cell.imageView.image = category.image
         
         return cell
     }

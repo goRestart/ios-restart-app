@@ -241,10 +241,16 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     */
     @objc private func searchButtonPressed(sender: AnyObject) {
         
-        // Notify the VM
-        viewModel.searchButtonPressed()
+//        // Notify the VM
+//        viewModel.searchButtonPressed()
+//        
+//        // Show search
+//        showSearchBarAnimated(true, delegate: self)
         
-        // Show search
-        showSearchBarAnimated(true, delegate: self)
+        //TODO: JUST FOR TESTING! REMOVE!
+        
+        let vc = FiltersViewController()
+        let navCtl = UINavigationController(rootViewController: vc)
+        presentViewController(navCtl, animated: true, completion: nil)
     }
 }
