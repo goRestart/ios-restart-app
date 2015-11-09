@@ -32,7 +32,16 @@ public class MainProductsViewModel: BaseViewModel {
     public init(category: ProductCategory? = nil, searchString: String? = nil) {
         self.category = category
         self.searchString = searchString
-        self.title = category?.name() ?? UIImage(named: "navbar_logo")
+        
+        if let cat = category {
+            self.title = cat.name()
+        } else {
+            // Add search text field
+            let titleTextField = LGNavBarSearchField(frame: CGRectMake(0, 5, UIScreen.mainScreen().bounds.width, 30))
+            self.title = titleTextField
+        }
+        
+//        self.title = category?.name() ?? UIImage(named: "navbar_logo")
         self.hasSearchButton = ( searchString == nil )
         super.init()
     }
