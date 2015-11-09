@@ -56,7 +56,7 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
                     let page1 = LGTourPage(title: .Image(UIImage(named: "logo_white")), body: LGLocalizedString.tourPage1Body, image: UIImage(named: "tour_1"))
                     let page2 = LGTourPage(title: .Text(LGLocalizedString.tourPage2Title), body: LGLocalizedString.tourPage2Body, image: UIImage(named: "tour_2"))
                     let page3 = LGTourPage(title: .Text(LGLocalizedString.tourPage3Title), body: LGLocalizedString.tourPage3Body, image: UIImage(named: "tour_3"))
-                    let page4 = LGTourPage(title: .Text(LGLocalizedString.tourPage4Title), body: LGLocalizedString.tourPage3Body, image: UIImage(named: "tour_4"))
+                    let page4 = LGTourPage(title: .Text(LGLocalizedString.tourPage4Title), body: LGLocalizedString.tourPage4Body, image: UIImage(named: "tour_4"))
                     let pages = [page1, page2, page3, page4]
                     let tourVC = LGTourViewController(pages: pages)
                     tourVC.backgroundColor = UIColor(patternImage: UIImage(named: "pattern_red")!)
