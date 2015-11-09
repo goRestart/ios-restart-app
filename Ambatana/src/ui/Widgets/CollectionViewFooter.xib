@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CollectionViewFooter" customModule="LetGo" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewFooter" id="U6b-Vx-4bR" customClass="CollectionViewFooter" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="x9W-7q-2kv">
+                    <rect key="frame" x="150" y="15" width="20" height="20"/>
+                </activityIndicatorView>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zvy-X2-q7E" userLabel="Retry Button">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <state key="normal" title="_Retry" image="actionbar_save">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="retryButtonPressed:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="OTf-Dv-lnN"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="x9W-7q-2kv" firstAttribute="centerX" secondItem="U6b-Vx-4bR" secondAttribute="centerX" id="QvE-oO-DAd"/>
+                <constraint firstItem="x9W-7q-2kv" firstAttribute="centerY" secondItem="U6b-Vx-4bR" secondAttribute="centerY" id="VqC-H2-gfu"/>
+                <constraint firstItem="zvy-X2-q7E" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" id="c2j-yd-e2O"/>
+                <constraint firstAttribute="trailing" secondItem="zvy-X2-q7E" secondAttribute="trailing" id="fVQ-ad-e4Y"/>
+                <constraint firstAttribute="bottom" secondItem="zvy-X2-q7E" secondAttribute="bottom" id="gHi-h4-vMu"/>
+                <constraint firstItem="zvy-X2-q7E" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" id="q3y-B0-ggz"/>
+            </constraints>
+            <connections>
+                <outlet property="activityIndicator" destination="x9W-7q-2kv" id="k0H-0d-lJ7"/>
+                <outlet property="retryButton" destination="zvy-X2-q7E" id="GMv-a1-Flv"/>
+            </connections>
+        </collectionReusableView>
+    </objects>
+    <resources>
+        <image name="actionbar_save" width="26" height="26"/>
+    </resources>
+</document>

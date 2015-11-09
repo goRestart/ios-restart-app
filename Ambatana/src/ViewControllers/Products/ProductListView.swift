@@ -206,7 +206,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     public init(viewModel: ProductListViewModel, frame: CGRect) {
         self.state = .FirstLoadView
         self.productListViewModel = viewModel
-        self.collectionViewFooterHeight = 0
+        self.collectionViewFooterHeight = 60
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.maxDistance = 1
         self.lastContentOffset = 0
@@ -221,7 +221,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     public init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
         self.state = .FirstLoadView
         self.productListViewModel = viewModel
-        self.collectionViewFooterHeight = 0
+        self.collectionViewFooterHeight = 60
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.maxDistance = 1
         self.lastContentOffset = 0
@@ -362,6 +362,22 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         return cell
     }
     
+    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView  {
+        let view: UICollectionReusableView
+        
+        switch kind {
+        case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
+            if let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter {
+                view = footer
+            }
+            else {
+                view = UICollectionReusableView()
+            }
+        default:
+            view = UICollectionReusableView()
+        }
+        return view
+    }
     
     // MARK: - UICollectionViewDelegate
     
@@ -474,6 +490,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         
         let cellNib = UINib(nibName: "ProductCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
+        let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
+        self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter, withReuseIdentifier: "CollectionViewFooter")
         
         // >> Pull to refresh
         refreshControl = UIRefreshControl()
