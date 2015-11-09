@@ -152,10 +152,10 @@
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
 "product_report_confirm_cancel_button" = "İptal";
-"product_report_confirm_message" = "Bu ürünü bildirmek istediğine emin misin?";
+"product_report_confirm_message" = "Bu ürünü şikayet etmek istediğinden emin misin?";
 "product_report_confirm_ok_button" = "Tamam";
-"product_report_confirm_title" = "Ürünü bildir";
-"product_report_product_button" = "Ürünü bildir";
+"product_report_confirm_title" = "Ürünü şikayet et";
+"product_report_product_button" = "Ürünü şikayet et";
 "product_reported_error_generic" = "Ürünü şu an bildiremedik. Lütfen daha sonra tekrar dene.";
 "product_reported_product_label" = "Ürün bildirimi başarıyla gerçekleşti.";
 "product_reported_success_message" = "Ürün bildirimi başarıyla gerçekleşti. Teşekkürler!";
