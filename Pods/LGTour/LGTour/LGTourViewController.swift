@@ -19,6 +19,12 @@ public enum CloseButtonType {
 
 public protocol LGTourViewControllerDelegate: class {
     /**
+        A tour view controller was initially shown.
+    
+        - parameter tourViewController: The tour view controller.
+    */
+    func tourViewControllerDidLoad(tourViewController: LGTourViewController)
+    /**
         A tour view controller show a page.
         
         - parameter tourViewController: The tour view controller.
@@ -275,6 +281,9 @@ public class LGTourViewController: UIViewController, UIScrollViewDelegate {
         if numberOfPages > 0 {
             delegate?.tourViewController(self, didShowPageAtIndex: 0)
         }
+        
+        // Notify the delegate
+        delegate?.tourViewControllerDidLoad(self)
        
         // @ahl: tilt stuff, commented for now
         
