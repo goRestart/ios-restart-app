@@ -32,7 +32,7 @@ public class MainProductsViewModel: BaseViewModel {
     public init(category: ProductCategory? = nil, searchString: String? = nil) {
         self.category = category
         self.searchString = searchString
-        self.title = category?.name() ?? UIImage(named: "navbar_logo")
+        self.title = category?.name ?? UIImage(named: "navbar_logo")
         self.hasSearchButton = ( searchString == nil )
         super.init()
     }

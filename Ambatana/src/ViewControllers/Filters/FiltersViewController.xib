@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FiltersViewController" customModule="LetGo" customModuleProvider="target">
+            <connections>
+                <outlet property="collectionView" destination="RID-ur-YMw" id="3KY-Vy-1m2"/>
+                <outlet property="saveFiltersBtn" destination="1Do-1m-Mhz" id="zpe-ZY-kMT"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="RID-ur-YMw">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="591"/>
+                    <animations/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="QZV-h5-0pU">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="50"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="KsX-L0-Mse"/>
+                        <outlet property="delegate" destination="-1" id="7N5-FP-n7N"/>
+                    </connections>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lfV-TD-gpL">
+                    <rect key="frame" x="0.0" y="591" width="375" height="76"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Do-1m-Mhz">
+                            <rect key="frame" x="15" y="16" width="344" height="44"/>
+                            <animations/>
+                            <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                            <state key="normal" title="Save Filters">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="onSaveFiltersBtn:" destination="-1" eventType="touchUpInside" id="wuQ-P7-dM5"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <animations/>
+                    <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="1Do-1m-Mhz" firstAttribute="top" secondItem="lfV-TD-gpL" secondAttribute="top" constant="16" id="D3n-ok-7jb"/>
+                        <constraint firstAttribute="trailing" secondItem="1Do-1m-Mhz" secondAttribute="trailing" constant="16" id="GTK-nY-lvf"/>
+                        <constraint firstAttribute="height" constant="76" id="O2f-py-rxS"/>
+                        <constraint firstAttribute="bottom" secondItem="1Do-1m-Mhz" secondAttribute="bottom" constant="16" id="fec-v9-RAg"/>
+                        <constraint firstItem="1Do-1m-Mhz" firstAttribute="leading" secondItem="lfV-TD-gpL" secondAttribute="leading" constant="15" id="x40-XG-xby"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="lfV-TD-gpL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1Mf-8d-3j7"/>
+                <constraint firstAttribute="trailing" secondItem="lfV-TD-gpL" secondAttribute="trailing" id="8Qf-uy-Iaa"/>
+                <constraint firstItem="RID-ur-YMw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="9f4-mB-OE7"/>
+                <constraint firstAttribute="bottom" secondItem="RID-ur-YMw" secondAttribute="bottom" id="Ybb-yV-qmm"/>
+                <constraint firstAttribute="bottom" secondItem="lfV-TD-gpL" secondAttribute="bottom" id="bjt-f2-ytt"/>
+                <constraint firstAttribute="trailing" secondItem="RID-ur-YMw" secondAttribute="trailing" id="oSX-0d-NYG"/>
+                <constraint firstItem="RID-ur-YMw" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="omh-wk-STc"/>
+                <constraint firstItem="lfV-TD-gpL" firstAttribute="top" secondItem="RID-ur-YMw" secondAttribute="bottom" id="x1E-Hk-ibQ"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="Ybb-yV-qmm"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>
