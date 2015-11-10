@@ -131,7 +131,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
         switch sections[indexPath.section] {
         case .Distance:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell", forIndexPath: indexPath) as! FilterDistanceCell
-            //TODO CUSTOMIZE
+            cell.setupWithDistance(5)
             return cell
         case .Categories:
             let category = viewModel.categoryAtIndex(indexPath.row)
@@ -151,6 +151,17 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
             return cell
         }
         
+    }
+    
+    func collectionView(collectionView: UICollectionView, shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        switch sections[indexPath.section] {
+        case .Distance:
+            return false
+        case .Categories:
+            return true
+        case .SortBy:
+            return true
+        }
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {

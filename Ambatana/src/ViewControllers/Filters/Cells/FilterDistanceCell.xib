@@ -43,6 +43,9 @@
                         <animations/>
                         <color key="minimumTrackTintColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <connections>
+                            <action selector="sliderDidEnd:" destination="gTV-IL-0wX" eventType="touchUpOutside" id="58l-cd-whC"/>
+                            <action selector="sliderDidEnd:" destination="gTV-IL-0wX" eventType="touchUpInside" id="vgS-rD-Btk"/>
+                            <action selector="sliderDidStart:" destination="gTV-IL-0wX" eventType="touchDown" id="gCu-k7-2OM"/>
                             <action selector="sliderValueChanged:" destination="gTV-IL-0wX" eventType="valueChanged" id="Dn2-KM-ffk"/>
                         </connections>
                     </slider>
