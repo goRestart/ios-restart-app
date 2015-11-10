@@ -137,6 +137,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
             let category = viewModel.categoryAtIndex(indexPath.row)
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterCategoryCell", forIndexPath: indexPath) as! FilterCategoryCell
             cell.titleLabel.text = category?.name
+            cell.titleLabel.textColor = category?.color
             cell.categoryIcon.image = category?.image
             cell.rightSeparator.hidden = indexPath.row % 2 == 1
             
@@ -172,8 +173,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
         // Navbar
         self.setLetGoNavigationBarStyle("Filters")
         let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarCancel"))
+        cancelButton.tintColor = StyleHelper.red
         self.navigationItem.leftBarButtonItem = cancelButton;
         let resetButton = UIBarButtonItem(title: "Reset", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarReset"))
+        resetButton.tintColor = StyleHelper.red
         self.navigationItem.rightBarButtonItem = resetButton;
         
         // Cells sizes

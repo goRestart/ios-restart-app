@@ -29,7 +29,7 @@
                             <constraint firstAttribute="height" constant="1" id="kni-e6-835"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="siB-1r-PGI">
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="siB-1r-PGI">
                         <rect key="frame" x="326" y="20" width="13" height="10"/>
                         <animations/>
                         <constraints>
@@ -81,4 +81,7 @@
             <point key="canvasLocation" x="302.5" y="370"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="ic_checkmark" width="13" height="10"/>
+    </resources>
 </document>
