@@ -72,6 +72,13 @@ public class MainProductsViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
     }
     
+    public func resignSearchTextFieldResponder() {
+        if let searchFieldTitle = self.title as? LGNavBarSearchField {
+            searchFieldTitle.text = ""
+            searchFieldTitle.resignFirstResponder()
+        }
+    }
+    
     // MARK: - Private methods
     
     /**

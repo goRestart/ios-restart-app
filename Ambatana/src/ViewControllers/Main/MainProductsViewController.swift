@@ -62,7 +62,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         // > Navigation bar
         self.setLetGoNavigationBarStyle(viewModel.title)
         if viewModel.hasSearchButton {
-            setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
+            setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
         }
         
         distanceLabel.layer.cornerRadius = 15
@@ -207,6 +207,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    
+    public func productListViewShouldResignSearch(productListView: ProductListView) {
+        viewModel.resignSearchTextFieldResponder()
+    }
+    
     // MARK: - MainProductsViewModelDelegate
     
     public func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel) {
@@ -239,7 +244,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     /** 
         Called when the search button is pressed.
     */
-    @objc private func searchButtonPressed(sender: AnyObject) {
+    @objc private func filtersButtonPressed(sender: AnyObject) {
         
         // Notify the VM
         viewModel.searchButtonPressed()
