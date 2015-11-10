@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -21,7 +22,7 @@
                             <constraint firstAttribute="height" constant="1" id="iIN-vQ-MDL"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_filter_home" highlightedImage="ic_filter_home_active" translatesAutoresizingMaskIntoConstraints="NO" id="I8t-T7-bNF" userLabel="CloseIcon">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_filter_home" highlightedImage="ic_filter_home_active" translatesAutoresizingMaskIntoConstraints="NO" id="I8t-T7-bNF" userLabel="CloseIcon">
                         <rect key="frame" x="15" y="27" width="24" height="24"/>
                         <animations/>
                         <constraints>
@@ -29,7 +30,7 @@
                             <constraint firstAttribute="width" constant="24" id="Mfs-9J-zNP"/>
                         </constraints>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_filter_far" highlightedImage="ic_filter_far_active" translatesAutoresizingMaskIntoConstraints="NO" id="nhb-2f-xoK" userLabel="FarIcon">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_filter_far" highlightedImage="ic_filter_far_active" translatesAutoresizingMaskIntoConstraints="NO" id="nhb-2f-xoK" userLabel="FarIcon">
                         <rect key="frame" x="339" y="27" width="24" height="24"/>
                         <animations/>
                         <constraints>
@@ -41,12 +42,15 @@
                         <rect key="frame" x="45" y="24" width="288" height="31"/>
                         <animations/>
                         <color key="minimumTrackTintColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <connections>
+                            <action selector="sliderValueChanged:" destination="gTV-IL-0wX" eventType="valueChanged" id="Dn2-KM-ffk"/>
+                        </connections>
                     </slider>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ld-3c-fS5" userLabel="DistanceTip">
-                        <rect key="frame" x="151" y="-10" width="68" height="30"/>
+                        <rect key="frame" x="13" y="-10" width="68" height="30"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20 Miles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vJB-UO-Fqh">
-                                <rect key="frame" x="8" y="4" width="51.5" height="15"/>
+                                <rect key="frame" x="8" y="4" width="52" height="15"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="15" id="2d4-7B-7YQ"/>
@@ -74,11 +78,11 @@
             <constraints>
                 <constraint firstItem="I8t-T7-bNF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="15" id="3J3-OI-4CK"/>
                 <constraint firstItem="I8t-T7-bNF" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="4Rf-sm-hYB"/>
-                <constraint firstItem="4Ld-3c-fS5" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="151" id="6vt-CI-Bft"/>
                 <constraint firstAttribute="trailing" secondItem="A1S-oJ-ruB" secondAttribute="trailing" id="G5v-S9-bVy"/>
                 <constraint firstAttribute="trailing" secondItem="nhb-2f-xoK" secondAttribute="trailing" constant="16" id="Kwi-JB-Hm7"/>
                 <constraint firstItem="nhb-2f-xoK" firstAttribute="leading" secondItem="LOM-HX-7cI" secondAttribute="trailing" constant="8" id="QDG-dD-nOo"/>
                 <constraint firstItem="A1S-oJ-ruB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Vp1-4I-bmj"/>
+                <constraint firstItem="4Ld-3c-fS5" firstAttribute="centerX" secondItem="LOM-HX-7cI" secondAttribute="leading" id="cov-fh-VlS"/>
                 <constraint firstItem="4Ld-3c-fS5" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="-10" id="iKd-FU-Ldr"/>
                 <constraint firstItem="nhb-2f-xoK" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="nBs-aH-xic"/>
                 <constraint firstItem="A1S-oJ-ruB" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="pDj-CE-jUH"/>
@@ -86,6 +90,13 @@
                 <constraint firstItem="LOM-HX-7cI" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="xeh-bl-kkS"/>
             </constraints>
             <size key="customSize" width="450" height="50"/>
+            <connections>
+                <outlet property="closeIcon" destination="I8t-T7-bNF" id="nT8-eQ-w6k"/>
+                <outlet property="distanceTip" destination="4Ld-3c-fS5" id="561-eF-Jmi"/>
+                <outlet property="distanceTipCenter" destination="cov-fh-VlS" id="WMI-oE-uBZ"/>
+                <outlet property="farIcon" destination="nhb-2f-xoK" id="pkJ-GJ-oiW"/>
+                <outlet property="slider" destination="LOM-HX-7cI" id="xny-n7-nyA"/>
+            </connections>
             <point key="canvasLocation" x="391.5" y="428"/>
         </collectionViewCell>
     </objects>

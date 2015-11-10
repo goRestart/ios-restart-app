@@ -49,28 +49,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
 
         //TODO LOCALIZE!
         
-        // CollectionView cells
-        let filterNib = UINib(nibName: "FilterCategoryCell", bundle: nil)
-        self.collectionView.registerNib(filterNib, forCellWithReuseIdentifier: "FilterCategoryCell")
-        let sortByNib = UINib(nibName: "FilterSortByCell", bundle: nil)
-        self.collectionView.registerNib(sortByNib, forCellWithReuseIdentifier: "FilterSortByCell")
-        let distanceNib = UINib(nibName: "FilterDistanceCell", bundle: nil)
-        self.collectionView.registerNib(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
-        let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
-        self.collectionView.registerNib(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell")
-        
-        // Navbar
-        self.setLetGoNavigationBarStyle("Filters")
-        let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarCancel"))
-        self.navigationItem.leftBarButtonItem = cancelButton;
-        let resetButton = UIBarButtonItem(title: "Reset", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarReset"))
-        self.navigationItem.rightBarButtonItem = resetButton;
-        
-        // Cells sizes
-        let screenWidth = UIScreen.mainScreen().bounds.size.width
-        distanceCellSize = CGSize(width: screenWidth, height: 78.0)
-        categoryCellSize = CGSize(width: screenWidth * 0.5, height: 50.0)
-        sortByCellSize = CGSize(width: screenWidth, height: 50.0)
+        setupUi()
         
         // Get categories
         viewModel.retrieveCategories()
@@ -177,4 +156,33 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
         //TODO IMPLEMENT
     }
 
+    // MARK: Private methods
+    
+    private func setupUi(){
+        // CollectionView cells
+        let filterNib = UINib(nibName: "FilterCategoryCell", bundle: nil)
+        self.collectionView.registerNib(filterNib, forCellWithReuseIdentifier: "FilterCategoryCell")
+        let sortByNib = UINib(nibName: "FilterSortByCell", bundle: nil)
+        self.collectionView.registerNib(sortByNib, forCellWithReuseIdentifier: "FilterSortByCell")
+        let distanceNib = UINib(nibName: "FilterDistanceCell", bundle: nil)
+        self.collectionView.registerNib(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
+        let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
+        self.collectionView.registerNib(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell")
+        
+        // Navbar
+        self.setLetGoNavigationBarStyle("Filters")
+        let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarCancel"))
+        self.navigationItem.leftBarButtonItem = cancelButton;
+        let resetButton = UIBarButtonItem(title: "Reset", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarReset"))
+        self.navigationItem.rightBarButtonItem = resetButton;
+        
+        // Cells sizes
+        let screenWidth = UIScreen.mainScreen().bounds.size.width
+        distanceCellSize = CGSize(width: screenWidth, height: 78.0)
+        categoryCellSize = CGSize(width: screenWidth * 0.5, height: 50.0)
+        sortByCellSize = CGSize(width: screenWidth, height: 50.0)
+        
+        // Rounded save button
+        saveFiltersBtn.layer.cornerRadius = 4
+    }
 }
