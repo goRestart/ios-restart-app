@@ -32,7 +32,6 @@ public class MainProductsViewModel: BaseViewModel {
     public init(category: ProductCategory? = nil, searchString: String? = nil) {
         self.category = category
         self.searchString = searchString
-        
         if let cat = category {
             self.title = cat.name()
         } else {
