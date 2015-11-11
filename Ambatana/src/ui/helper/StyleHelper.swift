@@ -15,7 +15,7 @@ class StyleHelper {
     static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
     
-    private static let white = UIColor(rgb: 0xFFFFFF)
+    private static let black = UIColor(rgb: 0x000000)
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray75 = UIColor(rgb: 0x757575)
@@ -24,7 +24,8 @@ class StyleHelper {
     private static let gray222 = UIColor(rgb: 0xDEDEDE)
     private static let gray225 = UIColor(rgb: 0xE1E1E1)
     private static let gray235 = UIColor(rgb: 0xEBEBEB)
-    private static let black = UIColor(rgb: 0x000000)
+    private static let gray243 = UIColor(rgb: 0xF7F3F3)
+    private static let white = UIColor(rgb: 0xFFFFFF)
     
     // > Palette
     private static let grayMedium = UIColor(rgb: 0xD5D3D3)
@@ -109,6 +110,10 @@ class StyleHelper {
         let image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return image;
+    }
+    
+    static var navBarSearchFieldBgColor: UIColor {
+        return gray243
     }
     
     // MARK: - TabBar

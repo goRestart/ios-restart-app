@@ -18,6 +18,7 @@ public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType)
     func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool)
     func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool)
+    func productListViewShouldResignSearch(productListView: ProductListView)
 }
 
 
@@ -390,6 +391,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     }
     
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        delegate?.productListViewShouldResignSearch(self)
         delegate?.productListView(self, shouldHideFloatingSellButton: true)
     }
 

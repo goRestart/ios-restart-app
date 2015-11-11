@@ -11,7 +11,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, MainProductsViewModelDelegate, UISearchBarDelegate {
+public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, MainProductsViewModelDelegate, UITextFieldDelegate {
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -21,6 +21,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceShadow: UIView!
+    
+    private var searchTextField : LGNavBarSearchField?
+    private var cancelSearchOverlayButton : UIButton? // button with a light blur effect by now, will be a table when history is implemented
     
     // MARK: - Lifecycle
     
@@ -33,6 +36,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
 
     public required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
+        print(viewModel.searchString)
+//        self.searchTextField = (viewModel.title == nil) ? LGNavBarSearchField(frame: CGRectZero, text: viewModel.searchString) : nil
+        self.searchTextField = (viewModel.title == nil) ? LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString) : nil
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         viewModel.delegate = self
@@ -53,16 +59,45 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         // > Main product list view
         mainProductListView.delegate = self
         mainProductListView.queryString = viewModel.searchString
+        
         if let category = viewModel.category {
             mainProductListView.categories = [category]
         }
 
         addSubview(mainProductListView)
         
-        // > Navigation bar
-        self.setLetGoNavigationBarStyle(viewModel.title)
-        if viewModel.hasSearchButton {
-            setLetGoRightButtonsWithImageNames(["actionbar_search"], andSelectors: ["searchButtonPressed:"])
+//        // > Navigation bar
+//        var rightItems = []
+//        if viewModel.hasSearchButton {
+//            rightItems = setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
+//        }
+        
+        let rightItems = setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
+        
+        
+        if let categoryTitle = viewModel.title as? String {
+            self.setLetGoNavigationBarStyle(categoryTitle)
+        } else {
+            // Add search text field
+            
+            if let searchField = searchTextField {
+                
+//                let navBarLeftItemsCount = CGFloat(self.navigationController?.navigationItem.leftBarButtonItems?.count ?? 0)
+                let navBarLeftItemsCount = (self.navigationController?.viewControllers[0] == self) ? CGFloat(0) : CGFloat(1)
+                let navBarRightItemsCount = CGFloat(rightItems.count ?? 0) //CGFloat(self.navigationController?.navigationItem.rightBarButtonItems?.count ?? 0)
+                let navBarWidth = self.navigationController?.navigationBar.frame.width ?? 0
+                
+                let navBarOcupiedSpace = (navBarLeftItemsCount + navBarRightItemsCount) * (45 + 12) // 45 = rightItems[0].frame.width
+                let textFieldWidth = navBarWidth - navBarOcupiedSpace
+                let xPosition = 12 + (self.navigationController?.navigationItem.leftBarButtonItem?.width ?? 0) // 12 + navBarLeftItemsCount * 60 ????????
+                
+                searchField.frame = CGRectMake(xPosition, 5, textFieldWidth, 30)
+                searchField.searchTextField.delegate = self
+                self.setLetGoNavigationBarStyle(searchField)
+//                self.navigationController?.navigationBar.addSubview(searchField)
+                
+            }
+//            self.setLetGoNavigationBarStyle(titleTextField)
         }
         
         distanceLabel.layer.cornerRadius = 15
@@ -92,15 +127,17 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         view.layoutIfNeeded()
     }
     
-    
-    public override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
+
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        // UI
-        // > Hide search bar (if showing)
-        if letGoSearchBar != nil { self.dismissSearchBar(letGoSearchBar!, animated: true, searchBarCompletion: nil) }
     }
 
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+
+    
     // MARK: - ProductListViewDataDelegate
 
     public func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType) {
@@ -207,31 +244,96 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    // TODO: delete method if finally product list view is not the one to decide if search field loses focus
+    public func productListViewShouldResignSearch(productListView: ProductListView) {
+//        searchOverlayView.removeFromSuperview()
+//        searchTextField.resignFirstResponder()
+    }
+    
     // MARK: - MainProductsViewModelDelegate
     
     public func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel) {
-        if let searchBar = letGoSearchBar {
-            
-            // Dismiss the search bar & push a new VC to look for search results
-            dismissSearchBar(searchBar, animated: true) { [weak self] () -> Void in
-                let vc = MainProductsViewController(viewModel: searchViewModel)
-                self?.navigationController?.pushViewController(vc, animated: true)
-            }
+
+        cancelSearchOverlayButton?.removeFromSuperview()
+        
+        let vc = MainProductsViewController(viewModel: searchViewModel)
+        self.navigationController?.pushViewController(vc, animated: true)
+
+    }
+
+    func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel) {
+        
+        FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: filtersVM)
+    }
+    
+    public func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [String]?) {
+        
+        guard let tags = showTags else {
+            return
         }
+        
+        if tags.count > 0 {
+            loadTagsViewWithTags(tags)
+        }
+        
+    }
+
+    func cancelSearch() {
+        cancelSearchOverlayButton?.removeFromSuperview()
+        
+        guard let searchField = searchTextField else {
+            return
+        }
+        searchField.searchTextField.text = ""
+        searchField.endEdit()
     }
     
-    // MARK: - UISearchBarDelegate
+    // MARK: UITextFieldDelegate Methods
     
-    public func searchBar(searchBar: UISearchBar, textDidChange searchText: String)  {
-        viewModel.searchString = searchText
+    dynamic public func textFieldDidBeginEditing(textField: UITextField) {
+        
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        let searchOverlayView = UIVisualEffectView(effect: blur)
+        
+        cancelSearchOverlayButton = UIButton(frame: mainProductListView.bounds)
+        cancelSearchOverlayButton?.addTarget(self, action: Selector("cancelSearch"), forControlEvents: UIControlEvents.TouchUpInside)
+        searchOverlayView.frame = cancelSearchOverlayButton!.bounds
+        searchOverlayView.userInteractionEnabled = false
+        cancelSearchOverlayButton?.insertSubview(searchOverlayView, atIndex: 0)
+        
+        mainProductListView.addSubview(cancelSearchOverlayButton!)
+        
+        guard let searchField = searchTextField else {
+            return
+        }
+        
+        searchField.beginEdit()
     }
     
-    public func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        dismissSearchBar(searchBar, animated: true, searchBarCompletion: nil)
+    dynamic public func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        return true
     }
     
-    public func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    dynamic public func textFieldDidEndEditing(textField: UITextField) {
+        
+    }
+    
+    dynamic public func textFieldShouldReturn(textField: UITextField) -> Bool {
         viewModel.search()
+        return true
+    }
+    
+    // will be used for history & predictive search
+    dynamic public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            
+            viewModel.searchString = text
+            
+        }
+        
+        return true
     }
     
     // MARK: - Private methods
@@ -239,15 +341,21 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     /** 
         Called when the search button is pressed.
     */
-    @objc private func searchButtonPressed(sender: AnyObject) {
+    @objc private func filtersButtonPressed(sender: AnyObject) {
         
         // Notify the VM
         viewModel.searchButtonPressed()
         
-        // Show search
-        showSearchBarAnimated(true, delegate: self)
-        
-//        //TODO: JUST FOR TESTING! REMOVE!
-//        FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: FiltersViewModel(currentFilters: ProductFilters()))
+        // Show filters
+        viewModel.showFilters()
     }
+    
+    private func loadTagsViewWithTags(tags: [String]) {
+        
+        for tag in tags {
+            print(tag)
+        }
+        
+    }
+    
 }
