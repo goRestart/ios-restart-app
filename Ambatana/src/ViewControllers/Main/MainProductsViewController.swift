@@ -261,11 +261,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
     }
 
-    public func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterViewWithInfo: [String:AnyObject]?) {
+    func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel) {
         
-        let filtersVC = FiltersViewController(viewModel: FiltersViewModel(), nibName: "FiltersViewController")
-        let navController = UINavigationController(rootViewController: filtersVC)
-        self.presentViewController(navController, animated: true, completion: nil)
+        FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: filtersVM)
     }
     
     public func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [String]?) {
@@ -357,7 +355,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         for tag in tags {
             print(tag)
         }
-        
         
     }
     

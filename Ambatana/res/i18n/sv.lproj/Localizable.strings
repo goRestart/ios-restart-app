@@ -49,6 +49,7 @@
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
 "common_error_generic_body" = "Ta en nypa frisk luft och försök igen";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Var vänlig kolla dina nätverksinställningar och försök igen";
 "common_error_retry_button" = "Försök igen";
 "common_error_title" = "HOPPSAN!";
@@ -95,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "Ett fel uppstod vid uppdatering av din produkt.";
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
 "edit_product_title" = "Redigera produkt";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "Det finns en ny version av letgo. Var god uppdatera nu.";
 "forced_update_title" = "Uppdatering tillgänglig";
 "forced_update_update_button" = "Uppdatera";

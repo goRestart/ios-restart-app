@@ -40,6 +40,8 @@
                 <constraint firstItem="I7o-FD-snW" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="16" id="rv3-9N-Mzo"/>
             </constraints>
             <connections>
+                <outlet property="separator" destination="2JB-0j-eZD" id="a4j-zP-Myp"/>
+                <outlet property="separatorHeight" destination="oEJ-0e-0XN" id="fE1-rQ-xod"/>
                 <outlet property="titleLabel" destination="I7o-FD-snW" id="4pB-d8-LAq"/>
             </connections>
         </collectionReusableView>

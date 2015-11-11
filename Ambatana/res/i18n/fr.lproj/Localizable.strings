@@ -49,6 +49,7 @@
 "common_error" = "Erreur";
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
 "common_error_generic_body" = "Réessayez un peu plus tard...";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Vérifiez votre connexion et réessayez";
 "common_error_retry_button" = "Réessayez";
 "common_error_title" = "OOPS !";
@@ -95,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "Une erreur est survenue lors de la modification de votre bien.";
 "edit_product_send_ok" = "Félicitations ! Votre bien a été modifié. Il apparaîtra dans l'application sous peu.";
 "edit_product_title" = "Modifier le Bien";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "Une nouvelle version de letgo est disponible. Veuillez mettre à jour maintenant.";
 "forced_update_title" = "Mise à jour disponible";
 "forced_update_update_button" = "Mettre à jour";

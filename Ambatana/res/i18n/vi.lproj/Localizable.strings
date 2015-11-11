@@ -49,6 +49,7 @@
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
 "common_error_generic_body" = "Hãy thử ra ngoài hít thở không khí trong lành và quay lại thử sau";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Vui lòng kiểm tra cài đặt mạng và thử lại";
 "common_error_retry_button" = "Thử lại";
 "common_error_title" = "Ồ!";
@@ -95,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "Có lỗi trong khi cập nhật sản phẩm của bạn.";
 "edit_product_send_ok" = "Chúc mừng! Sản phẩm của bạn đã được cập nhật thành công. Sản phẩm sẽ sớm xuất hiện trong danh mục của chúng tôi.";
 "edit_product_title" = "Chỉnh sửa Sản phẩm";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "Đã có phiên bản letgo mới. Hãy tải xuống ngay bây giờ.";
 "forced_update_title" = "Có bản cập nhật mới";
 "forced_update_update_button" = "Cập nhật";

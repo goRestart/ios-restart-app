@@ -12,8 +12,12 @@ class FilterHeaderCell: UICollectionReusableView {
 
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var separator: UIView!
+    @IBOutlet weak var separatorHeight: NSLayoutConstraint!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.setupUI()
         self.resetUI()
     }
     
@@ -23,6 +27,10 @@ class FilterHeaderCell: UICollectionReusableView {
     }
     
     // MARK: - Private methods
+    
+    private func setupUI() {
+        separatorHeight.constant = StyleHelper.onePixelSize
+    }
     
     // Resets the UI to the initial state
     private func resetUI() {

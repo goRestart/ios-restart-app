@@ -14,10 +14,13 @@ class FilterCategoryCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var rightSeparator: UIView!
     
+    @IBOutlet weak var separatorWidth: NSLayoutConstraint!
+    @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     // MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.setupUI()
         self.resetUI()
     }
     
@@ -27,6 +30,11 @@ class FilterCategoryCell: UICollectionViewCell {
     }
     
     // MARK: - Private methods
+    
+    private func setupUI() {
+        separatorHeight.constant = StyleHelper.onePixelSize
+        separatorWidth.constant = StyleHelper.onePixelSize
+    }
     
     // Resets the UI to the initial state
     private func resetUI() {

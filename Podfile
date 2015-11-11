@@ -44,6 +44,9 @@ pod "NewRelicAgent",         "~> 5.3.1"
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0.1"
 
+# Semi modal view controller
+pod "LGSemiModalNavController", "~> 0.2.0"
+
 target "letgoTests", :exclusive => true do
     pod "Kahuna",               "~> 2.2.2"
     

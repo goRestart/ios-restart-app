@@ -73,6 +73,14 @@ class StyleHelper {
     static var soldColor: UIColor {
         return turquoise
     }
+    
+    static var standardTextColor: UIColor {
+        return gray44
+    }
+    
+    static var onePixelSize: CGFloat {
+        return 1 / UIScreen.mainScreen().scale
+    }
 
     // MARK: - NavBar
     

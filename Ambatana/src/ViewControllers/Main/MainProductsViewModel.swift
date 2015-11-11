@@ -10,13 +10,13 @@ import CoreLocation
 import LGCoreKit
 import Result
 
-public protocol MainProductsViewModelDelegate: class {
+protocol MainProductsViewModelDelegate: class {
     func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel)
-    func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterViewWithInfo: [String:AnyObject]?)
+    func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [String]?)
 }
 
-public class MainProductsViewModel: BaseViewModel {
+public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate {
 
     // Input
     public var category: ProductCategory?
@@ -33,9 +33,11 @@ public class MainProductsViewModel: BaseViewModel {
         }
     }
     
+    var filters : ProductFilters?
+    
     
     // > Delegate
-    public weak var delegate: MainProductsViewModelDelegate?
+    weak var delegate: MainProductsViewModelDelegate?
     
     // MARK: - Lifecycle
     
@@ -51,6 +53,14 @@ public class MainProductsViewModel: BaseViewModel {
 //        self.hasSearchButton = ( searchString == nil )
         super.init()
     }
+    
+    
+    // MARK: FiltersViewModelDataDelegate
+    
+    func viewModelDidUpdateFilters(viewModel: FiltersViewModel, filters: ProductFilters) {
+        self.filters = filters
+    }
+
     
     // MARK: - Public methods
     
@@ -71,9 +81,15 @@ public class MainProductsViewModel: BaseViewModel {
     }
     
     public func showFilters() {
-        updateTagsFromFilters()
         
-//        delegate?.mainProductsViewModel(self, showFilterViewWithInfo: [:])
+        let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
+        filtersVM.dataDelegate = self
+        
+        // TODO:  manage previously setted filters propperly
+        delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)
+        
+        updateTagsFromFilters()
+
     }
     
     /**

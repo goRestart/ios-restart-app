@@ -14,7 +14,7 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="354" height="50"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="irw-dg-rq6" userLabel="Separator">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="irw-dg-rq6" userLabel="TopSep">
                         <rect key="frame" x="0.0" y="0.0" width="355" height="1"/>
                         <animations/>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -28,15 +28,9 @@
                         <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="1" id="8Wv-st-sZb"/>
-                            <constraint firstAttribute="height" constant="1" id="DBt-Ur-qgS"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="DBt-Ur-qgS"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EZ3-9H-zTO">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EZ3-9H-zTO">
                         <rect key="frame" x="10" y="10" width="30" height="30"/>
                         <animations/>
                         <constraints>
@@ -75,6 +69,8 @@
             <connections>
                 <outlet property="categoryIcon" destination="EZ3-9H-zTO" id="qVx-dn-sVh"/>
                 <outlet property="rightSeparator" destination="UDU-cM-GIA" id="N6q-TM-3N0"/>
+                <outlet property="separatorHeight" destination="hzP-FH-f7S" id="rnH-cP-s42"/>
+                <outlet property="separatorWidth" destination="8Wv-st-sZb" id="CFI-9c-O5r"/>
                 <outlet property="titleLabel" destination="eoq-7u-BjN" id="hLJ-aC-Cvt"/>
             </connections>
             <point key="canvasLocation" x="527" y="412"/>

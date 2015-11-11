@@ -163,6 +163,7 @@
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
+		C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132A3E1BF246D40000747A /* ProductFilters.swift */; settings = {ASSET_TAGS = (); }; };
 		C77593DE1BF0B8A00097D62F /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593DC1BF0B8A00097D62F /* FiltersViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		C77593DF1BF0B8A00097D62F /* FiltersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593DD1BF0B8A00097D62F /* FiltersViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		C77593E11BF0B8C60097D62F /* FiltersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E01BF0B8C60097D62F /* FiltersViewModel.swift */; settings = {ASSET_TAGS = (); }; };
@@ -413,6 +414,7 @@
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C7132A3E1BF246D40000747A /* ProductFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductFilters.swift; sourceTree = "<group>"; };
 		C77593DC1BF0B8A00097D62F /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		C77593DD1BF0B8A00097D62F /* FiltersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FiltersViewController.xib; sourceTree = "<group>"; };
 		C77593E01BF0B8C60097D62F /* FiltersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewModel.swift; sourceTree = "<group>"; };
@@ -747,6 +749,7 @@
 				508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */,
 				C780281A1BF0F499002B26C5 /* ProductSortOption.swift */,
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
+				C7132A3E1BF246D40000747A /* ProductFilters.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1668,6 +1671,7 @@
 				667562B11A9749AE00039151 /* ChatListViewController.swift in Sources */,
 				2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */,
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
+				C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */,
 				2EE5FF571B7B465F0090E558 /* EditUserLocationViewModel.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift in Sources */,
 				D4BFE5B31B640C36006A8CB6 /* MainProductListViewModel.swift in Sources */,
