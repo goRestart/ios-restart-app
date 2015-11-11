@@ -65,8 +65,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //TODO LOCALIZE!
         
         setupUi()
         
@@ -209,11 +207,11 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         self.collectionView.registerNib(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell")
         
         // Navbar
-        self.setLetGoNavigationBarStyle("Filters")
+        self.setLetGoNavigationBarStyle(LGLocalizedString.filtersTitle)
         let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarCancel"))
         cancelButton.tintColor = StyleHelper.red
         self.navigationItem.leftBarButtonItem = cancelButton;
-        let resetButton = UIBarButtonItem(title: "Reset", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarReset"))
+        let resetButton = UIBarButtonItem(title: LGLocalizedString.filtersNavbarReset, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarReset"))
         resetButton.tintColor = StyleHelper.red
         self.navigationItem.rightBarButtonItem = resetButton;
         

@@ -400,6 +400,46 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_send_ok", comment: "")
 	}
 	
+	static var filtersNavbarReset: String {
+		return NSLocalizedString("filters_navbar_reset", comment: "")
+	}
+	
+	static var filtersSaveButton: String {
+		return NSLocalizedString("filters_save_button", comment: "")
+	}
+	
+	static var filtersSectionCategories: String {
+		return NSLocalizedString("filters_section_categories", comment: "")
+	}
+	
+	static var filtersSectionDistance: String {
+		return NSLocalizedString("filters_section_distance", comment: "")
+	}
+	
+	static var filtersSectionSortby: String {
+		return NSLocalizedString("filters_section_sortby", comment: "")
+	}
+	
+	static var filtersSortClosest: String {
+		return NSLocalizedString("filters_sort_closest", comment: "")
+	}
+	
+	static var filtersSortNewest: String {
+		return NSLocalizedString("filters_sort_newest", comment: "")
+	}
+	
+	static var filtersSortPriceAsc: String {
+		return NSLocalizedString("filters_sort_price_asc", comment: "")
+	}
+	
+	static var filtersSortPriceDesc: String {
+		return NSLocalizedString("filters_sort_price_desc", comment: "")
+	}
+	
+	static var filtersTitle: String {
+		return NSLocalizedString("filters_title", comment: "")
+	}
+	
 	static var forcedUpdateTitle: String {
 		return NSLocalizedString("forced_update_title", comment: "")
 	}
