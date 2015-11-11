@@ -2,176 +2,109 @@
 //  LGNavBarSearchField.swift
 //  LetGo
 //
-//  Created by Dídac on 09/11/15.
+//  Created by Dídac on 11/11/15.
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
 import UIKit
-import Foundation
-
 
 @IBDesignable
-class LGNavBarSearchField: UITextField {
+public class LGNavBarSearchField: UIView {
 
-    @IBInspectable var insetX: CGFloat = 0
-    @IBInspectable var insetY: CGFloat = 0
-    @IBInspectable var clearButtonOffset: CGFloat = 0
+    @IBOutlet weak var searchTextField: LGTextField!
+    @IBOutlet weak var magnifierIcon: UIImageView!
+    @IBOutlet weak var logoIcon: UIImageView!
     
-    private let clearButtonSide : CGFloat = 19
-    
-    private var iconContainerView : UIView = UIView()
-    private var magnifierView : UIView = UIView()
-    
-//    public let UITextFieldTextDidBeginEditingNotification: String
-//    public let UITextFieldTextDidEndEditingNotification: String
-//    public let UITextFieldTextDidChangeNotification: String
+    @IBOutlet var magnifierIconLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var magnifierIconCenterXConstraint: NSLayoutConstraint!
 
+//    convenience init(frame: CGRect, text: String?) {
+//        self.init(frame: frame)
+//        setupTextFieldWithText(text)
+//    }
+//    
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//    }
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//    }
 
-    convenience init(frame: CGRect, text: String?) {
-        self.init(frame: frame)
-        setupTextFieldWithText(text)
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setupTextFieldWithText("")
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    // placeholder position
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectInset(bounds , insetX , insetY)
-    }
-    
-    // text position
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return CGRectMake(insetX, insetY, CGRectGetWidth(bounds)-2*insetX-clearButtonSide/2, CGRectGetHeight(bounds)-2*insetY)
-    }
-    
-    // clear button position
-    override func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
-        let rect = CGRectMake(bounds.size.width-clearButtonSide-clearButtonOffset , CGRectGetMidY(bounds)-clearButtonSide/2, clearButtonSide, clearButtonSide)
-//        print("xxxxxxxxxxxxxx")
-//        print(self.frame)
-//        print(bounds)
-//        print(rect)
-        return rect
-    }
-    
-    override func layoutSubviews() {
-        iconContainerView.center = CGPoint(x: self.center.x, y: self.center.y-5)
+    public static func setupNavBarSearchFieldWithText(text: String?) -> LGNavBarSearchField? {
+        let view = NSBundle.mainBundle().loadNibNamed("LGNavBarSearchField", owner: self, options: nil).first as? LGNavBarSearchField
+        if let actualView = view {
+            actualView.setupTextFieldWithText(text)
+        }
+        return view
     }
     
     func setupTextFieldWithText(text: String?) {
+        searchTextField.textColor = StyleHelper.navBarTitleColor
+        searchTextField.clearButtonMode = UITextFieldViewMode.Always
+        searchTextField.clearButtonOffset = 5
+        searchTextField.insetX = 30
         
-        self.textColor = StyleHelper.navBarTitleColor
-        self.clearButtonMode = UITextFieldViewMode.WhileEditing
-        self.clearButtonOffset = 5
-        self.insetX = 30
+        searchTextField.borderStyle = UITextBorderStyle.None
+        searchTextField.layer.cornerRadius = 5
+        searchTextField.layer.borderWidth = 1
+        searchTextField.layer.borderColor = StyleHelper.lineColor.CGColor
+        searchTextField.backgroundColor = StyleHelper.navBarSearchFieldBgColor
+        searchTextField.tintColor = StyleHelper.textFieldTintColor
         
-        self.borderStyle = UITextBorderStyle.None
-        self.layer.cornerRadius = 5
-        self.layer.borderWidth = 1
-        self.layer.borderColor = StyleHelper.lineColor.CGColor
-        self.backgroundColor = StyleHelper.navBarSearchFieldBgColor
-        self.tintColor = StyleHelper.textFieldTintColor
-
-        guard let actualText = text else {
-            setupTextFieldCleanMode()
-            return
-        }
-        
-        self.text = actualText
-        setupTextFieldEditMode()
+//        guard let actualText = text else {
+//            setupTextFieldCleanMode()
+//            return
+//        }
+//        
+//        print("setupTextFieldWithText")
+//        print(actualText)
+//        setupTextFieldEditMode()
+        searchTextField.text = text
         
     }
     
     // private Methods
     
-    private func addIconsInContainer() -> UIView {
-        
-        print(self.frame)
-        
-        let iconsContainer = UIView(frame: CGRectMake(0, 0, 80, 20))
-//        let iconsContainer = UIView()
-
-//        let containerHeightConstraint = NSLayoutConstraint(item: iconsContainer, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
-//        iconsContainer.addConstraint(containerHeightConstraint)
-//        let containerWidthConstraint = NSLayoutConstraint(item: iconsContainer, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 90)
-//        iconsContainer.addConstraint(containerWidthConstraint)
-        
-        
-        let magnifierIcon = UIImageView(image: UIImage(named: "list_search"))
-        magnifierIcon.frame = CGRectMake(0, 0, 30, iconsContainer.frame.height)
-        magnifierIcon.contentMode = .ScaleAspectFit
-
-        let logoIcon = UIImageView(image: UIImage(named: "navbar_logo"))
-        logoIcon.frame = CGRectMake(30, 0, 50, iconsContainer.frame.height)
-        logoIcon.contentMode = .ScaleAspectFit
-
-        iconsContainer.addSubview(magnifierIcon)
-        iconsContainer.addSubview(logoIcon)
-
-        
-//        let magnifierHeightConstraint = NSLayoutConstraint(item: magnifierIcon, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
-//        magnifierIcon.addConstraint(magnifierHeightConstraint)
-//        let magnifierWidthConstraint = NSLayoutConstraint(item: magnifierIcon, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
-//        magnifierIcon.addConstraint(magnifierWidthConstraint)
-//
-//        let logoHeightConstraint = NSLayoutConstraint(item: logoIcon, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
-//        logoIcon.addConstraint(logoHeightConstraint)
-//        let logoWidthConstraint = NSLayoutConstraint(item: logoIcon, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 60)
-//        logoIcon.addConstraint(logoWidthConstraint)
-//
-//        
-//        let leadingConstraint = NSLayoutConstraint(item: magnifierIcon, attribute: NSLayoutAttribute.LeadingMargin, relatedBy: NSLayoutRelation.Equal, toItem: iconsContainer, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
-//        let trailingConstraint = NSLayoutConstraint(item: logoIcon, attribute: NSLayoutAttribute.TrailingMargin, relatedBy: NSLayoutRelation.Equal, toItem: iconsContainer, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0)
-//        
-//        magnifierIcon.addConstraint(leadingConstraint)
-//        logoIcon.addConstraint(trailingConstraint)
-        
-
-        return iconsContainer
-    }
-
+   
     func beginEdit() {
         setupTextFieldEditMode()
     }
-
+    
     func endEdit() {
-        setupTextFieldCleanMode()
-        self.resignFirstResponder()
+        if searchTextField.text?.characters.count > 0 {
+            setupTextFieldEditMode()
+        } else {
+            setupTextFieldCleanMode()
+        }
     }
-
+    
     func setupTextFieldEditMode() {
-        iconContainerView.removeFromSuperview()
         
-        magnifierView = UIImageView(image: UIImage(named: "list_search"))
-        magnifierView.frame = CGRectMake(5, 0, 20, self.frame.height-10)
-        magnifierView.contentMode = .ScaleAspectFit
+        logoIcon.hidden = true
         
-        magnifierView.center.y = self.center.y-5
+        UIView.animateWithDuration(1, animations: { () -> Void in
+
+            self.magnifierIconCenterXConstraint.constant = CGFloat(-(self.frame.width/2) + 15)
+            self.setNeedsLayout()
+            
+            }) { (completion) -> Void in
+                
+        }
         
-        self.addSubview(magnifierView)
     }
     
     func setupTextFieldCleanMode() {
         
-        magnifierView.removeFromSuperview()
-        
-        // add magnifier icon & logo
-        iconContainerView = addIconsInContainer()
-        iconContainerView.center = CGPoint(x: self.center.x, y: self.center.y-5)
-        self.addSubview(iconContainerView)
-        
-//        let horizontalConstraint = NSLayoutConstraint(item: iconContainerView, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
-//        self.addConstraint(horizontalConstraint)
-//        let verticalConstraint = NSLayoutConstraint(item: iconContainerView, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
-//        self.addConstraint(verticalConstraint)
-    }
+        UIView.animateWithDuration(1, animations: { () -> Void in
+            
+            self.magnifierIconCenterXConstraint.constant = CGFloat(-20)
+            self.setNeedsLayout()
+            
+            }) { (completion) -> Void in
+                self.logoIcon.hidden = false
+        }
 
+        searchTextField.resignFirstResponder()
+    }
 }

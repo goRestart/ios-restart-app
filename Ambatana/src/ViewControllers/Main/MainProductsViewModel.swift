@@ -24,7 +24,7 @@ public class MainProductsViewModel: BaseViewModel {
     
     // Output
     public var title: AnyObject?
-    public var hasSearchButton: Bool
+//    public var hasSearchButton: Bool
     
     // TODO: remove tmp var (used while developing the "show filters" logic)
     public var tags: [String] {
@@ -48,7 +48,7 @@ public class MainProductsViewModel: BaseViewModel {
         self.tags = []
         
 //        self.title = category?.name ?? UIImage(named: "navbar_logo")
-        self.hasSearchButton = ( searchString == nil )
+//        self.hasSearchButton = ( searchString == nil )
         super.init()
     }
     

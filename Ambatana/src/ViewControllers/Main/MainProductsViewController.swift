@@ -36,7 +36,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
 
     public required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
-        self.searchTextField = (viewModel.title == nil) ? LGNavBarSearchField(frame: CGRectZero, text: viewModel.searchString) : nil
+        print(viewModel.searchString)
+//        self.searchTextField = (viewModel.title == nil) ? LGNavBarSearchField(frame: CGRectZero, text: viewModel.searchString) : nil
+        self.searchTextField = (viewModel.title == nil) ? LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString) : nil
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         viewModel.delegate = self
@@ -57,17 +59,21 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         // > Main product list view
         mainProductListView.delegate = self
         mainProductListView.queryString = viewModel.searchString
+        
         if let category = viewModel.category {
             mainProductListView.categories = [category]
         }
 
         addSubview(mainProductListView)
         
-        // > Navigation bar
-        var rightItems = []
-        if viewModel.hasSearchButton {
-            rightItems = setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
-        }
+//        // > Navigation bar
+//        var rightItems = []
+//        if viewModel.hasSearchButton {
+//            rightItems = setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
+//        }
+        
+        let rightItems = setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
+        
         
         if let categoryTitle = viewModel.title as? String {
             self.setLetGoNavigationBarStyle(categoryTitle)
@@ -76,7 +82,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             
             if let searchField = searchTextField {
                 
-                let navBarLeftItemsCount = CGFloat(self.navigationController?.navigationItem.leftBarButtonItems?.count ?? 0)
+//                let navBarLeftItemsCount = CGFloat(self.navigationController?.navigationItem.leftBarButtonItems?.count ?? 0)
+                let navBarLeftItemsCount = (self.navigationController?.viewControllers[0] == self) ? CGFloat(0) : CGFloat(1)
                 let navBarRightItemsCount = CGFloat(rightItems.count ?? 0) //CGFloat(self.navigationController?.navigationItem.rightBarButtonItems?.count ?? 0)
                 let navBarWidth = self.navigationController?.navigationBar.frame.width ?? 0
                 
@@ -85,11 +92,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
                 let xPosition = 12 + (self.navigationController?.navigationItem.leftBarButtonItem?.width ?? 0) // 12 + navBarLeftItemsCount * 60 ????????
                 
                 searchField.frame = CGRectMake(xPosition, 5, textFieldWidth, 30)
-                searchField.delegate = self
+                searchField.searchTextField.delegate = self
                 self.setLetGoNavigationBarStyle(searchField)
 //                self.navigationController?.navigationBar.addSubview(searchField)
+                
             }
-            
 //            self.setLetGoNavigationBarStyle(titleTextField)
         }
         
@@ -120,10 +127,14 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         view.layoutIfNeeded()
     }
     
-    
+
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
     }
 
     
@@ -275,7 +286,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         guard let searchField = searchTextField else {
             return
         }
-        searchField.text = ""
+        searchField.searchTextField.text = ""
         searchField.endEdit()
     }
     
@@ -317,7 +328,13 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     // will be used for history & predictive search
     dynamic public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        viewModel.searchString = string
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            
+            viewModel.searchString = text
+            
+        }
+        
         return true
     }
     

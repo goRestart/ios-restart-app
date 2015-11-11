@@ -12,13 +12,14 @@
 		2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF451B580E5900747610 /* ContactViewController.swift */; };
 		2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1CFF491B58212C00747610 /* ContactViewController.xib */; };
 		2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
-		2E2C2D521BF0D74F00D1CBB3 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C2D511BF0D74F00D1CBB3 /* LGNavBarSearchField.swift */; settings = {ASSET_TAGS = (); }; };
 		2E3760331BD914BA00A5A030 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E37602E1BD914BA00A5A030 /* CategoriesViewController.swift */; };
 		2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E37602F1BD914BA00A5A030 /* CategoriesViewController.xib */; };
 		2E3760351BD914BA00A5A030 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760301BD914BA00A5A030 /* CategoriesViewModel.swift */; };
 		2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760311BD914BA00A5A030 /* CategoryCell.swift */; };
 		2E3760371BD914BA00A5A030 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3760321BD914BA00A5A030 /* CategoryCell.xib */; };
 		2E37603A1BD92CF100A5A030 /* CategoriesViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760391BD92CF100A5A030 /* CategoriesViewModelSpec.swift */; };
+		2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; settings = {ASSET_TAGS = (); }; };
+		2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; settings = {ASSET_TAGS = (); }; };
 		2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E93FBE91B666A1400C97927 /* SellProductCell.swift */; };
@@ -241,13 +242,14 @@
 		2E1CFF451B580E5900747610 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewController.swift; path = Contact/ContactViewController.swift; sourceTree = "<group>"; };
 		2E1CFF491B58212C00747610 /* ContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactViewController.xib; path = Contact/ContactViewController.xib; sourceTree = "<group>"; };
 		2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KahunaTracker.swift; sourceTree = "<group>"; };
-		2E2C2D511BF0D74F00D1CBB3 /* LGNavBarSearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNavBarSearchField.swift; sourceTree = "<group>"; };
 		2E37602E1BD914BA00A5A030 /* CategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		2E37602F1BD914BA00A5A030 /* CategoriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoriesViewController.xib; sourceTree = "<group>"; };
 		2E3760301BD914BA00A5A030 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		2E3760311BD914BA00A5A030 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		2E3760321BD914BA00A5A030 /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
 		2E3760391BD92CF100A5A030 /* CategoriesViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewModelSpec.swift; sourceTree = "<group>"; };
+		2E4436301BF389E000814624 /* LGNavBarSearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNavBarSearchField.swift; sourceTree = "<group>"; };
+		2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LGNavBarSearchField.xib; sourceTree = "<group>"; };
 		2E4562151BE0F76D00C485D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		2E93FBE91B666A1400C97927 /* SellProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductCell.swift; path = Sell/SellProductCell.swift; sourceTree = "<group>"; };
@@ -719,7 +721,8 @@
 				505B06A51B15A9910049F9CD /* GalleryPageView.swift */,
 				505B06A61B15A9910049F9CD /* GalleryPageView.xib */,
 				505B06A71B15A9910049F9CD /* GalleryView.swift */,
-				2E2C2D511BF0D74F00D1CBB3 /* LGNavBarSearchField.swift */,
+				2E4436301BF389E000814624 /* LGNavBarSearchField.swift */,
+				2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */,
 				2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */,
 				502B70581BAAC37700C5D465 /* TabBarToolTip.swift */,
 				502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */,
@@ -1444,6 +1447,7 @@
 				2EE5FF551B7B3DAB0090E558 /* EditUserLocationViewController.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				C77593E61BF0BD310097D62F /* FilterCategoryCell.xib in Resources */,
+				2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */,
 				2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */,
 				2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
@@ -1652,7 +1656,6 @@
 				D4BFE5B61B640C36006A8CB6 /* MainProductsViewModel.swift in Sources */,
 				50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */,
 				50261B1D1AFB48C6006E88E0 /* AppEnvironment.swift in Sources */,
-				2E2C2D521BF0D74F00D1CBB3 /* LGNavBarSearchField.swift in Sources */,
 				50D2CACD1BB41FB800EC5C30 /* HelpViewController.swift in Sources */,
 				D4BFE5B91B640E26006A8CB6 /* ProfileProductListView.swift in Sources */,
 				508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */,
@@ -1732,6 +1735,7 @@
 				2E3760351BD914BA00A5A030 /* CategoriesViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
 				5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */,
+				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
 				50F0BAB01B2893B100E50A68 /* SignUpViewModel.swift in Sources */,
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
