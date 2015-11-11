@@ -96,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
 "edit_product_title" = "Επεξεργασία Προϊόντος";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "Μια πιο πρόσφατη έκδοση του letgo είναι διαθέσιμη. Κάνε ενημέρωση τώρα!";
 "forced_update_title" = "Διαθέσιμη ενημέρωση";
 "forced_update_update_button" = "Αναβάθμιση";

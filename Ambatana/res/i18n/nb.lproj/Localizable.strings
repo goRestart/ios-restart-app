@@ -96,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
 "edit_product_title" = "Endre produkt";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "En ny versjon av letgo er tilgjengelig. Vennligst oppdater nå.";
 "forced_update_title" = "Oppdatering tilgjengelig";
 "forced_update_update_button" = "Oppdater";

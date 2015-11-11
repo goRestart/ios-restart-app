@@ -292,6 +292,36 @@
 // Edit product send ok. Message displayal is like the other messages.
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
 
+// Filters navbar reset
+"filters_navbar_reset" = "Reset";
+
+// Filters save button
+"filters_save_button" = "Save filters";
+
+// Filters section categories
+"filters_section_categories" = "Categories";
+
+// Filters section distance
+"filters_section_distance" = "Distance";
+
+// Filters section sort-by
+"filters_section_sortby" = "Sort By";
+
+// Filters sort option closest
+"filters_sort_closest" = "Closest first";
+
+// Filters sort option newest
+"filters_sort_newest" = "Newest first";
+
+// Filters sort option price ascending
+"filters_sort_price_asc" = "Price: Low to high";
+
+// Filters sort option price descending
+"filters_sort_price_desc" = "Price: High to low";
+
+// Filters title
+"filters_title" = "Filters";
+
 // Forced update title.
 "forced_update_title" = "Update Available";
 

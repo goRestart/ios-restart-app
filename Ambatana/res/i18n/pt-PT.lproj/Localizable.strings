@@ -96,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "Ocorreu um erro ao atualizar o seu artigo.";
 "edit_product_send_ok" = "Parabéns! O seu item foi atualizado com sucesso e aparecerá nos nossos anúncios em breve.";
 "edit_product_title" = "Editar artigo";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "Está disponível uma nova versão do letgo. Por favor atualize agora.";
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";
