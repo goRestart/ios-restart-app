@@ -719,11 +719,11 @@
 				505B06A51B15A9910049F9CD /* GalleryPageView.swift */,
 				505B06A61B15A9910049F9CD /* GalleryPageView.xib */,
 				505B06A71B15A9910049F9CD /* GalleryView.swift */,
+				2E2C2D511BF0D74F00D1CBB3 /* LGNavBarSearchField.swift */,
 				2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */,
 				502B70581BAAC37700C5D465 /* TabBarToolTip.swift */,
 				502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */,
 				502B705C1BAAC3B500C5D465 /* FloatingButton.xib */,
-				2E2C2D511BF0D74F00D1CBB3 /* LGNavBarSearchField.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";

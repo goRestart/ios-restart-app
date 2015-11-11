@@ -12,6 +12,8 @@ import Result
 
 public protocol MainProductsViewModelDelegate: class {
     func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel)
+    func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterViewWithInfo: [String:AnyObject]?)
+    func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [String]?)
 }
 
 public class MainProductsViewModel: BaseViewModel {
@@ -24,23 +26,28 @@ public class MainProductsViewModel: BaseViewModel {
     public var title: AnyObject?
     public var hasSearchButton: Bool
     
+    // TODO: remove tmp var (used while developing the "show filters" logic)
+    public var tags: [String] {
+        didSet {
+            delegate?.mainProductsViewModel(self, showTags: tags)
+        }
+    }
+    
+    
     // > Delegate
     public weak var delegate: MainProductsViewModelDelegate?
     
     // MARK: - Lifecycle
     
-    public init(category: ProductCategory? = nil, searchString: String? = nil) {
+    public init(category: ProductCategory? = nil, searchString: String? = nil, tags: [String]? = nil) {
         self.category = category
         self.searchString = searchString
-        if let cat = category {
-            self.title = cat.name()
-        } else {
-            // Add search text field
-            let titleTextField = LGNavBarSearchField(frame: CGRectMake(0, 5, UIScreen.mainScreen().bounds.width, 30))
-            self.title = titleTextField
-        }
+
+        self.title = category?.name
         
-//        self.title = category?.name() ?? UIImage(named: "navbar_logo")
+        self.tags = []
+        
+//        self.title = category?.name ?? UIImage(named: "navbar_logo")
         self.hasSearchButton = ( searchString == nil )
         super.init()
     }
@@ -63,6 +70,12 @@ public class MainProductsViewModel: BaseViewModel {
         }
     }
     
+    public func showFilters() {
+        updateTagsFromFilters()
+        
+//        delegate?.mainProductsViewModel(self, showFilterViewWithInfo: [:])
+    }
+    
     /**
         Called when search button is pressed.
     */
@@ -71,12 +84,10 @@ public class MainProductsViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
     }
     
-    public func resignSearchTextFieldResponder() {
-        if let searchFieldTitle = self.title as? LGNavBarSearchField {
-            searchFieldTitle.text = ""
-            searchFieldTitle.resignFirstResponder()
-        }
+    public func updateTagsFromFilters(tags: [String]? = ["tag 5", "tag 8", "patata frita"]) {
+        self.tags = tags!
     }
+    
     
     // MARK: - Private methods
     
@@ -88,4 +99,6 @@ public class MainProductsViewModel: BaseViewModel {
     private func viewModelForSearch() -> MainProductsViewModel {
         return MainProductsViewModel(searchString: searchString)
     }
+    
+    
 }

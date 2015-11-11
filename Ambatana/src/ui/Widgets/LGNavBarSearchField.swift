@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 
+
 @IBDesignable
 class LGNavBarSearchField: UITextField {
 
@@ -18,27 +19,23 @@ class LGNavBarSearchField: UITextField {
     
     private let clearButtonSide : CGFloat = 19
     
-    private var isEditing : Bool = false
-    private var viewUpdated : Bool = false
     private var iconContainerView : UIView = UIView()
     private var magnifierView : UIView = UIView()
     
 //    public let UITextFieldTextDidBeginEditingNotification: String
 //    public let UITextFieldTextDidEndEditingNotification: String
 //    public let UITextFieldTextDidChangeNotification: String
+
+
+    convenience init(frame: CGRect, text: String?) {
+        self.init(frame: frame)
+        setupTextFieldWithText(text)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("beginEdit:"), name: UITextFieldTextDidBeginEditingNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("endEdit:"), name: UITextFieldTextDidEndEditingNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("textChanged:"), name: UITextFieldTextDidChangeNotification, object: nil)
-        
-        self.textColor = StyleHelper.navBarTitleColor
-        self.clearButtonMode = UITextFieldViewMode.Always
-        self.clearButtonOffset = 5
-        self.insetX = 30
-
+        setupTextFieldWithText("")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -55,45 +52,41 @@ class LGNavBarSearchField: UITextField {
         return CGRectMake(insetX, insetY, CGRectGetWidth(bounds)-2*insetX-clearButtonSide/2, CGRectGetHeight(bounds)-2*insetY)
     }
     
-//    // clear button position
-//    override func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
-//        let rect = CGRectMake(bounds.size.width-clearButtonSide-clearButtonOffset , CGRectGetMidY(bounds)-clearButtonSide/2, clearButtonSide, clearButtonSide)
-//        return rect
-//    }
-    
-    
-    override func layoutSubviews() {
-        if !viewUpdated {
-            viewUpdated = true
-            setupTextField()
-        }
+    // clear button position
+    override func clearButtonRectForBounds(bounds: CGRect) -> CGRect {
+        let rect = CGRectMake(bounds.size.width-clearButtonSide-clearButtonOffset , CGRectGetMidY(bounds)-clearButtonSide/2, clearButtonSide, clearButtonSide)
+//        print("xxxxxxxxxxxxxx")
+//        print(self.frame)
+//        print(bounds)
+//        print(rect)
+        return rect
     }
     
-    func setupTextField() {
+    override func layoutSubviews() {
+        iconContainerView.center = CGPoint(x: self.center.x, y: self.center.y-5)
+    }
+    
+    func setupTextFieldWithText(text: String?) {
         
-        if isEditing {
-            magnifierView = UIImageView(image: UIImage(named: "list_search"))
-            magnifierView.frame = CGRectMake(5, 0, 20, self.frame.height-10)
-            magnifierView.contentMode = .ScaleAspectFit
-            
-            magnifierView.center.y = self.center.y-5
-            
-            self.addSubview(magnifierView)
-            
-        } else {
-            self.borderStyle = UITextBorderStyle.None
-            self.layer.cornerRadius = 5
-            self.layer.borderWidth = 1
-            self.layer.borderColor = StyleHelper.lineColor.CGColor
-            self.backgroundColor = StyleHelper.navBarSearchFieldBgColor
-            self.tintColor = StyleHelper.textFieldTintColor
-            
-            // add magnifier icon & logo
-            iconContainerView = addIconsInContainer()
-            iconContainerView.center = CGPoint(x: self.center.x, y: self.center.y-5)
-            self.addSubview(iconContainerView)
+        self.textColor = StyleHelper.navBarTitleColor
+        self.clearButtonMode = UITextFieldViewMode.WhileEditing
+        self.clearButtonOffset = 5
+        self.insetX = 30
+        
+        self.borderStyle = UITextBorderStyle.None
+        self.layer.cornerRadius = 5
+        self.layer.borderWidth = 1
+        self.layer.borderColor = StyleHelper.lineColor.CGColor
+        self.backgroundColor = StyleHelper.navBarSearchFieldBgColor
+        self.tintColor = StyleHelper.textFieldTintColor
+
+        guard let actualText = text else {
+            setupTextFieldCleanMode()
+            return
         }
         
+        self.text = actualText
+        setupTextFieldEditMode()
         
     }
     
@@ -101,50 +94,84 @@ class LGNavBarSearchField: UITextField {
     
     private func addIconsInContainer() -> UIView {
         
-        let iconsContainer = UIView(frame: CGRectMake(0, 0, 90, self.frame.height-10))
-
-        let magnifierIcon = UIImageView(image: UIImage(named: "list_search"))
-        magnifierIcon.frame = CGRectMake(0, 0, 40, iconsContainer.frame.height)
-        magnifierIcon.contentMode = .ScaleAspectFit
+        print(self.frame)
         
+        let iconsContainer = UIView(frame: CGRectMake(0, 0, 80, 20))
+//        let iconsContainer = UIView()
+
+//        let containerHeightConstraint = NSLayoutConstraint(item: iconsContainer, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
+//        iconsContainer.addConstraint(containerHeightConstraint)
+//        let containerWidthConstraint = NSLayoutConstraint(item: iconsContainer, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 90)
+//        iconsContainer.addConstraint(containerWidthConstraint)
+        
+        
+        let magnifierIcon = UIImageView(image: UIImage(named: "list_search"))
+        magnifierIcon.frame = CGRectMake(0, 0, 30, iconsContainer.frame.height)
+        magnifierIcon.contentMode = .ScaleAspectFit
+
         let logoIcon = UIImageView(image: UIImage(named: "navbar_logo"))
-        logoIcon.frame = CGRectMake(40, 0, 50, iconsContainer.frame.height)
+        logoIcon.frame = CGRectMake(30, 0, 50, iconsContainer.frame.height)
         logoIcon.contentMode = .ScaleAspectFit
 
         iconsContainer.addSubview(magnifierIcon)
         iconsContainer.addSubview(logoIcon)
+
         
+//        let magnifierHeightConstraint = NSLayoutConstraint(item: magnifierIcon, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
+//        magnifierIcon.addConstraint(magnifierHeightConstraint)
+//        let magnifierWidthConstraint = NSLayoutConstraint(item: magnifierIcon, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
+//        magnifierIcon.addConstraint(magnifierWidthConstraint)
+//
+//        let logoHeightConstraint = NSLayoutConstraint(item: logoIcon, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 30)
+//        logoIcon.addConstraint(logoHeightConstraint)
+//        let logoWidthConstraint = NSLayoutConstraint(item: logoIcon, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: 60)
+//        logoIcon.addConstraint(logoWidthConstraint)
+//
+//        
+//        let leadingConstraint = NSLayoutConstraint(item: magnifierIcon, attribute: NSLayoutAttribute.LeadingMargin, relatedBy: NSLayoutRelation.Equal, toItem: iconsContainer, attribute: NSLayoutAttribute.Leading, multiplier: 1, constant: 0)
+//        let trailingConstraint = NSLayoutConstraint(item: logoIcon, attribute: NSLayoutAttribute.TrailingMargin, relatedBy: NSLayoutRelation.Equal, toItem: iconsContainer, attribute: NSLayoutAttribute.Trailing, multiplier: 1, constant: 0)
+//        
+//        magnifierIcon.addConstraint(leadingConstraint)
+//        logoIcon.addConstraint(trailingConstraint)
+        
+
         return iconsContainer
     }
 
-    func beginEdit(notification: NSNotification) {
-        
-        isEditing = true
-        iconContainerView.removeFromSuperview()
-        viewUpdated = false
-        
+    func beginEdit() {
+        setupTextFieldEditMode()
     }
 
-    func endEdit(notification: NSNotification) {
-        
-        isEditing = false
-        magnifierView.removeFromSuperview()
-        viewUpdated = false
+    func endEdit() {
+        setupTextFieldCleanMode()
         self.resignFirstResponder()
     }
+
+    func setupTextFieldEditMode() {
+        iconContainerView.removeFromSuperview()
+        
+        magnifierView = UIImageView(image: UIImage(named: "list_search"))
+        magnifierView.frame = CGRectMake(5, 0, 20, self.frame.height-10)
+        magnifierView.contentMode = .ScaleAspectFit
+        
+        magnifierView.center.y = self.center.y-5
+        
+        self.addSubview(magnifierView)
+    }
     
-    func textChanged(notification: NSNotification) {
+    func setupTextFieldCleanMode() {
         
-        if self.text?.characters.count > 0 {
-            isEditing = true
-//            self.setNeedsLayout()
-        } else {
-            self.resignFirstResponder()
-            isEditing = false
-//            self.setNeedsLayout()
-//            self.layoutSubviews()
-        }
+        magnifierView.removeFromSuperview()
         
+        // add magnifier icon & logo
+        iconContainerView = addIconsInContainer()
+        iconContainerView.center = CGPoint(x: self.center.x, y: self.center.y-5)
+        self.addSubview(iconContainerView)
+        
+//        let horizontalConstraint = NSLayoutConstraint(item: iconContainerView, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+//        self.addConstraint(horizontalConstraint)
+//        let verticalConstraint = NSLayoutConstraint(item: iconContainerView, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+//        self.addConstraint(verticalConstraint)
     }
 
 }
