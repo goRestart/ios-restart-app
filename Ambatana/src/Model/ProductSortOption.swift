@@ -15,18 +15,16 @@ public enum ProductSortOption: String {
 
 extension ProductSortOption {
     
-    //TODO: LOCALIZE!!
-    
     public var name : String {
         switch(self) {
         case .Closest:
-            return "Closest"
+            return LGLocalizedString.filtersSortClosest
         case .Newest:
-            return "Newest"
+            return LGLocalizedString.filtersSortNewest
         case .PriceAsc:
-            return "Price: Low to high"
+            return LGLocalizedString.filtersSortPriceAsc
         case .PriceDesc:
-            return "Price: High to low"
+            return LGLocalizedString.filtersSortPriceDesc
         }
     }
     

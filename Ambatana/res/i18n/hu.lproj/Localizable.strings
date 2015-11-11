@@ -49,6 +49,7 @@
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
 "common_error_generic_body" = "Sétálj egyet, majd próbálkozz újra";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Ellenőrizd a hálózati beállításokat, majd próbálkozz újra";
 "common_error_retry_button" = "Próbálkozz újra";
 "common_error_title" = "HOPPÁ!";
@@ -95,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "Hiba történt a portéka frissítése során.";
 "edit_product_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
 "edit_product_title" = "Portéka szerkesztése";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "Elérhető a letgo új verziója. Kérjük, frissíts!";
 "forced_update_title" = "Frissítés elérhető";
 "forced_update_update_button" = "Frissítés";

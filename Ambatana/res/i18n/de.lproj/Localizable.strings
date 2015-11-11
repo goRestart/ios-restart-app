@@ -49,6 +49,7 @@
 "common_error" = "Fehler";
 "common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
 "common_error_generic_body" = "Atme tief durch und probier's noch mal";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Bitte überprüfe deine Verbindung und probiere es erneut";
 "common_error_retry_button" = "Versuch's noch einmal";
 "common_error_title" = "HOPPLA!";
@@ -95,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "Beim Aktualisieren deines Produkts ist ein Fehler aufgetreten.";
 "edit_product_send_ok" = "Glückwunsch! Dein Artikel wurde erfolgreich aktualisiert. Er wird in Kürze in unseren Listen erscheinen.";
 "edit_product_title" = "Produkt bearbeiten";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "Eine neue Version von letgo ist verfügbar. Bitte aktualisiere sie jetzt.";
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";

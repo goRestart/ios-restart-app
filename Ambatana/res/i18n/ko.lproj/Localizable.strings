@@ -49,6 +49,7 @@
 "common_error" = "오류";
 "common_error_connection_failed" = "오류가 발생했습니다. 인터넷 연결상태를 확인해주세요.";
 "common_error_generic_body" = "잠시 후 다시 시도하세요";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "네트워크 설정을 확인한 후 다시 시도하세요";
 "common_error_retry_button" = "다시 시도하세요";
 "common_error_title" = "웁스";
@@ -95,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "고객님의 제품을 업데이트하는동안 오류가 발생했습니다.";
 "edit_product_send_ok" = "축하드려요! 고객님의 제품이 성공적으로 게시되었습니다. 잠시 후에 목록에 상품이 보여질 것입니다.";
 "edit_product_title" = "제품 수정";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "새로운 버전의 렛고가 있습니다. 지금 업데이트 하세요.";
 "forced_update_title" = "업데이트 사용가능";
 "forced_update_update_button" = "업데이트";

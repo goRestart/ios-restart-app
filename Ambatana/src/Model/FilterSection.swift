@@ -12,16 +12,14 @@ public enum FilterSection {
 
 extension FilterSection {
     
-    //TODO: LOCALIZE!!
-    
     public var name : String {
         switch(self) {
         case .Distance:
-            return "DISTANCE"
+            return LGLocalizedString.filtersSectionDistance.uppercaseString
         case .Categories:
-            return "CATEGORIES"
+            return LGLocalizedString.filtersSectionCategories.uppercaseString
         case .SortBy:
-            return "SORT BY"
+            return LGLocalizedString.filtersSectionSortby.uppercaseString
         }
     }
     

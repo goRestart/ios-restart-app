@@ -246,5 +246,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         // Show search
         showSearchBarAnimated(true, delegate: self)
+        
+//        //TODO: JUST FOR TESTING! REMOVE!
+//        FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: FiltersViewModel(currentFilters: ProductFilters()))
     }
 }

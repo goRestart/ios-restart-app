@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import LGSemiModalNavController
 
-class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
     // Outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
@@ -23,6 +24,24 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
     private var distanceCellSize = CGSize(width: 0.0, height: 0.0)
     private var categoryCellSize = CGSize(width: 0.0, height: 0.0)
     private var sortByCellSize = CGSize(width: 0.0, height: 0.0)
+    
+    
+    // MARK: - Factory
+    static func presentAsSemimodalOnViewController(parentVC : UIViewController, withViewModel viewModel: FiltersViewModel = FiltersViewModel()){
+        
+        let vc = FiltersViewController(viewModel: viewModel)
+        
+        let semiModal = LGSemiModalNavViewController(rootViewController: vc)
+        semiModal.view.frame = CGRectMake(0, 0, parentVC.view.frame.size.width, parentVC.view.frame.size.height * 0.85)
+        //Selected customization properties, see more in the header of the LGSemiModalNavViewController
+        semiModal.backgroundShadeColor = UIColor.blackColor()
+        semiModal.animationSpeed = 0.35
+        semiModal.tapDismissEnabled = true
+        semiModal.backgroundShadeAlpha = 0.4;
+        semiModal.scaleTransform = CGAffineTransformMakeScale(0.94, 0.94)
+        
+        parentVC.presentViewController(semiModal, animated: true, completion: nil)
+    }
     
     
     // MARK: - Lifecycle
@@ -46,8 +65,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //TODO LOCALIZE!
         
         setupUi()
         
@@ -67,20 +84,25 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
     }
     
     func onNavbarReset(){
-        //TODO IMPLEMENT
+        viewModel.resetFilters()
     }
     
     @IBAction func onSaveFiltersBtn(sender: AnyObject) {
-        
-        //TODO IMPLEMENT
-        
+        viewModel.saveFilters()
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
     // MARK: - FiltersViewModelDelegate
     
     func viewModelDidUpdate(viewModel: FiltersViewModel) {
-//        self.collectionView.reloadData()
+        self.collectionView.reloadData()
+    }
+    
+    // MARK: FilterDistanceCellDelegate
+    
+    func filterDistanceChanged(filterDistanceCell: FilterDistanceCell) {
+        viewModel.currentDistanceKms = filterDistanceCell.distance
     }
     
     // MARK: - UICollectionViewDelegate & DataSource methods
@@ -117,7 +139,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
         if (kind == UICollectionElementKindSectionHeader) {
             let section = sections[indexPath.section]
             let headerCell = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell", forIndexPath: indexPath) as! FilterHeaderCell
-            
+            headerCell.separator.hidden = indexPath.section == 0
             headerCell.titleLabel.text = section.name
             
             return headerCell
@@ -131,21 +153,26 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
         switch sections[indexPath.section] {
         case .Distance:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell", forIndexPath: indexPath) as! FilterDistanceCell
-            //TODO CUSTOMIZE
+            cell.delegate = self
+            cell.distanceType = viewModel.distanceType
+            cell.setupWithDistance(viewModel.currentDistanceKms)
             return cell
         case .Categories:
-            let category = viewModel.categoryAtIndex(indexPath.row)
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterCategoryCell", forIndexPath: indexPath) as! FilterCategoryCell
-            cell.titleLabel.text = category?.name
-            cell.categoryIcon.image = category?.image
+            cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
+            cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
+            let color = viewModel.categoryColorAtIndex(indexPath.row)
+            cell.categoryIcon.tintColor = color
+            cell.titleLabel.textColor = color
+            
             cell.rightSeparator.hidden = indexPath.row % 2 == 1
             
             return cell
             
         case .SortBy:
-            let sortOption = viewModel.sortOptionAtIndex(indexPath.row)
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSortByCell", forIndexPath: indexPath) as! FilterSortByCell
-            cell.titleLabel.text = sortOption?.name
+            cell.titleLabel.text = viewModel.sortOptionTextAtIndex(indexPath.row)
+            cell.selected = viewModel.sortOptionSelectedAtIndex(indexPath.row)
             cell.bottomSeparator.hidden = indexPath.row != (viewModel.numOfSortOptions - 1)
             return cell
         }
@@ -153,7 +180,17 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        //TODO IMPLEMENT
+        collectionView.deselectItemAtIndexPath(indexPath, animated: false)
+        
+        switch sections[indexPath.section] {
+        //Do nothing on distance
+        case .Distance:
+            break
+        case .Categories:
+            viewModel.selectCategoryAtIndex(indexPath.row)
+        case .SortBy:
+            viewModel.selectSortOptionAtIndex(indexPath.row)
+        }
     }
 
     // MARK: Private methods
@@ -170,10 +207,12 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, UICol
         self.collectionView.registerNib(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell")
         
         // Navbar
-        self.setLetGoNavigationBarStyle("Filters")
+        self.setLetGoNavigationBarStyle(LGLocalizedString.filtersTitle)
         let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarCancel"))
+        cancelButton.tintColor = StyleHelper.red
         self.navigationItem.leftBarButtonItem = cancelButton;
-        let resetButton = UIBarButtonItem(title: "Reset", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarReset"))
+        let resetButton = UIBarButtonItem(title: LGLocalizedString.filtersNavbarReset, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarReset"))
+        resetButton.tintColor = StyleHelper.red
         self.navigationItem.rightBarButtonItem = resetButton;
         
         // Cells sizes

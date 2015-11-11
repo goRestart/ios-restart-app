@@ -49,6 +49,7 @@
 "common_error" = "Virhe";
 "common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
 "common_error_generic_body" = "Käy haukkaamassa happea ja yritä uudelleen";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Ole hyvä ja tarkista verkkoasetuksesi ja yritä uudelleen";
 "common_error_retry_button" = "Yritä uudelleen";
 "common_error_title" = "HUPS!";
@@ -95,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "Tuotettasi päivitettäessä tapahtui virhe.";
 "edit_product_send_ok" = "Onneksi olkoon! Tuotteesi päivitettiin onnistuneesti. Se ilmestyy näkyviin listoillemme hetken kuluttua.";
 "edit_product_title" = "Muokkaa tuotetta";
+"filters_navbar_reset" = "Reset";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort By";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_desc" = "Price: High to low";
+"filters_title" = "Filters";
 "forced_update_message" = "Letgon uusi versio on saatavilla. Ole hyvä ja päivitä nyt.";
 "forced_update_title" = "Päivitys saatavilla";
 "forced_update_update_button" = "Päivitä";
