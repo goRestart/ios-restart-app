@@ -141,7 +141,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         if (kind == UICollectionElementKindSectionHeader) {
             let section = sections[indexPath.section]
             let headerCell = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell", forIndexPath: indexPath) as! FilterHeaderCell
-            
+            headerCell.separator.hidden = indexPath.section == 0
             headerCell.titleLabel.text = section.name
             
             return headerCell

@@ -12,6 +12,7 @@ class FilterHeaderCell: UICollectionReusableView {
 
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var separator: UIView!
     @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     
     override func awakeFromNib() {

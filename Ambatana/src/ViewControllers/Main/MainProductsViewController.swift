@@ -241,13 +241,13 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     */
     @objc private func searchButtonPressed(sender: AnyObject) {
         
-//        // Notify the VM
-//        viewModel.searchButtonPressed()
-//        
-//        // Show search
-//        showSearchBarAnimated(true, delegate: self)
+        // Notify the VM
+        viewModel.searchButtonPressed()
         
-        //TODO: JUST FOR TESTING! REMOVE!
-        FiltersViewController.presentAsSemimodalOnViewController(self)
+        // Show search
+        showSearchBarAnimated(true, delegate: self)
+        
+//        //TODO: JUST FOR TESTING! REMOVE!
+//        FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: FiltersViewModel(currentFilters: ProductFilters()))
     }
 }

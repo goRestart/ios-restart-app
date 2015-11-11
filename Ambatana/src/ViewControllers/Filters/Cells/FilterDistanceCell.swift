@@ -28,7 +28,7 @@ class FilterDistanceCell: UICollectionViewCell {
     @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     
     //Static positions
-    private let positions = [1, 5, 10, 20, 30]
+    private let positions : [Int] = Constants.distanceFilterOptions
     
     var delegate : FilterDistanceCellDelegate?
     
@@ -56,13 +56,13 @@ class FilterDistanceCell: UICollectionViewCell {
 
         layoutIfNeeded()
         
-        for i in 0...positions.count {
+        for i in 0..<positions.count {
             if(positions[i] == initialDistance){
                 setupInPosition(i)
                 return
             }
         }
-        setupInPosition(2) //Just in the middle
+        setupInPosition(positions.count/2) //Just in the middle
     }
     
     // MARK: - Internal methods
