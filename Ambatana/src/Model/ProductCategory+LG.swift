@@ -52,7 +52,7 @@ extension ProductCategory {
         }
     }
     
-    public var imageInactive : UIImage? {
+    public var imageSmallInactive : UIImage? {
         switch (self) {
         case .Electronics:
             return UIImage(named: "categories_electronics_inactive")

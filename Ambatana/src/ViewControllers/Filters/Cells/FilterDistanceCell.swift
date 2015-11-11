@@ -9,6 +9,11 @@
 import UIKit
 import LGCoreKit
 
+protocol FilterDistanceCellDelegate: class {
+    func filterDistanceChanged(filterDistanceCell: FilterDistanceCell)
+}
+
+
 class FilterDistanceCell: UICollectionViewCell {
     
     @IBOutlet weak var closeIcon: UIImageView!
@@ -18,9 +23,14 @@ class FilterDistanceCell: UICollectionViewCell {
     @IBOutlet weak var tipTopBackground: UIImageView!
     @IBOutlet weak var distanceTipCenter: NSLayoutConstraint!
     @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet weak var marksContainer: UIView!
+    
+    @IBOutlet weak var separatorHeight: NSLayoutConstraint!
     
     //Static positions
-    private let positions = [1, 5, 10, 20, 30];
+    private let positions = [1, 5, 10, 20, 30]
+    
+    var delegate : FilterDistanceCellDelegate?
     
     var distance : Int {
         return currentDistance()
@@ -43,6 +53,9 @@ class FilterDistanceCell: UICollectionViewCell {
     
     // MARK: - Public methods
     func setupWithDistance(initialDistance: Int) {
+
+        layoutIfNeeded()
+        
         for i in 0...positions.count {
             if(positions[i] == initialDistance){
                 setupInPosition(i)
@@ -68,6 +81,8 @@ class FilterDistanceCell: UICollectionViewCell {
         //Position stick to some values
         let index = Int(slider.value + 0.5)
         setupInPosition(index)
+        
+        delegate?.filterDistanceChanged(self)
     }
     
     @IBAction func sliderValueChanged(sender: UISlider) {
@@ -79,9 +94,33 @@ class FilterDistanceCell: UICollectionViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
+        separatorHeight.constant = StyleHelper.onePixelSize
+        
         tipTopBackground.layer.cornerRadius = floor(tipTopBackground.frame.size.height / 2)
         slider.maximumValue = Float(positions.count-1)
         slider.minimumValue = 0.0
+        
+        //Add marks
+        for i in 0..<positions.count {
+            
+            let percent = Float(i) / Float(positions.count - 1)
+            let xPos = sliderCenterPosition(percent)
+            let xPercent = xPos / marksContainer.frame.size.width
+            
+            let item = UIView(frame: CGRect(x: xPos, y: 0, width: 1, height: marksContainer.frame.size.height))
+            item.translatesAutoresizingMaskIntoConstraints = false
+            marksContainer.addSubview(item)
+            
+            let horizontalConstraint = NSLayoutConstraint(item: item, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: marksContainer, attribute: NSLayoutAttribute.Trailing, multiplier: xPercent, constant: 0)
+            marksContainer.addConstraint(horizontalConstraint)
+            let verticalConstraint = NSLayoutConstraint(item: item, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: marksContainer, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: 0)
+            marksContainer.addConstraint(verticalConstraint)
+            let widthConstraint = NSLayoutConstraint.constraintsWithVisualFormat("H:[item(==1)]", options: NSLayoutFormatOptions(), metrics: nil, views: ["item":item])
+            item.addConstraints(widthConstraint)
+            let heightConstraint = NSLayoutConstraint.constraintsWithVisualFormat("V:[item(==\(marksContainer.frame.size.height))]", options: NSLayoutFormatOptions(), metrics: nil, views: ["item":item])
+            item.addConstraints(heightConstraint)
+            item.backgroundColor = UIColor(rgb: 0xb6b6b6)
+        }
     }
     
     // Resets the UI to the initial state
@@ -98,7 +137,12 @@ class FilterDistanceCell: UICollectionViewCell {
     }
     
     private func updateTipPosition(percentage: Float) {
-        distanceTipCenter.constant = ((slider.frame.size.width-30) * CGFloat(percentage))+13
+        distanceTipCenter.constant = sliderCenterPosition(percentage)
+    }
+    
+    private func sliderCenterPosition(percentage: Float) -> CGFloat {
+        //26 is the size of slider button
+        return ((marksContainer.frame.size.width-26) * CGFloat(percentage)) + 13
     }
     
     private func updateTipLabel() {

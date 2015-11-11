@@ -29,7 +29,7 @@
                             <constraint firstAttribute="height" constant="1" id="kni-e6-835"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" highlightedImage="ic_checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="siB-1r-PGI">
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="siB-1r-PGI">
                         <rect key="frame" x="326" y="20" width="13" height="10"/>
                         <animations/>
                         <constraints>
@@ -75,8 +75,10 @@
             </variation>
             <connections>
                 <outlet property="bottomSeparator" destination="Gek-4r-21W" id="D0A-YK-Wwr"/>
+                <outlet property="bottomSeparatorHeight" destination="kni-e6-835" id="sh2-Zx-RZm"/>
                 <outlet property="tickIcon" destination="siB-1r-PGI" id="Jq2-x6-y5O"/>
                 <outlet property="titleLabel" destination="dlV-Ih-Y8L" id="Fyh-Jc-8jR"/>
+                <outlet property="topSeparatorHeight" destination="xfx-RG-G3v" id="DgK-BK-P8I"/>
             </connections>
             <point key="canvasLocation" x="302.5" y="370"/>
         </collectionViewCell>

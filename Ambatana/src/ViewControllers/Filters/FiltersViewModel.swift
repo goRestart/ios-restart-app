@@ -15,10 +15,33 @@ protocol FiltersViewModelDelegate: class {
     
 }
 
+protocol FiltersViewModelDataDelegate: class {
+    
+    func viewModelDidUpdateFilters(viewModel: FiltersViewModel, filters: ProductFilters)
+    
+}
+
 class FiltersViewModel: BaseViewModel {
     
     //Model delegate
     weak var delegate: FiltersViewModelDelegate?
+    
+    //DataDelegate
+    weak var dataDelegate : FiltersViewModelDataDelegate?
+    
+    //Distance vars
+    var currentDistanceKms : Int {
+        get{
+            return productFilter.distanceKms
+        }
+        set{
+            productFilter.distanceKms = newValue
+        }
+    }
+    
+    var distanceType : DistanceType {
+        return productFilter.distanceType
+    }
     
     //Category vars
     private var categoriesManager: CategoriesManager
@@ -32,18 +55,36 @@ class FiltersViewModel: BaseViewModel {
     var numOfSortOptions : Int {
         return self.sortOptions.count
     }
-    private var sortOptions: [ProductSortOption]
+    private var sortOptions : [ProductSortOption]
+    
+    private var productFilter : ProductFilters
     
     
     override convenience init() {
-        self.init(categoriesManager: CategoriesManager.sharedInstance, categories: [], sortOptions: ProductSortOption.allValues())
+        self.init(currentFilters: ProductFilters())
     }
     
-    required init(categoriesManager: CategoriesManager, categories: [ProductCategory], sortOptions: [ProductSortOption]) {
+    convenience init(currentFilters: ProductFilters) {
+        self.init(categoriesManager: CategoriesManager.sharedInstance, categories: [], sortOptions: ProductSortOption.allValues(), currentFilters: currentFilters)
+    }
+    
+    required init(categoriesManager: CategoriesManager, categories: [ProductCategory], sortOptions: [ProductSortOption], currentFilters: ProductFilters) {
         self.categoriesManager = categoriesManager
         self.categories = categories
         self.sortOptions = sortOptions
+        self.productFilter = currentFilters
         super.init()
+    }
+    
+    // MARK: - Actions
+    
+    func resetFilters() {
+        self.productFilter = ProductFilters()
+        delegate?.viewModelDidUpdate(self)
+    }
+    
+    func saveFilters() {
+        dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     
     // MARK: Categories
@@ -63,31 +104,60 @@ class FiltersViewModel: BaseViewModel {
         categoriesManager.retrieveCategoriesWithCompletion(myCompletion)
     }
     
-    /**
-    Returns a product category.
-    
-    :param:  index index of the category to return
-    :return: A product category.
-    */
-    func categoryAtIndex(index: Int) -> ProductCategory? {
+    func selectCategoryAtIndex(index: Int) {
         if index < numOfCategories {
-            return categories[index]
+            productFilter.toggleCategory(categories[index])
+            self.delegate?.viewModelDidUpdate(self)
+        }
+    }
+    
+    func categoryTextAtIndex(index: Int) -> String? {
+        if index < numOfCategories {
+            return categories[index].name
         }
         return nil
     }
     
-    // MARK: Filter by
-    /**
-    Returns a product sort option.
-    
-    :param:  index index of the sortOption to return
-    :return: A product sort option.
-    */
-    func sortOptionAtIndex(index: Int) -> ProductSortOption? {
-        if index < numOfSortOptions {
-            return sortOptions[index]
+    func categoryIconAtIndex(index: Int) -> UIImage? {
+        if index < numOfCategories {
+            let category = categories[index]
+            return category.imageSmallInactive?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         }
         return nil
+    }
+    
+    func categoryColorAtIndex(index: Int) -> UIColor {
+        if index < numOfCategories {
+            let category = categories[index]
+            if(productFilter.hasSelectedCategory(category)){
+                return category.color
+            }
+        }
+        return StyleHelper.standardTextColor
+    }
+    
+    // MARK: Filter by
+    
+    func selectSortOptionAtIndex(index: Int) {
+        if index < numOfSortOptions {
+            productFilter.selectedOrdering = sortOptions[index]
+            self.delegate?.viewModelDidUpdate(self)
+        }
+    }
+
+    func sortOptionTextAtIndex(index: Int) -> String? {
+        if index < numOfSortOptions {
+            return sortOptions[index].name
+        }
+        return nil
+    }
+    
+    func sortOptionSelectedAtIndex(index: Int) -> Bool {
+        if index < numOfSortOptions {
+            return sortOptions[index] == productFilter.selectedOrdering
+        }
+        return false
+
     }
 
 }
