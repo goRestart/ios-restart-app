@@ -49,6 +49,7 @@
 "common_error" = "오류";
 "common_error_connection_failed" = "오류가 발생했습니다. 인터넷 연결상태를 확인해주세요.";
 "common_error_generic_body" = "잠시 후 다시 시도하세요";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "네트워크 설정을 확인한 후 다시 시도하세요";
 "common_error_retry_button" = "다시 시도하세요";
 "common_error_title" = "웁스";

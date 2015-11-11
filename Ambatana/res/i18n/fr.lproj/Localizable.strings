@@ -49,6 +49,7 @@
 "common_error" = "Erreur";
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
 "common_error_generic_body" = "Réessayez un peu plus tard...";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Vérifiez votre connexion et réessayez";
 "common_error_retry_button" = "Réessayez";
 "common_error_title" = "OOPS !";

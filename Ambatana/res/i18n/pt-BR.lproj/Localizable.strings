@@ -49,6 +49,7 @@
 "common_error" = "Erro";
 "common_error_connection_failed" = "A operação não pode ser concluída. Por favor, verifique sua conexão com a internet.";
 "common_error_generic_body" = "Experimente tomar um ar fresco e tentar novamente.";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Por favor, cheque as configurações da sua rede e tente novamente.";
 "common_error_retry_button" = "Tente novamente";
 "common_error_title" = "Oops!";
@@ -122,7 +123,7 @@
 "make_an_offer_send_button" = "Enviar";
 "make_an_offer_send_error_generic" = "Ocorreu uma falha ao enviar a proposta para o produto. Por favor, tente novamente mais tarde.";
 "make_an_offer_send_error_invalid_price" = "Por favor, insira um preço válido para o produto. O preço dever ser representado somente por um número.";
-"make_an_offer_title" = "Faça uma Proposta";
+"make_an_offer_title" = "Fazer proposta";
 "product_ask_a_question_button" = "Pergunte";
 "product_chat_error_generic" = "Ocorreu um erro ao iniciar a conversa. Por favor, tente novamente mais tarde.";
 "product_delete_confirm_cancel_button" = "Cancelar";
@@ -143,7 +144,7 @@
 "product_list_no_products_body" = "Você é o(a) primeiro(a) explorador de sua cidade. Bem-vindo(a)!";
 "product_list_no_products_title" = "CIDADE DESBLOQUEADA!";
 "product_location_title" = "Localização";
-"product_make_an_offer_button" = "Faça uma Proposta";
+"product_make_an_offer_button" = "Fazer proposta";
 "product_mark_as_sold_button" = "Marcar como vendido";
 "product_mark_as_sold_confirm_cancel_button" = "Cancelar";
 "product_mark_as_sold_confirm_message" = "Muito bem, você conseguiu! Deseja mesmo marcar este produto como vendido?";
