@@ -1,0 +1,6 @@
+framework module LGSemiModalNavController {
+  umbrella header "LGSemiModalNavController-umbrella.h"
+
+  export *
+  module * { export * }
+}

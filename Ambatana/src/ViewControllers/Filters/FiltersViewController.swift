@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import LGSemiModalNavController
 
 class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -23,6 +24,24 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     private var distanceCellSize = CGSize(width: 0.0, height: 0.0)
     private var categoryCellSize = CGSize(width: 0.0, height: 0.0)
     private var sortByCellSize = CGSize(width: 0.0, height: 0.0)
+    
+    
+    // MARK: - Factory
+    static func presentAsSemimodalOnViewController(parentVC : UIViewController, withViewModel viewModel: FiltersViewModel = FiltersViewModel()){
+        
+        let vc = FiltersViewController(viewModel: viewModel)
+        
+        let semiModal = LGSemiModalNavViewController(rootViewController: vc)
+        semiModal.view.frame = CGRectMake(0, 0, parentVC.view.frame.size.width, parentVC.view.frame.size.height * 0.85)
+        //Selected customization properties, see more in the header of the LGSemiModalNavViewController
+        semiModal.backgroundShadeColor = UIColor.blackColor()
+        semiModal.animationSpeed = 0.35
+        semiModal.tapDismissEnabled = true
+        semiModal.backgroundShadeAlpha = 0.4;
+        semiModal.scaleTransform = CGAffineTransformMakeScale(0.94, 0.94)
+        
+        parentVC.presentViewController(semiModal, animated: true, completion: nil)
+    }
     
     
     // MARK: - Lifecycle

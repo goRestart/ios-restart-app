@@ -248,9 +248,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 //        showSearchBarAnimated(true, delegate: self)
         
         //TODO: JUST FOR TESTING! REMOVE!
-        
-        let vc = FiltersViewController()
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
+        FiltersViewController.presentAsSemimodalOnViewController(self)
     }
 }
