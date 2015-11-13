@@ -40,7 +40,7 @@ public class ProfileProductListView: ProductListView {
         self.profileProductListViewModel = ProfileProductListViewModel()
         super.init(viewModel: self.profileProductListViewModel, coder: aDecoder)
         self.profileProductListViewModel.dataDelegate = self
-        collectionViewFooterHeight = 80 // safety area for floating sell button
+        self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.tabBarSellFloatingButtonHeight, right: 0) // safety area for floating sell button
     }
     
     // MARK: - ProductListViewModelDataDelegate

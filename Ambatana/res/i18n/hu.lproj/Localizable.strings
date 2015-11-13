@@ -49,6 +49,7 @@
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
 "common_error_generic_body" = "Sétálj egyet, majd próbálkozz újra";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Ellenőrizd a hálózati beállításokat, majd próbálkozz újra";
 "common_error_retry_button" = "Próbálkozz újra";
 "common_error_title" = "HOPPÁ!";

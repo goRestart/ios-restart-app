@@ -49,6 +49,7 @@
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
 "common_error_generic_body" = "Hãy thử ra ngoài hít thở không khí trong lành và quay lại thử sau";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Vui lòng kiểm tra cài đặt mạng và thử lại";
 "common_error_retry_button" = "Thử lại";
 "common_error_title" = "Ồ!";

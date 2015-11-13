@@ -49,6 +49,7 @@
 "common_error" = "Virhe";
 "common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
 "common_error_generic_body" = "Käy haukkaamassa happea ja yritä uudelleen";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Ole hyvä ja tarkista verkkoasetuksesi ja yritä uudelleen";
 "common_error_retry_button" = "Yritä uudelleen";
 "common_error_title" = "HUPS!";

@@ -11,13 +11,15 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="x9W-7q-2kv">
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="x9W-7q-2kv">
                     <rect key="frame" x="150" y="15" width="20" height="20"/>
                 </activityIndicatorView>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zvy-X2-q7E" userLabel="Retry Button">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                    <state key="normal" title="_Retry" image="actionbar_save">
-                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    <state key="normal" title="_Retry" image="ic_refresh">
+                        <color key="titleColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="retryButtonPressed:" destination="U6b-Vx-4bR" eventType="touchUpInside" id="OTf-Dv-lnN"/>
@@ -39,6 +41,6 @@
         </collectionReusableView>
     </objects>
     <resources>
-        <image name="actionbar_save" width="26" height="26"/>
+        <image name="ic_refresh" width="13" height="15"/>
     </resources>
 </document>

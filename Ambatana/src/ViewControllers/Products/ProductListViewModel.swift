@@ -61,12 +61,13 @@ public class ProductListViewModel: BaseViewModel {
     public weak var dataDelegate: ProductListViewModelDataDelegate?
     
     // Manager
-    public var isProfileList: Bool = false
     private let productsManager: ProductsManager
     
     // Data
     private var products: [Product]
     public private(set) var pageNumber: UInt
+    public var isProfileList: Bool
+    private(set) var nextPageRetrievalLastError: ProductsRetrieveServiceError?
     
     // UI
     public private(set) var defaultCellSize: CGSize!
@@ -90,7 +91,11 @@ public class ProductListViewModel: BaseViewModel {
     }
     
     public var canRetrieveProductsNextPage: Bool {
-        return productsManager.canRetrieveProductsNextPage
+        return productsManager.canRetrieveProductsNextPage && nextPageRetrievalLastError == nil
+    }
+    
+    public var isLastPage: Bool {
+        return productsManager.lastPage
     }
     
     internal var retrieveProductsFirstPageParams: RetrieveProductsParams {
@@ -123,6 +128,8 @@ public class ProductListViewModel: BaseViewModel {
         
         self.products = []
         self.pageNumber = 0
+        self.isProfileList = false
+        self.nextPageRetrievalLastError = nil
         
         let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
         self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
@@ -137,6 +144,9 @@ public class ProductListViewModel: BaseViewModel {
         Retrieve the products first page, with the current query parameters.
     */
     public func retrieveProductsFirstPage() {
+        
+        nextPageRetrievalLastError = nil
+        
         let params = retrieveProductsFirstPageParams
         dataDelegate?.viewModel(self, didStartRetrievingProductsPage: 0)
         
@@ -180,6 +190,8 @@ public class ProductListViewModel: BaseViewModel {
     */
     public func retrieveProductsNextPage() {
         
+        nextPageRetrievalLastError = nil
+        
         let currentCount = numberOfProducts
         let nextPageNumber = pageNumber + 1
         
@@ -204,6 +216,8 @@ public class ProductListViewModel: BaseViewModel {
                 }
                 // Error
                 else if let error = result.error {
+                    strongSelf.nextPageRetrievalLastError = error
+                    
                     let hasProducts = strongSelf.products.count > 0
                     strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber, hasProducts: hasProducts, error: error)
                 }
@@ -214,9 +228,7 @@ public class ProductListViewModel: BaseViewModel {
         } else {
             productsManager.retrieveProductsNextPageWithCompletion(completion)
         }
-        
     }
-    
     
     public func distanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
         

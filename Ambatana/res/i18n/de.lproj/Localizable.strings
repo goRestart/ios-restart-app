@@ -49,6 +49,7 @@
 "common_error" = "Fehler";
 "common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
 "common_error_generic_body" = "Atme tief durch und probier's noch mal";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Bitte überprüfe deine Verbindung und probiere es erneut";
 "common_error_retry_button" = "Versuch's noch einmal";
 "common_error_title" = "HOPPLA!";

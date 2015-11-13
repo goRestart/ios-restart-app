@@ -9,7 +9,7 @@
 import UIKit
 
 public enum CollectionViewFooterStatus {
-    case Loading, Error
+    case Loading, Error, LastPage
 }
 
 public class CollectionViewFooter: UICollectionReusableView {
@@ -18,14 +18,21 @@ public class CollectionViewFooter: UICollectionReusableView {
     // > UI
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView! {
         didSet {
-            let hidden: Bool
+            let animating: Bool
             switch status {
             case .Loading:
-                hidden = false
+                animating = true
             case .Error:
-                hidden = true
+                animating = false
+            case .LastPage:
+                animating = false
             }
-            activityIndicator.hidden = hidden
+            if animating {
+                activityIndicator.startAnimating()
+            }
+            else {
+                activityIndicator.stopAnimating()
+            }
         }
     }
     @IBOutlet weak var retryButton: UIButton! {
@@ -36,8 +43,11 @@ public class CollectionViewFooter: UICollectionReusableView {
                 hidden = true
             case .Error:
                 hidden = false
+            case .LastPage:
+                hidden = true
             }
             retryButton.hidden = hidden
+            retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: .Normal)
         }
     }
 
@@ -45,20 +55,28 @@ public class CollectionViewFooter: UICollectionReusableView {
     public var retryButtonBlock: (() -> Void)?
     public var status: CollectionViewFooterStatus {
         didSet {
-            let activityIndicatorHidden: Bool
+            let activityIndicatorAnimating: Bool
             let retryButtonHidden: Bool
             
             switch status {
             case .Loading:
-                activityIndicatorHidden = false
+                activityIndicatorAnimating = true
                 retryButtonHidden = true
             case .Error:
-                activityIndicatorHidden = true
+                activityIndicatorAnimating = false
                 retryButtonHidden = false
+            case .LastPage:
+                activityIndicatorAnimating = false
+                retryButtonHidden = true
             }
             
             if let activityIndicator = activityIndicator {
-                activityIndicator.hidden = activityIndicatorHidden
+                if activityIndicatorAnimating {
+                    activityIndicator.startAnimating()
+                }
+                else {
+                    activityIndicator.stopAnimating()
+                }
             }
             if let retryButton = retryButton {
                 retryButton.hidden = retryButtonHidden
@@ -68,13 +86,18 @@ public class CollectionViewFooter: UICollectionReusableView {
     
     // MARK: - Lifecycle
     
+//    public override func prepareForReuse() {
+//        super.prepareForReuse()
+//        self.status = .LastPage
+//    }
+    
     public override init(frame: CGRect) {
-        self.status = .Loading
+        self.status = .LastPage
         super.init(frame: frame)
     }
     
     public required init?(coder aDecoder: NSCoder) {
-        self.status = .Loading
+        self.status = .LastPage
         super.init(coder: aDecoder)
     }
     // MARK: - Internal methods
