@@ -18,7 +18,7 @@
                     <textInputTraits key="textInputTraits" returnKeyType="search"/>
                 </textField>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_search" translatesAutoresizingMaskIntoConstraints="NO" id="PEe-bk-xnz">
-                    <rect key="frame" x="121" y="5" width="20" height="20"/>
+                    <rect key="frame" x="100" y="5" width="20" height="20"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="20" id="WKP-hi-V2q"/>
@@ -26,7 +26,7 @@
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="navbar_logo" translatesAutoresizingMaskIntoConstraints="NO" id="xvF-po-8hj">
-                    <rect key="frame" x="149" y="5" width="50" height="20"/>
+                    <rect key="frame" x="128" y="5" width="50" height="20"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="Nda-iB-E9H"/>
@@ -45,7 +45,7 @@
                 <constraint firstItem="xvF-po-8hj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="ko7-u4-Vi7"/>
                 <constraint firstItem="PEe-bk-xnz" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="-20" id="kw8-E6-bzz"/>
                 <constraint firstItem="xvF-po-8hj" firstAttribute="leading" secondItem="PEe-bk-xnz" secondAttribute="trailing" constant="8" id="q2E-c0-QcH"/>
-                <constraint firstItem="PEe-bk-xnz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="xFP-YH-ZW3"/>
+                <constraint firstItem="PEe-bk-xnz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="100" id="xFP-YH-ZW3"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -53,7 +53,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <variation key="default">
                 <mask key="constraints">
-                    <exclude reference="xFP-YH-ZW3"/>
+                    <exclude reference="kw8-E6-bzz"/>
                 </mask>
             </variation>
             <connections>

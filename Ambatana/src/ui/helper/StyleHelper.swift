@@ -85,7 +85,7 @@ class StyleHelper {
     // MARK: - NavBar
     
     static var navBarButtonsColor: UIColor {
-        return black
+        return red
     }
     
     static var navBarTitleColor: UIColor {

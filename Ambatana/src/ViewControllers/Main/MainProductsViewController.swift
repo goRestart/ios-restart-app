@@ -37,8 +37,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
     public required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
         print(viewModel.searchString)
-//        self.searchTextField = (viewModel.title == nil) ? LGNavBarSearchField(frame: CGRectZero, text: viewModel.searchString) : nil
         self.searchTextField = (viewModel.title == nil) ? LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString) : nil
+        
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         viewModel.delegate = self
@@ -66,12 +66,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         addSubview(mainProductListView)
         
-//        // > Navigation bar
-//        var rightItems = []
-//        if viewModel.hasSearchButton {
-//            rightItems = setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
-//        }
-        
+
         let rightItems = setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
         
         
@@ -82,7 +77,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             
             if let searchField = searchTextField {
                 
-//                let navBarLeftItemsCount = CGFloat(self.navigationController?.navigationItem.leftBarButtonItems?.count ?? 0)
                 let navBarLeftItemsCount = (self.navigationController?.viewControllers[0] == self) ? CGFloat(0) : CGFloat(1)
                 let navBarRightItemsCount = CGFloat(rightItems.count ?? 0) //CGFloat(self.navigationController?.navigationItem.rightBarButtonItems?.count ?? 0)
                 let navBarWidth = self.navigationController?.navigationBar.frame.width ?? 0
@@ -93,11 +87,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
                 
                 searchField.frame = CGRectMake(xPosition, 5, textFieldWidth, 30)
                 searchField.searchTextField.delegate = self
-                self.setLetGoNavigationBarStyle(searchField)
-//                self.navigationController?.navigationBar.addSubview(searchField)
-                
+                setLetGoNavigationBarStyle(searchField)
             }
-//            self.setLetGoNavigationBarStyle(titleTextField)
         }
         
         distanceLabel.layer.cornerRadius = 15
@@ -132,9 +123,16 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         super.viewWillAppear(animated)
         
     }
+    
 
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        if let actualSearchField = searchTextField {
+            endEdit()
+            viewModel.searchString = actualSearchField.searchTextField.text
+
+        }
     }
 
     
@@ -246,8 +244,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     // TODO: delete method if finally product list view is not the one to decide if search field loses focus
     public func productListViewShouldResignSearch(productListView: ProductListView) {
-//        searchOverlayView.removeFromSuperview()
-//        searchTextField.resignFirstResponder()
     }
     
     // MARK: - MainProductsViewModelDelegate
@@ -255,7 +251,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     public func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel) {
 
         cancelSearchOverlayButton?.removeFromSuperview()
-        
+        cancelSearchOverlayButton = nil
         let vc = MainProductsViewController(viewModel: searchViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
 
@@ -278,25 +274,36 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
     }
 
-    func cancelSearch() {
+    func endEdit() {
         cancelSearchOverlayButton?.removeFromSuperview()
-        
+        cancelSearchOverlayButton = nil
+
+        distanceLabel.hidden = false
+
+        setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
+
         guard let searchField = searchTextField else {
             return
         }
-        searchField.searchTextField.text = ""
+
         searchField.endEdit()
     }
     
-    // MARK: UITextFieldDelegate Methods
-    
-    dynamic public func textFieldDidBeginEditing(textField: UITextField) {
+    func beginEdit() {
+        
+        if cancelSearchOverlayButton != nil {
+            return
+        }
+        
+        distanceLabel.hidden = true
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self, action: "endEdit")
         
         let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
         let searchOverlayView = UIVisualEffectView(effect: blur)
         
         cancelSearchOverlayButton = UIButton(frame: mainProductListView.bounds)
-        cancelSearchOverlayButton?.addTarget(self, action: Selector("cancelSearch"), forControlEvents: UIControlEvents.TouchUpInside)
+        cancelSearchOverlayButton?.addTarget(self, action: Selector("endEdit"), forControlEvents: UIControlEvents.TouchUpInside)
         searchOverlayView.frame = cancelSearchOverlayButton!.bounds
         searchOverlayView.userInteractionEnabled = false
         cancelSearchOverlayButton?.insertSubview(searchOverlayView, atIndex: 0)
@@ -310,22 +317,23 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         searchField.beginEdit()
     }
     
-    dynamic public func textFieldShouldEndEditing(textField: UITextField) -> Bool {
-        return true
-    }
+    // MARK: UITextFieldDelegate Methods
     
-    dynamic public func textFieldDidEndEditing(textField: UITextField) {
-        
+    dynamic public func textFieldDidBeginEditing(textField: UITextField) {
+
+        beginEdit()
     }
     
     dynamic public func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
         viewModel.search()
+        
         return true
     }
     
     // will be used for history & predictive search
     dynamic public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
+
         if let textFieldText = textField.text {
             let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
             
@@ -335,6 +343,14 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         return true
     }
+    
+    dynamic public func textFieldShouldClear(textField: UITextField) -> Bool {
+
+        viewModel.searchString = ""
+
+        return true
+    }
+    
     
     // MARK: - Private methods
     
@@ -346,16 +362,18 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         // Notify the VM
         viewModel.searchButtonPressed()
         
+        searchTextField?.searchTextField.resignFirstResponder()
+        
         // Show filters
         viewModel.showFilters()
     }
     
+    // TODO : tmp function while merging search & filters
     private func loadTagsViewWithTags(tags: [String]) {
         
         for tag in tags {
             print(tag)
         }
-        
     }
     
 }
