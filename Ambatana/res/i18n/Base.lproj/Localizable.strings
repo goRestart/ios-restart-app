@@ -151,6 +151,9 @@
 // Common error generic body
 "common_error_generic_body" = "Go get some fresh air and try again";
 
+// Common error list retry button
+"common_error_list_retry_button" = "Retry";
+
 // Common error network body
 "common_error_network_body" = "Please check your network settings and try again";
 
@@ -815,19 +818,19 @@
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 
 // Tour page 2 title.
-"tour_page_2_title" = "Near You";
+"tour_page_2_title" = "Local";
 
 // Tour page 2 body.
-"tour_page_2_body" = "New products are posted every day by your neighbors.";
+"tour_page_2_body" = "Every day, thousands of new, nearby listings are posted.";
 
 // Tour page 3 title.
-"tour_page_3_title" = "Make Cash";
+"tour_page_3_title" = "Snap and Post";
 
 // Tour page 3 body.
-"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+"tour_page_3_body" = "Post products in a few seconds and get cash for stuff you don't need anymore.";
 
 // Tour page 4 title.
-"tour_page_4_title" = "Safe";
+"tour_page_4_title" = "Chat and Sell";
 
 // Tour page 4 body.
 "tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";

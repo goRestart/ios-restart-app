@@ -81,14 +81,12 @@ public class BaseViewController: UIViewController {
     
     func addSubview(subview: BaseView) {
         if !subviews.contains(subview) {
-            subview.active = true
             subviews.append(subview)
         }
     }
     
     func removeSubview(subview: BaseView) {
         if subviews.contains(subview) {
-            subview.active = false
             subviews = subviews.filter { return $0 !== subview }
         }
     }

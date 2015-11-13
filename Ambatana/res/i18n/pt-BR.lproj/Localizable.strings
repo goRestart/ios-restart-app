@@ -49,6 +49,7 @@
 "common_error" = "Erro";
 "common_error_connection_failed" = "A operação não pode ser concluída. Por favor, verifique sua conexão com a internet.";
 "common_error_generic_body" = "Experimente tomar um ar fresco e tentar novamente.";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Por favor, cheque as configurações da sua rede e tente novamente.";
 "common_error_retry_button" = "Tente novamente";
 "common_error_title" = "Oops!";

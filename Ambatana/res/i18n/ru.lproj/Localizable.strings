@@ -49,6 +49,7 @@
 "common_error" = "Ошибка";
 "common_error_connection_failed" = "Произошла ошибка. Проверьте ваше соединение с Интернет.";
 "common_error_generic_body" = "Подождите немного и попробуйте еще раз";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Пожалуйста, проверьте настройки сети и попробуйте еще раз";
 "common_error_retry_button" = "Попробуйте еще раз";
 "common_error_title" = "УПС!";

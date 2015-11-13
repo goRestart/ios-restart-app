@@ -49,6 +49,7 @@
 "common_error" = "Σφάλμα";
 "common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
 "common_error_generic_body" = "Πάρτε λίγο αέρα και προσπαθήστε ξανά";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Παρακαλώ ελέγξτε τις ρυθμίσεις δικτύου και προσπαθήστε ξανά";
 "common_error_retry_button" = "Προσπαθήστε ξανά";
 "common_error_title" = "ΟΠΑ!";

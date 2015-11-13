@@ -49,6 +49,7 @@
 "common_error" = "Error";
 "common_error_connection_failed" = "¡Ups! Se ha producido un error. Por favor, comprueba tu conexión a Internet.";
 "common_error_generic_body" = "Sal a tomar el aire e inténtalo de nuevo más tarde";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Por favor, comprueba tu configuración de red e inténtalo de nuevo";
 "common_error_retry_button" = "Inténtalo de nuevo";
 "common_error_title" = "¡UPS!";
