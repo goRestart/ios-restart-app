@@ -38,6 +38,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         viewModel.delegate = self
         
         hidesBottomBarWhenPushed = false
+        
+        showReachabilityMessageEnabled = true
         floatingSellButtonHidden = false
     }
 
