@@ -145,12 +145,14 @@ public class ProductListViewModel: BaseViewModel {
     */
     public func retrieveProductsFirstPage() {
         
+        // Reset next page error
         nextPageRetrievalLastError = nil
         
-        let params = retrieveProductsFirstPageParams
-        dataDelegate?.viewModel(self, didStartRetrievingProductsPage: 0)
-        
+        // Keep track the current product count for later notification
         let currentCount = numberOfProducts
+        
+        // Let the delegate know that product retrieval started
+        dataDelegate?.viewModel(self, didStartRetrievingProductsPage: 0)
         
         let completion = { [weak self] (result: ProductsRetrieveServiceResult) -> Void in
             if let strongSelf = self {
@@ -178,6 +180,8 @@ public class ProductListViewModel: BaseViewModel {
             }
         }
         
+        // Run the retrieval
+        let params = retrieveProductsFirstPageParams
         if isProfileList {
             productsManager.retrieveUserProductsWithParams(params, completion: completion)
         } else {
@@ -190,11 +194,14 @@ public class ProductListViewModel: BaseViewModel {
     */
     public func retrieveProductsNextPage() {
         
+        // Reset next page error
         nextPageRetrievalLastError = nil
         
+        // Keep track the current product count & page number for later notification
         let currentCount = numberOfProducts
         let nextPageNumber = pageNumber + 1
         
+        // Let the delegate know that product retrieval started
         dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
         
         let completion = { [weak self] (result: ProductsRetrieveServiceResult) -> Void in
@@ -223,6 +230,8 @@ public class ProductListViewModel: BaseViewModel {
                 }
             }
         }
+        
+        // Run the retrieval
         if isProfileList {
             productsManager.retrieveUserProductsNextPageWithCompletion(completion)
         } else {
