@@ -16,11 +16,11 @@ public class MainProductListView: ProductListView {
     // MARK: - Lifecycle
     
     public required init?(coder aDecoder: NSCoder) {
-        mainProductListViewModel = MainProductListViewModel()
+        self.mainProductListViewModel = MainProductListViewModel()
         
         super.init(viewModel: mainProductListViewModel, coder: aDecoder)
         mainProductListViewModel.dataDelegate = self
-        collectionViewFooterHeight = 80 // safety area for floating sell button
+        collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.tabBarSellFloatingButtonHeight, right: 0) // safety area for floating sell button
     }
     
     // MARK: - ProductListViewModelDataDelegate

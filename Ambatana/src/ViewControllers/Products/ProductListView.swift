@@ -44,7 +44,6 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     @IBOutlet weak var dataView: UIView!
     var refreshControl: UIRefreshControl!
     @IBOutlet weak var collectionView: UICollectionView!
-    var collectionViewFooterHeight: CGFloat
     
     private var lastContentOffset: CGFloat
     private var maxDistance: Float
@@ -85,6 +84,11 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             firstLoadView.updateConstraintsIfNeeded()
             dataView.updateConstraintsIfNeeded()
             errorView.updateConstraintsIfNeeded()
+        }
+    }
+    public var collectionViewContentInset: UIEdgeInsets {
+        didSet {
+            collectionView.contentInset = collectionViewContentInset
         }
     }
     
@@ -206,8 +210,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     public init(viewModel: ProductListViewModel, frame: CGRect) {
         self.state = .FirstLoadView
         self.productListViewModel = viewModel
-        self.collectionViewFooterHeight = 0
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.maxDistance = 1
         self.lastContentOffset = 0
         self.scrollingDown = true
@@ -221,8 +225,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     public init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
         self.state = .FirstLoadView
         self.productListViewModel = viewModel
-        self.collectionViewFooterHeight = 0
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.maxDistance = 1
         self.lastContentOffset = 0
         self.scrollingDown = true
@@ -254,6 +258,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     */
     public func refresh() {
         refreshing = true
+        
         if productListViewModel.canRetrieveProducts {
             maxDistance = 1
             productListViewModel.retrieveProductsFirstPage()
@@ -294,12 +299,14 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         let product = productAtIndex(index)
         return ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
     }
-    
-    // MARK: - UICollectionViewDataSource
+
+    // MARK: - CHTCollectionViewDelegateWaterfallLayout
     
     public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, heightForFooterInSection section: Int) -> CGFloat {
-        return collectionViewFooterHeight
+        return Constants.productListFooterHeight
     }
+    
+    // MARK: - UICollectionViewDataSource
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return productListViewModel.sizeForCellAtIndex(indexPath.row)
@@ -362,6 +369,37 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         return cell
     }
     
+    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView  {
+        let view: UICollectionReusableView
+        
+        switch kind {
+        case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
+            if let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter {
+                if let _ = productListViewModel.nextPageRetrievalLastError {
+                    footer.status = .Error
+                }
+                else if productListViewModel.isLastPage {
+                    footer.status = .LastPage
+                }
+                else {
+                    footer.status = .Loading
+                }
+                footer.retryButtonBlock = { [weak self] in
+                    if let strongSelf = self {
+                        strongSelf.productListViewModel.retrieveProductsNextPage()
+                        strongSelf.collectionView.reloadData()
+                    }
+                }
+                view = footer
+            }
+            else {
+                view = UICollectionReusableView()
+            }
+        default:
+            view = UICollectionReusableView()
+        }
+        return view
+    }
     
     // MARK: - UICollectionViewDelegate
     
@@ -415,10 +453,12 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     }
     
     public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
-        
         // Update the UI
         if page == 0 {
             refreshControl.endRefreshing()
+        }
+        else {
+            collectionView.reloadData()
         }
         
         // Notify the delegate
@@ -426,18 +466,27 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     }
     
     public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
-        // Update the UI
+        // First page
         if page == 0 {
+            // Update the UI
             state = .DataView
-            maxDistance = 1
-
-//            collectionView.reloadSections(NSIndexSet(index: 0))
             collectionView.reloadData()
-            
             refreshControl.endRefreshing()
+            
+            // Max distance is the default value
+            maxDistance = 1
+            
+            // Finished refreshing
             refreshing = false
         }
+        // Last page
+        else if viewModel.isLastPage {
+            // Reload in order to be able to reload the footer
+            collectionView.reloadData()
+        }
+        // Middle pages
         else {
+            // Reload animated
             collectionView.insertItemsAtIndexPaths(indexPaths)
         }
         
@@ -468,12 +517,16 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         let layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = 0.0
         layout.minimumInteritemSpacing = 0.0
+        collectionView.collectionViewLayout = layout
+        
         self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
         collectionView.alwaysBounceVertical = true
-        collectionView.collectionViewLayout = layout
+        collectionView.contentInset = collectionViewContentInset
         
         let cellNib = UINib(nibName: "ProductCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
+        let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
+        self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter, withReuseIdentifier: "CollectionViewFooter")
         
         // >> Pull to refresh
         refreshControl = UIRefreshControl()

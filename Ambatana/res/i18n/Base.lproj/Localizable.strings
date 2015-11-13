@@ -151,6 +151,9 @@
 // Common error generic body
 "common_error_generic_body" = "Go get some fresh air and try again";
 
+// Common error list retry button
+"common_error_list_retry_button" = "Retry";
+
 // Common error network body
 "common_error_network_body" = "Please check your network settings and try again";
 

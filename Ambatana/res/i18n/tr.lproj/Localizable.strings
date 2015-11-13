@@ -49,6 +49,7 @@
 "common_error" = "Hata";
 "common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
 "common_error_generic_body" = "Biraz hava almaya çık ve sonra tekrar dene";
+"common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Lütfen ağ ayarlarını kontrol et ve tekrar dene";
 "common_error_retry_button" = "Tekrar dene";
 "common_error_title" = "Eyvah!";

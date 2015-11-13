@@ -212,6 +212,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_error_generic_body", comment: "")
 	}
 	
+	static var commonErrorListRetryButton: String {
+		return NSLocalizedString("common_error_list_retry_button", comment: "")
+	}
+	
 	static var commonErrorNetworkBody: String {
 		return NSLocalizedString("common_error_network_body", comment: "")
 	}
