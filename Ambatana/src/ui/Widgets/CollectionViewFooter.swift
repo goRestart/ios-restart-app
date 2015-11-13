@@ -86,11 +86,6 @@ public class CollectionViewFooter: UICollectionReusableView {
     
     // MARK: - Lifecycle
     
-//    public override func prepareForReuse() {
-//        super.prepareForReuse()
-//        self.status = .LastPage
-//    }
-    
     public override init(frame: CGRect) {
         self.status = .LastPage
         super.init(frame: frame)
