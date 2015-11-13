@@ -185,7 +185,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     @IBAction func markSoldPressed(sender: AnyObject) {
         if viewModel.productIsSold {
-            ifLoggedInThen(.MarkAsSold, loggedInAction: {
+            ifLoggedInThen(.MarkAsUnsold, loggedInAction: {
                 self.showMarkUnsoldAlert()
                 },
                 elsePresentSignUpWithSuccessAction: {
