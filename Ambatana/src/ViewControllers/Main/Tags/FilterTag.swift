@@ -9,13 +9,13 @@
 import LGCoreKit
 
 enum FilterTag : Equatable{
-    case Search(String)
+    case OrderBy(ProductSortOption)
     case Category(ProductCategory)
 }
 
 func ==(a: FilterTag, b: FilterTag) -> Bool {
     switch (a, b) {
-    case (.Search(let a),   .Search(let b))   where a == b: return true
+    case (.OrderBy(let a),   .OrderBy(let b))   where a == b: return true
     case (.Category(let a), .Category(let b)) where a == b: return true
     default: return false
     }

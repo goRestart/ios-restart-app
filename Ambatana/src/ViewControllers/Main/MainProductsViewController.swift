@@ -58,7 +58,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // UI
         // > Main product list view
         mainProductListView.delegate = self
@@ -109,7 +109,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         //TODO JUST TO TEST!!
         tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
-        tagsViewController.updateTags([.Category(.Electronics), .Category(.Other), .Search("holaquetal")])
+        tagsViewController.updateTags([.Category(.Electronics), .Category(.Other), .OrderBy(.PriceAsc), .Category(.MoviesBooksAndMusic)])
     }
     
     override public func viewDidLayoutSubviews() {

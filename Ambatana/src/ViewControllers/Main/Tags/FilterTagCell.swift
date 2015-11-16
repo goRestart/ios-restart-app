@@ -26,10 +26,10 @@ class FilterTagCell: UICollectionViewCell {
     // MARK: - Static methods
     static func cellSizeForTag(tag : FilterTag) -> CGSize {
         switch tag {
-        case .Search(let text):
+        case .OrderBy(let sortOption):
             let constraintRect = CGSize(width: CGFloat.max, height: 40.0)
-            let boundingBox = text.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
-            return CGSize(width: boundingBox.width+fixedWidthSpace+20, height: 40.0)
+            let boundingBox = sortOption.name.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
+            return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: 40.0)
         case .Category:
             return CGSize(width: 40.0+fixedWidthSpace, height: 40.0)
         }
@@ -60,8 +60,8 @@ class FilterTagCell: UICollectionViewCell {
         filterTag = tag
         
         switch tag {
-        case .Search(let text):
-            self.tagLabel.text = text
+        case .OrderBy(let sortOption):
+            self.tagLabel.text = sortOption.name
         case .Category(let category):
             self.tagIconWidth.constant = 40
             self.tagIcon.image = category.image

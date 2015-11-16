@@ -27,12 +27,14 @@
                         <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sOi-DQ-kI0" userLabel="closeBtn">
-                        <rect key="frame" x="138" y="0.0" width="40" height="40"/>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sOi-DQ-kI0" userLabel="closeBtn">
+                        <rect key="frame" x="152" y="9" width="12" height="22"/>
                         <animations/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="SY6-j3-a8l"/>
                         </constraints>
+                        <state key="normal" image="filters_clear_btn"/>
+                        <state key="highlighted" image="filters_clear_btn"/>
                         <connections>
                             <action selector="onCloseBtn:" destination="gTV-IL-0wX" eventType="touchUpInside" id="gnd-8c-iEZ"/>
                         </connections>
@@ -63,4 +65,7 @@
             <point key="canvasLocation" x="412" y="388"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="filters_clear_btn" width="12" height="12"/>
+    </resources>
 </document>

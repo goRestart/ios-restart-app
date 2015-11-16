@@ -6,11 +6,17 @@
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
+protocol FilterTagsViewControllerDelegate : class {
+    func filterTagsViewControllerDidRemoveTag(controller: FilterTagsViewController)
+}
+
 class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectionViewDataSource, FilterTagCellDelegate {
     
     weak var collectionView: UICollectionView!
     
     private var tags : [FilterTag] = []
+    
+    weak var delegate : FilterTagsViewControllerDelegate?
     
     init(collectionView: UICollectionView){
         self.collectionView = collectionView
@@ -25,7 +31,6 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
         self.tags = newTags
         self.collectionView.reloadData()
     }
-    
     
     // MARK: - UICollectionViewDelegate & DataSource methods
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -56,16 +61,21 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
             return
         }
         
+        var deleteIndex = -1
         for i in 0..<tags.count {
             if tags[i] == cellTag {
                 tags.removeAtIndex(i)
+                deleteIndex = i
                 break
             }
         }
         
-        self.collectionView.reloadData()
+        //Animate item deletion
+        if deleteIndex >= 0 {
+            self.collectionView.deleteItemsAtIndexPaths([NSIndexPath(forRow: deleteIndex, inSection: 0)])
+        }
         
-        //TODO CALL CONTROLLER DELEGATE
+        delegate?.filterTagsViewControllerDidRemoveTag(self)
     }
     
     // MARK: - Private methods
@@ -77,6 +87,10 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
         // CollectionView cells
         let filterNib = UINib(nibName: "FilterTagCell", bundle: nil)
         self.collectionView.registerNib(filterNib, forCellWithReuseIdentifier: "FilterTagCell")
+        
+        if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+        }
     }
 
 }
