@@ -72,26 +72,14 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         viewModel.mainProductListView = mainProductListView
         
-
-        let rightItems = setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
-        
+        setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
         
         if let categoryTitle = viewModel.title as? String {
             self.setLetGoNavigationBarStyle(categoryTitle)
         } else {
             // Add search text field
             
-            if let searchField = searchTextField {
-                
-                let navBarLeftItemsCount = (self.navigationController?.viewControllers[0] == self) ? CGFloat(0) : CGFloat(1)
-                let navBarRightItemsCount = CGFloat(rightItems.count ?? 0) //CGFloat(self.navigationController?.navigationItem.rightBarButtonItems?.count ?? 0)
-                let navBarWidth = self.navigationController?.navigationBar.frame.width ?? 0
-                
-                let navBarOcupiedSpace = (navBarLeftItemsCount + navBarRightItemsCount) * (45 + 12) // 45 = rightItems[0].frame.width
-                let textFieldWidth = navBarWidth - navBarOcupiedSpace
-                let xPosition = 12 + (self.navigationController?.navigationItem.leftBarButtonItem?.width ?? 0) // 12 + navBarLeftItemsCount * 60 ????????
-                
-                searchField.frame = CGRectMake(xPosition, 5, textFieldWidth, 30)
+            if let searchField = searchTextField {                
                 searchField.searchTextField.delegate = self
                 setLetGoNavigationBarStyle(searchField)
             }
@@ -116,6 +104,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+    }
+    
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        searchTextField?.endEdit()
     }
 
     public override func viewWillDisappear(animated: Bool) {

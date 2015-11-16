@@ -145,7 +145,7 @@ class FilterDistanceCell: UICollectionViewCell {
         return ((marksContainer.frame.size.width-26) * CGFloat(percentage)) + 13
     }
     
-    private func updateTipLabel() {        
+    private func updateTipLabel() {
         distanceLabel.text = "\(currentDistance()) \(distanceType.string)"
     }
     
