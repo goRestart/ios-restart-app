@@ -36,7 +36,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
 
     public required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
-        print(viewModel.searchString)
         self.searchTextField = (viewModel.title == nil) ? LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString) : nil
         
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
@@ -295,6 +294,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             return
         }
         
+        viewModel.searchBegan()
+        
         distanceLabel.hidden = true
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self, action: "endEdit")
@@ -358,9 +359,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         Called when the search button is pressed.
     */
     @objc private func filtersButtonPressed(sender: AnyObject) {
-        
-        // Notify the VM
-        viewModel.searchButtonPressed()
         
         searchTextField?.searchTextField.resignFirstResponder()
         

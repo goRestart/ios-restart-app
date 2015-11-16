@@ -90,12 +90,14 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         
         updateTagsFromFilters()
 
+        // Tracking
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.filterStart())
     }
     
     /**
         Called when search button is pressed.
     */
-    public func searchButtonPressed() {
+    public func searchBegan() {
         // Tracking
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
     }
