@@ -199,6 +199,24 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         }
     }
     
+    public var distanceType: DistanceType? {
+        get {
+            return productListViewModel.distanceType
+        }
+        set {
+            productListViewModel.distanceType = newValue
+        }
+    }
+    
+    public var distanceRadius: Int? {
+        get {
+            return productListViewModel.distanceRadius
+        }
+        set {
+            productListViewModel.distanceRadius = newValue
+        }
+    }
+    
     // Delegate
     weak public var delegate: ProductListViewDataDelegate?
     
@@ -358,7 +376,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             maxDistance = distance
         }
         
-        delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: productListViewModel.queryDistanceType())
+        delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: DistanceType.systemDistanceType())
         
         return cell
     }

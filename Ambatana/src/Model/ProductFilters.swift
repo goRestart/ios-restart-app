@@ -8,9 +8,9 @@
 
 import LGCoreKit
 
-struct ProductFilters {
+public struct ProductFilters {
     
-    var distanceKms : Int
+    var distanceRadius : Int
     var distanceType : DistanceType
     
     var selectedCategories : [ProductCategory]
@@ -19,8 +19,8 @@ struct ProductFilters {
     
     var filterCoordinates : LGLocationCoordinates2D?
     
-    init(distanceKms: Int = Constants.distanceFilterDefault, distanceType: DistanceType = .Km, selectedCategories: [ProductCategory] = [], selectedOrdering: ProductSortOption = ProductSortOption.defaultOption){
-        self.distanceKms = distanceKms
+    init(distanceRadius: Int = Constants.distanceFilterDefault, distanceType: DistanceType = .Km, selectedCategories: [ProductCategory] = [], selectedOrdering: ProductSortOption = ProductSortOption.defaultOption){
+        self.distanceRadius = distanceRadius
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
         self.selectedOrdering = selectedOrdering

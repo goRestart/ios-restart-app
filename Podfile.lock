@@ -30,7 +30,7 @@ PODS:
   - GoogleAppIndexing (2.0.1)
   - Kahuna (2.2.4)
   - LGCollapsibleLabel (0.1.0)
-  - LGCoreKit (0.16.1):
+  - LGCoreKit (0.16.2):
     - Alamofire (~> 3.0.1)
     - Argo (~> 2.2.0)
     - Curry (~> 1.3.0)
@@ -73,7 +73,7 @@ DEPENDENCIES:
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.2.2)
   - LGCollapsibleLabel (= 0.1.0)
-  - LGCoreKit (= 0.16.1)
+  - LGCoreKit (from `../lgcorekit`)
   - LGSemiModalNavController (~> 0.2.0)
   - LGTour (= 0.1.2)
   - NewRelicAgent (~> 5.3.1)
@@ -83,6 +83,10 @@ DEPENDENCIES:
   - Quick (~> 0.4)
   - SDWebImage
   - UIDeviceUtil (~> 1.1.2)
+
+EXTERNAL SOURCES:
+  LGCoreKit:
+    :path: ../lgcorekit
 
 SPEC CHECKSUMS:
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
@@ -98,7 +102,7 @@ SPEC CHECKSUMS:
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
   LGCollapsibleLabel: 8282ba544ddc1191886f45fa81e6e821c61c9a70
-  LGCoreKit: 0a67d6a7ce7b79b507fff3563e0384ef2ed1ae53
+  LGCoreKit: b95732e4f618466be40616874e1efd3924c2fa69
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   LGTour: 097fe4f7107cd08e1cf578c0c45b6b0ba008fa87
   NewRelicAgent: aebd84eb0c99b5e4ee7a8629eddd4eb3c273a109

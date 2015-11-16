@@ -45,14 +45,18 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     var filters : ProductFilters?
     
     
+    weak var mainProductListView : MainProductListView?
+    
+    
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
     
     // MARK: - Lifecycle
     
-    public init(category: ProductCategory? = nil, searchString: String? = nil, tags: [String]? = nil) {
+    public init(category: ProductCategory? = nil, searchString: String? = nil, filters: ProductFilters? = nil) {
         self.category = category
         self.searchString = searchString
+        self.filters = filters
 
         self.title = category?.name
         
@@ -68,6 +72,8 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         self.filters = filters
         
         delegate?.mainProductsViewModel(self, showTags: self.tags)
+        
+        updateListView()
     }
 
     
@@ -91,7 +97,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     
     public func showFilters() {
         
-        let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
+        let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters(distanceType: DistanceType.systemDistanceType()))
         filtersVM.dataDelegate = self
         
         delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)
@@ -133,6 +139,8 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         
         filters?.selectedCategories = categories
         filters?.selectedOrdering = orderBy
+        
+        updateListView()
     }
     
     
@@ -144,8 +152,15 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         :return: A view model for search.
     */
     private func viewModelForSearch() -> MainProductsViewModel {
-        return MainProductsViewModel(searchString: searchString)
+        return MainProductsViewModel(searchString: searchString, filters: filters)
     }
     
+    private func updateListView() {
+        mainProductListView?.categories = self.filters?.selectedCategories
+//        mainProductListView?.sortCriteria = self.filters?.selectedOrdering
+        mainProductListView?.distanceRadius = self.filters?.distanceRadius
+        mainProductListView?.distanceType = self.filters?.distanceType
+        mainProductListView?.refresh()
+    }
     
 }

@@ -70,6 +70,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         addSubview(mainProductListView)
         
+        viewModel.mainProductListView = mainProductListView
+        
 
         let rightItems = setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
         
@@ -260,7 +262,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         cancelSearchOverlayButton?.removeFromSuperview()
         cancelSearchOverlayButton = nil
 
-        distanceLabel.hidden = false
+        distanceShadow.hidden = false
 
         setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
 
@@ -279,7 +281,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         viewModel.searchBegan()
         
-        distanceLabel.hidden = true
+        distanceShadow.hidden = true
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self, action: "endEdit")
         

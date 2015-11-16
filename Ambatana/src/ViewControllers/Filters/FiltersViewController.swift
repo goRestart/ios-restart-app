@@ -102,7 +102,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     // MARK: FilterDistanceCellDelegate
     
     func filterDistanceChanged(filterDistanceCell: FilterDistanceCell) {
-        viewModel.currentDistanceKms = filterDistanceCell.distance
+        viewModel.currentDistanceRadius = filterDistanceCell.distance
     }
     
     // MARK: - UICollectionViewDelegate & DataSource methods
@@ -155,7 +155,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell", forIndexPath: indexPath) as! FilterDistanceCell
             cell.delegate = self
             cell.distanceType = viewModel.distanceType
-            cell.setupWithDistance(viewModel.currentDistanceKms)
+            cell.setupWithDistance(viewModel.currentDistanceRadius)
             return cell
         case .Categories:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterCategoryCell", forIndexPath: indexPath) as! FilterCategoryCell

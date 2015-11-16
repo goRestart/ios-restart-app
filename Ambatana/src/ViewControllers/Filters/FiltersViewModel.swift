@@ -30,12 +30,12 @@ class FiltersViewModel: BaseViewModel {
     weak var dataDelegate : FiltersViewModelDataDelegate?
     
     //Distance vars
-    var currentDistanceKms : Int {
+    var currentDistanceRadius : Int {
         get{
-            return productFilter.distanceKms
+            return productFilter.distanceRadius
         }
         set{
-            productFilter.distanceKms = newValue
+            productFilter.distanceRadius = newValue
         }
     }
     
@@ -93,7 +93,7 @@ class FiltersViewModel: BaseViewModel {
             categories.append(String(category.rawValue))
         }
         
-        let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates, distanceRadius: productFilter.distanceKms, distanceUnit: productFilter.distanceType, categories: productFilter.selectedCategories, sortBy: productFilter.selectedOrdering)
+        let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates, distanceRadius: productFilter.distanceRadius, distanceUnit: productFilter.distanceType, categories: productFilter.selectedCategories, sortBy: productFilter.selectedOrdering)
         TrackerProxy.sharedInstance.trackEvent(trackingEvent)
         
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
