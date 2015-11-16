@@ -42,7 +42,7 @@ class FiltersViewModel: BaseViewModel {
     var distanceType : DistanceType {
         return productFilter.distanceType
     }
-    
+      
     //Category vars
     private var categoriesManager: CategoriesManager
     private var categories: [ProductCategory]
@@ -84,6 +84,18 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func saveFilters() {
+        
+        // Tracking
+        
+        var categories : [String] = []
+        
+        for category in productFilter.selectedCategories {
+            categories.append(String(category.rawValue))
+        }
+        
+        let trackingEvent = TrackerEvent.filterComplete(productFilter.filterCoordinates, distanceRadius: productFilter.distanceKms, distanceUnit: productFilter.distanceType, categories: productFilter.selectedCategories, sortBy: productFilter.selectedOrdering)
+        TrackerProxy.sharedInstance.trackEvent(trackingEvent)
+        
         dataDelegate?.viewModelDidUpdateFilters(self, filters: productFilter)
     }
     
