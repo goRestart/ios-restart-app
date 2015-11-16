@@ -18,6 +18,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
     // UI
     @IBOutlet weak var mainProductListView: MainProductListView!
+
+    @IBOutlet weak var tagsCollectionView: UICollectionView!
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceShadow: UIView!
@@ -25,6 +27,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     private var searchTextField : LGNavBarSearchField?
     private var cancelSearchOverlayButton : UIButton? // button with a light blur effect by now, will be a table when history is implemented
     
+    
+    private var tagsViewController : FilterTagsViewController!
     // MARK: - Lifecycle
     
     public convenience init() {
@@ -111,6 +115,10 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         distanceShadow.hidden = true
         distanceShadow.alpha = 0
 
+        
+        //TODO JUST TO TEST!!
+        tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
+        tagsViewController.updateTags([.Category(.Electronics), .Category(.Other), .Search("holaquetal")])
     }
     
     override public func viewDidLayoutSubviews() {

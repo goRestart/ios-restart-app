@@ -142,6 +142,11 @@ class StyleHelper {
         return helveticaNeueBoldFont(size: 16)
     }
     
+    // MARK: - Filter Tag
+    static var filterTagFont : UIFont {
+        return helveticaNeueFont(size: 14)
+    }
+    
     // MARK: - Product Cell
     
     static var productCellBgColor: UIColor {

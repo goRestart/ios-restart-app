@@ -59,6 +59,9 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     
     func viewModelDidUpdateFilters(viewModel: FiltersViewModel, filters: ProductFilters) {
         self.filters = filters
+        
+        updateTagsFromFilters()
+        //TODO CALL
     }
 
     
@@ -85,11 +88,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
         filtersVM.dataDelegate = self
         
-        // TODO:  manage previously setted filters propperly
         delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)
-        
-        updateTagsFromFilters()
-
     }
     
     /**
