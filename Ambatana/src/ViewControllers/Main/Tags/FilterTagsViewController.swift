@@ -14,7 +14,7 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
     
     weak var collectionView: UICollectionView!
     
-    private var tags : [FilterTag] = []
+    var tags : [FilterTag] = []
     
     weak var delegate : FilterTagsViewControllerDelegate?
     

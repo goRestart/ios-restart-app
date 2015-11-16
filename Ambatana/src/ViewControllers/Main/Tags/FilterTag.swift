@@ -8,12 +8,12 @@
 
 import LGCoreKit
 
-enum FilterTag : Equatable{
+public enum FilterTag : Equatable{
     case OrderBy(ProductSortOption)
     case Category(ProductCategory)
 }
 
-func ==(a: FilterTag, b: FilterTag) -> Bool {
+public func ==(a: FilterTag, b: FilterTag) -> Bool {
     switch (a, b) {
     case (.OrderBy(let a),   .OrderBy(let b))   where a == b: return true
     case (.Category(let a), .Category(let b)) where a == b: return true

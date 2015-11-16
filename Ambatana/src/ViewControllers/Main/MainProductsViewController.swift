@@ -11,7 +11,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, MainProductsViewModelDelegate, UITextFieldDelegate {
+public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, UITextFieldDelegate {
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -20,6 +20,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     @IBOutlet weak var mainProductListView: MainProductListView!
 
     @IBOutlet weak var tagsCollectionView: UICollectionView!
+    @IBOutlet weak var tagsCollectionTopSpace: NSLayoutConstraint!
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceShadow: UIView!
@@ -95,10 +96,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             }
         }
         
-        distanceLabel.layer.cornerRadius = 15
-        distanceLabel.layer.masksToBounds = true
         distanceLabel.text = ""
         
+        distanceShadow.layer.cornerRadius = 15
         distanceShadow.layer.shadowColor = UIColor.blackColor().CGColor
         distanceShadow.layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
         distanceShadow.layer.shadowOpacity = 0.12
@@ -106,32 +106,16 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         distanceShadow.hidden = true
         distanceShadow.alpha = 0
 
-        
-        //TODO JUST TO TEST!!
+        //Filter tags
         tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
-        tagsViewController.updateTags([.Category(.Electronics), .Category(.Other), .OrderBy(.PriceAsc), .Category(.MoviesBooksAndMusic)])
+        tagsViewController.delegate = self
+        loadTagsViewWithTags(viewModel.tags)
     }
-    
-    override public func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        view.layoutIfNeeded()
-        distanceLabel.sizeToFit()
-        
-        distanceLabel.preferredMaxLayoutWidth = distanceLabel.frame.size.width + 30
-        
-        let size = CGSize(width: distanceLabel.preferredMaxLayoutWidth, height: 30)
-        
-        distanceLabel.frame = CGRect(origin: CGPoint(x: -15.0, y: 0.0), size: size)
-        view.layoutIfNeeded()
-    }
-    
 
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
     }
-    
 
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -142,7 +126,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         }
     }
-
     
     // MARK: - ProductListViewDataDelegate
 
@@ -270,16 +253,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: filtersVM)
     }
     
-    public func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [String]?) {
-        
-        guard let tags = showTags else {
-            return
-        }
-        
-        if tags.count > 0 {
-            loadTagsViewWithTags(tags)
-        }
-        
+    func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag]) {
+        loadTagsViewWithTags(showTags)
     }
 
     func endEdit() {
@@ -359,6 +334,14 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         return true
     }
     
+    // MARK: - FilterTagsViewControllerDelegate
+    func filterTagsViewControllerDidRemoveTag(controller: FilterTagsViewController) {
+        viewModel.updateFiltersFromTags(controller.tags)
+        if controller.tags.isEmpty {
+            loadTagsViewWithTags([])
+        }
+    }
+    
     
     // MARK: - Private methods
     
@@ -376,12 +359,26 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         viewModel.showFilters()
     }
     
-    // TODO : tmp function while merging search & filters
-    private func loadTagsViewWithTags(tags: [String]) {
+    private func loadTagsViewWithTags(tags: [FilterTag]) {
         
-        for tag in tags {
-            print(tag)
+        self.tagsViewController.updateTags(tags)
+        
+        let showTags = tags.count > 0
+        
+        if showTags {
+            self.tagsCollectionView.hidden = false
         }
+        
+        UIView.animateWithDuration(0.2, animations: {
+            self.tagsCollectionTopSpace.constant = showTags ? 64.0 : 14.0
+            self.view.layoutIfNeeded()
+            }, completion: {
+                (value: Bool) in
+                if !showTags {
+                    self.tagsCollectionView.hidden = true
+                }
+        })
     }
+    
     
 }

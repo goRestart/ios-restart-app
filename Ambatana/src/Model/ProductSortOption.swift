@@ -12,8 +12,11 @@ public enum ProductSortOption: String {
     public static func allValues() -> [ProductSortOption] { return [.Closest, .Newest, .PriceAsc, .PriceDesc] }
 }
 
-
 extension ProductSortOption {
+    
+    public static var defaultOption : ProductSortOption {
+        return .Closest
+    }
     
     public var name : String {
         switch(self) {
