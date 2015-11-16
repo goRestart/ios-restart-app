@@ -10,6 +10,8 @@
                 <outlet property="distanceLabel" destination="6Qi-9b-goZ" id="4VZ-7Q-YdI"/>
                 <outlet property="distanceShadow" destination="xYw-ae-DlH" id="Xyz-WP-lyH"/>
                 <outlet property="mainProductListView" destination="cx9-GQ-2WN" id="pbG-Sb-J7c"/>
+                <outlet property="tagsCollectionTopSpace" destination="RWx-4h-JIi" id="Shs-8a-UHs"/>
+                <outlet property="tagsCollectionView" destination="NKA-bk-QYJ" id="BFc-qp-ZSW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,26 +25,39 @@
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xYw-ae-DlH" userLabel="distanceShadow">
-                    <rect key="frame" x="245" y="80" width="110" height="30"/>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NKA-bk-QYJ">
+                    <rect key="frame" x="0.0" y="14" width="600" height="50"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.96862745098039216" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="ghl-ZF-Qem"/>
+                    </constraints>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="dyG-eL-tem">
+                        <size key="itemSize" width="50" height="40"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xYw-ae-DlH" userLabel="distanceShadow">
+                    <rect key="frame" x="233" y="73" width="135" height="30"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="_15 Km from you" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Qi-9b-goZ">
-                            <rect key="frame" x="0.0" y="0.0" width="110" height="30"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_15 Km from you" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Qi-9b-goZ">
+                            <rect key="frame" x="15" y="0.0" width="106" height="30"/>
                             <animations/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
                     <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="6Qi-9b-goZ" secondAttribute="bottom" id="DOE-VD-2s1"/>
-                        <constraint firstAttribute="centerX" secondItem="6Qi-9b-goZ" secondAttribute="centerX" id="TDL-BG-1CJ"/>
-                        <constraint firstAttribute="trailing" secondItem="6Qi-9b-goZ" secondAttribute="trailing" id="VXt-kg-epm"/>
+                        <constraint firstAttribute="trailing" secondItem="6Qi-9b-goZ" secondAttribute="trailing" constant="15" id="VXt-kg-epm"/>
                         <constraint firstAttribute="height" constant="30" id="rts-dy-xYj"/>
                         <constraint firstItem="6Qi-9b-goZ" firstAttribute="top" secondItem="xYw-ae-DlH" secondAttribute="top" id="voB-b0-bCY"/>
-                        <constraint firstItem="6Qi-9b-goZ" firstAttribute="leading" secondItem="xYw-ae-DlH" secondAttribute="leading" id="zkX-Bl-kCA"/>
+                        <constraint firstItem="6Qi-9b-goZ" firstAttribute="leading" secondItem="xYw-ae-DlH" secondAttribute="leading" constant="15" id="zkX-Bl-kCA"/>
                     </constraints>
                 </view>
             </subviews>
@@ -50,10 +65,13 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3DU-dL-AwZ"/>
-                <constraint firstItem="cx9-GQ-2WN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="9MN-w9-TNK"/>
+                <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" constant="9" id="47Q-dM-XkO"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xYw-ae-DlH" secondAttribute="trailing" constant="20" id="9ub-mn-Dw1"/>
-                <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="80" id="A8W-il-cd7"/>
+                <constraint firstItem="cx9-GQ-2WN" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" id="HlT-es-9zq"/>
                 <constraint firstAttribute="trailing" secondItem="cx9-GQ-2WN" secondAttribute="trailing" id="MXl-BZ-HJO"/>
+                <constraint firstItem="NKA-bk-QYJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Nzs-yc-Xxb"/>
+                <constraint firstAttribute="trailing" secondItem="NKA-bk-QYJ" secondAttribute="trailing" id="OhT-Sp-DGK"/>
+                <constraint firstItem="NKA-bk-QYJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="14" id="RWx-4h-JIi"/>
                 <constraint firstItem="xYw-ae-DlH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="RvD-Q0-iag"/>
                 <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" constant="50" id="eCp-yK-QmV"/>
                 <constraint firstAttribute="centerX" secondItem="xYw-ae-DlH" secondAttribute="centerX" id="ern-bv-UNB"/>

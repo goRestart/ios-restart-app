@@ -13,7 +13,7 @@ import Result
 protocol MainProductsViewModelDelegate: class {
     func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
-    func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [String]?)
+    func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
 }
 
 public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate {
@@ -26,11 +26,20 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     public var title: AnyObject?
 //    public var hasSearchButton: Bool
     
-    // TODO: remove tmp var (used while developing the "show filters" logic)
-    public var tags: [String] {
-        didSet {
-            delegate?.mainProductsViewModel(self, showTags: tags)
+    public var tags: [FilterTag] {
+        guard let theFilters = filters else {
+            return []
         }
+        
+        var resultTags : [FilterTag] = []
+        for prodCat in theFilters.selectedCategories {
+            resultTags.append(.Category(prodCat))
+        }
+        
+        if(theFilters.selectedOrdering != ProductSortOption.defaultOption) {
+            resultTags.append(.OrderBy(theFilters.selectedOrdering))
+        }
+        return resultTags
     }
     
     var filters : ProductFilters?
@@ -47,8 +56,6 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
 
         self.title = category?.name
         
-        self.tags = []
-        
 //        self.title = category?.name ?? UIImage(named: "navbar_logo")
 //        self.hasSearchButton = ( searchString == nil )
         super.init()
@@ -59,6 +66,8 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     
     func viewModelDidUpdateFilters(viewModel: FiltersViewModel, filters: ProductFilters) {
         self.filters = filters
+        
+        delegate?.mainProductsViewModel(self, showTags: self.tags)
     }
 
     
@@ -85,10 +94,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
         filtersVM.dataDelegate = self
         
-        // TODO:  manage previously setted filters propperly
         delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)
-        
-        updateTagsFromFilters()
 
         // Tracking
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.filterStart())
@@ -102,8 +108,31 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
     }
     
-    public func updateTagsFromFilters(tags: [String]? = ["tag 5", "tag 8", "patata frita"]) {
-        self.tags = tags!
+    
+    /**
+        Called when a filter gets removed
+    */
+    public func updateFiltersFromTags(tags: [FilterTag]) {
+        
+        //Tags gan only be deleted so if there where tags means there was a filters object
+        if filters == nil {
+            return
+        }
+        
+        var categories : [ProductCategory] = []
+        var orderBy = ProductSortOption.defaultOption
+        
+        for filterTag in tags {
+            switch filterTag {
+            case .Category(let prodCategory):
+                categories.append(prodCategory)
+            case .OrderBy(let prodSortOption):
+                orderBy = prodSortOption
+            }
+        }
+        
+        filters?.selectedCategories = categories
+        filters?.selectedOrdering = orderBy
     }
     
     

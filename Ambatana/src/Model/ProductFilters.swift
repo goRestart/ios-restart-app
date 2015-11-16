@@ -19,7 +19,7 @@ struct ProductFilters {
     
     var filterCoordinates : LGLocationCoordinates2D?
     
-    init(distanceKms: Int = Constants.distanceFilterDefault, distanceType: DistanceType = .Km, selectedCategories: [ProductCategory] = [], selectedOrdering: ProductSortOption = .Closest){
+    init(distanceKms: Int = Constants.distanceFilterDefault, distanceType: DistanceType = .Km, selectedCategories: [ProductCategory] = [], selectedOrdering: ProductSortOption = ProductSortOption.defaultOption){
         self.distanceKms = distanceKms
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories

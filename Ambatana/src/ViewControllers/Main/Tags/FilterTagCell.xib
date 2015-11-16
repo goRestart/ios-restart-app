@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FilterTagCell" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="178" height="40"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="178" height="40"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tTf-BR-e1Q" userLabel="tagIcon">
+                        <rect key="frame" x="10" y="0.0" width="40" height="40"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="iOq-gt-FWP"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jro-wl-0e6" userLabel="tagLabel">
+                        <rect key="frame" x="50" y="0.0" width="88" height="40"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sOi-DQ-kI0" userLabel="closeBtn">
+                        <rect key="frame" x="152" y="9" width="12" height="22"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="SY6-j3-a8l"/>
+                        </constraints>
+                        <state key="normal" image="filters_clear_btn"/>
+                        <state key="highlighted" image="filters_clear_btn"/>
+                        <connections>
+                            <action selector="onCloseBtn:" destination="gTV-IL-0wX" eventType="touchUpInside" id="gnd-8c-iEZ"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <animations/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <animations/>
+            <constraints>
+                <constraint firstItem="jro-wl-0e6" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="AxP-jm-agH"/>
+                <constraint firstAttribute="trailing" secondItem="sOi-DQ-kI0" secondAttribute="trailing" id="BRL-Bs-NtR"/>
+                <constraint firstAttribute="bottom" secondItem="jro-wl-0e6" secondAttribute="bottom" id="CnC-qF-h8v"/>
+                <constraint firstItem="sOi-DQ-kI0" firstAttribute="leading" secondItem="jro-wl-0e6" secondAttribute="trailing" id="Djb-KZ-41j"/>
+                <constraint firstItem="sOi-DQ-kI0" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="K8p-4i-bKo"/>
+                <constraint firstItem="tTf-BR-e1Q" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="N13-uO-go7"/>
+                <constraint firstAttribute="bottom" secondItem="tTf-BR-e1Q" secondAttribute="bottom" id="TJZ-jd-tBH"/>
+                <constraint firstItem="jro-wl-0e6" firstAttribute="leading" secondItem="tTf-BR-e1Q" secondAttribute="trailing" id="eqE-zT-Ke3"/>
+                <constraint firstItem="tTf-BR-e1Q" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="qjW-Ti-m5e"/>
+                <constraint firstAttribute="bottom" secondItem="sOi-DQ-kI0" secondAttribute="bottom" id="vSz-Sk-Sho"/>
+            </constraints>
+            <size key="customSize" width="178" height="37"/>
+            <connections>
+                <outlet property="tagIcon" destination="tTf-BR-e1Q" id="GHb-kR-U1k"/>
+                <outlet property="tagIconWidth" destination="iOq-gt-FWP" id="d3S-A3-V7a"/>
+                <outlet property="tagLabel" destination="jro-wl-0e6" id="icn-nZ-znl"/>
+            </connections>
+            <point key="canvasLocation" x="412" y="388"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="filters_clear_btn" width="12" height="12"/>
+    </resources>
+</document>
