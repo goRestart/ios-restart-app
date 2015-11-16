@@ -95,12 +95,15 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         filtersVM.dataDelegate = self
         
         delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)
+
+        // Tracking
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.filterStart())
     }
     
     /**
         Called when search button is pressed.
     */
-    public func searchButtonPressed() {
+    public func searchBegan() {
         // Tracking
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
     }
