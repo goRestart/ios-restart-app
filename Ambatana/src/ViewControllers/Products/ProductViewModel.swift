@@ -223,7 +223,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             footerViewVisible = false
         case .Approved, .Sold, .SoldOld:
             footerViewVisible = true
-            break
         }
         return footerViewVisible
     }
@@ -235,7 +234,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             productSold = false
         case .Sold, .SoldOld:
             productSold = true
-            break
         }
         return productSold
     }
@@ -253,22 +251,16 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending:
             statusLabelVisible = false
-            break
         case .Approved:
             statusLabelVisible = false
-            break
         case .Discarded:
             statusLabelVisible = false
-            break
         case .Sold:
             statusLabelVisible = true
-            break
         case .SoldOld:
             statusLabelVisible = true
-            break
         case .Deleted:
             statusLabelVisible = true
-            break
         }
         return statusLabelVisible
     }
@@ -278,10 +270,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending, .Approved, .Discarded, .Deleted:
             color = UIColor.whiteColor()
-            break
         case .Sold, .SoldOld:
             color = StyleHelper.soldColor
-            break
         }
         return color
     }
@@ -291,10 +281,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending, .Approved, .Discarded, .Deleted:
             color = UIColor.blackColor()
-            break
         case .Sold, .SoldOld:
             color = UIColor.whiteColor()
-            break
         }
         return color
     }
@@ -304,19 +292,14 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending:
             text = LGLocalizedString.productStatusLabelPending
-            break
         case .Approved:
             text = LGLocalizedString.productStatusLabelApproved
-            break
         case .Discarded:
             text = LGLocalizedString.productStatusLabelDiscarded
-            break
         case .Sold, .SoldOld:
             text = LGLocalizedString.productListItemSoldStatusLabel
-            break
         case .Deleted:
             text = LGLocalizedString.productStatusLabelDeleted
-            break
         }
         return text
     }

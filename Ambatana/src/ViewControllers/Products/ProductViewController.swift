@@ -609,12 +609,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         // Footer
         footerViewHeightConstraint.constant = viewModel.isFooterVisible ? ProductViewController.footerViewVisibleHeight : 0
-        
-        if viewModel.productIsSold {
-            markSoldButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-        } else {
-            markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
-        }
+
+        let title = viewModel.productIsSold ?  LGLocalizedString.productSellAgainButton : LGLocalizedString.productMarkAsSoldButton
+        markSoldButton.setTitle(title, forState: .Normal)
         
         // Footer other / me selling subviews
         otherSellingView.hidden = viewModel.isMine
