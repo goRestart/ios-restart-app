@@ -374,6 +374,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         let showTags = tags.count > 0
         
         showTagsView(showTags)
+        
+        //Update tags button
+        setLetGoRightButtonWithImageName(showTags ? "ic_filters_active": "ic_filters", andSelector: "filtersButtonPressed:")
     }
     
     private func showTagsView(show: Bool) {

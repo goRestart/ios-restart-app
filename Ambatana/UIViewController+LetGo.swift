@@ -38,7 +38,8 @@ extension UIViewController {
     }
     
     func setLetGoRightButtonWithImageName(image: String, andSelector selector: String) -> UIBarButtonItem {
-        let rightitem = UIBarButtonItem(image: UIImage(named: image), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
+        let itemImage = UIImage(named: image)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        let rightitem = UIBarButtonItem(image:itemImage, style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
         self.navigationItem.rightBarButtonItem = rightitem
         return rightitem
     }

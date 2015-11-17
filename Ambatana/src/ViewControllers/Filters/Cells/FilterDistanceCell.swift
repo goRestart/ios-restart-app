@@ -149,7 +149,7 @@ class FilterDistanceCell: UICollectionViewCell {
         
         let currDist = currentDistance()
         if(currDist == positions[positions.count-1]){
-            distanceLabel.text = "max"
+            distanceLabel.text = LGLocalizedString.commonMax
         }
         else{
             distanceLabel.text = "\(currentDistance()) \(distanceType.string)"
