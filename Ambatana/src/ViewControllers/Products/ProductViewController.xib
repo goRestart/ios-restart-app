@@ -193,11 +193,11 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="shareFBButtonPressed:" destination="-1" eventType="touchUpInside" id="lUd-E4-2r2"/>
+                                                <action selector="shareFBMessengerButtonPressed:" destination="-1" eventType="touchUpInside" id="VGU-R2-aje"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kD-Uf-2Lc" userLabel="Share FB Button">
-                                            <rect key="frame" x="160" y="10" width="56" height="56"/>
+                                            <rect key="frame" x="104" y="10" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="56" id="IVG-vc-rkf"/>
@@ -210,22 +210,8 @@
                                                 <action selector="shareFBButtonPressed:" destination="-1" eventType="touchUpInside" id="ePR-jF-C3J"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oZF-Tz-McD" userLabel="Share Whatsapp Button">
-                                            <rect key="frame" x="104" y="10" width="56" height="56"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="56" id="1In-y0-Izh"/>
-                                                <constraint firstAttribute="height" constant="56" id="V0c-IB-W5X"/>
-                                            </constraints>
-                                            <state key="normal" image="item_share_whatsapp">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="shareWhatsAppButtonPressed:" destination="-1" eventType="touchUpInside" id="N9P-As-hEp"/>
-                                            </connections>
-                                        </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNK-r3-hh9" userLabel="Share Email Button">
-                                            <rect key="frame" x="216" y="10" width="56" height="56"/>
+                                            <rect key="frame" x="160" y="10" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="56" id="tpr-4J-kcd"/>
@@ -238,13 +224,30 @@
                                                 <action selector="shareEmailButtonPressed:" destination="-1" eventType="touchUpInside" id="6q4-LC-ZWW"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oZF-Tz-McD" userLabel="Share Whatsapp Button">
+                                            <rect key="frame" x="216" y="10" width="56" height="56"/>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="56" id="1In-y0-Izh"/>
+                                                <constraint firstAttribute="height" constant="56" id="V0c-IB-W5X"/>
+                                            </constraints>
+                                            <state key="normal" image="item_share_whatsapp">
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="shareWhatsAppButtonPressed:" destination="-1" eventType="touchUpInside" id="N9P-As-hEp"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
+                                        <constraint firstItem="cNK-r3-hh9" firstAttribute="centerX" secondItem="JjN-hF-Oa1" secondAttribute="centerX" constant="28" id="0Zw-IS-8Zd"/>
+                                        <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="cNK-r3-hh9" secondAttribute="trailing" id="7RC-yg-IdJ"/>
                                         <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" id="9Kv-Wb-PCE"/>
                                         <constraint firstItem="oZF-Tz-McD" firstAttribute="centerX" secondItem="JjN-hF-Oa1" secondAttribute="centerX" constant="-28" id="9X0-e6-VOA"/>
                                         <constraint firstItem="7kD-Uf-2Lc" firstAttribute="leading" secondItem="d9e-k6-h2n" secondAttribute="trailing" constant="84" id="BU9-Ac-m3R"/>
+                                        <constraint firstItem="7kD-Uf-2Lc" firstAttribute="leading" secondItem="d9e-k6-h2n" secondAttribute="trailing" id="ERa-wh-KPi"/>
                                         <constraint firstAttribute="centerX" secondItem="cNK-r3-hh9" secondAttribute="centerX" id="FD3-r2-dLN"/>
                                         <constraint firstAttribute="centerY" secondItem="cNK-r3-hh9" secondAttribute="centerY" id="HBe-am-p9e"/>
                                         <constraint firstItem="d9e-k6-h2n" firstAttribute="centerY" secondItem="JjN-hF-Oa1" secondAttribute="centerY" id="HIa-AG-SX5"/>
@@ -252,16 +255,21 @@
                                         <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="d9e-k6-h2n" secondAttribute="trailing" id="SBO-gO-q2y"/>
                                         <constraint firstAttribute="height" constant="75" id="Sf2-G5-XeS"/>
                                         <constraint firstItem="7kD-Uf-2Lc" firstAttribute="leading" secondItem="oZF-Tz-McD" secondAttribute="trailing" id="aSc-8P-qn2"/>
+                                        <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" id="dSZ-SM-jJg"/>
                                         <constraint firstAttribute="centerY" secondItem="7kD-Uf-2Lc" secondAttribute="centerY" id="kj4-qU-w02"/>
                                         <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="cNK-r3-hh9" secondAttribute="trailing" id="kjW-m3-Msn"/>
                                         <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" constant="-12" id="mAf-OB-GBu"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="kjW-m3-Msn"/>
                                             <exclude reference="BU9-Ac-m3R"/>
+                                            <exclude reference="aSc-8P-qn2"/>
+                                            <exclude reference="9Kv-Wb-PCE"/>
                                             <exclude reference="FD3-r2-dLN"/>
                                             <exclude reference="mAf-OB-GBu"/>
+                                            <exclude reference="9X0-e6-VOA"/>
+                                            <exclude reference="SBO-gO-q2y"/>
+                                            <exclude reference="kjW-m3-Msn"/>
                                         </mask>
                                     </variation>
                                 </view>
