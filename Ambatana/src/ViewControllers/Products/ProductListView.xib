@@ -49,7 +49,6 @@
                         </activityIndicatorView>
                     </subviews>
                     <animations/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerY" secondItem="Pbl-p4-Cn4" secondAttribute="centerY" id="pgU-fm-SGH"/>
                         <constraint firstAttribute="centerX" secondItem="Pbl-p4-Cn4" secondAttribute="centerX" id="zbz-Ls-gkm"/>
@@ -61,7 +60,7 @@
                         <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="vRY-iX-mQA">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             <animations/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="bn2-Cx-1YE" customClass="CHTCollectionViewWaterfallLayout">
                                 <size key="itemSize" width="145" height="190"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -151,7 +150,6 @@
                         </view>
                     </subviews>
                     <animations/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerY" secondItem="lYd-o8-eNu" secondAttribute="centerY" id="MDX-OV-a8t"/>
                         <constraint firstItem="lYd-o8-eNu" firstAttribute="leading" secondItem="ljl-Jf-n6M" secondAttribute="leading" constant="24" id="RQ1-h5-li8"/>
@@ -166,7 +164,6 @@
                 </view>
             </subviews>
             <animations/>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="6q1-Ob-tgt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6AW-wj-rta"/>
                 <constraint firstItem="Zs6-3O-H5d" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6bM-oG-ScS"/>

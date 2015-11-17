@@ -10,6 +10,7 @@
                 <outlet property="distanceLabel" destination="6Qi-9b-goZ" id="4VZ-7Q-YdI"/>
                 <outlet property="distanceShadow" destination="xYw-ae-DlH" id="Xyz-WP-lyH"/>
                 <outlet property="mainProductListView" destination="cx9-GQ-2WN" id="pbG-Sb-J7c"/>
+                <outlet property="tagsCollectionSeparatorHeight" destination="s8X-dE-7Xs" id="GUI-gl-jy2"/>
                 <outlet property="tagsCollectionTopSpace" destination="RWx-4h-JIi" id="Shs-8a-UHs"/>
                 <outlet property="tagsCollectionView" destination="NKA-bk-QYJ" id="BFc-qp-ZSW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -23,12 +24,11 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cx9-GQ-2WN" customClass="MainProductListView" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="64" width="600" height="486"/>
                     <animations/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NKA-bk-QYJ">
                     <rect key="frame" x="0.0" y="14" width="600" height="50"/>
                     <animations/>
-                    <color key="backgroundColor" red="0.96862745098039216" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="ghl-ZF-Qem"/>
                     </constraints>
@@ -36,9 +36,17 @@
                         <size key="itemSize" width="50" height="40"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
+                        <inset key="sectionInset" minX="8" minY="5" maxX="5" maxY="5"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4NQ-Ja-Bon">
+                    <rect key="frame" x="0.0" y="64" width="600" height="1"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="s8X-dE-7Xs"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xYw-ae-DlH" userLabel="distanceShadow">
                     <rect key="frame" x="233" y="73" width="135" height="30"/>
                     <subviews>
@@ -62,19 +70,22 @@
                 </view>
             </subviews>
             <animations/>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3DU-dL-AwZ"/>
                 <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" constant="9" id="47Q-dM-XkO"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xYw-ae-DlH" secondAttribute="trailing" constant="20" id="9ub-mn-Dw1"/>
+                <constraint firstItem="4NQ-Ja-Bon" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" id="CDF-Xv-nvf"/>
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" id="HlT-es-9zq"/>
                 <constraint firstAttribute="trailing" secondItem="cx9-GQ-2WN" secondAttribute="trailing" id="MXl-BZ-HJO"/>
                 <constraint firstItem="NKA-bk-QYJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Nzs-yc-Xxb"/>
                 <constraint firstAttribute="trailing" secondItem="NKA-bk-QYJ" secondAttribute="trailing" id="OhT-Sp-DGK"/>
                 <constraint firstItem="NKA-bk-QYJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="14" id="RWx-4h-JIi"/>
                 <constraint firstItem="xYw-ae-DlH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="RvD-Q0-iag"/>
+                <constraint firstAttribute="trailing" secondItem="4NQ-Ja-Bon" secondAttribute="trailing" id="Spm-27-mMY"/>
                 <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" constant="50" id="eCp-yK-QmV"/>
                 <constraint firstAttribute="centerX" secondItem="xYw-ae-DlH" secondAttribute="centerX" id="ern-bv-UNB"/>
+                <constraint firstItem="4NQ-Ja-Bon" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iNB-Lh-xLS"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>

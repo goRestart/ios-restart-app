@@ -21,6 +21,9 @@ public protocol ProductListViewDataDelegate: class {
     func productListViewShouldResignSearch(productListView: ProductListView)
 }
 
+public protocol ProductListViewScrollDelegate: class {
+    func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
+}
 
 
 public enum ProductListViewState {
@@ -219,6 +222,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     
     // Delegate
     weak public var delegate: ProductListViewDataDelegate?
+    weak public var scrollDelegate : ProductListViewScrollDelegate?
     
     // MARK: - Lifecycle
     
@@ -406,6 +410,10 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             scrollingDown = true
         }
         lastContentOffset = scrollView.contentOffset.y
+        
+        if(lastContentOffset > 0.0){
+            scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
+        }
     }
     
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {

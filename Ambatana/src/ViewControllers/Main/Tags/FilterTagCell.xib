@@ -14,14 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="178" height="40"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tTf-BR-e1Q" userLabel="tagIcon">
-                        <rect key="frame" x="10" y="0.0" width="40" height="40"/>
+                        <rect key="frame" x="10" y="2" width="38" height="36"/>
                         <animations/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="40" id="iOq-gt-FWP"/>
+                            <constraint firstAttribute="width" constant="38" id="iOq-gt-FWP"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jro-wl-0e6" userLabel="tagLabel">
-                        <rect key="frame" x="50" y="0.0" width="88" height="40"/>
+                        <rect key="frame" x="48" y="0.0" width="90" height="40"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -51,9 +51,9 @@
                 <constraint firstItem="sOi-DQ-kI0" firstAttribute="leading" secondItem="jro-wl-0e6" secondAttribute="trailing" id="Djb-KZ-41j"/>
                 <constraint firstItem="sOi-DQ-kI0" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="K8p-4i-bKo"/>
                 <constraint firstItem="tTf-BR-e1Q" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="N13-uO-go7"/>
-                <constraint firstAttribute="bottom" secondItem="tTf-BR-e1Q" secondAttribute="bottom" id="TJZ-jd-tBH"/>
+                <constraint firstAttribute="bottom" secondItem="tTf-BR-e1Q" secondAttribute="bottom" constant="2" id="TJZ-jd-tBH"/>
                 <constraint firstItem="jro-wl-0e6" firstAttribute="leading" secondItem="tTf-BR-e1Q" secondAttribute="trailing" id="eqE-zT-Ke3"/>
-                <constraint firstItem="tTf-BR-e1Q" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="qjW-Ti-m5e"/>
+                <constraint firstItem="tTf-BR-e1Q" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="2" id="qjW-Ti-m5e"/>
                 <constraint firstAttribute="bottom" secondItem="sOi-DQ-kI0" secondAttribute="bottom" id="vSz-Sk-Sho"/>
             </constraints>
             <size key="customSize" width="178" height="37"/>

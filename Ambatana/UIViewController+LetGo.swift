@@ -37,6 +37,12 @@ extension UIViewController {
         }
     }
     
+    func setLetGoRightButtonWithImageName(image: String, andSelector selector: String) -> UIBarButtonItem {
+        let rightitem = UIBarButtonItem(image: UIImage(named: image), style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
+        self.navigationItem.rightBarButtonItem = rightitem
+        return rightitem
+    }
+    
     // Used to set right buttons in the LetGo style and link them with proper actions.
     func setLetGoRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], withTags tags: [Int]? = nil) -> [UIButton] {
         if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa

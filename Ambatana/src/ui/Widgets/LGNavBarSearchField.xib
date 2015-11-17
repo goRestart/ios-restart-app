@@ -8,25 +8,25 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LGNavBarSearchField" customModule="LetGo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="301" height="30"/>
+            <rect key="frame" x="0.0" y="0.0" width="689" height="30"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ovt-8J-3XG" customClass="LGTextField" customModule="LetGo" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="301" height="30"/>
+                    <rect key="frame" x="0.0" y="0.0" width="689" height="30"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" returnKeyType="search"/>
                 </textField>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="list_search" translatesAutoresizingMaskIntoConstraints="NO" id="PEe-bk-xnz">
-                    <rect key="frame" x="100" y="5" width="20" height="20"/>
+                    <rect key="frame" x="100" y="8" width="15" height="15"/>
                     <animations/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="20" id="WKP-hi-V2q"/>
-                        <constraint firstAttribute="height" constant="20" id="pY8-4L-e6P"/>
+                        <constraint firstAttribute="width" constant="15" id="WKP-hi-V2q"/>
+                        <constraint firstAttribute="height" constant="15" id="pY8-4L-e6P"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="navbar_logo" translatesAutoresizingMaskIntoConstraints="NO" id="xvF-po-8hj">
-                    <rect key="frame" x="128" y="5" width="50" height="20"/>
+                    <rect key="frame" x="115" y="7" width="50" height="20"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="Nda-iB-E9H"/>
@@ -38,32 +38,25 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="ovt-8J-3XG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="3Gy-zw-0PT"/>
-                <constraint firstItem="PEe-bk-xnz" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="FeI-WW-Mj0"/>
                 <constraint firstItem="ovt-8J-3XG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Lo6-AZ-k8h"/>
                 <constraint firstAttribute="trailing" secondItem="ovt-8J-3XG" secondAttribute="trailing" id="O7l-m4-mXl"/>
+                <constraint firstItem="PEe-bk-xnz" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="ZTK-16-Fzg"/>
                 <constraint firstAttribute="bottom" secondItem="ovt-8J-3XG" secondAttribute="bottom" id="bGG-zD-qYV"/>
-                <constraint firstItem="xvF-po-8hj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="ko7-u4-Vi7"/>
-                <constraint firstItem="PEe-bk-xnz" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="-20" id="kw8-E6-bzz"/>
-                <constraint firstItem="xvF-po-8hj" firstAttribute="leading" secondItem="PEe-bk-xnz" secondAttribute="trailing" constant="8" id="q2E-c0-QcH"/>
+                <constraint firstItem="xvF-po-8hj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="7" id="ko7-u4-Vi7"/>
+                <constraint firstItem="xvF-po-8hj" firstAttribute="leading" secondItem="PEe-bk-xnz" secondAttribute="trailing" id="q2E-c0-QcH"/>
                 <constraint firstItem="PEe-bk-xnz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="100" id="xFP-YH-ZW3"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="kw8-E6-bzz"/>
-                </mask>
-            </variation>
             <connections>
                 <outlet property="logoIcon" destination="xvF-po-8hj" id="XfI-MP-tqa"/>
                 <outlet property="magnifierIcon" destination="PEe-bk-xnz" id="GR3-iw-yPU"/>
-                <outlet property="magnifierIconCenterXConstraint" destination="kw8-E6-bzz" id="2L2-cM-5iQ"/>
                 <outlet property="magnifierIconLeadingConstraint" destination="xFP-YH-ZW3" id="iBC-7c-fJb"/>
                 <outlet property="searchTextField" destination="ovt-8J-3XG" id="snq-2a-WTW"/>
             </connections>
-            <point key="canvasLocation" x="673.5" y="202"/>
+            <point key="canvasLocation" x="867.5" y="202"/>
         </view>
     </objects>
     <resources>

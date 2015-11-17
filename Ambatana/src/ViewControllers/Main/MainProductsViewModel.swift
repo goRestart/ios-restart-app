@@ -25,7 +25,14 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     
     // Output
     public var title: AnyObject?
-//    public var hasSearchButton: Bool
+    
+    public var infoBubblePresent : Bool {
+        guard let theFilters = filters else {
+            return true
+        }
+        
+        return theFilters.selectedOrdering == .Distance
+    }
     
     public var tags: [FilterTag] {
         guard let theFilters = filters else {
@@ -57,8 +64,6 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
 
         self.title = category?.name
         
-//        self.title = category?.name ?? UIImage(named: "navbar_logo")
-//        self.hasSearchButton = ( searchString == nil )
         super.init()
     }
     
@@ -138,6 +143,19 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         filters?.selectedOrdering = orderBy
         
         updateListView()
+    }
+    
+    
+    /**
+        Called on every distance change to get the info to set on the bubble
+    */
+    public func distanceInfoTextForDistance(distance: Int, type: DistanceType) -> String? {
+        let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance), type.string])
+        if distance <= Constants.productListMaxDistanceLabel {
+            return String(format: LGLocalizedString.productDistanceXFromYou, distanceString)
+        } else {
+            return String(format: LGLocalizedString.productDistanceMoreThanFromYou, distanceString)
+        }
     }
     
     

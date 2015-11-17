@@ -15,6 +15,7 @@ protocol FilterTagCellDelegate : class {
 class FilterTagCell: UICollectionViewCell {
     
     private static let fixedWidthSpace : CGFloat = 50.0 //10.0 left margin & 40.0 close button
+    private static let iconWidth : CGFloat = 36.0
 
     @IBOutlet weak var tagIcon: UIImageView!
     @IBOutlet weak var tagIconWidth: NSLayoutConstraint!
@@ -31,7 +32,7 @@ class FilterTagCell: UICollectionViewCell {
             let boundingBox = sortOption.name.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
             return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: 40.0)
         case .Category:
-            return CGSize(width: 40.0+fixedWidthSpace, height: 40.0)
+            return CGSize(width: iconWidth+fixedWidthSpace, height: 40.0)
         }
     }
     
@@ -63,7 +64,7 @@ class FilterTagCell: UICollectionViewCell {
         case .OrderBy(let sortOption):
             self.tagLabel.text = sortOption.name
         case .Category(let category):
-            self.tagIconWidth.constant = 40
+            self.tagIconWidth.constant = FilterTagCell.iconWidth
             self.tagIcon.image = category.image
         }
     }
@@ -72,7 +73,7 @@ class FilterTagCell: UICollectionViewCell {
     
     private func setupUI() {
         self.contentView.layer.borderColor = StyleHelper.lineColor.CGColor
-        self.contentView.layer.borderWidth = 1
+        self.contentView.layer.borderWidth = StyleHelper.onePixelSize
         self.contentView.layer.cornerRadius = 4.0
         self.contentView.layer.backgroundColor = UIColor.whiteColor().CGColor
     }

@@ -68,9 +68,9 @@ public class LGNavBarSearchField: UIView {
         searchTextField.insetX = 30
         
         searchTextField.borderStyle = UITextBorderStyle.None
-        searchTextField.layer.cornerRadius = 5
-        searchTextField.layer.borderWidth = 1
-        searchTextField.layer.borderColor = StyleHelper.lineColor.CGColor
+        searchTextField.layer.cornerRadius = 4
+        searchTextField.layer.borderWidth = StyleHelper.onePixelSize
+        searchTextField.layer.borderColor = StyleHelper.navBarSearchBorderColor.CGColor
         searchTextField.backgroundColor = StyleHelper.navBarSearchFieldBgColor
         searchTextField.tintColor = StyleHelper.textFieldTintColor // UIColor.clearColor() //
         
@@ -92,7 +92,7 @@ public class LGNavBarSearchField: UIView {
         
         UIView.animateWithDuration(0.2, animations: { () -> Void in
 
-            self.magnifierIconLeadingConstraint.constant = CGFloat(5)
+            self.magnifierIconLeadingConstraint.constant = CGFloat(10)
             self.layoutSubviews()
 
             }) { (completion) -> Void in
@@ -109,7 +109,7 @@ public class LGNavBarSearchField: UIView {
         
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             
-            self.magnifierIconLeadingConstraint.constant = CGFloat((self.frame.width/2) - CGFloat(30))
+            self.magnifierIconLeadingConstraint.constant = CGFloat((self.frame.width/2) - CGFloat((self.magnifierIcon.frame.size.width + self.logoIcon.frame.size.width)/2.0))
             
             print(self.frame.width)
             print(self.magnifierIconLeadingConstraint.constant)

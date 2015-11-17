@@ -11,7 +11,7 @@ import LGCoreKit
 import Parse
 import UIKit
 
-public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, UITextFieldDelegate {
+public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, ProductListViewScrollDelegate, MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, UITextFieldDelegate {
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -21,6 +21,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     @IBOutlet weak var tagsCollectionTopSpace: NSLayoutConstraint!
+    @IBOutlet weak var tagsCollectionSeparatorHeight: NSLayoutConstraint!
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceShadow: UIView!
@@ -30,6 +31,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     
     private var tagsViewController : FilterTagsViewController!
+    private var tagsShowing : Bool = false
     // MARK: - Lifecycle
     
     public convenience init() {
@@ -62,6 +64,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         // UI
         // > Main product list view
         mainProductListView.delegate = self
+        mainProductListView.scrollDelegate = self
         mainProductListView.queryString = viewModel.searchString
         
         if let category = viewModel.category {
@@ -70,7 +73,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         addSubview(mainProductListView)
         
-        setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
+        setLetGoRightButtonWithImageName("ic_filters", andSelector: "filtersButtonPressed:")
         
         if let categoryTitle = viewModel.title as? String {
             self.setLetGoNavigationBarStyle(categoryTitle)
@@ -83,17 +86,18 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             }
         }
         
-        distanceLabel.text = ""
         
+        //Info bubble
+        distanceLabel.text = ""
         distanceShadow.layer.cornerRadius = 15
         distanceShadow.layer.shadowColor = UIColor.blackColor().CGColor
-        distanceShadow.layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
+        distanceShadow.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
         distanceShadow.layer.shadowOpacity = 0.12
         distanceShadow.layer.shadowRadius = 8.0
-        distanceShadow.hidden = true
-        distanceShadow.alpha = 0
+        showInfoBubble(false, alpha: 0.0)
 
         //Filter tags
+        tagsCollectionSeparatorHeight.constant = StyleHelper.onePixelSize
         tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
         tagsViewController.delegate = self
         loadTagsViewWithTags(viewModel.tags)
@@ -124,12 +128,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     public func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType) {
 
         // Update distance label
-        let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance), type.string])
-        if distance <= Constants.productListMaxDistanceLabel {
-            distanceLabel.text = String(format: LGLocalizedString.productDistanceXFromYou, distanceString)
-        } else {
-            distanceLabel.text = String(format: LGLocalizedString.productDistanceMoreThanFromYou, distanceString)
-        }
+        distanceLabel.text = viewModel.distanceInfoTextForDistance(distance, type: type)
+        
     }
     
     public func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool) {
@@ -184,8 +184,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         }
         
         // Update distance label visibility
-        distanceShadow.hidden = !hasProducts
-        distanceShadow.alpha = hasProducts ? 1:0
+        showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
 
         // Floating sell button should be shown if has products
         if let tabBarCtl = tabBarController as? TabBarController {
@@ -202,8 +201,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
         
         // Update distance label visibility
-        distanceShadow.hidden = !hasProducts
-        distanceShadow.alpha = hasProducts ? 1:0
+        showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
 
         // If the first page load succeeds
         if page == 0 {
@@ -227,6 +225,17 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     // TODO: delete method if finally product list view is not the one to decide if search field loses focus
     public func productListViewShouldResignSearch(productListView: ProductListView) {
+    }
+    
+    
+    // MARK: - ProductListViewScrollDelegate
+    public func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {
+        if self.tagsViewController.tags.isEmpty {
+            //Nothing to do, tags are not showing
+            return
+        }
+        
+        showTagsView(!scrollDown)
     }
     
     // MARK: - MainProductsViewModelDelegate
@@ -261,7 +270,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         cancelSearchOverlayButton?.removeFromSuperview()
         cancelSearchOverlayButton = nil
 
-        distanceShadow.hidden = false
+        showInfoBubble(true)
 
         setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
 
@@ -280,7 +289,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         viewModel.searchBegan()
         
-        distanceShadow.hidden = true
+        showInfoBubble(false)
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self, action: "endEdit")
         
@@ -364,20 +373,36 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         let showTags = tags.count > 0
         
-        if showTags {
+        showTagsView(showTags)
+    }
+    
+    private func showTagsView(show: Bool) {
+        if tagsShowing == show {
+            return
+        }
+        
+        tagsShowing = show
+        
+        if show {
             self.tagsCollectionView.hidden = false
         }
         
         UIView.animateWithDuration(0.2, animations: {
-            self.tagsCollectionTopSpace.constant = showTags ? 64.0 : 14.0
+            self.tagsCollectionTopSpace.constant = show ? 64.0 : 14.0
             self.view.layoutIfNeeded()
             }, completion: {
                 (value: Bool) in
-                if !showTags {
+                if !show {
                     self.tagsCollectionView.hidden = true
                 }
         })
     }
     
+    private func showInfoBubble(show: Bool, alpha: CGFloat? = nil) {
+        distanceShadow.hidden = !viewModel.infoBubblePresent || !show
+        if let alpha = alpha {
+            distanceShadow.alpha = alpha
+        }
+    }
     
 }
