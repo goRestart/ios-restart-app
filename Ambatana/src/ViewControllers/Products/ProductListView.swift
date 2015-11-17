@@ -459,8 +459,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             state = .DataView
             maxDistance = 1
 
-//            collectionView.reloadSections(NSIndexSet(index: 0))
             collectionView.reloadData()
+            collectionView.setContentOffset(CGPointZero, animated: false)
             
             refreshControl.endRefreshing()
             refreshing = false

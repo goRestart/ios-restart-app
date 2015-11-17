@@ -32,6 +32,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     private var tagsViewController : FilterTagsViewController!
     private var tagsShowing : Bool = false
+    private var tagsAnimating : Bool = false
     // MARK: - Lifecycle
     
     public convenience init() {
@@ -380,11 +381,12 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
     
     private func showTagsView(show: Bool) {
-        if tagsShowing == show {
+        if tagsAnimating || tagsShowing == show {
             return
         }
         
         tagsShowing = show
+        tagsAnimating = true
         
         if show {
             self.tagsCollectionView.hidden = false
@@ -398,6 +400,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
                 if !show {
                     self.tagsCollectionView.hidden = true
                 }
+                self.tagsAnimating = false
         })
     }
     
