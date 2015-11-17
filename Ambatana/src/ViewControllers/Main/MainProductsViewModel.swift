@@ -36,7 +36,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
             resultTags.append(.Category(prodCat))
         }
         
-        if(theFilters.selectedOrdering != ProductSortOption.defaultOption) {
+        if(theFilters.selectedOrdering != ProductSortCriteria.defaultOption) {
             resultTags.append(.OrderBy(theFilters.selectedOrdering))
         }
         return resultTags
@@ -126,7 +126,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         }
         
         var categories : [ProductCategory] = []
-        var orderBy = ProductSortOption.defaultOption
+        var orderBy = ProductSortCriteria.defaultOption
         
         for filterTag in tags {
             switch filterTag {
@@ -157,7 +157,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     
     private func updateListView() {
         mainProductListView?.categories = self.filters?.selectedCategories
-//        mainProductListView?.sortCriteria = self.filters?.selectedOrdering
+        mainProductListView?.sortCriteria = self.filters?.selectedOrdering
         mainProductListView?.distanceRadius = self.filters?.distanceRadius
         mainProductListView?.distanceType = self.filters?.distanceType
         mainProductListView?.refresh()

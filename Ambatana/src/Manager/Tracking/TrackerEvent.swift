@@ -140,7 +140,7 @@ public struct TrackerEvent {
         return TrackerEvent(name: .FilterStart, params: nil)
     }
     
-    public static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?, distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortOption) -> TrackerEvent {
+    public static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?, distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria) -> TrackerEvent {
         var params = EventParameters()
         
         // Filter Coordinates
@@ -431,13 +431,13 @@ public struct TrackerEvent {
         return locationTypeParamValue
     }
     
-    private static func eventParameterSortByTypeForSorting(sorting: ProductSortOption) -> EventParameterSortBy? {
+    private static func eventParameterSortByTypeForSorting(sorting: ProductSortCriteria) -> EventParameterSortBy? {
         let sortBy: EventParameterSortBy?
 
         switch (sorting) {
-        case .Closest:
+        case .Distance:
             sortBy = EventParameterSortBy.Distance
-        case .Newest:
+        case .Creation:
             sortBy = EventParameterSortBy.CreationDate
         case .PriceAsc:
             sortBy = EventParameterSortBy.PriceAsc

@@ -9,7 +9,7 @@
 import LGCoreKit
 
 public enum FilterTag : Equatable{
-    case OrderBy(ProductSortOption)
+    case OrderBy(ProductSortCriteria)
     case Category(ProductCategory)
 }
 

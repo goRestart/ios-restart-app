@@ -55,7 +55,7 @@ class FiltersViewModel: BaseViewModel {
     var numOfSortOptions : Int {
         return self.sortOptions.count
     }
-    private var sortOptions : [ProductSortOption]
+    private var sortOptions : [ProductSortCriteria]
     
     private var productFilter : ProductFilters
     
@@ -65,10 +65,10 @@ class FiltersViewModel: BaseViewModel {
     }
     
     convenience init(currentFilters: ProductFilters) {
-        self.init(categoriesManager: CategoriesManager.sharedInstance, categories: [], sortOptions: ProductSortOption.allValues(), currentFilters: currentFilters)
+        self.init(categoriesManager: CategoriesManager.sharedInstance, categories: [], sortOptions: ProductSortCriteria.allValues(), currentFilters: currentFilters)
     }
     
-    required init(categoriesManager: CategoriesManager, categories: [ProductCategory], sortOptions: [ProductSortOption], currentFilters: ProductFilters) {
+    required init(categoriesManager: CategoriesManager, categories: [ProductCategory], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters) {
         self.categoriesManager = categoriesManager
         self.categories = categories
         self.sortOptions = sortOptions
