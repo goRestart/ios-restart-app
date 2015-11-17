@@ -70,8 +70,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         addSubview(mainProductListView)
         
-        viewModel.mainProductListView = mainProductListView
-        
         setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
         
         if let categoryTitle = viewModel.title as? String {
@@ -249,6 +247,14 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag]) {
         loadTagsViewWithTags(showTags)
+    }
+    
+    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel, withCategories categories: [ProductCategory]?, sortCriteria: ProductSortCriteria?, distanceRadius: Int?, distanceType: DistanceType?){
+        mainProductListView.categories = categories
+        mainProductListView.sortCriteria = sortCriteria
+        mainProductListView.distanceRadius = distanceRadius
+        mainProductListView.distanceType = distanceType
+        mainProductListView.refresh()
     }
 
     func endEdit() {
