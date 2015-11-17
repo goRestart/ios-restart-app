@@ -428,6 +428,11 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
+    public func shareInFBMessenger() {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.FBMessenger, buttonPosition: "bottom")
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
     public func shareInFBCompleted() {
         let trackerEvent = TrackerEvent.productShareFbComplete(self.product)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
@@ -461,6 +466,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
         guard let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
         return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
+    }
+    
+    func generateFBMessengerURL() -> NSURL? {
+        
     }
     
     public func canShareInWhatsapp() -> Bool {

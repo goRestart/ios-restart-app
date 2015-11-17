@@ -117,7 +117,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
 
     @IBAction func shareFBMessengerButtonPressed(sender: AnyObject) {
-        // share in FB messenger
+        viewModel.shareInFBMessenger()
+        let content = viewModel.shareFacebookContent
+        FBSDKMessageDialog.showWithContent(content, delegate: nil)
     }
     
     @IBAction func shareFBButtonPressed(sender: AnyObject) {

@@ -168,6 +168,7 @@ public enum EventParameterShareNetwork: String {
     case Facebook = "facebook"
     case Whatsapp = "whatsapp"
     case Twitter = "twitter"
+    case FBMessenger = "fbmessenger"
 }
 
 public struct EventParameters {

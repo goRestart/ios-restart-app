@@ -11,7 +11,7 @@ xcodeproj "LetGo.xcodeproj"
 pod "Parse",                "~> 1.9.0"
 pod "SDWebImage"
 
-pod "FBSDKShareKit",        "~> 4.7.0"
+pod "FBSDKShareKit",         "~> 4.7.0"
     
 # Tracking
 # pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
