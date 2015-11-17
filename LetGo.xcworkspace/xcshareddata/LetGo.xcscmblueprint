@@ -4,25 +4,25 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "5DE9014E86E6ECC63903178601B43619DB83051D" : 0,
+    "5C4077437CD0E03249EB1406D3805FAF13DE47BC" : 0,
     "BDB65CBF806F7718EF9E948676549EAFF6355B13" : 0
   },
-  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6E297883-4523-4F1F-8DCA-85F7028804CE",
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "16BB2C07-C028-4E26-9B6E-DB2C26EA3329",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "5DE9014E86E6ECC63903178601B43619DB83051D" : "lgtour\/",
-    "BDB65CBF806F7718EF9E948676549EAFF6355B13" : "iOS\/"
+    "5C4077437CD0E03249EB1406D3805FAF13DE47BC" : "lgcorekit\/",
+    "BDB65CBF806F7718EF9E948676549EAFF6355B13" : "letgo-ios\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "LetGo",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "LetGo.xcworkspace",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/letgoteam\/letgo-ios-lgtour.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:ambatana\/letgo-ios-lgcorekit.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5DE9014E86E6ECC63903178601B43619DB83051D"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5C4077437CD0E03249EB1406D3805FAF13DE47BC"
     },
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/ambatana\/letgo-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "bitbucket.org:ambatana\/letgo-ios.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BDB65CBF806F7718EF9E948676549EAFF6355B13"
     }
