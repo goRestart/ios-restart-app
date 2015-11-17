@@ -113,7 +113,7 @@ class StyleHelper {
     }
     
     static var navBarSearchFieldBgColor: UIColor {
-        return UIColor(rgb: 0xfff4f4) //gray243
+        return UIColor(rgb: 0xfff4f4)
     }
     
     static var navBarSearchBorderColor: UIColor {

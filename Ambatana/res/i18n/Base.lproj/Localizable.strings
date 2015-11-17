@@ -169,6 +169,9 @@
 // Common loading. Check attached image "common_loading.png"
 "common_loading" = "Loading...";
 
+// Common max (Abbreviation from maximum)
+"common_max" = "max";
+
 // Common no
 "common_no" = "No";
 
@@ -293,7 +296,7 @@
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
 
 // Filters navbar reset
-"filters_navbar_reset" = "Reset";
+"filters_navbar_reset" = "RESET";
 
 // Filters save button
 "filters_save_button" = "Save filters";
@@ -305,7 +308,7 @@
 "filters_section_distance" = "Distance";
 
 // Filters section sort-by
-"filters_section_sortby" = "Sort By";
+"filters_section_sortby" = "Sort by";
 
 // Filters sort option closest
 "filters_sort_closest" = "Closest first";
@@ -314,10 +317,10 @@
 "filters_sort_newest" = "Newest first";
 
 // Filters sort option price ascending
-"filters_sort_price_asc" = "Price: Low to high";
+"filters_sort_price_asc" = "Price: low to high";
 
 // Filters sort option price descending
-"filters_sort_price_desc" = "Price: High to low";
+"filters_sort_price_desc" = "Price: high to low";
 
 // Filters title
 "filters_title" = "Filters";
@@ -843,6 +846,15 @@
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
+
+// Toast no network.
+"toast_no_network" = "No Internet Connection";
+
+// Toast server error.
+"toast_error_server" = "Oops! Please try again.";
+
+// Toast server internal.
+"toast_error_internal" = "Oops! Something went wrong.";
 
 // Tour page 1 body.
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";

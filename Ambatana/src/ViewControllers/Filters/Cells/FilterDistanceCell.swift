@@ -146,7 +146,14 @@ class FilterDistanceCell: UICollectionViewCell {
     }
     
     private func updateTipLabel() {
-        distanceLabel.text = "\(currentDistance()) \(distanceType.string)"
+        
+        let currDist = currentDistance()
+        if(currDist == positions[positions.count-1]){
+            distanceLabel.text = "max"
+        }
+        else{
+            distanceLabel.text = "\(currentDistance()) \(distanceType.string)"
+        }
     }
     
     private func currentDistance() -> Int {

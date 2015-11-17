@@ -236,6 +236,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_loading", comment: "")
 	}
 	
+	static var commonMax: String {
+		return NSLocalizedString("common_max", comment: "")
+	}
+	
 	static var commonNo: String {
 		return NSLocalizedString("common_no", comment: "")
 	}
@@ -1134,6 +1138,18 @@ struct LGLocalizedString {
 	
 	static var tabBarToolTip: String {
 		return NSLocalizedString("tab_bar_tool_tip", comment: "")
+	}
+	
+	static var toastNoNetwork: String {
+		return NSLocalizedString("toast_no_network", comment: "")
+	}
+	
+	static var toastErrorServer: String {
+		return NSLocalizedString("toast_error_server", comment: "")
+	}
+	
+	static var toastErrorInternal: String {
+		return NSLocalizedString("toast_error_internal", comment: "")
 	}
 	
 	static var tourPage1Body: String {
