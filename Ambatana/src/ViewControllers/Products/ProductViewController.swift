@@ -115,6 +115,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         openMap()
     }
     
+
+    @IBAction func shareFBMessengerButtonPressed(sender: AnyObject) {
+        // share in FB messenger
+    }
+    
     @IBAction func shareFBButtonPressed(sender: AnyObject) {
         viewModel.shareInFacebook("bottom")
         let content = viewModel.shareFacebookContent

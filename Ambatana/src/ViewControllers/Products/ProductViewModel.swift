@@ -427,7 +427,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Facebook, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
-
     
     public func shareInFBCompleted() {
         let trackerEvent = TrackerEvent.productShareFbComplete(self.product)
@@ -440,18 +439,11 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public func shareInWhatsApp() -> Bool {
-        var success = false
-        
-        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
-        if let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet),
-           let url = NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText])) {
-            let application = UIApplication.sharedApplication()
-            if application.canOpenURL(url) {
-                success = application.openURL(url)
-                let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Whatsapp, buttonPosition: "bottom")
-                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-            }
-        }
+        guard canShareInWhatsapp() else { return false }
+        guard let url = generateWhatsappURL() else { return false }
+        let success = UIApplication.sharedApplication().openURL(url)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Whatsapp, buttonPosition: "bottom")
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         return success
     }
     
@@ -463,7 +455,22 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public func shareInTwitterActivity() {
         let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Twitter, buttonPosition: "top")
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
+    }
+    
+    func generateWhatsappURL() -> NSURL? {
+        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
+        guard let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
+        return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
+    }
+    
+    public func canShareInWhatsapp() -> Bool {
+        guard let url = generateWhatsappURL() else { return false }
+        let application = UIApplication.sharedApplication()
+        return application.canOpenURL(url)
+    }
+    
+    public func canShareInFBMessenger() {
+        
     }
 
     // MARK: >  Report
