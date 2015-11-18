@@ -208,7 +208,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     // This delegate is shared by FBSDKShareDialog and FBSDKMessageDialog
     
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        if sharer is FBSDKMessageDialog {
+        
+        switch (sharer.type) {
+        case .Facebook:
+            viewModel.shareInFBCompleted()
+        case .FBMessenger:
             // Messenger always calls didCompleteWithResults, if it works,
             // will include the key "completionGesture" in the results dict
             if let _ = results["completionGesture"] {
@@ -217,11 +221,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             else {
                 viewModel.shareInFBMessengerCancelled()
             }
+        case .Unknown:
+            break
         }
-        else if sharer is FBSDKShareDialog {
-            viewModel.shareInFBCompleted()
-        }
-
+        
         dismissLoadingMessageAlert(nil)
     }
 
@@ -230,11 +233,13 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
-        if sharer is FBSDKMessageDialog {
-            viewModel.shareInFBMessengerCancelled()
-        }
-        else if sharer is FBSDKShareDialog {
+        switch (sharer.type) {
+        case .Facebook:
             viewModel.shareInFBCancelled()
+        case .FBMessenger:
+            viewModel.shareInFBMessengerCancelled()
+        case .Unknown:
+            break
         }
     }
     
