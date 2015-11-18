@@ -49,13 +49,14 @@ public struct RetrieveProductsParams: CustomStringConvertible, Equatable {
     public var maxPrice: Int?
     public var minPrice: Int?
     public var distanceRadius: Int?
+    public var distanceType: DistanceType?
     public var userObjectId: String?
     
     public init() {
         
     }
     
-    public var description: String { return "queryString: \(queryString); latitude: \(coordinates?.latitude); longitude: \(coordinates?.longitude); countryCode: \(countryCode); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); userObjectId: \(userObjectId)" }
+    public var description: String { return "queryString: \(queryString); latitude: \(coordinates?.latitude); longitude: \(coordinates?.longitude); countryCode: \(countryCode); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); distanceType: \(distanceType); userObjectId: \(userObjectId)" }
 }
 
 public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool {
@@ -64,7 +65,8 @@ public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool
         lhs.sortCriteria == rhs.sortCriteria && lhs.offset == rhs.offset &&
         lhs.numProducts == rhs.numProducts && lhs.statuses == rhs.statuses &&
         lhs.maxPrice == rhs.maxPrice && lhs.minPrice == rhs.minPrice &&
-        lhs.distanceRadius == rhs.distanceRadius && lhs.userObjectId == rhs.userObjectId
+        lhs.distanceRadius == rhs.distanceRadius && lhs.distanceType == rhs.distanceType &&
+        lhs.userObjectId == rhs.userObjectId
 }
 
 public struct SaveProductParams: CustomStringConvertible, Equatable {
@@ -113,11 +115,11 @@ public func ==(lhs: SaveProductParams, rhs: SaveProductParams) -> Bool {
             case .Distance:
                 return nil
             case .PriceAsc:
-                return "price asc"
+                return "price_asc"
             case .PriceDesc:
-                return "price desc"
+                return "price_desc"
             case .Creation:
-                return "createdAt desc"
+                return "recent"
             }
         }
     }
