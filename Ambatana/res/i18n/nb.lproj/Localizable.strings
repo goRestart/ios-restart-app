@@ -49,7 +49,7 @@
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
 "common_error_generic_body" = "Gå og få deg litt frisk luft, og prøv igjen";
-"common_error_list_retry_button" = "Retry";
+"common_error_list_retry_button" = "Prøv igjen";
 "common_error_network_body" = "Vennligst sjekk dine nettverksinnstillinger og prøv igjen";
 "common_error_retry_button" = "Prøv igjen";
 "common_error_title" = "OOPS!";
@@ -96,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
 "edit_product_title" = "Endre produkt";
+"filters_navbar_reset" = "TILBAKESTILL";
+"filters_save_button" = "Lagre filtere";
+"filters_section_categories" = "Kategorier";
+"filters_section_distance" = "Avstand";
+"filters_section_sortby" = "Sorter etter";
+"filters_sort_closest" = "Nærmest først";
+"filters_sort_newest" = "Nyest først";
+"filters_sort_price_asc" = "Pris lav til høy";
+"filters_sort_price_desc" = "Pris høy til lav";
+"filters_title" = "Filtere";
 "forced_update_message" = "En ny versjon av letgo er tilgjengelig. Vennligst oppdater nå.";
 "forced_update_title" = "Oppdatering tilgjengelig";
 "forced_update_update_button" = "Oppdater";
@@ -185,7 +195,7 @@
 "profile_favourites_my_user_no_products_subtitle_label" = "Hva venter du på?";
 "profile_favourites_other_user_no_products_label" = "Brukeren har fortsatt ingen publiserte eller favoriserte produkter.";
 "profile_favourites_products_tab" = "Favoritter";
-"profile_no_products" = "Du selger ingen produkter (enda!)";
+"profile_no_products" = "Det er ingen produkter i denne seksjonen (enda!)";
 "profile_selling_products_tab" = "Salg";
 "profile_sold_products_tab" = "Solgt";
 "push_notification_message_body" = "%@: %@";
@@ -270,6 +280,9 @@
 "sign_up_title" = "Registrer deg";
 "sign_up_username_field_hint" = "Fullt navn";
 "tab_bar_tool_tip" = "Selg tingene dine";
+"toast_error_internal" = "Oops! Something went wrong.";
+"toast_error_server" = "Oops! Please try again.";
+"toast_no_network" = "No Internet Connection";
 "tour_page_1_body" = "Kjøp og selg raskt, sikkert og lokalt.";
 "tour_page_2_body" = "Hver dag publiseres nye produkter av personer i ditt nærområde.";
 "tour_page_2_title" = "Nært deg";

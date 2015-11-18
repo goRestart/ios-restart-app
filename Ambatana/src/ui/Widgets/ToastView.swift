@@ -1,5 +1,5 @@
 //
-//  NoNetworkView.swift
+//  ToastView.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 13/11/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class NoNetworkView: UIView {
+public class ToastView: UIView {
 
     // iVars
     // > UI
@@ -29,8 +29,8 @@ public class NoNetworkView: UIView {
     
     // MARK: - Lifecycle
     
-    public static func noNetworkView() -> NoNetworkView? {
-        return NSBundle.mainBundle().loadNibNamed("NoNetworkView", owner: self, options: nil).first as? NoNetworkView
+    public static func toastView() -> ToastView? {
+        return NSBundle.mainBundle().loadNibNamed("ToastView", owner: self, options: nil).first as? ToastView
     }
     
     public override func intrinsicContentSize() -> CGSize {
@@ -38,5 +38,11 @@ public class NoNetworkView: UIView {
         size.height += labelTopMarginConstraint.constant + labelBottomMarginConstraint.constant
         size.width += labelLeftMarginConstraint.constant + labelRightMarginConstraint.constant
         return size
+    }
+    
+    // MARK: - Public methods
+    
+    public func setMessage(message: String) {
+        label.text = message
     }
 }

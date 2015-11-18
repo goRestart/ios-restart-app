@@ -25,14 +25,23 @@ public class BaseViewController: UIViewController {
         }
     }
     
+    // > Toast View
+    var toastView: ToastView?
+    private var toastViewTopMarginConstraint: NSLayoutConstraint?
+    private var toastViewTopMarginShown: CGFloat {
+        return UIApplication.sharedApplication().statusBarFrame.size.height + (navigationController?.navigationBar.frame.size.height ?? 0)
+    }
+    private var toastViewTopMarginHidden: CGFloat {
+        return -(toastView?.frame.height ?? 0)
+    }
+    
     // > Reachability
-    var showReachabilityMessageEnabled: Bool = false {
+    private var reachability: TMReachability
+    var showReachabilityMessageEnabled: Bool {
         didSet {
             setReachabilityEnabled(showReachabilityMessageEnabled)
         }
     }
-    private var reachability: TMReachability
-    private var noNetworkView: NoNetworkView?
     
     // > Floating sell button
     public internal(set) var floatingSellButtonHidden: Bool
@@ -44,7 +53,8 @@ public class BaseViewController: UIViewController {
         self.subviews = []
 
         self.reachability = TMReachability.reachabilityForInternetConnection()
-        self.noNetworkView = NoNetworkView.noNetworkView()
+        self.showReachabilityMessageEnabled = true
+        self.toastView = ToastView.toastView()
         
         self.floatingSellButtonHidden = false
         super.init(nibName: nibNameOrNil, bundle: nil)
@@ -52,14 +62,19 @@ public class BaseViewController: UIViewController {
         // Setup
         hidesBottomBarWhenPushed = true
         
-        reachability.reachableBlock = { [weak self] (let reach: TMReachability!) -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.setReachabilityMessageHidden(true)
+        reachability.reachableBlock = { (let reach: TMReachability!) -> Void in
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                if let strongSelf = self {
+                    strongSelf.setToastViewHidden(true)
+                }
             }
         }
         reachability.unreachableBlock = { [weak self] (let reach: TMReachability!) -> Void in
-            dispatch_async(dispatch_get_main_queue()) {
-                self?.setReachabilityMessageHidden(false)
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                if let strongSelf = self {
+                    strongSelf.toastView?.setMessage(LGLocalizedString.toastNoNetwork)
+                    strongSelf.setToastViewHidden(false)
+                }
             }
         }
     }
@@ -68,40 +83,21 @@ public class BaseViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var noNetwork = false
-    private var noNetworkTopMarginConstraint: NSLayoutConstraint?
-    private var noNetworkTopMarginShown: CGFloat {
-        return UIApplication.sharedApplication().statusBarFrame.size.height + (navigationController?.navigationBar.frame.size.height ?? 0)
-    }
-    private var noNetworkTopMarginHidden: CGFloat {
-        return -(noNetworkView?.frame.height ?? 0)
-    }
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
         if showReachabilityMessageEnabled {
-            if let noNetworkView = noNetworkView {
-                noNetworkView.translatesAutoresizingMaskIntoConstraints = false
-                view.addSubview(noNetworkView)
+            if let toastView = toastView {
+                toastView.translatesAutoresizingMaskIntoConstraints = false
+                view.addSubview(toastView)
                 
-                noNetworkTopMarginConstraint = NSLayoutConstraint(item: noNetworkView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: noNetworkTopMarginShown)
-                if let noNetworkTopMarginConstraint = noNetworkTopMarginConstraint {
-                    view.addConstraint(noNetworkTopMarginConstraint)
+                toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: toastViewTopMarginHidden)
+                if let toastViewTopMarginConstraint = toastViewTopMarginConstraint {
+                    view.addConstraint(toastViewTopMarginConstraint)
                 }
                 
-                let scrollViewViews = ["noNetworkView": noNetworkView]
-                view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[noNetworkView]|", options: [], metrics: nil, views: scrollViewViews))
-            }
-        }
-    }
-    
-    public override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        if let noNetworkTopMarginConstraint = noNetworkTopMarginConstraint {
-            // Update the constant
-            if noNetwork {
-                noNetworkTopMarginConstraint.constant = noNetworkTopMarginShown
+                let views = ["toastView": toastView]
+                view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
             }
         }
     }
@@ -157,6 +153,23 @@ public class BaseViewController: UIViewController {
         }
     }
     
+    // MARK: > UI
+    
+    /**
+        Shows/hides the toast view with the given message.
+    
+        - parameter hidden: If the toast view should be hidden.
+    */
+    func setToastViewHidden(hidden: Bool) {
+        if let toastView = toastView {
+            view.bringSubviewToFront(toastView)
+            toastViewTopMarginConstraint?.constant = hidden ? toastViewTopMarginHidden : toastViewTopMarginShown
+            UIView.animateWithDuration(0.35) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+    
     // MARK: - Private methods
     
     // MARK: > NSNotificationCenter
@@ -182,19 +195,6 @@ public class BaseViewController: UIViewController {
         }
         else {
             reachability.stopNotifier()
-        }
-    }
-    
-    /**
-        Shows/hides the reachability message.
-    
-        - parameter hidden: If the message should be hidden.
-    */
-    private func setReachabilityMessageHidden(hidden: Bool) {
-        noNetwork = !hidden
-        if let noNetworkView = noNetworkView {
-            view.bringSubviewToFront(noNetworkView)
-            noNetworkTopMarginConstraint?.constant = hidden ? noNetworkTopMarginHidden : noNetworkTopMarginShown
         }
     }
 }

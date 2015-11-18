@@ -144,9 +144,21 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
 
-        // If we already have data & it's the first page then show an alert
-        if hasProducts && page == 0 {
-            showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
+        // If we already have data & it's the first page then show a toast
+        if hasProducts && page > 0 {
+            let toastMessage: String?
+            switch error {
+            case .Network:
+                toastMessage = LGLocalizedString.toastNoNetwork
+            case .Internal:
+                toastMessage = LGLocalizedString.toastErrorInternal
+            case .Forbidden:
+                toastMessage = nil
+            }
+            if let toastMessage = toastMessage {
+                toastView?.setMessage(toastMessage)
+                setToastViewHidden(false)
+            }
         }
         
         // Update distance label visibility
@@ -166,6 +178,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+        
+        // Hide toast, if visible
+        setToastViewHidden(true)
         
         // Update distance label visibility
         distanceShadow.hidden = !hasProducts

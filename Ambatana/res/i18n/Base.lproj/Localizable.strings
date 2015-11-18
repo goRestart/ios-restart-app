@@ -292,6 +292,36 @@
 // Edit product send ok. Message displayal is like the other messages.
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
 
+// Filters navbar reset
+"filters_navbar_reset" = "RESET";
+
+// Filters save button
+"filters_save_button" = "Save filters";
+
+// Filters section categories
+"filters_section_categories" = "Categories";
+
+// Filters section distance
+"filters_section_distance" = "Distance";
+
+// Filters section sort-by
+"filters_section_sortby" = "Sort by";
+
+// Filters sort option closest
+"filters_sort_closest" = "Closest first";
+
+// Filters sort option newest
+"filters_sort_newest" = "Newest first";
+
+// Filters sort option price ascending
+"filters_sort_price_asc" = "Price: low to high";
+
+// Filters sort option price descending
+"filters_sort_price_desc" = "Price: high to low";
+
+// Filters title
+"filters_title" = "Filters";
+
 // Forced update title.
 "forced_update_title" = "Update Available";
 
@@ -814,23 +844,32 @@
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
 
+// Toast no network.
+"toast_no_network" = "No Internet Connection";
+
+// Toast server error.
+"toast_error_server" = "Oops! Please try again.";
+
+// Toast server internal.
+"toast_error_internal" = "Oops! Something went wrong.";
+
 // Tour page 1 body.
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 
 // Tour page 2 title.
-"tour_page_2_title" = "Local";
+"tour_page_2_title" = "Near You";
 
 // Tour page 2 body.
-"tour_page_2_body" = "Every day, thousands of new, nearby listings are posted.";
+"tour_page_2_body" = "New products are posted every day by your neighbors.";
 
 // Tour page 3 title.
-"tour_page_3_title" = "Snap and Post";
+"tour_page_3_title" = "Make Cash";
 
 // Tour page 3 body.
-"tour_page_3_body" = "Post products in a few seconds and get cash for stuff you don't need anymore.";
+"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
 
 // Tour page 4 title.
-"tour_page_4_title" = "Chat and Sell";
+"tour_page_4_title" = "Safe";
 
 // Tour page 4 body.
 "tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";

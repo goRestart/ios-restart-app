@@ -49,7 +49,7 @@
 "common_error" = "Fout";
 "common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
 "common_error_generic_body" = "Ga even de frisse lucht in en probeer het nog eens ";
-"common_error_list_retry_button" = "Retry";
+"common_error_list_retry_button" = "Probeer het nogmaals";
 "common_error_network_body" = "Controleer je netwerkinstellingen en probeer het opnieuw";
 "common_error_retry_button" = "Probeer opnieuw";
 "common_error_title" = "OEPS!";
@@ -96,6 +96,16 @@
 "edit_product_send_error_uploading_product" = "Er is een fout opgetreden bij het actualiseren van jouw product.";
 "edit_product_send_ok" = "Gefeliciteerd! Je item is met succes geplaatst. Het verschijnt zo snel mogelijk in ons overzicht.";
 "edit_product_title" = "Product bewerken";
+"filters_navbar_reset" = "RESETTEN";
+"filters_save_button" = "Filters opslaan";
+"filters_section_categories" = "Categorieen";
+"filters_section_distance" = "Afstand";
+"filters_section_sortby" = "Sorteer op";
+"filters_sort_closest" = "Dichtstbijzijnde eerst";
+"filters_sort_newest" = "Nieuwste eerst";
+"filters_sort_price_asc" = "Prijs van laag naar hoog";
+"filters_sort_price_desc" = "Prijs van hoog naar laag";
+"filters_title" = "Filters";
 "forced_update_message" = "Een nieuwe versie van letgo is beschikbaar. Gelieve het nu te updaten.";
 "forced_update_title" = "Update beschikbaar";
 "forced_update_update_button" = "Bijwerken";
@@ -270,6 +280,9 @@
 "sign_up_title" = "Word lid";
 "sign_up_username_field_hint" = "Volledige naam";
 "tab_bar_tool_tip" = "Verkoop je spullen";
+"toast_error_internal" = "Oops! Something went wrong.";
+"toast_error_server" = "Oops! Please try again.";
+"toast_no_network" = "No Internet Connection";
 "tour_page_1_body" = "Koop en verkoop snel, veilig en lokaal.";
 "tour_page_2_body" = "Er worden dagelijks nieuwe producten geplaatst door jouw buren.";
 "tour_page_2_title" = "Dichtbij jou";
