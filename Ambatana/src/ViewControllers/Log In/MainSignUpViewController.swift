@@ -9,7 +9,7 @@
 import LGCoreKit
 import Result
 
-class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate {
+class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate, UITextViewDelegate {
 
     // Data
     var afterLoginAction: (() -> Void)?
@@ -29,16 +29,24 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     @IBOutlet weak var claimLabel: UILabel!
     
     // > Main View
+    
+    @IBOutlet weak var firstDividerView: UIView!
+    @IBOutlet weak var quicklyLabel: UILabel!
+
     @IBOutlet weak var connectFBButton: UIButton!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
 
     @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var logInButton: UIButton!
     
     // Footer
-    @IBOutlet weak var registeredLabel: UILabel!
-    @IBOutlet weak var logInLabel: UILabel!
-    @IBOutlet weak var contactUsButton: UIButton!
+    
+    @IBOutlet weak var legalTextView: UITextView!
+
+//    @IBOutlet weak var registeredLabel: UILabel!
+//    @IBOutlet weak var logInLabel: UILabel!
+//    @IBOutlet weak var contactUsButton: UIButton!
     
     // > Helper
     var lines: [CALayer]
@@ -88,6 +96,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         }
         lines = []
         lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
     
     // MARK: - Actions
@@ -155,6 +164,16 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         dismissCustomLoadingMessageAlert(completion)
     }
     
+    // MARK: UITextViewDelegate
+    
+
+    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+        
+        UIApplication.sharedApplication().openURL(URL)
+        
+        return true
+    }
+    
     // MARK: - Private methods
     
     // MARK: > UI
@@ -170,14 +189,32 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         connectFBButton.layer.cornerRadius = 4
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         signUpButton.layer.cornerRadius = 4
-        
+
+        logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        logInButton.layer.cornerRadius = 4
+
         // i18n
         claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
+        quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
+        
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
-        registeredLabel.text = LGLocalizedString.mainSignUpAlreadyRegisteredLabel
-        logInLabel.text = LGLocalizedString.mainSignUpLogInLabel
-        contactUsButton.setTitle(LGLocalizedString.mainSignUpContactUsButton, forState: .Normal)
+        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
+
+        let links = ["Terms of Service": "http://www.google.com",
+                     "Privacy Policy": "http://www.apple.com"]
+        
+        let localizedLegalText = "By signing up or loging in, you agree to our Terms of Service and Privacy Policy"
+
+        legalTextView.delegate = self
+        let attributtedLegalText = localizedLegalText.setTextsAsLinksWithURLs(links, textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont(name: "Helvetica Neue", size: 15.0)!, range: NSMakeRange(0, attributtedLegalText.length-1))
+        legalTextView.attributedText = attributtedLegalText
+        legalTextView.textAlignment = .Center
+        // no legal text yet...
+//        legalTextView.hidden = true
+        
     }
+
 }
