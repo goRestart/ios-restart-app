@@ -136,6 +136,43 @@ public struct TrackerEvent {
         return TrackerEvent(name: .SearchComplete, params: params)
     }
     
+    public static func filterStart() -> TrackerEvent {
+        return TrackerEvent(name: .FilterStart, params: nil)
+    }
+    
+    public static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?, distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria) -> TrackerEvent {
+        var params = EventParameters()
+        
+        // Filter Coordinates
+        if let actualCoords = coordinates {
+            params[.FilterLat] = actualCoords.latitude
+            params[.FilterLng] = actualCoords.longitude
+        } else {
+            params[.FilterLat] = "default"
+            params[.FilterLng] = "default"
+        }
+        
+        // Distance
+        params[.FilterDistanceRadius] = distanceRadius ?? "default"
+        params[.FilterDistanceUnit] = distanceUnit.string
+        
+        // Categories
+        var categoryIds: [String] = []
+        if let actualCategories = categories {
+            for category in actualCategories {
+                categoryIds.append(String(category.rawValue))
+            }
+        }
+        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
+        
+        // Sorting
+        if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {
+            params[.FilterSortBy] = sortByParam.rawValue
+        }
+                
+        return TrackerEvent(name: .FilterComplete, params: params)
+    }
+    
     public static func productDetailVisit(product: Product, user: User?) -> TrackerEvent {
         var params = EventParameters()
         // Product
@@ -409,5 +446,22 @@ public struct TrackerEvent {
             locationTypeParamValue = nil
         }
         return locationTypeParamValue
+    }
+    
+    private static func eventParameterSortByTypeForSorting(sorting: ProductSortCriteria) -> EventParameterSortBy? {
+        let sortBy: EventParameterSortBy?
+
+        switch (sorting) {
+        case .Distance:
+            sortBy = EventParameterSortBy.Distance
+        case .Creation:
+            sortBy = EventParameterSortBy.CreationDate
+        case .PriceAsc:
+            sortBy = EventParameterSortBy.PriceAsc
+        case .PriceDesc:
+            sortBy = EventParameterSortBy.PriceDesc
+        }
+        
+        return sortBy
     }
 }

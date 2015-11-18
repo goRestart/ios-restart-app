@@ -55,6 +55,7 @@
 "common_error_title" = "Oops!";
 "common_expand" = "Mostrar mais";
 "common_loading" = "Carregando...";
+"common_max" = "max";
 "common_no" = "Não";
 "common_ok" = "OK";
 "common_product_deleted" = "Item excluído";
@@ -96,6 +97,16 @@
 "edit_product_send_error_uploading_product" = "Ocorreu um erro enquanto atualizávamos o seu anúncio.";
 "edit_product_send_ok" = "Parabéns! Seu anúncio foi atualizado com sucesso e será exibido em breve.";
 "edit_product_title" = "Editar Produto";
+"filters_navbar_reset" = "RESET";
+"filters_save_button" = "Save filters";
+"filters_section_categories" = "Categories";
+"filters_section_distance" = "Distance";
+"filters_section_sortby" = "Sort by";
+"filters_sort_closest" = "Closest first";
+"filters_sort_newest" = "Newest first";
+"filters_sort_price_asc" = "Price: low to high";
+"filters_sort_price_desc" = "Price: high to low";
+"filters_title" = "Filters";
 "forced_update_message" = "Uma nova versão do letgo está disponível. Por favor, atualize agora.";
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";
@@ -123,7 +134,7 @@
 "make_an_offer_send_button" = "Enviar";
 "make_an_offer_send_error_generic" = "Ocorreu uma falha ao enviar a proposta para o produto. Por favor, tente novamente mais tarde.";
 "make_an_offer_send_error_invalid_price" = "Por favor, insira um preço válido para o produto. O preço dever ser representado somente por um número.";
-"make_an_offer_title" = "Faça uma Proposta";
+"make_an_offer_title" = "Fazer proposta";
 "product_ask_a_question_button" = "Pergunte";
 "product_chat_error_generic" = "Ocorreu um erro ao iniciar a conversa. Por favor, tente novamente mais tarde.";
 "product_delete_confirm_cancel_button" = "Cancelar";
@@ -144,7 +155,7 @@
 "product_list_no_products_body" = "Você é o(a) primeiro(a) explorador de sua cidade. Bem-vindo(a)!";
 "product_list_no_products_title" = "CIDADE DESBLOQUEADA!";
 "product_location_title" = "Localização";
-"product_make_an_offer_button" = "Faça uma Proposta";
+"product_make_an_offer_button" = "Fazer proposta";
 "product_mark_as_sold_button" = "Marcar como vendido";
 "product_mark_as_sold_confirm_cancel_button" = "Cancelar";
 "product_mark_as_sold_confirm_message" = "Muito bem, você conseguiu! Deseja mesmo marcar este produto como vendido?";
@@ -270,6 +281,9 @@
 "sign_up_title" = "Cadastre-se";
 "sign_up_username_field_hint" = "Nome completo";
 "tab_bar_tool_tip" = "Venda suas coisas";
+"toast_error_internal" = "Oops! Something went wrong.";
+"toast_error_server" = "Oops! Please try again.";
+"toast_no_network" = "No Internet Connection";
 "tour_page_1_body" = "Compre e venda rapidamente, com segurança e em sua localidade.";
 "tour_page_2_body" = "Novos produtos são anunciados diariamente pelos seus vizinhos.";
 "tour_page_2_title" = "Perto de você";

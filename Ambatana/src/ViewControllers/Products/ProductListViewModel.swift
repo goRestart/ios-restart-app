@@ -56,6 +56,8 @@ public class ProductListViewModel: BaseViewModel {
     public var maxPrice: Int?
     public var minPrice: Int?
     public var userObjectId: String?
+    public var distanceType: DistanceType?
+    public var distanceRadius: Int?
     
     // Delegate
     public weak var dataDelegate: ProductListViewModelDataDelegate?
@@ -116,6 +118,8 @@ public class ProductListViewModel: BaseViewModel {
         params.maxPrice = maxPrice
         params.minPrice = minPrice
         params.userObjectId = userObjectId
+        params.distanceRadius = distanceRadius
+        params.distanceType = distanceType
         return params
     }
     
@@ -251,7 +255,7 @@ public class ProductListViewModel: BaseViewModel {
             meters = queryLocation.distanceFromLocation(productLocation)
         }
         
-        let distanceType = queryDistanceType()
+        let distanceType = DistanceType.systemDistanceType()
         switch (distanceType) {
         case .Km:
             return meters * 0.001
@@ -259,19 +263,6 @@ public class ProductListViewModel: BaseViewModel {
             return meters * 0.000621371
         }
         
-    }
-    
-    public func queryDistanceType() -> DistanceType {
-        let distanceType: DistanceType
-        // use whatever the locale says
-        if let usesMetric = NSLocale.currentLocale().objectForKey(NSLocaleUsesMetricSystem)?.boolValue {
-            distanceType = usesMetric ? .Km : .Mi
-        }
-        // fallback: km
-        else {
-            distanceType = DistanceType.Km
-        }
-        return distanceType
     }
     
     // MARK: > UI
