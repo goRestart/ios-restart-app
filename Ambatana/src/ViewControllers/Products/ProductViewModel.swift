@@ -414,55 +414,87 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return product.images[index].objectId
     }
     
+    
     // MARK: > Share
 
     public func shareInEmail(buttonPosition: String) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Email, buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Email, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInFacebook(buttonPosition: String) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Facebook, buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Facebook, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
-
     
     public func shareInFBCompleted() {
-        let trackerEvent = TrackerEvent.productShareFbComplete(self.product)
+        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBCancelled() {
-        let trackerEvent = TrackerEvent.productShareFbCancel(self.product)
+        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    public func shareInFBMessenger() {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger, buttonPosition: "bottom")
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    public func shareInFBMessengerCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    public func shareInFBMessengerCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInWhatsApp() -> Bool {
-        var success = false
-        
-        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
-        if let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet),
-           let url = NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText])) {
-            let application = UIApplication.sharedApplication()
-            if application.canOpenURL(url) {
-                success = application.openURL(url)
-                let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Whatsapp, buttonPosition: "bottom")
-                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-            }
-        }
+        guard canShareInWhatsapp() else { return false }
+        guard let url = generateWhatsappURL() else { return false }
+        let success = UIApplication.sharedApplication().openURL(url)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Whatsapp, buttonPosition: "bottom")
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         return success
     }
     
     public func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Whatsapp, buttonPosition: "top")
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Whatsapp, buttonPosition: "top")
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: EventParameterShareNetwork.Twitter, buttonPosition: "top")
+        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Twitter, buttonPosition: "top")
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
     }
+    
+    func generateWhatsappURL() -> NSURL? {
+        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
+        guard let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
+        return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
+    }
+    
+    public func canShareInWhatsapp() -> Bool {
+        guard let url = generateWhatsappURL() else { return false }
+        let application = UIApplication.sharedApplication()
+        return application.canOpenURL(url)
+    }
+    
+    /**
+    Detect if the user has the FB Messenger App installed.
+    Done manually because Facebook does not provide a way to do it with the SDK
+    
+    - returns: Wether the content can be shared in facebook-messenger or not
+    */
+    public func canShareInFBMessenger() -> Bool {
+        guard let url = NSURL(string: "fb-messenger-api://") else { return false }
+        let application = UIApplication.sharedApplication()
+        return application.canOpenURL(url)
+    }
+    
 
     // MARK: >  Report
     

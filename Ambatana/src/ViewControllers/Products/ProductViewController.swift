@@ -44,6 +44,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     @IBOutlet weak var productStatusLabel: UILabel!
     @IBOutlet weak var productStatusShadow: UIView!     // just for the shadow
     
+    // > Share Buttons
+    @IBOutlet weak var fbMessengerShareButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var whatsappShareButtonWidthConstraint: NSLayoutConstraint!
+    
     // > Bottom
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var reportButton: UIButton!
@@ -113,6 +117,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     @IBAction func mapViewButtonPressed(sender: AnyObject) {
         openMap()
+    }
+    
+    @IBAction func shareFBMessengerButtonPressed(sender: AnyObject) {
+        viewModel.shareInFBMessenger()
+        let content = viewModel.shareFacebookContent
+        FBSDKMessageDialog.showWithContent(content, delegate: self)
     }
     
     @IBAction func shareFBButtonPressed(sender: AnyObject) {
@@ -207,16 +217,25 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         }
     }
     
+    
     // MARK: - FBSDKSharingDelegate
+    // This delegate is shared by FBSDKShareDialog and FBSDKMessageDialog
     
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        viewModel.shareInFBCompleted()
-        
-//        let completion = {
-//            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)
-//        }
-//
-//        dismissLoadingMessageAlert(completion)
+        if sharer is FBSDKMessageDialog {
+            // Messenger always calls didCompleteWithResults, if it works,
+            // will include the key "completionGesture" in the results dict
+            if let _ = results["completionGesture"] {
+                viewModel.shareInFBMessengerCompleted()
+            }
+            else {
+                viewModel.shareInFBMessengerCancelled()
+            }
+        }
+        else if sharer is FBSDKShareDialog {
+            viewModel.shareInFBCompleted()
+        }
+
         dismissLoadingMessageAlert(nil)
     }
 
@@ -225,7 +244,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
-        viewModel.shareInFBCancelled()
+        if sharer is FBSDKMessageDialog {
+            viewModel.shareInFBMessengerCancelled()
+        }
+        else if sharer is FBSDKShareDialog {
+            viewModel.shareInFBCancelled()
+        }
     }
     
     // MARK: - GalleryViewDelegate
@@ -511,6 +535,15 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         // Delegates
         galleryView.delegate = self
+        
+        // Share Buttons
+        if !viewModel.canShareInWhatsapp() {
+            whatsappShareButtonWidthConstraint.constant = 0
+        }
+        
+        if !viewModel.canShareInFBMessenger() {
+            fbMessengerShareButtonWidthConstraint.constant = 0
+        }
         
         // Update the UI
         updateUI()
