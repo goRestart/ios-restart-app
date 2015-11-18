@@ -21,7 +21,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     @IBOutlet weak var tagsCollectionTopSpace: NSLayoutConstraint!
-    @IBOutlet weak var tagsCollectionSeparatorHeight: NSLayoutConstraint!
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceShadow: UIView!
@@ -98,7 +97,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         showInfoBubble(false, alpha: 0.0)
 
         //Filter tags
-        tagsCollectionSeparatorHeight.constant = StyleHelper.onePixelSize
         tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
         tagsViewController.delegate = self
         loadTagsViewWithTags(viewModel.tags)
@@ -375,7 +373,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         }
         
         UIView.animateWithDuration(0.2, animations: {
-            self.tagsCollectionTopSpace.constant = show ? 64.0 : 14.0
+            self.tagsCollectionTopSpace.constant = show ? 64.0 : 24.0
             self.view.layoutIfNeeded()
             }, completion: {
                 (value: Bool) in
