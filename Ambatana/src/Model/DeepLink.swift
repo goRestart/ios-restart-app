@@ -26,8 +26,14 @@ public struct DeepLink: CustomStringConvertible {
         switch type {
         case .Home, .Sell, .Chats:
             return true
-        case .Product, .User, .Chat:
+        case .Product, .User:
             return components.count > 0
+        case .Chat:
+            // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
+            if let _ = query["p"], let _ = query["b"] {
+                return true
+            }
+            return false
         }
     }
     
