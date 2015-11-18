@@ -180,10 +180,10 @@
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JjN-hF-Oa1" userLabel="Social View">
-                                    <rect key="frame" x="-2" y="546" width="324" height="75"/>
+                                    <rect key="frame" x="48" y="546" width="224" height="75"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9e-k6-h2n" userLabel="Share FBMessenger Button">
-                                            <rect key="frame" x="48" y="10" width="56" height="56"/>
+                                            <rect key="frame" x="0.0" y="10" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="56" id="bvD-s9-WiV"/>
@@ -197,7 +197,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kD-Uf-2Lc" userLabel="Share FB Button">
-                                            <rect key="frame" x="160" y="10" width="56" height="56"/>
+                                            <rect key="frame" x="112" y="10" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="56" id="IVG-vc-rkf"/>
@@ -211,7 +211,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNK-r3-hh9" userLabel="Share Email Button">
-                                            <rect key="frame" x="216" y="9" width="56" height="56"/>
+                                            <rect key="frame" x="168" y="9" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="56" id="tpr-4J-kcd"/>
@@ -225,7 +225,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oZF-Tz-McD" userLabel="Share Whatsapp Button">
-                                            <rect key="frame" x="104" y="10" width="56" height="56"/>
+                                            <rect key="frame" x="56" y="10" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="56" id="1In-y0-Izh"/>
@@ -257,10 +257,10 @@
                                         <constraint firstAttribute="height" constant="75" id="Sf2-G5-XeS"/>
                                         <constraint firstItem="7kD-Uf-2Lc" firstAttribute="leading" secondItem="oZF-Tz-McD" secondAttribute="trailing" id="aSc-8P-qn2"/>
                                         <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" id="dSZ-SM-jJg"/>
-                                        <constraint firstAttribute="trailing" secondItem="cNK-r3-hh9" secondAttribute="trailing" constant="52" id="kao-LW-J23"/>
+                                        <constraint firstAttribute="trailing" secondItem="cNK-r3-hh9" secondAttribute="trailing" id="kao-LW-J23"/>
                                         <constraint firstAttribute="centerY" secondItem="7kD-Uf-2Lc" secondAttribute="centerY" id="kj4-qU-w02"/>
                                         <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="cNK-r3-hh9" secondAttribute="trailing" id="kjW-m3-Msn"/>
-                                        <constraint firstItem="d9e-k6-h2n" firstAttribute="leading" secondItem="JjN-hF-Oa1" secondAttribute="leading" constant="48" id="lGx-lT-eur"/>
+                                        <constraint firstItem="d9e-k6-h2n" firstAttribute="leading" secondItem="JjN-hF-Oa1" secondAttribute="leading" id="lGx-lT-eur"/>
                                         <constraint firstItem="7kD-Uf-2Lc" firstAttribute="leading" secondItem="oZF-Tz-McD" secondAttribute="trailing" id="lub-yE-Jei"/>
                                         <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" constant="-12" id="mAf-OB-GBu"/>
                                         <constraint firstAttribute="trailing" secondItem="oZF-Tz-McD" secondAttribute="trailing" constant="48" id="uqR-53-3qp"/>
