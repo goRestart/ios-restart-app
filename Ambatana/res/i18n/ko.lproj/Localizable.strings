@@ -55,6 +55,7 @@
 "common_error_title" = "웁스";
 "common_expand" = "더보기";
 "common_loading" = "로딩중...";
+"common_max" = "max";
 "common_no" = "아니요";
 "common_ok" = "확인";
 "common_product_deleted" = "제품이 삭제되었습니다";

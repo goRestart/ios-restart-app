@@ -55,6 +55,7 @@
 "common_error_title" = "HOPPSAN!";
 "common_expand" = "Visa mer";
 "common_loading" = "Laddar...";
+"common_max" = "max";
 "common_no" = "Nej";
 "common_ok" = "Ok";
 "common_product_deleted" = "Produkt borttagen";

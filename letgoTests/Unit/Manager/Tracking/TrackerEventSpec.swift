@@ -610,7 +610,55 @@ class TrackerEventSpec: QuickSpec {
                     expect(searchQuery).to(equal("iPhone"))
                 }
             }
+             
 
+            describe("filterStart") {
+                it("has its event name") {
+                    sut = TrackerEvent.filterStart()
+                    expect(sut.name.rawValue).to(equal("filter-start"))
+                }
+            }
+            
+            describe("filterComplete") {
+                it("has its event name") {
+                    let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
+                    sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km, categories: [ProductCategory.Electronics, ProductCategory.CarsAndMotors], sortBy: ProductSortCriteria.Distance)
+                    expect(sut.name.rawValue).to(equal("filter-complete"))
+                }
+                it("when receiving all params, contains the related params ") {
+                    let coords = LGLocationCoordinates2D(latitude: 41.123, longitude: 2.123)
+                    sut = TrackerEvent.filterComplete(coords, distanceRadius: 10, distanceUnit: DistanceType.Km, categories: [ProductCategory.Electronics, ProductCategory.CarsAndMotors], sortBy: ProductSortCriteria.Distance)
+                    
+                    expect(sut.params!.stringKeyParams["filter-lat"]).notTo(beNil())
+                    let lat = sut.params!.stringKeyParams["filter-lat"] as? Double
+                    expect(lat).to(equal(41.123))
+
+                    expect(sut.params!.stringKeyParams["filter-lng"]).notTo(beNil())
+                    let lng = sut.params!.stringKeyParams["filter-lng"] as? Double
+                    expect(lng).to(equal(2.123))
+
+                    let categories = sut.params!.stringKeyParams["category-id"] as? String
+                    expect(categories).to(equal("1,2"))
+                }
+
+                it("when not receiving all params, contains the default params ") {
+
+                    sut = TrackerEvent.filterComplete(nil, distanceRadius: nil, distanceUnit: DistanceType.Km, categories: nil, sortBy: ProductSortCriteria.Distance)
+                    
+                    expect(sut.params!.stringKeyParams["filter-lat"]).notTo(beNil())
+                    let lat = sut.params!.stringKeyParams["filter-lat"] as? String
+                    expect(lat).to(equal("default"))
+                    
+                    expect(sut.params!.stringKeyParams["filter-lng"]).notTo(beNil())
+                    let lng = sut.params!.stringKeyParams["filter-lat"] as? String
+                    expect(lng).to(equal("default"))
+                    
+                    let categories = sut.params!.stringKeyParams["category-id"] as? String
+                    expect(categories).to(equal("0"))
+                }
+
+            }
+            
             describe("productDetailVisit") {
                 it("has its event name") {
                     let product = MockProduct()
@@ -756,7 +804,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productShare") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: "", buttonPosition: "")
+                    sut = TrackerEvent.productShare(product, user: nil, network: EventParameterShareNetwork.Email, buttonPosition: "")
                     expect(sut.name.rawValue).to(equal("product-detail-share"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -784,7 +832,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress.zipCode = "12345"
                     product.postalAddress.city = "Baltimore"
                     
-                    sut = TrackerEvent.productShare(product, user: myUser, network: "", buttonPosition: "")
+                    sut = TrackerEvent.productShare(product, user: myUser, network: EventParameterShareNetwork.Email, buttonPosition: "")
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -824,7 +872,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the network where the content has been shared") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: "facebook", buttonPosition: "")
+                    sut = TrackerEvent.productShare(product, user: nil, network: EventParameterShareNetwork.Facebook, buttonPosition: "")
                     
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
@@ -832,7 +880,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the position of the button used to share") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: "", buttonPosition: "bottom")
+                    sut = TrackerEvent.productShare(product, user: nil, network: EventParameterShareNetwork.Facebook, buttonPosition: "bottom")
                     
                     expect(sut.params!.stringKeyParams["button-position"]).notTo(beNil())
                     let buttonPosition = sut.params!.stringKeyParams["button-position"] as? String
@@ -1484,11 +1532,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("appInviteFriend") {
                 it("has its event name") {
-                    sut = TrackerEvent.appInviteFriend("facebook")
+                    sut = TrackerEvent.appInviteFriend(EventParameterShareNetwork.Facebook)
                     expect(sut.name.rawValue).to(equal("app-invite-friend"))
                 }
                 it("contains the network where the content has been shared") {
-                    sut = TrackerEvent.appInviteFriend("facebook")
+                    sut = TrackerEvent.appInviteFriend(EventParameterShareNetwork.Facebook)
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
@@ -1498,11 +1546,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("facebook friend invite Cancel") {
                 it("has its event name") {
-                    sut = TrackerEvent.appInviteFriendCancel("facebook")
+                    sut = TrackerEvent.appInviteFriendCancel(EventParameterShareNetwork.Facebook)
                     expect(sut.name.rawValue).to(equal("app-invite-friend-cancel"))
                 }
                 it("contains the network where the content has been shared") {
-                    sut = TrackerEvent.appInviteFriendCancel("facebook")
+                    sut = TrackerEvent.appInviteFriendCancel(EventParameterShareNetwork.Facebook)
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
@@ -1512,11 +1560,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("facebook friend invite complete") {
                 it("has its event name") {
-                    sut = TrackerEvent.appInviteFriendComplete("facebook")
+                    sut = TrackerEvent.appInviteFriendComplete(EventParameterShareNetwork.Facebook)
                     expect(sut.name.rawValue).to(equal("app-invite-friend-complete"))
                 }
                 it("contains the network where the content has been shared") {
-                    sut = TrackerEvent.appInviteFriendComplete("facebook")
+                    sut = TrackerEvent.appInviteFriendComplete(EventParameterShareNetwork.Facebook)
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String

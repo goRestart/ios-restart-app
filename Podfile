@@ -18,7 +18,7 @@ pod "FBSDKShareKit",        "~> 4.7.0"
 pod "Amplitude-iOS",        "~> 3.2.0"
     
 # letgo Core
-pod "LGCoreKit",            "0.16.1" # :path => "../lgcorekit"
+pod "LGCoreKit",            "0.16.3" #:path => "../lgcorekit"  
 
 # letgo Tour
 pod "LGTour",               "0.1.3" #:path => "../lgtour"
@@ -43,6 +43,9 @@ pod "NewRelicAgent",         "~> 5.3.1"
 
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0.1"
+
+# Semi modal view controller
+pod "LGSemiModalNavController", "~> 0.2.0"
 
 # Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
 pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'

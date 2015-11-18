@@ -17,6 +17,7 @@ public class ProductManager {
     private var fileUploadService: FileUploadService
     private var productDeleteService: ProductDeleteService
     private var productMarkSoldService : ProductMarkSoldService
+    private var productMarkUnsoldService : ProductMarkUnsoldService
     private var productFavouriteSaveService: ProductFavouriteSaveService
     private var productFavouriteDeleteService: ProductFavouriteDeleteService
     private var productRetrieveService: ProductRetrieveService
@@ -27,11 +28,12 @@ public class ProductManager {
     
     // MARK: - Lifecycle
     
-    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productDeleteService: ProductDeleteService, productMarkSoldService: ProductMarkSoldService, productFavouriteSaveService: ProductFavouriteSaveService, productFavouriteDeleteService: ProductFavouriteDeleteService, productRetrieveService: ProductRetrieveService, productReportSaveService: ProductReportSaveService, userProductRelationService : UserProductRelationService) {
+    public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productDeleteService: ProductDeleteService, productMarkSoldService: ProductMarkSoldService, productMarkUnsoldService: ProductMarkUnsoldService, productFavouriteSaveService: ProductFavouriteSaveService, productFavouriteDeleteService: ProductFavouriteDeleteService, productRetrieveService: ProductRetrieveService, productReportSaveService: ProductReportSaveService, userProductRelationService : UserProductRelationService) {
         self.productSaveService = productSaveService
         self.fileUploadService = fileUploadService
         self.productDeleteService = productDeleteService
         self.productMarkSoldService = productMarkSoldService
+        self.productMarkUnsoldService = productMarkUnsoldService
         self.productFavouriteSaveService = productFavouriteSaveService
         self.productFavouriteDeleteService = productFavouriteDeleteService
         self.productRetrieveService = productRetrieveService
@@ -45,13 +47,14 @@ public class ProductManager {
         let fileUploadService = LGFileUploadService()
         let productDeleteService = LGProductDeleteService()
         let productMarkSoldService = LGProductMarkSoldService()
+        let productMarkUnsoldService = LGProductMarkUnsoldService()
         let productFavouriteSaveService = LGProductFavouriteSaveService()
         let productFavouriteDeleteService = LGProductFavouriteDeleteService()
         let productRetrieveService = LGProductRetrieveService()
         let productReportSaveService = LGProductReportSaveService()
         let userProductRelationService = LGUserProductRelationService()
         
-        self.init(productSaveService: productSaveService, fileUploadService: fileUploadService,productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productRetrieveService: productRetrieveService, productReportSaveService: productReportSaveService, userProductRelationService: userProductRelationService)
+        self.init(productSaveService: productSaveService, fileUploadService: fileUploadService,productDeleteService: productDeleteService, productMarkSoldService: productMarkSoldService, productMarkUnsoldService: productMarkUnsoldService, productFavouriteSaveService: productFavouriteSaveService, productFavouriteDeleteService: productFavouriteDeleteService, productRetrieveService: productRetrieveService, productReportSaveService: productReportSaveService, userProductRelationService: userProductRelationService)
     }
     
     // MARK: - Public methods
@@ -209,6 +212,32 @@ public class ProductManager {
                         completion?(ProductMarkSoldServiceResult(error: .Internal))
                     case .Network:
                         completion?(ProductMarkSoldServiceResult(error: .Network))
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+        Mark Product as Unsold.
+    
+        - parameter product: the product
+        - parameter result: The closure containing the result.
+    */
+    public func markProductAsUnsold(product: Product, completion: ProductMarkUnsoldServiceCompletion?) {
+        
+        if let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
+            productMarkUnsoldService.markAsUnsoldProduct(product, sessionToken: sessionToken) { (markAsUnsoldResult: ProductMarkUnsoldServiceResult) -> Void in
+                if let unsoldProduct = markAsUnsoldResult.value, let _ = unsoldProduct.objectId {
+                    completion?(ProductMarkUnsoldServiceResult(value: unsoldProduct))
+                }
+                else {
+                    let error = markAsUnsoldResult.error ?? .Internal
+                    switch (error) {
+                    case .Internal:
+                        completion?(ProductMarkUnsoldServiceResult(error: .Internal))
+                    case .Network:
+                        completion?(ProductMarkUnsoldServiceResult(error: .Network))
                     }
                 }
             }

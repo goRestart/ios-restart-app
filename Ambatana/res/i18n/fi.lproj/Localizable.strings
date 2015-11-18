@@ -55,6 +55,7 @@
 "common_error_title" = "HUPS!";
 "common_expand" = "Näytä enemmän";
 "common_loading" = "Ladataan...";
+"common_max" = "max";
 "common_no" = "Ei";
 "common_ok" = "OK";
 "common_product_deleted" = "Tuote poistettu";

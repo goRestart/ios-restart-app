@@ -55,6 +55,7 @@
 "common_error_title" = "OEPS!";
 "common_expand" = "Toon meer";
 "common_loading" = "Laden...";
+"common_max" = "max";
 "common_no" = "Nee";
 "common_ok" = "OK";
 "common_product_deleted" = "Product verwijderd";

@@ -55,6 +55,7 @@
 "common_error_title" = "Oops!";
 "common_expand" = "Mostrar mais";
 "common_loading" = "Carregando...";
+"common_max" = "max";
 "common_no" = "Não";
 "common_ok" = "OK";
 "common_product_deleted" = "Item excluído";

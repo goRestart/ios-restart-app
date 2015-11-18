@@ -55,6 +55,7 @@
 "common_error_title" = "OPS!";
 "common_expand" = "Mostra Altro";
 "common_loading" = "Caricamento...";
+"common_max" = "max";
 "common_no" = "No";
 "common_ok" = "OK";
 "common_product_deleted" = "Prodotto rimosso";

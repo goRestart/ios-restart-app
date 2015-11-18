@@ -236,6 +236,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_loading", comment: "")
 	}
 	
+	static var commonMax: String {
+		return NSLocalizedString("common_max", comment: "")
+	}
+	
 	static var commonNo: String {
 		return NSLocalizedString("common_no", comment: "")
 	}

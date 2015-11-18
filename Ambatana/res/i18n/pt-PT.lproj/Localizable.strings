@@ -55,6 +55,7 @@
 "common_error_title" = "UPS!";
 "common_expand" = "Mostrar mais";
 "common_loading" = "A carregar...";
+"common_max" = "max";
 "common_no" = "Não";
 "common_ok" = "Ok";
 "common_product_deleted" = "Produto removido";

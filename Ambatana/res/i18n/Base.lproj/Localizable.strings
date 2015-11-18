@@ -169,6 +169,9 @@
 // Common loading. Check attached image "common_loading.png"
 "common_loading" = "Loading...";
 
+// Common max (Abbreviation from maximum)
+"common_max" = "max";
+
 // Common no
 "common_no" = "No";
 

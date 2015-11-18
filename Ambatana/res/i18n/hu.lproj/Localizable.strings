@@ -55,6 +55,7 @@
 "common_error_title" = "HOPPÁ!";
 "common_expand" = "Többet";
 "common_loading" = "Betöltés...";
+"common_max" = "max";
 "common_no" = "Nem";
 "common_ok" = "OK";
 "common_product_deleted" = "Portéka eltávolítva";
