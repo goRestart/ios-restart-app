@@ -12,11 +12,11 @@ public class ToastView: UIView {
 
     // iVars
     // > UI
-    @IBOutlet private weak var label: UILabel!
-    @IBOutlet private weak var labelTopMarginConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var labelBottomMarginConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var labelLeftMarginConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var labelRightMarginConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var label: UILabel?
+    @IBOutlet private weak var labelTopMarginConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var labelBottomMarginConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var labelLeftMarginConstraint: NSLayoutConstraint?
+    @IBOutlet private weak var labelRightMarginConstraint: NSLayoutConstraint?
 
     // > Data
     public var title: String = "" {
@@ -34,15 +34,28 @@ public class ToastView: UIView {
     }
     
     public override func intrinsicContentSize() -> CGSize {
-        var size = label.intrinsicContentSize()
-        size.height += labelTopMarginConstraint.constant + labelBottomMarginConstraint.constant
-        size.width += labelLeftMarginConstraint.constant + labelRightMarginConstraint.constant
+        var size: CGSize
+        if let label = label {
+            size = label.intrinsicContentSize()
+        }
+        else {
+            size = CGSizeZero
+        }
+        if let labelTopMarginConstraint = labelTopMarginConstraint,
+           let labelBottomMarginConstraint = labelBottomMarginConstraint {
+            size.height += labelTopMarginConstraint.constant + labelBottomMarginConstraint.constant
+        }
+        if let labelLeftMarginConstraint = labelLeftMarginConstraint,
+           let labelRightMarginConstraint = labelRightMarginConstraint {
+            size.width += labelLeftMarginConstraint.constant + labelRightMarginConstraint.constant
+        }
         return size
     }
     
     // MARK: - Public methods
     
     public func setMessage(message: String) {
+        guard let label = label else { return }
         label.text = message
     }
 }
