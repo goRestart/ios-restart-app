@@ -64,17 +64,15 @@ public class BaseViewController: UIViewController {
         
         reachability.reachableBlock = { (let reach: TMReachability!) -> Void in
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                if let strongSelf = self {
-                    strongSelf.setToastViewHidden(true)
-                }
+                guard let strongSelf = self else { return }
+                strongSelf.setToastViewHidden(true)
             }
         }
         reachability.unreachableBlock = { [weak self] (let reach: TMReachability!) -> Void in
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                if let strongSelf = self {
-                    strongSelf.toastView?.setMessage(LGLocalizedString.toastNoNetwork)
-                    strongSelf.setToastViewHidden(false)
-                }
+                guard let strongSelf = self else { return }
+                strongSelf.toastView?.setMessage(LGLocalizedString.toastNoNetwork)
+                strongSelf.setToastViewHidden(false)
             }
         }
     }
@@ -87,18 +85,15 @@ public class BaseViewController: UIViewController {
         super.viewDidLoad()
         
         if showReachabilityMessageEnabled {
-            if let toastView = toastView {
-                toastView.translatesAutoresizingMaskIntoConstraints = false
-                view.addSubview(toastView)
-                
-                toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: toastViewTopMarginHidden)
-                if let toastViewTopMarginConstraint = toastViewTopMarginConstraint {
-                    view.addConstraint(toastViewTopMarginConstraint)
-                }
-                
-                let views = ["toastView": toastView]
-                view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
-            }
+            guard let toastView = toastView else { return }
+            toastView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(toastView)
+            
+            toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: toastViewTopMarginHidden)
+            view.addConstraint(toastViewTopMarginConstraint!)
+            
+            let views = ["toastView": toastView]
+            view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
         }
     }
     
@@ -161,13 +156,12 @@ public class BaseViewController: UIViewController {
         - parameter hidden: If the toast view should be hidden.
     */
     func setToastViewHidden(hidden: Bool) {
-        if let toastView = toastView {
-            view.bringSubviewToFront(toastView)
-            toastViewTopMarginConstraint?.constant = hidden ? toastViewTopMarginHidden : toastViewTopMarginShown
-            UIView.animateWithDuration(0.35) {
-                self.view.layoutIfNeeded()
-            }
-        }
+        guard let toastView = toastView else { return }
+        view.bringSubviewToFront(toastView)
+        toastViewTopMarginConstraint?.constant = hidden ? toastViewTopMarginHidden : toastViewTopMarginShown
+        UIView.animateWithDuration(0.35) {
+            self.view.layoutIfNeeded()
+            
     }
     
     // MARK: - Private methods
