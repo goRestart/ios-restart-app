@@ -202,12 +202,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
         let vc = ProductViewController(viewModel: productVM)
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    // TODO: delete method if finally product list view is not the one to decide if search field loses focus
-    public func productListViewShouldResignSearch(productListView: ProductListView) {
-    }
-    
+    }    
     
     // MARK: - ProductListViewScrollDelegate
     public func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {

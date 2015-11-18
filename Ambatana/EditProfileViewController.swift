@@ -316,9 +316,6 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
     }
-
-    func productListViewShouldResignSearch(productListView: ProductListView) {
-    }
     
     // MARK: - UICollectionViewDataSource and Delegate methods
     
