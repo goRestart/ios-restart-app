@@ -14,8 +14,9 @@ protocol FilterTagCellDelegate : class {
 
 class FilterTagCell: UICollectionViewCell {
     
-    private static let fixedWidthSpace : CGFloat = 50.0 //10.0 left margin & 40.0 close button
-    private static let iconWidth : CGFloat = 36.0
+    private static let cellHeigh : CGFloat = 32.0
+    private static let fixedWidthSpace : CGFloat = 42.0 //10.0 left margin & 32.0 close button
+    private static let iconWidth : CGFloat = 28.0
 
     @IBOutlet weak var tagIcon: UIImageView!
     @IBOutlet weak var tagIconWidth: NSLayoutConstraint!
@@ -28,11 +29,11 @@ class FilterTagCell: UICollectionViewCell {
     static func cellSizeForTag(tag : FilterTag) -> CGSize {
         switch tag {
         case .OrderBy(let sortOption):
-            let constraintRect = CGSize(width: CGFloat.max, height: 40.0)
+            let constraintRect = CGSize(width: CGFloat.max, height: FilterTagCell.cellHeigh)
             let boundingBox = sortOption.name.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
-            return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: 40.0)
+            return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeigh)
         case .Category:
-            return CGSize(width: iconWidth+fixedWidthSpace, height: 40.0)
+            return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
         }
     }
     

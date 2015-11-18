@@ -56,6 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Show TabBar afterwards
                 let tabBarCtl = TabBarController()
                 actualWindow.rootViewController = tabBarCtl
+                navCtl.view.removeFromSuperview()
                 
                 // Open the deep link, if any
                 if let actualDeepLink = deepLink {
