@@ -756,7 +756,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productShare") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: "", buttonPosition: "")
+                    sut = TrackerEvent.productShare(product, user: nil, network: EventParameterShareNetwork.Email, buttonPosition: "")
                     expect(sut.name.rawValue).to(equal("product-detail-share"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -784,7 +784,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress.zipCode = "12345"
                     product.postalAddress.city = "Baltimore"
                     
-                    sut = TrackerEvent.productShare(product, user: myUser, network: "", buttonPosition: "")
+                    sut = TrackerEvent.productShare(product, user: myUser, network: .Email, buttonPosition: "")
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -824,7 +824,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the network where the content has been shared") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: "facebook", buttonPosition: "")
+                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: "")
                     
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
@@ -832,7 +832,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the position of the button used to share") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: "", buttonPosition: "bottom")
+                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: "bottom")
                     
                     expect(sut.params!.stringKeyParams["button-position"]).notTo(beNil())
                     let buttonPosition = sut.params!.stringKeyParams["button-position"] as? String
@@ -840,44 +840,65 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
             
-            describe("productDetailShareFbCancel") {
-                it("has its event name") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productShareFbCancel(product)
-                    expect(sut.name.rawValue).to(equal("product-detail-share-facebook-cancel"))
+            describe("productDetailShareCancel") {
+                var product: MockProduct!
+                var user: MockUser!
+                var tracker: TrackerEvent!
+                beforeEach {
+                    product = MockProduct()
+                    product.objectId = "123ABC"
+                    user = MockUser()
+                    tracker = TrackerEvent.productShareCancel(product, user: user, network: .Facebook)
                 }
-                it("contains the item type param") {
-                    let product = MockProduct()
-                    let user = MockUser()
-                    product.user = user
-                    sut = TrackerEvent.productShareFbCancel(product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
-                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("real"))
+                it("has the correct event name") {
+                    expect(tracker.name.rawValue) == "product-detail-share-cancel"
                 }
-            }
-            
-            describe("productDetailShareFbComplete") {
-                it("has its event name") {
-                    let product = MockProduct()
-                    sut = TrackerEvent.productShareFbComplete(product)
-                    expect(sut.name.rawValue).to(equal("product-detail-share-facebook-complete"))
+                it("has non nil params") {
+                    expect(tracker.params).toNot(beNil())
                 }
-                it("contains the item type param") {
-                    let product = MockProduct()
-                    let user = MockUser()
-                    product.user = user
-                    sut = TrackerEvent.productShareFbCancel(product)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
-                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("real"))
+                it("contains the item-type param") {
+                    let itemType = tracker.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType) == "real"
+                }
+                it("contains the network where the content has been shared") {
+                    let network = tracker.params!.stringKeyParams["share-network"] as? String
+                    expect(network) == "facebook"
+                }
+                it("contains the product being shared") {
+                    let productId = tracker.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "123ABC"
                 }
             }
             
+            describe("productDetailShareComplete") {
+                var product: MockProduct!
+                var user: MockUser!
+                var tracker: TrackerEvent!
+                beforeEach {
+                    product = MockProduct()
+                    product.objectId = "123ABC"
+                    user = MockUser()
+                    tracker = TrackerEvent.productShareComplete(product, user: user, network: .Facebook)
+                }
+                it("has the correct event name") {
+                    expect(tracker.name.rawValue) == "product-detail-share-complete"
+                }
+                it("has non nil params") {
+                    expect(tracker.params).toNot(beNil())
+                }
+                it("contains the item-type param") {
+                    let itemType = tracker.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType) == "real"
+                }
+                it("contains the network where the content has been shared") {
+                    let network = tracker.params!.stringKeyParams["share-network"] as? String
+                    expect(network) == "facebook"
+                }
+                it("contains the product being shared") {
+                    let productId = tracker.params!.stringKeyParams["product-id"] as? String
+                    expect(productId) == "123ABC"
+                }
+            }
             
             describe("productOffer") {
                 it("has its event name") {
@@ -1484,11 +1505,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("appInviteFriend") {
                 it("has its event name") {
-                    sut = TrackerEvent.appInviteFriend("facebook")
+                    sut = TrackerEvent.appInviteFriend(.Facebook)
                     expect(sut.name.rawValue).to(equal("app-invite-friend"))
                 }
                 it("contains the network where the content has been shared") {
-                    sut = TrackerEvent.appInviteFriend("facebook")
+                    sut = TrackerEvent.appInviteFriend(.Facebook)
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
@@ -1498,11 +1519,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("facebook friend invite Cancel") {
                 it("has its event name") {
-                    sut = TrackerEvent.appInviteFriendCancel("facebook")
+                    sut = TrackerEvent.appInviteFriendCancel(.Facebook)
                     expect(sut.name.rawValue).to(equal("app-invite-friend-cancel"))
                 }
                 it("contains the network where the content has been shared") {
-                    sut = TrackerEvent.appInviteFriendCancel("facebook")
+                    sut = TrackerEvent.appInviteFriendCancel(.Facebook)
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
@@ -1512,11 +1533,11 @@ class TrackerEventSpec: QuickSpec {
             
             describe("facebook friend invite complete") {
                 it("has its event name") {
-                    sut = TrackerEvent.appInviteFriendComplete("facebook")
+                    sut = TrackerEvent.appInviteFriendComplete(.Facebook)
                     expect(sut.name.rawValue).to(equal("app-invite-friend-complete"))
                 }
                 it("contains the network where the content has been shared") {
-                    sut = TrackerEvent.appInviteFriendComplete("facebook")
+                    sut = TrackerEvent.appInviteFriendComplete(.Facebook)
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
