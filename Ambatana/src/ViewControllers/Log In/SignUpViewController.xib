@@ -77,7 +77,7 @@
                                     <rect key="frame" x="45" y="44" width="267" height="44"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
+                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                     <connections>
                                         <outlet property="delegate" destination="-1" id="4cs-on-YUW"/>
                                     </connections>

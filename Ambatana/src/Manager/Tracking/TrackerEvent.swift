@@ -248,6 +248,23 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductMarkAsSold, params: params)
     }
     
+    public static func productMarkAsUnsold(product: Product, user: User?) -> TrackerEvent {
+        var params = EventParameters()
+        
+        // Product
+        if let productId = product.objectId {
+            params[.ProductId] = productId
+        }
+        if let productPrice = product.price {
+            params[.ProductPrice] = productPrice
+        }
+        if let productCurrency = product.currency {
+            params[.ProductCurrency] = productCurrency.code
+        }
+        params[.CategoryId] = product.category.rawValue
+        return TrackerEvent(name: .ProductMarkAsUnsold, params: params)
+    }
+    
     public static func productReport(product: Product, user: User?) -> TrackerEvent {
         var params = EventParameters()
         // Product
