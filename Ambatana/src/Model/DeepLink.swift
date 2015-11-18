@@ -10,7 +10,7 @@
     Deep link types, describes host.
 */
 public enum DeepLinkType: String {
-    case Home = "home", Sell = "sell", Product = "products", User = "users"
+    case Home = "home", Sell = "sell", Product = "products", User = "users", Chat = "chat", Chats = "chats"
 }
 
 /**
@@ -24,9 +24,9 @@ public struct DeepLink: CustomStringConvertible {
     
     var isValid: Bool {
         switch type {
-        case .Home, .Sell:
+        case .Home, .Sell, .Chats:
             return true
-        case .Product, .User:
+        case .Product, .User, .Chat:
             return components.count > 0
         }
     }
