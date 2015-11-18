@@ -29,6 +29,7 @@
 			<array>
 				<string>fb699538486794082</string>
 				<string>letgo</string>
+				<string>optly3831449785</string>
 			</array>
 		</dict>
 	</array>
@@ -45,6 +46,15 @@
 				<dict/>
 				<key>KitName</key>
 				<string>Crashlytics</string>
+			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>socket_token</key>
+					<string>AANIxXgBlIahyeisIHLywZRvxw33HJMa~3831449785</string>
+				</dict>
+				<key>KitName</key>
+				<string>Optimizely</string>
 			</dict>
 		</array>
 	</dict>
@@ -69,6 +79,7 @@
 		<string>fbshareextension</string>
 		<string>letgo</string>
 		<string>whatsapp</string>
+		<string>optly3831449785</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

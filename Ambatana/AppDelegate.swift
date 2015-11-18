@@ -8,6 +8,7 @@
 
 import Crashlytics
 import Fabric
+import Optimizely
 import FBSDKCoreKit
 import LGCoreKit
 import Parse
@@ -246,11 +247,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LGCoreKit.initialize(launchOptions)
         
         // Crashlytics
-#if DEBUG
-#else
-        Fabric.with([Crashlytics()])
-#endif
-        
+//#if DEBUG
+//#else
+        Fabric.with([Crashlytics.self, Optimizely.self])
+        Optimizely.startOptimizelyWithAPIToken("AANIxXgBlIahyeisIHLywZRvxw33HJMa~3831449785", launchOptions:launchOptions)
+//#endif
+    
         // Push notifications, get the deep link if any
         var deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         
