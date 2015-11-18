@@ -31,8 +31,8 @@ public enum EventName: String {
     
     case ProductFavorite                    = "product-detail-favorite"
     case ProductShare                       = "product-detail-share"
-    case ProductShareFbCancel               = "product-detail-share-facebook-cancel"
-    case ProductShareFbComplete             = "product-detail-share-facebook-complete"
+    case ProductShareCancel                 = "product-detail-share-cancel"
+    case ProductShareComplete               = "product-detail-share-complete"
     
     case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
@@ -168,7 +168,7 @@ public enum EventParameterShareNetwork: String {
     case Facebook = "facebook"
     case Whatsapp = "whatsapp"
     case Twitter = "twitter"
-    case FBMessenger = "fbmessenger"
+    case FBMessenger = "facebook-messenger"
 }
 
 public struct EventParameters {

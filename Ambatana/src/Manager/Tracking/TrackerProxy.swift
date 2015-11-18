@@ -65,6 +65,7 @@ public class TrackerProxy: Tracker {
     }
     
     public func trackEvent(event: TrackerEvent) {
+        print("🌺 \(event)")
         for tracker in trackers {
             tracker.trackEvent(event)
         }

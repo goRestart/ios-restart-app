@@ -115,11 +115,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         openMap()
     }
     
-
     @IBAction func shareFBMessengerButtonPressed(sender: AnyObject) {
         viewModel.shareInFBMessenger()
         let content = viewModel.shareFacebookContent
-        FBSDKMessageDialog.showWithContent(content, delegate: nil)
+        FBSDKMessageDialog.showWithContent(content, delegate: self)
     }
     
     @IBAction func shareFBButtonPressed(sender: AnyObject) {
@@ -200,16 +199,25 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         })
     }
     
+    
     // MARK: - FBSDKSharingDelegate
+    // This delegate is shared by FBSDKShareDialog and FBSDKMessageDialog
     
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        viewModel.shareInFBCompleted()
-        
-//        let completion = {
-//            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)
-//        }
-//
-//        dismissLoadingMessageAlert(completion)
+        if sharer is FBSDKMessageDialog {
+            // Messenger always calls didCompleteWithResults, if it works,
+            // will include the key "completionGesture" in the results dict
+            if let _ = results["completionGesture"] {
+                viewModel.shareInFBMessengerCompleted()
+            }
+            else {
+                viewModel.shareInFBMessengerCancelled()
+            }
+        }
+        else if sharer is FBSDKShareDialog {
+            viewModel.shareInFBCompleted()
+        }
+
         dismissLoadingMessageAlert(nil)
     }
 
@@ -218,7 +226,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
-        viewModel.shareInFBCancelled()
+        if sharer is FBSDKMessageDialog {
+            viewModel.shareInFBMessengerCancelled()
+        }
+        else if sharer is FBSDKShareDialog {
+            viewModel.shareInFBCancelled()
+        }
     }
     
     // MARK: - GalleryViewDelegate

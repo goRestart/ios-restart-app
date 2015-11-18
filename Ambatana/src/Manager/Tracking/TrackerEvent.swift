@@ -159,24 +159,21 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductShare, params: params)
     }
     
-    public static func productShareFbCancel(product: Product) -> TrackerEvent {
+    public static func productShareCancel(product: Product, user: User?, network: EventParameterShareNetwork) -> TrackerEvent {
         var params = EventParameters()
-        // Product
-
+        params.addProductParamsWithProduct(product, user: user)
         params[.ProductType] = product.user.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-
-        return TrackerEvent(name: .ProductShareFbCancel, params: params)
+        params[.ShareNetwork] = network.rawValue
+        return TrackerEvent(name: .ProductShareCancel, params: params)
     }
-
-    public static func productShareFbComplete(product: Product) -> TrackerEvent {
+   
+    public static func productShareComplete(product: Product, user: User?, network: EventParameterShareNetwork) -> TrackerEvent {
         var params = EventParameters()
-        // Product
-
+        params.addProductParamsWithProduct(product, user: user)
         params[.ProductType] = product.user.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-
-        return TrackerEvent(name: .ProductShareFbComplete, params: params)
+        params[.ShareNetwork] = network.rawValue
+        return TrackerEvent(name: .ProductShareComplete, params: params)
     }
-
     
     public static func productOffer(product: Product, user: User?, amount: Double) -> TrackerEvent {
         var params = EventParameters()
