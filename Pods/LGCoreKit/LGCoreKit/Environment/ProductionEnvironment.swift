@@ -15,11 +15,6 @@ public struct ProductionEnvironment: Environment {
 
     // API
     public let apiBaseURL = "https://letgo-a.akamaihd.net" //  old: "http://api.letgo.com"
-    public let apiClientId = "2_4iqtxcwybj8k08o8ssw4wkc0c408o8o4g8go8ogok0ss4g48oo"
-    public let apiClientSecret = "4hbpw71kl8u80sw8gww44gs0ww8c44kc4wwssw0k08sw4k4ssc"
-    
-    // Images
-    public let imagesBaseURL = "https://cdn.letgo.com/images"  // @ahl: to be removed when full image URL is coming in the products response
     
     // Config
     public let configURL = "https://letgo-images.s3.amazonaws.com/config/ios.json"

@@ -15,11 +15,6 @@ public protocol Environment {
 
     // API
     var apiBaseURL: String { get }
-    var apiClientId: String { get }
-    var apiClientSecret: String { get }
-    
-    // Images
-    var imagesBaseURL: String { get }
 
     // Config
     var configURL: String { get }
