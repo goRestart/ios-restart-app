@@ -31,7 +31,10 @@ public protocol ProductViewModelDelegate: class {
     
     func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductMarkSoldServiceResult)
-    
+
+    func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel)
+    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult)
+
     func viewModelDidStartAsking(viewModel: ProductViewModel)
     // TODO: Refactor to return a ViewModel
     func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>)
@@ -216,13 +219,23 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var isFooterVisible: Bool {
         let footerViewVisible: Bool
         switch product.status {
-        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
+        case .Pending, .Discarded, .Deleted:
             footerViewVisible = false
-        case .Approved:
+        case .Approved, .Sold, .SoldOld:
             footerViewVisible = true
-            break
         }
         return footerViewVisible
+    }
+    
+    public var productIsSold: Bool {
+        let productSold: Bool
+        switch product.status {
+        case .Pending, .Discarded, .Approved, .Deleted:
+            productSold = false
+        case .Sold, .SoldOld:
+            productSold = true
+        }
+        return productSold
     }
     
     // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
@@ -238,22 +251,16 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending:
             statusLabelVisible = false
-            break
         case .Approved:
             statusLabelVisible = false
-            break
         case .Discarded:
             statusLabelVisible = false
-            break
         case .Sold:
             statusLabelVisible = true
-            break
         case .SoldOld:
             statusLabelVisible = true
-            break
         case .Deleted:
             statusLabelVisible = true
-            break
         }
         return statusLabelVisible
     }
@@ -263,10 +270,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending, .Approved, .Discarded, .Deleted:
             color = UIColor.whiteColor()
-            break
         case .Sold, .SoldOld:
             color = StyleHelper.soldColor
-            break
         }
         return color
     }
@@ -276,10 +281,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending, .Approved, .Discarded, .Deleted:
             color = UIColor.blackColor()
-            break
         case .Sold, .SoldOld:
             color = UIColor.whiteColor()
-            break
         }
         return color
     }
@@ -289,19 +292,14 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending:
             text = LGLocalizedString.productStatusLabelPending
-            break
         case .Approved:
             text = LGLocalizedString.productStatusLabelApproved
-            break
         case .Discarded:
             text = LGLocalizedString.productStatusLabelDiscarded
-            break
         case .Sold, .SoldOld:
             text = LGLocalizedString.productListItemSoldStatusLabel
-            break
         case .Deleted:
             text = LGLocalizedString.productStatusLabelDeleted
-            break
         }
         return text
     }
@@ -605,6 +603,29 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public func markSoldAbandon(source: EventParameterSellSourceValue) {
     }
     
+    
+    public func markUnsoldStarted() {
+    }
+    
+    public func markUnsold() {
+        delegate?.viewModelDidStartMarkingAsUnsold(self)
+        productManager.markProductAsUnsold(product) { [weak self] ( result: ProductMarkUnsoldServiceResult) -> Void in
+            if let strongSelf = self {
+                // Success
+                if let unsoldProduct = result.value {
+                    // Run completed. 'unsoldProduct' already has its status updated
+                    strongSelf.markUnsoldCompleted(unsoldProduct)
+                }
+                
+                // Notify the delegate
+                strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsUnsold: result)
+            }
+        }
+    }
+    
+    public func markUnsoldAbandon() {
+    }
+    
     // MARK: - UpdateDetailInfoDelegate
     
     public func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct savedProduct: Product) {
@@ -626,6 +647,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         
     }
     
+    private func markUnsoldCompleted(unsoldProduct: Product) {
+        // Tracking
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let trackerEvent = TrackerEvent.productMarkAsUnsold(unsoldProduct, user: myUser)
+        tracker.trackEvent(trackerEvent)
+        
+    }
     private func deleteCompleted() {
         // Tracking
         let myUser = MyUserManager.sharedInstance.myUser()
