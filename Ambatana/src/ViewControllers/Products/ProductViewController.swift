@@ -59,7 +59,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // >> Me selling
     @IBOutlet weak var meSellingView: UIView!
-    @IBOutlet weak var markSoldButton: UIButton!
+    @IBOutlet weak var markSoldButton: UIButton! // used to mark as sold or "resell" depending on the product status
     
     // > Other
     private var lines : [CALayer]
@@ -182,6 +182,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             self.offer()
         })
     }
+    
+    /**
+        markSoldPressed is the action related to the markSoldButton, works both ways: to "sell" and put it back to "available"
+    */
     
     @IBAction func markSoldPressed(sender: AnyObject) {
         if viewModel.productIsSold {
@@ -501,11 +505,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
         
-        if viewModel.productIsSold {
-            markSoldButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-        } else {
-            markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
-        }
+        let markSoldTitle = viewModel.productIsSold ? LGLocalizedString.productMarkAsSoldButton : LGLocalizedString.productMarkAsSoldButton
+        markSoldButton.setTitle(markSoldTitle, forState: .Normal)
         
         
         // Delegates
