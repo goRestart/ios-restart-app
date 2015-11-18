@@ -191,7 +191,7 @@
                                                 <constraint firstAttribute="width" constant="56" id="bvD-s9-WiV"/>
                                                 <constraint firstAttribute="height" constant="56" id="gRv-Mc-v91"/>
                                             </constraints>
-                                            <state key="normal" image="item_share_fb">
+                                            <state key="normal" image="item_share_fb_messenger">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
@@ -529,6 +529,7 @@
         <image name="item_location" width="11" height="16"/>
         <image name="item_share_email" width="36" height="36"/>
         <image name="item_share_fb" width="36" height="36"/>
+        <image name="item_share_fb_messenger" width="36" height="36"/>
         <image name="item_share_whatsapp" width="36" height="36"/>
         <image name="no_photo" width="80" height="80"/>
     </resources>
