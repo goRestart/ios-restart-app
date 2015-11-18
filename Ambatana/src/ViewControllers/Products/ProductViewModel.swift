@@ -485,8 +485,16 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return application.canOpenURL(url)
     }
     
-    public func canShareInFBMessenger() {
-        
+    /**
+    Detect if the user has the FB Messenger App installed.
+    Done manually because Facebook does not provide a way to do it with the SDK
+    
+    - returns: Wether the content can be shared in facebook-messenger or not
+    */
+    public func canShareInFBMessenger() -> Bool {
+        guard let url = NSURL(string: "fb-messenger-api://") else { return false }
+        let application = UIApplication.sharedApplication()
+        return application.canOpenURL(url)
     }
     
 

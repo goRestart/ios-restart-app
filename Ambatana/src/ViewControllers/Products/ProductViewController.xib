@@ -15,6 +15,7 @@
                 <outlet property="bottomView" destination="5pG-Ac-iOO" id="e0v-Gs-cxn"/>
                 <outlet property="deleteButton" destination="UM2-pr-wbb" id="lrt-Pd-kmg"/>
                 <outlet property="descriptionCollapsible" destination="z0J-bb-yu5" id="0lp-by-lQR"/>
+                <outlet property="fbMessengerShareButtonWidthConstraint" destination="bvD-s9-WiV" id="8lI-Zp-M6L"/>
                 <outlet property="footerViewHeightConstraint" destination="zoi-wR-b4u" id="Zwf-6m-SFz"/>
                 <outlet property="galleryView" destination="rnN-LC-zqg" id="01p-kR-evO"/>
                 <outlet property="mapView" destination="oT2-dx-Ar0" id="zKc-iX-q2Q"/>
@@ -31,6 +32,7 @@
                 <outlet property="usernameContainerView" destination="eVN-Mz-H9f" id="V6k-gt-pjC"/>
                 <outlet property="usernameLabel" destination="hYD-Km-Pqk" id="yNn-dn-oBQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="whatsappShareButtonWidthConstraint" destination="1In-y0-Izh" id="VZW-aJ-ncu"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

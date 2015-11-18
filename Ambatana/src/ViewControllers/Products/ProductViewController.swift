@@ -44,6 +44,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     @IBOutlet weak var productStatusLabel: UILabel!
     @IBOutlet weak var productStatusShadow: UIView!     // just for the shadow
     
+    // > Share Buttons
+    @IBOutlet weak var fbMessengerShareButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var whatsappShareButtonWidthConstraint: NSLayoutConstraint!
+    
     // > Bottom
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var reportButton: UIButton!
@@ -491,6 +495,15 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         // Delegates
         galleryView.delegate = self
+        
+        // Share Buttons
+        if !viewModel.canShareInWhatsapp() {
+            whatsappShareButtonWidthConstraint.constant = 0
+        }
+        
+        if !viewModel.canShareInFBMessenger() {
+            fbMessengerShareButtonWidthConstraint.constant = 0
+        }
         
         // Update the UI
         updateUI()
