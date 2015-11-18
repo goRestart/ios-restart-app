@@ -161,7 +161,7 @@ public class BaseViewController: UIViewController {
         toastViewTopMarginConstraint?.constant = hidden ? toastViewTopMarginHidden : toastViewTopMarginShown
         UIView.animateWithDuration(0.35) {
             self.view.layoutIfNeeded()
-            
+        }
     }
     
     // MARK: - Private methods
