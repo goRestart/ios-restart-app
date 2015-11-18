@@ -21,7 +21,7 @@ pod "Amplitude-iOS",        "~> 3.2.0"
 pod "LGCoreKit",            :path => "../lgcorekit"  #"0.16.1"
 
 # letgo Tour
-pod "LGTour",               "0.1.2" #:path => "../lgtour"
+pod "LGTour",               "0.1.3" #:path => "../lgtour"
 
 # letgo Collapsible label
 pod "LGCollapsibleLabel",   "0.1.0"    #:path => "../collapsiblelabel"

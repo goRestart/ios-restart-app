@@ -161,27 +161,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
 
-        // If we already have data then show an alert
-        if hasProducts {
-            let message = LGLocalizedString.commonErrorConnectionFailed
-            if page == 0 {
-                showAutoFadingOutMessageAlert(message)
-            }
-            else {
-                let buttonTitle = LGLocalizedString.commonErrorRetryButton
-                let buttonAction = { () -> Void in
-                    productListView.retrieveProductsNextPage()
-                }
-                let alert = UIAlertController(title: nil, message: message, preferredStyle:.Alert)
-                alert.addAction(UIAlertAction(title: buttonTitle, style:.Default, handler: { [weak self] (action) -> Void in
-                    if let _ = self {
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC))), dispatch_get_main_queue(), { () -> Void in
-                            buttonAction()
-                        })
-                    }
-                    }))
-                presentViewController(alert, animated: true, completion: nil)
-            }
+        // If we already have data & it's the first page then show an alert
+        if hasProducts && page == 0 {
+            showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
         }
         
         // Update distance label visibility

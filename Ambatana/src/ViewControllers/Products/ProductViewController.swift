@@ -198,11 +198,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
         viewModel.shareInFBCompleted()
         
-        let completion = {
-            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)
-        }
-
-        dismissLoadingMessageAlert(completion)
+//        let completion = {
+//            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)
+//        }
+//
+//        dismissLoadingMessageAlert(completion)
+        dismissLoadingMessageAlert(nil)
     }
 
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {

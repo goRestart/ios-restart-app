@@ -241,6 +241,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
 
         // LGCoreKit
+//        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
         LGCoreKit.initialize(launchOptions)
         
         // Crashlytics
