@@ -111,9 +111,6 @@ public class LGNavBarSearchField: UIView {
             
             self.magnifierIconLeadingConstraint.constant = CGFloat((self.frame.width/2) - CGFloat((self.magnifierIcon.frame.size.width + self.logoIcon.frame.size.width)/2.0))
             
-            print(self.frame.width)
-            print(self.magnifierIconLeadingConstraint.constant)
-            
             self.layoutSubviews()
 
             }) { (completion) -> Void in

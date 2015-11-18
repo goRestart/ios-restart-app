@@ -296,7 +296,7 @@
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
 
 // Filters navbar reset
-"filters_navbar_reset" = "RESET";
+"filters_navbar_reset" = "Reset";
 
 // Filters save button
 "filters_save_button" = "Save filters";
