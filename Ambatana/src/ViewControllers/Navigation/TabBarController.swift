@@ -209,26 +209,35 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         - returns: If succesfully handled opening the deep link.
     */
     func openDeepLink(deepLink: DeepLink) -> Bool {
-        if deepLink.isValid {
-            switch deepLink.type {
-            case .Home:
-                switchToTab(.Home)
-                break
-            case .Sell:
-                openSell()
-            case .Product:
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) { [weak self] in
-                    let productId = deepLink.components[0]
-                    self?.openProductWithId(productId)
-                }
-            case .User:
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) { [weak self] in
-                    let userId = deepLink.components[0]
-                    self?.openUserWithId(userId)
-                }
-           }
+        guard deepLink.isValid else {
+            return false
+        }
+        var afterDelayClosure: (() -> Void)?
+        switch deepLink.type {
+        case .Home:
+            switchToTab(.Home)
+            break
+        case .Sell:
+            openSell()
+        case .Product:
+            afterDelayClosure =  { [weak self] in
+                let productId = deepLink.components[0]
+                self?.openProductWithId(productId)
+            }
+        case .User:
+            afterDelayClosure =  { [weak self] in
+                let userId = deepLink.components[0]
+                self?.openUserWithId(userId)
+            }
+        case .Chats:
+            switchToTab(.Chats)
+        case .Chat:
+            // TODO: Implement chat
+            break
+        }
+        if let afterDelayClosure = afterDelayClosure {
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
         }
         return true
     }
