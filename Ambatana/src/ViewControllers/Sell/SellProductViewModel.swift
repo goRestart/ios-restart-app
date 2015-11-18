@@ -114,7 +114,7 @@ public class SellProductViewModel: BaseViewModel {
     }
     
     var categoryName: String? {
-        return category?.name()
+        return category?.name
     }
     
     var descriptionCharCount: Int {
@@ -124,13 +124,13 @@ public class SellProductViewModel: BaseViewModel {
     
     // fills action sheet
     public func categoryNameAtIndex(index: Int) -> String {
-        return ProductCategory.allValues()[index].name()
+        return ProductCategory.allValues()[index].name
     }
     
     // fills category field
     public func selectCategoryAtIndex(index: Int) {
         category = ProductCategory(rawValue: index+1) // ???????? index from 0 to N and prodCat from 1 to N+1
-        delegate?.sellProductViewModel(self, didSelectCategoryWithName: category?.name() ?? "")
+        delegate?.sellProductViewModel(self, didSelectCategoryWithName: category?.name ?? "")
         
     }
     

@@ -18,7 +18,7 @@ pod "FBSDKShareKit",         "~> 4.7.0"
 pod "Amplitude-iOS",        "~> 3.2.0"
     
 # letgo Core
-pod "LGCoreKit",            :path => "../lgcorekit"
+pod "LGCoreKit",            "0.16.3" #:path => "../lgcorekit"  
 
 # letgo Tour
 pod "LGTour",               "0.1.3" #:path => "../lgtour"
@@ -43,6 +43,9 @@ pod "NewRelicAgent",         "~> 5.3.1"
 
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0.1"
+
+# Semi modal view controller
+pod "LGSemiModalNavController", "~> 0.2.0"
 
 target "letgoTests", :exclusive => true do
     pod "Kahuna",               "~> 2.2.2"

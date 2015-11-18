@@ -27,6 +27,9 @@ public enum EventName: String {
     case SearchStart                        = "search-start"
     case SearchComplete                     = "search-complete"
     
+    case FilterStart                        = "filter-start"
+    case FilterComplete                     = "filter-complete"
+    
     case ProductDetailVisit                 = "product-detail-visit"
     
     case ProductFavorite                    = "product-detail-favorite"
@@ -126,6 +129,11 @@ public enum EventParameterName: String {
     case LocationEnabled      = "location-enabled"
     case LocationAllowed      = "location-allowed"
     case ButtonName           = "button-name"
+    case FilterLat            = "filter-lat"
+    case FilterLng            = "filter-lng"
+    case FilterDistanceRadius = "distance-radius"
+    case FilterDistanceUnit   = "distance-unit"
+    case FilterSortBy         = "sort-by"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -170,6 +178,14 @@ public enum EventParameterShareNetwork: String {
     case Twitter = "twitter"
     case FBMessenger = "facebook-messenger"
 }
+
+public enum EventParameterSortBy: String {
+    case Distance = "distance"
+    case CreationDate = "creation-date"
+    case PriceAsc = "price-asc"
+    case PriceDesc = "price-desc"
+}
+
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
