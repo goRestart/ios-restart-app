@@ -83,10 +83,10 @@ public class BaseViewController: UIViewController {
         //Adding to managed subviews
         if !subviews.contains(subview) {
             subviews.append(subview)
+            
+            //Set current state to subview
+            subview.active = self.active
         }
-        
-        //Set current state to subview
-        subview.active = self.active
     }
     
     func removeSubview(subview: BaseView) {
