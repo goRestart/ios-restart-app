@@ -73,17 +73,16 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         addSubview(mainProductListView)
         
-        setLetGoRightButtonWithImageName("ic_filters", andSelector: "filtersButtonPressed:")
-        
         if let categoryTitle = viewModel.title as? String {
             self.setLetGoNavigationBarStyle(categoryTitle)
         } else {
-            // Add search text field
-            
+            // Add search text field && filters button
             if let searchField = searchTextField {                
                 searchField.searchTextField.delegate = self
                 setLetGoNavigationBarStyle(searchField)
             }
+            
+            setLetGoRightButtonWithImageName("ic_filters", andSelector: "filtersButtonPressed:")
         }
         
         
@@ -344,6 +343,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
     
     private func loadTagsViewWithTags(tags: [FilterTag]) {
+        
+        if let _ = viewModel.category {
+            //If category mode, avoid showing filters or tags
+            return
+        }
         
         self.tagsViewController.updateTags(tags)
         
