@@ -45,6 +45,7 @@
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
 "common_cancel" = "Avbryt";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Vis mindre";
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
 "edit_product_title" = "Endre produkt";
-"filters_navbar_reset" = "TILBAKESTILL";
+"filters_navbar_reset" = "Tilbakestill";
 "filters_save_button" = "Lagre filtere";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstand";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Koble til Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Innlogging feilet, din epost på Facebook er allerede registrert. Vennligst prøv igjen.";
 "main_sign_up_fb_connect_error_generic" = "Feil ved innlogging. Vennligst prøv igjen.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Logg inn";
 "main_sign_up_or_label" = "ELLER";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Registrer via epost";
 "make_an_offer_new_offer_message" = "Nytt bud på %@";
 "make_an_offer_price_field_hint" = "Pris";
@@ -209,10 +212,11 @@
 "rating_view_suggest_label" = "Del dine forslag";
 "rating_view_title_label" = "Liker du letgo?";
 "reset_password_email_field_hint" = "E-post";
+"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
 "reset_password_send_button" = "Tilbakestill passord";
 "reset_password_send_error_generic" = "En feil oppstod ved forsøk på å huske ditt passord.";
 "reset_password_send_error_invalid_email" = "Vennligst skriv inn en gyldig e-post.";
-"reset_password_send_error_user_not_found_or_wrong_password" = "E-postadressen ble ikke funnet.";
+"reset_password_send_error_user_not_found_or_wrong_password" = "The email address %@ is not registered.";
 "reset_password_send_ok" = "Vi har sendt en e-post til %@. Klikk på linken e-posten for å gjenopprette ditt passord.";
 "reset_password_title" = "Tilbakestill passord";
 "sell_category_selection_label" = "Velg en kategori";
@@ -271,7 +275,7 @@
 "sign_up_email_field_hint" = "E-post";
 "sign_up_password_field_hint" = "Passord";
 "sign_up_send_button" = "Registrer deg";
-"sign_up_send_error_email_taken" = "Bruker eksisterer allerede";
+"sign_up_send_error_email_taken" = "The email address %@ is already registered. Please use it to log in.";
 "sign_up_send_error_generic" = "En feil oppstod ved registrering av bruker.";
 "sign_up_send_error_invalid_email" = "Vennligst skriv inn en gyldig e-post.";
 "sign_up_send_error_invalid_password" = "Vennligst velg et passord på minst %d tegn.";

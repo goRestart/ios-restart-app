@@ -45,6 +45,7 @@
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
 "common_cancel" = "Annulla";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Mostra Meno";
 "common_error" = "Errore";
 "common_error_connection_failed" = "Si è verificato un errore. Verifica la tua connessione Internet.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Si è verificato un errore durante l'aggiornamento del prodotto.";
 "edit_product_send_ok" = "Complimenti! Il tuo articolo è stato aggiornato con successo. A breve apparirà tra le nostre inserzioni.";
 "edit_product_title" = "Modifica Prodotto";
-"filters_navbar_reset" = "RESETTA";
+"filters_navbar_reset" = "Resetta";
 "filters_save_button" = "Salva filtri";
 "filters_section_categories" = "Categorie";
 "filters_section_distance" = "Distanza";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Accedi con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Impossibile effettuare l'accesso, il tuo indirizzo email è già registrato su Facebook. Riprova ad effettuare l'accesso.";
 "main_sign_up_fb_connect_error_generic" = "Impossibile effettuare l'accesso. Riprova.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Accedi";
 "main_sign_up_or_label" = "O";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Registrati con la tua email";
 "make_an_offer_new_offer_message" = "Nuova offerta di %@";
 "make_an_offer_price_field_hint" = "Importo";
@@ -209,10 +212,11 @@
 "rating_view_suggest_label" = "Condividi i tuoi suggerimenti";
 "rating_view_title_label" = "Ti piace letgo?";
 "reset_password_email_field_hint" = "Email";
+"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
 "reset_password_send_button" = "Reimposta password";
 "reset_password_send_error_generic" = "Si è verificato un errore durante il tentativo di recupero della tua password.";
 "reset_password_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
-"reset_password_send_error_user_not_found_or_wrong_password" = "Indirizzo email non trovato.";
+"reset_password_send_error_user_not_found_or_wrong_password" = "The email address %@ is not registered.";
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
 "reset_password_title" = "Reimposta Password";
 "sell_category_selection_label" = "Scegli una categoria";
@@ -271,7 +275,7 @@
 "sign_up_email_field_hint" = "Email";
 "sign_up_password_field_hint" = "Password";
 "sign_up_send_button" = "Registrati";
-"sign_up_send_error_email_taken" = "Utente già esistente";
+"sign_up_send_error_email_taken" = "The email address %@ is already registered. Please use it to log in.";
 "sign_up_send_error_generic" = "Si è verificato un errore durante la creazione dell'utente.";
 "sign_up_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
 "sign_up_send_error_invalid_password" = "Inserisci una password valida, deve contenere almeno %d caratteri.";

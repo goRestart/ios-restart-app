@@ -45,6 +45,7 @@
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "common_cancel" = "Ακύρωση";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Δείτε Λιγότερα";
 "common_error" = "Σφάλμα";
 "common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
 "edit_product_title" = "Επεξεργασία Προϊόντος";
-"filters_navbar_reset" = "ΕΠΑΝΑΦΟΡΑ";
+"filters_navbar_reset" = "Επαναφορα";
 "filters_save_button" = "Αποθήκευση φίλτρων";
 "filters_section_categories" = "Κατηγορίες";
 "filters_section_distance" = "Απόσταση";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Συνδέσου μέσω Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Αδυναμία σύνδεσης! Το email που σχετίζεται με το Facebook σου χρησιμοποιείται ήδη. Θα πρέπει να προσπαθήσεις ξανά!";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Σύνδεση";
 "main_sign_up_or_label" = "Ή";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Κάνε εγγραφή με το email σου";
 "make_an_offer_new_offer_message" = "Νέα προσφορά %@";
 "make_an_offer_price_field_hint" = "Τιμή";
@@ -209,10 +212,11 @@
 "rating_view_suggest_label" = "Μοιράσου τις προτάσεις σου";
 "rating_view_title_label" = "Σου αρέσει το letgo;";
 "reset_password_email_field_hint" = "Email";
+"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
 "reset_password_send_button" = "Επαναφορά κωδικού πρόσβασης";
 "reset_password_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την προσπάθεια ενθύμισης του κωδικού πρόσβασης!";
 "reset_password_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
-"reset_password_send_error_user_not_found_or_wrong_password" = "Η διεύθυνση email δε βρέθηκε!";
+"reset_password_send_error_user_not_found_or_wrong_password" = "The email address %@ is not registered.";
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
 "reset_password_title" = "Επαναφορά Κωδικού Πρόσβασης";
 "sell_category_selection_label" = "Επιλογή κατηγορίας";
@@ -271,7 +275,7 @@
 "sign_up_email_field_hint" = "Email";
 "sign_up_password_field_hint" = "Κωδικός Πρόσβασης";
 "sign_up_send_button" = "Εγγραφή";
-"sign_up_send_error_email_taken" = "Το όνομα χρήστη υπάρχει ήδη.";
+"sign_up_send_error_email_taken" = "The email address %@ is already registered. Please use it to log in.";
 "sign_up_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά τη δημιουργία χρήστη!";
 "sign_up_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
 "sign_up_send_error_invalid_password" = "Παρακαλώ εισάγετε έναν έγκυρο κωδικό πρόσβασης, θα πρέπει να αποτελείται από τουλάχιστον %d χαρακτήρες.";

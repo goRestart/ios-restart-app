@@ -19,6 +19,7 @@ class StyleHelper {
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray75 = UIColor(rgb: 0x757575)
+    private static let gray153 = UIColor(rgb: 0x999999)
     private static let gray204 = UIColor(rgb: 0xCCCCCC)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
     private static let gray222 = UIColor(rgb: 0xDEDEDE)
@@ -61,6 +62,11 @@ class StyleHelper {
         return gray204
     }
     
+    static var darkLineColor: UIColor {
+        return gray153
+    }
+    
+
     static var disabledButtonBackgroundColor: UIColor {
         return gray204
     }

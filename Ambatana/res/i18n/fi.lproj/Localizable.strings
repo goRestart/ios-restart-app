@@ -45,6 +45,7 @@
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "common_cancel" = "Peruuta";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Näytä vähemmän";
 "common_error" = "Virhe";
 "common_error_connection_failed" = "Tapahtui virhe. Ole hyvä ja tarkista Internet-yhteytesi.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Tuotettasi päivitettäessä tapahtui virhe.";
 "edit_product_send_ok" = "Onneksi olkoon! Tuotteesi päivitettiin onnistuneesti. Se ilmestyy näkyviin listoillemme hetken kuluttua.";
 "edit_product_title" = "Muokkaa tuotetta";
-"filters_navbar_reset" = "NOLLAA";
+"filters_navbar_reset" = "Nollaa";
 "filters_save_button" = "Tallenna suodattimet";
 "filters_section_categories" = "Kategoriat";
 "filters_section_distance" = "Etäisyys";
@@ -107,7 +108,7 @@
 "filters_sort_price_asc" = "Halvimmasta kalleimpaan";
 "filters_sort_price_desc" = "Kalleimmasta halvimpaan";
 "filters_title" = "Suodattimet";
-"forced_update_message" = "Letgon uusi versio on saatavilla. Ole hyvä ja päivitä nyt.";
+"forced_update_message" = "letgon uusi versio on saatavilla. Ole hyvä ja päivitä nyt.";
 "forced_update_title" = "Päivitys saatavilla";
 "forced_update_update_button" = "Päivitä";
 "help_title" = "Apua";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Yhdistä Facebookin avulla";
 "main_sign_up_fb_connect_error_email_taken" = "Kirjautuminen ei onnistunut, Facebookin sähköpostiosoitteesi on jo rekisteröity. Ole hyvä ja yritä kirjautua sisään.";
 "main_sign_up_fb_connect_error_generic" = "Kirjautuminen ei onnistunut. Ole hyvä ja yritä uudelleen.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Kirjaudu sisään";
 "main_sign_up_or_label" = "TAI";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Rekisteröidy sähköpostisi kautta";
 "make_an_offer_new_offer_message" = "Uusi tarjous: %@";
 "make_an_offer_price_field_hint" = "Hinta";
@@ -209,10 +212,11 @@
 "rating_view_suggest_label" = "Jaa ehdotuksesi";
 "rating_view_title_label" = "Rakastatko letgota?";
 "reset_password_email_field_hint" = "Sähköposti";
+"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
 "reset_password_send_button" = "Palauta salasana";
 "reset_password_send_error_generic" = "Yritettäessä muistaa salasanasi tapahtui virhe.";
 "reset_password_send_error_invalid_email" = "Ole hyvä ja syötä sähköpostikenttään toimiva sähköpostiosoite.";
-"reset_password_send_error_user_not_found_or_wrong_password" = "Sähköpostiosoitetta ei löytynyt.";
+"reset_password_send_error_user_not_found_or_wrong_password" = "The email address %@ is not registered.";
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
 "reset_password_title" = "Palauta salasana";
 "sell_category_selection_label" = "Valitse kategoria";
@@ -271,7 +275,7 @@
 "sign_up_email_field_hint" = "Sähköposti";
 "sign_up_password_field_hint" = "Salasana";
 "sign_up_send_button" = "Rekisteröidy";
-"sign_up_send_error_email_taken" = "Käyttäjä on jo olemassa";
+"sign_up_send_error_email_taken" = "The email address %@ is already registered. Please use it to log in.";
 "sign_up_send_error_generic" = "Käyttäjää luotaessa tapahtui virhe.";
 "sign_up_send_error_invalid_email" = "Ole hyvä ja syötä sähköpostikenttään toimiva sähköpostiosoite.";
 "sign_up_send_error_invalid_password" = "Ole hyvä ja syötä kelvollinen salasana, jossa on vähintään %d merkkiä.";

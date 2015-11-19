@@ -26,6 +26,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     @IBOutlet weak var resetPasswordButton: UIButton!
     
+    @IBOutlet weak var instructionsLabel : UILabel!
+    
     // > Helper
     var lines: [CALayer]
     
@@ -97,7 +99,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             case .InvalidEmail:
                 message = LGLocalizedString.resetPasswordSendErrorInvalidEmail
             case .UserNotFound:
-                message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword
+                message = String(format: LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword, viewModel.email)
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
             case .Internal:
@@ -176,6 +178,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         setLetGoNavigationBarStyle(LGLocalizedString.resetPasswordTitle)
         emailTextField.placeholder = LGLocalizedString.resetPasswordEmailFieldHint
         resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, forState: .Normal)
+        instructionsLabel.text = LGLocalizedString.resetPasswordInstructions
         
         // Tags
         emailTextField.tag = TextFieldTag.Email.rawValue

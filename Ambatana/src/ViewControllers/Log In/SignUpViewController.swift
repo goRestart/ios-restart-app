@@ -127,7 +127,7 @@ class SignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextF
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
             case .EmailTaken:
-                message = LGLocalizedString.signUpSendErrorEmailTaken
+                message = String(format: LGLocalizedString.signUpSendErrorEmailTaken, viewModel.email)
             case .UsernameTaken:
                 message = String(format: LGLocalizedString.signUpSendErrorInvalidUsernameLetgo, viewModel.username)
             case .Internal:

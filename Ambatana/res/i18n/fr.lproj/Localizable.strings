@@ -45,6 +45,7 @@
 "chat_send_button" = "Envoyer";
 "chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
 "common_cancel" = "Annuler";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Afficher moins";
 "common_error" = "Erreur";
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Une erreur est survenue lors de la modification de votre bien.";
 "edit_product_send_ok" = "Félicitations ! Votre bien a été modifié. Il apparaîtra dans l'application sous peu.";
 "edit_product_title" = "Modifier le Bien";
-"filters_navbar_reset" = "RESET";
+"filters_navbar_reset" = "Reset";
 "filters_save_button" = "Sauvegarder les filtres";
 "filters_section_categories" = "Catégories";
 "filters_section_distance" = "Distance";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Se Connecter avec Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Impossible de se connecter, votre adresse email dans Facebook est déjà utilisée. Veuillez essayer de vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Se Connecter";
 "main_sign_up_or_label" = "OU";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "S'inscrire avec votre email";
 "make_an_offer_new_offer_message" = "Nouvelle offre de %@";
 "make_an_offer_price_field_hint" = "Prix";
@@ -209,10 +212,11 @@
 "rating_view_suggest_label" = "Partagez vos suggestions";
 "rating_view_title_label" = "Vous aimez letgo ?";
 "reset_password_email_field_hint" = "Email";
+"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
 "reset_password_send_button" = "Réinitialiser le mot de passe";
 "reset_password_send_error_generic" = "Une erreur est survenue lors de la sauvegarde de votre mot de passe.";
 "reset_password_send_error_invalid_email" = "Veuillez insérer un email valide dans le champ email.";
-"reset_password_send_error_user_not_found_or_wrong_password" = "Adresse email non trouvée.";
+"reset_password_send_error_user_not_found_or_wrong_password" = "The email address %@ is not registered.";
 "reset_password_send_ok" = "Nous avons envoyé un email à %@. Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
 "reset_password_title" = "Réinitialiser le mot de passe";
 "sell_category_selection_label" = "Choisissez une catégorie";
@@ -246,7 +250,7 @@
 "sell_send_error_uploading_product" = "Une erreur est survenue lors de l'enregistrement de votre bien.";
 "sell_send_ok" = "Félicitations ! Votre bien va apparaître dans nos listings sous peu.";
 "sell_send_sharing_facebook_ok" = "Bien partagé avec succès !";
-"sell_share_fb_content" = "Regarde ce que je vend sur Letgo !";
+"sell_share_fb_content" = "Regarde ce que je vend sur letgo !";
 "sell_share_on_facebook_label" = "Partager mon bien sur Facebook";
 "sell_title" = "Vendre";
 "sell_title_field_hint" = "Titre du bien";
@@ -271,7 +275,7 @@
 "sign_up_email_field_hint" = "Email";
 "sign_up_password_field_hint" = "Mot de passe";
 "sign_up_send_button" = "S'inscrire";
-"sign_up_send_error_email_taken" = "L'utilisateur existe déjà";
+"sign_up_send_error_email_taken" = "The email address %@ is already registered. Please use it to log in.";
 "sign_up_send_error_generic" = "Une erreur est survenue lors de la création de l'utilisateur.";
 "sign_up_send_error_invalid_email" = "Veuillez entrer un email valide dans le champ 'email'.";
 "sign_up_send_error_invalid_password" = "Veuillez entrer un mot de passe valide, d'au moins %d caractères.";

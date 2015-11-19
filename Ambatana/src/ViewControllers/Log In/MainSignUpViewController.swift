@@ -106,18 +106,25 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    func helpButtonPressed() {
+        let vc = HelpViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @IBAction func connectFBButtonPressed(sender: AnyObject) {
          viewModel.logInWithFacebook()
     }
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
-        let vc = SignUpViewController(source: viewModel.loginSource)
+        
+        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: LoginActionType.Signup)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
-        let vc = LogInViewController(source: viewModel.loginSource)
+//        let vc = LogInViewController(source: viewModel.loginSource)
+        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: LoginActionType.Login)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -183,6 +190,8 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         // Navigation bar
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self, action: Selector("closeButtonPressed"))
         navigationItem.leftBarButtonItem = closeButton
+        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self, action: Selector("helpButtonPressed"))
+        navigationItem.rightBarButtonItem = helpButton
 
         // Appearance
         connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)

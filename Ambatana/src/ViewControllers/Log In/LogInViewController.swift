@@ -116,7 +116,7 @@ class LogInViewController: BaseViewController, LogInViewModelDelegate, UITextFie
             case .InvalidEmail:
                 message = LGLocalizedString.logInErrorSendErrorInvalidEmail
             case .InvalidPassword:
-                message = String(format: LGLocalizedString.logInErrorSendErrorInvalidPassword, Constants.passwordMinLength)
+                message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
             case .UserNotFoundOrWrongPassword:
                 message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
             case .Network:
