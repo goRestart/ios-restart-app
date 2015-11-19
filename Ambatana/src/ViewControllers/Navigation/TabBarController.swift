@@ -209,9 +209,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         - returns: If succesfully handled opening the deep link.
     */
     func openDeepLink(deepLink: DeepLink) -> Bool {
-        guard deepLink.isValid else {
-            return false
-        }
+        guard deepLink.isValid else { return false }
+        
         var afterDelayClosure: (() -> Void)?
         switch deepLink.type {
         case .Home:
