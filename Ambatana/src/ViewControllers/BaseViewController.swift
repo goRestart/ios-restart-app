@@ -71,7 +71,7 @@ public class BaseViewController: UIViewController {
         reachability.unreachableBlock = { [weak self] (let reach: TMReachability!) -> Void in
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.toastView?.setMessage(LGLocalizedString.toastNoNetwork)
+                strongSelf.toastView?.title = LGLocalizedString.toastNoNetwork
                 strongSelf.setToastViewHidden(false)
             }
         }

@@ -163,17 +163,17 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         // If we already have data & it's the first page then show a toast
         if hasProducts && page > 0 {
-            let toastMessage: String?
+            let toastTitle: String?
             switch error {
             case .Network:
-                toastMessage = LGLocalizedString.toastNoNetwork
+                toastTitle = LGLocalizedString.toastNoNetwork
             case .Internal:
-                toastMessage = LGLocalizedString.toastErrorInternal
+                toastTitle = LGLocalizedString.toastErrorInternal
             case .Forbidden:
-                toastMessage = nil
+                toastTitle = nil
             }
-            if let toastMessage = toastMessage {
-                toastView?.setMessage(toastMessage)
+            if let toastTitle = toastTitle {
+                toastView?.title = toastTitle
                 setToastViewHidden(false)
             }
         }
