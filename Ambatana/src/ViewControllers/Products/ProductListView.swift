@@ -498,7 +498,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             state = .DataView
 
             collectionView.reloadData()
-            collectionView.setContentOffset(CGPointZero, animated: false)
+            scrollToTop(false)
 
             refreshControl.endRefreshing()
             
@@ -528,12 +528,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     // MARK: > UI
     
     /**
-        Sets up the UI.
+    Sets up the UI.
     */
-    
-    // MARK: > UI
-    
-    
     private func setupUI() {
         // Load the view, and add it as Subview
         NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
@@ -569,6 +565,14 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         errorButton.addTarget(self, action: Selector("errorButtonPressed"), forControlEvents: .TouchUpInside)
         
         // Initial UI state is Loading (by xib)
+    }
+    
+    /**
+        Scrolls the collection to top
+    */
+    private func scrollToTop(animated: Bool) {
+        let position = CGPoint(x: 0, y: -collectionViewContentInset.top)
+        collectionView.setContentOffset(position, animated: animated)
     }
     
     /**

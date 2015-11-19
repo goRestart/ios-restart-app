@@ -23,6 +23,18 @@ public class BaseViewController: UIViewController {
         }
     }
     
+    var navBarBottom : CGFloat {
+        guard let navController = navigationController else { return 0 }
+        
+        return navController.navigationBar.frame.size.height + navController.navigationBar.frame.origin.y
+    }
+    
+    var tabBarHeight : CGFloat {
+        guard let tabController = tabBarController else { return 0 }
+        
+        return tabController.tabBar.frame.size.height
+    }
+    
     public internal(set) var floatingSellButtonHidden: Bool
     
     // MARK: Lifecycle

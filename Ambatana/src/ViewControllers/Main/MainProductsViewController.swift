@@ -63,6 +63,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         // UI
         // > Main product list view
+        mainProductListView.collectionViewContentInset = UIEdgeInsets(top: navBarBottom, left: 0.0, bottom: tabBarHeight, right: 0.0)
         mainProductListView.delegate = self
         mainProductListView.scrollDelegate = self
         mainProductListView.queryString = viewModel.searchString
@@ -371,16 +372,30 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             self.tagsCollectionView.hidden = false
         }
         
-        UIView.animateWithDuration(0.2, animations: {
-            self.tagsCollectionTopSpace.constant = show ? 64.0 : 24.0
-            self.view.layoutIfNeeded()
-            }, completion: {
-                (value: Bool) in
+        UIView.animateWithDuration(
+            0.2,
+            animations: { [weak self]  in
+                guard let strongSelf = self else { return }
+
+                let tagsHeight = strongSelf.tagsCollectionView.frame.size.height
+                strongSelf.tagsCollectionTopSpace.constant = show ? strongSelf.navBarBottom : strongSelf.navBarBottom - tagsHeight
+                strongSelf.mainProductListView.collectionViewContentInset = UIEdgeInsets(
+                    top: show ? strongSelf.navBarBottom + tagsHeight : strongSelf.navBarBottom,
+                    left: 0.0,
+                    bottom: strongSelf.tabBarHeight,
+                    right: 0.0
+                )
+                strongSelf.view.layoutIfNeeded()
+            },
+            completion: { [weak self] (value: Bool) in
+                guard let strongSelf = self else { return }
+                
                 if !show {
-                    self.tagsCollectionView.hidden = true
+                    strongSelf.tagsCollectionView.hidden = true
                 }
-                self.tagsAnimating = false
-        })
+                strongSelf.tagsAnimating = false
+            }
+        )
     }
     
     private func showInfoBubble(show: Bool, alpha: CGFloat? = nil) {
