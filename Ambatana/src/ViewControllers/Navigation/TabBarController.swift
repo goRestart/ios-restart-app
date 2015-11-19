@@ -121,8 +121,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         view.addSubview(floatingSellButton)
         
         let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
-//        let sellBottomMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: tabBar, attribute: .Top, multiplier: 1, constant: -15)
-        let sellBottomMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: -65) // 44 (tabbar size= + 15
+        let sellBottomMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: tabBar, attribute: .Top, multiplier: 1, constant: -15) // 15 above tabBar
         view.addConstraints([sellCenterXConstraint,sellBottomMarginConstraint])
         
         // Initially set the chats tab badge to the app icon badge number

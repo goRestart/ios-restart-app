@@ -202,6 +202,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             showTagsView(!scrollDown)
         }
         
+        self.tabBarController?.setTabBarHidden(scrollDown, animated: true)
         self.navigationController?.setNavigationBarHidden(scrollDown, animated: true)
     }
     

@@ -448,9 +448,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         }
         lastContentOffset = scrollView.contentOffset.y
         
-        if(lastContentOffset > 0.0){
-            scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
-        }
+        informScrollDelegate(scrollView)
     }
     
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -573,6 +571,15 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     private func scrollToTop(animated: Bool) {
         let position = CGPoint(x: 0, y: -collectionViewContentInset.top)
         collectionView.setContentOffset(position, animated: animated)
+    }
+    
+    /**
+        Will call scroll delegate on scroll events different than bouncing in the edges indicating scrollingDown state
+    */
+    private func informScrollDelegate(scrollView: UIScrollView) {
+        if(lastContentOffset > 0.0 && lastContentOffset < (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)){
+            scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
+        }
     }
     
     /**
