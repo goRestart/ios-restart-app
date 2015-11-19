@@ -83,6 +83,7 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
     private func setup() {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
+        self.collectionView.scrollsToTop = false
         
         // CollectionView cells
         let filterNib = UINib(nibName: "FilterTagCell", bundle: nil)
