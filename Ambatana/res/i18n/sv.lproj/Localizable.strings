@@ -45,6 +45,7 @@
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
 "common_cancel" = "Avbryt";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Visa mindre";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Ett fel uppstod vid uppdatering av din produkt.";
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
 "edit_product_title" = "Redigera produkt";
-"filters_navbar_reset" = "ÅTERSTÄLL";
+"filters_navbar_reset" = "Återställ";
 "filters_save_button" = "Spara filter";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstånd";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Anslut med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Kunde inte logga in, din e-postadress på Facebook är redan registrerad. Var god försök logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Var god försök igen.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Logga in";
 "main_sign_up_or_label" = "ELLER";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Registrera dig med e-post";
 "make_an_offer_new_offer_message" = "Nytt erbjudande på %@";
 "make_an_offer_price_field_hint" = "Pris";

@@ -45,6 +45,7 @@
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "common_cancel" = "Ακύρωση";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Δείτε Λιγότερα";
 "common_error" = "Σφάλμα";
 "common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
 "edit_product_title" = "Επεξεργασία Προϊόντος";
-"filters_navbar_reset" = "ΕΠΑΝΑΦΟΡΑ";
+"filters_navbar_reset" = "Επαναφορα";
 "filters_save_button" = "Αποθήκευση φίλτρων";
 "filters_section_categories" = "Κατηγορίες";
 "filters_section_distance" = "Απόσταση";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Συνδέσου μέσω Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Αδυναμία σύνδεσης! Το email που σχετίζεται με το Facebook σου χρησιμοποιείται ήδη. Θα πρέπει να προσπαθήσεις ξανά!";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Σύνδεση";
 "main_sign_up_or_label" = "Ή";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Κάνε εγγραφή με το email σου";
 "make_an_offer_new_offer_message" = "Νέα προσφορά %@";
 "make_an_offer_price_field_hint" = "Τιμή";

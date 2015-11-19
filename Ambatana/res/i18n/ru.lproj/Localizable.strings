@@ -45,6 +45,7 @@
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "common_cancel" = "Отмена";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Скрыть";
 "common_error" = "Ошибка";
 "common_error_connection_failed" = "Произошла ошибка. Проверьте ваше соединение с Интернет.";
@@ -55,7 +56,7 @@
 "common_error_title" = "УПС!";
 "common_expand" = "Показать еще";
 "common_loading" = "Загрузка...";
-"common_max" = "max";
+"common_max" = "максимум";
 "common_no" = "Нет";
 "common_ok" = "OK";
 "common_product_deleted" = "Товар удален";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "При обновлении товара произошла ошибка.";
 "edit_product_send_ok" = "Поздравляем! Ваш товар был успешно обновлен. В скором времени он появится в списке.";
 "edit_product_title" = "Редактировать товар";
-"filters_navbar_reset" = "СБРОС";
+"filters_navbar_reset" = "Сброс";
 "filters_save_button" = "Сохранить фильтры";
 "filters_section_categories" = "Категории";
 "filters_section_distance" = "Расстояние";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Войти через Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Невозможно войти, ваш e-mail уже зарегистрирован в Facebook. Пожалуйста, попробуйте войти.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Войти";
 "main_sign_up_or_label" = "ИЛИ";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Регистрация через e-mail";
 "make_an_offer_new_offer_message" = "Новое предложение %@";
 "make_an_offer_price_field_hint" = "Цена";
@@ -281,9 +284,9 @@
 "sign_up_title" = "Регистрация";
 "sign_up_username_field_hint" = "Полное имя";
 "tab_bar_tool_tip" = "Продайте свои вещи";
-"toast_error_internal" = "Oops! Something went wrong.";
-"toast_error_server" = "Oops! Please try again.";
-"toast_no_network" = "No Internet Connection";
+"toast_error_internal" = "Упс! Что-то пошло не так.";
+"toast_error_server" = "Упс! Попробуйте еще раз.";
+"toast_no_network" = "Нет соединения с интернет";
 "tour_page_1_body" = "Покупайте и продавайте быстро, безопасно и удобно.";
 "tour_page_2_body" = "Новые товары размещаются вашими соседями каждый день.";
 "tour_page_2_title" = "Рядом с вами";

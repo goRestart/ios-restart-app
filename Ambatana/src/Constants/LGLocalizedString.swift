@@ -196,6 +196,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_cancel", comment: "")
 	}
 	
+	static var commonChatNotAvailable: String {
+		return NSLocalizedString("common_chat_not_available", comment: "")
+	}
+	
 	static var commonCollapse: String {
 		return NSLocalizedString("common_collapse", comment: "")
 	}
@@ -520,12 +524,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
 	}
 	
+	static var mainSignUpHelpButton: String {
+		return NSLocalizedString("main_sign_up_help_button", comment: "")
+	}
+	
 	static var mainSignUpLogInLabel: String {
 		return NSLocalizedString("main_sign_up_log_in_label", comment: "")
 	}
 	
 	static var mainSignUpOrLabel: String {
 		return NSLocalizedString("main_sign_up_or_label", comment: "")
+	}
+	
+	static var mainSignUpQuicklyLabel: String {
+		return NSLocalizedString("main_sign_up_quickly_label", comment: "")
 	}
 	
 	static var mainSignUpSignUpButton: String {

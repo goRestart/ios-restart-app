@@ -45,6 +45,7 @@
 "chat_send_button" = "발송";
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
 "common_cancel" = "취소";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "줄이기";
 "common_error" = "오류";
 "common_error_connection_failed" = "오류가 발생했습니다. 인터넷 연결상태를 확인해주세요.";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "페이스북으로 로그인하기";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "로그인";
 "main_sign_up_or_label" = "혹은";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "이메일로 로그인";
 "make_an_offer_new_offer_message" = "%@의 새로운 제시";
 "make_an_offer_price_field_hint" = "가격";

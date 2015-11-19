@@ -45,6 +45,7 @@
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
 "common_cancel" = "Mégse";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Kevesebbet";
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Hiba történt a portéka frissítése során.";
 "edit_product_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
 "edit_product_title" = "Portéka szerkesztése";
-"filters_navbar_reset" = "MÉGSE";
+"filters_navbar_reset" = "Mégse";
 "filters_save_button" = "Szűrők mentése";
 "filters_section_categories" = "Kategóriák";
 "filters_section_distance" = "Távolság";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Csatlakozás Facebookkal";
 "main_sign_up_fb_connect_error_email_taken" = "A bejelentkezés sikertelen. A Facebookban tárolt e-mail cím már regisztrált. Próbálkozz újra.";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Bejelentkezés";
 "main_sign_up_or_label" = "vagy";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Regisztráció e-mail címmel";
 "make_an_offer_new_offer_message" = "Új ajánlat: %@";
 "make_an_offer_price_field_hint" = "Ár";

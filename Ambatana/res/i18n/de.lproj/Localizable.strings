@@ -45,6 +45,7 @@
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "common_cancel" = "Abbrechen";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Weniger anzeigen";
 "common_error" = "Fehler";
 "common_error_connection_failed" = "Ein Fehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.";
@@ -55,7 +56,7 @@
 "common_error_title" = "HOPPLA!";
 "common_expand" = "Mehr anzeigen";
 "common_loading" = "Lädt...";
-"common_max" = "max";
+"common_max" = "max.";
 "common_no" = "Nein";
 "common_ok" = "OK";
 "common_product_deleted" = "Artikel entfernt";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Beim Aktualisieren deines Produkts ist ein Fehler aufgetreten.";
 "edit_product_send_ok" = "Glückwunsch! Dein Artikel wurde erfolgreich aktualisiert. Er wird in Kürze in unseren Listen erscheinen.";
 "edit_product_title" = "Produkt bearbeiten";
-"filters_navbar_reset" = "ZURÜCKSETZEN";
+"filters_navbar_reset" = "Zurücksetzen";
 "filters_save_button" = "Filter speichern";
 "filters_section_categories" = "Kategorien";
 "filters_section_distance" = "Entfernung";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
 "main_sign_up_fb_connect_error_email_taken" = "Registrierung fehlgeschlagen. Deine E-Mail-Adresse bei Facebook ist bereits registriert. Bitte versuche dich anzumelden.";
 "main_sign_up_fb_connect_error_generic" = "Anmeldung fehlgeschlagen. Bitte versuche es erneut.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Anmelden";
 "main_sign_up_or_label" = "ODER";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Mit E-Mail-Adresse registrieren";
 "make_an_offer_new_offer_message" = "Neues Angebot von %@";
 "make_an_offer_price_field_hint" = "Preis";
@@ -281,9 +284,9 @@
 "sign_up_title" = "Registrieren";
 "sign_up_username_field_hint" = "Vollständiger Name";
 "tab_bar_tool_tip" = "Verkaufe deine Dinge";
-"toast_error_internal" = "Oops! Something went wrong.";
-"toast_error_server" = "Oops! Please try again.";
-"toast_no_network" = "No Internet Connection";
+"toast_error_internal" = "Hoppla! Irgendwas lief schief.";
+"toast_error_server" = "Hoppla! Bitte versuche es erneut.";
+"toast_no_network" = "Keine Internetverbindung";
 "tour_page_1_body" = "Verkaufe schnell, sicher und lokal.";
 "tour_page_2_body" = "Jeden Tag werden von deinen Nachbarn neue Produkte eingestellt.";
 "tour_page_2_title" = "In deiner Nähe";
