@@ -250,7 +250,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //#if DEBUG
 //#else
         Fabric.with([Crashlytics.self, Optimizely.self])
-        Optimizely.startOptimizelyWithAPIToken("AANIxXgBlIahyeisIHLywZRvxw33HJMa~3831449785", launchOptions:launchOptions)
 //#endif
     
         // Push notifications, get the deep link if any

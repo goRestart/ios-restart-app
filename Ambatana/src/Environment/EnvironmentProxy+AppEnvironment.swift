@@ -83,4 +83,11 @@ extension EnvironmentProxy: AppEnvironment {
         }
         return ""
     }
+    
+    var optimizelyAPIKey: String {
+        if let appEnvironment = environment as? AppEnvironment {
+            return appEnvironment.optimizelyAPIKey
+        }
+        return ""
+    }
 }

@@ -34,4 +34,7 @@ extension DevelopmentEnvironment: AppEnvironment {
 
     // Config
     var configFileName: String { get { return "ios-devel" } }
+    
+    // AB Testing
+    var optimizelyAPIKey: String { get { return "AANIxXgBlIahyeisIHLywZRvxw33HJMa~3831449785" } }
 }
