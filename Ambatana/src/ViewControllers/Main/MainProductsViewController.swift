@@ -20,7 +20,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     @IBOutlet weak var mainProductListView: MainProductListView!
 
     @IBOutlet weak var tagsCollectionView: UICollectionView!
-    @IBOutlet weak var tagsCollectionTopSpace: NSLayoutConstraint!
+    var tagsCollectionTopSpace: NSLayoutConstraint?
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var distanceShadow: UIView!
@@ -63,7 +63,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         // UI
         // > Main product list view
-        mainProductListView.collectionViewContentInset = UIEdgeInsets(top: navBarBottom, left: 0.0, bottom: tabBarHeight, right: 0.0)
+        mainProductListView.collectionViewContentInset.top = navBarBottom
+        mainProductListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         mainProductListView.delegate = self
         mainProductListView.scrollDelegate = self
         mainProductListView.queryString = viewModel.searchString
@@ -86,20 +87,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             setLetGoRightButtonWithImageName("ic_filters", andSelector: "filtersButtonPressed:")
         }
         
-        
         //Info bubble
-        distanceLabel.text = ""
-        distanceShadow.layer.cornerRadius = 15
-        distanceShadow.layer.shadowColor = UIColor.blackColor().CGColor
-        distanceShadow.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        distanceShadow.layer.shadowOpacity = 0.12
-        distanceShadow.layer.shadowRadius = 8.0
-        showInfoBubble(false, alpha: 0.0)
+        setupInfoBubble()
 
         //Filter tags
-        tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
-        tagsViewController.delegate = self
-        loadTagsViewWithTags(viewModel.tags)
+        setupTagsView()
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -206,12 +198,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     // MARK: - ProductListViewScrollDelegate
     public func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {
-        if self.tagsViewController.tags.isEmpty {
-            //Nothing to do, tags are not showing
-            return
+        if !self.tagsViewController.tags.isEmpty {
+            showTagsView(!scrollDown)
         }
         
-        showTagsView(!scrollDown)
+        self.navigationController?.setNavigationBarHidden(scrollDown, animated: true)
     }
     
     // MARK: - MainProductsViewModelDelegate
@@ -343,6 +334,16 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         viewModel.showFilters()
     }
     
+    private func setupTagsView() {
+        //Top constraint
+        tagsCollectionTopSpace = NSLayoutConstraint(item: tagsCollectionView, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: -40.0)
+        self.view.addConstraint(tagsCollectionTopSpace!)
+        
+        tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
+        tagsViewController.delegate = self
+        loadTagsViewWithTags(viewModel.tags)
+    }
+    
     private func loadTagsViewWithTags(tags: [FilterTag]) {
         
         if let _ = viewModel.category {
@@ -378,13 +379,10 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
                 guard let strongSelf = self else { return }
 
                 let tagsHeight = strongSelf.tagsCollectionView.frame.size.height
-                strongSelf.tagsCollectionTopSpace.constant = show ? strongSelf.navBarBottom : strongSelf.navBarBottom - tagsHeight
-                strongSelf.mainProductListView.collectionViewContentInset = UIEdgeInsets(
-                    top: show ? strongSelf.navBarBottom + tagsHeight : strongSelf.navBarBottom,
-                    left: 0.0,
-                    bottom: strongSelf.tabBarHeight,
-                    right: 0.0
-                )
+                if let tagsTopSpace = strongSelf.tagsCollectionTopSpace {
+                    tagsTopSpace.constant = show ? 0.0 : -tagsHeight
+                }
+                strongSelf.mainProductListView.collectionViewContentInset.top = show ? strongSelf.navBarBottom + tagsHeight : strongSelf.navBarBottom
                 strongSelf.view.layoutIfNeeded()
             },
             completion: { [weak self] (value: Bool) in
@@ -396,6 +394,21 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
                 strongSelf.tagsAnimating = false
             }
         )
+    }
+    
+    private func setupInfoBubble() {
+        
+        //Initial text
+        distanceLabel.text = ""
+        
+        //Shape & shadow
+        distanceShadow.layer.cornerRadius = 15
+        distanceShadow.layer.shadowColor = UIColor.blackColor().CGColor
+        distanceShadow.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        distanceShadow.layer.shadowOpacity = 0.12
+        distanceShadow.layer.shadowRadius = 8.0
+        
+        showInfoBubble(false, alpha: 0.0)
     }
     
     private func showInfoBubble(show: Bool, alpha: CGFloat? = nil) {

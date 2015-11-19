@@ -10,7 +10,6 @@
                 <outlet property="distanceLabel" destination="6Qi-9b-goZ" id="4VZ-7Q-YdI"/>
                 <outlet property="distanceShadow" destination="xYw-ae-DlH" id="Xyz-WP-lyH"/>
                 <outlet property="mainProductListView" destination="cx9-GQ-2WN" id="pbG-Sb-J7c"/>
-                <outlet property="tagsCollectionTopSpace" destination="RWx-4h-JIi" id="Shs-8a-UHs"/>
                 <outlet property="tagsCollectionView" destination="NKA-bk-QYJ" id="BFc-qp-ZSW"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -24,7 +23,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <animations/>
                 </view>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NKA-bk-QYJ">
+                <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NKA-bk-QYJ">
                     <rect key="frame" x="0.0" y="24" width="600" height="40"/>
                     <animations/>
                     <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
@@ -39,7 +38,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xYw-ae-DlH" userLabel="distanceShadow">
-                    <rect key="frame" x="233" y="73" width="135" height="30"/>
+                    <rect key="frame" x="233" y="72" width="136" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_15 Km from you" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Qi-9b-goZ">
                             <rect key="frame" x="15" y="0.0" width="106" height="30"/>
@@ -64,12 +63,12 @@
             <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3DU-dL-AwZ"/>
-                <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" constant="9" id="47Q-dM-XkO"/>
+                <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" constant="8" id="47Q-dM-XkO"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xYw-ae-DlH" secondAttribute="trailing" constant="20" id="9ub-mn-Dw1"/>
                 <constraint firstAttribute="trailing" secondItem="cx9-GQ-2WN" secondAttribute="trailing" id="MXl-BZ-HJO"/>
                 <constraint firstItem="NKA-bk-QYJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Nzs-yc-Xxb"/>
                 <constraint firstAttribute="trailing" secondItem="NKA-bk-QYJ" secondAttribute="trailing" id="OhT-Sp-DGK"/>
-                <constraint firstItem="NKA-bk-QYJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" id="RWx-4h-JIi"/>
+                <constraint firstItem="NKA-bk-QYJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" placeholder="YES" id="RWx-4h-JIi"/>
                 <constraint firstItem="xYw-ae-DlH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="RvD-Q0-iag"/>
                 <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" id="eCp-yK-QmV"/>
                 <constraint firstAttribute="centerX" secondItem="xYw-ae-DlH" secondAttribute="centerX" id="ern-bv-UNB"/>
