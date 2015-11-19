@@ -35,5 +35,5 @@ extension ProductionEnvironment: AppEnvironment {
     var configFileName: String { get { return "ios-prod" } }
 
     // AB Testing
-    var optimizelyAPIKey: String { get { return "AANIxXgBlIahyeisIHLywZRvxw33HJMa~3831449785" } }
+    var optimizelyAPIKey: String { get { return "AANIzPMBBiJgoaYFEZAf-HDPjzfTJ7eY~3912862730" } }
 }

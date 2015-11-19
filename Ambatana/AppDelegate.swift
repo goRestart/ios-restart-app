@@ -247,10 +247,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LGCoreKit.initialize(launchOptions)
         
         // Crashlytics
-//#if DEBUG
-//#else
+#if DEBUG
+#else
         Fabric.with([Crashlytics.self, Optimizely.self])
-//#endif
+#endif
     
         // Push notifications, get the deep link if any
         var deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)

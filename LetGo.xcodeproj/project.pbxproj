@@ -167,6 +167,9 @@
 		6AE5F10A1BFCE36A0079E8B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AE5F1081BFCE36A0079E8B6 /* UIKit.framework */; settings = {ASSET_TAGS = (); }; };
 		6AE5F10B1BFCE36A0079E8B6 /* Optimizely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */; settings = {ASSET_TAGS = (); }; };
 		6AE5F10D1BFDE3380079E8B6 /* OptimizelyTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */; settings = {ASSET_TAGS = (); }; };
+		6AE5F1101BFDE8150079E8B6 /* ABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */; settings = {ASSET_TAGS = (); }; };
+		6AE5F1141BFDEF9E0079E8B6 /* OptimizelyABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1131BFDEF9E0079E8B6 /* OptimizelyABTester.swift */; settings = {ASSET_TAGS = (); }; };
+		6AE5F1161BFE30760079E8B6 /* ABLiveVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1151BFE30760079E8B6 /* ABLiveVariable.swift */; settings = {ASSET_TAGS = (); }; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
 		C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132A3E1BF246D40000747A /* ProductFilters.swift */; settings = {ASSET_TAGS = (); }; };
 		C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -427,6 +430,9 @@
 		6AE5F1081BFCE36A0079E8B6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UIKit.framework; sourceTree = "<group>"; };
 		6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optimizely.framework; sourceTree = "<group>"; };
 		6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptimizelyTracker.swift; sourceTree = "<group>"; };
+		6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTester.swift; path = ABTesting/ABTester.swift; sourceTree = "<group>"; };
+		6AE5F1131BFDEF9E0079E8B6 /* OptimizelyABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptimizelyABTester.swift; path = ABTesting/OptimizelyABTester.swift; sourceTree = "<group>"; };
+		6AE5F1151BFE30760079E8B6 /* ABLiveVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABLiveVariable.swift; path = ABTesting/ABLiveVariable.swift; sourceTree = "<group>"; };
 		B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7132A3E1BF246D40000747A /* ProductFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductFilters.swift; sourceTree = "<group>"; };
@@ -791,6 +797,7 @@
 		509273341B172D2100A346F9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				6AE5F10E1BFDE7330079E8B6 /* ABTesting */,
 				509273351B172D5B00A346F9 /* PushManager.swift */,
 				50D2CAD31BB5341D00EC5C30 /* Migration */,
 				50C9E4B71B71FBB7001E4E92 /* Tracking */,
@@ -1127,6 +1134,16 @@
 				D4B0CF7D1B07309800A61E1A /* SellEmptyCell.xib */,
 			);
 			name = "Sell Product";
+			sourceTree = "<group>";
+		};
+		6AE5F10E1BFDE7330079E8B6 /* ABTesting */ = {
+			isa = PBXGroup;
+			children = (
+				6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */,
+				6AE5F1151BFE30760079E8B6 /* ABLiveVariable.swift */,
+				6AE5F1131BFDEF9E0079E8B6 /* OptimizelyABTester.swift */,
+			);
+			name = ABTesting;
 			sourceTree = "<group>";
 		};
 		ABA47C14BB52140048297810 /* Frameworks */ = {
@@ -1742,6 +1759,7 @@
 				2EEBF62E1BA96A1E0042E73C /* NewSellProductViewController.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */,
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
+				6AE5F1141BFDEF9E0079E8B6 /* OptimizelyABTester.swift in Sources */,
 				D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */,
 				D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* MainSignUpViewModel.swift in Sources */,
@@ -1757,6 +1775,7 @@
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment+AppEnvironment.swift in Sources */,
 				2EC1C17A1BBC17F400834D64 /* ChangePasswordViewModel.swift in Sources */,
 				D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */,
+				6AE5F1161BFE30760079E8B6 /* ABLiveVariable.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
@@ -1771,6 +1790,7 @@
 				6AE5F10D1BFDE3380079E8B6 /* OptimizelyTracker.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
+				6AE5F1101BFDE8150079E8B6 /* ABTester.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */,
