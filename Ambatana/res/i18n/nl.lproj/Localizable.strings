@@ -45,6 +45,7 @@
 "chat_send_button" = "Versturen";
 "chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
 "common_cancel" = "Annuleren";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Toon minder";
 "common_error" = "Fout";
 "common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Er is een fout opgetreden bij het actualiseren van jouw product.";
 "edit_product_send_ok" = "Gefeliciteerd! Je item is met succes geplaatst. Het verschijnt zo snel mogelijk in ons overzicht.";
 "edit_product_title" = "Product bewerken";
-"filters_navbar_reset" = "RESETTEN";
+"filters_navbar_reset" = "Reset";
 "filters_save_button" = "Filters opslaan";
 "filters_section_categories" = "Categorieen";
 "filters_section_distance" = "Afstand";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Inloggen met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Niet in staat om in te loggen, jouw e-mailadres is al geregistreerd bij Facebook. Probeer a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Inloggen";
 "main_sign_up_or_label" = "OF";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Schrijf in met je e-mail";
 "make_an_offer_new_offer_message" = "Nieuw bod van %@";
 "make_an_offer_price_field_hint" = "Prijs";
@@ -182,7 +185,7 @@
 "product_sell_again_confirm_title" = "Verkoop het opnieuw";
 "product_sell_again_error_generic" = "Er is een fout opgetreden bij het markeren van de beschikbaarheid van je product. Probeer het later nog eens.";
 "product_sell_again_success_message" = "Gefeliciteerd, je product werd succesvol gemarkeerd als beschikbaar!";
-"product_share_body" = "Kijk wat ik net gevonden heb bij Letgo!";
+"product_share_body" = "Kijk wat ik net gevonden heb bij letgo!";
 "product_share_email_error" = "Oeps, het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_generic_error" = "Er is een fout opgetreden bij het delen van het product. Probeer het later nog eens.";
 "product_share_generic_ok" = "Product succesvol gedeeld!";
@@ -224,7 +227,7 @@
 "sell_picture_image_source_cancel_button" = "Annuleren";
 "sell_picture_image_source_title" = "Kies een bron voor de afbeelding";
 "sell_picture_label" = "Foto";
-"sell_picture_save_into_camera_roll_error_generic" = "Er is een fout opgetreden bij het opslaan van uw afbeelding in de fotobibliotheek. Zorg er a.u.b voor dat Letgo toegang heeft tot jouw foto's in de Instellingen App.";
+"sell_picture_save_into_camera_roll_error_generic" = "Er is een fout opgetreden bij het opslaan van uw afbeelding in de fotobibliotheek. Zorg er a.u.b voor dat letgo toegang heeft tot jouw foto's in de Instellingen App.";
 "sell_picture_save_into_camera_roll_loading" = "Opslaan van afbeelding in fotobibliotheek...";
 "sell_picture_save_into_camera_roll_ok" = "Het opslaan van afbeelding in fotobibliotheek is geslaagd.";
 "sell_picture_selected_cancel_button" = "Annuleren";
@@ -246,7 +249,7 @@
 "sell_send_error_uploading_product" = "Er is een fout opgetreden tijdens het registreren van je product.";
 "sell_send_ok" = "Gefeliciteerd! Je item is met succes geplaatst. Het verschijnt zo snel mogelijk in ons overzicht.";
 "sell_send_sharing_facebook_ok" = "Product succesvol gedeeld!";
-"sell_share_fb_content" = "Kijk wat ik verkoop op Letgo!";
+"sell_share_fb_content" = "Kijk wat ik verkoop op letgo!";
 "sell_share_on_facebook_label" = "Deel mijn product op Facebook";
 "sell_title" = "Verkoop";
 "sell_title_field_hint" = "Producttitel";

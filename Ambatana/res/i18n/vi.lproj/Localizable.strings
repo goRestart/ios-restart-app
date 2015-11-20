@@ -45,6 +45,7 @@
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
 "common_cancel" = "Hủy";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Rút gọn";
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "Có lỗi trong khi cập nhật sản phẩm của bạn.";
 "edit_product_send_ok" = "Chúc mừng! Sản phẩm của bạn đã được cập nhật thành công. Sản phẩm sẽ sớm xuất hiện trong danh mục của chúng tôi.";
 "edit_product_title" = "Chỉnh sửa Sản phẩm";
-"filters_navbar_reset" = "XÓA";
+"filters_navbar_reset" = "Xóa";
 "filters_save_button" = "Lưu bộ lọc";
 "filters_section_categories" = "Danh mục";
 "filters_section_distance" = "Khoảng cách";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Kết nối với Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Không thể đăng nhập, địa chỉ email Facebook của bạn đã được đăng kí. Xin vui lòng thử đăng nhập lại.";
 "main_sign_up_fb_connect_error_generic" = "Không thể đăng nhập. Xin vui lòng thử lại.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Đăng nhập";
 "main_sign_up_or_label" = "HOẶC";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Đăng ký với email của bạn";
 "make_an_offer_new_offer_message" = "Đặt giá mới tới %@";
 "make_an_offer_price_field_hint" = "Giá";

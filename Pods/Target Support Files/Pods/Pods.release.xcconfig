@@ -1,6 +1,6 @@
 CLANG_CXX_LANGUAGE_STANDARD = compiler-default
 EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/GoogleAppIndexing/Frameworks" "${PODS_ROOT}/Kahuna" "${PODS_ROOT}/NewRelicAgent/NewRelic_iOS_Agent_5.3.2"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/GoogleAppIndexing/Frameworks" "${PODS_ROOT}/Kahuna" "${PODS_ROOT}/NewRelicAgent/NewRelic_iOS_Agent_5.3.4"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/GoogleAppIndexing" "${PODS_ROOT}/Headers/Public/Kahuna" "${PODS_ROOT}/Headers/Public/NewRelicAgent"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'

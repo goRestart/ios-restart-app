@@ -209,26 +209,36 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         - returns: If succesfully handled opening the deep link.
     */
     func openDeepLink(deepLink: DeepLink) -> Bool {
-        if deepLink.isValid {
-            switch deepLink.type {
-            case .Home:
-                switchToTab(.Home)
-                break
-            case .Sell:
-                openSell()
-            case .Product:
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) { [weak self] in
-                    let productId = deepLink.components[0]
-                    self?.openProductWithId(productId)
+        guard deepLink.isValid else { return false }
+        
+        var afterDelayClosure: (() -> Void)?
+        switch deepLink.type {
+        case .Home:
+            switchToTab(.Home)
+        case .Sell:
+            openSell()
+        case .Product:
+            afterDelayClosure =  { [weak self] in
+                let productId = deepLink.components[0]
+                self?.openProductWithId(productId)
+            }
+        case .User:
+            afterDelayClosure =  { [weak self] in
+                let userId = deepLink.components[0]
+                self?.openUserWithId(userId)
+            }
+        case .Chats:
+            switchToTab(.Chats)
+        case .Chat:
+            afterDelayClosure =  { [weak self] in
+                if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
+                    self?.openChatWithProductId(productId, buyerId: buyerId)
                 }
-            case .User:
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) { [weak self] in
-                    let userId = deepLink.components[0]
-                    self?.openUserWithId(userId)
-                }
-           }
+            }
+        }
+        if let afterDelayClosure = afterDelayClosure {
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
         }
         return true
     }
@@ -560,6 +570,45 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                 }
             }
             
+            // Dismiss loading
+            self?.dismissLoadingMessageAlert(loadingDismissCompletion)
+        }
+    }
+    
+    private func openChatWithProductId(productId: String, buyerId: String) {
+        // Show loading
+        showLoadingMessageAlert()
+        
+        ChatManager.sharedInstance.retrieveChatWithProductId(productId, buyerId: buyerId) { [weak self] (result: Result<Chat, ChatRetrieveServiceError>) -> Void in
+
+            var loadingDismissCompletion: (() -> Void)? = nil
+            
+            // Success
+            if let chat = result.value {
+                
+                // Dismiss the loading and push the product vc on dismissal
+                loadingDismissCompletion = { () -> Void in
+                    // TODO: Refactor TabBarController with MVVM
+                    guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
+                    guard let chatVC = ChatViewController(chat: chat) else { return }
+                    navBarCtl.pushViewController(chatVC, animated: true)
+                }
+            }
+            // Error
+            else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized, .Forbidden:
+                    message = LGLocalizedString.commonChatNotAvailable
+                }
+                
+                loadingDismissCompletion = { () -> Void in
+                    self?.showAutoFadingOutMessageAlert(message)
+                }
+            }
+
             // Dismiss loading
             self?.dismissLoadingMessageAlert(loadingDismissCompletion)
         }

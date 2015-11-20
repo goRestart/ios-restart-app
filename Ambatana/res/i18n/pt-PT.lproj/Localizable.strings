@@ -45,6 +45,7 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "Ocorreu um erro no envio da mensagem. Por favor tente novamente mais tarde.";
 "common_cancel" = "Cancelar";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Mostrar menos";
 "common_error" = "Erro";
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Entre através do facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Não foi possível efetuar o login, o seu endereço de email do facebook já se encontra registado. Por favor tente efetuar o login.";
 "main_sign_up_fb_connect_error_generic" = "Não foi possível efetuar o login. Por favor tente novamente.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Login";
 "main_sign_up_or_label" = "OU";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Registe-se com o seu email";
 "make_an_offer_new_offer_message" = "Nova oferta de %@";
 "make_an_offer_price_field_hint" = "Preço";

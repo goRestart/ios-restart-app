@@ -45,6 +45,7 @@
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
 "common_cancel" = "Avbryt";
+"common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Vis mindre";
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
@@ -97,7 +98,7 @@
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
 "edit_product_title" = "Endre produkt";
-"filters_navbar_reset" = "TILBAKESTILL";
+"filters_navbar_reset" = "Tilbakestill";
 "filters_save_button" = "Lagre filtere";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstand";
@@ -126,8 +127,10 @@
 "main_sign_up_facebook_connect_button" = "Koble til Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Innlogging feilet, din epost på Facebook er allerede registrert. Vennligst prøv igjen.";
 "main_sign_up_fb_connect_error_generic" = "Feil ved innlogging. Vennligst prøv igjen.";
+"main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Logg inn";
 "main_sign_up_or_label" = "ELLER";
+"main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Registrer via epost";
 "make_an_offer_new_offer_message" = "Nytt bud på %@";
 "make_an_offer_price_field_hint" = "Pris";
