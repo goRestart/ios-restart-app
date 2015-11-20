@@ -51,7 +51,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         hidesBottomBarWhenPushed = false
         
-        showReachabilityMessageEnabled = true
         floatingSellButtonHidden = false
     }
 

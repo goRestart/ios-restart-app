@@ -10,6 +10,7 @@ import TMReachability
 
 public class BaseViewController: UIViewController {
     
+    
     // iVars
     // > VM & active
     private var viewModel: BaseViewModel?
@@ -50,12 +51,13 @@ public class BaseViewController: UIViewController {
     }
     
     // > Reachability
-    private var reachability: TMReachability
-    var showReachabilityMessageEnabled: Bool {
-        didSet {
-            setReachabilityEnabled(showReachabilityMessageEnabled)
-        }
-    }
+    private static var reachability: TMReachability? = {
+        let result = TMReachability.reachabilityForInternetConnection()
+        result.startNotifier()
+        return result
+    } ()
+    private var reachable : Bool = true
+    private var reachabilityEnabled : Bool = true
     
     // > Floating sell button
     public internal(set) var floatingSellButtonHidden: Bool
@@ -66,54 +68,47 @@ public class BaseViewController: UIViewController {
         self.viewModel = viewModel
         self.subviews = []
 
-        self.reachability = TMReachability.reachabilityForInternetConnection()
-        self.showReachabilityMessageEnabled = true
         self.toastView = ToastView.toastView()
         
         self.floatingSellButtonHidden = false
         super.init(nibName: nibNameOrNil, bundle: nil)
+        
+        setReachabilityEnabled(true)
 
         // Setup
         hidesBottomBarWhenPushed = true
-        
-        reachability.reachableBlock = { (let reach: TMReachability!) -> Void in
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.setToastViewHidden(true)
-            }
-        }
-        reachability.unreachableBlock = { [weak self] (let reach: TMReachability!) -> Void in
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.toastView?.title = LGLocalizedString.toastNoNetwork
-                strongSelf.setToastViewHidden(false)
-            }
-        }
     }
 
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        if showReachabilityMessageEnabled {
-            guard let toastView = toastView else { return }
-            toastView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(toastView)
-            
-            toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewTopMarginHidden)
-            view.addConstraint(toastViewTopMarginConstraint!)
-            
-            let views = ["toastView": toastView]
-            view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
-        }
+        guard let toastView = toastView else { return }
+        toastView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(toastView)
+        
+        toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewTopMarginHidden)
+        view.addConstraint(toastViewTopMarginConstraint!)
+        
+        let views = ["toastView": toastView]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
+
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearFromBackground(false)
+        
+        if reachabilityEnabled {
+            checkReachabilityAndUpdateToast()
+        }
     }
     
     override public func viewWillDisappear(animated: Bool) {
@@ -146,6 +141,26 @@ public class BaseViewController: UIViewController {
         
         // Mark as inactive
         active = false
+    }
+    
+    // MARK: > Reachability
+    
+    /**
+    Enables/disables reachability notifications.
+    
+    - parameter enabled: If reachability notifications should be enabled.
+    */
+    internal func setReachabilityEnabled(enabled: Bool) {
+        
+        guard let _ = BaseViewController.reachability else { return }
+        
+        reachabilityEnabled = enabled
+        if enabled {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("onReachabilityChanged:"), name: kReachabilityChangedNotification, object: nil)
+        }
+        else {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: kReachabilityChangedNotification, object: nil)
+        }
     }
     
     // MARK: > Subview handling
@@ -200,17 +215,25 @@ public class BaseViewController: UIViewController {
     
     // MARK: > Reachability
     
-    /**
-        Enables/disables reachability notifications.
+    dynamic private func onReachabilityChanged(notification: NSNotification) {
+        checkReachabilityAndUpdateToast()
+    }
     
-        - parameter enabled: If reachability notifications should be enabled.
-    */
-    private func setReachabilityEnabled(enabled: Bool) {
-        if enabled {
-            reachability.startNotifier()
-        }
-        else {
-            reachability.stopNotifier()
+    private func checkReachabilityAndUpdateToast() {
+        guard let reachability = BaseViewController.reachability else { return }
+        
+        if reachability.isReachable() && !self.reachable {
+            self.reachable = true
+            
+            setToastViewHidden(true)
+            
+        } else if !reachability.isReachable() && self.reachable{
+            self.reachable = false
+            
+            toastView?.title = LGLocalizedString.toastNoNetwork
+            setToastViewHidden(false)
         }
     }
+    
+
 }
