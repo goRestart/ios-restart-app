@@ -29,7 +29,16 @@
 			<array>
 				<string>fb699538486794082</string>
 				<string>letgo</string>
-				<string>optly3912862730</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.optimizely</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>optly3728230154</string>
 			</array>
 		</dict>
 	</array>

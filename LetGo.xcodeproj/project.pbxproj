@@ -164,7 +164,6 @@
 		66E3D0A91A89073B00BC283C /* UIViewController+LetGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
-		6AE5F10A1BFCE36A0079E8B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AE5F1081BFCE36A0079E8B6 /* UIKit.framework */; settings = {ASSET_TAGS = (); }; };
 		6AE5F10B1BFCE36A0079E8B6 /* Optimizely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */; settings = {ASSET_TAGS = (); }; };
 		6AE5F10D1BFDE3380079E8B6 /* OptimizelyTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */; settings = {ASSET_TAGS = (); }; };
 		6AE5F1101BFDE8150079E8B6 /* ABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */; settings = {ASSET_TAGS = (); }; };
@@ -427,7 +426,6 @@
 		66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+LetGo.swift"; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		6AE5F1081BFCE36A0079E8B6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UIKit.framework; sourceTree = "<group>"; };
 		6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optimizely.framework; sourceTree = "<group>"; };
 		6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptimizelyTracker.swift; sourceTree = "<group>"; };
 		6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTester.swift; path = ABTesting/ABTester.swift; sourceTree = "<group>"; };
@@ -547,7 +545,6 @@
 				023821E7C5260F6A68823190 /* Pods.framework in Frameworks */,
 				66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
-				6AE5F10A1BFCE36A0079E8B6 /* UIKit.framework in Frameworks */,
 				6AE5F10B1BFCE36A0079E8B6 /* Optimizely.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
 			);
@@ -1338,7 +1335,6 @@
 				50C9E4EF1B74C9F6001E4E92 /* GoogleConversionTrackingSDK-iOS-3.2.0 */,
 				D4A478881B08B0240046D301 /* Fabric.framework */,
 				2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */,
-				6AE5F1081BFCE36A0079E8B6 /* UIKit.framework */,
 				6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */,
 				50C9E5051B74EAE3001E4E92 /* UIImage+ImageEffects */,
 			);

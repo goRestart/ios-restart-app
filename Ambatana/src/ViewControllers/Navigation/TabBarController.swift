@@ -189,7 +189,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                     if shouldSelectVC {
                         
                         // Change the tab
-                        selectedIndex = UInt(vcIdx)
+                        selectedIndex = vcIdx
                         
                         // Pop the navigation back to root
                         navBarCtl.popToRootViewControllerAnimated(false)
