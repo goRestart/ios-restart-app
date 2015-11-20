@@ -60,7 +60,7 @@
 				<key>KitInfo</key>
 				<dict>
 					<key>socket_token</key>
-					<string>AANIxXgBlIahyeisIHLywZRvxw33HJMa~3831449785</string>
+					<string>AANI178BXDHQGRq7ymEOcZrtUDK-o_U1~3728230154</string>
 				</dict>
 				<key>KitName</key>
 				<string>Optimizely</string>
@@ -88,7 +88,7 @@
 		<string>fbshareextension</string>
 		<string>letgo</string>
 		<string>whatsapp</string>
-		<string>optly3831449785</string>
+		<string>optly3728230154</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
