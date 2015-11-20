@@ -281,9 +281,9 @@
 "sign_up_title" = "Üye ol";
 "sign_up_username_field_hint" = "Tam isim";
 "tab_bar_tool_tip" = "Eşyalarını Sat";
-"toast_error_internal" = "Oops! Something went wrong.";
-"toast_error_server" = "Oops! Please try again.";
-"toast_no_network" = "No Internet Connection";
+"toast_error_internal" = "Hoppala! Birşeyler yanlış gitti.";
+"toast_error_server" = "Hoppala! Lütfen tekrar dene.";
+"toast_no_network" = "İnternet bağlantısı yok";
 "tour_page_1_body" = "Hızlı, güvenli ve yerel alım & satımlara başla.";
 "tour_page_2_body" = "Komşuların her gün yeni ürünlerin ilanlarını koyuyorlar.";
 "tour_page_2_title" = "Yakınında";
