@@ -299,7 +299,7 @@
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
 
 // Filters navbar reset
-"filters_navbar_reset" = "Reset";
+"filters_navbar_reset" = "RESET";
 
 // Filters save button
 "filters_save_button" = "Save filters";

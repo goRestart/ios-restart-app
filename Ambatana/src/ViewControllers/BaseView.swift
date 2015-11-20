@@ -36,16 +36,6 @@ public class BaseView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func didMoveToSuperview() {
-        super.didMoveToSuperview()
-        if let _ = superview {
-            active = true
-        }
-        else {
-            active = false
-        }
-    }
-    
     // MARK: - Internal methods
     
     internal func didSetActive(active: Bool) {
