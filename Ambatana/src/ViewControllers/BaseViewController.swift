@@ -23,10 +23,11 @@ public class BaseViewController: UIViewController {
         }
     }
     
-    var navBarBottom : CGFloat {
-        guard let navController = navigationController else { return 0 }
+    var topBarHeight : CGFloat {
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+        guard let navController = navigationController else { return statusBarHeight }
         
-        return navController.navigationBar.frame.size.height + navController.navigationBar.frame.origin.y
+        return navController.navigationBar.frame.size.height + statusBarHeight
     }
     
     var tabBarHeight : CGFloat {

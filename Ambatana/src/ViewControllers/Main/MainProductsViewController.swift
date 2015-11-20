@@ -63,7 +63,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         
         // UI
         // > Main product list view
-        mainProductListView.collectionViewContentInset.top = navBarBottom
+        mainProductListView.collectionViewContentInset.top = topBarHeight
         mainProductListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         mainProductListView.delegate = self
         mainProductListView.scrollDelegate = self
@@ -107,10 +107,12 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
+        self.tabBarController?.setTabBarHidden(false, animated: true)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        
         if let actualSearchField = searchTextField {
             endEdit()
             viewModel.searchString = actualSearchField.searchTextField.text
-
         }
     }
     
@@ -131,22 +133,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
     
     public func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
-        if let tabBarCtl = tabBarController as? TabBarController {
-            floatingSellButtonHidden = hidden
-            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-        }
+        //DO NOTHING (TODO: CONSIDER REMOVING METHOD)
     }
 
     public func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
-        // If it's the first page load
-        if page == 0 {
-            if let tabBarCtl = tabBarController as? TabBarController {
-                
-                // then floating sell button should be hidden
-                floatingSellButtonHidden = false
-                tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-            }
-        }
+        //DO NOTHING (TODO: CONSIDER REMOVING METHOD)
     }
 
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
@@ -383,7 +374,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
                 if let tagsTopSpace = strongSelf.tagsCollectionTopSpace {
                     tagsTopSpace.constant = show ? 0.0 : -tagsHeight
                 }
-                strongSelf.mainProductListView.collectionViewContentInset.top = show ? strongSelf.navBarBottom + tagsHeight : strongSelf.navBarBottom
+                strongSelf.mainProductListView.collectionViewContentInset.top = show ? strongSelf.topBarHeight + tagsHeight : strongSelf.topBarHeight
                 strongSelf.view.layoutIfNeeded()
             },
             completion: { [weak self] (value: Bool) in

@@ -433,12 +433,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     
     public func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        // when refreshing the distance label should be hidden
-        if lastContentOffset >= 0 && scrollView.contentOffset.y < 0 {
-            delegate?.productListView(self, shouldHideDistanceLabel: true)
-        } else if lastContentOffset < 0 && scrollView.contentOffset.y >= 0 {
-            delegate?.productListView(self, shouldHideDistanceLabel: false)
-        }
+        informHideDistanceLabel(scrollView)
         
         // while going down, increase distance in label, when going up, decrease
         if lastContentOffset >= scrollView.contentOffset.y {
@@ -571,6 +566,16 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     private func scrollToTop(animated: Bool) {
         let position = CGPoint(x: 0, y: -collectionViewContentInset.top)
         collectionView.setContentOffset(position, animated: animated)
+    }
+    
+    private func informHideDistanceLabel(scrollView: UIScrollView) {
+        
+        // when refreshing, distance label should be hidden
+        if lastContentOffset >= -collectionViewContentInset.top && scrollView.contentOffset.y < -collectionViewContentInset.top {
+            delegate?.productListView(self, shouldHideDistanceLabel: true)
+        } else if lastContentOffset < -collectionViewContentInset.top && scrollView.contentOffset.y >= -collectionViewContentInset.top {
+            delegate?.productListView(self, shouldHideDistanceLabel: false)
+        }
     }
     
     /**
