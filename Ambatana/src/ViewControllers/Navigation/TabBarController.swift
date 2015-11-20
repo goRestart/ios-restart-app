@@ -73,6 +73,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     
     // UI
     var floatingSellButton: FloatingButton!
+    var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
     var sellButton: UIButton!
     var chatsTabBarItem: UITabBarItem?
     
@@ -121,9 +122,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         view.addSubview(floatingSellButton)
         
         let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
-//        let sellBottomMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: tabBar, attribute: .Top, multiplier: 1, constant: -15)
-        let sellBottomMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: -65) // 44 (tabbar size= + 15
-        view.addConstraints([sellCenterXConstraint,sellBottomMarginConstraint])
+        floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: -(tabBar.frame.height + 15)) // 15 above tabBar
+        view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
         
         // Initially set the chats tab badge to the app icon badge number
         if let chatsTab = chatsTabBarItem {
@@ -288,6 +288,19 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         else {
             floatingSellButton.hidden = hidden
         }
+    }
+    
+    /**
+        Overriding this method because we cannot stick the floatingsellButton to the tabbar. Each time we push a view controller that has 
+        'hidesBottomBarWhenPushed = true' tabBar is removed from view hierarchy so the constraint will dissapear. Also when the tabBar is
+        set again, is added into a different layer so the constraint cannot be set again.
+    */
+    override func setTabBarHidden(hidden:Bool, animated:Bool) {
+        
+        let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
+        floatingSellButtonMarginConstraint.constant = floatingOffset
+        super.setTabBarHidden(hidden, animated: animated)
+
     }
     
     // MARK: - SellProductViewControllerDelegate
