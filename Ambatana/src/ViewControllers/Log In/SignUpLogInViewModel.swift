@@ -102,19 +102,19 @@ public class SignUpLogInViewModel: BaseViewModel {
         }
         else {
             MyUserManager.sharedInstance.signUpWithEmail(email.lowercaseString, password: password, publicUsername: fullName) { [weak self] (result: UserSignUpServiceResult) -> Void in
-                if let strongSelf = self {
-                    // Tracking
-                    
-                    if let myUser = MyUserManager.sharedInstance.myUser() {
-                        TrackerProxy.sharedInstance.setUser(myUser)
-                    }
-                    
-                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource))
-                    
-                    // Notify the delegate about it finished
-                    if let actualDelegate = strongSelf.delegate {
-                        actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: result)
-                    }
+                
+                guard let strongSelf = self else { return }
+
+                // Tracking
+                if let myUser = MyUserManager.sharedInstance.myUser() {
+                    TrackerProxy.sharedInstance.setUser(myUser)
+                }
+                
+                TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource))
+                
+                // Notify the delegate about it finished
+                if let actualDelegate = strongSelf.delegate {
+                    actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: result)
                 }
             }
         }
@@ -134,21 +134,21 @@ public class SignUpLogInViewModel: BaseViewModel {
         }
         else {
             MyUserManager.sharedInstance.logInWithEmail(email, password: password) { [weak self] (result: UserLogInEmailServiceResult) in
-                if let strongSelf = self {
-                    // Success
-                    if let user = result.value {
-                        // Tracking
-                        TrackerProxy.sharedInstance.setUser(user)
-                        
-                        let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
-                        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                    }
+                
+                guard let strongSelf = self else { return }
+                
+                // Success
+                if let user = result.value {
+                    // Tracking
+                    TrackerProxy.sharedInstance.setUser(user)
                     
-                    
-                    // Notify the delegate about it finished
-                    if let actualDelegate = strongSelf.delegate {
-                        actualDelegate.viewModel(strongSelf, didFinishLoggingInWithResult: result)
-                    }
+                    let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                }
+                
+                // Notify the delegate about it finished
+                if let actualDelegate = strongSelf.delegate {
+                    actualDelegate.viewModel(strongSelf, didFinishLoggingInWithResult: result)
                 }
             }
         }
@@ -160,19 +160,19 @@ public class SignUpLogInViewModel: BaseViewModel {
         
         // Log in
         MyUserManager.sharedInstance.logInWithFacebook { [weak self] (result: UserLogInFBResult) in
-            if let strongSelf = self {
-                
-                // Tracking
-                if let user = result.value {
-                    TrackerProxy.sharedInstance.setUser(user)
-                }
-                let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
-                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                
-                // Notify the delegate about it finished
-                if let actualDelegate = strongSelf.delegate {
-                    actualDelegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
-                }
+            
+            guard let strongSelf = self else { return }
+            
+            // Tracking
+            if let user = result.value {
+                TrackerProxy.sharedInstance.setUser(user)
+            }
+            let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+            
+            // Notify the delegate about it finished
+            if let actualDelegate = strongSelf.delegate {
+                actualDelegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
             }
         }
     }

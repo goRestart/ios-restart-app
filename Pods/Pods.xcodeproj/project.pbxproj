@@ -2026,6 +2026,7 @@
 		2FE29BDF632542CCBC3D95C5380E0144 /* PFURLSessionCommandRunner.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSessionCommandRunner.h; path = Parse/Internal/Commands/CommandRunner/URLSession/PFURLSessionCommandRunner.h; sourceTree = "<group>"; };
 		30ACCA8121C98628CFAAB52D09959D6A /* buffer.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; name = buffer.hpp; path = include/realm/util/buffer.hpp; sourceTree = "<group>"; };
 		30D2D0B6728D0E872AB09ABB36061C34 /* LGSemiModalNavController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LGSemiModalNavController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		30D618A50EB58F9B076AB2732607CCA9 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = NewRelic_iOS_Agent_5.3.4/NewRelicAgent.framework; sourceTree = "<group>"; };
 		311AD5360D82718013BB6334326B55E0 /* PFConfigController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFConfigController.m; path = Parse/Internal/Config/Controller/PFConfigController.m; sourceTree = "<group>"; };
 		313B7AACA91893E1F3312ECB4FCF8389 /* FBSDKMacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKMacros.h; path = FBSDKCoreKit/FBSDKCoreKit/FBSDKMacros.h; sourceTree = "<group>"; };
 		313EA9D31A682AF8910237B8EBCE4B23 /* LGProductSaveService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LGProductSaveService.swift; path = LGCoreKit/Services/Product/LGProductSaveService.swift; sourceTree = "<group>"; };
@@ -2302,7 +2303,6 @@
 		5DABCC9871297DB616A7D95B6F6E0E3A /* PFRESTCloudCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTCloudCommand.h; path = Parse/Internal/Commands/PFRESTCloudCommand.h; sourceTree = "<group>"; };
 		5DAC978B844EE6280D40CC48C25FABB5 /* PFURLSession.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFURLSession.m; path = Parse/Internal/Commands/CommandRunner/URLSession/Session/PFURLSession.m; sourceTree = "<group>"; };
 		5DD5F6B04454DE33B59734DFC64ED532 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5DE88A1637F825E3E60C405E9BE1790A /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = NewRelic_iOS_Agent_5.3.2/NewRelicAgent.framework; sourceTree = "<group>"; };
 		5E39FEB0F1FBC6A0C010294EC6EFDAE4 /* FBSDKCopying.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FBSDKCopying.h; path = FBSDKCoreKit/FBSDKCoreKit/FBSDKCopying.h; sourceTree = "<group>"; };
 		5E8A0941460869B80BF6F8A4FC3EACFD /* PFProductsRequestHandler.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFProductsRequestHandler.m; path = Parse/Internal/Product/ProductsRequestHandler/PFProductsRequestHandler.m; sourceTree = "<group>"; };
 		5E947A8073D9028ABFFD5D856A68BEA5 /* SDWebImageOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageOperation.h; path = SDWebImage/SDWebImageOperation.h; sourceTree = "<group>"; };
@@ -4621,10 +4621,10 @@
 			path = "../Target Support Files/Alamofire";
 			sourceTree = "<group>";
 		};
-		AE427AAA2012C802EB00DF919796753A /* Frameworks */ = {
+		AD25C787E3673B4E5DEBFA75857603B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5DE88A1637F825E3E60C405E9BE1790A /* NewRelicAgent.framework */,
+				30D618A50EB58F9B076AB2732607CCA9 /* NewRelicAgent.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -5364,7 +5364,7 @@
 		F734DD3303D3E472F826D7AD01A1B5C3 /* NewRelicAgent */ = {
 			isa = PBXGroup;
 			children = (
-				AE427AAA2012C802EB00DF919796753A /* Frameworks */,
+				AD25C787E3673B4E5DEBFA75857603B1 /* Frameworks */,
 			);
 			path = NewRelicAgent;
 			sourceTree = "<group>";

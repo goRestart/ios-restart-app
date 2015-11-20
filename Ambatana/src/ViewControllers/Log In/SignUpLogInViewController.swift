@@ -111,12 +111,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         }
     }
 
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+
+    // MARK: - Actions & public methods
 
     @IBAction func loginSegmentedControlChangedValue(sender: AnyObject) {
         guard let segment = sender as? UISegmentedControl else {
@@ -143,13 +139,13 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
         
-        if viewModel.currentActionType == .Signup {
+        switch (viewModel.currentActionType) {
+        case .Signup:
             viewModel.signUp()
-        } else {
+        case .Login:
             viewModel.logIn()
         }
     }
-    
     
     @IBAction func emailButtonPressed(sender: AnyObject) {
         emailTextField.becomeFirstResponder()
@@ -184,7 +180,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     }
 
     
-    // MARK: - UITxtFieldDelegate
+    // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(textField: UITextField) {
         
@@ -197,12 +193,13 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         case .Email:
             iconImageView = emailIconImageView
             
-            if viewModel.currentActionType == .Signup {
+            switch (viewModel.currentActionType) {
+            case .Signup:
                 signupEditModeActive = true
-            }
-            else {
+            case .Login:
                 loginEditModeActive = true
             }
+            
             setupUI()
         case .Password:
             iconImageView = passwordIconImageView
@@ -242,10 +239,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
             guard let actualNextView = nextView else { return true }
             actualNextView.becomeFirstResponder()
         }
-        else {
-            if viewModel.currentActionType == .Signup {
+        else {            
+            switch (viewModel.currentActionType) {
+            case .Signup:
                 viewModel.signUp()
-            } else {
+            case .Login:
                 viewModel.logIn()
             }
         }
@@ -266,13 +264,13 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     
     // MARK: - SignUpLogInViewModelDelegate
     
-    //  - visual
+    // MARK: > visual
     func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
         sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
-    // - signup
+    // MARK: > signup
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel) {
         showLoadingMessageAlert()
     }
@@ -313,7 +311,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         dismissLoadingMessageAlert(completion)
     }
     
-    // - login
+    // MARK: > login
     
     func viewModelDidStartLoggingIn(viewModel: SignUpLogInViewModel) {
         showLoadingMessageAlert()
@@ -351,7 +349,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         dismissLoadingMessageAlert(completion)
     }
     
-    // - fb login
+    // MARK: > fb login
     
     func viewModelDidStartLoggingWithFB(viewModel: SignUpLogInViewModel) {
         showCustomLoadingMessageAlert()
@@ -427,7 +425,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         emailIconImageView.hidden = false
         emailTextField.hidden = false
 
-//        showPasswordButton.setImage(UIImage(named: "ic_show_password"), forState: .Highlighted)
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
         
         let isSignup = viewModel.currentActionType == .Signup

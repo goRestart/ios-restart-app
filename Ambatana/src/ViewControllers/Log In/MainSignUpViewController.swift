@@ -112,13 +112,13 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     }
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
-        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: LoginActionType.Signup)
+        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: .Signup)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
-        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: LoginActionType.Login)
+        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: .Login)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -216,7 +216,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         legalTextView.attributedText = attributtedLegalText
         legalTextView.textAlignment = .Center
         // no legal text yet...
-//        legalTextView.hidden = true
+        legalTextView.hidden = true
         
     }
 
