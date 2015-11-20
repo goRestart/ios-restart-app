@@ -10,7 +10,7 @@
     Deep link types, describes host.
 */
 public enum DeepLinkType: String {
-    case Home = "home", Sell = "sell", Product = "products", User = "users"
+    case Home = "home", Sell = "sell", Product = "products", User = "users", Chat = "chat", Chats = "chats"
 }
 
 /**
@@ -24,10 +24,16 @@ public struct DeepLink: CustomStringConvertible {
     
     var isValid: Bool {
         switch type {
-        case .Home, .Sell:
+        case .Home, .Sell, .Chats:
             return true
         case .Product, .User:
             return components.count > 0
+        case .Chat:
+            // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
+            if let _ = query["p"], let _ = query["b"] {
+                return true
+            }
+            return false
         }
     }
     

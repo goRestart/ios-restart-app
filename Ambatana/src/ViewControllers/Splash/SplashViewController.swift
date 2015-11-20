@@ -124,7 +124,7 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     // MARK: - Private methods
     
     private func saveMyUserIfNew() {
-        MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: UserSaveServiceResult) in
+        MyUserManager.sharedInstance.saveOrRetrieveMyUser { [weak self] (result: UserSaveServiceResult) in
             if let strongSelf = self {
                 let saveUserDidComplete = (result.value != nil)
                 strongSelf.completionBlock?(saveUserDidComplete)

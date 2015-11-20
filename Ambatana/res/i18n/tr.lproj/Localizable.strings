@@ -124,7 +124,7 @@
 "main_sign_up_already_registered_label" = "Zaten hesabın var mı?";
 "main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
 "main_sign_up_contact_us_button" = "Yardıma mı ihtiyacın var?";
-"main_sign_up_facebook_connect_button" = "Facebook ile bağlan";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "e-posta adresin zaten kayıtlı bulunuyor. Lütfen oturum açmak için onu kullan.";
 "main_sign_up_fb_connect_error_generic" = "Giriş yapılamıyor. Lütfen, tekrar dene.";
 "main_sign_up_help_button" = "Yardım";
@@ -212,7 +212,7 @@
 "rating_view_suggest_label" = "Tavsiyelerini paylaş";
 "rating_view_title_label" = "letgo'yu seviyor musun?";
 "reset_password_email_field_hint" = "E-posta adresini gir";
-"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
+"reset_password_instructions" = "Lütfen e-posta adresini gir, şifreni yenilemen için sana bir e-posta göndereceğiz.";
 "reset_password_send_button" = "e-posta gönder";
 "reset_password_send_error_generic" = "Şifren yenilenirken bir hata oluştu. Lütfen tekrar dene.";
 "reset_password_send_error_invalid_email" = "Lütfen, kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";

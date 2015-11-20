@@ -124,7 +124,7 @@
 "main_sign_up_already_registered_label" = "¿Ya estás registrado?";
 "main_sign_up_claim_label" = "Empieza a vender y comprar por chat";
 "main_sign_up_contact_us_button" = "¿Necesitas ayuda?";
-"main_sign_up_facebook_connect_button" = "Inicia sesión con Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Este email ya está registrado. Úsalo para iniciar sesión.";
 "main_sign_up_fb_connect_error_generic" = "¡Ups! No se ha podido iniciar la sesión. Prueba otra vez.";
 "main_sign_up_help_button" = "Ayuda";
@@ -212,7 +212,7 @@
 "rating_view_suggest_label" = "Comparte tus sugerencias";
 "rating_view_title_label" = "¿Te gusta letgo?";
 "reset_password_email_field_hint" = "Introduce tu email";
-"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
+"reset_password_instructions" = "Por favor, introduce tu dirección de email y te enviaremos un email para restablecer tu contraseña.";
 "reset_password_send_button" = "Enviar email";
 "reset_password_send_error_generic" = "Ha habido un error al restablecer tu contraseña. Por favor, vuelve a intentarlo.";
 "reset_password_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";

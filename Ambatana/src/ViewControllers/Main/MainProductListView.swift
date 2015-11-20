@@ -20,7 +20,6 @@ public class MainProductListView: ProductListView {
         
         super.init(viewModel: mainProductListViewModel, coder: aDecoder)
         mainProductListViewModel.dataDelegate = self
-        collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.tabBarSellFloatingButtonHeight, right: 0) // safety area for floating sell button
     }
     
     // MARK: - ProductListViewModelDataDelegate
