@@ -13,81 +13,62 @@ extension EnvironmentProxy: AppEnvironment {
     // MARK: - AppEnvironment
     
     var appleAppId: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.appleAppId
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.appleAppId
     }
+    
     var facebookAppId: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.facebookAppId
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.facebookAppId
     }
+    
     var appsFlyerAPIKey: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.appsFlyerAPIKey
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.appsFlyerAPIKey
     }
+    
     var amplitudeAPIKey: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.amplitudeAPIKey
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.amplitudeAPIKey
     }
+    
     var googleConversionPrimaryTrackingId: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.googleConversionPrimaryTrackingId
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.googleConversionPrimaryTrackingId
     }
+    
     var googleConversionSecondaryTrackingId: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.googleConversionSecondaryTrackingId
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.googleConversionSecondaryTrackingId
     }
-
+    
     var nanigansAppId: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.nanigansAppId
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.nanigansAppId
     }
     
     var kahunaAPIKey: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.kahunaAPIKey
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.kahunaAPIKey
     }
     
     var newRelicToken: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.newRelicToken
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.newRelicToken
     }
     
     var googleAppIndexingId: UInt {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.googleAppIndexingId
-        }
-        return 0
+        guard let appEnvironment = environment as? AppEnvironment else { return 0 }
+        return appEnvironment.googleAppIndexingId
     }
-
+    
     var configFileName: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.configFileName
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.configFileName
     }
     
     var optimizelyAPIKey: String {
-        if let appEnvironment = environment as? AppEnvironment {
-            return appEnvironment.optimizelyAPIKey
-        }
-        return ""
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.optimizelyAPIKey
     }
 }
