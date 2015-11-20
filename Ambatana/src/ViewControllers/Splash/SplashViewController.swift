@@ -98,6 +98,9 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     }
     
     func tourViewController(tourViewController: LGTourViewController, didAbandonWithButtonType buttonType: CloseButtonType, atIndex index: Int) {
+        //Dismiss tour
+        tourViewController.dismissViewControllerAnimated(false, completion: nil)
+        
         // Save the user
         saveMyUserIfNew()
         
@@ -107,6 +110,9 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     }
     
     func tourViewControllerDidFinish(tourViewController: LGTourViewController) {
+        //Dismiss tour
+        tourViewController.dismissViewControllerAnimated(false, completion: nil)
+        
         // Save the user
         saveMyUserIfNew()
         

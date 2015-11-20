@@ -53,10 +53,11 @@ final public class LGProductsRetrieveService: ProductsRetrieveService {
                 // Success
                 else if let actualProductsResponse = productsResponse.result.value {
                     
-                    if let coordinates = params.coordinates {
+                    //Shuffling only when there isn't sort criteria and there are coordinates
+                    if params.mustShuffle {
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
                             // Background thread -> shuffle products
-                            let shuffledProducts = actualProductsResponse.shuffledProducts(coordinates)
+                            let shuffledProducts = actualProductsResponse.shuffledProducts(params.coordinates!)
                             dispatch_async(dispatch_get_main_queue()) {
                                 // Main thread
                                 completion?(ProductsRetrieveServiceResult(value: LGProductsResponse(products: shuffledProducts)))
@@ -73,6 +74,16 @@ final public class LGProductsRetrieveService: ProductsRetrieveService {
 }
 
 extension RetrieveProductsParams {
+    
+    var mustShuffle: Bool {
+        //If there is a sort criteria different than distance -> no shuffling
+        if self.sortCriteria != nil && self.sortCriteria! != .Distance {
+            return false
+        }
+        
+        return self.coordinates != nil
+    }
+    
     var letgoApiParams: Dictionary<String, AnyObject> {
         get {
             var params = Dictionary<String, AnyObject>()
@@ -106,6 +117,10 @@ extension RetrieveProductsParams {
             
             if let distanceRadius = self.distanceRadius {
                 params["distance_radius"] = distanceRadius
+            }
+            
+            if let distanceType = self.distanceType {
+                params["distance_type"] = distanceType.string
             }
             
             if let numProducts = self.numProducts {

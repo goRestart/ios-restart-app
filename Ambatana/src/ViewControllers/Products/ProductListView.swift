@@ -20,6 +20,9 @@ public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool)
 }
 
+public protocol ProductListViewScrollDelegate: class {
+    func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
+}
 
 
 public enum ProductListViewState {
@@ -202,8 +205,27 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         }
     }
     
+    public var distanceType: DistanceType? {
+        get {
+            return productListViewModel.distanceType
+        }
+        set {
+            productListViewModel.distanceType = newValue
+        }
+    }
+    
+    public var distanceRadius: Int? {
+        get {
+            return productListViewModel.distanceRadius
+        }
+        set {
+            productListViewModel.distanceRadius = newValue
+        }
+    }
+    
     // Delegate
     weak public var delegate: ProductListViewDataDelegate?
+    weak public var scrollDelegate : ProductListViewScrollDelegate?
     
     // MARK: - Lifecycle
     
@@ -364,7 +386,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             maxDistance = distance
         }
         
-        delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: productListViewModel.queryDistanceType())
+        delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: DistanceType.systemDistanceType())
         
         return cell
     }
@@ -425,6 +447,10 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             scrollingDown = true
         }
         lastContentOffset = scrollView.contentOffset.y
+        
+        if(lastContentOffset > 0.0){
+            scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
+        }
     }
     
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -470,7 +496,10 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         if page == 0 {
             // Update the UI
             state = .DataView
+
             collectionView.reloadData()
+            collectionView.setContentOffset(CGPointZero, animated: false)
+
             refreshControl.endRefreshing()
             
             // Max distance is the default value

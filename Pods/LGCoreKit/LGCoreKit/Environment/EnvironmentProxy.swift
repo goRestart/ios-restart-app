@@ -50,8 +50,5 @@ public class EnvironmentProxy: Environment {
     public var parseApplicationId: String { get { return environment.parseApplicationId } }
     public var parseClientId: String { get { return environment.parseClientId } }
     public var apiBaseURL: String { get { return environment.apiBaseURL } }
-    public var apiClientId: String { get { return environment.apiClientId } }
-    public var apiClientSecret: String { get { return environment.apiClientSecret } }
-    public var imagesBaseURL: String { get { return environment.imagesBaseURL } }
     public var configURL: String { get { return environment.configURL } }
 }
