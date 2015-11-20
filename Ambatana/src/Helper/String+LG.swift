@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
     
-    func setTextsAsLinksWithURLs(urlDict: [String:String], textColor: UIColor, linksColor: UIColor) -> NSMutableAttributedString {
+    func attributedHyperlinkedStringWithURLDict(urlDict: [String:String], textColor: UIColor, linksColor: UIColor) -> NSMutableAttributedString {
         
         // Attributed string works with NSRange and NSRange != Range<String>
         let nsText = NSString(string: self)

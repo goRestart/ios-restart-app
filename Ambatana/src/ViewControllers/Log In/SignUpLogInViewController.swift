@@ -190,42 +190,43 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         
         scrollView.setContentOffset(CGPointMake(0,textFieldsView.frame.origin.y+textField.frame.origin.y), animated: true)
 
-        if let tag = TextFieldTag(rawValue: textField.tag) {
-            let iconImageView: UIImageView
-            switch (tag) {
-            case .Email:
-                iconImageView = emailIconImageView
-                
-                if viewModel.currentActionType == .Signup {
-                    signupEditModeActive = true
-                }
-                else {
-                    loginEditModeActive = true
-                }
-                setupUI()
-            case .Password:
-                iconImageView = passwordIconImageView
-            case .Username:
-                iconImageView = usernameIconImageView
+        guard let tag = TextFieldTag(rawValue: textField.tag) else { return }
+        
+        let iconImageView: UIImageView
+        switch (tag) {
+        case .Email:
+            iconImageView = emailIconImageView
+            
+            if viewModel.currentActionType == .Signup {
+                signupEditModeActive = true
             }
-            iconImageView.highlighted = true
+            else {
+                loginEditModeActive = true
+            }
+            setupUI()
+        case .Password:
+            iconImageView = passwordIconImageView
+        case .Username:
+            iconImageView = usernameIconImageView
         }
         
+        iconImageView.highlighted = true
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        if let tag = TextFieldTag(rawValue: textField.tag) {
-            let iconImageView: UIImageView
-            switch (tag) {
-            case .Username:
-                iconImageView = usernameIconImageView
-            case .Email:
-                iconImageView = emailIconImageView
-            case .Password:
-                iconImageView = passwordIconImageView
-            }
-            iconImageView.highlighted = false
+        
+        guard let tag = TextFieldTag(rawValue: textField.tag) else { return }
+        
+        let iconImageView: UIImageView
+        switch (tag) {
+        case .Username:
+            iconImageView = usernameIconImageView
+        case .Email:
+            iconImageView = emailIconImageView
+        case .Password:
+            iconImageView = passwordIconImageView
         }
+        iconImageView.highlighted = false
     }
     
     func textFieldShouldClear(textField: UITextField) -> Bool {
@@ -238,9 +239,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         let nextView = view.viewWithTag(tag + 1)
         
         if textField.returnKeyType == .Next {
-            if let actualNextView = nextView {
-                actualNextView.becomeFirstResponder()
-            }
+            guard let actualNextView = nextView else { return true }
+            actualNextView.becomeFirstResponder()
         }
         else {
             if viewModel.currentActionType == .Signup {
@@ -255,10 +255,12 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        if let textFieldText = textField.text {
-            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            updateViewModelText(text, fromTextFieldTag: textField.tag)
-        }
+        
+        guard let textFieldText = textField.text else { return true }
+        
+        let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        updateViewModelText(text, fromTextFieldTag: textField.tag)
+        
         return true
     }
     
@@ -267,7 +269,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     //  - visual
     func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
-        sendButton.alpha = enabled ? 1 : 0.32
+        sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
     // - signup
@@ -419,7 +421,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
-        sendButton.alpha = 0.32
+        sendButton.alpha = StyleHelper.disabledButtonAlpha
 
         emailButton.hidden = false
         emailIconImageView.hidden = false
@@ -486,15 +488,16 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
 
     
     private func updateViewModelText(text: String, fromTextFieldTag tag: Int) {
-        if let tag = TextFieldTag(rawValue: tag) {
-            switch (tag) {
-            case .Username:
-                viewModel.username = text
-            case .Email:
-                viewModel.email = text
-            case .Password:
-                viewModel.password = text
-            }
+        
+        guard let tag = TextFieldTag(rawValue: tag) else { return }
+        
+        switch (tag) {
+        case .Username:
+            viewModel.username = text
+        case .Email:
+            viewModel.email = text
+        case .Password:
+            viewModel.password = text
         }
     }
 }

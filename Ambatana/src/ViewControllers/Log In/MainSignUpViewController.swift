@@ -211,12 +211,12 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         let localizedLegalText = "By signing up or loging in, you agree to our Terms of Service and Privacy Policy"
 
         legalTextView.delegate = self
-        let attributtedLegalText = localizedLegalText.setTextsAsLinksWithURLs(links, textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
+        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links, textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
         attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont(name: "Helvetica Neue", size: 15.0)!, range: NSMakeRange(0, attributtedLegalText.length-1))
         legalTextView.attributedText = attributtedLegalText
         legalTextView.textAlignment = .Center
         // no legal text yet...
-        legalTextView.hidden = true
+//        legalTextView.hidden = true
         
     }
 

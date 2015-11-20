@@ -79,7 +79,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
         resetPasswordButton.enabled = enabled
-        resetPasswordButton.alpha = enabled ? 1 : 0.32
+        resetPasswordButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
     func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel) {
@@ -194,7 +194,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             resetPasswordButton.enabled = email.characters.count > 0
         } else {
             resetPasswordButton.enabled = false
-            resetPasswordButton.alpha = 0.32
+            resetPasswordButton.alpha = StyleHelper.disabledButtonAlpha
         }
     }
     

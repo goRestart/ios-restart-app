@@ -37,6 +37,7 @@ class StyleHelper {
     private static let brownMedium = UIColor(rgb: 0xD8CAB7)
     private static let greenMedium = UIColor(rgb: 0xC7C8B5)
     private static let turquoise = UIColor(rgb: 0x179BAA)
+    
     // Fonts
     private static func helveticaNeueFont(size size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
@@ -54,6 +55,8 @@ class StyleHelper {
         return UIFont(name: "HelveticaNeue-Italic", size: CGFloat(size))!
     }
     
+    // state-depending features
+    private static let disabledItemAlpha : CGFloat = 0.32
     
     private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
     
@@ -189,5 +192,9 @@ class StyleHelper {
     
     static var highlightedRedButtonColor: UIColor {
         return highlightedRed
+    }
+    
+    static var disabledButtonAlpha: CGFloat {
+        return disabledItemAlpha
     }
 }
