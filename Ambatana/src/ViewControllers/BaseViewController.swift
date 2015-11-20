@@ -42,10 +42,11 @@ public class BaseViewController: UIViewController {
     var toastView: ToastView?
     private var toastViewTopMarginConstraint: NSLayoutConstraint?
     private var toastViewTopMarginShown: CGFloat {
-        return UIApplication.sharedApplication().statusBarFrame.size.height + (navigationController?.navigationBar.frame.size.height ?? 0)
+        return 0
     }
     private var toastViewTopMarginHidden: CGFloat {
-        return -(toastView?.frame.height ?? 0)
+        guard let toastView = toastView else { return 0 }
+        return -(toastView.frame.height + topBarHeight)
     }
     
     // > Reachability
@@ -102,7 +103,7 @@ public class BaseViewController: UIViewController {
             toastView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(toastView)
             
-            toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: toastViewTopMarginHidden)
+            toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewTopMarginHidden)
             view.addConstraint(toastViewTopMarginConstraint!)
             
             let views = ["toastView": toastView]
@@ -180,6 +181,7 @@ public class BaseViewController: UIViewController {
         view.bringSubviewToFront(toastView)
         toastViewTopMarginConstraint?.constant = hidden ? toastViewTopMarginHidden : toastViewTopMarginShown
         UIView.animateWithDuration(0.35) {
+            toastView.alpha = hidden ? 0 : 1
             self.view.layoutIfNeeded()
         }
     }
