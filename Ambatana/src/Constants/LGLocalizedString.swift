@@ -864,6 +864,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("reset_password_email_field_hint", comment: "")
 	}
 	
+	static var resetPasswordInstructions: String {
+		return NSLocalizedString("reset_password_instructions", comment: "")
+	}
+	
 	static var resetPasswordSendButton: String {
 		return NSLocalizedString("reset_password_send_button", comment: "")
 	}

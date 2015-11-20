@@ -26,10 +26,6 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     public convenience init() {
         let viewModel = HelpViewModel()
         self.init(viewModel: viewModel)
-        
-        // Navigation Bar
-        title = LGLocalizedString.helpTitle
-        setLetGoRightButtonsWithImageNames(["ic_contact_small"], andSelectors: ["openContact"])
     }
     
     public required init?(coder: NSCoder) {
@@ -38,7 +34,13 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Navigation Bar
+        setLetGoNavigationBarStyle(LGLocalizedString.helpTitle)
+        setLetGoRightButtonsWithImageNames(["ic_contact_small"], andSelectors: ["openContact"])
+
         if let url = viewModel.url {
+
             let request = NSURLRequest(URL: url)
             webView.loadRequest(request)
         }

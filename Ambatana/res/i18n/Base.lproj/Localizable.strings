@@ -65,7 +65,7 @@
 "change_password_new_password_field_hint" = "New password";
 
 // Change password send error generic. Check attached image "change_password_send_error.png"
-"change_password_send_error_generic" = "An error occurred when changing the password. Please try again later.";
+"change_password_send_error_generic" = "An error occurred while changing the password. Please try again.";
 
 // Change password send error invalid password. Check image @ "change_password_send_error_generic" segment
 "change_password_send_error_invalid_password" = "Please insert a valid password, it must have at least %d characters.";
@@ -191,7 +191,7 @@
 "common_ok" = "OK";
 
 // Common user not available
-"common_user_not_available" = "Oops! User not found!";
+"common_user_not_available" = "Oops! User not found.";
 
 // Common time a minute ago label
 "common_time_a_minute_ago_label" = "a minute ago";
@@ -299,7 +299,7 @@
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
 
 // Filters navbar reset
-"filters_navbar_reset" = "RESET";
+"filters_navbar_reset" = "Reset";
 
 // Filters save button
 "filters_save_button" = "Save filters";
@@ -344,7 +344,7 @@
 "log_in_email_field_hint" = "Email";
 
 // Log in error send error generic. Check attached image "log_in_error_send.png"
-"log_in_error_send_error_generic" = "An error occurred while logging in.";
+"log_in_error_send_error_generic" = "An error occurred while logging in. Please try again.";
 
 // Log in error send error invalid email. Check image @ "log_in_error_send_error_generic" segment
 "log_in_error_send_error_invalid_email" = "Please insert a valid email address.";
@@ -353,7 +353,7 @@
 "log_in_error_send_error_invalid_password" = "Please insert a valid password. It must be at least %d characters long.";
 
 // Log in error send error user not found or wrong password. Check image @ "log_in_error_send_error_generic" segment
-"log_in_error_send_error_user_not_found_or_wrong_password" = "Unable to log in: invalid user or incorrect credentials.";
+"log_in_error_send_error_user_not_found_or_wrong_password" = "Invalid email or password. Please try again.";
 
 // Log in password field hint. Check image @ "log_in_email_field_hint" segment
 "log_in_password_field_hint" = "Password";
@@ -377,10 +377,10 @@
 "main_sign_up_contact_us_button" = "Need help?";
 
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_facebook_connect_button" = "Connect with Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 
 // Main sign up fb connect error email taken. Message displayal is like the other error messages
-"main_sign_up_fb_connect_error_email_taken" = "Unable to log in. Your email address is already registered, so please use it to log in.";
+"main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 
 // Main sign up fb connect error generic. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
@@ -640,17 +640,20 @@
 // Reset password email field hint. Check attached image "reset_password.png"
 "reset_password_email_field_hint" = "Enter your email address";
 
+// Reset password instructions. Check image @ "reset_password_email_field_hint" segment
+"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
+
 // Reset password send button. Check image @ "reset_password_email_field_hint" segment
 "reset_password_send_button" = "Send email";
 
 // Reset password send error generic. Check attached image "reset_password_send_error.png"
-"reset_password_send_error_generic" = "An error occurred while trying to reset your password.";
+"reset_password_send_error_generic" = "An error occurred while resetting your password. Please try again.";
 
 // Reset password send error invalid email. Check image @ "reset_password_send_error_generic" segment
 "reset_password_send_error_invalid_email" = "Please insert a valid email address.";
 
 // Reset password send error user not found or wrong password. Check image @ "reset_password_send_error_generic" segment
-"reset_password_send_error_user_not_found_or_wrong_password" = "Email address not found.";
+"reset_password_send_error_user_not_found_or_wrong_password" = "The email address %@ is not registered.";
 
 // Reset password send ok. Check image @ "reset_password_send_error_generic" segment
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
@@ -827,10 +830,10 @@
 "sign_up_send_button" = "Sign Up";
 
 // Sign up send error email taken. Check attached image "sign_up_send_error.png"
-"sign_up_send_error_email_taken" = "User already exists";
+"sign_up_send_error_email_taken" = "The email address %@ is already registered. Please use it to log in.";
 
 // Sign up send error generic. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_generic" = "An error occurred while creating the user.";
+"sign_up_send_error_generic" = "An error occurred while creating the account. Please try again.";
 
 // Sign up send error invalid email. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_email" = "Please insert a valid email address.";
@@ -845,7 +848,7 @@
 "sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 
 // Sign up send error invalid username letgo. Check image @ "sign_up_send_error_email_taken" segment
-"sign_up_send_error_invalid_username_letgo" = "Another account is using %@";
+"sign_up_send_error_invalid_username_letgo" = "Another account is using %@, please choose another username.";
 
 // Sign up title. Check image @ "sign_up_email_field_hint" segment
 "sign_up_title" = "Create new account";
@@ -869,19 +872,19 @@
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 
 // Tour page 2 title.
-"tour_page_2_title" = "Near You";
+"tour_page_2_title" = "Local";
 
 // Tour page 2 body.
-"tour_page_2_body" = "New products are posted every day by your neighbors.";
+"tour_page_2_body" = "Every day, thousands of new, nearby listings are posted.";
 
 // Tour page 3 title.
-"tour_page_3_title" = "Make Cash";
+"tour_page_3_title" = "Snap and Post";
 
 // Tour page 3 body.
-"tour_page_3_body" = "Post products in a few seconds and sell the stuff you don’t need anymore.";
+"tour_page_3_body" = "Post products in a few seconds and get cash for stuff you don’t need anymore.";
 
 // Tour page 4 title.
-"tour_page_4_title" = "Safe";
+"tour_page_4_title" = "Chat and Sell";
 
 // Tour page 4 body.
 "tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";

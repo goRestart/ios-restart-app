@@ -19,6 +19,7 @@ class StyleHelper {
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray75 = UIColor(rgb: 0x757575)
+    private static let gray153 = UIColor(rgb: 0x999999)
     private static let gray204 = UIColor(rgb: 0xCCCCCC)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
     private static let gray222 = UIColor(rgb: 0xDEDEDE)
@@ -36,6 +37,7 @@ class StyleHelper {
     private static let brownMedium = UIColor(rgb: 0xD8CAB7)
     private static let greenMedium = UIColor(rgb: 0xC7C8B5)
     private static let turquoise = UIColor(rgb: 0x179BAA)
+    
     // Fonts
     private static func helveticaNeueFont(size size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
@@ -53,6 +55,8 @@ class StyleHelper {
         return UIFont(name: "HelveticaNeue-Italic", size: CGFloat(size))!
     }
     
+    // state-depending features
+    private static let disabledItemAlpha : CGFloat = 0.32
     
     private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
     
@@ -62,8 +66,13 @@ class StyleHelper {
         return gray204
     }
     
+    static var darkLineColor: UIColor {
+        return gray153
+    }
+    
+
     static var disabledButtonBackgroundColor: UIColor {
-        return gray204
+        return  red //gray204
     }
 
     static var emptypictureCellBackgroundColor: UIColor {
@@ -183,5 +192,9 @@ class StyleHelper {
     
     static var highlightedRedButtonColor: UIColor {
         return highlightedRed
+    }
+    
+    static var disabledButtonAlpha: CGFloat {
+        return disabledItemAlpha
     }
 }

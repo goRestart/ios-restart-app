@@ -26,13 +26,15 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     @IBOutlet weak var resetPasswordButton: UIButton!
     
+    @IBOutlet weak var instructionsLabel : UILabel!
+    
     // > Helper
     var lines: [CALayer]
     
     // MARK: - Lifecycle
     
-    init(source: EventParameterLoginSourceValue) {
-        self.viewModel = RememberPasswordViewModel(source: source)
+    init(source: EventParameterLoginSourceValue, email: String) {
+        self.viewModel = RememberPasswordViewModel(source: source, email: email)
         self.lines = []
         super.init(viewModel: viewModel, nibName: "RememberPasswordViewController")
         self.viewModel.delegate = self
@@ -49,7 +51,11 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         
         emailTextField.becomeFirstResponder()
         emailTextField.tintColor = StyleHelper.textFieldTintColor
-
+        
+        // update the textfield with the e-mail from previous view
+        emailTextField.text = viewModel.email
+        updateViewModelText(viewModel.email, fromTextFieldTag: emailTextField.tag)
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -73,6 +79,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
         resetPasswordButton.enabled = enabled
+        resetPasswordButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
     func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel) {
@@ -97,7 +104,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             case .InvalidEmail:
                 message = LGLocalizedString.resetPasswordSendErrorInvalidEmail
             case .UserNotFound:
-                message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword
+                message = String(format: LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword, viewModel.email)
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
             case .Internal:
@@ -176,6 +183,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         setLetGoNavigationBarStyle(LGLocalizedString.resetPasswordTitle)
         emailTextField.placeholder = LGLocalizedString.resetPasswordEmailFieldHint
         resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, forState: .Normal)
+        instructionsLabel.text = LGLocalizedString.resetPasswordInstructions
         
         // Tags
         emailTextField.tag = TextFieldTag.Email.rawValue
@@ -186,6 +194,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             resetPasswordButton.enabled = email.characters.count > 0
         } else {
             resetPasswordButton.enabled = false
+            resetPasswordButton.alpha = StyleHelper.disabledButtonAlpha
         }
     }
     

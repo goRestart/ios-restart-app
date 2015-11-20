@@ -47,7 +47,7 @@ public class BaseViewController: UIViewController {
     }
     private var toastViewTopMarginHidden: CGFloat {
         guard let toastView = toastView else { return 0 }
-        return -(toastView.frame.height + topBarHeight)
+        return -(toastView.frame.height + topBarHeight + 100) // TODO: + 100 is too punk...
     }
     
     // > Reachability
