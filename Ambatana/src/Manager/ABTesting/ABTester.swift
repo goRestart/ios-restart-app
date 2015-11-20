@@ -12,14 +12,16 @@ import UIKit
 
 
 public protocol ABTester {
+    
+    typealias ABVarType: ABLiveVariable
+    
     func setUserID(userID: String)
     func setTag(tag: String, value: String)
     func refreshExperiments()
 
     // MARK: > Live Variables
-    func registerLiveVariable(variable: ABLiveVariable)
-    func valueForVariable(variable: ABLiveVariable) -> Any?
-    func registerCallbackForVariable(variable: ABLiveVariable, callback: (key: String, value: AnyObject) -> Void)
+    func registerLiveVariable(variable: ABVarType)
+    func registerCallbackForVariable(variable: ABVarType, callback: (key: String, value: AnyObject) -> Void)
     
     // MARK: > Code Blocks
     func registerCodeBlock(codeBlock: ABCodeBlock)

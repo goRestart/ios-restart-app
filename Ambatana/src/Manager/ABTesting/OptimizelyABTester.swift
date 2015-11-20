@@ -11,6 +11,7 @@ import Optimizely
 
 public class OptimizelyABTester: ABTester {
     
+    public typealias ABVarType = OptimizelyABLiveVariable
     static public let sharedInstance = OptimizelyABTester()
     
     public func setUserID(userID: String) {
@@ -28,35 +29,12 @@ public class OptimizelyABTester: ABTester {
     
     // MARK: > Live Variables
     
-    public func registerLiveVariable(variable: ABLiveVariable) {
-        guard let optVar = optimizelyVariableFrom(variable) else { return }
-        Optimizely.preregisterVariableKey(optVar)
+    public func registerLiveVariable(variable: ABVarType) {
+        Optimizely.preregisterVariableKey(variable.optimizelyVar)
     }
     
-    public func valueForVariable(variable: ABLiveVariable) -> Any? {
-        guard let optVar = optimizelyVariableFrom(variable) else { return nil }
-        switch (variable.type) {
-        case .Bool:
-            return Optimizely.boolForKey(optVar)
-        case .Color:
-            return Optimizely.colorForKey(optVar)
-        case .Number:
-            return Optimizely.numberForKey(optVar)
-        case .Point:
-            return Optimizely.pointForKey(optVar)
-        case .Rect:
-            return Optimizely.rectForKey(optVar)
-        case .Size:
-            return Optimizely.sizeForKey(optVar)
-        case .String:
-            return Optimizely.stringForKey(optVar)
-        case .None:
-            return nil
-        }
-    }
-    
-    public func registerCallbackForVariable(variable: ABLiveVariable, callback: (key: String, value: AnyObject) -> Void) {
-        guard let optVar = optimizelyVariableFrom(variable) else { return }
+    public func registerCallbackForVariable(variable: ABVarType, callback: (key: String, value: AnyObject) -> Void) {
+        guard let optVar = variable.optimizelyVar else { return }
         Optimizely.registerCallbackForVariableWithKey(optVar) { (key, value) -> Void in
             callback(key: key, value: value)
         }
@@ -89,32 +67,5 @@ public class OptimizelyABTester: ABTester {
     public func registerCallbackForCodeBlock(codeBlock: ABCodeBlock, callback: () -> ()) {
         let blockKey = OptimizelyCodeBlocksKey(codeBlock.key, blockNames: codeBlock.blockNames)
         Optimizely.registerCallbackForCodeBlockWithKey(blockKey, callback: callback)
-    }
-    
-    
-    // MARK: > Private Helpers
-    
-    private func optimizelyVariableFrom(variable: ABLiveVariable) -> OptimizelyVariableKey? {
-        var optimizelyVar: OptimizelyVariableKey!
-        
-        switch (variable.type) {
-        case .Bool:
-            optimizelyVar = OptimizelyVariableKey.optimizelyKeyWithKey(variable.key, defaultBOOL: variable.boolValue)
-        case .Color:
-            optimizelyVar = OptimizelyVariableKey.optimizelyKeyWithKey(variable.key, defaultUIColor: variable.colorValue)
-        case .Number:
-            optimizelyVar = OptimizelyVariableKey.optimizelyKeyWithKey(variable.key, defaultNSNumber: variable.numberValue)
-        case .Point:
-            optimizelyVar = OptimizelyVariableKey.optimizelyKeyWithKey(variable.key, defaultCGPoint: variable.pointValue)
-        case .Rect:
-            optimizelyVar = OptimizelyVariableKey.optimizelyKeyWithKey(variable.key, defaultCGRect: variable.rectValue)
-        case .Size:
-            optimizelyVar = OptimizelyVariableKey.optimizelyKeyWithKey(variable.key, defaultCGSize: variable.sizeValue)
-        case .String:
-            optimizelyVar = OptimizelyVariableKey.optimizelyKeyWithKey(variable.key, defaultNSString: variable.stringValue)
-        case .None:
-            return nil
-        }
-        return optimizelyVar
     }
 }
