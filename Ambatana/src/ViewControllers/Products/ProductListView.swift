@@ -433,12 +433,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     
     public func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        // when refreshing the distance label should be hidden
-        if lastContentOffset >= 0 && scrollView.contentOffset.y < 0 {
-            delegate?.productListView(self, shouldHideDistanceLabel: true)
-        } else if lastContentOffset < 0 && scrollView.contentOffset.y >= 0 {
-            delegate?.productListView(self, shouldHideDistanceLabel: false)
-        }
+        informHideDistanceLabel(scrollView)
         
         // while going down, increase distance in label, when going up, decrease
         if lastContentOffset >= scrollView.contentOffset.y {
@@ -448,9 +443,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         }
         lastContentOffset = scrollView.contentOffset.y
         
-        if(lastContentOffset > 0.0){
-            scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
-        }
+        informScrollDelegate(scrollView)
     }
     
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
@@ -498,7 +491,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             state = .DataView
 
             collectionView.reloadData()
-            collectionView.setContentOffset(CGPointZero, animated: false)
+            scrollToTop(false)
 
             refreshControl.endRefreshing()
             
@@ -528,12 +521,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     // MARK: > UI
     
     /**
-        Sets up the UI.
+    Sets up the UI.
     */
-    
-    // MARK: > UI
-    
-    
     private func setupUI() {
         // Load the view, and add it as Subview
         NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
@@ -569,6 +558,33 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         errorButton.addTarget(self, action: Selector("errorButtonPressed"), forControlEvents: .TouchUpInside)
         
         // Initial UI state is Loading (by xib)
+    }
+    
+    /**
+        Scrolls the collection to top
+    */
+    private func scrollToTop(animated: Bool) {
+        let position = CGPoint(x: 0, y: -collectionViewContentInset.top)
+        collectionView.setContentOffset(position, animated: animated)
+    }
+    
+    private func informHideDistanceLabel(scrollView: UIScrollView) {
+        
+        // when refreshing, distance label should be hidden
+        if lastContentOffset >= -collectionViewContentInset.top && scrollView.contentOffset.y < -collectionViewContentInset.top {
+            delegate?.productListView(self, shouldHideDistanceLabel: true)
+        } else if lastContentOffset < -collectionViewContentInset.top && scrollView.contentOffset.y >= -collectionViewContentInset.top {
+            delegate?.productListView(self, shouldHideDistanceLabel: false)
+        }
+    }
+    
+    /**
+        Will call scroll delegate on scroll events different than bouncing in the edges indicating scrollingDown state
+    */
+    private func informScrollDelegate(scrollView: UIScrollView) {
+        if(lastContentOffset > 0.0 && lastContentOffset < (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)){
+            scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
+        }
     }
     
     /**

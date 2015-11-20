@@ -8,6 +8,7 @@
 
 import Crashlytics
 import Fabric
+import Optimizely
 import FBSDKCoreKit
 import LGCoreKit
 import Parse
@@ -248,9 +249,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Crashlytics
 #if DEBUG
 #else
-        Fabric.with([Crashlytics()])
+        Fabric.with([Crashlytics.self, Optimizely.self])
 #endif
-        
+    
         // Push notifications, get the deep link if any
         var deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -259,7 +260,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             deepLink = DeepLink(url: url)
         }
         
+        for variable in ABTests.allValues {
+            OptimizelyABTester.sharedInstance.registerLiveVariable(variable)
+        }
+        
         // Tracking
+        // This will initialize Optimizely also
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // New Relic
