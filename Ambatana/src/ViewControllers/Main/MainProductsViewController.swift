@@ -50,6 +50,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         viewModel.delegate = self
         
         hidesBottomBarWhenPushed = false
+        
+        showReachabilityMessageEnabled = true
         floatingSellButtonHidden = false
     }
 
@@ -142,9 +144,21 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
 
-        // If we already have data & it's the first page then show an alert
-        if hasProducts && page == 0 {
-            showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed)
+        // If we already have data & it's the first page then show a toast
+        if hasProducts && page > 0 {
+            let toastTitle: String?
+            switch error {
+            case .Network:
+                toastTitle = LGLocalizedString.toastNoNetwork
+            case .Internal:
+                toastTitle = LGLocalizedString.toastErrorInternal
+            case .Forbidden:
+                toastTitle = nil
+            }
+            if let toastTitle = toastTitle {
+                toastView?.title = toastTitle
+                setToastViewHidden(false)
+            }
         }
         
         // Update distance label visibility
@@ -163,6 +177,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+        
+        // Hide toast, if visible
+        setToastViewHidden(true)
         
         // Update distance label visibility
         showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)

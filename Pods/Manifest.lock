@@ -64,6 +64,7 @@ PODS:
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
   - Timepiece (0.4.2)
+  - TMReachability (3.2)
   - UIDeviceUtil (1.1.2)
 
 DEPENDENCIES:
@@ -82,7 +83,18 @@ DEPENDENCIES:
   - pop (~> 1.0.8)
   - Quick (~> 0.4)
   - SDWebImage
+  - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - UIDeviceUtil (~> 1.1.2)
+
+EXTERNAL SOURCES:
+  TMReachability:
+    :commit: e34782b386307e386348b481c02c176d58ba45e6
+    :git: https://github.com/albertbori/Reachability
+
+CHECKOUT OPTIONS:
+  TMReachability:
+    :commit: e34782b386307e386348b481c02c176d58ba45e6
+    :git: https://github.com/albertbori/Reachability
 
 SPEC CHECKSUMS:
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
@@ -112,6 +124,7 @@ SPEC CHECKSUMS:
   Result: f7927152cbaec0c043abb06ba0bc432678818418
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   Timepiece: cf53bb908bf542acc0e3d5f69cabfed869df4ebd
+  TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   UIDeviceUtil: df88dd5ba4ae482f1d766dd0d180b066c2a4cb7e
 
 COCOAPODS: 0.39.0

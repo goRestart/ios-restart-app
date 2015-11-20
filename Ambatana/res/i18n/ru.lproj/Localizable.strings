@@ -55,7 +55,7 @@
 "common_error_title" = "УПС!";
 "common_expand" = "Показать еще";
 "common_loading" = "Загрузка...";
-"common_max" = "max";
+"common_max" = "максимум";
 "common_no" = "Нет";
 "common_ok" = "OK";
 "common_product_deleted" = "Товар удален";
@@ -281,9 +281,9 @@
 "sign_up_title" = "Регистрация";
 "sign_up_username_field_hint" = "Полное имя";
 "tab_bar_tool_tip" = "Продайте свои вещи";
-"toast_error_internal" = "Oops! Something went wrong.";
-"toast_error_server" = "Oops! Please try again.";
-"toast_no_network" = "No Internet Connection";
+"toast_error_internal" = "Упс! Что-то пошло не так.";
+"toast_error_server" = "Упс! Попробуйте еще раз.";
+"toast_no_network" = "Нет соединения с интернет";
 "tour_page_1_body" = "Покупайте и продавайте быстро, безопасно и удобно.";
 "tour_page_2_body" = "Новые товары размещаются вашими соседями каждый день.";
 "tour_page_2_title" = "Рядом с вами";

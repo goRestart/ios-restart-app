@@ -55,7 +55,7 @@
 "common_error_title" = "HOPPLA!";
 "common_expand" = "Mehr anzeigen";
 "common_loading" = "Lädt...";
-"common_max" = "max";
+"common_max" = "max.";
 "common_no" = "Nein";
 "common_ok" = "OK";
 "common_product_deleted" = "Artikel entfernt";
@@ -281,9 +281,9 @@
 "sign_up_title" = "Registrieren";
 "sign_up_username_field_hint" = "Vollständiger Name";
 "tab_bar_tool_tip" = "Verkaufe deine Dinge";
-"toast_error_internal" = "Oops! Something went wrong.";
-"toast_error_server" = "Oops! Please try again.";
-"toast_no_network" = "No Internet Connection";
+"toast_error_internal" = "Hoppla! Irgendwas lief schief.";
+"toast_error_server" = "Hoppla! Bitte versuche es erneut.";
+"toast_no_network" = "Keine Internetverbindung";
 "tour_page_1_body" = "Verkaufe schnell, sicher und lokal.";
 "tour_page_2_body" = "Jeden Tag werden von deinen Nachbarn neue Produkte eingestellt.";
 "tour_page_2_title" = "In deiner Nähe";
