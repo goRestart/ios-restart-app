@@ -33,8 +33,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     // MARK: - Lifecycle
     
-    init(source: EventParameterLoginSourceValue) {
-        self.viewModel = RememberPasswordViewModel(source: source)
+    init(source: EventParameterLoginSourceValue, email: String) {
+        self.viewModel = RememberPasswordViewModel(source: source, email: email)
         self.lines = []
         super.init(viewModel: viewModel, nibName: "RememberPasswordViewController")
         self.viewModel.delegate = self
@@ -51,7 +51,11 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         
         emailTextField.becomeFirstResponder()
         emailTextField.tintColor = StyleHelper.textFieldTintColor
-
+        
+        // update the textfield with the e-mail from previous view
+        emailTextField.text = viewModel.email
+        updateViewModelText(viewModel.email, fromTextFieldTag: emailTextField.tag)
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -75,6 +79,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
         resetPasswordButton.enabled = enabled
+        resetPasswordButton.alpha = enabled ? 1 : 0.32
     }
     
     func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel) {
@@ -189,6 +194,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             resetPasswordButton.enabled = email.characters.count > 0
         } else {
             resetPasswordButton.enabled = false
+            resetPasswordButton.alpha = 0.32
         }
     }
     

@@ -150,6 +150,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     
     func viewModel(viewModel: ChangeUsernameViewModel, updateSaveButtonEnabledState enabled: Bool) {
         saveButton.enabled = enabled
+        saveButton.alpha = enabled ? 1 : 0.32
     }
 
     
@@ -169,5 +170,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
 
         saveButton.layer.cornerRadius = 4
         saveButton.enabled = false
+        saveButton.alpha = 0.32
+
     }
 }

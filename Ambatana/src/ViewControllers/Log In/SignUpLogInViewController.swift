@@ -9,13 +9,7 @@
 import UIKit
 import LGCoreKit
 
-public  enum LoginActionType: Int{
-    case Signup, Login
-}
-
-class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScrollViewDelegate, SignUpLogInViewModelDelegate {
-
-    
+class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUpLogInViewModelDelegate {
     
     @IBOutlet weak var loginSegmentedControl: UISegmentedControl!
 
@@ -42,6 +36,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
     @IBOutlet weak var passwordIconImageView: UIImageView!
     @IBOutlet weak var passwordTextField: LGTextField!
     @IBOutlet weak var passwordButton: UIButton!
+    @IBOutlet weak var showPasswordButton: UIButton!
 
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
@@ -57,8 +52,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
     // Data
     var afterLoginAction: (() -> Void)?
     
-    var currentActionType : LoginActionType
-    
     var viewModel : SignUpLogInViewModel
     
     var lines: [CALayer]
@@ -72,7 +65,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
     init(source: EventParameterLoginSourceValue, action: LoginActionType) {
         self.viewModel = SignUpLogInViewModel(source: source, action: action)
         self.lines = []
-        self.currentActionType = action
         self.loginEditModeActive = false
         self.signupEditModeActive = false
         super.init(viewModel: viewModel, nibName: "SignUpLogInViewController")
@@ -103,13 +95,13 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
         lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
         lines.append(firstDividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
         
-        if currentActionType == .Signup && signupEditModeActive {
+        if viewModel.currentActionType == .Signup && signupEditModeActive {
             lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
             lines.append(passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
             lines.append(usernameButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
             lines.append(usernameButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
 
-        } else if currentActionType == .Login && loginEditModeActive {
+        } else if viewModel.currentActionType == .Login && loginEditModeActive {
             lines.append(emailButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
             lines.append(passwordButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
             lines.append(passwordButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
@@ -130,48 +122,73 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
         guard let segment = sender as? UISegmentedControl else {
             return
         }
+        viewModel.erasePassword()
+        emailTextField.text = viewModel.email
+        passwordTextField.text = viewModel.password
+        usernameTextField.text = viewModel.username
         
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
         usernameTextField.resignFirstResponder()
-        currentActionType = LoginActionType(rawValue: segment.selectedSegmentIndex)!
+        viewModel.currentActionType = LoginActionType(rawValue: segment.selectedSegmentIndex)!
+        
+        scrollView.setContentOffset(CGPointMake(0,0), animated: false)
+
         setupUI()
     }
     
     @IBAction func connectWithFacebookButtonPressed(sender: AnyObject) {
+        viewModel.logInWithFacebook()
     }
     
-
     @IBAction func sendButtonPressed(sender: AnyObject) {
+        
+        if viewModel.currentActionType == .Signup {
+            viewModel.signUp()
+        } else {
+            viewModel.logIn()
+        }
     }
     
     
     @IBAction func emailButtonPressed(sender: AnyObject) {
         emailTextField.becomeFirstResponder()
-        
     }
     
     @IBAction func passwordButtonPressed(sender: AnyObject) {
         passwordTextField.becomeFirstResponder()
+    }
+    
+    @IBAction func showPasswordButtonPressed(sender: AnyObject) {
+        passwordTextField.secureTextEntry = !passwordTextField.secureTextEntry
 
+        let imgButton = passwordTextField.secureTextEntry ? UIImage(named: "ic_show_password_inactive") : UIImage(named: "ic_show_password")
+        showPasswordButton.setImage(imgButton, forState: .Normal)
+        
+        // workaround to avoid weird font type
+        passwordTextField.font = UIFont(name: "systemFont", size: 17)
     }
     
     @IBAction func usernameButtonPressed(sender: AnyObject) {
         usernameTextField.becomeFirstResponder()
-
     }
     
     @IBAction func forgotPasswordButtonPressed(sender: AnyObject) {
-        let vc = RememberPasswordViewController(source: viewModel.loginSource)
+        let vc = RememberPasswordViewController(source: viewModel.loginSource, email: viewModel.email)
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    func helpButtonPressed() {
+        let vc = HelpViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
     
     // MARK: - UITxtFieldDelegate
     
     func textFieldDidBeginEditing(textField: UITextField) {
         
-        scrollView.setContentOffset(CGPointMake(0,textFieldsView.frame.origin.y), animated: true)
+        scrollView.setContentOffset(CGPointMake(0,textFieldsView.frame.origin.y+textField.frame.origin.y), animated: true)
 
         if let tag = TextFieldTag(rawValue: textField.tag) {
             let iconImageView: UIImageView
@@ -179,7 +196,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
             case .Email:
                 iconImageView = emailIconImageView
                 
-                if currentActionType == .Signup {
+                if viewModel.currentActionType == .Signup {
                     signupEditModeActive = true
                 }
                 else {
@@ -211,26 +228,169 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
         }
     }
     
-    // MARK: - SignUpLogInViewModelDelegate
-    
-    func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
+    func textFieldShouldClear(textField: UITextField) -> Bool {
+        updateViewModelText("", fromTextFieldTag: textField.tag)
+        return true
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        let tag = textField.tag
+        let nextView = view.viewWithTag(tag + 1)
+        
+        if textField.returnKeyType == .Next {
+            if let actualNextView = nextView {
+                actualNextView.becomeFirstResponder()
+            }
+        }
+        else {
+            if viewModel.currentActionType == .Signup {
+                viewModel.signUp()
+            } else {
+                viewModel.logIn()
+            }
+        }
+        
+        return true
+    }
+    
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        if let textFieldText = textField.text {
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            updateViewModelText(text, fromTextFieldTag: textField.tag)
+        }
+        return true
+    }
+    
+    // MARK: - SignUpLogInViewModelDelegate
+    
+    //  - visual
+    func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
+        sendButton.enabled = enabled
+        sendButton.alpha = enabled ? 1 : 0.32
+    }
+    
+    // - signup
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel) {
         showLoadingMessageAlert()
     }
     
     func viewModel(viewModel: SignUpLogInViewModel, didFinishSigningUpWithResult result: UserSignUpServiceResult) {
-
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            completion = {
+                self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
+            }
+            break
+        case .Failure(let error):
+            
+            let message: String
+            switch (error) {
+            case .InvalidEmail:
+                message = LGLocalizedString.signUpSendErrorInvalidEmail
+            case .InvalidUsername:
+                message = String(format: LGLocalizedString.signUpSendErrorInvalidUsername, Constants.fullNameMinLength)
+            case .InvalidPassword:
+                message = String(format: LGLocalizedString.signUpSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
+            case .Network:
+                message = LGLocalizedString.commonErrorConnectionFailed
+            case .EmailTaken:
+                message = String(format: LGLocalizedString.signUpSendErrorEmailTaken, viewModel.email)
+            case .UsernameTaken:
+                message = String(format: LGLocalizedString.signUpSendErrorInvalidUsernameLetgo, viewModel.username)
+            case .Internal:
+                message = LGLocalizedString.signUpSendErrorGeneric
+            }
+            completion = {
+                self.showAutoFadingOutMessageAlert(message)
+            }
+        }
+        
+        dismissLoadingMessageAlert(completion)
     }
     
+    // - login
+    
+    func viewModelDidStartLoggingIn(viewModel: SignUpLogInViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingInWithResult result: UserLogInEmailServiceResult) {
+        
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            completion = {
+                self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
+            }
+            break
+        case .Failure(let error):
+            let message: String
+            switch (error) {
+            case .InvalidEmail:
+                message = LGLocalizedString.logInErrorSendErrorInvalidEmail
+            case .InvalidPassword:
+                message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+            case .UserNotFoundOrWrongPassword:
+                message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+            case .Network:
+                message = LGLocalizedString.commonErrorConnectionFailed
+            case .Internal, .Forbidden:
+                message = LGLocalizedString.logInErrorSendErrorGeneric
+            }
+            completion = {
+                self.showAutoFadingOutMessageAlert(message)
+            }
+        }
+        
+        dismissLoadingMessageAlert(completion)
+    }
+    
+    // - fb login
+    
+    func viewModelDidStartLoggingWithFB(viewModel: SignUpLogInViewModel) {
+        showCustomLoadingMessageAlert()
+    }
+    
+    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult result: UserLogInFBResult) {
+        
+        var completion: (() -> Void)? = nil
+        
+        switch (result) {
+        case .Success:
+            completion = {
+                self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
+            }
+            break
+        case .Failure(let error):
+            
+            var message: String?
+            switch (error) {
+            case .Cancelled:
+                break
+            case .EmailTaken:
+                message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
+            case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch, .UsernameTaken:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+            }
+            completion = {
+                if let actualMessage = message {
+                    self.showAutoFadingOutMessageAlert(actualMessage, time: 3)
+                }
+            }
+        }
+        dismissCustomLoadingMessageAlert(completion)
+    }
     
     // MARK: Private Methods
     
     private func setupUI() {
         
         // action type
-        loginSegmentedControl.selectedSegmentIndex = currentActionType.rawValue
+        loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
 
         // i18n
         usernameTextField.placeholder = LGLocalizedString.signUpUsernameFieldHint
@@ -258,12 +418,17 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
         sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
         
         sendButton.layer.cornerRadius = 4
+        sendButton.enabled = false
+        sendButton.alpha = 0.32
 
         emailButton.hidden = false
         emailIconImageView.hidden = false
         emailTextField.hidden = false
 
-        let isSignup = currentActionType == .Signup
+//        showPasswordButton.setImage(UIImage(named: "ic_show_password"), forState: .Highlighted)
+        showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
+        
+        let isSignup = viewModel.currentActionType == .Signup
         
         if isSignup {
             setupSignupUI()
@@ -277,7 +442,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
         
         let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
         setLetGoNavigationBarStyle(navBarTitle)
-        
+        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self, action: Selector("helpButtonPressed"))
+        navigationItem.rightBarButtonItem = helpButton
     }
     
     private func setupSignupUI() {
@@ -289,13 +455,14 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
         forgotPasswordButton.hidden = true
         
         passwordButton.hidden = !signupEditModeActive
+        showPasswordButton.hidden = !signupEditModeActive
         passwordIconImageView.hidden = !signupEditModeActive
         passwordTextField.hidden = !signupEditModeActive
 
+        passwordTextField.returnKeyType = .Next
+        
         sendButton.hidden = !signupEditModeActive
         
-        let scrollOffsetY = signupEditModeActive ? CGPointMake(0, textFieldsView.frame.origin.y) : CGPointMake(0,0)
-        scrollView.setContentOffset(scrollOffsetY, animated: signupEditModeActive)
     }
 
     private func setupLoginUI() {
@@ -307,14 +474,27 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UIScro
         forgotPasswordButton.hidden = !loginEditModeActive
         
         passwordButton.hidden = !loginEditModeActive
+        showPasswordButton.hidden = !loginEditModeActive
         passwordIconImageView.hidden = !loginEditModeActive
         passwordTextField.hidden = !loginEditModeActive
         
+        passwordTextField.returnKeyType = .Send
+
         sendButton.hidden = !loginEditModeActive
         
-        let scrollOffsetY = loginEditModeActive ? CGPointMake(0, textFieldsView.frame.origin.y) : CGPointMake(0,0)
-        scrollView.setContentOffset(scrollOffsetY, animated: loginEditModeActive)
-
     }
 
+    
+    private func updateViewModelText(text: String, fromTextFieldTag tag: Int) {
+        if let tag = TextFieldTag(rawValue: tag) {
+            switch (tag) {
+            case .Username:
+                viewModel.username = text
+            case .Email:
+                viewModel.email = text
+            case .Password:
+                viewModel.password = text
+            }
+        }
+    }
 }

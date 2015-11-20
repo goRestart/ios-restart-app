@@ -43,10 +43,6 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     // Footer
     
     @IBOutlet weak var legalTextView: UITextView!
-
-//    @IBOutlet weak var registeredLabel: UILabel!
-//    @IBOutlet weak var logInLabel: UILabel!
-//    @IBOutlet weak var contactUsButton: UIButton!
     
     // > Helper
     var lines: [CALayer]
@@ -95,8 +91,8 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
+        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
     }
     
     // MARK: - Actions
@@ -116,14 +112,12 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     }
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
-        
         let vc = SignUpLogInViewController(source: viewModel.loginSource, action: LoginActionType.Signup)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
-//        let vc = LogInViewController(source: viewModel.loginSource)
         let vc = SignUpLogInViewController(source: viewModel.loginSource, action: LoginActionType.Login)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
@@ -222,7 +216,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         legalTextView.attributedText = attributtedLegalText
         legalTextView.textAlignment = .Center
         // no legal text yet...
-//        legalTextView.hidden = true
+        legalTextView.hidden = true
         
     }
 

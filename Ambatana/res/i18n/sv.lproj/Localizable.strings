@@ -73,7 +73,7 @@
 "common_time_seconds_ago_label" = "%d sekunder sedan";
 "common_time_week_ago_label" = "en vecka sedan";
 "common_time_weeks_ago_label" = "%d veckor sedan";
-"common_user_not_available" = "Oops! Användaren hittades inte!";
+"common_user_not_available" = "Oups! Användaren hittades inte!";
 "common_yes" = "Ja";
 "contact_body_field_hint" = "Meddelande";
 "contact_choose_subject_dialog_title" = "Välj ett ämne";

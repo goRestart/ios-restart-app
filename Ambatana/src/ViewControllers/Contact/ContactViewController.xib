@@ -136,7 +136,7 @@
                 </scrollView>
             </subviews>
             <animations/>
-            <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Cp6-kR-teF" secondAttribute="bottom" id="TWj-db-voi"/>
                 <constraint firstItem="Cp6-kR-teF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="hCw-u6-SZU"/>
@@ -144,6 +144,7 @@
                 <constraint firstItem="Cp6-kR-teF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="q1S-uz-kcF"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <point key="canvasLocation" x="283" y="501"/>
         </view>
     </objects>
     <resources>

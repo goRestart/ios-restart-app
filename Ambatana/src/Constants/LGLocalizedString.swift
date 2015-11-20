@@ -863,7 +863,7 @@ struct LGLocalizedString {
 	static var resetPasswordEmailFieldHint: String {
 		return NSLocalizedString("reset_password_email_field_hint", comment: "")
 	}
-
+	
 	static var resetPasswordInstructions: String {
 		return NSLocalizedString("reset_password_instructions", comment: "")
 	}

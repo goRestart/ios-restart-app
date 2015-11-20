@@ -68,7 +68,7 @@ class StyleHelper {
     
 
     static var disabledButtonBackgroundColor: UIColor {
-        return gray204
+        return  red //gray204
     }
 
     static var emptypictureCellBackgroundColor: UIColor {

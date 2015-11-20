@@ -156,6 +156,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
     
     func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
+        sendButton.alpha = enabled ? 1 : 0.32
     }
     
     // MARK: Private methods
@@ -180,7 +181,8 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
 
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
-        
+        sendButton.alpha = 0.32
+
         // internationalization
         passwordTextfield.placeholder = LGLocalizedString.changePasswordNewPasswordFieldHint
         confirmPasswordTextfield.placeholder = LGLocalizedString.changePasswordConfirmPasswordFieldHint

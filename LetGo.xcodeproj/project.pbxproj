@@ -72,12 +72,9 @@
 		5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */; };
 		50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B881B25D18F0021D8D9 /* BaseViewController.swift */; };
 		50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B891B25D18F0021D8D9 /* BaseViewModel.swift */; };
-		50560B991B25D18F0021D8D9 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B8B1B25D18F0021D8D9 /* LogInViewController.swift */; };
-		50560B9A1B25D18F0021D8D9 /* LogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50560B8C1B25D18F0021D8D9 /* LogInViewController.xib */; };
 		50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B8E1B25D18F0021D8D9 /* TabBarController.swift */; };
 		50560BA01B25D18F0021D8D9 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B951B25D18F0021D8D9 /* SplashViewController.swift */; };
 		50560BA11B25D18F0021D8D9 /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50560B961B25D18F0021D8D9 /* SplashViewController.xib */; };
-		50560BA31B25DAD50021D8D9 /* LogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560BA21B25DAD50021D8D9 /* LogInViewModel.swift */; };
 		505B06A81B15A9910049F9CD /* GalleryPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B06A51B15A9910049F9CD /* GalleryPageView.swift */; };
 		505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B06A61B15A9910049F9CD /* GalleryPageView.xib */; };
 		505B06AA1B15A9910049F9CD /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B06A71B15A9910049F9CD /* GalleryView.swift */; };
@@ -133,9 +130,6 @@
 		50F0BAA61B28937800E50A68 /* MainSignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* MainSignUpViewModel.swift */; };
 		50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */; };
 		50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
-		50F0BAAD1B28939F00E50A68 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAAB1B28939F00E50A68 /* SignUpViewController.swift */; };
-		50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAAC1B28939F00E50A68 /* SignUpViewController.xib */; };
-		50F0BAB01B2893B100E50A68 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAAF1B2893B100E50A68 /* SignUpViewModel.swift */; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6601E5FC7E5CAD36E7D2AFBE /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32EAA2F0A47FAE66469DCDBC /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6608E03C1A820FBD005895ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6608E03B1A820FBD005895ED /* AppDelegate.swift */; };
@@ -301,12 +295,9 @@
 		5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLocalizedString.swift; sourceTree = "<group>"; };
 		50560B881B25D18F0021D8D9 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		50560B891B25D18F0021D8D9 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
-		50560B8B1B25D18F0021D8D9 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
-		50560B8C1B25D18F0021D8D9 /* LogInViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LogInViewController.xib; sourceTree = "<group>"; };
 		50560B8E1B25D18F0021D8D9 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		50560B951B25D18F0021D8D9 /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		50560B961B25D18F0021D8D9 /* SplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashViewController.xib; sourceTree = "<group>"; };
-		50560BA21B25DAD50021D8D9 /* LogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewModel.swift; sourceTree = "<group>"; };
 		505B06A51B15A9910049F9CD /* GalleryPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryPageView.swift; sourceTree = "<group>"; };
 		505B06A61B15A9910049F9CD /* GalleryPageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryPageView.xib; sourceTree = "<group>"; };
 		505B06A71B15A9910049F9CD /* GalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
@@ -370,9 +361,6 @@
 		50F0BAA51B28937800E50A68 /* MainSignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpViewModel.swift; sourceTree = "<group>"; };
 		50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpViewController.swift; sourceTree = "<group>"; };
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
-		50F0BAAB1B28939F00E50A68 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
-		50F0BAAC1B28939F00E50A68 /* SignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SignUpViewController.xib; sourceTree = "<group>"; };
-		50F0BAAF1B2893B100E50A68 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -653,15 +641,9 @@
 				50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */,
 				50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */,
 				50F0BAA51B28937800E50A68 /* MainSignUpViewModel.swift */,
-				50560B8B1B25D18F0021D8D9 /* LogInViewController.swift */,
-				50560B8C1B25D18F0021D8D9 /* LogInViewController.xib */,
-				50560BA21B25DAD50021D8D9 /* LogInViewModel.swift */,
 				5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */,
 				5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */,
 				5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */,
-				50F0BAAB1B28939F00E50A68 /* SignUpViewController.swift */,
-				50F0BAAC1B28939F00E50A68 /* SignUpViewController.xib */,
-				50F0BAAF1B2893B100E50A68 /* SignUpViewModel.swift */,
 				2EB6668A1BFCCADC008F0AB3 /* SignUpLogInViewController.xib */,
 				2EB6668C1BFCCB14008F0AB3 /* SignUpLogInViewController.swift */,
 				2E1BE27E1BFE22800075E5C4 /* SignUpLogInViewModel.swift */,
@@ -1378,7 +1360,6 @@
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
 				2ECEAD131B9E0E3E00C8B40C /* AppRatingView.xib in Resources */,
-				50560B9A1B25D18F0021D8D9 /* LogInViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
 				D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */,
 				500391BA1B04F4F70081C141 /* ChatListViewController.xib in Resources */,
@@ -1408,7 +1389,6 @@
 				2EB6668B1BFCCADC008F0AB3 /* SignUpLogInViewController.xib in Resources */,
 				50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */,
 				50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */,
-				50F0BAAE1B28939F00E50A68 /* SignUpViewController.xib in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
 				50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
@@ -1665,7 +1645,6 @@
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
 				2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */,
-				50F0BAAD1B28939F00E50A68 /* SignUpViewController.swift in Sources */,
 				D46FF5321B81299B00D03B37 /* SocialHelper.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
@@ -1679,15 +1658,12 @@
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				2E3760331BD914BA00A5A030 /* CategoriesViewController.swift in Sources */,
 				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
-				50560BA31B25DAD50021D8D9 /* LogInViewModel.swift in Sources */,
 				2E3760351BD914BA00A5A030 /* CategoriesViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
 				5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */,
-				50F0BAB01B2893B100E50A68 /* SignUpViewModel.swift in Sources */,
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */,
-				50560B991B25D18F0021D8D9 /* LogInViewController.swift in Sources */,
 				2EB6668D1BFCCB14008F0AB3 /* SignUpLogInViewController.swift in Sources */,
 				2EEBF6311BA96A460042E73C /* NewSellProductViewModel.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
