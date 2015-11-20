@@ -354,10 +354,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     private func loadTagsViewWithTags(tags: [FilterTag]) {
         
-        if let _ = viewModel.category {
-            //If category mode, avoid showing filters or tags
-            return
-        }
+        //If category mode, avoid showing filters or tags
+        guard viewModel.category == nil else { return }
         
         self.tagsViewController.updateTags(tags)
         
