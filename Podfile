@@ -20,6 +20,9 @@ pod "Amplitude-iOS",        "~> 3.2.0"
 # letgo Core
 pod "LGCoreKit",            :path => "../lgcorekit"#"0.16.4" #:path => "../lgcorekit"
 
+# Slack Chat controller
+pod "SlackTextViewController", "~> 1.7.2"
+
 # letgo Tour
 pod "LGTour",               "0.1.3" #:path => "../lgtour"
 

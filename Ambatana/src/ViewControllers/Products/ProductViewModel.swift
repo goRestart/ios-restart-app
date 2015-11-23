@@ -583,7 +583,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                     var result = Result<UIViewController, ChatRetrieveServiceError>(error: .Internal)
                     
                     // Success
-                    if let chat = retrieveResult.value, let vc = ChatViewController(chat: chat) {
+                    if let chat = retrieveResult.value, let vc = ChatViewControllerOld(chat: chat) {
                         vc.askQuestion = true
                         result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
                     }
@@ -592,7 +592,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                         switch error {
                         // If not found, then no conversation has been created yet, it's a success
                         case .NotFound:
-                            if let vc = ChatViewController(product: strongSelf.product) {
+                            if let vc = ChatViewControllerOld(product: strongSelf.product) {
                                 vc.askQuestion = true
                                 result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
                             }

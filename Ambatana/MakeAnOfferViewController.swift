@@ -149,7 +149,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     }
     
     func openChatViewControllerWithChat(chat: Chat) {
-        if let chatVC = ChatViewController(chat: chat), var controllers = navigationController?.viewControllers {
+        if let chatVC = ChatViewControllerOld(chat: chat), var controllers = navigationController?.viewControllers {
             controllers.removeLast()
             controllers.append(chatVC)
             navigationController?.viewControllers = controllers
@@ -161,7 +161,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     }
     
     func launchChatVC(chat: Chat) {
-        if let chatVC = ChatViewController(chat: chat), var controllers = navigationController?.viewControllers {
+        if let chatVC = ChatViewControllerOld(chat: chat), var controllers = navigationController?.viewControllers {
             controllers.removeLast()
             controllers.append(chatVC)
             navigationController?.viewControllers = controllers

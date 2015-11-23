@@ -63,6 +63,7 @@ PODS:
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
+  - SlackTextViewController (1.7.2)
   - Timepiece (0.4.2)
   - TMReachability (3.2)
   - UIDeviceUtil (1.1.2)
@@ -83,6 +84,7 @@ DEPENDENCIES:
   - pop (~> 1.0.8)
   - Quick (~> 0.4)
   - SDWebImage
+  - SlackTextViewController (~> 1.7.2)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - UIDeviceUtil (~> 1.1.2)
 
@@ -125,6 +127,7 @@ SPEC CHECKSUMS:
   RealmSwift: 586df4b5a6d01473d2653b16e9fe7debce4a87ed
   Result: f7927152cbaec0c043abb06ba0bc432678818418
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  SlackTextViewController: 1f4e8f68c156ef93de73fd422db2b8d5d5b0f4e7
   Timepiece: cf53bb908bf542acc0e3d5f69cabfed869df4ebd
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   UIDeviceUtil: df88dd5ba4ae482f1d766dd0d180b066c2a4cb7e

@@ -590,7 +590,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                 loadingDismissCompletion = { () -> Void in
                     // TODO: Refactor TabBarController with MVVM
                     guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
-                    guard let chatVC = ChatViewController(chat: chat) else { return }
+                    guard let chatVC = ChatViewControllerOld(chat: chat) else { return }
                     navBarCtl.pushViewController(chatVC, animated: true)
                 }
             }

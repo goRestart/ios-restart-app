@@ -10,7 +10,8 @@ import LGCoreKit
 import Result
 import UIKit
 
-class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
+
+class ChatViewControllerOld: UIViewController, ChatSafeTipsViewDelegate, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     // Constants
     private static let myMessageCellIdentifier = "ChatMyMessageCell"
@@ -81,7 +82,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         self.alreadyAskedForRating = false
         self.askQuestion = false
 
-        super.init(nibName: "ChatViewController", bundle: nil)
+        super.init(nibName: "ChatViewControllerOld", bundle: nil)
         
         if self.otherUser == nil || self.buyer == nil {
             return nil
@@ -126,9 +127,9 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         tableView.rowHeight = UITableViewAutomaticDimension
         
         let myMessageCellNib = UINib(nibName: "ChatMyMessageCell", bundle: nil)
-        tableView.registerNib(myMessageCellNib, forCellReuseIdentifier: ChatViewController.myMessageCellIdentifier)
+        tableView.registerNib(myMessageCellNib, forCellReuseIdentifier: ChatViewControllerOld.myMessageCellIdentifier)
         let othersMessageCellNib = UINib(nibName: "ChatOthersMessageCell", bundle: nil)
-        tableView.registerNib(othersMessageCellNib, forCellReuseIdentifier: ChatViewController.othersMessageCellIdentifier)
+        tableView.registerNib(othersMessageCellNib, forCellReuseIdentifier: ChatViewControllerOld.othersMessageCellIdentifier)
         
         // internationalization
         sendButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
@@ -460,12 +461,12 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         
         var cell: UITableViewCell?
         if messageUserId == MyUserManager.sharedInstance.myUser()?.objectId { // message from me
-            let myMessageCell = tableView.dequeueReusableCellWithIdentifier(ChatViewController.myMessageCellIdentifier, forIndexPath: indexPath) as! ChatMyMessageCell
+            let myMessageCell = tableView.dequeueReusableCellWithIdentifier(ChatViewControllerOld.myMessageCellIdentifier, forIndexPath: indexPath) as! ChatMyMessageCell
             configureMyMessageCell(myMessageCell, atIndexPath: indexPath)
             cell = myMessageCell
         }
         else {
-            let otherMessageCell = tableView.dequeueReusableCellWithIdentifier(ChatViewController.othersMessageCellIdentifier, forIndexPath: indexPath) as! ChatOthersMessageCell
+            let otherMessageCell = tableView.dequeueReusableCellWithIdentifier(ChatViewControllerOld.othersMessageCellIdentifier, forIndexPath: indexPath) as! ChatOthersMessageCell
             configureOthersMessageCell(otherMessageCell, atIndexPath: indexPath)
             cell = otherMessageCell
         }
