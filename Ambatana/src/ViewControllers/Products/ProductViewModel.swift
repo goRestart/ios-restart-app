@@ -106,15 +106,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: - Computed iVars
     
     private var isOnSale: Bool {
-        let onSale: Bool
         switch product.status {
         case .Pending, .Approved, .Discarded:
-            onSale = true
+            return true
             
         case .Deleted, .Sold, .SoldOld:
-            onSale = false
+            return false
         }
-        return onSale
     }
     
     public var isEditable: Bool {

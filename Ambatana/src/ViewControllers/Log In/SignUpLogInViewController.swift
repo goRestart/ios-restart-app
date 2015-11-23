@@ -461,7 +461,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         forgotPasswordButton.hidden = true
         
         passwordButton.hidden = !signupEditModeActive
-//        showPasswordButton.hidden = true //!signupEditModeActive
         passwordIconImageView.hidden = !signupEditModeActive
         passwordTextField.hidden = !signupEditModeActive
 
@@ -480,7 +479,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         forgotPasswordButton.hidden = !loginEditModeActive
         
         passwordButton.hidden = !loginEditModeActive
-//        showPasswordButton.hidden = true //!loginEditModeActive
         passwordIconImageView.hidden = !loginEditModeActive
         passwordTextField.hidden = !loginEditModeActive
         
