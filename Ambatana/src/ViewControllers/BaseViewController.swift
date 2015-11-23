@@ -197,7 +197,7 @@ public class BaseViewController: UIViewController {
         toastViewTopMarginConstraint?.constant = hidden ? toastViewTopMarginHidden : toastViewTopMarginShown
         UIView.animateWithDuration(0.35) {
             toastView.alpha = hidden ? 0 : 1
-            self.view.layoutIfNeeded()
+            toastView.layoutIfNeeded()
         }
     }
     
