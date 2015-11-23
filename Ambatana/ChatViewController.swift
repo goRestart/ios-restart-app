@@ -34,6 +34,8 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     @IBOutlet weak var messageView: UIView!
     @IBOutlet weak var messageLabel: UILabel!
     
+    private var selectedCellIndexPath: NSIndexPath?
+    
     // data
     var chat: Chat
     var otherUser: User!
@@ -133,7 +135,34 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         messageTextfield.placeholder = LGLocalizedString.chatMessageFieldHint
         
         messageLabel.text = LGLocalizedString.commonProductNotAvailable
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
     }
+    
+    /**
+    Listen to UIMenuController Will Show notification and update the menu position if needed.
+    By default, the menu is shown in the middle of the tableView, this method repositions it to the middle of the bubble
+    
+    - parameter notification: NSNotification received
+    */
+    func menuControllerWillShow(notification: NSNotification) {
+        guard let indexPath = selectedCellIndexPath else { return }
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return }
+        guard let bubbleView = (cell as? ChatBubbleCell)?.bubbleView else { return }
+        selectedCellIndexPath = nil
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
+        let menu = UIMenuController.sharedMenuController()
+        menu.setMenuVisible(false, animated: false)
+        let newFrame = tableView.convertRect(bubbleView.frame, fromView: cell)
+        menu.setTargetRect(newFrame, inView: tableView)
+        menu.setMenuVisible(true, animated: true)
+    }
+    
+    
+    func menuControllerWillHide(notification: NSNotification) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+    }
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -480,8 +509,13 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     
     // MARK: - Allow copying text / highlighted state in cells
     
-    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool { return true }
-    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool { return action == "copy:" }
+    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        selectedCellIndexPath = indexPath //Need to save the currently selected cell to reposition the menu later
+        return true
+    }
+    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+        return action == "copy:"
+    }
     
     func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
         if action == "copy:" {

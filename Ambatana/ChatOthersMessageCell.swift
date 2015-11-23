@@ -8,7 +8,12 @@
 
 import UIKit
 
-class ChatOthersMessageCell: UITableViewCell {
+
+protocol ChatBubbleCell {
+    weak var bubbleView: UIView! { get }
+}
+
+class ChatOthersMessageCell: UITableViewCell, ChatBubbleCell {
 
     @IBOutlet weak var bubbleView: UIView!
     @IBOutlet weak var avatarImageView: UIImageView!
