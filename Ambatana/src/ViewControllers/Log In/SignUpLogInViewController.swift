@@ -163,6 +163,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(17) ])
+       
     }
     
     @IBAction func usernameButtonPressed(sender: AnyObject) {
@@ -270,6 +272,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
+    func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool) {
+        showPasswordButton.hidden = !visible
+    }
+
     // MARK: > signup
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel) {
         showLoadingMessageAlert()
@@ -426,6 +432,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         emailTextField.hidden = false
 
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
+        showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible)
         
         let isSignup = viewModel.currentActionType == .Signup
         
@@ -454,7 +461,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         forgotPasswordButton.hidden = true
         
         passwordButton.hidden = !signupEditModeActive
-        showPasswordButton.hidden = !signupEditModeActive
         passwordIconImageView.hidden = !signupEditModeActive
         passwordTextField.hidden = !signupEditModeActive
 
@@ -473,7 +479,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         forgotPasswordButton.hidden = !loginEditModeActive
         
         passwordButton.hidden = !loginEditModeActive
-        showPasswordButton.hidden = !loginEditModeActive
         passwordIconImageView.hidden = !loginEditModeActive
         passwordTextField.hidden = !loginEditModeActive
         
