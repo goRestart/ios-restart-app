@@ -298,6 +298,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         loadingMessageActivityIndicator.startAnimating()
     }
     
+    
     // MARK: - Button actions
     
     @IBAction func sendMessage(sender: AnyObject) {
@@ -475,20 +476,19 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
             }
         }
     }
-
+    
+    
     // MARK: - Allow copying text / highlighted state in cells
     
     func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool { return true }
     func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool { return action == "copy:" }
-//    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject!) {
-//        if action == "copy:" {
-//            if let cell = tableView.cellForRowAtIndexPath(indexPath) {
-//                if let textLabel = cell.viewWithTag(kLetGoConversationCellTextTag) as? UILabel {
-//                    UIPasteboard.generalPasteboard().string = textLabel.text
-//                }
-//            }
-//        }
-//    }
+    
+    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+        if action == "copy:" {
+            UIPasteboard.generalPasteboard().string = chat.messages[indexPath.row].text
+        }
+    }
+
 
     // MARK: - Check changes in conversation.
     

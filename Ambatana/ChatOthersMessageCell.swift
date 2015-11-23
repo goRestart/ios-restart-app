@@ -71,4 +71,6 @@ class ChatOthersMessageCell: UITableViewCell {
 //        badgeView.hidden = true
 //        badgeLabel.text = ""
     }
+    
+    
 }
