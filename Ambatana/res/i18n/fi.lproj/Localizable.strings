@@ -103,11 +103,16 @@
 "filters_section_categories" = "Kategoriat";
 "filters_section_distance" = "Etäisyys";
 "filters_section_sortby" = "Lajittele";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "Lähin ensin";
 "filters_sort_newest" = "Uusin ensin";
 "filters_sort_price_asc" = "Halvimmasta kalleimpaan";
 "filters_sort_price_desc" = "Kalleimmasta halvimpaan";
 "filters_title" = "Suodattimet";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "letgon uusi versio on saatavilla. Ole hyvä ja päivitä nyt.";
 "forced_update_title" = "Päivitys saatavilla";
 "forced_update_update_button" = "Päivitä";

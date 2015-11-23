@@ -71,10 +71,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         mainProductListView.queryString = viewModel.searchString
         
         //Applying previous filters
-        mainProductListView.categories = viewModel.filters?.selectedCategories
-        mainProductListView.sortCriteria = viewModel.filters?.selectedOrdering
-        mainProductListView.distanceRadius = viewModel.filters?.distanceRadius
-        mainProductListView.distanceType = viewModel.filters?.distanceType
+        setProductListFilters()
+
 
         addSubview(mainProductListView)
         
@@ -230,11 +228,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         loadTagsViewWithTags(showTags)
     }
     
-    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel, withCategories categories: [ProductCategory]?, sortCriteria: ProductSortCriteria?, distanceRadius: Int?, distanceType: DistanceType?){
-        mainProductListView.categories = categories
-        mainProductListView.sortCriteria = sortCriteria
-        mainProductListView.distanceRadius = distanceRadius
-        mainProductListView.distanceType = distanceType
+    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel){
+        setProductListFilters()
         mainProductListView.refresh()
     }
 
@@ -425,6 +420,14 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         if let alpha = alpha {
             distanceShadow.alpha = alpha
         }
+    }
+    
+    private func setProductListFilters() {
+        mainProductListView.categories = viewModel.filters?.selectedCategories
+        mainProductListView.timeCriteria = viewModel.filters?.selectedWithin
+        mainProductListView.sortCriteria = viewModel.filters?.selectedOrdering
+        mainProductListView.distanceRadius = viewModel.filters?.distanceRadius
+        mainProductListView.distanceType = viewModel.filters?.distanceType
     }
     
 }

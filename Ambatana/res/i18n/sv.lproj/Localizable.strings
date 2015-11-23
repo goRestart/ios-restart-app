@@ -103,11 +103,16 @@
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstånd";
 "filters_section_sortby" = "Sortera efter";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "Närmaste först";
 "filters_sort_newest" = "Senaste först";
 "filters_sort_price_asc" = "Pris lågt till högt";
 "filters_sort_price_desc" = "Pris högt till lågt";
 "filters_title" = "Filter";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "Det finns en ny version av letgo. Var god uppdatera nu.";
 "forced_update_title" = "Uppdatering tillgänglig";
 "forced_update_update_button" = "Uppdatera";

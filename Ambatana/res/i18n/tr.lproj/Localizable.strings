@@ -103,11 +103,16 @@
 "filters_section_categories" = "Kategoriler";
 "filters_section_distance" = "Mesafe";
 "filters_section_sortby" = "Sırala";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "İlk önce en yakını";
 "filters_sort_newest" = "İlk önce en yenisi";
 "filters_sort_price_asc" = "Düşük fiyattan yüksek fiyata";
 "filters_sort_price_desc" = "Yüksek fiyattan düşük fiyata";
 "filters_title" = "Filtreler";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "Yeni bir letgo versiyonu mevcut. Lütfen şimdi güncelle.";
 "forced_update_title" = "Güncelleme var";
 "forced_update_update_button" = "Güncelle";

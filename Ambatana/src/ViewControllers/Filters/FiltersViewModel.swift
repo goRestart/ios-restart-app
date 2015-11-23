@@ -158,7 +158,8 @@ class FiltersViewModel: BaseViewModel {
     
     // MARK: Within
     func selectWithinTimeAtIndex(index: Int) {
-        //TODO implement
+        productFilter.selectedWithin = withinTimes[index]
+        self.delegate?.viewModelDidUpdate(self)
     }
     
     func withinTimeNameAtIndex(index: Int) -> String? {
@@ -170,8 +171,7 @@ class FiltersViewModel: BaseViewModel {
     
     func withinTimeSelectedAtIndex(index: Int) -> Bool {
         if index < numOfWithinTimes {
-            //TODO IMPLEMENT
-//            return withinTimes[index] == productFilter.selectedOrdering
+            return withinTimes[index] == productFilter.selectedWithin
         }
         return false
         

@@ -14,7 +14,7 @@ protocol MainProductsViewModelDelegate: class {
     func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
-    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel, withCategories categories: [ProductCategory]?, sortCriteria: ProductSortCriteria?, distanceRadius: Int?, distanceType: DistanceType?)
+    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel)
 }
 
 public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate {
@@ -165,7 +165,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     
     private func updateListView() {
         
-        delegate?.mainProductsViewModelRefresh(self, withCategories: self.filters?.selectedCategories, sortCriteria: self.filters?.selectedOrdering, distanceRadius: self.filters?.distanceRadius, distanceType: self.filters?.distanceType)
+        delegate?.mainProductsViewModelRefresh(self)
 
     }
     

@@ -310,8 +310,23 @@
 // Filters section distance
 "filters_section_distance" = "Distance";
 
+// Filters secion within (within which time we want the products)
+"filters_section_within" = "Posted within";
+
 // Filters section sort-by
 "filters_section_sortby" = "Sort by";
+
+// Filters within option 1 day
+"filters_within_day" = "The last 24h";
+
+// Filters within option 7 days
+"filters_within_week" = "The last 7 days";
+
+// Filters within option 30 days
+"filters_within_month" = "The last 30 days";
+
+// Filters within option All
+"filters_within_all" = "All products";
 
 // Filters sort option closest
 "filters_sort_closest" = "Closest first";
@@ -894,3 +909,4 @@
 
 // Tour page ok button.
 "tour_page_ok_button" = "Start Browsing!";
+

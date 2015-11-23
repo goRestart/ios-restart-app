@@ -51,6 +51,7 @@ public class ProductListViewModel: BaseViewModel {
 
     public var countryCode: String?
     public var categories: [ProductCategory]?
+    public var timeCriteria: ProductTimeCriteria?
     public var sortCriteria: ProductSortCriteria?
     public var statuses: [ProductStatus]?
     public var maxPrice: Int?
@@ -113,6 +114,7 @@ public class ProductListViewModel: BaseViewModel {
             }
         }
         params.categoryIds = categoryIds
+        params.timeCriteria = timeCriteria
         params.sortCriteria = sortCriteria
         params.statuses = statuses
         params.maxPrice = maxPrice

@@ -103,11 +103,16 @@
 "filters_section_categories" = "Categories";
 "filters_section_distance" = "Distance";
 "filters_section_sortby" = "Sort by";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "Closest first";
 "filters_sort_newest" = "Newest first";
 "filters_sort_price_asc" = "Price: low to high";
 "filters_sort_price_desc" = "Price: high to low";
 "filters_title" = "Filters";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "Uma nova versão do letgo está disponível. Por favor, atualize agora.";
 "forced_update_title" = "Atualização disponível";
 "forced_update_update_button" = "Atualizar";

@@ -103,11 +103,16 @@
 "filters_section_categories" = "항목";
 "filters_section_distance" = "거리";
 "filters_section_sortby" = "분류하기";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "가장 가까운 순서대로";
 "filters_sort_newest" = "새로 올라온 순서대로";
 "filters_sort_price_asc" = "낮은가격에서 높은 가격으로";
 "filters_sort_price_desc" = "높은가격에서 낮은가격으로";
 "filters_title" = "필터";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "새로운 버전의 렛고가 있습니다. 지금 업데이트 하세요.";
 "forced_update_title" = "업데이트 사용가능";
 "forced_update_update_button" = "업데이트";
