@@ -173,14 +173,14 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         
         case .Within:
             //TODO REFACTOR FILTERSORTBY INTO SINGLECHECKFILTER
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSortByCell", forIndexPath: indexPath) as! FilterSortByCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell", forIndexPath: indexPath) as! FilterSingleCheckCell
             cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
             cell.selected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
             cell.bottomSeparator.hidden = true
             return cell
             
         case .SortBy:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSortByCell", forIndexPath: indexPath) as! FilterSortByCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell", forIndexPath: indexPath) as! FilterSingleCheckCell
             cell.titleLabel.text = viewModel.sortOptionTextAtIndex(indexPath.row)
             cell.selected = viewModel.sortOptionSelectedAtIndex(indexPath.row)
             cell.bottomSeparator.hidden = indexPath.row != (viewModel.numOfSortOptions - 1)
@@ -211,8 +211,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         // CollectionView cells
         let filterNib = UINib(nibName: "FilterCategoryCell", bundle: nil)
         self.collectionView.registerNib(filterNib, forCellWithReuseIdentifier: "FilterCategoryCell")
-        let sortByNib = UINib(nibName: "FilterSortByCell", bundle: nil)
-        self.collectionView.registerNib(sortByNib, forCellWithReuseIdentifier: "FilterSortByCell")
+        let sortByNib = UINib(nibName: "FilterSingleCheckCell", bundle: nil)
+        self.collectionView.registerNib(sortByNib, forCellWithReuseIdentifier: "FilterSingleCheckCell")
         let distanceNib = UINib(nibName: "FilterDistanceCell", bundle: nil)
         self.collectionView.registerNib(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
         let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)

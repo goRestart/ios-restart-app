@@ -186,8 +186,8 @@
 		C77593E11BF0B8C60097D62F /* FiltersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E01BF0B8C60097D62F /* FiltersViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E31BF0BD310097D62F /* FilterCategoryCell.swift */; settings = {ASSET_TAGS = (); }; };
 		C77593E61BF0BD310097D62F /* FilterCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593E41BF0BD310097D62F /* FilterCategoryCell.xib */; settings = {ASSET_TAGS = (); }; };
-		C77593E91BF0C0290097D62F /* FilterSortByCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSortByCell.swift */; settings = {ASSET_TAGS = (); }; };
-		C77593EA1BF0C0290097D62F /* FilterSortByCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593E81BF0C0290097D62F /* FilterSortByCell.xib */; settings = {ASSET_TAGS = (); }; };
+		C77593E91BF0C0290097D62F /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; settings = {ASSET_TAGS = (); }; };
+		C77593EA1BF0C0290097D62F /* FilterSingleCheckCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593E81BF0C0290097D62F /* FilterSingleCheckCell.xib */; settings = {ASSET_TAGS = (); }; };
 		C77593ED1BF0C1FD0097D62F /* FilterDistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593EB1BF0C1FD0097D62F /* FilterDistanceCell.swift */; settings = {ASSET_TAGS = (); }; };
 		C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593EC1BF0C1FD0097D62F /* FilterDistanceCell.xib */; settings = {ASSET_TAGS = (); }; };
 		C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -455,8 +455,8 @@
 		C77593E01BF0B8C60097D62F /* FiltersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewModel.swift; sourceTree = "<group>"; };
 		C77593E31BF0BD310097D62F /* FilterCategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCategoryCell.swift; sourceTree = "<group>"; };
 		C77593E41BF0BD310097D62F /* FilterCategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterCategoryCell.xib; sourceTree = "<group>"; };
-		C77593E71BF0C0290097D62F /* FilterSortByCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSortByCell.swift; sourceTree = "<group>"; };
-		C77593E81BF0C0290097D62F /* FilterSortByCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterSortByCell.xib; sourceTree = "<group>"; };
+		C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSingleCheckCell.swift; sourceTree = "<group>"; };
+		C77593E81BF0C0290097D62F /* FilterSingleCheckCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterSingleCheckCell.xib; sourceTree = "<group>"; };
 		C77593EB1BF0C1FD0097D62F /* FilterDistanceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDistanceCell.swift; sourceTree = "<group>"; };
 		C77593EC1BF0C1FD0097D62F /* FilterDistanceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterDistanceCell.xib; sourceTree = "<group>"; };
 		C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterHeaderCell.swift; sourceTree = "<group>"; };
@@ -1209,8 +1209,8 @@
 			children = (
 				C77593E31BF0BD310097D62F /* FilterCategoryCell.swift */,
 				C77593E41BF0BD310097D62F /* FilterCategoryCell.xib */,
-				C77593E71BF0C0290097D62F /* FilterSortByCell.swift */,
-				C77593E81BF0C0290097D62F /* FilterSortByCell.xib */,
+				C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */,
+				C77593E81BF0C0290097D62F /* FilterSingleCheckCell.xib */,
 				C77593EB1BF0C1FD0097D62F /* FilterDistanceCell.swift */,
 				C77593EC1BF0C1FD0097D62F /* FilterDistanceCell.xib */,
 				C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */,
@@ -1482,7 +1482,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C77593EA1BF0C0290097D62F /* FilterSortByCell.xib in Resources */,
+				C77593EA1BF0C0290097D62F /* FilterSingleCheckCell.xib in Resources */,
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				C77593DF1BF0B8A00097D62F /* FiltersViewController.xib in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
@@ -1817,7 +1817,7 @@
 				2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
 				50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */,
-				C77593E91BF0C0290097D62F /* FilterSortByCell.swift in Sources */,
+				C77593E91BF0C0290097D62F /* FilterSingleCheckCell.swift in Sources */,
 				6AE5F11A1BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift in Sources */,
 				50E8A0921B7B3B2D00DE49CC /* ProductViewController.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
