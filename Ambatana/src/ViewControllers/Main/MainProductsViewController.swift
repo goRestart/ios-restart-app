@@ -70,6 +70,12 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         mainProductListView.scrollDelegate = self
         mainProductListView.queryString = viewModel.searchString
         
+        //Applying previous filters
+        mainProductListView.categories = viewModel.filters?.selectedCategories
+        mainProductListView.sortCriteria = viewModel.filters?.selectedOrdering
+        mainProductListView.distanceRadius = viewModel.filters?.distanceRadius
+        mainProductListView.distanceType = viewModel.filters?.distanceType
+        
         if let category = viewModel.category {
             mainProductListView.categories = [category]
         }
