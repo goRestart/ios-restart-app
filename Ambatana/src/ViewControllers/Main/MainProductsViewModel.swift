@@ -20,11 +20,8 @@ protocol MainProductsViewModelDelegate: class {
 public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate {
 
     // Input
-    public var category: ProductCategory?
     public var searchString: String?
-    
-    // Output
-    public var title: AnyObject?
+    public var filters : ProductFilters?
     
     public var infoBubblePresent : Bool {
         guard let theFilters = filters else {
@@ -50,19 +47,15 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         return resultTags
     }
     
-    var filters : ProductFilters?
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
     
     // MARK: - Lifecycle
     
-    public init(category: ProductCategory? = nil, searchString: String? = nil, filters: ProductFilters? = nil) {
-        self.category = category
+    public init(searchString: String? = nil, filters: ProductFilters? = nil) {
         self.searchString = searchString
         self.filters = filters
-
-        self.title = category?.name
         
         super.init()
     }
