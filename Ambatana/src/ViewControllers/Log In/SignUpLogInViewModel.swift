@@ -17,6 +17,7 @@ public protocol SignUpLogInViewModelDelegate: class {
     
     // visual
     func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool)
+    func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool)
     
     // signup
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel)
@@ -60,8 +61,14 @@ public class SignUpLogInViewModel: BaseViewModel {
     var password: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
+            delegate?.viewModel(self, updateShowPasswordVisible: showPasswordShouldBeVisible)
         }
     }
+
+    var showPasswordShouldBeVisible : Bool {
+        return password.characters.count > 0
+    }
+    
 
     // MARK: - Lifecycle
     
