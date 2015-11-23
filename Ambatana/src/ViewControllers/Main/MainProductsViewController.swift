@@ -82,6 +82,12 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         addSubview(mainProductListView)
         
+        //Info bubble
+        setupInfoBubble()
+        
+        //Filter tags
+        setupTagsView()
+        
         if let categoryTitle = viewModel.title as? String {
             self.setLetGoNavigationBarStyle(categoryTitle)
         } else {
@@ -91,14 +97,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
                 setLetGoNavigationBarStyle(searchField)
             }
             
-            setLetGoRightButtonWithImageName("ic_filters", andSelector: "filtersButtonPressed:")
+            setFiltersNavbarButton()
         }
-        
-        //Info bubble
-        setupInfoBubble()
-
-        //Filter tags
-        setupTagsView()
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -114,8 +114,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.tabBarController?.setTabBarHidden(false, animated: true)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        setBarsHidden(false, animated: false)
         
         if let actualSearchField = searchTextField {
             endEdit()
@@ -215,8 +214,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
             showTagsView(!scrollDown)
         }
         
-        self.tabBarController?.setTabBarHidden(scrollDown, animated: true)
-        self.navigationController?.setNavigationBarHidden(scrollDown, animated: true)
+        setBarsHidden(scrollDown)
     }
     
     // MARK: - MainProductsViewModelDelegate
@@ -253,7 +251,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
 
         showInfoBubble(true)
 
-        setLetGoRightButtonsWithImageNames(["ic_filters"], andSelectors: ["filtersButtonPressed:"])
+        setFiltersNavbarButton()
 
         guard let searchField = searchTextField else {
             return
@@ -337,6 +335,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     // MARK: - Private methods
     
+    private func setBarsHidden(hidden: Bool, animated: Bool = true) {
+        self.tabBarController?.setTabBarHidden(hidden, animated: animated)
+        self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
+    }
+    
     /** 
         Called when the search button is pressed.
     */
@@ -370,7 +373,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         showTagsView(showTags)
         
         //Update tags button
-        setLetGoRightButtonWithImageName(showTags ? "ic_filters_active": "ic_filters", andSelector: "filtersButtonPressed:")
+        setFiltersNavbarButton()
+    }
+    
+    private func setFiltersNavbarButton() {
+        setLetGoRightButtonWithImageName(self.tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active", andSelector: "filtersButtonPressed:")
     }
     
     private func showTagsView(show: Bool) {
