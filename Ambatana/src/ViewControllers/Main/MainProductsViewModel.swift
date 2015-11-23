@@ -99,7 +99,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     
     public func showFilters() {
         
-        let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters(distanceType: DistanceType.systemDistanceType()))
+        let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
         filtersVM.dataDelegate = self
         
         delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)

@@ -88,9 +88,13 @@ public class MainProductListViewModel: ProductListViewModel {
             if numberOfProducts == 0 {
                 retrieveProductsFirstPage()
             }
-            // If new location is manual OR last location was manual, then refresh
+            // If new location is manual OR last location was manual, and location has changed then refresh
             else if newLocation.type == .Manual || lastReceivedLocation?.type == .Manual {
-                retrieveProductsFirstPage()
+                if let lastReceivedLocation = lastReceivedLocation {
+                    if (newLocation != lastReceivedLocation) {
+                        retrieveProductsFirstPage()
+                    }
+                }
             }
             // If new location is not manual and we improved the location type to sensors
             else if lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
