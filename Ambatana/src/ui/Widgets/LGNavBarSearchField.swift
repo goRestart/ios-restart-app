@@ -63,7 +63,7 @@ public class LGNavBarSearchField: UIView {
         backgroundColor = UIColor.clearColor()
         
         searchTextField.textColor = StyleHelper.navBarTitleColor
-        searchTextField.clearButtonMode = UITextFieldViewMode.WhileEditing
+        searchTextField.clearButtonMode = UITextFieldViewMode.Always
         searchTextField.clearButtonOffset = 5
         searchTextField.insetX = 30
         
