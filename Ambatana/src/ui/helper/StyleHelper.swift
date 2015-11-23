@@ -25,6 +25,7 @@ class StyleHelper {
     private static let gray222 = UIColor(rgb: 0xDEDEDE)
     private static let gray225 = UIColor(rgb: 0xE1E1E1)
     private static let gray235 = UIColor(rgb: 0xEBEBEB)
+    private static let gray238 = UIColor(rgb: 0xEEEEEE)
     private static let gray243 = UIColor(rgb: 0xF7F3F3)
     private static let white = UIColor(rgb: 0xFFFFFF)
     
@@ -37,6 +38,8 @@ class StyleHelper {
     private static let brownMedium = UIColor(rgb: 0xD8CAB7)
     private static let greenMedium = UIColor(rgb: 0xC7C8B5)
     private static let turquoise = UIColor(rgb: 0x179BAA)
+    private static let blue = UIColor(rgb: 0x0092D4)
+    private static let blueDark = UIColor(rgb: 0x007CB1)
     
     // Fonts
     private static func helveticaNeueFont(size size: Int) -> UIFont {
@@ -171,6 +174,25 @@ class StyleHelper {
     static var badgeBgColor: UIColor {
         return red
     }
+    
+    // MARK: - Chat Cells
+    
+    static var chatOthersBubbleBgColor: UIColor {
+        return white
+    }
+    
+    static var chatOthersBubbleBgColorSelected: UIColor {
+        return gray238
+    }
+    
+    static var chatMyBubbleBgColor: UIColor {
+        return blue
+    }
+    
+    static var chatMyBubbleBgColorSelected: UIColor {
+        return blueDark
+    }
+    
     
     // MARK: - Chat safety tips
     
