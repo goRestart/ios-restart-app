@@ -503,7 +503,7 @@
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 
 // Product sell again button. Check image @ "product_mark_as_sold_button" segment
-"product_sell_again_button" = "Sell it Again";
+"product_sell_again_button" = "Sell It Again";
 
 // Product sell again confirm cancel button. Check attached image "product_mark_as_sold.png"
 "product_sell_again_confirm_cancel_button" = "Cancel";
@@ -512,10 +512,10 @@
 "product_sell_again_confirm_message" = "Do you want to mark this product as available so it's visible to buyers again?";
 
 // Product sell again confirm ok button. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
-"product_sell_again_confirm_ok_button" = "Sell it Again";
+"product_sell_again_confirm_ok_button" = "Sell It Again";
 
 // Product sell again confirm title. Check image @ "product_mark_as_sold_confirm_cancel_button" segment
-"product_sell_again_confirm_title" = "Sell it Again";
+"product_sell_again_confirm_title" = "Sell It Again";
 
 // Product sell again error generic. Message displayal is like the other error messages
 "product_sell_again_error_generic" = "An error occurred while marking your product as available. Please try again later.";
@@ -894,4 +894,3 @@
 
 // Tour page ok button.
 "tour_page_ok_button" = "Start Browsing!";
-

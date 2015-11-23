@@ -124,7 +124,7 @@
 "main_sign_up_already_registered_label" = "등록하셨나요?";
 "main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
 "main_sign_up_contact_us_button" = "도움이 필요하신가요?";
-"main_sign_up_facebook_connect_button" = "페이스북으로 로그인하기";
+"main_sign_up_facebook_connect_button" = "페이스북";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
 "main_sign_up_help_button" = "Help";

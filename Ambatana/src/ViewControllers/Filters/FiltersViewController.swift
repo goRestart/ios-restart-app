@@ -20,10 +20,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     
     
     //Constants
-    private let sections : [FilterSection] = [.Distance, .Categories, .SortBy]
+    private let sections : [FilterSection] = FilterSection.allValues()
     private var distanceCellSize = CGSize(width: 0.0, height: 0.0)
     private var categoryCellSize = CGSize(width: 0.0, height: 0.0)
-    private var sortByCellSize = CGSize(width: 0.0, height: 0.0)
+    private var singleCheckCellSize = CGSize(width: 0.0, height: 0.0)
     
     
     // MARK: - Factory
@@ -114,8 +114,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return distanceCellSize
         case .Categories:
             return categoryCellSize
-        case .SortBy:
-            return sortByCellSize
+        case .SortBy, .Within:
+            return singleCheckCellSize
         }
     }
     
@@ -129,6 +129,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             return 1
         case .Categories:
             return viewModel.numOfCategories
+        case .Within:
+            return viewModel.numOfWithinTimes
         case .SortBy:
             return viewModel.numOfSortOptions
         }
@@ -168,6 +170,14 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             cell.rightSeparator.hidden = indexPath.row % 2 == 1
             
             return cell
+        
+        case .Within:
+            //TODO REFACTOR FILTERSORTBY INTO SINGLECHECKFILTER
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSortByCell", forIndexPath: indexPath) as! FilterSortByCell
+            cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
+            cell.selected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
+            cell.bottomSeparator.hidden = true
+            return cell
             
         case .SortBy:
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSortByCell", forIndexPath: indexPath) as! FilterSortByCell
@@ -188,6 +198,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             break
         case .Categories:
             viewModel.selectCategoryAtIndex(indexPath.row)
+        case .Within:
+            viewModel.selectWithinTimeAtIndex(indexPath.row)
         case .SortBy:
             viewModel.selectSortOptionAtIndex(indexPath.row)
         }
@@ -219,7 +231,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         let screenWidth = UIScreen.mainScreen().bounds.size.width
         distanceCellSize = CGSize(width: screenWidth, height: 78.0)
         categoryCellSize = CGSize(width: screenWidth * 0.5, height: 50.0)
-        sortByCellSize = CGSize(width: screenWidth, height: 50.0)
+        singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
         
         // Rounded save button
         saveFiltersBtn.layer.cornerRadius = 4

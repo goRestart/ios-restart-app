@@ -51,11 +51,18 @@ class FiltersViewModel: BaseViewModel {
         return self.categories.count
     }
     
+    //Within vars
+    var numOfWithinTimes : Int {
+        return self.withinTimes.count
+    }
+    private var withinTimes : [ProductTimeCriteria]
+    
     //SortOptions vars
     var numOfSortOptions : Int {
         return self.sortOptions.count
     }
     private var sortOptions : [ProductSortCriteria]
+    
     
     private var productFilter : ProductFilters
     
@@ -65,12 +72,13 @@ class FiltersViewModel: BaseViewModel {
     }
     
     convenience init(currentFilters: ProductFilters) {
-        self.init(categoriesManager: CategoriesManager.sharedInstance, categories: [], sortOptions: ProductSortCriteria.allValues(), currentFilters: currentFilters)
+        self.init(categoriesManager: CategoriesManager.sharedInstance, categories: [], withinTimes: ProductTimeCriteria.allValues(), sortOptions: ProductSortCriteria.allValues(), currentFilters: currentFilters)
     }
     
-    required init(categoriesManager: CategoriesManager, categories: [ProductCategory], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters) {
+    required init(categoriesManager: CategoriesManager, categories: [ProductCategory], withinTimes: [ProductTimeCriteria], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters) {
         self.categoriesManager = categoriesManager
         self.categories = categories
+        self.withinTimes = withinTimes
         self.sortOptions = sortOptions
         self.productFilter = currentFilters
         super.init()
@@ -146,6 +154,27 @@ class FiltersViewModel: BaseViewModel {
             }
         }
         return StyleHelper.standardTextColor
+    }
+    
+    // MARK: Within
+    func selectWithinTimeAtIndex(index: Int) {
+        //TODO implement
+    }
+    
+    func withinTimeNameAtIndex(index: Int) -> String? {
+        if index < numOfSortOptions {
+            return withinTimes[index].name
+        }
+        return nil
+    }
+    
+    func withinTimeSelectedAtIndex(index: Int) -> Bool {
+        if index < numOfWithinTimes {
+            //TODO IMPLEMENT
+//            return withinTimes[index] == productFilter.selectedOrdering
+        }
+        return false
+        
     }
     
     // MARK: Filter by

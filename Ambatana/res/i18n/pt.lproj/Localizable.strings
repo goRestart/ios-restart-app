@@ -124,7 +124,7 @@
 "main_sign_up_already_registered_label" = "Já está cadastrado?";
 "main_sign_up_claim_label" = "Comece já a vender e comprar - através do bate-papo!";
 "main_sign_up_contact_us_button" = "Precisa de ajuda?";
-"main_sign_up_facebook_connect_button" = "Conecte-se com o Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Não foi possível iniciar a sessão, seu e-mail vinculado ao Facebook já foi cadastrado. Por favor, tente iniciar a sessão.";
 "main_sign_up_fb_connect_error_generic" = "Não foi possível iniciar a sessão. Por favor, tente novamente.";
 "main_sign_up_help_button" = "Help";
