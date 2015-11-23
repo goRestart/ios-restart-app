@@ -513,7 +513,12 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         return true
     }
     func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        return action == "copy:"
+        if action == "copy:" {
+            guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return false }
+            cell.setSelected(true, animated: true)
+            return true
+        }
+        return false
     }
     
     func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {

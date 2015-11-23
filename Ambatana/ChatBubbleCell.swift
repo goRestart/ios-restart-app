@@ -19,6 +19,7 @@ class ChatBubbleCell: UITableViewCell {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
     }
     
     override func prepareForReuse() {
@@ -26,16 +27,14 @@ class ChatBubbleCell: UITableViewCell {
         self.resetUI()
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    
     func setupUI() {
         bubbleView.layer.cornerRadius = 4
         messageLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
         dateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
+    }
+    
+    func menuControllerWillHide(notification: NSNotification) {
+        setSelected(false, animated: true)
     }
     
     func resetUI() {}

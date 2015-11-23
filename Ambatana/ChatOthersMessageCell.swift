@@ -21,6 +21,11 @@ class ChatOthersMessageCell: ChatBubbleCell {
         avatarButtonPressed?()
     }
     
+    override func setSelected(selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        bubbleView.backgroundColor = selected ? StyleHelper.chatOthersBubbleBgColorSelected : StyleHelper.chatOthersBubbleBgColor
+    }
+    
     
     // MARK: - Private methods
 
