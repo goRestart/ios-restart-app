@@ -147,13 +147,12 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
     */
     func menuControllerWillShow(notification: NSNotification) {
         guard let indexPath = selectedCellIndexPath else { return }
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return }
-        guard let bubbleView = (cell as? ChatBubbleCell)?.bubbleView else { return }
+        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? ChatBubbleCell else { return }
         selectedCellIndexPath = nil
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
         let menu = UIMenuController.sharedMenuController()
         menu.setMenuVisible(false, animated: false)
-        let newFrame = tableView.convertRect(bubbleView.frame, fromView: cell)
+        let newFrame = tableView.convertRect(cell.bubbleView.frame, fromView: cell)
         menu.setTargetRect(newFrame, inView: tableView)
         menu.setMenuVisible(true, animated: true)
     }
