@@ -61,9 +61,14 @@ public class SignUpLogInViewModel: BaseViewModel {
     var password: String {
         didSet {
             delegate?.viewModel(self, updateSendButtonEnabledState: sendButtonShouldBeEnabled())
-            delegate?.viewModel(self, updateShowPasswordVisible: showPasswordShouldBeVisible() )
+            delegate?.viewModel(self, updateShowPasswordVisible: showPasswordShouldBeVisible)
         }
     }
+
+    var showPasswordShouldBeVisible : Bool {
+        return password.characters.count > 0
+    }
+    
 
     // MARK: - Lifecycle
     
@@ -78,10 +83,6 @@ public class SignUpLogInViewModel: BaseViewModel {
     
     
     // MARK: - Public methods
-    
-    public func showPasswordShouldBeVisible() -> Bool {
-        return password.characters.count > 0
-    }
     
     public func erasePassword() {
         password = ""

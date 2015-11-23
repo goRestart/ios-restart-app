@@ -432,7 +432,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         emailTextField.hidden = false
 
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
-        showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible())
+        showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible)
         
         let isSignup = viewModel.currentActionType == .Signup
         
