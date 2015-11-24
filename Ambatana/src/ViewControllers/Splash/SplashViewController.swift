@@ -56,7 +56,7 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
                     let page1 = LGTourPage(title: .Image(UIImage(named: "logo_white")), body: LGLocalizedString.tourPage1Body, image: UIImage(named: "tour_1"))
                     let page2 = LGTourPage(title: .Text(LGLocalizedString.tourPage2Title), body: LGLocalizedString.tourPage2Body, image: UIImage(named: "tour_2"))
                     let page3 = LGTourPage(title: .Text(LGLocalizedString.tourPage3Title), body: LGLocalizedString.tourPage3Body, image: UIImage(named: "tour_3"))
-                    let page4 = LGTourPage(title: .Text(LGLocalizedString.tourPage4Title), body: LGLocalizedString.tourPage3Body, image: UIImage(named: "tour_4"))
+                    let page4 = LGTourPage(title: .Text(LGLocalizedString.tourPage4Title), body: LGLocalizedString.tourPage4Body, image: UIImage(named: "tour_4"))
                     let pages = [page1, page2, page3, page4]
                     let tourVC = LGTourViewController(pages: pages)
                     tourVC.backgroundColor = UIColor(patternImage: UIImage(named: "pattern_red")!)
@@ -84,14 +84,24 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     
     // MARK: - LGTourViewControllerDelegate
     
-    func tourViewController(tourViewController: LGTourViewController, didShowPageAtIndex index: Int) {
+    func tourViewControllerDidLoad(tourViewController: LGTourViewController) {
+        // Save that the onboarding was shown so don't show it again
+        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
+        
         // Tracking
         let event = TrackerEvent.onboardingStart()
         TrackerProxy.sharedInstance.trackEvent(event)
     }
     
+    func tourViewController(tourViewController: LGTourViewController, didShowPageAtIndex index: Int) {
+        
+    }
+    
     func tourViewController(tourViewController: LGTourViewController, didAbandonWithButtonType buttonType: CloseButtonType, atIndex index: Int) {
-        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
+        //Dismiss tour
+        tourViewController.dismissViewControllerAnimated(false, completion: nil)
+        
+        // Save the user
         saveMyUserIfNew()
         
         // Tracking
@@ -100,7 +110,10 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     }
     
     func tourViewControllerDidFinish(tourViewController: LGTourViewController) {
-        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
+        //Dismiss tour
+        tourViewController.dismissViewControllerAnimated(false, completion: nil)
+        
+        // Save the user
         saveMyUserIfNew()
         
         // Tracking
@@ -111,7 +124,7 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
     // MARK: - Private methods
     
     private func saveMyUserIfNew() {
-        MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: UserSaveServiceResult) in
+        MyUserManager.sharedInstance.saveOrRetrieveMyUser { [weak self] (result: UserSaveServiceResult) in
             if let strongSelf = self {
                 let saveUserDidComplete = (result.value != nil)
                 strongSelf.completionBlock?(saveUserDidComplete)

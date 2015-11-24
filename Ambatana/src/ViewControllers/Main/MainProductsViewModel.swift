@@ -10,32 +10,71 @@ import CoreLocation
 import LGCoreKit
 import Result
 
-public protocol MainProductsViewModelDelegate: class {
+protocol MainProductsViewModelDelegate: class {
     func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel)
+    func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
+    func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
+    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel)
 }
 
-public class MainProductsViewModel: BaseViewModel {
+public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate {
 
     // Input
-    public var category: ProductCategory?
     public var searchString: String?
+    public var filters : ProductFilters?
     
-    // Output
-    public var title: AnyObject?
-    public var hasSearchButton: Bool
+    public var infoBubblePresent : Bool {
+        guard let theFilters = filters else {
+            return true
+        }
+        
+        return theFilters.selectedOrdering == .Distance
+    }
+    
+    public var tags: [FilterTag] {
+        guard let theFilters = filters else {
+            return []
+        }
+        
+        var resultTags : [FilterTag] = []
+        for prodCat in theFilters.selectedCategories {
+            resultTags.append(.Category(prodCat))
+        }
+        
+        if(theFilters.selectedWithin != ProductTimeCriteria.defaultOption) {
+            resultTags.append(.Within(theFilters.selectedWithin))
+        }
+        
+        if(theFilters.selectedOrdering != ProductSortCriteria.defaultOption) {
+            resultTags.append(.OrderBy(theFilters.selectedOrdering))
+        }
+        return resultTags
+    }
+    
     
     // > Delegate
-    public weak var delegate: MainProductsViewModelDelegate?
+    weak var delegate: MainProductsViewModelDelegate?
     
     // MARK: - Lifecycle
     
-    public init(category: ProductCategory? = nil, searchString: String? = nil) {
-        self.category = category
+    public init(searchString: String? = nil, filters: ProductFilters? = nil) {
         self.searchString = searchString
-        self.title = category?.name() ?? UIImage(named: "navbar_logo")
-        self.hasSearchButton = ( searchString == nil )
+        self.filters = filters
+        
         super.init()
     }
+    
+    
+    // MARK: FiltersViewModelDataDelegate
+    
+    func viewModelDidUpdateFilters(viewModel: FiltersViewModel, filters: ProductFilters) {
+        self.filters = filters
+        
+        delegate?.mainProductsViewModel(self, showTags: self.tags)
+        
+        updateListView()
+    }
+
     
     // MARK: - Public methods
     
@@ -55,13 +94,71 @@ public class MainProductsViewModel: BaseViewModel {
         }
     }
     
+    public func showFilters() {
+        
+        let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
+        filtersVM.dataDelegate = self
+        
+        delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)
+
+        // Tracking
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.filterStart())
+    }
+    
     /**
         Called when search button is pressed.
     */
-    public func searchButtonPressed() {
+    public func searchBegan() {
         // Tracking
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
     }
+    
+    
+    /**
+        Called when a filter gets removed
+    */
+    public func updateFiltersFromTags(tags: [FilterTag]) {
+        
+        //Tags gan only be deleted so if there where tags means there was a filters object
+        if filters == nil {
+            return
+        }
+        
+        var categories : [ProductCategory] = []
+        var orderBy = ProductSortCriteria.defaultOption
+        var within = ProductTimeCriteria.defaultOption
+        
+        for filterTag in tags {
+            switch filterTag {
+            case .Category(let prodCategory):
+                categories.append(prodCategory)
+            case .OrderBy(let prodSortOption):
+                orderBy = prodSortOption
+            case .Within(let prodTimeOption):
+                within = prodTimeOption
+            }
+        }
+        
+        filters?.selectedCategories = categories
+        filters?.selectedOrdering = orderBy
+        filters?.selectedWithin = within
+        
+        updateListView()
+    }
+    
+    
+    /**
+        Called on every distance change to get the info to set on the bubble
+    */
+    public func distanceInfoTextForDistance(distance: Int, type: DistanceType) -> String? {
+        let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance), type.string])
+        if distance <= Constants.productListMaxDistanceLabel {
+            return String(format: LGLocalizedString.productDistanceXFromYou, distanceString)
+        } else {
+            return String(format: LGLocalizedString.productDistanceMoreThanFromYou, distanceString)
+        }
+    }
+    
     
     // MARK: - Private methods
     
@@ -71,6 +168,13 @@ public class MainProductsViewModel: BaseViewModel {
         :return: A view model for search.
     */
     private func viewModelForSearch() -> MainProductsViewModel {
-        return MainProductsViewModel(searchString: searchString)
+        return MainProductsViewModel(searchString: searchString, filters: filters)
     }
+    
+    private func updateListView() {
+        
+        delegate?.mainProductsViewModelRefresh(self)
+
+    }
+    
 }

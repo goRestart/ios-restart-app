@@ -74,7 +74,11 @@ public class CategoriesViewModel: BaseViewModel {
     */
     public func productsViewModelForCategoryAtIndex(index: Int) -> MainProductsViewModel? {
         if index < numOfCategories {
-            return MainProductsViewModel(category: categories[index])
+            //Access from categories should be the exact same behavior as access filters and select that category
+            var productFilters = ProductFilters()
+            productFilters.toggleCategory(categories[index])
+            
+            return MainProductsViewModel(filters: productFilters)
         }
         return nil
     }

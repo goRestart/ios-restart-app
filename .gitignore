@@ -1,5 +1,7 @@
 # Created by https://www.gitignore.io
 
+.DS_Store
+
 ### Xcode ###
 build/
 *.pbxuser
@@ -44,3 +46,4 @@ DerivedData
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
 #
 # Pods/
+LetGo.xcscmblueprint

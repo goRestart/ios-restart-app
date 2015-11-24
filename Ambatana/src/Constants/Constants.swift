@@ -27,11 +27,19 @@ struct Constants {
     static let productURL = "\(Constants.websiteURL)/product/%@"
     static let whatsAppShareURL = "whatsapp://send?text=%@"
     
+    // Tab bar
+    static let tabBarSellFloatingButtonHeight: CGFloat = 70
+    
     // Product List
     static let productListMaxDistanceLabel = 20
+    static let productListFooterHeight: CGFloat = 70
     
     // Categories
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
+    
+    // Filters
+    static let distanceFilterDefault = 20
+    static let distanceFilterOptions = [1, 10, 20, 30, 100]
     
     // App sharing
     static let facebookAppLinkURL = "https://fb.me/900185926729336"

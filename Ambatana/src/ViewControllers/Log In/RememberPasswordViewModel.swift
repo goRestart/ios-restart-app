@@ -34,9 +34,9 @@ public class RememberPasswordViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(source: EventParameterLoginSourceValue) {
-        email = ""
-        loginSource = source
+    init(source: EventParameterLoginSourceValue, email: String) {
+        self.email = email
+        self.loginSource = source
         super.init()
     }
     

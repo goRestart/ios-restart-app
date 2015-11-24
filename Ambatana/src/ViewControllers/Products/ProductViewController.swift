@@ -44,6 +44,10 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     @IBOutlet weak var productStatusLabel: UILabel!
     @IBOutlet weak var productStatusShadow: UIView!     // just for the shadow
     
+    // > Share Buttons
+    @IBOutlet weak var fbMessengerShareButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var whatsappShareButtonWidthConstraint: NSLayoutConstraint!
+    
     // > Bottom
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var reportButton: UIButton!
@@ -59,7 +63,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // >> Me selling
     @IBOutlet weak var meSellingView: UIView!
-    @IBOutlet weak var markSoldButton: UIButton!
+    @IBOutlet weak var markSoldButton: UIButton! // used to mark as sold or "resell" depending on the product status
     
     // > Other
     private var lines : [CALayer]
@@ -113,6 +117,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     @IBAction func mapViewButtonPressed(sender: AnyObject) {
         openMap()
+    }
+    
+    @IBAction func shareFBMessengerButtonPressed(sender: AnyObject) {
+        viewModel.shareInFBMessenger()
+        let content = viewModel.shareFacebookContent
+        FBSDKMessageDialog.showWithContent(content, delegate: self)
     }
     
     @IBAction func shareFBButtonPressed(sender: AnyObject) {
@@ -183,26 +193,53 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         })
     }
     
+    /**
+        markSoldPressed is the action related to the markSoldButton, works both ways: to "sell" and put it back to "available"
+    */
+    
     @IBAction func markSoldPressed(sender: AnyObject) {
-        ifLoggedInThen(.MarkAsSold, loggedInAction: {
-            self.showMarkSoldAlert()
-        },
-        elsePresentSignUpWithSuccessAction: {
-            self.updateUI()
-            self.showMarkSoldAlert()
-        })
+        if viewModel.productIsSold {
+            ifLoggedInThen(.MarkAsUnsold, loggedInAction: {
+                self.showMarkUnsoldAlert()
+                },
+                elsePresentSignUpWithSuccessAction: {
+                    self.updateUI()
+                    self.showMarkUnsoldAlert()
+            })
+        } else {
+            ifLoggedInThen(.MarkAsSold, loggedInAction: {
+                self.showMarkSoldAlert()
+                },
+                elsePresentSignUpWithSuccessAction: {
+                    self.updateUI()
+                    self.showMarkSoldAlert()
+            })
+        }
     }
     
+    
     // MARK: - FBSDKSharingDelegate
+    // This delegate is shared by FBSDKShareDialog and FBSDKMessageDialog
     
     public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        viewModel.shareInFBCompleted()
         
-        let completion = {
-            self.showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)
+        switch (sharer.type) {
+        case .Facebook:
+            viewModel.shareInFBCompleted()
+        case .FBMessenger:
+            // Messenger always calls didCompleteWithResults, if it works,
+            // will include the key "completionGesture" in the results dict
+            if let _ = results["completionGesture"] {
+                viewModel.shareInFBMessengerCompleted()
+            }
+            else {
+                viewModel.shareInFBMessengerCancelled()
+            }
+        case .Unknown:
+            break
         }
-
-        dismissLoadingMessageAlert(completion)
+        
+        dismissLoadingMessageAlert(nil)
     }
 
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
@@ -210,7 +247,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
-        viewModel.shareInFBCancelled()
+        switch (sharer.type) {
+        case .Facebook:
+            viewModel.shareInFBCancelled()
+        case .FBMessenger:
+            viewModel.shareInFBMessengerCancelled()
+        case .Unknown:
+            break
+        }
     }
     
     // MARK: - GalleryViewDelegate
@@ -361,6 +405,29 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         dismissLoadingMessageAlert(completion)
     }
     
+    public func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult) {
+        let completion: (() -> Void)?
+        if let _ = result.value {
+            
+            completion = {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productSellAgainSuccessMessage, time: 3) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+            }
+            updateUI()
+        }
+        else {
+            completion = {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productSellAgainErrorGeneric)
+            }
+        }
+        dismissLoadingMessageAlert(completion)
+    }
+    
     public func viewModelDidStartAsking(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
     }
@@ -466,10 +533,22 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
-        markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
+        
+        let markSoldTitle = viewModel.productIsSold ? LGLocalizedString.productMarkAsSoldButton : LGLocalizedString.productMarkAsSoldButton
+        markSoldButton.setTitle(markSoldTitle, forState: .Normal)
+        
         
         // Delegates
         galleryView.delegate = self
+        
+        // Share Buttons
+        if !viewModel.canShareInWhatsapp() {
+            whatsappShareButtonWidthConstraint.constant = 0
+        }
+        
+        if !viewModel.canShareInFBMessenger() {
+            fbMessengerShareButtonWidthConstraint.constant = 0
+        }
         
         // Update the UI
         updateUI()
@@ -569,6 +648,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         // Footer
         footerViewHeightConstraint.constant = viewModel.isFooterVisible ? ProductViewController.footerViewVisibleHeight : 0
+
+        let title = viewModel.productIsSold ?  LGLocalizedString.productSellAgainButton : LGLocalizedString.productMarkAsSoldButton
+        markSoldButton.setTitle(title, forState: .Normal)
         
         // Footer other / me selling subviews
         otherSellingView.hidden = viewModel.isMine
@@ -776,6 +858,22 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         presentViewController(alert, animated: true, completion: {
             self.viewModel.markSoldStarted(source)
+        })
+    }
+    
+    private func showMarkUnsoldAlert() {
+        let alert = UIAlertController(title: LGLocalizedString.productSellAgainConfirmTitle, message: LGLocalizedString.productSellAgainConfirmMessage, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: { (_) -> Void in
+            self.viewModel.markUnsoldAbandon()
+        })
+        let unsoldAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
+            self.viewModel.markUnsold()
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(unsoldAction)
+        
+        presentViewController(alert, animated: true, completion: {
+            self.viewModel.markUnsoldStarted()
         })
     }
 }

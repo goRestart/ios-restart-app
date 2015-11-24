@@ -15,16 +15,19 @@ class StyleHelper {
     static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
     
-    private static let white = UIColor(rgb: 0xFFFFFF)
+    private static let black = UIColor(rgb: 0x000000)
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray75 = UIColor(rgb: 0x757575)
+    private static let gray153 = UIColor(rgb: 0x999999)
     private static let gray204 = UIColor(rgb: 0xCCCCCC)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
     private static let gray222 = UIColor(rgb: 0xDEDEDE)
     private static let gray225 = UIColor(rgb: 0xE1E1E1)
     private static let gray235 = UIColor(rgb: 0xEBEBEB)
-    private static let black = UIColor(rgb: 0x000000)
+    private static let gray238 = UIColor(rgb: 0xEEEEEE)
+    private static let gray243 = UIColor(rgb: 0xF7F3F3)
+    private static let white = UIColor(rgb: 0xFFFFFF)
     
     // > Palette
     private static let grayMedium = UIColor(rgb: 0xD5D3D3)
@@ -35,6 +38,9 @@ class StyleHelper {
     private static let brownMedium = UIColor(rgb: 0xD8CAB7)
     private static let greenMedium = UIColor(rgb: 0xC7C8B5)
     private static let turquoise = UIColor(rgb: 0x179BAA)
+    private static let blue = UIColor(rgb: 0x0092D4)
+    private static let blueDark = UIColor(rgb: 0x007CB1)
+    
     // Fonts
     private static func helveticaNeueFont(size size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
@@ -52,6 +58,8 @@ class StyleHelper {
         return UIFont(name: "HelveticaNeue-Italic", size: CGFloat(size))!
     }
     
+    // state-depending features
+    private static let disabledItemAlpha : CGFloat = 0.32
     
     private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
     
@@ -61,8 +69,13 @@ class StyleHelper {
         return gray204
     }
     
+    static var darkLineColor: UIColor {
+        return gray153
+    }
+    
+
     static var disabledButtonBackgroundColor: UIColor {
-        return gray204
+        return  red //gray204
     }
 
     static var emptypictureCellBackgroundColor: UIColor {
@@ -72,11 +85,19 @@ class StyleHelper {
     static var soldColor: UIColor {
         return turquoise
     }
+    
+    static var standardTextColor: UIColor {
+        return gray44
+    }
+    
+    static var onePixelSize: CGFloat {
+        return 1 / UIScreen.mainScreen().scale
+    }
 
     // MARK: - NavBar
     
     static var navBarButtonsColor: UIColor {
-        return black
+        return ABTests.navBarTintColor.colorValue
     }
     
     static var navBarTitleColor: UIColor {
@@ -101,6 +122,14 @@ class StyleHelper {
         let image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return image;
+    }
+    
+    static var navBarSearchFieldBgColor: UIColor {
+        return UIColor.whiteColor()
+    }
+    
+    static var navBarSearchBorderColor: UIColor {
+        return UIColor(rgb: 0xaeaaab)
     }
     
     // MARK: - TabBar
@@ -129,6 +158,11 @@ class StyleHelper {
         return helveticaNeueBoldFont(size: 16)
     }
     
+    // MARK: - Filter Tag
+    static var filterTagFont : UIFont {
+        return helveticaNeueFont(size: 14)
+    }
+    
     // MARK: - Product Cell
     
     static var productCellBgColor: UIColor {
@@ -140,6 +174,25 @@ class StyleHelper {
     static var badgeBgColor: UIColor {
         return red
     }
+    
+    // MARK: - Chat Cells
+    
+    static var chatOthersBubbleBgColor: UIColor {
+        return white
+    }
+    
+    static var chatOthersBubbleBgColorSelected: UIColor {
+        return gray238
+    }
+    
+    static var chatMyBubbleBgColor: UIColor {
+        return blue
+    }
+    
+    static var chatMyBubbleBgColorSelected: UIColor {
+        return blueDark
+    }
+    
     
     // MARK: - Chat safety tips
     
@@ -161,5 +214,9 @@ class StyleHelper {
     
     static var highlightedRedButtonColor: UIColor {
         return highlightedRed
+    }
+    
+    static var disabledButtonAlpha: CGFloat {
+        return disabledItemAlpha
     }
 }

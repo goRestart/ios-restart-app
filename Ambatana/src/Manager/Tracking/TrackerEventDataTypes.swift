@@ -27,16 +27,20 @@ public enum EventName: String {
     case SearchStart                        = "search-start"
     case SearchComplete                     = "search-complete"
     
+    case FilterStart                        = "filter-start"
+    case FilterComplete                     = "filter-complete"
+    
     case ProductDetailVisit                 = "product-detail-visit"
     
     case ProductFavorite                    = "product-detail-favorite"
     case ProductShare                       = "product-detail-share"
-    case ProductShareFbCancel               = "product-detail-share-facebook-cancel"
-    case ProductShareFbComplete             = "product-detail-share-facebook-complete"
+    case ProductShareCancel                 = "product-detail-share-cancel"
+    case ProductShareComplete               = "product-detail-share-complete"
     
     case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
     case ProductMarkAsSold                  = "product-detail-sold"
+    case ProductMarkAsUnsold                = "product-detail-unsold"
     
     case ProductReport                      = "product-detail-report"
     
@@ -126,6 +130,11 @@ public enum EventParameterName: String {
     case LocationEnabled      = "location-enabled"
     case LocationAllowed      = "location-allowed"
     case ButtonName           = "button-name"
+    case FilterLat            = "filter-lat"
+    case FilterLng            = "filter-lng"
+    case FilterDistanceRadius = "distance-radius"
+    case FilterDistanceUnit   = "distance-unit"
+    case FilterSortBy         = "sort-by"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -136,6 +145,7 @@ public enum EventParameterLoginSourceValue: String {
     case Favourite = "favourite"
     case MakeOffer = "offer"
     case MarkAsSold = "mark-as-sold"
+    case MarkAsUnsold = "mark-as-unsold"
     case AskQuestion = "question"
     case ReportFraud = "report-fraud"
     case Delete = "delete"
@@ -168,7 +178,16 @@ public enum EventParameterShareNetwork: String {
     case Facebook = "facebook"
     case Whatsapp = "whatsapp"
     case Twitter = "twitter"
+    case FBMessenger = "facebook-messenger"
 }
+
+public enum EventParameterSortBy: String {
+    case Distance = "distance"
+    case CreationDate = "creation-date"
+    case PriceAsc = "price-asc"
+    case PriceDesc = "price-desc"
+}
+
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]

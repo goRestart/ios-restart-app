@@ -6,10 +6,13 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import Foundation
+import TMReachability
 
 public class BaseViewController: UIViewController {
     
+    
+    // iVars
+    // > VM & active
     private var viewModel: BaseViewModel?
     private var subviews: [BaseView]
     public var active: Bool = false {
@@ -23,6 +26,40 @@ public class BaseViewController: UIViewController {
         }
     }
     
+    var topBarHeight : CGFloat {
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+        guard let navController = navigationController else { return statusBarHeight }
+        
+        return navController.navigationBar.frame.size.height + statusBarHeight
+    }
+    
+    var tabBarHeight : CGFloat {
+        guard let tabController = tabBarController else { return 0 }
+        
+        return tabController.tabBar.frame.size.height
+    }
+    
+    // > Toast View
+    var toastView: ToastView?
+    private var toastViewTopMarginConstraint: NSLayoutConstraint?
+    private var toastViewTopMarginShown: CGFloat {
+        return 0
+    }
+    private var toastViewTopMarginHidden: CGFloat {
+        guard let toastView = toastView else { return 0 }
+        return -(toastView.frame.height + topBarHeight + 100) // TODO: + 100 is too punk...
+    }
+    
+    // > Reachability
+    private static var reachability: TMReachability? = {
+        let result = TMReachability.reachabilityForInternetConnection()
+        result.startNotifier()
+        return result
+    } ()
+    private var reachable : Bool = true
+    private var reachabilityEnabled : Bool = true
+    
+    // > Floating sell button
     public internal(set) var floatingSellButtonHidden: Bool
     
     // MARK: Lifecycle
@@ -30,9 +67,15 @@ public class BaseViewController: UIViewController {
     init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         self.subviews = []
+
+        self.toastView = ToastView.toastView()
+        
         self.floatingSellButtonHidden = false
         super.init(nibName: nibNameOrNil, bundle: nil)
         
+        setReachabilityEnabled(true)
+
+        // Setup
         hidesBottomBarWhenPushed = true
     }
 
@@ -40,9 +83,32 @@ public class BaseViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        guard let toastView = toastView else { return }
+        toastView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(toastView)
+        
+        toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewTopMarginHidden)
+        view.addConstraint(toastViewTopMarginConstraint!)
+        
+        let views = ["toastView": toastView]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
+
+    }
+    
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearFromBackground(false)
+        
+        if reachabilityEnabled {
+            checkReachabilityAndUpdateToast()
+        }
     }
     
     override public func viewWillDisappear(animated: Bool) {
@@ -77,19 +143,61 @@ public class BaseViewController: UIViewController {
         active = false
     }
     
+    // MARK: > Reachability
+    
+    /**
+    Enables/disables reachability notifications.
+    
+    - parameter enabled: If reachability notifications should be enabled.
+    */
+    internal func setReachabilityEnabled(enabled: Bool) {
+        
+        guard let _ = BaseViewController.reachability else { return }
+        
+        reachabilityEnabled = enabled
+        if enabled {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("onReachabilityChanged:"), name: kReachabilityChangedNotification, object: nil)
+        }
+        else {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: kReachabilityChangedNotification, object: nil)
+        }
+    }
+    
     // MARK: > Subview handling
     
     func addSubview(subview: BaseView) {
+        //Adding to managed subviews
         if !subviews.contains(subview) {
-            subview.active = true
             subviews.append(subview)
+            
+            //Set current state to subview
+            subview.active = self.active
         }
     }
     
     func removeSubview(subview: BaseView) {
         if subviews.contains(subview) {
-            subview.active = false
             subviews = subviews.filter { return $0 !== subview }
+            
+            //Set inactive state to subview
+            subview.active = false
+        }
+    }
+    
+    // MARK: > UI
+    
+    /**
+        Shows/hides the toast view with the given message.
+    
+        - parameter hidden: If the toast view should be hidden.
+    */
+    func setToastViewHidden(hidden: Bool) {
+        guard let toastView = toastView else { return }
+        view.bringSubviewToFront(toastView)
+        toastViewTopMarginConstraint?.constant = hidden ? toastViewTopMarginHidden : toastViewTopMarginShown
+        UIView.animateWithDuration(0.35) {
+            toastView.alpha = hidden ? 0 : 1
+            toastView.layoutIfNeeded()
         }
     }
     
@@ -104,4 +212,28 @@ public class BaseViewController: UIViewController {
     @objc private func applicationWillEnterForeground(notification: NSNotification) {
         viewWillAppearFromBackground(true)
     }
+    
+    // MARK: > Reachability
+    
+    dynamic private func onReachabilityChanged(notification: NSNotification) {
+        checkReachabilityAndUpdateToast()
+    }
+    
+    private func checkReachabilityAndUpdateToast() {
+        guard let reachability = BaseViewController.reachability else { return }
+        
+        if reachability.isReachable() && !self.reachable {
+            self.reachable = true
+            
+            setToastViewHidden(true)
+            
+        } else if !reachability.isReachable() && self.reachable{
+            self.reachable = false
+            
+            toastView?.title = LGLocalizedString.toastNoNetwork
+            setToastViewHidden(false)
+        }
+    }
+    
+
 }

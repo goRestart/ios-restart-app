@@ -19,6 +19,12 @@ public enum CloseButtonType {
 
 public protocol LGTourViewControllerDelegate: class {
     /**
+        A tour view controller was initially shown.
+    
+        - parameter tourViewController: The tour view controller.
+    */
+    func tourViewControllerDidLoad(tourViewController: LGTourViewController)
+    /**
         A tour view controller show a page.
         
         - parameter tourViewController: The tour view controller.
@@ -82,12 +88,12 @@ public class LGTourViewController: UIViewController, UIScrollViewDelegate {
     }
     @IBOutlet weak var iPhoneLeftImageView: UIImageView! {
         didSet {
-            iPhoneLeftImageView.image = UIImage(named: "iphone_left", inBundle: NSBundle.LGTourBundle(), compatibleWithTraitCollection: nil)?.resizableImageWithCapInsets(UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0))
+            iPhoneLeftImageView.image = UIImage(named: "iphone_left", inBundle: NSBundle.LGTourBundle(), compatibleWithTraitCollection: nil)?.resizableImageWithCapInsets(UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0))
         }
     }
     @IBOutlet weak var iPhoneRightImageView: UIImageView! {
         didSet {
-            iPhoneRightImageView.image = UIImage(named: "iphone_right", inBundle: NSBundle.LGTourBundle(), compatibleWithTraitCollection: nil)?.resizableImageWithCapInsets(UIEdgeInsets(top: 0, left: 0, bottom: -20, right: 0))
+            iPhoneRightImageView.image = UIImage(named: "iphone_right", inBundle: NSBundle.LGTourBundle(), compatibleWithTraitCollection: nil)?.resizableImageWithCapInsets(UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0))
         }
     }
     @IBOutlet weak var iPhoneBottomImageView: UIImageView! {
@@ -275,6 +281,9 @@ public class LGTourViewController: UIViewController, UIScrollViewDelegate {
         if numberOfPages > 0 {
             delegate?.tourViewController(self, didShowPageAtIndex: 0)
         }
+        
+        // Notify the delegate
+        delegate?.tourViewControllerDidLoad(self)
        
         // @ahl: tilt stuff, commented for now
         

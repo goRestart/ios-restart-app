@@ -196,6 +196,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_cancel", comment: "")
 	}
 	
+	static var commonChatNotAvailable: String {
+		return NSLocalizedString("common_chat_not_available", comment: "")
+	}
+	
 	static var commonCollapse: String {
 		return NSLocalizedString("common_collapse", comment: "")
 	}
@@ -210,6 +214,10 @@ struct LGLocalizedString {
 	
 	static var commonErrorGenericBody: String {
 		return NSLocalizedString("common_error_generic_body", comment: "")
+	}
+	
+	static var commonErrorListRetryButton: String {
+		return NSLocalizedString("common_error_list_retry_button", comment: "")
 	}
 	
 	static var commonErrorNetworkBody: String {
@@ -230,6 +238,10 @@ struct LGLocalizedString {
 	
 	static var commonLoading: String {
 		return NSLocalizedString("common_loading", comment: "")
+	}
+	
+	static var commonMax: String {
+		return NSLocalizedString("common_max", comment: "")
 	}
 	
 	static var commonNo: String {
@@ -396,6 +408,66 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_send_ok", comment: "")
 	}
 	
+	static var filtersNavbarReset: String {
+		return NSLocalizedString("filters_navbar_reset", comment: "")
+	}
+	
+	static var filtersSaveButton: String {
+		return NSLocalizedString("filters_save_button", comment: "")
+	}
+	
+	static var filtersSectionCategories: String {
+		return NSLocalizedString("filters_section_categories", comment: "")
+	}
+	
+	static var filtersSectionDistance: String {
+		return NSLocalizedString("filters_section_distance", comment: "")
+	}
+	
+	static var filtersSectionWithin: String {
+		return NSLocalizedString("filters_section_within", comment: "")
+	}
+	
+	static var filtersSectionSortby: String {
+		return NSLocalizedString("filters_section_sortby", comment: "")
+	}
+	
+	static var filtersWithinDay: String {
+		return NSLocalizedString("filters_within_day", comment: "")
+	}
+	
+	static var filtersWithinWeek: String {
+		return NSLocalizedString("filters_within_week", comment: "")
+	}
+	
+	static var filtersWithinMonth: String {
+		return NSLocalizedString("filters_within_month", comment: "")
+	}
+	
+	static var filtersWithinAll: String {
+		return NSLocalizedString("filters_within_all", comment: "")
+	}
+	
+	static var filtersSortClosest: String {
+		return NSLocalizedString("filters_sort_closest", comment: "")
+	}
+	
+	static var filtersSortNewest: String {
+		return NSLocalizedString("filters_sort_newest", comment: "")
+	}
+	
+	static var filtersSortPriceAsc: String {
+		return NSLocalizedString("filters_sort_price_asc", comment: "")
+	}
+	
+	static var filtersSortPriceDesc: String {
+		return NSLocalizedString("filters_sort_price_desc", comment: "")
+	}
+	
+	static var filtersTitle: String {
+		return NSLocalizedString("filters_title", comment: "")
+	}
+	
 	static var forcedUpdateTitle: String {
 		return NSLocalizedString("forced_update_title", comment: "")
 	}
@@ -472,12 +544,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
 	}
 	
+	static var mainSignUpHelpButton: String {
+		return NSLocalizedString("main_sign_up_help_button", comment: "")
+	}
+	
 	static var mainSignUpLogInLabel: String {
 		return NSLocalizedString("main_sign_up_log_in_label", comment: "")
 	}
 	
 	static var mainSignUpOrLabel: String {
 		return NSLocalizedString("main_sign_up_or_label", comment: "")
+	}
+	
+	static var mainSignUpQuicklyLabel: String {
+		return NSLocalizedString("main_sign_up_quickly_label", comment: "")
 	}
 	
 	static var mainSignUpSignUpButton: String {
@@ -804,6 +884,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("reset_password_email_field_hint", comment: "")
 	}
 	
+	static var resetPasswordInstructions: String {
+		return NSLocalizedString("reset_password_instructions", comment: "")
+	}
+	
 	static var resetPasswordSendButton: String {
 		return NSLocalizedString("reset_password_send_button", comment: "")
 	}
@@ -1090,6 +1174,18 @@ struct LGLocalizedString {
 	
 	static var tabBarToolTip: String {
 		return NSLocalizedString("tab_bar_tool_tip", comment: "")
+	}
+	
+	static var toastNoNetwork: String {
+		return NSLocalizedString("toast_no_network", comment: "")
+	}
+	
+	static var toastErrorServer: String {
+		return NSLocalizedString("toast_error_server", comment: "")
+	}
+	
+	static var toastErrorInternal: String {
+		return NSLocalizedString("toast_error_internal", comment: "")
 	}
 	
 	static var tourPage1Body: String {

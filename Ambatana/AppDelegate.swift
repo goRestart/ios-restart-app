@@ -8,6 +8,7 @@
 
 import Crashlytics
 import Fabric
+import Optimizely
 import FBSDKCoreKit
 import LGCoreKit
 import Parse
@@ -56,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Show TabBar afterwards
                 let tabBarCtl = TabBarController()
                 actualWindow.rootViewController = tabBarCtl
+                navCtl.view.removeFromSuperview()
                 
                 // Open the deep link, if any
                 if let actualDeepLink = deepLink {
@@ -241,14 +243,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
 
         // LGCoreKit
+//        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
         LGCoreKit.initialize(launchOptions)
         
         // Crashlytics
 #if DEBUG
 #else
-        Fabric.with([Crashlytics()])
+        Fabric.with([Crashlytics.self, Optimizely.self])
 #endif
-        
+    
         // Push notifications, get the deep link if any
         var deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -257,7 +260,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             deepLink = DeepLink(url: url)
         }
         
+        for variable in ABTests.allValues {
+            OptimizelyABTester.sharedInstance.registerLiveVariable(variable)
+        }
+        
         // Tracking
+        // This will initialize Optimizely also
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // New Relic
@@ -272,7 +280,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setupAppearance() {
         UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont, NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
-        
         UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
     }
     

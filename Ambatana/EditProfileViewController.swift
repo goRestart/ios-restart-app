@@ -137,20 +137,20 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         
         // Add bottom inset (tabbar) if tabbar visible
         let bottomInset: CGFloat
-        let footerHeight: CGFloat
+        let sellButtonHeight: CGFloat
         if let tabBarCtl = self.tabBarController {
             bottomInset = tabBarCtl.tabBar.hidden ? 0 : tabBarCtl.tabBar.frame.height
-            footerHeight = tabBarCtl.tabBar.hidden ? 0 : 80
+            sellButtonHeight = tabBarCtl.tabBar.hidden ? 0 : Constants.tabBarSellFloatingButtonHeight
         }
         else {
             bottomInset = 0
-            footerHeight = 0
+            sellButtonHeight = 0
         }
         favouriteCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
         sellingProductListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
-        sellingProductListView.collectionViewFooterHeight = footerHeight
+        sellingProductListView.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: sellButtonHeight, right: 0)
         soldProductListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
-        soldProductListView.collectionViewFooterHeight = footerHeight
+        soldProductListView.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: sellButtonHeight, right: 0)
         
         // register ProductCell
         let cellNib = UINib(nibName: "ProductCell", bundle: nil)
@@ -316,12 +316,12 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
     }
-
+    
     // MARK: - UICollectionViewDataSource and Delegate methods
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, heightForFooterInSection section: Int) -> CGFloat {
         if let tabBarCtl = self.tabBarController {
-            return tabBarCtl.tabBar.hidden ? 0 : 80
+            return tabBarCtl.tabBar.hidden ? 0 : Constants.tabBarSellFloatingButtonHeight
         }
         return 0
     }

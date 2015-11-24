@@ -10,10 +10,7 @@ import Parse
 import UIKit
 
 private let kLetGoFadingAlertDismissalTime: Double = 2.5
-private let kLetGoSearchBarHeight: CGFloat = 44
 private let kLetGoBadgeContainerViewTag = 500
-
-var letGoSearchBar: UISearchBar?
 
 extension UIViewController {
     
@@ -24,6 +21,8 @@ extension UIViewController {
             self.navigationItem.title = titleString
         } else if let titleImage = title as? UIImage {
             self.navigationItem.titleView = UIImageView(image: titleImage)
+        } else if let titleTextField = title as? LGNavBarSearchField {
+            self.navigationItem.titleView = titleTextField
         }
 
         // back button
@@ -35,9 +34,21 @@ extension UIViewController {
         }
     }
     
+    func setLetGoRightButtonWithImageName(image: String, andSelector selector: String) -> UIBarButtonItem {
+        let itemImage = UIImage(named: image)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        let rightitem = UIBarButtonItem(image:itemImage, style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
+        self.navigationItem.rightBarButtonItem = rightitem
+        return rightitem
+    }
+    
     // Used to set right buttons in the LetGo style and link them with proper actions.
     func setLetGoRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], withTags tags: [Int]? = nil) -> [UIButton] {
         if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
+        
+        //Just one item, use the standard way
+        if (images.count == 1){
+            
+        }
 
         var resultButtons: [UIButton] = []
         let hSpacing: CGFloat = 24
@@ -158,52 +169,6 @@ extension UIViewController {
             self.presentedViewController?.view.alpha = 0
             }) { (finished) -> Void in
                 self.dismissViewControllerAnimated(true, completion: completion)
-        }
-    }
-
-
-    // Creates and shows a searching bar, that will be placed just below the UINavigationController, and allow the user to look for products.
-    func showSearchBarAnimated(animated: Bool, delegate: UISearchBarDelegate) {
-        // safety check
-        if letGoSearchBar != nil { return }
-        
-        // generate the search bar.
-        let statusBarSize = UIApplication.sharedApplication().statusBarFrame.size
-        let statusBarHeight = Swift.min(statusBarSize.width, statusBarSize.height)
-        let originY = statusBarHeight + (self.navigationController?.navigationBar.frame.size.height ?? 0)
-        letGoSearchBar = UISearchBar(frame: CGRectMake(0, animated ? -kLetGoSearchBarHeight : originY, UIScreen.mainScreen().bounds.size.width, kLetGoSearchBarHeight))
-        letGoSearchBar!.showsCancelButton = true
-        letGoSearchBar!.backgroundColor = UIColor.whiteColor()
-        letGoSearchBar!.delegate = delegate
-        letGoSearchBar!.becomeFirstResponder()
-
-        // add it to current view
-        self.view.addSubview(letGoSearchBar!)
-        if animated {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                letGoSearchBar!.frame.origin.y = originY
-            })
-        }
-    }
-    
-    func dismissSearchBar(searchBar: UISearchBar, animated: Bool, searchBarCompletion: ((Void) -> Void)?) {
-        if letGoSearchBar == nil { return }
-        if animated {
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                searchBar.frame.origin.y = -kLetGoSearchBarHeight
-            }, completion: { (success) -> Void in
-                searchBar.resignFirstResponder()
-                self.view.endEditing(true)
-                searchBar.removeFromSuperview()
-                letGoSearchBar = nil
-                searchBarCompletion?()
-            })
-        } else {
-            searchBar.resignFirstResponder()
-            self.view.endEditing(true)
-            searchBar.removeFromSuperview()
-            letGoSearchBar = nil
-            searchBarCompletion?()
         }
     }
     

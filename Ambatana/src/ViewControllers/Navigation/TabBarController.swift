@@ -73,6 +73,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     
     // UI
     var floatingSellButton: FloatingButton!
+    var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
     var sellButton: UIButton!
     var chatsTabBarItem: UITabBarItem?
     
@@ -121,9 +122,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         view.addSubview(floatingSellButton)
         
         let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
-//        let sellBottomMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: tabBar, attribute: .Top, multiplier: 1, constant: -15)
-        let sellBottomMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: -65) // 44 (tabbar size= + 15
-        view.addConstraints([sellCenterXConstraint,sellBottomMarginConstraint])
+        floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: -(tabBar.frame.height + 15)) // 15 above tabBar
+        view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
         
         // Initially set the chats tab badge to the app icon badge number
         if let chatsTab = chatsTabBarItem {
@@ -209,26 +209,36 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         - returns: If succesfully handled opening the deep link.
     */
     func openDeepLink(deepLink: DeepLink) -> Bool {
-        if deepLink.isValid {
-            switch deepLink.type {
-            case .Home:
-                switchToTab(.Home)
-                break
-            case .Sell:
-                openSell()
-            case .Product:
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) { [weak self] in
-                    let productId = deepLink.components[0]
-                    self?.openProductWithId(productId)
+        guard deepLink.isValid else { return false }
+        
+        var afterDelayClosure: (() -> Void)?
+        switch deepLink.type {
+        case .Home:
+            switchToTab(.Home)
+        case .Sell:
+            openSell()
+        case .Product:
+            afterDelayClosure =  { [weak self] in
+                let productId = deepLink.components[0]
+                self?.openProductWithId(productId)
+            }
+        case .User:
+            afterDelayClosure =  { [weak self] in
+                let userId = deepLink.components[0]
+                self?.openUserWithId(userId)
+            }
+        case .Chats:
+            switchToTab(.Chats)
+        case .Chat:
+            afterDelayClosure =  { [weak self] in
+                if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
+                    self?.openChatWithProductId(productId, buyerId: buyerId)
                 }
-            case .User:
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-                dispatch_after(delayTime, dispatch_get_main_queue()) { [weak self] in
-                    let userId = deepLink.components[0]
-                    self?.openUserWithId(userId)
-                }
-           }
+            }
+        }
+        if let afterDelayClosure = afterDelayClosure {
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
         }
         return true
     }
@@ -288,6 +298,19 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         else {
             floatingSellButton.hidden = hidden
         }
+    }
+    
+    /**
+        Overriding this method because we cannot stick the floatingsellButton to the tabbar. Each time we push a view controller that has 
+        'hidesBottomBarWhenPushed = true' tabBar is removed from view hierarchy so the constraint will dissapear. Also when the tabBar is
+        set again, is added into a different layer so the constraint cannot be set again.
+    */
+    override func setTabBarHidden(hidden:Bool, animated:Bool) {
+        
+        let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
+        floatingSellButtonMarginConstraint.constant = floatingOffset
+        super.setTabBarHidden(hidden, animated: animated)
+
     }
     
     // MARK: - SellProductViewControllerDelegate
@@ -547,6 +570,45 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                 }
             }
             
+            // Dismiss loading
+            self?.dismissLoadingMessageAlert(loadingDismissCompletion)
+        }
+    }
+    
+    private func openChatWithProductId(productId: String, buyerId: String) {
+        // Show loading
+        showLoadingMessageAlert()
+        
+        ChatManager.sharedInstance.retrieveChatWithProductId(productId, buyerId: buyerId) { [weak self] (result: Result<Chat, ChatRetrieveServiceError>) -> Void in
+
+            var loadingDismissCompletion: (() -> Void)? = nil
+            
+            // Success
+            if let chat = result.value {
+                
+                // Dismiss the loading and push the product vc on dismissal
+                loadingDismissCompletion = { () -> Void in
+                    // TODO: Refactor TabBarController with MVVM
+                    guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
+                    guard let chatVC = ChatViewController(chat: chat) else { return }
+                    navBarCtl.pushViewController(chatVC, animated: true)
+                }
+            }
+            // Error
+            else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized, .Forbidden:
+                    message = LGLocalizedString.commonChatNotAvailable
+                }
+                
+                loadingDismissCompletion = { () -> Void in
+                    self?.showAutoFadingOutMessageAlert(message)
+                }
+            }
+
             // Dismiss loading
             self?.dismissLoadingMessageAlert(loadingDismissCompletion)
         }

@@ -136,6 +136,43 @@ public struct TrackerEvent {
         return TrackerEvent(name: .SearchComplete, params: params)
     }
     
+    public static func filterStart() -> TrackerEvent {
+        return TrackerEvent(name: .FilterStart, params: nil)
+    }
+    
+    public static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?, distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria) -> TrackerEvent {
+        var params = EventParameters()
+        
+        // Filter Coordinates
+        if let actualCoords = coordinates {
+            params[.FilterLat] = actualCoords.latitude
+            params[.FilterLng] = actualCoords.longitude
+        } else {
+            params[.FilterLat] = "default"
+            params[.FilterLng] = "default"
+        }
+        
+        // Distance
+        params[.FilterDistanceRadius] = distanceRadius ?? "default"
+        params[.FilterDistanceUnit] = distanceUnit.string
+        
+        // Categories
+        var categoryIds: [String] = []
+        if let actualCategories = categories {
+            for category in actualCategories {
+                categoryIds.append(String(category.rawValue))
+            }
+        }
+        params[.CategoryId] = categoryIds.isEmpty ? "0" : categoryIds.joinWithSeparator(",")
+        
+        // Sorting
+        if let sortByParam = eventParameterSortByTypeForSorting(sortBy) {
+            params[.FilterSortBy] = sortByParam.rawValue
+        }
+                
+        return TrackerEvent(name: .FilterComplete, params: params)
+    }
+    
     public static func productDetailVisit(product: Product, user: User?) -> TrackerEvent {
         var params = EventParameters()
         // Product
@@ -159,24 +196,21 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductShare, params: params)
     }
     
-    public static func productShareFbCancel(product: Product) -> TrackerEvent {
+    public static func productShareCancel(product: Product, user: User?, network: EventParameterShareNetwork) -> TrackerEvent {
         var params = EventParameters()
-        // Product
-
+        params.addProductParamsWithProduct(product, user: user)
         params[.ProductType] = product.user.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-
-        return TrackerEvent(name: .ProductShareFbCancel, params: params)
+        params[.ShareNetwork] = network.rawValue
+        return TrackerEvent(name: .ProductShareCancel, params: params)
     }
-
-    public static func productShareFbComplete(product: Product) -> TrackerEvent {
+   
+    public static func productShareComplete(product: Product, user: User?, network: EventParameterShareNetwork) -> TrackerEvent {
         var params = EventParameters()
-        // Product
-
+        params.addProductParamsWithProduct(product, user: user)
         params[.ProductType] = product.user.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-
-        return TrackerEvent(name: .ProductShareFbComplete, params: params)
+        params[.ShareNetwork] = network.rawValue
+        return TrackerEvent(name: .ProductShareComplete, params: params)
     }
-
     
     public static func productOffer(product: Product, user: User?, amount: Double) -> TrackerEvent {
         var params = EventParameters()
@@ -209,6 +243,23 @@ public struct TrackerEvent {
         }
         params[.CategoryId] = product.category.rawValue
         return TrackerEvent(name: .ProductMarkAsSold, params: params)
+    }
+    
+    public static func productMarkAsUnsold(product: Product, user: User?) -> TrackerEvent {
+        var params = EventParameters()
+        
+        // Product
+        if let productId = product.objectId {
+            params[.ProductId] = productId
+        }
+        if let productPrice = product.price {
+            params[.ProductPrice] = productPrice
+        }
+        if let productCurrency = product.currency {
+            params[.ProductCurrency] = productCurrency.code
+        }
+        params[.CategoryId] = product.category.rawValue
+        return TrackerEvent(name: .ProductMarkAsUnsold, params: params)
     }
     
     public static func productReport(product: Product, user: User?) -> TrackerEvent {
@@ -392,5 +443,22 @@ public struct TrackerEvent {
             locationTypeParamValue = nil
         }
         return locationTypeParamValue
+    }
+    
+    private static func eventParameterSortByTypeForSorting(sorting: ProductSortCriteria) -> EventParameterSortBy? {
+        let sortBy: EventParameterSortBy?
+
+        switch (sorting) {
+        case .Distance:
+            sortBy = EventParameterSortBy.Distance
+        case .Creation:
+            sortBy = EventParameterSortBy.CreationDate
+        case .PriceAsc:
+            sortBy = EventParameterSortBy.PriceAsc
+        case .PriceDesc:
+            sortBy = EventParameterSortBy.PriceDesc
+        }
+        
+        return sortBy
     }
 }
