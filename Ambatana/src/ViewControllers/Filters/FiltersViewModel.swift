@@ -125,80 +125,73 @@ class FiltersViewModel: BaseViewModel {
     }
     
     func selectCategoryAtIndex(index: Int) {
-        if index < numOfCategories {
-            productFilter.toggleCategory(categories[index])
-            self.delegate?.viewModelDidUpdate(self)
-        }
+        guard index < numOfCategories else { return }
+        
+        productFilter.toggleCategory(categories[index])
+        self.delegate?.viewModelDidUpdate(self)
     }
     
     func categoryTextAtIndex(index: Int) -> String? {
-        if index < numOfCategories {
-            return categories[index].name
-        }
-        return nil
+        guard index < numOfCategories else { return nil }
+        
+        return categories[index].name
     }
     
     func categoryIconAtIndex(index: Int) -> UIImage? {
-        if index < numOfCategories {
-            let category = categories[index]
-            return category.imageSmallInactive?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
-        }
-        return nil
+        guard index < numOfCategories else { return nil }
+        
+        let category = categories[index]
+        return category.imageSmallInactive?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
     }
     
     func categoryColorAtIndex(index: Int) -> UIColor {
-        if index < numOfCategories {
-            let category = categories[index]
-            if(productFilter.hasSelectedCategory(category)){
-                return category.color
-            }
+        guard index < numOfCategories else { return StyleHelper.standardTextColor }
+        
+        let category = categories[index]
+        if(productFilter.hasSelectedCategory(category)){
+            return category.color
         }
-        return StyleHelper.standardTextColor
     }
     
     // MARK: Within
     func selectWithinTimeAtIndex(index: Int) {
+        guard index < numOfWithinTimes else { return }
+        
         productFilter.selectedWithin = withinTimes[index]
         self.delegate?.viewModelDidUpdate(self)
     }
     
     func withinTimeNameAtIndex(index: Int) -> String? {
-        if index < numOfSortOptions {
-            return withinTimes[index].name
-        }
-        return nil
+        guard index < numOfWithinTimes else { return nil }
+        
+        return withinTimes[index].name
     }
     
     func withinTimeSelectedAtIndex(index: Int) -> Bool {
-        if index < numOfWithinTimes {
-            return withinTimes[index] == productFilter.selectedWithin
-        }
-        return false
+        guard index < numOfWithinTimes else { return false }
         
+        return withinTimes[index] == productFilter.selectedWithin
     }
     
     // MARK: Filter by
     
     func selectSortOptionAtIndex(index: Int) {
-        if index < numOfSortOptions {
-            productFilter.selectedOrdering = sortOptions[index]
-            self.delegate?.viewModelDidUpdate(self)
-        }
+        guard index < numOfSortOptions else { return }
+        
+        productFilter.selectedOrdering = sortOptions[index]
+        self.delegate?.viewModelDidUpdate(self)
     }
 
     func sortOptionTextAtIndex(index: Int) -> String? {
-        if index < numOfSortOptions {
-            return sortOptions[index].name
-        }
-        return nil
+        guard index < numOfSortOptions else { return nil }
+        
+        return sortOptions[index].name
     }
     
     func sortOptionSelectedAtIndex(index: Int) -> Bool {
-        if index < numOfSortOptions {
-            return sortOptions[index] == productFilter.selectedOrdering
-        }
-        return false
-
+        guard index < numOfSortOptions else { return false }
+        
+        return sortOptions[index] == productFilter.selectedOrdering
     }
 
 }
