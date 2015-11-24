@@ -230,9 +230,16 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         case .Chats:
             switchToTab(.Chats)
         case .Chat:
-            afterDelayClosure =  { [weak self] in
-                if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
-                    self?.openChatWithProductId(productId, buyerId: buyerId)
+
+            if let currentVC = selectedViewController as? UINavigationController, let topVC = currentVC.topViewController as? ChatViewController {
+                topVC.refreshMessages()
+            }
+            else {
+                switchToTab(.Chats)
+                afterDelayClosure =  { [weak self] in
+                    if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
+                        self?.openChatWithProductId(productId, buyerId: buyerId)
+                    }
                 }
             }
         }

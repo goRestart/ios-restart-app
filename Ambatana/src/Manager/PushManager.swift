@@ -118,7 +118,7 @@ public class PushManager: NSObject, KahunaDelegate {
                 // Update the unread messages count
                 updateUnreadMessagesCount()
                 
-                // Notify about the received user interaction
+                // Notify about the received user interaction (chatVC only observes notification if shown)
                 NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
                 
                 // If active, then update the badge
@@ -135,9 +135,13 @@ public class PushManager: NSObject, KahunaDelegate {
                     }
                 }
                 else {
+                    guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
+                    deepLink = DeepLink(url: chatUrl)
+                    deepLink?.buildWithAction(action)
                     PFPush.handlePush(userInfo)
                 }
             case .URL(let dL):
+                guard application.applicationState != .Active else { return nil }
                 deepLink = dL
                 break
             }

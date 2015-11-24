@@ -134,6 +134,15 @@ public struct DeepLink: CustomStringConvertible {
         }
     }
 
+    public mutating func buildWithAction(action: Action) {
+        
+        switch action {
+        case .Message( _ , let messageProduct, let messageBuyer):
+            query = ["p" : messageProduct, "b" : messageBuyer]
+        case .URL(let actionDeepLink):
+            self = actionDeepLink
+        }
+    }
     
     private func decomposeIdSlug(sluggedId: String) -> String? {
         let slugComponents = sluggedId.componentsSeparatedByString("_")
