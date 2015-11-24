@@ -148,9 +148,7 @@ class FiltersViewModel: BaseViewModel {
         guard index < numOfCategories else { return StyleHelper.standardTextColor }
         
         let category = categories[index]
-        if(productFilter.hasSelectedCategory(category)){
-            return category.color
-        }
+        return productFilter.hasSelectedCategory(category) ? category.color : StyleHelper.standardTextColor
     }
     
     // MARK: Within

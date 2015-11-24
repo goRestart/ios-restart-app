@@ -168,11 +168,9 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
             cell.titleLabel.textColor = color
             
             cell.rightSeparator.hidden = indexPath.row % 2 == 1
-            
+
             return cell
-        
         case .Within:
-            //TODO REFACTOR FILTERSORTBY INTO SINGLECHECKFILTER
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell", forIndexPath: indexPath) as! FilterSingleCheckCell
             cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
             cell.selected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
