@@ -103,11 +103,16 @@
 "filters_section_categories" = "Kategóriák";
 "filters_section_distance" = "Távolság";
 "filters_section_sortby" = "Rendezés";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "Legközelebbiek elöl";
 "filters_sort_newest" = "Legújabbak elöl";
 "filters_sort_price_asc" = "Ár szerint, növekvő";
 "filters_sort_price_desc" = "Ár szerint, csökkenő";
 "filters_title" = "Szűrők";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "Elérhető a letgo új verziója. Kérjük, frissíts!";
 "forced_update_title" = "Frissítés elérhető";
 "forced_update_update_button" = "Frissítés";
@@ -124,7 +129,7 @@
 "main_sign_up_already_registered_label" = "Már regisztráltál?";
 "main_sign_up_claim_label" = "Kezdj vásárolni és eladni – chaten!";
 "main_sign_up_contact_us_button" = "Segítségre van szükséged?";
-"main_sign_up_facebook_connect_button" = "Csatlakozás Facebookkal";
+"main_sign_up_facebook_connect_button" = "Facebookkal";
 "main_sign_up_fb_connect_error_email_taken" = "Már tartozik regisztráció az e-mail címedhez. Jelentkezz be vele!";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
 "main_sign_up_help_button" = "Segítség";
@@ -212,7 +217,7 @@
 "rating_view_suggest_label" = "Oszd meg velünk javaslataid";
 "rating_view_title_label" = "Ugye tetszik a letgo?";
 "reset_password_email_field_hint" = "Add meg az e-mail címedet";
-"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
+"reset_password_instructions" = "Add meg az e-mail címed, mi pedig küldünk egy levelet, amivel visszaállíthatod jelszavad";
 "reset_password_send_button" = "E-mail küldése";
 "reset_password_send_error_generic" = "Hiba történt a jelszó visszaállítása során. Próbálkozz újra!";
 "reset_password_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";

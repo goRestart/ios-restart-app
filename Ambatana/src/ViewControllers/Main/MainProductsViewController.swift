@@ -43,7 +43,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     }
 
     public required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
-        self.searchTextField = (viewModel.title == nil) ? LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString) : nil
+        self.searchTextField = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
         
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
@@ -71,14 +71,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         mainProductListView.queryString = viewModel.searchString
         
         //Applying previous filters
-        mainProductListView.categories = viewModel.filters?.selectedCategories
-        mainProductListView.sortCriteria = viewModel.filters?.selectedOrdering
-        mainProductListView.distanceRadius = viewModel.filters?.distanceRadius
-        mainProductListView.distanceType = viewModel.filters?.distanceType
-        
-        if let category = viewModel.category {
-            mainProductListView.categories = [category]
-        }
+        setProductListFilters()
+
 
         addSubview(mainProductListView)
         
@@ -88,17 +82,14 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         //Filter tags
         setupTagsView()
         
-        if let categoryTitle = viewModel.title as? String {
-            self.setLetGoNavigationBarStyle(categoryTitle)
-        } else {
-            // Add search text field && filters button
-            if let searchField = searchTextField {                
-                searchField.searchTextField.delegate = self
-                setLetGoNavigationBarStyle(searchField)
-            }
-            
-            setFiltersNavbarButton()
+        // Add search text field
+        if let searchField = searchTextField {                
+            searchField.searchTextField.delegate = self
+            setLetGoNavigationBarStyle(searchField)
         }
+        
+        // Add filters button
+        setFiltersNavbarButton()
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -237,11 +228,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         loadTagsViewWithTags(showTags)
     }
     
-    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel, withCategories categories: [ProductCategory]?, sortCriteria: ProductSortCriteria?, distanceRadius: Int?, distanceType: DistanceType?){
-        mainProductListView.categories = categories
-        mainProductListView.sortCriteria = sortCriteria
-        mainProductListView.distanceRadius = distanceRadius
-        mainProductListView.distanceType = distanceType
+    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel){
+        setProductListFilters()
         mainProductListView.refresh()
     }
 
@@ -363,9 +351,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
     
     private func loadTagsViewWithTags(tags: [FilterTag]) {
         
-        //If category mode, avoid showing filters or tags
-        guard viewModel.category == nil else { return }
-        
         self.tagsViewController.updateTags(tags)
         
         let showTags = tags.count > 0
@@ -435,6 +420,14 @@ public class MainProductsViewController: BaseViewController, ProductListViewData
         if let alpha = alpha {
             distanceShadow.alpha = alpha
         }
+    }
+    
+    private func setProductListFilters() {
+        mainProductListView.categories = viewModel.filters?.selectedCategories
+        mainProductListView.timeCriteria = viewModel.filters?.selectedWithin
+        mainProductListView.sortCriteria = viewModel.filters?.selectedOrdering
+        mainProductListView.distanceRadius = viewModel.filters?.distanceRadius
+        mainProductListView.distanceType = viewModel.filters?.distanceType
     }
     
 }

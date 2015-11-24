@@ -103,11 +103,16 @@
 "filters_section_categories" = "Danh mục";
 "filters_section_distance" = "Khoảng cách";
 "filters_section_sortby" = "Sắp xếp theo";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "Gần nhất trước tiên";
 "filters_sort_newest" = "Mới nhất trước tiên";
 "filters_sort_price_asc" = "Giá từ thấp lên cao";
 "filters_sort_price_desc" = "Giá từ cao xuống thấp";
 "filters_title" = "Bộ lọc";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "Đã có phiên bản letgo mới. Hãy tải xuống ngay bây giờ.";
 "forced_update_title" = "Có bản cập nhật mới";
 "forced_update_update_button" = "Cập nhật";
@@ -124,7 +129,7 @@
 "main_sign_up_already_registered_label" = "Đã đăng ký?";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua—bằng cách trò chuyện!";
 "main_sign_up_contact_us_button" = "Bạn cần trợ giúp?";
-"main_sign_up_facebook_connect_button" = "Kết nối với Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Địa chỉ email của bạn đã được đăng kí. Xin vui lòng đăng nhập theo địa chỉ email này.";
 "main_sign_up_fb_connect_error_generic" = "Không thể đăng nhập. Xin vui lòng thử lại.";
 "main_sign_up_help_button" = "Trợ giúp";

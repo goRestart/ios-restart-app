@@ -103,11 +103,16 @@
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstand";
 "filters_section_sortby" = "Sorter etter";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "Nærmest først";
 "filters_sort_newest" = "Nyest først";
 "filters_sort_price_asc" = "Pris lav til høy";
 "filters_sort_price_desc" = "Pris høy til lav";
 "filters_title" = "Filtere";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "En ny versjon av letgo er tilgjengelig. Vennligst oppdater nå.";
 "forced_update_title" = "Oppdatering tilgjengelig";
 "forced_update_update_button" = "Oppdater";

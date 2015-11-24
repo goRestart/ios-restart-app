@@ -7,7 +7,7 @@
 //
 
 public enum FilterSection {
-    case Distance, Categories, SortBy
+    case Distance, Categories, Within, SortBy
 }
 
 extension FilterSection {
@@ -18,8 +18,20 @@ extension FilterSection {
             return LGLocalizedString.filtersSectionDistance.uppercaseString
         case .Categories:
             return LGLocalizedString.filtersSectionCategories.uppercaseString
+        case .Within:
+            return LGLocalizedString.filtersSectionWithin.uppercaseString
         case .SortBy:
             return LGLocalizedString.filtersSectionSortby.uppercaseString
+        }
+    }
+    
+    public static func allValues()  -> [FilterSection] {
+        
+        if ABTests.productsWithinFilterEnabled.boolValue {
+            return [.Distance, .Categories, .Within, .SortBy]
+        }
+        else {
+            return [.Distance, .Categories, .SortBy]
         }
     }
     

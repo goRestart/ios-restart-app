@@ -103,11 +103,16 @@
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstånd";
 "filters_section_sortby" = "Sortera efter";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "Närmaste först";
 "filters_sort_newest" = "Senaste först";
 "filters_sort_price_asc" = "Pris lågt till högt";
 "filters_sort_price_desc" = "Pris högt till lågt";
 "filters_title" = "Filter";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "Det finns en ny version av letgo. Var god uppdatera nu.";
 "forced_update_title" = "Uppdatering tillgänglig";
 "forced_update_update_button" = "Uppdatera";
@@ -124,7 +129,7 @@
 "main_sign_up_already_registered_label" = "Redan registrerad?";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
 "main_sign_up_contact_us_button" = "Behöver du hjälp?";
-"main_sign_up_facebook_connect_button" = "Anslut med Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadress är redan registrerad. Använd den för att logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Var god försök igen.";
 "main_sign_up_help_button" = "Hjälp";
@@ -212,7 +217,7 @@
 "rating_view_suggest_label" = "Dela dina förslag";
 "rating_view_title_label" = "Älskar du letgo?";
 "reset_password_email_field_hint" = "Ange din e-postadress";
-"reset_password_instructions" = "Please enter your email address and we’ll send you an email to reset your password.";
+"reset_password_instructions" = "Vänligen skriv in din e-postadress så skickar vi dig ett e-mejl för att återskapa ditt lösenord";
 "reset_password_send_button" = "Skicka mejl";
 "reset_password_send_error_generic" = "Ett fel uppstod när vi skulle återställa ditt lösenord. Var vänlig försök igen.";
 "reset_password_send_error_invalid_email" = "Var god ange en giltig e-postadress.";

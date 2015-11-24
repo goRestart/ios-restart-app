@@ -172,6 +172,14 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             productListViewModel.categories = newValue
         }
     }
+    public var timeCriteria: ProductTimeCriteria? {
+        get {
+            return productListViewModel.timeCriteria
+        }
+        set {
+            productListViewModel.timeCriteria = newValue
+        }
+    }
     public var sortCriteria: ProductSortCriteria? {
         get {
             return productListViewModel.sortCriteria

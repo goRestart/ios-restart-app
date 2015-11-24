@@ -103,11 +103,16 @@
 "filters_section_categories" = "Kategorien";
 "filters_section_distance" = "Entfernung";
 "filters_section_sortby" = "Sortiert nach";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "Nächste zuerst";
 "filters_sort_newest" = "Neueste zuerst";
 "filters_sort_price_asc" = "Preis aufsteigend";
 "filters_sort_price_desc" = "Preis absteigend";
 "filters_title" = "Filter";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "Eine neue Version von letgo ist verfügbar. Bitte aktualisiere sie jetzt.";
 "forced_update_title" = "Neue Version verfügbar";
 "forced_update_update_button" = "Neue Version";
@@ -124,7 +129,7 @@
 "main_sign_up_already_registered_label" = "Bereits registriert?";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
 "main_sign_up_contact_us_button" = "Brauchst du Hilfe?";
-"main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Deine E-Mail-Adresse ist bereits registriert. Bitte nutze sie, um dich anzumelden.";
 "main_sign_up_fb_connect_error_generic" = "Anmeldung fehlgeschlagen. Bitte versuche es erneut.";
 "main_sign_up_help_button" = "Hilfe";

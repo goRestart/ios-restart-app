@@ -1,5 +1,5 @@
 //
-//  FilterSortByCell.swift
+//  FilterSingleCheckCell.swift
 //  LetGo
 //
 //  Created by Eli Kohen on 09/11/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FilterSortByCell: UICollectionViewCell {
+class FilterSingleCheckCell: UICollectionViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var tickIcon: UIImageView!

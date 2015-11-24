@@ -14,17 +14,14 @@ protocol MainProductsViewModelDelegate: class {
     func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
-    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel, withCategories categories: [ProductCategory]?, sortCriteria: ProductSortCriteria?, distanceRadius: Int?, distanceType: DistanceType?)
+    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel)
 }
 
 public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate {
 
     // Input
-    public var category: ProductCategory?
     public var searchString: String?
-    
-    // Output
-    public var title: AnyObject?
+    public var filters : ProductFilters?
     
     public var infoBubblePresent : Bool {
         guard let theFilters = filters else {
@@ -44,25 +41,25 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
             resultTags.append(.Category(prodCat))
         }
         
+        if(theFilters.selectedWithin != ProductTimeCriteria.defaultOption) {
+            resultTags.append(.Within(theFilters.selectedWithin))
+        }
+        
         if(theFilters.selectedOrdering != ProductSortCriteria.defaultOption) {
             resultTags.append(.OrderBy(theFilters.selectedOrdering))
         }
         return resultTags
     }
     
-    var filters : ProductFilters?
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
     
     // MARK: - Lifecycle
     
-    public init(category: ProductCategory? = nil, searchString: String? = nil, filters: ProductFilters? = nil) {
-        self.category = category
+    public init(searchString: String? = nil, filters: ProductFilters? = nil) {
         self.searchString = searchString
         self.filters = filters
-
-        self.title = category?.name
         
         super.init()
     }
@@ -129,6 +126,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         
         var categories : [ProductCategory] = []
         var orderBy = ProductSortCriteria.defaultOption
+        var within = ProductTimeCriteria.defaultOption
         
         for filterTag in tags {
             switch filterTag {
@@ -136,11 +134,14 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
                 categories.append(prodCategory)
             case .OrderBy(let prodSortOption):
                 orderBy = prodSortOption
+            case .Within(let prodTimeOption):
+                within = prodTimeOption
             }
         }
         
         filters?.selectedCategories = categories
         filters?.selectedOrdering = orderBy
+        filters?.selectedWithin = within
         
         updateListView()
     }
@@ -172,7 +173,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     
     private func updateListView() {
         
-        delegate?.mainProductsViewModelRefresh(self, withCategories: self.filters?.selectedCategories, sortCriteria: self.filters?.selectedOrdering, distanceRadius: self.filters?.distanceRadius, distanceType: self.filters?.distanceType)
+        delegate?.mainProductsViewModelRefresh(self)
 
     }
     
