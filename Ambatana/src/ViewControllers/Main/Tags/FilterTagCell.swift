@@ -29,12 +29,18 @@ class FilterTagCell: UICollectionViewCell {
     static func cellSizeForTag(tag : FilterTag) -> CGSize {
         switch tag {
         case .OrderBy(let sortOption):
-            let constraintRect = CGSize(width: CGFloat.max, height: FilterTagCell.cellHeigh)
-            let boundingBox = sortOption.name.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
-            return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeigh)
+            return FilterTagCell.sizeForText(sortOption.name)
+        case .Within(let timeOption):
+            return FilterTagCell.sizeForText(timeOption.name)
         case .Category:
             return CGSize(width: iconWidth+fixedWidthSpace, height: FilterTagCell.cellHeigh)
         }
+    }
+    
+    private static func sizeForText(text: String) -> CGSize {
+        let constraintRect = CGSize(width: CGFloat.max, height: FilterTagCell.cellHeigh)
+        let boundingBox = text.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
+        return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeigh)
     }
     
     // MARK: - Lifecycle
@@ -64,6 +70,8 @@ class FilterTagCell: UICollectionViewCell {
         switch tag {
         case .OrderBy(let sortOption):
             self.tagLabel.text = sortOption.name
+        case .Within(let timeOption):
+            self.tagLabel.text = timeOption.name
         case .Category(let category):
             self.tagIconWidth.constant = FilterTagCell.iconWidth
             self.tagIcon.image = category.image

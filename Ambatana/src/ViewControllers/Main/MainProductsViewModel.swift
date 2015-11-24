@@ -41,6 +41,10 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
             resultTags.append(.Category(prodCat))
         }
         
+        if(theFilters.selectedWithin != ProductTimeCriteria.defaultOption) {
+            resultTags.append(.Within(theFilters.selectedWithin))
+        }
+        
         if(theFilters.selectedOrdering != ProductSortCriteria.defaultOption) {
             resultTags.append(.OrderBy(theFilters.selectedOrdering))
         }
@@ -122,6 +126,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         
         var categories : [ProductCategory] = []
         var orderBy = ProductSortCriteria.defaultOption
+        var within = ProductTimeCriteria.defaultOption
         
         for filterTag in tags {
             switch filterTag {
@@ -129,11 +134,14 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
                 categories.append(prodCategory)
             case .OrderBy(let prodSortOption):
                 orderBy = prodSortOption
+            case .Within(let prodTimeOption):
+                within = prodTimeOption
             }
         }
         
         filters?.selectedCategories = categories
         filters?.selectedOrdering = orderBy
+        filters?.selectedWithin = within
         
         updateListView()
     }
