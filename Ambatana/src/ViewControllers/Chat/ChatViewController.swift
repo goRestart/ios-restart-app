@@ -75,6 +75,15 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate {
     func menuControllerWillHide(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
+    
+    
+    // MARK: Slack methods
+    
+    override func didPressRightButton(sender: AnyObject!) {
+        let message = textView.text
+        textView.text = ""
+        viewModel.sendMessage(message)
+    }
 
     
     // MARK: TableView Delegate
@@ -122,14 +131,40 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate {
     
     // MARK: ChatViewModelDelegate
     
-    func didStartRetrievingChatMessages() {}
-    func didFailRetrievingChatMessages(error: ChatRetrieveServiceError) {}
+    func didFailRetrievingChatMessages(error: ChatRetrieveServiceError) {
+        switch (error) {
+        case .Internal, .Network, .NotFound, .Unauthorized:
+            showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError, completionBlock: { [weak self] () -> Void in
+                self?.popBackViewController()
+            })
+        case .Forbidden:
+            // logout the scammer!
+            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
+                MyUserManager.sharedInstance.logout(nil)
+            })
+        }
+    }
+    
     func didSucceedRetrievingChatMessages() {
         tableView.reloadData()
     }
+
+    func didFailSendingMessage(error: ChatSendMessageServiceError) {
+        switch (error) {
+        case .Internal, .Network, .NotFound, .Unauthorized:
+            showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
+        case .Forbidden:
+            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
+                MyUserManager.sharedInstance.logout(nil)
+            })
+        }
+    }
     
-    func didStartSendingMessage() {}
-    func didFailSendingMessage(error: ChatSendMessageServiceError) {}
-    func didSucceedSendingMessage() {}
+    func didSucceedSendingMessage() {
+        tableView.beginUpdates()
+        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        tableView.endUpdates()
+    }
 
 }

@@ -11,11 +11,9 @@ import LGCoreKit
 import Result
 
 protocol ChatViewModelDelegate {
-    func didStartRetrievingChatMessages()
     func didFailRetrievingChatMessages(error: ChatRetrieveServiceError)
     func didSucceedRetrievingChatMessages()
     
-    func didStartSendingMessage()
     func didFailSendingMessage(error: ChatSendMessageServiceError)
     func didSucceedSendingMessage()
 }
@@ -66,7 +64,6 @@ public class ChatViewModel: BaseViewModel {
     
     func loadMessages() {
         guard let userBuyer = buyer else { return }
-        delegate?.didStartRetrievingChatMessages()
         chatManager.retrieveChatWithProduct(chat.product, buyer: userBuyer) { [weak self] (result: Result<Chat, ChatRetrieveServiceError>) -> Void in
             guard let strongSelf = self else { return }
             
@@ -89,7 +86,6 @@ public class ChatViewModel: BaseViewModel {
         guard let toUser = otherUser else { return }
         self.isSendingMessage = true
         
-        delegate?.didStartSendingMessage()
         ChatManager.sharedInstance.sendText(message, product: chat.product, recipient: toUser) { [weak self] (result: ChatSendMessageServiceResult) -> Void in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value {
