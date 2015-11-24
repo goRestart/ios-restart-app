@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class ChatBubbleCell: UITableViewCell {
     
     @IBOutlet weak var bubbleView: UIView!

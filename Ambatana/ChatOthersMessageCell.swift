@@ -12,8 +12,11 @@ import UIKit
 class ChatOthersMessageCell: ChatBubbleCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
-    
     var avatarButtonPressed: (() -> Void)?
+    
+    static func cellID() -> String {
+        return "ChatOthersMessageCell"
+    }
     
     // MARK: > Action
     

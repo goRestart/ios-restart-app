@@ -7,6 +7,7 @@
 //
 
 import TMReachability
+import SlackTextViewController
 
 public class BaseViewController: UIViewController {
     
