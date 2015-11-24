@@ -13,7 +13,6 @@ import Result
 protocol ChatViewModelDelegate {
     func didFailRetrievingChatMessages(error: ChatRetrieveServiceError)
     func didSucceedRetrievingChatMessages()
-    
     func didFailSendingMessage(error: ChatSendMessageServiceError)
     func didSucceedSendingMessage()
 }
@@ -32,6 +31,11 @@ public class ChatViewModel: BaseViewModel {
     var shouldShowSafetyTipes: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
         return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
+    }
+    
+    var safetyTypesCompleted: Bool {
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
+        return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
     
     var didReceiveMessageFromOtherUser: Bool {
@@ -106,6 +110,9 @@ public class ChatViewModel: BaseViewModel {
         }
     }
     
+    
+    // MARK: Tracking
+    
     func trackQuestion() {
         let myUser = MyUserManager.sharedInstance.myUser()
         let askQuestionEvent = TrackerEvent.productAskQuestion(chat.product, user: myUser)
@@ -116,6 +123,15 @@ public class ChatViewModel: BaseViewModel {
         let myUser = MyUserManager.sharedInstance.myUser()
         let messageSentEvent = TrackerEvent.userMessageSent(chat.product, user: myUser)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+    }
+    
+    
+    // MARK: Safety Tips
+    
+    public func updateChatSafetyTipsLastPageSeen(page: Int) {
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
+        let maxPageSeen = max(idxLastPageSeen, page)
+        UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
     }
 }
 

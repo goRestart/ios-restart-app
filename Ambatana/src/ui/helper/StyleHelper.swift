@@ -175,7 +175,7 @@ class StyleHelper {
         return red
     }
     
-    // MARK: - Chat Cells
+    // MARK: - Chat
     
     static var chatOthersBubbleBgColor: UIColor {
         return white
@@ -195,6 +195,10 @@ class StyleHelper {
     
     static var chatTableViewBgColor: UIColor {
         return gray245
+    }
+    
+    static var chatSendButtonFont: UIFont {
+        return helveticaNeueMediumFont(size: 15)
     }
     
     
