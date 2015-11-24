@@ -184,6 +184,14 @@ public class SignUpLogInViewModel: BaseViewModel {
         }
     }
     
+    public func loginFailedWithError(error: EventParameterLoginError) {
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error.description))
+    }
+    
+    public func signupFailedWithError(error: EventParameterLoginError) {
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupError(error.description))
+    }
+    
     // MARK: - Private methods
     
     private func sendButtonShouldBeEnabled() -> Bool {

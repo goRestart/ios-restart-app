@@ -62,6 +62,10 @@ public class RememberPasswordViewModel: BaseViewModel {
         }
     }
     
+    public func resetPasswordFailedWithError(error: EventParameterLoginError) {
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.passwordResetError(error.description))
+    }
+    
     // MARK: - Private methods
     
     private func sendButtonShouldBeEnabled() -> Bool {
