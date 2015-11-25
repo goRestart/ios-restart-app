@@ -78,7 +78,7 @@ def add_key(terms, key)
 end
 
 def generate_ios_constants(target_directory)
-  input_file = File.open("Scripts/templates/ios_localized_swift.erb", "rb")
+  input_file = File.open("#{File.dirname(__FILE__)}/templates/ios_localized_swift.erb", "rb")
   template = input_file.read
   input_file.close
   renderer = ERB.new(template)
@@ -116,5 +116,4 @@ puts "Generating Localized Strings constants".white.on_green
 read_from_ios(source_path, @keys)
 
 generate_ios_constants destination_path
-
 
