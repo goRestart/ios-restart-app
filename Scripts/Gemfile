@@ -1,7 +1,7 @@
 source :rubygems
 
-gem "micro-optparse"
 gem "google_drive"
 gem "fileutils"
 gem "colorize"
 gem "web_translate_it"
+gem "micro-optparse"

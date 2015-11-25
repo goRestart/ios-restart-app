@@ -47,11 +47,6 @@ def generate_ios(language, target_directory)
   process_template 'ios_localizable.erb', target_directory, "Localizable.strings"
 end
 
-def generate_ios_constants_swift(target_directory)
-  process_template 'ios_constant_localizable_swift.erb', target_directory,'LocalizableConstantSwift.swift'
-  puts ' > '+'LocalizableConstantSwift.swift'.yellow
-end
-
 #Prints on screen all the unused keys and also marks that keys on spreadsheet as unused
 def check_unused_ios(worksheet, from_row, to_row, target_directory, mark)
   puts "\nUNUSED IOS KEYS:"
@@ -208,9 +203,6 @@ end
 puts 'Loaded.'.cyan
 
 puts 'Generating Localizable.base.strings file for ' + 'iOS'.red + '...'
-# generate_ios_constants ios_path
-# generate_ios_constants_swift ios_path
-# output_path = ios_path + "base_"
 generate_ios "base", ios_path
 
 puts "Updating base Localizable.strings on wti"
