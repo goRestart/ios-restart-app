@@ -136,8 +136,7 @@ public class PushManager: NSObject, KahunaDelegate {
                 }
                 else {
                     guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
-                    deepLink = DeepLink(url: chatUrl)
-                    deepLink?.buildWithAction(action)
+                    deepLink = DeepLink(action: action, url: chatUrl)
                     PFPush.handlePush(userInfo)
                 }
             case .URL(let dL):

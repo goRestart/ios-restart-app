@@ -231,7 +231,11 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
             switchToTab(.Chats)
         case .Chat:
 
+            // TODO: Refactor TabBarController with MVVM
             if let currentVC = selectedViewController as? UINavigationController, let topVC = currentVC.topViewController as? ChatViewController {
+                
+                // pop if not the same chat!
+                
                 topVC.refreshMessages()
             }
             else {

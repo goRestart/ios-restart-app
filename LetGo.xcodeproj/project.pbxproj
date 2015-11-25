@@ -2047,6 +2047,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
+				PROVISIONING_PROFILE = "718601c8-4002-49bc-8dc4-eebd368cd3ad";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -2138,7 +2139,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "06b4b30c-f1b5-4860-a575-5f7a03ca04f4";
+				PROVISIONING_PROFILE = "fc34c7b4-7656-40fc-9e8b-62f0ef488e2e";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/letgo-Bridging-Header.h";
 			};
 			name = Adhoc;
