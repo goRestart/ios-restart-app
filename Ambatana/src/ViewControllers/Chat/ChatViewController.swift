@@ -74,7 +74,9 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         self.setLetGoNavigationBarStyle(viewModel.chat.product.name)
         updateSafetyTipBarButton()
         
+        let tap = UITapGestureRecognizer(target: self, action: "openProductDetail")
         productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
+        productView.addGestureRecognizer(tap)
         updateProductView()
         view.addSubview(productView)
         self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
@@ -86,6 +88,12 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         productView.userLabel.text = viewModel.chat.product.user.publicUsername
         productView.priceLabel.text = viewModel.chat.product.formattedPrice()
         if let thumbURL = viewModel.chat.product.thumbnail?.fileURL {
+            switch viewModel.chat.product.status {
+            case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+                productView.imageButton.alpha = 1.0
+            case .Deleted:
+                productView.imageButton.alpha = 0.2
+            }
             productView.imageButton.sd_setImageWithURL(thumbURL)
         }
     }
@@ -95,6 +103,23 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         tableView.registerNib(myMessageCellNib, forCellReuseIdentifier: ChatMyMessageCell.cellID())
         let othersMessageCellNib = UINib(nibName: ChatOthersMessageCell.cellID(), bundle: nil)
         tableView.registerNib(othersMessageCellNib, forCellReuseIdentifier: ChatOthersMessageCell.cellID())
+    }
+    
+    
+    // MARK: Navigation
+    
+    func openProductDetail() {
+        switch viewModel.chat.product.status {
+        case .Deleted:
+            productView.showError(LGLocalizedString.commonProductNotAvailable)
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                self.productView.hideError()
+            }
+        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+            let vc = ProductViewController(viewModel: viewModel.productViewModel)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     

@@ -43,6 +43,10 @@ public class ChatViewModel: BaseViewModel {
         return chat.didReceiveMessageFrom(otherUserId)
     }
     
+    var productViewModel: ProductViewModel {
+        return ProductViewModel(product: chat.product, tracker: TrackerProxy.sharedInstance)
+    }
+    
     init(chat: Chat) {
         self.chat = chat
         super.init()

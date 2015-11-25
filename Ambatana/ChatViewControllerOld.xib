@@ -86,7 +86,7 @@
                         <view hidden="YES" alpha="0.94999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Czh-Jz-BOy" userLabel="Message View">
                             <rect key="frame" x="0.0" y="64" width="600" height="80"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3I-W9-Zxh" userLabel="Message Label">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="aisndaosidnasdasd" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G3I-W9-Zxh" userLabel="Message Label">
                                     <rect key="frame" x="8" y="8" width="584" height="64"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>

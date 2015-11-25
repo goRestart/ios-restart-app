@@ -21,6 +21,8 @@ class ChatProductView: UIView {
     let userLabel = UILabel()
     let priceLabel = UILabel()
     let separatorLine = UIView()
+    let errorView = UIView()
+    let errorLabel = UILabel()
     
     init() {
         super.init(frame: CGRectZero)
@@ -35,17 +37,24 @@ class ChatProductView: UIView {
         addSubview(userLabel)
         addSubview(priceLabel)
         addSubview(separatorLine)
+        addSubview(errorView)
+        errorView.addSubview(errorLabel)
     }
     
     func setupUI() {
         nameLabel.font = StyleHelper.chatProductViewNameFont
         userLabel.font = StyleHelper.chatProductViewUserFont
         priceLabel.font = StyleHelper.chatProductViewPriceFont
+        errorLabel.font = StyleHelper.chatProductViewUserFont
         
         nameLabel.textColor = StyleHelper.chatProductViewNameColor
         userLabel.textColor = StyleHelper.chatProductViewUserColor
         priceLabel.textColor = StyleHelper.chatProductViewPriceColor
-        
+        errorLabel.textColor = StyleHelper.chatProductViewNameColor
+    
+        errorLabel.textAlignment = .Center
+        errorView.hidden = true
+        errorView.backgroundColor = UIColor.whiteColor()
         separatorLine.backgroundColor = StyleHelper.lineColor
     }
     
@@ -64,8 +73,31 @@ class ChatProductView: UIView {
         priceLabel.frame = CGRect(x: nameLabel.left, y: userLabel.bottom, width: width, height: labelHeight)
         priceLabel.autoresizingMask = [.FlexibleWidth]
         
+        errorView.frame = bounds
+        errorView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        
+        errorLabel.frame = bounds
+        errorLabel.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        
         separatorLine.frame = CGRect(x: 0, y: height - separatorHeight, width: width, height: separatorHeight)
         separatorLine.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
+    }
+    
+    func showError(errorString: String) {
+        errorView.alpha = 0
+        errorView.hidden = false
+        errorLabel.text = errorString
+        UIView.animateWithDuration(0.25, animations: { [weak self] () -> Void in
+            self?.errorView.alpha = 0.95
+            })
+    }
+    
+    func hideError() {
+        UIView.animateWithDuration(0.25, animations: { [weak self] () -> Void in
+            self?.errorView.alpha = 0
+            }, completion: { [weak self] (success) -> Void in
+                self?.errorView.hidden = true
+            })
     }
     
     required init?(coder aDecoder: NSCoder) {
