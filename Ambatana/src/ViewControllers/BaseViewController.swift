@@ -51,13 +51,13 @@ public class BaseViewController: UIViewController {
     }
     
     // > Reachability
-    private static var reachability: TMReachability? = {
+    private static var reachability: TMReachability = {
         let result = TMReachability.reachabilityForInternetConnection()
         result.startNotifier()
         return result
     } ()
-    private var reachable : Bool = true
-    private var reachabilityEnabled : Bool = true
+    private var reachable : Bool?
+    private var reachabilityEnabled : Bool?
     
     // > Floating sell button
     public internal(set) var floatingSellButtonHidden: Bool
@@ -71,12 +71,13 @@ public class BaseViewController: UIViewController {
         self.toastView = ToastView.toastView()
         
         self.floatingSellButtonHidden = false
+        self.reachable = nil
+        self.reachabilityEnabled = nil
         super.init(nibName: nibNameOrNil, bundle: nil)
         
-        setReachabilityEnabled(true)
-
         // Setup
         hidesBottomBarWhenPushed = true
+        setReachabilityEnabled(true)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -99,16 +100,12 @@ public class BaseViewController: UIViewController {
         
         let views = ["toastView": toastView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toastView]|", options: [], metrics: nil, views: views))
-
     }
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         viewWillAppearFromBackground(false)
-        
-        if reachabilityEnabled {
-            checkReachabilityAndUpdateToast()
-        }
+        updateReachableAndToastViewVisibilityIfNeeded()
     }
     
     override public func viewWillDisappear(animated: Bool) {
@@ -136,31 +133,12 @@ public class BaseViewController: UIViewController {
         
         // If coming from navigation, then unsubscribe observers
         if !toBackground {
-            NSNotificationCenter.defaultCenter().removeObserver(self)
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidEnterBackgroundNotification, object: nil)
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
         }
         
         // Mark as inactive
         active = false
-    }
-    
-    // MARK: > Reachability
-    
-    /**
-    Enables/disables reachability notifications.
-    
-    - parameter enabled: If reachability notifications should be enabled.
-    */
-    internal func setReachabilityEnabled(enabled: Bool) {
-        
-        guard let _ = BaseViewController.reachability else { return }
-        
-        reachabilityEnabled = enabled
-        if enabled {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("onReachabilityChanged:"), name: kReachabilityChangedNotification, object: nil)
-        }
-        else {
-            NSNotificationCenter.defaultCenter().removeObserver(self, name: kReachabilityChangedNotification, object: nil)
-        }
     }
     
     // MARK: > Subview handling
@@ -213,27 +191,42 @@ public class BaseViewController: UIViewController {
         viewWillAppearFromBackground(true)
     }
     
-    // MARK: > Reachability
-    
     dynamic private func onReachabilityChanged(notification: NSNotification) {
-        checkReachabilityAndUpdateToast()
+        updateReachableAndToastViewVisibilityIfNeeded()
     }
     
-    private func checkReachabilityAndUpdateToast() {
-        guard let reachability = BaseViewController.reachability else { return }
+    // MARK: > Reachability
+    
+    /**
+        Enables/disables reachability notifications.
+    
+        - parameter enabled: If reachability notifications should be enabled.
+    */
+    internal func setReachabilityEnabled(enabled: Bool) {
+        guard enabled != reachabilityEnabled else { return }
         
-        if reachability.isReachable() && !self.reachable {
-            self.reachable = true
-            
-            setToastViewHidden(true)
-            
-        } else if !reachability.isReachable() && self.reachable{
-            self.reachable = false
-            
-            toastView?.title = LGLocalizedString.toastNoNetwork
-            setToastViewHidden(false)
+        reachabilityEnabled = enabled
+        if enabled {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("onReachabilityChanged:"), name: kReachabilityChangedNotification, object: nil)
+        }
+        else {
+            NSNotificationCenter.defaultCenter().removeObserver(self, name: kReachabilityChangedNotification, object: nil)
         }
     }
     
-
+    private func updateReachableAndToastViewVisibilityIfNeeded() {
+        // Update reachable if changed
+        let newReachableValue = BaseViewController.reachability.isReachable()
+        guard newReachableValue != reachable else { return }
+        reachable = BaseViewController.reachability.isReachable()
+        
+        // Show/hide toast
+        guard let reachable = reachable, reachabilityEnabled = reachabilityEnabled else { return }
+        guard reachabilityEnabled else { return }
+        
+        if !reachable {
+            toastView?.title = LGLocalizedString.toastNoNetwork
+        }
+        setToastViewHidden(reachable)
+    }
 }
