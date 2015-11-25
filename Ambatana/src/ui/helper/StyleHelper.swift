@@ -201,6 +201,30 @@ class StyleHelper {
         return helveticaNeueMediumFont(size: 15)
     }
     
+    static var chatProductViewNameFont: UIFont {
+        return helveticaNeueFont(size: 16)
+    }
+    
+    static var chatProductViewUserFont: UIFont {
+        return helveticaNeueFont(size: 14)
+    }
+    
+    static var chatProductViewPriceFont: UIFont {
+        return helveticaNeueBoldFont(size: 16)
+    }
+    
+    static var chatProductViewNameColor: UIColor {
+        return black
+    }
+    
+    static var chatProductViewUserColor: UIColor {
+        return gray153
+    }
+    
+    static var chatProductViewPriceColor: UIColor {
+        return black
+    }
+    
     
     // MARK: - Chat safety tips
     

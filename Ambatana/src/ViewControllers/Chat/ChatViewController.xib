@@ -7,6 +7,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="priceLabel" destination="Jah-nb-v63" id="zOS-Zg-T6m"/>
+                <outlet property="productImageView" destination="ead-tn-hJZ" id="wzB-VT-XeU"/>
+                <outlet property="productNameLabel" destination="twn-1j-xjo" id="NGO-mu-OiG"/>
+                <outlet property="topView" destination="gci-7f-V7k" id="RLc-Ry-c11"/>
+                <outlet property="topViewTopConstraint" destination="kUe-pj-Jxf" id="cxU-76-Vax"/>
+                <outlet property="usernameLabel" destination="JEn-9j-QIn" id="oML-tC-XC4"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

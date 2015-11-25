@@ -12,8 +12,22 @@ import LGCoreKit
 
 class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafeTipsViewDelegate {
 
+    
+    // outlets & buttons
+    @IBOutlet weak var productImageView: UIImageView!
+    @IBOutlet weak var productNameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var loadingMessageActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var topViewTopConstraint: NSLayoutConstraint!
+
+    let productViewHeight: CGFloat = 80
+    let navBarHeight: CGFloat = 64
+    var productView = ChatProductView()
     private var selectedCellIndexPath: NSIndexPath?
     var viewModel: ChatViewModel
+    var keyboardShown: Bool = false
     
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
@@ -31,19 +45,25 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         registerNibs()
         setupUI()
         viewModel.loadMessages()
+        view.addSubview(ChatProductView())
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
     
     
     // MARK: UI
     
     func setupUI() {
+        view.backgroundColor = UIColor.whiteColor()
+        tableView.clipsToBounds = true
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorStyle = .None
         tableView.backgroundColor = StyleHelper.chatTableViewBgColor
         tableView.allowsSelection = false
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128, right: 0)
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.backgroundColor = UIColor.whiteColor()
         textInputbar.backgroundColor = UIColor.whiteColor()
@@ -53,6 +73,21 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         self.setLetGoNavigationBarStyle(viewModel.chat.product.name)
         updateSafetyTipBarButton()
+        
+        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
+        updateProductView()
+        view.addSubview(productView)
+        self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
+
+    }
+    
+    func updateProductView() {
+        productView.nameLabel.text = viewModel.chat.product.name
+        productView.userLabel.text = viewModel.chat.product.user.publicUsername
+        productView.priceLabel.text = viewModel.chat.product.formattedPrice()
+        if let thumbURL = viewModel.chat.product.thumbnail?.fileURL {
+            productView.imageButton.sd_setImageWithURL(thumbURL)
+        }
     }
    
     func registerNibs() {
@@ -128,6 +163,37 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         tableView.endUpdates()
+    }
+}
+
+
+// MARK: - Animate ProductView with keyboard Extension
+extension ChatViewController {
+    
+    func keyboardWillShow(notification: NSNotification) {
+        showProductView(false)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        showProductView(true)
+    }
+    
+    func showProductView(show: Bool) {
+        UIView.animateWithDuration(0.25) {
+            self.productView.top = show ? 64 : -80
+        }
+        keyboardShown = !show
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+    }
+    
+    // Need to override this to fix the position of the Slack tableView
+    // if you have a "header" view below the navBar
+    // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let bottomInset = keyboardShown ? navBarHeight : productViewHeight + navBarHeight
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
     }
 }
 

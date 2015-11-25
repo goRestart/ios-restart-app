@@ -70,13 +70,10 @@ public class ChatViewModel: BaseViewModel {
         guard let userBuyer = buyer else { return }
         chatManager.retrieveChatWithProduct(chat.product, buyer: userBuyer) { [weak self] (result: Result<Chat, ChatRetrieveServiceError>) -> Void in
             guard let strongSelf = self else { return }
-            
-            // Success
             if let chat = result.value {
                 strongSelf.chat = chat
                 strongSelf.delegate?.didSucceedRetrievingChatMessages()
             }
-                // Error
             else if let error = result.error {
                 strongSelf.delegate?.didFailRetrievingChatMessages(error)
             }
