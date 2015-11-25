@@ -1,0 +1,1 @@
+local,roupas,carros,marketplace,usado,livre,venda,classificadas,barato,garagem,eletrônica,móveis
