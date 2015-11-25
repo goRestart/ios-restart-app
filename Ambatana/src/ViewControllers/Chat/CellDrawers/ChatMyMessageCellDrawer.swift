@@ -14,7 +14,7 @@ public class ChatMyMessageCellDrawer: ChatCellDrawer {
         return tableView.dequeueReusableCellWithIdentifier(ChatMyMessageCell.cellID(), forIndexPath: atIndexPath)
     }
     
-    public func draw(cell: UITableViewCell, message: Message, avatar: File?) {
+    public func draw(cell: UITableViewCell, message: Message, avatar: File?, delegate: AnyObject?) {
         guard let myCell = cell as? ChatMyMessageCell else { return }
         myCell.messageLabel.text = message.text ?? ""
         myCell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""

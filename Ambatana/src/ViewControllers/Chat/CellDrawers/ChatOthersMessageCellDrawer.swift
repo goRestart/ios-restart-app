@@ -14,10 +14,13 @@ public class ChatOthersMessageCellDrawer: ChatCellDrawer {
         return tableView.dequeueReusableCellWithIdentifier(ChatOthersMessageCell.cellID(), forIndexPath: atIndexPath)
     }
     
-    public func draw(cell: UITableViewCell, message: Message, avatar: File?) {
+    public func draw(cell: UITableViewCell, message: Message, avatar: File?, delegate: AnyObject?) {
         guard let othersCell = cell as? ChatOthersMessageCell else { return }
         othersCell.messageLabel.text = message.text ?? ""
         othersCell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
+        if let delegate = delegate as? ChatOthersMessageCellDelegate {
+            othersCell.delegate = delegate
+        }
         
         if let avatar = avatar {
             othersCell.avatarImageView.sd_setImageWithURL(avatar.fileURL, placeholderImage: UIImage(named: "no_photo"))

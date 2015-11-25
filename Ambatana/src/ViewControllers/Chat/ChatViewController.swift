@@ -10,7 +10,7 @@ import UIKit
 import SlackTextViewController
 import LGCoreKit
 
-class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafeTipsViewDelegate {
+class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafeTipsViewDelegate, ChatOthersMessageCellDelegate {
 
     
     // outlets & buttons
@@ -142,7 +142,7 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         let message = viewModel.chat.messages[indexPath.row]
         let drawer = ChatCellDrawerFactory.drawerForMessage(message)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
-        drawer.draw(cell, message: message, avatar: viewModel.otherUser?.avatar)
+        drawer.draw(cell, message: message, avatar: viewModel.otherUser?.avatar, delegate: self)
         cell.transform = tableView.transform
         return cell
     }
@@ -192,7 +192,19 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
 }
 
 
+// MARK: > ChatOthersMessageCell Delegate Extension
+
+extension ChatViewController {
+    func didTapOnUserAvatar() {
+        guard let user = viewModel.otherUser else { return }
+        let vc = EditProfileViewController(user: user)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+
 // MARK: - Animate ProductView with keyboard Extension
+
 extension ChatViewController {
     
     func keyboardWillShow(notification: NSNotification) {

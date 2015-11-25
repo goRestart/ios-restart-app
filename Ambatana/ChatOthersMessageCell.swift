@@ -8,11 +8,15 @@
 
 import UIKit
 
+protocol ChatOthersMessageCellDelegate {
+    func didTapOnUserAvatar()
+}
 
 class ChatOthersMessageCell: ChatBubbleCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarButtonPressed: (() -> Void)?
+    var delegate: ChatOthersMessageCellDelegate?
     
     static func cellID() -> String {
         return "ChatOthersMessageCell"
@@ -21,14 +25,13 @@ class ChatOthersMessageCell: ChatBubbleCell {
     // MARK: > Action
     
     @IBAction func avatarButtonPressed(sender: AnyObject) {
-        avatarButtonPressed?()
+        delegate?.didTapOnUserAvatar()
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         bubbleView.backgroundColor = selected ? StyleHelper.chatOthersBubbleBgColorSelected : StyleHelper.chatOthersBubbleBgColor
     }
-    
     
     // MARK: - Private methods
 

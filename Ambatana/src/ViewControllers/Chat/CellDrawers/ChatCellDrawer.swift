@@ -11,5 +11,5 @@ import LGCoreKit
 
 public protocol ChatCellDrawer {
     func cell(tableView: UITableView, atIndexPath: NSIndexPath) -> UITableViewCell
-    func draw(cell: UITableViewCell, message: Message, avatar: File?)
+    func draw(cell: UITableViewCell, message: Message, avatar: File?, delegate: AnyObject?)
 }
