@@ -216,6 +216,7 @@ generate_ios "base", ios_path
 puts "Updating base Localizable.strings on wti"
 system 'wti push'
 
+puts "Executing LG wti pull script"
 system("ruby", "Scripts/wti.rb")
 
 puts 'Done! - Locale generation went smoothly :)'.green
