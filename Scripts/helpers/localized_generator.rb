@@ -5,8 +5,8 @@ require 'erb'
 require 'fileutils'
 require 'micro-optparse'
 require 'colorize'
-require_relative 'helpers/string'
-require_relative 'helpers/localekey'
+require_relative 'string'
+require_relative 'localekey'
 
 def add_key(terms, key)
   #searching for same key
@@ -28,7 +28,7 @@ def add_key(terms, key)
 end
 
 def generate_ios_constants(target_directory)
-  input_file = File.open("#{File.dirname(__FILE__)}/templates/ios_localized_swift.erb", "rb")
+  input_file = File.open("#{File.dirname(__FILE__)}/../templates/ios_localized_swift.erb", "rb")
   template = input_file.read
   input_file.close
   renderer = ERB.new(template)

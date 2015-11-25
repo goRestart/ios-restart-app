@@ -10,7 +10,7 @@ require 'find'
 require 'web_translate_it'
 require 'micro-optparse'
 
-require_relative 'helpers/LocalizableFile'
+require_relative 'LocalizableFile'
 
 # Command line arguments
 
@@ -22,7 +22,7 @@ options = Parser.new do |p|
   p.option :localesuffix, "Locale folder suffix", :default => '.lproj'
   p.option :basemapping, "Language to base mapping", :default => 'en'
   p.option :printwrong, "Print missing or wrong keys", :default => true
-  p.option :localizedgen, "Localized generator path", :default => 'Scripts'
+  p.option :localizedgen, "Localized generator path", :default => "#{File.dirname(__FILE__)}"
   p.option :localizedconst, "Localized constants path", :default => 'Ambatana/src/Constants/'
 end.process!
 

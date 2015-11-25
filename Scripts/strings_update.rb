@@ -209,7 +209,7 @@ puts "Updating base Localizable.strings on wti"
 system 'wti push'
 
 puts "Executing LG wti pull script"
-system("ruby", "Scripts/wti.rb")
+system("ruby", "#{File.dirname(__FILE__)}/helpers/wti.rb")
 
 puts 'Done! - Locale generation went smoothly :)'.green
 
