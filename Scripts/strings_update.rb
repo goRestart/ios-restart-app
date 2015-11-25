@@ -45,6 +45,12 @@ end
 def generate_ios(language, target_directory)
   @current_lang = language
   process_template 'ios_localizable.erb', target_directory, "Localizable.strings"
+
+  # Check wrong generation
+  if File.zero?(target_directory+"Localizable.strings")
+    puts 'Wrong Localizable.strings generation!'.red
+    exit 1
+  end
 end
 
 #Prints on screen all the unused keys and also marks that keys on spreadsheet as unused
