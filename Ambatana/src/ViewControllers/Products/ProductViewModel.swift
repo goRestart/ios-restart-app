@@ -126,7 +126,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public var isFavouritable: Bool {
-        return !isMine && isOnSale
+        return !isMine
     }
     
     public var isShareable: Bool {
