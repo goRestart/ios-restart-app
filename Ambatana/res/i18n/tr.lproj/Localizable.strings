@@ -188,7 +188,7 @@
 "product_sell_again_confirm_message" = "Bu ürünün tekrar satıcılara gözükmesi için, ürünü mevcut olarak işaretlemek istiyor musun?";
 "product_sell_again_confirm_ok_button" = "Tekrar Sat";
 "product_sell_again_confirm_title" = "Tekrar Sat";
-"product_sell_again_error_generic" = "Ürünün mevcut diye işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
+"product_sell_again_error_generic" = "Ürünün mevcut diye işaretlenirken bir hata oluştu. Lütfen daha sonra tekrar dene.";
 "product_sell_again_success_message" = "Tebrikler, ürünün başarıyla mevcut olarak işaretlendi!";
 "product_share_body" = "Az önce letgo'da ne bulduğuma bak!";
 "product_share_email_error" = "Hoppala, görünüşe bakılırsa Posta uygulamasında bir hesap oluşturmamışsın.";
