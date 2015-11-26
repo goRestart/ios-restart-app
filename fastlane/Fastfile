@@ -22,17 +22,18 @@ default_platform :ios
 
 
 platform :ios do
+  
   before_all do
     
-    cocoapods
-    
-    system "ruby ../Scripts/wti.rb -w ../.wti -i ../Ambatana/res/i18n -o ../Scripts -c ../Ambatana/src/Constants/"
+    system "ruby ../Scripts/strings_update.rb -i ../"
 
   end
 
   desc "Build and distribute build to Crashlytics"
   lane :beta do
-    
+
+    cocoapods
+
     gym(
       workspace: "LetGo.xcworkspace",
       configuration: "Adhoc",
@@ -50,6 +51,10 @@ platform :ios do
       notes: "Distributed using Fastlane"
     )
 
+  end
+
+  lane :strings do
+    # Will just do the before_all that includes string generation
   end
 
   after_all do |lane|

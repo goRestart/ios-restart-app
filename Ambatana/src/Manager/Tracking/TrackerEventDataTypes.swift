@@ -22,6 +22,11 @@ public enum EventName: String {
     case LoginEmail                         = "login-email"
     case SignupEmail                        = "signup-email"
     case Logout                             = "logout"
+    
+    case LoginError                         = "login-error"
+    case SignupError                        = "signup-error"
+    case PasswordResetError                 = "password-reset-error"
+
     case ProductList                        = "product-list"
     
     case SearchStart                        = "search-start"
@@ -135,6 +140,7 @@ public enum EventParameterName: String {
     case FilterDistanceRadius = "distance-radius"
     case FilterDistanceUnit   = "distance-unit"
     case FilterSortBy         = "sort-by"
+    case ErrorDescription     = "error-description"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -188,6 +194,51 @@ public enum EventParameterSortBy: String {
     case PriceDesc = "price-desc"
 }
 
+public enum EventParameterLoginError: String {
+    
+    case Network
+    case Internal
+    case Unauthorized
+    case NotFound
+    case Forbidden
+    case InvalidEmail
+    case InvalidPassword
+    case InvalidUsername
+    case UserNotFoundOrWrongPassword
+    case EmailTaken
+    case PasswordMismatch
+    case UsernameTaken
+
+
+    public var description: String {
+        switch (self) {
+        case Network:
+            return "Network"
+        case Internal:
+            return "Internal"
+        case Unauthorized:
+            return "Unauthorized"
+        case NotFound:
+            return "NotFound"
+        case Forbidden:
+            return "Forbidden"
+        case InvalidEmail:
+            return "InvalidEmail"
+        case InvalidPassword:
+            return "InvalidPassword"
+        case .InvalidUsername:
+            return "InvalidUsername"
+        case UserNotFoundOrWrongPassword:
+            return "UserNotFoundOrWrongPassword"
+        case EmailTaken:
+            return "EmailTaken"
+        case PasswordMismatch:
+            return "PasswordMismatch"
+        case UsernameTaken:
+            return "UsernameTaken"
+        }
+    }
+}
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]

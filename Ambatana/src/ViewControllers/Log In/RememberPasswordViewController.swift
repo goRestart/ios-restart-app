@@ -100,16 +100,24 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             break
         case .Failure(let error):
             let message: String
+            let errorDescription: EventParameterLoginError
             switch (error) {
             case .InvalidEmail:
                 message = LGLocalizedString.resetPasswordSendErrorInvalidEmail
+                errorDescription = .InvalidEmail
             case .UserNotFound:
                 message = String(format: LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword, viewModel.email)
+                errorDescription = .NotFound
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
+                errorDescription = .Network
             case .Internal:
                 message = LGLocalizedString.resetPasswordSendErrorGeneric
+                errorDescription = .Internal
             }
+            
+            viewModel.resetPasswordFailedWithError(errorDescription)
+            
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
             }
