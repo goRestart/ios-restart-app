@@ -381,6 +381,10 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     }
     
     func updateUIForCurrentTab() {
+        
+        // Check if view is initialized
+        guard let youDontHaveTitleLabel = self.youDontHaveTitleLabel else { return }
+        
         youDontHaveTitleLabel.hidden = true
         
         switch selectedTab {

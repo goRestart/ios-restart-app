@@ -243,7 +243,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
 
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)  // TODO: Create a string for this screen
+        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
@@ -736,22 +736,27 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
             */
 
-            if success {
-                if activity == UIActivityTypePostToFacebook {
-                    self.viewModel.shareInFacebook("top")
-                    self.viewModel.shareInFBCompleted()
-                } else if activity == UIActivityTypePostToTwitter {
-                    self.viewModel.shareInTwitterActivity()
-                } else if activity == UIActivityTypeMail {
-                    self.viewModel.shareInEmail("top")
-                } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
-                    self.viewModel.shareInWhatsappActivity()
-                }
+            
+            guard success else {
+                //In case of cancellation just do nothing -> success == false && error == nil
+                guard error != nil else { return }
                 
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
-            } else {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
+                return
             }
+            
+            if activity == UIActivityTypePostToFacebook {
+                self.viewModel.shareInFacebook("top")
+                self.viewModel.shareInFBCompleted()
+            } else if activity == UIActivityTypePostToTwitter {
+                self.viewModel.shareInTwitterActivity()
+            } else if activity == UIActivityTypeMail {
+                self.viewModel.shareInEmail("top")
+            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
+                self.viewModel.shareInWhatsappActivity()
+            }
+            
+            self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
         }
 
         presentViewController(vc, animated: true, completion: nil)

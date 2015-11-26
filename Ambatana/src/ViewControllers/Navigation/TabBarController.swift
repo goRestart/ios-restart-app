@@ -297,7 +297,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     
     func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
-            switchToTab(.Profile)
+            switchToProfileOnTab(.ProductImSelling)
             
             showAppRatingViewIfNeeded()
         }
@@ -642,6 +642,23 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
 
             // Dismiss loading
             self?.dismissLoadingMessageAlert(loadingDismissCompletion)
+        }
+    }
+    
+    private func switchToProfileOnTab(profileTab : EditProfileViewController.ProfileTab) {
+        switchToTab(.Profile)
+        
+        // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
+        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
+        guard let rootViewCtrl = navBarCtl.topViewController, let profileViewCtrl = rootViewCtrl as? EditProfileViewController else { return }
+        
+        switch profileTab {
+        case .ProductImSelling:
+            profileViewCtrl.showSellProducts(self)
+        case .ProductISold:
+            profileViewCtrl.showSoldProducts(self)
+        case .ProductFavourite:
+            profileViewCtrl.showFavoritedProducts(self)
         }
     }
     
