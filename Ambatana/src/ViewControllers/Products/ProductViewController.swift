@@ -736,22 +736,21 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
             */
 
-            if success {
-                if activity == UIActivityTypePostToFacebook {
-                    self.viewModel.shareInFacebook("top")
-                    self.viewModel.shareInFBCompleted()
-                } else if activity == UIActivityTypePostToTwitter {
-                    self.viewModel.shareInTwitterActivity()
-                } else if activity == UIActivityTypeMail {
-                    self.viewModel.shareInEmail("top")
-                } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
-                    self.viewModel.shareInWhatsappActivity()
-                }
-                
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
-            } else {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
+            //In case of cancellation just do nothing
+            guard success else { return }
+            
+            if activity == UIActivityTypePostToFacebook {
+                self.viewModel.shareInFacebook("top")
+                self.viewModel.shareInFBCompleted()
+            } else if activity == UIActivityTypePostToTwitter {
+                self.viewModel.shareInTwitterActivity()
+            } else if activity == UIActivityTypeMail {
+                self.viewModel.shareInEmail("top")
+            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
+                self.viewModel.shareInWhatsappActivity()
             }
+            
+            self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
         }
 
         presentViewController(vc, animated: true, completion: nil)
