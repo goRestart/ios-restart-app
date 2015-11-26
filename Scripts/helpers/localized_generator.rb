@@ -5,58 +5,8 @@ require 'erb'
 require 'fileutils'
 require 'micro-optparse'
 require 'colorize'
-require_relative 'helpers/string'
-
-class LocaleKey
-
-  # type represends system type (1 = Android, 2 = iPhone)
-  #
-  def initialize(keyword)
-    @keyword = keyword
-  end
-
-  def keyword
-    @keyword
-  end
-
-  def keyword_constant_swift
-    @keyword.space_to_underscore.strip_tag.camel_case.uncapitalize
-  end
-
-end
-
-def show_error(error_string)
-  puts 'Error!'.red
-  puts error_string
-  exit
-end
-
-def copy_with_path(src, dst)
-  FileUtils.mkdir_p(File.dirname(dst))
-  FileUtils.cp(src, dst)
-end
-
-def read_from_ios(file, terms)
-  puts "Parsing filename : #{file}"
-
-  f = nil
-  begin
-    f = File.open(file, "r") 
-  rescue Exception => e
-    puts "File not found"
-    return
-  end
-
-  current_comment = nil
-  f.each_line do |line|
-    if line.start_with?("\"")
-      uglyKey = line.split("=", 2).first
-      key = uglyKey[/\"(.*?)\"/m, 1]
-      # puts "Key #{key}"
-      add_key(terms, key)
-    end
-  end
-end
+require_relative 'string'
+require_relative 'localekey'
 
 def add_key(terms, key)
   #searching for same key
@@ -78,7 +28,7 @@ def add_key(terms, key)
 end
 
 def generate_ios_constants(target_directory)
-  input_file = File.open("#{File.dirname(__FILE__)}/templates/ios_localized_swift.erb", "rb")
+  input_file = File.open("#{File.dirname(__FILE__)}/../templates/ios_localized_swift.erb", "rb")
   template = input_file.read
   input_file.close
   renderer = ERB.new(template)
@@ -116,5 +66,4 @@ puts "Generating Localized Strings constants".white.on_green
 read_from_ios(source_path, @keys)
 
 generate_ios_constants destination_path
-
 
