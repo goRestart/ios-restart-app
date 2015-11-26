@@ -56,17 +56,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 
                 // Show TabBar afterwards
                 let tabBarCtl = TabBarController()
-                actualWindow.rootViewController = tabBarCtl
-                navCtl.view.removeFromSuperview()
                 
                 // Open the deep link, if any
                 if let actualDeepLink = deepLink {
-                    tabBarCtl.openDeepLink(actualDeepLink)
+                    tabBarCtl.deepLink = actualDeepLink
                 }
                 else if self.userContinuationUrl != nil {
                     self.consumeUserContinuation(usingTabBar: tabBarCtl)
                 }
-                
+
+                actualWindow.rootViewController = tabBarCtl
+                navCtl.view.removeFromSuperview()
+
                 // check if app launches from shortcut
                 if #available(iOS 9.0, *) {
                     if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
@@ -93,6 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions) || userContinuation
     }
     
+    // TODO: Check this method, its marked as deprecated
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
         // Tracking

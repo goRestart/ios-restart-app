@@ -85,7 +85,8 @@ public class PushManager: NSObject, KahunaDelegate {
             if let action = Action(userInfo: userInfo) {
                 switch action {
                 case .Message(_, _, _):
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
+                    guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
+                    deepLink = DeepLink(action: action, url: chatUrl)                    
                 case .URL(let actualDeepLink):
                     deepLink = actualDeepLink
                 }
