@@ -736,8 +736,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
             */
 
-            //In case of cancellation just do nothing
-            guard success else { return }
+            
+            guard success else {
+                //In case of cancellation just do nothing -> success == false && error == nil
+                guard error != nil else { return }
+                
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
+                return
+            }
             
             if activity == UIActivityTypePostToFacebook {
                 self.viewModel.shareInFacebook("top")
