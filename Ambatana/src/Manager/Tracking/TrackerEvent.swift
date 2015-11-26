@@ -101,6 +101,30 @@ public struct TrackerEvent {
         return TrackerEvent(name: .Logout, params: nil)
     }
     
+    public static func loginError(errorDescription: EventParameterLoginError) -> TrackerEvent {
+        var params = EventParameters()
+        
+        params[.ErrorDescription] = errorDescription.description
+        
+        return TrackerEvent(name: .LoginError, params: params)
+    }
+
+    public static func signupError(errorDescription: EventParameterLoginError) -> TrackerEvent {
+        var params = EventParameters()
+
+        params[.ErrorDescription] = errorDescription.description
+        
+        return TrackerEvent(name: .SignupError, params: params)
+    }
+
+    public static func passwordResetError(errorDescription: EventParameterLoginError) -> TrackerEvent {
+        var params = EventParameters()
+        
+        params[.ErrorDescription] = errorDescription.description
+        
+        return TrackerEvent(name: .PasswordResetError, params: params)
+    }
+
     public static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?, pageNumber: UInt) -> TrackerEvent {
         var params = EventParameters()
         

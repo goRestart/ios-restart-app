@@ -291,24 +291,32 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
             }
             break
         case .Failure(let error):
-            
+            let errorDescription : EventParameterLoginError
             let message: String
             switch (error) {
             case .InvalidEmail:
                 message = LGLocalizedString.signUpSendErrorInvalidEmail
+                errorDescription = .InvalidEmail
             case .InvalidUsername:
                 message = String(format: LGLocalizedString.signUpSendErrorInvalidUsername, Constants.fullNameMinLength)
+                errorDescription = .InvalidUsername
             case .InvalidPassword:
                 message = String(format: LGLocalizedString.signUpSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
+                errorDescription = .InvalidPassword
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
+                errorDescription = .Network
             case .EmailTaken:
                 message = String(format: LGLocalizedString.signUpSendErrorEmailTaken, viewModel.email)
+                errorDescription = .EmailTaken
             case .UsernameTaken:
                 message = String(format: LGLocalizedString.signUpSendErrorInvalidUsernameLetgo, viewModel.username)
+                errorDescription = .UsernameTaken
             case .Internal:
                 message = LGLocalizedString.signUpSendErrorGeneric
+                errorDescription = .Internal
             }
+            viewModel.signupFailedWithError(errorDescription)
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
             }
@@ -334,19 +342,29 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
             }
             break
         case .Failure(let error):
+            let errorDescription : EventParameterLoginError
             let message: String
             switch (error) {
             case .InvalidEmail:
                 message = LGLocalizedString.logInErrorSendErrorInvalidEmail
+                errorDescription = .InvalidEmail
             case .InvalidPassword:
                 message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+                errorDescription = .InvalidPassword
             case .UserNotFoundOrWrongPassword:
                 message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+                errorDescription = .UserNotFoundOrWrongPassword
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .Forbidden:
+                errorDescription = .Network
+            case .Internal:
                 message = LGLocalizedString.logInErrorSendErrorGeneric
+                errorDescription = .Internal
+            case .Forbidden:
+                message = LGLocalizedString.logInErrorSendErrorGeneric
+                errorDescription = .Forbidden
             }
+            viewModel.loginFailedWithError(errorDescription)
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
             }
@@ -374,14 +392,38 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         case .Failure(let error):
             
             var message: String?
+            var errorDescription: EventParameterLoginError?
+            
             switch (error) {
             case .Cancelled:
                 break
             case .EmailTaken:
                 message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch, .UsernameTaken:
+                errorDescription = .EmailTaken
+            case .InvalidPassword:
                 message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .InvalidPassword
+            case .PasswordMismatch:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .PasswordMismatch
+            case .UsernameTaken:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .UsernameTaken
+            case .Forbidden:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .Forbidden
+            case .Network:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .Network
+            case .Internal:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .Internal
             }
+            
+            if let actualErrorDescription = errorDescription {
+                viewModel.loginFailedWithError(actualErrorDescription)
+            }
+            
             completion = {
                 if let actualMessage = message {
                     self.showAutoFadingOutMessageAlert(actualMessage, time: 3)

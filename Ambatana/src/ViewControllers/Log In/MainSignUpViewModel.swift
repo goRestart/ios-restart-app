@@ -74,4 +74,9 @@ public class MainSignUpViewModel: BaseViewModel {
         let trackerEvent = TrackerEvent.loginAbandon(loginSource)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
+    
+    public func loginWithFBFailedWithError(error: EventParameterLoginError) {
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error))
+    }
+
 }
