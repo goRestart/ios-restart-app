@@ -30,6 +30,10 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerNibs()
@@ -39,6 +43,7 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -114,6 +119,15 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
             let vc = ProductViewController(viewModel: viewModel.productViewModel)
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    
+    // MARK: Interaction from push
+    // This method will be called when the user interacts with a chat push notification
+    func didReceiveUserInteraction(notification: NSNotification) {
+        guard let userInfo = notification.object as? [NSObject: AnyObject],
+            let productId = userInfo["p"] as? String else { return }
+        if viewModel.chat.product.objectId == productId { viewModel.loadMessages() }
     }
     
     
