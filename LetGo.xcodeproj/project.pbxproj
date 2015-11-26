@@ -123,10 +123,6 @@
 		50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E64F261B09D36500544DE3 /* SettingsCell.swift */; };
 		50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E64F271B09D36500544DE3 /* SettingsCell.xib */; };
 		50E81CF51B0B1A2000807D1B /* ChatViewControllerOld.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CF41B0B1A2000807D1B /* ChatViewControllerOld.xib */; };
-		50E81CF81B0B2D0100807D1B /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E81CF61B0B2D0100807D1B /* ChatMyMessageCell.swift */; };
-		50E81CF91B0B2D0100807D1B /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */; };
-		50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */; };
-		50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */; };
 		50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */; };
 		50E8A08F1B7B3B0B00DE49CC /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A08E1B7B3B0B00DE49CC /* ProductViewModel.swift */; };
 		50E8A0921B7B3B2D00DE49CC /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A0901B7B3B2D00DE49CC /* ProductViewController.swift */; };
@@ -164,7 +160,6 @@
 		66E3D0A91A89073B00BC283C /* UIViewController+LetGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
-		6A6534DC1C0335E7006BD33B /* ChatBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534DB1C0335E7006BD33B /* ChatBubbleCell.swift */; settings = {ASSET_TAGS = (); }; };
 		6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		6A6534E31C0369D5006BD33B /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534E11C0369D5006BD33B /* ChatViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* ChatViewModel.swift */; settings = {ASSET_TAGS = (); }; };
@@ -174,6 +169,11 @@
 		6A6534F31C04A601006BD33B /* ChatOthersMessageCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F21C04A601006BD33B /* ChatOthersMessageCellDrawer.swift */; settings = {ASSET_TAGS = (); }; };
 		6A6534F71C04C567006BD33B /* ChatProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F61C04C567006BD33B /* ChatProductView.swift */; settings = {ASSET_TAGS = (); }; };
 		6A6534F91C05F044006BD33B /* UIView+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F81C05F044006BD33B /* UIView+Geometry.swift */; settings = {ASSET_TAGS = (); }; };
+		6A6534FF1C071512006BD33B /* ChatBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FA1C071512006BD33B /* ChatBubbleCell.swift */; settings = {ASSET_TAGS = (); }; };
+		6A6535001C071512006BD33B /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FB1C071512006BD33B /* ChatMyMessageCell.swift */; settings = {ASSET_TAGS = (); }; };
+		6A6535011C071512006BD33B /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534FC1C071512006BD33B /* ChatMyMessageCell.xib */; settings = {ASSET_TAGS = (); }; };
+		6A6535021C071512006BD33B /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FD1C071512006BD33B /* ChatOthersMessageCell.swift */; settings = {ASSET_TAGS = (); }; };
+		6A6535031C071512006BD33B /* ChatOthersMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534FE1C071512006BD33B /* ChatOthersMessageCell.xib */; settings = {ASSET_TAGS = (); }; };
 		6AE5F10B1BFCE36A0079E8B6 /* Optimizely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */; settings = {ASSET_TAGS = (); }; };
 		6AE5F10D1BFDE3380079E8B6 /* OptimizelyTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */; settings = {ASSET_TAGS = (); }; };
 		6AE5F1101BFDE8150079E8B6 /* ABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */; settings = {ASSET_TAGS = (); }; };
@@ -396,10 +396,6 @@
 		50E64F261B09D36500544DE3 /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		50E64F271B09D36500544DE3 /* SettingsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsCell.xib; sourceTree = "<group>"; };
 		50E81CF41B0B1A2000807D1B /* ChatViewControllerOld.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatViewControllerOld.xib; sourceTree = "<group>"; };
-		50E81CF61B0B2D0100807D1B /* ChatMyMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatMyMessageCell.swift; path = ../../ChatMyMessageCell.swift; sourceTree = "<group>"; };
-		50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatMyMessageCell.xib; path = ../../ChatMyMessageCell.xib; sourceTree = "<group>"; };
-		50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatOthersMessageCell.swift; path = ../../ChatOthersMessageCell.swift; sourceTree = "<group>"; };
-		50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatOthersMessageCell.xib; path = ../../ChatOthersMessageCell.xib; sourceTree = "<group>"; };
 		50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactSubject.swift; sourceTree = "<group>"; };
 		50E8A08E1B7B3B0B00DE49CC /* ProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewModel.swift; sourceTree = "<group>"; };
 		50E8A0901B7B3B2D00DE49CC /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
@@ -440,7 +436,6 @@
 		66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+LetGo.swift"; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		6A6534DB1C0335E7006BD33B /* ChatBubbleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBubbleCell.swift; path = ../../ChatBubbleCell.swift; sourceTree = "<group>"; };
 		6A6534E01C0369D5006BD33B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = Chat/ChatViewController.swift; sourceTree = "<group>"; };
 		6A6534E11C0369D5006BD33B /* ChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatViewController.xib; path = Chat/ChatViewController.xib; sourceTree = "<group>"; };
 		6A6534E61C0369FC006BD33B /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewModel.swift; path = Chat/ChatViewModel.swift; sourceTree = "<group>"; };
@@ -450,6 +445,11 @@
 		6A6534F21C04A601006BD33B /* ChatOthersMessageCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatOthersMessageCellDrawer.swift; path = Chat/CellDrawers/ChatOthersMessageCellDrawer.swift; sourceTree = "<group>"; };
 		6A6534F61C04C567006BD33B /* ChatProductView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatProductView.swift; path = Chat/ChatProductView.swift; sourceTree = "<group>"; };
 		6A6534F81C05F044006BD33B /* UIView+Geometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Geometry.swift"; sourceTree = "<group>"; };
+		6A6534FA1C071512006BD33B /* ChatBubbleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatBubbleCell.swift; path = Chat/Cells/ChatBubbleCell.swift; sourceTree = "<group>"; };
+		6A6534FB1C071512006BD33B /* ChatMyMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatMyMessageCell.swift; path = Chat/Cells/ChatMyMessageCell.swift; sourceTree = "<group>"; };
+		6A6534FC1C071512006BD33B /* ChatMyMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatMyMessageCell.xib; path = Chat/Cells/ChatMyMessageCell.xib; sourceTree = "<group>"; };
+		6A6534FD1C071512006BD33B /* ChatOthersMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatOthersMessageCell.swift; path = Chat/Cells/ChatOthersMessageCell.swift; sourceTree = "<group>"; };
+		6A6534FE1C071512006BD33B /* ChatOthersMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatOthersMessageCell.xib; path = Chat/Cells/ChatOthersMessageCell.xib; sourceTree = "<group>"; };
 		6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optimizely.framework; sourceTree = "<group>"; };
 		6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptimizelyTracker.swift; sourceTree = "<group>"; };
 		6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTester.swift; path = ABTesting/ABTester.swift; sourceTree = "<group>"; };
@@ -1173,11 +1173,11 @@
 		6A6534E81C036A05006BD33B /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				6A6534DB1C0335E7006BD33B /* ChatBubbleCell.swift */,
-				50E81CF61B0B2D0100807D1B /* ChatMyMessageCell.swift */,
-				50E81CF71B0B2D0100807D1B /* ChatMyMessageCell.xib */,
-				50E81CFA1B0B2D1C00807D1B /* ChatOthersMessageCell.swift */,
-				50E81CFB1B0B2D1C00807D1B /* ChatOthersMessageCell.xib */,
+				6A6534FA1C071512006BD33B /* ChatBubbleCell.swift */,
+				6A6534FB1C071512006BD33B /* ChatMyMessageCell.swift */,
+				6A6534FC1C071512006BD33B /* ChatMyMessageCell.xib */,
+				6A6534FD1C071512006BD33B /* ChatOthersMessageCell.swift */,
+				6A6534FE1C071512006BD33B /* ChatOthersMessageCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1538,7 +1538,6 @@
 				2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */,
 				C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */,
 				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
-				50E81CFD1B0B2D1C00807D1B /* ChatOthersMessageCell.xib in Resources */,
 				D48C3E061AEBD165005BD0EF /* ConversationCell.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				508E4CEF1B4281F2007BD301 /* ProductCell.xib in Resources */,
@@ -1553,13 +1552,13 @@
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
 				D4A478901B08CA500046D301 /* EditProfileViewController.xib in Resources */,
 				506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */,
-				50E81CF91B0B2D0100807D1B /* ChatMyMessageCell.xib in Resources */,
 				2EE47E5A1BBEA5B70034C19D /* Settings.bundle in Resources */,
 				50E81CF51B0B1A2000807D1B /* ChatViewControllerOld.xib in Resources */,
 				50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */,
 				50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */,
 				D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */,
 				D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */,
+				6A6535031C071512006BD33B /* ChatOthersMessageCell.xib in Resources */,
 				2E3760371BD914BA00A5A030 /* CategoryCell.xib in Resources */,
 				2EE60AF81B60D97300E56E7D /* SellProductViewController.xib in Resources */,
 				C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */,
@@ -1583,6 +1582,7 @@
 				6A6534E31C0369D5006BD33B /* ChatViewController.xib in Resources */,
 				50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */,
 				50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */,
+				6A6535011C071512006BD33B /* ChatMyMessageCell.xib in Resources */,
 				66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */,
 				502B705D1BAAC3B500C5D465 /* FloatingButton.xib in Resources */,
 				50C9E4F91B74C9F6001E4E92 /* README.txt in Resources */,
@@ -1803,6 +1803,7 @@
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
 				C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */,
 				6A6534F71C04C567006BD33B /* ChatProductView.swift in Sources */,
+				6A6535001C071512006BD33B /* ChatMyMessageCell.swift in Sources */,
 				2EE5FF571B7B465F0090E558 /* EditUserLocationViewModel.swift in Sources */,
 				2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy+AppEnvironment.swift in Sources */,
@@ -1817,6 +1818,7 @@
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
 				2EE5EEDF1B5E4C860056BF76 /* ChangeUsernameViewController.swift in Sources */,
 				665BAB511A97D7B5005A8E19 /* MakeAnOfferViewController.swift in Sources */,
+				6A6534FF1C071512006BD33B /* ChatBubbleCell.swift in Sources */,
 				66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */,
 				D412E07F1B4EFF2800683FFD /* ProductListViewModel.swift in Sources */,
 				5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */,
@@ -1866,12 +1868,12 @@
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				6AE5F1101BFDE8150079E8B6 /* ABTester.swift in Sources */,
+				6A6535021C071512006BD33B /* ChatOthersMessageCell.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */,
 				2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
-				50E81CFC1B0B2D1C00807D1B /* ChatOthersMessageCell.swift in Sources */,
 				6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */,
 				C77593E91BF0C0290097D62F /* FilterSortByCell.swift in Sources */,
 				6AE5F11A1BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift in Sources */,
@@ -1879,7 +1881,6 @@
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
 				C77593DE1BF0B8A00097D62F /* FiltersViewController.swift in Sources */,
-				6A6534DC1C0335E7006BD33B /* ChatBubbleCell.swift in Sources */,
 				2E3760331BD914BA00A5A030 /* CategoriesViewController.swift in Sources */,
 				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
 				2E3760351BD914BA00A5A030 /* CategoriesViewModel.swift in Sources */,
@@ -1893,7 +1894,6 @@
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				D4BFE5B21B640C36006A8CB6 /* MainProductListView.swift in Sources */,
-				50E81CF81B0B2D0100807D1B /* ChatMyMessageCell.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
 				D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */,
 			);

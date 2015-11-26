@@ -34,12 +34,16 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         super.viewDidLoad()
         registerNibs()
         setupUI()
-        viewModel.loadMessages()
         view.addSubview(ChatProductView())
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.loadMessages()
     }
     
     
@@ -159,6 +163,7 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     }
     
     func didSucceedRetrievingChatMessages() {
+        if viewModel.shouldShowSafetyTipes { showSafetyTips() }
         tableView.reloadData()
     }
 

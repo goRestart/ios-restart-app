@@ -48,10 +48,12 @@ public class ChatViewModel: BaseViewModel {
         return ProductViewModel(product: chat.product, tracker: TrackerProxy.sharedInstance)
     }
     
-    init(chat: Chat) {
+    init?(chat: Chat) {
         self.chat = chat
         super.init()
         initUsers()
+        if otherUser == nil { return nil }
+        if buyer == nil { return nil }
     }
     
     convenience init?(product: Product, askQuestion: Bool) {
