@@ -12,16 +12,6 @@ import LGCoreKit
 
 class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafeTipsViewDelegate, ChatOthersMessageCellDelegate {
 
-    
-    // outlets & buttons
-    @IBOutlet weak var productImageView: UIImageView!
-    @IBOutlet weak var productNameLabel: UILabel!
-    @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var loadingMessageActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var topView: UIView!
-    @IBOutlet weak var topViewTopConstraint: NSLayoutConstraint!
-
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
     var productView = ChatProductView()
@@ -184,10 +174,23 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     }
     
     func didSucceedSendingMessage() {
+        if !viewModel.alreadyAskedForRating { askForRating() }
         tableView.beginUpdates()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         tableView.endUpdates()
+    }
+    
+    
+    // MARK: Rating
+    
+    func askForRating() {
+        viewModel.alreadyAskedForRating = true
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { [weak self] in
+            self?.textView.resignFirstResponder()
+            guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
+            tabBarCtrl.showAppRatingViewIfNeeded()
+        }
     }
 }
 

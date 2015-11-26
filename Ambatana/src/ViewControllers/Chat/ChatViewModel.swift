@@ -27,6 +27,7 @@ public class ChatViewModel: BaseViewModel {
     var isNewChat = false
     var isSendingMessage = false
     var askQuestion = false
+    var alreadyAskedForRating = false
     
     var shouldShowSafetyTipes: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
