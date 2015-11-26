@@ -245,12 +245,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
         LGCoreKit.initialize(launchOptions)
         
-        // Crashlytics
+        // Fabric
 #if DEBUG
 #else
         Fabric.with([Crashlytics.self, Optimizely.self])
 #endif
-    
+        
+        // Optimizely
+#if DEBUG
+        Optimizely.sharedInstance().disableGesture = false
+#else
+        Optimizely.sharedInstance().disableGesture = true
+#endif
+        
         // Push notifications, get the deep link if any
         var deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         
