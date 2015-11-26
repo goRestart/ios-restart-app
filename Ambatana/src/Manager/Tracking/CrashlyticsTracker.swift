@@ -36,7 +36,7 @@ public class CrashlyticsTracker: Tracker {
     public func setUser(user: MyUser?) {
         Crashlytics.sharedInstance().setUserEmail(user?.email)
         Crashlytics.sharedInstance().setUserIdentifier(user?.objectId)
-        Crashlytics.sharedInstance().setUserName(user?.username)
+        Crashlytics.sharedInstance().setUserName(user?.publicUsername)
     }
     
 
