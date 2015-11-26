@@ -92,7 +92,7 @@ end
 options = Parser.new do |p|
   p.banner = 'Strings-update (c) 2015 LetGo <eli.kohen@letgo.com>'
   p.version = '0.1'
-  p.option :client, 'Client json path', :default => '#{File.dirname(__FILE__)}/drive-spreadsheet-secret.json', :short => 'u'
+  p.option :client, 'Client json path', :default => "#{File.dirname(__FILE__)}/drive-spreadsheet-secret.json", :short => 'u'
   p.option :spreadsheet, 'Spreadsheet containing the localization info', :default => 'LetGo'
   p.option :output_ios, 'Path to the iOS project directory', :default => './', :short => 'i'
   p.option :keep_keys, 'Whether to maintain original keys or not', :default => true, :short => 'k'
