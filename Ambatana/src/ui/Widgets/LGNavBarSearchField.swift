@@ -19,7 +19,14 @@ public class LGNavBarSearchField: UIView {
     @IBOutlet var magnifierIconCenterXConstraint: NSLayoutConstraint!
 
     public var initialSearchValue = ""
+
+    private var correctLayout : Bool {
+        return self.frame.origin.x > 0.0
+    }
     
+    // First layout is not positioned correctly so if we try to animate when incorrect, we just wait until is correct
+    private var pendingLayout = false
+    private var editMode = false
     
     public static func setupNavBarSearchFieldWithText(text: String?) -> LGNavBarSearchField? {
         let view = NSBundle.mainBundle().loadNibNamed("LGNavBarSearchField", owner: self, options: nil).first as? LGNavBarSearchField
@@ -28,6 +35,19 @@ public class LGNavBarSearchField: UIView {
             actualView.endEdit()
         }
         return view
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if correctLayout && pendingLayout {
+            if editMode {
+                setupTextFieldEditMode(false)
+            }
+            else {
+                setupTextFieldCleanMode(false)
+            }
+        }
     }
     
     /**
@@ -86,14 +106,22 @@ public class LGNavBarSearchField: UIView {
     /**
         Moves icons to make LGNavBarSearchField look editable
     */
-    func setupTextFieldEditMode() {
+    func setupTextFieldEditMode(animated : Bool = true) {
+        editMode = true
+        
+        guard correctLayout else {
+            pendingLayout = true
+            return
+        }
+        pendingLayout = false
         
         logoIcon.hidden = true
+        self.magnifierIconLeadingConstraint.constant = CGFloat(10)
         
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
 
-            self.magnifierIconLeadingConstraint.constant = CGFloat(10)
-            self.layoutSubviews()
+        UIView.animateWithDuration(animated ? 0.2 : 0.0, animations: { () -> Void in
+
+            self.layoutIfNeeded()
 
             }) { (completion) -> Void in
                 self.logoIcon.hidden = true
@@ -104,17 +132,24 @@ public class LGNavBarSearchField: UIView {
     /**
         Moves icons to make LGNavBarSearchField look not editable / clean
     */
-    func setupTextFieldCleanMode() {
+    func setupTextFieldCleanMode(animated : Bool = true) {
+        editMode = false
         
+        guard correctLayout else {
+            pendingLayout = true
+            return
+        }
+        pendingLayout = false
         
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        self.magnifierIconLeadingConstraint.constant = CGFloat((self.frame.width/2) - CGFloat((self.magnifierIcon.frame.size.width + self.logoIcon.frame.size.width)/2.0))
+
+        
+        UIView.animateWithDuration(animated ? 0.2 : 0.0, animations: { () -> Void in
             
-            self.magnifierIconLeadingConstraint.constant = CGFloat((self.frame.width/2) - CGFloat((self.magnifierIcon.frame.size.width + self.logoIcon.frame.size.width)/2.0))
-            
-            self.layoutSubviews()
+            self.layoutIfNeeded()
 
             }) { (completion) -> Void in
                 self.logoIcon.hidden = false
-        }
+            }
     }
 }
