@@ -8,13 +8,31 @@ require 'colorize'
 require 'fileutils'
 require 'find'
 require 'web_translate_it'
+require 'micro-optparse'
+
+# Command line arguments
+
+options = Parser.new do |p|
+  p.banner = 'Wti script (c) 2015 Ambatana <albert@letgo.com>'
+  p.version = '1.0'
+  p.option :wtifile, ".Wti file path", :default => '.wti'
+  p.option :i18n, 'i18n path', :default => 'Ambatana/res/i18n'
+  p.option :localesuffix, "Locale folder suffix", :default => '.lproj'
+  p.option :basemapping, "Language to base mapping", :default => 'en'
+  p.option :printwrong, "Print missing or wrong keys", :default => true
+  p.option :localizedgen, "Localized generator path", :default => 'Scripts'
+  p.option :localizedconst, "Localized constants path", :default => 'Ambatana/src/Constants/'
+end.process!
 
 ########################################## CONSTANTS ##########################################
 
-i18n_path = "Ambatana/res/i18n"
-locale_folder_suffix = ".lproj"
-mapping_base_to = "en"
-should_print_missing_or_wrong_keys = true
+wti_path = options[:wtifile]
+i18n_path = options[:i18n]   # "../Ambatana/res/i18n"
+locale_folder_suffix = options[:localesuffix]      # ".lproj"
+mapping_base_to = options[:basemapping] # "en"
+should_print_missing_or_wrong_keys = options[:printwrong]   # true
+localized_gen_path = options[:localizedgen]
+localized_const_path = options[:localizedconst]
 
 ########################################### CLASSES ###########################################
 
@@ -215,7 +233,7 @@ non_processed_locales = locales_in_xcode.dup
 
 # Pull all translations from WTI
 print_main_info("Pulling from WTI")
-system 'wti pull'
+system "wti pull -c #{wti_path}"
 
 # Find Base localizable files
 base_filenames = find_base_locales_filenames()
@@ -359,6 +377,6 @@ warnings.each { |warning|
     puts "   #{warning}"
 }
 
-system("ruby", "Scripts/localized_generator.rb", "-s", "Ambatana/res/i18n/Base.lproj/Localizable.strings", "-d", "Ambatana/src/Constants/")
+system("ruby", "#{localized_gen_path}/localized_generator.rb", "-s", "#{i18n_path}/Base.lproj/Localizable.strings", "-d", "#{localized_const_path}")
 
 print_main_info("Finished")
