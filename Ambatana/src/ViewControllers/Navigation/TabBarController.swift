@@ -617,7 +617,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     private func switchToProfileOnTab(profileTab : EditProfileViewController.ProfileTab) {
         switchToTab(.Profile)
         
-        //TODO THIS IS DIRTY AND COUPLED! REFACTOR!
+        // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
         guard let rootViewCtrl = navBarCtl.topViewController, let profileViewCtrl = rootViewCtrl as? EditProfileViewController else { return }
         
