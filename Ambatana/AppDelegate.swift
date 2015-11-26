@@ -56,6 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 
                 // Show TabBar afterwards
                 let tabBarCtl = TabBarController()
+                actualWindow.rootViewController = tabBarCtl
+                navCtl.view.removeFromSuperview()
                 
                 // Open the deep link, if any
                 if let actualDeepLink = deepLink {
@@ -64,9 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 else if self.userContinuationUrl != nil {
                     self.consumeUserContinuation(usingTabBar: tabBarCtl)
                 }
-
-                actualWindow.rootViewController = tabBarCtl
-                navCtl.view.removeFromSuperview()
 
                 // check if app launches from shortcut
                 if #available(iOS 9.0, *) {

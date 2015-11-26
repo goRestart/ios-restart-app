@@ -85,8 +85,10 @@ public class PushManager: NSObject, KahunaDelegate {
             if let action = Action(userInfo: userInfo) {
                 switch action {
                 case .Message(_, _, _):
-                    guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
-                    deepLink = DeepLink(action: action, url: chatUrl)                    
+                    // TODO : fix TabBarVC to load with the corresponding tab depending on the deeplink
+//                    guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
+//                    deepLink = DeepLink(action: action, url: chatUrl)      
+                    break
                 case .URL(let actualDeepLink):
                     deepLink = actualDeepLink
                 }
