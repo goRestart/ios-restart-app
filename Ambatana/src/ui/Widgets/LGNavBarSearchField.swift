@@ -125,6 +125,7 @@ public class LGNavBarSearchField: UIView {
 
             }) { (completion) -> Void in
                 self.logoIcon.hidden = true
+                self.searchTextField.showCursor = true
         }
         
     }
@@ -150,6 +151,7 @@ public class LGNavBarSearchField: UIView {
 
             }) { (completion) -> Void in
                 self.logoIcon.hidden = false
+                self.searchTextField.showCursor = false
             }
     }
 }
