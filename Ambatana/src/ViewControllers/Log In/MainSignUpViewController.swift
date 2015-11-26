@@ -148,14 +148,38 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         case .Failure(let error):
             
             var message: String?
+            var errorDescription: EventParameterLoginError?
+            
             switch (error) {
             case .Cancelled:
                 break
             case .EmailTaken:
                 message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch, .UsernameTaken:
+                errorDescription = .EmailTaken
+            case .InvalidPassword:
                 message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .InvalidPassword
+            case .PasswordMismatch:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .PasswordMismatch
+            case .UsernameTaken:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .UsernameTaken
+            case .Forbidden:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .Forbidden
+            case .Network:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .Network
+            case .Internal:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .Internal
             }
+            
+            if let actualErrorDescription = errorDescription {
+                viewModel.loginWithFBFailedWithError(actualErrorDescription)
+            }
+            
             completion = {
                 if let actualMessage = message {
                     self.showAutoFadingOutMessageAlert(actualMessage, time: 3)

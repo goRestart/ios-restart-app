@@ -1,6 +1,7 @@
 # Created by https://www.gitignore.io
 
 .DS_Store
+LetGo.app.dSYM.zip
 
 ### Xcode ###
 build/
@@ -47,3 +48,4 @@ DerivedData
 #
 # Pods/
 LetGo.xcscmblueprint
+report.xml
