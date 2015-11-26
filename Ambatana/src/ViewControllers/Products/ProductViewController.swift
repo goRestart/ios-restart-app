@@ -243,7 +243,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
 
     public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)  // TODO: Create a string for this screen
+        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
     }
     
     public func sharerDidCancel(sharer: FBSDKSharing!) {
