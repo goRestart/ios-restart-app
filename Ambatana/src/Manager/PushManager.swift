@@ -85,7 +85,10 @@ public class PushManager: NSObject, KahunaDelegate {
             if let action = Action(userInfo: userInfo) {
                 switch action {
                 case .Message(_, _, _):
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
+                    // TODO : fix TabBarVC to load with the corresponding tab depending on the deeplink
+//                    guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
+//                    deepLink = DeepLink(action: action, url: chatUrl)      
+                    break
                 case .URL(let actualDeepLink):
                     deepLink = actualDeepLink
                 }
@@ -118,7 +121,7 @@ public class PushManager: NSObject, KahunaDelegate {
                 // Update the unread messages count
                 updateUnreadMessagesCount()
                 
-                // Notify about the received user interaction
+                // Notify about the received user interaction (chatVC only observes notification if shown)
                 NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
                 
                 // If active, then update the badge
@@ -135,9 +138,12 @@ public class PushManager: NSObject, KahunaDelegate {
                     }
                 }
                 else {
+                    guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
+                    deepLink = DeepLink(action: action, url: chatUrl)
                     PFPush.handlePush(userInfo)
                 }
             case .URL(let dL):
+                guard application.applicationState != .Active else { return nil }
                 deepLink = dL
                 break
             }
