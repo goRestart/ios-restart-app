@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import Result
 
-protocol ChatViewModelDelegate {
+public protocol ChatViewModelDelegate {
     func didFailRetrievingChatMessages(error: ChatRetrieveServiceError)
     func didSucceedRetrievingChatMessages()
     func didFailSendingMessage(error: ChatSendMessageServiceError)
@@ -18,53 +18,61 @@ protocol ChatViewModelDelegate {
 }
 
 public class ChatViewModel: BaseViewModel {
-    let chatManager = ChatManager.sharedInstance
+    var chatManager: ChatManager
+    var userManager: MyUserManager
 
-    var chat: Chat
-    var otherUser: User?
-    var buyer: User?
-    var delegate: ChatViewModelDelegate?
+    public var chat: Chat
+    public var otherUser: User?
+    public var buyer: User?
+    public var delegate: ChatViewModelDelegate?
     var isNewChat = false
     var isSendingMessage = false
     var askQuestion = false
-    var alreadyAskedForRating = false
+    public var alreadyAskedForRating = false
     
-    var shouldShowSafetyTipes: Bool {
+    public var shouldShowSafetyTipes: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
         return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
     }
     
-    var safetyTypesCompleted: Bool {
+    public var safetyTypesCompleted: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
     
-    var didReceiveMessageFromOtherUser: Bool {
+    public var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
         return chat.didReceiveMessageFrom(otherUserId)
     }
     
-    var productViewModel: ProductViewModel {
+    public var productViewModel: ProductViewModel {
         return ProductViewModel(product: chat.product, tracker: TrackerProxy.sharedInstance)
     }
     
-    init?(chat: Chat) {
-        self.chat = chat
-        super.init()
-        initUsers()
-        if otherUser == nil { return nil }
-        if buyer == nil { return nil }
+    public convenience init?(chat: Chat) {
+        self.init(chat: chat, userManager: MyUserManager.sharedInstance, chatManager: ChatManager.sharedInstance)
     }
     
-    convenience init?(product: Product, askQuestion: Bool) {
+    public convenience init?(product: Product, askQuestion: Bool) {
         guard let chatFromProduct = ChatManager.sharedInstance.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
         isNewChat = true
         self.askQuestion = askQuestion
     }
     
+    public init?(chat: Chat, userManager: MyUserManager, chatManager: ChatManager) {
+        self.chat = chat
+        self.userManager = userManager
+        self.chatManager = chatManager
+        super.init()
+        initUsers()
+        if otherUser == nil { return nil }
+        if buyer == nil { return nil }
+    }
+    
+    
     func initUsers() {
-        guard let myUser = MyUserManager.sharedInstance.myUser() else { return }
+        guard let myUser = userManager.myUser() else { return }
         guard let myUserId = myUser.objectId else { return }
         guard let userFromId = chat.userFrom.objectId else { return }
         guard let productOwnerId = chat.product.user.objectId else { return }
@@ -73,7 +81,7 @@ public class ChatViewModel: BaseViewModel {
         self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
     }
     
-    func loadMessages() {
+    public func loadMessages() {
         guard let userBuyer = buyer else { return }
         chatManager.retrieveChatWithProduct(chat.product, buyer: userBuyer) { [weak self] (result: Result<Chat, ChatRetrieveServiceError>) -> Void in
             guard let strongSelf = self else { return }
@@ -87,14 +95,14 @@ public class ChatViewModel: BaseViewModel {
         }
     }
     
-    func sendMessage(text: String) {
+    public func sendMessage(text: String) {
         if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
         guard let toUser = otherUser else { return }
         self.isSendingMessage = true
         
-        ChatManager.sharedInstance.sendText(message, product: chat.product, recipient: toUser) { [weak self] (result: ChatSendMessageServiceResult) -> Void in
+        chatManager.sendText(message, product: chat.product, recipient: toUser) { [weak self] (result: ChatSendMessageServiceResult) -> Void in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value {
                 strongSelf.chat.prependMessage(sentMessage)
@@ -118,13 +126,13 @@ public class ChatViewModel: BaseViewModel {
     // MARK: Tracking
     
     func trackQuestion() {
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = userManager.myUser()
         let askQuestionEvent = TrackerEvent.productAskQuestion(chat.product, user: myUser)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
     
     func trackMessageSent() {
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = userManager.myUser()
         let messageSentEvent = TrackerEvent.userMessageSent(chat.product, user: myUser)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }

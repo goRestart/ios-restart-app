@@ -1168,14 +1168,14 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = NSNumber(double: 123.983)
+                    product.price = 123.983
                     product.currency = Currency(code: "EUR", symbol: "€")
-                    product.categoryId = NSNumber(integer: 4)
                     product.user = myUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress.countryCode = "US"
                     product.postalAddress.zipCode = "12345"
                     product.postalAddress.city = "Baltimore"
+                    product.category = ProductCategory(rawValue: 4)!
                     
                     sut = TrackerEvent.productMarkAsUnsold(product, user: myUser)
                     expect(sut.params).notTo(beNil())
@@ -1188,7 +1188,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
                     let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(product.price!.doubleValue))
+                    expect(productPrice).to(equal(Double(product.price!)))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
@@ -1196,8 +1196,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
-                    expect(productCategory).to(equal(product.categoryId!.integerValue))
-                    
+                    expect(productCategory).to(equal(product.category.rawValue))
                 }
             }
             
