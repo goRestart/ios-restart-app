@@ -71,6 +71,9 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     var productManager: ProductManager
     var userManager: UserManager
     
+    // Deep link
+    var deepLink: DeepLink?
+    
     // UI
     var floatingSellButton: FloatingButton!
     var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
@@ -82,13 +85,17 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     public convenience init() {
         let productManager = ProductManager()
         let userManager = UserManager()
-        self.init(productManager: productManager, userManager: userManager)
+        let deepLink: DeepLink? = nil
+        self.init(productManager: productManager, userManager: userManager, deepLink: deepLink)
     }
     
-    public required init(productManager: ProductManager, userManager: UserManager) {
+    public required init(productManager: ProductManager, userManager: UserManager, deepLink: DeepLink?) {
         // Managers
         self.productManager = productManager
         self.userManager = userManager
+        
+        // Deep link
+        self.deepLink = deepLink
         
        super.init(nibName: nil, bundle: nil)
         
@@ -155,6 +162,9 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:", name: PushManager.Notification.unreadMessagesDidChange.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: MyUserManager.Notification.logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        
+        // TODO: Check if can be moved to viewDidLoad
+        consumeDeepLinkIfAvailable()
     }
     
     public override func viewWillDisappear(animated: Bool) {
@@ -203,44 +213,14 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     }
     
     /**
-        Opens a deep link.
-    
-        - parameter deepLink: The deep link.
-        - returns: If succesfully handled opening the deep link.
+        ...
     */
-    func openDeepLink(deepLink: DeepLink) -> Bool {
-        guard deepLink.isValid else { return false }
+    func consumeDeepLinkIfAvailable() {
+        guard let deepLink = deepLink else { return }
         
-        var afterDelayClosure: (() -> Void)?
-        switch deepLink.type {
-        case .Home:
-            switchToTab(.Home)
-        case .Sell:
-            openSell()
-        case .Product:
-            afterDelayClosure =  { [weak self] in
-                let productId = deepLink.components[0]
-                self?.openProductWithId(productId)
-            }
-        case .User:
-            afterDelayClosure =  { [weak self] in
-                let userId = deepLink.components[0]
-                self?.openUserWithId(userId)
-            }
-        case .Chats:
-            switchToTab(.Chats)
-        case .Chat:
-            afterDelayClosure =  { [weak self] in
-                if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
-                    self?.openChatWithProductId(productId, buyerId: buyerId)
-                }
-            }
-        }
-        if let afterDelayClosure = afterDelayClosure {
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
-        }
-        return true
+        // Consume and open it
+        self.deepLink = nil
+        openDeepLink(deepLink)
     }
     
     func openShortcut(tab: Tab) {
@@ -317,7 +297,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     
     func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
-            switchToTab(.Profile)
+            switchToProfileOnTab(.ProductImSelling)
             
             showAppRatingViewIfNeeded()
         }
@@ -467,6 +447,57 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         openSell()
     }
     
+    // MARK: > Deep link
+    
+    /**
+    Opens a deep link.
+    
+    - parameter deepLink: The deep link.
+    - returns: If succesfully handled opening the deep link.
+    */
+    func openDeepLink(deepLink: DeepLink) -> Bool {
+        guard deepLink.isValid else { return false }
+        
+        var afterDelayClosure: (() -> Void)?
+        switch deepLink.type {
+        case .Home:
+            switchToTab(.Home)
+        case .Sell:
+            openSell()
+        case .Product:
+            afterDelayClosure =  { [weak self] in
+                let productId = deepLink.components[0]
+                self?.openProductWithId(productId)
+            }
+        case .User:
+            afterDelayClosure =  { [weak self] in
+                let userId = deepLink.components[0]
+                self?.openUserWithId(userId)
+            }
+        case .Chats:
+            switchToTab(.Chats)
+        case .Chat:
+            
+            // TODO: Refactor TabBarController with MVVM
+            if let currentVC = selectedViewController as? UINavigationController, let topVC = currentVC.topViewController as? ChatViewController where (deepLink.query["p"] == topVC.chat.product.objectId && deepLink.query["b"] == topVC.otherUser.objectId) {
+                topVC.refreshMessages()
+            }
+            else {
+                switchToTab(.Chats)
+                afterDelayClosure =  { [weak self] in
+                    if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
+                        self?.openChatWithProductId(productId, buyerId: buyerId)
+                    }
+                }
+            }
+        }
+        if let afterDelayClosure = afterDelayClosure {
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
+        }
+        return true
+    }
+    
     // MARK: > UI
     
     private func updateChatsBadge() {
@@ -612,6 +643,23 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
 
             // Dismiss loading
             self?.dismissLoadingMessageAlert(loadingDismissCompletion)
+        }
+    }
+    
+    private func switchToProfileOnTab(profileTab : EditProfileViewController.ProfileTab) {
+        switchToTab(.Profile)
+        
+        // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
+        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
+        guard let rootViewCtrl = navBarCtl.topViewController, let profileViewCtrl = rootViewCtrl as? EditProfileViewController else { return }
+        
+        switch profileTab {
+        case .ProductImSelling:
+            profileViewCtrl.showSellProducts(self)
+        case .ProductISold:
+            profileViewCtrl.showSoldProducts(self)
+        case .ProductFavourite:
+            profileViewCtrl.showFavoritedProducts(self)
         }
     }
     

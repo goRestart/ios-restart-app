@@ -61,12 +61,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 // Open the deep link, if any
                 if let actualDeepLink = deepLink {
-                    tabBarCtl.openDeepLink(actualDeepLink)
+                    tabBarCtl.deepLink = actualDeepLink
                 }
                 else if self.userContinuationUrl != nil {
                     self.consumeUserContinuation(usingTabBar: tabBarCtl)
                 }
-                
+
                 // check if app launches from shortcut
                 if #available(iOS 9.0, *) {
                     if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
@@ -93,6 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions) || userContinuation
     }
     
+    // TODO: Check this method, its marked as deprecated
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
         // Tracking
@@ -224,10 +225,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        if application.applicationState != .Active {
-            if let deepLink = PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo), let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                tabBarCtl.openDeepLink(deepLink)
-            }
+        if let deepLink = PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo), let tabBarCtl = self.window?.rootViewController as? TabBarController {
+            tabBarCtl.openDeepLink(deepLink)
         }
     }
     
@@ -246,12 +245,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
         LGCoreKit.initialize(launchOptions)
         
-        // Crashlytics
+        // Fabric
 #if DEBUG
 #else
         Fabric.with([Crashlytics.self, Optimizely.self])
 #endif
-    
+        
+        // Optimizely
+#if DEBUG
+        Optimizely.sharedInstance().disableGesture = false
+#else
+        Optimizely.sharedInstance().disableGesture = true
+#endif
+        
         // Push notifications, get the deep link if any
         var deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         

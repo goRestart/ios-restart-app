@@ -10,6 +10,7 @@ import Foundation
 
 public struct ABTests {
     public static let navBarTintColor = OptimizelyABLiveVariable.colorVariable("NavBarTintColor", colorValue: StyleHelper.red)
+    public static let productsWithinFilterEnabled = OptimizelyABLiveVariable.boolVariable("ProductsWithinFilter", boolValue: true)
 
-    public static let allValues = [ABTests.navBarTintColor]
+    public static let allValues = [ABTests.navBarTintColor, ABTests.productsWithinFilterEnabled]
 }

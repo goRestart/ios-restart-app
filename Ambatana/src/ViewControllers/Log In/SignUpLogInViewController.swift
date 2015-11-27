@@ -163,6 +163,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(17) ])
+       
     }
     
     @IBAction func usernameButtonPressed(sender: AnyObject) {
@@ -270,6 +272,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
+    func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool) {
+        showPasswordButton.hidden = !visible
+    }
+
     // MARK: > signup
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel) {
         showLoadingMessageAlert()
@@ -285,24 +291,32 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
             }
             break
         case .Failure(let error):
-            
+            let errorDescription : EventParameterLoginError
             let message: String
             switch (error) {
             case .InvalidEmail:
                 message = LGLocalizedString.signUpSendErrorInvalidEmail
+                errorDescription = .InvalidEmail
             case .InvalidUsername:
                 message = String(format: LGLocalizedString.signUpSendErrorInvalidUsername, Constants.fullNameMinLength)
+                errorDescription = .InvalidUsername
             case .InvalidPassword:
                 message = String(format: LGLocalizedString.signUpSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
+                errorDescription = .InvalidPassword
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
+                errorDescription = .Network
             case .EmailTaken:
                 message = String(format: LGLocalizedString.signUpSendErrorEmailTaken, viewModel.email)
+                errorDescription = .EmailTaken
             case .UsernameTaken:
                 message = String(format: LGLocalizedString.signUpSendErrorInvalidUsernameLetgo, viewModel.username)
+                errorDescription = .UsernameTaken
             case .Internal:
                 message = LGLocalizedString.signUpSendErrorGeneric
+                errorDescription = .Internal
             }
+            viewModel.signupFailedWithError(errorDescription)
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
             }
@@ -328,19 +342,29 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
             }
             break
         case .Failure(let error):
+            let errorDescription : EventParameterLoginError
             let message: String
             switch (error) {
             case .InvalidEmail:
                 message = LGLocalizedString.logInErrorSendErrorInvalidEmail
+                errorDescription = .InvalidEmail
             case .InvalidPassword:
                 message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+                errorDescription = .InvalidPassword
             case .UserNotFoundOrWrongPassword:
                 message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+                errorDescription = .UserNotFoundOrWrongPassword
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .Forbidden:
+                errorDescription = .Network
+            case .Internal:
                 message = LGLocalizedString.logInErrorSendErrorGeneric
+                errorDescription = .Internal
+            case .Forbidden:
+                message = LGLocalizedString.logInErrorSendErrorGeneric
+                errorDescription = .Forbidden
             }
+            viewModel.loginFailedWithError(errorDescription)
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
             }
@@ -368,14 +392,38 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         case .Failure(let error):
             
             var message: String?
+            var errorDescription: EventParameterLoginError?
+            
             switch (error) {
             case .Cancelled:
                 break
             case .EmailTaken:
                 message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch, .UsernameTaken:
+                errorDescription = .EmailTaken
+            case .InvalidPassword:
                 message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .InvalidPassword
+            case .PasswordMismatch:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .PasswordMismatch
+            case .UsernameTaken:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .UsernameTaken
+            case .Forbidden:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .Forbidden
+            case .Network:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .Network
+            case .Internal:
+                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+                errorDescription = .Internal
             }
+            
+            if let actualErrorDescription = errorDescription {
+                viewModel.loginFailedWithError(actualErrorDescription)
+            }
+            
             completion = {
                 if let actualMessage = message {
                     self.showAutoFadingOutMessageAlert(actualMessage, time: 3)
@@ -426,6 +474,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         emailTextField.hidden = false
 
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
+        showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible)
         
         let isSignup = viewModel.currentActionType == .Signup
         
@@ -454,7 +503,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         forgotPasswordButton.hidden = true
         
         passwordButton.hidden = !signupEditModeActive
-        showPasswordButton.hidden = !signupEditModeActive
         passwordIconImageView.hidden = !signupEditModeActive
         passwordTextField.hidden = !signupEditModeActive
 
@@ -473,7 +521,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         forgotPasswordButton.hidden = !loginEditModeActive
         
         passwordButton.hidden = !loginEditModeActive
-        showPasswordButton.hidden = !loginEditModeActive
         passwordIconImageView.hidden = !loginEditModeActive
         passwordTextField.hidden = !loginEditModeActive
         

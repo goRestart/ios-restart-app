@@ -103,11 +103,16 @@
 "filters_section_categories" = "Categorieen";
 "filters_section_distance" = "Afstand";
 "filters_section_sortby" = "Sorteer op";
+"filters_section_within" = "Gepost in";
 "filters_sort_closest" = "Dichtstbijzijnde eerst";
 "filters_sort_newest" = "Nieuwste eerst";
 "filters_sort_price_asc" = "Prijs van laag naar hoog";
 "filters_sort_price_desc" = "Prijs van hoog naar laag";
 "filters_title" = "Filters";
+"filters_within_all" = "Alle producten";
+"filters_within_day" = "de laatste 24 uur";
+"filters_within_month" = "de laatste 30 dagen";
+"filters_within_week" = "de laatste 7 dagen";
 "forced_update_message" = "Een nieuwe versie van letgo is beschikbaar. Gelieve het nu te updaten.";
 "forced_update_title" = "Update beschikbaar";
 "forced_update_update_button" = "Bijwerken";
@@ -124,7 +129,7 @@
 "main_sign_up_already_registered_label" = "Al geregistreerd?";
 "main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
 "main_sign_up_contact_us_button" = "Hulp nodig?";
-"main_sign_up_facebook_connect_button" = "Inloggen met Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
 "main_sign_up_help_button" = "Hulp";

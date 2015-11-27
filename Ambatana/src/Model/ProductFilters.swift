@@ -15,6 +15,8 @@ public struct ProductFilters {
     
     var selectedCategories : [ProductCategory]
     
+    var selectedWithin : ProductTimeCriteria
+    
     var selectedOrdering : ProductSortCriteria
     
     var filterCoordinates : LGLocationCoordinates2D?
@@ -24,14 +26,16 @@ public struct ProductFilters {
             distanceRadius : Constants.distanceFilterDefault,
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
+            selectedWithin: ProductTimeCriteria.defaultOption,
             selectedOrdering: ProductSortCriteria.defaultOption
         )
     }
     
-    init(distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory], selectedOrdering: ProductSortCriteria){
+    init(distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory], selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria){
         self.distanceRadius = distanceRadius
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
+        self.selectedWithin = selectedWithin
         self.selectedOrdering = selectedOrdering
     }
     

@@ -85,7 +85,10 @@ public class PushManager: NSObject, KahunaDelegate {
             if let action = Action(userInfo: userInfo) {
                 switch action {
                 case .Message(_, _, _):
-                    NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
+                    // TODO : fix TabBarVC to load with the corresponding tab depending on the deeplink
+//                    guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
+//                    deepLink = DeepLink(action: action, url: chatUrl)      
+                    break
                 case .URL(let actualDeepLink):
                     deepLink = actualDeepLink
                 }
@@ -118,7 +121,7 @@ public class PushManager: NSObject, KahunaDelegate {
                 // Update the unread messages count
                 updateUnreadMessagesCount()
                 
-                // Notify about the received user interaction
+                // Notify about the received user interaction (chatVC only observes notification if shown)
                 NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
                 
                 // If active, then update the badge
@@ -135,9 +138,12 @@ public class PushManager: NSObject, KahunaDelegate {
                     }
                 }
                 else {
+                    guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
+                    deepLink = DeepLink(action: action, url: chatUrl)
                     PFPush.handlePush(userInfo)
                 }
             case .URL(let dL):
+                guard application.applicationState != .Active else { return nil }
                 deepLink = dL
                 break
             }
@@ -188,23 +194,6 @@ public class PushManager: NSObject, KahunaDelegate {
         }
     }
     
-    
-    // TODO: Refactor this...
-    public func forceKahunaLogin(user: MyUser) {
-        let uc = Kahuna.createUserCredentials()
-        var loginError: NSError?
-        if let userId = user.objectId {
-            uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
-        }
-        if let email = user.email {
-            uc.addCredential(KAHUNA_CREDENTIAL_EMAIL, withValue: email)
-        }
-        Kahuna.loginWithCredentials(uc, error: &loginError)
-        if (loginError != nil) {
-            print("Login Error : \(loginError!.localizedDescription)", terminator: "")
-        }
-    }
-    
     // MARK: - Private methods
     
     private func setupKahuna() {
@@ -221,13 +210,10 @@ public class PushManager: NSObject, KahunaDelegate {
             let uc = Kahuna.createUserCredentials()
             var loginError: NSError?
             if let userId = user.objectId {
-                // TODO: Use Kahuna constants when updating to Xcode 7
-//                uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
-                uc.addCredential("user_id", withValue: userId)
+                uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
             }
             if let email = user.email {
-//                uc.addCredential(KAHUNA_CREDENTIAL_EMAIL, withValue: email)
-                uc.addCredential("email", withValue: email)
+                uc.addCredential(KAHUNA_CREDENTIAL_EMAIL, withValue: email)
             }
             Kahuna.loginWithCredentials(uc, error: &loginError)
             if (loginError != nil) {

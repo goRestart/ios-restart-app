@@ -10,7 +10,7 @@ class TrackerEventSpec: QuickSpec {
     override func spec() {
         var sut: TrackerEvent!
         
-                    describe("factory methods") {
+        describe("factory methods") {
             describe("location") {
                 it("has its event name") {
                     let location = CLLocation(latitude: 42, longitude: 2)
@@ -547,6 +547,55 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("logout"))
                 }
             }
+
+            describe("login error") {
+                it("has its event name") {
+                    sut = TrackerEvent.loginError(.Network)
+                    expect(sut.name.rawValue).to(equal("login-error"))
+                }
+                it("contains the error description param") {
+                    let errorDescription = EventParameterLoginError.Network
+                    sut = TrackerEvent.loginError(errorDescription)
+                    expect(sut.params).notTo(beNil())
+                    
+                    expect(sut.params!.stringKeyParams["error-description"]).notTo(beNil())
+                    let description = sut.params!.stringKeyParams["error-description"] as? String
+                    expect(description).to(equal(errorDescription.description))
+                }
+            }
+            
+            describe("signup error") {
+                it("has its event name") {
+                    sut = TrackerEvent.signupError(.Network)
+                    expect(sut.name.rawValue).to(equal("signup-error"))
+                }
+                it("contains the error description param") {
+                    let errorDescription = EventParameterLoginError.Network
+                    sut = TrackerEvent.signupError(errorDescription)
+                    expect(sut.params).notTo(beNil())
+                    
+                    expect(sut.params!.stringKeyParams["error-description"]).notTo(beNil())
+                    let description = sut.params!.stringKeyParams["error-description"] as? String
+                    expect(description).to(equal(errorDescription.description))
+                }
+            }
+            
+            describe("password reset error error") {
+                it("has its event name") {
+                    sut = TrackerEvent.passwordResetError(.Network)
+                    expect(sut.name.rawValue).to(equal("password-reset-error"))
+                }
+                it("contains the error description param") {
+                    
+                    let errorDescription = EventParameterLoginError.Network
+                    sut = TrackerEvent.passwordResetError(errorDescription)
+                    expect(sut.params).notTo(beNil())
+                    
+                    expect(sut.params!.stringKeyParams["error-description"]).notTo(beNil())
+                    let description = sut.params!.stringKeyParams["error-description"] as? String
+                    expect(description).to(equal(errorDescription.description))
+                }
+            }            
             
             describe("productList") {
                 it("has its event name") {
@@ -1170,6 +1219,7 @@ class TrackerEventSpec: QuickSpec {
                     product.name = "iPhone 7S"
                     product.price = 123.983
                     product.currency = Currency(code: "EUR", symbol: "€")
+                    product.category = ProductCategory(rawValue: 4)!
                     product.user = myUser
                     product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
                     product.postalAddress.countryCode = "US"
@@ -1187,8 +1237,8 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
-                    expect(productPrice).to(equal(Double(product.price!)))
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    expect(productPrice).to(equal(product.price))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String

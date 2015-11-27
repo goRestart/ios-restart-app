@@ -103,11 +103,16 @@
 "filters_section_categories" = "Κατηγορίες";
 "filters_section_distance" = "Απόσταση";
 "filters_section_sortby" = "Ταξινόμηση κατά";
+"filters_section_within" = "Posted within";
 "filters_sort_closest" = "Κοντινότερο";
 "filters_sort_newest" = "Πιο καινούριο";
 "filters_sort_price_asc" = "Τιμή από χαμηλότερη σε υψηλότερη";
 "filters_sort_price_desc" = "Τιμή από υψηλότερη σε χαμηλότερη";
 "filters_title" = "Φίλτρα";
+"filters_within_all" = "All products";
+"filters_within_day" = "The last 24h";
+"filters_within_month" = "The last 30 days";
+"filters_within_week" = "The last 7 days";
 "forced_update_message" = "Μια πιο πρόσφατη έκδοση του letgo είναι διαθέσιμη. Κάνε ενημέρωση τώρα!";
 "forced_update_title" = "Διαθέσιμη ενημέρωση";
 "forced_update_update_button" = "Αναβάθμιση";
@@ -124,7 +129,7 @@
 "main_sign_up_already_registered_label" = "Έχεις ήδη εγγραφεί;";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
 "main_sign_up_contact_us_button" = "Χρειάζεστε Βοήθεια;";
-"main_sign_up_facebook_connect_button" = "Συνδέσου μέσω Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Το email σας χρησιμοποιείται ήδη. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
 "main_sign_up_help_button" = "Βοήθεια";
@@ -216,7 +221,7 @@
 "reset_password_send_button" = "Αποστολή email";
 "reset_password_send_error_generic" = "Παρουσιάστηκε σφάλμα κατά την προσπάθεια επαναφοράς του κωδικού σας. Παρακαλώ προσπαθήστε ξανά.";
 "reset_password_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
-"reset_password_send_error_user_not_found_or_wrong_password" = "Δεν έχει γίνει εγγραφή με τη διεύθυνση email %@ .";
+"reset_password_send_error_user_not_found_or_wrong_password" = "Δεν έχει γίνει εγγραφή με τη διεύθυνση email %@.";
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
 "sell_category_selection_label" = "Επιλογή κατηγορίας";

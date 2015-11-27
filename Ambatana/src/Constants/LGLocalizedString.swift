@@ -424,8 +424,28 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_section_distance", comment: "")
 	}
 	
+	static var filtersSectionWithin: String {
+		return NSLocalizedString("filters_section_within", comment: "")
+	}
+	
 	static var filtersSectionSortby: String {
 		return NSLocalizedString("filters_section_sortby", comment: "")
+	}
+	
+	static var filtersWithinDay: String {
+		return NSLocalizedString("filters_within_day", comment: "")
+	}
+	
+	static var filtersWithinWeek: String {
+		return NSLocalizedString("filters_within_week", comment: "")
+	}
+	
+	static var filtersWithinMonth: String {
+		return NSLocalizedString("filters_within_month", comment: "")
+	}
+	
+	static var filtersWithinAll: String {
+		return NSLocalizedString("filters_within_all", comment: "")
 	}
 	
 	static var filtersSortClosest: String {

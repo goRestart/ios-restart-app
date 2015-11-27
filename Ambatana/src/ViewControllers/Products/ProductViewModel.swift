@@ -105,16 +105,17 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // MARK: - Computed iVars
     
-    public var isEditable: Bool {
-        let isOnSale: Bool
+    private var isOnSale: Bool {
         switch product.status {
         case .Pending, .Approved, .Discarded:
-            isOnSale = true
+            return true
             
         case .Deleted, .Sold, .SoldOld:
-            isOnSale = false
+            return false
         }
-        
+    }
+    
+    public var isEditable: Bool {
         // It's editable when the product is mine and is on sale
         return isMine && isOnSale
     }
@@ -129,7 +130,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public var isShareable: Bool {
-        return !isMine
+        return !isMine && isOnSale
     }
     
     public var isReportable: Bool {
@@ -221,8 +222,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         switch product.status {
         case .Pending, .Discarded, .Deleted:
             footerViewVisible = false
-        case .Approved, .Sold, .SoldOld:
+        case .Approved:
             footerViewVisible = true
+        case .Sold, .SoldOld:
+            footerViewVisible = isMine
         }
         return footerViewVisible
     }
