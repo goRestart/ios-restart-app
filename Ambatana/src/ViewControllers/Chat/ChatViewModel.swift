@@ -25,7 +25,7 @@ public class ChatViewModel: BaseViewModel {
     public var otherUser: User?
     public var buyer: User?
     public var delegate: ChatViewModelDelegate?
-    var isNewChat = false
+    public var isNewChat = false
     var isSendingMessage = false
     var askQuestion = false
     public var alreadyAskedForRating = false

@@ -18,6 +18,7 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     private var selectedCellIndexPath: NSIndexPath?
     var viewModel: ChatViewModel
     var keyboardShown: Bool = false
+    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
@@ -44,18 +45,24 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
+        
     }
     
     override func viewWillAppear(animated: Bool) {
+        showActivityIndicator(true)
         super.viewWillAppear(animated)
-        viewModel.loadMessages()
+        if !viewModel.isNewChat { viewModel.loadMessages() }
+    }
+    
+    func showActivityIndicator(show: Bool) {
+        show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
     
     
     // MARK: UI
     
     func setupUI() {
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = StyleHelper.chatTableViewBgColor
         tableView.clipsToBounds = true
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -79,7 +86,10 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         updateProductView()
         view.addSubview(productView)
         self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
-
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.center = view.center
     }
     
     func updateProductView() {
@@ -177,6 +187,7 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     }
     
     func didSucceedRetrievingChatMessages() {
+        showActivityIndicator(false)
         if viewModel.shouldShowSafetyTipes { showSafetyTips() }
         tableView.reloadData()
     }
