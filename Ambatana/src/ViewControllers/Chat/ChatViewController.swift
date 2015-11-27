@@ -15,7 +15,7 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
     var productView = ChatProductView()
-    private var selectedCellIndexPath: NSIndexPath?
+    var selectedCellIndexPath: NSIndexPath?
     var viewModel: ChatViewModel
     var keyboardShown: Bool = false
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
@@ -45,7 +45,6 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
-        
     }
     
     override func viewWillAppear(animated: Bool) {
