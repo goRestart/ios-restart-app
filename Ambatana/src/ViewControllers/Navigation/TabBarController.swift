@@ -479,7 +479,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         case .Chat:
             
             // TODO: Refactor TabBarController with MVVM
-            if let currentVC = selectedViewController as? UINavigationController, let topVC = currentVC.topViewController as? ChatViewController where (deepLink.query["p"] == topVC.chat.product.objectId && deepLink.query["b"] == topVC.otherUser.objectId) {
+            if let currentVC = selectedViewController as? UINavigationController,
+                let topVC = currentVC.topViewController as? ChatViewController where (deepLink.query["p"] == topVC.viewModel.chat.product.objectId && deepLink.query["b"] == topVC.viewModel.otherUser?.objectId) {
                 topVC.refreshMessages()
             }
             else {

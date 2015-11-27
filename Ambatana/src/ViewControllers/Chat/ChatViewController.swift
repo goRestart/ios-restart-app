@@ -50,11 +50,15 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     override func viewWillAppear(animated: Bool) {
         showActivityIndicator(true)
         super.viewWillAppear(animated)
-        if !viewModel.isNewChat { viewModel.loadMessages() }
+        if !viewModel.isNewChat { refreshMessages() }
     }
     
     func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+    }
+    
+    func refreshMessages() {
+        viewModel.loadMessages()
     }
     
     
