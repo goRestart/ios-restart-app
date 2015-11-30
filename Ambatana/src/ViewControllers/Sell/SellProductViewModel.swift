@@ -22,6 +22,8 @@ protocol SellProductViewModelDelegate : class {
     func sellProductViewModel(viewModel: SellProductViewModel, shouldUpdateDescriptionWithCount count: Int)
     func sellProductViewModeldidAddOrDeleteImage(viewModel: SellProductViewModel)
     func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError)
+
+    func sellProductViewModelFieldCheckSucceded(viewModel: SellProductViewModel)
 }
 
 public class SellProductViewModel: BaseViewModel {
@@ -144,6 +146,18 @@ public class SellProductViewModel: BaseViewModel {
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
+    public func checkProductFields() {
+        //TODO MOVE VALIDATION TO PRODUCT CREATION ON PRODUCTMANAGER
+        let error = validate()
+        if let actualError = error {
+            delegate?.sellProductViewModel(self, didFailWithError: actualError)
+            trackValidationFailedWithError(actualError)
+        }
+        else {
+            delegate?.sellProductViewModelFieldCheckSucceded(self)
+        }
+    }
+
     public func save() {
         saveProduct(nil)
     }
@@ -160,34 +174,24 @@ public class SellProductViewModel: BaseViewModel {
     
     internal func saveProduct(product: Product? = nil) {
         
+        // TODO: New product handling
+        //        if new should add more info (location, user...)
+        //        if product == nil {
+        //
+        //        }
         
-        //TODO MOVE VALIDATION TO PRODUCT CREATION ON PRODUCTMANAGER
-        let error = validate()
-        if let actualError = error {
-            delegate?.sellProductViewModel(self, didFailWithError: actualError)
-            trackValidationFailedWithError(actualError)
+        var theProduct = product ?? productManager.newProduct()
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        formatter.usesGroupingSeparator = false
+        var priceFloat : Float = 0
+        if let number = formatter.numberFromString(price) {
+            priceFloat = number.floatValue
         }
-        else {
-            
-            // TODO: New product handling
-            //        if new should add more info (location, user...)
-            //        if product == nil {
-            //
-            //        }
-            
-            var theProduct = product ?? productManager.newProduct()
-            let formatter = NSNumberFormatter()
-            formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-            formatter.usesGroupingSeparator = false
-            var priceFloat : Float = 0
-            if let number = formatter.numberFromString(price) {
-                priceFloat = number.floatValue
-            }
-            
-            theProduct = productManager.updateProduct(theProduct, name: title, price: priceFloat, description: descr, category: category!, currency: currency)
-            
-            saveTheProduct(theProduct, withImages: noEmptyImages(images))
-        }
+        
+        theProduct = productManager.updateProduct(theProduct, name: title, price: priceFloat, description: descr, category: category!, currency: currency)
+        
+        saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }
     
     func validate() -> ProductSaveServiceError? {
