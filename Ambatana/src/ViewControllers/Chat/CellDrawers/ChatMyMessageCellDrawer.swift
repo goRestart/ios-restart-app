@@ -9,14 +9,10 @@
 import Foundation
 import LGCoreKit
 
-public class ChatMyMessageCellDrawer: ChatCellDrawer {
-    public func cell(tableView: UITableView, atIndexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCellWithIdentifier(ChatMyMessageCell.cellID(), forIndexPath: atIndexPath)
-    }
+class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
     
-    public func draw(cell: UITableViewCell, message: Message, avatar: File?, delegate: AnyObject?) {
-        guard let myCell = cell as? ChatMyMessageCell else { return }
-        myCell.messageLabel.text = message.text ?? ""
-        myCell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
+    override func draw(cell: ChatMyMessageCell, message: Message, avatar: File?, delegate: AnyObject?) {
+        cell.messageLabel.text = message.text ?? ""
+        cell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
     }
 }

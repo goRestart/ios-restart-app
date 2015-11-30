@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ChatMyMessageCell: ChatBubbleCell {
+class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
 
-    static func cellID() -> String {
+    static func reusableID() -> String {
         return "ChatMyMessageCell"
     }
     

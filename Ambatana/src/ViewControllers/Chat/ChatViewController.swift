@@ -10,7 +10,7 @@ import UIKit
 import SlackTextViewController
 import LGCoreKit
 
-class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafeTipsViewDelegate, ChatOthersMessageCellDelegate {
+class ChatViewController: SLKTextViewController {
 
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
@@ -37,14 +37,20 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerNibs()
+        ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         view.addSubview(ChatProductView())
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
+            name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
+            name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+            name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+            name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
+            name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -62,7 +68,7 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     }
     
     
-    // MARK: UI
+    // MARK: > UI
     
     func setupUI() {
         view.backgroundColor = StyleHelper.chatTableViewBgColor
@@ -109,16 +115,9 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
             productView.imageButton.sd_setImageWithURL(thumbURL)
         }
     }
-   
-    func registerNibs() {
-        let myMessageCellNib = UINib(nibName: ChatMyMessageCell.cellID(), bundle: nil)
-        tableView.registerNib(myMessageCellNib, forCellReuseIdentifier: ChatMyMessageCell.cellID())
-        let othersMessageCellNib = UINib(nibName: ChatOthersMessageCell.cellID(), bundle: nil)
-        tableView.registerNib(othersMessageCellNib, forCellReuseIdentifier: ChatOthersMessageCell.cellID())
-    }
+
     
-    
-    // MARK: Navigation
+    // MARK: > Navigation
     
     func openProductDetail() {
         switch viewModel.chat.product.status {
@@ -135,16 +134,17 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     }
     
     
-    // MARK: Interaction from push
+    // MARK: > Interaction from push
     // This method will be called when the user interacts with a chat push notification
     func didReceiveUserInteraction(notification: NSNotification) {
-        guard let userInfo = notification.object as? [NSObject: AnyObject],
-            let productId = userInfo["p"] as? String else { return }
-        if viewModel.chat.product.objectId == productId { viewModel.loadMessages() }
+        guard let userInfo = notification.object as? [NSObject: AnyObject] else { return }
+        if viewModel.receivedUserInteractionIsValid(userInfo) {
+             viewModel.loadMessages()
+        }
     }
     
     
-    // MARK: Slack methods
+    // MARK: > Slack methods
     
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
@@ -153,7 +153,7 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     }
 
     
-    // MARK: TableView Delegate
+    // MARK: > TableView Delegate
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.chat.messages.count
@@ -173,19 +173,38 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
     }
 
     
-    // MARK: ChatViewModelDelegate
+    // MARK: > Rating
+    
+    func askForRating() {
+        viewModel.alreadyAskedForRating = true
+        let delay = Int64(1.0 * Double(NSEC_PER_SEC))
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
+            self?.textView.resignFirstResponder()
+            guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
+            tabBarCtrl.showAppRatingViewIfNeeded()
+        }
+    }
+}
+
+
+// MARK: - ChatViewModelDelegate
+
+extension ChatViewController: ChatViewModelDelegate {
+    
+    
+    // MARK: > Retrieve Messages
     
     func didFailRetrievingChatMessages(error: ChatRetrieveServiceError) {
         switch (error) {
         case .Internal, .Network, .NotFound, .Unauthorized:
-            showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError, completionBlock: { [weak self] () -> Void in
+            showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
                 self?.popBackViewController()
-            })
+            }
         case .Forbidden:
             // logout the scammer!
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
+            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
                 MyUserManager.sharedInstance.logout(nil)
-            })
+            }
         }
     }
     
@@ -194,15 +213,18 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         if viewModel.shouldShowSafetyTipes { showSafetyTips() }
         tableView.reloadData()
     }
-
+    
+    
+    // MARK: > Send Message
+    
     func didFailSendingMessage(error: ChatSendMessageServiceError) {
         switch (error) {
         case .Internal, .Network, .NotFound, .Unauthorized:
             showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
         case .Forbidden:
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
+            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
                 MyUserManager.sharedInstance.logout(nil)
-            })
+            }
         }
     }
     
@@ -213,24 +235,13 @@ class ChatViewController: SLKTextViewController, ChatViewModelDelegate, ChatSafe
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         tableView.endUpdates()
     }
-    
-    
-    // MARK: Rating
-    
-    func askForRating() {
-        viewModel.alreadyAskedForRating = true
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(1.0 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { [weak self] in
-            self?.textView.resignFirstResponder()
-            guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded()
-        }
-    }
 }
 
 
-// MARK: > ChatOthersMessageCell Delegate Extension
+// MARK: - ChatOthersMessageCellDelegate
 
-extension ChatViewController {
+extension ChatViewController: ChatOthersMessageCellDelegate {
+    
     func didTapOnUserAvatar() {
         guard let user = viewModel.otherUser else { return }
         let vc = EditProfileViewController(user: user)
@@ -239,7 +250,7 @@ extension ChatViewController {
 }
 
 
-// MARK: - Animate ProductView with keyboard Extension
+// MARK: - Animate ProductView with keyboard
 
 extension ChatViewController {
     
@@ -271,11 +282,9 @@ extension ChatViewController {
 }
 
 
-// MARK: > Copy/Paste feature Extension
+// MARK: - Copy/Paste feature
 
 extension ChatViewController {
-    
-    // MARK: UIMenuController observer
     
     /**
     Listen to UIMenuController Will Show notification and update the menu position if needed.
@@ -287,7 +296,9 @@ extension ChatViewController {
         guard let indexPath = selectedCellIndexPath else { return }
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? ChatBubbleCell else { return }
         selectedCellIndexPath = nil
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self,
+            name: UIMenuControllerWillShowMenuNotification, object: nil)
+        
         let menu = UIMenuController.sharedMenuController()
         menu.setMenuVisible(false, animated: false)
         let newFrame = tableView.convertRect(cell.bubbleView.frame, fromView: cell)
@@ -297,7 +308,8 @@ extension ChatViewController {
     
     
     func menuControllerWillHide(notification: NSNotification) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:", name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
+            name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
     
     override func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -305,7 +317,8 @@ extension ChatViewController {
         return true
     }
     
-    override func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+    override func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath
+        indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
         if action == "copy:" {
             guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return false }
             cell.setSelected(true, animated: true)
@@ -314,7 +327,8 @@ extension ChatViewController {
         return false
     }
     
-    override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+    override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
+        indexPath: NSIndexPath, withSender sender: AnyObject?) {
         if action == "copy:" {
             UIPasteboard.generalPasteboard().string = viewModel.chat.messages[indexPath.row].text
         }
@@ -323,12 +337,12 @@ extension ChatViewController {
 }
 
 
-// MARK: > SafetyTips Extension
+// MARK: - ChatSafeTipsViewDelegate
 
-extension ChatViewController {
+extension ChatViewController: ChatSafeTipsViewDelegate {
  
     func updateSafetyTipBarButton() {
-        let tipsImageName = viewModel.safetyTypesCompleted ? "ic_tips_black" : "ic_tips_alert"
+        let tipsImageName = viewModel.safetyTipsCompleted ? "ic_tips_black" : "ic_tips_alert"
         setLetGoRightButtonsWithImageNames([tipsImageName], andSelectors: ["showSafetyTips"])
     }
     
