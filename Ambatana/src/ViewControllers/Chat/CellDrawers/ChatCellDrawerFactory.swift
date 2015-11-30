@@ -12,7 +12,7 @@ import LGCoreKit
 public class ChatCellDrawerFactory {
     
     public static func drawerForMessage(message: Message) -> ChatCellDrawer {
-        return message.isFromLoggedUser() ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
+        return MyUserManager.sharedInstance.isMessageMine(message) ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
     }
     
     public static func registerCells(tableView: UITableView) {
