@@ -1420,6 +1420,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "LetGo" */;
 			buildPhases = (
+				C7D82AB71C0CC173008F9B8C /* Lint Warnings */,
 				B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */,
 				6608E0321A820FBD005895ED /* Sources */,
 				6608E0331A820FBD005895ED /* Frameworks */,
@@ -1693,6 +1694,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		C7D82AB71C0CC173008F9B8C /* Lint Warnings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Lint Warnings";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		D90C882E09C2BEB4A23A268C /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

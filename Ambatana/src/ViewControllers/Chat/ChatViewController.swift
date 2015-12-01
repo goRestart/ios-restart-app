@@ -50,7 +50,7 @@ class ChatViewController: SLKTextViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
             name: UIKeyboardWillHideNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
-            name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
+            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {

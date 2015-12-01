@@ -67,7 +67,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewWillAppear(animated)
         
         // NSNotificationCenter, observe for user interactions (msgs & offers)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         
         // Update conversations (always forced, so the badges are updated)
         updateConversations()
