@@ -43,7 +43,7 @@ class FilterTagsViewController : NSObject, UICollectionViewDelegate, UICollectio
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterTagCell", forIndexPath: indexPath) as! FilterTagCell
+        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterTagCell", forIndexPath: indexPath) as? FilterTagCell else { return UICollectionViewCell() }
         cell.delegate = self
         cell.setupWithTag(tags[indexPath.row])
         

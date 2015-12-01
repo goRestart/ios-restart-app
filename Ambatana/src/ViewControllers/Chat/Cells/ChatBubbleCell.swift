@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class ChatBubbleCell: UITableViewCell {
     
     @IBOutlet weak var bubbleView: UIView!
@@ -19,7 +18,8 @@ class ChatBubbleCell: UITableViewCell {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:", name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
+            name: UIMenuControllerWillHideMenuNotification, object: nil)
     }
     
     override func prepareForReuse() {

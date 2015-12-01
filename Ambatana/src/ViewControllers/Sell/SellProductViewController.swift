@@ -249,7 +249,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sellProductCellReuseIdentifier, forIndexPath: indexPath) as! SellProductCell
+        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sellProductCellReuseIdentifier, forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
         
         if indexPath.item < viewModel.numberOfImages {
             // cell with image

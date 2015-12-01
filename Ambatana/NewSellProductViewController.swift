@@ -576,17 +576,19 @@ class NewSellProductViewController: UIViewController, UITextFieldDelegate, UITex
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell: UICollectionViewCell!
+        var cell: UICollectionViewCell
 
         // let's try to find out which kind of cell is this
         if indexPath.row == images.count { // "first upload image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.addPictureCellIdentifier, forIndexPath: indexPath) as! SellAddPictureCell
+            guard let sellCell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.addPictureCellIdentifier, forIndexPath: indexPath) as? SellAddPictureCell else { return UICollectionViewCell() }
+            cell = sellCell
         } else if indexPath.row < images.count { // already uploaded image case
-            let pictureCell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.pictureCellIdentifier, forIndexPath: indexPath) as! SellPictureCell
+            guard let pictureCell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.pictureCellIdentifier, forIndexPath: indexPath) as? SellPictureCell else { return UICollectionViewCell() }
             pictureCell.imageView.image = images[indexPath.row]
             cell = pictureCell
         } else { // "upload other image" case.
-            cell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.emptyCellIdentifier, forIndexPath: indexPath) as! SellEmptyCell
+            guard let sellEmptyCell = collectionView.dequeueReusableCellWithReuseIdentifier(NewSellProductViewController.emptyCellIdentifier, forIndexPath: indexPath) as? SellEmptyCell else { return UICollectionViewCell() }
+            cell = sellEmptyCell
         }
         return cell
     }
