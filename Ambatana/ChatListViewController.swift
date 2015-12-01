@@ -209,8 +209,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let chat = chats?[indexPath.row], let chatVC = ChatViewController(chat: chat) {
-            navigationController?.pushViewController(chatVC, animated: true)
+        if let chat = chats?[indexPath.row], let chatViewModel = ChatViewModel(chat: chat) {
+            navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
         }
     }
     
