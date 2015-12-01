@@ -278,20 +278,16 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         if indexPath.item == viewModel.numberOfImages {
             // launch image picker
             let alert = UIAlertController(title: LGLocalizedString.sellPictureImageSourceTitle, message: nil, preferredStyle: .ActionSheet)
-            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
-                alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraButton, style: .Default, handler: { (alertAction) -> Void in
-                    self.requestCameraPermissions {
-                        self.openImagePickerWithSource(.Camera)
-                    }
-                }))
-            }
-            if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
-                alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraRollButton, style: .Default, handler: { (alertAction) -> Void in
-                    self.requestGalleryPersmissions {
-                        self.openImagePickerWithSource(.PhotoLibrary)
-                    }
-                }))
-            }
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraButton, style: .Default) { [weak self] alertAction in
+                self?.requestCameraPermissions {
+                    self?.openImagePickerWithSource(.Camera)
+                }
+            })
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraRollButton, style: .Default) { [weak self] alertAction in
+                self?.requestGalleryPersmissions {
+                    self?.openImagePickerWithSource(.PhotoLibrary)
+                }
+            })
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCancelButton, style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
             
@@ -318,42 +314,58 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         }
     }
     
+    
+    // MARK: Media permissions & Alerts
+    
     func requestGalleryPersmissions(block: () -> ()) {
         let status = PHPhotoLibrary.authorizationStatus()
         switch (status) {
         case .Authorized:
             block()
         case .Denied:
-            showSettingsAlertWith("Letgo needs access to the Photo Library, would you like to activate it now?")
+            showSettingsAlertWithMessage(LGLocalizedString.productSellPhotolibraryPermissionsError)
         case .NotDetermined:
             PHPhotoLibrary.requestAuthorization { newStatus in
                 if newStatus == .Authorized { block() }
             }
         case .Restricted:
+            showDefaultAlertWithMessage(LGLocalizedString.productSellPhotolibraryRestrictedError)
             break
         }
     }
     
     func requestCameraPermissions(block: () -> ()) {
+        guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+            showDefaultAlertWithMessage(LGLocalizedString.productSellCameraRestrictedError)
+            return
+        }
         let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         switch (status) {
         case .Authorized:
             block()
         case .Denied:
-            showSettingsAlertWith("Letgo needs access to the Camera, would you like to activate it now?")
+            showSettingsAlertWithMessage(LGLocalizedString.productSellCameraPermissionsError)
         case .NotDetermined:
             AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
                 if granted { block() }
             }
         case .Restricted:
+            // this will never be called, this status is not visible for the user
+            // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
             break
         }
     }
     
-    func showSettingsAlertWith(message: String) {
-        let alert = UIAlertController(title: "Warning", message: message, preferredStyle: .Alert)
+    func showDefaultAlertWithMessage(message: String) {
+        let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .Default, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func showSettingsAlertWithMessage(message: String) {
+        let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Default, handler: nil))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (alertAction) -> Void in
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonSettings, style: .Default, handler: { (alertAction) -> Void in
             UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
         }))
         self.presentViewController(alert, animated: true, completion: nil)
