@@ -268,6 +268,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_user_not_available", comment: "")
 	}
 	
+	static var commonSettings: String {
+		return NSLocalizedString("common_settings", comment: "")
+	}
+	
 	static var commonTimeAMinuteAgoLabel: String {
 		return NSLocalizedString("common_time_a_minute_ago_label", comment: "")
 	}
@@ -726,6 +730,22 @@ struct LGLocalizedString {
 	
 	static var productSellAgainSuccessMessage: String {
 		return NSLocalizedString("product_sell_again_success_message", comment: "")
+	}
+	
+	static var productSellCameraRestrictedError: String {
+		return NSLocalizedString("product_sell_camera_restricted_error", comment: "")
+	}
+	
+	static var productSellCameraPermissionsError: String {
+		return NSLocalizedString("product_sell_camera_permissions_error", comment: "")
+	}
+	
+	static var productSellPhotolibraryRestrictedError: String {
+		return NSLocalizedString("product_sell_photolibrary_restricted_error", comment: "")
+	}
+	
+	static var productSellPhotolibraryPermissionsError: String {
+		return NSLocalizedString("product_sell_photolibrary_permissions_error", comment: "")
 	}
 	
 	static var productReportConfirmTitle: String {

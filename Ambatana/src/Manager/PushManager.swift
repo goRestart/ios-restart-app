@@ -33,8 +33,8 @@ public class PushManager: NSObject, KahunaDelegate {
 
     // Constants & enum
     enum Notification: String {
-        case didReceiveUserInteraction = "didReceiveUserInteraction"
-        case unreadMessagesDidChange = "unreadMessagesDidChange"
+        case DidReceiveUserInteraction
+        case UnreadMessagesDidChange
     }
     
     // Singleton
@@ -102,7 +102,7 @@ public class PushManager: NSObject, KahunaDelegate {
         if let action = Action(userInfo: userInfo) {
             switch action {
             case .Message(_, _, _):
-                NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.DidReceiveUserInteraction.rawValue, object: userInfo)
             case .URL(let dL):
                 deepLink = dL
             }
@@ -122,7 +122,7 @@ public class PushManager: NSObject, KahunaDelegate {
                 updateUnreadMessagesCount()
                 
                 // Notify about the received user interaction (chatVC only observes notification if shown)
-                NSNotificationCenter.defaultCenter().postNotificationName(Notification.didReceiveUserInteraction.rawValue, object: userInfo)
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.DidReceiveUserInteraction.rawValue, object: userInfo)
                 
                 // If active, then update the badge
                 if application.applicationState == .Active {
@@ -189,7 +189,7 @@ public class PushManager: NSObject, KahunaDelegate {
                 UIApplication.sharedApplication().applicationIconBadgeNumber = count
                 
                 // Notify about it
-                NSNotificationCenter.defaultCenter().postNotificationName(Notification.unreadMessagesDidChange.rawValue, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.UnreadMessagesDidChange.rawValue, object: nil)
             }
         }
     }

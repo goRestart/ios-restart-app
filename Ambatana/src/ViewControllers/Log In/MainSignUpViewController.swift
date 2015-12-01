@@ -192,9 +192,9 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     // MARK: UITextViewDelegate
     
 
-    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
         
-        UIApplication.sharedApplication().openURL(URL)
+        UIApplication.sharedApplication().openURL(url)
         
         return true
     }
