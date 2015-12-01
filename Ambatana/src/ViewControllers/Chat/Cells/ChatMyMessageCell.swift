@@ -8,7 +8,11 @@
 
 import UIKit
 
-class ChatMyMessageCell: ChatBubbleCell {
+class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
+
+    static func reusableID() -> String {
+        return "ChatMyMessageCell"
+    }
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
