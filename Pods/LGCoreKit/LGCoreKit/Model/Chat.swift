@@ -16,3 +16,10 @@ public protocol Chat: BaseModel {
     
     mutating func prependMessage( message: Message)
 }
+
+
+public extension Chat {
+    public func didReceiveMessageFrom(userID: String) -> Bool {
+        return messages.filter { $0.userId == userID }.count > 0
+    }
+}

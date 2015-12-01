@@ -354,7 +354,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         
         let product = productListViewModel.productAtIndex(indexPath.item)
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
+        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as? ProductCell else { return UICollectionViewCell() }
         cell.tag = indexPath.hash
         
         // TODO: VC should not handle data -> ask to VM about title etc etc...

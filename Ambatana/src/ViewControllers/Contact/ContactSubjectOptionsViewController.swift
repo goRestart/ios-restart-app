@@ -82,7 +82,7 @@ class ContactSubjectOptionsViewController: BaseViewController, UITableViewDelega
 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("subjectCell", forIndexPath: indexPath) as! SubjectCell
+        guard let cell = tableView.dequeueReusableCellWithIdentifier("subjectCell", forIndexPath: indexPath) as? SubjectCell else { return UITableViewCell() }
 
         cell.nameLabel.text = viewModel.subjectNameAtIndex(indexPath.row)
         if indexPath.row == 0 {
