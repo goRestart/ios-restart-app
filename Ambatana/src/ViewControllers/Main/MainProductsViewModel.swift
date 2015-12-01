@@ -11,57 +11,61 @@ import LGCoreKit
 import Result
 
 protocol MainProductsViewModelDelegate: class {
-    func mainProductsViewModel(viewModel: MainProductsViewModel, didSearchWithViewModel searchViewModel: MainProductsViewModel)
+    func mainProductsViewModel(viewModel: MainProductsViewModel,
+        didSearchWithViewModel searchViewModel: MainProductsViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
     func mainProductsViewModelRefresh(viewModel: MainProductsViewModel)
 }
 
-public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate {
+protocol InfoBubbleDelegate: class {
+    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, updatedBubbleInfoString: String)
+    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, shouldHideBubble hidden: Bool)
+}
 
-    // Input
+public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate, TopProductInfoDelegate {
+    
+    // > Input
     public var searchString: String?
-    public var filters : ProductFilters?
+    public var filters : ProductFilters
     
     public var infoBubblePresent : Bool {
-        guard let theFilters = filters else {
-            return true
-        }
-        
-        return theFilters.selectedOrdering == .Distance
+        return (filters.selectedOrdering == .Distance || filters.selectedOrdering == .Creation)
     }
     
     public var tags: [FilterTag] {
-        guard let theFilters = filters else {
-            return []
-        }
         
         var resultTags : [FilterTag] = []
-        for prodCat in theFilters.selectedCategories {
+        for prodCat in filters.selectedCategories {
             resultTags.append(.Category(prodCat))
         }
         
-        if(theFilters.selectedWithin != ProductTimeCriteria.defaultOption) {
-            resultTags.append(.Within(theFilters.selectedWithin))
+        if(filters.selectedWithin != ProductTimeCriteria.defaultOption) {
+            resultTags.append(.Within(filters.selectedWithin))
         }
         
-        if(theFilters.selectedOrdering != ProductSortCriteria.defaultOption) {
-            resultTags.append(.OrderBy(theFilters.selectedOrdering))
+        if(filters.selectedOrdering != ProductSortCriteria.defaultOption) {
+            resultTags.append(.OrderBy(filters.selectedOrdering))
         }
         return resultTags
     }
     
-    
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
+    weak var bubbleDelegate: InfoBubbleDelegate?
+    
     
     // MARK: - Lifecycle
     
-    public init(searchString: String? = nil, filters: ProductFilters? = nil) {
+    public init(searchString: String? = nil, filters: ProductFilters) {
         self.searchString = searchString
         self.filters = filters
         
         super.init()
+    }
+    
+    public convenience init(searchString: String? = nil) {
+        self.init(searchString: searchString, filters: ProductFilters())
     }
     
     
@@ -74,7 +78,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         
         updateListView()
     }
-
+    
     
     // MARK: - Public methods
     
@@ -84,9 +88,10 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     public func search() {
         if let actualSearchString = searchString {
             if actualSearchString.characters.count > 0 {
-
+                
                 // Tracking
-                TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchComplete(MyUserManager.sharedInstance.myUser(), searchQuery: searchString ?? ""))
+                TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchComplete(MyUserManager.sharedInstance.myUser(),
+                    searchQuery: searchString ?? ""))
                 
                 // Notify the delegate
                 delegate?.mainProductsViewModel(self, didSearchWithViewModel: viewModelForSearch())
@@ -100,7 +105,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         filtersVM.dataDelegate = self
         
         delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)
-
+        
         // Tracking
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.filterStart())
     }
@@ -113,16 +118,10 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
     }
     
-    
     /**
         Called when a filter gets removed
     */
     public func updateFiltersFromTags(tags: [FilterTag]) {
-        
-        //Tags gan only be deleted so if there where tags means there was a filters object
-        if filters == nil {
-            return
-        }
         
         var categories : [ProductCategory] = []
         var orderBy = ProductSortCriteria.defaultOption
@@ -139,24 +138,50 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
             }
         }
         
-        filters?.selectedCategories = categories
-        filters?.selectedOrdering = orderBy
-        filters?.selectedWithin = within
+        filters.selectedCategories = categories
+        filters.selectedOrdering = orderBy
+        filters.selectedWithin = within
         
         updateListView()
     }
     
     
+    // MARK : TopProductInfoDelegate
+    
     /**
         Called on every distance change to get the info to set on the bubble
+        
+        - Parameter productListViewModel: the productListViewModel who called its delegate
+        - Parameter distanceForTopProduct: the distance of the upmost product in the list
     */
-    public func distanceInfoTextForDistance(distance: Int, type: DistanceType) -> String? {
-        let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance), type.string])
-        if distance <= Constants.productListMaxDistanceLabel {
-            return String(format: LGLocalizedString.productDistanceXFromYou, distanceString)
-        } else {
-            return String(format: LGLocalizedString.productDistanceMoreThanFromYou, distanceString)
+    public func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int) {
+        
+        guard let distanceString = bubbleInfoTextForDistance(distance, type: DistanceType.systemDistanceType()) else {
+            return
         }
+        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: distanceString)
+    }
+    
+    /**
+        Called on every "createdAt" date change to get the info to set on the bubble
+    
+        - Parameter productListViewModel: the productListViewModel who called its delegate
+        - Parameter dateForTopProduct: the creation date of the upmost product in the list
+    */
+    public func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate) {
+        
+        guard let dateString = bubbleInfoTextForDate(date) else { return }
+        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: dateString)
+    }
+    
+    /**
+        Called when the products list is pulling to refresh
+    
+        - Parameter productListViewModel: the productListViewModel who called its delegate
+        - Parameter dateForTopProduct: the creation date of the upmost product in the list
+    */
+    public func productListViewModel(productListViewModel: ProductListViewModel, pullToRefreshInProggress refreshing: Bool) {
+        bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
     }
     
     
@@ -165,16 +190,39 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate 
     /**
         Returns a view model for search.
     
-        :return: A view model for search.
+        - returns: A view model for search.
     */
     private func viewModelForSearch() -> MainProductsViewModel {
         return MainProductsViewModel(searchString: searchString, filters: filters)
     }
     
     private func updateListView() {
-        
         delegate?.mainProductsViewModelRefresh(self)
-
     }
     
+    private func bubbleInfoTextForDistance(distance: Int, type: DistanceType) -> String? {
+        let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
+            type.string])
+        if distance <= Constants.productListMaxDistanceLabel {
+            return String(format: LGLocalizedString.productDistanceXFromYou, distanceString)
+        } else {
+            return String(format: LGLocalizedString.productDistanceMoreThanFromYou, distanceString)
+        }
+    }
+    
+    private func bubbleInfoTextForDate(date: NSDate) -> String? {
+        
+        let calendar = NSCalendar.currentCalendar()
+        let flags = NSCalendarUnit.Day
+        let components = calendar.components(flags, fromDate: date, toDate: NSDate(), options: [])
+        let daysBetween = components.day
+        
+        if daysBetween == 0 {
+            return "_Today"
+        } else if daysBetween <= Constants.productListMaxDateLabel {
+            return String(format: "_%i days ago", arguments: [daysBetween])
+        } else {
+            return "_More than a week ago"
+        }
+    }
 }

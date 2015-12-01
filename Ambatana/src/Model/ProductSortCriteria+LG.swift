@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension ProductSortCriteria {
     public static var defaultOption : ProductSortCriteria {
-        return .Distance
+        return .Creation
     }
     
     public var name : String {
