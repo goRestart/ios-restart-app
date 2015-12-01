@@ -9,6 +9,8 @@
 import LGCoreKit
 import Result
 import FBSDKShareKit
+import AVFoundation
+import Photos
 
 class SellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKSharingDelegate {
     
@@ -268,7 +270,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     
     // MARK: - Collection View Delegate methods
-
+    
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
@@ -276,12 +278,20 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         if indexPath.item == viewModel.numberOfImages {
             // launch image picker
             let alert = UIAlertController(title: LGLocalizedString.sellPictureImageSourceTitle, message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraButton, style: .Default, handler: { (alertAction) -> Void in
-                self.openImagePickerWithSource(.Camera)
-            }))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraRollButton, style: .Default, handler: { (alertAction) -> Void in
-                self.openImagePickerWithSource(.PhotoLibrary)
-            }))
+            if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+                alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraButton, style: .Default, handler: { (alertAction) -> Void in
+                    self.requestCameraPermissions {
+                        self.openImagePickerWithSource(.Camera)
+                    }
+                }))
+            }
+            if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
+                alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraRollButton, style: .Default, handler: { (alertAction) -> Void in
+                    self.requestGalleryPersmissions {
+                        self.openImagePickerWithSource(.PhotoLibrary)
+                    }
+                }))
+            }
             alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCancelButton, style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
             
@@ -307,6 +317,48 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
+    
+    func requestGalleryPersmissions(block: () -> ()) {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch (status) {
+        case .Authorized:
+            block()
+        case .Denied:
+            showSettingsAlertWith("Letgo needs access to the Photo Library, would you like to activate it now?")
+        case .NotDetermined:
+            PHPhotoLibrary.requestAuthorization { newStatus in
+                if newStatus == .Authorized { block() }
+            }
+        case .Restricted:
+            break
+        }
+    }
+    
+    func requestCameraPermissions(block: () -> ()) {
+        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        switch (status) {
+        case .Authorized:
+            block()
+        case .Denied:
+            showSettingsAlertWith("Letgo needs access to the Camera, would you like to activate it now?")
+        case .NotDetermined:
+            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+                if granted { block() }
+            }
+        case .Restricted:
+            break
+        }
+    }
+    
+    func showSettingsAlertWith(message: String) {
+        let alert = UIAlertController(title: "Warning", message: message, preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Default, handler: nil))
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (alertAction) -> Void in
+            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+        }))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     
     // MARK: UIImagePicker Delegate
     
