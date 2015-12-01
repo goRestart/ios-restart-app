@@ -32,7 +32,10 @@ struct Constants {
     
     // Product List
     static let productListMaxDistanceLabel = 20
-    static let productListMaxDateLabel = 7
+    static let productListMaxMinsLabel = 60.0
+    static let productListMaxHoursLabel = 24.0
+    static let productListMaxDaysLabel = 30.0
+    static let productListMaxMonthsLabel = 3.0
     static let productListFooterHeight: CGFloat = 70
     
     // Categories

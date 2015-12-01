@@ -180,7 +180,8 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         - Parameter productListViewModel: the productListViewModel who called its delegate
         - Parameter dateForTopProduct: the creation date of the upmost product in the list
     */
-    public func productListViewModel(productListViewModel: ProductListViewModel, pullToRefreshInProggress refreshing: Bool) {
+    public func productListViewModel(productListViewModel: ProductListViewModel,
+        pullToRefreshInProggress refreshing: Bool) {
         bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
     }
     
@@ -212,17 +213,47 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
     
     private func bubbleInfoTextForDate(date: NSDate) -> String? {
         
-        let calendar = NSCalendar.currentCalendar()
-        let flags = NSCalendarUnit.Day
-        let components = calendar.components(flags, fromDate: date, toDate: NSDate(), options: [])
-        let daysBetween = components.day
+        let time = date.timeIntervalSince1970
+        let now = NSDate().timeIntervalSince1970
         
-        if daysBetween == 0 {
-            return "_Today"
-        } else if daysBetween <= Constants.productListMaxDateLabel {
-            return String(format: "_%i days ago", arguments: [daysBetween])
-        } else {
-            return "_More than a week ago"
+        let seconds = now - time
+        let minsAgo = round(seconds/60)
+        let hoursAgo = round(minsAgo/60)
+        let daysAgo = round(hoursAgo/24)
+        let monthsAgo = round(daysAgo/30)
+        
+        if minsAgo < Constants.productListMaxMinsLabel {
+            if minsAgo == 1 {
+                return LGLocalizedString.productDateOneMinuteAgo
+            } else {
+                return String(format: LGLocalizedString.productDateXMinutesAgo, Int(minsAgo))
+            }
         }
+        
+        if hoursAgo < Constants.productListMaxHoursLabel {
+            if hoursAgo == 1 {
+                return LGLocalizedString.productDateOneHourAgo
+            } else {
+                return String(format: LGLocalizedString.productDateXHoursAgo, Int(hoursAgo))
+            }
+        }
+        
+        if daysAgo < Constants.productListMaxDaysLabel {
+            if daysAgo == 1 {
+                return LGLocalizedString.productDateOneDayAgo
+            } else {
+                return String(format: LGLocalizedString.productDateXDaysAgo, Int(daysAgo))
+            }
+        }
+        
+        if monthsAgo < Constants.productListMaxMonthsLabel {
+            if monthsAgo == 1 {
+                return LGLocalizedString.productDateOneMonthAgo
+            } else {
+                return String(format: LGLocalizedString.productDateXMonthsAgo, Int(monthsAgo))
+            }
+        }
+        
+        return String(format: LGLocalizedString.productDateMoreThanXMonthsAgo, Int(monthsAgo))  
     }
 }
