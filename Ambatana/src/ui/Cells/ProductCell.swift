@@ -63,15 +63,23 @@ class ProductCell: UICollectionViewCell {
     
     // MARK: - Public / internal methods
     
-    func setupCellWith(data data: ProductCellData ) {
+    func setupCellWith(data data: ProductCellData, mode: ProductListCellMode) {
         
-        // Name
-        let title = data.title?.lg_capitalizedWords() ?? ""
-        nameLabel.text = title
-        nameTopConstraint.constant = title.isEmpty ? 2 : 8
-        
-        // Price
-        priceLabel.text = data.price ?? ""
+        switch mode {
+        case .FullInfo:
+            // Name
+            let title = data.title?.lg_capitalizedWords() ?? ""
+            nameLabel.text = title
+            nameTopConstraint.constant = title.isEmpty ? 2 : 8
+            
+            // Price
+            priceLabel.text = data.price ?? ""
+            
+        case .JustImage:
+            nameLabel.text = ""
+            nameTopConstraint.constant = 2
+            priceLabel.text = ""
+        }
         
         // Thumb
         if let thumbURL = data.thumbUrl {

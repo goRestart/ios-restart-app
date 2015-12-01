@@ -346,7 +346,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         }
         cell.tag = indexPath.hash
         
-        cell.setupCellWith(data: self.productCellDataAtIndex(indexPath))
+        cell.setupCellWith(data: self.productCellDataAtIndex(indexPath), mode: .FullInfo)
         
         return cell
     }

@@ -31,6 +31,11 @@ public enum ProductListViewState {
     case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?, errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
+public enum ProductListCellMode {
+    case FullInfo
+    case JustImage
+}
+
 public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // Constants
@@ -94,6 +99,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             collectionView.contentInset = collectionViewContentInset
         }
     }
+    
+    public var cellMode = ProductListCellMode.FullInfo
     
     // Data
     internal(set) var productListViewModel: ProductListViewModel
@@ -359,8 +366,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         }
         cell.tag = indexPath.hash
         
-        // TODO: VC should not handle data -> ask to VM about title etc etc...
-        cell.setupCellWith(data: productListViewModel.productCellDataAtIndex(indexPath.item))
+        cell.setupCellWith(data: productListViewModel.productCellDataAtIndex(indexPath.item), mode: cellMode)
         
         productListViewModel.setCurrentItemIndex(indexPath.item)
 
