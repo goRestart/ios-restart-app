@@ -24,6 +24,7 @@ class ChatViewController: SLKTextViewController {
         self.viewModel = viewModel
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
+        setReachabilityEnabled(true)
         hidesBottomBarWhenPushed = true
     }
     
@@ -39,6 +40,7 @@ class ChatViewController: SLKTextViewController {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
+        setupToastView()
         view.addSubview(ChatProductView())
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
@@ -56,6 +58,7 @@ class ChatViewController: SLKTextViewController {
     override func viewWillAppear(animated: Bool) {
         showActivityIndicator(true)
         super.viewWillAppear(animated)
+        updateReachableAndToastViewVisibilityIfNeeded()
         if !viewModel.isNewChat { refreshMessages() }
     }
     
