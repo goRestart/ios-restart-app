@@ -39,8 +39,6 @@ platform :ios do
 
     cocoapods
 
-    stringGeneration(true)
-
     gym(
       workspace: "LetGo.xcworkspace",
       configuration: "Adhoc",
@@ -60,11 +58,11 @@ platform :ios do
 
   end
 
-  lane :strings do
+  lane :upload_strings do
     stringGeneration(true)
   end
 
-  lane :local_strings do 
+  lane :generate_strings do 
     stringGeneration(false)
   end
 
