@@ -62,6 +62,7 @@
 "common_product_deleted" = "Product verwijderd";
 "common_product_not_available" = "Dit product is niet meer beschikbaar.";
 "common_product_sold" = "Dit product is verkocht.";
+"common_settings" = "Settings";
 "common_time_a_minute_ago_label" = "Een minuut geleden";
 "common_time_day_ago_label" = "Een dag geleden";
 "common_time_days_ago_label" = "%d dagen geleden";
@@ -190,6 +191,10 @@
 "product_sell_again_confirm_title" = "Verkoop het opnieuw";
 "product_sell_again_error_generic" = "Er is een fout opgetreden bij het markeren van de beschikbaarheid van je product. Probeer het later nog eens.";
 "product_sell_again_success_message" = "Gefeliciteerd, je product werd succesvol gemarkeerd als beschikbaar!";
+"product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
+"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
+"product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
+"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 "product_share_body" = "Kijk wat ik net gevonden heb bij letgo!";
 "product_share_email_error" = "Oeps, het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_generic_error" = "Er is een fout opgetreden bij het delen van het product. Probeer het later nog eens.";
