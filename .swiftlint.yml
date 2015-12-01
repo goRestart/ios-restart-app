@@ -44,17 +44,16 @@ disabled_rules: # rule identifiers to exclude from running
   # - variable_name
   - variable_name_min_length
 included: # paths to include during linting. `--path` is ignored if present. takes precendence over `excluded`.
-  - Ambatana/src/Application/
   # - Ambatana/src/Constants/   #Constants file should not be checked
   - Ambatana/src/Environment/
-  - Ambatana/src/Helper/
-  - Ambatana/src/Manager/
-  - Ambatana/src/Model/
-  - Ambatana/src/ViewControllers/
-  - Ambatana/src/ui/
-# excluded: # paths to ignore during linting. overridden by `included`.
-#   - Carthage
-#   - Pods
+  # - Ambatana/src/Helper/
+  # - Ambatana/src/Manager/
+  # - Ambatana/src/Model/
+  # - Ambatana/src/ViewControllers/
+  # - Ambatana/src/ui/
+excluded: # paths to ignore during linting. overridden by `included`.
+  - Carthage
+  - Pods
 # parameterized rules can be customized from this configuration file
 line_length: 120
 # parameterized rules are first parameterized as a warning level, then error level.
