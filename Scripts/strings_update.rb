@@ -220,8 +220,9 @@ if wti_upload
   puts "Executing LG wti pull script"
   system "ruby #{File.dirname(__FILE__)}/helpers/wti.rb -w #{ios_path}.wti -i #{ios_path}Ambatana/res/i18n -c #{ios_path}Ambatana/src/Constants/"
 else
-  #Just generate Localiables file
+  #Just generate Localizables file and base
   system "ruby #{File.dirname(__FILE__)}/helpers/localized_generator.rb -s Localizable.strings -d #{ios_path}Ambatana/src/Constants/"
+  system "cp Localizable.strings #{ios_path}Ambatana/res/i18n/Base.lproj/Localizable.strings"
   system "rm Localizable.strings"
 end
 
