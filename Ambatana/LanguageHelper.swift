@@ -11,7 +11,7 @@ import Foundation
 final public class LanguageHelper {
     
     // Constants
-    private static let PREPOSITIONS_FILENAME = "words_lowercase.json"
+    private static let prepositionsFilename = "words_lowercase.json"
  
     // Singleton
     static let sharedInstance = LanguageHelper()
@@ -23,7 +23,7 @@ final public class LanguageHelper {
     
     init() {
         
-        if let fileName = NSBundle.mainBundle().URLForResource(LanguageHelper.PREPOSITIONS_FILENAME, withExtension: ""),
+        if let fileName = NSBundle.mainBundle().URLForResource(LanguageHelper.prepositionsFilename, withExtension: ""),
            let filePath = NSBundle.mainBundle().pathForResource(fileName.URLByDeletingPathExtension?.lastPathComponent, ofType: fileName.pathExtension),
             let data = NSData(contentsOfFile: filePath) {
                 

@@ -159,7 +159,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         super.viewWillAppear(animated)
 
         // NSNotificationCenter
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:", name: PushManager.Notification.unreadMessagesDidChange.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:", name: PushManager.Notification.UnreadMessagesDidChange.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: MyUserManager.Notification.logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
         
@@ -479,7 +479,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         case .Chat:
             
             // TODO: Refactor TabBarController with MVVM
-            if let currentVC = selectedViewController as? UINavigationController, let topVC = currentVC.topViewController as? ChatViewController where (deepLink.query["p"] == topVC.chat.product.objectId && deepLink.query["b"] == topVC.otherUser.objectId) {
+            if let currentVC = selectedViewController as? UINavigationController,
+                let topVC = currentVC.topViewController as? ChatViewController where (deepLink.query["p"] == topVC.viewModel.chat.product.objectId && deepLink.query["b"] == topVC.viewModel.otherUser?.objectId) {
                 topVC.refreshMessages()
             }
             else {
@@ -621,7 +622,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                 loadingDismissCompletion = { () -> Void in
                     // TODO: Refactor TabBarController with MVVM
                     guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
-                    guard let chatVC = ChatViewController(chat: chat) else { return }
+                    guard let viewModel = ChatViewModel(chat: chat) else { return }
+                    let chatVC = ChatViewController(viewModel: viewModel)
                     navBarCtl.pushViewController(chatVC, animated: true)
                 }
             }

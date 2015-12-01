@@ -26,7 +26,7 @@ class StyleHelper {
     private static let gray225 = UIColor(rgb: 0xE1E1E1)
     private static let gray235 = UIColor(rgb: 0xEBEBEB)
     private static let gray238 = UIColor(rgb: 0xEEEEEE)
-    private static let gray243 = UIColor(rgb: 0xF7F3F3)
+    private static let gray245 = UIColor(rgb: 0xF5F5F5)
     private static let white = UIColor(rgb: 0xFFFFFF)
     
     // > Palette
@@ -175,7 +175,7 @@ class StyleHelper {
         return red
     }
     
-    // MARK: - Chat Cells
+    // MARK: - Chat
     
     static var chatOthersBubbleBgColor: UIColor {
         return white
@@ -191,6 +191,42 @@ class StyleHelper {
     
     static var chatMyBubbleBgColorSelected: UIColor {
         return blueDark
+    }
+    
+    static var chatTableViewBgColor: UIColor {
+        return gray245
+    }
+    
+    static var chatSendButtonFont: UIFont {
+        return helveticaNeueMediumFont(size: 15)
+    }
+    
+    static var chatProductViewNameFont: UIFont {
+        return helveticaNeueFont(size: 16)
+    }
+    
+    static var chatProductViewUserFont: UIFont {
+        return helveticaNeueFont(size: 14)
+    }
+    
+    static var chatProductViewPriceFont: UIFont {
+        return helveticaNeueBoldFont(size: 16)
+    }
+    
+    static var chatProductViewNameColor: UIColor {
+        return black
+    }
+    
+    static var chatProductViewUserColor: UIColor {
+        return gray153
+    }
+    
+    static var chatProductViewPriceColor: UIColor {
+        return black
+    }
+    
+    static var chatCellAvatarBorderColor: UIColor {
+        return gray213
     }
     
     

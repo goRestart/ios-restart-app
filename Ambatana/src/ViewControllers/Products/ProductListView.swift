@@ -366,11 +366,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             
             let product = productListViewModel.productAtIndex(indexPath.item)
             
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath)
-                as! ProductCell
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath)
+                as? ProductCell else { return UICollectionViewCell() }
             cell.tag = indexPath.hash
-            
-            
+
             cell.setupCellWithProductName(product.name, price: product.formattedPrice(), thumbnail: product.thumbnail,
                 status: product.status, creationDate: product.createdAt)
             

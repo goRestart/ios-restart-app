@@ -117,7 +117,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(SettingsViewController.cellIdentifier, forIndexPath: indexPath) as! SettingsCell
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsViewController.cellIdentifier, forIndexPath: indexPath) as? SettingsCell else { return UITableViewCell() }
+        
         let setting = LetGoUserSettings(rawValue: indexPath.row)!
         
         cell.label.text = setting.titleForSetting()

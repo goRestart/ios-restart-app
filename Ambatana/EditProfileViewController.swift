@@ -348,15 +348,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath)
-                as! ProductCell
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath)
+                as? ProductCell else { return UICollectionViewCell() }
             cell.tag = indexPath.hash
             
             if let product = self.productAtIndexPath(indexPath) {
                 cell.setupCellWithProductName(product.name, price: product.formattedPrice(),
                     thumbnail: product.thumbnail, status: product.status, creationDate: product.createdAt)
             }
-            
             return cell
     }
     
