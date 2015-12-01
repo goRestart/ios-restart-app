@@ -41,10 +41,10 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="839"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vbd-xm-sbF">
+                <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vbd-xm-sbF">
                     <rect key="frame" x="0.0" y="64" width="320" height="711"/>
                     <subviews>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4xV-fn-muT">
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4xV-fn-muT">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="695"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rnN-LC-zqg" customClass="GalleryView" customModule="LetGo" customModuleProvider="target">
@@ -135,7 +135,7 @@
                                     <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z0J-bb-yu5" customClass="LGCollapsibleLabel" customModule="LGCollapsibleLabel">
+                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z0J-bb-yu5" customClass="LGCollapsibleLabel" customModule="LGCollapsibleLabel">
                                     <rect key="frame" x="15" y="368" width="290" height="34"/>
                                     <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -150,7 +150,7 @@
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
                                 </view>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" image="item_location" translatesAutoresizingMaskIntoConstraints="NO" id="U9Y-zZ-7UM" userLabel="Address Icon">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" misplaced="YES" image="item_location" translatesAutoresizingMaskIntoConstraints="NO" id="U9Y-zZ-7UM" userLabel="Address Icon">
                                     <rect key="frame" x="16" y="432" width="11" height="16"/>
                                     <animations/>
                                     <constraints>
@@ -158,21 +158,21 @@
                                         <constraint firstAttribute="height" constant="16" id="bCh-97-JFH"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Brooklyn, NY 11221" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tl8-Qc-clk" userLabel="Address Label">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Brooklyn, NY 11221" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tl8-Qc-clk" userLabel="Address Label">
                                     <rect key="frame" x="35" y="432" width="113" height="16"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                                     <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="oT2-dx-Ar0">
+                                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="oT2-dx-Ar0">
                                     <rect key="frame" x="0.0" y="456" width="320" height="90"/>
                                     <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="90" id="SzT-7m-B7A"/>
                                     </constraints>
                                 </mapView>
-                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZB-tR-KL9" userLabel="Map View Button">
+                                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZB-tR-KL9" userLabel="Map View Button">
                                     <rect key="frame" x="0.0" y="456" width="320" height="90"/>
                                     <animations/>
                                     <state key="normal">
@@ -182,10 +182,10 @@
                                         <action selector="mapViewButtonPressed:" destination="-1" eventType="touchUpInside" id="7O7-V1-aHB"/>
                                     </connections>
                                 </button>
-                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JjN-hF-Oa1" userLabel="Social View">
+                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JjN-hF-Oa1" userLabel="Social View">
                                     <rect key="frame" x="48" y="546" width="224" height="75"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9e-k6-h2n" userLabel="Share FBMessenger Button">
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9e-k6-h2n" userLabel="Share FBMessenger Button">
                                             <rect key="frame" x="0.0" y="10" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
@@ -199,7 +199,7 @@
                                                 <action selector="shareFBMessengerButtonPressed:" destination="-1" eventType="touchUpInside" id="VGU-R2-aje"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kD-Uf-2Lc" userLabel="Share FB Button">
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kD-Uf-2Lc" userLabel="Share FB Button">
                                             <rect key="frame" x="112" y="10" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
@@ -213,7 +213,7 @@
                                                 <action selector="shareFBButtonPressed:" destination="-1" eventType="touchUpInside" id="ePR-jF-C3J"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNK-r3-hh9" userLabel="Share Email Button">
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNK-r3-hh9" userLabel="Share Email Button">
                                             <rect key="frame" x="168" y="9" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
@@ -227,7 +227,7 @@
                                                 <action selector="shareEmailButtonPressed:" destination="-1" eventType="touchUpInside" id="6q4-LC-ZWW"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oZF-Tz-McD" userLabel="Share Whatsapp Button">
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oZF-Tz-McD" userLabel="Share Whatsapp Button">
                                             <rect key="frame" x="56" y="10" width="56" height="56"/>
                                             <animations/>
                                             <constraints>
@@ -287,10 +287,10 @@
                                         </mask>
                                     </variation>
                                 </view>
-                                <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5pG-Ac-iOO" userLabel="Bottom View">
+                                <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5pG-Ac-iOO" userLabel="Bottom View">
                                     <rect key="frame" x="0.0" y="621" width="320" height="74"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8o-kA-epW" userLabel="Report Button">
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L8o-kA-epW" userLabel="Report Button">
                                             <rect key="frame" x="104" y="22" width="112" height="30"/>
                                             <animations/>
                                             <state key="normal" title="_Report Product">
@@ -301,7 +301,7 @@
                                                 <action selector="reportButtonPressed:" destination="-1" eventType="touchUpInside" id="BjL-u9-Pky"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UM2-pr-wbb" userLabel="Delete Button">
+                                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UM2-pr-wbb" userLabel="Delete Button">
                                             <rect key="frame" x="106" y="22" width="109" height="30"/>
                                             <animations/>
                                             <state key="normal" title="_Delete Product">
