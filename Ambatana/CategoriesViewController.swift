@@ -122,7 +122,7 @@ class CategoriesViewController: UIViewController, UICollectionViewDataSource, UI
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) as! UICollectionViewCell
+        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) as? UICollectionViewCell else {  return UICollectionViewCell() }
         
         // configure cell
         let category = categories[indexPath.row]

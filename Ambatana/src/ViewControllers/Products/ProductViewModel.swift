@@ -244,7 +244,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
     public var offerViewModel: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as! MakeAnOfferViewController
+        guard let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as? MakeAnOfferViewController else { return MakeAnOfferViewController() }
         vc.product = product
         return vc
     }

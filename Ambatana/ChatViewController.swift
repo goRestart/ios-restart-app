@@ -167,7 +167,7 @@ class ChatViewController: UIViewController, ChatSafeTipsViewDelegate, UITableVie
         super.viewWillAppear(animated)
 
         // track conversation update.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         
         // track keyboard appearance and size change
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)

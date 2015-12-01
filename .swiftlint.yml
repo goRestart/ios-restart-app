@@ -1,11 +1,36 @@
+# Colon (colon): Colons should be next to the identifier when specifying a type.
+# Comma Spacing (comma): One space before and no after must be present next to any comma.
+# Control Statement (control_statement): if,for,while,do statements shouldn't wrap their conditionals in parentheses.
+# Force Cast (force_cast): Force casts should be avoided.
+# Force Try (force_try): Force tries should be avoided.
+# Leading Whitespace (leading_whitespace): Files should not contain leading whitespace.
+# Nesting (nesting): Types should be nested at most 1 level deep, and statements should be nested at most 5 levels deep.
+# Opening Brace Spacing (opening_brace): Opening braces should be preceded by a single space and on the same line as the declaration.
+# Operator Function Whitespace (operator_whitespace): Operators should be surrounded by a single whitespace when defining them.
+# Returning Whitespace (return_arrow_whitespace): Return arrow and return type should be separated by a single space or on a separate line.
+# Statement Position (statement_position): Else and catch should be on the same line, one space after the previous declaration.
+# Todo (todo): TODOs and FIXMEs should be avoided.
+# Trailing Newline (trailing_newline): Files should have a single trailing newline.
+# Trailing Semicolon (trailing_semicolon): Lines should not have trailing semicolons.
+# Trailing Whitespace (trailing_whitespace): Lines should not have trailing whitespace.
+# Type Name (type_name): Type name should only contain alphanumeric characters, start with an uppercase character and span between 3 and 40 characters in length.
+# Variable Name (variable_name): Variable name should only contain alphanumeric characters and start with a a lowercase character. In an exception to the above, variable names may start with a capital letter when they are declared static and immutable.
+# File Line Length (file_length): Files should not span too many lines.
+# Function Body Length (function_body_length): Functions bodies should not span too many lines.
+# Line Length (line_length): Lines should not span too many characters.
+# Type Body Length (type_body_length): Type bodies should not span too many lines.
+# Variable Name Max Length Rule (variable_name_max_length): Variable name should not be too long.
+# Variable Name Min Length Rule (variable_name_min_length): Variable name should not be too short.
+
 disabled_rules: # rule identifiers to exclude from running
   # - colon
   # - control_statement
   # - file_length
   # - force_cast
-  # - function_body_length
+  - function_body_length
+  - type_body_length 
   # - leading_whitespace
-  # - line_length
+  - line_length
   # - nesting
   # - operator_whitespace
   # - return_arrow_whitespace
@@ -15,11 +40,19 @@ disabled_rules: # rule identifiers to exclude from running
   # - type_body_length
   # - type_name
   # - variable_name
+  - variable_name_min_length
 included: # paths to include during linting. `--path` is ignored if present. takes precendence over `excluded`.
-  - Ambatana
-excluded: # paths to ignore during linting. overridden by `included`.
-  - Carthage
-  - Pods
+  - Ambatana/src/Application/
+  # - Ambatana/src/Constants/   #Constants file should not be checked
+  - Ambatana/src/Environment/
+  - Ambatana/src/Helper/
+  - Ambatana/src/Manager/
+  - Ambatana/src/Model/
+  - Ambatana/src/ViewControllers/
+  - Ambatana/src/ui/
+# excluded: # paths to ignore during linting. overridden by `included`.
+#   - Carthage
+#   - Pods
 # parameterized rules can be customized from this configuration file
 line_length: 120
 # parameterized rules are first parameterized as a warning level, then error level.

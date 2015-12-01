@@ -139,8 +139,10 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         if (kind == UICollectionElementKindSectionHeader) {
+            
+            guard let headerCell = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell", forIndexPath: indexPath) as? FilterHeaderCell else { return UICollectionReusableView() }
+            
             let section = sections[indexPath.section]
-            let headerCell = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell", forIndexPath: indexPath) as! FilterHeaderCell
             headerCell.separator.hidden = indexPath.section == 0
             headerCell.titleLabel.text = section.name
             
@@ -154,13 +156,13 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         
         switch sections[indexPath.section] {
         case .Distance:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell", forIndexPath: indexPath) as! FilterDistanceCell
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell", forIndexPath: indexPath) as? FilterDistanceCell else { return UICollectionViewCell() }
             cell.delegate = self
             cell.distanceType = viewModel.distanceType
             cell.setupWithDistance(viewModel.currentDistanceRadius)
             return cell
         case .Categories:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterCategoryCell", forIndexPath: indexPath) as! FilterCategoryCell
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterCategoryCell", forIndexPath: indexPath) as? FilterCategoryCell else { return UICollectionViewCell() }
             cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
             cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
             let color = viewModel.categoryColorAtIndex(indexPath.row)
@@ -171,14 +173,14 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
 
             return cell
         case .Within:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell", forIndexPath: indexPath) as! FilterSingleCheckCell
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell", forIndexPath: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
             cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
             cell.selected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
             cell.bottomSeparator.hidden = true
             return cell
             
         case .SortBy:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell", forIndexPath: indexPath) as! FilterSingleCheckCell
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell", forIndexPath: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
             cell.titleLabel.text = viewModel.sortOptionTextAtIndex(indexPath.row)
             cell.selected = viewModel.sortOptionSelectedAtIndex(indexPath.row)
             cell.bottomSeparator.hidden = indexPath.row != (viewModel.numOfSortOptions - 1)

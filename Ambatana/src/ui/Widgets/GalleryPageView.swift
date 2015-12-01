@@ -24,7 +24,8 @@ public class GalleryPageView: UIView {
     // MARK: - Lifecycle
     
     public static func galleryItemView() -> GalleryPageView {
-        return NSBundle.mainBundle().loadNibNamed("GalleryPageView", owner: self, options: nil).first as! GalleryPageView
+        guard let galleryPage = NSBundle.mainBundle().loadNibNamed("GalleryPageView", owner: self, options: nil).first as? GalleryPageView else { return GalleryPageView() }
+        return galleryPage
     }
     
     // MARK: Public methods
