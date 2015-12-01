@@ -23,7 +23,7 @@ protocol SellProductViewModelDelegate : class {
     func sellProductViewModeldidAddOrDeleteImage(viewModel: SellProductViewModel)
     func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError)
 
-    func sellProductViewModelFieldCheckSucceded(viewModel: SellProductViewModel)
+    func sellProductViewModelFieldCheckSucceeded(viewModel: SellProductViewModel)
 }
 
 public class SellProductViewModel: BaseViewModel {
@@ -154,7 +154,7 @@ public class SellProductViewModel: BaseViewModel {
             trackValidationFailedWithError(actualError)
         }
         else {
-            delegate?.sellProductViewModelFieldCheckSucceded(self)
+            delegate?.sellProductViewModelFieldCheckSucceeded(self)
         }
     }
 
@@ -189,7 +189,12 @@ public class SellProductViewModel: BaseViewModel {
             priceFloat = number.floatValue
         }
         
-        theProduct = productManager.updateProduct(theProduct, name: title, price: priceFloat, description: descr, category: category!, currency: currency)
+        guard let category = category else {
+            let error = ProductSaveServiceError.NoCategory
+            delegate?.sellProductViewModel(self, didFailWithError: error)
+            return
+        }
+        theProduct = productManager.updateProduct(theProduct, name: title, price: priceFloat, description: descr, category: category, currency: currency)
         
         saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }

@@ -168,7 +168,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         loadingView.hidden = true
     }
     
-    func sellProductViewModelFieldCheckSucceded(viewModel: SellProductViewModel) {
+    func sellProductViewModelFieldCheckSucceeded(viewModel: SellProductViewModel) {
         ifLoggedInThen(.Sell, loggedInAction: {
             self.viewModel.save()
         }, elsePresentSignUpWithSuccessAction: {
