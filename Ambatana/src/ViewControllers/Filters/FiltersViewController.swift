@@ -139,8 +139,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         if (kind == UICollectionElementKindSectionHeader) {
-            
-            guard let headerCell = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell", forIndexPath: indexPath) as? FilterHeaderCell else { return UICollectionReusableView() }
+            let cell = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell", forIndexPath: indexPath)
+            guard let headerCell = cell as? FilterHeaderCell else { return UICollectionReusableView() }
             
             let section = sections[indexPath.section]
             headerCell.separator.hidden = indexPath.section == 0

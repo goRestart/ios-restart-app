@@ -33,8 +33,8 @@ public class PushManager: NSObject, KahunaDelegate {
 
     // Constants & enum
     enum Notification: String {
-        case DidReceiveUserInteraction = "didReceiveUserInteraction"
-        case UnreadMessagesDidChange = "unreadMessagesDidChange"
+        case DidReceiveUserInteraction
+        case UnreadMessagesDidChange
     }
     
     // Singleton
