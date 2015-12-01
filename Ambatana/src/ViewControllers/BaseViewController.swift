@@ -7,7 +7,6 @@
 //
 
 import TMReachability
-import SlackTextViewController
 
 
 private struct TostableKeys {

@@ -35,7 +35,7 @@ public class ChatViewModel: BaseViewModel {
         return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
     }
     
-    public var safetyTypesCompleted: Bool {
+    public var safetyTipsCompleted: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
@@ -122,6 +122,11 @@ public class ChatViewModel: BaseViewModel {
         }
     }
     
+    public func receivedUserInteractionIsValid(userInfo: [NSObject: AnyObject]) -> Bool {
+        guard let productId = userInfo["p"] as? String else { return false }
+        return chat.product.objectId == productId
+    }
+
     
     // MARK: Tracking
     

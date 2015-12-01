@@ -9,24 +9,20 @@
 import Foundation
 import LGCoreKit
 
-public class ChatOthersMessageCellDrawer: ChatCellDrawer {
-    public func cell(tableView: UITableView, atIndexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCellWithIdentifier(ChatOthersMessageCell.cellID(), forIndexPath: atIndexPath)
-    }
+class ChatOthersMessageCellDrawer: BaseChatCellDrawer<ChatOthersMessageCell> {
     
-    public func draw(cell: UITableViewCell, message: Message, avatar: File?, delegate: AnyObject?) {
-        guard let othersCell = cell as? ChatOthersMessageCell else { return }
-        othersCell.messageLabel.text = message.text ?? ""
-        othersCell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
+    override func draw(cell: ChatOthersMessageCell, message: Message, avatar: File?, delegate: AnyObject?) {
+        cell.messageLabel.text = message.text ?? ""
+        cell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
+        
         if let delegate = delegate as? ChatOthersMessageCellDelegate {
-            othersCell.delegate = delegate
+            cell.delegate = delegate
         }
         
         if let avatar = avatar {
-            othersCell.avatarImageView.sd_setImageWithURL(avatar.fileURL, placeholderImage: UIImage(named: "no_photo"))
-        }
-        else {
-            othersCell.avatarImageView.image = UIImage(named: "no_photo")
+            cell.avatarImageView.sd_setImageWithURL(avatar.fileURL, placeholderImage: UIImage(named: "no_photo"))
+        } else {
+            cell.avatarImageView.image = UIImage(named: "no_photo")
         }
     }
 }

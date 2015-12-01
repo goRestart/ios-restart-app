@@ -23,7 +23,4 @@
 // Google app indexing
 #import <GoogleAppIndexing/GoogleAppIndexing.h>
 
-// Slack ChatView Controller
-//#import <SlackTextViewController/SLKTextViewController.h>
-
 #endif

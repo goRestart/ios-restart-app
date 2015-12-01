@@ -225,6 +225,10 @@ class StyleHelper {
         return black
     }
     
+    static var chatCellAvatarBorderColor: UIColor {
+        return gray213
+    }
+    
     
     // MARK: - Chat safety tips
     

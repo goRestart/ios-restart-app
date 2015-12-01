@@ -12,15 +12,16 @@ protocol ChatOthersMessageCellDelegate {
     func didTapOnUserAvatar()
 }
 
-class ChatOthersMessageCell: ChatBubbleCell {
+class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarButtonPressed: (() -> Void)?
     var delegate: ChatOthersMessageCellDelegate?
     
-    static func cellID() -> String {
+    static func reusableID() -> String {
         return "ChatOthersMessageCell"
     }
+    
     
     // MARK: > Action
     
@@ -33,12 +34,12 @@ class ChatOthersMessageCell: ChatBubbleCell {
         bubbleView.backgroundColor = selected ? StyleHelper.chatOthersBubbleBgColorSelected : StyleHelper.chatOthersBubbleBgColor
     }
     
-    // MARK: - Private methods
-
+    
+    // MARK: > Private methods
     // Resets the UI to the initial state
     internal override func resetUI() {
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2.0
-        avatarImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
+        avatarImageView.layer.borderColor = StyleHelper.chatCellAvatarBorderColor.CGColor
         avatarImageView.layer.borderWidth = 1
     }
 }
