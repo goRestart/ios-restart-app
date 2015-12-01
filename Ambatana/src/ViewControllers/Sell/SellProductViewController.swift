@@ -9,8 +9,6 @@
 import LGCoreKit
 import Result
 import FBSDKShareKit
-import AVFoundation
-import Photos
 
 class SellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKSharingDelegate {
     
@@ -270,7 +268,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     
     // MARK: - Collection View Delegate methods
-    
+
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
