@@ -30,6 +30,10 @@ class ProductCell: UICollectionViewCell {
     @IBOutlet weak var stripeImageView: UIImageView!
     @IBOutlet weak var stripeLabel: UILabel!
     
+    // Name Top Constraint: Will be used to adapt the cell when there's no title for it
+    @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
+    
+    
     // MARK: - Lifecycle
     
     override func awakeFromNib() {
@@ -43,11 +47,28 @@ class ProductCell: UICollectionViewCell {
         self.resetUI()
     }
     
+    // MARK: - Static methods
+    
+    static func registerCellOn(collectionView collection: UICollectionView) {
+        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
+        collection.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
+    }
+    
+    static func dequeueReusableCellFrom(collectionView collection: UICollectionView, indexPath: NSIndexPath)
+        -> ProductCell? {
+        let cell = collection.dequeueReusableCellWithReuseIdentifier("ProductCell",
+            forIndexPath: indexPath) as? ProductCell
+        return cell
+    }
+    
     // MARK: - Public / internal methods
     
-    func setupCellWith(data: ProductCellData ) {
+    func setupCellWith(data data: ProductCellData ) {
+        
         // Name
-        nameLabel.text = data.title?.lg_capitalizedWords() ?? ""
+        let title = data.title?.lg_capitalizedWords() ?? ""
+        nameLabel.text = title
+        nameTopConstraint.constant = title.isEmpty ? 2 : 8
         
         // Price
         priceLabel.text = data.price ?? ""

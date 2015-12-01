@@ -153,8 +153,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         soldProductListView.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: sellButtonHeight, right: 0)
         
         // register ProductCell
-        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
-        favouriteCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
+        ProductCell.registerCellOn(collectionView: favouriteCollectionView)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -342,10 +341,12 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
+        guard let cell = ProductCell.dequeueReusableCellFrom(collectionView: collectionView, indexPath: indexPath) else {
+            return UICollectionViewCell()
+        }
         cell.tag = indexPath.hash
         
-        cell.setupCellWith(self.productCellDataAtIndex(indexPath))
+        cell.setupCellWith(data: self.productCellDataAtIndex(indexPath))
         
         return cell
     }
