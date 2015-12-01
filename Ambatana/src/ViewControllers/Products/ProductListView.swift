@@ -358,7 +358,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         cell.tag = indexPath.hash
         
         // TODO: VC should not handle data -> ask to VM about title etc etc...
-        cell.setupCellWithProduct(product, indexPath: indexPath)
+        cell.setupCellWith(productListViewModel.productCellDataAtIndex(indexPath.item))
         
         productListViewModel.setCurrentItemIndex(indexPath.item)
 

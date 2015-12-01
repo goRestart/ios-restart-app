@@ -345,20 +345,17 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
         cell.tag = indexPath.hash
         
-        if let product = self.productAtIndexPath(indexPath) {
-            cell.setupCellWithProduct(product, indexPath: indexPath)
-        }
+        cell.setupCellWith(self.productCellDataAtIndex(indexPath))
         
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         // TODO: VM should be provided by this VC's VM
-        if let product = self.productAtIndexPath(indexPath) {
-            let productVM = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
-            let vc = ProductViewController(viewModel: productVM)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        let product = self.productAtIndexPath(indexPath)
+        let productVM = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
+        let vc = ProductViewController(viewModel: productVM)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
         
     // MARK: - UI
@@ -531,8 +528,14 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     // MARK: Helper
     
-    func productAtIndexPath(indexPath: NSIndexPath) -> Product? {
+    func productAtIndexPath(indexPath: NSIndexPath) -> Product {
         let row = indexPath.row
         return favProducts[row]
+    }
+    
+    func productCellDataAtIndex(indexPath: NSIndexPath) -> ProductCellData {
+        let product = productAtIndexPath(indexPath)
+        return ProductCellData(title: product.name, price: product.formattedPrice(),
+            thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt)
     }
 }
