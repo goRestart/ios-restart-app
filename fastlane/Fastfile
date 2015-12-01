@@ -20,12 +20,17 @@ fastlane_version "1.37.0"
 
 default_platform :ios
 
+def stringGeneration(wti_enabled)
+  if wti_enabled
+    system "ruby ../Scripts/strings_update.rb -i ../"
+  else 
+    system "ruby ../Scripts/strings_update.rb --no-wti-upload -i ../"
+  end
+end
 
 platform :ios do
   
   before_all do
-    
-    system "ruby ../Scripts/strings_update.rb -i ../"
 
   end
 
@@ -33,6 +38,8 @@ platform :ios do
   lane :beta do
 
     cocoapods
+
+    stringGeneration(true)
 
     gym(
       workspace: "LetGo.xcworkspace",
@@ -54,7 +61,11 @@ platform :ios do
   end
 
   lane :strings do
-    # Will just do the before_all that includes string generation
+    stringGeneration(true)
+  end
+
+  lane :local_strings do 
+    stringGeneration(false)
   end
 
   after_all do |lane|
