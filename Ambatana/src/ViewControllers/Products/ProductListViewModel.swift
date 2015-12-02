@@ -101,6 +101,10 @@ public class ProductListViewModel: BaseViewModel {
         return productsManager.lastPage
     }
     
+    public var hasFilters: Bool {
+        return categories != nil || timeCriteria != nil || distanceRadius != nil
+    }
+    
     internal var retrieveProductsFirstPageParams: RetrieveProductsParams {
         var params: RetrieveProductsParams = RetrieveProductsParams()
         params.coordinates = coordinates ?? queryCoordinates
