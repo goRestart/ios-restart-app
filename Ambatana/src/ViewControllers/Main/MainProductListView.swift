@@ -44,9 +44,8 @@ public class MainProductListView: ProductListView {
                     errImage = UIImage(named: "err_search_no_products")
                     errTitle = LGLocalizedString.productSearchNoProductsTitle
                     errBody = LGLocalizedString.productSearchNoProductsBody
-                }
+                } else {
                     // Listing
-                else {
                     errImage = UIImage(named: "err_list_no_products")
                     errTitle = LGLocalizedString.productListNoProductsTitle
                     errBody = LGLocalizedString.productListNoProductsBody
@@ -57,9 +56,8 @@ public class MainProductListView: ProductListView {
                 
                 // Notify the delegate
                 delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
-            }
+            } else {
                 // Otherwise (has results), let super work
-            else {
                 super.viewModel(viewModel, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts,
                     atIndexPaths: indexPaths)
             }
@@ -67,42 +65,43 @@ public class MainProductListView: ProductListView {
     
     public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
         hasProducts: Bool, error: ProductsRetrieveServiceError) {
-            
-            // If it's the first page & we have no data
-            if page == 0 && !hasProducts {
-                
-                // Set the error state
-                let errBgColor: UIColor?
-                let errBorderColor: UIColor?
-                let errImage: UIImage?
-                let errTitle: String?
-                let errBody: String?
-                let errButTitle: String?
-                let errButAction: (() -> Void)?
-                
-                switch error {
-                case .Network:
-                    errImage = UIImage(named: "err_network")
-                    errTitle = LGLocalizedString.commonErrorTitle
-                    errBody = LGLocalizedString.commonErrorNetworkBody
-                    errButTitle = LGLocalizedString.commonErrorRetryButton
-                case .Internal, .Forbidden:
-                    errImage = UIImage(named: "err_generic")
-                    errTitle = LGLocalizedString.commonErrorTitle
-                    errBody = LGLocalizedString.commonErrorGenericBody
-                    errButTitle = LGLocalizedString.commonErrorRetryButton
-                }
-                errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
-                errBorderColor = StyleHelper.lineColor
-                
-                errButAction = {
-                    self.refresh()
-                }
-                
-                state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errImage: errImage,
-                    errTitle: errTitle, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+
+            defer {
+                super.viewModel(viewModel, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
             }
-            
-            super.viewModel(viewModel, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
+
+            guard page == 0 && !hasProducts else { return }
+
+            // If it's the first page & we have no data
+            // Set the error state
+            let errBgColor: UIColor?
+            let errBorderColor: UIColor?
+            let errImage: UIImage?
+            let errTitle: String?
+            let errBody: String?
+            let errButTitle: String?
+            let errButAction: (() -> Void)?
+
+            switch error {
+            case .Network:
+                errImage = UIImage(named: "err_network")
+                errTitle = LGLocalizedString.commonErrorTitle
+                errBody = LGLocalizedString.commonErrorNetworkBody
+                errButTitle = LGLocalizedString.commonErrorRetryButton
+            case .Internal, .Forbidden:
+                errImage = UIImage(named: "err_generic")
+                errTitle = LGLocalizedString.commonErrorTitle
+                errBody = LGLocalizedString.commonErrorGenericBody
+                errButTitle = LGLocalizedString.commonErrorRetryButton
+            }
+            errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
+            errBorderColor = StyleHelper.lineColor
+
+            errButAction = {
+                self.refresh()
+            }
+
+            state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errImage: errImage,
+                errTitle: errTitle, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
     }
 }

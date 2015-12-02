@@ -62,6 +62,7 @@
 "common_product_deleted" = "Produto removido";
 "common_product_not_available" = "Este artigo já não se encontra disponível.";
 "common_product_sold" = "Este artigo foi vendido.";
+"common_settings" = "Definições";
 "common_time_a_minute_ago_label" = "há um minuto";
 "common_time_day_ago_label" = "há um dia";
 "common_time_days_ago_label" = "há %d dias";
@@ -145,6 +146,15 @@
 "make_an_offer_title" = "Faça uma oferta";
 "product_ask_a_question_button" = "Faça uma pergunta";
 "product_chat_error_generic" = "Ocorreu um erro ao iniciar o chat. Por favor tente novamente mais tarde.";
+"product_date_X_days_ago" = "Posted %i days ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_months_ago" = "Posted %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "Cancelar";
 "product_delete_confirm_message" = "Porque é que quer eliminar o seu artigo?";
 "product_delete_confirm_ok_button" = "Não o quero vender";
@@ -190,6 +200,10 @@
 "product_sell_again_confirm_title" = "Venda-o de novo";
 "product_sell_again_error_generic" = "Ocorreu um erro ao marcar o seu produto como disponível. Por favor tente de novo mais tarde.";
 "product_sell_again_success_message" = "Parabéns, o seu produto foi marcado como disponível com sucesso!";
+"product_sell_camera_permissions_error" = "Para tirar uma foto autorize o letgo a aceder à sua câmara nas definições.";
+"product_sell_camera_restricted_error" = "O acesso à sua câmara é restrito. Por favor verifique as suas definições e tente de novo.";
+"product_sell_photolibrary_permissions_error" = "Para fazer o upload de uma imagem autorize o letgo a ter acesso ao seu álbum de fotos nas suas definições.";
+"product_sell_photolibrary_restricted_error" = "O acesso ao seu álbum de fotos é restrito. Por favor verifique as suas definições e tente de novo.";
 "product_share_body" = "Vê o que acabei de encontrar no letgo!";
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
 "product_share_generic_error" = "Ocorreu um erro ao partilhar o produto. Por favor tente novamente mais tarde.";

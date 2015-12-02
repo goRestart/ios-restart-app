@@ -62,6 +62,7 @@
 "common_product_deleted" = "Produktet er fjernet";
 "common_product_not_available" = "Dette produktet er ikke tilgjengelig lenger.";
 "common_product_sold" = "Dette produktet er solgt.";
+"common_settings" = "Settings";
 "common_time_a_minute_ago_label" = "for et minutt siden";
 "common_time_day_ago_label" = "for en dag siden";
 "common_time_days_ago_label" = "for %d dager siden";
@@ -145,6 +146,15 @@
 "make_an_offer_title" = "Legg inn bud";
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_chat_error_generic" = "En feil oppstod ved oppretting av samtale. Vennligst prøv igjen senere.";
+"product_date_X_days_ago" = "Posted %i days ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_months_ago" = "Posted %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "Avbryt";
 "product_delete_confirm_message" = "Hvorfor ønsker du å slette ditt produkt?";
 "product_delete_confirm_ok_button" = "Jeg ønsker ikke å selge produktet";
@@ -190,6 +200,10 @@
 "product_sell_again_confirm_title" = "Selg på nytt";
 "product_sell_again_error_generic" = "En feil oppstod ved å markere produktet ditt som tilgjengelig. Vennligst prøv igjen senere.";
 "product_sell_again_success_message" = "Gratulerer, ditt produkt ble markert som tilgjengelig!";
+"product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
+"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
+"product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
+"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 "product_share_body" = "Se hva jeg fant på letgo!";
 "product_share_email_error" = "Oops, det ser ut som at du ikke har satt opp en konto i din Epost app.";
 "product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";

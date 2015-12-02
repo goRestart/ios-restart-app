@@ -93,23 +93,18 @@ public class ProductListViewModel: BaseViewModel {
     public var numberOfProducts: Int {
         return products.count
     }
-    
     public var numberOfColumns: Int {
         return Int(ProductListViewModel.columnCount)
     }
-    
     public var isLoading: Bool {
         return productsManager.isLoading
     }
-    
     public var canRetrieveProducts: Bool {
         return productsManager.canRetrieveProducts
     }
-    
     public var canRetrieveProductsNextPage: Bool {
         return productsManager.canRetrieveProductsNextPage && nextPageRetrievalLastError == nil
     }
-    
     public var isLastPage: Bool {
         return productsManager.lastPage
     }
@@ -301,7 +296,7 @@ public class ProductListViewModel: BaseViewModel {
         - Parameter index: index of the topmost cell
         - Parameter whileScrollingDown: true if the user is scrolling down
     */
-    public func topCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
+    public func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
         
         let topProduct = productAtIndex(index)
         let distance = Float(self.distanceFromProductCoordinates(topProduct.location))

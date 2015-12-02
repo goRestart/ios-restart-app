@@ -20,11 +20,9 @@ public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool)
 }
 
-
 public protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
 }
-
 
 public enum ProductListViewState {
     case FirstLoadView
@@ -148,7 +146,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             }
         }
     }
-    
     public var queryString: String? {
         get {
             return productListViewModel.queryString
@@ -222,7 +219,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             productListViewModel.distanceType = newValue
         }
     }
-    
     public var distanceRadius: Int? {
         get {
             return productListViewModel.distanceRadius
@@ -231,7 +227,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             productListViewModel.distanceRadius = newValue
         }
     }
-    
     public var topProductInfoDelegate: TopProductInfoDelegate? {
         get {
             return productListViewModel.topProductInfoDelegate
@@ -319,7 +314,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Refreshes the user interface.
     */
     public func refreshUI() {
-        //        maxDistance = 1
         collectionView.reloadData()
     }
     
@@ -393,7 +387,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 topProductIndex = indexPath.item
             }
             
-            productListViewModel.topCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
+            productListViewModel.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
             
             return cell
     }
@@ -510,11 +504,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 
                 refreshControl.endRefreshing()
                 
-                // Max distance is the default value
-                //            maxDistance = 1
-                
                 // Finished refreshing
-                //            refreshing = false
                 productListViewModel.refreshing = false
             }
                 // Last page
@@ -575,8 +565,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
         errorButton.addTarget(self, action: Selector("errorButtonPressed"), forControlEvents: .TouchUpInside)
-        
-        // Initial UI state is Loading (by xib)
     }
     
     /**

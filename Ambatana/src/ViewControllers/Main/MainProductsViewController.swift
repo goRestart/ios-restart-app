@@ -23,13 +23,12 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     var tagsCollectionTopSpace: NSLayoutConstraint?
     
-    @IBOutlet weak var distanceLabel: UILabel!
-    @IBOutlet weak var distanceShadow: UIView!
+    @IBOutlet weak var infoBubbleLabel: UILabel!
+    @IBOutlet weak var infoBubbleShadow: UIView!
     
     private var searchTextField : LGNavBarSearchField?
     private var cancelSearchOverlayButton : UIButton?   // button with a light blur effect by now,
                                                         // will be a table when history is implemented
-    
     private var tagsViewController : FilterTagsViewController!
     private var tagsShowing : Bool = false
     private var tagsAnimating : Bool = false
@@ -54,7 +53,6 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
         viewModel.bubbleDelegate = self
         
         hidesBottomBarWhenPushed = false
-        
         floatingSellButtonHidden = false
     }
     
@@ -97,7 +95,6 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
     }
     
     public override func viewDidAppear(animated: Bool) {
@@ -119,15 +116,15 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
     // MARK: - InfoBubbleDelegate
     
     public func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, updatedBubbleInfoString: String) {
-        distanceLabel.text = updatedBubbleInfoString
+        infoBubbleLabel.text = updatedBubbleInfoString
     }
-    
-    
+
     public func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, shouldHideBubble hidden: Bool) {
         UIView.animateWithDuration(0.35, animations: { () -> Void in
-            self.distanceShadow.alpha = hidden ? 0:1
+            self.infoBubbleShadow.alpha = hidden ? 0:1
         })
     }
+
     
     // MARK: - ProductListViewDataDelegate
 
@@ -184,17 +181,15 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
             showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
             
             // If the first page load succeeds
-            if page == 0 {
-                // Floating sell button should be shown
-                if let tabBarCtl = tabBarController as? TabBarController {
-                    // Only if there's a change
-                    let previouslyHidden = floatingSellButtonHidden
-                    floatingSellButtonHidden = false
-                    if floatingSellButtonHidden != previouslyHidden  {
-                        tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-                    }
-                }
-            }
+            guard page == 0 else { return }
+
+            // Floating sell button should be shown
+            guard let tabBarCtl = tabBarController as? TabBarController else { return }
+            // Only if there's a change
+            let previouslyHidden = floatingSellButtonHidden
+            floatingSellButtonHidden = false
+            guard floatingSellButtonHidden != previouslyHidden else { return }
+            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
     }
     
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -306,9 +301,7 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
 
             if let textFieldText = textField.text {
                 let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-                
                 viewModel.searchString = text
-                
             }
             return true
     }
@@ -412,22 +405,22 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
     private func setupInfoBubble() {
         
         //Initial text
-        distanceLabel.text = ""
+        infoBubbleLabel.text = ""
         
         //Shape & shadow
-        distanceShadow.layer.cornerRadius = 15
-        distanceShadow.layer.shadowColor = UIColor.blackColor().CGColor
-        distanceShadow.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        distanceShadow.layer.shadowOpacity = 0.12
-        distanceShadow.layer.shadowRadius = 8.0
+        infoBubbleShadow.layer.cornerRadius = 15
+        infoBubbleShadow.layer.shadowColor = UIColor.blackColor().CGColor
+        infoBubbleShadow.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        infoBubbleShadow.layer.shadowOpacity = 0.12
+        infoBubbleShadow.layer.shadowRadius = 8.0
         
         showInfoBubble(false, alpha: 0.0)
     }
     
     private func showInfoBubble(show: Bool, alpha: CGFloat? = nil) {
-        distanceShadow.hidden = !viewModel.infoBubblePresent || !show
+        infoBubbleShadow.hidden = !viewModel.infoBubblePresent || !show
         if let alpha = alpha {
-            distanceShadow.alpha = alpha
+            infoBubbleShadow.alpha = alpha
         }
     }
     

@@ -132,7 +132,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         let layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = 0.0
         layout.minimumInteritemSpacing = 0.0
-        self.favouriteCollectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | .FlexibleWidth
+        self.favouriteCollectionView.autoresizingMask = .FlexibleHeight
         self.favouriteCollectionView.alwaysBounceVertical = true
         self.favouriteCollectionView.collectionViewLayout = layout
         
@@ -163,56 +163,56 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if shouldReload {
-            // UX/UI and Appearance.
-            setLetGoNavigationBarStyle("")
-            
-            sellingProductListView.hidden = true
-            soldProductListView.hidden = true
-            favouriteCollectionView.hidden = true
-            activityIndicator.startAnimating()
-            
-            // load
-            isSellProductsEmpty = true
-            isSoldProductsEmpty = true
-            favProducts = []
-            
-            // reset UI
-            sellingProductListView.delegate = self
-            sellingProductListView.user = user
-            sellingProductListView.type = .Selling
-            soldProductListView.delegate = self
-            soldProductListView.user = user
-            soldProductListView.type = .Sold
-            
-            favouriteCollectionView.reloadData()
-            
-            retrieveProductsForTab(ProfileTab.ProductImSelling)
-            retrieveProductsForTab(ProfileTab.ProductISold)
-            retrieveProductsForTab(ProfileTab.ProductFavourite)
-            
-            // UI
-            if let avatarURL = user.avatar?.fileURL {
-                userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
-            }
-            else {
-                userImageView.image = UIImage(named: "no_photo")
-            }
-            userNameLabel.text = user.publicUsername ?? ""
-            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
-                userLocationLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
-            }
-            else {
-                userLocationLabel.text = user.postalAddress.city ?? ""
-            }
-            
-            // If it's me, then allow go to settings
-            if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId,
-                let userId = user.objectId {
-                    if userId == myUserId {
-                        setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"])
-                    }
-            }
+        guard shouldReload else { return }
+        
+        // UX/UI and Appearance.
+        setLetGoNavigationBarStyle("")
+        
+        sellingProductListView.hidden = true
+        soldProductListView.hidden = true
+        favouriteCollectionView.hidden = true
+        activityIndicator.startAnimating()
+        
+        // load
+        isSellProductsEmpty = true
+        isSoldProductsEmpty = true
+        favProducts = []
+        
+        // reset UI
+        sellingProductListView.delegate = self
+        sellingProductListView.user = user
+        sellingProductListView.type = .Selling
+        soldProductListView.delegate = self
+        soldProductListView.user = user
+        soldProductListView.type = .Sold
+        
+        favouriteCollectionView.reloadData()
+        
+        retrieveProductsForTab(ProfileTab.ProductImSelling)
+        retrieveProductsForTab(ProfileTab.ProductISold)
+        retrieveProductsForTab(ProfileTab.ProductFavourite)
+        
+        // UI
+        if let avatarURL = user.avatar?.fileURL {
+            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
+        }
+        else {
+            userImageView.image = UIImage(named: "no_photo")
+        }
+        userNameLabel.text = user.publicUsername ?? ""
+        if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
+            userLocationLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
+        }
+        else {
+            userLocationLabel.text = user.postalAddress.city ?? ""
+        }
+        
+        // If it's me, then allow go to settings
+        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId,
+            let userId = user.objectId {
+                if userId == myUserId {
+                    setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"])
+                }
         }
     }
     
@@ -313,10 +313,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         //        vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
-//    func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool) {
-//    }
     
     func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
     }
@@ -457,12 +453,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
                             // Success
                             strongSelf.favProducts = actualResult.products
                         }
-                        else {
-                            // Failure
-                            if let _ = myResult.error {
-                                // result?(ProductsFavouriteRetrieveServiceResult(error: actualError))
-                            }
-                        }
                         
                         strongSelf.loadingFavProducts = false
                         strongSelf.favouriteCollectionView.reloadData()
@@ -510,17 +500,15 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
                 
                 startSearchingNowButton.hidden = false
                 startSellingNowButton.hidden = false
-            }
-            else {
+            } else {
                 youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesOtherUserNoProductsLabel
                 youDontHaveSubtitleLabel.hidden = true
                 
                 startSearchingNowButton.hidden = true
                 startSellingNowButton.hidden = true
             }
-        }
+        } else {
             // Else, update the UI
-        else {
             favouriteCollectionView.hidden = false
             
             youDontHaveTitleLabel.hidden = true

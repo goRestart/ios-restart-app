@@ -62,6 +62,7 @@
 "common_product_deleted" = "Товар удален";
 "common_product_not_available" = "Этот товар больше не доступен.";
 "common_product_sold" = "Это товар уже продан.";
+"common_settings" = "Settings";
 "common_time_a_minute_ago_label" = "минуту назад";
 "common_time_day_ago_label" = "день назад";
 "common_time_days_ago_label" = "%d дней назад";
@@ -145,6 +146,15 @@
 "make_an_offer_title" = "Предложить цену";
 "product_ask_a_question_button" = "Задать вопрос";
 "product_chat_error_generic" = "При открытии чата произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
+"product_date_X_days_ago" = "Posted %i days ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_months_ago" = "Posted %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "Отмена";
 "product_delete_confirm_message" = "Почему Вы хотите удалить продукт?";
 "product_delete_confirm_ok_button" = "Я не хочу его продавать";
@@ -190,6 +200,10 @@
 "product_sell_again_confirm_title" = "Продать заново";
 "product_sell_again_error_generic" = "Произошла ошибка при смене статуса товара на доступный для продажи. Пожалуйста, попробуйте еще раз позже.";
 "product_sell_again_success_message" = "Поздравляем, ваш товар успешно отмечен как доступный для продажи!";
+"product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
+"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
+"product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
+"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 "product_share_body" = "Посмотрите, что я нашел на letgo!";
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении.";
 "product_share_generic_error" = "При размещении товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";

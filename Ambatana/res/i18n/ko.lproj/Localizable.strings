@@ -62,6 +62,7 @@
 "common_product_deleted" = "제품이 삭제되었습니다";
 "common_product_not_available" = "이 제품은 더이상 존재하지 않습니다.";
 "common_product_sold" = "제품이 이미 판매되었습니다.";
+"common_settings" = "설정";
 "common_time_a_minute_ago_label" = "1분 전";
 "common_time_day_ago_label" = "1일 전";
 "common_time_days_ago_label" = "%d일 전";
@@ -145,6 +146,15 @@
 "make_an_offer_title" = "제시하기";
 "product_ask_a_question_button" = "질문하기";
 "product_chat_error_generic" = "채팅을 시작하는데 오류가 발생했습니다. 다시 시도해주세요.";
+"product_date_X_days_ago" = "Posted %i days ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_months_ago" = "Posted %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "취소";
 "product_delete_confirm_message" = "이 제품을 삭제하기를 원하십니까?";
 "product_delete_confirm_ok_button" = "판매하고 싶지 않습니다";
@@ -190,6 +200,10 @@
 "product_sell_again_confirm_title" = "다시 판매하기";
 "product_sell_again_error_generic" = "판매가능으로 표시하는 동안에 오류가 발생했습니다. 다시 시도해주세요";
 "product_sell_again_success_message" = "축하드립니다, 회원님의 상품이 성공적으로 판매 가능으로 표시되었습니다!";
+"product_sell_camera_permissions_error" = "사진을 촬영하기 위해, 설정에서 letgo에 카메라 사용 허가를 설정하여주십시오.";
+"product_sell_camera_restricted_error" = "카메라 접근이 제한되어 있습니다. 설정을 확인하시고 다시 시도해주세요.";
+"product_sell_photolibrary_permissions_error" = "사진을 업로드하기위해, 설정에서 letgo가 사진첩에 접근할 수 있도록 허가해주십시오.";
+"product_sell_photolibrary_restricted_error" = "사진첩 접근이 제한되어 있습니다. 설정을 확인하시고 다시 시도해주세요.";
 "product_share_body" = "제가 렛고에서 무엇을 발견했는지 보세요!";
 "product_share_email_error" = "앗, 계정을 메일 어플리케이션에서 설정하지 않으신 것 같네요.";
 "product_share_generic_error" = "상품을 공유하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
@@ -221,7 +235,7 @@
 "reset_password_send_button" = "비밀번호 재설정";
 "reset_password_send_error_generic" = "비밀번호를 기억하는데 오류가 발생했습니다.";
 "reset_password_send_error_invalid_email" = "회원 가입 시 사용하셨던 이메일을 입력해 주세요.";
-"reset_password_send_error_user_not_found_or_wrong_password" = "The email address %@ is not registered.";
+"reset_password_send_error_user_not_found_or_wrong_password" = "이메일 주소 %@는 이미 등록된 사용자 입니다.";
 "reset_password_send_ok" = "이메일을 %@으로 발송하였습니다. 수신함을 확인하시고 비밀번호 재설정 지시를 따라주세요!";
 "reset_password_title" = "비밀번호 재설정";
 "sell_category_selection_label" = "목록 고르기";

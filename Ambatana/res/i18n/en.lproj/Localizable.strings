@@ -467,31 +467,31 @@
 "product_delete_success_message" = "Your product was deleted successfully.";
 
 // Product date 1 min ago. Check image @ "product_ask_a_question_button" segment
-"product_date_one_minute_ago" = "_Posted 1 min ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_X_minutes_ago" = "_Posted %i mins ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_one_hour_ago" = "_Posted 1 hour ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_X_hours_ago" = "_Posted %i hours ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_one_day_ago" = "_Posted 1 day ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_X_days_ago" = "_Posted %i days ago";
+"product_date_X_days_ago" = "Posted %i days ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_one_month_ago" = "_Posted 1 month ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_X_months_ago" = "_Posted %i months ago";
+"product_date_X_months_ago" = "Posted %i months ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_more_than_X_months_ago" = "_Posted more than %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_from_you" = "from you";
