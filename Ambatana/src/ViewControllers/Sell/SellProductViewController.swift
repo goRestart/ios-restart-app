@@ -111,7 +111,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
-        viewModel.save()
+        viewModel.checkProductFields()
     }
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
@@ -167,6 +167,15 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
         loadingView.hidden = true
     }
+    
+    func sellProductViewModelFieldCheckSucceeded(viewModel: SellProductViewModel) {
+        ifLoggedInThen(.Sell, loggedInAction: {
+            self.viewModel.save()
+        }, elsePresentSignUpWithSuccessAction: {
+            self.viewModel.save()
+        })
+    }
+    
     
     // MARK: - TextField Delegate Methods
     
