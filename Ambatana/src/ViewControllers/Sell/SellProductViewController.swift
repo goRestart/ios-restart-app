@@ -283,16 +283,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         
         // add image
         if indexPath.item == viewModel.numberOfImages {
-            // launch image picker
-            let alert = UIAlertController(title: LGLocalizedString.sellPictureImageSourceTitle, message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraButton, style: .Default, handler: { (alertAction) -> Void in
-                self.openImagePickerWithSource(.Camera)
-            }))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCameraRollButton, style: .Default, handler: { (alertAction) -> Void in
-                self.openImagePickerWithSource(.PhotoLibrary)
-            }))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureImageSourceCancelButton, style: .Cancel, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
+            MediaPickerManager.showImagePickerIn(self)
             
             if indexPath.item > 1 && indexPath.item < 4 {
                 collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item+1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Right, animated: true)
@@ -317,15 +308,9 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         }
     }
     
+    
     // MARK: UIImagePicker Delegate
-    
-    func openImagePickerWithSource(source: UIImagePickerControllerSourceType) {
-        let picker = UIImagePickerController()
-        picker.sourceType = source
-        picker.delegate = self
-        self.presentViewController(picker, animated: true, completion: nil)
-    }
-    
+ 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }

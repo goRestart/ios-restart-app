@@ -62,6 +62,7 @@
 "common_product_deleted" = "Produkt borttagen";
 "common_product_not_available" = "Denna produkt är inte längre tillgänglig.";
 "common_product_sold" = "Denna produkt är redan såld.";
+"common_settings" = "Settings";
 "common_time_a_minute_ago_label" = "en minut sedan";
 "common_time_day_ago_label" = "en dag sedan";
 "common_time_days_ago_label" = "%d dagar sedan";
@@ -190,6 +191,10 @@
 "product_sell_again_confirm_title" = "Sälj den igen";
 "product_sell_again_error_generic" = "Ett fel uppstod vid markering av produkten som tillgänglig. Var god försök igen senare.";
 "product_sell_again_success_message" = "Grattis! Din produkt har markerats som tillgänglig!";
+"product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
+"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
+"product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
+"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 "product_share_body" = "Kolla vad jag hittade på letgo!";
 "product_share_email_error" = "Hoppsan, det verkar som att du inte har något konto i dina mailinstllningar.";
 "product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";

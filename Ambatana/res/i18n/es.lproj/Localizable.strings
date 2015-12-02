@@ -40,7 +40,7 @@
 "chat_message_load_generic_error" = "¡Ups! Ha habido un error al acceder a los datos de tu conversación. Prueba otra vez.";
 "chat_safety_tips_tip_1" = "Después de que hayas cerrado el trato, encontraros en persona y paga en efectivo.";
 "chat_safety_tips_tip_2" = "Di no a los giros postales, transferencias bancarias o cheques.";
-"chat_safety_tips_tip_3" = "Si parece demasiado bueno para ser cierto, ¡probablemente lo sea!";
+"chat_safety_tips_tip_3" = "Si parece demasiado bueno para ser cierto, ¡ve con cuidado!";
 "chat_safety_tips_title" = "Consejos";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
@@ -62,6 +62,7 @@
 "common_product_deleted" = "Artículo eliminado";
 "common_product_not_available" = "Este artículo ya no está disponible.";
 "common_product_sold" = "Este artículo ha sido vendido.";
+"common_settings" = "Settings";
 "common_time_a_minute_ago_label" = "Hace un minuto";
 "common_time_day_ago_label" = "Hace un día";
 "common_time_days_ago_label" = "Hace %d días";
@@ -190,6 +191,10 @@
 "product_sell_again_confirm_title" = "Venderlo de nuevo";
 "product_sell_again_error_generic" = "Se ha producido un error al marcar tu artículo como disponible. Prueba otra vez.";
 "product_sell_again_success_message" = "¡Enhorabuena, tu artículo vuelve a estar disponible!";
+"product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
+"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
+"product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
+"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 "product_share_body" = "¡Mira lo que he encontrado en letgo!";
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado un email en este dispositivo.";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor inténtalo más tarde.";

@@ -62,6 +62,7 @@
 "common_product_deleted" = "Produto removido";
 "common_product_not_available" = "Este artigo já não se encontra disponível.";
 "common_product_sold" = "Este artigo foi vendido.";
+"common_settings" = "Settings";
 "common_time_a_minute_ago_label" = "há um minuto";
 "common_time_day_ago_label" = "há um dia";
 "common_time_days_ago_label" = "há %d dias";
@@ -190,6 +191,10 @@
 "product_sell_again_confirm_title" = "Venda-o de novo";
 "product_sell_again_error_generic" = "Ocorreu um erro ao marcar o seu produto como disponível. Por favor tente de novo mais tarde.";
 "product_sell_again_success_message" = "Parabéns, o seu produto foi marcado como disponível com sucesso!";
+"product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
+"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
+"product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
+"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 "product_share_body" = "Vê o que acabei de encontrar no letgo!";
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
 "product_share_generic_error" = "Ocorreu um erro ao partilhar o produto. Por favor tente novamente mais tarde.";
