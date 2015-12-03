@@ -12,11 +12,11 @@ import UIKit
 
 public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt)
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError)
-    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
+    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+        error: ProductsRetrieveServiceError)
+    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
+        hasProducts: Bool)
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath)
-    func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType)
-    func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool)
     func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool)
 }
 
@@ -24,15 +24,16 @@ public protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
 }
 
-
 public enum ProductListViewState {
     case FirstLoadView
     case DataView
-    case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?, errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
+    case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?, errTitle: String?,
+        errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
-public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-
+public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate,
+UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     // Constants
     private static let defaultErrorButtonHeight: CGFloat = 44
     
@@ -49,9 +50,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     @IBOutlet weak var collectionView: UICollectionView!
     
     private var lastContentOffset: CGFloat
-    private var maxDistance: Float
     private var scrollingDown: Bool
-    private var refreshing: Bool
     
     // > Error
     @IBOutlet weak var errorView: UIView!
@@ -99,7 +98,6 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     internal(set) var productListViewModel: ProductListViewModel
     
     // > Computed iVars
-    
     public var state: ProductListViewState {
         didSet {
             switch (state) {
@@ -113,7 +111,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
                 firstLoadView.hidden = true
                 dataView.hidden = false
                 errorView.hidden = true
-            case .ErrorView(let errBgColor, let errBorderColor, let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
+            case .ErrorView(let errBgColor, let errBorderColor, let errImage, let errTitle, let errBody,
+                let errButTitle, let errButAction):
                 // UI
                 errorView.backgroundColor = errBgColor
                 errorContentView.layer.borderColor = errBorderColor?.CGColor
@@ -147,7 +146,6 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             }
         }
     }
-    
     public var queryString: String? {
         get {
             return productListViewModel.queryString
@@ -221,7 +219,6 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             productListViewModel.distanceType = newValue
         }
     }
-    
     public var distanceRadius: Int? {
         get {
             return productListViewModel.distanceRadius
@@ -230,10 +227,19 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
             productListViewModel.distanceRadius = newValue
         }
     }
+    public var topProductInfoDelegate: TopProductInfoDelegate? {
+        get {
+            return productListViewModel.topProductInfoDelegate
+        }
+        set {
+            productListViewModel.topProductInfoDelegate = newValue
+        }
+    }
     
     // Delegate
     weak public var delegate: ProductListViewDataDelegate?
     weak public var scrollDelegate : ProductListViewScrollDelegate?
+    
     
     // MARK: - Lifecycle
     
@@ -242,10 +248,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.productListViewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        self.maxDistance = 1
         self.lastContentOffset = 0
         self.scrollingDown = true
-        self.refreshing = false
         super.init(viewModel: viewModel, frame: frame)
         
         viewModel.dataDelegate = self
@@ -257,16 +261,14 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         self.productListViewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        self.maxDistance = 1
         self.lastContentOffset = 0
         self.scrollingDown = true
-        self.refreshing = false
         super.init(viewModel: viewModel, coder: aDecoder)
-
+        
         viewModel.dataDelegate = self
         setupUI()
     }
-
+    
     public required convenience init?(coder aDecoder: NSCoder) {
         self.init(viewModel: ProductListViewModel(), coder: aDecoder)
     }
@@ -287,10 +289,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         Retrieves the products first page.
     */
     public func refresh() {
-        refreshing = true
-        
+        productListViewModel.refreshing = true
         if productListViewModel.canRetrieveProducts {
-            maxDistance = 1
             productListViewModel.retrieveProductsFirstPage()
         }
         else {
@@ -307,13 +307,13 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         }
     }
     
+    
     // MARK: > UI
     
     /**
         Refreshes the user interface.
     */
     public func refreshUI() {
-        maxDistance = 1
         collectionView.reloadData()
     }
     
@@ -329,107 +329,103 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         let product = productAtIndex(index)
         return ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
     }
-
+    
+    
     // MARK: - CHTCollectionViewDelegateWaterfallLayout
     
-    public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, heightForFooterInSection section: Int) -> CGFloat {
-        return Constants.productListFooterHeight
+    public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+        heightForFooterInSection section: Int) -> CGFloat {
+            return Constants.productListFooterHeight
     }
+    
     
     // MARK: - UICollectionViewDataSource
     
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return productListViewModel.sizeForCellAtIndex(indexPath.row)
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            return productListViewModel.sizeForCellAtIndex(indexPath.row)
     }
     
-    public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, columnCountForSection section: Int) -> Int {
-        return productListViewModel.numberOfColumns
+    public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+        columnCountForSection section: Int) -> Int {
+            return productListViewModel.numberOfColumns
     }
     
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return productListViewModel.numberOfProducts
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        let product = productListViewModel.productAtIndex(indexPath.item)
-        
-        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as? ProductCell else { return UICollectionViewCell() }
-        cell.tag = indexPath.hash
-        
-        // TODO: VC should not handle data -> ask to VM about title etc etc...
-        cell.setupCellWithProduct(product, indexPath: indexPath)
-        
-        productListViewModel.setCurrentItemIndex(indexPath.item)
+    public func collectionView(collectionView: UICollectionView,
+        cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+            
+            let product = productListViewModel.productAtIndex(indexPath.item)
+            
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath)
+                as? ProductCell else { return UICollectionViewCell() }
+            cell.tag = indexPath.hash
 
-        // Decides the product of which we will show distance to shoew in the label
-        let topProduct: Product
-        
-        if !collectionView.indexPathsForVisibleItems().isEmpty {
+            cell.setupCellWithProductName(product.name, price: product.formattedPrice(), thumbnail: product.thumbnail,
+                status: product.status, creationDate: product.createdAt)
             
-            // show distance of the FIRST VISIBLE cell, must loop bc "indexPathsForVisibleItems" gives an unordered array
-            var lowerIndex = indexPath.item
-            for index in collectionView.indexPathsForVisibleItems() {
-                if index.item < lowerIndex {
-                    lowerIndex = index.item
-                }
-            }
+            productListViewModel.setCurrentItemIndex(indexPath.item)
             
-            topProduct = productListViewModel.productAtIndex(lowerIndex)
-            
-        } else {
-            // the 1st appeareance of the 1st cell doesn't know about visible cells yet
-            topProduct = product
-        }
-        
- 
-        let distance = Float(productListViewModel.distanceFromProductCoordinates(topProduct.location))
-        
-        // instance var max distance or MIN distance to avoid updating the label everytime
-        if scrollingDown && distance > maxDistance {
-            maxDistance = distance
-        } else if !scrollingDown && distance < maxDistance {
-            maxDistance = distance
-        } else if refreshing {
-            maxDistance = distance
-        }
-        
-        delegate?.productListView(self, shouldUpdateDistanceLabel: max(1,Int(round(maxDistance))), withDistanceType: DistanceType.systemDistanceType())
-        
-        return cell
-    }
-    
-    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView  {
-        let view: UICollectionReusableView
-        
-        switch kind {
-        case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
-            if let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter {
-                if let _ = productListViewModel.nextPageRetrievalLastError {
-                    footer.status = .Error
-                }
-                else if productListViewModel.isLastPage {
-                    footer.status = .LastPage
-                }
-                else {
-                    footer.status = .Loading
-                }
-                footer.retryButtonBlock = { [weak self] in
-                    if let strongSelf = self {
-                        strongSelf.productListViewModel.retrieveProductsNextPage()
-                        strongSelf.collectionView.reloadData()
+            // Decides the product of which we will show distance to shoew in the label
+            let topProductIndex: Int
+            if !collectionView.indexPathsForVisibleItems().isEmpty {
+                
+                // show distance of the FIRST VISIBLE cell, must loop bc "indexPathsForVisibleItems" is an unordered array
+                var lowerIndex = indexPath.item
+                for index in collectionView.indexPathsForVisibleItems() {
+                    if index.item < lowerIndex {
+                        lowerIndex = index.item
                     }
                 }
-                view = footer
+                
+                topProductIndex = lowerIndex
+            } else {
+                // the 1st appeareance of the 1st cell doesn't know about visible cells yet
+                topProductIndex = indexPath.item
             }
-            else {
+            
+            productListViewModel.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
+            
+            return cell
+    }
+    
+    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
+        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView  {
+            let view: UICollectionReusableView
+            
+            switch kind {
+            case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
+                if let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
+                    withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter {
+                        if let _ = productListViewModel.nextPageRetrievalLastError {
+                            footer.status = .Error
+                        }
+                        else if productListViewModel.isLastPage {
+                            footer.status = .LastPage
+                        }
+                        else {
+                            footer.status = .Loading
+                        }
+                        footer.retryButtonBlock = { [weak self] in
+                            if let strongSelf = self {
+                                strongSelf.productListViewModel.retrieveProductsNextPage()
+                                strongSelf.collectionView.reloadData()
+                            }
+                        }
+                        view = footer
+                }
+                else {
+                    view = UICollectionReusableView()
+                }
+            default:
                 view = UICollectionReusableView()
             }
-        default:
-            view = UICollectionReusableView()
-        }
-        return view
+            return view
     }
+    
     
     // MARK: - UICollectionViewDelegate
     
@@ -437,11 +433,12 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         delegate?.productListView(self, didSelectItemAtIndexPath: indexPath)
     }
     
+    
     // MARK: - UIScrollViewDelegate
     
     public func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        informHideDistanceLabel(scrollView)
+        checkPullToRefresh(scrollView)
         
         // while going down, increase distance in label, when going up, decrease
         if lastContentOffset >= scrollView.contentOffset.y {
@@ -457,15 +454,17 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         delegate?.productListView(self, shouldHideFloatingSellButton: true)
     }
-
-    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        let moving = abs(velocity.y) > 0
-        delegate?.productListView(self, shouldHideFloatingSellButton: moving)
+    
+    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+            let moving = abs(velocity.y) > 0
+            delegate?.productListView(self, shouldHideFloatingSellButton: moving)
     }
     
     public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         delegate?.productListView(self, shouldHideFloatingSellButton: false)
     }
+    
     
     // MARK: - ProductListViewModelDataDelegate
     
@@ -479,57 +478,54 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         delegate?.productListView(self, didStartRetrievingProductsPage: page)
     }
     
-    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
-        // Update the UI
-        if page == 0 {
-            refreshControl.endRefreshing()
-        }
-        else {
-            collectionView.reloadData()
-        }
-        
-        // Notify the delegate
-        delegate?.productListView(self, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
+    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+        error: ProductsRetrieveServiceError) {
+            // Update the UI
+            if page == 0 {
+                refreshControl.endRefreshing()
+            } else {
+                collectionView.reloadData()
+            }
+            
+            // Notify the delegate
+            delegate?.productListView(self, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
     }
     
-    public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
-        // First page
-        if page == 0 {
-            // Update the UI
-            state = .DataView
-
-            collectionView.reloadData()
-            scrollToTop(false)
-
-            refreshControl.endRefreshing()
+    public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
+        hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
+            // First page
+            if page == 0 {
+                // Update the UI
+                state = .DataView
+                
+                collectionView.reloadData()
+                scrollToTop(false)
+                
+                refreshControl.endRefreshing()
+                
+                // Finished refreshing
+                productListViewModel.refreshing = false
+            } else if viewModel.isLastPage {
+                // Last page
+                // Reload in order to be able to reload the footer
+                collectionView.reloadData()
+            } else {
+                // Middle pages
+                // Reload animated
+                collectionView.insertItemsAtIndexPaths(indexPaths)
+            }
             
-            // Max distance is the default value
-            maxDistance = 1
-            
-            // Finished refreshing
-            refreshing = false
-        }
-        // Last page
-        else if viewModel.isLastPage {
-            // Reload in order to be able to reload the footer
-            collectionView.reloadData()
-        }
-        // Middle pages
-        else {
-            // Reload animated
-            collectionView.insertItemsAtIndexPaths(indexPaths)
-        }
-        
-        // Notify the delegate
-        delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
+            // Notify the delegate
+            delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
     }
+    
     
     // MARK: - Private methods
     
     // MARK: > UI
     
     /**
-    Sets up the UI.
+        Sets up the UI.
     */
     private func setupUI() {
         // Load the view, and add it as Subview
@@ -552,7 +548,8 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         let cellNib = UINib(nibName: "ProductCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
         let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
-        self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter, withReuseIdentifier: "CollectionViewFooter")
+        self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
+            withReuseIdentifier: "CollectionViewFooter")
         
         // >> Pull to refresh
         refreshControl = UIRefreshControl()
@@ -562,10 +559,9 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         // > Error View
         errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
         errorButton.layer.cornerRadius = 4
-        errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Normal)
         errorButton.addTarget(self, action: Selector("errorButtonPressed"), forControlEvents: .TouchUpInside)
-        
-        // Initial UI state is Loading (by xib)
     }
     
     /**
@@ -576,13 +572,14 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         collectionView.setContentOffset(position, animated: animated)
     }
     
-    private func informHideDistanceLabel(scrollView: UIScrollView) {
+    private func checkPullToRefresh(scrollView: UIScrollView) {
         
-        // when refreshing, distance label should be hidden
-        if lastContentOffset >= -collectionViewContentInset.top && scrollView.contentOffset.y < -collectionViewContentInset.top {
-            delegate?.productListView(self, shouldHideDistanceLabel: true)
-        } else if lastContentOffset < -collectionViewContentInset.top && scrollView.contentOffset.y >= -collectionViewContentInset.top {
-            delegate?.productListView(self, shouldHideDistanceLabel: false)
+        if lastContentOffset >= -collectionViewContentInset.top &&
+            scrollView.contentOffset.y < -collectionViewContentInset.top {
+                productListViewModel.pullingToRefresh(true)
+        } else if lastContentOffset < -collectionViewContentInset.top &&
+            scrollView.contentOffset.y >= -collectionViewContentInset.top {
+                productListViewModel.pullingToRefresh(false)
         }
     }
     
@@ -590,8 +587,9 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
         Will call scroll delegate on scroll events different than bouncing in the edges indicating scrollingDown state
     */
     private func informScrollDelegate(scrollView: UIScrollView) {
-        if(lastContentOffset > 0.0 && lastContentOffset < (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)){
-            scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
+        if(lastContentOffset > 0.0 && lastContentOffset < (scrollView.contentSize.height -
+            scrollView.frame.size.height + collectionViewContentInset.bottom)){
+                scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
         }
     }
     
@@ -609,7 +607,7 @@ public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout
     
     /**
         Returns the product at the given index.
-    
+        
         - parameter index: The index of the product.
         - returns: The product.
     */
