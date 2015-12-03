@@ -483,8 +483,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             // Update the UI
             if page == 0 {
                 refreshControl.endRefreshing()
-            }
-            else {
+            } else {
                 collectionView.reloadData()
             }
             
@@ -506,14 +505,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 
                 // Finished refreshing
                 productListViewModel.refreshing = false
-            }
+            } else if viewModel.isLastPage {
                 // Last page
-            else if viewModel.isLastPage {
                 // Reload in order to be able to reload the footer
                 collectionView.reloadData()
-            }
+            } else {
                 // Middle pages
-            else {
                 // Reload animated
                 collectionView.insertItemsAtIndexPaths(indexPaths)
             }

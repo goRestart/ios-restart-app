@@ -26,5 +26,5 @@ extension ProductSortCriteria {
         }
     }
     
-    public static func allValues() -> [ProductSortCriteria] { return [.Distance, .Creation, .PriceAsc, .PriceDesc] }
+    public static func allValues() -> [ProductSortCriteria] { return [.Creation, .Distance, .PriceAsc, .PriceDesc] }
 }

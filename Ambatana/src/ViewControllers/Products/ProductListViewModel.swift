@@ -318,7 +318,6 @@ public class ProductListViewModel: BaseViewModel {
         case .Creation:
             guard let date = topProduct.createdAt else { return }
             topProductInfoDelegate?.productListViewModel(self, dateForTopProduct: date)
-            break
         case .PriceAsc, .PriceDesc:
             break
         }
