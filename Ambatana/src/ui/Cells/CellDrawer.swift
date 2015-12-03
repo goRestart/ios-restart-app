@@ -14,6 +14,6 @@ protocol TableCellDrawer {
 }
 
 protocol CollectionCellDrawer {
-    func cell(tableView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell
-    static func registerCell(tableView: UICollectionView)
+    func cell(collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell
+    static func registerCell(collectionView: UICollectionView)
 }
