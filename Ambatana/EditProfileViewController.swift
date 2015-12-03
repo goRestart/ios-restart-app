@@ -156,7 +156,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             bottom: sellButtonHeight, right: 0)
         
         // register ProductCell
-        ProductCell.registerCellOn(collectionView: favouriteCollectionView)
+        ProductCellDrawerFactory.registerCells(favouriteCollectionView)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -339,15 +339,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         return favProducts.count
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        guard let cell = ProductCell.dequeueReusableCellFrom(collectionView: collectionView, indexPath: indexPath) else {
-            return UICollectionViewCell()
-        }
-        cell.tag = indexPath.hash
-        
-        cell.setupCellWith(data: self.productCellDataAtIndex(indexPath), mode: .FullInfo)
-        
-        return cell
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+        -> UICollectionViewCell {
+            let drawer = ProductCellDrawerFactory.drawerForProductMode(.FullInfo)
+            let cell = drawer.cell(collectionView, atIndexPath: indexPath)
+            cell.tag = indexPath.hash
+            drawer.draw(cell, data: self.productCellDataAtIndex(indexPath))
+
+            return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {

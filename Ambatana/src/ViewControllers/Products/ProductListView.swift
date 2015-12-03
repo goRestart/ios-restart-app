@@ -364,13 +364,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     public func collectionView(collectionView: UICollectionView,
         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-            
-            guard let cell = ProductCell.dequeueReusableCellFrom(collectionView: collectionView, indexPath: indexPath) else {
-                return UICollectionViewCell()
-            }
-            cell.tag = indexPath.hash
 
-            cell.setupCellWith(data: productListViewModel.productCellDataAtIndex(indexPath.item), mode: cellMode)
+            let drawer = ProductCellDrawerFactory.drawerForProductMode(cellMode)
+            let cell = drawer.cell(collectionView, atIndexPath: indexPath)
+            cell.tag = indexPath.hash
+            drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item))
             
             productListViewModel.setCurrentItemIndex(indexPath.item)
             
@@ -549,8 +547,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
         collectionView.alwaysBounceVertical = true
         collectionView.contentInset = collectionViewContentInset
-        
-        ProductCell.registerCellOn(collectionView: self.collectionView)
+
+        ProductCellDrawerFactory.registerCells(collectionView)
         let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
         self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
             withReuseIdentifier: "CollectionViewFooter")
