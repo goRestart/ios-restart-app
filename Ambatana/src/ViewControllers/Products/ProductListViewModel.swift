@@ -12,8 +12,16 @@ import Result
 
 public protocol ProductListViewModelDataDelegate: class {
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
-    func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError)
-    func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath])
+    func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+        error: ProductsRetrieveServiceError)
+    func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool,
+        atIndexPaths indexPaths: [NSIndexPath])
+}
+
+public protocol TopProductInfoDelegate: class {
+    func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate)
+    func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int)
+    func productListViewModel(productListViewModel: ProductListViewModel, pullToRefreshInProggress refreshing: Bool)
 }
 
 public class ProductListViewModel: BaseViewModel {
@@ -26,6 +34,7 @@ public class ProductListViewModel: BaseViewModel {
     private static let cellWidth: CGFloat = UIScreen.mainScreen().bounds.size.width * (1 / columnCount)
     
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
+    
     
     // MARK: - iVars
     
@@ -62,6 +71,7 @@ public class ProductListViewModel: BaseViewModel {
     
     // Delegate
     public weak var dataDelegate: ProductListViewModelDataDelegate?
+    public weak var topProductInfoDelegate: TopProductInfoDelegate?
     
     // Manager
     private let productsManager: ProductsManager
@@ -71,32 +81,30 @@ public class ProductListViewModel: BaseViewModel {
     public private(set) var pageNumber: UInt
     public var isProfileList: Bool
     private(set) var nextPageRetrievalLastError: ProductsRetrieveServiceError?
-    
+    private var maxDistance: Float
+    public var refreshing: Bool
+
     // UI
     public private(set) var defaultCellSize: CGSize!
+    
     
     // MARK: - Computed iVars
     
     public var numberOfProducts: Int {
         return products.count
     }
-    
     public var numberOfColumns: Int {
         return Int(ProductListViewModel.columnCount)
     }
-    
     public var isLoading: Bool {
         return productsManager.isLoading
     }
-    
     public var canRetrieveProducts: Bool {
         return productsManager.canRetrieveProducts
     }
-    
     public var canRetrieveProductsNextPage: Bool {
         return productsManager.canRetrieveProductsNextPage && nextPageRetrievalLastError == nil
     }
-    
     public var isLastPage: Bool {
         return productsManager.lastPage
     }
@@ -129,15 +137,19 @@ public class ProductListViewModel: BaseViewModel {
         return params
     }
     
+    
     // MARK: - Lifecycle
     
     public override init() {
         let productsRetrieveService = LGProductsRetrieveService()
         let userProductsRetrieveService = LGUserProductsRetrieveService()
-        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService, userProductsRetrieveService: userProductsRetrieveService)
+        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
+            userProductsRetrieveService: userProductsRetrieveService)
         
         self.products = []
         self.pageNumber = 0
+        self.maxDistance = 1
+        self.refreshing = false
         self.isProfileList = false
         self.nextPageRetrievalLastError = nil
         
@@ -145,6 +157,7 @@ public class ProductListViewModel: BaseViewModel {
         self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
         super.init()
     }
+    
     
     // MARK: - Public methods
     
@@ -172,11 +185,12 @@ public class ProductListViewModel: BaseViewModel {
                     let products = productsResponse.products
                     strongSelf.products = products
                     strongSelf.pageNumber = 0
-                    
+                    strongSelf.maxDistance = 1
                     // Notify the delegate
                     let hasProducts = strongSelf.products.count > 0
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: products.count)
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: 0, hasProducts: hasProducts, atIndexPaths: indexPaths)
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: 0,
+                        hasProducts: hasProducts, atIndexPaths: indexPaths)
                     
                     // Notify me
                     strongSelf.didSucceedRetrievingProducts()
@@ -185,7 +199,8 @@ public class ProductListViewModel: BaseViewModel {
                 else if let error = result.error {
                     // Notify the delegate
                     let hasProducts = strongSelf.products.count > 0
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: 0, hasProducts: hasProducts, error: error)
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: 0,
+                        hasProducts: hasProducts, error: error)
                 }
             }
         }
@@ -226,7 +241,8 @@ public class ProductListViewModel: BaseViewModel {
                     // Notify the delegate
                     let hasProducts = strongSelf.products.count > 0
                     let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber, hasProducts: hasProducts, atIndexPaths: indexPaths)
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
+                        hasProducts: hasProducts, atIndexPaths: indexPaths)
                     
                     // Notify me
                     strongSelf.didSucceedRetrievingProducts()
@@ -236,7 +252,8 @@ public class ProductListViewModel: BaseViewModel {
                     strongSelf.nextPageRetrievalLastError = error
                     
                     let hasProducts = strongSelf.products.count > 0
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber, hasProducts: hasProducts, error: error)
+                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
+                        hasProducts: hasProducts, error: error)
                 }
             }
         }
@@ -249,11 +266,18 @@ public class ProductListViewModel: BaseViewModel {
         }
     }
     
+    /**
+        Calculates the distance from the product to the point sent on the last query
+        
+        - Parameter productCoords: coordinates of the product
+        - returns: the distance in the system distance type
+    */
     public func distanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
         
         var meters = 0.0
         
-        if let quadKeyStr = retrieveProductsFirstPageParams.coordinates?.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision) {
+        if let coordinates = retrieveProductsFirstPageParams.coordinates {
+            let quadKeyStr = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
             let actualQueryCoords = LGLocationCoordinates2D(fromCenterOfQuadKey: quadKeyStr)
             let queryLocation = CLLocation(latitude: actualQueryCoords.latitude, longitude: actualQueryCoords.longitude)
             let productLocation = CLLocation(latitude: productCoords.latitude, longitude: productCoords.longitude)
@@ -268,8 +292,41 @@ public class ProductListViewModel: BaseViewModel {
         case .Mi:
             return meters * 0.000621371
         }
-        
     }
+
+    /**
+        Calls the appropiate topProductInfoDelegate method for each cell.
+        
+        - Parameter index: index of the topmost cell
+        - Parameter whileScrollingDown: true if the user is scrolling down
+    */
+    public func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
+        
+        let topProduct = productAtIndex(index)
+        let distance = Float(self.distanceFromProductCoordinates(topProduct.location))
+        
+        // instance var max distance or MIN distance to avoid updating the label everytime
+        if scrollingDown && distance > maxDistance {
+            maxDistance = distance
+        } else if !scrollingDown && distance < maxDistance {
+            maxDistance = distance
+        } else if refreshing {
+            maxDistance = distance
+        }
+        
+        guard let sortCriteria = sortCriteria else { return }
+        
+        switch (sortCriteria) {
+        case .Distance:
+            topProductInfoDelegate?.productListViewModel(self, distanceForTopProduct: max(1,Int(round(maxDistance))))
+        case .Creation:
+            guard let date = topProduct.createdAt else { return }
+            topProductInfoDelegate?.productListViewModel(self, dateForTopProduct: date)
+        case .PriceAsc, .PriceDesc:
+            break
+        }
+    }
+    
     
     // MARK: > UI
     
@@ -319,7 +376,8 @@ public class ProductListViewModel: BaseViewModel {
     }
         
     /**
-        Sets which item is currently visible on screen. If it exceeds a certain threshold then it loads next page, if possible.
+        Sets which item is currently visible on screen. If it exceeds a certain threshold then it loads next page,
+        if possible.
     
         - parameter index: The index of the product currently visible on screen.
     */
@@ -330,6 +388,16 @@ public class ProductListViewModel: BaseViewModel {
             retrieveProductsNextPage()
         }
     }
+    
+    /**
+        Informs its delegate that the list is trying to refresh
+    
+        - parameter refreshing: The index of the product currently visible on screen.
+    */
+    public func pullingToRefresh(refreshing: Bool) {
+        topProductInfoDelegate?.productListViewModel(self, pullToRefreshInProggress: refreshing)
+    }
+    
     
     // MARK: - Internal methods
     

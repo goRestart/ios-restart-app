@@ -10,7 +10,7 @@ import LGCoreKit
 
 extension ProductSortCriteria {
     public static var defaultOption : ProductSortCriteria {
-        return .Distance
+        return .Creation
     }
     
     public var name : String {
@@ -26,5 +26,5 @@ extension ProductSortCriteria {
         }
     }
     
-    public static func allValues() -> [ProductSortCriteria] { return [.Distance, .Creation, .PriceAsc, .PriceDesc] }
+    public static func allValues() -> [ProductSortCriteria] { return [.Creation, .Distance, .PriceAsc, .PriceDesc] }
 }

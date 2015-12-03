@@ -632,6 +632,42 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_delete_success_message", comment: "")
 	}
 	
+	static var productDateOneMinuteAgo: String {
+		return NSLocalizedString("product_date_one_minute_ago", comment: "")
+	}
+	
+	static var productDateXMinutesAgo: String {
+		return NSLocalizedString("product_date_X_minutes_ago", comment: "")
+	}
+	
+	static var productDateOneHourAgo: String {
+		return NSLocalizedString("product_date_one_hour_ago", comment: "")
+	}
+	
+	static var productDateXHoursAgo: String {
+		return NSLocalizedString("product_date_X_hours_ago", comment: "")
+	}
+	
+	static var productDateOneDayAgo: String {
+		return NSLocalizedString("product_date_one_day_ago", comment: "")
+	}
+	
+	static var productDateXDaysAgo: String {
+		return NSLocalizedString("product_date_X_days_ago", comment: "")
+	}
+	
+	static var productDateOneMonthAgo: String {
+		return NSLocalizedString("product_date_one_month_ago", comment: "")
+	}
+	
+	static var productDateXMonthsAgo: String {
+		return NSLocalizedString("product_date_X_months_ago", comment: "")
+	}
+	
+	static var productDateMoreThanXMonthsAgo: String {
+		return NSLocalizedString("product_date_more_than_X_months_ago", comment: "")
+	}
+	
 	static var productDistanceFromYou: String {
 		return NSLocalizedString("product_distance_from_you", comment: "")
 	}
