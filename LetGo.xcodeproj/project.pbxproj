@@ -12,15 +12,15 @@
 		2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF451B580E5900747610 /* ContactViewController.swift */; };
 		2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1CFF491B58212C00747610 /* ContactViewController.xib */; };
 		2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
-		2E2AB8281C04A2EF0007B8EB /* CrashlyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */; settings = {ASSET_TAGS = (); }; };
+		2E2AB8281C04A2EF0007B8EB /* CrashlyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */; };
 		2E3760331BD914BA00A5A030 /* CategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E37602E1BD914BA00A5A030 /* CategoriesViewController.swift */; };
 		2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E37602F1BD914BA00A5A030 /* CategoriesViewController.xib */; };
 		2E3760351BD914BA00A5A030 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760301BD914BA00A5A030 /* CategoriesViewModel.swift */; };
 		2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760311BD914BA00A5A030 /* CategoryCell.swift */; };
 		2E3760371BD914BA00A5A030 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3760321BD914BA00A5A030 /* CategoryCell.xib */; };
 		2E37603A1BD92CF100A5A030 /* CategoriesViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760391BD92CF100A5A030 /* CategoriesViewModelSpec.swift */; };
-		2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; settings = {ASSET_TAGS = (); }; };
-		2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; settings = {ASSET_TAGS = (); }; };
+		2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; };
+		2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
 		2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E93FBE91B666A1400C97927 /* SellProductCell.swift */; };
@@ -34,10 +34,10 @@
 		2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65D001B81F4040004D6A1 /* SubjectCell.swift */; };
 		2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED65D011B81F4040004D6A1 /* SubjectCell.xib */; };
 		2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDBE4461B9EE13700B2811A /* AppRatingView.swift */; };
-		2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		2EDCFA351BFF8AC10000E47D /* String+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA341BFF8AC10000E47D /* String+LG.swift */; settings = {ASSET_TAGS = (); }; };
+		2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */; };
+		2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */; };
+		2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; };
+		2EDCFA351BFF8AC10000E47D /* String+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA341BFF8AC10000E47D /* String+LG.swift */; };
 		2EE47E5A1BBEA5B70034C19D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47E591BBEA5B70034C19D /* Settings.bundle */; };
 		2EE5EEDF1B5E4C860056BF76 /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */; };
 		2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
@@ -81,15 +81,19 @@
 		505B06A81B15A9910049F9CD /* GalleryPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B06A51B15A9910049F9CD /* GalleryPageView.swift */; };
 		505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 505B06A61B15A9910049F9CD /* GalleryPageView.xib */; };
 		505B06AA1B15A9910049F9CD /* GalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B06A71B15A9910049F9CD /* GalleryView.swift */; };
+		5067BAAE1C08C3B0007DA73B /* letgoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5067BAAD1C08C3B0007DA73B /* letgoUITests.swift */; };
 		506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
 		508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */; };
 		508E4CEE1B4281F1007BD301 /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508E4CEC1B4281F1007BD301 /* ProductCell.swift */; };
 		508E4CEF1B4281F2007BD301 /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 508E4CED1B4281F1007BD301 /* ProductCell.xib */; };
+		508FF4011C0DFF2A0085D070 /* letgoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508FF4001C0DFF2A0085D070 /* letgoUITests.swift */; settings = {ASSET_TAGS = (); }; };
+		508FF4041C0F533E0085D070 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508FF4031C0F533E0085D070 /* Helper.swift */; settings = {ASSET_TAGS = (); }; };
+		508FF4081C0F53DC0085D070 /* XCUIApplication+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508FF4071C0F53DC0085D070 /* XCUIApplication+Helper.swift */; settings = {ASSET_TAGS = (); }; };
 		509273361B172D5B00A346F9 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509273351B172D5B00A346F9 /* PushManager.swift */; };
 		50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */; };
 		50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */; };
-		50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCE92B1BF6356B00C130CD /* ToastView.swift */; settings = {ASSET_TAGS = (); }; };
-		50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; settings = {ASSET_TAGS = (); }; };
+		50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCE92B1BF6356B00C130CD /* ToastView.swift */; };
+		50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
 		50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4B81B71FBB7001E4E92 /* Tracker.swift */; };
 		50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */; };
 		50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */; };
@@ -113,8 +117,8 @@
 		50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */; };
 		50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
 		50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
-		50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */; settings = {ASSET_TAGS = (); }; };
-		50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */; settings = {ASSET_TAGS = (); }; };
+		50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */; };
+		50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */; };
 		50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */; };
 		50D2CACD1BB41FB800EC5C30 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */; };
 		50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */; };
@@ -159,8 +163,8 @@
 		66E3D0A91A89073B00BC283C /* UIViewController+LetGo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
-		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; settings = {ASSET_TAGS = (); }; };
 		6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; settings = {ASSET_TAGS = (); }; };
+		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; settings = {ASSET_TAGS = (); }; };
 		6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		6A6534E31C0369D5006BD33B /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534E11C0369D5006BD33B /* ChatViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* ChatViewModel.swift */; settings = {ASSET_TAGS = (); }; };
@@ -206,8 +210,8 @@
 		C780281D1BF0FB64002B26C5 /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C780281C1BF0FB64002B26C5 /* FilterSection.swift */; settings = {ASSET_TAGS = (); }; };
 		C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = C78448DC1BD5196E00C76199 /* LetGo.entitlements */; settings = {ASSET_TAGS = (); }; };
 		C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
-		C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */; settings = {ASSET_TAGS = (); }; };
-		C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */; settings = {ASSET_TAGS = (); }; };
+		C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */; };
+		C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
 		D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28C1AEE2B2900B64CE1 /* LanguageHelper.swift */; };
@@ -245,6 +249,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5067BAB01C08C3B0007DA73B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6608E02E1A820FBD005895ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6608E0351A820FBD005895ED;
+			remoteInfo = LetGo;
+		};
+		508FF3F01C0DFC850085D070 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6608E02E1A820FBD005895ED /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6608E0351A820FBD005895ED;
+			remoteInfo = LetGo;
+		};
 		D4B546351AEFDD920062D183 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6608E02E1A820FBD005895ED /* Project object */;
@@ -351,10 +369,19 @@
 		505B06A71B15A9910049F9CD /* GalleryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryView.swift; sourceTree = "<group>"; };
 		5063B7D11B4676ED00039D05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5063B7D21B4676ED00039D05 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5067BAAB1C08C3B0007DA73B /* letgoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = letgoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5067BAAD1C08C3B0007DA73B /* letgoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = letgoUITests.swift; sourceTree = "<group>"; };
+		5067BAAF1C08C3B0007DA73B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		506DC19B1BBE7D8A00E59D27 /* levelup.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = levelup.caf; sourceTree = "<group>"; };
 		508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductCategory+LG.swift"; sourceTree = "<group>"; };
 		508E4CEC1B4281F1007BD301 /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		508E4CED1B4281F1007BD301 /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
+		508FF3FA1C0DFC850085D070 /* letgoUITestsFreshInstall.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = letgoUITestsFreshInstall.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		508FF3FD1C0DFD010085D070 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		508FF3FF1C0DFF290085D070 /* letgoUITestsFreshInstall-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "letgoUITestsFreshInstall-Bridging-Header.h"; sourceTree = "<group>"; };
+		508FF4001C0DFF2A0085D070 /* letgoUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = letgoUITests.swift; sourceTree = "<group>"; };
+		508FF4031C0F533E0085D070 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		508FF4071C0F53DC0085D070 /* XCUIApplication+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helper.swift"; sourceTree = "<group>"; };
 		509273351B172D5B00A346F9 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
 		50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatSafetyTipsView.xib; sourceTree = "<group>"; };
 		50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSafetyTipsView.swift; sourceTree = "<group>"; };
@@ -438,8 +465,8 @@
 		66E3D0A81A89073B00BC283C /* UIViewController+LetGo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+LetGo.swift"; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
 		6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
+		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
 		6A6534E01C0369D5006BD33B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = Chat/ChatViewController.swift; sourceTree = "<group>"; };
 		6A6534E11C0369D5006BD33B /* ChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatViewController.xib; path = Chat/ChatViewController.xib; sourceTree = "<group>"; };
 		6A6534E61C0369FC006BD33B /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewModel.swift; path = Chat/ChatViewModel.swift; sourceTree = "<group>"; };
@@ -556,6 +583,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5067BAA81C08C3B0007DA73B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		508FF3F31C0DFC850085D070 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6608E0331A820FBD005895ED /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -794,6 +835,15 @@
 			path = Widgets;
 			sourceTree = "<group>";
 		};
+		5067BAAC1C08C3B0007DA73B /* letgoUITests */ = {
+			isa = PBXGroup;
+			children = (
+				5067BAAD1C08C3B0007DA73B /* letgoUITests.swift */,
+				5067BAAF1C08C3B0007DA73B /* Info.plist */,
+			);
+			path = letgoUITests;
+			sourceTree = "<group>";
+		};
 		506DC19A1BBE7D8A00E59D27 /* sound */ = {
 			isa = PBXGroup;
 			children = (
@@ -825,6 +875,26 @@
 				508E4CED1B4281F1007BD301 /* ProductCell.xib */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		508FF3FC1C0DFCEC0085D070 /* letgoUITestsFreshInstall */ = {
+			isa = PBXGroup;
+			children = (
+				508FF4021C0F53370085D070 /* Helper */,
+				508FF4001C0DFF2A0085D070 /* letgoUITests.swift */,
+				508FF3FD1C0DFD010085D070 /* Info.plist */,
+				508FF3FF1C0DFF290085D070 /* letgoUITestsFreshInstall-Bridging-Header.h */,
+				508FF4071C0F53DC0085D070 /* XCUIApplication+Helper.swift */,
+			);
+			path = letgoUITestsFreshInstall;
+			sourceTree = "<group>";
+		};
+		508FF4021C0F53370085D070 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				508FF4031C0F533E0085D070 /* Helper.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 		509273341B172D2100A346F9 /* Manager */ = {
@@ -1037,6 +1107,8 @@
 				D4FE33521AF2166800088532 /* 3rd Party */,
 				6608E0381A820FBD005895ED /* LetGo */,
 				D4B546301AEFDD920062D183 /* letgoTests */,
+				5067BAAC1C08C3B0007DA73B /* letgoUITests */,
+				508FF3FC1C0DFCEC0085D070 /* letgoUITestsFreshInstall */,
 				6608E0371A820FBD005895ED /* Products */,
 				64C1081049FDC4ED543B1297 /* Pods */,
 				ABA47C14BB52140048297810 /* Frameworks */,
@@ -1048,6 +1120,8 @@
 			children = (
 				6608E0361A820FBD005895ED /* LetGo.app */,
 				D4B5462F1AEFDD920062D183 /* letgoTests.xctest */,
+				5067BAAB1C08C3B0007DA73B /* letgoUITests.xctest */,
+				508FF3FA1C0DFC850085D070 /* letgoUITestsFreshInstall.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1419,6 +1493,43 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		5067BAAA1C08C3B0007DA73B /* letgoUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5067BAB51C08C3B0007DA73B /* Build configuration list for PBXNativeTarget "letgoUITests" */;
+			buildPhases = (
+				5067BAA71C08C3B0007DA73B /* Sources */,
+				5067BAA81C08C3B0007DA73B /* Frameworks */,
+				5067BAA91C08C3B0007DA73B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5067BAB11C08C3B0007DA73B /* PBXTargetDependency */,
+			);
+			name = letgoUITests;
+			productName = letgoUITests;
+			productReference = 5067BAAB1C08C3B0007DA73B /* letgoUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		508FF3EE1C0DFC850085D070 /* letgoUITestsFreshInstall */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 508FF3F61C0DFC850085D070 /* Build configuration list for PBXNativeTarget "letgoUITestsFreshInstall" */;
+			buildPhases = (
+				508FF3F51C0DFC850085D070 /* Reset Simulator Script */,
+				508FF3F11C0DFC850085D070 /* Sources */,
+				508FF3F31C0DFC850085D070 /* Frameworks */,
+				508FF3F41C0DFC850085D070 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				508FF3EF1C0DFC850085D070 /* PBXTargetDependency */,
+			);
+			name = letgoUITestsFreshInstall;
+			productName = letgoUITests;
+			productReference = 508FF3FA1C0DFC850085D070 /* letgoUITestsFreshInstall.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		6608E0351A820FBD005895ED /* LetGo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "LetGo" */;
@@ -1477,6 +1588,13 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Ambatana;
 				TargetAttributes = {
+					5067BAAA1C08C3B0007DA73B = {
+						CreatedOnToolsVersion = 7.0.1;
+						TestTargetID = 6608E0351A820FBD005895ED;
+					};
+					508FF3EE1C0DFC850085D070 = {
+						TestTargetID = 6608E0351A820FBD005895ED;
+					};
 					6608E0351A820FBD005895ED = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = 3MAE68NKQE;
@@ -1531,11 +1649,27 @@
 			targets = (
 				6608E0351A820FBD005895ED /* LetGo */,
 				D4B5462E1AEFDD920062D183 /* letgoTests */,
+				5067BAAA1C08C3B0007DA73B /* letgoUITests */,
+				508FF3EE1C0DFC850085D070 /* letgoUITestsFreshInstall */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		5067BAA91C08C3B0007DA73B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		508FF3F41C0DFC850085D070 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6608E0341A820FBD005895ED /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1669,6 +1803,20 @@
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
 		};
+		508FF3F51C0DFC850085D070 /* Reset Simulator Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Reset Simulator Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# List all devices, take device identifier and uninstall letgo app\nxcrun simctl list | grep -o '[0-9A-Z]\\{8\\}-[0-9A-Z]\\{4\\}-[0-9A-Z]\\{4\\}-[0-9A-Z]\\{4\\}-[0-9A-Z]\\{12\\}' | xargs -n1 sh -c 'xcrun simctl uninstall \"${0}\" com.letgo.ios'\necho \"App uninstalled!\"";
+		};
 		50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1775,6 +1923,24 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5067BAA71C08C3B0007DA73B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5067BAAE1C08C3B0007DA73B /* letgoUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		508FF3F11C0DFC850085D070 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				508FF4011C0DFF2A0085D070 /* letgoUITests.swift in Sources */,
+				508FF4041C0F533E0085D070 /* Helper.swift in Sources */,
+				508FF4081C0F53DC0085D070 /* XCUIApplication+Helper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6608E0321A820FBD005895ED /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1945,6 +2111,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		5067BAB11C08C3B0007DA73B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6608E0351A820FBD005895ED /* LetGo */;
+			targetProxy = 5067BAB01C08C3B0007DA73B /* PBXContainerItemProxy */;
+		};
+		508FF3EF1C0DFC850085D070 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6608E0351A820FBD005895ED /* LetGo */;
+			targetProxy = 508FF3F01C0DFC850085D070 /* PBXContainerItemProxy */;
+		};
 		D4B546361AEFDD920062D183 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6608E0351A820FBD005895ED /* LetGo */;
@@ -2024,6 +2200,116 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5067BAB21C08C3B0007DA73B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = letgoUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.letgoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "86eda11d-e8cf-4643-83f8-24265e442d99";
+				TEST_TARGET_NAME = LetGo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		5067BAB31C08C3B0007DA73B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = letgoUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.letgoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "86eda11d-e8cf-4643-83f8-24265e442d99";
+				TEST_TARGET_NAME = LetGo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+		5067BAB41C08C3B0007DA73B /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = letgoUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.letgoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "86eda11d-e8cf-4643-83f8-24265e442d99";
+				TEST_TARGET_NAME = LetGo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Adhoc;
+		};
+		508FF3F71C0DFC850085D070 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = letgoUITestsFreshInstall/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.letgoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "86eda11d-e8cf-4643-83f8-24265e442d99";
+				SWIFT_OBJC_BRIDGING_HEADER = "letgoUITestsFreshInstall/letgoUITestsFreshInstall-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_TARGET_NAME = LetGo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		508FF3F81C0DFC850085D070 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = letgoUITestsFreshInstall/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.letgoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "86eda11d-e8cf-4643-83f8-24265e442d99";
+				SWIFT_OBJC_BRIDGING_HEADER = "letgoUITestsFreshInstall/letgoUITestsFreshInstall-Bridging-Header.h";
+				TEST_TARGET_NAME = LetGo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+		508FF3F91C0DFC850085D070 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = letgoUITestsFreshInstall/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios.letgoUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "86eda11d-e8cf-4643-83f8-24265e442d99";
+				SWIFT_OBJC_BRIDGING_HEADER = "letgoUITestsFreshInstall/letgoUITestsFreshInstall-Bridging-Header.h";
+				TEST_TARGET_NAME = LetGo;
+				USES_XCTRUNNER = YES;
+			};
+			name = Adhoc;
+		};
 		6608E0531A820FBD005895ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2328,6 +2614,26 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		5067BAB51C08C3B0007DA73B /* Build configuration list for PBXNativeTarget "letgoUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5067BAB21C08C3B0007DA73B /* Debug */,
+				5067BAB31C08C3B0007DA73B /* Release */,
+				5067BAB41C08C3B0007DA73B /* Adhoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		508FF3F61C0DFC850085D070 /* Build configuration list for PBXNativeTarget "letgoUITestsFreshInstall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				508FF3F71C0DFC850085D070 /* Debug */,
+				508FF3F81C0DFC850085D070 /* Release */,
+				508FF3F91C0DFC850085D070 /* Adhoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6608E0311A820FBD005895ED /* Build configuration list for PBXProject "LetGo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

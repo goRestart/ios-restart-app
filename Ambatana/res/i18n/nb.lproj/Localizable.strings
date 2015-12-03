@@ -146,6 +146,15 @@
 "make_an_offer_title" = "Legg inn bud";
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_chat_error_generic" = "En feil oppstod ved oppretting av samtale. Vennligst prøv igjen senere.";
+"product_date_X_days_ago" = "Posted %i days ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_months_ago" = "Posted %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "Avbryt";
 "product_delete_confirm_message" = "Hvorfor ønsker du å slette ditt produkt?";
 "product_delete_confirm_ok_button" = "Jeg ønsker ikke å selge produktet";
