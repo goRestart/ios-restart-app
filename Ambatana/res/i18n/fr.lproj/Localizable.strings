@@ -62,6 +62,7 @@
 "common_product_deleted" = "Bien supprimé";
 "common_product_not_available" = "Ce bien n'est plus disponible.";
 "common_product_sold" = "Ce bien a été vendu.";
+"common_settings" = "Settings";
 "common_time_a_minute_ago_label" = "il y a une minute";
 "common_time_day_ago_label" = "il y a un jour";
 "common_time_days_ago_label" = "il y a %d jours";
@@ -190,6 +191,10 @@
 "product_sell_again_confirm_title" = "Le vendre à nouveau";
 "product_sell_again_error_generic" = "Une erreur est survenue. Veuillez réessayer.";
 "product_sell_again_success_message" = "Félicitations, votre bien est bien en vente !";
+"product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
+"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
+"product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
+"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";

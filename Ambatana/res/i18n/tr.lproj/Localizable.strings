@@ -62,6 +62,7 @@
 "common_product_deleted" = "Ürün kaldırıldı";
 "common_product_not_available" = "Bu ürün artık bulunmuyor.";
 "common_product_sold" = "Bu ürün satıldı.";
+"common_settings" = "Settings";
 "common_time_a_minute_ago_label" = "bir dakika önce";
 "common_time_day_ago_label" = "bir gün önce";
 "common_time_days_ago_label" = "%d gün önce";
@@ -190,6 +191,10 @@
 "product_sell_again_confirm_title" = "Tekrar Sat";
 "product_sell_again_error_generic" = "Ürünün mevcut diye işaretlenirken bir hata oluştu. Lütfen daha sonra tekrar dene.";
 "product_sell_again_success_message" = "Tebrikler, ürünün başarıyla mevcut olarak işaretlendi!";
+"product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
+"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
+"product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
+"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 "product_share_body" = "Az önce letgo'da ne bulduğuma bak!";
 "product_share_email_error" = "Hoppala, görünüşe bakılırsa Posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_generic_error" = "Ürün paylaşılırken bir hata oluştu. Lütfen daha sonra tekrar dene.";
