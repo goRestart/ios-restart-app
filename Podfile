@@ -27,7 +27,7 @@ pod "SlackTextViewController", "~> 1.7.2"
 pod "LGTour",               "0.1.3" #:path => "../lgtour"
 
 # letgo Collapsible label
-pod "LGCollapsibleLabel",   "0.1.0"    #:path => "../collapsiblelabel"
+pod "LGCollapsibleLabel",   "0.1.1"    #:path => "../collapsiblelabel"
 
 # Animation
 pod "pop",                  "~> 1.0.8"

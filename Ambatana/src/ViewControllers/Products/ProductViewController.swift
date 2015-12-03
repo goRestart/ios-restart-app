@@ -35,6 +35,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
     
+    @IBOutlet weak var addressIconTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressIconHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
@@ -634,6 +635,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         nameLabel.text = viewModel.name
         priceLabel.text = viewModel.price
         descriptionCollapsible.mainText = viewModel.descr
+        addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 15 : 30
         addressIconHeightConstraint.constant = viewModel.addressIconVisible ? ProductViewController.addressIconVisibleHeight : 0
         addressLabel.text = viewModel.address
         if let location = viewModel.location {

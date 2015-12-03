@@ -31,9 +31,14 @@ public enum ProductListViewState {
         errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
+public enum ProductListCellMode {
+    case FullInfo
+    case JustImage
+}
+
 public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+
     // Constants
     private static let defaultErrorButtonHeight: CGFloat = 44
     
@@ -93,6 +98,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             collectionView.contentInset = collectionViewContentInset
         }
     }
+    
+    public var cellMode = ProductListCellMode.FullInfo
     
     // Data
     internal(set) var productListViewModel: ProductListViewModel
@@ -354,18 +361,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return productListViewModel.numberOfProducts
     }
-    
+
     public func collectionView(collectionView: UICollectionView,
         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-            
-            let product = productListViewModel.productAtIndex(indexPath.item)
-            
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath)
-                as? ProductCell else { return UICollectionViewCell() }
-            cell.tag = indexPath.hash
 
-            cell.setupCellWithProductName(product.name, price: product.formattedPrice(), thumbnail: product.thumbnail,
-                status: product.status, creationDate: product.createdAt)
+            let drawer = ProductCellDrawerFactory.drawerForProductMode(cellMode)
+            let cell = drawer.cell(collectionView, atIndexPath: indexPath)
+            cell.tag = indexPath.hash
+            drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item))
             
             productListViewModel.setCurrentItemIndex(indexPath.item)
             
@@ -544,9 +547,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
         collectionView.alwaysBounceVertical = true
         collectionView.contentInset = collectionViewContentInset
-        
-        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
-        self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
+
+        ProductCellDrawerFactory.registerCells(collectionView)
         let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
         self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
             withReuseIdentifier: "CollectionViewFooter")

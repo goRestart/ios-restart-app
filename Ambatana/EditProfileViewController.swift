@@ -120,7 +120,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         
         // center activity indicator (if there's a tabbar)
         let bottomMargin: CGFloat
-        if let tabBarCtl = self.tabBarController {
+        if let tabBarCtl = tabBarController {
             bottomMargin = tabBarCtl.tabBar.hidden ? 0 : -tabBarCtl.tabBar.frame.size.height/2
         }
         else {
@@ -132,14 +132,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         let layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = 0.0
         layout.minimumInteritemSpacing = 0.0
-        self.favouriteCollectionView.autoresizingMask = .FlexibleHeight
-        self.favouriteCollectionView.alwaysBounceVertical = true
-        self.favouriteCollectionView.collectionViewLayout = layout
+        favouriteCollectionView.autoresizingMask = .FlexibleHeight
+        favouriteCollectionView.alwaysBounceVertical = true
+        favouriteCollectionView.collectionViewLayout = layout
         
         // Add bottom inset (tabbar) if tabbar visible
         let bottomInset: CGFloat
         let sellButtonHeight: CGFloat
-        if let tabBarCtl = self.tabBarController {
+        if let tabBarCtl = tabBarController {
             bottomInset = tabBarCtl.tabBar.hidden ? 0 : tabBarCtl.tabBar.frame.height
             sellButtonHeight = tabBarCtl.tabBar.hidden ? 0 : Constants.tabBarSellFloatingButtonHeight
         }
@@ -156,8 +156,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             bottom: sellButtonHeight, right: 0)
         
         // register ProductCell
-        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
-        favouriteCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
+        ProductCellDrawerFactory.registerCells(favouriteCollectionView)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -228,7 +227,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     func goToSettings() {
         let vc = SettingsViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func showSellProducts(sender: AnyObject) {
@@ -309,7 +308,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
         let vc = ProductViewController(viewModel: productVM)
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
@@ -319,7 +318,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
-            if let tabBarCtl = self.tabBarController {
+            if let tabBarCtl = tabBarController {
                 return tabBarCtl.tabBar.hidden ? 0 : Constants.tabBarSellFloatingButtonHeight
             }
             return 0
@@ -339,27 +338,22 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return favProducts.count
     }
-    
+
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath)
-                as? ProductCell else { return UICollectionViewCell() }
+            let drawer = ProductCellDrawerFactory.drawerForProductMode(.FullInfo)
+            let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
-            
-            if let product = self.productAtIndexPath(indexPath) {
-                cell.setupCellWithProductName(product.name, price: product.formattedPrice(),
-                    thumbnail: product.thumbnail, status: product.status, creationDate: product.createdAt)
-            }
+            drawer.draw(cell, data: productCellDataAtIndex(indexPath))
+
             return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // TODO: VM should be provided by this VC's VM
-        if let product = self.productAtIndexPath(indexPath) {
-            let productVM = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
-            let vc = ProductViewController(viewModel: productVM)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        let product = productAtIndexPath(indexPath)
+        let productVM = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
+        let vc = ProductViewController(viewModel: productVM)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     // MARK: - UI
@@ -384,7 +378,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     func updateUIForCurrentTab() {
         
         // Check if view is initialized
-        guard let youDontHaveTitleLabel = self.youDontHaveTitleLabel else { return }
+        guard let youDontHaveTitleLabel = youDontHaveTitleLabel else { return }
         
         youDontHaveTitleLabel.hidden = true
         
@@ -525,8 +519,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     // MARK: Helper
     
-    func productAtIndexPath(indexPath: NSIndexPath) -> Product? {
+    func productAtIndexPath(indexPath: NSIndexPath) -> Product {
         let row = indexPath.row
         return favProducts[row]
+    }
+    
+    func productCellDataAtIndex(indexPath: NSIndexPath) -> ProductCellData {
+        let product = productAtIndexPath(indexPath)
+        return ProductCellData(title: product.name, price: product.formattedPrice(),
+            thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt)
     }
 }

@@ -68,7 +68,6 @@
                     <constraint firstItem="jgH-1b-N7M" firstAttribute="top" secondItem="afm-Cf-H6I" secondAttribute="top" id="7cu-47-MAY"/>
                     <constraint firstAttribute="trailing" secondItem="ucl-Xb-lH0" secondAttribute="trailing" constant="12" id="9g4-Ww-Rve"/>
                     <constraint firstItem="jgH-1b-N7M" firstAttribute="trailing" secondItem="afm-Cf-H6I" secondAttribute="trailing" id="BTQ-Lc-tcL"/>
-                    <constraint firstItem="Q3S-98-0Z1" firstAttribute="top" secondItem="ucl-Xb-lH0" secondAttribute="top" constant="-20" id="CFL-li-Trk"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="DfC-p5-5xj"/>
                     <constraint firstItem="ucl-Xb-lH0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="MBA-r6-K4C"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Q3S-98-0Z1" secondAttribute="trailing" constant="4" id="MCF-R0-1Xl"/>
@@ -82,15 +81,11 @@
                     <constraint firstAttribute="bottom" secondItem="Q3S-98-0Z1" secondAttribute="bottom" constant="8" id="msX-QH-MAR"/>
                     <constraint firstItem="afm-Cf-H6I" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="sCB-Us-wZq"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="CFL-li-Trk"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <animations/>
             <connections>
                 <outlet property="nameLabel" destination="ucl-Xb-lH0" id="qRB-zq-qvM"/>
+                <outlet property="nameTopConstraint" destination="dky-rq-fd1" id="zDH-Je-jPo"/>
                 <outlet property="priceLabel" destination="Q3S-98-0Z1" id="gsi-wX-8gC"/>
                 <outlet property="stripeImageView" destination="RTJ-Uh-fyf" id="hIc-JI-WFh"/>
                 <outlet property="stripeLabel" destination="h6x-Ls-H2g" id="t2y-NC-Ajj"/>
