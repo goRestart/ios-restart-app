@@ -13,6 +13,7 @@ public struct ABTests {
     public static let productsWithinFilterEnabled = OptimizelyABLiveVariable.boolVariable("ProductsWithinFilter", boolValue: true)
     
     public static let loginAfterSell = OptimizelyABLiveVariable.boolVariable("LoginAfterSell", boolValue: true)
+    public static let nativePrePermissions = OptimizelyABLiveVariable.boolVariable("NativePrePermissions", boolValue: true)
 
-    public static let allValues = [ABTests.navBarTintColor, ABTests.productsWithinFilterEnabled, ABTests.loginAfterSell]
+    public static let allValues = [ABTests.navBarTintColor, ABTests.productsWithinFilterEnabled, ABTests.loginAfterSell, ABTests.nativePrePermissions]
 }

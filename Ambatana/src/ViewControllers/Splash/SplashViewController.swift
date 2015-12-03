@@ -47,9 +47,8 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
                 alert.addAction(openAppStore)
                 
                 self.presentViewController(alert, animated: true, completion: nil)
-            }
-            // Otherwise, show onboarding if not shown, or save my user if new
-            else {
+            } else {
+                // Otherwise, show onboarding if not shown, or save my user if new
                 let shouldShowOnboarding = self.configManager.shouldShowOnboarding
                 let didShowOnboarding = UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
                 if shouldShowOnboarding && !didShowOnboarding {
@@ -73,8 +72,7 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
                     tourVC.delegate = self
                     
                     self.navigationController?.presentViewController(tourVC, animated: false, completion: nil)
-                }
-                else {
+                } else {
                     self.saveMyUserIfNew()
                 }
  

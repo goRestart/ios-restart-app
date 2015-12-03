@@ -295,10 +295,11 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     // MARK: - SellProductViewControllerDelegate
     
     func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool) {
-        if successfully {
+        if successfully && !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
             switchToProfileOnTab(.ProductImSelling)
-            
             showAppRatingViewIfNeeded()
+        } else if successfully && !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissions() {
+            PushManager.sharedInstance.askForPushPermissionsFromViewController(self, isNativeStyle: false)
         }
     }
     

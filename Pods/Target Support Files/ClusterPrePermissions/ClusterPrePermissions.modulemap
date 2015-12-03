@@ -1,0 +1,6 @@
+framework module ClusterPrePermissions {
+  umbrella header "ClusterPrePermissions-umbrella.h"
+
+  export *
+  module * { export * }
+}
