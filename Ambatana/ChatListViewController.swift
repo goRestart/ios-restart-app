@@ -67,7 +67,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewWillAppear(animated)
         
         // NSNotificationCenter, observe for user interactions (msgs & offers)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         
         // Update conversations (always forced, so the badges are updated)
         updateConversations()
@@ -209,8 +209,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let chat = chats?[indexPath.row], let chatVC = ChatViewController(chat: chat) {
-            navigationController?.pushViewController(chatVC, animated: true)
+        if let chat = chats?[indexPath.row], let chatViewModel = ChatViewModel(chat: chat) {
+            navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
         }
     }
     

@@ -1225,6 +1225,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress.countryCode = "US"
                     product.postalAddress.zipCode = "12345"
                     product.postalAddress.city = "Baltimore"
+                    product.category = ProductCategory(rawValue: 4)!
                     
                     sut = TrackerEvent.productMarkAsUnsold(product, user: myUser)
                     expect(sut.params).notTo(beNil())
@@ -1246,7 +1247,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
                     expect(productCategory).to(equal(product.category.rawValue))
-                    
                 }
             }
             

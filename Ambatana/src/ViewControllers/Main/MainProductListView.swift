@@ -37,7 +37,7 @@ public class MainProductListView: ProductListView {
             let errBody: String?
 
             // Search
-            if viewModel.queryString != nil {
+            if viewModel.queryString != nil || viewModel.hasFilters {
                 errImage = UIImage(named: "err_search_no_products")
                 errTitle = LGLocalizedString.productSearchNoProductsTitle
                 errBody = LGLocalizedString.productSearchNoProductsBody

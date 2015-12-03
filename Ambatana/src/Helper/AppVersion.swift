@@ -9,7 +9,7 @@
 import LGCoreKit
 
 public enum AppVersion: String, Comparable {
-    case v1_4_0 = "1.4.0"
+    case Current = "1.4.0"
     
     public static var currentVersion: AppVersion? {
         if let buildNumber = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String {

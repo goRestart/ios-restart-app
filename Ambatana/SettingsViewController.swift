@@ -66,7 +66,7 @@ enum LetGoUserSettings: Int {
     }
 }
 
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, FBSDKAppInviteDialogDelegate {
+class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteDialogDelegate {
 
     // constants
     private static let cellIdentifier = "SettingsCell"
@@ -117,7 +117,8 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(SettingsViewController.cellIdentifier, forIndexPath: indexPath) as! SettingsCell
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsViewController.cellIdentifier, forIndexPath: indexPath) as? SettingsCell else { return UITableViewCell() }
+        
         let setting = LetGoUserSettings(rawValue: indexPath.row)!
         
         cell.label.text = setting.titleForSetting()
@@ -172,7 +173,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             
         case .ChangePhoto:
-            showImageSourceSelection()
+            MediaPickerManager.showImagePickerIn(self)
 //        case .ChangeLocation:
 //            let storyboard = UIStoryboard(name: "Main", bundle: nil)
 //            let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
@@ -208,34 +209,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         
         TrackerProxy.sharedInstance.setUser(nil)
-    }
-    
-    // MARK: - UIImagePickerControllerDelegate methods
-    
-    func showImageSourceSelection() {
-        let alert = UIAlertController(title: LGLocalizedString.settingsImageSourceTitle, message: nil, preferredStyle: .ActionSheet)
-        alert.addAction(UIAlertAction(title: LGLocalizedString.settingsImageSourceCameraButton, style: .Default, handler: { (alertAction) -> Void in
-            self.openImagePickerWithSource(.Camera)
-        }))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.settingsImageSourceCameraRollButton, style: .Default, handler: { (alertAction) -> Void in
-            self.openImagePickerWithSource(.PhotoLibrary)
-        }))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.settingsImageSourceCancelButton, style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    // iOS 7 compatibility action sheet for image source selection
-    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        if buttonIndex == 0 { self.openImagePickerWithSource(.Camera) }
-        else { self.openImagePickerWithSource(.PhotoLibrary) }
-    }
-    
-    func openImagePickerWithSource(source: UIImagePickerControllerSourceType) {
-        let picker = UIImagePickerController()
-        picker.sourceType = source
-        picker.delegate = self
-        picker.allowsEditing = true
-        self.presentViewController(picker, animated: true, completion: nil)
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
