@@ -27,6 +27,11 @@ public class PushPermissionsManager: NSObject {
     public func showPushPermissionsAlertFromViewController(viewController: UIViewController,
         prePermissionType: PrePermissionType) {
 
+            guard ABTests.prePermissionsActive.boolValue else {
+                PushManager.sharedInstance.askSystemForPushPermissions()
+                return
+            }
+
             let nativeStyleAlert = ((prePermissionType == .Chat && ABTests.nativePrePermissions.boolValue) || false)
 
             // tracking data
