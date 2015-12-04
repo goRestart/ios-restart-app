@@ -10,12 +10,11 @@ import LGCoreKit
 import Parse
 import Result
 import Kahuna
-import ClusterPrePermissions
 
 public enum Action {
     case Message(Int, String, String)    // messageType (0: message, 1: offer), productId, buyerId
     case URL(DeepLink)
-    
+
     public init?(userInfo: [NSObject: AnyObject]) {
 
         if let urlStr = userInfo["url"] as? String, let url = NSURL(string: urlStr), let deepLink = DeepLink(url: url) {
@@ -36,18 +35,18 @@ public class PushManager: NSObject, KahunaDelegate {
         case DidReceiveUserInteraction
         case UnreadMessagesDidChange
     }
-    
+
     // Singleton
     public static let sharedInstance: PushManager = PushManager()
-    
+
     // Services
     private var installationSaveService: InstallationSaveService
-    
+
     // iVars
     public private(set) var unreadMessagesCount: Int
-    
+
     // MARK: - Lifecycle
-    
+
     public required init(installationSaveService: InstallationSaveService) {
         self.installationSaveService = installationSaveService
         unreadMessagesCount = 0
@@ -58,18 +57,18 @@ public class PushManager: NSObject, KahunaDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:",
             name: MyUserManager.Notification.logout.rawValue, object: nil)
     }
-    
+
     public convenience override init() {
         let installationSaveService = PAInstallationSaveService()
         self.init(installationSaveService: installationSaveService)
     }
-    
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
+
     // MARK: - Public methods
-    
+
     public func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
 
@@ -86,8 +85,8 @@ public class PushManager: NSObject, KahunaDelegate {
                             // TODO : fix TabBarVC to load with the corresponding tab depending on the deeplink
                             // Hello, Pull requesters, those comments are here as a tip for for the task of launching
                             // the app propperly when a chat notification is received.
-//                          guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
-//                          deepLink = DeepLink(action: action, url: chatUrl)
+                            //                          guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
+                            //                          deepLink = DeepLink(action: action, url: chatUrl)
                             break
                         case .URL(let actualDeepLink):
                             deepLink = actualDeepLink
@@ -96,7 +95,7 @@ public class PushManager: NSObject, KahunaDelegate {
             }
             return deepLink
     }
-    
+
     public func application(application: UIApplication,
         didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) -> DeepLink? {
             var deepLink: DeepLink?
@@ -111,7 +110,7 @@ public class PushManager: NSObject, KahunaDelegate {
             }
             return deepLink
     }
-    
+
     public func application(application: UIApplication,
         didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) -> DeepLink? {
 
@@ -153,36 +152,51 @@ public class PushManager: NSObject, KahunaDelegate {
             }
             return deepLink
     }
-    
+
     public func application(application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
             // Save the installation with the received device token
             MyUserManager.sharedInstance.saveInstallationDeviceToken(deviceToken)
             Kahuna.setDeviceToken(deviceToken);
     }
-    
+
     public func application(application: UIApplication,
         didFailToRegisterForRemoteNotificationsWithError error: NSError) {
             Kahuna.handleNotificationRegistrationFailure(error);
     }
-    
+
     public func application(application: UIApplication, handleActionWithIdentifier identifier: String?,
         forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
             Kahuna.handleNotification(userInfo, withActionIdentifier: identifier,
                 withApplicationState: UIApplication.sharedApplication().applicationState);
     }
-    
+
+    public func application(application: UIApplication,
+        didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+
+            guard let permissionType = PushPermissionsManager.sharedInstance.permissionType,
+                let typePage = PushPermissionsManager.sharedInstance.typePage else { return }
+
+            var trackerEvent: TrackerEvent
+
+            if notificationSettings.types == UIUserNotificationType.None {
+                trackerEvent = TrackerEvent.permissionSystemCancel(permissionType, typePage: typePage)
+            } else {
+                trackerEvent = TrackerEvent.permissionSystemComplete(permissionType, typePage: typePage)
+            }
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
     /**
-        Updates the updated messages count.
+    Updates the updated messages count.
     */
     public func updateUnreadMessagesCount() {
-       
+
         ChatManager.sharedInstance.retrieveUnreadMessageCountWithCompletion { [weak self]
             (result: ChatsUnreadCountRetrieveServiceResult) -> Void in
             // Success
             if let count = result.value {
                 if let _ = self {
-
                     // Update the unread message count
                     self?.unreadMessagesCount = count
 
@@ -191,10 +205,8 @@ public class PushManager: NSObject, KahunaDelegate {
                     installation.badge = count
                     self?.installationSaveService.save(installation, completion: nil)
                 }
-
                 // Update app's badge
                 UIApplication.sharedApplication().applicationIconBadgeNumber = count
-
                 // Notify about it
                 NSNotificationCenter.defaultCenter()
                     .postNotificationName(Notification.UnreadMessagesDidChange.rawValue, object: nil)
@@ -202,51 +214,11 @@ public class PushManager: NSObject, KahunaDelegate {
         }
     }
 
-    /**
-        Ask for push permissions
-    */
-    public func askForPushPermissionsFromViewController(viewController: UIViewController, isNativeStyle: Bool) {
+    public func askSystemForPushPermissions() {
 
-        if !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissions() {
-            if isNativeStyle {
-                showNativeLikePrePermissionFromViewController(viewController)
-            } else {
-                showCustomPrePermissionFromViewController(viewController)
-            }
-        }
-    }
+        UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
+        UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(false)
 
-    public func dismissButton() {
-
-    }
-
-    // MARK: - Private methods
-
-    private func showNativeLikePrePermissionFromViewController(viewController: UIViewController) {
-        let alert = UIAlertController(title: "Ask for Push permissions",
-            message: "Push permissions text", preferredStyle: .Alert)
-        let noAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: { (_) -> Void in
-            // manage user not giving push permission
-
-        })
-        let yesAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
-            self.askSystemForPushPermissions()
-        })
-        alert.addAction(noAction)
-        alert.addAction(yesAction)
-
-        viewController.presentViewController(alert, animated: true) {
-            UserDefaultsManager.sharedInstance.saveDidAskForPushPermissions()
-        }
-    }
-
-    private func showCustomPrePermissionFromViewController(viewController: UIViewController) {
-
-        // Load custom view
-
-    }
-
-    private func askSystemForPushPermissions() {
         let application = UIApplication.sharedApplication()
         let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert,
             UIUserNotificationType.Badge, UIUserNotificationType.Sound])
@@ -255,13 +227,16 @@ public class PushManager: NSObject, KahunaDelegate {
         application.registerForRemoteNotifications()
     }
 
+
+    // MARK: - Private methods
+
     private func setupKahuna() {
         Kahuna.launchWithKey(EnvironmentProxy.sharedInstance.kahunaAPIKey);
     }
-    
+
     dynamic private func login(notification: NSNotification) {
         if let user = notification.object as? MyUser {
-            
+
             let uc = Kahuna.createUserCredentials()
             var loginError: NSError?
             if let userId = user.objectId {
@@ -274,21 +249,20 @@ public class PushManager: NSObject, KahunaDelegate {
             if (loginError != nil) {
                 print("Login Error : \(loginError!.localizedDescription)")
             }
-            
             updateUnreadMessagesCount()
         }
     }
-    
+
     dynamic private func logout(notification: NSNotification) {
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         Kahuna.logout()
     }
-    
+
     /**
-        Returns the badge value from the given push notification dictionary.
-    
-        - parameter userInfo: The push notification extra info.
-        - returns: The badge value.
+    Returns the badge value from the given push notification dictionary.
+
+    - parameter userInfo: The push notification extra info.
+    - returns: The badge value.
     */
     func getBadgeNumberFromNotification(userInfo: [NSObject: AnyObject]) -> Int? {
         if let newBadge = userInfo["badge"] as? Int {

@@ -137,6 +137,9 @@
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
 // Common cancel
+"common_activate" = "Activate";
+
+// Common cancel
 "common_cancel" = "Cancel";
 
 // Common chat not available
@@ -288,6 +291,24 @@
 
 // Contact send error generic. Message displayal is like the other error messages
 "contact_send_error_generic" = "An error occurred while sending your message. Please check your connection and try again.";
+
+// Title for custom alert for pushes in list
+"custom_permission_list_title" = "WELCOME!";
+
+// Message for custom alert for pushes in list
+"custom_permission_list_message" = "Activate notifications to get news from letgo and new products.";
+
+// Title for custom alert for pushes in chat
+"custom_permission_chat_title" = "BE IN THE LOOP";
+
+// Message for custom alert for pushes in chat
+"custom_permission_chat_message" = "Activate notifications to instantly know when someone replies.";
+
+// Title for custom alert for pushes in sell
+"custom_permission_sell_title" = "SELL FASTER";
+
+// Message for custom alert for pushes in sell
+"custom_permission_sell_message" = "Activate notifications to know when someone wants to buy your product.";
 
 // Edit product title. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_title" = "Edit Product";
@@ -467,10 +488,10 @@
 "product_delete_success_message" = "Your product was deleted successfully.";
 
 // Product date 1 min ago. Check image @ "product_ask_a_question_button" segment
-"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_minute_ago" = "Posted 1 minute ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_minutes_ago" = "Posted %i minutes ago";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_date_one_hour_ago" = "Posted 1 hour ago";

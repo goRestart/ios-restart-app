@@ -15,7 +15,7 @@ import Parse
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplicationDelegate {
 
     // iVars
     var window: UIWindow?
@@ -26,7 +26,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case Sell = "letgo.sell"
         case StartBrowsing = "letgo.startBrowsing"
     }
-    
+
+    // MARK: - LocationManagerPermissionDelegate
+
+    func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool) {
+        var trackerEvent: TrackerEvent
+        if accepted {
+            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
+        } else {
+            trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
+        }
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
     // MARK: - UIApplicationDelegate
     
     // MARK: > Lifecycle
@@ -234,6 +246,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PushManager.sharedInstance.application(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: completionHandler)
     }
 
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        PushManager.sharedInstance.application(application, didRegisterUserNotificationSettings: notificationSettings)
+    }
     
     // MARK: - Private methods
     

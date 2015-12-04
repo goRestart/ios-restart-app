@@ -23,6 +23,11 @@ protocol InfoBubbleDelegate: class {
     func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, shouldHideBubble hidden: Bool)
 }
 
+protocol PermissionsDelegate: class {
+    func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel)
+}
+
+
 public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate, TopProductInfoDelegate {
     
     // > Input
@@ -58,6 +63,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
     weak var bubbleDelegate: InfoBubbleDelegate?
+    weak var permissionsDelegate: PermissionsDelegate?
     
     
     // MARK: - Lifecycle
@@ -183,8 +189,14 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         pullToRefreshInProggress refreshing: Bool) {
         bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
     }
-    
-    
+
+    public func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int) {
+
+        print("\(index) = \(Constants.itemIndexPushPermissionsTrigger) ????")
+        guard index == Constants.itemIndexPushPermissionsTrigger else { return }
+        permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
+    }
+
     // MARK: - Private methods
     
     /**

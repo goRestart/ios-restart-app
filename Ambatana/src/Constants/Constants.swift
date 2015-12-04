@@ -48,5 +48,10 @@ struct Constants {
     // App sharing
     static let facebookAppLinkURL = "https://fb.me/900185926729336"
     static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
+
+    // Pre Permissions
+    static let itemIndexPushPermissionsTrigger = 30
+    static let pushPermissionRepeatTime = (60 * 60 * 24) // 1 day
+
     
 }

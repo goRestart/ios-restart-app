@@ -79,6 +79,11 @@ public enum EventName: String {
     case AppRatingSuggest                   = "app-rating-suggest"
     case AppRatingDontAsk                   = "app-rating-dont-ask"
 
+    case PermissionAlertStart               = "permission-alert-start"
+    case PermissionAlertComplete            = "permission-alert-complete"
+    case PermissionSystemCancel             = "permission-system-cancel"
+    case PermissionSystemComplete           = "permission-system-complete"
+
     case LocationMap                        = "location-map"
 
     
@@ -128,7 +133,6 @@ public enum EventParameterName: String {
     case SearchString         = "search-keyword"
     case Description          = "description"           // error description: why form validation failure.
     case LoginSource          = "login-type"            // the login source
-    case MarkAsSoldSource     = "type-page"             // the mark as sold action source
     case LocationType         = "location-type"
     case ShareNetwork         = "share-network"
     case ButtonPosition       = "button-position"
@@ -141,6 +145,9 @@ public enum EventParameterName: String {
     case FilterDistanceUnit   = "distance-unit"
     case FilterSortBy         = "sort-by"
     case ErrorDescription     = "error-description"
+    case PermissionType       = "permission-type"
+    case TypePage             = "type-page"
+    case AlertType            = "alert-type"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -240,6 +247,25 @@ public enum EventParameterLoginError: String {
     }
 }
 
+
+public enum EventParameterPermissionTypePage: String {
+    case ProductList = "product-list"
+    case Chat = "chat"
+    case Sell = "product-sell"
+}
+
+public enum EventParameterPermissionType: String {
+    case Push = "push-notification"
+    case Location = "gps"
+    case Camera = "camera"
+}
+
+public enum EventParameterPermissionAlertType: String {
+    case Custom = "custom"
+    case NativeLike = "native-alike"
+}
+
+
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
     
@@ -289,8 +315,8 @@ public struct EventParameters {
             }
         }
 
-
-        params[.ProductType] = product.user.isDummy ? EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
+        params[.ProductType] = product.user.isDummy ?
+            EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
 
     }
     

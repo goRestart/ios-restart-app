@@ -12,7 +12,8 @@ import Parse
 import UIKit
 
 public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, ProductListViewScrollDelegate,
-MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDelegate, UITextFieldDelegate {
+MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate,
+UITextFieldDelegate {
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -51,7 +52,8 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
         self.viewModel = viewModel
         viewModel.delegate = self
         viewModel.bubbleDelegate = self
-        
+        viewModel.permissionsDelegate = self
+
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
     }
@@ -113,6 +115,7 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
         }
     }
     
+
     // MARK: - InfoBubbleDelegate
     
     public func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, updatedBubbleInfoString: String) {
@@ -125,6 +128,13 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
         })
     }
 
+
+    // MARK: - PermissionsDelegate
+
+    public func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
+        PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
+            prePermissionType: .ProductList)
+    }
     
     // MARK: - ProductListViewDataDelegate
 

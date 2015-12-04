@@ -232,7 +232,15 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func didSucceedSendingMessage() {
-        if !viewModel.alreadyAskedForRating { askForRating() }
+        if !viewModel.alreadyAskedForRating {
+            askForRating()
+        }
+
+        if UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+            PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
+                prePermissionType: .Chat)
+        }
+
         tableView.beginUpdates()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -353,7 +361,7 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
         viewModel.updateChatSafetyTipsLastPageSeen(page)
         updateSafetyTipBarButton()
     }
-    
+
    
     @objc private func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }

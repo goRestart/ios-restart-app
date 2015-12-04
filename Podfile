@@ -53,9 +53,6 @@ pod "LGSemiModalNavController", "~> 0.2.0"
 # Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
 pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 
-# Improved Permissions
-pod "ClusterPrePermissions", "~> 0.1"
-
 target "letgoTests", :exclusive => true do
     pod "Kahuna",               "~> 2.2.2"
     

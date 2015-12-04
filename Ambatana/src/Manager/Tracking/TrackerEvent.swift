@@ -443,7 +443,44 @@ public struct TrackerEvent {
         return TrackerEvent(name: .AppRatingDontAsk, params: params)
     }
     
-    
+    public static func permissionAlertStart(permissionType: EventParameterPermissionType,
+        typePage: EventParameterPermissionTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
+            var params = EventParameters()
+            // Product
+            params[.PermissionType] = permissionType.rawValue
+            params[.TypePage] = typePage.rawValue
+            params[.AlertType] = alertType.rawValue
+            return TrackerEvent(name: .PermissionAlertStart, params: params)
+    }
+
+    public static func permissionAlertComplete(permissionType: EventParameterPermissionType,
+        typePage: EventParameterPermissionTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
+            var params = EventParameters()
+            // Product
+            params[.PermissionType] = permissionType.rawValue
+            params[.TypePage] = typePage.rawValue
+            params[.AlertType] = alertType.rawValue
+            return TrackerEvent(name: .PermissionAlertComplete, params: params)
+    }
+
+    public static func permissionSystemCancel(permissionType: EventParameterPermissionType,
+        typePage: EventParameterPermissionTypePage) -> TrackerEvent {
+            var params = EventParameters()
+            // Product
+            params[.PermissionType] = permissionType.rawValue
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .PermissionSystemCancel, params: params)
+    }
+
+    public static func permissionSystemComplete(permissionType: EventParameterPermissionType,
+        typePage: EventParameterPermissionTypePage) -> TrackerEvent {
+            var params = EventParameters()
+            // Product
+            params[.PermissionType] = permissionType.rawValue
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .PermissionSystemComplete, params: params)
+    }
+
     public static func locationMapShown() -> TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .LocationMap, params: params)
