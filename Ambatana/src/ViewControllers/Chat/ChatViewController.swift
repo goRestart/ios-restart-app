@@ -54,8 +54,9 @@ class ChatViewController: SLKTextViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
-        showActivityIndicator(true)
         super.viewWillAppear(animated)
+        updateReachableAndToastViewVisibilityIfNeeded()
+        textView.becomeFirstResponder()
         if !viewModel.isNewChat { refreshMessages() }
     }
     
@@ -64,6 +65,7 @@ class ChatViewController: SLKTextViewController {
     }
     
     func refreshMessages() {
+        showActivityIndicator(true)
         viewModel.loadMessages()
     }
     
@@ -195,6 +197,7 @@ extension ChatViewController: ChatViewModelDelegate {
     // MARK: > Retrieve Messages
     
     func didFailRetrievingChatMessages(error: ChatRetrieveServiceError) {
+        showActivityIndicator(false)
         switch (error) {
         case .Internal, .Network, .NotFound, .Unauthorized:
             showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
@@ -229,7 +232,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func didSucceedSendingMessage() {
-        if !viewModel.alreadyAskedForRating { askForRating() }
+        if viewModel.shouldAskForRating { askForRating() }
         tableView.beginUpdates()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
