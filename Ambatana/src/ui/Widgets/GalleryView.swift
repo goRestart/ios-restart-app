@@ -13,11 +13,24 @@ import SDWebImage
      optional func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int)
 }
 
+enum GalleryPageControlPosition {
+    case Center
+    case Right
+}
+
 @IBDesignable public class GalleryView: UIView, UIScrollViewDelegate {
+
+    var pageControlPosition = GalleryPageControlPosition.Right {
+        didSet {
+            placePageControl()
+        }
+    }
     
     // UI
     private var scrollView: UIScrollView
     private var pageControl: UIPageControl
+    private var pageControlBottomConstraint: NSLayoutConstraint?
+    private var pageControlYConstraint: NSLayoutConstraint?
     private var tapRecognizer: UITapGestureRecognizer!
     
     // Data
@@ -29,8 +42,8 @@ import SDWebImage
     // MARK: - Lifecycle
     
     public required init?(coder aDecoder: NSCoder) {
-        scrollView = UIScrollView(frame: CGRectZero)
-        pageControl = UIPageControl(frame: CGRectZero)
+        scrollView = UIScrollView(frame: CGRect.zero)
+        pageControl = UIPageControl(frame: CGRect.zero)
         super.init(coder: aDecoder)
 
         setupUI()
@@ -46,8 +59,8 @@ import SDWebImage
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        let width = CGRectGetWidth(frame)
-        let height = CGRectGetHeight(frame)
+        let width = frame.width
+        let height = frame.height
 
         // Place the subview at their correct positions
         var x: CGFloat = 0
@@ -137,19 +150,41 @@ import SDWebImage
         scrollView.addGestureRecognizer(tapRecognizer)
         
         // Page control
-        pageControl.addTarget(self, action: Selector("pageControlPageChanged"), forControlEvents: UIControlEvents.ValueChanged)
+        pageControl.addTarget(self, action: Selector("pageControlPageChanged"),
+            forControlEvents: UIControlEvents.ValueChanged)
         
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         addSubview(pageControl)
         
         // Constraints
         let scrollViewViews = ["scrollView": scrollView]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: [], metrics: nil, views: scrollViewViews))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: [], metrics: nil, views: scrollViewViews))
-        
-        let pageControlViews = ["pageControl": pageControl]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[pageControl]-(-6)-|", options: [], metrics: nil, views: pageControlViews))
-        addConstraint(NSLayoutConstraint(item: pageControl, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: [], metrics: nil,
+            views: scrollViewViews))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: [], metrics: nil,
+            views: scrollViewViews))
+
+        placePageControl()
+    }
+
+    private func placePageControl() {
+        if let bottomConstr = pageControlBottomConstraint, let yConstr = pageControlYConstraint {
+            removeConstraint(bottomConstr)
+            removeConstraint(yConstr)
+        }
+
+        switch pageControlPosition {
+        case .Center:
+            pageControlBottomConstraint = NSLayoutConstraint(item: pageControl, attribute: .Bottom, relatedBy: .Equal,
+                toItem: self, attribute: .Bottom, multiplier: 1, constant: 6)
+            pageControlYConstraint = NSLayoutConstraint(item: pageControl, attribute: .CenterX, relatedBy: .Equal,
+                toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
+        case .Right:
+            pageControlBottomConstraint = NSLayoutConstraint(item: pageControl, attribute: .Bottom, relatedBy: .Equal,
+                toItem: self, attribute: .Bottom, multiplier: 1, constant: -6)
+            pageControlYConstraint = NSLayoutConstraint(item: pageControl, attribute: .Right, relatedBy: .Equal,
+                toItem: self, attribute: .Right, multiplier: 1, constant: -16)
+        }
+        addConstraints([pageControlBottomConstraint!, pageControlYConstraint!])
     }
     
     // MARK: > Actions
@@ -178,9 +213,7 @@ import SDWebImage
     // MARK: > Page loading
     
     private func loadPageAtIndex(index: Int) {
-        if index < 0 || index >= pages.count {
-            return
-        }
+        guard index >= 0 && index < pages.count else { return }
         
         let page = pages[index]
         page.load()
