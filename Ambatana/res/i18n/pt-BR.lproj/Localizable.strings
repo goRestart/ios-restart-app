@@ -44,6 +44,7 @@
 "chat_safety_tips_title" = "Dicas";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "Ocorreu um erro no envio da mensagem. Por favor tente novamente mais tarde.";
+"common_activate" = "Activate";
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "Oops! Chat not found.";
 "common_collapse" = "Ocultar";
@@ -95,6 +96,12 @@
 "contact_subject_option_report" = "Denunciar usuário/spam";
 "contact_subject_options_title" = "Assunto";
 "contact_title" = "Contato";
+"custom_permission_chat_message" = "Activate notifications to instantly know when someone replies.";
+"custom_permission_chat_title" = "BE IN THE LOOP";
+"custom_permission_list_message" = "Activate notifications to get news from letgo and new products.";
+"custom_permission_list_title" = "WELCOME!";
+"custom_permission_sell_message" = "Activate notifications to know when someone wants to buy your product.";
+"custom_permission_sell_title" = "SELL FASTER";
 "edit_product_send_button" = "Atualizar";
 "edit_product_send_error_uploading_product" = "Ocorreu um erro enquanto atualizávamos o seu anúncio.";
 "edit_product_send_ok" = "Parabéns! Seu anúncio foi atualizado com sucesso e será exibido em breve.";
@@ -148,12 +155,12 @@
 "product_chat_error_generic" = "Ocorreu um erro ao iniciar a conversa. Por favor, tente novamente mais tarde.";
 "product_date_X_days_ago" = "Posted %i days ago";
 "product_date_X_hours_ago" = "Posted %i hours ago";
-"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_minutes_ago" = "Posted %i minutes ago";
 "product_date_X_months_ago" = "Posted %i months ago";
 "product_date_more_than_X_months_ago" = "Posted more than %i months ago";
 "product_date_one_day_ago" = "Posted 1 day ago";
 "product_date_one_hour_ago" = "Posted 1 hour ago";
-"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_minute_ago" = "Posted 1 minute ago";
 "product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "Cancelar";
 "product_delete_confirm_message" = "Por que você deseja deletar este produto?";
@@ -181,6 +188,8 @@
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
 "product_mark_as_sold_error_generic" = "Ocorreu um erro ao marcar o produto como vendido. Por favor, tente novamente mais tarde.";
 "product_mark_as_sold_success_message" = "Parabéns, seu produto foi marcado como vendido!";
+"product_negotiable_price" = "Negotiable";
+"product_price_label" = "Price";
 "product_report_confirm_cancel_button" = "Cancelar";
 "product_report_confirm_message" = "Você realmente deseja denunciar este produto?";
 "product_report_confirm_ok_button" = "OK";

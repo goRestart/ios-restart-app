@@ -192,6 +192,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_send_error_generic", comment: "")
 	}
 	
+	static var commonActivate: String {
+		return NSLocalizedString("common_activate", comment: "")
+	}
+	
 	static var commonCancel: String {
 		return NSLocalizedString("common_cancel", comment: "")
 	}
@@ -394,6 +398,30 @@ struct LGLocalizedString {
 	
 	static var contactSendErrorGeneric: String {
 		return NSLocalizedString("contact_send_error_generic", comment: "")
+	}
+	
+	static var customPermissionListTitle: String {
+		return NSLocalizedString("custom_permission_list_title", comment: "")
+	}
+	
+	static var customPermissionListMessage: String {
+		return NSLocalizedString("custom_permission_list_message", comment: "")
+	}
+	
+	static var customPermissionChatTitle: String {
+		return NSLocalizedString("custom_permission_chat_title", comment: "")
+	}
+	
+	static var customPermissionChatMessage: String {
+		return NSLocalizedString("custom_permission_chat_message", comment: "")
+	}
+	
+	static var customPermissionSellTitle: String {
+		return NSLocalizedString("custom_permission_sell_title", comment: "")
+	}
+	
+	static var customPermissionSellMessage: String {
+		return NSLocalizedString("custom_permission_sell_message", comment: "")
 	}
 	
 	static var editProductTitle: String {
@@ -738,6 +766,14 @@ struct LGLocalizedString {
 	
 	static var productMarkAsSoldSuccessMessage: String {
 		return NSLocalizedString("product_mark_as_sold_success_message", comment: "")
+	}
+	
+	static var productNegotiablePrice: String {
+		return NSLocalizedString("product_negotiable_price", comment: "")
+	}
+	
+	static var productPriceLabel: String {
+		return NSLocalizedString("product_price_label", comment: "")
 	}
 	
 	static var productSellAgainButton: String {
