@@ -768,6 +768,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_mark_as_sold_success_message", comment: "")
 	}
 	
+	static var productNegotiablePrice: String {
+		return NSLocalizedString("product_negotiable_price", comment: "")
+	}
+	
+	static var productPriceLabel: String {
+		return NSLocalizedString("product_price_label", comment: "")
+	}
+	
 	static var productSellAgainButton: String {
 		return NSLocalizedString("product_sell_again_button", comment: "")
 	}

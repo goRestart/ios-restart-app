@@ -568,6 +568,12 @@
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 
+// Text when price is 0$ 
+"product_negotiable_price" = "Negotiable";
+
+// Price label above price on product
+"product_price_label" = "Price";
+
 // Product sell again button. Check image @ "product_mark_as_sold_button" segment
 "product_sell_again_button" = "Sell It Again";
 
