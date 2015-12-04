@@ -9,30 +9,8 @@
 import Foundation
 import LGCoreKit
 
-class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: ChatCellDrawer {
-    
-    /**
-    Register the Cell of type T in the given UITableView
-    
-    - parameter tableView: UITableView where the cell should be registered
-    */
-    static func registerCell(tableView: UITableView) {
-        let myMessageCellNib = UINib(nibName: T.reusableID(), bundle: nil)
-        tableView.registerNib(myMessageCellNib, forCellReuseIdentifier: T.reusableID())
-    }
-    
-    /**
-    Dequeue a cell for the given tableView using the generic T to get the ID.
-    
-    - parameter tableView:   UITableView to dequeue the cell from
-    - parameter atIndexPath: IndexPath of the cell to be dequeued
-    
-    - returns: a reused UITableViewCell
-    */
-    func cell(tableView: UITableView, atIndexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCellWithIdentifier(T.reusableID(), forIndexPath: atIndexPath)
-    }
-    
+class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCellDrawer<T>, ChatCellDrawer {
+
     /**
     Draw the cell, proxy method to `draw(cell: T...)`
     If the cell is not of type T, it will do nothing.

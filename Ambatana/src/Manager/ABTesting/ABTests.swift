@@ -9,6 +9,9 @@
 import Foundation
 
 public struct ABTests {
+
+    public static let mainProductsJustImages = OptimizelyABLiveVariable.boolVariable("MainProductsJustImages", boolValue: false)
+
     public static let navBarTintColor = OptimizelyABLiveVariable.colorVariable("NavBarTintColor",
         colorValue: StyleHelper.red)
     public static let productsWithinFilterEnabled = OptimizelyABLiveVariable.boolVariable("ProductsWithinFilter",
@@ -21,6 +24,6 @@ public struct ABTests {
     public static let prePermissionsActive = OptimizelyABLiveVariable.boolVariable("PrePermissionsActive",
         boolValue: true)
 
-    public static let allValues = [ABTests.navBarTintColor, ABTests.productsWithinFilterEnabled, ABTests.loginAfterSell,
+    public static let allValues = [ABTests.mainProductsJustImages, ABTests.navBarTintColor, ABTests.productsWithinFilterEnabled, ABTests.loginAfterSell,
         ABTests.nativePrePermissions, ABTests.prePermissionsActive]
 }

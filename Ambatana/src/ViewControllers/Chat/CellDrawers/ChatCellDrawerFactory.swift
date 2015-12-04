@@ -11,11 +11,11 @@ import LGCoreKit
 
 public class ChatCellDrawerFactory {
     
-    public static func drawerForMessage(message: Message) -> ChatCellDrawer {
+    static func drawerForMessage(message: Message) -> ChatCellDrawer {
         return MyUserManager.sharedInstance.isMessageMine(message) ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
     }
     
-    public static func registerCells(tableView: UITableView) {
+    static func registerCells(tableView: UITableView) {
         ChatMyMessageCellDrawer.registerCell(tableView)
         ChatOthersMessageCellDrawer.registerCell(tableView)
     }

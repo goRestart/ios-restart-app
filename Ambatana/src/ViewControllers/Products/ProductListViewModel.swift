@@ -341,6 +341,12 @@ public class ProductListViewModel: BaseViewModel {
         return products[index]
     }
     
+    func productCellDataAtIndex(index: Int) -> ProductCellData {        
+        let product = products[index]
+        return ProductCellData(title: product.name, price: product.formattedPrice(),
+            thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt)
+    }
+    
     /**
         Returns the product object id for the product at the given index.
     
