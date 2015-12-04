@@ -62,6 +62,7 @@
 "common_product_deleted" = "Artikel entfernt";
 "common_product_not_available" = "Dieses Produkt ist nicht länger verfügbar.";
 "common_product_sold" = "Dieses Produkt wurde verkauft.";
+"common_settings" = "Einstellungen";
 "common_time_a_minute_ago_label" = "vor einer Minute";
 "common_time_day_ago_label" = "vor einem Tag";
 "common_time_days_ago_label" = "vor %d Tagen";
@@ -145,6 +146,15 @@
 "make_an_offer_title" = "Angebot machen";
 "product_ask_a_question_button" = "Stelle eine Frage";
 "product_chat_error_generic" = "Beim Starten des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.";
+"product_date_X_days_ago" = "Posted %i days ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_months_ago" = "Posted %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "Abbrechen";
 "product_delete_confirm_message" = "Warum möchtest du dieses Produkt löschen?";
 "product_delete_confirm_ok_button" = "Ich möchte es nicht verkaufen";
@@ -190,6 +200,10 @@
 "product_sell_again_confirm_title" = "Erneut verkaufen";
 "product_sell_again_error_generic" = "Dein Produkt konnte nicht als verfügbar markiert werden. Bitte versuche es später noch mal.";
 "product_sell_again_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verfügbar markiert!";
+"product_sell_camera_permissions_error" = "Erlaube letgo in deinen Einstellungen den Zugriff auf deine Kamera, um Bilder zu machen.";
+"product_sell_camera_restricted_error" = "Zugriff auf deine Kamera nicht möglich. Bitte überprüfe deine Einstellungen und versuche es erneut.";
+"product_sell_photolibrary_permissions_error" = "Erlaube letgo in deinen Einstellungen den Zugriff auf deine Fotomediathek, um Fotos hochladen zu können.";
+"product_sell_photolibrary_restricted_error" = "Zugriff auf deine Fotomediathek nicht möglich. Bitte überprüfe deine Einstellungen und versuche es erneut.";
 "product_share_body" = "Schau mal, was ich gerade auf letgo gefunden habe!";
 "product_share_email_error" = "Hoppla, du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";

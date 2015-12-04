@@ -9,8 +9,6 @@
 import Foundation
 import LGCoreKit
 
-public protocol ChatCellDrawer {
-    func cell(tableView: UITableView, atIndexPath: NSIndexPath) -> UITableViewCell
+protocol ChatCellDrawer: TableCellDrawer {
     func draw(cell: UITableViewCell, message: Message, avatar: File?, delegate: AnyObject?)
-    static func registerCell(tableView: UITableView)
 }

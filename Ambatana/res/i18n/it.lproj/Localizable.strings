@@ -62,6 +62,7 @@
 "common_product_deleted" = "Prodotto rimosso";
 "common_product_not_available" = "Questo prodotto non è più disponibile.";
 "common_product_sold" = "Questo prodotto è stato venduto.";
+"common_settings" = "Impostazioni";
 "common_time_a_minute_ago_label" = "Un minuto fa";
 "common_time_day_ago_label" = "Un giorno fa";
 "common_time_days_ago_label" = "%d giorni fa";
@@ -145,6 +146,15 @@
 "make_an_offer_title" = "Fai un'Offerta";
 "product_ask_a_question_button" = "Fai una Domanda";
 "product_chat_error_generic" = "Si è verificato un errore durante l'avvio della chat. Riprova più tardi.";
+"product_date_X_days_ago" = "Posted %i days ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_months_ago" = "Posted %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "Annulla";
 "product_delete_confirm_message" = "Perché vuoi eliminare questo prodotto?";
 "product_delete_confirm_ok_button" = "Non intendo venderlo";
@@ -190,6 +200,10 @@
 "product_sell_again_confirm_title" = "Vendilo di Nuovo";
 "product_sell_again_error_generic" = "Si è verificato un errore durante il tentativo di contrassegnare il prodotto come disponibile. Riprova più tardi.";
 "product_sell_again_success_message" = "Complimenti, il tuo prodotto è stato correttamente contrassegnato come disponibile.";
+"product_sell_camera_permissions_error" = "Per scattare una foto, consenti a letgo di accedere alla Fotocamera nelle impostazioni.";
+"product_sell_camera_restricted_error" = "L'accesso alla tua Fotocamera è riservato. Controlla le tue impostazioni e riprova.";
+"product_sell_photolibrary_permissions_error" = "Per caricare un'immagine, consenti a letgo di accedere alla Libreria Fotografica nelle impostazioni.";
+"product_sell_photolibrary_restricted_error" = "L'accesso alla tua Libreria Fotografica è riservato. Controlla le tue impostazioni e riprova.";
 "product_share_body" = "Guarda cosa ho appena trovato su letgo!";
 "product_share_email_error" = "Oops, sembra che tu non abbia impostato un account nella app di Posta.";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";

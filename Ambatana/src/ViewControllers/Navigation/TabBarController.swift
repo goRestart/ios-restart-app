@@ -159,7 +159,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         super.viewWillAppear(animated)
 
         // NSNotificationCenter
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:", name: PushManager.Notification.unreadMessagesDidChange.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:", name: PushManager.Notification.UnreadMessagesDidChange.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:", name: MyUserManager.Notification.logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
         
@@ -274,8 +274,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                     self?.floatingSellButton.hidden = hidden
                 }
             })
-        }
-        else {
+        } else {
             floatingSellButton.hidden = hidden
         }
     }
@@ -349,27 +348,24 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
             var isLogInRequired = false
             var loginSource: EventParameterLoginSourceValue?
             
-            // Do not allow selecting Sell
             if tab == .Sell {
+                // Do not allow selecting Sell
                 return false
-            }
-            // Chats require login
-            else if tab == .Chats {
+            } else if tab == .Chats {
+                // Chats require login
                 loginSource = .Chats
                 isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
-            }
-            // Profile require login
-            else if tab == .Profile {
+            } else if tab == .Profile {
+                // Profile require login
                 loginSource = .Profile
                 isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
             }
             
-            // Profile needs a user update
             if let user = MyUserManager.sharedInstance.myUser() {
+                // Profile needs a user update
                 if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController as? EditProfileViewController {
                     profileVC.user = user
-                }
-                else if let profileVC = viewController as? EditProfileViewController {
+                } else if let profileVC = viewController as? EditProfileViewController {
                     profileVC.user = user
                 }
             }
@@ -386,8 +382,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                         // FIXME: UX Patch: https://ambatana.atlassian.net/browse/ABIOS-503
                         if tab == .Profile {
                             self?.switchToTab(.Home)
-                        }
-                        else {
+                        } else {
                             self?.switchToTab(tab)
                         }
                     })
@@ -408,8 +403,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
             // And if it's my profile, then update the user
             if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController as? EditProfileViewController {
                 profileVC.user = user
-            }
-            else if let profileVC = viewController as? EditProfileViewController {
+            } else if let profileVC = viewController as? EditProfileViewController {
                 profileVC.user = user
             }
         }
@@ -430,8 +424,7 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         // Customize the selected appereance
         if let imageItem = tabBarItem.selectedImage {
             tabBarItem.image = imageItem.imageWithColor(StyleHelper.tabBarIconUnselectedColor).imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        }
-        else {
+        } else {
             tabBarItem.image = UIImage()
         }
         
@@ -509,12 +502,17 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
     }
    
     private func openSell() {
-        // If logged present the sell, otherwise present the login VC (and if successful the sell)
-        ifLoggedInThen(.Sell, loggedInAction: {
+        if ABTests.loginAfterSell.boolValue {
+            // present the VC, the login check will be done before saving the product
             self.presentSellVC()
-        }, elsePresentSignUpWithSuccessAction: {
-            self.presentSellVC()
-        })
+        } else {
+            // If logged present the sell, otherwise present the login VC (and if successful the sell)
+            ifLoggedInThen(.Sell, loggedInAction: {
+                self.presentSellVC()
+            }, elsePresentSignUpWithSuccessAction: {
+                self.presentSellVC()
+            })
+        }
     }
     
     private func presentSellVC() {
@@ -546,9 +544,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                         navBarCtl.pushViewController(vc, animated: true)
                     }
                 }
-            }
-            // Error
-            else if let error = result.error {
+            } else if let error = result.error {
+                // Error
                 let message: String
                 switch error {
                 case .Network:
@@ -587,9 +584,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                         navBarCtl.pushViewController(vc, animated: true)
                     }
                 }
-            }
-            // Error
-            else if let error = result.error {
+            } else if let error = result.error {
+                // Error
                 let message: String
                 switch error {
                 case .Network:
@@ -626,9 +622,8 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
                     let chatVC = ChatViewController(viewModel: viewModel)
                     navBarCtl.pushViewController(chatVC, animated: true)
                 }
-            }
-            // Error
-            else if let error = result.error {
+            } else if let error = result.error {
+                // Error
                 let message: String
                 switch error {
                 case .Network:
@@ -714,7 +709,6 @@ public final class TabBarController: UITabBarController, NewSellProductViewContr
         self.presentViewController(firstAlert, animated: true, completion: nil)
         
         // We should ask only one time
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: MyUserManager.Notification.didMoveFromManualLocationNotification.rawValue, object: nil)
-        
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: MyUserManager.Notification.didMoveFromManualLocationNotification.rawValue, object: nil) 
     }
  }

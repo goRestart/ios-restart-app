@@ -24,6 +24,7 @@ class ChatViewController: SLKTextViewController {
         self.viewModel = viewModel
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
+        setReachabilityEnabled(true)
         hidesBottomBarWhenPushed = true
     }
     
@@ -39,6 +40,7 @@ class ChatViewController: SLKTextViewController {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
+        setupToastView()
         view.addSubview(ChatProductView())
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
@@ -50,7 +52,7 @@ class ChatViewController: SLKTextViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
             name: UIKeyboardWillHideNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
-            name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
+            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {

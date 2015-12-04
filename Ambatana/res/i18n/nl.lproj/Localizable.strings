@@ -62,6 +62,7 @@
 "common_product_deleted" = "Product verwijderd";
 "common_product_not_available" = "Dit product is niet meer beschikbaar.";
 "common_product_sold" = "Dit product is verkocht.";
+"common_settings" = "Instellingen";
 "common_time_a_minute_ago_label" = "Een minuut geleden";
 "common_time_day_ago_label" = "Een dag geleden";
 "common_time_days_ago_label" = "%d dagen geleden";
@@ -145,6 +146,15 @@
 "make_an_offer_title" = "Doe een bod";
 "product_ask_a_question_button" = "Stel een vraag";
 "product_chat_error_generic" = "Er is een fout opgetreden bij het opstarten van de chat. Probeer het later nog eens.";
+"product_date_X_days_ago" = "Posted %i days ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_months_ago" = "Posted %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "Annuleren";
 "product_delete_confirm_message" = "Waarom wil je jouw product verwijderen?";
 "product_delete_confirm_ok_button" = "Ik wil het niet verkopen";
@@ -190,6 +200,10 @@
 "product_sell_again_confirm_title" = "Verkoop het opnieuw";
 "product_sell_again_error_generic" = "Er is een fout opgetreden bij het markeren van de beschikbaarheid van je product. Probeer het later nog eens.";
 "product_sell_again_success_message" = "Gefeliciteerd, je product werd succesvol gemarkeerd als beschikbaar!";
+"product_sell_camera_permissions_error" = "Om een foto te maken, geef letgo toegang tot je Camera in je instellingen.";
+"product_sell_camera_restricted_error" = "De toegang tot je Camera is beperkt. Controleer je instellingen en probeer het opnieuw.";
+"product_sell_photolibrary_permissions_error" = "Om een foto te uploaden, geef letgo toegang tot je Fotobibliotheek in je instellingen.";
+"product_sell_photolibrary_restricted_error" = "De toegang tot je Fotobibliotheek is beperkt. Controleer je instellingen en probeer het opnieuw.";
 "product_share_body" = "Kijk wat ik net gevonden heb bij letgo!";
 "product_share_email_error" = "Oeps, het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_generic_error" = "Er is een fout opgetreden bij het delen van het product. Probeer het later nog eens.";

@@ -62,6 +62,7 @@
 "common_product_deleted" = "Ürün kaldırıldı";
 "common_product_not_available" = "Bu ürün artık bulunmuyor.";
 "common_product_sold" = "Bu ürün satıldı.";
+"common_settings" = "Ayarlar";
 "common_time_a_minute_ago_label" = "bir dakika önce";
 "common_time_day_ago_label" = "bir gün önce";
 "common_time_days_ago_label" = "%d gün önce";
@@ -145,6 +146,15 @@
 "make_an_offer_title" = "Teklif Yap";
 "product_ask_a_question_button" = "Soru Sor";
 "product_chat_error_generic" = "Sohbet başlatılırken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
+"product_date_X_days_ago" = "Posted %i days ago";
+"product_date_X_hours_ago" = "Posted %i hours ago";
+"product_date_X_minutes_ago" = "Posted %i mins ago";
+"product_date_X_months_ago" = "Posted %i months ago";
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+"product_date_one_day_ago" = "Posted 1 day ago";
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+"product_date_one_minute_ago" = "Posted 1 min ago";
+"product_date_one_month_ago" = "Posted 1 month ago";
 "product_delete_confirm_cancel_button" = "İptal et";
 "product_delete_confirm_message" = "Neden bu ürünü silmek istiyorsun?";
 "product_delete_confirm_ok_button" = "Bunu satmak istemiyorum";
@@ -190,6 +200,10 @@
 "product_sell_again_confirm_title" = "Tekrar Sat";
 "product_sell_again_error_generic" = "Ürünün mevcut diye işaretlenirken bir hata oluştu. Lütfen daha sonra tekrar dene.";
 "product_sell_again_success_message" = "Tebrikler, ürünün başarıyla mevcut olarak işaretlendi!";
+"product_sell_camera_permissions_error" = "Bir resim çekmek için, ayarlara giderek letgo'nun kamerana erişmesine izin ver.";
+"product_sell_camera_restricted_error" = "Kamerana erişim yok. Lütfen ayarlarını kontrol et ve tekrar dene.";
+"product_sell_photolibrary_permissions_error" = "Bir resim yüklemek için, ayarlara giderek letgo'nun resim galerine erişmesine izin ver.";
+"product_sell_photolibrary_restricted_error" = "Resim Galerine erişim yok. Lütfen ayarlarını kontrol et ve tekrar dene.";
 "product_share_body" = "Az önce letgo'da ne bulduğuma bak!";
 "product_share_email_error" = "Hoppala, görünüşe bakılırsa Posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_generic_error" = "Ürün paylaşılırken bir hata oluştu. Lütfen daha sonra tekrar dene.";

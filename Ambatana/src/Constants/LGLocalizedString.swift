@@ -268,6 +268,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("common_user_not_available", comment: "")
 	}
 	
+	static var commonSettings: String {
+		return NSLocalizedString("common_settings", comment: "")
+	}
+	
 	static var commonTimeAMinuteAgoLabel: String {
 		return NSLocalizedString("common_time_a_minute_ago_label", comment: "")
 	}
@@ -628,6 +632,42 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_delete_success_message", comment: "")
 	}
 	
+	static var productDateOneMinuteAgo: String {
+		return NSLocalizedString("product_date_one_minute_ago", comment: "")
+	}
+	
+	static var productDateXMinutesAgo: String {
+		return NSLocalizedString("product_date_X_minutes_ago", comment: "")
+	}
+	
+	static var productDateOneHourAgo: String {
+		return NSLocalizedString("product_date_one_hour_ago", comment: "")
+	}
+	
+	static var productDateXHoursAgo: String {
+		return NSLocalizedString("product_date_X_hours_ago", comment: "")
+	}
+	
+	static var productDateOneDayAgo: String {
+		return NSLocalizedString("product_date_one_day_ago", comment: "")
+	}
+	
+	static var productDateXDaysAgo: String {
+		return NSLocalizedString("product_date_X_days_ago", comment: "")
+	}
+	
+	static var productDateOneMonthAgo: String {
+		return NSLocalizedString("product_date_one_month_ago", comment: "")
+	}
+	
+	static var productDateXMonthsAgo: String {
+		return NSLocalizedString("product_date_X_months_ago", comment: "")
+	}
+	
+	static var productDateMoreThanXMonthsAgo: String {
+		return NSLocalizedString("product_date_more_than_X_months_ago", comment: "")
+	}
+	
 	static var productDistanceFromYou: String {
 		return NSLocalizedString("product_distance_from_you", comment: "")
 	}
@@ -726,6 +766,22 @@ struct LGLocalizedString {
 	
 	static var productSellAgainSuccessMessage: String {
 		return NSLocalizedString("product_sell_again_success_message", comment: "")
+	}
+	
+	static var productSellCameraRestrictedError: String {
+		return NSLocalizedString("product_sell_camera_restricted_error", comment: "")
+	}
+	
+	static var productSellCameraPermissionsError: String {
+		return NSLocalizedString("product_sell_camera_permissions_error", comment: "")
+	}
+	
+	static var productSellPhotolibraryRestrictedError: String {
+		return NSLocalizedString("product_sell_photolibrary_restricted_error", comment: "")
+	}
+	
+	static var productSellPhotolibraryPermissionsError: String {
+		return NSLocalizedString("product_sell_photolibrary_permissions_error", comment: "")
 	}
 	
 	static var productReportConfirmTitle: String {

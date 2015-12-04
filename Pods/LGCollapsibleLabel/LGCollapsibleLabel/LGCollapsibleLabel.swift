@@ -188,6 +188,10 @@ public class LGCollapsibleLabel: UIView {
     }
     
     private func heightOfText() -> CGFloat {
+        guard !self.mainText.isEmpty else {
+            return 0.0
+        }
+        
         let aTextView = UITextView(frame: self.bounds)
         aTextView.font = self.textView.font
         aTextView.text = self.mainText
