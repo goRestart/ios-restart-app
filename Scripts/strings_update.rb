@@ -112,7 +112,7 @@ keep_keys = options[:keep_keys]
 # Get the spreadsheet from Google Drive
 puts 'Logging in to Google Drive...'
 
-CREDENTIALS_PATH = Dir.home + '/.locgen/users.json'
+CREDENTIALS_PATH = Dir.home + '/.locgen/lg_strings_update.json'
 
 def authorize(certificate)
   FileUtils.mkdir_p(File.dirname(CREDENTIALS_PATH))
@@ -196,8 +196,10 @@ last_term_row = last_valid_row_index-1
 for row in first_term_row..last_term_row
   key = worksheet[row, 1]
   unless key.blank?
-    term = Term.new(key,keep_keys)
-    term_text = worksheet[row, 2]
+    term_comment = worksheet[row, 2]
+    # puts "Processing: #{key} - #{term_comment}"
+    term = Term.new(key,term_comment,keep_keys)
+    term_text = worksheet[row, 3]
     term.values.store "base", term_text
 
     if(term_text.blank?)
