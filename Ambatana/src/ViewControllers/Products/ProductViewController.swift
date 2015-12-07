@@ -21,8 +21,8 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
     // Constants
     private static let addressIconVisibleHeight: CGFloat = 16
     private static let footerViewVisibleHeight: CGFloat = 64
-    private static let labelsTopMargin = 15
-    private static let addressTopMarginWithDescription = 30
+    private static let labelsTopMargin: CGFloat = 15
+    private static let addressTopMarginWithDescription: CGFloat = 30
     
     // UI
     // > Navigation Bar

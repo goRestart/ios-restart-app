@@ -15,7 +15,7 @@ protocol NavBarUserInfoDelegate: class {
 @IBDesignable
 class NavBarUserInfo: UIView {
 
-    private static let nameLabelMargin = 8
+    private static let nameLabelMargin: CGFloat = 8
 
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
