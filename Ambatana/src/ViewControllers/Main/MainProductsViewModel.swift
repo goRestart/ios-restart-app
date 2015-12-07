@@ -59,6 +59,9 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         }
         return resultTags
     }
+
+    // Constants
+    private static let maxMonthsAgo = 3
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -255,10 +258,10 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
             return String(format: LGLocalizedString.productDateXDaysAgo, Int(daysAgo))
         case month:
             return LGLocalizedString.productDateOneMonthAgo
-        case month..<month*3:
+        case month..<month*Float(MainProductsViewModel.maxMonthsAgo):
             return String(format: LGLocalizedString.productDateXMonthsAgo, Int(monthsAgo))
         default:
-            return String(format: LGLocalizedString.productDateMoreThanXMonthsAgo, Int(monthsAgo))
+            return String(format: LGLocalizedString.productDateMoreThanXMonthsAgo, MainProductsViewModel.maxMonthsAgo)
         }
     }
 }

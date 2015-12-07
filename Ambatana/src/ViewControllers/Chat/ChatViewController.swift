@@ -58,8 +58,12 @@ class ChatViewController: SLKTextViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
-        textView.becomeFirstResponder()
         if !viewModel.isNewChat { refreshMessages() }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        textView.becomeFirstResponder()
     }
     
     func showActivityIndicator(show: Bool) {
@@ -88,7 +92,7 @@ class ChatViewController: SLKTextViewController {
         textInputbar.backgroundColor = UIColor.whiteColor()
         textInputbar.clipsToBounds = true
         textInputbar.translucent = false
-        rightButton.tintColor = UIColor.blackColor()
+        rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         self.setLetGoNavigationBarStyle(viewModel.chat.product.name)
         updateSafetyTipBarButton()
@@ -108,7 +112,7 @@ class ChatViewController: SLKTextViewController {
     func updateProductView() {
         productView.nameLabel.text = viewModel.chat.product.name
         productView.userLabel.text = viewModel.chat.product.user.publicUsername
-        productView.priceLabel.text = viewModel.chat.product.formattedPrice()
+        productView.priceLabel.text = viewModel.chat.product.priceString()
         if let thumbURL = viewModel.chat.product.thumbnail?.fileURL {
             switch viewModel.chat.product.status {
             case .Pending, .Approved, .Discarded, .Sold, .SoldOld:

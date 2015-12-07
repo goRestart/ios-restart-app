@@ -48,7 +48,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return product.name?.lg_capitalizedWords() ?? ""
     }
     public var price: String {
-        return product.formattedPrice()
+        return product.priceString()
     }
     public var descr: String {
         return product.descr ?? ""

@@ -15,24 +15,28 @@ import SDWebImage
 import UIKit
 import LGCollapsibleLabel
 
-public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate, MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
+public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate,
+MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
 
     // Constants
     private static let addressIconVisibleHeight: CGFloat = 16
     private static let footerViewVisibleHeight: CGFloat = 64
+    private static let labelsTopMargin: CGFloat = 15
+    private static let addressTopMarginWithDescription: CGFloat = 30
     
     // UI
     // > Navigation Bar
     private var favoriteButton: UIButton?
+    private var userInfo: NavBarUserInfo?
     
     // > Main
     @IBOutlet weak var galleryView: GalleryView!
-    @IBOutlet weak var userAvatarImageView: UIImageView!
-    @IBOutlet weak var usernameContainerView: UIView!
-    @IBOutlet weak var usernameLabel: UILabel!
-    
-    @IBOutlet weak var nameLabel: UILabel!
+
+    @IBOutlet weak var priceTitleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var descriptionTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
     
     @IBOutlet weak var addressIconTopConstraint: NSLayoutConstraint!
@@ -111,10 +115,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     // MARK: - Public methods
     
     // MARK: > Actions
-    
-    @IBAction func userButtonPressed(sender: AnyObject) {
-        openProductUserProfile()
-    }
     
     @IBAction func mapViewButtonPressed(sender: AnyObject) {
         openMap()
@@ -485,12 +485,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     private func setupUI() {
         // Setup
         // > Navigation Bar
+        userInfo = NavBarUserInfo.buildNavbarUserInfo()
+        setLetGoNavigationBarStyle(userInfo)
         setLetGoNavigationBarStyle("")
         setFavouriteButtonAsFavourited(false)
         
         // > Main
-        usernameContainerView.layer.cornerRadius = 2
-        
         productStatusLabel.layer.cornerRadius = 18
         productStatusLabel.layer.masksToBounds = true
         
@@ -499,9 +499,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         productStatusShadow.layer.shadowOpacity = 0.24
         productStatusShadow.layer.shadowRadius = 8.0
 
-        userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
-        userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-        userAvatarImageView.layer.borderWidth = 2
+        priceTitleLabel.text = LGLocalizedString.productPriceLabel.uppercaseString
         
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
         descriptionCollapsible.addGestureRecognizer(tapGesture)
@@ -537,8 +535,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         let markSoldTitle = viewModel.productIsSold ? LGLocalizedString.productMarkAsSoldButton : LGLocalizedString.productMarkAsSoldButton
         markSoldButton.setTitle(markSoldTitle, forState: .Normal)
-        
-        
+
         // Delegates
         galleryView.delegate = self
         
@@ -625,18 +622,22 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 }
             }
         }
-        
-        // Main
-        if let userAvatarURL = viewModel.userAvatar {
-            userAvatarImageView.sd_setImageWithURL(userAvatarURL, placeholderImage: UIImage(named: "no_photo"))
+
+        if let userInfo = userInfo {
+            userInfo.setupWith(avatar: viewModel.userAvatar, text: viewModel.userName)
+            userInfo.delegate = self
         }
-        usernameLabel.text = viewModel.userName
-        
-        nameLabel.text = viewModel.name
+
         priceLabel.text = viewModel.price
+        nameLabel.text = viewModel.name
+        nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.labelsTopMargin
         descriptionCollapsible.mainText = viewModel.descr
-        addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 15 : 30
-        addressIconHeightConstraint.constant = viewModel.addressIconVisible ? ProductViewController.addressIconVisibleHeight : 0
+        descriptionTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 0 :
+            ProductViewController.labelsTopMargin
+        addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ?
+            ProductViewController.labelsTopMargin : ProductViewController.addressTopMarginWithDescription
+        addressIconHeightConstraint.constant = viewModel.addressIconVisible ?
+            ProductViewController.addressIconVisibleHeight : 0
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
             let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
@@ -649,9 +650,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         deleteButton.hidden = !viewModel.isDeletable
         
         // Footer
-        footerViewHeightConstraint.constant = viewModel.isFooterVisible ? ProductViewController.footerViewVisibleHeight : 0
+        footerViewHeightConstraint.constant = viewModel.isFooterVisible ?
+            ProductViewController.footerViewVisibleHeight : 0
 
-        let title = viewModel.productIsSold ?  LGLocalizedString.productSellAgainButton : LGLocalizedString.productMarkAsSoldButton
+        let title = viewModel.productIsSold ?
+            LGLocalizedString.productSellAgainButton : LGLocalizedString.productMarkAsSoldButton
         markSoldButton.setTitle(title, forState: .Normal)
         
         // Footer other / me selling subviews
@@ -772,13 +775,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    // TODO: Refactor to retrieve a viewModel and build an VC
-    private func openProductUserProfile() {
-        if let vc = viewModel.productUserProfileViewModel {
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-    
     // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM
     private func openMap() {
         if let vc = viewModel.productLocationViewModel {
@@ -882,5 +878,21 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         presentViewController(alert, animated: true, completion: {
             self.viewModel.markUnsoldStarted()
         })
+    }
+}
+
+
+// MARK: - NavBarUserInfoDelegate
+
+extension ProductViewController: NavBarUserInfoDelegate {
+    func navBarUserInfoTapped(navbarUserInfo: NavBarUserInfo) {
+        openProductUserProfile()
+    }
+
+    // TODO: Refactor to retrieve a viewModel and build an VC
+    private func openProductUserProfile() {
+        if let vc = viewModel.productUserProfileViewModel {
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

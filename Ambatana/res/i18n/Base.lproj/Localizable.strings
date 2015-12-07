@@ -136,6 +136,9 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
+// Common activate
+"common_activate" = "Activate";
+
 // Common cancel
 "common_activate" = "Activate";
 
@@ -321,6 +324,9 @@
 
 // Edit product send ok. Message displayal is like the other messages.
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
+
+// When there's no distance filter set
+"filters_distance_not_set" = "not set";
 
 // Filters navbar reset
 "filters_navbar_reset" = "Reset";

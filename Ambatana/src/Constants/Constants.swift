@@ -42,8 +42,8 @@ struct Constants {
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
     
     // Filters
-    static let distanceFilterDefault = 20
-    static let distanceFilterOptions = [1, 10, 20, 30, 100]
+    static let distanceFilterDefault = 0
+    static let distanceFilterOptions = [0, 1, 10, 20, 30, 100]
     
     // App sharing
     static let facebookAppLinkURL = "https://fb.me/900185926729336"

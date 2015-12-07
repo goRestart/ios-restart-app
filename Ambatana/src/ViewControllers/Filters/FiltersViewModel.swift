@@ -32,10 +32,10 @@ class FiltersViewModel: BaseViewModel {
     //Distance vars
     var currentDistanceRadius : Int {
         get{
-            return productFilter.distanceRadius
+            return productFilter.distanceRadius ?? 0
         }
         set{
-            productFilter.distanceRadius = newValue
+            productFilter.distanceRadius = newValue > 0 ? newValue : nil
         }
     }
     

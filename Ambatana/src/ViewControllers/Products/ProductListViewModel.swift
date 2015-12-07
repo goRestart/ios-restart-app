@@ -343,7 +343,7 @@ public class ProductListViewModel: BaseViewModel {
     
     func productCellDataAtIndex(index: Int) -> ProductCellData {        
         let product = products[index]
-        return ProductCellData(title: product.name, price: product.formattedPrice(),
+        return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt)
     }
     
