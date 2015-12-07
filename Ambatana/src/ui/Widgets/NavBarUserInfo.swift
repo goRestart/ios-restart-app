@@ -37,6 +37,9 @@ class NavBarUserInfo: UIView {
         }
 
         nameLabel.text = text
+
+        let maxSize = nameLabel.sizeThatFits(CGSize(width: CGFloat.max, height: nameLabel.height))
+        self.width = avatarImage.width + 8 + maxSize.width + 8
     }
 
     // MARK: - Private methods
