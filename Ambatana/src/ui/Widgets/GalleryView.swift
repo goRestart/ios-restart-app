@@ -25,9 +25,16 @@ enum GalleryPageControlPosition {
             placePageControl()
         }
     }
+
+    var bottomGradient = true {
+        didSet {
+            shadowGradientView.hidden = !bottomGradient
+        }
+    }
     
     // UI
     private var scrollView: UIScrollView
+    private var shadowGradientView: UIView
     private var pageControl: UIPageControl
     private var pageControlBottomConstraint: NSLayoutConstraint?
     private var pageControlYConstraint: NSLayoutConstraint?
@@ -44,6 +51,7 @@ enum GalleryPageControlPosition {
     public required init?(coder aDecoder: NSCoder) {
         scrollView = UIScrollView(frame: CGRect.zero)
         pageControl = UIPageControl(frame: CGRect.zero)
+        shadowGradientView = UIView(frame: CGRect.zero)
         super.init(coder: aDecoder)
 
         setupUI()
@@ -52,6 +60,7 @@ enum GalleryPageControlPosition {
     public override init(frame: CGRect) {
         scrollView = UIScrollView(frame: frame)
         pageControl = UIPageControl(frame: frame)
+        shadowGradientView = UIView(frame: CGRect.zero)
         super.init(frame: frame)
         
         setupUI()
@@ -70,6 +79,13 @@ enum GalleryPageControlPosition {
         }
         // Adjust the scroll view content size
         scrollView.contentSize = CGSize(width: x, height: height)
+
+        // Adjust gradient layer
+        if let layers = shadowGradientView.layer.sublayers {
+            for layer in layers {
+                layer.frame = shadowGradientView.bounds
+            }
+        }
     }
     
     // MARK: - Public methods
@@ -143,7 +159,12 @@ enum GalleryPageControlPosition {
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(scrollView)
-        
+
+        //Bottom shadow gradient
+        addSubview(shadowGradientView)
+        placeShadowLayer()
+        shadowGradientView.hidden = !bottomGradient
+
         // Tap recognizer
         tapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewTapped:")
         tapRecognizer.numberOfTapsRequired = 1
@@ -164,6 +185,24 @@ enum GalleryPageControlPosition {
             views: scrollViewViews))
 
         placePageControl()
+    }
+
+    private func placeShadowLayer() {
+        shadowGradientView.userInteractionEnabled = false
+        shadowGradientView.translatesAutoresizingMaskIntoConstraints = false
+        let heightConstraint = NSLayoutConstraint(item: shadowGradientView, attribute: .Height, relatedBy: .Equal,
+            toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 150)
+        shadowGradientView.addConstraint(heightConstraint)
+        let widthConstraint = NSLayoutConstraint(item: shadowGradientView, attribute: .Width, relatedBy: .Equal,
+            toItem: self, attribute: .Width, multiplier: 1, constant: 0)
+        let bottomConstraint = NSLayoutConstraint(item: shadowGradientView, attribute: .Bottom, relatedBy: .Equal,
+            toItem: self, attribute: .Bottom, multiplier: 1, constant: 0)
+        addConstraints([widthConstraint,bottomConstraint])
+
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
+            locations: [0.0,1.0])
+        shadowLayer.frame = shadowGradientView.bounds
+        shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
     }
 
     private func placePageControl() {

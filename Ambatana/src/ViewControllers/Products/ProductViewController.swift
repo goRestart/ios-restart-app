@@ -28,7 +28,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // > Main
     @IBOutlet weak var galleryView: GalleryView!
-    @IBOutlet weak var galleryGradient: UIView!
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceTitleLabel: UILabel!
@@ -476,12 +475,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
 
         productStatusLabel.frame = CGRect(origin: CGPoint(x: originX, y: 0.0), size: size)
         view.layoutIfNeeded()
-
-        if let gradientSubLayers = galleryGradient.layer.sublayers {
-            for layer in gradientSubLayers {
-                layer.frame = galleryGradient.bounds
-            }
-        }
     }
     
     private func setupUI() {
@@ -538,11 +531,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         let markSoldTitle = viewModel.productIsSold ? LGLocalizedString.productMarkAsSoldButton : LGLocalizedString.productMarkAsSoldButton
         markSoldButton.setTitle(markSoldTitle, forState: .Normal)
 
-        let background = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
-            locations: [0.0,1.0])
-        background.frame = galleryGradient.bounds
-        galleryGradient.layer.insertSublayer(background, atIndex: 0)
-        
         // Delegates
         galleryView.delegate = self
         
