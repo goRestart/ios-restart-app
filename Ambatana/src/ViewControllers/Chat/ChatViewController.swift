@@ -58,8 +58,12 @@ class ChatViewController: SLKTextViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
-        textView.becomeFirstResponder()
         if !viewModel.isNewChat { refreshMessages() }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        textView.becomeFirstResponder()
     }
     
     func showActivityIndicator(show: Bool) {

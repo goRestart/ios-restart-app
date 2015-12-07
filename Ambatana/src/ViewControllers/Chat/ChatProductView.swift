@@ -57,6 +57,7 @@ class ChatProductView: UIView {
         errorView.backgroundColor = UIColor.whiteColor()
         separatorLine.backgroundColor = StyleHelper.lineColor
         imageButton.contentMode = .ScaleAspectFill
+        imageButton.clipsToBounds = true
     }
     
     func positionElements() {
