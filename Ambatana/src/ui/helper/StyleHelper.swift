@@ -229,6 +229,10 @@ class StyleHelper {
         return gray213
     }
     
+    static var chatSendButtonTintColor: UIColor {
+        return red
+    }
+    
     
     // MARK: - Chat safety tips
     
