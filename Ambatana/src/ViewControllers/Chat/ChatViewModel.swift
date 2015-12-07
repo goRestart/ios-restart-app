@@ -30,6 +30,10 @@ public class ChatViewModel: BaseViewModel {
     var askQuestion = false
     public var alreadyAskedForRating = false
     
+    public var shouldAskForRating: Bool {
+        return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
+    }
+    
     public var shouldShowSafetyTipes: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
         return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
