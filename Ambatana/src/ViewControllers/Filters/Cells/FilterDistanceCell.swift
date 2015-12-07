@@ -148,10 +148,10 @@ class FilterDistanceCell: UICollectionViewCell {
     private func updateTipLabel() {
         
         let currDist = currentDistance()
-        if(currDist == positions[0]) {
+        if(currDist == positions.first) {
             //First option (0) means no distance
             distanceLabel.text = LGLocalizedString.filtersDistanceNotSet
-        }else if(currDist == positions[positions.count-1]) {
+        }else if(currDist == positions.last) {
             //Last option (100) will have the string: "max"
             distanceLabel.text = LGLocalizedString.commonMax
         } else {
