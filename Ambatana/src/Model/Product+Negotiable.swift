@@ -11,8 +11,7 @@ import LGCoreKit
 extension Product {
     func priceString() -> String {
         let price = self.price ?? 0
-        guard price > 0 else { return LGLocalizedString.productNegotiablePrice }
 
-        return formattedPrice()
+        return price > 0 ? formattedPrice() :  LGLocalizedString.productNegotiablePrice
     }
 }

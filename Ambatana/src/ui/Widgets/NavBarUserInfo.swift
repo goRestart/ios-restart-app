@@ -15,10 +15,13 @@ protocol NavBarUserInfoDelegate: class {
 @IBDesignable
 class NavBarUserInfo: UIView {
 
+    private static let nameLabelMargin = 8
+
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
 
     weak var delegate: NavBarUserInfoDelegate?
+
 
     // MARK: - Static methods
 
@@ -28,6 +31,7 @@ class NavBarUserInfo: UIView {
         userInfoView.initialSetup()
         return userInfoView
     }
+
 
     // MARK: - Public methods
 
@@ -39,8 +43,9 @@ class NavBarUserInfo: UIView {
         nameLabel.text = text
 
         let maxSize = nameLabel.sizeThatFits(CGSize(width: CGFloat.max, height: nameLabel.height))
-        self.width = avatarImage.width + 8 + maxSize.width + 8
+        self.width = avatarImage.width + NavBarUserInfo.nameLabelMargin + maxSize.width + NavBarUserInfo.nameLabelMargin
     }
+
 
     // MARK: - Private methods
 

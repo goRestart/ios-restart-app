@@ -15,11 +15,14 @@ import SDWebImage
 import UIKit
 import LGCollapsibleLabel
 
-public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate, MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
+public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate,
+MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
 
     // Constants
     private static let addressIconVisibleHeight: CGFloat = 16
     private static let footerViewVisibleHeight: CGFloat = 64
+    private static let labelsTopMargin = 15
+    private static let addressTopMarginWithDescription = 30
     
     // UI
     // > Navigation Bar
@@ -627,11 +630,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
 
         priceLabel.text = viewModel.price
         nameLabel.text = viewModel.name
-        nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : 15
+        nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.labelsTopMargin
         descriptionCollapsible.mainText = viewModel.descr
-        descriptionTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 0 : 15
-        addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 15 : 30
-        addressIconHeightConstraint.constant = viewModel.addressIconVisible ? ProductViewController.addressIconVisibleHeight : 0
+        descriptionTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 0 :
+            ProductViewController.labelsTopMargin
+        addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ?
+            ProductViewController.labelsTopMargin : ProductViewController.addressTopMarginWithDescription
+        addressIconHeightConstraint.constant = viewModel.addressIconVisible ?
+            ProductViewController.addressIconVisibleHeight : 0
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
             let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
@@ -644,9 +650,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         deleteButton.hidden = !viewModel.isDeletable
         
         // Footer
-        footerViewHeightConstraint.constant = viewModel.isFooterVisible ? ProductViewController.footerViewVisibleHeight : 0
+        footerViewHeightConstraint.constant = viewModel.isFooterVisible ?
+            ProductViewController.footerViewVisibleHeight : 0
 
-        let title = viewModel.productIsSold ?  LGLocalizedString.productSellAgainButton : LGLocalizedString.productMarkAsSoldButton
+        let title = viewModel.productIsSold ?
+            LGLocalizedString.productSellAgainButton : LGLocalizedString.productMarkAsSoldButton
         markSoldButton.setTitle(title, forState: .Normal)
         
         // Footer other / me selling subviews
