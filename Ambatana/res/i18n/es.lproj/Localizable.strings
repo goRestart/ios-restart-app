@@ -106,6 +106,7 @@
 "edit_product_send_error_uploading_product" = "¡Ups! Ha habido un error al actualizar tu artículo.";
 "edit_product_send_ok" = "¡Enhorabuena! Tu artículo se ha actualizado con éxito. Aparecerá en nuestro tablón de anuncios enseguida.";
 "edit_product_title" = "Editar artículo";
+"filters_distance_not_set" = "Not set";
 "filters_navbar_reset" = "Borrar";
 "filters_save_button" = "Guardar filtros";
 "filters_section_categories" = "Categorías";
@@ -323,5 +324,5 @@
 "tour_page_3_title" = "Gana Dinero";
 "tour_page_4_body" = "Negocia y chatea con personas cercanas a ti en privado. Paga en efectivo, sin comisiones.";
 "tour_page_4_title" = "Seguro";
-"tour_page_ok_button" = "¡Empezar a explorar!";
+"tour_page_ok_button" = "¡Explorar!";
 "tour_page_skip_button" = "Saltar";

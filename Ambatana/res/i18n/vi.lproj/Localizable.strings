@@ -106,6 +106,7 @@
 "edit_product_send_error_uploading_product" = "Có lỗi trong khi cập nhật sản phẩm của bạn.";
 "edit_product_send_ok" = "Chúc mừng! Sản phẩm của bạn đã được cập nhật thành công. Sản phẩm sẽ sớm xuất hiện trong danh mục của chúng tôi.";
 "edit_product_title" = "Chỉnh sửa Sản phẩm";
+"filters_distance_not_set" = "Not set";
 "filters_navbar_reset" = "Xóa";
 "filters_save_button" = "Lưu bộ lọc";
 "filters_section_categories" = "Danh mục";

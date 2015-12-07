@@ -440,6 +440,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_send_ok", comment: "")
 	}
 	
+	static var filtersDistanceNotSet: String {
+		return NSLocalizedString("filters_distance_not_set", comment: "")
+	}
+	
 	static var filtersNavbarReset: String {
 		return NSLocalizedString("filters_navbar_reset", comment: "")
 	}

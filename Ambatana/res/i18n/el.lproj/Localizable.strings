@@ -106,6 +106,7 @@
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
 "edit_product_title" = "Επεξεργασία Προϊόντος";
+"filters_distance_not_set" = "Not set";
 "filters_navbar_reset" = "Επαναφορα";
 "filters_save_button" = "Αποθήκευση φίλτρων";
 "filters_section_categories" = "Κατηγορίες";

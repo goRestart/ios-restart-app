@@ -106,6 +106,7 @@
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
 "edit_product_title" = "Endre produkt";
+"filters_distance_not_set" = "Not set";
 "filters_navbar_reset" = "Tilbakestill";
 "filters_save_button" = "Lagre filtere";
 "filters_section_categories" = "Kategorier";

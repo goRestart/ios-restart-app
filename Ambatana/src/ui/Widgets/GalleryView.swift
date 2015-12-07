@@ -190,6 +190,7 @@ enum GalleryPageControlPosition {
     private func placeShadowLayer() {
         shadowGradientView.userInteractionEnabled = false
         shadowGradientView.translatesAutoresizingMaskIntoConstraints = false
+        shadowGradientView.backgroundColor = UIColor.clearColor()
         let heightConstraint = NSLayoutConstraint(item: shadowGradientView, attribute: .Height, relatedBy: .Equal,
             toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 150)
         shadowGradientView.addConstraint(heightConstraint)

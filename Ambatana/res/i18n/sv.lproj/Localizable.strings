@@ -106,6 +106,7 @@
 "edit_product_send_error_uploading_product" = "Ett fel uppstod vid uppdatering av din produkt.";
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
 "edit_product_title" = "Redigera produkt";
+"filters_distance_not_set" = "Not set";
 "filters_navbar_reset" = "Återställ";
 "filters_save_button" = "Spara filter";
 "filters_section_categories" = "Kategorier";

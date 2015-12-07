@@ -106,6 +106,7 @@
 "edit_product_send_error_uploading_product" = "Er is een fout opgetreden bij het actualiseren van jouw product.";
 "edit_product_send_ok" = "Gefeliciteerd! Je item is met succes geplaatst. Het verschijnt zo snel mogelijk in ons overzicht.";
 "edit_product_title" = "Product bewerken";
+"filters_distance_not_set" = "Not set";
 "filters_navbar_reset" = "Reset";
 "filters_save_button" = "Filters opslaan";
 "filters_section_categories" = "Categorieen";

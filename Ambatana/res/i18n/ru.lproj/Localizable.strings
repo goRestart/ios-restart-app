@@ -106,6 +106,7 @@
 "edit_product_send_error_uploading_product" = "При обновлении товара произошла ошибка.";
 "edit_product_send_ok" = "Поздравляем! Ваш товар был успешно обновлен. В скором времени он появится в списке.";
 "edit_product_title" = "Редактировать товар";
+"filters_distance_not_set" = "Not set";
 "filters_navbar_reset" = "Сброс";
 "filters_save_button" = "Сохранить фильтры";
 "filters_section_categories" = "Категории";
