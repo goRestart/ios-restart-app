@@ -50,6 +50,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let splashVC = SplashViewController(configManager: configManager)
             let navCtl = UINavigationController(rootViewController: splashVC)
             splashVC.completionBlock = { (succeeded: Bool) -> Void in
+
+                // Removing splash nav controller, otherwise it remains below the tabbar
+                navCtl.view.removeFromSuperview()
             
                 // Rebuild user defaults
                 UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
@@ -57,7 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 // Show TabBar afterwards
                 let tabBarCtl = TabBarController()
                 actualWindow.rootViewController = tabBarCtl
-                navCtl.view.removeFromSuperview()
                 
                 // Open the deep link, if any
                 if let actualDeepLink = deepLink {
