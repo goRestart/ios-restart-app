@@ -106,7 +106,7 @@
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
 "edit_product_title" = "Endre produkt";
-"filters_distance_not_set" = "not set";
+"filters_distance_not_set" = "Ikke satt";
 "filters_navbar_reset" = "Tilbakestill";
 "filters_save_button" = "Lagre filtere";
 "filters_section_categories" = "Kategorier";
@@ -189,8 +189,8 @@
 "product_mark_as_sold_confirm_title" = "Merk som solgt";
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
-"product_negotiable_price" = "Negotiable";
-"product_price_label" = "Price";
+"product_negotiable_price" = "Pris kan diskuteres";
+"product_price_label" = "Pris";
 "product_report_confirm_cancel_button" = "Avbryt";
 "product_report_confirm_message" = "Er du sikker på at du ønsker å rapportere dette produktet?";
 "product_report_confirm_ok_button" = "OK";
