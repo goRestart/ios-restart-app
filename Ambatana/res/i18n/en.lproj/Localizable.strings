@@ -323,7 +323,7 @@
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
 
 // When there's no distance filter set
-"filters_distance_not_set" = "Not set";
+"filters_distance_not_set" = "not set";
 
 // Filters navbar reset
 "filters_navbar_reset" = "Reset";

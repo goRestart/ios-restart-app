@@ -106,7 +106,7 @@
 "edit_product_send_error_uploading_product" = "Ocorreu um erro enquanto atualizávamos o seu anúncio.";
 "edit_product_send_ok" = "Parabéns! Seu anúncio foi atualizado com sucesso e será exibido em breve.";
 "edit_product_title" = "Editar Produto";
-"filters_distance_not_set" = "Not set";
+"filters_distance_not_set" = "not set";
 "filters_navbar_reset" = "Reset";
 "filters_save_button" = "Save filters";
 "filters_section_categories" = "Categories";
