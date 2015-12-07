@@ -26,19 +26,34 @@ public class PushPermissionsManager: NSObject {
     */
     public func showPushPermissionsAlertFromViewController(viewController: UIViewController,
         prePermissionType: PrePermissionType) {
-
+            
+            // If the user is already registered for notifications, we shouldn't ask anything.
+            guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else { return }
+            
+            // The user was asked before and answered the pre-permission
+            if let alreadyAccepted = UserDefaultsManager.sharedInstance.loadUserDidAcceptPushPrePremissions() {
+                if alreadyAccepted {
+                    // Already accepted but is not registered for notifications
+                    // TODO: Show a view to go to Settings
+                }
+                else {
+                    // Already said NO to the pre-permissions and the native one. return
+                    return
+                }
+            }
+            
             guard ABTests.prePermissionsActive.boolValue else {
                 PushManager.sharedInstance.askSystemForPushPermissions()
                 return
             }
-
+            
             let nativeStyleAlert = ((prePermissionType == .Chat && ABTests.nativePrePermissions.boolValue) || false)
-
+            
             // tracking data
             permissionType = .Push
             typePage = prePermissionType.trackingParam
             alertType = nativeStyleAlert ? .NativeLike : .Custom
-
+            
             switch (prePermissionType) {
             case .ProductList:
                 guard !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsAtList() else { return }
@@ -100,9 +115,11 @@ public class PushPermissionsManager: NSObject {
                 case .Chat, .Sell:
                     UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(true)
                 }
+                UserDefaultsManager.sharedInstance.saveUserDidAcceptPushPrePermissions(false)
             })
             let yesAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
                 self.trackActivated()
+                UserDefaultsManager.sharedInstance.saveUserDidAcceptPushPrePermissions(true)
                 PushManager.sharedInstance.askSystemForPushPermissions()
             })
             alert.addAction(noAction)
@@ -134,6 +151,7 @@ public class PushPermissionsManager: NSObject {
                             UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(true)
                         }
                     }
+                    UserDefaultsManager.sharedInstance.saveUserDidAcceptPushPrePermissions(activated)
             }
             viewController.view.addSubview(customPermissionView)
     }
