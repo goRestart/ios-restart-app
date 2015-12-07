@@ -50,6 +50,7 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="uCp-HD-UrV"/>
                                     </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                     <state key="normal" title="_Cancel">
                                         <color key="titleColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
@@ -64,6 +65,7 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="e7T-Z0-H2t"/>
                                     </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                     <state key="normal" title="_Activate">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
