@@ -251,11 +251,9 @@ UITextFieldDelegate {
         
         setFiltersNavbarButton()
         
-        guard let searchField = searchTextField else {
-            return
+        if let searchField = searchTextField {
+            searchField.endEdit()
         }
-        
-        searchField.endEdit()
     }
     
     func beginEdit() {
@@ -368,8 +366,12 @@ UITextFieldDelegate {
     }
     
     private func setFiltersNavbarButton() {
-        setLetGoRightButtonWithImageName(self.tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active",
-            andSelector: "filtersButtonPressed:")
+        var filtersIcon = "ic_filters"
+        if let tagsViewController = self.tagsViewController {
+            filtersIcon = tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active"
+        }
+
+        setLetGoRightButtonWithImageName(filtersIcon, andSelector: "filtersButtonPressed:")
     }
     
     private func showTagsView(show: Bool) {
