@@ -10,7 +10,7 @@ import LGCoreKit
 
 public struct ProductFilters {
     
-    var distanceRadius : Int
+    var distanceRadius : Int?
     var distanceType : DistanceType
     
     var selectedCategories : [ProductCategory]
@@ -32,7 +32,12 @@ public struct ProductFilters {
     }
     
     init(distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory], selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria){
-        self.distanceRadius = distanceRadius
+        if(distanceRadius > 0) {
+            self.distanceRadius = distanceRadius
+        }
+        else {
+            self.distanceRadius = nil
+        }
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
         self.selectedWithin = selectedWithin

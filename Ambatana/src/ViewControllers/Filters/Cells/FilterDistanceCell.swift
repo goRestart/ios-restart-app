@@ -62,7 +62,7 @@ class FilterDistanceCell: UICollectionViewCell {
                 return
             }
         }
-        setupInPosition(positions.count/2) //Just in the middle
+        setupInPosition(0) //First option
     }
     
     // MARK: - Internal methods
@@ -148,10 +148,13 @@ class FilterDistanceCell: UICollectionViewCell {
     private func updateTipLabel() {
         
         let currDist = currentDistance()
-        if(currDist == positions[positions.count-1]){
+        if(currDist == positions[0]) {
+            //First option (0) means no distance
+            distanceLabel.text = LGLocalizedString.filtersDistanceNotSet
+        }else if(currDist == positions[positions.count-1]) {
+            //Last option (100) will have the string: "max"
             distanceLabel.text = LGLocalizedString.commonMax
-        }
-        else{
+        } else {
             distanceLabel.text = "\(currentDistance()) \(distanceType.string)"
         }
     }
