@@ -16,6 +16,7 @@
                 <outlet property="bottomView" destination="5pG-Ac-iOO" id="e0v-Gs-cxn"/>
                 <outlet property="deleteButton" destination="UM2-pr-wbb" id="lrt-Pd-kmg"/>
                 <outlet property="descriptionCollapsible" destination="z0J-bb-yu5" id="0lp-by-lQR"/>
+                <outlet property="descriptionTopConstraint" destination="rmj-Q6-F0M" id="2k3-NM-sZP"/>
                 <outlet property="fbMessengerShareButtonWidthConstraint" destination="bvD-s9-WiV" id="8lI-Zp-M6L"/>
                 <outlet property="footerViewHeightConstraint" destination="zoi-wR-b4u" id="Zwf-6m-SFz"/>
                 <outlet property="galleryView" destination="rnN-LC-zqg" id="01p-kR-evO"/>
@@ -23,6 +24,7 @@
                 <outlet property="markSoldButton" destination="oma-dm-K3a" id="3er-5G-VFv"/>
                 <outlet property="meSellingView" destination="8Ah-Jq-yDG" id="VPT-eX-SNd"/>
                 <outlet property="nameLabel" destination="9kq-xm-UA7" id="jlJ-Rn-LIk"/>
+                <outlet property="nameTopConstraint" destination="ioQ-lM-T3a" id="xc1-so-v2a"/>
                 <outlet property="offerButton" destination="Owj-OB-OLv" id="BfN-na-MJK"/>
                 <outlet property="otherSellingView" destination="VGo-KN-Ung" id="Nur-C6-y0w"/>
                 <outlet property="priceLabel" destination="i2S-b5-HyP" id="LIY-gt-fJf"/>

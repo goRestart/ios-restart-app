@@ -28,10 +28,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // > Main
     @IBOutlet weak var galleryView: GalleryView!
-    
-    @IBOutlet weak var nameLabel: UILabel!
+
     @IBOutlet weak var priceTitleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var descriptionTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
     
     @IBOutlet weak var addressIconTopConstraint: NSLayoutConstraint!
@@ -622,10 +624,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             userInfo.setupWith(avatar: viewModel.userAvatar, text: viewModel.userName)
             userInfo.delegate = self
         }
-        
-        nameLabel.text = viewModel.name
+
         priceLabel.text = viewModel.price
+        nameLabel.text = viewModel.name
+        nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : 15
         descriptionCollapsible.mainText = viewModel.descr
+        descriptionTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 0 : 15
         addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 15 : 30
         addressIconHeightConstraint.constant = viewModel.addressIconVisible ? ProductViewController.addressIconVisibleHeight : 0
         addressLabel.text = viewModel.address
