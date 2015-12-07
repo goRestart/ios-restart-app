@@ -24,14 +24,14 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     // UI
     // > Navigation Bar
     private var favoriteButton: UIButton?
+    private var userInfo: NavBarUserInfo?
     
     // > Main
     @IBOutlet weak var galleryView: GalleryView!
-    @IBOutlet weak var userAvatarImageView: UIImageView!
-    @IBOutlet weak var usernameContainerView: UIView!
-    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var galleryGradient: UIView!
     
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var priceTitleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
     
@@ -111,10 +111,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     // MARK: - Public methods
     
     // MARK: > Actions
-    
-    @IBAction func userButtonPressed(sender: AnyObject) {
-        openProductUserProfile()
-    }
     
     @IBAction func mapViewButtonPressed(sender: AnyObject) {
         openMap()
@@ -480,17 +476,23 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
 
         productStatusLabel.frame = CGRect(origin: CGPoint(x: originX, y: 0.0), size: size)
         view.layoutIfNeeded()
+
+        if let gradientSubLayers = galleryGradient.layer.sublayers {
+            for layer in gradientSubLayers {
+                layer.frame = galleryGradient.bounds
+            }
+        }
     }
     
     private func setupUI() {
         // Setup
         // > Navigation Bar
+        userInfo = NavBarUserInfo.buildNavbarUserInfo()
+        setLetGoNavigationBarStyle(userInfo)
         setLetGoNavigationBarStyle("")
         setFavouriteButtonAsFavourited(false)
         
         // > Main
-        usernameContainerView.layer.cornerRadius = 2
-        
         productStatusLabel.layer.cornerRadius = 18
         productStatusLabel.layer.masksToBounds = true
         
@@ -499,9 +501,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         productStatusShadow.layer.shadowOpacity = 0.24
         productStatusShadow.layer.shadowRadius = 8.0
 
-        userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
-        userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-        userAvatarImageView.layer.borderWidth = 2
+        priceTitleLabel.text = LGLocalizedString.productPriceLabel.uppercaseString
         
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
         descriptionCollapsible.addGestureRecognizer(tapGesture)
@@ -537,7 +537,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         let markSoldTitle = viewModel.productIsSold ? LGLocalizedString.productMarkAsSoldButton : LGLocalizedString.productMarkAsSoldButton
         markSoldButton.setTitle(markSoldTitle, forState: .Normal)
-        
+
+        let background = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
+            locations: [0.0,1.0])
+        background.frame = galleryGradient.bounds
+        galleryGradient.layer.insertSublayer(background, atIndex: 0)
         
         // Delegates
         galleryView.delegate = self
@@ -625,12 +629,11 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 }
             }
         }
-        
-        // Main
-        if let userAvatarURL = viewModel.userAvatar {
-            userAvatarImageView.sd_setImageWithURL(userAvatarURL, placeholderImage: UIImage(named: "no_photo"))
+
+        if let userInfo = userInfo {
+            userInfo.setupWith(avatar: viewModel.userAvatar, text: viewModel.userName)
+            userInfo.delegate = self
         }
-        usernameLabel.text = viewModel.userName
         
         nameLabel.text = viewModel.name
         priceLabel.text = viewModel.price
@@ -772,13 +775,6 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    // TODO: Refactor to retrieve a viewModel and build an VC
-    private func openProductUserProfile() {
-        if let vc = viewModel.productUserProfileViewModel {
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-    
     // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM
     private func openMap() {
         if let vc = viewModel.productLocationViewModel {
@@ -882,5 +878,21 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         presentViewController(alert, animated: true, completion: {
             self.viewModel.markUnsoldStarted()
         })
+    }
+}
+
+
+// MARK: - NavBarUserInfoDelegate
+
+extension ProductViewController: NavBarUserInfoDelegate {
+    func navBarUserInfoTapped(navbarUserInfo: NavBarUserInfo) {
+        openProductUserProfile()
+    }
+
+    // TODO: Refactor to retrieve a viewModel and build an VC
+    private func openProductUserProfile() {
+        if let vc = viewModel.productUserProfileViewModel {
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

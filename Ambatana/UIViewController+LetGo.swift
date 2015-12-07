@@ -21,8 +21,8 @@ extension UIViewController {
             self.navigationItem.title = titleString
         } else if let titleImage = title as? UIImage {
             self.navigationItem.titleView = UIImageView(image: titleImage)
-        } else if let titleTextField = title as? LGNavBarSearchField {
-            self.navigationItem.titleView = titleTextField
+        } else if let titleView = title as? UIView {
+            self.navigationItem.titleView = titleView
         }
 
         // back button
