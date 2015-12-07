@@ -32,12 +32,7 @@ public struct ProductFilters {
     }
     
     init(distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory], selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria){
-        if(distanceRadius > 0) {
-            self.distanceRadius = distanceRadius
-        }
-        else {
-            self.distanceRadius = nil
-        }
+        self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
         self.selectedWithin = selectedWithin
