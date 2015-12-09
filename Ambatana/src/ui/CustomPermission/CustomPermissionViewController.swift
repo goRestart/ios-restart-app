@@ -82,26 +82,14 @@ public class CustomPermissionViewController: UIViewController {
         super.init(coder: aDecoder)
     }
 
-    override public func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override public func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     public func setupCustomAlertWithTitle(title: String, message: String, imageName: String, activateButtonTitle: String,
         cancelButtonTitle: String, handler: ((Bool) -> ())?) {
 
             self.handler = handler
 
-            customAlertView.alpha = 0
-
             bgView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
 
+            customAlertView.alpha = 0
             customAlertView.layer.cornerRadius = 6
 
             cancelButton.layer.cornerRadius = 4
@@ -113,9 +101,7 @@ public class CustomPermissionViewController: UIViewController {
             activateButton.setTitle(activateButtonTitle, forState: .Normal)
 
             titleLabel.text = title
-
             messageLabel.text = message
-
             imageView.image = UIImage(named: imageName)
     }
 
