@@ -194,7 +194,7 @@ class ChatViewController: SLKTextViewController {
     - returns: Cache key String
     */
     override func keyForTextCaching() -> String! {
-        return viewModel.chat.product.objectId
+        return "\(viewModel.chat.product.objectId) + \(viewModel.chat.userTo.objectId)"
     }
 
     
