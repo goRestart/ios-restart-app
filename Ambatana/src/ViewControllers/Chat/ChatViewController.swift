@@ -41,6 +41,7 @@ class ChatViewController: SLKTextViewController {
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupToastView()
+
         view.addSubview(ChatProductView())
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
@@ -107,6 +108,7 @@ class ChatViewController: SLKTextViewController {
         view.addSubview(activityIndicator)
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
+        keyboardPanningEnabled = false
     }
     
     func updateProductView() {
@@ -178,6 +180,21 @@ class ChatViewController: SLKTextViewController {
     
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+    
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        textView.resignFirstResponder()
+    }
+    
+    /**
+    Slack Caches the text in the textView if you close the view before sending
+    Need to override this method to set the cache key to the product id
+    so the cache is not shared between products chats
+    
+    - returns: Cache key String
+    */
+    override func keyForTextCaching() -> String! {
+        return "\(viewModel.chat.product.objectId) + \(viewModel.chat.userTo.objectId)"
     }
 
     
