@@ -216,9 +216,6 @@ public class PushManager: NSObject, KahunaDelegate {
 
     public func askSystemForPushPermissions() {
 
-        UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
-        UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(false)
-
         let application = UIApplication.sharedApplication()
         let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert,
             UIUserNotificationType.Badge, UIUserNotificationType.Sound])

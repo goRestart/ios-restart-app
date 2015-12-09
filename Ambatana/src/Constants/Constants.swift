@@ -51,5 +51,5 @@ struct Constants {
 
     // Pre Permissions
     static let itemIndexPushPermissionsTrigger = 30
-    static let pushPermissionRepeatTime = (60 * 60 * 24) // 1 day
+    static let pushPermissionRepeatTime = 10 // (60 * 60 * 24) // 1 day
 }

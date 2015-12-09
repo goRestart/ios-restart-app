@@ -146,7 +146,11 @@ public func ?? <T, Error> (left: Result<T, Error>, @autoclosure right: () -> Res
 
 // MARK: - Derive result from failable closure
 
-public func materialize<T>(f: () throws -> T) -> Result<T, NSError> {
+public func materialize<T>(@noescape f: () throws -> T) -> Result<T, NSError> {
+	return materialize(try f())
+}
+
+public func materialize<T>(@autoclosure f: () throws -> T) -> Result<T, NSError> {
 	do {
 		return .Success(try f())
 	} catch {

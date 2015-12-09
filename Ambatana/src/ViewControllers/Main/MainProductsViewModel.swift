@@ -195,7 +195,6 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
 
     public func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int) {
 
-        print("\(index) = \(Constants.itemIndexPushPermissionsTrigger) ????")
         guard index == Constants.itemIndexPushPermissionsTrigger else { return }
         permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
     }

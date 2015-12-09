@@ -91,7 +91,7 @@ public class CustomPermissionView: UIView {
             alpha = 0
             showWithFadeIn()
 
-            bgView.backgroundColor = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255, alpha: 0.5)
+            bgView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
 
             customAlertView.layer.cornerRadius = 6
 

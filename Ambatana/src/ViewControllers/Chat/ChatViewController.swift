@@ -65,7 +65,7 @@ class ChatViewController: SLKTextViewController {
         super.viewDidAppear(animated)
         textView.becomeFirstResponder()
     }
-    
+
     func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
@@ -241,8 +241,12 @@ extension ChatViewController: ChatViewModelDelegate {
         if viewModel.shouldAskForRating { askForRating() }
 
         if UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-            PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-                prePermissionType: .Chat)
+            if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
+                prePermissionType: .Chat) {
+                    textView.resignFirstResponder()
+                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
+                        prePermissionType: .Chat)
+            }
         }
 
         tableView.beginUpdates()
