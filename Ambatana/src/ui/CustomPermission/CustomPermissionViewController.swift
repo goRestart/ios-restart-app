@@ -1,8 +1,8 @@
 //
-//  CustomPermissionView.swift
+//  CustomPermissionViewController.swift
 //  LetGo
 //
-//  Created by Dídac on 03/12/15.
+//  Created by Dídac on 09/12/15.
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
@@ -58,7 +58,8 @@ public enum PrePermissionType: Int {
     }
 }
 
-public class CustomPermissionView: UIView {
+
+public class CustomPermissionViewController: UIViewController {
 
     @IBOutlet weak var bgView: UIView!
 
@@ -73,14 +74,23 @@ public class CustomPermissionView: UIView {
 
     var handler : ((Bool) -> ())?
 
-    
-    public static func customPermissionView() -> CustomPermissionView? {
-        return NSBundle.mainBundle().loadNibNamed("CustomPermissionView", owner: self, options: nil).first
-            as? CustomPermissionView
+    public init() {
+        super.init(nibName: "CustomPermissionViewController", bundle: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+    }
+
+    override public func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 
     public func setupCustomAlertWithTitle(title: String, message: String, imageName: String, activateButtonTitle: String,
@@ -88,8 +98,7 @@ public class CustomPermissionView: UIView {
 
             self.handler = handler
 
-            alpha = 0
-            showWithFadeIn()
+            customAlertView.alpha = 0
 
             bgView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
 
@@ -102,15 +111,15 @@ public class CustomPermissionView: UIView {
 
             activateButton.layer.cornerRadius = 4
             activateButton.setTitle(activateButtonTitle, forState: .Normal)
-            
+
             titleLabel.text = title
-            
+
             messageLabel.text = message
 
             imageView.image = UIImage(named: imageName)
     }
 
-    
+
     @IBAction func cancelButtonPressed(sender: AnyObject) {
         closeWithFadeOut()
         handler?(false)
@@ -118,21 +127,21 @@ public class CustomPermissionView: UIView {
 
     @IBAction func activateButtonPressed(sender: AnyObject) {
         handler?(true)
-        removeFromSuperview()
+        dismissViewControllerAnimated(false, completion: nil)
     }
 
 
     func showWithFadeIn() {
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
-            self.alpha = 1
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.customAlertView.alpha = 1
         })
     }
 
     func closeWithFadeOut() {
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
-            self.alpha = 0
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.customAlertView.alpha = 0
             }) { (completed) -> Void in
-                self.removeFromSuperview()
+                self.dismissViewControllerAnimated(false, completion: nil)
         }
     }
 }

@@ -129,10 +129,11 @@ public class PushPermissionsManager: NSObject {
     private func showCustomPrePermissionFromViewController(viewController: UIViewController,
         prePermissionType: PrePermissionType) {
 
-            guard let customPermissionView = CustomPermissionView.customPermissionView() else { return }
+            let customPermissionVC = CustomPermissionViewController()
 
-            customPermissionView.frame = viewController.view.frame
-            customPermissionView.setupCustomAlertWithTitle(prePermissionType.title, message: prePermissionType.message,
+            customPermissionVC.view.frame = viewController.view.frame
+            customPermissionVC.modalPresentationStyle = .OverCurrentContext
+            customPermissionVC.setupCustomAlertWithTitle(prePermissionType.title, message: prePermissionType.message,
                 imageName: prePermissionType.image,
                 activateButtonTitle: LGLocalizedString.commonOk,
                 cancelButtonTitle: LGLocalizedString.commonCancel) { (activated) in
@@ -150,7 +151,15 @@ public class PushPermissionsManager: NSObject {
                     }
             }
             UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
-            viewController.view.addSubview(customPermissionView)
+            if let tabBarController = viewController.tabBarController {
+                tabBarController.presentViewController(customPermissionVC, animated: false) { () -> Void in
+                    customPermissionVC.showWithFadeIn()
+                }
+            } else {
+                viewController.presentViewController(customPermissionVC, animated: false) { () -> Void in
+                    customPermissionVC.showWithFadeIn()
+                }
+            }
     }
 
     private func askSystemForPushPermissions() {
