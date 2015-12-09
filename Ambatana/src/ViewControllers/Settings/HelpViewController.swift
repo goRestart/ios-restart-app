@@ -37,7 +37,7 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
         
         // Navigation Bar
         setLetGoNavigationBarStyle(LGLocalizedString.helpTitle)
-        setLetGoRightButtonsWithImageNames(["ic_contact_small"], andSelectors: ["openContact"])
+        setLetGoRightButtonWith(imageName: "ic_contact_small", selector: "openContact")
 
         if let url = viewModel.url {
 

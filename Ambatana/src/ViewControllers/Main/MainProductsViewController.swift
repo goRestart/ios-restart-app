@@ -358,8 +358,8 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
     }
     
     private func setFiltersNavbarButton() {
-        setLetGoRightButtonWithImageName(self.tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active",
-            andSelector: "filtersButtonPressed:")
+        let image = self.tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active"
+        setLetGoRightButtonWith(imageName: image, renderingMode: .AlwaysOriginal, selector: "filtersButtonPressed:")
     }
     
     private func showTagsView(show: Bool) {
