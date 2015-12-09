@@ -41,7 +41,6 @@ class ChatViewController: SLKTextViewController {
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupToastView()
-        self.keyboardPanningEnabled = false
 
         view.addSubview(ChatProductView())
         
@@ -109,6 +108,7 @@ class ChatViewController: SLKTextViewController {
         view.addSubview(activityIndicator)
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
+        keyboardPanningEnabled = false
     }
     
     func updateProductView() {
