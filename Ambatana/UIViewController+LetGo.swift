@@ -58,11 +58,6 @@ extension UIViewController {
         tags: [Int]? = nil) -> [UIButton] {
 
             if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
-            
-            //Just one item, use the standard way
-            if (images.count == 1){
-                
-            }
 
             var resultButtons: [UIButton] = []
             let hSpacing: CGFloat = 24
@@ -78,7 +73,6 @@ extension UIViewController {
                 let button = UIButton(type: .System)
                 button.frame = CGRectMake(x, 0, buttonWidth, height)
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
-    //            button.backgroundColor = UIColor.purpleColor()
                 button.tag = tags != nil ? tags![i] : i
                 button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(renderingMode), forState: .Normal)
                 button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
@@ -90,7 +84,6 @@ extension UIViewController {
 
             let buttonsFrame = CGRect(x: 0, y: 0, width: width, height: height)
             let buttonsView = UIView(frame: buttonsFrame)
-    //        buttonsView.backgroundColor = UIColor.greenColor()
             
             // Adjust the button frame and add them as subviews
             for button in resultButtons {
@@ -142,7 +135,8 @@ extension UIViewController {
     }
 
     
-    // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert().  Used to patch FB login in iOS 9
+    // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling 
+    // dismissAlert().  Used to patch FB login in iOS 9
     func showCustomLoadingMessageAlert(customMessage: String? = LGLocalizedString.commonLoading) {
         let bgVC = UIViewController()
         bgVC.modalPresentationStyle =  UIModalPresentationStyle.OverCurrentContext

@@ -163,7 +163,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-        
+
+            // TODO: Refactor cells into CellDrawer pattern
             switch sections[indexPath.section] {
             case .Distance:
                 guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell",
