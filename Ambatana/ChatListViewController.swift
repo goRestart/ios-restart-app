@@ -30,7 +30,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Data
     var chats: [Chat]?
-    
+
+
     // MARK: - Lifecycle
     
     init() {
@@ -95,6 +96,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         updateConversations()
     }
 
+
     // MARK: - Conversation management
     
     func updateConversations() {
@@ -143,6 +145,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             }
         })
     }
+
     
     // MARK: - Appearance & different contexts interfaces
     
@@ -191,7 +194,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     func disableConversationsInterface() {
         tableView.hidden = true
     }
-    
+
+
     // MARK: - Button actions
     
     @IBAction func searchProducts(sender: AnyObject) {
@@ -205,6 +209,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         let navCtl = UINavigationController(rootViewController: vc)
         presentViewController(navCtl, animated: true, completion: nil)
     }
+
 
     // MARK: - UITableViewDelegate & DataSource methods
     
@@ -230,6 +235,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
         }
     }
+
     
     // MARK: - NSNotificationCenter
     
