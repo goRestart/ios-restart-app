@@ -42,6 +42,10 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,27 +65,33 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         // register cell
         let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: "ConversationCell")
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
+
         // NSNotificationCenter, observe for user interactions (msgs & offers)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
         // Update conversations (always forced, so the badges are updated)
         updateConversations()
         
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
-    
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
-    
+
+    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
+        updateConversations()
+    }
+
     // MARK: - Conversation management
     
     func updateConversations() {
