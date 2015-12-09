@@ -10,7 +10,12 @@ import LGCoreKit
 
 extension ProductSortCriteria {
     public static var defaultOption : ProductSortCriteria {
-        return .Creation
+        if ABTests.defaultFilterOrderNewest.boolValue {
+            return .Creation
+        }
+        else {
+            return .Distance
+        }
     }
     
     public var name : String {
@@ -26,5 +31,12 @@ extension ProductSortCriteria {
         }
     }
     
-    public static func allValues() -> [ProductSortCriteria] { return [.Creation, .Distance, .PriceAsc, .PriceDesc] }
+    public static func allValues() -> [ProductSortCriteria] {
+        if ABTests.defaultFilterOrderNewest.boolValue {
+            return [.Creation, .Distance, .PriceAsc, .PriceDesc]
+        }
+        else {
+            return [.Distance, .Creation, .PriceAsc, .PriceDesc]
+        }
+    }
 }
