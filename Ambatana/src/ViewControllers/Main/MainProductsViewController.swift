@@ -239,8 +239,6 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
         cancelSearchOverlayButton?.removeFromSuperview()
         cancelSearchOverlayButton = nil
         
-        showInfoBubble(true)
-        
         setFiltersNavbarButton()
         
         guard let searchField = searchTextField else {
@@ -258,8 +256,6 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
         
         viewModel.searchBegan()
         
-        showInfoBubble(false)
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
             action: "endEdit")
         
@@ -274,7 +270,7 @@ MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDeleg
         searchOverlayView.userInteractionEnabled = false
         cancelSearchOverlayButton?.insertSubview(searchOverlayView, atIndex: 0)
         
-        mainProductListView.addSubview(cancelSearchOverlayButton!)
+        view.addSubview(cancelSearchOverlayButton!)
         
         guard let searchField = searchTextField else {
             return

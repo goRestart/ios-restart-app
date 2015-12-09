@@ -113,7 +113,7 @@ class ChatViewController: SLKTextViewController {
     func updateProductView() {
         productView.nameLabel.text = viewModel.chat.product.name
         productView.userLabel.text = viewModel.chat.product.user.publicUsername
-        productView.priceLabel.text = viewModel.chat.product.formattedPrice()
+        productView.priceLabel.text = viewModel.chat.product.priceString()
         if let thumbURL = viewModel.chat.product.thumbnail?.fileURL {
             switch viewModel.chat.product.status {
             case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
