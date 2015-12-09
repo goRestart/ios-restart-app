@@ -590,7 +590,7 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
                 currentTag++
             }
             
-            let buttons = setLetGoRightButtonsWithImageNames(imageNames, andSelectors: selectors, withTags: tags)
+            let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags)
             for button in buttons {
                 if button.tag == favTag {
                     favoriteButton = button
@@ -664,7 +664,7 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
     
     private func setFavouriteButtonAsFavourited(favourited: Bool) {
         let imageName = favourited ? "navbar_fav_on" : "navbar_fav_off"
-        let image = UIImage(named: imageName)!.imageWithRenderingMode(.AlwaysOriginal)
+        let image = UIImage(named: imageName)!.imageWithRenderingMode(.AlwaysTemplate)
         favoriteButton?.setImage(image, forState: .Normal)
     }
     

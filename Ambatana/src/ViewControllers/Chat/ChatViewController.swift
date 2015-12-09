@@ -352,7 +352,7 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
  
     func updateSafetyTipBarButton() {
         let tipsImageName = viewModel.safetyTipsCompleted ? "ic_tips_black" : "ic_tips_alert"
-        setLetGoRightButtonsWithImageNames([tipsImageName], andSelectors: ["showSafetyTips"])
+        setLetGoRightButtonWith(imageName: tipsImageName, renderingMode: .AlwaysOriginal, selector: "showSafetyTips")
     }
     
     func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int) {

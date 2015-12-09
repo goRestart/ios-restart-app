@@ -9,7 +9,8 @@
 import UIKit
 import LGSemiModalNavController
 
-class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class FiltersViewController: BaseViewController, FiltersViewModelDelegate, FilterDistanceCellDelegate,
+UICollectionViewDataSource, UICollectionViewDelegate {
     
     // Outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
@@ -27,24 +28,28 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     
     
     // MARK: - Factory
-    static func presentAsSemimodalOnViewController(parentVC : UIViewController, withViewModel viewModel: FiltersViewModel = FiltersViewModel()){
+
+    static func presentAsSemimodalOnViewController(parentVC : UIViewController,
+        withViewModel viewModel: FiltersViewModel = FiltersViewModel()){
         
-        let vc = FiltersViewController(viewModel: viewModel)
-        
-        let semiModal = LGSemiModalNavViewController(rootViewController: vc)
-        semiModal.view.frame = CGRectMake(0, 0, parentVC.view.frame.size.width, parentVC.view.frame.size.height * 0.85)
-        //Selected customization properties, see more in the header of the LGSemiModalNavViewController
-        semiModal.backgroundShadeColor = UIColor.blackColor()
-        semiModal.animationSpeed = 0.35
-        semiModal.tapDismissEnabled = true
-        semiModal.backgroundShadeAlpha = 0.4;
-        semiModal.scaleTransform = CGAffineTransformMakeScale(0.94, 0.94)
-        
-        parentVC.presentViewController(semiModal, animated: true, completion: nil)
+            let vc = FiltersViewController(viewModel: viewModel)
+            
+            let semiModal = LGSemiModalNavViewController(rootViewController: vc)
+            semiModal.view.frame = CGRectMake(0, 0, parentVC.view.frame.size.width,
+                parentVC.view.frame.size.height * 0.85)
+            //Selected customization properties, see more in the header of the LGSemiModalNavViewController
+            semiModal.backgroundShadeColor = UIColor.blackColor()
+            semiModal.animationSpeed = 0.35
+            semiModal.tapDismissEnabled = true
+            semiModal.backgroundShadeAlpha = 0.4;
+            semiModal.scaleTransform = CGAffineTransformMakeScale(0.94, 0.94)
+            
+            parentVC.presentViewController(semiModal, animated: true, completion: nil)
     }
     
     
     // MARK: - Lifecycle
+
     convenience init() {
         self.init(viewModel: FiltersViewModel())
     }
@@ -76,7 +81,8 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+
+
     // MARK: - IBActions & Navbar
     
     func onNavbarCancel(){
@@ -104,19 +110,20 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
     func filterDistanceChanged(filterDistanceCell: FilterDistanceCell) {
         viewModel.currentDistanceRadius = filterDistanceCell.distance
     }
-    
+
+
     // MARK: - UICollectionViewDelegate & DataSource methods
     
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        switch sections[indexPath.section] {
-        case .Distance:
-            return distanceCellSize
-        case .Categories:
-            return categoryCellSize
-        case .SortBy, .Within:
-            return singleCheckCellSize
-        }
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            switch sections[indexPath.section] {
+            case .Distance:
+                return distanceCellSize
+            case .Categories:
+                return categoryCellSize
+            case .SortBy, .Within:
+                return singleCheckCellSize
+            }
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -136,57 +143,64 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         }
     }
     
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
+        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
-        if (kind == UICollectionElementKindSectionHeader) {
-            let cell = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell", forIndexPath: indexPath)
-            guard let headerCell = cell as? FilterHeaderCell else { return UICollectionReusableView() }
+            if (kind == UICollectionElementKindSectionHeader) {
+                let cell = self.collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader,
+                    withReuseIdentifier: "FilterHeaderCell", forIndexPath: indexPath)
+                guard let headerCell = cell as? FilterHeaderCell else { return UICollectionReusableView() }
+                
+                let section = sections[indexPath.section]
+                headerCell.separator.hidden = indexPath.section == 0
+                headerCell.titleLabel.text = section.name
+                
+                return headerCell
+            }
             
-            let section = sections[indexPath.section]
-            headerCell.separator.hidden = indexPath.section == 0
-            headerCell.titleLabel.text = section.name
-            
-            return headerCell
-        }
-        
-        return UICollectionReusableView()
+            return UICollectionReusableView()
     }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        switch sections[indexPath.section] {
-        case .Distance:
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell", forIndexPath: indexPath) as? FilterDistanceCell else { return UICollectionViewCell() }
-            cell.delegate = self
-            cell.distanceType = viewModel.distanceType
-            cell.setupWithDistance(viewModel.currentDistanceRadius)
-            return cell
-        case .Categories:
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterCategoryCell", forIndexPath: indexPath) as? FilterCategoryCell else { return UICollectionViewCell() }
-            cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
-            cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
-            let color = viewModel.categoryColorAtIndex(indexPath.row)
-            cell.categoryIcon.tintColor = color
-            cell.titleLabel.textColor = color
-            
-            cell.rightSeparator.hidden = indexPath.row % 2 == 1
 
-            return cell
-        case .Within:
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell", forIndexPath: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
-            cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
-            cell.selected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
-            cell.bottomSeparator.hidden = true
-            return cell
-            
-        case .SortBy:
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell", forIndexPath: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
-            cell.titleLabel.text = viewModel.sortOptionTextAtIndex(indexPath.row)
-            cell.selected = viewModel.sortOptionSelectedAtIndex(indexPath.row)
-            cell.bottomSeparator.hidden = indexPath.row != (viewModel.numOfSortOptions - 1)
-            return cell
-        }
-        
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+        -> UICollectionViewCell {
+
+            // TODO: Refactor cells into CellDrawer pattern
+            switch sections[indexPath.section] {
+            case .Distance:
+                guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell",
+                    forIndexPath: indexPath) as? FilterDistanceCell else { return UICollectionViewCell() }
+                cell.delegate = self
+                cell.distanceType = viewModel.distanceType
+                cell.setupWithDistance(viewModel.currentDistanceRadius)
+                return cell
+            case .Categories:
+                guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterCategoryCell",
+                    forIndexPath: indexPath) as? FilterCategoryCell else { return UICollectionViewCell() }
+                cell.titleLabel.text = viewModel.categoryTextAtIndex(indexPath.row)
+                cell.categoryIcon.image = viewModel.categoryIconAtIndex(indexPath.row)
+                let color = viewModel.categoryColorAtIndex(indexPath.row)
+                cell.categoryIcon.tintColor = color
+                cell.titleLabel.textColor = color
+                
+                cell.rightSeparator.hidden = indexPath.row % 2 == 1
+
+                return cell
+            case .Within:
+                guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell",
+                    forIndexPath: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                cell.titleLabel.text = viewModel.withinTimeNameAtIndex(indexPath.row)
+                cell.selected = viewModel.withinTimeSelectedAtIndex(indexPath.row)
+                cell.bottomSeparator.hidden = true
+                return cell
+                
+            case .SortBy:
+                guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell",
+                    forIndexPath: indexPath) as? FilterSingleCheckCell else { return UICollectionViewCell() }
+                cell.titleLabel.text = viewModel.sortOptionTextAtIndex(indexPath.row)
+                cell.selected = viewModel.sortOptionSelectedAtIndex(indexPath.row)
+                cell.bottomSeparator.hidden = indexPath.row != (viewModel.numOfSortOptions - 1)
+                return cell
+            }
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -205,6 +219,7 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         }
     }
 
+
     // MARK: Private methods
     
     private func setupUi(){
@@ -216,14 +231,17 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         let distanceNib = UINib(nibName: "FilterDistanceCell", bundle: nil)
         self.collectionView.registerNib(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
         let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
-        self.collectionView.registerNib(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "FilterHeaderCell")
+        self.collectionView.registerNib(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+            withReuseIdentifier: "FilterHeaderCell")
         
         // Navbar
         self.setLetGoNavigationBarStyle(LGLocalizedString.filtersTitle)
-        let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarCancel"))
+        let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain,
+            target: self, action: Selector("onNavbarCancel"))
         cancelButton.tintColor = StyleHelper.red
         self.navigationItem.leftBarButtonItem = cancelButton;
-        let resetButton = UIBarButtonItem(title: LGLocalizedString.filtersNavbarReset, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("onNavbarReset"))
+        let resetButton = UIBarButtonItem(title: LGLocalizedString.filtersNavbarReset, style: UIBarButtonItemStyle.Plain,
+            target: self, action: Selector("onNavbarReset"))
         resetButton.tintColor = StyleHelper.red
         self.navigationItem.rightBarButtonItem = resetButton;
         
@@ -235,5 +253,6 @@ class FiltersViewController: BaseViewController, FiltersViewModelDelegate, Filte
         
         // Rounded save button
         saveFiltersBtn.layer.cornerRadius = 4
+        saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, forState: UIControlState.Normal)
     }
 }

@@ -30,7 +30,7 @@ class FilterDistanceCell: UICollectionViewCell {
     //Static positions
     private let positions : [Int] = Constants.distanceFilterOptions
     
-    var delegate : FilterDistanceCellDelegate?
+    weak var delegate : FilterDistanceCellDelegate?
     
     var distance : Int {
         return currentDistance()

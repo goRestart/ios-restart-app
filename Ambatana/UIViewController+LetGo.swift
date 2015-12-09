@@ -33,59 +33,66 @@ extension UIViewController {
             self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
         }
     }
+
+    func setLetGoRightButtonWith(imageName image: String, selector: String) -> UIBarButtonItem {
+        return setLetGoRightButtonWith(imageName: image, renderingMode: .AlwaysTemplate, selector: selector)
+    }
     
-    func setLetGoRightButtonWithImageName(image: String, andSelector selector: String) -> UIBarButtonItem {
-        let itemImage = UIImage(named: image)?.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        let rightitem = UIBarButtonItem(image:itemImage, style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
-        self.navigationItem.rightBarButtonItem = rightitem
-        return rightitem
+    func setLetGoRightButtonWith(imageName image: String, renderingMode: UIImageRenderingMode,
+        selector: String) -> UIBarButtonItem {
+            let itemImage = UIImage(named: image)?.imageWithRenderingMode(renderingMode)
+            let rightitem = UIBarButtonItem(image:itemImage,
+                style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
+            self.navigationItem.rightBarButtonItem = rightitem
+            return rightitem
     }
     
     // Used to set right buttons in the LetGo style and link them with proper actions.
-    func setLetGoRightButtonsWithImageNames(images: [String], andSelectors selectors: [String], withTags tags: [Int]? = nil) -> [UIButton] {
-        if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
-        
-        //Just one item, use the standard way
-        if (images.count == 1){
+    func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String],
+        tags: [Int]? = nil) -> [UIButton] {
+            return setLetGoRightButtonsWith(imageNames: images, renderingMode: .AlwaysTemplate, selectors: selectors,
+                tags: tags)
+    }
+
+    func setLetGoRightButtonsWith(imageNames images: [String], renderingMode: UIImageRenderingMode, selectors: [String],
+        tags: [Int]? = nil) -> [UIButton] {
+
+            if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
+
+            var resultButtons: [UIButton] = []
+            let hSpacing: CGFloat = 24
+
+            var x: CGFloat = 0
+            let height: CGFloat = 44
+            var width: CGFloat = 0
             
-        }
+            for i in 0..<images.count {
+                let image = UIImage(named: images[i])!
+                let buttonWidth = image.size.width + hSpacing            // image width + horizontal spacing
 
-        var resultButtons: [UIButton] = []
-        let hSpacing: CGFloat = 24
+                let button = UIButton(type: .System)
+                button.frame = CGRectMake(x, 0, buttonWidth, height)
+                button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+                button.tag = tags != nil ? tags![i] : i
+                button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(renderingMode), forState: .Normal)
+                button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
+                resultButtons.append(button)
+                
+                x += image.size.width + hSpacing
+                width += buttonWidth
+            }
 
-        var x: CGFloat = 0
-        let height: CGFloat = 44
-        var width: CGFloat = 0
-        
-        for i in 0..<images.count {
-            let image = UIImage(named: images[i])!
-            let buttonWidth = image.size.width + hSpacing            // image width + horizontal spacing
-
-            let button = UIButton(type: .System)
-            button.frame = CGRectMake(x, 0, buttonWidth, height)
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
-//            button.backgroundColor = UIColor.purpleColor()
-            button.tag = tags != nil ? tags![i] : i
-            button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(.AlwaysOriginal), forState: .Normal)
-            button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
-            resultButtons.append(button)
+            let buttonsFrame = CGRect(x: 0, y: 0, width: width, height: height)
+            let buttonsView = UIView(frame: buttonsFrame)
             
-            x += image.size.width + hSpacing
-            width += buttonWidth
-        }
-
-        let buttonsFrame = CGRect(x: 0, y: 0, width: width, height: height)
-        let buttonsView = UIView(frame: buttonsFrame)
-//        buttonsView.backgroundColor = UIColor.greenColor()
-        
-        // Adjust the button frame and add them as subviews
-        for button in resultButtons {
-            button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width, height)
-            buttonsView.addSubview(button)
-        }
-        
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
-        return resultButtons
+            // Adjust the button frame and add them as subviews
+            for button in resultButtons {
+                button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width, height)
+                buttonsView.addSubview(button)
+            }
+            
+            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
+            return resultButtons
     }
     
     // gets back one VC from the stack.
@@ -128,7 +135,8 @@ extension UIViewController {
     }
 
     
-    // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert().  Used to patch FB login in iOS 9
+    // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling 
+    // dismissAlert().  Used to patch FB login in iOS 9
     func showCustomLoadingMessageAlert(customMessage: String? = LGLocalizedString.commonLoading) {
         let bgVC = UIViewController()
         bgVC.modalPresentationStyle =  UIModalPresentationStyle.OverCurrentContext
