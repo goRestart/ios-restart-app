@@ -67,7 +67,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.registerNib(cellNib, forCellReuseIdentifier: "ConversationCell")
 
         // NSNotificationCenter, observe for user interactions (msgs & offers)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
+            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -79,13 +80,15 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"),
+            name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self,
+            name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
 
     dynamic private func applicationWillEnterForeground(notification: NSNotification) {
@@ -109,7 +112,9 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         }
         tableView.userInteractionEnabled = false
         
-        ChatManager.sharedInstance.retrieveChatsWithCompletion({ [weak self] (result: Result<[Chat], ChatsRetrieveServiceError>) -> Void in
+        ChatManager.sharedInstance.retrieveChatsWithCompletion({
+            [weak self] (result: Result<[Chat], ChatsRetrieveServiceError>) -> Void in
+
             if let strongSelf = self {
                 // Success
                 if let chats = result.value {
@@ -123,8 +128,9 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
                 } else if let actualError = result.error {
                     if actualError == .Forbidden {
                         // logout the scammer!
-                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                            MyUserManager.sharedInstance.logout(nil)
+                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric,
+                            completionBlock: { (completion) -> Void in
+                                MyUserManager.sharedInstance.logout(nil)
                         })
                     }
                 }
@@ -208,7 +214,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath) as! ConversationCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell",
+            forIndexPath: indexPath) as! ConversationCell
         
         cell.tag = indexPath.hash
         if let chat = chats?[indexPath.row], let myUser = MyUserManager.sharedInstance.myUser() {
