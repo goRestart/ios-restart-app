@@ -210,7 +210,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId,
             let userId = user.objectId {
                 if userId == myUserId {
-                    setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"])
+                    setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
                 }
         }
     }

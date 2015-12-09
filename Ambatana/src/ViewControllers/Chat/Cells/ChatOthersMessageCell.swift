@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ChatOthersMessageCellDelegate {
+protocol ChatOthersMessageCellDelegate: class {
     func didTapOnUserAvatar()
 }
 
@@ -16,7 +16,7 @@ class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarButtonPressed: (() -> Void)?
-    var delegate: ChatOthersMessageCellDelegate?
+    weak var delegate: ChatOthersMessageCellDelegate?
     
     static func reusableID() -> String {
         return "ChatOthersMessageCell"

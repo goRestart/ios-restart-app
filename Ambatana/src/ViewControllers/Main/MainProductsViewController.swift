@@ -370,8 +370,7 @@ UITextFieldDelegate {
         if let tagsViewController = self.tagsViewController {
             filtersIcon = tagsViewController.tags.isEmpty ? "ic_filters": "ic_filters_active"
         }
-
-        setLetGoRightButtonWithImageName(filtersIcon, andSelector: "filtersButtonPressed:")
+        setLetGoRightButtonWith(imageName: filtersIcon, renderingMode: .AlwaysOriginal, selector: "filtersButtonPressed:")
     }
     
     private func showTagsView(show: Bool) {
