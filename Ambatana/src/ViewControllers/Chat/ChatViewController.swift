@@ -41,6 +41,7 @@ class ChatViewController: SLKTextViewController {
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupToastView()
+        self.keyboardPanningEnabled = false
         view.addSubview(ChatProductView())
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
@@ -178,6 +179,10 @@ class ChatViewController: SLKTextViewController {
     
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+    
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        textView.resignFirstResponder()
     }
 
     
