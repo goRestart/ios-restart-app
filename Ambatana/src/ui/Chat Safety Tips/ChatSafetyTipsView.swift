@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol ChatSafeTipsViewDelegate {
+public protocol ChatSafeTipsViewDelegate: class {
     func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int)
 }
 
@@ -55,7 +55,7 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
     public var dismissBlock: (Void -> Void)?
     
     // > Delegate
-    public var delegate: ChatSafeTipsViewDelegate?
+    public weak var delegate: ChatSafeTipsViewDelegate?
     
     // MARK: - Lifecycle
     

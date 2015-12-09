@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import Result
 
-public protocol ChatViewModelDelegate {
+public protocol ChatViewModelDelegate: class {
     func didFailRetrievingChatMessages(error: ChatRetrieveServiceError)
     func didSucceedRetrievingChatMessages()
     func didFailSendingMessage(error: ChatSendMessageServiceError)
@@ -24,7 +24,7 @@ public class ChatViewModel: BaseViewModel {
     public var chat: Chat
     public var otherUser: User?
     public var buyer: User?
-    public var delegate: ChatViewModelDelegate?
+    public weak var delegate: ChatViewModelDelegate?
     public var isNewChat = false
     var isSendingMessage = false
     var askQuestion = false
