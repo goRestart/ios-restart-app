@@ -66,7 +66,7 @@ class ChatViewController: SLKTextViewController {
         super.viewDidAppear(animated)
         textView.becomeFirstResponder()
     }
-    
+
     func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
@@ -256,6 +256,15 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func didSucceedSendingMessage() {
         if viewModel.shouldAskForRating { askForRating() }
+
+        if UserDefaultsManager.sharedInstance.loadAlreadyRated() &&
+            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
+                prePermissionType: .Chat){
+                    textView.resignFirstResponder()
+                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
+                        prePermissionType: .Chat)
+        }
+
         tableView.beginUpdates()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -376,7 +385,7 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
         viewModel.updateChatSafetyTipsLastPageSeen(page)
         updateSafetyTipBarButton()
     }
-    
+
    
     @objc private func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }

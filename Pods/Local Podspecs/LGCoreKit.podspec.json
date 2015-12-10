@@ -1,6 +1,6 @@
 {
   "name": "LGCoreKit",
-  "version": "0.16.4",
+  "version": "0.16.5",
   "license": "Copyright",
   "summary": "letgo's CoreKit",
   "homepage": "https://bitbucket.org/ambatana/letgo-ios-lgcorekit",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://bitbucket.org/ambatana/letgo-ios-lgcorekit.git",
-    "tag": "0.16.4"
+    "tag": "0.16.5"
   },
   "platforms": {
     "ios": "8.0"
@@ -44,7 +44,7 @@
       "~> 0.95.0"
     ],
     "Result": [
-      "0.6.0-beta.4"
+      "~> 1.0.0"
     ],
     "Timepiece": [
       "~> 0.4.2"

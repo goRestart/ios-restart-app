@@ -22,6 +22,7 @@ public protocol TopProductInfoDelegate: class {
     func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate)
     func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int)
     func productListViewModel(productListViewModel: ProductListViewModel, pullToRefreshInProggress refreshing: Bool)
+    func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int)
 }
 
 public class ProductListViewModel: BaseViewModel {
@@ -301,7 +302,7 @@ public class ProductListViewModel: BaseViewModel {
         - Parameter whileScrollingDown: true if the user is scrolling down
     */
     public func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
-        
+
         let topProduct = productAtIndex(index)
         let distance = Float(self.distanceFromProductCoordinates(topProduct.location))
         
@@ -382,6 +383,9 @@ public class ProductListViewModel: BaseViewModel {
         - parameter index: The index of the product currently visible on screen.
     */
     public func setCurrentItemIndex(index: Int) {
+
+        topProductInfoDelegate?.productListViewModel(self, showingItemAtIndex: index)
+
         let threshold = Int(Float(numberOfProducts) * ProductListViewModel.itemsPagingThresholdPercentage)
         let shouldRetrieveProductsNextPage = index >= threshold
         if shouldRetrieveProductsNextPage && canRetrieveProductsNextPage {
