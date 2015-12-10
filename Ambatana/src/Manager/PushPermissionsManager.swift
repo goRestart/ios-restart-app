@@ -38,23 +38,8 @@ public class PushPermissionsManager: NSObject {
             case .ProductList:
                 guard !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsAtList() else { return false }
             case .Chat, .Sell:
-                guard let dictPermissionsDaily = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDaily()
-                    else { break }
-                guard let savedDate = dictPermissionsDaily[UserDefaultsManager.dailyPermissionDate] as? NSDate
-                    else { break }
-                guard let askTomorrow = dictPermissionsDaily[UserDefaultsManager.dailyPermissionAskTomorrow] as? Bool
-                    else { break }
-
-                let time = savedDate.timeIntervalSince1970
-                let now = NSDate().timeIntervalSince1970
-
-                let seconds = Float(now - time)
-                let repeatTime = Float(Constants.pushPermissionRepeatTime)
-
-                // if should ask in a day and asked longer than a day ago, ask again
-                guard seconds > repeatTime && askTomorrow else { return false }
+                return shouldAskForDailyPermissions()
             }
-
             return true
     }
 
@@ -65,7 +50,7 @@ public class PushPermissionsManager: NSObject {
                 else { return }
 
             guard ABTests.prePermissionsActive.boolValue else {
-                self.askSystemForPushPermissions()
+                self.checkForSystemPushPermissions()
                 return
             }
 
@@ -82,6 +67,24 @@ public class PushPermissionsManager: NSObject {
 
 
     // MARK: - Private methods
+
+    private func shouldAskForDailyPermissions() -> Bool {
+
+        guard let dictPermissionsDaily = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDaily()
+            else { return false }
+        guard let savedDate = dictPermissionsDaily[UserDefaultsManager.dailyPermissionDate] as? NSDate
+            else { return false }
+        guard let askTomorrow = dictPermissionsDaily[UserDefaultsManager.dailyPermissionAskTomorrow] as? Bool
+            else { return false }
+
+        let time = savedDate.timeIntervalSince1970
+        let now = NSDate().timeIntervalSince1970
+
+        let seconds = Float(now - time)
+        let repeatTime = Float(Constants.pushPermissionRepeatTime)
+
+        return seconds > repeatTime && askTomorrow
+    }
 
     private func showPermissionForViewController(viewController: UIViewController, prePermissionType: PrePermissionType,
         isNativeStyle: Bool) {
@@ -116,7 +119,7 @@ public class PushPermissionsManager: NSObject {
             let yesAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
                 self.trackActivated()
                 UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow:true)
-                self.askSystemForPushPermissions()
+                self.checkForSystemPushPermissions()
             })
             alert.addAction(noAction)
             alert.addAction(yesAction)
@@ -140,7 +143,7 @@ public class PushPermissionsManager: NSObject {
                     if activated {
                         self.trackActivated()
                         UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
-                        self.askSystemForPushPermissions()
+                        self.checkForSystemPushPermissions()
                     } else {
                         switch (prePermissionType) {
                         case .ProductList:
@@ -162,11 +165,11 @@ public class PushPermissionsManager: NSObject {
             }
     }
 
-    private func askSystemForPushPermissions() {
+    private func checkForSystemPushPermissions() {
         didShowSystemPermissions = false
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didShowSystemPermissions:", name:UIApplicationWillResignActiveNotification, object: nil)
-        PushManager.sharedInstance.askSystemForPushPermissions()
-        shouldShowGoToSettingsAlert()
+        askSystemForPushPermissions()
+        shouldGoToSettings()
     }
 
     func didShowSystemPermissions(notification: NSNotification) {
@@ -177,7 +180,7 @@ public class PushPermissionsManager: NSObject {
     /**
     In case the system permissions alert doesn't appear, we ask the user to change its permissions
     */
-    private func shouldShowGoToSettingsAlert() {
+    private func shouldGoToSettings() {
         let _ = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "openAppSettings", userInfo: nil, repeats: false)
     }
 
@@ -188,6 +191,17 @@ public class PushPermissionsManager: NSObject {
         guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
         UIApplication.sharedApplication().openURL(settingsURL)
     }
+
+    private func askSystemForPushPermissions() {
+
+        let application = UIApplication.sharedApplication()
+        let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert,
+            UIUserNotificationType.Badge, UIUserNotificationType.Sound])
+        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
+        application.registerUserNotificationSettings(settings)
+        application.registerForRemoteNotifications()
+    }
+
 
     // MARK - Tracking
 

@@ -214,17 +214,7 @@ public class PushManager: NSObject, KahunaDelegate {
         }
     }
 
-    public func askSystemForPushPermissions() {
-
-        let application = UIApplication.sharedApplication()
-        let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert,
-            UIUserNotificationType.Badge, UIUserNotificationType.Sound])
-        let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
-        application.registerUserNotificationSettings(settings)
-        application.registerForRemoteNotifications()
-    }
-
-
+    
     // MARK: - Private methods
 
     private func setupKahuna() {

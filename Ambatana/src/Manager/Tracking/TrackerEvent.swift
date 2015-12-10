@@ -446,7 +446,6 @@ public struct TrackerEvent {
     public static func permissionAlertStart(permissionType: EventParameterPermissionType,
         typePage: EventParameterPermissionTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
             var params = EventParameters()
-            // Product
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
             params[.AlertType] = alertType.rawValue
@@ -456,7 +455,6 @@ public struct TrackerEvent {
     public static func permissionAlertComplete(permissionType: EventParameterPermissionType,
         typePage: EventParameterPermissionTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
             var params = EventParameters()
-            // Product
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
             params[.AlertType] = alertType.rawValue
@@ -466,7 +464,6 @@ public struct TrackerEvent {
     public static func permissionSystemCancel(permissionType: EventParameterPermissionType,
         typePage: EventParameterPermissionTypePage) -> TrackerEvent {
             var params = EventParameters()
-            // Product
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
             return TrackerEvent(name: .PermissionSystemCancel, params: params)
@@ -475,7 +472,6 @@ public struct TrackerEvent {
     public static func permissionSystemComplete(permissionType: EventParameterPermissionType,
         typePage: EventParameterPermissionTypePage) -> TrackerEvent {
             var params = EventParameters()
-            // Product
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
             return TrackerEvent(name: .PermissionSystemComplete, params: params)
