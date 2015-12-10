@@ -201,7 +201,7 @@
 "product_reported_success_message" = "El artículo fue denunciado con éxito. ¡Gracias!";
 "product_reporting_loading_message" = "Denunciando el artículo...";
 "product_reporting_product_label" = "Denunciando el artículo...";
-"product_search_no_products_body" = "¡Prueba buscando algo distinto o vuelve a intentarlo pronto!";
+"product_search_no_products_body" = "Prueba buscando algo distinto o vuelve a intentarlo pronto.";
 "product_search_no_products_title" = "¡UPS! NO HAY RESULTADOS CERCA DE TI";
 "product_sell_again_button" = "Venderlo de nuevo";
 "product_sell_again_confirm_cancel_button" = "Cancelar";

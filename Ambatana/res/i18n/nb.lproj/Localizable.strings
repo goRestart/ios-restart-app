@@ -44,7 +44,7 @@
 "chat_safety_tips_title" = "Sikkerhetstips";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
-"common_activate" = "Activate";
+"common_activate" = "Aktiver";
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Oops! Kunne ikke finne chat.";
 "common_collapse" = "Vis mindre";
@@ -96,12 +96,12 @@
 "contact_subject_option_report" = "Rapportér bruker/spam";
 "contact_subject_options_title" = "Emne";
 "contact_title" = "Kontakt oss";
-"custom_permission_chat_message" = "Activate notifications to instantly know when someone replies.";
-"custom_permission_chat_title" = "BE IN THE LOOP";
-"custom_permission_list_message" = "Activate notifications to get news from letgo and new products.";
-"custom_permission_list_title" = "WELCOME!";
-"custom_permission_sell_message" = "Activate notifications to know when someone wants to buy your product.";
-"custom_permission_sell_title" = "SELL FASTER";
+"custom_permission_chat_message" = "Aktiver varslinger for å vite med en gang når noen svarer.";
+"custom_permission_chat_title" = "VÆR VELINFORMERT";
+"custom_permission_list_message" = "Aktiver varslinger for å få nyheter om letgo og nye produkter.";
+"custom_permission_list_title" = "VELKOMMEN!";
+"custom_permission_sell_message" = "Aktiver varslinger for å vite når noen vil kjøpe produktet ditt.";
+"custom_permission_sell_title" = "SELG RASKERE";
 "edit_product_send_button" = "Oppdater";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
