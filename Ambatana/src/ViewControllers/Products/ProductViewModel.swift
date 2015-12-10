@@ -143,13 +143,17 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
     public var productUserProfileViewModel: UIViewController? {
-        let productUser = product.user
-        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let productUserId = productUser.objectId {
-            if myUserId != productUserId {
-                return EditProfileViewController(user: productUser)
-            }
+        guard let productUserId = product.user.objectId else { return nil }
+
+        guard let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId else {
+            //In case i'm not logged just open seller's profile
+            return EditProfileViewController(user: product.user)
         }
-        return nil
+
+        guard myUserId != productUserId  else { return nil }
+
+        //If the seller is not me, open seller's profile
+        return EditProfileViewController(user: product.user)
     }
     
     // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
