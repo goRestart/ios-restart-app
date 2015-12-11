@@ -44,8 +44,8 @@
                         <constraint firstAttribute="width" constant="220" id="pc5-Qo-3rC"/>
                     </constraints>
                     <segments>
-                        <segment title="Sign Up"/>
-                        <segment title="Log In"/>
+                        <segment title="_Sign Up"/>
+                        <segment title="_Log In"/>
                     </segments>
                     <color key="tintColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <connections>

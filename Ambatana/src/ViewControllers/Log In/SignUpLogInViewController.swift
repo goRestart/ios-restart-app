@@ -441,6 +441,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
 
         // i18n
+        loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpSignUpButton, forSegmentAtIndex: 0)
+        loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpLogInLabel, forSegmentAtIndex: 1)
         usernameTextField.placeholder = LGLocalizedString.signUpUsernameFieldHint
         emailTextField.placeholder = LGLocalizedString.signUpEmailFieldHint
         passwordTextField.placeholder = LGLocalizedString.signUpPasswordFieldHint
