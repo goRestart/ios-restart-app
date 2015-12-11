@@ -10,6 +10,13 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="cameraContainerView" destination="b61-zv-QvL" id="1aE-di-zJQ"/>
+                <outlet property="flashButton" destination="WMf-7b-nmP" id="TD5-uC-Ak1"/>
+                <outlet property="galleryButton" destination="sBm-aX-L6t" id="r9g-Af-EKZ"/>
+                <outlet property="imagePreview" destination="lhx-3G-bF1" id="DTu-ur-F5V"/>
+                <outlet property="makePhotoButton" destination="dLF-v3-UP0" id="oMm-vE-pBO"/>
+                <outlet property="retryPhotoButton" destination="v3b-lE-818" id="7PL-7J-OLR"/>
+                <outlet property="switchCamButton" destination="y3E-cn-W7P" id="b22-nz-If2"/>
+                <outlet property="usePhotoButton" destination="l2S-57-DCM" id="cU1-rn-yDv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,10 +27,20 @@
             <subviews>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b61-zv-QvL" userLabel="CameraContainer">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="501"/>
+                    <subviews>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lhx-3G-bF1" userLabel="imagePreview">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="501"/>
+                            <animations/>
+                        </imageView>
+                    </subviews>
                     <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="b61-zv-QvL" secondAttribute="height" multiplier="3:4" id="1G7-By-Bgt"/>
+                        <constraint firstItem="lhx-3G-bF1" firstAttribute="leading" secondItem="b61-zv-QvL" secondAttribute="leading" id="Kih-6O-v6Q"/>
+                        <constraint firstAttribute="bottom" secondItem="lhx-3G-bF1" secondAttribute="bottom" id="jnb-4m-M9G"/>
+                        <constraint firstAttribute="trailing" secondItem="lhx-3G-bF1" secondAttribute="trailing" id="oLA-Rr-mTY"/>
+                        <constraint firstItem="lhx-3G-bF1" firstAttribute="top" secondItem="b61-zv-QvL" secondAttribute="top" id="vvT-zH-ScW"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c23-Uc-PaC" userLabel="TopControlsContainer">

@@ -9,19 +9,44 @@
 import UIKit
 import FastttCamera
 
-class PostProductViewController: UIViewController, SellProductViewController {
+class PostProductViewController: BaseViewController, SellProductViewController {
 
     weak var delegate: SellProductViewControllerDelegate?
 
     @IBOutlet weak var cameraContainerView: UIView!
+    @IBOutlet weak var imagePreview: UIImageView!
+
+    @IBOutlet weak var switchCamButton: UIButton!
+    @IBOutlet weak var flashButton: UIButton!
+    @IBOutlet weak var retryPhotoButton: UIButton!
+    @IBOutlet weak var usePhotoButton: UIButton!
+    @IBOutlet weak var makePhotoButton: UIButton!
+    @IBOutlet weak var galleryButton: UIButton!
 
     var flashMode: FastttCameraFlashMode = .Auto
     var cameraDevice: FastttCameraDevice = .Rear
 
     private var fastCamera : FastttCamera?
 
+    // ViewModel
+    private var viewModel : PostProductViewModel!
+
 
     // MARK: - Lifecycle
+
+    convenience init() {
+        self.init(viewModel: PostProductViewModel(), nibName: "PostProductViewController")
+    }
+
+    required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        self.viewModel = viewModel
+//        self.viewModel.delegate = self
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     deinit {
         print("PostProductViewController:deinit")
@@ -30,7 +55,19 @@ class PostProductViewController: UIViewController, SellProductViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
         setupCamera()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeCamera()
     }
 
     override func didReceiveMemoryWarning() {
@@ -89,6 +126,7 @@ class PostProductViewController: UIViewController, SellProductViewController {
     }
 
     @IBAction func onRetryPhotoButton(sender: AnyObject) {
+        switchToCaptureMode()
     }
 
     @IBAction func onUsePhotoButton(sender: AnyObject) {
@@ -99,9 +137,43 @@ class PostProductViewController: UIViewController, SellProductViewController {
         fastCamera = FastttCamera()
         guard let fastCamera = fastCamera else { return }
 
+        fastCamera.scalesImage = true
+        fastCamera.maxScaledDimension = 1024
+        fastCamera.normalizesImageOrientations = true
         fastCamera.delegate = self
         fastttAddChildViewController(fastCamera, belowSubview: cameraContainerView)
         fastCamera.view.frame = cameraContainerView.frame
+    }
+
+    private func removeCamera() {
+        guard let fastCamera = fastCamera else { return }
+
+        fastttRemoveChildViewController(fastCamera)
+        self.fastCamera = nil
+    }
+
+    private func switchToPreviewWith(image: UIImage?) {
+        guard let image = image else { return }
+
+        imagePreview.image = image
+        setCaptureStateButtons(false)
+        removeCamera()
+    }
+
+    private func switchToCaptureMode() {
+        setupCamera()
+        imagePreview.image = nil
+        setCaptureStateButtons(true)
+    }
+
+    private func setCaptureStateButtons(captureState: Bool) {
+        imagePreview.hidden = captureState
+        switchCamButton.hidden = !captureState
+        flashButton.hidden = !captureState
+        makePhotoButton.hidden = !captureState
+        galleryButton.hidden = !captureState
+        retryPhotoButton.hidden = captureState
+        usePhotoButton.hidden = captureState
     }
 
     private func setFlashModeButton() {
@@ -178,6 +250,8 @@ extension PostProductViewController: FastttCameraDelegate {
     */
     func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
         print("didFinishNormalizingCapturedImage")
+
+        switchToPreviewWith(capturedImage.scaledImage)
     }
 
     /**
