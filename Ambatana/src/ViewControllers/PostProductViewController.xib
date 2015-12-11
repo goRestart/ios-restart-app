@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="cameraContainerView" destination="b61-zv-QvL" id="1aE-di-zJQ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,10 +18,10 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b61-zv-QvL" userLabel="CameraContainer">
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b61-zv-QvL" userLabel="CameraContainer">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="501"/>
                     <animations/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="b61-zv-QvL" secondAttribute="height" multiplier="3:4" id="1G7-By-Bgt"/>
                     </constraints>
@@ -50,6 +51,9 @@
                             <state key="normal" title="Flash">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="onToggleFlashButton:" destination="-1" eventType="touchUpInside" id="Jbk-gd-Jge"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y3E-cn-W7P" userLabel="SwitchCamBtn">
                             <rect key="frame" x="271" y="0.0" width="52" height="52"/>
@@ -60,6 +64,9 @@
                             <state key="normal" title="Cam">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="onToggleCameraButton:" destination="-1" eventType="touchUpInside" id="b6p-Qg-nbA"/>
+                            </connections>
                         </button>
                     </subviews>
                     <animations/>
@@ -92,6 +99,9 @@
                                     <state key="normal" title="Gallery">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="onGalleryButton:" destination="-1" eventType="touchUpInside" id="ar8-iq-d0c"/>
+                                    </connections>
                                 </button>
                             </subviews>
                             <animations/>
@@ -113,6 +123,9 @@
                             <state key="normal" title="Photo">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="onTakePhotoButton:" destination="-1" eventType="touchUpInside" id="2iG-ZP-V15"/>
+                            </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3b-lE-818" userLabel="RetryPhotoBtn">
                             <rect key="frame" x="0.0" y="54" width="187" height="88"/>
@@ -123,6 +136,9 @@
                             <state key="normal" title="_Retry">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="onRetryPhotoButton:" destination="-1" eventType="touchUpInside" id="I0h-p8-n4L"/>
+                            </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l2S-57-DCM" userLabel="UsePhotoBtn">
                             <rect key="frame" x="188" y="54" width="187" height="88"/>
@@ -133,6 +149,9 @@
                             <state key="normal" title="_Use Photo">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="onUsePhotoButton:" destination="-1" eventType="touchUpInside" id="BaN-Jd-Nmj"/>
+                            </connections>
                         </button>
                     </subviews>
                     <animations/>
