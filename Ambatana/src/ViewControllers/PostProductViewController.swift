@@ -23,6 +23,9 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     @IBOutlet weak var makePhotoButton: UIButton!
     @IBOutlet weak var galleryButton: UIButton!
 
+    @IBOutlet weak var selectPriceContainer: UIView!
+
+
     var flashMode: FastttCameraFlashMode = .Auto
     var cameraDevice: FastttCameraDevice = .Rear
 
@@ -112,7 +115,6 @@ class PostProductViewController: BaseViewController, SellProductViewController {
             cameraDevice = .Front
         }
 
-        setCameraModeButton()
         fastCamera.cameraDevice = cameraDevice
     }
 
@@ -130,6 +132,7 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     }
 
     @IBAction func onUsePhotoButton(sender: AnyObject) {
+        startUploadAndSwitchToSelectPrice()
     }
 
     // MARK: - Private methods
@@ -166,6 +169,12 @@ class PostProductViewController: BaseViewController, SellProductViewController {
         setCaptureStateButtons(true)
     }
 
+    private func startUploadAndSwitchToSelectPrice() {
+        // TODO: START UPLOAD
+
+        selectPriceContainer.hidden = false
+    }
+
     private func setCaptureStateButtons(captureState: Bool) {
         imagePreview.hidden = captureState
         switchCamButton.hidden = !captureState
@@ -177,11 +186,14 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     }
 
     private func setFlashModeButton() {
-        //TODO IMPLEMENT
-    }
-
-    private func setCameraModeButton() {
-        //TODO IMPLEMENT
+        switch flashMode {
+        case .Auto:
+            flashButton.setImage(UIImage(named: "ic_post_flash_auto"), forState: UIControlState.Normal)
+        case .On:
+            flashButton.setImage(UIImage(named: "ic_post_flash"), forState: UIControlState.Normal)
+        case .Off:
+            flashButton.setImage(UIImage(named: "ic_post_flash_innactive"), forState: UIControlState.Normal)
+        }
     }
 }
 
