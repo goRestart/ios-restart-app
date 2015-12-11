@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 
 
-class EditSellProductViewController: SellProductViewController, EditSellProductViewModelDelegate {
+class EditSellProductViewController: BaseSellProductViewController, EditSellProductViewModelDelegate {
 
     
     private var editViewModel : EditSellProductViewModel

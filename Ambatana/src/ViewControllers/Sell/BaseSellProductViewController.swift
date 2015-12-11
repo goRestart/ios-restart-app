@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import FBSDKShareKit
 
-class SellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKSharingDelegate {
+class BaseSellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKSharingDelegate {
     
     // UI
     
@@ -52,7 +52,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     init(viewModel: SellProductViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "SellProductViewController")
+        super.init(viewModel: viewModel, nibName: "BaseSellProductViewController")
         
         self.viewModel.delegate = self
         

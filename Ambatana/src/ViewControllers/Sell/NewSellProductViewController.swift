@@ -15,7 +15,7 @@ import Result
     optional func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool)
 }
 
-class NewSellProductViewController: SellProductViewController {
+class NewSellProductViewController: BaseSellProductViewController {
 
     var completedSellDelegate: NewSellProductViewControllerDelegate?
 
