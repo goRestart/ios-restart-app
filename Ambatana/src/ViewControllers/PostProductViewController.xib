@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="cameraContainerView" destination="b61-zv-QvL" id="1aE-di-zJQ"/>
+                <outlet property="cornersContainer" destination="Rwi-HG-DGN" id="Q2N-p3-bOm"/>
                 <outlet property="flashButton" destination="WMf-7b-nmP" id="TD5-uC-Ak1"/>
                 <outlet property="galleryButton" destination="sBm-aX-L6t" id="r9g-Af-EKZ"/>
                 <outlet property="imagePreview" destination="lhx-3G-bF1" id="DTu-ur-F5V"/>
@@ -29,6 +30,56 @@
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b61-zv-QvL" userLabel="CameraContainer">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="501"/>
                     <subviews>
+                        <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rwi-HG-DGN" userLabel="CornersContainer">
+                            <rect key="frame" x="20" y="83" width="335" height="335"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="Pud-yG-QTX">
+                                    <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="16" id="I0c-LC-gMd"/>
+                                        <constraint firstAttribute="width" constant="16" id="hdg-7y-1PF"/>
+                                    </constraints>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="cxh-2q-hlW">
+                                    <rect key="frame" x="319" y="0.0" width="16" height="16"/>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="16" id="6aI-E9-NMW"/>
+                                        <constraint firstAttribute="width" constant="16" id="LYS-yb-uhN"/>
+                                    </constraints>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="b6k-A9-mS8">
+                                    <rect key="frame" x="319" y="319" width="16" height="16"/>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="16" id="5t2-eF-Fqf"/>
+                                        <constraint firstAttribute="width" constant="16" id="tdB-Yf-H6e"/>
+                                    </constraints>
+                                </imageView>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_corner" translatesAutoresizingMaskIntoConstraints="NO" id="6EU-DX-jum">
+                                    <rect key="frame" x="0.0" y="319" width="16" height="16"/>
+                                    <animations/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="16" id="XSE-r6-5OC"/>
+                                        <constraint firstAttribute="height" constant="16" id="ttB-IK-DpX"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <animations/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="cxh-2q-hlW" firstAttribute="top" secondItem="Rwi-HG-DGN" secondAttribute="top" id="0g8-CQ-caT"/>
+                                <constraint firstItem="Pud-yG-QTX" firstAttribute="leading" secondItem="Rwi-HG-DGN" secondAttribute="leading" id="6KR-o0-4lX"/>
+                                <constraint firstAttribute="trailing" secondItem="cxh-2q-hlW" secondAttribute="trailing" id="HLO-Sk-ECu"/>
+                                <constraint firstAttribute="trailing" secondItem="b6k-A9-mS8" secondAttribute="trailing" id="I7G-EO-Q2r"/>
+                                <constraint firstAttribute="bottom" secondItem="b6k-A9-mS8" secondAttribute="bottom" id="KOZ-PT-1li"/>
+                                <constraint firstItem="Pud-yG-QTX" firstAttribute="top" secondItem="Rwi-HG-DGN" secondAttribute="top" id="P5K-X9-c6H"/>
+                                <constraint firstAttribute="bottom" secondItem="6EU-DX-jum" secondAttribute="bottom" id="q2X-sO-f0W"/>
+                                <constraint firstAttribute="width" secondItem="Rwi-HG-DGN" secondAttribute="height" multiplier="1:1" id="s44-B5-9Ns"/>
+                                <constraint firstItem="6EU-DX-jum" firstAttribute="leading" secondItem="Rwi-HG-DGN" secondAttribute="leading" id="v7Y-N5-9MH"/>
+                            </constraints>
+                        </view>
                         <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lhx-3G-bF1" userLabel="imagePreview">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="501"/>
                             <animations/>
@@ -39,8 +90,12 @@
                     <constraints>
                         <constraint firstAttribute="width" secondItem="b61-zv-QvL" secondAttribute="height" multiplier="3:4" id="1G7-By-Bgt"/>
                         <constraint firstItem="lhx-3G-bF1" firstAttribute="leading" secondItem="b61-zv-QvL" secondAttribute="leading" id="Kih-6O-v6Q"/>
+                        <constraint firstItem="Rwi-HG-DGN" firstAttribute="leading" secondItem="b61-zv-QvL" secondAttribute="leading" constant="20" id="Ypa-dv-Piz"/>
+                        <constraint firstItem="Rwi-HG-DGN" firstAttribute="centerX" secondItem="b61-zv-QvL" secondAttribute="centerX" id="Ytd-2h-AdQ"/>
+                        <constraint firstAttribute="trailing" secondItem="Rwi-HG-DGN" secondAttribute="trailing" constant="20" id="f3t-5O-cEh"/>
                         <constraint firstAttribute="bottom" secondItem="lhx-3G-bF1" secondAttribute="bottom" id="jnb-4m-M9G"/>
                         <constraint firstAttribute="trailing" secondItem="lhx-3G-bF1" secondAttribute="trailing" id="oLA-Rr-mTY"/>
+                        <constraint firstItem="Rwi-HG-DGN" firstAttribute="centerY" secondItem="b61-zv-QvL" secondAttribute="centerY" id="pqG-N1-NcK"/>
                         <constraint firstItem="lhx-3G-bF1" firstAttribute="top" secondItem="b61-zv-QvL" secondAttribute="top" id="vvT-zH-ScW"/>
                     </constraints>
                 </view>
@@ -205,8 +260,8 @@
                                 <action selector="onCloseButton:" destination="-1" eventType="touchUpInside" id="mcU-eY-utl"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMf-7b-nmP" userLabel="FlashBtn">
-                            <rect key="frame" x="331" y="8" width="36" height="36"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WMf-7b-nmP" userLabel="FlashBtn">
+                            <rect key="frame" x="323" y="0.0" width="52" height="52"/>
                             <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="WMf-7b-nmP" secondAttribute="height" multiplier="1:1" id="bng-Fl-aZ5"/>
@@ -272,6 +327,7 @@
     </objects>
     <resources>
         <image name="ic_post_close" width="36" height="36"/>
+        <image name="ic_post_corner" width="16" height="16"/>
         <image name="ic_post_flash_auto" width="36" height="36"/>
         <image name="ic_post_gallery" width="36" height="36"/>
         <image name="ic_post_switch_cam" width="36" height="36"/>

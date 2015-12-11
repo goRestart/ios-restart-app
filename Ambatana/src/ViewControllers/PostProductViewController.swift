@@ -15,6 +15,7 @@ class PostProductViewController: BaseViewController, SellProductViewController {
 
     @IBOutlet weak var cameraContainerView: UIView!
     @IBOutlet weak var imagePreview: UIImageView!
+    @IBOutlet weak var cornersContainer: UIView!
 
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
@@ -58,7 +59,7 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        setupView()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -136,6 +137,25 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     }
 
     // MARK: - Private methods
+
+    private func setupView() {
+        //Corners
+        var i = 0
+        for view in cornersContainer.subviews {
+            switch i {
+            case 1:
+                view.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+            case 2:
+                view.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+            case 3:
+                view.transform = CGAffineTransformMakeRotation(CGFloat(3*M_PI_2))
+            default:
+                break
+            }
+            i++
+        }
+    }
+
     private func setupCamera() {
         fastCamera = FastttCamera()
         guard let fastCamera = fastCamera else { return }
