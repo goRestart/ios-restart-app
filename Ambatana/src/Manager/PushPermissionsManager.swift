@@ -73,9 +73,9 @@ public class PushPermissionsManager: NSObject {
         guard let dictPermissionsDaily = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDaily()
             else { return true }  // if there's no dictionary, we never asked for daily permissions
         guard let savedDate = dictPermissionsDaily[UserDefaultsManager.dailyPermissionDate] as? NSDate
-            else { return false }
+            else { return true }
         guard let askTomorrow = dictPermissionsDaily[UserDefaultsManager.dailyPermissionAskTomorrow] as? Bool
-            else { return false }
+            else { return true }
 
         let time = savedDate.timeIntervalSince1970
         let now = NSDate().timeIntervalSince1970
@@ -118,7 +118,12 @@ public class PushPermissionsManager: NSObject {
             })
             let yesAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
                 self.trackActivated()
-                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow:true)
+                switch (prePermissionType) {
+                case .ProductList:
+                    break
+                case .Chat, .Sell:
+                    UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow:true)
+                }
                 self.checkForSystemPushPermissions()
             })
             alert.addAction(noAction)
@@ -142,7 +147,12 @@ public class PushPermissionsManager: NSObject {
                 cancelButtonTitle: LGLocalizedString.commonCancel) { (activated) in
                     if activated {
                         self.trackActivated()
-                        UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+                        switch (prePermissionType) {
+                        case .ProductList:
+                            break
+                        case .Chat, .Sell:
+                            UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow:true)
+                        }
                         self.checkForSystemPushPermissions()
                     } else {
                         switch (prePermissionType) {
