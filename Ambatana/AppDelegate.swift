@@ -325,7 +325,8 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
             tabBarCtl.openDeepLink(deepLink)
         }
         else {
-            UIApplication.sharedApplication().openURL(webpageURL)
+            //Default case will be go to home
+            tabBarCtl.switchToTab(.Home)
         }
     }
 }
