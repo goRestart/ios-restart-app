@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import FBSDKShareKit
 
-class BaseSellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKSharingDelegate {
+class BaseSellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController {
     
     // UI
     

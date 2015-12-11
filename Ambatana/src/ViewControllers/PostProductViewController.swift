@@ -8,7 +8,9 @@
 
 import UIKit
 
-class PostProductViewController: UIViewController {
+class PostProductViewController: UIViewController, SellProductViewController {
+
+    weak var delegate: SellProductViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,5 +33,10 @@ class PostProductViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+    // MARK: - Actions
+    @IBAction func onCloseButton(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
 }

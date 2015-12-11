@@ -10,14 +10,9 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 
-
-@objc protocol NewSellProductViewControllerDelegate {
-    optional func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool)
-}
-
 class NewSellProductViewController: BaseSellProductViewController {
 
-    var completedSellDelegate: NewSellProductViewControllerDelegate?
+    weak var completedSellDelegate: SellProductViewControllerDelegate?
 
     private var newSellViewModel : NewSellProductViewModel
 
@@ -45,7 +40,7 @@ class NewSellProductViewController: BaseSellProductViewController {
         showAutoFadingOutMessageAlert(LGLocalizedString.sellSendOk) { () -> Void in
             self.dismissViewControllerAnimated(true, completion: { [weak self] in
                 if let strongSelf = self {
-                    strongSelf.completedSellDelegate?.sellProductViewController?(self, didCompleteSell: true)
+                    strongSelf.completedSellDelegate?.sellProductViewController(self, didCompleteSell: true)
                 }
             })
         }

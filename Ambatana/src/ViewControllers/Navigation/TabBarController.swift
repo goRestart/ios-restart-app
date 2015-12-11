@@ -11,7 +11,7 @@ import Parse
 import Result
 import UIKit
 
-public final class TabBarController: UITabBarController, NewSellProductViewControllerDelegate,
+public final class TabBarController: UITabBarController, SellProductViewControllerDelegate,
 UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Constants & enums
@@ -310,7 +310,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // MARK: - SellProductViewControllerDelegate
 
-    func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool) {
+    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
             switchToProfileOnTab(.ProductImSelling)
             if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
@@ -545,10 +545,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     }
 
     private func presentSellVC() {
-        let vc = NewSellProductViewController()
-        vc.completedSellDelegate = self
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
+        SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
     }
 
     private func openProductWithId(productId: String) {
