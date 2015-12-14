@@ -10,6 +10,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="cameraContainerView" destination="b61-zv-QvL" id="1aE-di-zJQ"/>
+                <outlet property="cameraSubtitleLabel" destination="84H-8h-W1y" id="A1n-zF-hcH"/>
+                <outlet property="cameraTextsContainer" destination="Pc7-VU-DyQ" id="nqJ-rc-pZ7"/>
+                <outlet property="cameraTitleLabel" destination="ZmE-sl-GAh" id="w7L-Xl-6pU"/>
                 <outlet property="cornersContainer" destination="Rwi-HG-DGN" id="Q2N-p3-bOm"/>
                 <outlet property="flashButton" destination="WMf-7b-nmP" id="TD5-uC-Ak1"/>
                 <outlet property="galleryButton" destination="sBm-aX-L6t" id="r9g-Af-EKZ"/>
@@ -179,6 +182,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="88" id="ICC-RZ-n1D"/>
                             </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <state key="normal" title="_Retry">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -192,6 +196,7 @@
                             <constraints>
                                 <constraint firstAttribute="height" constant="88" id="Exn-9r-FNI"/>
                             </constraints>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <state key="normal" title="_Use Photo">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>

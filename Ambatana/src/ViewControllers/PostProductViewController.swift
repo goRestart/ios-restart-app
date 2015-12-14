@@ -17,6 +17,9 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     @IBOutlet weak var imagePreview: UIImageView!
     @IBOutlet weak var cornersContainer: UIView!
 
+    @IBOutlet weak var cameraTextsContainer: UIView!
+    @IBOutlet weak var cameraTitleLabel: UILabel!
+    @IBOutlet weak var cameraSubtitleLabel: UILabel!
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
@@ -140,7 +143,7 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     // MARK: - Private methods
 
     private func setupView() {
-        //Corners
+        // Camera focus corners
         var i = 0
         for view in cornersContainer.subviews {
             switch i {
@@ -155,6 +158,12 @@ class PostProductViewController: BaseViewController, SellProductViewController {
             }
             i++
         }
+
+        //i18n
+        cameraTitleLabel.text = LGLocalizedString.productPostCameraTitle
+        cameraSubtitleLabel.text = LGLocalizedString.productPostCameraSubtitle
+        retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
+        usePhotoButton.setTitle(LGLocalizedString.productPostUsePhoto, forState: UIControlState.Normal)
     }
 
     private func setupCamera() {
@@ -204,6 +213,7 @@ class PostProductViewController: BaseViewController, SellProductViewController {
         galleryButton.hidden = !captureState
         retryPhotoButton.hidden = captureState
         usePhotoButton.hidden = captureState
+        cameraTextsContainer.hidden = !captureState
     }
 
     private func setFlashModeButton() {
