@@ -19,7 +19,7 @@ class TrackerProxySpec: QuickSpec {
             sut = TrackerProxy(trackers: trackers)
         }
         
-        describe("shared instance") {
+        fdescribe("shared instance") {
             beforeEach {
                 sut = TrackerProxy.sharedInstance
             }
@@ -60,10 +60,28 @@ class TrackerProxySpec: QuickSpec {
                 }
                 expect(contained).to(beTrue())
             }
+            it("contains a Google Analytics tracker") {
+                var contained = false
+                for tracker in sut.trackers {
+                    if tracker is GANTracker {
+                        contained = true
+                    }
+                }
+                expect(contained).to(beTrue())
+            }
             it("contains an NanigansTracker tracker") {
                 var contained = false
                 for tracker in sut.trackers {
                     if tracker is NanigansTracker {
+                        contained = true
+                    }
+                }
+                expect(contained).to(beTrue())
+            }
+            it("contains an Adjust tracker") {
+                var contained = false
+                for tracker in sut.trackers {
+                    if tracker is AdjustTracker {
                         contained = true
                     }
                 }
