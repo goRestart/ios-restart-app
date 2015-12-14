@@ -9,7 +9,7 @@
 import UIKit
 import FastttCamera
 
-class PostProductViewController: BaseViewController, SellProductViewController {
+class PostProductViewController: BaseViewController, SellProductViewController, PostProductViewModelDelegate {
 
     weak var delegate: SellProductViewControllerDelegate?
 
@@ -29,9 +29,8 @@ class PostProductViewController: BaseViewController, SellProductViewController {
 
     @IBOutlet weak var selectPriceContainer: UIView!
 
-
-    var flashMode: FastttCameraFlashMode = .Auto
-    var cameraDevice: FastttCameraDevice = .Rear
+    private var flashMode: FastttCameraFlashMode = .Auto
+    private var cameraDevice: FastttCameraDevice = .Rear
 
     private var fastCamera : FastttCamera?
 
@@ -48,7 +47,7 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
-//        self.viewModel.delegate = self
+        self.viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -140,6 +139,11 @@ class PostProductViewController: BaseViewController, SellProductViewController {
         startUploadAndSwitchToSelectPrice()
     }
 
+
+    // MARK: - PostProductViewModelDelegate
+
+
+
     // MARK: - Private methods
 
     private func setupView() {
@@ -167,15 +171,19 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     }
 
     private func setupCamera() {
-        fastCamera = FastttCamera()
-        guard let fastCamera = fastCamera else { return }
+        MediaPickerManager.requestCameraPermissions(self) { [weak self] in
+            guard let strongSelf = self else { return }
 
-        fastCamera.scalesImage = true
-        fastCamera.maxScaledDimension = 1024
-        fastCamera.normalizesImageOrientations = true
-        fastCamera.delegate = self
-        fastttAddChildViewController(fastCamera, belowSubview: cameraContainerView)
-        fastCamera.view.frame = cameraContainerView.frame
+            strongSelf.fastCamera = FastttCamera()
+            guard let fastCamera = strongSelf.fastCamera else { return }
+
+            fastCamera.scalesImage = true
+            fastCamera.maxScaledDimension = 1024
+            fastCamera.normalizesImageOrientations = true
+            fastCamera.delegate = self
+            strongSelf.fastttAddChildViewController(fastCamera, belowSubview: strongSelf.cameraContainerView)
+            fastCamera.view.frame = strongSelf.cameraContainerView.frame
+        }
     }
 
     private func removeCamera() {

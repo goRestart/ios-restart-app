@@ -69,6 +69,32 @@ class MediaPickerManager {
             }
     }
 
+    static func requestCameraPermissions<T: UIViewController where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
+
+            guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                let message = LGLocalizedString.productSellCameraRestrictedError
+                showDefaultAlertWithMessage(message, inController: controller)
+                return
+            }
+            let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+            switch (status) {
+            case .Authorized:
+                block()
+            case .Denied:
+                let message = LGLocalizedString.productSellCameraPermissionsError
+                showSettingsAlertWithMessage(message, inController: controller)
+            case .NotDetermined:
+                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+                    if granted { block() }
+                }
+            case .Restricted:
+                // this will never be called, this status is not visible for the user
+                // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
+                break
+            }
+    }
+
 
     // MARK: Private Methods
     
@@ -92,33 +118,7 @@ class MediaPickerManager {
                 break
             }
     }
-    
-    private static func requestCameraPermissions<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
-            
-            guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
-                let message = LGLocalizedString.productSellCameraRestrictedError
-                showDefaultAlertWithMessage(message, inController: controller)
-                return
-            }
-            let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-            switch (status) {
-            case .Authorized:
-                block()
-            case .Denied:
-                let message = LGLocalizedString.productSellCameraPermissionsError
-                showSettingsAlertWithMessage(message, inController: controller)
-            case .NotDetermined:
-                AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
-                    if granted { block() }
-                }
-            case .Restricted:
-                // this will never be called, this status is not visible for the user
-                // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
-                break
-            }
-    }
-    
+
     private static func showDefaultAlertWithMessage<T: UIViewController where T: UINavigationControllerDelegate,
         T: UIImagePickerControllerDelegate>(message: String, inController controller: T) {
             let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,
