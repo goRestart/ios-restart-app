@@ -12,7 +12,7 @@ import CoreLocation
 public class TrackerProxy: Tracker {
     
     // Constants
-    private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(), GoogleTracker(), NanigansTracker(), KahunaTracker(), OptimizelyTracker(), CrashlyticsTracker()]
+    private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(), GoogleConversionTracker(), NanigansTracker(), KahunaTracker(), OptimizelyTracker(), CrashlyticsTracker(), GANTracker(), AdjustTracker()]
     
     // iVars
     public var trackers: [Tracker] = []

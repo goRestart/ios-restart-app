@@ -34,4 +34,8 @@ protocol AppEnvironment: Environment {
     
     // AB Testing
     var optimizelyAPIKey: String { get }
+
+    // Adjust
+    var adjustAppToken: String { get }
+    var adjustEnvironment: String { get }
 }

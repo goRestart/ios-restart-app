@@ -51,10 +51,10 @@ class TrackerProxySpec: QuickSpec {
                 }
                 expect(contained).to(beTrue())
             }
-            it("contains an GoogleTracker tracker") {
+            it("contains an GoogleConversionTracker tracker") {
                 var contained = false
                 for tracker in sut.trackers {
-                    if tracker is GoogleTracker {
+                    if tracker is GoogleConversionTracker {
                         contained = true
                     }
                 }

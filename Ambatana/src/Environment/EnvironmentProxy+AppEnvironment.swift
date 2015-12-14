@@ -71,4 +71,14 @@ extension EnvironmentProxy: AppEnvironment {
         guard let appEnvironment = environment as? AppEnvironment else { return "" }
         return appEnvironment.optimizelyAPIKey
     }
+
+    var adjustAppToken: String {
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.adjustAppToken
+    }
+
+    var adjustEnvironment: String {
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.adjustEnvironment
+    }
 }

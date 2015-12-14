@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import Adjust
 import LGCoreKit
 
 extension DevelopmentEnvironment: AppEnvironment {
@@ -37,4 +38,8 @@ extension DevelopmentEnvironment: AppEnvironment {
     
     // AB Testing
     var optimizelyAPIKey: String { get { return "AANI18IBpYo0Me6aWVN88XVYBszyWl3f~3728230154" } }
+
+    // Adjust
+    var adjustAppToken: String { get { return "ddy5ww1scx6o" } }
+    var adjustEnvironment: String { get { return ADJEnvironmentSandbox } }
 }

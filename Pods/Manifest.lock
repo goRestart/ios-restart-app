@@ -1,4 +1,7 @@
 PODS:
+  - Adjust (4.5.0):
+    - Adjust/Core (= 4.5.0)
+  - Adjust/Core (4.5.0)
   - Alamofire (3.0.1)
   - Amplitude-iOS (3.2.1):
     - FMDB/standard (~> 2.5)
@@ -27,7 +30,23 @@ PODS:
   - FMDB/common (2.5)
   - FMDB/standard (2.5):
     - FMDB/common
+  - Google/Analytics (1.2.1):
+    - Google/Core
+    - GoogleAnalytics (~> 3.12)
+  - Google/Core (1.2.1):
+    - GoogleInterchangeUtilities (~> 1.0)
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.1)
+  - GoogleAnalytics (3.14.0)
   - GoogleAppIndexing (2.0.1)
+  - GoogleInterchangeUtilities (1.1.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleNetworkingUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleSymbolUtilities (1.0.3)
+  - GoogleUtilities (1.1.0):
+    - GoogleSymbolUtilities (~> 1.0.0)
   - Kahuna (2.2.4)
   - LGCollapsibleLabel (0.1.1)
   - LGCoreKit (0.16.6):
@@ -59,7 +78,7 @@ PODS:
   - Realm/Headers (0.95.3)
   - RealmSwift (0.95.3):
     - Realm (= 0.95.3)
-  - Result (1.0.0)
+  - Result (1.0.1)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -69,9 +88,11 @@ PODS:
   - UIDeviceUtil (1.1.3)
 
 DEPENDENCIES:
+  - Adjust (from `git://github.com/adjust/ios_sdk.git`, tag `v4.5.0`)
   - Amplitude-iOS (~> 3.2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - FBSDKShareKit (~> 4.7.0)
+  - Google/Analytics
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.2.2)
   - LGCollapsibleLabel (= 0.1.1)
@@ -89,16 +110,23 @@ DEPENDENCIES:
   - UIDeviceUtil (~> 1.1.2)
 
 EXTERNAL SOURCES:
+  Adjust:
+    :git: git://github.com/adjust/ios_sdk.git
+    :tag: v4.5.0
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
 
 CHECKOUT OPTIONS:
+  Adjust:
+    :git: git://github.com/adjust/ios_sdk.git
+    :tag: v4.5.0
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
 
 SPEC CHECKSUMS:
+  Adjust: 297176446c127f1232b9591b2b37cdc4796850b8
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
   Amplitude-iOS: d4217c0912e3ef7bddb8f5abeb4acffa57d8dfc5
   Argo: 4f52a32b4cd913c204e5a45f420b3fccad3e3f24
@@ -109,7 +137,13 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: c11ed3c2833472db3bb4a4aecf27af4a6f69b173
   FBSDKShareKit: 213adf63e073f41a346b0e7a689805880dc5150e
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
+  Google: fd33b5fa40fa3aaee5176de49c873a74e3d11dce
+  GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
+  GoogleInterchangeUtilities: d7f7174176fbcf9710f696f1acebad4dbd98ac03
+  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
+  GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
+  GoogleUtilities: 8ed9134debe11719097881711464752900668f10
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
   LGCollapsibleLabel: d9cbd82597d995dcfa6c030423b82d338836111a
   LGCoreKit: 145a667623d396fbd16fd2c147a000524638f8a5
@@ -123,7 +157,7 @@ SPEC CHECKSUMS:
   Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
   Realm: 55885fa05865344994ad8b56da96669ffa39fbf1
   RealmSwift: 586df4b5a6d01473d2653b16e9fe7debce4a87ed
-  Result: feaaff535eb59c414c6c7f95e6145ab991b1b07f
+  Result: caef80340451e1f07492fa1e89117f83613bce24
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SlackTextViewController: 1f4e8f68c156ef93de73fd422db2b8d5d5b0f4e7
   Timepiece: cf53bb908bf542acc0e3d5f69cabfed869df4ebd
