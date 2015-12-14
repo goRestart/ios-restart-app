@@ -19,7 +19,7 @@ class TrackerProxySpec: QuickSpec {
             sut = TrackerProxy(trackers: trackers)
         }
         
-        fdescribe("shared instance") {
+        describe("shared instance") {
             beforeEach {
                 sut = TrackerProxy.sharedInstance
             }
