@@ -190,6 +190,17 @@
 "product_mark_as_sold_error_generic" = "¡Ups! Ha habido un error al marcar el artículo como vendido. Prueba otra vez.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido con éxito!";
 "product_negotiable_price" = "Negociable";
+"product_post_camera_subtitle" = "Make sure it's a good one!";
+"product_post_camera_title" = "This is your featured photo";
+"product_post_confirmation_another" = "Or";
+"product_post_confirmation_share" = "Share it";
+"product_post_confirmation_subtitle" = "It will appear on letgo in 10 minutes.";
+"product_post_confirmation_title" = "Your product is being processed!";
+"product_post_done" = "Done";
+"product_post_price_label" = "Want to add a price?";
+"product_post_product_posted" = "Product posted. Congrats!";
+"product_post_retake" = "Retake";
+"product_post_use_photo" = "Use Photo";
 "product_price_label" = "Precio";
 "product_report_confirm_cancel_button" = "Cancelar";
 "product_report_confirm_message" = "¿Estás seguro de que quieres denunciar este artículo?";

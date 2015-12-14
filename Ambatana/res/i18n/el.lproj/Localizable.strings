@@ -190,6 +190,17 @@
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
 "product_negotiable_price" = "Διαπραγματεύσιμη";
+"product_post_camera_subtitle" = "Make sure it's a good one!";
+"product_post_camera_title" = "This is your featured photo";
+"product_post_confirmation_another" = "Or";
+"product_post_confirmation_share" = "Share it";
+"product_post_confirmation_subtitle" = "It will appear on letgo in 10 minutes.";
+"product_post_confirmation_title" = "Your product is being processed!";
+"product_post_done" = "Done";
+"product_post_price_label" = "Want to add a price?";
+"product_post_product_posted" = "Product posted. Congrats!";
+"product_post_retake" = "Retake";
+"product_post_use_photo" = "Use Photo";
 "product_price_label" = "Τιμή";
 "product_report_confirm_cancel_button" = "Ακύρωση";
 "product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτό το προϊόν;";

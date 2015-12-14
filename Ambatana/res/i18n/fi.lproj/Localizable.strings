@@ -190,6 +190,17 @@
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
 "product_negotiable_price" = "Neuvoteltavissa";
+"product_post_camera_subtitle" = "Make sure it's a good one!";
+"product_post_camera_title" = "This is your featured photo";
+"product_post_confirmation_another" = "Or";
+"product_post_confirmation_share" = "Share it";
+"product_post_confirmation_subtitle" = "It will appear on letgo in 10 minutes.";
+"product_post_confirmation_title" = "Your product is being processed!";
+"product_post_done" = "Done";
+"product_post_price_label" = "Want to add a price?";
+"product_post_product_posted" = "Product posted. Congrats!";
+"product_post_retake" = "Retake";
+"product_post_use_photo" = "Use Photo";
 "product_price_label" = "Hinta";
 "product_report_confirm_cancel_button" = "Peruuta";
 "product_report_confirm_message" = "Oletko varma että haluat tehdä ilmoituksen tästä tuotteesta?";
