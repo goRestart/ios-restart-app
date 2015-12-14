@@ -9,6 +9,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="activityIndicator" destination="Ctf-MD-EvR" id="4y2-kK-ix6"/>
                 <outlet property="addPriceLabel" destination="on4-aa-GJF" id="IJO-ev-99X"/>
                 <outlet property="cameraContainerView" destination="b61-zv-QvL" id="1aE-di-zJQ"/>
                 <outlet property="cameraSubtitleLabel" destination="84H-8h-W1y" id="A1n-zF-hcH"/>
@@ -20,6 +21,7 @@
                 <outlet property="flashButton" destination="WMf-7b-nmP" id="TD5-uC-Ak1"/>
                 <outlet property="galleryButton" destination="sBm-aX-L6t" id="r9g-Af-EKZ"/>
                 <outlet property="imagePreview" destination="lhx-3G-bF1" id="DTu-ur-F5V"/>
+                <outlet property="loadingIcon" destination="pDy-Nz-6BC" id="nTS-VL-B64"/>
                 <outlet property="makePhotoButton" destination="dLF-v3-UP0" id="oMm-vE-pBO"/>
                 <outlet property="postErrorLabel" destination="ceY-sz-ePA" id="She-qR-gcK"/>
                 <outlet property="postedInfoLabel" destination="bb0-id-OIx" id="ibe-jQ-ayN"/>
@@ -243,15 +245,18 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pDy-Nz-6BC" userLabel="loadingIcon">
+                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_tick" translatesAutoresizingMaskIntoConstraints="NO" id="pDy-Nz-6BC" userLabel="loadingIcon">
                                         <rect key="frame" x="163" y="71" width="48" height="48"/>
                                         <animations/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="ToO-3x-4hv"/>
                                             <constraint firstAttribute="width" constant="48" id="kmO-j7-cEs"/>
                                         </constraints>
                                     </imageView>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Ctf-MD-EvR">
+                                        <rect key="frame" x="177" y="85" width="20" height="20"/>
+                                        <animations/>
+                                    </activityIndicatorView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Product posted. Congrats!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bb0-id-OIx" userLabel="postedInfoLabel">
                                         <rect key="frame" x="31" y="129" width="313" height="21"/>
                                         <animations/>
@@ -260,14 +265,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_WANT TO ADD A PRICE?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="on4-aa-GJF" userLabel="addPriceLabel">
-                                        <rect key="frame" x="31" y="179" width="313" height="16"/>
+                                        <rect key="frame" x="31" y="178" width="313" height="16"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Alw-xS-yOd" userLabel="priceFieldContainer">
-                                        <rect key="frame" x="102" y="202" width="170" height="44"/>
+                                        <rect key="frame" x="102" y="201" width="170" height="44"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Negotiable" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JzZ-No-upa">
                                                 <rect key="frame" x="8" y="4" width="130" height="36"/>
@@ -303,7 +308,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96p-Kr-gVK" userLabel="doneButton">
-                                        <rect key="frame" x="102" y="255" width="170" height="44"/>
+                                        <rect key="frame" x="102" y="254" width="170" height="44"/>
                                         <animations/>
                                         <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -318,14 +323,14 @@
                                         </connections>
                                     </button>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Your product hasn't been posted. Please check your network settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceY-sz-ePA" userLabel="errorLabel">
-                                        <rect key="frame" x="31" y="165" width="313" height="36"/>
+                                        <rect key="frame" x="31" y="164" width="313" height="36"/>
                                         <animations/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ2-Pa-uBQ" userLabel="retryButton">
-                                        <rect key="frame" x="102" y="221" width="170" height="44"/>
+                                        <rect key="frame" x="102" y="220" width="170" height="44"/>
                                         <animations/>
                                         <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -351,6 +356,7 @@
                                     <constraint firstItem="on4-aa-GJF" firstAttribute="top" secondItem="bb0-id-OIx" secondAttribute="bottom" constant="29" id="6sh-u8-kV0"/>
                                     <constraint firstAttribute="trailing" secondItem="bb0-id-OIx" secondAttribute="trailing" constant="31" id="7TW-Hp-YD4"/>
                                     <constraint firstItem="hZ2-Pa-uBQ" firstAttribute="centerX" secondItem="hB7-6T-u18" secondAttribute="centerX" id="9TP-XM-PZI"/>
+                                    <constraint firstItem="Ctf-MD-EvR" firstAttribute="centerX" secondItem="pDy-Nz-6BC" secondAttribute="centerX" id="AEL-Km-qwM"/>
                                     <constraint firstItem="on4-aa-GJF" firstAttribute="leading" secondItem="hB7-6T-u18" secondAttribute="leading" constant="31" id="B6s-xL-1ej"/>
                                     <constraint firstItem="hZ2-Pa-uBQ" firstAttribute="top" secondItem="ceY-sz-ePA" secondAttribute="bottom" constant="20" id="Ele-eB-hm1"/>
                                     <constraint firstItem="Alw-xS-yOd" firstAttribute="centerX" secondItem="hB7-6T-u18" secondAttribute="centerX" id="VH0-kX-kGg"/>
@@ -359,6 +365,7 @@
                                     <constraint firstItem="pDy-Nz-6BC" firstAttribute="top" secondItem="hB7-6T-u18" secondAttribute="top" constant="71" id="ikH-vr-hAN"/>
                                     <constraint firstItem="96p-Kr-gVK" firstAttribute="width" secondItem="Alw-xS-yOd" secondAttribute="width" id="mgD-3G-t65"/>
                                     <constraint firstItem="96p-Kr-gVK" firstAttribute="centerX" secondItem="hB7-6T-u18" secondAttribute="centerX" id="ojg-cp-b1S"/>
+                                    <constraint firstItem="Ctf-MD-EvR" firstAttribute="centerY" secondItem="pDy-Nz-6BC" secondAttribute="centerY" id="u6X-Sv-5ES"/>
                                     <constraint firstItem="ceY-sz-ePA" firstAttribute="top" secondItem="bb0-id-OIx" secondAttribute="bottom" constant="15" id="uVG-uZ-xuU"/>
                                     <constraint firstItem="ceY-sz-ePA" firstAttribute="leading" secondItem="hB7-6T-u18" secondAttribute="leading" constant="31" id="zN1-mg-6A9"/>
                                 </constraints>
@@ -464,5 +471,6 @@
         <image name="ic_post_gallery" width="36" height="36"/>
         <image name="ic_post_switch_cam" width="36" height="36"/>
         <image name="ic_post_take_photo" width="60" height="60"/>
+        <image name="ic_post_tick" width="50" height="50"/>
     </resources>
 </document>

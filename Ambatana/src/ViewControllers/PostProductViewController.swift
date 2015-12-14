@@ -28,6 +28,8 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
     @IBOutlet weak var galleryButton: UIButton!
 
     @IBOutlet weak var selectPriceContainer: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loadingIcon: UIImageView!
     @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var addPriceLabel: UILabel!
     @IBOutlet weak var priceFieldContainer: UIView!
@@ -257,6 +259,13 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
         selectPriceContainer.hidden = false
         let hasError = error != nil
 
+        if(loading) {
+            activityIndicator.startAnimating()
+        }
+        else {
+            activityIndicator.stopAnimating()
+        }
+        loadingIcon.hidden = loading
         postedInfoLabel.hidden = loading
         postedInfoLabel.text = hasError ?
             LGLocalizedString.commonErrorTitle.capitalizedString : LGLocalizedString.productPostProductPosted
