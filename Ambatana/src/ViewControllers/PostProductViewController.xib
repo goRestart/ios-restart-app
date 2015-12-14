@@ -80,7 +80,7 @@
                                 <constraint firstItem="6EU-DX-jum" firstAttribute="leading" secondItem="Rwi-HG-DGN" secondAttribute="leading" id="v7Y-N5-9MH"/>
                             </constraints>
                         </view>
-                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lhx-3G-bF1" userLabel="imagePreview">
+                        <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lhx-3G-bF1" userLabel="imagePreview">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="501"/>
                             <animations/>
                         </imageView>

@@ -126,6 +126,7 @@ class PostProductViewController: BaseViewController, SellProductViewController {
     }
 
     @IBAction func onGalleryButton(sender: AnyObject) {
+        MediaPickerManager.showGalleryPickerIn(self)
     }
 
     @IBAction func onRetryPhotoButton(sender: AnyObject) {
@@ -299,5 +300,25 @@ extension PostProductViewController: FastttCameraDelegate {
     */
     func userDeniedCameraPermissionsForCameraController(cameraController: FastttCameraInterface!) {
         print("userDeniedCameraPermissionsForCameraController")
+    }
+}
+
+
+// MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
+
+extension PostProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        var image = info[UIImagePickerControllerEditedImage] as? UIImage
+        if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
+
+        picker.dismissViewControllerAnimated(true, completion: nil)
+
+        if let theImage = image {
+            switchToPreviewWith(theImage)
+        }
+    }
+
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        picker.dismissViewControllerAnimated(true, completion: nil)
     }
 }

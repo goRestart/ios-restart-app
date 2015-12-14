@@ -34,20 +34,42 @@ class MediaPickerManager {
             
             let alert = UIAlertController(title: title, message: nil, preferredStyle: .ActionSheet)
             alert.addAction(UIAlertAction(title: cameraTitle, style: .Default) { alertAction in
-                self.requestCameraPermissions(controller) {
-                    self.openImagePickerWithSource(.Camera, inController: controller)
-                }
+                showCameraPickerIn(controller)
                 })
             alert.addAction(UIAlertAction(title: galleryTitle, style: .Default) { alertAction in
-                self.requestGalleryPersmissions(controller) {
-                    self.openImagePickerWithSource(.PhotoLibrary, inController: controller)
-                }
+                showGalleryPickerIn(controller)
                 })
             alert.addAction(UIAlertAction(title: cancelTitle, style: .Cancel, handler: nil))
             controller.presentViewController(alert, animated: true, completion: nil)
     }
-    
-    
+
+    /**
+    Show the native gallery image picker in the given UIViewController. The view controller must conform to
+    UINavigationControllerDelegate and to UIImagePickerControllerDelegate.
+
+    - parameter controller: UIViewController where the ImagePicker is going to be shown.
+    */
+    static func showGalleryPickerIn<T: UIViewController where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate>(controller: T) {
+            self.requestGalleryPersmissions(controller) {
+                self.openImagePickerWithSource(.PhotoLibrary, inController: controller)
+            }
+    }
+
+    /**
+    Show the native camera in the given UIViewController to pick an image. The view controller must conform to
+    UINavigationControllerDelegate and to UIImagePickerControllerDelegate.
+
+    - parameter controller: UIViewController where the ImagePicker is going to be shown.
+    */
+    static func showCameraPickerIn<T: UIViewController where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate>(controller: T) {
+            self.requestCameraPermissions(controller) {
+                self.openImagePickerWithSource(.Camera, inController: controller)
+            }
+    }
+
+
     // MARK: Private Methods
     
     private static func requestGalleryPersmissions<T: UIViewController where T: UINavigationControllerDelegate,
