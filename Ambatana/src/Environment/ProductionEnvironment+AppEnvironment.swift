@@ -40,5 +40,5 @@ extension ProductionEnvironment: AppEnvironment {
 
     // Adjust
     var adjustAppToken: String { get { return "ddy5ww1scx6o" } }
-    var adjustEnvironment: String { get { return ADJEnvironmentSandbox } }
+    var adjustEnvironment: String { get { return ADJEnvironmentProduction } }
 }
