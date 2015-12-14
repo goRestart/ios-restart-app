@@ -65,4 +65,45 @@ class PostProductViewModel: BaseViewModel {
 //            strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: nil)
 //        }
     }
+
+    func doneButtonPressed(priceText: String?) {
+        PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: priceText,
+            currency: currency)
+    }
+
+    func closeButtonPressed() {
+        PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: nil,
+            currency: currency)
+    }
+
+
+    // MARK: - Private methods
+    private static func saveProduct(manager productManager: ProductManager, uploadedImage: File?, priceText: String?,
+        currency: Currency) {
+            guard let uploadedImage = uploadedImage else { return }
+
+            var theProduct = productManager.newProduct()
+            let formatter = NSNumberFormatter()
+            formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+            formatter.usesGroupingSeparator = false
+            var priceFloat : Float = 0
+            if let priceText = priceText, let number = formatter.numberFromString(priceText) {
+                priceFloat = number.floatValue
+            }
+
+            theProduct = productManager.updateProduct(theProduct, name: nil, price: priceFloat, description: nil,
+                category: .Other, currency: currency)
+
+            productManager.saveProduct(theProduct, imageFiles: [uploadedImage]){
+                (r: ProductSaveServiceResult) -> Void in
+
+                //TODO: OPEN PRODUCT POSTED INFO CONTROLLER
+                if let product = r.value {
+
+                }
+                else {
+                    let error = r.error ?? .Internal
+                }
+            }
+    }
 }

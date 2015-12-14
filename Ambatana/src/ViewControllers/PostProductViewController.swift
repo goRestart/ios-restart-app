@@ -96,6 +96,8 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
 
     // MARK: - Actions
     @IBAction func onCloseButton(sender: AnyObject) {
+        viewModel.closeButtonPressed()
+        priceTextField.resignFirstResponder()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -149,10 +151,13 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
     }
     
     @IBAction func onCurrencyButton(sender: AnyObject) {
+        //TODO IMPLEMENT!
     }
 
     @IBAction func onDoneButton(sender: AnyObject) {
-
+        priceTextField.resignFirstResponder()
+        viewModel.doneButtonPressed(priceTextField.text)
+        dismissViewControllerAnimated(true, completion: nil)
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
