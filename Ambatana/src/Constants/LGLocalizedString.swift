@@ -804,6 +804,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_done", comment: "")
 	}
 	
+	static var productPostConfirmationAnotherButton: String {
+		return NSLocalizedString("product_post_confirmation_another_button", comment: "")
+	}
+	
 	static var productPostGenericError: String {
 		return NSLocalizedString("product_post_generic_error", comment: "")
 	}

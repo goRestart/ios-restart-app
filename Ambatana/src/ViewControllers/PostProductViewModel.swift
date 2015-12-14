@@ -36,50 +36,50 @@ class PostProductViewModel: BaseViewModel {
 
         delegate?.postProductViewModelDidStartUploadingImage(self)
 
-        //TODO: JUST TO TEST
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), {
-            delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
-        });
+//        //TODO: JUST TO TEST
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), {
+//            delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
+//        });
 
 
-//        productManager.saveProductImages([image], progress: nil) {
-//            [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
-//
-//            guard let strongSelf = self else { return }
-//            guard let images = multipleFilesUploadResult.value, let image = images.first else {
-//                let error = multipleFilesUploadResult.error ?? .Internal
-//                let errorString: String
-//                switch (error) {
-//                case .Internal:
-//                    errorString = LGLocalizedString.productPostGenericError
-//                case .Network:
-//                    errorString = LGLocalizedString.productPostNetworkError
-//                case .Forbidden:
-//                    errorString = LGLocalizedString.productPostGenericError
-//                }
-//                strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: errorString)
-//                return
-//            }
-//            strongSelf.uploadedImage = image
-//
-//            strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: nil)
-//        }
+        productManager.saveProductImages([image], progress: nil) {
+            [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
+
+            guard let strongSelf = self else { return }
+            guard let images = multipleFilesUploadResult.value, let image = images.first else {
+                let error = multipleFilesUploadResult.error ?? .Internal
+                let errorString: String
+                switch (error) {
+                case .Internal:
+                    errorString = LGLocalizedString.productPostGenericError
+                case .Network:
+                    errorString = LGLocalizedString.productPostNetworkError
+                case .Forbidden:
+                    errorString = LGLocalizedString.productPostGenericError
+                }
+                strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: errorString)
+                return
+            }
+            strongSelf.uploadedImage = image
+
+            strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: nil)
+        }
     }
 
-    func doneButtonPressed(priceText: String?) {
+    func doneButtonPressed(priceText: String?, delegate: SellProductViewControllerDelegate?) {
         PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: priceText,
-            currency: currency)
+            currency: currency, delegate: delegate)
     }
 
-    func closeButtonPressed() {
+    func closeButtonPressed(delegate delegate: SellProductViewControllerDelegate?) {
         PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: nil,
-            currency: currency)
+            currency: currency, delegate: delegate)
     }
 
 
     // MARK: - Private methods
     private static func saveProduct(manager productManager: ProductManager, uploadedImage: File?, priceText: String?,
-        currency: Currency) {
+        currency: Currency, delegate: SellProductViewControllerDelegate?) {
             guard let uploadedImage = uploadedImage else { return }
 
             var theProduct = productManager.newProduct()
@@ -97,13 +97,8 @@ class PostProductViewModel: BaseViewModel {
             productManager.saveProduct(theProduct, imageFiles: [uploadedImage]){
                 (r: ProductSaveServiceResult) -> Void in
 
-                //TODO: OPEN PRODUCT POSTED INFO CONTROLLER
-                if let product = r.value {
-
-                }
-                else {
-                    let error = r.error ?? .Internal
-                }
+                let productPostedViewModel = ProductPostedViewModel(postResult: r)
+                delegate?.sellProductViewController(nil, didFinishPostingProduct: productPostedViewModel)
             }
     }
 }

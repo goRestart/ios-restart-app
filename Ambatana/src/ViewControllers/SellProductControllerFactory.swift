@@ -12,6 +12,8 @@ public protocol SellProductViewController: class {
 
 protocol SellProductViewControllerDelegate : class {
     func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool)
+    func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
+        postedViewModel: ProductPostedViewModel)
 }
 
 class SellProductControllerFactory {

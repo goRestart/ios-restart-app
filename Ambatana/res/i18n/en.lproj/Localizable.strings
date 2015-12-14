@@ -595,6 +595,9 @@
 // Done button after setting (or not) a price
 "product_post_done" = "Done";
 
+// Post another item button
+"product_post_confirmation_another_button" = "Post another item";
+
 // When posting failed but it's our fault
 "product_post_generic_error" = "Your product hasn't been posted.";
 

@@ -322,6 +322,14 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         }
     }
 
+    func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
+        postedViewModel: ProductPostedViewModel) {
+
+            let productPostedVC = ProductPostedViewController(viewModel: postedViewModel)
+            productPostedVC.delegate = self
+            presentViewController(productPostedVC, animated: true, completion: nil)
+    }
+
     // MARK: - UINavigationControllerDelegate
 
     public func navigationController(navigationController: UINavigationController,
