@@ -28,6 +28,14 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
     @IBOutlet weak var galleryButton: UIButton!
 
     @IBOutlet weak var selectPriceContainer: UIView!
+    @IBOutlet weak var postedInfoLabel: UILabel!
+    @IBOutlet weak var addPriceLabel: UILabel!
+    @IBOutlet weak var priceFieldContainer: UIView!
+    @IBOutlet weak var priceTextField: UITextField!
+    @IBOutlet weak var currencyButton: UIButton!
+    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var postErrorLabel: UILabel!
+    @IBOutlet weak var retryButton: UIButton!
 
     private var flashMode: FastttCameraFlashMode = .Auto
     private var cameraDevice: FastttCameraDevice = .Rear
@@ -139,16 +147,27 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
         guard let image = imagePreview.image else { return }
         viewModel.imageSelected(image)
     }
+    
+    @IBAction func onCurrencyButton(sender: AnyObject) {
+    }
+
+    @IBAction func onDoneButton(sender: AnyObject) {
+
+    }
+
+    @IBAction func onRetryButton(sender: AnyObject) {
+        onUsePhotoButton(sender)
+    }
 
 
     // MARK: - PostProductViewModelDelegate
 
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel) {
-        switchToSelectPrice(true)
+        setSelectPriceState(loading: true, error: nil)
     }
 
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?) {
-        switchToSelectPrice(false)
+        setSelectPriceState(loading: false, error: error)
     }
 
 
@@ -176,6 +195,20 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
         cameraSubtitleLabel.text = LGLocalizedString.productPostCameraSubtitle
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(LGLocalizedString.productPostUsePhoto, forState: UIControlState.Normal)
+        addPriceLabel.text = LGLocalizedString.productPostPriceLabel
+        priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
+            attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
+        doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
+        retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
+
+        //Layers
+        retryButton.layer.cornerRadius = 4
+        doneButton.layer.cornerRadius = 4
+        priceFieldContainer.layer.cornerRadius = 4
+        priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
+        priceFieldContainer.layer.borderWidth = 1
+
+        currencyButton.setTitle(viewModel.currency.symbol, forState: UIControlState.Normal)
     }
 
     private func setupCamera() {
@@ -215,8 +248,26 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
         setCaptureStateButtons(true)
     }
 
-    private func switchToSelectPrice(loading: Bool) {
+    private func setSelectPriceState(loading loading: Bool, error: String?) {
         selectPriceContainer.hidden = false
+        let hasError = error != nil
+
+        postedInfoLabel.hidden = loading
+        postedInfoLabel.text = hasError ?
+            LGLocalizedString.commonErrorTitle.capitalizedString : LGLocalizedString.productPostProductPosted
+        addPriceLabel.hidden = loading || hasError
+        priceFieldContainer.hidden = loading || hasError
+        doneButton.hidden = loading || hasError
+        postErrorLabel.hidden = loading || !hasError
+        postErrorLabel.text = error
+        retryButton.hidden = loading || !hasError
+
+        if !loading && !hasError {
+            priceTextField.becomeFirstResponder()
+        }
+        else {
+            priceTextField.resignFirstResponder()
+        }
     }
 
     private func setCaptureStateButtons(captureState: Bool) {
@@ -228,6 +279,7 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
         retryPhotoButton.hidden = captureState
         usePhotoButton.hidden = captureState
         cameraTextsContainer.hidden = !captureState
+        selectPriceContainer.hidden = true
     }
 
     private func setFlashModeButton() {
@@ -246,22 +298,8 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
 // MARK: - FastttCameraDelegate
 
 extension PostProductViewController: FastttCameraDelegate {
-    /**
-    *  Called when the camera controller has finished normalizing the captured photo.
-    *
-    *  @param cameraController The FastttCamera instance that captured the photo.
-    *
-    *  @param capturedImage    The FastttCapturedImage object, with the (UIImage *)fullImage and (UIImage *)scaledImage (if any) replaced
-    *  by images that have been rotated so that their orientation is UIImageOrientationUp. This is a slower process than creating the
-    *  initial images that are returned, which have varying orientations based on how the phone was held, but the normalized images
-    *  are more ideal for uploading or saving as they are displayed more predictably in different browsers and applications than the
-    *  initial images which have an orientation tag set that is not UIImageOrientationUp.
-    *
-    *  @note This method will not be called if normalizesImageOrientations is set to NO.
-    */
     func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
         print("didFinishNormalizingCapturedImage")
-
         switchToPreviewWith(capturedImage.scaledImage)
     }
 }

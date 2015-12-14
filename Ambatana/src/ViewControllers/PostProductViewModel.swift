@@ -17,12 +17,14 @@ class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
 
+    var currency: Currency
+
     private var productManager: ProductManager
     private var uploadedImage: File?
 
     override init() {
-
         self.productManager = ProductManager()
+        self.currency = CurrencyHelper.sharedInstance.currentCurrency
 
         super.init()
     }
@@ -32,18 +34,35 @@ class PostProductViewModel: BaseViewModel {
 
     func imageSelected(image: UIImage) {
 
-        productManager.saveProductImages([image], progress: nil) {
-            [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
+        delegate?.postProductViewModelDidStartUploadingImage(self)
 
-            guard let strongSelf = self else { return }
-            guard let images = multipleFilesUploadResult.value, let image = images.first else {
-                //TODO LOCALIZE ERROR
-                strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: "_")
-                return
-            }
-            strongSelf.uploadedImage = image
+        //TODO: JUST TO TEST
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), {
+            delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
+        });
 
-            strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: nil)
-        }
+
+//        productManager.saveProductImages([image], progress: nil) {
+//            [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
+//
+//            guard let strongSelf = self else { return }
+//            guard let images = multipleFilesUploadResult.value, let image = images.first else {
+//                let error = multipleFilesUploadResult.error ?? .Internal
+//                let errorString: String
+//                switch (error) {
+//                case .Internal:
+//                    errorString = LGLocalizedString.productPostGenericError
+//                case .Network:
+//                    errorString = LGLocalizedString.productPostNetworkError
+//                case .Forbidden:
+//                    errorString = LGLocalizedString.productPostGenericError
+//                }
+//                strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: errorString)
+//                return
+//            }
+//            strongSelf.uploadedImage = image
+//
+//            strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: nil)
+//        }
     }
 }

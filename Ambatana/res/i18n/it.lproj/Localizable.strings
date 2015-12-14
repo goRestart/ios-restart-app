@@ -197,9 +197,12 @@
 "product_post_confirmation_subtitle" = "It will appear on letgo in 10 minutes.";
 "product_post_confirmation_title" = "Your product is being processed!";
 "product_post_done" = "Done";
+"product_post_generic_error" = "Your product hasn't been posted.";
+"product_post_network_error" = "Your product hasn't been posted.\nPlease check your network settings.";
 "product_post_price_label" = "Want to add a price?";
 "product_post_product_posted" = "Product posted. Congrats!";
 "product_post_retake" = "Retake";
+"product_post_retry_button" = "Try Again";
 "product_post_use_photo" = "Use Photo";
 "product_price_label" = "Prezzo";
 "product_report_confirm_cancel_button" = "Annulla";

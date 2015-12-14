@@ -595,6 +595,15 @@
 // Done button after setting (or not) a price
 "product_post_done" = "Done";
 
+// When posting failed but it's our fault
+"product_post_generic_error" = "Your product hasn't been posted.";
+
+// When posting failed due to network connection errors
+"product_post_network_error" = "Your product hasn't been posted.\nPlease check your network settings.";
+
+// After failure, the text of the "try again" button
+"product_post_retry_button" = "Try Again";
+
 // Question to add a price
 "product_post_price_label" = "Want to add a price?";
 

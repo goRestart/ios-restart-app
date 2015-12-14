@@ -804,6 +804,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_done", comment: "")
 	}
 	
+	static var productPostGenericError: String {
+		return NSLocalizedString("product_post_generic_error", comment: "")
+	}
+	
+	static var productPostNetworkError: String {
+		return NSLocalizedString("product_post_network_error", comment: "")
+	}
+	
+	static var productPostRetryButton: String {
+		return NSLocalizedString("product_post_retry_button", comment: "")
+	}
+	
 	static var productPostPriceLabel: String {
 		return NSLocalizedString("product_post_price_label", comment: "")
 	}
