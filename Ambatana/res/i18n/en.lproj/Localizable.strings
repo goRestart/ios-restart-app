@@ -791,7 +791,7 @@
 "sell_choose_category_dialog_title" = "Choose a category";
 
 // Sell description field hint. Check image @ "sell_category_selection_label" segment
-"sell_description_field_hint" = "Description";
+"sell_description_field_hint" = "Description (optional)";
 
 // Sell picture image source camera button. Check attached image "sell_picture_image_source.png"
 "sell_picture_image_source_camera_button" = "Camera";
@@ -884,7 +884,7 @@
 "sell_title" = "Sell";
 
 // Sell title field hint. Check image @ "sell_category_selection_label" segment
-"sell_title_field_hint" = "Product title";
+"sell_title_field_hint" = "Title (optional)";
 
 // Sell uploading label
 "sell_uploading_label" = "Uploading product. Please wait...";
