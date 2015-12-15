@@ -21,7 +21,7 @@ class ProductPostedViewModel: BaseViewModel {
     var mainText: String?
     var secondaryText: String?
     var shareInfo: SocialMessage?
-    private var hasError = false
+    private var product: Product?
 
     init(postResult: ProductSaveServiceResult) {
         super.init()
@@ -33,35 +33,81 @@ class ProductPostedViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func closeActionPressed() {
-        delegate?.productPostedViewModelDidFinishPosting(self, correctly: !hasError)
+        delegate?.productPostedViewModelDidFinishPosting(self, correctly: product != nil)
+
+        guard let product = product else { return }
+        let trackerEvent = TrackerEvent.productSellConfirmationClose(product,
+            user: MyUserManager.sharedInstance.myUser())
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func mainActionPressed() {
         delegate?.productPostedViewModelDidRestartPosting(self)
+
+        guard let product = product else { return }
+        let trackerEvent = TrackerEvent.productSellConfirmationPost(product,
+            user: MyUserManager.sharedInstance.myUser())
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func shareInEmail(){
-
+        guard let product = product else { return }
+        let trackerEvent = TrackerEvent.productSellConfirmationShare(product,
+            user: MyUserManager.sharedInstance.myUser(), network: .Email)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func shareInFacebook() {
-
+        guard let product = product else { return }
+        let trackerEvent = TrackerEvent.productSellConfirmationShare(product,
+            user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
-
+        guard let product = product else { return }
+        let trackerEvent: TrackerEvent
+        switch state {
+        case .Completed:
+            trackerEvent = TrackerEvent.productSellConfirmationShareComplete(product,
+                user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
+        case .Cancelled:
+            trackerEvent = TrackerEvent.productSellConfirmationShareCancel(product,
+                user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
+        case .Failed:
+                return;
+        }
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func shareInFBMessenger() {
-
+        guard let product = product else { return }
+        let trackerEvent = TrackerEvent.productSellConfirmationShare(product,
+            user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
-        
+        guard let product = product else { return }
+        let trackerEvent: TrackerEvent
+        switch state {
+        case .Completed:
+            trackerEvent = TrackerEvent.productSellConfirmationShareComplete(product,
+                user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
+        case .Cancelled:
+            trackerEvent = TrackerEvent.productSellConfirmationShareCancel(product,
+                user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
+        case .Failed:
+            return;
+        }
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
-    
+
     func shareInWhatsApp() {
-        
+        guard let product = product else { return }
+        let trackerEvent = TrackerEvent.productSellConfirmationShare(product,
+            user: MyUserManager.sharedInstance.myUser(), network: .Whatsapp)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
 
@@ -69,6 +115,7 @@ class ProductPostedViewModel: BaseViewModel {
 
     private func setup(postResult: ProductSaveServiceResult) {
         if let product = postResult.value {
+            self.product = product
             mainText = LGLocalizedString.productPostConfirmationTitle
             secondaryText = LGLocalizedString.productPostConfirmationSubtitle
             mainButtonText = LGLocalizedString.productPostConfirmationAnotherButton
@@ -86,7 +133,6 @@ class ProductPostedViewModel: BaseViewModel {
             mainText = LGLocalizedString.commonErrorTitle.capitalizedString
             secondaryText = errorString
             mainButtonText = LGLocalizedString.productPostRetryButton
-            hasError = true
         }
     }
 

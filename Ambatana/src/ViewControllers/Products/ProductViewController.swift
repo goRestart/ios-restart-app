@@ -660,12 +660,12 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             }
             
             if activity == UIActivityTypePostToFacebook {
-                self.viewModel.shareInFacebook("top")
+                self.viewModel.shareInFacebook(.Top)
                 self.viewModel.shareInFBCompleted()
             } else if activity == UIActivityTypePostToTwitter {
                 self.viewModel.shareInTwitterActivity()
             } else if activity == UIActivityTypeMail {
-                self.viewModel.shareInEmail("top")
+                self.viewModel.shareInEmail(.Top)
             } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
                 self.viewModel.shareInWhatsappActivity()
             }
@@ -812,11 +812,11 @@ extension ProductViewController: NavBarUserInfoDelegate {
 extension ProductViewController: SocialShareViewDelegate {
 
     func shareInEmail(){
-        viewModel.shareInEmail("bottom")
+        viewModel.shareInEmail(.Bottom)
     }
 
     func shareInFacebook() {
-        viewModel.shareInFacebook("bottom")
+        viewModel.shareInFacebook(.Bottom)
     }
 
     func shareInFacebookFinished(state: SocialShareState) {

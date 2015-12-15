@@ -53,6 +53,12 @@ public enum EventName: String {
     case ProductSellFormValidationFailed    = "product-sell-form-validation-failed"
     case ProductSellSharedFB                = "product-sell-shared-fb"
     case ProductSellComplete                = "product-sell-complete"
+    case ProductSellConfirmation            = "product-sell-confirmation"
+    case ProductSellConfirmationPost        = "product-sell-confirmation-post"
+    case ProductSellConfirmationClose       = "product-sell-confirmation-close"
+    case ProductSellConfirmationShare       = "product-sell-confirmation-share"
+    case ProductSellConfirmationShareCancel = "product-sell-confirmation-share-cancel"
+    case ProductSellConfirmationShareComplete = "product-sell-confirmation-share-complete"
     
     case ProductEditStart                   = "product-edit-start"
 //    case ProductEditEditCurrency            = "product-edit-edit-currency"
@@ -148,6 +154,8 @@ public enum EventParameterName: String {
     case PermissionType       = "permission-type"
     case TypePage             = "type-page"
     case AlertType            = "alert-type"
+    case NegotiablePrice      = "negotiable-price"
+    case PictureSource        = "picture-source"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -184,6 +192,12 @@ public enum EventParameterLocationType: String {
 public enum EventParameterButtonNameType: String {
     case Close = "close"
     case Skip = "skip"
+    case Done = "done"
+}
+
+public enum EventParameterButtonPosition: String {
+    case Top = "top"
+    case Bottom = "bottom"
 }
 
 public enum EventParameterShareNetwork: String {
@@ -192,6 +206,16 @@ public enum EventParameterShareNetwork: String {
     case Whatsapp = "whatsapp"
     case Twitter = "twitter"
     case FBMessenger = "facebook-messenger"
+}
+
+public enum EventParameterNegotiablePrice: String {
+    case Yes = "yes"
+    case No = "no"
+}
+
+public enum EventParameterPictureSource: String {
+    case Camera = "camera"
+    case Gallery = "gallery"
 }
 
 public enum EventParameterSortBy: String {
