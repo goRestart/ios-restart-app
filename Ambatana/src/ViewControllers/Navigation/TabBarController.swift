@@ -331,7 +331,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     }
 
     func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
-        presentSellVC()
+        openSell()
     }
 
     // MARK: - UINavigationControllerDelegate
@@ -543,20 +543,6 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     }
 
     private func openSell() {
-        if ABTests.loginAfterSell.boolValue {
-            // present the VC, the login check will be done before saving the product
-            self.presentSellVC()
-        } else {
-            // If logged present the sell, otherwise present the login VC (and if successful the sell)
-            ifLoggedInThen(.Sell, loggedInAction: {
-                self.presentSellVC()
-                }, elsePresentSignUpWithSuccessAction: {
-                    self.presentSellVC()
-            })
-        }
-    }
-
-    private func presentSellVC() {
         SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
     }
 
