@@ -17,7 +17,6 @@
                 <outlet property="deleteButton" destination="UM2-pr-wbb" id="lrt-Pd-kmg"/>
                 <outlet property="descriptionCollapsible" destination="z0J-bb-yu5" id="0lp-by-lQR"/>
                 <outlet property="descriptionTopConstraint" destination="rmj-Q6-F0M" id="2k3-NM-sZP"/>
-                <outlet property="fbMessengerShareButtonWidthConstraint" destination="bvD-s9-WiV" id="8lI-Zp-M6L"/>
                 <outlet property="footerViewHeightConstraint" destination="zoi-wR-b4u" id="Zwf-6m-SFz"/>
                 <outlet property="galleryView" destination="rnN-LC-zqg" id="01p-kR-evO"/>
                 <outlet property="mapView" destination="oT2-dx-Ar0" id="zKc-iX-q2Q"/>
@@ -32,8 +31,8 @@
                 <outlet property="productStatusLabel" destination="ovm-tI-9H5" id="s6G-AW-Rf3"/>
                 <outlet property="productStatusShadow" destination="PoQ-Yn-Cbh" id="npT-X8-ovn"/>
                 <outlet property="reportButton" destination="L8o-kA-epW" id="cZb-qK-Qn4"/>
+                <outlet property="socialShareView" destination="Ga1-k3-M3W" id="vow-pR-WD5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
-                <outlet property="whatsappShareButtonWidthConstraint" destination="1In-y0-Izh" id="VZW-aJ-ncu"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -148,110 +147,13 @@
                                         <action selector="mapViewButtonPressed:" destination="-1" eventType="touchUpInside" id="7O7-V1-aHB"/>
                                     </connections>
                                 </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JjN-hF-Oa1" userLabel="Social View">
-                                    <rect key="frame" x="48" y="512" width="224" height="75"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d9e-k6-h2n" userLabel="Share FBMessenger Button">
-                                            <rect key="frame" x="0.0" y="10" width="56" height="56"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="56" id="bvD-s9-WiV"/>
-                                                <constraint firstAttribute="height" constant="56" id="gRv-Mc-v91"/>
-                                            </constraints>
-                                            <state key="normal" image="item_share_fb_messenger">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="shareFBMessengerButtonPressed:" destination="-1" eventType="touchUpInside" id="VGU-R2-aje"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7kD-Uf-2Lc" userLabel="Share FB Button">
-                                            <rect key="frame" x="112" y="10" width="56" height="56"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="56" id="IVG-vc-rkf"/>
-                                                <constraint firstAttribute="width" constant="56" id="Thw-ou-nJy"/>
-                                            </constraints>
-                                            <state key="normal" image="item_share_fb">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="shareFBButtonPressed:" destination="-1" eventType="touchUpInside" id="ePR-jF-C3J"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNK-r3-hh9" userLabel="Share Email Button">
-                                            <rect key="frame" x="168" y="9" width="56" height="56"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="56" id="tpr-4J-kcd"/>
-                                                <constraint firstAttribute="height" constant="56" id="wTo-va-kwL"/>
-                                            </constraints>
-                                            <state key="normal" image="item_share_email">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="shareEmailButtonPressed:" destination="-1" eventType="touchUpInside" id="6q4-LC-ZWW"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oZF-Tz-McD" userLabel="Share Whatsapp Button">
-                                            <rect key="frame" x="56" y="10" width="56" height="56"/>
-                                            <animations/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="56" id="1In-y0-Izh"/>
-                                                <constraint firstAttribute="height" constant="56" id="V0c-IB-W5X"/>
-                                            </constraints>
-                                            <state key="normal" image="item_share_whatsapp">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="shareWhatsAppButtonPressed:" destination="-1" eventType="touchUpInside" id="N9P-As-hEp"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ga1-k3-M3W" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="512" width="320" height="75"/>
                                     <animations/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstItem="cNK-r3-hh9" firstAttribute="centerX" secondItem="JjN-hF-Oa1" secondAttribute="centerX" constant="28" id="0Zw-IS-8Zd"/>
-                                        <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="cNK-r3-hh9" secondAttribute="trailing" id="7RC-yg-IdJ"/>
-                                        <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" id="9Kv-Wb-PCE"/>
-                                        <constraint firstItem="oZF-Tz-McD" firstAttribute="centerX" secondItem="JjN-hF-Oa1" secondAttribute="centerX" constant="-28" id="9X0-e6-VOA"/>
-                                        <constraint firstItem="7kD-Uf-2Lc" firstAttribute="leading" secondItem="d9e-k6-h2n" secondAttribute="trailing" constant="84" id="BU9-Ac-m3R"/>
-                                        <constraint firstItem="7kD-Uf-2Lc" firstAttribute="leading" secondItem="d9e-k6-h2n" secondAttribute="trailing" id="ERa-wh-KPi"/>
-                                        <constraint firstAttribute="centerX" secondItem="cNK-r3-hh9" secondAttribute="centerX" id="FD3-r2-dLN"/>
-                                        <constraint firstAttribute="centerY" secondItem="cNK-r3-hh9" secondAttribute="centerY" id="HBe-am-p9e"/>
-                                        <constraint firstItem="d9e-k6-h2n" firstAttribute="centerY" secondItem="JjN-hF-Oa1" secondAttribute="centerY" id="HIa-AG-SX5"/>
-                                        <constraint firstAttribute="centerY" secondItem="oZF-Tz-McD" secondAttribute="centerY" id="HOb-bF-zDe"/>
-                                        <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" id="NYF-PZ-4Zp"/>
-                                        <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="d9e-k6-h2n" secondAttribute="trailing" id="SBO-gO-q2y"/>
-                                        <constraint firstAttribute="height" constant="75" id="Sf2-G5-XeS"/>
-                                        <constraint firstItem="7kD-Uf-2Lc" firstAttribute="leading" secondItem="oZF-Tz-McD" secondAttribute="trailing" id="aSc-8P-qn2"/>
-                                        <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" id="dSZ-SM-jJg"/>
-                                        <constraint firstAttribute="trailing" secondItem="cNK-r3-hh9" secondAttribute="trailing" id="kao-LW-J23"/>
-                                        <constraint firstAttribute="centerY" secondItem="7kD-Uf-2Lc" secondAttribute="centerY" id="kj4-qU-w02"/>
-                                        <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="cNK-r3-hh9" secondAttribute="trailing" id="kjW-m3-Msn"/>
-                                        <constraint firstItem="d9e-k6-h2n" firstAttribute="leading" secondItem="JjN-hF-Oa1" secondAttribute="leading" id="lGx-lT-eur"/>
-                                        <constraint firstItem="7kD-Uf-2Lc" firstAttribute="leading" secondItem="oZF-Tz-McD" secondAttribute="trailing" id="lub-yE-Jei"/>
-                                        <constraint firstItem="cNK-r3-hh9" firstAttribute="leading" secondItem="7kD-Uf-2Lc" secondAttribute="trailing" constant="-12" id="mAf-OB-GBu"/>
-                                        <constraint firstAttribute="trailing" secondItem="oZF-Tz-McD" secondAttribute="trailing" constant="48" id="uqR-53-3qp"/>
-                                        <constraint firstItem="oZF-Tz-McD" firstAttribute="leading" secondItem="d9e-k6-h2n" secondAttribute="trailing" id="xoy-4X-t1q"/>
+                                        <constraint firstAttribute="height" constant="75" id="4xS-3L-PJ0"/>
                                     </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="7RC-yg-IdJ"/>
-                                            <exclude reference="9X0-e6-VOA"/>
-                                            <exclude reference="SBO-gO-q2y"/>
-                                            <exclude reference="kjW-m3-Msn"/>
-                                            <exclude reference="uqR-53-3qp"/>
-                                            <exclude reference="BU9-Ac-m3R"/>
-                                            <exclude reference="ERa-wh-KPi"/>
-                                            <exclude reference="aSc-8P-qn2"/>
-                                            <exclude reference="0Zw-IS-8Zd"/>
-                                            <exclude reference="9Kv-Wb-PCE"/>
-                                            <exclude reference="FD3-r2-dLN"/>
-                                            <exclude reference="dSZ-SM-jJg"/>
-                                            <exclude reference="mAf-OB-GBu"/>
-                                        </mask>
-                                    </variation>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5pG-Ac-iOO" userLabel="Bottom View">
                                     <rect key="frame" x="0.0" y="587" width="320" height="74"/>
@@ -305,14 +207,13 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="PoQ-Yn-Cbh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4xV-fn-muT" secondAttribute="leading" constant="20" id="0z0-bg-p4O"/>
-                                <constraint firstItem="5pG-Ac-iOO" firstAttribute="top" secondItem="JjN-hF-Oa1" secondAttribute="bottom" id="3nu-5o-0eW"/>
-                                <constraint firstItem="JjN-hF-Oa1" firstAttribute="centerX" secondItem="4xV-fn-muT" secondAttribute="centerX" id="3qt-GN-bdS"/>
                                 <constraint firstItem="5pG-Ac-iOO" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="4ml-Bx-Nnp"/>
                                 <constraint firstItem="i2S-b5-HyP" firstAttribute="bottom" secondItem="rnN-LC-zqg" secondAttribute="bottom" constant="-16" id="5uJ-eB-hnR"/>
                                 <constraint firstItem="i2S-b5-HyP" firstAttribute="top" secondItem="aXG-0j-8xM" secondAttribute="bottom" id="6i5-Gy-9om"/>
-                                <constraint firstItem="JjN-hF-Oa1" firstAttribute="top" secondItem="oT2-dx-Ar0" secondAttribute="bottom" id="94h-9X-XUK"/>
                                 <constraint firstAttribute="centerX" secondItem="PoQ-Yn-Cbh" secondAttribute="centerX" id="9Ma-LI-3bt"/>
                                 <constraint firstItem="9kq-xm-UA7" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" constant="15" id="A3u-C4-zlr"/>
+                                <constraint firstItem="Ga1-k3-M3W" firstAttribute="top" secondItem="OZB-tR-KL9" secondAttribute="bottom" id="Agp-Tb-SR8"/>
+                                <constraint firstAttribute="trailing" secondItem="Ga1-k3-M3W" secondAttribute="trailing" id="B5D-Yu-P2r"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="top" secondItem="Tl8-Qc-clk" secondAttribute="bottom" constant="8" id="Bce-p9-XUD"/>
                                 <constraint firstAttribute="bottom" secondItem="5pG-Ac-iOO" secondAttribute="bottom" id="BkM-wK-zI2"/>
                                 <constraint firstItem="PoQ-Yn-Cbh" firstAttribute="top" secondItem="4xV-fn-muT" secondAttribute="top" constant="20" id="Cff-Zt-1Rw"/>
@@ -332,7 +233,9 @@
                                 <constraint firstItem="i2S-b5-HyP" firstAttribute="leading" secondItem="rnN-LC-zqg" secondAttribute="leading" constant="16" id="fYW-25-oWi"/>
                                 <constraint firstAttribute="trailing" secondItem="9kq-xm-UA7" secondAttribute="trailing" constant="15" id="gEg-6p-vXv"/>
                                 <constraint firstAttribute="trailing" secondItem="rnN-LC-zqg" secondAttribute="trailing" id="gfd-l5-8TF"/>
+                                <constraint firstItem="5pG-Ac-iOO" firstAttribute="top" secondItem="Ga1-k3-M3W" secondAttribute="bottom" id="hGx-kY-lwu"/>
                                 <constraint firstItem="9kq-xm-UA7" firstAttribute="top" secondItem="rnN-LC-zqg" secondAttribute="bottom" constant="15" id="ioQ-lM-T3a"/>
+                                <constraint firstItem="Ga1-k3-M3W" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="jM6-Gu-UV4"/>
                                 <constraint firstAttribute="trailing" secondItem="oT2-dx-Ar0" secondAttribute="trailing" id="l0W-JS-w4K"/>
                                 <constraint firstItem="OZB-tR-KL9" firstAttribute="top" secondItem="U9Y-zZ-7UM" secondAttribute="bottom" constant="8" id="mfo-lE-pf3"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="top" secondItem="OZB-tR-KL9" secondAttribute="top" id="obe-fn-WVZ"/>
@@ -481,9 +384,5 @@
     </objects>
     <resources>
         <image name="item_location" width="11" height="16"/>
-        <image name="item_share_email" width="36" height="36"/>
-        <image name="item_share_fb" width="36" height="36"/>
-        <image name="item_share_fb_messenger" width="36" height="36"/>
-        <image name="item_share_whatsapp" width="36" height="36"/>
     </resources>
 </document>

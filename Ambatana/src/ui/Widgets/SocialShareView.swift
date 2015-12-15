@@ -45,7 +45,13 @@ public class SocialShareView: UIView {
     @IBOutlet weak var whatsappWidth: NSLayoutConstraint!
 
     weak var delegate: SocialShareViewDelegate?
-    var socialMessage: SocialMessage?
+    var socialMessage: SocialMessage? {
+        didSet {
+            checkAllowedButtons()
+        }
+    }
+
+    private static let buttonsWidth: CGFloat = 56
 
 
     // MARK: - View Lifecycle
@@ -128,7 +134,7 @@ public class SocialShareView: UIView {
         let yConstraint = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
         addConstraints([xConstraint, yConstraint])
 
-        setupView()
+        checkAllowedButtons()
     }
 
     private func loadViewFromNib() -> UIView {
@@ -136,13 +142,9 @@ public class SocialShareView: UIView {
         return bundle.loadNibNamed("SocialShareView", owner: self, options: nil).first as! UIView
     }
 
-    private func setupView() {
-        if !canShareInFBMessenger() {
-            fbMessengerWidth.constant = 0
-        }
-        if !canShareInWhatsapp() {
-            whatsappWidth.constant = 0
-        }
+    private func checkAllowedButtons() {
+        fbMessengerWidth.constant = canShareInFBMessenger() ? SocialShareView.buttonsWidth : 0
+        whatsappWidth.constant = canShareInWhatsapp() ? SocialShareView.buttonsWidth : 0
     }
 
     func generateWhatsappURL() -> NSURL? {
