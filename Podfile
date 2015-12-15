@@ -18,16 +18,16 @@ pod "FBSDKShareKit",         "~> 4.7.0"
 pod "Amplitude-iOS",        "~> 3.2.0"
     
 # letgo Core
-pod "LGCoreKit",            :path => "../lgcorekit" #"0.16.6"
+pod "LGCoreKit",            "0.16.7"    #:path => "../lgcorekit"
 
 # Slack Chat controller
 pod "SlackTextViewController", "~> 1.7.2"
 
 # letgo Tour
-pod "LGTour",               "0.1.3" #:path => "../lgtour"
+pod "LGTour",               "0.1.3"     #:path => "../lgtour"
 
 # letgo Collapsible label
-pod "LGCollapsibleLabel",   "0.1.1"    #:path => "../collapsiblelabel"
+pod "LGCollapsibleLabel",   "0.1.1"     #:path => "../collapsiblelabel"
 
 # Animation
 pod "pop",                  "~> 1.0.8"
