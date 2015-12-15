@@ -148,8 +148,12 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
     }
     
     @IBAction func shareWhatsAppButtonPressed(sender: AnyObject) {
-        let isWhatsAppInstalled = viewModel.shareInWhatsApp()
-        if !isWhatsAppInstalled {
+        guard viewModel.canShareInWhatsapp() else { return }
+        guard let url = viewModel.generateWhatsappURL() else { return }
+
+        viewModel.shareInWhatsApp()
+
+        if !UIApplication.sharedApplication().openURL(url) {
             showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
         }
     }
@@ -896,3 +900,52 @@ extension ProductViewController: NavBarUserInfoDelegate {
         }
     }
 }
+
+
+// MARK: - SocialShareViewDelegate
+
+extension ProductViewController: SocialShareViewDelegate {
+
+    func shareInEmail(){
+        viewModel.shareInEmail("bottom")
+    }
+
+    func shareInFacebook() {
+        viewModel.shareInFacebook("bottom")
+    }
+
+    func shareInFacebookFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBCompleted()
+        case .Cancelled:
+            viewModel.shareInFBCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+
+    func shareInFBMessenger() {
+        viewModel.shareInFBMessenger()
+    }
+
+    func shareInFBMessengerFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBMessengerCompleted()
+        case .Cancelled:
+            viewModel.shareInFBMessengerCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+
+    func shareInWhatsApp() {
+        viewModel.shareInWhatsApp()
+    }
+
+    func viewController() -> UIViewController? {
+        return self
+    }
+}
+

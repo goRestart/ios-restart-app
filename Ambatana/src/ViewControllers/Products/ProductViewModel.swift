@@ -92,7 +92,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public private(set) var isFavourite: Bool
     public private(set) var isReported: Bool
     public private(set) var isMine: Bool
-    
+
+    public var shareSocialMessage: SocialMessage {
+        let title = LGLocalizedString.productShareBody
+        return SocialHelper.socialMessageWithTitle(title, product: product)
+    }
+
     // Delegate
     public weak var delegate: ProductViewModelDelegate?
     
@@ -198,11 +203,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public var shareFacebookContent: FBSDKShareLinkContent {
         return shareSocialMessage.fbShareContent
-    }
-    
-    private var shareSocialMessage: SocialMessage {
-        let title = LGLocalizedString.productShareBody
-        return SocialHelper.socialMessageWithTitle(title, product: product)
     }
     
     public var shouldSuggestMarkSoldWhenDeleting: Bool {
@@ -459,13 +459,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    public func shareInWhatsApp() -> Bool {
-        guard canShareInWhatsapp() else { return false }
-        guard let url = generateWhatsappURL() else { return false }
-        let success = UIApplication.sharedApplication().openURL(url)
+    public func shareInWhatsApp() {
         let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Whatsapp, buttonPosition: "bottom")
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-        return success
     }
     
     public func shareInWhatsappActivity() {

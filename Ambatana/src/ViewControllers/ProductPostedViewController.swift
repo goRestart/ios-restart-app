@@ -111,6 +111,9 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     }
 }
 
+
+// MARK: - SocialShareViewDelegate
+
 extension ProductPostedViewController: SocialShareViewDelegate {
 
     func shareInEmail(){
