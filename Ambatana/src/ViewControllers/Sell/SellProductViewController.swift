@@ -181,6 +181,17 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
+        
+        if textField == priceTextField {
+            // Limit the priceTextField to 9 characters
+            let currentCharacterCount = textField.text?.characters.count ?? 0
+            if (range.length + range.location > currentCharacterCount){
+                return false
+            }
+            let newLength = currentCharacterCount + string.characters.count - range.length
+            if newLength > 9 { return false }
+        }
+        
         if let textFieldText = textField.text {
             let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
             
@@ -198,6 +209,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         
         return true
     }
+    
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField.tag == TextFieldTag.ProductTitle.rawValue {
