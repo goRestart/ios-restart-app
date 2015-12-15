@@ -72,17 +72,31 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
         super.viewDidLoad()
 
         setupView()
+        setupCamera()
     }
 
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        guard let fastCamera = fastCamera else { return }
+        fastCamera.view.frame = cameraContainerView.frame
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
 
         setupCamera()
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.sharedApplication().statusBarHidden = true //setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.)
+    }
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
+        UIApplication.sharedApplication().statusBarHidden = false
         removeCamera()
     }
 
@@ -91,14 +105,10 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
         // Dispose of any resources that can be recreated.
     }
 
-    override func prefersStatusBarHidden() -> Bool {
-        return true
-    }
-
 
     // MARK: - Actions
     @IBAction func onCloseButton(sender: AnyObject) {
-        viewModel.closeButtonPressed(delegate: delegate)
+        viewModel.closeButtonPressed(sellController: self, delegate: delegate)
         priceTextField.resignFirstResponder()
         dismissViewControllerAnimated(true, completion: nil)
     }
@@ -158,7 +168,7 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
 
     @IBAction func onDoneButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
-        viewModel.doneButtonPressed(priceTextField.text, delegate: delegate)
+        viewModel.doneButtonPressed(priceText: priceTextField.text, sellController: self, delegate: delegate)
         dismissViewControllerAnimated(true, completion: nil)
     }
 
@@ -219,6 +229,8 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
     }
 
     private func setupCamera() {
+        guard fastCamera == nil && imagePreview.hidden && selectPriceContainer.hidden else { return }
+
         MediaPickerManager.requestCameraPermissions(self) { [weak self] in
             guard let strongSelf = self else { return }
 
@@ -250,9 +262,9 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
     }
 
     private func switchToCaptureMode() {
-        setupCamera()
         imagePreview.image = nil
         setCaptureStateButtons(true)
+        setupCamera()
     }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {
@@ -327,11 +339,11 @@ extension PostProductViewController: UIImagePickerControllerDelegate, UINavigati
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
 
-        picker.dismissViewControllerAnimated(true, completion: nil)
-
         if let theImage = image {
             switchToPreviewWith(theImage)
         }
+
+        picker.dismissViewControllerAnimated(true, completion: nil)
     }
 
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {

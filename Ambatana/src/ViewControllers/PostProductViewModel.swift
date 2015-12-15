@@ -17,10 +17,9 @@ class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
 
-    var currency: Currency
-
     private var productManager: ProductManager
     private var uploadedImage: File?
+    var currency: Currency
 
     override init() {
         self.productManager = ProductManager()
@@ -35,12 +34,6 @@ class PostProductViewModel: BaseViewModel {
     func imageSelected(image: UIImage) {
 
         delegate?.postProductViewModelDidStartUploadingImage(self)
-
-//        //TODO: JUST TO TEST
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), {
-//            delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
-//        });
-
 
         productManager.saveProductImages([image], progress: nil) {
             [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
@@ -66,20 +59,23 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    func doneButtonPressed(priceText: String?, delegate: SellProductViewControllerDelegate?) {
+    func doneButtonPressed(priceText priceText: String?, sellController: SellProductViewController,
+        delegate: SellProductViewControllerDelegate?) {
         PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: priceText,
-            currency: currency, delegate: delegate)
+            currency: currency, showConfirmation: true, controller: sellController, delegate: delegate)
     }
 
-    func closeButtonPressed(delegate delegate: SellProductViewControllerDelegate?) {
+    func closeButtonPressed(sellController sellController: SellProductViewController,
+        delegate: SellProductViewControllerDelegate?) {
         PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: nil,
-            currency: currency, delegate: delegate)
+            currency: currency, showConfirmation: false, controller: sellController, delegate: delegate)
     }
 
 
     // MARK: - Private methods
     private static func saveProduct(manager productManager: ProductManager, uploadedImage: File?, priceText: String?,
-        currency: Currency, delegate: SellProductViewControllerDelegate?) {
+        currency: Currency, showConfirmation: Bool, controller: SellProductViewController,
+        delegate: SellProductViewControllerDelegate?) {
             guard let uploadedImage = uploadedImage else { return }
 
             var theProduct = productManager.newProduct()
@@ -97,8 +93,12 @@ class PostProductViewModel: BaseViewModel {
             productManager.saveProduct(theProduct, imageFiles: [uploadedImage]){
                 (r: ProductSaveServiceResult) -> Void in
 
-                let productPostedViewModel = ProductPostedViewModel(postResult: r)
-                delegate?.sellProductViewController(nil, didFinishPostingProduct: productPostedViewModel)
+                if showConfirmation {
+                    let productPostedViewModel = ProductPostedViewModel(postResult: r)
+                    delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
+                } else {
+                    delegate?.sellProductViewController(controller, didCompleteSell: r.value != nil)
+                }
             }
     }
 }

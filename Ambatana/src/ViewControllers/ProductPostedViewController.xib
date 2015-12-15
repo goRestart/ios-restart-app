@@ -25,7 +25,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dI9-f4-zFX" userLabel="backgroundButton">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dI9-f4-zFX" userLabel="backgroundButton">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <animations/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
@@ -201,8 +201,12 @@
             <constraints>
                 <constraint firstItem="S8G-hN-yYh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="1hl-6r-M7T"/>
                 <constraint firstItem="S8G-hN-yYh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="98D-43-Epz"/>
+                <constraint firstAttribute="trailing" secondItem="dI9-f4-zFX" secondAttribute="trailing" id="MU8-4w-Zmx"/>
                 <constraint firstAttribute="trailing" secondItem="S8G-hN-yYh" secondAttribute="trailing" constant="26" id="Qfw-Va-cm8"/>
+                <constraint firstItem="dI9-f4-zFX" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="VZC-98-KvL"/>
                 <constraint firstItem="S8G-hN-yYh" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="kgT-D3-bAz"/>
+                <constraint firstAttribute="bottom" secondItem="dI9-f4-zFX" secondAttribute="bottom" id="qaB-CY-RHY"/>
+                <constraint firstItem="dI9-f4-zFX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="xYt-ZU-fLt"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="745.5" y="456.5"/>
