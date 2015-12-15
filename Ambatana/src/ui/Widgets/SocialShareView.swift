@@ -23,7 +23,6 @@ protocol SocialShareViewDelegate: class {
     func shareInFBMessenger()
     func shareInFBMessengerFinished(state: SocialShareState)
     func shareInWhatsApp()
-    func shareInWhatsappActivity()
     func viewController() -> UIViewController?
 }
 
@@ -120,16 +119,14 @@ public class SocialShareView: UIView {
             return
         }
 
+        backgroundColor = UIColor.clearColor()
         view = loadViewFromNib()
-
-        // use bounds not frame or it'll be offset
-        view.frame = bounds
-
-        // Make the view stretch with containing view
-        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
 
         // Adding custom subview on top of our view
         addSubview(view)
+        let xConstraint = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+        let yConstraint = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+        addConstraints([xConstraint, yConstraint])
 
         setupView()
     }
