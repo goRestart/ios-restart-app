@@ -227,6 +227,8 @@
 		C7B89CB41C1F109600536A6C /* ProductPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B89CB21C1F109600536A6C /* ProductPostedViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		C7B89CB51C1F109600536A6C /* ProductPostedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B89CB31C1F109600536A6C /* ProductPostedViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		C7B89CB71C1F2A8F00536A6C /* ProductPostedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B89CB61C1F2A8F00536A6C /* ProductPostedViewModel.swift */; settings = {ASSET_TAGS = (); }; };
+		C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B89CB81C20271E00536A6C /* SocialShareView.swift */; settings = {ASSET_TAGS = (); }; };
+		C7B89CBB1C20273100536A6C /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B89CBA1C20273100536A6C /* SocialShareView.xib */; settings = {ASSET_TAGS = (); }; };
 		C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
 		C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */; };
 		C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */; };
@@ -550,6 +552,8 @@
 		C7B89CB21C1F109600536A6C /* ProductPostedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPostedViewController.swift; sourceTree = "<group>"; };
 		C7B89CB31C1F109600536A6C /* ProductPostedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductPostedViewController.xib; sourceTree = "<group>"; };
 		C7B89CB61C1F2A8F00536A6C /* ProductPostedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPostedViewModel.swift; sourceTree = "<group>"; };
+		C7B89CB81C20271E00536A6C /* SocialShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialShareView.swift; sourceTree = "<group>"; };
+		C7B89CBA1C20273100536A6C /* SocialShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialShareView.xib; sourceTree = "<group>"; };
 		C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "Pods/../build/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Animations.swift"; sourceTree = "<group>"; };
 		C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductTimeCriteria+LG.swift"; sourceTree = "<group>"; };
@@ -891,6 +895,8 @@
 				502B705C1BAAC3B500C5D465 /* FloatingButton.xib */,
 				50BCE92B1BF6356B00C130CD /* ToastView.swift */,
 				50BCE92D1BF6357600C130CD /* ToastView.xib */,
+				C7B89CB81C20271E00536A6C /* SocialShareView.swift */,
+				C7B89CBA1C20273100536A6C /* SocialShareView.xib */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -1792,6 +1798,7 @@
 				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
 				50E8A0931B7B3B2D00DE49CC /* ProductViewController.xib in Resources */,
 				C7E5577B1C11E05D00740C77 /* NavBarUserInfo.xib in Resources */,
+				C7B89CBB1C20273100536A6C /* SocialShareView.xib in Resources */,
 				2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */,
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
 				2EE5FF551B7B3DAB0090E558 /* EditUserLocationViewController.xib in Resources */,
@@ -2186,6 +2193,7 @@
 				66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */,
 				D4912A831B08E12C00DACD5A /* UIImage+Tint.swift in Sources */,
 				C7B76CF31C1089DF00863512 /* FullProductCellDrawer.swift in Sources */,
+				C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */,
 				50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */,
 				2EEBF6311BA96A460042E73C /* NewSellProductViewModel.swift in Sources */,
 				509273361B172D5B00A346F9 /* PushManager.swift in Sources */,
