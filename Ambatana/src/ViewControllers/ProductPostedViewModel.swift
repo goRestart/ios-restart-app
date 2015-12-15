@@ -8,12 +8,20 @@
 
 import LGCoreKit
 
+protocol ProductPostedViewModelDelegate: class {
+    func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool)
+    func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel)
+}
+
 class ProductPostedViewModel: BaseViewModel {
+
+    weak var delegate: ProductPostedViewModelDelegate?
 
     var mainButtonText: String?
     var mainText: String?
     var secondaryText: String?
     var shareInfo: SocialMessage?
+    private var hasError = false
 
     init(postResult: ProductSaveServiceResult) {
         super.init()
@@ -25,11 +33,11 @@ class ProductPostedViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func closeActionPressed() {
-        
+        delegate?.productPostedViewModelDidFinishPosting(self, correctly: !hasError)
     }
 
     func mainActionPressed() {
-        //TODO: LAUNCH POST AGAIN!
+        delegate?.productPostedViewModelDidRestartPosting(self)
     }
 
 
@@ -54,6 +62,7 @@ class ProductPostedViewModel: BaseViewModel {
             mainText = LGLocalizedString.commonErrorTitle.capitalizedString
             secondaryText = errorString
             mainButtonText = LGLocalizedString.productPostRetryButton
+            hasError = true
         }
     }
 

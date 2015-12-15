@@ -29,6 +29,14 @@
                     <animations/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dI9-f4-zFX" userLabel="backgroundButton">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="onCloseButton:" destination="-1" eventType="touchUpInside" id="ZNe-Gr-0Qw"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S8G-hN-yYh" userLabel="contentContainer">
                     <rect key="frame" x="25" y="96" width="324" height="475"/>
                     <subviews>
@@ -190,6 +198,11 @@
                 <constraint firstAttribute="bottom" secondItem="YNE-JJ-yl2" secondAttribute="bottom" id="s72-Kx-A2H"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="YNE-JJ-yl2"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="745.5" y="456.5"/>
         </view>
     </objects>

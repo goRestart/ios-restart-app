@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProductPostedViewController: BaseViewController {
+class ProductPostedViewController: BaseViewController, SellProductViewController, ProductPostedViewModelDelegate {
 
     weak var delegate: SellProductViewControllerDelegate?
 
@@ -35,6 +35,7 @@ class ProductPostedViewController: BaseViewController {
     required init(viewModel: ProductPostedViewModel, nibName nibNameOrNil: String?) {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
+        viewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
     }
@@ -62,14 +63,25 @@ class ProductPostedViewController: BaseViewController {
     // MARK: - IBActions
 
     @IBAction func onCloseButton(sender: AnyObject) {
-        dismissViewControllerAnimated(true) { [weak self] in
-            self?.viewModel.closeActionPressed()
-        }
+        viewModel.closeActionPressed()
     }
 
     @IBAction func onMainButton(sender: AnyObject) {
+        viewModel.mainActionPressed()
+    }
+
+
+    // MARK: - ProductPostedViewModelDelegate
+
+    func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool) {
         dismissViewControllerAnimated(true) { [weak self] in
-            self?.viewModel.mainActionPressed()
+            self?.delegate?.sellProductViewController(self, didCompleteSell: correctly)
+        }
+    }
+
+    func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel) {
+        dismissViewControllerAnimated(true) { [weak self] in
+            self?.delegate?.sellProductViewControllerDidTapPostAgain(self)
         }
     }
 

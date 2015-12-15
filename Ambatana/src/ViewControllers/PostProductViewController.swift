@@ -266,6 +266,7 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
             activityIndicator.stopAnimating()
         }
         loadingIcon.hidden = loading
+        //TODO: SET CORRECT ICON DEPENDING ON ERROR!!
         postedInfoLabel.hidden = loading
         postedInfoLabel.text = hasError ?
             LGLocalizedString.commonErrorTitle.capitalizedString : LGLocalizedString.productPostProductPosted

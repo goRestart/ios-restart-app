@@ -755,10 +755,10 @@
 				C7A54C251C1ACD7700AE9583 /* PostProductViewModel.swift */,
 				C77564E11C1ACE3500C73DCD /* PostProductViewController.swift */,
 				C77564E21C1ACE3500C73DCD /* PostProductViewController.xib */,
-				C77564E51C1AD9C900C73DCD /* SellProductControllerFactory.swift */,
 				C7B89CB61C1F2A8F00536A6C /* ProductPostedViewModel.swift */,
 				C7B89CB21C1F109600536A6C /* ProductPostedViewController.swift */,
 				C7B89CB31C1F109600536A6C /* ProductPostedViewController.xib */,
+				C77564E51C1AD9C900C73DCD /* SellProductControllerFactory.swift */,
 			);
 			name = Sell;
 			sourceTree = "<group>";

@@ -330,6 +330,10 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             presentViewController(productPostedVC, animated: true, completion: nil)
     }
 
+    func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
+        presentSellVC()
+    }
+
     // MARK: - UINavigationControllerDelegate
 
     public func navigationController(navigationController: UINavigationController,
