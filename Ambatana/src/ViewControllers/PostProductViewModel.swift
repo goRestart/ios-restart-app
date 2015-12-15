@@ -9,8 +9,15 @@
 import LGCoreKit
 
 protocol PostProductViewModelDelegate: class {
+    func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage)
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
+}
+
+private struct TrackingInfo {
+    var buttonName: EventParameterButtonNameType
+    var imageSource: EventParameterPictureSource
+    var negotiablePrice: EventParameterNegotiablePrice
 }
 
 class PostProductViewModel: BaseViewModel {
@@ -19,6 +26,7 @@ class PostProductViewModel: BaseViewModel {
 
     private var productManager: ProductManager
     private var uploadedImage: File?
+    private var uploadedImageSource: EventParameterPictureSource?
     var currency: Currency
 
     override init() {
@@ -30,6 +38,22 @@ class PostProductViewModel: BaseViewModel {
 
 
      // MARK: - Public methods
+
+    func onViewLoaded() {
+        let myUser = MyUserManager.sharedInstance.myUser()
+        let event = TrackerEvent.productSellStart(myUser)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func takenImageFromCamera(image: UIImage) {
+        uploadedImageSource = .Camera
+        delegate?.postProductViewModel(self, didSelectImage: image)
+    }
+
+    func takenImageFromGallery(image: UIImage) {
+        uploadedImageSource = .Gallery
+        delegate?.postProductViewModel(self, didSelectImage: image)
+    }
 
     func imageSelected(image: UIImage) {
 
@@ -59,22 +83,28 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    func doneButtonPressed(priceText priceText: String?, sellController: SellProductViewController,
+    func doneButtonPressed(priceText price: String?, sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-        PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: priceText,
-            currency: currency, showConfirmation: true, controller: sellController, delegate: delegate)
+            let trackInfo = TrackingInfo(buttonName: .Close, imageSource: uploadedImageSource ?? .Camera,
+                negotiablePrice: (price != nil && !price!.isEmpty) ? .No : .Yes)
+            PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: price,
+                currency: currency, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
+                delegate: delegate)
     }
 
     func closeButtonPressed(sellController sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-        PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: nil,
-            currency: currency, showConfirmation: false, controller: sellController, delegate: delegate)
+            let imageSource = uploadedImageSource ?? .Camera
+            let trackInfo = TrackingInfo(buttonName: .Close, imageSource: imageSource, negotiablePrice: .Yes)
+            PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: nil,
+                currency: currency, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
+                delegate: delegate)
     }
 
 
     // MARK: - Private methods
     private static func saveProduct(manager productManager: ProductManager, uploadedImage: File?, priceText: String?,
-        currency: Currency, showConfirmation: Bool, controller: SellProductViewController,
+        currency: Currency, showConfirmation: Bool, trackInfo: TrackingInfo, controller: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
             guard let uploadedImage = uploadedImage else { return }
 
@@ -99,6 +129,14 @@ class PostProductViewModel: BaseViewModel {
                 } else {
                     delegate?.sellProductViewController(controller, didCompleteSell: r.value != nil)
                 }
+
+
+                //Tracking
+                guard let product = r.value else { return }
+                let myUser = MyUserManager.sharedInstance.myUser()
+                let event = TrackerEvent.productSellComplete(myUser, product: product, buttonName: trackInfo.buttonName,
+                    negotiable: trackInfo.negotiablePrice, pictureSource: trackInfo.imageSource)
+                TrackerProxy.sharedInstance.trackEvent(event)
             }
     }
 }

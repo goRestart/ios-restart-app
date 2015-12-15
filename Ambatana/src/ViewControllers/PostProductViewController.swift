@@ -71,6 +71,8 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewModel.onViewLoaded()
+
         setupView()
     }
 
@@ -177,6 +179,10 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
 
 
     // MARK: - PostProductViewModelDelegate
+
+    func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage) {
+        switchToPreviewWith(image)
+    }
 
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel) {
         setSelectPriceState(loading: true, error: nil)
@@ -326,7 +332,7 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
 extension PostProductViewController: FastttCameraDelegate {
     func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
         print("didFinishNormalizingCapturedImage")
-        switchToPreviewWith(capturedImage.scaledImage)
+        viewModel.takenImageFromCamera(capturedImage.scaledImage)
     }
 }
 
@@ -339,7 +345,7 @@ extension PostProductViewController: UIImagePickerControllerDelegate, UINavigati
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
 
         if let theImage = image {
-            switchToPreviewWith(theImage)
+            viewModel.takenImageFromGallery(theImage)
         }
 
         picker.dismissViewControllerAnimated(true, completion: nil)

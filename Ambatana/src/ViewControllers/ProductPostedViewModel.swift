@@ -32,6 +32,13 @@ class ProductPostedViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
+    func onViewLoaded() {
+        guard let product = product else { return }
+        let trackerEvent = TrackerEvent.productSellConfirmation(product,
+            user: MyUserManager.sharedInstance.myUser())
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
     func closeActionPressed() {
         delegate?.productPostedViewModelDidFinishPosting(self, correctly: product != nil)
 

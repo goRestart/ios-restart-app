@@ -52,6 +52,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewModel.onViewLoaded()
         setupView()
     }
 
