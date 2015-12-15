@@ -599,7 +599,7 @@
 "product_post_confirmation_another_button" = "Post another item";
 
 // When posting failed but it's our fault
-"product_post_generic_error" = "Your product hasn't been posted.";
+"product_post_generic_error" = "There was an error while posting your product.";
 
 // When posting failed due to network connection errors
 "product_post_network_error" = "Your product hasn't been posted.\nPlease check your network settings.";
@@ -617,7 +617,7 @@
 "product_post_retake" = "Retake";
 
 // Use Photo button
-"product_post_use_photo" = "Use Photo";
+"product_post_use_photo" = "Post";
 
 // Price label above price on product
 "product_price_label" = "Price";
