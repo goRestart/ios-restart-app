@@ -16,6 +16,7 @@
                 <outlet property="shareContainer" destination="h6x-VN-WCk" id="XH0-vr-F7a"/>
                 <outlet property="shareContainerHeight" destination="6mb-gY-HoY" id="omz-aH-Ne7"/>
                 <outlet property="shareItLabel" destination="Pt5-Mt-iNk" id="MJc-ZJ-DXe"/>
+                <outlet property="socialShareView" destination="UTK-pC-dca" id="aac-4n-iYU"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -24,11 +25,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YNE-JJ-yl2" userLabel="backgroundView">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                    <animations/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
-                </view>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dI9-f4-zFX" userLabel="backgroundButton">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <animations/>
@@ -205,19 +201,10 @@
             <constraints>
                 <constraint firstItem="S8G-hN-yYh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="1hl-6r-M7T"/>
                 <constraint firstItem="S8G-hN-yYh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="98D-43-Epz"/>
-                <constraint firstItem="YNE-JJ-yl2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Bgv-7j-elZ"/>
-                <constraint firstAttribute="trailing" secondItem="YNE-JJ-yl2" secondAttribute="trailing" id="DDG-Q2-BJn"/>
                 <constraint firstAttribute="trailing" secondItem="S8G-hN-yYh" secondAttribute="trailing" constant="26" id="Qfw-Va-cm8"/>
-                <constraint firstItem="YNE-JJ-yl2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Sde-wn-5YR"/>
                 <constraint firstItem="S8G-hN-yYh" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="kgT-D3-bAz"/>
-                <constraint firstAttribute="bottom" secondItem="YNE-JJ-yl2" secondAttribute="bottom" id="s72-Kx-A2H"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="YNE-JJ-yl2"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="745.5" y="456.5"/>
         </view>
     </objects>

@@ -18,6 +18,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     @IBOutlet weak var secondaryTextLabel: UILabel!
     @IBOutlet weak var shareContainer: UIView!
     @IBOutlet weak var shareContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak var socialShareView: SocialShareView!
     @IBOutlet weak var mainButton: UIButton!
     @IBOutlet weak var shareItLabel: UILabel!
     @IBOutlet weak var orLabel: UILabel!
@@ -101,10 +102,44 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
 
         if let shareInfo = viewModel.shareInfo {
-            //TODO: IMPLEMENT
+            socialShareView.socialMessage = shareInfo
+            socialShareView.delegate = self
         } else {
             shareContainer.hidden = true
             shareContainerHeight.constant = 0
         }
     }
 }
+
+extension ProductPostedViewController: SocialShareViewDelegate {
+
+    func shareInEmail(){
+        viewModel.shareInEmail()
+    }
+
+    func shareInFacebook() {
+        viewModel.shareInFacebook()
+    }
+
+    func shareInFacebookFinished(state: SocialShareState) {
+        viewModel.shareInFacebookFinished(state)
+    }
+
+    func shareInFBMessenger() {
+        viewModel.shareInFBMessenger()
+    }
+
+    func shareInFBMessengerFinished(state: SocialShareState) {
+        viewModel.shareInFBMessengerFinished(state)
+    }
+
+    func shareInWhatsApp() {
+        viewModel.shareInWhatsApp()
+    }
+
+    func viewController() -> UIViewController? {
+        return self
+    }
+}
+
+

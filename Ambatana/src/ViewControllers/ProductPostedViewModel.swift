@@ -40,6 +40,30 @@ class ProductPostedViewModel: BaseViewModel {
         delegate?.productPostedViewModelDidRestartPosting(self)
     }
 
+    func shareInEmail(){
+
+    }
+
+    func shareInFacebook() {
+
+    }
+
+    func shareInFacebookFinished(state: SocialShareState) {
+
+    }
+
+    func shareInFBMessenger() {
+
+    }
+
+    func shareInFBMessengerFinished(state: SocialShareState) {
+        
+    }
+    
+    func shareInWhatsApp() {
+        
+    }
+
 
     // MARK: - Private methods
 
