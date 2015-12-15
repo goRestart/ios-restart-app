@@ -72,7 +72,6 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
         super.viewDidLoad()
 
         setupView()
-        setupCamera()
     }
 
     override func viewDidLayoutSubviews() {
