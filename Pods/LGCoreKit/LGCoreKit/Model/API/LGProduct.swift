@@ -19,7 +19,7 @@ public struct LGProduct: Product {
     // Product iVars
     public var name: String?
     public var descr: String?
-    public var price: Float?
+    public var price: Double?
     public var currency: Currency?
     
     public var location: LGLocationCoordinates2D
@@ -36,24 +36,25 @@ public struct LGProduct: Product {
     
     public var user: User
     
-    init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, descr: String?, price: Float?, currency: String?, location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?, category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile], user: LGUser){
-        self.objectId = objectId
-        self.updatedAt = updatedAt
-        self.createdAt = createdAt
-        
-        self.name = name
-        self.descr = descr
-        self.price = price
-        self.currency = Currency.currencyWithCode(currencyCode: currency)
-        self.location = location
-        self.postalAddress = postalAddress
-        self.languageCode = languageCode
-        self.category = ProductCategory(rawValue: category) ?? .Other
-        self.status = ProductStatus(rawValue: status) ?? .Pending
-        self.thumbnail = LGFile(string: thumbnail)
-        self.thumbnailSize = thumbnailSize
-        self.images = images.map({$0})
-        self.user = user
+    init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, descr: String?, price: Double?,
+        currency: String?, location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
+        category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile], user: LGUser){
+            self.objectId = objectId
+            self.updatedAt = updatedAt
+            self.createdAt = createdAt
+            self.name = name
+            self.descr = descr
+            self.price = price
+            self.currency = Currency.currencyWithCode(currencyCode: currency)
+            self.location = location
+            self.postalAddress = postalAddress
+            self.languageCode = languageCode
+            self.category = ProductCategory(rawValue: category) ?? .Other
+            self.status = ProductStatus(rawValue: status) ?? .Pending
+            self.thumbnail = LGFile(string: thumbnail)
+            self.thumbnailSize = thumbnailSize
+            self.images = images.map({$0})
+            self.user = user
     }
 }
 

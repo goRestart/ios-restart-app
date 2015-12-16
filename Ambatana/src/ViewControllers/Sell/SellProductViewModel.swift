@@ -181,20 +181,12 @@ public class SellProductViewModel: BaseViewModel {
         //        }
         
         var theProduct = product ?? productManager.newProduct()
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-        formatter.usesGroupingSeparator = false
-        var priceFloat : Float = 0
-        if let number = formatter.numberFromString(price) {
-            priceFloat = number.floatValue
-        }
-        
         guard let category = category else {
             let error = ProductSaveServiceError.NoCategory
             delegate?.sellProductViewModel(self, didFailWithError: error)
             return
         }
-        theProduct = productManager.updateProduct(theProduct, name: title, price: priceFloat, description: descr, category: category, currency: currency)
+        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(price), description: descr, category: category, currency: currency)
         
         saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }
