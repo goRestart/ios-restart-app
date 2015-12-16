@@ -31,8 +31,7 @@ UITextFieldDelegate {
     @IBOutlet weak var galleryButton: UIButton!
 
     @IBOutlet weak var selectPriceContainer: UIView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var loadingIcon: UIImageView!
+    @IBOutlet weak var customLoadingView: LoadingIndicator!
     @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var addPriceLabel: UILabel!
     @IBOutlet weak var priceFieldContainer: UIView!
@@ -96,7 +95,7 @@ UITextFieldDelegate {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        UIApplication.sharedApplication().statusBarHidden = true //setStatusBarHidden(true, withAnimation: UIStatusBarAnimation.)
+        UIApplication.sharedApplication().statusBarHidden = true
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -315,13 +314,18 @@ UITextFieldDelegate {
         let hasError = error != nil
 
         if(loading) {
-            activityIndicator.startAnimating()
+            customLoadingView.startAnimating()
+            setSelectPriceItems(loading, error: error)
         }
         else {
-            activityIndicator.stopAnimating()
+            customLoadingView.stopAnimating(!hasError) { [weak self] in
+                self?.setSelectPriceItems(loading, error: error)
+            }
         }
-        loadingIcon.hidden = loading
-        //TODO: SET CORRECT ICON DEPENDING ON ERROR!!
+    }
+
+    private func setSelectPriceItems(loading: Bool, error: String?) {
+        let hasError = error != nil
         postedInfoLabel.hidden = loading
         postedInfoLabel.text = hasError ?
             LGLocalizedString.commonErrorTitle.capitalizedString : LGLocalizedString.productPostProductPosted
@@ -338,6 +342,7 @@ UITextFieldDelegate {
         else {
             priceTextField.resignFirstResponder()
         }
+
     }
 
     private func setFlashModeButton() {

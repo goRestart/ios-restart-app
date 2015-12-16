@@ -9,7 +9,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
-                <outlet property="activityIndicator" destination="Ctf-MD-EvR" id="4y2-kK-ix6"/>
                 <outlet property="addPriceLabel" destination="on4-aa-GJF" id="IJO-ev-99X"/>
                 <outlet property="bottomControlsContainerHeight" destination="lyN-y2-6eR" id="j6d-LK-ZZI"/>
                 <outlet property="cameraContainerView" destination="b61-zv-QvL" id="1aE-di-zJQ"/>
@@ -19,11 +18,11 @@
                 <outlet property="cameraTitleLabel" destination="ZmE-sl-GAh" id="w7L-Xl-6pU"/>
                 <outlet property="cornersContainer" destination="Rwi-HG-DGN" id="Q2N-p3-bOm"/>
                 <outlet property="currencyButton" destination="jBJ-Et-CEX" id="CZ4-lf-gsW"/>
+                <outlet property="customLoadingView" destination="wW5-ZX-UqE" id="web-O5-ekj"/>
                 <outlet property="doneButton" destination="96p-Kr-gVK" id="ezZ-yI-NyK"/>
                 <outlet property="flashButton" destination="WMf-7b-nmP" id="TD5-uC-Ak1"/>
                 <outlet property="galleryButton" destination="sBm-aX-L6t" id="r9g-Af-EKZ"/>
                 <outlet property="imagePreview" destination="lhx-3G-bF1" id="DTu-ur-F5V"/>
-                <outlet property="loadingIcon" destination="pDy-Nz-6BC" id="nTS-VL-B64"/>
                 <outlet property="makePhotoButton" destination="dLF-v3-UP0" id="oMm-vE-pBO"/>
                 <outlet property="postErrorLabel" destination="ceY-sz-ePA" id="She-qR-gcK"/>
                 <outlet property="postedInfoLabel" destination="bb0-id-OIx" id="ibe-jQ-ayN"/>
@@ -144,7 +143,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pc7-VU-DyQ" userLabel="TextsContainer">
-                            <rect key="frame" x="0.0" y="8" width="375" height="40"/>
+                            <rect key="frame" x="0.0" y="8" width="375" height="41"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_This is your featured photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZmE-sl-GAh" userLabel="TitleLabel">
                                     <rect key="frame" x="8" y="0.0" width="359" height="21"/>
@@ -153,8 +152,8 @@
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="_Make sure it's a good one!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84H-8h-W1y" userLabel="SubtitleLabel">
-                                    <rect key="frame" x="8" y="19" width="359" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Make sure it's a good one!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84H-8h-W1y" userLabel="SubtitleLabel">
+                                    <rect key="frame" x="8" y="21" width="359" height="20"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -248,37 +247,34 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
-                                        <rect key="frame" x="31" y="112" width="313" height="227.5"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
+                                        <rect key="frame" x="31" y="113" width="313" height="227"/>
                                         <subviews>
-                                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_tick" translatesAutoresizingMaskIntoConstraints="NO" id="pDy-Nz-6BC" userLabel="loadingIcon">
-                                                <rect key="frame" x="132" y="0.0" width="48" height="48"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wW5-ZX-UqE" userLabel="customLoadingView" customClass="LoadingIndicator" customModule="LetGo" customModuleProvider="target">
+                                                <rect key="frame" x="133" y="0.0" width="48" height="48"/>
                                                 <animations/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="48" id="ToO-3x-4hv"/>
-                                                    <constraint firstAttribute="width" constant="48" id="kmO-j7-cEs"/>
+                                                    <constraint firstAttribute="width" constant="48" id="R11-n3-0ch"/>
+                                                    <constraint firstAttribute="height" constant="48" id="mtf-qb-7Nl"/>
                                                 </constraints>
-                                            </imageView>
-                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Ctf-MD-EvR">
-                                                <rect key="frame" x="146" y="14" width="20" height="20"/>
-                                                <animations/>
-                                            </activityIndicatorView>
+                                            </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Product posted. Congrats!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bb0-id-OIx" userLabel="postedInfoLabel">
-                                                <rect key="frame" x="0.0" y="58" width="313" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="58" width="313" height="21"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_WANT TO ADD A PRICE?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="on4-aa-GJF" userLabel="addPriceLabel">
-                                                <rect key="frame" x="0.0" y="107" width="313" height="16"/>
+                                                <rect key="frame" x="0.0" y="108" width="313" height="16"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Alw-xS-yOd" userLabel="priceFieldContainer">
-                                                <rect key="frame" x="71" y="130" width="170" height="44"/>
+                                                <rect key="frame" x="71" y="131" width="170" height="44"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="_Negotiable" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JzZ-No-upa">
                                                         <rect key="frame" x="8" y="4" width="130" height="36"/>
@@ -317,7 +313,7 @@
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96p-Kr-gVK" userLabel="doneButton">
-                                                <rect key="frame" x="71" y="183" width="170" height="44"/>
+                                                <rect key="frame" x="71" y="184" width="170" height="44"/>
                                                 <animations/>
                                                 <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -332,14 +328,14 @@
                                                 </connections>
                                             </button>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Your product hasn't been posted. Please check your network settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceY-sz-ePA" userLabel="errorLabel">
-                                                <rect key="frame" x="0.0" y="88" width="313" height="36"/>
+                                                <rect key="frame" x="0.0" y="88.5" width="313" height="36"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ2-Pa-uBQ" userLabel="retryButton">
-                                                <rect key="frame" x="71" y="134" width="170" height="44"/>
+                                                <rect key="frame" x="71" y="134.5" width="170" height="44"/>
                                                 <animations/>
                                                 <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -357,28 +353,26 @@
                                         <animations/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstItem="bb0-id-OIx" firstAttribute="top" secondItem="wW5-ZX-UqE" secondAttribute="bottom" constant="10" id="1bF-Zp-0LH"/>
                                             <constraint firstItem="hZ2-Pa-uBQ" firstAttribute="top" secondItem="ceY-sz-ePA" secondAttribute="bottom" constant="10" id="2TP-qg-LHq"/>
                                             <constraint firstItem="96p-Kr-gVK" firstAttribute="centerX" secondItem="xup-cr-6f7" secondAttribute="centerX" id="3eS-uy-vgQ"/>
                                             <constraint firstAttribute="trailing" secondItem="on4-aa-GJF" secondAttribute="trailing" id="9qX-NL-F2r"/>
                                             <constraint firstItem="ceY-sz-ePA" firstAttribute="top" secondItem="bb0-id-OIx" secondAttribute="bottom" constant="10" id="BR7-b2-Ari"/>
+                                            <constraint firstItem="wW5-ZX-UqE" firstAttribute="centerX" secondItem="xup-cr-6f7" secondAttribute="centerX" id="F3K-IR-bcg"/>
                                             <constraint firstItem="Alw-xS-yOd" firstAttribute="top" secondItem="on4-aa-GJF" secondAttribute="bottom" constant="7" id="F3g-0d-cGc"/>
                                             <constraint firstItem="ceY-sz-ePA" firstAttribute="leading" secondItem="xup-cr-6f7" secondAttribute="leading" id="FsD-ie-rU4"/>
                                             <constraint firstAttribute="bottom" secondItem="96p-Kr-gVK" secondAttribute="bottom" id="HNt-Hd-HVg"/>
                                             <constraint firstItem="hZ2-Pa-uBQ" firstAttribute="width" secondItem="Alw-xS-yOd" secondAttribute="width" id="HnZ-Gp-lma"/>
                                             <constraint firstItem="on4-aa-GJF" firstAttribute="leading" secondItem="xup-cr-6f7" secondAttribute="leading" id="NhI-q8-n7s"/>
+                                            <constraint firstItem="wW5-ZX-UqE" firstAttribute="top" secondItem="xup-cr-6f7" secondAttribute="top" id="Nnr-KN-cWC"/>
                                             <constraint firstAttribute="trailing" secondItem="bb0-id-OIx" secondAttribute="trailing" id="QAg-nS-oa3"/>
-                                            <constraint firstItem="pDy-Nz-6BC" firstAttribute="centerX" secondItem="xup-cr-6f7" secondAttribute="centerX" id="Rqk-mm-uu7"/>
-                                            <constraint firstItem="Ctf-MD-EvR" firstAttribute="centerY" secondItem="pDy-Nz-6BC" secondAttribute="centerY" id="VHl-f3-2cc"/>
-                                            <constraint firstItem="bb0-id-OIx" firstAttribute="top" secondItem="pDy-Nz-6BC" secondAttribute="bottom" constant="10" id="ZK0-BX-N6J"/>
                                             <constraint firstItem="Alw-xS-yOd" firstAttribute="centerX" secondItem="xup-cr-6f7" secondAttribute="centerX" id="brd-fb-B2O"/>
                                             <constraint firstItem="hZ2-Pa-uBQ" firstAttribute="centerX" secondItem="xup-cr-6f7" secondAttribute="centerX" id="fb0-bf-d2A"/>
                                             <constraint firstItem="bb0-id-OIx" firstAttribute="leading" secondItem="xup-cr-6f7" secondAttribute="leading" id="fhw-hk-WOy"/>
                                             <constraint firstAttribute="trailing" secondItem="ceY-sz-ePA" secondAttribute="trailing" id="irK-TX-rX2"/>
-                                            <constraint firstItem="Ctf-MD-EvR" firstAttribute="centerX" secondItem="pDy-Nz-6BC" secondAttribute="centerX" id="jvQ-bR-FAc"/>
                                             <constraint firstItem="on4-aa-GJF" firstAttribute="top" secondItem="bb0-id-OIx" secondAttribute="bottom" constant="29" id="mx5-lf-2oV"/>
                                             <constraint firstItem="96p-Kr-gVK" firstAttribute="top" secondItem="Alw-xS-yOd" secondAttribute="bottom" constant="9" id="oxD-uv-ug9"/>
                                             <constraint firstItem="96p-Kr-gVK" firstAttribute="width" secondItem="Alw-xS-yOd" secondAttribute="width" id="qwt-hE-cVE"/>
-                                            <constraint firstItem="pDy-Nz-6BC" firstAttribute="top" secondItem="xup-cr-6f7" secondAttribute="top" id="xiX-ZB-CrZ"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -490,6 +484,5 @@
         <image name="ic_post_gallery" width="36" height="36"/>
         <image name="ic_post_switch_cam" width="36" height="36"/>
         <image name="ic_post_take_photo" width="60" height="60"/>
-        <image name="ic_post_tick" width="50" height="50"/>
     </resources>
 </document>
