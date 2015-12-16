@@ -11,7 +11,9 @@
             <connections>
                 <outlet property="activityIndicator" destination="Ctf-MD-EvR" id="4y2-kK-ix6"/>
                 <outlet property="addPriceLabel" destination="on4-aa-GJF" id="IJO-ev-99X"/>
+                <outlet property="bottomControlsContainerHeight" destination="lyN-y2-6eR" id="j6d-LK-ZZI"/>
                 <outlet property="cameraContainerView" destination="b61-zv-QvL" id="1aE-di-zJQ"/>
+                <outlet property="cameraContainerViewHeight" destination="TuH-ue-b0m" id="Ub4-Zi-EVs"/>
                 <outlet property="cameraSubtitleLabel" destination="84H-8h-W1y" id="A1n-zF-hcH"/>
                 <outlet property="cameraTextsContainer" destination="Pc7-VU-DyQ" id="nqJ-rc-pZ7"/>
                 <outlet property="cameraTitleLabel" destination="ZmE-sl-GAh" id="w7L-Xl-6pU"/>
@@ -99,10 +101,10 @@
                         </imageView>
                     </subviews>
                     <animations/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="0.42230603448275861" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" secondItem="b61-zv-QvL" secondAttribute="height" multiplier="3:4" id="1G7-By-Bgt"/>
                         <constraint firstItem="lhx-3G-bF1" firstAttribute="leading" secondItem="b61-zv-QvL" secondAttribute="leading" id="Kih-6O-v6Q"/>
+                        <constraint firstAttribute="height" constant="501" id="TuH-ue-b0m"/>
                         <constraint firstItem="Rwi-HG-DGN" firstAttribute="leading" secondItem="b61-zv-QvL" secondAttribute="leading" constant="20" id="Ypa-dv-Piz"/>
                         <constraint firstItem="Rwi-HG-DGN" firstAttribute="centerX" secondItem="b61-zv-QvL" secondAttribute="centerX" id="Ytd-2h-AdQ"/>
                         <constraint firstAttribute="trailing" secondItem="Rwi-HG-DGN" secondAttribute="trailing" constant="20" id="f3t-5O-cEh"/>
@@ -141,17 +143,17 @@
                                 <constraint firstAttribute="height" constant="88" id="Ehm-rl-br8"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pc7-VU-DyQ" userLabel="TextsContainer">
+                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pc7-VU-DyQ" userLabel="TextsContainer">
                             <rect key="frame" x="0.0" y="8" width="375" height="38"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_This is your featured photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZmE-sl-GAh" userLabel="TitleLabel">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="_This is your featured photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZmE-sl-GAh" userLabel="TitleLabel">
                                     <rect key="frame" x="8" y="0.0" width="359" height="19"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Make sure it's a good one!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84H-8h-W1y" userLabel="SubtitleLabel">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="_Make sure it's a good one!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84H-8h-W1y" userLabel="SubtitleLabel">
                                     <rect key="frame" x="8" y="19" width="359" height="19"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -186,13 +188,14 @@
                                 <action selector="onTakePhotoButton:" destination="-1" eventType="touchUpInside" id="2iG-ZP-V15"/>
                             </connections>
                         </button>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3b-lE-818" userLabel="RetryPhotoBtn">
-                            <rect key="frame" x="0.0" y="54" width="187" height="88"/>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3b-lE-818" userLabel="RetryPhotoBtn">
+                            <rect key="frame" x="0.0" y="54" width="188" height="88"/>
                             <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="88" id="ICC-RZ-n1D"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                            <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                             <state key="normal" title="_Retry">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -200,13 +203,14 @@
                                 <action selector="onRetryPhotoButton:" destination="-1" eventType="touchUpInside" id="I0h-p8-n4L"/>
                             </connections>
                         </button>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l2S-57-DCM" userLabel="UsePhotoBtn">
-                            <rect key="frame" x="188" y="54" width="187" height="88"/>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l2S-57-DCM" userLabel="UsePhotoBtn">
+                            <rect key="frame" x="187" y="54" width="188" height="88"/>
                             <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="88" id="Exn-9r-FNI"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                             <state key="normal" title="_Use Photo">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -223,7 +227,6 @@
                         <constraint firstAttribute="trailing" secondItem="l2S-57-DCM" secondAttribute="trailing" id="BNK-mF-YHH"/>
                         <constraint firstItem="l2S-57-DCM" firstAttribute="width" secondItem="FRo-LP-6jI" secondAttribute="width" multiplier="0.5" id="O4R-fY-Xge"/>
                         <constraint firstAttribute="bottom" secondItem="rAD-Yn-1m7" secondAttribute="bottom" id="U7G-aM-LMT"/>
-                        <constraint firstItem="l2S-57-DCM" firstAttribute="top" secondItem="Pc7-VU-DyQ" secondAttribute="bottom" constant="8" id="aU7-Bg-40F"/>
                         <constraint firstItem="v3b-lE-818" firstAttribute="width" secondItem="FRo-LP-6jI" secondAttribute="width" multiplier="0.5" id="bOT-TG-0Nz"/>
                         <constraint firstAttribute="trailing" secondItem="Pc7-VU-DyQ" secondAttribute="trailing" id="c59-Du-zYT"/>
                         <constraint firstAttribute="bottom" secondItem="l2S-57-DCM" secondAttribute="bottom" id="fHK-r4-GUl"/>
@@ -245,8 +248,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
-                                        <rect key="frame" x="31" y="112" width="313" height="228"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
+                                        <rect key="frame" x="31" y="113" width="313" height="227"/>
                                         <subviews>
                                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_tick" translatesAutoresizingMaskIntoConstraints="NO" id="pDy-Nz-6BC" userLabel="loadingIcon">
                                                 <rect key="frame" x="132" y="0.0" width="48" height="48"/>

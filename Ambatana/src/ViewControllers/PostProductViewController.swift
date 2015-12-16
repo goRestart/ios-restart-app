@@ -15,9 +15,11 @@ UITextFieldDelegate {
     weak var delegate: SellProductViewControllerDelegate?
 
     @IBOutlet weak var cameraContainerView: UIView!
+    @IBOutlet weak var cameraContainerViewHeight: NSLayoutConstraint!
     @IBOutlet weak var imagePreview: UIImageView!
     @IBOutlet weak var cornersContainer: UIView!
 
+    @IBOutlet weak var bottomControlsContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var cameraTextsContainer: UIView!
     @IBOutlet weak var cameraTitleLabel: UILabel!
     @IBOutlet weak var cameraSubtitleLabel: UILabel!
@@ -39,6 +41,9 @@ UITextFieldDelegate {
     @IBOutlet weak var doneButton: UIButton!
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
+
+    private static let bottomControlsCollapsedSize: CGFloat = 88
+    private static let bottomControlsExpandedSize: CGFloat = 140
 
     private var flashMode: FastttCameraFlashMode = .Auto
     private var cameraDevice: FastttCameraDevice = .Rear
@@ -80,8 +85,7 @@ UITextFieldDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        guard let fastCamera = fastCamera else { return }
-        fastCamera.view.frame = cameraContainerView.frame
+        adaptLayoutsToScreenSize()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -294,6 +298,18 @@ UITextFieldDelegate {
         setupCamera()
     }
 
+    private func setCaptureStateButtons(captureState: Bool) {
+        imagePreview.hidden = captureState
+        switchCamButton.hidden = !captureState
+        flashButton.hidden = !captureState
+        makePhotoButton.hidden = !captureState
+        galleryButton.hidden = !captureState
+        retryPhotoButton.hidden = captureState
+        usePhotoButton.hidden = captureState
+        cameraTextsContainer.hidden = !captureState
+        selectPriceContainer.hidden = true
+    }
+
     private func setSelectPriceState(loading loading: Bool, error: String?) {
         selectPriceContainer.hidden = false
         let hasError = error != nil
@@ -324,18 +340,6 @@ UITextFieldDelegate {
         }
     }
 
-    private func setCaptureStateButtons(captureState: Bool) {
-        imagePreview.hidden = captureState
-        switchCamButton.hidden = !captureState
-        flashButton.hidden = !captureState
-        makePhotoButton.hidden = !captureState
-        galleryButton.hidden = !captureState
-        retryPhotoButton.hidden = captureState
-        usePhotoButton.hidden = captureState
-        cameraTextsContainer.hidden = !captureState
-        selectPriceContainer.hidden = true
-    }
-
     private func setFlashModeButton() {
         switch flashMode {
         case .Auto:
@@ -344,6 +348,27 @@ UITextFieldDelegate {
             flashButton.setImage(UIImage(named: "ic_post_flash"), forState: UIControlState.Normal)
         case .Off:
             flashButton.setImage(UIImage(named: "ic_post_flash_innactive"), forState: UIControlState.Normal)
+        }
+    }
+
+    private func adaptLayoutsToScreenSize() {
+
+        let expectedCameraHeight = self.view.width * (4/3) //Camera aspect ratio is 4/3
+        let bottomSpace = self.view.height - expectedCameraHeight
+
+        if bottomSpace < PostProductViewController.bottomControlsExpandedSize {
+            //Small screen mode -> collapse buttons (hiding some info) + expand camera
+            bottomControlsContainerHeight.constant = PostProductViewController.bottomControlsCollapsedSize
+            cameraTextsContainer.hidden = true
+            cameraContainerViewHeight.constant = self.view.height
+        }
+        else {
+            bottomControlsContainerHeight.constant = bottomSpace
+            cameraContainerViewHeight.constant = expectedCameraHeight
+        }
+
+        if let fastCamera = fastCamera {
+            fastCamera.view.frame = cameraContainerView.frame
         }
     }
 }
