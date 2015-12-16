@@ -22,6 +22,10 @@ class ProductPostedViewModel: BaseViewModel {
     var secondaryText: String?
     var shareInfo: SocialMessage?
     private var product: Product?
+    private var postProductError: EventParameterPostProductError?
+    private var user: MyUser? {
+        return MyUserManager.sharedInstance.myUser()
+    }
 
     init(postResult: ProductSaveServiceResult) {
         super.init()
@@ -33,88 +37,76 @@ class ProductPostedViewModel: BaseViewModel {
     // MARK: - Public methods
 
     func onViewLoaded() {
-        guard let product = product else { return }
-        let trackerEvent = TrackerEvent.productSellConfirmation(product,
-            user: MyUserManager.sharedInstance.myUser())
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        if let product = product {
+            trackEvent(TrackerEvent.productSellConfirmation(product, user: user))
+        } else if let error = postProductError {
+            trackEvent(TrackerEvent.productSellError(user, error: error))
+        }
     }
 
     func closeActionPressed() {
         delegate?.productPostedViewModelDidFinishPosting(self, correctly: product != nil)
 
-        guard let product = product else { return }
-        let trackerEvent = TrackerEvent.productSellConfirmationClose(product,
-            user: MyUserManager.sharedInstance.myUser())
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        if let product = product {
+            trackEvent(TrackerEvent.productSellConfirmationClose(product, user: user))
+        } else if let error = postProductError {
+            trackEvent(TrackerEvent.productSellErrorClose(user, error: error))
+        }
     }
 
     func mainActionPressed() {
         delegate?.productPostedViewModelDidRestartPosting(self)
 
-        guard let product = product else { return }
-        let trackerEvent = TrackerEvent.productSellConfirmationPost(product,
-            user: MyUserManager.sharedInstance.myUser())
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        if let product = product {
+            trackEvent(TrackerEvent.productSellConfirmationPost(product, user: user))
+        } else if let error = postProductError {
+            trackEvent(TrackerEvent.productSellErrorPost(user, error: error))
+        }
     }
 
     func shareInEmail(){
         guard let product = product else { return }
-        let trackerEvent = TrackerEvent.productSellConfirmationShare(product,
-            user: MyUserManager.sharedInstance.myUser(), network: .Email)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Email))
     }
 
     func shareInFacebook() {
         guard let product = product else { return }
-        let trackerEvent = TrackerEvent.productSellConfirmationShare(product,
-            user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Facebook))
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
         guard let product = product else { return }
-        let trackerEvent: TrackerEvent
         switch state {
         case .Completed:
-            trackerEvent = TrackerEvent.productSellConfirmationShareComplete(product,
-                user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
+            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, user: user, network: .Facebook))
         case .Cancelled:
-            trackerEvent = TrackerEvent.productSellConfirmationShareCancel(product,
-                user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
+            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, user: user, network: .Facebook))
         case .Failed:
-                return;
+                break;
         }
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func shareInFBMessenger() {
         guard let product = product else { return }
-        let trackerEvent = TrackerEvent.productSellConfirmationShare(product,
-            user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .FBMessenger))
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
         guard let product = product else { return }
-        let trackerEvent: TrackerEvent
         switch state {
         case .Completed:
-            trackerEvent = TrackerEvent.productSellConfirmationShareComplete(product,
-                user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
+            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, user: user, network: .FBMessenger))
         case .Cancelled:
-            trackerEvent = TrackerEvent.productSellConfirmationShareCancel(product,
-                user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
+            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, user: user, network: .FBMessenger))
         case .Failed:
-            return;
+            break;
         }
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func shareInWhatsApp() {
         guard let product = product else { return }
-        let trackerEvent = TrackerEvent.productSellConfirmationShare(product,
-            user: MyUserManager.sharedInstance.myUser(), network: .Whatsapp)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Whatsapp))
     }
 
 
@@ -130,17 +122,21 @@ class ProductPostedViewModel: BaseViewModel {
         }
         else {
             let error = postResult.error ?? .Internal
-            let errorString: String
             switch error {
             case .Network:
-                errorString = LGLocalizedString.productPostNetworkError
+                secondaryText = LGLocalizedString.productPostNetworkError
+                postProductError = .Network
             default:
-                errorString = LGLocalizedString.productPostGenericError
+                secondaryText = LGLocalizedString.productPostGenericError
+                postProductError = .Internal
             }
             mainText = LGLocalizedString.commonErrorTitle.capitalizedString
-            secondaryText = errorString
             mainButtonText = LGLocalizedString.productPostRetryButton
         }
     }
 
+    private func trackEvent(event: TrackerEvent?) {
+        guard let event = event else { return }
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
 }

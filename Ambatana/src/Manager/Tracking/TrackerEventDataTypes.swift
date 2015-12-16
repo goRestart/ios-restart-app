@@ -53,6 +53,9 @@ public enum EventName: String {
     case ProductSellFormValidationFailed    = "product-sell-form-validation-failed"
     case ProductSellSharedFB                = "product-sell-shared-fb"
     case ProductSellComplete                = "product-sell-complete"
+    case ProductSellError                   = "product-sell-error"
+    case ProductSellErrorClose              = "product-sell-error-close"
+    case ProductSellErrorPost               = "product-sell-error-post"
     case ProductSellConfirmation            = "product-sell-confirmation"
     case ProductSellConfirmationPost        = "product-sell-confirmation-post"
     case ProductSellConfirmationClose       = "product-sell-confirmation-close"
@@ -269,6 +272,11 @@ public enum EventParameterLoginError: String {
             return "UsernameTaken"
         }
     }
+}
+
+public enum EventParameterPostProductError: String {
+    case Network = "product-sell-network"
+    case Internal = "product-sell-internal"
 }
 
 

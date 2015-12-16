@@ -123,20 +123,20 @@ class PostProductViewModel: BaseViewModel {
             productManager.saveProduct(theProduct, imageFiles: [uploadedImage]){
                 (r: ProductSaveServiceResult) -> Void in
 
+                //Tracking
+                if let product = r.value {
+                    let myUser = MyUserManager.sharedInstance.myUser()
+                    let event = TrackerEvent.productSellComplete(myUser, product: product, buttonName: trackInfo.buttonName,
+                        negotiable: trackInfo.negotiablePrice, pictureSource: trackInfo.imageSource)
+                    TrackerProxy.sharedInstance.trackEvent(event)
+                }
+
                 if showConfirmation {
                     let productPostedViewModel = ProductPostedViewModel(postResult: r)
                     delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
                 } else {
                     delegate?.sellProductViewController(controller, didCompleteSell: r.value != nil)
                 }
-
-
-                //Tracking
-                guard let product = r.value else { return }
-                let myUser = MyUserManager.sharedInstance.myUser()
-                let event = TrackerEvent.productSellComplete(myUser, product: product, buttonName: trackInfo.buttonName,
-                    negotiable: trackInfo.negotiablePrice, pictureSource: trackInfo.imageSource)
-                TrackerProxy.sharedInstance.trackEvent(event)
             }
     }
 }
