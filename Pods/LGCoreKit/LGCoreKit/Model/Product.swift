@@ -13,7 +13,7 @@ import UIKit
 public protocol Product: BaseModel {
     var name: String? { get }
     var descr: String? { get }
-    var price: Float? { get } 
+    var price: Double? { get }
     var currency: Currency? { get }
     
     var location: LGLocationCoordinates2D { get }
