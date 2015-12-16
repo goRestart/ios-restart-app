@@ -155,7 +155,7 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
     }
 
     @IBAction func onRetryPhotoButton(sender: AnyObject) {
-        switchToCaptureMode()
+        viewModel.pressedRetakeImage()
     }
 
     @IBAction func onUsePhotoButton(sender: AnyObject) {
@@ -164,7 +164,7 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
     }
     
     @IBAction func onCurrencyButton(sender: AnyObject) {
-        //TODO IMPLEMENT!
+        //Not implemented right now
     }
 
     @IBAction func onDoneButton(sender: AnyObject) {
@@ -179,6 +179,10 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
 
 
     // MARK: - PostProductViewModelDelegate
+
+    func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel) {
+        switchToCaptureMode()
+    }
 
     func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage) {
         switchToPreviewWith(image)

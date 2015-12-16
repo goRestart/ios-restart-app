@@ -9,6 +9,7 @@
 import LGCoreKit
 
 protocol PostProductViewModelDelegate: class {
+    func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel)
     func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage)
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
@@ -43,6 +44,12 @@ class PostProductViewModel: BaseViewModel {
         let myUser = MyUserManager.sharedInstance.myUser()
         let event = TrackerEvent.productSellStart(myUser)
         TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func pressedRetakeImage() {
+        uploadedImage = nil
+        uploadedImageSource = nil
+        delegate?.postProductViewModelDidRestartTakingImage(self)
     }
 
     func takenImageFromCamera(image: UIImage) {
@@ -85,7 +92,7 @@ class PostProductViewModel: BaseViewModel {
 
     func doneButtonPressed(priceText price: String?, sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            let trackInfo = TrackingInfo(buttonName: .Close, imageSource: uploadedImageSource ?? .Camera,
+            let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource ?? .Camera,
                 negotiablePrice: (price != nil && !price!.isEmpty) ? .No : .Yes)
             PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: price,
                 currency: currency, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
