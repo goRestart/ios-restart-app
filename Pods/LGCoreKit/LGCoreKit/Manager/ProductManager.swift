@@ -69,7 +69,7 @@ public class ProductManager {
     /**
     Factory method. Will return an updated version from the initial product
     */
-    public func updateProduct(product: Product, name: String?, price: Float?, description: String?, category: ProductCategory, currency: Currency?) -> Product {
+    public func updateProduct(product: Product, name: String?, price: Double?, description: String?, category: ProductCategory, currency: Currency?) -> Product {
         var product = LGProduct(product: product)
         product.name = name
         product.price = price

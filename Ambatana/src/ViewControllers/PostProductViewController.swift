@@ -9,7 +9,8 @@
 import UIKit
 import FastttCamera
 
-class PostProductViewController: BaseViewController, SellProductViewController, PostProductViewModelDelegate {
+class PostProductViewController: BaseViewController, SellProductViewController, PostProductViewModelDelegate,
+UITextFieldDelegate {
 
     weak var delegate: SellProductViewControllerDelegate?
 
@@ -194,6 +195,23 @@ class PostProductViewController: BaseViewController, SellProductViewController, 
 
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?) {
         setSelectPriceState(loading: false, error: error)
+    }
+
+
+    // MARK: - UITextFieldDelegate
+
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+        replacementString string: String) -> Bool {
+
+            guard textField == priceTextField else { return true }
+
+            let updatedText: String
+            if let text = textField.text {
+                updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            } else {
+                updatedText = string
+            }
+            return updatedText.isValidLengthPrice()
     }
 
 

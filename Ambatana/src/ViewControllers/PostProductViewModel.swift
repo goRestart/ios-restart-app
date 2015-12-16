@@ -116,15 +116,8 @@ class PostProductViewModel: BaseViewModel {
             guard let uploadedImage = uploadedImage else { return }
 
             var theProduct = productManager.newProduct()
-            let formatter = NSNumberFormatter()
-            formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-            formatter.usesGroupingSeparator = false
-            var priceFloat : Float = 0
-            if let priceText = priceText, let number = formatter.numberFromString(priceText) {
-                priceFloat = number.floatValue
-            }
-
-            theProduct = productManager.updateProduct(theProduct, name: nil, price: priceFloat, description: nil,
+            let priceText = priceText ?? "0"
+            theProduct = productManager.updateProduct(theProduct, name: nil, price: Double(priceText), description: nil,
                 category: .Other, currency: currency)
 
             productManager.saveProduct(theProduct, imageFiles: [uploadedImage]){
