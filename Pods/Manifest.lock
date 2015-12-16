@@ -59,7 +59,7 @@ PODS:
   - Realm/Headers (0.95.3)
   - RealmSwift (0.95.3):
     - Realm (= 0.95.3)
-  - Result (1.0.0)
+  - Result (1.0.1)
   - SDWebImage (3.7.3):
     - SDWebImage/Core (= 3.7.3)
   - SDWebImage/Core (3.7.3)
@@ -123,7 +123,7 @@ SPEC CHECKSUMS:
   Quick: 563d0f6ec5f72e394645adb377708639b7dd38ab
   Realm: 55885fa05865344994ad8b56da96669ffa39fbf1
   RealmSwift: 586df4b5a6d01473d2653b16e9fe7debce4a87ed
-  Result: feaaff535eb59c414c6c7f95e6145ab991b1b07f
+  Result: caef80340451e1f07492fa1e89117f83613bce24
   SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SlackTextViewController: 1f4e8f68c156ef93de73fd422db2b8d5d5b0f4e7
   Timepiece: cf53bb908bf542acc0e3d5f69cabfed869df4ebd

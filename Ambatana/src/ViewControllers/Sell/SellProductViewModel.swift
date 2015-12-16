@@ -58,13 +58,13 @@ public class SellProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     public override init() {
-        title = ""
-        currency = CurrencyHelper.sharedInstance.currentCurrency
-        price = ""
-        descr = ""
-        category = nil
-        images = []
-        
+        self.title = ""
+        self.currency = CurrencyHelper.sharedInstance.currentCurrency
+        self.price = ""
+        self.descr = ""
+        self.category = nil
+        self.images = []
+
         shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
 
         self.productManager = ProductManager()
@@ -101,7 +101,6 @@ public class SellProductViewModel: BaseViewModel {
     internal func trackComplete(product: Product) {
         
     }
-    
     
     var numberOfImages: Int {
         return images.count
@@ -194,7 +193,8 @@ public class SellProductViewModel: BaseViewModel {
             delegate?.sellProductViewModel(self, didFailWithError: error)
             return
         }
-        theProduct = productManager.updateProduct(theProduct, name: title, price: priceFloat, description: descr, category: category, currency: currency)
+        theProduct = productManager.updateProduct(theProduct, name: title, price: priceFloat, description: descr,
+            category: category, currency: currency)
         
         saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }

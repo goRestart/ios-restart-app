@@ -348,12 +348,15 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductEditSharedFB, params: params)
     }
     
-    public static func productEditComplete(user: User?, product: Product, category: ProductCategory?) -> TrackerEvent {
+    public static func productEditComplete(user: User?, product: Product, category: ProductCategory?, editedFields: [EventParameterEditedFields]) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params[.ProductId] = product.objectId
         // Category
         params[.CategoryId] = category?.rawValue ?? 0
+
+        params[.EditedFields] = editedFields.map({$0.description}).joinWithSeparator(",")
+
         return TrackerEvent(name: .ProductEditComplete, params: params)
     }
     

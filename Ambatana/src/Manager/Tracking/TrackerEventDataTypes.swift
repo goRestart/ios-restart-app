@@ -148,6 +148,7 @@ public enum EventParameterName: String {
     case PermissionType       = "permission-type"
     case TypePage             = "type-page"
     case AlertType            = "alert-type"
+    case EditedFields         = "edited-fields"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -247,6 +248,31 @@ public enum EventParameterLoginError: String {
     }
 }
 
+public enum EventParameterEditedFields: Int {
+    case Picture
+    case Title
+    case Price
+    case Description
+    case Category
+    case Share
+
+    public var description: String {
+        switch (self) {
+        case Picture:
+            return "picture"
+        case Title:
+            return "title"
+        case Price:
+            return "price"
+        case Description:
+            return "description"
+        case Category:
+            return "category"
+        case Share:
+            return "share"
+        }
+    }
+}
 
 public enum EventParameterPermissionTypePage: String {
     case ProductList = "product-list"
