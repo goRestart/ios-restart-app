@@ -198,9 +198,9 @@ class BaseSellProductViewController: BaseViewController, SellProductViewModelDel
                 if let tag = TextFieldTag(rawValue: textField.tag) {
                     switch (tag) {
                     case .ProductTitle:
-                        viewModel.title = text
+                        viewModel.title = text.isEmpty ? nil : text
                     case .ProductPrice:
-                        viewModel.price = text
+                        viewModel.price = text.isEmpty ? nil : text
                     case .ProductDescription:
                         break
                     }
@@ -244,7 +244,7 @@ class BaseSellProductViewController: BaseViewController, SellProductViewModelDel
         if let textViewText = textView.text {
             let text = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: text)
             if text != descrPlaceholder && textView.textColor != descrPlaceholderColor {
-                viewModel.descr = text
+                viewModel.descr = text.isEmpty ? nil : text
             }
         }
         
@@ -377,11 +377,11 @@ class BaseSellProductViewController: BaseViewController, SellProductViewModelDel
         titleTextField.tag = TextFieldTag.ProductTitle.rawValue
         currencyButton.setTitle(viewModel.currency.symbol, forState: .Normal)
 
-        priceTextField.placeholder = LGLocalizedString.sellPriceFieldHint
+        priceTextField.placeholder = LGLocalizedString.productNegotiablePrice
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.ProductPrice.rawValue
         
-        if viewModel.descr.characters.count > 0 {
+        if viewModel.descr?.characters.count > 0 {
             descriptionTextView.text = viewModel.descr
             descriptionTextView.textColor = UIColor.blackColor()
         }
