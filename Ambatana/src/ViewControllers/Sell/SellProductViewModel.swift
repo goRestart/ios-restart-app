@@ -34,7 +34,9 @@ public class SellProductViewModel: BaseViewModel {
     var price: String
     internal var category: ProductCategory?
     var shouldShareInFB: Bool
-    
+    // TODO: remove this flag for image modification tracking on update, and manage it properly @ coreKit
+    var imagesModified: Bool
+
     var descr: String {
         didSet {
             delegate?.sellProductViewModel(self, shouldUpdateDescriptionWithCount: descriptionCharCount)
@@ -58,14 +60,15 @@ public class SellProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     public override init() {
-        title = ""
-        currency = CurrencyHelper.sharedInstance.currentCurrency
-        price = ""
-        descr = ""
-        category = nil
-        images = []
-        
-        shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
+        self.title = ""
+        self.currency = CurrencyHelper.sharedInstance.currentCurrency
+        self.price = ""
+        self.descr = ""
+        self.category = nil
+        self.images = []
+
+        self.shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
+        self.imagesModified = false
 
         self.productManager = ProductManager()
         
@@ -102,7 +105,6 @@ public class SellProductViewModel: BaseViewModel {
         
     }
     
-    
     var numberOfImages: Int {
         return images.count
     }
@@ -137,11 +139,13 @@ public class SellProductViewModel: BaseViewModel {
     }
     
     public func appendImage(image: UIImage) {
+        imagesModified = true
         images.append(image)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
     public func deleteImageAtIndex(index: Int) {
+        imagesModified = true
         images.removeAtIndex(index)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
@@ -173,13 +177,7 @@ public class SellProductViewModel: BaseViewModel {
     // MARK: - Private methods
     
     internal func saveProduct(product: Product? = nil) {
-        
-        // TODO: New product handling
-        //        if new should add more info (location, user...)
-        //        if product == nil {
-        //
-        //        }
-        
+
         var theProduct = product ?? productManager.newProduct()
         guard let category = category else {
             let error = ProductSaveServiceError.NoCategory
@@ -187,7 +185,7 @@ public class SellProductViewModel: BaseViewModel {
             return
         }
         theProduct = productManager.updateProduct(theProduct, name: title, price: Double(price), description: descr, category: category, currency: currency)
-        
+
         saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }
     

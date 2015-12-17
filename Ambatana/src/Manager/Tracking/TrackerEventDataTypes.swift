@@ -148,6 +148,7 @@ public enum EventParameterName: String {
     case PermissionType       = "permission-type"
     case TypePage             = "type-page"
     case AlertType            = "alert-type"
+    case EditedFields         = "edited-fields"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -247,6 +248,18 @@ public enum EventParameterLoginError: String {
     }
 }
 
+public enum EventParameterEditedFields: String {
+    case Picture
+    case Title
+    case Price
+    case Description
+    case Category
+    case Share
+
+    public var value: String {
+        return self.rawValue.lowercaseString
+    }
+}
 
 public enum EventParameterPermissionTypePage: String {
     case ProductList = "product-list"
