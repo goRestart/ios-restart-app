@@ -115,7 +115,7 @@ class ProductPostedViewModel: BaseViewModel {
     private func setup(postResult: ProductSaveServiceResult) {
         if let product = postResult.value {
             self.product = product
-            mainText = LGLocalizedString.productPostConfirmationTitle
+            mainText = LGLocalizedString.productPostConfirmationTitle.uppercaseString
             secondaryText = LGLocalizedString.productPostConfirmationSubtitle
             mainButtonText = LGLocalizedString.productPostConfirmationAnotherButton
             shareInfo = SocialHelper.socialMessageWithTitle(LGLocalizedString.sellShareFbContent, product: product)

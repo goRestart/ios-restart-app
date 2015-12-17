@@ -242,7 +242,7 @@ UITextFieldDelegate {
         cameraSubtitleLabel.text = LGLocalizedString.productPostCameraSubtitle
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(LGLocalizedString.productPostUsePhoto, forState: UIControlState.Normal)
-        addPriceLabel.text = LGLocalizedString.productPostPriceLabel
+        addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercaseString
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
             attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
         doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)
@@ -365,7 +365,7 @@ UITextFieldDelegate {
             strongSelf.postErrorLabel.alpha = wrongItemsAlpha
             strongSelf.retryButton.alpha = wrongItemsAlpha
         }
-        UIView.animateWithDuration(0.2,
+        UIView.animateWithDuration(0.2, delay: 0.8, options: UIViewAnimationOptions(),
             animations: { () -> Void in
                 finalAlphaBlock()
             }, completion: { [weak self] (completed: Bool) -> Void in

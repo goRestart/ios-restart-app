@@ -95,8 +95,8 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
         mainButton.setPrimaryStyle()
 
-        shareItLabel.text = LGLocalizedString.productPostConfirmationShare
-        orLabel.text = LGLocalizedString.productPostConfirmationAnother
+        shareItLabel.text = LGLocalizedString.productPostConfirmationShare.uppercaseString
+        orLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercaseString
 
         mainTextLabel.text = viewModel.mainText
         secondaryTextLabel.text = viewModel.secondaryText
