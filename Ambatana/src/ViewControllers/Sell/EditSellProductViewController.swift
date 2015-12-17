@@ -46,7 +46,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     
     // MARK: - SellProductViewModelDelegate Methods
 
-    override func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: ProductSaveServiceResult) {
+    override func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult result: ProductSaveServiceResult) {
         super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
         
         if let savedProduct = result.value {
@@ -61,7 +61,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
         }
     }
     
-    override func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
+    override func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductSaveServiceError) {
         
         super.sellProductViewModel(viewModel, didFailWithError: error)
 

@@ -17,7 +17,7 @@ public protocol UpdateDetailInfoDelegate : class {
     func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct: Product)
 }
 
-public class EditSellProductViewModel: SellProductViewModel {
+public class EditSellProductViewModel: BaseSellProductViewModel {
  
     private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?

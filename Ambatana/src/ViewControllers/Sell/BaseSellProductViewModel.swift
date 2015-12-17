@@ -11,22 +11,19 @@ import LGCoreKit
 import Result
 
 protocol SellProductViewModelDelegate : class {
-    func sellProductViewModel(viewModel: SellProductViewModel, archetype: Bool)
-    
-    func sellProductViewModel(viewModel: SellProductViewModel, didSelectCategoryWithName categoryName: String)
-    func sellProductViewModelDidStartSavingProduct(viewModel: SellProductViewModel)
-    
-    func sellProductViewModel(viewModel: SellProductViewModel, didUpdateProgressWithPercentage percentage: Float)
-    
-    func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: ProductSaveServiceResult)
-    func sellProductViewModel(viewModel: SellProductViewModel, shouldUpdateDescriptionWithCount count: Int)
-    func sellProductViewModeldidAddOrDeleteImage(viewModel: SellProductViewModel)
-    func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError)
-
-    func sellProductViewModelFieldCheckSucceeded(viewModel: SellProductViewModel)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, archetype: Bool)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didSelectCategoryWithName categoryName: String)
+    func sellProductViewModelDidStartSavingProduct(viewModel: BaseSellProductViewModel)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didUpdateProgressWithPercentage percentage: Float)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult
+        result: ProductSaveServiceResult)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, shouldUpdateDescriptionWithCount count: Int)
+    func sellProductViewModeldidAddOrDeleteImage(viewModel: BaseSellProductViewModel)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductSaveServiceError)
+    func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel)
 }
 
-public class SellProductViewModel: BaseViewModel {
+public class BaseSellProductViewModel: BaseViewModel {
     
     // Input
     var title: String?
@@ -64,10 +61,8 @@ public class SellProductViewModel: BaseViewModel {
         descr = nil
         category = nil
         images = []
-        
         shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
-
-        self.productManager = ProductManager()
+        productManager = ProductManager()
         
         super.init()
         
@@ -85,24 +80,14 @@ public class SellProductViewModel: BaseViewModel {
         shouldTrack = false
     }
 
-    internal func trackStart() {
-        
-    }
+    internal func trackStart() { }
     
+    internal func trackValidationFailedWithError(error: ProductSaveServiceError) { }
     
-    internal func trackValidationFailedWithError(error: ProductSaveServiceError) {
-        
-    }
+    internal func trackSharedFB() { }
     
-    internal func trackSharedFB() {
-        
-    }
-    
-    internal func trackComplete(product: Product) {
-        
-    }
-    
-    
+    internal func trackComplete(product: Product) { }
+
     var numberOfImages: Int {
         return images.count
     }
@@ -187,7 +172,8 @@ public class SellProductViewModel: BaseViewModel {
             return
         }
         let priceText = price ?? "0"
-        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(priceText), description: descr, category: category, currency: currency)
+        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(priceText),
+            description: descr, category: category, currency: currency)
         
         saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }

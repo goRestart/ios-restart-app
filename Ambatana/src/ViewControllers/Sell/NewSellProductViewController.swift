@@ -46,7 +46,7 @@ class NewSellProductViewController: BaseSellProductViewController {
         }
     }
     
-    override func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
+    override func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductSaveServiceError) {
 
         super.sellProductViewModel(viewModel, didFailWithError: error)
         

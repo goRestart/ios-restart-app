@@ -47,7 +47,7 @@
 		2EE5FF551B7B3DAB0090E558 /* EditUserLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5FF531B7B3DAB0090E558 /* EditUserLocationViewController.xib */; };
 		2EE5FF571B7B465F0090E558 /* EditUserLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */; };
 		2EE60AF21B60D8EF00E56E7D /* BaseSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF11B60D8EF00E56E7D /* BaseSellProductViewController.swift */; };
-		2EE60AF41B60D90200E56E7D /* SellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF31B60D90200E56E7D /* SellProductViewModel.swift */; };
+		2EE60AF41B60D90200E56E7D /* BaseSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF31B60D90200E56E7D /* BaseSellProductViewModel.swift */; };
 		2EE60AF71B60D97300E56E7D /* EditSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */; };
 		2EE60AF81B60D97300E56E7D /* BaseSellProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE60AF61B60D97300E56E7D /* BaseSellProductViewController.xib */; };
 		2EE60AFA1B60D9A600E56E7D /* EditSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */; };
@@ -348,7 +348,7 @@
 		2EE5FF531B7B3DAB0090E558 /* EditUserLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditUserLocationViewController.xib; path = "User Location/EditUserLocationViewController.xib"; sourceTree = "<group>"; };
 		2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditUserLocationViewModel.swift; path = "User Location/EditUserLocationViewModel.swift"; sourceTree = "<group>"; };
 		2EE60AF11B60D8EF00E56E7D /* BaseSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseSellProductViewController.swift; path = Sell/BaseSellProductViewController.swift; sourceTree = "<group>"; };
-		2EE60AF31B60D90200E56E7D /* SellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductViewModel.swift; path = Sell/SellProductViewModel.swift; sourceTree = "<group>"; };
+		2EE60AF31B60D90200E56E7D /* BaseSellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseSellProductViewModel.swift; path = Sell/BaseSellProductViewModel.swift; sourceTree = "<group>"; };
 		2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSellProductViewController.swift; path = Sell/EditSellProductViewController.swift; sourceTree = "<group>"; };
 		2EE60AF61B60D97300E56E7D /* BaseSellProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BaseSellProductViewController.xib; path = Sell/BaseSellProductViewController.xib; sourceTree = "<group>"; };
 		2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSellProductViewModel.swift; path = Sell/EditSellProductViewModel.swift; sourceTree = "<group>"; };
@@ -751,7 +751,7 @@
 			children = (
 				2E93FBE91B666A1400C97927 /* SellProductCell.swift */,
 				2E93FBEA1B666A1400C97927 /* SellProductCell.xib */,
-				2EE60AF31B60D90200E56E7D /* SellProductViewModel.swift */,
+				2EE60AF31B60D90200E56E7D /* BaseSellProductViewModel.swift */,
 				2EE60AF11B60D8EF00E56E7D /* BaseSellProductViewController.swift */,
 				2EE60AF61B60D97300E56E7D /* BaseSellProductViewController.xib */,
 				2EE60AF91B60D9A600E56E7D /* EditSellProductViewModel.swift */,
@@ -2125,7 +2125,7 @@
 				50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */,
 				50D2CAD01BB41FD600EC5C30 /* HelpViewModel.swift in Sources */,
 				D4443D6B1B1288B700237095 /* Constants.swift in Sources */,
-				2EE60AF41B60D90200E56E7D /* SellProductViewModel.swift in Sources */,
+				2EE60AF41B60D90200E56E7D /* BaseSellProductViewModel.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment+AppEnvironment.swift in Sources */,
 				505B06A81B15A9910049F9CD /* GalleryPageView.swift in Sources */,
