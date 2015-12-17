@@ -18,15 +18,18 @@ public protocol UpdateDetailInfoDelegate : class {
 }
 
 public class EditSellProductViewModel: SellProductViewModel {
- 
+
     private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
-    
+
+    private var initialProduct: Product
+
     public init(product: Product) {
-        
+
         self.editedProduct = product
+        self.initialProduct = product
         super.init()
-        
+
         if let name = product.name {
             self.title = name
         }
@@ -47,19 +50,21 @@ public class EditSellProductViewModel: SellProductViewModel {
             images.append(nil)
         }
     }
-    
+
+
     // MARK: - Public methods
-    
+
     public override func save() {
         super.saveProduct(editedProduct)
     }
-    
+
     public func loadPictures() {
         // Download the images
         for (index, image) in (editedProduct.images).enumerate() {
             if let imageURL = image.fileURL {
                 let imageManager = SDWebImageManager.sharedManager()
-                imageManager.downloadImageWithURL(imageURL, options: [], progress: nil) { [weak self] (image: UIImage!, _, _, _, _) -> Void in
+                imageManager.downloadImageWithURL(imageURL, options: [], progress: nil) {
+                    [weak self] (image: UIImage!, _, _, _, _) -> Void in
                     if let strongSelf = self {
                         // Replace de image & notify the delegate
                         strongSelf.images[index] = image
@@ -69,7 +74,8 @@ public class EditSellProductViewModel: SellProductViewModel {
             }
         }
     }
-    
+
+
     // MARK: - Tracking methods
 
     internal override func trackStart() {
@@ -78,41 +84,80 @@ public class EditSellProductViewModel: SellProductViewModel {
         let event = TrackerEvent.productEditStart(myUser, product: editedProduct)
         trackEvent(event)
     }
-    
-    
+
+
     internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
 
         let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditFormValidationFailed(myUser, product: editedProduct, description: error.rawValue)
+        let event = TrackerEvent.productEditFormValidationFailed(myUser, product: editedProduct,
+            description: error.rawValue)
         trackEvent(event)
     }
-    
+
     internal override func trackSharedFB() {
         super.trackSharedFB()
         let myUser = MyUserManager.sharedInstance.myUser()
         let event = TrackerEvent.productEditSharedFB(myUser, product: savedProduct)
         trackEvent(event)
     }
-    
+
     internal override func trackComplete(product: Product) {
+        self.editedProduct = product
+
         super.trackComplete(product)
+
+        // if nothing is changed, we don't track the edition
+        guard editedFields().count > 0  else { return }
+
         let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditComplete(myUser, product: product, category: category)
+        let event = TrackerEvent.productEditComplete(myUser, product: product, category: category,
+            editedFields: editedFields())
         trackEvent(event)
     }
-    
-    
+
+
     // MARK: - Tracking Private methods
-    
+
     private func trackEvent(event: TrackerEvent) {
         if shouldTrack {
             TrackerProxy.sharedInstance.trackEvent(event)
         }
     }
-    
+
+    private func editedFields() -> [EventParameterEditedFields] {
+
+        var editedFields : [EventParameterEditedFields] = []
+
+        if imagesModified  {
+            editedFields.append(.Picture)
+        }
+        if initialProduct.name != editedProduct.name {
+            editedFields.append(.Title)
+        }
+        if initialProduct.priceString() != editedProduct.priceString() {
+            editedFields.append(.Price)
+        }
+        if initialProduct.descr != editedProduct.descr {
+            editedFields.append(.Description)
+        }
+        if initialProduct.category != editedProduct.category {
+            editedFields.append(.Category)
+        }
+        if shareInFbChanged() {
+            editedFields.append(.Share)
+        }
+
+        return editedFields
+    }
+
+    private func shareInFbChanged() -> Bool {
+        return MyUserManager.sharedInstance.myUser()?.didLogInByFacebook != shouldShareInFB
+    }
+
+
     // MARK: - Update info of previous VC
-    
+
     public func updateInfoOfPreviousVCWithProduct(savedProduct: Product) {
         updateDetailDelegate?.updateDetailInfo(self, withSavedProduct: savedProduct)
     }
