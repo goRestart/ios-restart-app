@@ -25,6 +25,12 @@
 // Categories title. Check attached image "categories (2).png"
 "categories_title" = "Categories";
 
+// Change location apply button. Check image @ "change_location_title" segment
+"change_location_apply_button" = "Apply";
+
+// Change location approximate location label. Check image @ "change_location_title" segment
+"change_location_approximate_location_label" = "Use approximate location";
+
 // Change location ask update location message. Message displayal is like the other error messages
 "change_location_ask_update_location_message" = "Find bargains near you! Do you want to update your location?";
 
@@ -34,8 +40,11 @@
 // Change location confirm update option button.
 "change_location_confirm_update_button" = "Update";
 
-// Change location title. Check attached image "change_location.png"
-"change_location_title" = "Change Location";
+// Change location error searching location message. Message displayal is like the other error messages
+"change_location_error_search_location_message" = "We were unable to find that location. Please try again.";
+
+// Change location unknown location message. Message displayal is like the other error messages
+"change_location_error_unknown_location_message" = "No results for %@";
 
 // Change location unknown location message. Message displayal is like the other error messages
 "change_location_recommend_update_location_message" = "We recommend updating your location to see the best offers near you!";
@@ -46,17 +55,8 @@
 // Change location search field hint. Check image @ "change_location_title" segment
 "change_location_search_field_hint" = "Enter city or zip code";
 
-// Change location approximate location label. Check image @ "change_location_title" segment
-"change_location_approximate_location_label" = "Use approximate location";
-
-// Change location apply button. Check image @ "change_location_title" segment
-"change_location_apply_button" = "Apply";
-
-// Change location error searching location message. Message displayal is like the other error messages
-"change_location_error_search_location_message" = "We were unable to find that location. Please try again.";
-
-// Change location unknown location message. Message displayal is like the other error messages
-"change_location_error_unknown_location_message" = "No results for %@";
+// Change location title. Check attached image "change_location.png"
+"change_location_title" = "Change Location";
 
 // Change password confirm password field hint. Check attached image "change_password.png"
 "change_password_confirm_password_field_hint" = "Confirm password";
@@ -82,26 +82,26 @@
 // Change password title. Check image @ "change_password_confirm_password_field_hint" segment
 "change_password_title" = "Change password";
 
-// Change name title.  Check attached image "change_username.png"
-"change_username_title" = "Change Name";
-
-// Change name hint.  Check image @ "change_username_title" segment
-"change_username_field_hint" = "Full name";
-
 // Change name invalid name error.  Check image @ "change_username_title" segment
 "change_username_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 
 // Change name invalid username letgo. Check image @ "change_username_title" segment
 "change_username_error_invalid_username_letgo" = "Another account is using %@";
 
-// Change name save button.  Check image @ "change_username_title" segment
-"change_username_save_button" = "Save";
+// Change name hint.  Check image @ "change_username_title" segment
+"change_username_field_hint" = "Full name";
 
 // Change name loading message. Check image @ "change_username_title" segment
 "change_username_loading" = "Saving username...";
 
+// Change name save button.  Check image @ "change_username_title" segment
+"change_username_save_button" = "Save";
+
 // Change username send ok. Check image @ "change_username_title" segment
 "change_username_send_ok" = "Username changed successfully!";
+
+// Change name title.  Check attached image "change_username.png"
+"change_username_title" = "Change Name";
 
 // Chat list empty label. Check attached image  "chat_list (empty).png"
 "chat_list_empty_label" = "No conversations (yet!)";
@@ -118,9 +118,6 @@
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 
-// Chat safety tips title. Check attached image "chat_safety_tips.png"
-"chat_safety_tips_title" = "Stay safe";
-
 // Chat safety tips tip 1. Check image @ "chat_safety_tips_title" segment
 "chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
 
@@ -129,6 +126,9 @@
 
 // Chat safety tips tip 3. Check image @ "chat_safety_tips_title" segment
 "chat_safety_tips_tip_3" = "If it sounds too good to be true, it probably is!";
+
+// Chat safety tips title. Check attached image "chat_safety_tips.png"
+"chat_safety_tips_title" = "Stay safe";
 
 // Chat send button. Check image @ "chat_list_title" segment
 "chat_send_button" = "Send";
@@ -181,20 +181,17 @@
 // Common no
 "common_no" = "No";
 
+// Common ok
+"common_ok" = "OK";
+
 // Common product deleted.
 "common_product_deleted" = "Product removed";
-
-// Common product sold.
-"common_product_sold" = "This product has been sold.";
 
 // Common product not available.
 "common_product_not_available" = "This product is no longer available.";
 
-// Common ok
-"common_ok" = "OK";
-
-// Common user not available
-"common_user_not_available" = "Oops! User not found.";
+// Common product sold.
+"common_product_sold" = "This product has been sold.";
 
 // Common settings
 "common_settings" = "Settings";
@@ -232,8 +229,14 @@
 // Common time weeks ago label
 "common_time_weeks_ago_label" = "%d weeks ago";
 
+// Common user not available
+"common_user_not_available" = "Oops! User not found.";
+
 // Common yes
 "common_yes" = "Yes";
+
+// Contact body field hint. Check attached image @ "contact_email_field_hint" segment
+"contact_body_field_hint" = "Message";
 
 // Contact choose subject dialog title
 "contact_choose_subject_dialog_title" = "Choose a subject";
@@ -241,41 +244,14 @@
 // Contact email field hint. Check attached image "contact.png"
 "contact_email_field_hint" = "Email";
 
-// Contact title. Check attached image @ "contact_email_field_hint" segment
-"contact_title" = "Contact Us";
-
-// Contact subject field hint. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_field_hint" = "Subject";
-
-// Contact subject option profile edit. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_profile_edit" = "Edit or delete profile";
-
-// Contact subject option product edit. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_product_edit" = "Edit or delete product";
-
-// Contact subject option location. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_location" = "Location issues";
-
-// Contact subject option login. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_login" = "Issues logging in";
-
-// Contact subject option report. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_report" = "Report user or spam";
-
-// Contact subject option feedback. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_feedback" = "Suggestions/feedback";
-
-// Contact subject option other. Check attached image @ "contact_email_field_hint" segment
-"contact_subject_option_other" = "Other issues";
-
-// Contact subject options title. Check attached image
-"contact_subject_options_title" = "Subject";
-
-// Contact body field hint. Check attached image @ "contact_email_field_hint" segment
-"contact_body_field_hint" = "Message";
-
 // Contact send button. Check attached image @ "contact_email_field_hint" segment
 "contact_send_button" = "Send";
+
+// Contact send error generic. Message displayal is like the other error messages
+"contact_send_error_generic" = "An error occurred while sending your message. Please check your connection and try again.";
+
+// Contact send error invalid body. Message displayal is like the other error messages
+"contact_send_error_invalid_body" = "Please type a message.";
 
 // Contact send error invalid email. Message displayal is like the other error messages
 "contact_send_error_invalid_email" = "Please provide a valid email address so we can get back to you.";
@@ -283,35 +259,56 @@
 // Contact send error invalid subject. Message displayal is like the other error messages
 "contact_send_error_invalid_subject" = "Please provide a subject.";
 
-// Contact send error invalid body. Message displayal is like the other error messages
-"contact_send_error_invalid_body" = "Please type a message.";
-
 // Contact send ok. Message displayal is like the other error messages
 "contact_send_ok" = "Your message has been sent!";
 
-// Contact send error generic. Message displayal is like the other error messages
-"contact_send_error_generic" = "An error occurred while sending your message. Please check your connection and try again.";
+// Contact subject field hint. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_field_hint" = "Subject";
 
-// Title for custom alert for pushes in list
-"custom_permission_list_title" = "WELCOME!";
+// Contact subject option feedback. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_feedback" = "Suggestions/feedback";
 
-// Message for custom alert for pushes in list
-"custom_permission_list_message" = "Activate notifications to get news from letgo and new products.";
+// Contact subject option location. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_location" = "Location issues";
 
-// Title for custom alert for pushes in chat
-"custom_permission_chat_title" = "BE IN THE LOOP";
+// Contact subject option login. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_login" = "Issues logging in";
+
+// Contact subject option other. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_other" = "Other issues";
+
+// Contact subject option product edit. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_product_edit" = "Edit or delete product";
+
+// Contact subject option profile edit. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_profile_edit" = "Edit or delete profile";
+
+// Contact subject option report. Check attached image @ "contact_email_field_hint" segment
+"contact_subject_option_report" = "Report user or spam";
+
+// Contact subject options title. Check attached image
+"contact_subject_options_title" = "Subject";
+
+// Contact title. Check attached image @ "contact_email_field_hint" segment
+"contact_title" = "Contact Us";
 
 // Message for custom alert for pushes in chat
 "custom_permission_chat_message" = "Activate notifications to instantly know when someone replies.";
 
-// Title for custom alert for pushes in sell
-"custom_permission_sell_title" = "SELL FASTER";
+// Title for custom alert for pushes in chat
+"custom_permission_chat_title" = "BE IN THE LOOP";
+
+// Message for custom alert for pushes in list
+"custom_permission_list_message" = "Activate notifications to get news from letgo and new products.";
+
+// Title for custom alert for pushes in list
+"custom_permission_list_title" = "WELCOME!";
 
 // Message for custom alert for pushes in sell
 "custom_permission_sell_message" = "Activate notifications to know when someone wants to buy your product.";
 
-// Edit product title. Check image @ "sell_send_error_invalid_category" segment
-"edit_product_title" = "Edit Product";
+// Title for custom alert for pushes in sell
+"custom_permission_sell_title" = "SELL FASTER";
 
 // Edit product send button. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_send_button" = "Update";
@@ -321,6 +318,9 @@
 
 // Edit product send ok. Message displayal is like the other messages.
 "edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
+
+// Edit product title. Check image @ "sell_send_error_invalid_category" segment
+"edit_product_title" = "Edit Product";
 
 // When there's no distance filter set
 "filters_distance_not_set" = "not set";
@@ -337,23 +337,11 @@
 // Filters section distance
 "filters_section_distance" = "Distance";
 
-// Filters secion within (within which time we want the products)
-"filters_section_within" = "Posted within";
-
 // Filters section sort-by
 "filters_section_sortby" = "Sort by";
 
-// Filters within option 1 day
-"filters_within_day" = "The last 24h";
-
-// Filters within option 7 days
-"filters_within_week" = "The last 7 days";
-
-// Filters within option 30 days
-"filters_within_month" = "The last 30 days";
-
-// Filters within option All
-"filters_within_all" = "All products";
+// Filters secion within (within which time we want the products)
+"filters_section_within" = "Posted within";
 
 // Filters sort option closest
 "filters_sort_closest" = "Closest first";
@@ -370,11 +358,23 @@
 // Filters title
 "filters_title" = "Filters";
 
-// Forced update title.
-"forced_update_title" = "Update Available";
+// Filters within option All
+"filters_within_all" = "All products";
+
+// Filters within option 1 day
+"filters_within_day" = "The last 24h";
+
+// Filters within option 30 days
+"filters_within_month" = "The last 30 days";
+
+// Filters within option 7 days
+"filters_within_week" = "The last 7 days";
 
 // Forced update message.
 "forced_update_message" = "A new version of letgo is available. Please update now!";
+
+// Forced update title.
+"forced_update_title" = "Update Available";
 
 // Forced update appstore button.
 "forced_update_update_button" = "Update";
@@ -466,20 +466,50 @@
 // Product chat error generic. Message displayal is like the other error messages
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 
-// Product delete alert title. Check attached image @ segment "product_delete_confirm_cancel_button"
-"product_delete_confirm_title" = "Delete Product";
+// Info bubble on product list when 'newest' ordering is selected
+"product_popular_near_you" = "Popular near you";
 
-// Product delete alert message. Check attached image @ segment "product_delete_confirm_cancel_button"
-"product_delete_confirm_message" = "Why do you want to delete your product?";
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_one_day_ago" = "Posted 1 day ago";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_one_hour_ago" = "Posted 1 hour ago";
+
+// Product date 1 min ago. Check image @ "product_ask_a_question_button" segment
+"product_date_one_minute_ago" = "Posted 1 minute ago";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_one_month_ago" = "Posted 1 month ago";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_days_ago" = "Posted %i days ago";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_hours_ago" = "Posted %i hours ago";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_minutes_ago" = "Posted %i minutes ago";
+
+// Product distance from you. Check image @ "product_ask_a_question_button" segment
+"product_date_X_months_ago" = "Posted %i months ago";
 
 // Product delete alert cancel button. Check attached image "delete.png"
 "product_delete_confirm_cancel_button" = "Cancel";
+
+// Product delete alert message. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_message" = "Why do you want to delete your product?";
 
 // Product delete alert ok button. Check attached image @ segment "product_delete_confirm_cancel_button"
 "product_delete_confirm_ok_button" = "I don't want to sell it";
 
 // Product delete alert mark as sold button. Check attached image @ segment "product_delete_confirm_cancel_button"
 "product_delete_confirm_sold_button" = "I already sold it";
+
+// Product delete alert title. Check attached image @ segment "product_delete_confirm_cancel_button"
+"product_delete_confirm_title" = "Delete Product";
 
 // Product delete send error generic. Message displayal is like the other error messages.
 "product_delete_send_error_generic" = "Oops! We couldn't delete your product. Please try again.";
@@ -490,41 +520,14 @@
 // Product delete success message.  Message displayal is like the other error messages.
 "product_delete_success_message" = "Your product was deleted successfully.";
 
-// Product date 1 min ago. Check image @ "product_ask_a_question_button" segment
-"product_date_one_minute_ago" = "Posted 1 minute ago";
-
-// Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_X_minutes_ago" = "Posted %i minutes ago";
-
-// Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_one_hour_ago" = "Posted 1 hour ago";
-
-// Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_X_hours_ago" = "Posted %i hours ago";
-
-// Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_one_day_ago" = "Posted 1 day ago";
-
-// Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_X_days_ago" = "Posted %i days ago";
-
-// Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_one_month_ago" = "Posted 1 month ago";
-
-// Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_X_months_ago" = "Posted %i months ago";
-
-// Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_date_more_than_X_months_ago" = "Posted more than %i months ago";
-
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_distance_from_you" = "from you";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_distance_X_from_you" = "%@ from you";
+"product_distance_more_than_from_you" = "More than %@ from you";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
-"product_distance_more_than_from_you" = "More than %@ from you";
+"product_distance_X_from_you" = "%@ from you";
 
 // Product gallery title
 "product_gallery_title" = "Photos";
@@ -538,11 +541,11 @@
 // Product list location disabled go to indicate location label.
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Enable location to see the best offers nearby!";
 
-// <strong>SEE SCREENSHOT</strong> Product list no products title.
-"product_list_no_products_title" = "CITY UNLOCKED!";
-
 // Product list no products body.
 "product_list_no_products_body" = "You're the first explorer from your city. Welcome!";
+
+// <strong>SEE SCREENSHOT</strong> Product list no products title.
+"product_list_no_products_title" = "CITY UNLOCKED!";
 
 // Product location title. Check attached image "product_location.png"
 "product_location_title" = "Location";
@@ -574,8 +577,89 @@
 // Text when price is 0$ 
 "product_negotiable_price" = "Negotiable";
 
+// Secondary text when the camera posting appears
+"product_post_camera_subtitle" = "Make sure it's a good one!";
+
+// Main text when the camera posting appears
+"product_post_camera_title" = "This is your featured photo";
+
+// Post another item separator
+"product_post_confirmation_another" = "Or";
+
+// Share it section separator
+"product_post_confirmation_share" = "Share it";
+
+// After posting, real confirmation subtitle
+"product_post_confirmation_subtitle" = "It will appear on letgo in 10 minutes.";
+
+// After posting, real confirmation
+"product_post_confirmation_title" = "Your product is being processed!";
+
+// Done button after setting (or not) a price
+"product_post_done" = "Done";
+
+// Post another item button
+"product_post_confirmation_another_button" = "Post another item";
+
+// When posting failed but it's our fault
+"product_post_generic_error" = "There was an error while posting your product.";
+
+// When posting failed due to network connection errors
+"product_post_network_error" = "Your product hasn't been posted.\nPlease check your network settings.";
+
+// After failure, the text of the "try again" button
+"product_post_retry_button" = "Try Again";
+
+// Question to add a price
+"product_post_price_label" = "Want to add a price?";
+
+// Confirmation BEFORE setting the price
+"product_post_product_posted" = "Product posted. Congrats!";
+
+// Retake photo button
+"product_post_retake" = "Retake";
+
+// Use Photo button
+"product_post_use_photo" = "Post";
+
 // Price label above price on product
 "product_price_label" = "Price";
+
+// Product report confirm cancel button. Message displayal is like the other dialog messages
+"product_report_confirm_cancel_button" = "Cancel";
+
+// Product report confirm message. Message displayal is like the other dialog messages
+"product_report_confirm_message" = "Are you sure you want to report this product?";
+
+// Product report confirm ok button. Message displayal is like the other dialog messages
+"product_report_confirm_ok_button" = "OK";
+
+// Product report confirm title. Message displayal is like the other dialog messages
+"product_report_confirm_title" = "Report Product";
+
+// Product report product button. Check image @ "product_ask_a_question_button" segment
+"product_report_product_button" = "Report Product";
+
+// Product reported fail message. Message displayal is like the other dialog messages
+"product_reported_error_generic" = "An error occurred while reporting the product. Please try again later.";
+
+// Product reported product label. Check image @ "product_report_product_button" segment
+"product_reported_product_label" = "Product reported. Thanks!";
+
+// Product reported success message. Message displayal is like the other dialog messages
+"product_reported_success_message" = "The product was reported successfully. Thanks!";
+
+// Product reporting laoding message. Message displayal is like the other dialog messages
+"product_reporting_loading_message" = "Reporting Product...";
+
+// Product reporting product label. Check image @ "product_report_product_button" segment
+"product_reporting_product_label" = "Reporting product...";
+
+// Product search no products body.
+"product_search_no_products_body" = "Try looking for something else or check again soon!";
+
+// Product search no products title.
+"product_search_no_products_title" = "OOPS! NO RESULTS NEAR YOU";
 
 // Product sell again button. Check image @ "product_mark_as_sold_button" segment
 "product_sell_again_button" = "Sell It Again";
@@ -598,53 +682,17 @@
 // Product sell again success message. Message displayal is like the other error messages
 "product_sell_again_success_message" = "Congratulations, your product was successfully marked as available!";
 
-// Error shown when the camera access is restricted in the Device
-"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
-
 // Ask the user to activate Camera access in setting because it was denied before
 "product_sell_camera_permissions_error" = "To snap a picture, give letgo access to your Camera in your settings.";
 
-// Error shown when the photo library access is restricted in the Device
-"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
+// Error shown when the camera access is restricted in the Device
+"product_sell_camera_restricted_error" = "Access to your Camera is restricted. Please check your settings and try again.";
 
 // Ask the user to activate Photo library access in setting because it was denied before
 "product_sell_photolibrary_permissions_error" = "To upload a picture, give letgo access to your Photo Library in your settings.";
 
-// Product report confirm title. Message displayal is like the other dialog messages
-"product_report_confirm_title" = "Report Product";
-
-// Product report confirm message. Message displayal is like the other dialog messages
-"product_report_confirm_message" = "Are you sure you want to report this product?";
-
-// Product report confirm ok button. Message displayal is like the other dialog messages
-"product_report_confirm_ok_button" = "OK";
-
-// Product report confirm cancel button. Message displayal is like the other dialog messages
-"product_report_confirm_cancel_button" = "Cancel";
-
-// Product report product button. Check image @ "product_ask_a_question_button" segment
-"product_report_product_button" = "Report Product";
-
-// Product reported product label. Check image @ "product_report_product_button" segment
-"product_reported_product_label" = "Product reported. Thanks!";
-
-// Product reporting product label. Check image @ "product_report_product_button" segment
-"product_reporting_product_label" = "Reporting product...";
-
-// Product reporting laoding message. Message displayal is like the other dialog messages
-"product_reporting_loading_message" = "Reporting Product...";
-
-// Product reported success message. Message displayal is like the other dialog messages
-"product_reported_success_message" = "The product was reported successfully. Thanks!";
-
-// Product reported fail message. Message displayal is like the other dialog messages
-"product_reported_error_generic" = "An error occurred while reporting the product. Please try again later.";
-
-// Product search no products title.
-"product_search_no_products_title" = "OOPS! NO RESULTS NEAR YOU";
-
-// Product search no products body.
-"product_search_no_products_body" = "Try looking for something else or check again soon!";
+// Error shown when the photo library access is restricted in the Device
+"product_sell_photolibrary_restricted_error" = "Access to your Photo Library is restricted. Please check your settings and try again.";
 
 // Product share body
 "product_share_body" = "Look what I just found on letgo!";
@@ -652,29 +700,29 @@
 // Product share email error. Message displayal is like the other error messages
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
 
-// Product share whatsapp error. Message displayal is like the other error messages
-"product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
+// Product share generic error. Message displayal is like the other error messages
+"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
 
 // Product share generic OK. Message displayal is like the other error messages
 "product_share_generic_ok" = "Product successfully shared!";
 
-// Product share generic error. Message displayal is like the other error messages
-"product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
-
-// Product detail status label, status pending. Check attached image "item_page_sold_ios.png"
-"product_status_label_pending" = "PRODUCT PENDING";
+// Product share whatsapp error. Message displayal is like the other error messages
+"product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
 
 // Product detail status label, status approved. Check image @ "product_status_label_pending" segment
 "product_status_label_approved" = "PRODUCT APPROVED";
 
+// Product detail status label, status deleted. Check image @ "product_status_label_pending" segment
+"product_status_label_deleted" = "PRODUCT DELETED";
+
 // Product detail status label, status discarded. Check image @ "product_status_label_pending" segment
 "product_status_label_discarded" = "PRODUCT DISCARDED";
 
+// Product detail status label, status pending. Check attached image "item_page_sold_ios.png"
+"product_status_label_pending" = "PRODUCT PENDING";
+
 // Product detail status label, status sold. Check image @ "product_status_label_pending" segment
 "product_status_label_sold" = "PRODUCT SOLD";
-
-// Product detail status label, status deleted. Check image @ "product_status_label_pending" segment
-"product_status_label_deleted" = "PRODUCT DELETED";
 
 // Profile favourites my user no products label. Check attached image "profile (empty).png"
 "profile_favourites_my_user_no_products_label" = "You still haven't published or favorited any products.";
@@ -706,23 +754,23 @@
 // Push notification message title
 "push_notification_message_title" = "New message - %@";
 
-// Rating view title label.  Check attached image "rating_view.png"
-"rating_view_title_label" = "Do you love letgo?";
+// Rating view don't ask button.  Check image @ "rating_view_title_label" segment
+"rating_view_dont_ask_again_button" = "Don't ask me again";
 
 // Rating view love it label.  Check image @ "rating_view_title_label" segment
 "rating_view_love_it_label" = "Love it!";
 
-// Rating view rate us label.  Check image @ "rating_view_title_label" segment
-"rating_view_rate_us_label" = "Rate us";
-
 // Rating view needs improvements label.  Check image @ "rating_view_title_label" segment
 "rating_view_needs_improvements_label" = "Needs improvement";
+
+// Rating view rate us label.  Check image @ "rating_view_title_label" segment
+"rating_view_rate_us_label" = "Rate us";
 
 // Rating view suggest label.  Check image @ "rating_view_title_label" segment
 "rating_view_suggest_label" = "Share your suggestions";
 
-// Rating view don't ask button.  Check image @ "rating_view_title_label" segment
-"rating_view_dont_ask_again_button" = "Don't ask me again";
+// Rating view title label.  Check attached image "rating_view.png"
+"rating_view_title_label" = "Do you love letgo?";
 
 // Reset password email field hint. Check attached image "reset_password.png"
 "reset_password_email_field_hint" = "Enter your email address";
@@ -758,7 +806,7 @@
 "sell_choose_category_dialog_title" = "Choose a category";
 
 // Sell description field hint. Check image @ "sell_category_selection_label" segment
-"sell_description_field_hint" = "Description";
+"sell_description_field_hint" = "Description (optional)";
 
 // Sell picture image source camera button. Check attached image "sell_picture_image_source.png"
 "sell_picture_image_source_camera_button" = "Camera";
@@ -829,9 +877,6 @@
 // Sell send error sharing facebook cancelled. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_sharing_facebook_cancelled" = "Canceled by user.";
 
-// Sell send sharing facebook OK. Check image @ "sell_send_error_invalid_category" segment
-"sell_send_sharing_facebook_ok" = "Product successfully shared!";
-
 // Sell send error uploading picture. Check image @ "sell_send_error_invalid_category" segment
 "sell_send_error_uploading_picture" = "An error occurred while registering your product. We were unable to upload photos. Please try again.";
 
@@ -840,6 +885,9 @@
 
 // Sell send ok. Check attached image "sell_send_ok.png"
 "sell_send_ok" = "Congratulations! Your item will appear in our listings shortly. It's time to letgo!";
+
+// Sell send sharing facebook OK. Check image @ "sell_send_error_invalid_category" segment
+"sell_send_sharing_facebook_ok" = "Product successfully shared!";
 
 // Sell share fb content
 "sell_share_fb_content" = "I'm selling something on letgo. Check it out!";
@@ -851,7 +899,7 @@
 "sell_title" = "Sell";
 
 // Sell title field hint. Check image @ "sell_category_selection_label" segment
-"sell_title_field_hint" = "Product title";
+"sell_title_field_hint" = "Title (optional)";
 
 // Sell uploading label
 "sell_uploading_label" = "Uploading product. Please wait...";
@@ -862,9 +910,6 @@
 // Settings change password button. Check attached image "settings.png"
 "settings_change_password_button" = "Password";
 
-// Settings change name button. Check image @ "settings_change_password_button" segment
-"settings_change_username_button" = "Name";
-
 // Settings change profile picture button. Check image @ "settings_change_password_button" segment
 "settings_change_profile_picture_button" = "Photo";
 
@@ -873,6 +918,9 @@
 
 // Settings change profile picture loading. Check attached image "settings_change_profile_picture_loading.png"
 "settings_change_profile_picture_loading" = "Setting profile image. Please wait...";
+
+// Settings change name button. Check image @ "settings_change_password_button" segment
+"settings_change_username_button" = "Name";
 
 // Settings contact us button. Check attached image @ "settings_change_password_button" segment
 "settings_contact_us_button" = "Contact us";
@@ -895,11 +943,11 @@
 // Settings invite facebook friends. Check image @ "settings_change_password_button" segment
 "settings_invite_facebook_friends_button" = "Invite Facebook Friends";
 
-// Settings invite facebook friends ok. Message displayal is like the other messages.
-"settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
-
 // Settings invite facebook friends error. Message displayal is like the other messages.
 "settings_invite_facebook_friends_error" = "An error occurred while sharing your invitation.";
+
+// Settings invite facebook friends ok. Message displayal is like the other messages.
+"settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
 
 // Settings logout button. Check image @ "settings_change_password_button" segment
 "settings_logout_button" = "Log out";
@@ -946,38 +994,38 @@
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
 
-// Toast no network.
-"toast_no_network" = "No Internet Connection";
+// Toast server internal.
+"toast_error_internal" = "Oops! Something went wrong.";
 
 // Toast server error.
 "toast_error_server" = "Oops! Please try again.";
 
-// Toast server internal.
-"toast_error_internal" = "Oops! Something went wrong.";
+// Toast no network.
+"toast_no_network" = "No Internet Connection";
 
 // Tour page 1 body.
 "tour_page_1_body" = "Buy and sell quickly, safely and locally. It’s time to letgo!";
 
-// Tour page 2 title.
-"tour_page_2_title" = "Local";
-
 // Tour page 2 body.
 "tour_page_2_body" = "Every day, thousands of new, nearby listings are posted.";
 
-// Tour page 3 title.
-"tour_page_3_title" = "Snap and Post";
+// Tour page 2 title.
+"tour_page_2_title" = "Local";
 
 // Tour page 3 body.
 "tour_page_3_body" = "Post products in a few seconds and get cash for stuff you don’t need anymore.";
 
-// Tour page 4 title.
-"tour_page_4_title" = "Chat and Sell";
+// Tour page 3 title.
+"tour_page_3_title" = "Snap and Post";
 
 // Tour page 4 body.
 "tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
 
-// Tour page skip button.
-"tour_page_skip_button" = "Skip";
+// Tour page 4 title.
+"tour_page_4_title" = "Chat and Sell";
 
 // Tour page ok button.
 "tour_page_ok_button" = "Start Browsing!";
+
+// Tour page skip button.
+"tour_page_skip_button" = "Skip";
