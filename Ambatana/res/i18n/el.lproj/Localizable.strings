@@ -190,6 +190,7 @@
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
 "product_negotiable_price" = "Διαπραγματεύσιμη";
+"product_popular_near_you" = "Popular near you";
 "product_post_camera_subtitle" = "Βεβαιωθείτε πως είναι καλή!";
 "product_post_camera_title" = "Αυτή είναι η προτεινόμενη φωτογραφία σας";
 "product_post_confirmation_another" = "'Η";

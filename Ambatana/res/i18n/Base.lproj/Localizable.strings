@@ -466,6 +466,9 @@
 // Product chat error generic. Message displayal is like the other error messages
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 
+// Info bubble on product list when 'newest' ordering is selected
+"product_popular_near_you" = "Popular near you";
+
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_date_more_than_X_months_ago" = "Posted more than %i months ago";
 

@@ -190,6 +190,7 @@
 "product_mark_as_sold_error_generic" = "¡Ups! Ha habido un error al marcar el artículo como vendido. Prueba otra vez.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_negotiable_price" = "Negociable";
+"product_popular_near_you" = "Popular near you";
 "product_post_camera_subtitle" = "¡Asegúrate de que sea buena!";
 "product_post_camera_title" = "Esta es tu foto destacada";
 "product_post_confirmation_another" = "O";
@@ -287,7 +288,7 @@
 "sell_send_error_invalid_image_count" = "Por favor, añade al menos una foto de tu artículo.";
 "sell_send_error_invalid_location" = "¡Ups! No ha sido posible determinar tu ubicación. Es necesaria para poder vender tu artículo. Prueba otra vez.";
 "sell_send_error_invalid_price" = "¡Ups! Por favor, introduce un precio válido para tu artículo. Debe ser un número.";
-"sell_send_error_invalid_title" = "Por favor, introduce un nombre válido para tu artículo.";
+"sell_send_error_invalid_title" = "Por favor, introduce un título válido para tu artículo.";
 "sell_send_error_sharing_facebook" = "¡Ups! Ha ocurrido un error al compartir en Facebook. Prueba otra vez.";
 "sell_send_error_sharing_facebook_cancelled" = "Cancelado por el usuario.";
 "sell_send_error_uploading_picture" = "¡Ups! Ha habido un error al enviar tu artículo. No se han podido subir las fotos. Prueba otra vez.";

@@ -190,6 +190,7 @@
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
 "product_negotiable_price" = "Neuvoteltavissa";
+"product_popular_near_you" = "Popular near you";
 "product_post_camera_subtitle" = "Varmista, että se on hyvä!";
 "product_post_camera_title" = "Tämä on tuotteesi kuva";
 "product_post_confirmation_another" = "Tai";
@@ -198,13 +199,13 @@
 "product_post_confirmation_subtitle" = "Se tulee näkyviin letgoon 10 minuutissa.";
 "product_post_confirmation_title" = "Tuotettasi käsitellään!";
 "product_post_done" = "Valmis";
-"product_post_generic_error" = "Tuotettasi ei ole julkaistu.";
+"product_post_generic_error" = "Tuotettasi julkaistessa tapahtui virhe.";
 "product_post_network_error" = "Tuotettasi ei ole julkaistu.\nOle hyvä ja tarkista verkkoasetuksesi.";
 "product_post_price_label" = "Haluatko lisätä hinnan?";
 "product_post_product_posted" = "Tuote julkaistu. Onneksi olkoon!";
 "product_post_retake" = "Ota uusi kuva";
 "product_post_retry_button" = "Yritä uudelleen";
-"product_post_use_photo" = "Käytä kuvaa";
+"product_post_use_photo" = "Käytä";
 "product_price_label" = "Hinta";
 "product_report_confirm_cancel_button" = "Peruuta";
 "product_report_confirm_message" = "Oletko varma että haluat tehdä ilmoituksen tästä tuotteesta?";

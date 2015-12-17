@@ -190,6 +190,7 @@
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
 "product_negotiable_price" = "Negociable";
+"product_popular_near_you" = "Popular near you";
 "product_post_camera_subtitle" = "Assurez-vous qu'elle soit parfaite !";
 "product_post_camera_title" = "Voici votre photo";
 "product_post_confirmation_another" = "Ou";

@@ -9,10 +9,10 @@
 "categories_title" = "Kategoriler";
 "change_location_apply_button" = "Uygula";
 "change_location_approximate_location_label" = "Yaklaşık bir adres göster";
-"change_location_ask_update_location_message" = "Yakınındaki teklifleri bul! Konumunu güncellemek ister misin?";
+"change_location_ask_update_location_message" = "Yakınındaki fırsatları bul! Konumunu güncellemek ister misin?";
 "change_location_ask_update_location_title" = "Konum değiştir";
 "change_location_confirm_update_button" = "Güncelle";
-"change_location_error_search_location_message" = "Bu konumu bulamadık. Lütfen, tekrar dene.";
+"change_location_error_search_location_message" = "Belirtilen konumu bulamadık. Lütfen, tekrar dene.";
 "change_location_error_unknown_location_message" = "%@ için sonuç bulunamadı";
 "change_location_recommend_update_location_message" = "Yakınındaki en iyi fırsatları görmen için konumunu güncellemeni öneriyoruz!";
 "change_location_recommend_update_location_title" = "Konum değiştir";
@@ -123,7 +123,7 @@
 "filters_within_month" = "Son 30 gün";
 "filters_within_week" = "Son 7 gün";
 "forced_update_message" = "Yeni bir letgo sürümü mevcut. Lütfen şimdi güncelle.";
-"forced_update_title" = "Yeni güncelleme mevcut";
+"forced_update_title" = "Yeni bir güncelleme mevcut";
 "forced_update_update_button" = "Güncelle";
 "help_title" = "Yardım";
 "log_in_email_field_hint" = "E-posta";
@@ -190,6 +190,7 @@
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
 "product_negotiable_price" = "Pazarlık edilebilir";
+"product_popular_near_you" = "Popular near you";
 "product_post_camera_subtitle" = "Oldukça net gözüktüğüne dikkat et!";
 "product_post_camera_title" = "Bu senin yayınlanacak fotoğrafın";
 "product_post_confirmation_another" = "veya";
@@ -252,7 +253,7 @@
 "rating_view_dont_ask_again_button" = "BUNU BİR DAHA SORMA";
 "rating_view_love_it_label" = "SEVİYORUM";
 "rating_view_needs_improvements_label" = "GELİŞTİRİLMESİ GEREKİYOR";
-"rating_view_rate_us_label" = "Bize oy ver";
+"rating_view_rate_us_label" = "Bize puan ver";
 "rating_view_suggest_label" = "Tavsiyelerini paylaş";
 "rating_view_title_label" = "letgo'yu seviyor musun?";
 "reset_password_email_field_hint" = "E-posta adresini gir";
@@ -333,8 +334,8 @@
 "toast_error_server" = "Oops! Lütfen tekrar dene.";
 "toast_no_network" = "İnternet bağlantısı yok";
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
-"tour_page_2_body" = "Bulunduğun çevrede her gün binlerce yeni ürün listeleniyor.";
-"tour_page_2_title" = "Bulunduğun çevrede";
+"tour_page_2_body" = "Yakınlarında her gün binlerce yeni ürün listeleniyor.";
+"tour_page_2_title" = "Bulunduğun Çevrede";
 "tour_page_3_body" = "Ürünlerini birkaç saniye içinde listele ve artık ihtiyaç duymadığın eşyalarını sat.";
 "tour_page_3_title" = "Nakit kazan";
 "tour_page_4_body" = "Yakınındakilerle mesajlaş ve pazarlık yap. Hiçbir masrafa tabi olmadan, direk nakit ödeme yap!";

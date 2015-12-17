@@ -190,6 +190,7 @@
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
 "product_negotiable_price" = "Pris kan diskuteres";
+"product_popular_near_you" = "Popular near you";
 "product_post_camera_subtitle" = "Forsikre at bildet er bra!";
 "product_post_camera_title" = "Dette er valgt bilde";
 "product_post_confirmation_another" = "Eller";
@@ -334,7 +335,7 @@
 "toast_no_network" = "Ingen internett-tilkobling";
 "tour_page_1_body" = "Kjøp og selg raskt, sikkert og lokalt.";
 "tour_page_2_body" = "Personer i ditt nærområde publiserer nye produkter hver dag.";
-"tour_page_2_title" = "Nært deg";
+"tour_page_2_title" = "Nær deg";
 "tour_page_3_body" = "Publiser produkter i løpet av noen sekunder og selg ting du ikke trenger lenger.";
 "tour_page_3_title" = "Tjen penger";
 "tour_page_4_body" = "Forhandle og chat privat med personer i ditt nærområde. Betal kontakt, og uten avgifter.";

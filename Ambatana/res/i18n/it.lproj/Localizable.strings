@@ -190,6 +190,7 @@
 "product_mark_as_sold_error_generic" = "Si è verificato un errore durante il tentativo di segnare il prodotto come venduto. Riprova più tardi.";
 "product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato correttamente contrassegnato come venduto.";
 "product_negotiable_price" = "Trattabile";
+"product_popular_near_you" = "Popular near you";
 "product_post_camera_subtitle" = "Assicurati che sia di buona qualità!";
 "product_post_camera_title" = "Questa è la foto principale";
 "product_post_confirmation_another" = "O";
@@ -198,13 +199,13 @@
 "product_post_confirmation_subtitle" = "Apparirà su letgo tra 10 minuti.";
 "product_post_confirmation_title" = "Il tuo prodotto è stato elaborato!";
 "product_post_done" = "Fatto";
-"product_post_generic_error" = "Il tuo prodotto non è stato pubblicato.";
+"product_post_generic_error" = "Si è verificato un errore durante la pubblicazione del tuo prodotto.";
 "product_post_network_error" = "Il tuo prodotto non è stato pubblicato.\nControlla le impostazioni di rete.";
 "product_post_price_label" = "Vuoi aggiungere un prezzo?";
 "product_post_product_posted" = "Prodotto pubblicato. Complimenti!";
 "product_post_retake" = "Scatta di Nuovo";
 "product_post_retry_button" = "Riprova";
-"product_post_use_photo" = "Usa Foto";
+"product_post_use_photo" = "Pubblica";
 "product_price_label" = "Prezzo";
 "product_report_confirm_cancel_button" = "Annulla";
 "product_report_confirm_message" = "Sei sicuro di voler segnalare questo prodotto?";

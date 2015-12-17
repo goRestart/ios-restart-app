@@ -632,6 +632,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_error_generic", comment: "")
 	}
 	
+	static var productPopularNearYou: String {
+		return NSLocalizedString("product_popular_near_you", comment: "")
+	}
+	
 	static var productDateMoreThanXMonthsAgo: String {
 		return NSLocalizedString("product_date_more_than_X_months_ago", comment: "")
 	}

@@ -190,6 +190,7 @@
 "product_mark_as_sold_error_generic" = "Beim als verkauft Markieren ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_mark_as_sold_success_message" = "Glückwunsch, dein Produkt wurde erfolgreich als verkauft markiert!";
 "product_negotiable_price" = "Verhandelbar";
+"product_popular_near_you" = "Popular near you";
 "product_post_camera_subtitle" = "Stell sicher, dass es gut aussieht!";
 "product_post_camera_title" = "Das ist dein Hauptfoto";
 "product_post_confirmation_another" = "Oder";
@@ -198,7 +199,7 @@
 "product_post_confirmation_subtitle" = "Es wird in 10 Minuten auf letgo erscheinen.";
 "product_post_confirmation_title" = "Dein Produkt wird eingestellt!";
 "product_post_done" = "Fertig";
-"product_post_generic_error" = "Dein Produkt wurde nicht eingestellt.";
+"product_post_generic_error" = "Beim Einstellen deines Produkts ist ein Fehler aufgetreten.";
 "product_post_network_error" = "Dein Produkt wurde nicht eingestellt.\nBitte überprüfe deine Netzwerkeinstellungen.";
 "product_post_price_label" = "Möchtest du einen Preis hinzufügen?";
 "product_post_product_posted" = "Produkt eingestellt. Glückwunsch!";
