@@ -19,20 +19,26 @@ public struct LGMessage: Message {
     public var text: String
     public var type: MessageType
     public var userId: String
+    public var status: MessageStatus?
 
-    init(objectId: Int?, createdAt: NSDate?, text: String, type: Int?, userId: String){
+    init(objectId: Int?, createdAt: NSDate?, text: String, type: Int?, userId: String, status: Int?){
         if let intId = objectId {
             self.objectId = String(intId)
         }
         self.createdAt = createdAt
         self.text = text
+
         if let intType = type {
             self.type = MessageType(rawValue: intType) ?? .Text
-        }
-        else{
+        } else{
             self.type = .Text
         }
         self.userId = userId
+
+        if let intStatus = status {
+            self.status = MessageStatus(rawValue: intStatus)
+        }
+
     }
 }
 
@@ -55,17 +61,20 @@ extension LGMessage : Decodable {
             "type": 0,
             "created_at": "2015-09-11T09:03:02+0000",
             "user_id": "cnF522ALeS"
+            "is_read": 0
         }
     */
     public static func decode(j: JSON) -> Decoded<LGMessage> {
         
-        let result = curry(LGMessage.init)
+        let init1 = curry(LGMessage.init)
             <^> j <|? "id"
             <*> LGArgo.parseDate(json: j, key: "created_at")
             <*> j <| "text"
             <*> j <|? "type"
             <*> j <| "user_id"
-        
+
+        let result = init1  <*> j <|? "is_read"
+
         if let error = result.error {
             print("LGMessage parse error: \(error)")
         }

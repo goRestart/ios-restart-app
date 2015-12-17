@@ -10,6 +10,8 @@ import UIKit
 
 class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
 
+    @IBOutlet weak var checkImageView: UIImageView!
+    
     static func reusableID() -> String {
         return "ChatMyMessageCell"
     }
