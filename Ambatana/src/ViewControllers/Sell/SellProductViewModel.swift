@@ -178,12 +178,6 @@ public class SellProductViewModel: BaseViewModel {
     
     internal func saveProduct(product: Product? = nil) {
 
-        // TODO: New product handling
-        //        if new should add more info (location, user...)
-        //        if product == nil {
-        //
-        //        }
-
         var theProduct = product ?? productManager.newProduct()
         guard let category = category else {
             let error = ProductSaveServiceError.NoCategory
