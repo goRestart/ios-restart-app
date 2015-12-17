@@ -18,7 +18,7 @@ pod "FBSDKShareKit",         "~> 4.7.0"
 pod "Amplitude-iOS",        "~> 3.2.0"
     
 # letgo Core
-pod "LGCoreKit",            "0.16.8" #:path => "../lgcorekit" #
+pod "LGCoreKit",            "0.16.10" #:path => "../lgcorekit"
 
 # Slack Chat controller
 pod "SlackTextViewController", "~> 1.7.2"
@@ -49,6 +49,9 @@ pod "GoogleAppIndexing",    "~> 2.0.1"
 
 # Semi modal view controller
 pod "LGSemiModalNavController", "~> 0.2.0"
+
+# Custom camera
+pod "FastttCamera",         "~> 0.3.4"
 
 # Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
 pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'

@@ -64,7 +64,7 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
                     tourVC.closeButtonImage = UIImage(named: "ic_close")
                     tourVC.leftButtonImage = UIImage(named: "ic_arrow_white_left")
                     tourVC.skipButtonBackgroundColor = UIColor.whiteColor()
-                    tourVC.skipButtonTextColor = StyleHelper.red
+                    tourVC.skipButtonTextColor = StyleHelper.primaryColor
                     tourVC.skipButtonBorderRadius = 4
                     tourVC.skipButtonNonLastPageText = LGLocalizedString.tourPageSkipButton
                     tourVC.skipButtonLastPageText = LGLocalizedString.tourPageOkButton

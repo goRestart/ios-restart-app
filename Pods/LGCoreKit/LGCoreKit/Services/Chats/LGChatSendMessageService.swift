@@ -72,6 +72,7 @@ public class LGChatSendMessageService: ChatSendMessageService {
                     msg.userId = userId
                     msg.text = message
                     msg.type = type
+                    msg.status = .Sent
                     completion?(ChatSendMessageServiceResult(value: msg))
                 }
         }

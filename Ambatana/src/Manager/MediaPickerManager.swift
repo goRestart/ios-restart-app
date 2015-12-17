@@ -34,46 +34,44 @@ class MediaPickerManager {
             
             let alert = UIAlertController(title: title, message: nil, preferredStyle: .ActionSheet)
             alert.addAction(UIAlertAction(title: cameraTitle, style: .Default) { alertAction in
-                self.requestCameraPermissions(controller) {
-                    self.openImagePickerWithSource(.Camera, inController: controller)
-                }
+                showCameraPickerIn(controller)
                 })
             alert.addAction(UIAlertAction(title: galleryTitle, style: .Default) { alertAction in
-                self.requestGalleryPersmissions(controller) {
-                    self.openImagePickerWithSource(.PhotoLibrary, inController: controller)
-                }
+                showGalleryPickerIn(controller)
                 })
             alert.addAction(UIAlertAction(title: cancelTitle, style: .Cancel, handler: nil))
             controller.presentViewController(alert, animated: true, completion: nil)
     }
-    
-    
-    // MARK: Private Methods
-    
-    private static func requestGalleryPersmissions<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
-            
-            let status = PHPhotoLibrary.authorizationStatus()
-            switch (status) {
-            case .Authorized:
-                block()
-            case .Denied:
-                let message = LGLocalizedString.productSellPhotolibraryPermissionsError
-                showSettingsAlertWithMessage(message, inController: controller)
-            case .NotDetermined:
-                PHPhotoLibrary.requestAuthorization { newStatus in
-                    if newStatus == .Authorized { block() }
-                }
-            case .Restricted:
-                let message = LGLocalizedString.productSellPhotolibraryRestrictedError
-                showDefaultAlertWithMessage(message, inController: controller)
-                break
+
+    /**
+    Show the native gallery image picker in the given UIViewController. The view controller must conform to
+    UINavigationControllerDelegate and to UIImagePickerControllerDelegate.
+
+    - parameter controller: UIViewController where the ImagePicker is going to be shown.
+    */
+    static func showGalleryPickerIn<T: UIViewController where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate>(controller: T) {
+            self.requestGalleryPermissions(controller) {
+                self.openImagePickerWithSource(.PhotoLibrary, inController: controller)
             }
     }
-    
-    private static func requestCameraPermissions<T: UIViewController where T: UINavigationControllerDelegate,
+
+    /**
+    Show the native camera in the given UIViewController to pick an image. The view controller must conform to
+    UINavigationControllerDelegate and to UIImagePickerControllerDelegate.
+
+    - parameter controller: UIViewController where the ImagePicker is going to be shown.
+    */
+    static func showCameraPickerIn<T: UIViewController where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate>(controller: T) {
+            self.requestCameraPermissions(controller) {
+                self.openImagePickerWithSource(.Camera, inController: controller)
+            }
+    }
+
+    static func requestCameraPermissions<T: UIViewController where T: UINavigationControllerDelegate,
         T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
-            
+
             guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
                 let message = LGLocalizedString.productSellCameraRestrictedError
                 showDefaultAlertWithMessage(message, inController: controller)
@@ -96,7 +94,31 @@ class MediaPickerManager {
                 break
             }
     }
+
+
+    // MARK: Private Methods
     
+    private static func requestGalleryPermissions<T: UIViewController where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
+            
+            let status = PHPhotoLibrary.authorizationStatus()
+            switch (status) {
+            case .Authorized:
+                block()
+            case .Denied:
+                let message = LGLocalizedString.productSellPhotolibraryPermissionsError
+                showSettingsAlertWithMessage(message, inController: controller)
+            case .NotDetermined:
+                PHPhotoLibrary.requestAuthorization { newStatus in
+                    if newStatus == .Authorized { block() }
+                }
+            case .Restricted:
+                let message = LGLocalizedString.productSellPhotolibraryRestrictedError
+                showDefaultAlertWithMessage(message, inController: controller)
+                break
+            }
+    }
+
     private static func showDefaultAlertWithMessage<T: UIViewController where T: UINavigationControllerDelegate,
         T: UIImagePickerControllerDelegate>(message: String, inController controller: T) {
             let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,

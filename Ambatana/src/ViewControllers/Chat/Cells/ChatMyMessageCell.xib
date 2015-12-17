@@ -12,7 +12,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="120"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tLK-px-Qd9" id="0bw-oJ-T68">
-                <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
+                <rect key="frame" x="0.0" y="0.0" width="600" height="119.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t0w-eN-Faj">
@@ -27,7 +27,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" text="Some time ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="IUN-ji-Mmh">
-                                <rect key="frame" x="8" y="80" width="164" height="15"/>
+                                <rect key="frame" x="8" y="80" width="141" height="15"/>
                                 <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="999" constant="15" id="4wt-kz-5gK"/>
@@ -36,6 +36,14 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check_sent" translatesAutoresizingMaskIntoConstraints="NO" id="eEa-VH-Wug">
+                                <rect key="frame" x="157" y="85" width="15" height="10"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="10" id="eTh-pO-gS9"/>
+                                    <constraint firstAttribute="width" constant="15" id="xoY-0t-9KV"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -43,12 +51,14 @@
                         <constraints>
                             <constraint firstItem="UQy-Mj-ixl" firstAttribute="top" secondItem="t0w-eN-Faj" secondAttribute="top" constant="8" id="1Tb-YE-xlM"/>
                             <constraint firstAttribute="width" constant="180" id="2vT-3d-X9t"/>
+                            <constraint firstItem="eEa-VH-Wug" firstAttribute="leading" secondItem="IUN-ji-Mmh" secondAttribute="trailing" constant="8" id="9Ja-a3-XNJ"/>
                             <constraint firstItem="UQy-Mj-ixl" firstAttribute="leading" secondItem="t0w-eN-Faj" secondAttribute="leading" constant="8" id="B3R-P1-ndi"/>
+                            <constraint firstAttribute="trailing" secondItem="eEa-VH-Wug" secondAttribute="trailing" constant="8" id="JyA-x3-DmH"/>
                             <constraint firstItem="IUN-ji-Mmh" firstAttribute="top" secondItem="UQy-Mj-ixl" secondAttribute="bottom" constant="8" id="Pxd-oM-oVh"/>
                             <constraint firstAttribute="trailing" secondItem="UQy-Mj-ixl" secondAttribute="trailing" constant="8" id="ayf-ui-XHy"/>
+                            <constraint firstAttribute="bottom" secondItem="eEa-VH-Wug" secondAttribute="bottom" constant="8" id="dji-e3-t9i"/>
                             <constraint firstAttribute="bottom" secondItem="IUN-ji-Mmh" secondAttribute="bottom" constant="8" id="hTS-0H-pZP"/>
                             <constraint firstItem="IUN-ji-Mmh" firstAttribute="leading" secondItem="t0w-eN-Faj" secondAttribute="leading" constant="8" id="jYq-de-9wp"/>
-                            <constraint firstAttribute="trailing" secondItem="IUN-ji-Mmh" secondAttribute="trailing" constant="8" id="jbK-7i-dZR"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -64,9 +74,14 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="bubbleView" destination="t0w-eN-Faj" id="wEc-34-io7"/>
+                <outlet property="checkImageView" destination="eEa-VH-Wug" id="gxM-So-Ix4"/>
                 <outlet property="dateLabel" destination="IUN-ji-Mmh" id="FSJ-YB-Kyd"/>
                 <outlet property="messageLabel" destination="UQy-Mj-ixl" id="dbI-wo-ZPt"/>
             </connections>
+            <point key="canvasLocation" x="598" y="445"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="check_sent" width="12" height="12"/>
+    </resources>
 </document>

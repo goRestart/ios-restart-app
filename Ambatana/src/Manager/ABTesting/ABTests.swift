@@ -14,7 +14,7 @@ public struct ABTests {
         boolValue: false)
 
     public static let navBarTintColor = OptimizelyABLiveVariable.colorVariable("NavBarTintColor",
-        colorValue: StyleHelper.red)
+        colorValue: StyleHelper.primaryColor)
     public static let productsWithinFilterEnabled = OptimizelyABLiveVariable.boolVariable("ProductsWithinFilter",
         boolValue: true)
     public static let loginAfterSell = OptimizelyABLiveVariable.boolVariable("LoginAfterSell", boolValue: true)
@@ -24,8 +24,9 @@ public struct ABTests {
         boolValue: true)
     public static let defaultFilterOrderNewest = OptimizelyABLiveVariable.boolVariable("DefaultFilterOrderNewest",
         boolValue: false)
+    public static let newPostingProcess = OptimizelyABLiveVariable.boolVariable("NewPostingProcess", boolValue: true)
 
     public static let allValues = [ABTests.mainProductsJustImages, ABTests.navBarTintColor,
         ABTests.productsWithinFilterEnabled, ABTests.loginAfterSell, ABTests.nativePrePermissions,
-        ABTests.prePermissionsActive, ABTests.defaultFilterOrderNewest]
+        ABTests.prePermissionsActive, ABTests.defaultFilterOrderNewest, ABTests.newPostingProcess]
 }
