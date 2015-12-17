@@ -27,4 +27,17 @@ extension String {
         return resultText
         
     }
+
+    func isValidLengthPrice() -> Bool {
+        let separator = stringByTrimmingCharactersInSet(NSCharacterSet.alphanumericCharacterSet())
+        if separator.isEmpty {
+            return characters.count <= Constants.maxPriceIntegerCharacters
+        }
+
+        let parts = componentsSeparatedByString(separator)
+        guard parts.count == 2 else { return false }
+
+        return parts[0].characters.count <= Constants.maxPriceIntegerCharacters &&
+               parts[1].characters.count <= Constants.maxPriceFractionalCharacters
+    }
 }

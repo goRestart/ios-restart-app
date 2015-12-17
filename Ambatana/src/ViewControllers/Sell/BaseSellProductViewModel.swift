@@ -11,33 +11,31 @@ import LGCoreKit
 import Result
 
 protocol SellProductViewModelDelegate : class {
-    func sellProductViewModel(viewModel: SellProductViewModel, archetype: Bool)
-    
-    func sellProductViewModel(viewModel: SellProductViewModel, didSelectCategoryWithName categoryName: String)
-    func sellProductViewModelDidStartSavingProduct(viewModel: SellProductViewModel)
-    
-    func sellProductViewModel(viewModel: SellProductViewModel, didUpdateProgressWithPercentage percentage: Float)
-    
-    func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: ProductSaveServiceResult)
-    func sellProductViewModel(viewModel: SellProductViewModel, shouldUpdateDescriptionWithCount count: Int)
-    func sellProductViewModeldidAddOrDeleteImage(viewModel: SellProductViewModel)
-    func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError)
-
-    func sellProductViewModelFieldCheckSucceeded(viewModel: SellProductViewModel)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, archetype: Bool)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didSelectCategoryWithName categoryName: String)
+    func sellProductViewModelDidStartSavingProduct(viewModel: BaseSellProductViewModel)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didUpdateProgressWithPercentage percentage: Float)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult
+        result: ProductSaveServiceResult)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, shouldUpdateDescriptionWithCount count: Int)
+    func sellProductViewModeldidAddOrDeleteImage(viewModel: BaseSellProductViewModel)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductSaveServiceError)
+    func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel)
 }
 
-public class SellProductViewModel: BaseViewModel {
+public class BaseSellProductViewModel: BaseViewModel {
     
     // Input
-    var title: String
+    var title: String?
     internal var currency: Currency
-    var price: String
+    var price: String?
     internal var category: ProductCategory?
     var shouldShareInFB: Bool
+
     // TODO: remove this flag for image modification tracking on update, and manage it properly @ coreKit
     var imagesModified: Bool
 
-    var descr: String {
+    var descr: String? {
         didSet {
             delegate?.sellProductViewModel(self, shouldUpdateDescriptionWithCount: descriptionCharCount)
         }
@@ -60,16 +58,14 @@ public class SellProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     public override init() {
-        self.title = ""
+        self.title = nil
         self.currency = CurrencyHelper.sharedInstance.currentCurrency
-        self.price = ""
-        self.descr = ""
+        self.price = nil
+        self.descr = nil
         self.category = nil
         self.images = []
-
         self.shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
         self.imagesModified = false
-
         self.productManager = ProductManager()
         
         super.init()
@@ -88,23 +84,14 @@ public class SellProductViewModel: BaseViewModel {
         shouldTrack = false
     }
 
-    internal func trackStart() {
-        
-    }
+    internal func trackStart() { }
     
+    internal func trackValidationFailedWithError(error: ProductSaveServiceError) { }
+
+    internal func trackSharedFB() { }
     
-    internal func trackValidationFailedWithError(error: ProductSaveServiceError) {
-        
-    }
-    
-    internal func trackSharedFB() {
-        
-    }
-    
-    internal func trackComplete(product: Product) {
-        
-    }
-    
+    internal func trackComplete(product: Product) { }
+
     var numberOfImages: Int {
         return images.count
     }
@@ -122,7 +109,7 @@ public class SellProductViewModel: BaseViewModel {
     }
     
     var descriptionCharCount: Int {
-        
+        guard let descr = descr else { return Constants.productDescriptionMaxLength }
         return Constants.productDescriptionMaxLength-descr.characters.count
     }
     
@@ -184,7 +171,9 @@ public class SellProductViewModel: BaseViewModel {
             delegate?.sellProductViewModel(self, didFailWithError: error)
             return
         }
-        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(price), description: descr, category: category, currency: currency)
+        let priceText = price ?? "0"
+        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(priceText),
+            description: descr, category: category, currency: currency)
 
         saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }
@@ -194,13 +183,7 @@ public class SellProductViewModel: BaseViewModel {
         if images.count < 1 {
             // iterar x assegurar-se que hi ha imatges
             return .NoImages
-        } else if title.characters.count < 1 {
-            return .NoTitle
-        } else if !price.isValidPrice() {
-            return .NoPrice
-        } else if descr.characters.count < 1 {
-            return .NoDescription
-        } else if descr.characters.count > Constants.productDescriptionMaxLength {
+        } else if descriptionCharCount < 0 {
             return .LongDescription
         } else if category == nil {
             return .NoCategory

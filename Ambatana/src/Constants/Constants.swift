@@ -54,4 +54,8 @@ struct Constants {
     // Pre Permissions
     static let itemIndexPushPermissionsTrigger = 30
     static let pushPermissionRepeatTime = (60 * 60 * 24) // 1 day
+
+    // Product posting
+    static let maxPriceIntegerCharacters = 9
+    static let maxPriceFractionalCharacters = 2
 }

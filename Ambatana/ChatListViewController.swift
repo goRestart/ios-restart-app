@@ -205,9 +205,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
 
     @IBAction func sellProducts(sender: AnyObject) {
-        let vc = NewSellProductViewController()
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
+        SellProductControllerFactory.presentSellProductOn(viewController: self)
     }
 
 

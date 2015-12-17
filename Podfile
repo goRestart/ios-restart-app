@@ -50,6 +50,9 @@ pod "GoogleAppIndexing",    "~> 2.0.1"
 # Semi modal view controller
 pod "LGSemiModalNavController", "~> 0.2.0"
 
+# Custom camera
+pod "FastttCamera",         "~> 0.3.4"
+
 # Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
 pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 
