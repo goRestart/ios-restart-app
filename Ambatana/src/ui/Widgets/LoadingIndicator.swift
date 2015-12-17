@@ -50,9 +50,8 @@ public class LoadingIndicator: UIView {
 
     public dynamic override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         if let propAnim = anim as? CAPropertyAnimation, let keyPath = propAnim.keyPath {
-            if keyPath == "transform.rotation.z" {
-                finishLoadingAnimation()
-            } else if keyPath == "strokeEnd" {
+            if keyPath == "strokeEnd" {
+                loadingShape.removeAnimationForKey("rotation")
                 if let finalState = pendingFinalState {
                     showImageAnimation(finalState)
                 } else if let completion = endAnimationsCompletion {
@@ -99,9 +98,10 @@ public class LoadingIndicator: UIView {
 
     private func startLoadingAnimation() {
 
-        stopLoadingAnimation()
-
+        okIcon.alpha = 0
+        wrongIcon.alpha = 0
         loadingShape.strokeEnd = 0.1
+
         let animation = CABasicAnimation(keyPath: "transform.rotation.z")
         animation.delegate = self
         animation.duration = 1
@@ -112,13 +112,14 @@ public class LoadingIndicator: UIView {
     }
 
     private func finishLoadingAnimation() {
+
         loadingShape.strokeEnd = 1.0
         let stroke = CABasicAnimation(keyPath: "strokeEnd")
         stroke.delegate = self
         stroke.fromValue = 0.1
         stroke.toValue = 1
         stroke.duration = 0.3
-        loadingShape.addAnimation(stroke, forKey: nil)
+        loadingShape.addAnimation(stroke, forKey: "strokeEnd")
     }
 
     private func showImageAnimation(okMode: Bool) {
@@ -136,12 +137,6 @@ public class LoadingIndicator: UIView {
                 }
             }
         )
-    }
-
-    private func stopLoadingAnimation() {
-        loadingShape.removeAllAnimations()
-        okIcon.alpha = 0
-        wrongIcon.alpha = 0
     }
 
     private func setFillConstraintsTo(view: UIView){

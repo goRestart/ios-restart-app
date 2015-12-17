@@ -325,24 +325,60 @@ UITextFieldDelegate {
     }
 
     private func setSelectPriceItems(loading: Bool, error: String?) {
-        let hasError = error != nil
-        postedInfoLabel.hidden = loading
-        postedInfoLabel.text = hasError ?
+
+        postedInfoLabel.alpha = 0
+        postedInfoLabel.text = error != nil ?
             LGLocalizedString.commonErrorTitle.capitalizedString : LGLocalizedString.productPostProductPosted
-        addPriceLabel.hidden = loading || hasError
-        priceFieldContainer.hidden = loading || hasError
-        doneButton.hidden = loading || hasError
-        postErrorLabel.hidden = loading || !hasError
         postErrorLabel.text = error
-        retryButton.hidden = loading || !hasError
 
-        if !loading && !hasError {
-            priceTextField.becomeFirstResponder()
+        if (loading) {
+            setSelectPriceBottomItems(loading, error: error)
+        } else {
+            UIView.animateWithDuration(0.2,
+                animations: { [weak self] in
+                    self?.postedInfoLabel.alpha = 1
+                },
+                completion: { [weak self] (completed: Bool) -> Void in
+                    self?.postedInfoLabel.alpha = 1
+                    self?.setSelectPriceBottomItems(loading, error: error)
+                }
+            )
         }
-        else {
-            priceTextField.resignFirstResponder()
-        }
+    }
 
+    private func setSelectPriceBottomItems(loading: Bool, error: String?) {
+        addPriceLabel.alpha = 0
+        priceFieldContainer.alpha = 0
+        doneButton.alpha = 0
+        postErrorLabel.alpha = 0
+        retryButton.alpha = 0
+
+        guard !loading else { return }
+
+        let okItemsAlpha: CGFloat = error != nil ? 0 : 1
+        let wrongItemsAlpha: CGFloat = error == nil ? 0 : 1
+        let finalAlphaBlock = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.addPriceLabel.alpha = okItemsAlpha
+            strongSelf.priceFieldContainer.alpha = okItemsAlpha
+            strongSelf.doneButton.alpha = okItemsAlpha
+            strongSelf.postErrorLabel.alpha = wrongItemsAlpha
+            strongSelf.retryButton.alpha = wrongItemsAlpha
+        }
+        UIView.animateWithDuration(0.2,
+            animations: { () -> Void in
+                finalAlphaBlock()
+            }, completion: { [weak self] (completed: Bool) -> Void in
+                finalAlphaBlock()
+
+                if okItemsAlpha == 1 {
+                    self?.priceTextField.becomeFirstResponder()
+                }
+                else {
+                    self?.priceTextField.resignFirstResponder()
+                }
+            }
+        )
     }
 
     private func setFlashModeButton() {
