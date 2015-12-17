@@ -23,7 +23,6 @@ public class EditSellProductViewModel: SellProductViewModel {
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
 
     private var initialProduct: Product
-    //    private var editedFields: [EventParameterEditedFields]
 
     public init(product: Product) {
 
@@ -130,7 +129,7 @@ public class EditSellProductViewModel: SellProductViewModel {
 
         var editedFields : [EventParameterEditedFields] = []
 
-        if imagesChanged()  {
+        if imagesModified  {
             editedFields.append(.Picture)
         }
         if initialProduct.name != editedProduct.name {
@@ -150,22 +149,6 @@ public class EditSellProductViewModel: SellProductViewModel {
         }
 
         return editedFields
-    }
-
-    private func imagesChanged() -> Bool {
-        guard initialProduct.images.count != editedProduct.images.count else {
-            var sameImages = true
-            for initialImage in initialProduct.images {
-
-                guard let fileURL = initialImage.fileURL, let urlsArray = editedProduct.images.map({$0.fileURL})
-                    as? [NSURL] else {
-                        return false
-                }
-                sameImages = sameImages && urlsArray.contains(fileURL)
-            }
-            return sameImages
-        }
-        return true
     }
 
     private func shareInFbChanged() -> Bool {

@@ -248,7 +248,7 @@ public enum EventParameterLoginError: String {
     }
 }
 
-public enum EventParameterEditedFields: Int {
+public enum EventParameterEditedFields: String {
     case Picture
     case Title
     case Price
@@ -256,23 +256,36 @@ public enum EventParameterEditedFields: Int {
     case Category
     case Share
 
-    public var description: String {
-        switch (self) {
-        case Picture:
-            return "picture"
-        case Title:
-            return "title"
-        case Price:
-            return "price"
-        case Description:
-            return "description"
-        case Category:
-            return "category"
-        case Share:
-            return "share"
-        }
+    public var value: String {
+        return self.rawValue.lowercaseString
     }
 }
+
+//public enum EventParameterEditedFields: Int {
+//    case Picture
+//    case Title
+//    case Price
+//    case Description
+//    case Category
+//    case Share
+//
+//    public var description: String {
+//        switch (self) {
+//        case Picture:
+//            return "picture"
+//        case Title:
+//            return "title"
+//        case Price:
+//            return "price"
+//        case Description:
+//            return "description"
+//        case Category:
+//            return "category"
+//        case Share:
+//            return "share"
+//        }
+//    }
+//}
 
 public enum EventParameterPermissionTypePage: String {
     case ProductList = "product-list"
