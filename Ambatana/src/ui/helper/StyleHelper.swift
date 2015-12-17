@@ -274,6 +274,10 @@ extension UIButton {
         Will set default corner radius and button background to the app primary color
     */
     func setPrimaryStyle() {
+        guard buttonType == UIButtonType.Custom else {
+            print("💣 => primaryStyle can only be applied to customStyle Buttons")
+            return
+        }
         setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Highlighted)
