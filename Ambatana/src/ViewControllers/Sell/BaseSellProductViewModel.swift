@@ -31,7 +31,10 @@ public class BaseSellProductViewModel: BaseViewModel {
     var price: String?
     internal var category: ProductCategory?
     var shouldShareInFB: Bool
-    
+
+    // TODO: remove this flag for image modification tracking on update, and manage it properly @ coreKit
+    var imagesModified: Bool
+
     var descr: String? {
         didSet {
             delegate?.sellProductViewModel(self, shouldUpdateDescriptionWithCount: descriptionCharCount)
@@ -55,14 +58,15 @@ public class BaseSellProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     public override init() {
-        title = nil
-        currency = CurrencyHelper.sharedInstance.currentCurrency
-        price = nil
-        descr = nil
-        category = nil
-        images = []
-        shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
-        productManager = ProductManager()
+        self.title = nil
+        self.currency = CurrencyHelper.sharedInstance.currentCurrency
+        self.price = nil
+        self.descr = nil
+        self.category = nil
+        self.images = []
+        self.shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
+        self.imagesModified = false
+        self.productManager = ProductManager()
         
         super.init()
         
@@ -83,7 +87,7 @@ public class BaseSellProductViewModel: BaseViewModel {
     internal func trackStart() { }
     
     internal func trackValidationFailedWithError(error: ProductSaveServiceError) { }
-    
+
     internal func trackSharedFB() { }
     
     internal func trackComplete(product: Product) { }
@@ -122,11 +126,13 @@ public class BaseSellProductViewModel: BaseViewModel {
     }
     
     public func appendImage(image: UIImage) {
+        imagesModified = true
         images.append(image)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
     public func deleteImageAtIndex(index: Int) {
+        imagesModified = true
         images.removeAtIndex(index)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
@@ -158,13 +164,7 @@ public class BaseSellProductViewModel: BaseViewModel {
     // MARK: - Private methods
     
     internal func saveProduct(product: Product? = nil) {
-        
-        // TODO: New product handling
-        //        if new should add more info (location, user...)
-        //        if product == nil {
-        //
-        //        }
-        
+
         var theProduct = product ?? productManager.newProduct()
         guard let category = category else {
             let error = ProductSaveServiceError.NoCategory
@@ -174,7 +174,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         let priceText = price ?? "0"
         theProduct = productManager.updateProduct(theProduct, name: title, price: Double(priceText),
             description: descr, category: category, currency: currency)
-        
+
         saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }
     

@@ -159,6 +159,7 @@ public enum EventParameterName: String {
     case AlertType            = "alert-type"
     case NegotiablePrice      = "negotiable-price"
     case PictureSource        = "picture-source"
+    case EditedFields         = "edited-fields"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -279,6 +280,18 @@ public enum EventParameterPostProductError: String {
     case Internal = "product-sell-internal"
 }
 
+public enum EventParameterEditedFields: String {
+    case Picture
+    case Title
+    case Price
+    case Description
+    case Category
+    case Share
+
+    public var value: String {
+        return self.rawValue.lowercaseString
+    }
+}
 
 public enum EventParameterPermissionTypePage: String {
     case ProductList = "product-list"
