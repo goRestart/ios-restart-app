@@ -190,7 +190,7 @@
 "product_mark_as_sold_error_generic" = "¡Ups! Ha habido un error al marcar el artículo como vendido. Prueba otra vez.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_negotiable_price" = "Negociable";
-"product_popular_near_you" = "Popular near you";
+"product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_subtitle" = "¡Asegúrate de que sea buena!";
 "product_post_camera_title" = "Esta es tu foto destacada";
 "product_post_confirmation_another" = "O";

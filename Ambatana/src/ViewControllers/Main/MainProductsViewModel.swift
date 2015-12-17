@@ -178,8 +178,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         - Parameter dateForTopProduct: the creation date of the upmost product in the list
     */
     public func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate) {
-        let dateString = bubbleInfoTextForDate(date)
-        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: dateString)
+        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
     }
     
     /**

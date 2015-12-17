@@ -38,9 +38,9 @@
 "chat_list_title" = "Samtaler";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
-"chat_safety_tips_tip_1" = "Møt ansikt til ansikt og betal i kontanter, når avtalen er i boks.";
-"chat_safety_tips_tip_2" = "Unngå postanvisning eller bankoverføring.";
-"chat_safety_tips_tip_3" = "Hvis det er for godt til å være sant, er det nok det!";
+"chat_safety_tips_tip_1" = "Møt ansikt til ansikt og betal med kontanter når avtalen er i boks.";
+"chat_safety_tips_tip_2" = "Hvis du skal sende produktet ditt, pass på at du ikke blir lurt!";
+"chat_safety_tips_tip_3" = "Hvis det er for godt til å være sant, så er det som oftest det!";
 "chat_safety_tips_title" = "Sikkerhetstips";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
@@ -112,7 +112,7 @@
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstand";
 "filters_section_sortby" = "Sorter etter";
-"filters_section_within" = "Publisert i";
+"filters_section_within" = "Publisert";
 "filters_sort_closest" = "Nærmest først";
 "filters_sort_newest" = "Nyest først";
 "filters_sort_price_asc" = "Pris lav til høy";
@@ -144,7 +144,7 @@
 "main_sign_up_help_button" = "Hjelp";
 "main_sign_up_log_in_label" = "Logg inn";
 "main_sign_up_or_label" = "ELLER BRUK DIN E-POST";
-"main_sign_up_quickly_label" = "KOBLE TIL RASKT";
+"main_sign_up_quickly_label" = "KOBLE TIL RASKT MED";
 "main_sign_up_sign_up_button" = "Registrering";
 "make_an_offer_new_offer_message" = "Nytt bud på %@";
 "make_an_offer_price_field_hint" = "Pris";
@@ -190,7 +190,7 @@
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
 "product_negotiable_price" = "Pris kan diskuteres";
-"product_popular_near_you" = "Popular near you";
+"product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_subtitle" = "Forsikre at bildet er bra!";
 "product_post_camera_title" = "Dette er valgt bilde";
 "product_post_confirmation_another" = "Eller";

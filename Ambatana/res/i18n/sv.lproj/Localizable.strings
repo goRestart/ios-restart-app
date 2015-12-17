@@ -25,7 +25,7 @@
 "change_password_send_error_invalid_password_with_max" = "Var god ange ett giltigt lösenord. Det måste vara mellan %d och %d tecken.";
 "change_password_send_error_passwords_mismatch" = "Lösenorden matchar inte. Var god försök igen.";
 "change_password_send_ok" = "Lösenordet har ändrats.";
-"change_password_title" = "Byt lösenord";
+"change_password_title" = "Ändra lösenord";
 "change_username_error_invalid_username" = "Var god ange ett giltigt namn på minst %d tecken.";
 "change_username_error_invalid_username_letgo" = "Ett annat konto använder %@.";
 "change_username_field_hint" = "Fullständigt namn";
@@ -37,7 +37,7 @@
 "chat_list_start_selling_or_buying_label" = "Börja sälja och köpa!";
 "chat_list_title" = "Chatt";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
-"chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av diskussionsdata. Var god försök senare.";
+"chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
 "chat_safety_tips_tip_1" = "När ni har kommit överens, bestäm plats och betala kontant.";
 "chat_safety_tips_tip_2" = "Vägra checkar och andra överföringsmetoder.";
 "chat_safety_tips_tip_3" = "Om det låter för bra för att vara sant, så är det trolligtvis det!";
@@ -89,7 +89,7 @@
 "contact_subject_field_hint" = "Ämne";
 "contact_subject_option_feedback" = "Förslag/feedback";
 "contact_subject_option_location" = "Platsproblem";
-"contact_subject_option_login" = "Logga in åtkomst";
+"contact_subject_option_login" = "Problem med inloggning";
 "contact_subject_option_other" = "Andra problem";
 "contact_subject_option_product_edit" = "Redigera/ta bort produkt";
 "contact_subject_option_profile_edit" = "Redigera/ta bort profil";
@@ -128,7 +128,7 @@
 "help_title" = "Hjälp";
 "log_in_email_field_hint" = "E-post";
 "log_in_error_send_error_generic" = "Ett fel uppstod vid inloggning. Var vänlig försök igen.";
-"log_in_error_send_error_invalid_email" = "Var god ange en giltig e-postadress i e-postfältet.";
+"log_in_error_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
 "log_in_error_send_error_invalid_password" = "Var god ange ett giltigt lösenord på minst %d tecken.";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Ogiltig e-postadress eller lösenord. Var vänlig försök igen.";
 "log_in_password_field_hint" = "Lösenord";
@@ -190,7 +190,7 @@
 "product_mark_as_sold_error_generic" = "Ett fel uppstod vid markering av produkten som såld. Var god försök igen.";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
 "product_negotiable_price" = "Förhandlingsbart";
-"product_popular_near_you" = "Popular near you";
+"product_popular_near_you" = "Populärt nära dig";
 "product_post_camera_subtitle" = "Se till att den är bra!";
 "product_post_camera_title" = "Detta är din huvudbild";
 "product_post_confirmation_another" = "Eller";
