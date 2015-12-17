@@ -19,6 +19,16 @@ private struct TrackingInfo {
     var buttonName: EventParameterButtonNameType
     var imageSource: EventParameterPictureSource
     var negotiablePrice: EventParameterNegotiablePrice
+
+    init(buttonName: EventParameterButtonNameType, imageSource: EventParameterPictureSource?, price: String?) {
+        self.buttonName = buttonName
+        self.imageSource = imageSource ?? .Camera
+        if let price = price, let doublePrice = Double(price) {
+            negotiablePrice = doublePrice > 0 ? .No : .Yes
+        } else {
+            negotiablePrice = .Yes
+        }
+    }
 }
 
 class PostProductViewModel: BaseViewModel {
@@ -92,8 +102,7 @@ class PostProductViewModel: BaseViewModel {
 
     func doneButtonPressed(priceText price: String?, sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource ?? .Camera,
-                negotiablePrice: (price != nil && !price!.isEmpty) ? .No : .Yes)
+            let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource, price: price)
             PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: price,
                 currency: currency, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
                 delegate: delegate)
@@ -101,8 +110,7 @@ class PostProductViewModel: BaseViewModel {
 
     func closeButtonPressed(sellController sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            let imageSource = uploadedImageSource ?? .Camera
-            let trackInfo = TrackingInfo(buttonName: .Close, imageSource: imageSource, negotiablePrice: .Yes)
+            let trackInfo = TrackingInfo(buttonName: .Close, imageSource: uploadedImageSource, price: nil)
             PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: nil,
                 currency: currency, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
                 delegate: delegate)

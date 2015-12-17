@@ -340,7 +340,6 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     func deleteAlreadyUploadedImageWithIndex(index: Int) {
         // delete the image file locally
         viewModel.deleteImageAtIndex(index)
-        // reload collection view
     }
     
     func saveProductImageToDiskAtIndex(index: Int) {
