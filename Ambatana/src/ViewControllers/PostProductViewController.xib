@@ -312,7 +312,7 @@
                                                     <constraint firstAttribute="bottom" secondItem="jBJ-Et-CEX" secondAttribute="bottom" id="mqi-et-Igy"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96p-Kr-gVK" userLabel="doneButton">
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="96p-Kr-gVK" userLabel="doneButton">
                                                 <rect key="frame" x="71" y="184" width="170" height="44"/>
                                                 <animations/>
                                                 <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -328,14 +328,14 @@
                                                 </connections>
                                             </button>
                                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Your product hasn't been posted. Please check your network settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceY-sz-ePA" userLabel="errorLabel">
-                                                <rect key="frame" x="0.0" y="88.5" width="313" height="36"/>
+                                                <rect key="frame" x="0.0" y="89" width="313" height="36"/>
                                                 <animations/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ2-Pa-uBQ" userLabel="retryButton">
-                                                <rect key="frame" x="71" y="134.5" width="170" height="44"/>
+                                            <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hZ2-Pa-uBQ" userLabel="retryButton">
+                                                <rect key="frame" x="71" y="135" width="170" height="44"/>
                                                 <animations/>
                                                 <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>

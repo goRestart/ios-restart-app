@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,6 +13,7 @@
             <subviews>
                 <button opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gqh-g5-CB6" userLabel="Inner Button">
                     <rect key="frame" x="0.0" y="0.0" width="200" height="54"/>
+                    <animations/>
                     <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                     <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="65" maxY="0.0"/>
@@ -21,12 +23,14 @@
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_sell_white" translatesAutoresizingMaskIntoConstraints="NO" id="7z7-dC-JLy" userLabel="Icon Image View">
                     <rect key="frame" x="148" y="11" width="32" height="30"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="32" id="6c7-Uz-hLa"/>
                         <constraint firstAttribute="height" constant="30" id="mqh-Jx-axR"/>
                     </constraints>
                 </imageView>
             </subviews>
+            <animations/>
             <constraints>
                 <constraint firstItem="gqh-g5-CB6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8EC-Lr-4Ly"/>
                 <constraint firstAttribute="bottom" secondItem="gqh-g5-CB6" secondAttribute="bottom" id="Lrr-Pt-wEh"/>

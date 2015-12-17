@@ -92,8 +92,8 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 
     private func setupView() {
 
-        contentContainer.layer.cornerRadius = 4
-        mainButton.layer.cornerRadius = 4
+        contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        mainButton.setPrimaryStyle()
 
         shareItLabel.text = LGLocalizedString.productPostConfirmationShare
         orLabel.text = LGLocalizedString.productPostConfirmationAnother

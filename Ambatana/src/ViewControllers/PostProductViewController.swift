@@ -249,9 +249,9 @@ UITextFieldDelegate {
         retryButton.setTitle(LGLocalizedString.commonErrorListRetryButton, forState: UIControlState.Normal)
 
         //Layers
-        retryButton.layer.cornerRadius = 4
-        doneButton.layer.cornerRadius = 4
-        priceFieldContainer.layer.cornerRadius = 4
+        retryButton.setPrimaryStyle()
+        doneButton.setPrimaryStyle()
+        priceFieldContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
         priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
         priceFieldContainer.layer.borderWidth = 1
 
@@ -267,8 +267,7 @@ UITextFieldDelegate {
             strongSelf.fastCamera = FastttCamera()
             guard let fastCamera = strongSelf.fastCamera else { return }
 
-            fastCamera.scalesImage = true
-            fastCamera.maxScaledDimension = 1024
+            fastCamera.scalesImage = false
             fastCamera.normalizesImageOrientations = true
             fastCamera.delegate = self
             strongSelf.fastttAddChildViewController(fastCamera, belowSubview: strongSelf.cameraContainerView)
@@ -383,8 +382,7 @@ UITextFieldDelegate {
 
 extension PostProductViewController: FastttCameraDelegate {
     func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
-        print("didFinishNormalizingCapturedImage")
-        viewModel.takenImageFromCamera(capturedImage.scaledImage)
+        viewModel.takenImageFromCamera(capturedImage.fullImage)
     }
 }
 

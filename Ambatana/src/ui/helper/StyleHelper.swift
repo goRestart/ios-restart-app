@@ -12,7 +12,10 @@ import Foundation
 class StyleHelper {
 
     // Colors
-    static let red = UIColor(rgb: 0xFF3F55)
+    static var primaryColor: UIColor { return StyleHelper.red }
+    static var primaryColorHighlighted: UIColor { return StyleHelper.highlightedRed }
+
+    private static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
     
     private static let black = UIColor(rgb: 0x000000)
@@ -57,6 +60,10 @@ class StyleHelper {
     private static func helveticaNeueItalicFont(size size: Int) -> UIFont {
         return UIFont(name: "HelveticaNeue-Italic", size: CGFloat(size))!
     }
+
+    // Corners
+    static let defaultCornerRadius: CGFloat = 4
+    static var buttonCornerRadius: CGFloat { return StyleHelper.defaultCornerRadius }
     
     // state-depending features
     private static let disabledItemAlpha : CGFloat = 0.32
@@ -258,5 +265,18 @@ class StyleHelper {
     
     static var disabledButtonAlpha: CGFloat {
         return disabledItemAlpha
+    }
+}
+
+extension UIButton {
+
+    /**
+        Will set default corner radius and button background to the app primary color
+    */
+    func setPrimaryStyle() {
+        setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        setBackgroundImage(StyleHelper.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Highlighted)
+        layer.cornerRadius = StyleHelper.buttonCornerRadius
     }
 }

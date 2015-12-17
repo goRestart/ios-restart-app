@@ -151,14 +151,14 @@
                                 <constraint firstAttribute="bottom" secondItem="hoQ-0e-VwF" secondAttribute="bottom" id="wYx-i6-Jw7"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXK-s5-RCt">
+                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tXK-s5-RCt">
                             <rect key="frame" x="20" y="356" width="323" height="44"/>
                             <animations/>
                             <color key="backgroundColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="YUt-bb-PYd"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                             <state key="normal" title="_Post another item">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>

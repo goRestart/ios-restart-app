@@ -14,7 +14,7 @@ public struct ABTests {
         boolValue: false)
 
     public static let navBarTintColor = OptimizelyABLiveVariable.colorVariable("NavBarTintColor",
-        colorValue: StyleHelper.red)
+        colorValue: StyleHelper.primaryColor)
     public static let productsWithinFilterEnabled = OptimizelyABLiveVariable.boolVariable("ProductsWithinFilter",
         boolValue: true)
     public static let loginAfterSell = OptimizelyABLiveVariable.boolVariable("LoginAfterSell", boolValue: true)
