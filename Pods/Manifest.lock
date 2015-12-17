@@ -30,7 +30,7 @@ PODS:
   - GoogleAppIndexing (2.0.1)
   - Kahuna (2.2.4)
   - LGCollapsibleLabel (0.1.1)
-  - LGCoreKit (0.16.8):
+  - LGCoreKit (0.16.9):
     - Alamofire (~> 3.0.1)
     - Argo (~> 2.2.0)
     - Curry (~> 1.3.0)
@@ -114,7 +114,7 @@ SPEC CHECKSUMS:
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
   LGCollapsibleLabel: d9cbd82597d995dcfa6c030423b82d338836111a
-  LGCoreKit: 1e952f0335a8b0dbbd522f21cf6bad54f3187661
+  LGCoreKit: 082056aec0c3c2fe48d84eb0a4f2db9f73c840a3
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   LGTour: 83d3acf4b769c9d3e12c9687487512482f868e27
   NewRelicAgent: cf111fc652ec0dd7b3fdef05016dc9e0867eaddb
