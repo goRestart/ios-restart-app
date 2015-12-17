@@ -68,16 +68,11 @@ UITextFieldDelegate {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    deinit {
-        print("PostProductViewController:deinit")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel.onViewLoaded()
-
         setupView()
     }
 
@@ -105,11 +100,6 @@ UITextFieldDelegate {
         removeCamera()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 
     // MARK: - Actions
     @IBAction func onCloseButton(sender: AnyObject) {
@@ -119,18 +109,9 @@ UITextFieldDelegate {
     }
     
     @IBAction func onToggleFlashButton(sender: AnyObject) {
-        guard let fastCamera = fastCamera else { return }
-        guard fastCamera.isFlashAvailableForCurrentDevice() else { return }
+        guard let fastCamera = fastCamera where fastCamera.isFlashAvailableForCurrentDevice() else { return }
 
-        switch flashMode {
-        case .Auto:
-            flashMode = .On
-        case .On:
-            flashMode = .Off
-        case .Off:
-            flashMode = .Auto
-        }
-
+        flashMode = flashMode.next
         setFlashModeButton()
         fastCamera.cameraFlashMode = flashMode
     }
@@ -138,13 +119,7 @@ UITextFieldDelegate {
     @IBAction func onToggleCameraButton(sender: AnyObject) {
         guard let fastCamera = fastCamera else { return }
 
-        switch cameraDevice {
-        case .Front:
-            cameraDevice = .Rear
-        case .Rear:
-            cameraDevice = .Front
-        }
-
+        cameraDevice = cameraDevice.toggle
         fastCamera.cameraDevice = cameraDevice
     }
 
@@ -221,20 +196,10 @@ UITextFieldDelegate {
     // MARK: - Private methods
 
     private func setupView() {
-        // Camera focus corners
-        var i = 0
-        for view in cornersContainer.subviews {
-            switch i {
-            case 1:
-                view.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
-            case 2:
-                view.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
-            case 3:
-                view.transform = CGAffineTransformMakeRotation(CGFloat(3*M_PI_2))
-            default:
-                break
-            }
-            i++
+        //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
+        for (index, view) in cornersContainer.subviews.enumerate() {
+            guard index > 0 else { continue }
+            view.transform = CGAffineTransformMakeRotation(CGFloat(Double(index) * M_PI_2))
         }
 
         //i18n
@@ -373,8 +338,7 @@ UITextFieldDelegate {
 
                 if okItemsAlpha == 1 {
                     self?.priceTextField.becomeFirstResponder()
-                }
-                else {
+                } else {
                     self?.priceTextField.resignFirstResponder()
                 }
             }
@@ -402,8 +366,7 @@ UITextFieldDelegate {
             bottomControlsContainerHeight.constant = PostProductViewController.bottomControlsCollapsedSize
             cameraTextsContainer.hidden = true
             cameraContainerViewHeight.constant = self.view.height
-        }
-        else {
+        } else {
             bottomControlsContainerHeight.constant = bottomSpace
             cameraContainerViewHeight.constant = expectedCameraHeight
         }
@@ -440,5 +403,32 @@ extension PostProductViewController: UIImagePickerControllerDelegate, UINavigati
 
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+
+// MARK: - FastttCamera Enum extensions
+
+extension FastttCameraFlashMode {
+    var next: FastttCameraFlashMode {
+        switch self {
+        case .Auto:
+            return .On
+        case .On:
+            return .Off
+        case .Off:
+            return .Auto
+        }
+    }
+}
+
+extension FastttCameraDevice {
+    var toggle: FastttCameraDevice {
+        switch self {
+        case .Front:
+            return .Rear
+        case .Rear:
+            return .Front
+        }
     }
 }

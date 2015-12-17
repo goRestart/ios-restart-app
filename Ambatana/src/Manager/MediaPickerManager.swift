@@ -51,7 +51,7 @@ class MediaPickerManager {
     */
     static func showGalleryPickerIn<T: UIViewController where T: UINavigationControllerDelegate,
         T: UIImagePickerControllerDelegate>(controller: T) {
-            self.requestGalleryPersmissions(controller) {
+            self.requestGalleryPermissions(controller) {
                 self.openImagePickerWithSource(.PhotoLibrary, inController: controller)
             }
     }
@@ -98,7 +98,7 @@ class MediaPickerManager {
 
     // MARK: Private Methods
     
-    private static func requestGalleryPersmissions<T: UIViewController where T: UINavigationControllerDelegate,
+    private static func requestGalleryPermissions<T: UIViewController where T: UINavigationControllerDelegate,
         T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
             
             let status = PHPhotoLibrary.authorizationStatus()

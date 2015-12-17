@@ -45,20 +45,11 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        print("ProductPostedViewController:deinit")
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel.onViewLoaded()
         setupView()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 
