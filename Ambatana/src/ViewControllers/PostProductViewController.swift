@@ -297,6 +297,7 @@ UITextFieldDelegate {
     }
 
     private func setCaptureStateButtons(captureState: Bool) {
+        cornersContainer.hidden = !captureState
         imagePreview.hidden = captureState
         switchCamButton.hidden = !captureState
         flashButton.hidden = !captureState
