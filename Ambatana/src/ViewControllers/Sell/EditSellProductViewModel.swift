@@ -45,9 +45,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
             self.descr = descr
         }
         category = product.category
-        for file in product.images {
-            images.append(.Remote(file: file))
-        }
+        for file in product.images { productImages.append(file) }
     }
 
 

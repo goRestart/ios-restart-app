@@ -26,10 +26,13 @@ protocol SellProductViewModelDelegate : class {
 enum SellProductImageType {
     case Local(image: UIImage)
     case Remote(file: File)
+}
 
-    static func localImages(list: [SellProductImageType]) -> [UIImage] {
-        return list.flatMap { (item: SellProductImageType) -> UIImage? in
-            switch item {
+class ProductImages {
+    var images: [SellProductImageType] = []
+    var localImages: [UIImage] {
+        return images.flatMap {
+            switch $0 {
             case .Local(let image):
                 return image
             case .Remote:
@@ -37,16 +40,27 @@ enum SellProductImageType {
             }
         }
     }
-
-    static func remoteImages(list: [SellProductImageType]) -> [File] {
-        return list.flatMap { (item: SellProductImageType) -> File? in
-            switch item {
+    var remoteImages: [File] {
+        return images.flatMap {
+            switch $0 {
             case .Local:
                 return nil
             case .Remote(let file):
                 return file
             }
         }
+    }
+
+    func append(image: UIImage) {
+        images.append(.Local(image: image))
+    }
+
+    func append(file: File) {
+        images.append(.Remote(file: file))
+    }
+
+    func removeAtIndex(index: Int) {
+        images.removeAtIndex(index)
     }
 }
 
@@ -71,8 +85,11 @@ public class BaseSellProductViewModel: BaseViewModel {
     var shouldTrack :Bool = true
 
     // Data
-    internal var images: [SellProductImageType]
-    internal var savedProduct: Product?
+    var productImages: ProductImages
+    var images: [SellProductImageType] {
+        return productImages.images
+    }
+    var savedProduct: Product?
     
     // Managers
     private let productManager: ProductManager
@@ -90,7 +107,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         self.price = nil
         self.descr = nil
         self.category = nil
-        self.images = []
+        self.productImages = ProductImages()
         self.shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
         self.imagesModified = false
         self.productManager = ProductManager()
@@ -154,13 +171,13 @@ public class BaseSellProductViewModel: BaseViewModel {
     
     public func appendImage(image: UIImage) {
         imagesModified = true
-        images.append(.Local(image: image))
+        productImages.append(image)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
     public func deleteImageAtIndex(index: Int) {
         imagesModified = true
-        images.removeAtIndex(index)
+        productImages.removeAtIndex(index)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
@@ -200,7 +217,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         theProduct = productManager.updateProduct(theProduct, name: title, price: Double(priceText),
             description: descr, category: category, currency: currency)
 
-        saveTheProduct(theProduct, withImages: images)
+        saveTheProduct(theProduct, withImages: productImages)
     }
     
     func validate() -> ProductSaveServiceError? {
@@ -215,12 +232,12 @@ public class BaseSellProductViewModel: BaseViewModel {
         return nil
     }
 
-    func saveTheProduct(product: Product, withImages images: [SellProductImageType]) {
+    func saveTheProduct(product: Product, withImages images: ProductImages) {
 
         delegate?.sellProductViewModelDidStartSavingProduct(self)
 
-        let localImages = SellProductImageType.localImages(images)
-        let remoteImages = SellProductImageType.remoteImages(images)
+        let localImages = images.localImages
+        let remoteImages = images.remoteImages
         if localImages.isEmpty {
             saveTheProduct(product, withImages: remoteImages)
         } else {
