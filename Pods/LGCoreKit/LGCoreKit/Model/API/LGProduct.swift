@@ -51,7 +51,7 @@ public struct LGProduct: Product {
             self.languageCode = languageCode
             self.category = ProductCategory(rawValue: category) ?? .Other
             self.status = ProductStatus(rawValue: status) ?? .Pending
-            self.thumbnail = LGFile(string: thumbnail)
+            self.thumbnail = LGFile(id: nil, urlString: thumbnail)
             self.thumbnailSize = thumbnailSize
             self.images = images.map({$0})
             self.user = user

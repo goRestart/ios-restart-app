@@ -55,9 +55,9 @@ public class LGArgo{
         }
         
         for jsonFile in arrayInput {
-            if let fileUrl : String = jsonFile <| "url"  {
-                result.append(LGFile(url: NSURL(string: fileUrl)))
-            }
+            let objectId : String? = jsonFile <| "id"
+            let fileUrl : String? = jsonFile <| "url"
+            result.append(LGFile(id: objectId, urlString: fileUrl))
         }
         
         return Decoded<[LGFile]>.Success(result)
