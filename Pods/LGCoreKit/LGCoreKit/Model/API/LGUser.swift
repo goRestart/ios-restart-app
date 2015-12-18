@@ -23,7 +23,7 @@ public struct LGUser: User {
     init(objectId: String?, publicUsername: String?, avatar: String?, postalAddress: PostalAddress, isDummy: Bool) {
         self.objectId = objectId
         self.publicUsername = publicUsername
-        self.avatar = LGFile(string: avatar)
+        self.avatar = LGFile(id: nil, urlString: avatar)
         self.postalAddress = postalAddress
         self.isDummy = isDummy
     }

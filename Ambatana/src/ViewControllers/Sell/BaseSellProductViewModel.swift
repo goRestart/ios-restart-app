@@ -23,6 +23,47 @@ protocol SellProductViewModelDelegate : class {
     func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel)
 }
 
+enum SellProductImageType {
+    case Local(image: UIImage)
+    case Remote(file: File)
+}
+
+class ProductImages {
+    var images: [SellProductImageType] = []
+    var localImages: [UIImage] {
+        return images.flatMap {
+            switch $0 {
+            case .Local(let image):
+                return image
+            case .Remote:
+                return nil
+            }
+        }
+    }
+    var remoteImages: [File] {
+        return images.flatMap {
+            switch $0 {
+            case .Local:
+                return nil
+            case .Remote(let file):
+                return file
+            }
+        }
+    }
+
+    func append(image: UIImage) {
+        images.append(.Local(image: image))
+    }
+
+    func append(file: File) {
+        images.append(.Remote(file: file))
+    }
+
+    func removeAtIndex(index: Int) {
+        images.removeAtIndex(index)
+    }
+}
+
 public class BaseSellProductViewModel: BaseViewModel {
     
     // Input
@@ -44,8 +85,11 @@ public class BaseSellProductViewModel: BaseViewModel {
     var shouldTrack :Bool = true
 
     // Data
-    internal var images: [UIImage?]
-    internal var savedProduct: Product?
+    var productImages: ProductImages
+    var images: [SellProductImageType] {
+        return productImages.images
+    }
+    var savedProduct: Product?
     
     // Managers
     private let productManager: ProductManager
@@ -63,7 +107,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         self.price = nil
         self.descr = nil
         self.category = nil
-        self.images = []
+        self.productImages = ProductImages()
         self.shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
         self.imagesModified = false
         self.productManager = ProductManager()
@@ -96,7 +140,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         return images.count
     }
     
-    func imageAtIndex(index: Int) -> UIImage? {
+    func imageAtIndex(index: Int) -> SellProductImageType {
         return images[index]
     }
     
@@ -120,31 +164,29 @@ public class BaseSellProductViewModel: BaseViewModel {
     
     // fills category field
     public func selectCategoryAtIndex(index: Int) {
-        category = ProductCategory(rawValue: index+1) // ???????? index from 0 to N and prodCat from 1 to N+1
+        category = ProductCategory(rawValue: index+1) //index from 0 to N and prodCat from 1 to N+1
         delegate?.sellProductViewModel(self, didSelectCategoryWithName: category?.name ?? "")
         
     }
     
     public func appendImage(image: UIImage) {
         imagesModified = true
-        images.append(image)
+        productImages.append(image)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
     public func deleteImageAtIndex(index: Int) {
         imagesModified = true
-        images.removeAtIndex(index)
+        productImages.removeAtIndex(index)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
     public func checkProductFields() {
-        //TODO MOVE VALIDATION TO PRODUCT CREATION ON PRODUCTMANAGER
         let error = validate()
         if let actualError = error {
             delegate?.sellProductViewModel(self, didFailWithError: actualError)
             trackValidationFailedWithError(actualError)
-        }
-        else {
+        } else {
             delegate?.sellProductViewModelFieldCheckSucceeded(self)
         }
     }
@@ -175,13 +217,12 @@ public class BaseSellProductViewModel: BaseViewModel {
         theProduct = productManager.updateProduct(theProduct, name: title, price: Double(priceText),
             description: descr, category: category, currency: currency)
 
-        saveTheProduct(theProduct, withImages: noEmptyImages(images))
+        saveTheProduct(theProduct, withImages: productImages)
     }
     
     func validate() -> ProductSaveServiceError? {
         
         if images.count < 1 {
-            // iterar x assegurar-se que hi ha imatges
             return .NoImages
         } else if descriptionCharCount < 0 {
             return .LongDescription
@@ -191,38 +232,53 @@ public class BaseSellProductViewModel: BaseViewModel {
         return nil
     }
 
-    func saveTheProduct(product: Product, withImages images: [UIImage]) {
+    func saveTheProduct(product: Product, withImages images: ProductImages) {
 
         delegate?.sellProductViewModelDidStartSavingProduct(self)
-        
-        productManager.saveProduct(product, withImages: images, progress: { [weak self] (p: Float) -> Void in
-            if let strongSelf = self {
-                strongSelf.delegate?.sellProductViewModel(strongSelf, didUpdateProgressWithPercentage: p)
-            }
-            
-            }) { [weak self] (r: ProductSaveServiceResult) -> Void in
-                if let strongSelf = self {
-                    if let actualProduct = r.value {
-                        strongSelf.savedProduct = actualProduct
-                        
-                        strongSelf.trackComplete(actualProduct)
-                        strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
+
+        let localImages = images.localImages
+        let remoteImages = images.remoteImages
+        if localImages.isEmpty {
+            saveTheProduct(product, withImages: remoteImages)
+        } else {
+            productManager.saveProductImages(localImages,
+                progress: { [weak self] (p: Float) -> Void in
+                    if let strongSelf = self {
+                        strongSelf.delegate?.sellProductViewModel(strongSelf, didUpdateProgressWithPercentage: p)
                     }
-                    else {
-                        let error = r.error ?? ProductSaveServiceError.Internal
-                        strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: error)
+                },
+                completion: { [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
+                    guard let strongSelf = self else { return }
+                    guard let images = multipleFilesUploadResult.value else {
+                        let error = multipleFilesUploadResult.error ?? .Internal
+                        switch (error) {
+                        case .Internal:
+                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: .Internal)
+                        case .Network:
+                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: .Network)
+                        case .Forbidden:
+                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: .Forbidden)
+                        }
+                        return
                     }
+                    strongSelf.saveTheProduct(product, withImages: remoteImages + images)
                 }
+            )
         }
     }
-    
-    func noEmptyImages(imgs: [UIImage?]) -> [UIImage] {
-        var noNilImages : [UIImage] = []
-        for image in imgs {
-            if image != nil {
-                noNilImages.append(image!)
+
+    func saveTheProduct(product: Product, withImages images: [File]) {
+        productManager.saveProduct(product, imageFiles: images) { [weak self] (r: ProductSaveServiceResult) -> Void in
+            if let strongSelf = self {
+                if let actualProduct = r.value {
+                    strongSelf.savedProduct = actualProduct
+                    strongSelf.trackComplete(actualProduct)
+                    strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
+                } else {
+                    let error = r.error ?? ProductSaveServiceError.Internal
+                    strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: error)
+                }
             }
         }
-        return noNilImages
     }
 }

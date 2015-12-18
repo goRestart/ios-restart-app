@@ -46,8 +46,7 @@ final public class LGFileUploadService: FileUploadService {
                     .responseObject { (response: Response<LGUploadFileResponse, NSError>) in
                         // Success                        
                         if let uploadFileResponse = response.result.value {
-                            var file = LGFile(url: nil)
-                            file.objectId = uploadFileResponse.imageId
+                            let file = LGFile(id:uploadFileResponse.imageId, url: nil)
                             completion?(FileUploadServiceResult(value: file))
                         }
                         // Error

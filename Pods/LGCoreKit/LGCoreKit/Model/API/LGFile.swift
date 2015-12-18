@@ -14,16 +14,15 @@ public struct LGFile: File {
 }
 
 extension LGFile {
-    public init?(string: String?) {
-        if let urlString = string {
+    public init(id: String?, urlString: String?) {
+        self.objectId = id
+        if let urlString = urlString {
             self.fileURL = NSURL(string: urlString)
-        }
-        else {
-            return nil
         }
     }
     
-    public init(url: NSURL?) {
+    public init(id: String?, url: NSURL?) {
+        self.objectId = id
         self.fileURL = url
     }
 }

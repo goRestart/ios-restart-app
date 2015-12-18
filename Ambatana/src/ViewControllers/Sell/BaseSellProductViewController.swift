@@ -9,6 +9,7 @@
 import LGCoreKit
 import Result
 import FBSDKShareKit
+import SDWebImage
 
 class BaseSellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate,
 UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
@@ -264,13 +265,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
                 forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
             
             if indexPath.item < viewModel.numberOfImages {
-                if let image = viewModel.imageAtIndex(indexPath.item) {
-                    cell.setupCellWithImage(image)
-                } else {
-                    //image not loaded yet, show activity indicator
-                    cell.setupLoadingCell()
-                }
-                
+                cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
                 cell.label.text = ""
             } else if indexPath.item == viewModel.numberOfImages {
                 cell.setupAddPictureCell()
@@ -346,19 +341,33 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         showLoadingMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollLoading)
         
         // get the image and launch the saving action.
-        if let imageAtIndex = viewModel.imageAtIndex(index) {
-            UIImageWriteToSavedPhotosAlbum(imageAtIndex, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        let imageTypeAtIndex = viewModel.imageAtIndex(index)
+        switch imageTypeAtIndex {
+        case .Local(let image):
+            UIImageWriteToSavedPhotosAlbum(image, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        case .Remote(let file):
+            guard let fileUrl = file.fileURL else {
+                self.dismissLoadingMessageAlert(){
+                    self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
+                }
+                return
+            }
+            SDWebImageManager.sharedManager().downloadImageWithURL(fileUrl, options: [], progress: nil) {
+                [weak self] (image: UIImage!, _, _, _, _) -> Void in
+                guard let strongSelf = self else { return }
+                UIImageWriteToSavedPhotosAlbum(image, strongSelf, "image:didFinishSavingWithError:contextInfo:", nil)
+            }
         }
     }
     
     func image(image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
-        self.dismissLoadingMessageAlert({ () -> Void in
+        self.dismissLoadingMessageAlert(){
             if error == nil { // success
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollOk)
             } else {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
             }
-        })
+        }
     }
     
     // MARK: - Private methods

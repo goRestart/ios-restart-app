@@ -6,11 +6,9 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import SDWebImage
 import LGCoreKit
 
 public protocol EditSellProductViewModelDelegate : class {
-    func editSellProductViewModel(viewModel: EditSellProductViewModel, didDownloadImageAtIndex index: Int)
 }
 
 public protocol UpdateDetailInfoDelegate : class {
@@ -46,9 +44,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
             self.descr = descr
         }
         category = product.category
-        for _ in 0..<product.images.count {
-            images.append(nil)
-        }
+        for file in product.images { productImages.append(file) }
     }
 
 
@@ -58,35 +54,17 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
         super.saveProduct(editedProduct)
     }
 
-    public func loadPictures() {
-        // Download the images
-        for (index, image) in (editedProduct.images).enumerate() {
-            if let imageURL = image.fileURL {
-                let imageManager = SDWebImageManager.sharedManager()
-                imageManager.downloadImageWithURL(imageURL, options: [], progress: nil) {
-                    [weak self] (image: UIImage!, _, _, _, _) -> Void in
-                    if let strongSelf = self {
-                        // Replace de image & notify the delegate
-                        strongSelf.images[index] = image
-                        strongSelf.editDelegate?.editSellProductViewModel(strongSelf, didDownloadImageAtIndex: index)
-                    }
-                }
-            }
-        }
-    }
-
 
     // MARK: - Tracking methods
 
-    internal override func trackStart() {
+    override func trackStart() {
         super.trackStart()
         let myUser = MyUserManager.sharedInstance.myUser()
         let event = TrackerEvent.productEditStart(myUser, product: editedProduct)
         trackEvent(event)
     }
 
-
-    internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
+    override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
 
         let myUser = MyUserManager.sharedInstance.myUser()
@@ -95,14 +73,14 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
         trackEvent(event)
     }
 
-    internal override func trackSharedFB() {
+    override func trackSharedFB() {
         super.trackSharedFB()
         let myUser = MyUserManager.sharedInstance.myUser()
         let event = TrackerEvent.productEditSharedFB(myUser, product: savedProduct)
         trackEvent(event)
     }
 
-    internal override func trackComplete(product: Product) {
+    override func trackComplete(product: Product) {
         self.editedProduct = product
 
         super.trackComplete(product)
