@@ -23,6 +23,33 @@ protocol SellProductViewModelDelegate : class {
     func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel)
 }
 
+enum SellProductImageType {
+    case Local(image: UIImage)
+    case Remote(file: File)
+
+    static func localImages(list: [SellProductImageType]) -> [UIImage] {
+        return list.flatMap { (item: SellProductImageType) -> UIImage? in
+            switch item {
+            case .Local(let image):
+                return image
+            case .Remote:
+                return nil
+            }
+        }
+    }
+
+    static func remoteImages(list: [SellProductImageType]) -> [File] {
+        return list.flatMap { (item: SellProductImageType) -> File? in
+            switch item {
+            case .Local:
+                return nil
+            case .Remote(let file):
+                return file
+            }
+        }
+    }
+}
+
 public class BaseSellProductViewModel: BaseViewModel {
     
     // Input
@@ -44,7 +71,7 @@ public class BaseSellProductViewModel: BaseViewModel {
     var shouldTrack :Bool = true
 
     // Data
-    internal var images: [UIImage?]
+    internal var images: [SellProductImageType]
     internal var savedProduct: Product?
     
     // Managers
@@ -96,7 +123,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         return images.count
     }
     
-    func imageAtIndex(index: Int) -> UIImage? {
+    func imageAtIndex(index: Int) -> SellProductImageType {
         return images[index]
     }
     
@@ -127,7 +154,7 @@ public class BaseSellProductViewModel: BaseViewModel {
     
     public func appendImage(image: UIImage) {
         imagesModified = true
-        images.append(image)
+        images.append(.Local(image: image))
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
@@ -175,7 +202,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         theProduct = productManager.updateProduct(theProduct, name: title, price: Double(priceText),
             description: descr, category: category, currency: currency)
 
-        saveTheProduct(theProduct, withImages: noEmptyImages(images))
+        saveTheProduct(theProduct, withImages: images)
     }
     
     func validate() -> ProductSaveServiceError? {
@@ -191,31 +218,58 @@ public class BaseSellProductViewModel: BaseViewModel {
         return nil
     }
 
-    func saveTheProduct(product: Product, withImages images: [UIImage]) {
+    func saveTheProduct(product: Product, withImages images: [SellProductImageType]) {
 
         delegate?.sellProductViewModelDidStartSavingProduct(self)
-        
-        productManager.saveProduct(product, withImages: images, progress: { [weak self] (p: Float) -> Void in
-            if let strongSelf = self {
-                strongSelf.delegate?.sellProductViewModel(strongSelf, didUpdateProgressWithPercentage: p)
-            }
-            
-            }) { [weak self] (r: ProductSaveServiceResult) -> Void in
-                if let strongSelf = self {
-                    if let actualProduct = r.value {
-                        strongSelf.savedProduct = actualProduct
-                        
-                        strongSelf.trackComplete(actualProduct)
-                        strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
+
+        let localImages = SellProductImageType.localImages(images)
+        let remoteImages = SellProductImageType.remoteImages(images)
+        if localImages.isEmpty {
+            saveTheProduct(product, withImages: remoteImages)
+        } else {
+            productManager.saveProductImages(localImages,
+                progress: { [weak self] (p: Float) -> Void in
+                    if let strongSelf = self {
+                        strongSelf.delegate?.sellProductViewModel(strongSelf, didUpdateProgressWithPercentage: p)
                     }
-                    else {
-                        let error = r.error ?? ProductSaveServiceError.Internal
-                        strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: error)
+                },
+                completion: { [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
+                    guard let strongSelf = self else { return }
+                    guard let images = multipleFilesUploadResult.value else {
+                        let error = multipleFilesUploadResult.error ?? .Internal
+                        switch (error) {
+                        case .Internal:
+                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: .Internal)
+                        case .Network:
+                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: .Network)
+                        case .Forbidden:
+                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: .Forbidden)
+                        }
+                        return
                     }
+                    strongSelf.saveTheProduct(product, withImages: remoteImages + images)
                 }
+            )
         }
     }
-    
+
+    func saveTheProduct(product: Product, withImages images: [File]) {
+        productManager.saveProduct(product, imageFiles: images) { [weak self] (r: ProductSaveServiceResult) -> Void in
+            if let strongSelf = self {
+                if let actualProduct = r.value {
+                    strongSelf.savedProduct = actualProduct
+
+                    strongSelf.trackComplete(actualProduct)
+                    strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
+                }
+                else {
+                    let error = r.error ?? ProductSaveServiceError.Internal
+                    strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: error)
+                }
+            }
+        }
+    }
+
     func noEmptyImages(imgs: [UIImage?]) -> [UIImage] {
         var noNilImages : [UIImage] = []
         for image in imgs {

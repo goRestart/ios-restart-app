@@ -46,8 +46,8 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
             self.descr = descr
         }
         category = product.category
-        for _ in 0..<product.images.count {
-            images.append(nil)
+        for file in product.images {
+            images.append(.Remote(file: file))
         }
     }
 
@@ -60,19 +60,19 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
 
     public func loadPictures() {
         // Download the images
-        for (index, image) in (editedProduct.images).enumerate() {
-            if let imageURL = image.fileURL {
-                let imageManager = SDWebImageManager.sharedManager()
-                imageManager.downloadImageWithURL(imageURL, options: [], progress: nil) {
-                    [weak self] (image: UIImage!, _, _, _, _) -> Void in
-                    if let strongSelf = self {
-                        // Replace de image & notify the delegate
-                        strongSelf.images[index] = image
-                        strongSelf.editDelegate?.editSellProductViewModel(strongSelf, didDownloadImageAtIndex: index)
-                    }
-                }
-            }
-        }
+//        for (index, image) in (editedProduct.images).enumerate() {
+//            if let imageURL = image.fileURL {
+//                let imageManager = SDWebImageManager.sharedManager()
+//                imageManager.downloadImageWithURL(imageURL, options: [], progress: nil) {
+//                    [weak self] (image: UIImage!, _, _, _, _) -> Void in
+//                    if let strongSelf = self {
+//                        // Replace de image & notify the delegate
+//                        strongSelf.images[index] = image
+//                        strongSelf.editDelegate?.editSellProductViewModel(strongSelf, didDownloadImageAtIndex: index)
+//                    }
+//                }
+//            }
+//        }
     }
 
 

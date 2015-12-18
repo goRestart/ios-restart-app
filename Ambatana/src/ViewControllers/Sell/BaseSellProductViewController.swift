@@ -264,13 +264,14 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
                 forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
             
             if indexPath.item < viewModel.numberOfImages {
-                if let image = viewModel.imageAtIndex(indexPath.item) {
-                    cell.setupCellWithImage(image)
-                } else {
-                    //image not loaded yet, show activity indicator
-                    cell.setupLoadingCell()
-                }
-                
+                cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
+//                if let image = viewModel.imageAtIndex(indexPath.item) {
+//                    cell.setupCellWithImage(image)
+//                } else {
+//                    //image not loaded yet, show activity indicator
+//                    cell.setupLoadingCell()
+//                }
+
                 cell.label.text = ""
             } else if indexPath.item == viewModel.numberOfImages {
                 cell.setupAddPictureCell()
@@ -346,8 +347,12 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         showLoadingMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollLoading)
         
         // get the image and launch the saving action.
-        if let imageAtIndex = viewModel.imageAtIndex(index) {
-            UIImageWriteToSavedPhotosAlbum(imageAtIndex, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        let imageTypeAtIndex = viewModel.imageAtIndex(index)
+        switch imageTypeAtIndex {
+        case .Local(let image):
+            UIImageWriteToSavedPhotosAlbum(image, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        case .Remote:
+            break
         }
     }
     
