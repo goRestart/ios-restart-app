@@ -9,6 +9,7 @@
 import LGCoreKit
 import Result
 import FBSDKShareKit
+import SDWebImage
 
 class BaseSellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate,
 UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
@@ -344,8 +345,16 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         switch imageTypeAtIndex {
         case .Local(let image):
             UIImageWriteToSavedPhotosAlbum(image, self, "image:didFinishSavingWithError:contextInfo:", nil)
-        case .Remote:
-            break
+        case .Remote(let file):
+            guard let fileUrl = file.fileURL else {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
+                return
+            }
+            SDWebImageManager.sharedManager().downloadImageWithURL(fileUrl, options: [], progress: nil) {
+                [weak self] (image: UIImage!, _, _, _, _) -> Void in
+                guard let strongSelf = self else { return }
+                UIImageWriteToSavedPhotosAlbum(image, strongSelf, "image:didFinishSavingWithError:contextInfo:", nil)
+            }
         }
     }
     
