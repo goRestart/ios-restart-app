@@ -89,7 +89,7 @@
 "contact_subject_field_hint" = "Asunto";
 "contact_subject_option_feedback" = "Sugerencias/comentarios";
 "contact_subject_option_location" = "Problemas de ubicación";
-"contact_subject_option_login" = "Inicio de sesión";
+"contact_subject_option_login" = "Problemas al iniciar sesión";
 "contact_subject_option_other" = "Otros problemas";
 "contact_subject_option_product_edit" = "Editar/borrar artículo";
 "contact_subject_option_profile_edit" = "Editar/borrar perfil";

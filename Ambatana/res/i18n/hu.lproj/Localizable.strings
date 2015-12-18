@@ -190,7 +190,7 @@
 "product_mark_as_sold_error_generic" = "Hiba történt a megjelölés során. Kérjük, próbálkozz később.";
 "product_mark_as_sold_success_message" = "Gratulálunk, a portéka sikeresen megjelölve eladottként!";
 "product_negotiable_price" = "Alkudható";
-"product_popular_near_you" = "Popular near you";
+"product_popular_near_you" = "Népszerű a közeledben";
 "product_post_camera_subtitle" = "Figyelj, hogy jó legyen!";
 "product_post_camera_title" = "Ez a kiemelt fotód";
 "product_post_confirmation_another" = "vagy";

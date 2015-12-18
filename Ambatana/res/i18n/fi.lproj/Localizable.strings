@@ -190,7 +190,7 @@
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
 "product_negotiable_price" = "Neuvoteltavissa";
-"product_popular_near_you" = "Popular near you";
+"product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_subtitle" = "Varmista, että se on hyvä!";
 "product_post_camera_title" = "Tämä on tuotteesi kuva";
 "product_post_confirmation_another" = "Tai";

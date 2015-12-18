@@ -190,7 +190,7 @@
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
 "product_negotiable_price" = "Обсуждаема";
-"product_popular_near_you" = "Popular near you";
+"product_popular_near_you" = "Популярное рядом с вами";
 "product_post_camera_subtitle" = "Убедитесь, что она подходит!";
 "product_post_camera_title" = "Это ваша фотография";
 "product_post_confirmation_another" = "Или";

@@ -108,7 +108,7 @@
 "edit_product_title" = "Endre produkt";
 "filters_distance_not_set" = "ikke satt";
 "filters_navbar_reset" = "Tilbakestill";
-"filters_save_button" = "Lagre filtere";
+"filters_save_button" = "Lagre filtre";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstand";
 "filters_section_sortby" = "Sorter etter";
@@ -117,7 +117,7 @@
 "filters_sort_newest" = "Nyest først";
 "filters_sort_price_asc" = "Pris lav til høy";
 "filters_sort_price_desc" = "Pris høy til lav";
-"filters_title" = "Filtere";
+"filters_title" = "Filtre";
 "filters_within_all" = "Alle produkter";
 "filters_within_day" = "Siste 24 timer";
 "filters_within_month" = "Siste 30 dager";
@@ -245,7 +245,7 @@
 "profile_favourites_other_user_no_products_label" = "Brukeren har fortsatt ingen publiserte eller favoriserte produkter.";
 "profile_favourites_products_tab" = "Favoritter";
 "profile_no_products" = "Det er ingen produkter i denne seksjonen (enda!)";
-"profile_selling_products_tab" = "Salg";
+"profile_selling_products_tab" = "Til salgs";
 "profile_sold_products_tab" = "Solgt";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Melding: %@";
