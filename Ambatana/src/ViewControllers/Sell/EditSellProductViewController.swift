@@ -30,19 +30,12 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        editViewModel.loadPictures()
-        
         sendButton.setTitle(LGLocalizedString.editProductSendButton, forState: .Normal)
         categoryButton.setTitle(editViewModel.categoryName, forState: .Normal)
         
         self.setLetGoNavigationBarStyle(LGLocalizedString.editProductTitle)
     }
-    
-    // MARK: - EditSellProductViewModelDelegate Methods
-    
-    func editSellProductViewModel(viewModel: EditSellProductViewModel, didDownloadImageAtIndex index: Int) {
-        imageCollectionView.reloadData()
-    }
+
     
     // MARK: - SellProductViewModelDelegate Methods
 

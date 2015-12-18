@@ -10,7 +10,6 @@ import SDWebImage
 import LGCoreKit
 
 public protocol EditSellProductViewModelDelegate : class {
-    func editSellProductViewModel(viewModel: EditSellProductViewModel, didDownloadImageAtIndex index: Int)
 }
 
 public protocol UpdateDetailInfoDelegate : class {
@@ -57,24 +56,6 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     public override func save() {
         super.saveProduct(editedProduct)
     }
-
-    public func loadPictures() {
-        // Download the images
-//        for (index, image) in (editedProduct.images).enumerate() {
-//            if let imageURL = image.fileURL {
-//                let imageManager = SDWebImageManager.sharedManager()
-//                imageManager.downloadImageWithURL(imageURL, options: [], progress: nil) {
-//                    [weak self] (image: UIImage!, _, _, _, _) -> Void in
-//                    if let strongSelf = self {
-//                        // Replace de image & notify the delegate
-//                        strongSelf.images[index] = image
-//                        strongSelf.editDelegate?.editSellProductViewModel(strongSelf, didDownloadImageAtIndex: index)
-//                    }
-//                }
-//            }
-//        }
-    }
-
 
     // MARK: - Tracking methods
 

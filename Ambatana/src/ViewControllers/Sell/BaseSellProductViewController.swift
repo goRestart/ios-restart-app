@@ -265,13 +265,6 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
             
             if indexPath.item < viewModel.numberOfImages {
                 cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
-//                if let image = viewModel.imageAtIndex(indexPath.item) {
-//                    cell.setupCellWithImage(image)
-//                } else {
-//                    //image not loaded yet, show activity indicator
-//                    cell.setupLoadingCell()
-//                }
-
                 cell.label.text = ""
             } else if indexPath.item == viewModel.numberOfImages {
                 cell.setupAddPictureCell()
