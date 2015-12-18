@@ -347,7 +347,9 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
             UIImageWriteToSavedPhotosAlbum(image, self, "image:didFinishSavingWithError:contextInfo:", nil)
         case .Remote(let file):
             guard let fileUrl = file.fileURL else {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
+                self.dismissLoadingMessageAlert(){
+                    self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
+                }
                 return
             }
             SDWebImageManager.sharedManager().downloadImageWithURL(fileUrl, options: [], progress: nil) {
@@ -359,13 +361,13 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     }
     
     func image(image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
-        self.dismissLoadingMessageAlert({ () -> Void in
+        self.dismissLoadingMessageAlert(){
             if error == nil { // success
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollOk)
             } else {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
             }
-        })
+        }
     }
     
     // MARK: - Private methods
