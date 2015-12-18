@@ -147,7 +147,7 @@ public class BaseSellProductViewModel: BaseViewModel {
     
     // fills category field
     public func selectCategoryAtIndex(index: Int) {
-        category = ProductCategory(rawValue: index+1) // ???????? index from 0 to N and prodCat from 1 to N+1
+        category = ProductCategory(rawValue: index+1) //index from 0 to N and prodCat from 1 to N+1
         delegate?.sellProductViewModel(self, didSelectCategoryWithName: category?.name ?? "")
         
     }
@@ -165,13 +165,11 @@ public class BaseSellProductViewModel: BaseViewModel {
     }
 
     public func checkProductFields() {
-        //TODO MOVE VALIDATION TO PRODUCT CREATION ON PRODUCTMANAGER
         let error = validate()
         if let actualError = error {
             delegate?.sellProductViewModel(self, didFailWithError: actualError)
             trackValidationFailedWithError(actualError)
-        }
-        else {
+        } else {
             delegate?.sellProductViewModelFieldCheckSucceeded(self)
         }
     }
@@ -208,7 +206,6 @@ public class BaseSellProductViewModel: BaseViewModel {
     func validate() -> ProductSaveServiceError? {
         
         if images.count < 1 {
-            // iterar x assegurar-se que hi ha imatges
             return .NoImages
         } else if descriptionCharCount < 0 {
             return .LongDescription
@@ -258,25 +255,13 @@ public class BaseSellProductViewModel: BaseViewModel {
             if let strongSelf = self {
                 if let actualProduct = r.value {
                     strongSelf.savedProduct = actualProduct
-
                     strongSelf.trackComplete(actualProduct)
                     strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
-                }
-                else {
+                } else {
                     let error = r.error ?? ProductSaveServiceError.Internal
                     strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: error)
                 }
             }
         }
-    }
-
-    func noEmptyImages(imgs: [UIImage?]) -> [UIImage] {
-        var noNilImages : [UIImage] = []
-        for image in imgs {
-            if image != nil {
-                noNilImages.append(image!)
-            }
-        }
-        return noNilImages
     }
 }

@@ -57,17 +57,17 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
         super.saveProduct(editedProduct)
     }
 
+
     // MARK: - Tracking methods
 
-    internal override func trackStart() {
+    override func trackStart() {
         super.trackStart()
         let myUser = MyUserManager.sharedInstance.myUser()
         let event = TrackerEvent.productEditStart(myUser, product: editedProduct)
         trackEvent(event)
     }
 
-
-    internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
+    override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
 
         let myUser = MyUserManager.sharedInstance.myUser()
@@ -76,14 +76,14 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
         trackEvent(event)
     }
 
-    internal override func trackSharedFB() {
+    override func trackSharedFB() {
         super.trackSharedFB()
         let myUser = MyUserManager.sharedInstance.myUser()
         let event = TrackerEvent.productEditSharedFB(myUser, product: savedProduct)
         trackEvent(event)
     }
 
-    internal override func trackComplete(product: Product) {
+    override func trackComplete(product: Product) {
         self.editedProduct = product
 
         super.trackComplete(product)
