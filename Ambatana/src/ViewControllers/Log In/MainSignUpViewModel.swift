@@ -25,20 +25,22 @@ public enum LoginSource: String {
 
 public protocol MainSignUpViewModelDelegate: class {
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel)
-    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: UserLogInFBResult)
+    func viewModel(viewModel: MainSignUpViewModel,
+        didFinishLoggingWithFBWithResult result: Result<MyUser, RepositoryError>)
 }
 
 public class MainSignUpViewModel: BaseViewModel {
    
-    // Login source
-    let loginSource: EventParameterLoginSourceValue
     
-    // Delegate
     weak var delegate: MainSignUpViewModelDelegate?
+    
+    let sessionManager: SessionManager
+    let loginSource: EventParameterLoginSourceValue
     
     // Public methods
     
-    public init(source: EventParameterLoginSourceValue) {
+    public init(sessionManager: SessionManager, source: EventParameterLoginSourceValue) {
+        self.sessionManager = SessionManager.sharedInstance
         self.loginSource = source
         super.init()
         
@@ -46,25 +48,31 @@ public class MainSignUpViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginVisit(loginSource))
     }
     
+    public convenience init(source: EventParameterLoginSourceValue) {
+        let sessionManager = SessionManager.sharedInstance
+        self.init(sessionManager: sessionManager, source: source)
+    }
+    
     public func logInWithFacebook() {
         // Notify the delegate about it started
         delegate?.viewModelDidStartLoggingWithFB(self)
         
         // Log in
-        MyUserManager.sharedInstance.logInWithFacebook { [weak self] (result: UserLogInFBResult) in
-            if let strongSelf = self {
-
+        // TODO: ⛔️ Obtain FB token
+        sessionManager.loginFacebook("") { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            if let myUser = result.value {
                 // Tracking
-                if let user = result.value {
-                    TrackerProxy.sharedInstance.setUser(user)
-                }
+                TrackerProxy.sharedInstance.setUser(myUser)
+                
                 let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                
-                // Notify the delegate about it finished
-                if let actualDelegate = strongSelf.delegate {
-                    actualDelegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
-                }
+            }
+            
+            // Notify the delegate about it finished
+            if let delegate = strongSelf.delegate {
+                delegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
             }
         }
     }

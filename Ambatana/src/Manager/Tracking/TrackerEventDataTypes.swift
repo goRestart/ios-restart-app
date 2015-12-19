@@ -219,27 +219,27 @@ public enum EventParameterLoginError: String {
 
     public var description: String {
         switch (self) {
-        case Network:
+        case .Network:
             return "Network"
-        case Internal:
+        case .Internal:
             return "Internal"
-        case Unauthorized:
+        case .Unauthorized:
             return "Unauthorized"
-        case NotFound:
+        case .NotFound:
             return "NotFound"
-        case Forbidden:
+        case .Forbidden:
             return "Forbidden"
-        case InvalidEmail:
+        case .InvalidEmail:
             return "InvalidEmail"
-        case InvalidPassword:
+        case .InvalidPassword:
             return "InvalidPassword"
         case .InvalidUsername:
             return "InvalidUsername"
-        case UserNotFoundOrWrongPassword:
+        case .UserNotFoundOrWrongPassword:
             return "UserNotFoundOrWrongPassword"
-        case EmailTaken:
+        case .EmailTaken:
             return "EmailTaken"
-        case PasswordMismatch:
+        case .PasswordMismatch:
             return "PasswordMismatch"
         case UsernameTaken:
             return "UsernameTaken"

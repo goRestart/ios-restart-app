@@ -129,7 +129,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if setting == .ChangeLocation {
-            cell.nameLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
+            if let myUser = MyUserRepository.sharedInstance.myUser {
+                cell.nameLabel.text = myUser.postalAddress.city ?? myUser.postalAddress.countryCode
+            }
         }
 
         if setting == .ChangePhoto {
@@ -202,7 +204,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func logoutUser() {
         // Logout
-        MyUserManager.sharedInstance.logout(nil)
+        SessionManager.sharedInstance.logout(nil)
         
         // Tracking
         let trackerEvent = TrackerEvent.logout()

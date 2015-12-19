@@ -110,7 +110,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                     if let actualError = retrieveResult.error {
                                         if actualError == .Forbidden {
                                             strongSelf2.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                                                MyUserManager.sharedInstance.logout(nil)
+                                                SessionManager.sharedInstance.logout(nil)
                                             })
                                         } else {
                                             strongSelf2.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
@@ -127,7 +127,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                         if let actualError = sendResult.error {
                             if actualError == .Forbidden {
                                 strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                                    MyUserManager.sharedInstance.logout(nil)
+                                    SessionManager.sharedInstance.logout(nil)
                                 })
                             } else {
                                 strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)

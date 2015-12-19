@@ -82,7 +82,7 @@ class NewSellProductViewController: SellProductViewController {
             message = LGLocalizedString.logInErrorSendErrorGeneric
             completion = {
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                    MyUserManager.sharedInstance.logout(nil)
+                    SessionManager.sharedInstance.logout(nil)
                 })
                 self.newSellViewModel.shouldEnableTracking()
             }

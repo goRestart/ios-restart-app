@@ -86,7 +86,8 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         showLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: RememberPasswordViewModel, didFinishResettingPasswordWithResult result: UserPasswordResetServiceResult) {
+    func viewModel(viewModel: RememberPasswordViewModel, didFinishResettingPasswordWithResult
+        result: Result<Void, RememberPasswordError>) {
         
         var completion: (() -> Void)? = nil
         
@@ -102,18 +103,24 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             let message: String
             let errorDescription: EventParameterLoginError
             switch (error) {
-            case .InvalidEmail:
-                message = LGLocalizedString.resetPasswordSendErrorInvalidEmail
-                errorDescription = .InvalidEmail
-            case .UserNotFound:
-                message = String(format: LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword, viewModel.email)
-                errorDescription = .NotFound
-            case .Network:
-                message = LGLocalizedString.commonErrorConnectionFailed
-                errorDescription = .Network
+            case .Api(let apiError):
+                switch apiError {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                    errorDescription = .Network
+                case .NotFound:
+                    message = String(format: LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword, viewModel.email)
+                    errorDescription = .NotFound
+                case .Forbidden, .Internal:
+                    message = LGLocalizedString.resetPasswordSendErrorGeneric
+                    errorDescription = .Internal
+                }
             case .Internal:
                 message = LGLocalizedString.resetPasswordSendErrorGeneric
                 errorDescription = .Internal
+            case .InvalidEmail:
+                message = LGLocalizedString.resetPasswordSendErrorInvalidEmail
+                errorDescription = .InvalidEmail
             }
             
             viewModel.resetPasswordFailedWithError(errorDescription)

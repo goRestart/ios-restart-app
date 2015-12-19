@@ -10,17 +10,36 @@ import LGCoreKit
 import Parse
 import Result
 
-public protocol ChangeUsernameViewModelDelegate : class {
+enum ChangeUsernameError: ErrorType {
+    case UsernameTaken
+    case InvalidUsername
+    case Api(apiError: ApiError)
+    case Internal
+    
+    init(repositoryError: RepositoryError) {
+        switch repositoryError {
+        case .Api(let apiError):
+            self = .Api(apiError: apiError)
+        case .Internal:
+            self = .Internal
+        }
+    }
+}
+
+protocol ChangeUsernameViewModelDelegate : class {
     func viewModel(viewModel: ChangeUsernameViewModel, updateSaveButtonEnabledState enabled: Bool)
-    func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: UserSaveServiceError)
+    func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: ChangeUsernameError)
     func viewModelDidStartSendingUser(viewModel: ChangeUsernameViewModel)
-    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult result: UserSaveServiceResult)
+    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult
+        result: Result<MyUser, ChangeUsernameError>)
 
 }
 
-public class ChangeUsernameViewModel: BaseViewModel {
+class ChangeUsernameViewModel: BaseViewModel {
     
     weak var delegate : ChangeUsernameViewModelDelegate?
+    
+    let myUserRepository: MyUserRepository
     
     var username: String {
         didSet {
@@ -28,20 +47,26 @@ public class ChangeUsernameViewModel: BaseViewModel {
         }
     }
     
-    override init() {
-        username = MyUserManager.sharedInstance.myUser()?.publicUsername ?? ""
+    init(myUserRepository: MyUserRepository) {
+        self.myUserRepository = myUserRepository
+        self.username = myUserRepository.myUser?.username ?? ""
         super.init()
+    }
+    
+    override convenience init() {
+        let myUserRepository = MyUserRepository.sharedInstance
+        self.init(myUserRepository: myUserRepository)
     }
     
 
     // MARK: - public methods
 
     
-    public func saveUsername() {
+    func saveUsername() {
         // check if username is ok (func in extension?)
 
         if usernameContainsLetgoString(username) {
-            delegate?.viewModel(self, didFailValidationWithError:UserSaveServiceError.UsernameTaken)
+            delegate?.viewModel(self, didFailValidationWithError:.UsernameTaken)
         }
         else if isValidUsername(username) {
             
@@ -49,31 +74,33 @@ public class ChangeUsernameViewModel: BaseViewModel {
 
             username = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 
-            MyUserManager.sharedInstance.updateUsername(username) { [weak self] (result: UserSaveServiceResult) in
-                if let strongSelf = self {
-                    if let actualDelegate = strongSelf.delegate {
-                        if let _ = result.value {
-                            // success
-                            actualDelegate.viewModel(strongSelf, didFinishSendingUserWithResult: result)
-                            let trackerEvent = TrackerEvent.profileEditEditName()
-                            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
-                        }
-                        else if let _ = result.error {
-                            // error
-                            actualDelegate.viewModel(strongSelf, didFinishSendingUserWithResult: result)
-                        }
-                    }
+            myUserRepository.updatePublicUsername(username) { [weak self] updateResult in
+                guard let strongSelf = self else { return }
+                
+                if let _ = updateResult.value {
+                    let trackerEvent = TrackerEvent.profileEditEditName()
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 }
+                
+                guard let delegate = strongSelf.delegate else { return }
+                
+                var result = Result<MyUser, ChangeUsernameError>(error: .Internal)
+                if let value = updateResult.value {
+                    result = Result<MyUser, ChangeUsernameError>(value: value)
+                } else if let repositoryError = updateResult.error {
+                    let error = ChangeUsernameError(repositoryError: repositoryError)
+                    result = Result<MyUser, ChangeUsernameError>(error: error)
+                }
+                delegate.viewModel(strongSelf, didFinishSendingUserWithResult: result)
             }
         }
         else {
-            delegate?.viewModel(self, didFailValidationWithError:UserSaveServiceError.InvalidUsername)
+            delegate?.viewModel(self, didFailValidationWithError:.InvalidUsername)
         }
 
     }
     
-    public func isValidUsername(theUsername: String) -> Bool {
+    func isValidUsername(theUsername: String) -> Bool {
         return theUsername.isValidUsername() &&
             (theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != MyUserManager.sharedInstance.myUser()?.publicUsername)
     }

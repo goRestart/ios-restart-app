@@ -45,7 +45,7 @@ public class EditUserLocationViewModel: BaseViewModel {
         }
     }
     
-    // MARK: -Lifecycle
+    // MARK: - Lifecycle
     
     override init() {
         searchText = ""
@@ -53,12 +53,16 @@ public class EditUserLocationViewModel: BaseViewModel {
         goingToLocation = false
         serviceAlreadyLoading = false
         pendingGoToLocation = false
-        if let location = MyUserManager.sharedInstance.currentLocation {
-            usingGPSLocation = location.type != .Manual
-        }
-        else {
-            usingGPSLocation = true
-        }
+        
+        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
+//        if let location = MyUserManager.sharedInstance.currentLocation {
+//            usingGPSLocation = location.type != .Manual
+//        }
+//        else {
+//            usingGPSLocation = true
+//        }
+        usingGPSLocation = true
+        
         predictiveResults = []
         currentPlace = Place.newPlace()
         searchService = CLSearchLocationSuggestionsService()
@@ -98,7 +102,9 @@ public class EditUserLocationViewModel: BaseViewModel {
     func showInitialUserLocation() {
         goingToLocation = true
         let user = MyUserManager.sharedInstance.myUser()
-        if let location =  MyUserManager.sharedInstance.currentLocation {
+        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
+//        if let location =  MyUserManager.sharedInstance.currentLocation {
+        if let location = MyUserRepository.sharedInstance.myUser?.location {
             delegate?.viewModel(self, updateTextFieldWithString: "")
             let place = Place(postalAddress: user?.postalAddress, location:LGLocationCoordinates2D(location: location))
             self.currentPlace = place
@@ -148,8 +154,10 @@ public class EditUserLocationViewModel: BaseViewModel {
         usingGPSLocation = true
 
         if !serviceAlreadyLoading {
-            if let location = MyUserManager.sharedInstance.currentAutoLocation {
-                
+            // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
+            if let location = MyUserRepository.sharedInstance.myUser?.location {
+//            if let location = MyUserManager.sharedInstance.currentAutoLocation {
+            
                 // Notify
                 delegate?.viewModelDidStartSearchingLocation(self)
                 
@@ -275,16 +283,20 @@ public class EditUserLocationViewModel: BaseViewModel {
         UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
         
         if usingGPSLocation {
-            MyUserManager.sharedInstance.setAutomaticLocationWithPlace(currentPlace)
+            // TODO: ⛔️ Use LocationManager (inject!!!)
+//            MyUserManager.sharedInstance.setAutomaticLocationWithPlace(currentPlace)
         } else {
             if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
                 let location = CLLocation(latitude: lat, longitude: long)
-                MyUserManager.sharedInstance.setManualLocation(location, place: currentPlace)
+                // TODO: ⛔️ Use LocationManager (inject!!!)
+//                MyUserManager.sharedInstance.setManualLocation(location, place: currentPlace)
             }
         }
         
         // Tracking
-        if let location = MyUserManager.sharedInstance.currentLocation {
+        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
+        if let location = MyUserRepository.sharedInstance.myUser?.location {
+//        if let location = MyUserManager.sharedInstance.currentLocation {
             let trackerEvent = TrackerEvent.profileEditEditLocation(location)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }

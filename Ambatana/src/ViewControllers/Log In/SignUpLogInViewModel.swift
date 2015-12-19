@@ -8,12 +8,28 @@
 
 import Foundation
 import LGCoreKit
+import Result
 
-public  enum LoginActionType: Int{
+enum SignUpLogInError: ErrorType {
+    case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword
+    case Api(apiError: ApiError)
+    case Internal
+    
+    init(repositoryError: RepositoryError) {
+        switch repositoryError {
+        case .Api(let apiError):
+            self = .Api(apiError: apiError)
+        case .Internal:
+            self = .Internal
+        }
+    }
+}
+
+public enum LoginActionType: Int{
     case Signup, Login
 }
 
-public protocol SignUpLogInViewModelDelegate: class {
+protocol SignUpLogInViewModelDelegate: class {
     
     // visual
     func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool)
@@ -21,20 +37,23 @@ public protocol SignUpLogInViewModelDelegate: class {
     
     // signup
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel)
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishSigningUpWithResult result: UserSignUpServiceResult)
+    func viewModel(viewModel: SignUpLogInViewModel, didFinishSigningUpWithResult
+        result: Result<MyUser, SignUpLogInError>)
 
     // login
     func viewModelDidStartLoggingIn(viewModel: SignUpLogInViewModel)
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingInWithResult result: UserLogInEmailServiceResult)
+    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingInWithResult
+        result: Result<MyUser, SignUpLogInError>)
 
     // fb login
     func viewModelDidStartLoggingWithFB(viewModel: SignUpLogInViewModel)
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult result: UserLogInFBResult)
+    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult
+        result: Result<MyUser, RepositoryError>)
 }
 
 public class SignUpLogInViewModel: BaseViewModel {
 
-    // Login source
+    let sessionManager: SessionManager
     let loginSource: EventParameterLoginSourceValue
     
     // Delegate
@@ -72,13 +91,19 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(source: EventParameterLoginSourceValue, action: LoginActionType) {
-        loginSource = source
-        username = ""
-        email = ""
-        password = ""
-        currentActionType = action
+    init(sessionManager: SessionManager, source: EventParameterLoginSourceValue, action: LoginActionType) {
+        self.sessionManager = sessionManager
+        self.loginSource = source
+        self.username = ""
+        self.email = ""
+        self.password = ""
+        self.currentActionType = action
         super.init()
+    }
+    
+    convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
+        let sessionManager = SessionManager.sharedInstance
+        self.init(sessionManager: sessionManager, source: source, action: action)
     }
     
     
@@ -96,32 +121,44 @@ public class SignUpLogInViewModel: BaseViewModel {
         // Validation
         let fullName = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         if usernameContainsLetgoString(fullName) {
-            delegate?.viewModel(self, didFinishSigningUpWithResult: UserSignUpServiceResult(error: .UsernameTaken))
+            delegate?.viewModel(self, didFinishSigningUpWithResult:
+                Result<MyUser, SignUpLogInError>(error: .UsernameTaken))
         }
         else if fullName.characters.count < Constants.fullNameMinLength {
-            delegate?.viewModel(self, didFinishSigningUpWithResult: UserSignUpServiceResult(error: .InvalidUsername))
+            delegate?.viewModel(self, didFinishSigningUpWithResult:
+                Result<MyUser, SignUpLogInError>(error: .InvalidUsername))
         }
         else if !email.isEmail() {
-            delegate?.viewModel(self, didFinishSigningUpWithResult: UserSignUpServiceResult(error: .InvalidEmail))
+            delegate?.viewModel(self, didFinishSigningUpWithResult:
+                Result<MyUser, SignUpLogInError>(error: .InvalidEmail))
         }
         else if password.characters.count < Constants.passwordMinLength || password.characters.count > Constants.passwordMaxLength {
-            delegate?.viewModel(self, didFinishSigningUpWithResult: UserSignUpServiceResult(error: .InvalidPassword))
+            delegate?.viewModel(self, didFinishSigningUpWithResult:
+                Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
         }
         else {
-            MyUserManager.sharedInstance.signUpWithEmail(email.lowercaseString, password: password, publicUsername: fullName) { [weak self] (result: UserSignUpServiceResult) -> Void in
+            sessionManager.signUp(email.lowercaseString, password: password, publicUsername: fullName) {
+                [weak self] signUpResult in
                 
                 guard let strongSelf = self else { return }
-
-                // Tracking
-                if let myUser = MyUserManager.sharedInstance.myUser() {
-                    TrackerProxy.sharedInstance.setUser(myUser)
+                
+                var result = Result<MyUser, SignUpLogInError>(error: .Internal)
+                if let value = signUpResult.value {
+                    result = Result<MyUser, SignUpLogInError>(value: value)
+                    
+                    // Tracking
+                    if let myUser = MyUserManager.sharedInstance.myUser() {
+                        TrackerProxy.sharedInstance.setUser(myUser)
+                    }
+                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource))
+                } else if let repositoryError = signUpResult.error {
+                    let error = SignUpLogInError(repositoryError: repositoryError)
+                    result = Result<MyUser, SignUpLogInError>(error: error)
                 }
                 
-                TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource))
-                
                 // Notify the delegate about it finished
-                if let actualDelegate = strongSelf.delegate {
-                    actualDelegate.viewModel(strongSelf, didFinishSigningUpWithResult: result)
+                if let delegate = strongSelf.delegate {
+                    delegate.viewModel(strongSelf, didFinishSigningUpWithResult: result)
                 }
             }
         }
@@ -134,28 +171,34 @@ public class SignUpLogInViewModel: BaseViewModel {
         
         // Validation
         if !email.isEmail() {
-            delegate?.viewModel(self, didFinishLoggingInWithResult: UserLogInEmailServiceResult(error: .InvalidEmail))
+            delegate?.viewModel(self, didFinishLoggingInWithResult:
+                Result<MyUser, SignUpLogInError>(error: .InvalidEmail))
         }
         else if password.characters.count < Constants.passwordMinLength {
-            delegate?.viewModel(self, didFinishLoggingInWithResult: UserLogInEmailServiceResult(error: .InvalidPassword))
+            delegate?.viewModel(self, didFinishLoggingInWithResult:
+                Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
         }
         else {
-            MyUserManager.sharedInstance.logInWithEmail(email, password: password) { [weak self] (result: UserLogInEmailServiceResult) in
-                
+            sessionManager.login(email, password: password) { [weak self] loginResult in
                 guard let strongSelf = self else { return }
                 
-                // Success
-                if let user = result.value {
+                var result = Result<MyUser, SignUpLogInError>(error: .Internal)
+                if let myUser = loginResult.value {
+                    result = Result<MyUser, SignUpLogInError>(value: myUser)
+                    
                     // Tracking
-                    TrackerProxy.sharedInstance.setUser(user)
+                    TrackerProxy.sharedInstance.setUser(myUser)
                     
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
                     TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                } else if let repositoryError = loginResult.error {
+                    let error = SignUpLogInError(repositoryError: repositoryError)
+                    result = Result<MyUser, SignUpLogInError>(error: error)
                 }
-                
+
                 // Notify the delegate about it finished
-                if let actualDelegate = strongSelf.delegate {
-                    actualDelegate.viewModel(strongSelf, didFinishLoggingInWithResult: result)
+                if let delegate = strongSelf.delegate {
+                    delegate.viewModel(strongSelf, didFinishLoggingInWithResult: result)
                 }
             }
         }
@@ -166,20 +209,22 @@ public class SignUpLogInViewModel: BaseViewModel {
         delegate?.viewModelDidStartLoggingWithFB(self)
         
         // Log in
-        MyUserManager.sharedInstance.logInWithFacebook { [weak self] (result: UserLogInFBResult) in
-            
+        // TODO: ⛔️ Retrieve fb token
+        sessionManager.loginFacebook("") { [weak self] result in
             guard let strongSelf = self else { return }
             
-            // Tracking
-            if let user = result.value {
-                TrackerProxy.sharedInstance.setUser(user)
+            if let myUser = result.value {
+                
+                // Tracking
+                TrackerProxy.sharedInstance.setUser(myUser)
+                
+                let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
+                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             }
-            let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             
             // Notify the delegate about it finished
-            if let actualDelegate = strongSelf.delegate {
-                actualDelegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
+            if let delegate = strongSelf.delegate {
+                delegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
             }
         }
     }

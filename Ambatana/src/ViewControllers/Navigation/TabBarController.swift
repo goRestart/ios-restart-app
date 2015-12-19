@@ -195,37 +195,35 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     }
 
     // MARK: - Public / Internal methods
-
+    
+    func switchToTab(tab: Tab) {
+        switchToTab(tab, checkIfShouldSwitch: true)
+    }
+    
     /**
     Pops the current navigation controller to root and switches to the given tab.
 
     - parameter The: tab to go to.
     */
-    func switchToTab(tab: Tab) {
-        if let navBarCtl = selectedViewController as? UINavigationController {
-
-            let vcIdx = tab.rawValue
-            if vcIdx < viewControllers?.count {
-                if let selectedVC = (viewControllers! as NSArray).objectAtIndex(tab.rawValue) as? UIViewController,
-                    let actualDelegate = delegate {
-
-                        // If it should be selected
-                        let shouldSelectVC = actualDelegate.tabBarController?(self,
-                            shouldSelectViewController: selectedVC) ?? true
-                        if shouldSelectVC {
-
-                            // Change the tab
-                            selectedIndex = vcIdx
-
-                            // Pop the navigation back to root
-                            navBarCtl.popToRootViewControllerAnimated(false)
-
-                            // Notify the delegate, as programmatically change doesn't do it
-                            actualDelegate.tabBarController?(self, didSelectViewController: selectedVC)
-                        }
-                }
-            }
+    private func switchToTab(tab: Tab, checkIfShouldSwitch: Bool) {
+        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
+        guard let viewControllers = viewControllers else { return }
+        guard tab.rawValue < viewControllers.count else { return }
+        guard let vc = (viewControllers as NSArray).objectAtIndex(tab.rawValue) as? UIViewController else { return }
+        guard let delegate = delegate else { return }
+        if checkIfShouldSwitch {
+            let shouldSelectVC = delegate.tabBarController?(self, shouldSelectViewController: vc) ?? true
+            guard shouldSelectVC else { return }
         }
+        
+        // Change the tab
+        selectedIndex = tab.rawValue
+        
+        // Pop the navigation back to root
+        navBarCtl.popToRootViewControllerAnimated(false)
+        
+        // Notify the delegate, as programmatically change doesn't do it
+        delegate.tabBarController?(self, didSelectViewController: vc)
     }
 
     /**
@@ -364,59 +362,59 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     public func tabBarController(tabBarController: UITabBarController,
         shouldSelectViewController viewController: UIViewController) -> Bool {
-
-            let vcIdx = (viewControllers! as NSArray).indexOfObject(viewController)
-            if let tab = Tab(rawValue: vcIdx) {
-
-                var isLogInRequired = false
-                var loginSource: EventParameterLoginSourceValue?
-
-                if tab == .Sell {
-                    // Do not allow selecting Sell
-                    return false
-                } else if tab == .Chats {
-                    // Chats require login
-                    loginSource = .Chats
-                    isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
-                } else if tab == .Profile {
-                    // Profile require login
-                    loginSource = .Profile
-                    isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
-                }
-
-                if let user = MyUserManager.sharedInstance.myUser() {
-                    // Profile needs a user update
-                    if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController
-                        as? EditProfileViewController {
-                            profileVC.user = user
+            
+            guard let viewControllers = viewControllers else { return false }
+            let vcIdx = (viewControllers as NSArray).indexOfObject(viewController)
+            guard let tab = Tab(rawValue: vcIdx) else { return false }
+            
+            var isLogInRequired = false
+            var loginSource: EventParameterLoginSourceValue?
+            let myUser = MyUserManager.sharedInstance.myUser()
+            
+            switch tab {
+            case .Home, .Categories:
+                break
+            case .Sell:
+                // Do not allow selecting Sell (as we've a sell button over sell button tab)
+                return false
+            case .Chats:
+                loginSource = .Chats
+                isLogInRequired = myUser == nil
+            case .Profile:
+                loginSource = .Profile
+                isLogInRequired = myUser == nil
+                
+                // Profile needs a user update
+                if let myUser = myUser {
+                    if let navVC = viewController as? UINavigationController,
+                        let profileVC = navVC.topViewController as? EditProfileViewController {
+                            profileVC.user = myUser
                     } else if let profileVC = viewController as? EditProfileViewController {
-                        profileVC.user = user
+                        profileVC.user = myUser
                     }
                 }
-
-                // If login is required
-                if isLogInRequired {
-
-                    // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
-                    if let actualLoginSource = loginSource {
-                        ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
-                            self?.switchToTab(tab)
-                            },
-                            elsePresentSignUpWithSuccessAction: { [weak self] in
-                                // FIXME: UX Patch: https://ambatana.atlassian.net/browse/ABIOS-503
-                                if tab == .Profile {
-                                    self?.switchToTab(.Home)
-                                } else {
-                                    self?.switchToTab(tab)
-                                }
-                            })
-                    }
-                }
-
-                return !isLogInRequired
             }
-
-            return true
+            
+            // If login is required
+            if isLogInRequired {
+                
+                // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
+                if let actualLoginSource = loginSource {
+                    ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
+                        self?.switchToTab(tab, checkIfShouldSwitch: false)
+                        },
+                        elsePresentSignUpWithSuccessAction: { [weak self] in
+                            // FIXME: UX Patch: https://ambatana.atlassian.net/browse/ABIOS-503
+                            if tab == .Profile {
+                                self?.switchToTab(.Home)
+                            } else {
+                                self?.switchToTab(tab)
+                            }
+                        })
+                }
+            }
+            
+            return !isLogInRequired
     }
 
     public func tabBarController(tabBarController: UITabBarController,
@@ -723,7 +721,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             preferredStyle: .Alert)
         let yesAction = UIAlertAction(title: LGLocalizedString.commonOk, style: UIAlertActionStyle.Default) {
             (updateToGPSLocation) -> Void in
-            MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
+            // TODO: ⛔️ Use LocationManager (inject!!!)
+//            MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
         }
         let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel) {
             (showSecondAlert) -> Void in
@@ -732,7 +731,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
             let updateAction = UIAlertAction(title: LGLocalizedString.changeLocationConfirmUpdateButton,
                 style: .Default) { (updateToGPSLocation) -> Void in
-                    MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
+                    // TODO: ⛔️ Use LocationManager (inject!!!)
+//                    MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
             }
             secondAlert.addAction(cancelAction)
             secondAlert.addAction(updateAction)

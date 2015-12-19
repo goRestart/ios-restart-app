@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
             // Open Splash
             let splashVC = SplashViewController(configManager: configManager)
             let navCtl = UINavigationController(rootViewController: splashVC)
-            splashVC.completionBlock = { (succeeded: Bool) -> Void in
+            splashVC.completion = { _ in
 
                 // Removing splash nav controller, otherwise it remains below the tabbar
                 navCtl.view.removeFromSuperview()
@@ -90,7 +90,8 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                 }
                 
                 // Location
-                MyUserManager.sharedInstance.startSensorLocationUpdates()
+                // TODO: ⛔️ Use LocationManager (inject!!!)
+//                MyUserManager.sharedInstance.startSensorLocationUpdates()
             }
             
             actualWindow.rootViewController = navCtl
@@ -156,7 +157,8 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         
         // Location
-        MyUserManager.sharedInstance.stopSensorLocationUpdates()
+        // TODO: ⛔️ Use LocationManager
+//        MyUserManager.sharedInstance.stopSensorLocationUpdates()
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -203,7 +205,8 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
             }
             
             // Location
-            MyUserManager.sharedInstance.startSensorLocationUpdates()
+            // TODO: ⛔️ Use LocationManager
+//            MyUserManager.sharedInstance.startSensorLocationUpdates()
         }
         
         // Tracking
@@ -309,15 +312,14 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     // MARK: > Actions
     
     private func openChatListViewController() {
-        if let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController {
-            tabBarCtl.switchToTab(.Chats)
+        guard let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController else {
+            return
         }
+        tabBarCtl.switchToTab(.Chats)
     }
     
     private func consumeUserContinuation(usingTabBar tabBarCtl: TabBarController) {
-        guard let webpageURL = userContinuationUrl else {
-            return
-        }
+        guard let webpageURL = userContinuationUrl else { return }
         
         userContinuationUrl = nil
         

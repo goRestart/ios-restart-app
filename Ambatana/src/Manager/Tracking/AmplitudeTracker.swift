@@ -59,8 +59,8 @@ public class AmplitudeTracker: Tracker {
         
         var properties: [NSObject : AnyObject] = [:]
         properties[AmplitudeTracker.userPropIdKey] = user?.objectId ?? ""
-        properties[AmplitudeTracker.userPropLatitudeKey] = user?.gpsCoordinates?.latitude
-        properties[AmplitudeTracker.userPropLongitudeKey] = user?.gpsCoordinates?.longitude
+        properties[AmplitudeTracker.userPropLatitudeKey] = user?.location?.coordinate.latitude
+        properties[AmplitudeTracker.userPropLongitudeKey] = user?.location?.coordinate.longitude
         
         properties[AmplitudeTracker.userPropTypeKey] = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
         Amplitude.instance().setUserProperties(properties, replace: true)

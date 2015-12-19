@@ -132,7 +132,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
                         // logout the scammer!
                         self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric,
                             completionBlock: { (completion) -> Void in
-                                MyUserManager.sharedInstance.logout(nil)
+                                SessionManager.sharedInstance.logout(nil)
                         })
                     }
                 }
@@ -199,9 +199,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - Button actions
     
     @IBAction func searchProducts(sender: AnyObject) {
-        if let tabBarCtl = tabBarController as? TabBarController {
-            tabBarCtl.switchToTab(.Home)
-        }
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
     }
 
     @IBAction func sellProducts(sender: AnyObject) {

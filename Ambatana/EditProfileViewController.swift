@@ -199,15 +199,10 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             userImageView.image = UIImage(named: "no_photo")
         }
         userNameLabel.text = user.publicUsername ?? ""
-        if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
-            userLocationLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
-        }
-        else {
-            userLocationLabel.text = user.postalAddress.city ?? ""
-        }
+        userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
         
         // If it's me, then allow go to settings
-        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId,
+        if let myUser = MyUserRepository.sharedInstance.myUser, let myUserId = myUser.objectId,
             let userId = user.objectId {
                 if userId == myUserId {
                     setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
@@ -254,9 +249,8 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     }
     
     @IBAction func startSearchingNow(sender: AnyObject) {
-        if let tabBarCtl = tabBarController as? TabBarController {
-            tabBarCtl.switchToTab(.Home)
-        }
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
     }
     
     // MARK: - ProductListViewDataDelegate
@@ -283,8 +277,8 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             if error == .Forbidden {
                 // logout the scammer!
                 showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-                    MyUserManager.sharedInstance.logout(nil)
-                }
+                    SessionManager.sharedInstance.logout(nil)
+               }
             }
     }
     

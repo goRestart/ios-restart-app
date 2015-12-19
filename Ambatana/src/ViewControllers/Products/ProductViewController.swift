@@ -307,7 +307,7 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
     
     public func viewModelForbiddenAccessToFavourite(viewModel: ProductViewModel) {
         showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-            MyUserManager.sharedInstance.logout(nil)
+            SessionManager.sharedInstance.logout(nil)
         })
     }
     
@@ -342,7 +342,7 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
         if error == .Forbidden {
             completion = {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                    MyUserManager.sharedInstance.logout(nil)
+                    SessionManager.sharedInstance.logout(nil)
                 })
             }
         }
@@ -448,7 +448,7 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
                 if actualError == .Forbidden {
                     completion = {
                         self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                            MyUserManager.sharedInstance.logout(nil)
+                            SessionManager.sharedInstance.logout(nil)
                         })
                     }
                 }

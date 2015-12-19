@@ -65,7 +65,9 @@ public class SellProductViewModel: BaseViewModel {
         category = nil
         images = []
         
-        shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
+        // TODO: ⛔️ Store provider
+//        shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
+        shouldShareInFB = false
 
         self.productManager = ProductManager()
         
@@ -186,7 +188,9 @@ public class SellProductViewModel: BaseViewModel {
             delegate?.sellProductViewModel(self, didFailWithError: error)
             return
         }
-        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(price), description: descr, category: category, currency: currency)
+        // TODO: ⛔️ Should be:
+//        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(price), description: descr, category: category, currency: currency)
+        theProduct = productManager.updateProduct(theProduct, name: title, price: Float(price), description: descr, category: category, currency: currency)
         
         saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }

@@ -49,10 +49,11 @@ public class ProductListViewModel: BaseViewModel {
         if let specifiedCoordinates = coordinates {
             coords = specifiedCoordinates
         }
+        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
         // Try to use MyUserManager location
-        else if let lastKnownLocation = MyUserManager.sharedInstance.currentLocation {
-            coords = LGLocationCoordinates2D(location: lastKnownLocation)
-        }
+//        else if let lastKnownLocation = MyUserManager.sharedInstance.currentLocation {
+//            coords = LGLocationCoordinates2D(location: lastKnownLocation)
+//        }
         else {
             coords = nil
         }

@@ -10,6 +10,7 @@ import LGCoreKit
 import Result
 import UIKit
 
+// TODO: ⛔️ Use LocationManager (inject!!!)
 class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, ChangeUsernameViewModelDelegate {
 
     // outlets & buttons
@@ -97,13 +98,10 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         showLoadingMessageAlert(LGLocalizedString.changeUsernameLoading)
     }
     
-    func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: UserSaveServiceError) {
+    func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: ChangeUsernameError) {
         let message: String
         switch (error) {
-        case .Network, .Internal, .InvalidPassword, .PasswordMismatch:
-            message = LGLocalizedString.commonErrorConnectionFailed
-        case .EmailTaken:
-            // should never happen
+        case .Api, .Internal:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .InvalidUsername:
             message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength)
@@ -114,7 +112,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         self.showAutoFadingOutMessageAlert(message)
     }
     
-    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult result: UserSaveServiceResult) {
+    func viewModel(viewModel: ChangeUsernameViewModel, didFinishSendingUserWithResult
+        result: Result<MyUser, ChangeUsernameError>) {
         var completion: (() -> Void)? = nil
         
         switch (result) {
@@ -128,12 +127,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         case .Failure(let error):
             let message: String
             switch (error) {
-            case .Network:
-                message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .InvalidPassword, .PasswordMismatch:
-                message = LGLocalizedString.commonErrorConnectionFailed
-            case .EmailTaken:
-                // should never happen
+            case .Api, .Internal:
                 message = LGLocalizedString.commonErrorConnectionFailed
             case .InvalidUsername:
                 message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength)

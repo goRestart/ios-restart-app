@@ -156,19 +156,21 @@ public class PushManager: NSObject, KahunaDelegate {
     public func application(application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
             // Save the installation with the received device token
-            MyUserManager.sharedInstance.saveInstallationDeviceToken(deviceToken)
-            Kahuna.setDeviceToken(deviceToken);
+            // TODO: ⛔️ InstallationRepository
+//            InstallationRepository.
+//            MyUserManager.sharedInstance.saveInstallationDeviceToken(deviceToken)
+            Kahuna.setDeviceToken(deviceToken)
     }
 
     public func application(application: UIApplication,
         didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-            Kahuna.handleNotificationRegistrationFailure(error);
+            Kahuna.handleNotificationRegistrationFailure(error)
     }
 
     public func application(application: UIApplication, handleActionWithIdentifier identifier: String?,
         forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
             Kahuna.handleNotification(userInfo, withActionIdentifier: identifier,
-                withApplicationState: UIApplication.sharedApplication().applicationState);
+                withApplicationState: UIApplication.sharedApplication().applicationState)
     }
 
     public func application(application: UIApplication,
@@ -218,7 +220,7 @@ public class PushManager: NSObject, KahunaDelegate {
     // MARK: - Private methods
 
     private func setupKahuna() {
-        Kahuna.launchWithKey(EnvironmentProxy.sharedInstance.kahunaAPIKey);
+        Kahuna.launchWithKey(EnvironmentProxy.sharedInstance.kahunaAPIKey)
     }
 
     dynamic private func login(notification: NSNotification) {

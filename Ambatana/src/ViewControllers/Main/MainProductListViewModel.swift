@@ -27,7 +27,9 @@ public class MainProductListViewModel: ProductListViewModel {
 
     override init() {
         self.myUserManager = MyUserManager.sharedInstance
-        self.lastReceivedLocation = self.myUserManager.currentLocation
+        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
+//        self.lastReceivedLocation = self.myUserManager.currentLocation
+        self.lastReceivedLocation = nil
         self.locationActivatedWhileLoading = false
         super.init()
         
@@ -47,9 +49,10 @@ public class MainProductListViewModel: ProductListViewModel {
 
         // Active
         if (active) {
-            if let currentLocation = MyUserManager.sharedInstance.currentLocation {
-                retrieveProductsIfNeededWithNewLocation(currentLocation)
-            }
+            // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
+//            if let currentLocation = MyUserManager.sharedInstance.currentLocation {
+//                retrieveProductsIfNeededWithNewLocation(currentLocation)
+//            }
         }
     }
     
