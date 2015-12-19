@@ -50,11 +50,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             case Chats:
                 return ChatListViewController()
             case Profile:
-                if let user = MyUserRepository.sharedInstance.myUser {
-                    return EditProfileViewController(user: user)
-                }
+                return EditProfileViewController(user: MyUserRepository.sharedInstance.myUser)
             }
-            return nil
         }
 
         static var all:[Tab]{

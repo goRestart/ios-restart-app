@@ -203,6 +203,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func logoutUser() {
+        // TODO: ⛔️ Logout not working as it should
         // Logout
         SessionManager.sharedInstance.logout(nil)
         
