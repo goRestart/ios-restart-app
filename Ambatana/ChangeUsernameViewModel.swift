@@ -40,6 +40,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     weak var delegate : ChangeUsernameViewModelDelegate?
     
     let myUserRepository: MyUserRepository
+    let tracker: Tracker
     
     var username: String {
         didSet {
@@ -47,15 +48,17 @@ class ChangeUsernameViewModel: BaseViewModel {
         }
     }
     
-    init(myUserRepository: MyUserRepository) {
+    init(myUserRepository: MyUserRepository, tracker: Tracker) {
         self.myUserRepository = myUserRepository
+        self.tracker = tracker
         self.username = myUserRepository.myUser?.username ?? ""
         super.init()
     }
     
     override convenience init() {
         let myUserRepository = MyUserRepository.sharedInstance
-        self.init(myUserRepository: myUserRepository)
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, tracker: tracker)
     }
     
 
@@ -79,7 +82,7 @@ class ChangeUsernameViewModel: BaseViewModel {
                 
                 if let _ = updateResult.value {
                     let trackerEvent = TrackerEvent.profileEditEditName()
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                    strongSelf.tracker.trackEvent(trackerEvent)
                 }
                 
                 guard let delegate = strongSelf.delegate else { return }
@@ -102,7 +105,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     
     func isValidUsername(theUsername: String) -> Bool {
         return theUsername.isValidUsername() &&
-            (theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != MyUserManager.sharedInstance.myUser()?.publicUsername)
+            (theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != myUserRepository.myUser?.publicUsername)
     }
     
     

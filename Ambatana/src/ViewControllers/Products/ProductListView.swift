@@ -334,7 +334,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     public func productViewModelForProductAtIndex(index: Int) -> ProductViewModel {
         let product = productAtIndex(index)
-        return ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
+        return ProductViewModel(product: product)
     }
     
     

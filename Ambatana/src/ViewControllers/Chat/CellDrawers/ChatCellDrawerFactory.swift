@@ -10,9 +10,10 @@ import Foundation
 import LGCoreKit
 
 public class ChatCellDrawerFactory {
-    
+        
     static func drawerForMessage(message: Message) -> ChatCellDrawer {
-        return MyUserManager.sharedInstance.isMessageMine(message) ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
+        let myUserRepository = MyUserRepository.sharedInstance
+        return myUserRepository.isMessageMine(message) ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
     }
     
     static func registerCells(tableView: UITableView) {

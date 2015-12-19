@@ -48,7 +48,9 @@ public class SellProductViewModel: BaseViewModel {
     internal var savedProduct: Product?
     
     // Managers
+    let myUserRepository: MyUserRepository
     private let productManager: ProductManager
+    let tracker: Tracker
     
     // Delegate
     weak var delegate: SellProductViewModelDelegate?
@@ -57,7 +59,18 @@ public class SellProductViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    public override init() {
+    public convenience override init() {
+        let myUserRepository = MyUserRepository.sharedInstance
+        let productManager = ProductManager()
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker)
+    }
+    
+    public init(myUserRepository: MyUserRepository, productManager: ProductManager, tracker: Tracker) {
+        self.myUserRepository = myUserRepository
+        self.productManager = productManager
+        self.tracker = tracker
+        
         title = ""
         currency = CurrencyHelper.sharedInstance.currentCurrency
         price = ""
@@ -68,8 +81,6 @@ public class SellProductViewModel: BaseViewModel {
         // TODO: ⛔️ Store provider
 //        shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
         shouldShareInFB = false
-
-        self.productManager = ProductManager()
         
         super.init()
         
@@ -188,9 +199,7 @@ public class SellProductViewModel: BaseViewModel {
             delegate?.sellProductViewModel(self, didFailWithError: error)
             return
         }
-        // TODO: ⛔️ Should be:
-//        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(price), description: descr, category: category, currency: currency)
-        theProduct = productManager.updateProduct(theProduct, name: title, price: Float(price), description: descr, category: category, currency: currency)
+        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(price), description: descr, category: category, currency: currency)
         
         saveTheProduct(theProduct, withImages: noEmptyImages(images))
     }

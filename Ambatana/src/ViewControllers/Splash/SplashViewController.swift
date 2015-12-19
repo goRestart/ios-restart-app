@@ -34,14 +34,13 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
         super.viewWillAppearFromBackground(fromBackground)
 
         // Update the config file
-        configManager.updateWithCompletion { [weak self] () -> Void in
-            guard let strongSelf = self else { return }
+        configManager.updateWithCompletion { () -> Void in
             
             var showOnBoarding = true
             
             // If should force update then show a blocking alert
             if let appStoreURL = EnvironmentProxy.sharedInstance.appStoreURL {
-                if strongSelf.configManager.shouldForceUpdate &&
+                if self.configManager.shouldForceUpdate &&
                     UIApplication.sharedApplication().canOpenURL(appStoreURL) {
                         showOnBoarding = false
                         
@@ -52,12 +51,12 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
                                 UIApplication.sharedApplication().openURL(appStoreURL)
                         })
                         alert.addAction(action)
-                        strongSelf.presentViewController(alert, animated: true, completion: nil)
+                        self.presentViewController(alert, animated: true, completion: nil)
                 }
             }
             
             // Show onboarding if it should show and was shown before
-            showOnBoarding = showOnBoarding && strongSelf.configManager.shouldShowOnboarding
+            showOnBoarding = showOnBoarding && self.configManager.shouldShowOnboarding
             let didShowOnboarding = UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
             
             if showOnBoarding && !didShowOnboarding {
@@ -80,9 +79,9 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
                 tourVC.rightButtonImage = UIImage(named: "ic_arrow_white_right")
                 tourVC.delegate = self
                 
-                strongSelf.navigationController?.presentViewController(tourVC, animated: false, completion: nil)
+                self.navigationController?.presentViewController(tourVC, animated: false, completion: nil)
             } else {
-                strongSelf.completion?()
+                self.completion?()
             }
         }
     }

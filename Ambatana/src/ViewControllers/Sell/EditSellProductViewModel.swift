@@ -22,10 +22,9 @@ public class EditSellProductViewModel: SellProductViewModel {
     private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
     
-    public init(product: Product) {
-        
+    public init(myUserRepository: MyUserRepository, productManager: ProductManager, tracker: Tracker, product: Product){
         self.editedProduct = product
-        super.init()
+        super.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker)
         
         if let name = product.name {
             self.title = name
@@ -46,6 +45,14 @@ public class EditSellProductViewModel: SellProductViewModel {
         for _ in 0..<product.images.count {
             images.append(nil)
         }
+    }
+    
+    public convenience init(product: Product) {
+        let myUserRepository = MyUserRepository.sharedInstance
+        let productManager = ProductManager()
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker,
+            product: product)
     }
     
     // MARK: - Public methods
@@ -74,7 +81,7 @@ public class EditSellProductViewModel: SellProductViewModel {
 
     internal override func trackStart() {
         super.trackStart()
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditStart(myUser, product: editedProduct)
         trackEvent(event)
     }
@@ -83,21 +90,21 @@ public class EditSellProductViewModel: SellProductViewModel {
     internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
 
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditFormValidationFailed(myUser, product: editedProduct, description: error.rawValue)
         trackEvent(event)
     }
     
     internal override func trackSharedFB() {
         super.trackSharedFB()
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditSharedFB(myUser, product: savedProduct)
         trackEvent(event)
     }
     
     internal override func trackComplete(product: Product) {
         super.trackComplete(product)
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditComplete(myUser, product: product, category: category)
         trackEvent(event)
     }
@@ -107,7 +114,7 @@ public class EditSellProductViewModel: SellProductViewModel {
     
     private func trackEvent(event: TrackerEvent) {
         if shouldTrack {
-            TrackerProxy.sharedInstance.trackEvent(event)
+            tracker.trackEvent(event)
         }
     }
     

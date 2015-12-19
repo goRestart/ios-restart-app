@@ -138,7 +138,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     
     private func shouldUpdateMyEmail() -> Bool {
         // Should update the email if nil or empty
-        if let myUserEmail = MyUserManager.sharedInstance.myUser()?.email {
+        if let myUserEmail = myUserRepository.myUser?.email {
             return myUserEmail.isEmpty
         }
         return true

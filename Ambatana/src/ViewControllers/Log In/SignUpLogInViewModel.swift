@@ -147,9 +147,7 @@ public class SignUpLogInViewModel: BaseViewModel {
                     result = Result<MyUser, SignUpLogInError>(value: value)
                     
                     // Tracking
-                    if let myUser = MyUserManager.sharedInstance.myUser() {
-                        TrackerProxy.sharedInstance.setUser(myUser)
-                    }
+                    TrackerProxy.sharedInstance.setUser(value)
                     TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource))
                 } else if let repositoryError = signUpResult.error {
                     let error = SignUpLogInError(repositoryError: repositoryError)

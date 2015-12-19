@@ -50,11 +50,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         priceTextField.becomeFirstResponder()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func enableLoadingInterface() {
         activityIndicator.startAnimating()
         activityIndicator.hidden = false
@@ -70,7 +65,9 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
     
     @IBAction func makeAnOffer(sender: AnyObject) {
-        if let actualProduct = product, let productUser = product?.user, let myUser = MyUserManager.sharedInstance.myUser(), let productPriceStr = priceTextField.text, let productPrice = Int(productPriceStr) {
+        if let actualProduct = product, let productUser = product?.user,
+            let myUser = MyUserRepository.sharedInstance.myUser, let productPriceStr = priceTextField.text,
+            let productPrice = Int(productPriceStr) {
             
             // Loading
             enableLoadingInterface()
@@ -97,7 +94,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                     strongSelf2.openChatViewControllerWithChat(chat)
                                     
                                     // Tracking
-                                    let myUser = MyUserManager.sharedInstance.myUser()
+                                    let myUser = MyUserRepository.sharedInstance.myUser
                                     let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser, amount: Double(productPrice))
                                     TrackerProxy.sharedInstance.trackEvent(offerEvent)
                                     

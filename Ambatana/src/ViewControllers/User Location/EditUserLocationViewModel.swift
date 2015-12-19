@@ -24,6 +24,9 @@ public class EditUserLocationViewModel: BaseViewModel {
    
     public weak var delegate : EditUserLocationViewModelDelegate?
     
+    private let myUserRepository: MyUserRepository
+    private let tracker: Tracker
+    
     private let searchService : CLSearchLocationSuggestionsService
     private let postalAddressService : PostalAddressRetrievalService
     
@@ -47,7 +50,10 @@ public class EditUserLocationViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    override init() {
+    init(myUserRepository: MyUserRepository, tracker: Tracker) {
+        self.myUserRepository = myUserRepository
+        self.tracker = tracker
+        
         searchText = ""
         approximateLocation =  UserDefaultsManager.sharedInstance.loadIsApproximateLocation()
         goingToLocation = false
@@ -68,6 +74,12 @@ public class EditUserLocationViewModel: BaseViewModel {
         searchService = CLSearchLocationSuggestionsService()
         postalAddressService = CLPostalAddressRetrievalService()
         super.init()
+    }
+    
+    override convenience init() {
+        let myUserRepository = MyUserRepository.sharedInstance
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, tracker: tracker)
     }
     
     // MARK: public methods
@@ -101,7 +113,7 @@ public class EditUserLocationViewModel: BaseViewModel {
     
     func showInitialUserLocation() {
         goingToLocation = true
-        let user = MyUserManager.sharedInstance.myUser()
+        let user = myUserRepository.myUser
         // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
 //        if let location =  MyUserManager.sharedInstance.currentLocation {
         if let location = MyUserRepository.sharedInstance.myUser?.location {
@@ -295,10 +307,10 @@ public class EditUserLocationViewModel: BaseViewModel {
         
         // Tracking
         // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-        if let location = MyUserRepository.sharedInstance.myUser?.location {
+        if let location = myUserRepository.myUser?.location {
 //        if let location = MyUserManager.sharedInstance.currentLocation {
             let trackerEvent = TrackerEvent.profileEditEditLocation(location)
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+            tracker.trackEvent(trackerEvent)
         }
     }
 }

@@ -345,7 +345,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let product = productAtIndexPath(indexPath)
-        let productVM = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
+        let productVM = ProductViewModel(product: product)
         let vc = ProductViewController(viewModel: productVM)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -479,7 +479,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             noFavouritesLabel.hidden = true
             
             // set text depending on if we are the user being shown or not
-            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId { // user is me!
+            if user.objectId == MyUserRepository.sharedInstance.myUser?.objectId { // user is me!
                 youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
                 youDontHaveSubtitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsSubtitleLabel
                 youDontHaveSubtitleLabel.hidden = false

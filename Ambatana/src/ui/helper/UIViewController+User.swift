@@ -11,8 +11,7 @@ import LGCoreKit
 extension UIViewController {
     
     internal func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void, elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
-        let isLogInRequired = MyUserRepository.sharedInstance.myUser == nil
-        if isLogInRequired {
+        if MyUserRepository.sharedInstance.loggedIn {
             loggedInAction()
         } else {
             let vc = MainSignUpViewController(source: source)

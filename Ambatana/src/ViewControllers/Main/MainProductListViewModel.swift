@@ -10,8 +10,9 @@ import LGCoreKit
 
 public class MainProductListViewModel: ProductListViewModel {
 
-    // Manager
-    private let myUserManager: MyUserManager
+    // Repository
+    private let myUserRepository: MyUserRepository
+    private let tracker: Tracker
     
     // Data
     private var lastReceivedLocation: LGLocation?
@@ -25,19 +26,26 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Lifecycle
 
-    override init() {
-        self.myUserManager = MyUserManager.sharedInstance
+    init(myUserRepository: MyUserRepository, tracker: Tracker) {
+        self.myUserRepository = myUserRepository
+        self.tracker = tracker
         // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
 //        self.lastReceivedLocation = self.myUserManager.currentLocation
         self.lastReceivedLocation = nil
         self.locationActivatedWhileLoading = false
         super.init()
         
-        self.countryCode = self.myUserManager.myUser()?.postalAddress.countryCode
+        self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
         self.isProfileList = false
         
         // Observe MyUserManager location updates
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: MyUserManager.Notification.locationUpdate.rawValue, object: nil)
+    }
+    
+    override convenience init() {
+        let myUserRepository = MyUserRepository.sharedInstance
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, tracker: tracker)
     }
     
      deinit {
@@ -60,7 +68,7 @@ public class MainProductListViewModel: ProductListViewModel {
     
     public override func retrieveProductsFirstPage() {
         // Update before requesting the first page
-        countryCode = self.myUserManager.myUser()?.postalAddress.countryCode
+        countryCode = myUserRepository.myUser?.postalAddress.countryCode
         super.retrieveProductsFirstPage()
     }
     
@@ -69,9 +77,9 @@ public class MainProductListViewModel: ProductListViewModel {
     internal override func didSucceedRetrievingProducts() {
         
         // Tracking
-        let myUser = myUserManager.myUser()
+        let myUser = myUserRepository.myUser
         let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        tracker.trackEvent(trackerEvent)
 
         if locationActivatedWhileLoading {
             // in case the user allows sensors while loading the product list with the iplookup parameters
@@ -132,9 +140,10 @@ public class MainProductListViewModel: ProductListViewModel {
                 shouldTrack = true
             }
             if shouldTrack {
-                let locationServiceStatus = myUserManager.locationServiceStatus
-                let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
-                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
+//                let locationServiceStatus = myUserManager.locationServiceStatus
+//                let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
+//                tracker.trackEvent(trackerEvent)
             }
             
             // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)

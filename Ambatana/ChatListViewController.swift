@@ -222,7 +222,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             forIndexPath: indexPath) as! ConversationCell
         
         cell.tag = indexPath.hash
-        if let chat = chats?[indexPath.row], let myUser = MyUserManager.sharedInstance.myUser() {
+        if let chat = chats?[indexPath.row], let myUser = MyUserRepository.sharedInstance.myUser {
             cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
         return cell

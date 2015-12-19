@@ -125,7 +125,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
         
         if setting == .ChangeUsername {
-            cell.nameLabel.text = MyUserManager.sharedInstance.myUser()?.publicUsername
+            cell.nameLabel.text = MyUserRepository.sharedInstance.myUser?.publicUsername
         }
         
         if setting == .ChangeLocation {
@@ -135,7 +135,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
         }
 
         if setting == .ChangePhoto {
-            if let myUser = MyUserManager.sharedInstance.myUser(), let avatarUrl = myUser.avatar?.fileURL {
+            if let myUser = MyUserRepository.sharedInstance.myUser, let avatarUrl = myUser.avatar?.fileURL {
                 cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: UIImage(named: "no_photo"))
             }
             else {

@@ -50,7 +50,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             case Chats:
                 return ChatListViewController()
             case Profile:
-                if let user = MyUserManager.sharedInstance.myUser() {
+                if let user = MyUserRepository.sharedInstance.myUser {
                     return EditProfileViewController(user: user)
                 }
             }
@@ -69,8 +69,9 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     }
 
     // Managers
-    var productManager: ProductManager
-    var userManager: UserManager
+    let productManager: ProductManager
+    let userManager: UserManager
+    let myUserRepository: MyUserRepository
 
     // Deep link
     var deepLink: DeepLink?
@@ -86,35 +87,35 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     public convenience init() {
         let productManager = ProductManager()
         let userManager = UserManager()
-        let deepLink: DeepLink? = nil
-        self.init(productManager: productManager, userManager: userManager, deepLink: deepLink)
+        let myUserRepository = MyUserRepository.sharedInstance
+        self.init(productManager: productManager, userManager: userManager, myUserRepository: myUserRepository)
     }
 
-    public required init(productManager: ProductManager, userManager: UserManager, deepLink: DeepLink?) {
-        // Managers
+    public init(productManager: ProductManager, userManager: UserManager, myUserRepository: MyUserRepository) {
         self.productManager = productManager
         self.userManager = userManager
-
+        self.myUserRepository = myUserRepository
+    
         // Deep link
-        self.deepLink = deepLink
-
+        self.deepLink = nil
+        
         super.init(nibName: nil, bundle: nil)
-
+        
         // Generate the view controllers
         var vcs: [UIViewController] = []
         for tab in Tab.all {
             vcs.append(controllerForTab(tab))
         }
-
+        
         // Get the chats tab bar items
         if vcs.count > Tab.Chats.rawValue {
             chatsTabBarItem = vcs[Tab.Chats.rawValue].tabBarItem
         }
-
+        
         // UITabBarController setup
         viewControllers = vcs
         delegate = self
-
+        
         // Add the sell button as a custom one
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
         sellButton = UIButton(frame: CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
@@ -124,7 +125,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
         //        sellButton.backgroundColor = StyleHelper.tabBarSellIconBgColor
         tabBar.addSubview(sellButton)
-
+        
         // Add the floating sell button
         floatingSellButton = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
             icon: UIImage(named: "ic_sell_white"))
@@ -132,21 +133,21 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             forControlEvents: UIControlEvents.TouchUpInside)
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
-
-        let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX, relatedBy: .Equal,
-            toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
+        
+        let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX,
+            relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
         floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
-            relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: -(tabBar.frame.height + 15))
-        // 15 above tabBar
-
+            relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
+            constant: -(tabBar.frame.height + 15)) // 15 above tabBar
+        
         view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
-
+        
         // Initially set the chats tab badge to the app icon badge number
         if let chatsTab = chatsTabBarItem {
             let applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
             chatsTab.badgeValue = applicationIconBadgeNumber > 0 ? "\(applicationIconBadgeNumber)" : nil
         }
-
+        
         // Update chats badge
         updateChatsBadge()
     }
@@ -369,7 +370,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             
             var isLogInRequired = false
             var loginSource: EventParameterLoginSourceValue?
-            let myUser = MyUserManager.sharedInstance.myUser()
+            let myUser = myUserRepository.myUser
             
             switch tab {
             case .Home, .Categories:
@@ -421,7 +422,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         didSelectViewController viewController: UIViewController) {
 
             // If we have a user
-            if let user = MyUserManager.sharedInstance.myUser() {
+            if let user = myUserRepository.myUser {
 
                 // And if it's my profile, then update the user
                 if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController
@@ -566,7 +567,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
 
                         // TODO: Refactor TabBarController with MVVM
-                        let vm = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
+                        let vm = ProductViewModel(product: product)
                         let vc = ProductViewController(viewModel: vm)
                         navBarCtl.pushViewController(vc, animated: true)
                     }

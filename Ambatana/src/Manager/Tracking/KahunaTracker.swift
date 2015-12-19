@@ -102,7 +102,7 @@ public class KahunaTracker: Tracker {
         
         var userAttributes : Dictionary = Dictionary(dictionaryLiteral:("last_session_end_date", dateFormatter.stringFromDate(NSDate())), ("UUID", ""))
         
-        if let userID = MyUserManager.sharedInstance.myUser()?.objectId {
+        if let userID = MyUserRepository.sharedInstance.myUser?.objectId {
             userAttributes["UUID"] = userID
         }
 
@@ -119,7 +119,7 @@ public class KahunaTracker: Tracker {
         
         var userAttributes : Dictionary = Dictionary(dictionaryLiteral:("last_session_start_date", dateFormatter.stringFromDate(NSDate())), ("UUID", ""))
 
-        if let userID = MyUserManager.sharedInstance.myUser()?.objectId {
+        if let userID = MyUserRepository.sharedInstance.myUser?.objectId {
             userAttributes["UUID"] = userID
         }
         

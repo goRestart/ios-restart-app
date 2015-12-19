@@ -18,8 +18,9 @@ public protocol ChatViewModelDelegate: class {
 }
 
 public class ChatViewModel: BaseViewModel {
-    var chatManager: ChatManager
-    var userManager: MyUserManager
+    let chatManager: ChatManager
+    let myUserRepository: MyUserRepository
+    let tracker: Tracker
 
     public var chat: Chat
     public var otherUser: User?
@@ -50,11 +51,14 @@ public class ChatViewModel: BaseViewModel {
     }
     
     public var productViewModel: ProductViewModel {
-        return ProductViewModel(product: chat.product, tracker: TrackerProxy.sharedInstance)
+        return ProductViewModel(product: chat.product)
     }
     
     public convenience init?(chat: Chat) {
-        self.init(chat: chat, userManager: MyUserManager.sharedInstance, chatManager: ChatManager.sharedInstance)
+        let myUserRepository = MyUserRepository.sharedInstance
+        let chatManager = ChatManager.sharedInstance
+        let tracker = TrackerProxy.sharedInstance
+        self.init(chat: chat, myUserRepository: myUserRepository, chatManager: chatManager, tracker: tracker)
     }
     
     public convenience init?(product: Product, askQuestion: Bool) {
@@ -64,10 +68,11 @@ public class ChatViewModel: BaseViewModel {
         self.askQuestion = askQuestion
     }
     
-    public init?(chat: Chat, userManager: MyUserManager, chatManager: ChatManager) {
+    public init?(chat: Chat, myUserRepository: MyUserRepository, chatManager: ChatManager, tracker: Tracker) {
         self.chat = chat
-        self.userManager = userManager
+        self.myUserRepository = myUserRepository
         self.chatManager = chatManager
+        self.tracker = tracker
         super.init()
         initUsers()
         if otherUser == nil { return nil }
@@ -76,7 +81,7 @@ public class ChatViewModel: BaseViewModel {
     
     
     func initUsers() {
-        guard let myUser = userManager.myUser() else { return }
+        guard let myUser = myUserRepository.myUser else { return }
         guard let myUserId = myUser.objectId else { return }
         guard let userFromId = chat.userFrom.objectId else { return }
         guard let productOwnerId = chat.product.user.objectId else { return }
@@ -135,13 +140,13 @@ public class ChatViewModel: BaseViewModel {
     // MARK: Tracking
     
     func trackQuestion() {
-        let myUser = userManager.myUser()
+        let myUser = myUserRepository.myUser
         let askQuestionEvent = TrackerEvent.productAskQuestion(chat.product, user: myUser)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
     
     func trackMessageSent() {
-        let myUser = userManager.myUser()
+        let myUser = myUserRepository.myUser
         let messageSentEvent = TrackerEvent.userMessageSent(chat.product, user: myUser)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
