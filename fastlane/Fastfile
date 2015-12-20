@@ -20,11 +20,13 @@ fastlane_version "1.37.0"
 
 default_platform :ios
 
-def stringGeneration(wti_enabled)
-  if wti_enabled
-    system "ruby ../Scripts/strings_update.rb -i ../"
+def stringGeneration(wti_upload, wti_download)
+  if wti_upload
+    system "ruby ../Scripts/strings_update.rb -wti-upload -i ../"
+  elsif wti_download
+    system "ruby ../Scripts/strings_update.rb -wti-download -i ../"
   else 
-    system "ruby ../Scripts/strings_update.rb --no-wti-upload -i ../"
+    system "ruby ../Scripts/strings_update.rb --no-wti-download -i ../"
   end
 end
 
@@ -59,11 +61,15 @@ platform :ios do
   end
 
   lane :upload_strings do
-    stringGeneration(true)
+    stringGeneration(true, false)
+  end
+
+  lane :download_strings do 
+    stringGeneration(false, true)
   end
 
   lane :generate_strings do 
-    stringGeneration(false)
+    stringGeneration(false, false)
   end
 
   after_all do |lane|
