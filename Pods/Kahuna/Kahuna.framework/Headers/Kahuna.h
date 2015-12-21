@@ -516,5 +516,18 @@ Since the Kahuna SDK monitors geo-fences in the background, you should not call 
  */
 + (void) disableLocationServices:(KAHLocationServicesFeatures)features;
 
+/*!
+ @method
+ 
+ @abstract
+ This API is used to enable push notification.
+ 
+ @discussion
+ This API will enable Push Notifications (Sound, Alert, Badge all 3 are requested). If you want to customize this behaviour please check out Apple's documentation
+ on requesting for push permissions. Call this API when you are ready to request for push permissions from the user.
+ 
+ */
++ (void) enablePushNotifications;
+
 
 @end

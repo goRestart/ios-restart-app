@@ -32,7 +32,7 @@ PODS:
   - FMDB/standard (2.5):
     - FMDB/common
   - GoogleAppIndexing (2.0.1)
-  - Kahuna (2.2.4)
+  - Kahuna (2.3.2)
   - LGCollapsibleLabel (0.1.1)
   - LGCoreKit (0.16.11):
     - Alamofire (~> 3.0.1)
@@ -78,7 +78,7 @@ DEPENDENCIES:
   - FastttCamera (~> 0.3.4)
   - FBSDKShareKit (~> 4.7.0)
   - GoogleAppIndexing (~> 2.0.1)
-  - Kahuna (~> 2.2.2)
+  - Kahuna (~> 2.3.2)
   - LGCollapsibleLabel (= 0.1.1)
   - LGCoreKit (= 0.16.11)
   - LGSemiModalNavController (~> 0.2.0)
@@ -116,7 +116,7 @@ SPEC CHECKSUMS:
   FBSDKShareKit: 213adf63e073f41a346b0e7a689805880dc5150e
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
-  Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
+  Kahuna: 1c0a2663d6b1472e620148bec47d9432f55e03ab
   LGCollapsibleLabel: d9cbd82597d995dcfa6c030423b82d338836111a
   LGCoreKit: e131bfe6f5efa4f2f66d4112cfbcba36ffdaa59d
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
