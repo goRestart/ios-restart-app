@@ -276,17 +276,18 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     - parameter animated: If transition should be animated
     */
     func setSellFloatingButtonHidden(hidden: Bool, animated: Bool) {
+        self.floatingSellButton.layer.removeAllAnimations()
+
         let alpha: CGFloat = hidden ? 0 : 1
         if animated {
 
             if !hidden {
-                floatingSellButton.hidden = hidden
+                floatingSellButton.hidden = false
             }
-
             UIView.animateWithDuration(0.35, animations: { [weak self] () -> Void in
                 self?.floatingSellButton.alpha = alpha
-                }, completion: { [weak self] (_) -> Void in
-                    if hidden {
+                }, completion: { [weak self] (completed) -> Void in
+                    if completed {
                         self?.floatingSellButton.hidden = hidden
                     }
                 })
