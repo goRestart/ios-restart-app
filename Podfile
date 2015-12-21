@@ -47,6 +47,12 @@ pod "NewRelicAgent",         "~> 5.3.1"
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0.1"
 
+# Google Analytics
+#pod "Google/Analytics"      #,      "~> 3.14.0"
+
+# Adjust
+pod "Adjust",               "~> 4.5.0" #:git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"
+
 # Semi modal view controller
 pod "LGSemiModalNavController", "~> 0.2.0"
 
