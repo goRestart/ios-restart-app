@@ -69,7 +69,7 @@ public class ProductManager {
     /**
     Factory method. Will return an updated version from the initial product
     */
-    public func updateProduct(product: Product, name: String?, price: Float?, description: String?, category: ProductCategory, currency: Currency?) -> Product {
+    public func updateProduct(product: Product, name: String?, price: Double?, description: String?, category: ProductCategory, currency: Currency?) -> Product {
         var product = LGProduct(product: product)
         product.name = name
         product.price = price
@@ -88,93 +88,109 @@ public class ProductManager {
     public func retrieveProductWithId(productId: String, completion: ProductRetrieveServiceCompletion) {
         productRetrieveService.retrieveProductWithId(productId, completion: completion)
     }
-    
+
     /**
-        Saves (new/edit) the product for my user. If it's new, it's responsibility of the user that it has valid coordinates.
-    
-        - parameter product: the product
-        - parameter images: the product images
-        - parameter result: The closure containing the result.
+    Saves (new/edit) the product for my user. If it's new, it's responsibility of the user that it has valid coordinates.
+
+    - parameter product: the product
+    - parameter images: the product images
+    - parameter result: The closure containing the result.
     */
-    public func saveProduct(theProduct: Product, withImages images: [UIImage], progress: (Float) -> Void, completion: ProductSaveServiceCompletion?) {
-        
-        /* If we don't have a user (with id & session token), or it's a new product and the user doesn't have coordinates, then it's an error */
-        let user = MyUserManager.sharedInstance.myUser()
-        if  (user == nil && user!.objectId != nil && user!.sessionToken == nil) ||
-            (!theProduct.isSaved && user?.gpsCoordinates == nil) {
+    public func saveProduct(theProduct: Product, withImages images: [UIImage], progress: (Float) -> Void,
+        completion: ProductSaveServiceCompletion?) {
+
+            saveProductImages(images, progress: progress) {
+                [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
+
+                    guard let images = multipleFilesUploadResult.value else {
+
+                            let error = multipleFilesUploadResult.error ?? .Internal
+                            switch (error) {
+                            case .Internal:
+                                completion?(ProductSaveServiceResult(error: .Internal))
+                            case .Network:
+                                completion?(ProductSaveServiceResult(error: .Network))
+                            case .Forbidden:
+                                completion?(ProductSaveServiceResult(error: .Forbidden))
+                            }
+                            return
+                    }
+
+                    self?.saveProduct(theProduct, imageFiles: images, completion: completion)
+            }
+    }
+
+    public func saveProduct(theProduct: Product, imageFiles images: [File], completion: ProductSaveServiceCompletion?) {
+
+        guard let myUser = MyUserManager.sharedInstance.myUser(), let sessionToken = myUser.sessionToken else {
             completion?(ProductSaveServiceResult(error: .Internal))
             return
         }
-        
-        // Prepare images' file name & their data
-        var imageNameAndDatas: [(String, NSData)] = []
-        for (index, image) in images.enumerate() {
-            if let data = resizeImageDataFromImage(image) {
-                let name = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "", options: [], range: nil) + "_\(index).jpg"
-                let imageNameAndData = (name, data)
-                imageNameAndDatas.append(imageNameAndData)
-            }
-        }
-        
-        // 1. Upload them
-        let totalSteps = Float(images.count)    // #images + product save
-        uploadImagesWithUserId(user!.objectId!, sessionToken: user!.sessionToken!, imageNameAndDatas:imageNameAndDatas, step: { (imagesUploadStep: Int) -> Void in
 
-            // Notify about the progress
-            progress(Float(imagesUploadStep)/totalSteps)
-            
-        }) { [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
-            
-            // Success and we have my user, and it has coordinates
-            if let images = multipleFilesUploadResult.value, let myUser = user, let location = myUser.gpsCoordinates, let myUserSessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken {
-                
-                var product = LGProduct(product: theProduct)
-                product.images = images
-                
-                // If it's a new product, then set the location
-                let isNew = !product.isSaved
-                if isNew {
-                    product.location = location
-                    product.postalAddress = myUser.postalAddress
-                }
-              
-                // 2. Save
-                self?.productSaveService.saveProduct(product, forUser: myUser, sessionToken: myUserSessionToken) { (saveResult: ProductSaveServiceResult) -> Void in
+        var product = LGProduct(product: theProduct)
+        product.images = images
 
-                    // Success
-                    if let savedProduct = saveResult.value, _ = savedProduct.objectId {
-                        
-                        completion?(ProductSaveServiceResult(value: savedProduct))
-                    }
-                    // Error
-                    else {
-                        let error = saveResult.error ?? .Internal
-                        switch (error) {
-                        case .Internal:
-                            completion?(ProductSaveServiceResult(error: .Internal))
-                        case .Network:
-                            completion?(ProductSaveServiceResult(error: .Network))
-                        case .Forbidden:
-                            completion?(ProductSaveServiceResult(error: .Forbidden))
-                        case .NoImages, .NoTitle, .NoPrice, .NoDescription, .LongDescription, .NoCategory:
-                            completion?(ProductSaveServiceResult(error: .Internal))
-                        }
-                    }
-                }
+        if !theProduct.isSaved {
+            //New product take address and coordinates info from user
+            guard let location = myUser.gpsCoordinates else {
+                completion?(ProductSaveServiceResult(error: .Internal))
+                return
             }
-            // Error
-            else {
-                let error = multipleFilesUploadResult.error ?? .Internal
-                switch (error) {
-                case .Internal:
-                    completion?(ProductSaveServiceResult(error: .Internal))
-                case .Network:
-                    completion?(ProductSaveServiceResult(error: .Network))
-                case .Forbidden:
-                    completion?(ProductSaveServiceResult(error: .Forbidden))
-                }
-            }
+            product.location = location
+            product.postalAddress = myUser.postalAddress
         }
+
+        self.productSaveService.saveProduct(product, forUser: myUser, sessionToken: sessionToken)
+            { (saveResult: ProductSaveServiceResult) -> Void in
+                guard let savedProduct = saveResult.value, _ = savedProduct.objectId else {
+                    let error = saveResult.error ?? .Internal
+                    switch (error) {
+                    case .Internal:
+                        completion?(ProductSaveServiceResult(error: .Internal))
+                    case .Network:
+                        completion?(ProductSaveServiceResult(error: .Network))
+                    case .Forbidden:
+                        completion?(ProductSaveServiceResult(error: .Forbidden))
+                    case .NoImages, .NoTitle, .NoPrice, .NoDescription, .LongDescription, .NoCategory:
+                        completion?(ProductSaveServiceResult(error: .Internal))
+                    }
+                    return
+                }
+
+                completion?(ProductSaveServiceResult(value: savedProduct))
+        }
+    }
+
+    public func saveProductImages(images: [UIImage], progress: ((Float) -> Void)?,
+        completion productImagesCompletion: MultipleFilesUploadServiceCompletion?) {
+            guard let user = MyUserManager.sharedInstance.myUser(), let userId = user.objectId,
+                let sessionToken = user.sessionToken else {
+                    productImagesCompletion?(MultipleFilesUploadServiceResult(error: .Internal))
+                    return
+            }
+
+            // Prepare images' file name & their data
+            var imageNameAndDatas: [(String, NSData)] = []
+            for (index, image) in images.enumerate() {
+                if let data = resizeImageDataFromImage(image) {
+                    let name = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "",
+                        options: [], range: nil) + "_\(index).jpg"
+                    let imageNameAndData = (name, data)
+                    imageNameAndDatas.append(imageNameAndData)
+                }
+            }
+
+            let totalSteps = Float(images.count)
+            uploadImagesWithUserId(userId,
+                sessionToken: sessionToken,
+                imageNameAndDatas:imageNameAndDatas,
+                step: { (imagesUploadStep: Int) -> Void in
+                    progress?(Float(imagesUploadStep)/totalSteps)
+                },
+                completion: {(multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
+                    productImagesCompletion?(multipleFilesUploadResult)
+                }
+            )
     }
     
     /**

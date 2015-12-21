@@ -14,6 +14,9 @@ PODS:
   - Bolts/Tasks (1.5.0)
   - CHTCollectionViewWaterfallLayout (0.9.2)
   - Curry (1.3.0)
+  - FastttCamera (0.3.4):
+    - FastttCamera/Default (= 0.3.4)
+  - FastttCamera/Default (0.3.4)
   - FBSDKCoreKit (4.7.1):
     - Bolts (~> 1.1)
     - FBSDKCoreKit/arc (= 4.7.1)
@@ -30,10 +33,10 @@ PODS:
   - FMDB/common (2.5)
   - FMDB/standard (2.5):
     - FMDB/common
-  - Google/Analytics (1.2.1):
+  - Google/Analytics (1.3.2):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
-  - Google/Core (1.2.1):
+  - Google/Core (1.3.2):
     - GoogleInterchangeUtilities (~> 1.0)
     - GoogleNetworkingUtilities (~> 1.0)
     - GoogleSymbolUtilities (~> 1.0)
@@ -49,7 +52,7 @@ PODS:
     - GoogleSymbolUtilities (~> 1.0.0)
   - Kahuna (2.2.4)
   - LGCollapsibleLabel (0.1.1)
-  - LGCoreKit (0.16.6):
+  - LGCoreKit (0.16.11):
     - Alamofire (~> 3.0.1)
     - Argo (~> 2.2.0)
     - Curry (~> 1.3.0)
@@ -91,12 +94,13 @@ DEPENDENCIES:
   - Adjust (from `git://github.com/adjust/ios_sdk.git`, tag `v4.5.0`)
   - Amplitude-iOS (~> 3.2.0)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
+  - FastttCamera (~> 0.3.4)
   - FBSDKShareKit (~> 4.7.0)
   - Google/Analytics
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.2.2)
   - LGCollapsibleLabel (= 0.1.1)
-  - LGCoreKit (= 0.16.6)
+  - LGCoreKit (= 0.16.11)
   - LGSemiModalNavController (~> 0.2.0)
   - LGTour (= 0.1.3)
   - NewRelicAgent (~> 5.3.1)
@@ -133,11 +137,12 @@ SPEC CHECKSUMS:
   Bolts: 722ab9a4f8b50fc4ed1b9998a5a7a2b3f16d80b4
   CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
   Curry: 74e8d3e3c43fed131a2a87b29f613ab832623c19
+  FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
   FBSDKCoreKit: 9141b70960a37930850370495fe565f4a27ac141
   FBSDKLoginKit: c11ed3c2833472db3bb4a4aecf27af4a6f69b173
   FBSDKShareKit: 213adf63e073f41a346b0e7a689805880dc5150e
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
-  Google: fd33b5fa40fa3aaee5176de49c873a74e3d11dce
+  Google: 97618e118111b998cce1d8dd1bd98b82301d72db
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
   GoogleInterchangeUtilities: d7f7174176fbcf9710f696f1acebad4dbd98ac03
@@ -146,7 +151,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 8ed9134debe11719097881711464752900668f10
   Kahuna: b73207897847a6bb8f8f20f05ed27e381146b32d
   LGCollapsibleLabel: d9cbd82597d995dcfa6c030423b82d338836111a
-  LGCoreKit: 145a667623d396fbd16fd2c147a000524638f8a5
+  LGCoreKit: e131bfe6f5efa4f2f66d4112cfbcba36ffdaa59d
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   LGTour: 83d3acf4b769c9d3e12c9687487512482f868e27
   NewRelicAgent: cf111fc652ec0dd7b3fdef05016dc9e0867eaddb

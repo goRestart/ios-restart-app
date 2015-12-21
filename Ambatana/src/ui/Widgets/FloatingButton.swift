@@ -62,10 +62,9 @@ public class FloatingButton: UIButton {
     // MARK: - Private methods
     
     private func setupUIWithTitle(title: String?, icon: UIImage?) {
+        innerButton.setPrimaryStyle()
         innerButton.layer.cornerRadius = CGRectGetHeight(innerButton.frame) / 2
-        innerButton.setBackgroundImage(innerButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        innerButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
-        
+
         setTitle(title)
         setImage(icon)
         

@@ -9,8 +9,11 @@
 import LGCoreKit
 import Result
 import FBSDKShareKit
+import SDWebImage
 
-class SellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKSharingDelegate {
+class BaseSellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate,
+UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
+UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController {
     
     // UI
     
@@ -42,17 +45,18 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
 
     // viewModel
     
-    private var viewModel : SellProductViewModel!
-    
+    private var viewModel : BaseSellProductViewModel!
+
+
     // MARK: - Lifecycle
     
     convenience init() {
-        self.init(viewModel: SellProductViewModel())
+        self.init(viewModel: BaseSellProductViewModel())
     }
     
-    init(viewModel: SellProductViewModel) {
+    init(viewModel: BaseSellProductViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "SellProductViewController")
+        super.init(viewModel: viewModel, nibName: "BaseSellProductViewController")
         
         self.viewModel.delegate = self
         
@@ -62,7 +66,6 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,14 +77,11 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         super.viewDidAppear(animated)
         descriptionTextView.scrollRectToVisible(CGRectMake(0, 0, 1, 1), animated: false)
     }
-    
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Redraw the lines
-        for line in lines {
-            line.removeFromSuperlayer()
-        }
+        lines.forEach { $0.removeFromSuperlayer() }
         lines = []
         lines.append(titleTextField.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(titleTextField.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
@@ -89,23 +89,26 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         lines.append(categoryButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(categoryButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
+
     
     // MARK: - Public methods
     
     // MARK: > Actions
-    
   
     @IBAction func categoryButtonPressed(sender: AnyObject) {
         
-        let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil, preferredStyle: .ActionSheet)
+        let alert = UIAlertController(title: LGLocalizedString.sellChooseCategoryDialogTitle, message: nil,
+            preferredStyle: .ActionSheet)
 
         for i in 0..<viewModel.numberOfCategories {
-            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(i), style: .Default, handler: { (categoryAction) -> Void in
-                self.viewModel.selectCategoryAtIndex(i)
+            alert.addAction(UIAlertAction(title: viewModel.categoryNameAtIndex(i), style: .Default,
+                handler: { (categoryAction) -> Void in
+                    self.viewModel.selectCategoryAtIndex(i)
             }))
         }
         
-        alert.addAction(UIAlertAction(title: LGLocalizedString.sellChooseCategoryDialogCancelButton, style: .Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: LGLocalizedString.sellChooseCategoryDialogCancelButton,
+            style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
 
     }
@@ -117,18 +120,17 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
         viewModel.shouldShareInFB = shareFBSwitch.on
     }
+
     
     // MARK: - SellProductViewModelDelegate Methods
     
-    func sellProductViewModel(viewModel: SellProductViewModel, archetype: Bool) {
-        
-    }
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, archetype: Bool) { }
     
-    func sellProductViewModel(viewModel: SellProductViewModel, didSelectCategoryWithName categoryName: String) {
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didSelectCategoryWithName categoryName: String) {
         categoryButton.setTitle(categoryName, forState: .Normal)
     }
     
-    func sellProductViewModel(viewModel: SellProductViewModel, shouldUpdateDescriptionWithCount count: Int) {
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, shouldUpdateDescriptionWithCount count: Int) {
         
         if count <= 0 {
             descriptionCharCountLabel.textColor = StyleHelper.textFieldTintColor
@@ -138,37 +140,37 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         descriptionCharCountLabel.text = "\(count)"
     }
 
-    func sellProductViewModeldidAddOrDeleteImage(viewModel: SellProductViewModel) {
+    func sellProductViewModeldidAddOrDeleteImage(viewModel: BaseSellProductViewModel) {
         imageCollectionView.reloadSections(NSIndexSet(index: 0))
     }
     
-    func sellProductViewModelDidStartSavingProduct(viewModel: SellProductViewModel) {
+    func sellProductViewModelDidStartSavingProduct(viewModel: BaseSellProductViewModel) {
         loadingView.hidden = false
         loadingProgressView.setProgress(0, animated: false)
     }
     
-    func sellProductViewModel(viewModel: SellProductViewModel, didUpdateProgressWithPercentage percentage: Float) {
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didUpdateProgressWithPercentage percentage: Float) {
         loadingProgressView.setProgress(percentage, animated: false)
     }
     
-    func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: ProductSaveServiceResult) {
-        loadingView.hidden = true
-        
-        if viewModel.shouldShareInFB {
-            viewModel.shouldDisableTracking()
-            let content = viewModel.fbShareContent
-            FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
-        }
-        else {
-            sellCompleted()
-        }
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult
+        result: ProductSaveServiceResult) {
+            loadingView.hidden = true
+            
+            if viewModel.shouldShareInFB {
+                viewModel.shouldDisableTracking()
+                let content = viewModel.fbShareContent
+                FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
+            } else {
+                sellCompleted()
+            }
     }
     
-    func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductSaveServiceError) {
         loadingView.hidden = true
     }
     
-    func sellProductViewModelFieldCheckSucceeded(viewModel: SellProductViewModel) {
+    func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel) {
         ifLoggedInThen(.Sell, loggedInAction: {
             self.viewModel.save()
         }, elsePresentSignUpWithSuccessAction: {
@@ -179,24 +181,34 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     // MARK: - TextField Delegate Methods
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        if let textFieldText = textField.text {
-            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+        replacementString string: String) -> Bool {
             
-            if let tag = TextFieldTag(rawValue: textField.tag) {
-                switch (tag) {
-                case .ProductTitle:
-                    viewModel.title = text
-                case .ProductPrice:
-                    viewModel.price = text
-                case .ProductDescription:
-                    break
+            if textField == priceTextField {
+                let updatedText: String
+                if let text = textField.text {
+                    updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+                } else {
+                    updatedText = string
+                }
+                if !updatedText.isValidLengthPrice() { return false }
+            }
+            
+            if let textFieldText = textField.text {
+                let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+                
+                if let tag = TextFieldTag(rawValue: textField.tag) {
+                    switch (tag) {
+                    case .ProductTitle:
+                        viewModel.title = text.isEmpty ? nil : text
+                    case .ProductPrice:
+                        viewModel.price = text.isEmpty ? nil : text
+                    case .ProductDescription:
+                        break
+                    }
                 }
             }
-        }
-        
-        return true
+            return true
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -210,8 +222,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     
     // MARK: - TextView Delegate Methods
-    
-    
+
     func textViewDidBeginEditing(textView: UITextView) {
         // clear text view placeholder
         if textView.text == descrPlaceholder && textView.textColor ==  descrPlaceholderColor {
@@ -233,7 +244,7 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         if let textViewText = textView.text {
             let text = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: text)
             if text != descrPlaceholder && textView.textColor != descrPlaceholderColor {
-                viewModel.descr = text
+                viewModel.descr = text.isEmpty ? nil : text
             }
         }
         
@@ -247,32 +258,21 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         return 5
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+        -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sellProductCellReuseIdentifier, forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
-        
-        if indexPath.item < viewModel.numberOfImages {
-            // cell with image
-            if let image = viewModel.imageAtIndex(indexPath.item) {
-                cell.setupCellWithImage(image)
-            }
-            else {
-                //image not loaded yet, show activity indicator
-                cell.setupLoadingCell()
-            }
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sellProductCellReuseIdentifier,
+                forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
             
-            cell.label.text = ""
-        }
-        else if indexPath.item == viewModel.numberOfImages {
-            // add image icon
-            cell.setupAddPictureCell()
-        }
-        else {
-            // empty cell
-            cell.setupEmptyCell()
-        }
-
-        return cell
+            if indexPath.item < viewModel.numberOfImages {
+                cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
+                cell.label.text = ""
+            } else if indexPath.item == viewModel.numberOfImages {
+                cell.setupAddPictureCell()
+            } else {
+                cell.setupEmptyCell()
+            }
+            return cell
     }
     
     
@@ -280,30 +280,32 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
 
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        // add image
         if indexPath.item == viewModel.numberOfImages {
+            // add image
             MediaPickerManager.showImagePickerIn(self)
             
             if indexPath.item > 1 && indexPath.item < 4 {
-                collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item+1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Right, animated: true)
+                collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item+1, inSection: 0),
+                    atScrollPosition: UICollectionViewScrollPosition.Right, animated: true)
             }
             
         } else if (indexPath.item < viewModel.numberOfImages) {
             // remove image
-            let alert = UIAlertController(title: LGLocalizedString.sellPictureSelectedTitle, message: nil, preferredStyle: .ActionSheet)
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedDeleteButton, style: .Destructive, handler: { (deleteAction) -> Void in
-                self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
-                if indexPath.item > 0 {
-                    collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item-1, inSection: 0), atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
-                }
-
+            let alert = UIAlertController(title: LGLocalizedString.sellPictureSelectedTitle, message: nil,
+                preferredStyle: .ActionSheet)
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedDeleteButton,
+                style: .Destructive, handler: { (deleteAction) -> Void in
+                    self.deleteAlreadyUploadedImageWithIndex(indexPath.row)
+                    guard indexPath.item > 0 else { return }
+                    collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item-1, inSection: 0),
+                            atScrollPosition: UICollectionViewScrollPosition.Left, animated: true)
             }))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedSaveIntoCameraRollButton, style: .Default, handler: { (saveAction) -> Void in
-                self.saveProductImageToDiskAtIndex(indexPath.row)
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedSaveIntoCameraRollButton,
+                style: .Default, handler: { (saveAction) -> Void in
+                    self.saveProductImageToDiskAtIndex(indexPath.row)
             }))
-            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedCancelButton, style: .Cancel, handler: nil))
-            
+            alert.addAction(UIAlertAction(title: LGLocalizedString.sellPictureSelectedCancelButton,
+                style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
     }
@@ -311,17 +313,16 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     
     // MARK: UIImagePicker Delegate
  
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        var image = info[UIImagePickerControllerEditedImage] as? UIImage
-        if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
-        
-        // Tracking
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo
+        info: [String : AnyObject]) {
+            var image = info[UIImagePickerControllerEditedImage] as? UIImage
+            if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
 
-        if let theImage = image {
-            viewModel.appendImage(theImage)
-        }
+            if let theImage = image {
+                viewModel.appendImage(theImage)
+            }
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -334,26 +335,39 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
     func deleteAlreadyUploadedImageWithIndex(index: Int) {
         // delete the image file locally
         viewModel.deleteImageAtIndex(index)
-        // reload collection view
     }
     
     func saveProductImageToDiskAtIndex(index: Int) {
         showLoadingMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollLoading)
         
         // get the image and launch the saving action.
-        if let imageAtIndex = viewModel.imageAtIndex(index) {
-            UIImageWriteToSavedPhotosAlbum(imageAtIndex, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        let imageTypeAtIndex = viewModel.imageAtIndex(index)
+        switch imageTypeAtIndex {
+        case .Local(let image):
+            UIImageWriteToSavedPhotosAlbum(image, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        case .Remote(let file):
+            guard let fileUrl = file.fileURL else {
+                self.dismissLoadingMessageAlert(){
+                    self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
+                }
+                return
+            }
+            SDWebImageManager.sharedManager().downloadImageWithURL(fileUrl, options: [], progress: nil) {
+                [weak self] (image: UIImage!, _, _, _, _) -> Void in
+                guard let strongSelf = self else { return }
+                UIImageWriteToSavedPhotosAlbum(image, strongSelf, "image:didFinishSavingWithError:contextInfo:", nil)
+            }
         }
     }
     
     func image(image: UIImage!, didFinishSavingWithError error: NSError!, contextInfo: UnsafeMutablePointer<Void>) {
-        self.dismissLoadingMessageAlert({ () -> Void in
+        self.dismissLoadingMessageAlert(){
             if error == nil { // success
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollOk)
             } else {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.sellPictureSaveIntoCameraRollErrorGeneric)
             }
-        })
+        }
     }
     
     // MARK: - Private methods
@@ -366,15 +380,14 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         titleTextField.tag = TextFieldTag.ProductTitle.rawValue
         currencyButton.setTitle(viewModel.currency.symbol, forState: .Normal)
 
-        priceTextField.placeholder = LGLocalizedString.sellPriceFieldHint
+        priceTextField.placeholder = LGLocalizedString.productNegotiablePrice
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.ProductPrice.rawValue
         
-        if viewModel.descr.characters.count > 0 {
+        if viewModel.descr?.characters.count > 0 {
             descriptionTextView.text = viewModel.descr
             descriptionTextView.textColor = UIColor.blackColor()
-        }
-        else {
+        } else {
             descriptionTextView.text = descrPlaceholder
             descriptionTextView.textColor = descrPlaceholderColor
         }
@@ -394,8 +407,8 @@ class SellProductViewController: BaseViewController, SellProductViewModelDelegat
         // CollectionView
         imageCollectionView.delegate = self
         imageCollectionView.dataSource = self
-        let sellProductCellNib = UINib(nibName: "SellProductCell", bundle: nil)
-        self.imageCollectionView.registerNib(sellProductCellNib, forCellWithReuseIdentifier: sellProductCellReuseIdentifier)
+        let cellNib = UINib(nibName: "SellProductCell", bundle: nil)
+        self.imageCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: sellProductCellReuseIdentifier)
         
         loadingLabel.text = LGLocalizedString.sellUploadingLabel
     }

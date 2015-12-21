@@ -96,7 +96,7 @@
                                 <constraint firstAttribute="height" constant="44" id="SVX-LB-y7M"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                            <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="insetX">
                                     <real key="value" value="8"/>

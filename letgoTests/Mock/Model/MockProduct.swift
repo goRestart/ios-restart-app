@@ -9,11 +9,11 @@
 import LGCoreKit
 
 class MockProduct: MockBaseModel, Product {
-   
+
     // Product iVars
     var name: String?
     var descr: String?
-    var price: Float?
+    var price: Double?
     var currency: Currency?
     
     var location: LGLocationCoordinates2D
@@ -34,7 +34,7 @@ class MockProduct: MockBaseModel, Product {
     
     var processed: NSNumber?
 
-    
+
     // MARK: - Lifecycle
     
     override init() {
@@ -76,6 +76,7 @@ class MockProduct: MockBaseModel, Product {
         
         user = product.user
     }
+    
     
     // MARK: - Public methods
     

@@ -166,7 +166,7 @@ public class CurrencyHelper {
         let currencyFormatter = NSNumberFormatter()
         currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
         currencyFormatter.locale = locale
-        currencyFormatter.maximumFractionDigits = 0
+        currencyFormatter.minimumFractionDigits = 0
         if let actualCurrencySymbol = currencySymbol {
             currencyFormatter.currencySymbol = actualCurrencySymbol
         }
