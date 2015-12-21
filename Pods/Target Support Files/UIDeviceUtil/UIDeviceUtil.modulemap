@@ -1,6 +1,0 @@
-framework module UIDeviceUtil {
-  umbrella header "UIDeviceUtil-umbrella.h"
-
-  export *
-  module * { export * }
-}

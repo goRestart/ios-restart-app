@@ -36,13 +36,13 @@ pod "pop",                  "~> 1.0.8"
 pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 
 # Device info helper
-pod "UIDeviceUtil",         "~> 1.1.2"
+pod "DeviceUtil",         "~> 1.3.5"
 
 # Push Notifications
-pod "Kahuna",               "~> 2.2.2"
+pod "Kahuna",               "~> 2.3.2"
 
 # New Relic
-pod "NewRelicAgent",         "~> 5.3.1"
+pod "NewRelicAgent",         "~> 5.3.4"
 
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0.1"
@@ -63,7 +63,7 @@ pod "FastttCamera",         "~> 0.3.4"
 pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 
 target "letgoTests", :exclusive => true do
-    pod "Kahuna",               "~> 2.2.2"
+    pod "Kahuna",               "~> 2.3.2"
     
     ## Testing
     pod "Quick",            "~> 0.4"

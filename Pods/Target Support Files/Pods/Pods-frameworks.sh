@@ -91,6 +91,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/Bolts.framework"
   install_framework "Pods/CHTCollectionViewWaterfallLayout.framework"
   install_framework "Pods/Curry.framework"
+  install_framework "Pods/DeviceUtil.framework"
   install_framework "Pods/FBSDKCoreKit.framework"
   install_framework "Pods/FBSDKLoginKit.framework"
   install_framework "Pods/FBSDKShareKit.framework"
@@ -109,7 +110,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/SlackTextViewController.framework"
   install_framework "Pods/TMReachability.framework"
   install_framework "Pods/Timepiece.framework"
-  install_framework "Pods/UIDeviceUtil.framework"
   install_framework "Pods/pop.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -120,6 +120,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/Bolts.framework"
   install_framework "Pods/CHTCollectionViewWaterfallLayout.framework"
   install_framework "Pods/Curry.framework"
+  install_framework "Pods/DeviceUtil.framework"
   install_framework "Pods/FBSDKCoreKit.framework"
   install_framework "Pods/FBSDKLoginKit.framework"
   install_framework "Pods/FBSDKShareKit.framework"
@@ -138,7 +139,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods/SlackTextViewController.framework"
   install_framework "Pods/TMReachability.framework"
   install_framework "Pods/Timepiece.framework"
-  install_framework "Pods/UIDeviceUtil.framework"
   install_framework "Pods/pop.framework"
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
@@ -149,6 +149,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods/Bolts.framework"
   install_framework "Pods/CHTCollectionViewWaterfallLayout.framework"
   install_framework "Pods/Curry.framework"
+  install_framework "Pods/DeviceUtil.framework"
   install_framework "Pods/FBSDKCoreKit.framework"
   install_framework "Pods/FBSDKLoginKit.framework"
   install_framework "Pods/FBSDKShareKit.framework"
@@ -167,6 +168,5 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods/SlackTextViewController.framework"
   install_framework "Pods/TMReachability.framework"
   install_framework "Pods/Timepiece.framework"
-  install_framework "Pods/UIDeviceUtil.framework"
   install_framework "Pods/pop.framework"
 fi
