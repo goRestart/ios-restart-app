@@ -87,6 +87,22 @@ def find_text_on_ios_files(path,text)
   return output
 end
 
+def wti_push(ios_path)
+  puts "Updating base Localizable.strings on wti"
+  system "wti push -c #{ios_path}.wti"
+end
+
+def wti_pull(ios_path)
+  puts "Executing LG wti pull script"
+  system "ruby #{File.dirname(__FILE__)}/helpers/wti.rb -w #{ios_path}.wti -i #{ios_path}Ambatana/res/i18n -c #{ios_path}Ambatana/src/Constants/"
+end
+
+def drive_pull(ios_path)
+  system "ruby #{File.dirname(__FILE__)}/helpers/localized_generator.rb -s Localizable.strings -d #{ios_path}Ambatana/src/Constants/"
+  system "cp Localizable.strings #{ios_path}Ambatana/res/i18n/Base.lproj/Localizable.strings"
+  system "rm Localizable.strings"
+end
+
 # Parsing and commandline checks
 
 options = Parser.new do |p|
@@ -95,7 +111,8 @@ options = Parser.new do |p|
   p.option :client, 'Client json path', :default => "#{File.dirname(__FILE__)}/drive-spreadsheet-secret.json", :short => 'u'
   p.option :spreadsheet, 'Spreadsheet containing the localization info', :default => 'LetGo'
   p.option :output_ios, 'Path to the iOS project directory', :default => './', :short => 'i'
-  p.option :wti_upload, 'Enable wti push & pull', :default => true
+  p.option :wti_upload, 'Enable wti push & pull', :default => false
+  p.option :wti_download, 'Enable just wti pull', :default => true
   p.option :keep_keys, 'Whether to maintain original keys or not', :default => true, :short => 'k'
   p.option :check_unused, 'Whether to check unused keys on project', :default => false , :short => 'c'
   p.option :check_unused_mark, 'If checking keys -> mark them on spreadsheet prepending [u]', :default => false , :short => 'm'
@@ -105,6 +122,7 @@ client_json_path = options[:client]
 ios_path = options[:output_ios]
 spreadsheet = options[:spreadsheet]
 wti_upload = options[:wti_upload]
+wti_download = options[:wti_download]
 check_unused = options[:check_unused]
 check_unused_mark = options[:check_unused_mark]
 keep_keys = options[:keep_keys]
@@ -216,16 +234,15 @@ puts 'Generating Localizable.base.strings file for ' + 'iOS'.red + '...'
 generate_ios "base", "./"
 
 if wti_upload
-  puts "Updating base Localizable.strings on wti"
-  system "wti push -c #{ios_path}.wti"
-
-  puts "Executing LG wti pull script"
-  system "ruby #{File.dirname(__FILE__)}/helpers/wti.rb -w #{ios_path}.wti -i #{ios_path}Ambatana/res/i18n -c #{ios_path}Ambatana/src/Constants/"
+  wti_push(ios_path)
+  wti_pull(ios_path)
+elsif wti_download
+  wti_pull(ios_path)
+  generate_ios "base", "./"
+  drive_pull(ios_path)
 else
   #Just generate Localizables file and base
-  system "ruby #{File.dirname(__FILE__)}/helpers/localized_generator.rb -s Localizable.strings -d #{ios_path}Ambatana/src/Constants/"
-  system "cp Localizable.strings #{ios_path}Ambatana/res/i18n/Base.lproj/Localizable.strings"
-  system "rm Localizable.strings"
+  drive_pull(ios_path)
 end
 
 
