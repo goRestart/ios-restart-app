@@ -22,9 +22,9 @@ default_platform :ios
 
 def stringGeneration(wti_upload, wti_download)
   if wti_upload
-    system "ruby ../Scripts/strings_update.rb -wti-upload -i ../"
+    system "ruby ../Scripts/strings_update.rb --wti-upload -i ../"
   elsif wti_download
-    system "ruby ../Scripts/strings_update.rb -wti-download -i ../"
+    system "ruby ../Scripts/strings_update.rb --wti-download -i ../"
   else 
     system "ruby ../Scripts/strings_update.rb --no-wti-download -i ../"
   end
@@ -38,6 +38,8 @@ platform :ios do
 
   desc "Build and distribute build to Crashlytics"
   lane :beta do
+
+    download_strings
 
     cocoapods
 
