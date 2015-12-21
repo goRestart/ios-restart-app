@@ -125,8 +125,8 @@ class PostProductViewModel: BaseViewModel {
 
             var theProduct = productManager.newProduct()
             let priceText = priceText ?? "0"
-            theProduct = productManager.updateProduct(theProduct, name: nil, price: Double(priceText), description: nil,
-                category: .Other, currency: currency)
+            theProduct = productManager.updateProduct(theProduct, name: nil, price: priceText.toPriceDouble(),
+                description: nil, category: .Other, currency: currency)
 
             productManager.saveProduct(theProduct, imageFiles: [uploadedImage]){
                 (r: ProductSaveServiceResult) -> Void in

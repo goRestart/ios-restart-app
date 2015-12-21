@@ -214,7 +214,7 @@ public class BaseSellProductViewModel: BaseViewModel {
             return
         }
         let priceText = price ?? "0"
-        theProduct = productManager.updateProduct(theProduct, name: title, price: Double(priceText),
+        theProduct = productManager.updateProduct(theProduct, name: title, price: priceText.toPriceDouble(),
             description: descr, category: category, currency: currency)
 
         saveTheProduct(theProduct, withImages: productImages)
