@@ -338,34 +338,26 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     public func navigationController(navigationController: UINavigationController,
         willShowViewController viewController: UIViewController, animated: Bool) {
-            var hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
-            if let baseVC = viewController as? BaseViewController {
-                hidden = hidden || baseVC.floatingSellButtonHidden
-            }
-
-            let vcIdx = (viewControllers! as NSArray).indexOfObject(navigationController)
-            if let tab = Tab(rawValue: vcIdx) {
-                switch tab {
-                case .Home, .Categories, .Sell, .Profile:
-                    setSellFloatingButtonHidden(hidden, animated: false)
-                case .Chats:
-                    setSellFloatingButtonHidden(true, animated: false)
-                }
-            }
+            updateFloatingButtonFor(navigationController, presenting: viewController, animate: false)
     }
 
     public func navigationController(navigationController: UINavigationController,
         didShowViewController viewController: UIViewController, animated: Bool) {
-            var hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
-            if let baseVC = viewController as? BaseViewController {
-                hidden = hidden || baseVC.floatingSellButtonHidden
-            }
+            updateFloatingButtonFor(navigationController, presenting: viewController, animate: true)
+    }
 
-            let vcIdx = (viewControllers! as NSArray).indexOfObject(navigationController)
+    private func updateFloatingButtonFor(navigationController: UINavigationController,
+        presenting viewController: UIViewController, animate: Bool) {
+            guard let viewControllers = viewControllers else { return }
+            guard let rootViewCtrl = navigationController.viewControllers.first else { return }
+
+            let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
             if let tab = Tab(rawValue: vcIdx) {
                 switch tab {
                 case .Home, .Categories, .Sell, .Profile:
-                    setSellFloatingButtonHidden(hidden, animated: true)
+                    //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
+                    let showBtn = (viewController == rootViewCtrl) || (viewController is MainProductsViewController)
+                    setSellFloatingButtonHidden(!showBtn, animated: animate)
                 case .Chats:
                     setSellFloatingButtonHidden(true, animated: false)
                 }
