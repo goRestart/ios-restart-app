@@ -40,7 +40,7 @@ class MediaPickerManager {
                 showGalleryPickerIn(controller)
                 })
             alert.addAction(UIAlertAction(title: cancelTitle, style: .Cancel, handler: nil))
-            controller.presentViewController(alert, animated: true, completion: nil)
+            controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
 
     /**
@@ -124,7 +124,7 @@ class MediaPickerManager {
             let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,
                 preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .Default, handler: nil))
-            controller.presentViewController(alert, animated: true, completion: nil)
+            controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
     
     private static func showSettingsAlertWithMessage<T: UIViewController where T: UINavigationControllerDelegate,
@@ -135,7 +135,7 @@ class MediaPickerManager {
             alert.addAction(UIAlertAction(title: LGLocalizedString.commonSettings, style: .Default) { alertAction in
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
             })
-            controller.presentViewController(alert, animated: true, completion: nil)
+            controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
     
     private static func openImagePickerWithSource<T: UIViewController where T: UINavigationControllerDelegate,
@@ -143,6 +143,6 @@ class MediaPickerManager {
             let picker = UIImagePickerController()
             picker.sourceType = source
             picker.delegate = controller
-            controller.presentViewController(picker, animated: true, completion: nil)
+            controller.presentViewController(picker, animated: true, onMainThread: true, completion: nil)
     }
 }
