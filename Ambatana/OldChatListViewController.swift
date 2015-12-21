@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import UIKit
 
-class ChatListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class OldChatListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // UI
     // > no conversations interface
