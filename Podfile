@@ -36,7 +36,7 @@ pod "pop",                  "~> 1.0.8"
 pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 
 # Device info helper
-pod "UIDeviceUtil",         "~> 1.1.2"
+pod "DeviceUtil",         "~> 1.3.5"
 
 # Push Notifications
 pod "Kahuna",               "~> 2.2.2"
