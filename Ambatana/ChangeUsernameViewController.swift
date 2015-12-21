@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import UIKit
 
-// TODO: ⛔️ Use LocationManager (inject!!!)
+
 class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, ChangeUsernameViewModelDelegate {
 
     // outlets & buttons

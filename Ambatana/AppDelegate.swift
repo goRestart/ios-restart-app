@@ -65,10 +65,11 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
                 // Removing splash nav controller, otherwise it remains below the tabbar
                 navCtl.view.removeFromSuperview()
-            
-                // Rebuild user defaults
-                UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
-                                
+
+                // TODO: ⛔️ Warning!!
+//                // Rebuild user defaults
+//                UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
+                
                 // Show TabBar afterwards
                 let tabBarCtl = TabBarController()
                 actualWindow.rootViewController = tabBarCtl
@@ -89,9 +90,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                     }
                 }
                 
-                // Location
-                // TODO: ⛔️ Use LocationManager (inject!!!)
-//                MyUserManager.sharedInstance.startSensorLocationUpdates()
+                LocationManager.sharedInstance.startSensorLocationUpdates()
             }
             
             actualWindow.rootViewController = navCtl
@@ -156,9 +155,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         
-        // Location
-        // TODO: ⛔️ Use LocationManager
-//        MyUserManager.sharedInstance.stopSensorLocationUpdates()
+        LocationManager.sharedInstance.stopSensorLocationUpdates()
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -204,9 +201,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                 }
             }
             
-            // Location
-            // TODO: ⛔️ Use LocationManager
-//            MyUserManager.sharedInstance.startSensorLocationUpdates()
+            LocationManager.sharedInstance.startSensorLocationUpdates()
         }
         
         // Tracking

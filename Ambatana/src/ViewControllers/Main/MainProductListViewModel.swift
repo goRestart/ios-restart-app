@@ -10,7 +10,8 @@ import LGCoreKit
 
 public class MainProductListViewModel: ProductListViewModel {
 
-    // Repository
+    // Managers, repositories & tracker
+    private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
     
@@ -26,26 +27,27 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Lifecycle
 
-    init(myUserRepository: MyUserRepository, tracker: Tracker) {
+    init(locationManager: LocationManager, myUserRepository: MyUserRepository, tracker: Tracker) {
+        self.locationManager = locationManager
         self.myUserRepository = myUserRepository
         self.tracker = tracker
-        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-//        self.lastReceivedLocation = self.myUserManager.currentLocation
-        self.lastReceivedLocation = nil
+        self.lastReceivedLocation = locationManager.currentLocation
         self.locationActivatedWhileLoading = false
         super.init()
         
         self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
         self.isProfileList = false
         
+        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
         // Observe MyUserManager location updates
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("didReceiveLocationWithNotification:"), name: MyUserManager.Notification.locationUpdate.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"), name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
     
     override convenience init() {
+        let locationManager = LocationManager.sharedInstance
         let myUserRepository = MyUserRepository.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, tracker: tracker)
+        self.init(locationManager: locationManager, myUserRepository: myUserRepository, tracker: tracker)
     }
     
      deinit {
@@ -58,6 +60,9 @@ public class MainProductListViewModel: ProductListViewModel {
         // Active
         if (active) {
             // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
+            if let currentLocation = LocationManager.sharedInstance.currentLocation {
+                retrieveProductsIfNeededWithNewLocation(currentLocation)
+            }
 //            if let currentLocation = MyUserManager.sharedInstance.currentLocation {
 //                retrieveProductsIfNeededWithNewLocation(currentLocation)
 //            }
@@ -125,7 +130,7 @@ public class MainProductListViewModel: ProductListViewModel {
     /** 
         Called when a new location is received. It retrieves the first product page in case we do not have products.
     */
-    @objc private func didReceiveLocationWithNotification(notification: NSNotification) {
+    @objc private func locationUpdate(notification: NSNotification) {
         
         if let newLocation = notification.object as? LGLocation {
 
@@ -140,10 +145,9 @@ public class MainProductListViewModel: ProductListViewModel {
                 shouldTrack = true
             }
             if shouldTrack {
-                // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-//                let locationServiceStatus = myUserManager.locationServiceStatus
-//                let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
-//                tracker.trackEvent(trackerEvent)
+                let locationServiceStatus = locationManager.locationServiceStatus
+                let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
+                tracker.trackEvent(trackerEvent)
             }
             
             // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)

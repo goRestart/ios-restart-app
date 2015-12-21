@@ -101,16 +101,17 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate {
         
     }
     
-    func tourViewController(tourViewController: LGTourViewController, didAbandonWithButtonType buttonType: CloseButtonType, atIndex index: Int) {
-        //Dismiss tour
-        tourViewController.dismissViewControllerAnimated(false, completion: nil)
-        
-        // Run completion
-        completion?()
-        
-        // Tracking
-        let event = TrackerEvent.onboardingAbandonAtPageNumber(index, buttonType: buttonType)
-        TrackerProxy.sharedInstance.trackEvent(event)
+    func tourViewController(tourViewController: LGTourViewController,
+        didAbandonWithButtonType buttonType: CloseButtonType, atIndex index: Int) {
+            //Dismiss tour
+            tourViewController.dismissViewControllerAnimated(false, completion: nil)
+            
+            // Run completion
+            completion?()
+            
+            // Tracking
+            let event = TrackerEvent.onboardingAbandonAtPageNumber(index, buttonType: buttonType)
+            TrackerProxy.sharedInstance.trackEvent(event)
     }
     
     func tourViewControllerDidFinish(tourViewController: LGTourViewController) {

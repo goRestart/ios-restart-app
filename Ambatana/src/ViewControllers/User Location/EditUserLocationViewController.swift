@@ -84,8 +84,19 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     
     func applyBarButtonPressed() {
-        viewModel.applyLocation()
-        self.popBackViewController()
+        
+        showLoadingMessageAlert()
+        viewModel.applyLocation { [weak self] result in
+            guard let strongSelf = self else { return }
+            
+            strongSelf.dismissLoadingMessageAlert()
+            if let _ = result.value {
+                strongSelf.popBackViewController()
+            }
+            else if let _ = result.error {
+                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.commonError)
+            }
+        }
     }
     
     

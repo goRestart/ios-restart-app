@@ -49,11 +49,9 @@ public class ProductListViewModel: BaseViewModel {
         if let specifiedCoordinates = coordinates {
             coords = specifiedCoordinates
         }
-        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-        // Try to use MyUserManager location
-//        else if let lastKnownLocation = MyUserManager.sharedInstance.currentLocation {
-//            coords = LGLocationCoordinates2D(location: lastKnownLocation)
-//        }
+        else if let currentLocation = locationManager.currentLocation {
+            coords = LGLocationCoordinates2D(location: currentLocation)
+        }
         else {
             coords = nil
         }
@@ -76,6 +74,7 @@ public class ProductListViewModel: BaseViewModel {
     public weak var topProductInfoDelegate: TopProductInfoDelegate?
     
     // Manager
+    private let locationManager: LocationManager
     private let productsManager: ProductsManager
     
     // Data
@@ -143,6 +142,7 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     public override init() {
+        self.locationManager = LocationManager.sharedInstance
         let productsRetrieveService = LGProductsRetrieveService()
         let userProductsRetrieveService = LGUserProductsRetrieveService()
         self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,

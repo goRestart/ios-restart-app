@@ -81,7 +81,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     var cellSize = CGSizeMake(160.0, 210.0)
     
     init(user: User?) {
-        self.user = user ?? LGUser()
+        self.user = user ?? MyUserRepository.sharedInstance.myUser ?? LGUser()
         shouldReload = true
         self.productsFavouriteRetrieveService = LGProductsFavouriteRetrieveService()
         super.init(nibName: "EditProfileViewController", bundle: nil)

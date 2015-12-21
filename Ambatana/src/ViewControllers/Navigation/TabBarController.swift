@@ -50,7 +50,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             case Chats:
                 return ChatListViewController()
             case Profile:
-                return EditProfileViewController(user: MyUserRepository.sharedInstance.myUser)
+                return EditProfileViewController(user: nil)
             }
         }
 
@@ -68,7 +68,6 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     // Managers
     let productManager: ProductManager
     let userManager: UserManager
-    let myUserRepository: MyUserRepository
 
     // Deep link
     var deepLink: DeepLink?
@@ -84,18 +83,16 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     public convenience init() {
         let productManager = ProductManager()
         let userManager = UserManager()
-        let myUserRepository = MyUserRepository.sharedInstance
-        self.init(productManager: productManager, userManager: userManager, myUserRepository: myUserRepository)
+        self.init(productManager: productManager, userManager: userManager)
     }
 
-    public init(productManager: ProductManager, userManager: UserManager, myUserRepository: MyUserRepository) {
+    public init(productManager: ProductManager, userManager: UserManager) {
         self.productManager = productManager
         self.userManager = userManager
-        self.myUserRepository = myUserRepository
     
         // Deep link
         self.deepLink = nil
-        
+
         super.init(nibName: nil, bundle: nil)
         
         // Generate the view controllers
@@ -156,8 +153,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "askUserToUpdateLocation",
-            name: MyUserManager.Notification.didMoveFromManualLocationNotification.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("askUserToUpdateLocation"), name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
 
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
@@ -367,7 +363,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             
             var isLogInRequired = false
             var loginSource: EventParameterLoginSourceValue?
-            let myUser = myUserRepository.myUser
+            let myUser = MyUserRepository.sharedInstance.myUser
             
             switch tab {
             case .Home, .Categories:
@@ -419,7 +415,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         didSelectViewController viewController: UIViewController) {
 
             // If we have a user
-            if let user = myUserRepository.myUser {
+            if let user = MyUserRepository.sharedInstance.myUser {
 
                 // And if it's my profile, then update the user
                 if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController

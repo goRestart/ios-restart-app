@@ -24,6 +24,7 @@ public class EditUserLocationViewModel: BaseViewModel {
    
     public weak var delegate : EditUserLocationViewModelDelegate?
     
+    private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
     private let tracker: Tracker
     
@@ -50,36 +51,37 @@ public class EditUserLocationViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    init(myUserRepository: MyUserRepository, tracker: Tracker) {
+    init(locationManager: LocationManager, myUserRepository: MyUserRepository, tracker: Tracker) {
+        self.locationManager = locationManager
         self.myUserRepository = myUserRepository
         self.tracker = tracker
         
-        searchText = ""
-        approximateLocation =  UserDefaultsManager.sharedInstance.loadIsApproximateLocation()
-        goingToLocation = false
-        serviceAlreadyLoading = false
-        pendingGoToLocation = false
+        self.searchText = ""
+        self.approximateLocation = UserDefaultsManager.sharedInstance.loadIsApproximateLocation()
+        self.goingToLocation = false
+        self.serviceAlreadyLoading = false
+        self.pendingGoToLocation = false
         
-        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-//        if let location = MyUserManager.sharedInstance.currentLocation {
-//            usingGPSLocation = location.type != .Manual
-//        }
-//        else {
-//            usingGPSLocation = true
-//        }
-        usingGPSLocation = true
+        if let location = locationManager.currentLocation {
+            usingGPSLocation = location.type != .Manual
+        }
+        else {
+            usingGPSLocation = true
+        }
+        self.usingGPSLocation = true
         
-        predictiveResults = []
-        currentPlace = Place.newPlace()
-        searchService = CLSearchLocationSuggestionsService()
-        postalAddressService = CLPostalAddressRetrievalService()
+        self.predictiveResults = []
+        self.currentPlace = Place.newPlace()
+        self.searchService = CLSearchLocationSuggestionsService()
+        self.postalAddressService = CLPostalAddressRetrievalService()
         super.init()
     }
     
     override convenience init() {
+        let locationManager = LocationManager.sharedInstance
         let myUserRepository = MyUserRepository.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, tracker: tracker)
+        self.init(locationManager: locationManager, myUserRepository: myUserRepository, tracker: tracker)
     }
     
     // MARK: public methods
@@ -290,27 +292,33 @@ public class EditUserLocationViewModel: BaseViewModel {
         Saves the user location
     */
 
-    func applyLocation() {
+    func applyLocation(completion: ((Result<MyUser, RepositoryError>) -> ())?) {
 
-        UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
+        let myCompletion: Result<MyUser, RepositoryError> -> () = { [weak self] result in
+            if let value = result.value {
+                if let approximateLocation = self?.approximateLocation {
+                    UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
+                }
+                
+                if let myUserLocation = value.location {
+                    // Tracking
+                    let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
+                    self?.tracker.trackEvent(trackerEvent)
+                }
+            }
+            completion?(result)
+        }
         
         if usingGPSLocation {
-            // TODO: ⛔️ Use LocationManager (inject!!!)
-//            MyUserManager.sharedInstance.setAutomaticLocationWithPlace(currentPlace)
+            locationManager.setAutomaticLocation(myCompletion)
         } else {
             if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
                 let location = CLLocation(latitude: lat, longitude: long)
-                // TODO: ⛔️ Use LocationManager (inject!!!)
-//                MyUserManager.sharedInstance.setManualLocation(location, place: currentPlace)
+                let postalAddress = currentPlace.postalAddress
+                locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
             }
         }
         
-        // Tracking
-        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-        if let location = myUserRepository.myUser?.location {
-//        if let location = MyUserManager.sharedInstance.currentLocation {
-            let trackerEvent = TrackerEvent.profileEditEditLocation(location)
-            tracker.trackEvent(trackerEvent)
-        }
+        
     }
 }
