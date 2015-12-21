@@ -86,7 +86,11 @@ class MediaPickerManager {
                 showSettingsAlertWithMessage(message, inController: controller)
             case .NotDetermined:
                 AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
-                    if granted { block() }
+                    if granted {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            block()
+                        }
+                    }
                 }
             case .Restricted:
                 // this will never be called, this status is not visible for the user
@@ -110,7 +114,11 @@ class MediaPickerManager {
                 showSettingsAlertWithMessage(message, inController: controller)
             case .NotDetermined:
                 PHPhotoLibrary.requestAuthorization { newStatus in
-                    if newStatus == .Authorized { block() }
+                    if newStatus == .Authorized {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            block()
+                        }
+                    }
                 }
             case .Restricted:
                 let message = LGLocalizedString.productSellPhotolibraryRestrictedError
