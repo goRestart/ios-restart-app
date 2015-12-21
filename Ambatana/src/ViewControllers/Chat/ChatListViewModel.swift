@@ -21,26 +21,33 @@ public class ChatListViewModel : BaseViewModel {
     public weak var delegate : ChatListViewModelDelegate?
 
     var chats: [Chat]?
+    var chatManager: ChatManager
+
+    // - computed iVars
+    var chatCount : Int {
+        return chats?.count ?? 0
+    }
 
     // - Lifecycle
 
-    override convenience init() {
-        self.init()
+    public override convenience init() {
+        self.init(chatManager: ChatManager.sharedInstance, chats: [])
+    }
+
+    public required init(chatManager: ChatManager, chats: [Chat]) {
+        self.chatManager = chatManager
+        self.chats = chats
+        super.init()
     }
 
 
-    func updateConversations() {
+    // MARK: public methods
 
-        let firstLoad: Bool
-        if let actualChats = chats {
-            firstLoad = actualChats.isEmpty
-        } else {
-            firstLoad = true
-        }
+    public func updateConversations() {
 
-        delegate?.didStartRetrievingChatList(self, isFirstLoad: firstLoad)
+        delegate?.didStartRetrievingChatList(self, isFirstLoad: chatCount < 1)
 
-        ChatManager.sharedInstance.retrieveChatsWithCompletion({
+        chatManager.retrieveChatsWithCompletion({
             [weak self] (result: Result<[Chat], ChatsRetrieveServiceError>) -> Void in
 
             if let strongSelf = self {
@@ -53,5 +60,14 @@ public class ChatListViewModel : BaseViewModel {
                 }
             }
         })
+    }
+
+    public func updateUnreadMessagesCount() {
+        PushManager.sharedInstance.updateUnreadMessagesCount()
+    }
+
+    public func chatAtIndex(index: Int) -> Chat? {
+        guard let chats = chats else { return nil }
+        return chats[index]
     }
 }

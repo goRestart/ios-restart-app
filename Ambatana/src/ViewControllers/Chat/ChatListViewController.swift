@@ -9,7 +9,13 @@
 import Foundation
 import LGCoreKit
 
-class ChatListViewController: BaseViewController, ChatListViewModelDelegate {
+enum ChatListStatus: Int {
+    case NoConversations
+    case LoadingConversations
+    case Conversations
+}
+
+class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate {
 
     // UI
     // > no conversations interface
@@ -27,6 +33,8 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     var refreshControl: UIRefreshControl!
 
+    // > View Status
+    var chatListStatus: ChatListStatus = .NoConversations
     // > View Model
     var viewModel: ChatListViewModel!
 
@@ -43,7 +51,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate {
         self.viewModel = viewModel
         self.viewModel.delegate = self
 
-//        hidesBottomBarWhenPushed = false
+        hidesBottomBarWhenPushed = false
     }
 
     required init?(coder: NSCoder) {
@@ -73,10 +81,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate {
 
         // Update conversations (always forced, so the badges are updated)
         tableView.userInteractionEnabled = false
-        viewModel.updateConversations()
-
-        // Update unread messages
-        PushManager.sharedInstance.updateUnreadMessagesCount()
+        updateConversations()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -87,11 +92,20 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate {
     }
 
 
-    // MARK - ChatListViewModelDelegate Methods
+    // MARK: Public Methods
+
+    func updateConversations() {
+        viewModel.updateConversations()
+        viewModel.updateUnreadMessagesCount()
+    }
+
+
+    // MARK: ChatListViewModelDelegate Methods
 
     func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool) {
         if isFirstLoad {
-            enableLoadingConversationsInterface()
+            chatListStatus = .LoadingConversations
+            refreshUI()
         }
     }
 
@@ -99,16 +113,17 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate {
         tableView.userInteractionEnabled = true
         refreshControl.endRefreshing()
         if nonEmptyChatList {
-            enableConversationsInterface()
+            chatListStatus = .Conversations
         } else {
-            enableNoConversationsInterface()
+            chatListStatus = .NoConversations
         }
-        
+        refreshUI()        
     }
 
     func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ChatsRetrieveServiceError) {
         tableView.userInteractionEnabled = true
         refreshControl.endRefreshing()
+        
         if error == .Forbidden {
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
@@ -118,7 +133,54 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate {
     }
 
 
-    // MARK - Private Methods
+    // MARK: Button actions
+
+    @IBAction func searchProducts(sender: AnyObject) {
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
+    }
+
+    @IBAction func sellProducts(sender: AnyObject) {
+        SellProductControllerFactory.presentSellProductOn(viewController: self)
+    }
+
+
+    // MARK: UITableViewDelegate & DataSource methods
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.chatCount
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+
+        let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell",
+            forIndexPath: indexPath) as! ConversationCell
+
+        cell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
+        guard let chat = viewModel.chatAtIndex(indexPath.row), let myUser = MyUserManager.sharedInstance.myUser() else {
+            return cell
+        }
+
+        cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
+        return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        guard let chat = viewModel.chatAtIndex(indexPath.row), let chatViewModel = ChatViewModel(chat: chat) else {
+            return
+        }
+        navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
+    }
+
+
+    // MARK: NSNotificationCenter
+
+    func didReceiveUserInteraction(notification: NSNotification) {
+        updateConversations()
+    }
+
+
+    // MARK: Private Methods
 
     private func setupUI() {
         // appearance
@@ -134,49 +196,25 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate {
         self.tableView.addSubview(refreshControl)
     }
 
-    private func enableLoadingConversationsInterface() {
-        disableNoConversationsInterface()
-        disableConversationsInterface()
+    private func refreshUI() {
 
-        activityIndicator.startAnimating()
-        activityIndicator.hidden = false
-    }
+        if chatListStatus == .LoadingConversations {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+        }
 
-    private func enableNoConversationsInterface() {
-        disableLoadingConversationsInterface()
-        disableConversationsInterface()
+        activityIndicator.hidden = chatListStatus != .LoadingConversations
 
-        noConversationsYet.hidden = false
-        startSellingOrBuyingLabel.hidden = false
-        searchButton.hidden = false
-        sellButton.hidden = false
-        separatorView.hidden = false
-        messageImageView.hidden = false
-    }
+        noConversationsYet.hidden = chatListStatus != .NoConversations
+        startSellingOrBuyingLabel.hidden = chatListStatus != .NoConversations
+        searchButton.hidden = chatListStatus != .NoConversations
+        sellButton.hidden = chatListStatus != .NoConversations
+        separatorView.hidden = chatListStatus != .NoConversations
+        messageImageView.hidden = chatListStatus != .NoConversations
 
-    private func enableConversationsInterface() {
-        disableLoadingConversationsInterface()
-        disableNoConversationsInterface()
+        tableView.hidden = chatListStatus != .Conversations
 
-        tableView.hidden = false
-        self.tableView.reloadData()
-    }
-
-    private func disableLoadingConversationsInterface() {
-        activityIndicator.hidden = true
-        activityIndicator.stopAnimating()
-    }
-
-    private func disableNoConversationsInterface() {
-        noConversationsYet.hidden = true
-        startSellingOrBuyingLabel.hidden = true
-        searchButton.hidden = true
-        sellButton.hidden = true
-        separatorView.hidden = true
-        messageImageView.hidden = true
-    }
-
-    private func disableConversationsInterface() {
-        tableView.hidden = true
+        if chatListStatus == .Conversations { self.tableView.reloadData() }
     }
 }

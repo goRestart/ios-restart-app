@@ -18,7 +18,8 @@ public class ConversationCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var badgeView: UIView!
     @IBOutlet weak var badgeLabel: UILabel!
-    
+
+
     // MARK: - Lifecycle
     
     override public func awakeFromNib() {
@@ -31,6 +32,7 @@ public class ConversationCell: UITableViewCell {
         super.prepareForReuse()
         self.resetUI()
     }
+
     
     // MARK: - Overrides
     
@@ -40,7 +42,8 @@ public class ConversationCell: UITableViewCell {
             setSelected(false, animated: animated)
         }
     }
-    
+
+
     // MARK: - Public methods
        
     public func setupCellWithChat(chat: Chat, myUser: User, indexPath: NSIndexPath) {
@@ -79,7 +82,6 @@ public class ConversationCell: UITableViewCell {
                 timeLabelValue = lastUpdated.relativeTimeString()
             }
         }
-
         timeLabel.text = timeLabelValue
         
         // badge
@@ -88,19 +90,17 @@ public class ConversationCell: UITableViewCell {
             badge = String(chat.msgUnreadCount)
         }
 
-
         if let actualBadge = badge {
             badgeView.hidden = false
             badgeLabel.text = actualBadge
-        }
-        else {
+        } else {
             badgeView.hidden = true
         }
     }
-    
+
+
     // MARK: - Private methods
     
-    // Sets up the UI
     private func setupUI() {
         thumbnailImageView.layer.cornerRadius = thumbnailImageView.frame.size.width / 2.0
         thumbnailImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
@@ -111,7 +111,6 @@ public class ConversationCell: UITableViewCell {
         badgeView.layer.cornerRadius = 5
     }
     
-    // Resets the UI to the initial state
     private func resetUI() {
         thumbnailImageView.image = UIImage(named: "no_photo")
         productLabel.text = ""
@@ -121,5 +120,4 @@ public class ConversationCell: UITableViewCell {
         badgeView.backgroundColor = StyleHelper.badgeBgColor
         badgeLabel.text = ""
     }
-    
 }
