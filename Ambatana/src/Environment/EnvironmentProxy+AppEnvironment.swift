@@ -32,14 +32,14 @@ extension EnvironmentProxy: AppEnvironment {
         return appEnvironment.amplitudeAPIKey
     }
     
-    var googleConversionPrimaryTrackingId: String {
+    var gcPrimaryTrackingId: String {
         guard let appEnvironment = environment as? AppEnvironment else { return "" }
-        return appEnvironment.googleConversionPrimaryTrackingId
+        return appEnvironment.gcPrimaryTrackingId
     }
     
-    var googleConversionSecondaryTrackingId: String {
+    var gcSecondaryTrackingId: String {
         guard let appEnvironment = environment as? AppEnvironment else { return "" }
-        return appEnvironment.googleConversionSecondaryTrackingId
+        return appEnvironment.gcSecondaryTrackingId
     }
     
     var nanigansAppId: String {

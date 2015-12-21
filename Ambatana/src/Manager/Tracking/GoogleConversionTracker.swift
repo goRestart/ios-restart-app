@@ -26,8 +26,11 @@ private extension TrackerEvent {
         get {
             switch name {
             case .ProductSellComplete:
-                return [GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.googleConversionPrimaryTrackingId, label: "RErZCKHw414Qq6CFxAM", value: "0.00", isRepeatable: true),
-                        GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.googleConversionSecondaryTrackingId, label: "b5bQCNq38V8Q2s-PxgM", value: "0.00", isRepeatable: true)]
+                return [
+                    GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.gcPrimaryTrackingId,
+                        label: "RErZCKHw414Qq6CFxAM", value: "0.00", isRepeatable: true),
+                    GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.gcSecondaryTrackingId,
+                        label: "b5bQCNq38V8Q2s-PxgM", value: "0.00", isRepeatable: true)]
             default:
                 return nil
             }
@@ -36,52 +39,61 @@ private extension TrackerEvent {
 }
 
 public class GoogleConversionTracker: Tracker {
-    
+
     var googleConversionInstallParams: [GoogleConversionParams] {
         get {
-            return [GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.googleConversionPrimaryTrackingId, label: "tjkBCOnz414Qq6CFxAM", value: "0.00", isRepeatable: false),
-                    GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.googleConversionSecondaryTrackingId, label: "z34BCPS_8V8Q2s-PxgM", value: "0.00", isRepeatable: false)]
+            return [
+                GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.gcPrimaryTrackingId,
+                    label: "tjkBCOnz414Qq6CFxAM", value: "0.00", isRepeatable: false),
+                GoogleConversionParams(trackingId: EnvironmentProxy.sharedInstance.gcSecondaryTrackingId,
+                    label: "z34BCPS_8V8Q2s-PxgM", value: "0.00", isRepeatable: false)]
         }
     }
-    
+
     // MARK: - Tracker
-    
-    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionPrimaryTrackingId)
-        ACTAutomatedUsageTracker.enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.googleConversionSecondaryTrackingId)
 
-        // Track the install
-        let gctParams = googleConversionInstallParams
-        for gctParam in gctParams {
-            ACTConversionReporter.reportWithConversionID(gctParam.trackingId, label: gctParam.label, value: gctParam.value, isRepeatable: gctParam.isRepeatable)
-        }
+    public func application(application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+            ACTAutomatedUsageTracker
+                .enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.gcPrimaryTrackingId)
+            ACTAutomatedUsageTracker
+                .enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.gcSecondaryTrackingId)
+
+            // Track the install
+            let gctParams = googleConversionInstallParams
+            for gctParam in gctParams {
+                ACTConversionReporter.reportWithConversionID(gctParam.trackingId, label: gctParam.label,
+                    value: gctParam.value, isRepeatable: gctParam.isRepeatable)
+            }
 
     }
-    
-    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
-        
+
+    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
+        annotation: AnyObject?) {
+
     }
-    
+
     public func applicationDidBecomeActive(application: UIApplication) {
-        
+
     }
-    
+
     public func applicationDidEnterBackground(application: UIApplication) {
-        
+
     }
-    
+
     public func applicationWillEnterForeground(application: UIApplication) {
-        
+
     }
-    
+
     public func setUser(user: MyUser?) {
-        
+
     }
-    
+
     public func trackEvent(event: TrackerEvent) {
         if let gctParams = event.gctParams {
             for gctParam in gctParams {
-                ACTConversionReporter.reportWithConversionID(gctParam.trackingId, label: gctParam.label, value: gctParam.value, isRepeatable: gctParam.isRepeatable)
+                ACTConversionReporter.reportWithConversionID(gctParam.trackingId, label: gctParam.label,
+                    value: gctParam.value, isRepeatable: gctParam.isRepeatable)
             }
         }
     }
@@ -89,5 +101,5 @@ public class GoogleConversionTracker: Tracker {
     public func updateCoordinates() {
         
     }
-
+    
 }

@@ -51,7 +51,7 @@ pod "GoogleAppIndexing",    "~> 2.0.1"
 #pod "Google/Analytics"      #,      "~> 3.14.0"
 
 # Adjust
-pod "Adjust",               :git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"
+pod "Adjust",               "~> 4.5.0" #:git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"
 
 # Semi modal view controller
 pod "LGSemiModalNavController", "~> 0.2.0"
