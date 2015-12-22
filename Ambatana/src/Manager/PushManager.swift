@@ -53,9 +53,9 @@ public class PushManager: NSObject, KahunaDelegate {
         super.init()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "login:",
-            name: MyUserManager.Notification.login.rawValue, object: nil)
+            name: SessionManager.Notification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:",
-            name: MyUserManager.Notification.logout.rawValue, object: nil)
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
     public convenience override init() {
