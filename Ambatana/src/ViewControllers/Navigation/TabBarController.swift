@@ -166,7 +166,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:",
             name: PushManager.Notification.UnreadMessagesDidChange.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:",
-            name: MyUserManager.Notification.logout.rawValue, object: nil)
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"),
             name: UIApplicationWillEnterForegroundNotification, object: nil)
 
