@@ -51,7 +51,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, tracker: Tracker) {
         self.myUserRepository = myUserRepository
         self.tracker = tracker
-        self.username = myUserRepository.myUser?.username ?? ""
+        self.username = myUserRepository.myUser?.publicUsername ?? ""
         super.init()
     }
     
