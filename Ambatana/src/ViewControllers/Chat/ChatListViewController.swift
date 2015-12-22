@@ -231,13 +231,13 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         startSellingOrBuyingLabel.text = LGLocalizedString.chatListStartSellingOrBuyingLabel
 
         // add a pull to refresh control
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: "updateConversations", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "updateConversations", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.addSubview(refreshControl)
 
         // Error View
         errorButtonHeightConstraint.constant = ChatListViewController.defaultErrorButtonHeight
-        errorButton.layer.cornerRadius = 4
+        errorButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
         errorButton.addTarget(self, action: "updateConversations", forControlEvents: .TouchUpInside)
@@ -255,7 +255,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         noConversationsView.hidden = chatListStatus != .NoConversations
 
         tableView.hidden = chatListStatus != .Conversations
-        if chatListStatus == .Conversations { self.tableView.reloadData() }
+        if chatListStatus == .Conversations { tableView.reloadData() }
 
         errorView.hidden = chatListStatus != .Error
     }
@@ -266,7 +266,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
             errorView.backgroundColor = errBgColor
             errorContentView.layer.borderColor = errBorderColor?.CGColor
             errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
-            errorContentView.layer.cornerRadius = 4
+            errorContentView.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
             errorImageView.image = errImage
             // If there's no image then hide it
