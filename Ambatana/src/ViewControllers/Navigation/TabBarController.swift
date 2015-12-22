@@ -11,7 +11,7 @@ import Parse
 import Result
 import UIKit
 
-public final class TabBarController: UITabBarController, NewSellProductViewControllerDelegate,
+public final class TabBarController: UITabBarController, SellProductViewControllerDelegate,
 UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Constants & enums
@@ -268,17 +268,18 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     - parameter animated: If transition should be animated
     */
     func setSellFloatingButtonHidden(hidden: Bool, animated: Bool) {
+        self.floatingSellButton.layer.removeAllAnimations()
+
         let alpha: CGFloat = hidden ? 0 : 1
         if animated {
 
             if !hidden {
-                floatingSellButton.hidden = hidden
+                floatingSellButton.hidden = false
             }
-
             UIView.animateWithDuration(0.35, animations: { [weak self] () -> Void in
                 self?.floatingSellButton.alpha = alpha
-                }, completion: { [weak self] (_) -> Void in
-                    if hidden {
+                }, completion: { [weak self] (completed) -> Void in
+                    if completed {
                         self?.floatingSellButton.hidden = hidden
                     }
                 })
@@ -302,7 +303,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // MARK: - SellProductViewControllerDelegate
 
-    func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool) {
+    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
             switchToProfileOnTab(.ProductImSelling)
             if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
@@ -314,38 +315,42 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         }
     }
 
+    func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
+        postedViewModel: ProductPostedViewModel) {
+
+            let productPostedVC = ProductPostedViewController(viewModel: postedViewModel)
+            productPostedVC.delegate = self
+            presentViewController(productPostedVC, animated: true, completion: nil)
+    }
+
+    func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
+        openSell()
+    }
+
     // MARK: - UINavigationControllerDelegate
 
     public func navigationController(navigationController: UINavigationController,
         willShowViewController viewController: UIViewController, animated: Bool) {
-            var hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
-            if let baseVC = viewController as? BaseViewController {
-                hidden = hidden || baseVC.floatingSellButtonHidden
-            }
-
-            let vcIdx = (viewControllers! as NSArray).indexOfObject(navigationController)
-            if let tab = Tab(rawValue: vcIdx) {
-                switch tab {
-                case .Home, .Categories, .Sell, .Profile:
-                    setSellFloatingButtonHidden(hidden, animated: false)
-                case .Chats:
-                    setSellFloatingButtonHidden(true, animated: false)
-                }
-            }
+            updateFloatingButtonFor(navigationController, presenting: viewController, animate: false)
     }
 
     public func navigationController(navigationController: UINavigationController,
         didShowViewController viewController: UIViewController, animated: Bool) {
-            var hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
-            if let baseVC = viewController as? BaseViewController {
-                hidden = hidden || baseVC.floatingSellButtonHidden
-            }
+            updateFloatingButtonFor(navigationController, presenting: viewController, animate: true)
+    }
 
-            let vcIdx = (viewControllers! as NSArray).indexOfObject(navigationController)
+    private func updateFloatingButtonFor(navigationController: UINavigationController,
+        presenting viewController: UIViewController, animate: Bool) {
+            guard let viewControllers = viewControllers else { return }
+            guard let rootViewCtrl = navigationController.viewControllers.first else { return }
+
+            let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
             if let tab = Tab(rawValue: vcIdx) {
                 switch tab {
                 case .Home, .Categories, .Sell, .Profile:
-                    setSellFloatingButtonHidden(hidden, animated: true)
+                    //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
+                    let showBtn = (viewController == rootViewCtrl) || (viewController is MainProductsViewController)
+                    setSellFloatingButtonHidden(!showBtn, animated: animate)
                 case .Chats:
                     setSellFloatingButtonHidden(true, animated: false)
                 }
@@ -523,24 +528,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     }
 
     private func openSell() {
-        if ABTests.loginAfterSell.boolValue {
-            // present the VC, the login check will be done before saving the product
-            self.presentSellVC()
-        } else {
-            // If logged present the sell, otherwise present the login VC (and if successful the sell)
-            ifLoggedInThen(.Sell, loggedInAction: {
-                self.presentSellVC()
-                }, elsePresentSignUpWithSuccessAction: {
-                    self.presentSellVC()
-            })
-        }
-    }
-
-    private func presentSellVC() {
-        let vc = NewSellProductViewController()
-        vc.completedSellDelegate = self
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
+        SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
     }
 
     private func openProductWithId(productId: String) {

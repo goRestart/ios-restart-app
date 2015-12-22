@@ -15,8 +15,7 @@ import SDWebImage
 import UIKit
 import LGCollapsibleLabel
 
-public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate,
-MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
+public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate {
 
     // Constants
     private static let addressIconVisibleHeight: CGFloat = 16
@@ -50,8 +49,7 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
     @IBOutlet weak var productStatusShadow: UIView!     // just for the shadow
     
     // > Share Buttons
-    @IBOutlet weak var fbMessengerShareButtonWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var whatsappShareButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var socialShareView: SocialShareView!
     
     // > Bottom
     @IBOutlet weak var bottomView: UIView!
@@ -120,40 +118,6 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
         openMap()
     }
     
-    @IBAction func shareFBMessengerButtonPressed(sender: AnyObject) {
-        viewModel.shareInFBMessenger()
-        let content = viewModel.shareFacebookContent
-        FBSDKMessageDialog.showWithContent(content, delegate: self)
-    }
-    
-    @IBAction func shareFBButtonPressed(sender: AnyObject) {
-        viewModel.shareInFacebook("bottom")
-        let content = viewModel.shareFacebookContent
-        FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
-    }
-    
-    @IBAction func shareEmailButtonPressed(sender: AnyObject) {
-        let isEmailAccountConfigured = MFMailComposeViewController.canSendMail()
-        if isEmailAccountConfigured {
-            let vc = MFMailComposeViewController()
-            vc.mailComposeDelegate = self
-            vc.setSubject(viewModel.shareEmailSubject)
-            vc.setMessageBody(viewModel.shareEmailBody, isHTML: false)
-            presentViewController(vc, animated: true, completion: nil)
-            viewModel.shareInEmail("bottom")
-        }
-        else {
-            showAutoFadingOutMessageAlert(LGLocalizedString.productShareEmailError)
-        }
-    }
-    
-    @IBAction func shareWhatsAppButtonPressed(sender: AnyObject) {
-        let isWhatsAppInstalled = viewModel.shareInWhatsApp()
-        if !isWhatsAppInstalled {
-            showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
-        }
-    }
-    
     @IBAction func reportButtonPressed(sender: AnyObject) {
         ifLoggedInThen(.ReportFraud, loggedInAction: {
             self.showReportAlert()
@@ -218,46 +182,7 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
         }
     }
     
-    
-    // MARK: - FBSDKSharingDelegate
-    // This delegate is shared by FBSDKShareDialog and FBSDKMessageDialog
-    
-    public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        
-        switch (sharer.type) {
-        case .Facebook:
-            viewModel.shareInFBCompleted()
-        case .FBMessenger:
-            // Messenger always calls didCompleteWithResults, if it works,
-            // will include the key "completionGesture" in the results dict
-            if let _ = results["completionGesture"] {
-                viewModel.shareInFBMessengerCompleted()
-            }
-            else {
-                viewModel.shareInFBMessengerCancelled()
-            }
-        case .Unknown:
-            break
-        }
-        
-        dismissLoadingMessageAlert(nil)
-    }
 
-    public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
-    }
-    
-    public func sharerDidCancel(sharer: FBSDKSharing!) {
-        switch (sharer.type) {
-        case .Facebook:
-            viewModel.shareInFBCancelled()
-        case .FBMessenger:
-            viewModel.shareInFBMessengerCancelled()
-        case .Unknown:
-            break
-        }
-    }
-    
     // MARK: - GalleryViewDelegate
     
     public func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
@@ -277,18 +202,7 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
         vc.productName = viewModel.name
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    // MARK: - MFMailComposeViewControllerDelegate
-    
-    public func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        var message: String? = nil
-        if result.rawValue == MFMailComposeResultFailed.rawValue { // we just give feedback if something nasty happened.
-            message = LGLocalizedString.productShareEmailError
-        }
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            if message != nil { self.showAutoFadingOutMessageAlert(message!) }
-        })
-    }
+
     
     // MARK: - ProductViewModelDelegate
     
@@ -540,14 +454,9 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
         galleryView.delegate = self
         
         // Share Buttons
-        if !viewModel.canShareInWhatsapp() {
-            whatsappShareButtonWidthConstraint.constant = 0
-        }
-        
-        if !viewModel.canShareInFBMessenger() {
-            fbMessengerShareButtonWidthConstraint.constant = 0
-        }
-        
+        socialShareView.delegate = self
+        socialShareView.socialMessage = viewModel.shareSocialMessage
+
         // Update the UI
         updateUI()
     }
@@ -751,12 +660,12 @@ MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
             }
             
             if activity == UIActivityTypePostToFacebook {
-                self.viewModel.shareInFacebook("top")
+                self.viewModel.shareInFacebook(.Top)
                 self.viewModel.shareInFBCompleted()
             } else if activity == UIActivityTypePostToTwitter {
                 self.viewModel.shareInTwitterActivity()
             } else if activity == UIActivityTypeMail {
-                self.viewModel.shareInEmail("top")
+                self.viewModel.shareInEmail(.Top)
             } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
                 self.viewModel.shareInWhatsappActivity()
             }
@@ -896,3 +805,52 @@ extension ProductViewController: NavBarUserInfoDelegate {
         }
     }
 }
+
+
+// MARK: - SocialShareViewDelegate
+
+extension ProductViewController: SocialShareViewDelegate {
+
+    func shareInEmail(){
+        viewModel.shareInEmail(.Bottom)
+    }
+
+    func shareInFacebook() {
+        viewModel.shareInFacebook(.Bottom)
+    }
+
+    func shareInFacebookFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBCompleted()
+        case .Cancelled:
+            viewModel.shareInFBCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+
+    func shareInFBMessenger() {
+        viewModel.shareInFBMessenger()
+    }
+
+    func shareInFBMessengerFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBMessengerCompleted()
+        case .Cancelled:
+            viewModel.shareInFBMessengerCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+
+    func shareInWhatsApp() {
+        viewModel.shareInWhatsApp()
+    }
+
+    func viewController() -> UIViewController? {
+        return self
+    }
+}
+

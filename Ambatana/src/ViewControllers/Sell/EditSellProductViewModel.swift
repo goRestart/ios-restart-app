@@ -6,23 +6,23 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import SDWebImage
 import LGCoreKit
 
 public protocol EditSellProductViewModelDelegate : class {
-    func editSellProductViewModel(viewModel: EditSellProductViewModel, didDownloadImageAtIndex index: Int)
 }
 
 public protocol UpdateDetailInfoDelegate : class {
     func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct: Product)
 }
 
-public class EditSellProductViewModel: SellProductViewModel {
- 
+public class EditSellProductViewModel: BaseSellProductViewModel {
+
+    private var initialProduct: Product
     private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
     
     public init(myUserRepository: MyUserRepository, productManager: ProductManager, tracker: Tracker, product: Product){
+        self.initialProduct = product
         self.editedProduct = product
         super.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker)
         
@@ -42,11 +42,9 @@ public class EditSellProductViewModel: SellProductViewModel {
             self.descr = descr
         }
         category = product.category
-        for _ in 0..<product.images.count {
-            images.append(nil)
-        }
+        for file in product.images { productImages.append(file) }
     }
-    
+
     public convenience init(product: Product) {
         let myUserRepository = MyUserRepository.sharedInstance
         let productManager = ProductManager()
@@ -55,71 +53,96 @@ public class EditSellProductViewModel: SellProductViewModel {
             product: product)
     }
     
-    // MARK: - Public methods
     
+    // MARK: - Public methods
+
     public override func save() {
         super.saveProduct(editedProduct)
     }
-    
-    public func loadPictures() {
-        // Download the images
-        for (index, image) in (editedProduct.images).enumerate() {
-            if let imageURL = image.fileURL {
-                let imageManager = SDWebImageManager.sharedManager()
-                imageManager.downloadImageWithURL(imageURL, options: [], progress: nil) { [weak self] (image: UIImage!, _, _, _, _) -> Void in
-                    if let strongSelf = self {
-                        // Replace de image & notify the delegate
-                        strongSelf.images[index] = image
-                        strongSelf.editDelegate?.editSellProductViewModel(strongSelf, didDownloadImageAtIndex: index)
-                    }
-                }
-            }
-        }
-    }
-    
+
+
     // MARK: - Tracking methods
 
-    internal override func trackStart() {
+    override func trackStart() {
         super.trackStart()
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditStart(myUser, product: editedProduct)
         trackEvent(event)
     }
-    
-    
-    internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
+
+    override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
 
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditFormValidationFailed(myUser, product: editedProduct, description: error.rawValue)
         trackEvent(event)
     }
-    
-    internal override func trackSharedFB() {
+
+    override func trackSharedFB() {
         super.trackSharedFB()
         let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditSharedFB(myUser, product: savedProduct)
         trackEvent(event)
     }
-    
-    internal override func trackComplete(product: Product) {
+
+    override func trackComplete(product: Product) {
+        self.editedProduct = product
+
         super.trackComplete(product)
+
+        // if nothing is changed, we don't track the edition
+        guard editedFields().count > 0  else { return }
+
         let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productEditComplete(myUser, product: product, category: category)
+        let event = TrackerEvent.productEditComplete(myUser, product: product, category: category,
+            editedFields: editedFields())
         trackEvent(event)
     }
-    
-    
+
+
     // MARK: - Tracking Private methods
-    
+
     private func trackEvent(event: TrackerEvent) {
         if shouldTrack {
             tracker.trackEvent(event)
         }
     }
-    
+
+    private func editedFields() -> [EventParameterEditedFields] {
+
+        var editedFields : [EventParameterEditedFields] = []
+
+        if imagesModified  {
+            editedFields.append(.Picture)
+        }
+        if initialProduct.name != editedProduct.name {
+            editedFields.append(.Title)
+        }
+        if initialProduct.priceString() != editedProduct.priceString() {
+            editedFields.append(.Price)
+        }
+        if initialProduct.descr != editedProduct.descr {
+            editedFields.append(.Description)
+        }
+        if initialProduct.category != editedProduct.category {
+            editedFields.append(.Category)
+        }
+        if shareInFbChanged() {
+            editedFields.append(.Share)
+        }
+
+        return editedFields
+    }
+
+    private func shareInFbChanged() -> Bool {
+        // TODO: ⛔️⛔️⛔️ should be persisted
+//        return MyUserManager.sharedInstance.myUser()?.didLogInByFacebook != shouldShareInFB
+        return false
+    }
+
+
     // MARK: - Update info of previous VC
-    
+
     public func updateInfoOfPreviousVCWithProduct(savedProduct: Product) {
         updateDetailDelegate?.updateDetailInfo(self, withSavedProduct: savedProduct)
     }

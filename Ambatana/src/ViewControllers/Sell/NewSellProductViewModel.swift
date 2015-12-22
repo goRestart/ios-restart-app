@@ -9,8 +9,10 @@
 import SDWebImage
 import LGCoreKit
 
-public class NewSellProductViewModel: SellProductViewModel {
-       
+
+public class NewSellProductViewModel: BaseSellProductViewModel {
+
+    
     // MARK: - Tracking methods
     
     internal override func trackStart() {

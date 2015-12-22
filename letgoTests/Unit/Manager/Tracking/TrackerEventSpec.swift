@@ -730,7 +730,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Float(123.2)
+                    product.price = Double(123.2)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -749,7 +749,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
@@ -801,7 +801,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Float(123.983)
+                    product.price = Double(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -820,7 +820,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
@@ -853,7 +853,8 @@ class TrackerEventSpec: QuickSpec {
             describe("productShare") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: EventParameterShareNetwork.Email, buttonPosition: "")
+                    sut = TrackerEvent.productShare(product, user: nil, network: EventParameterShareNetwork.Email,
+                        buttonPosition: .Top)
                     expect(sut.name.rawValue).to(equal("product-detail-share"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -872,7 +873,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Float(123.983)
+                    product.price = Double(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -881,7 +882,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress.zipCode = "12345"
                     product.postalAddress.city = "Baltimore"
                     
-                    sut = TrackerEvent.productShare(product, user: myUser, network: .Email, buttonPosition: "")
+                    sut = TrackerEvent.productShare(product, user: myUser, network: .Email, buttonPosition: .Top)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -891,7 +892,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
@@ -921,14 +922,14 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the network where the content has been shared") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: "")
+                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: .Top)
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
                     expect(network).to(equal("facebook"))
                 }
                 it("contains the position of the button used to share") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: "bottom")
+                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: .Bottom)
                     expect(sut.params!.stringKeyParams["button-position"]).notTo(beNil())
                     let buttonPosition = sut.params!.stringKeyParams["button-position"] as? String
                     expect(buttonPosition).to(equal("bottom"))
@@ -1018,7 +1019,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Float(123.983)
+                    product.price = Double(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -1037,7 +1038,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
@@ -1097,7 +1098,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Float(123.983)
+                    product.price = Double(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -1116,7 +1117,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
@@ -1168,7 +1169,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Float(123.983)
+                    product.price = Double(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -1187,7 +1188,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
@@ -1237,7 +1238,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
@@ -1272,7 +1273,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Float(123.983)
+                    product.price = Double(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -1291,7 +1292,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
@@ -1457,7 +1458,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productEditComplete") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productEditComplete(nil, product: product, category: nil)
+                    sut = TrackerEvent.productEditComplete(nil, product: product, category: nil, editedFields: [])
                     expect(sut.name.rawValue).to(equal("product-edit-complete"))
                 }
                 it("contains the product related params when passing by a product, name & category") {
@@ -1465,7 +1466,8 @@ class TrackerEventSpec: QuickSpec {
                     let newCategory = ProductCategory.CarsAndMotors
                     product.objectId = "q1w2e3"
 
-                    sut = TrackerEvent.productEditComplete(nil, product: product, category: newCategory)
+                    sut = TrackerEvent.productEditComplete(nil, product: product, category: newCategory,
+                        editedFields: [.Title, .Category])
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -1475,6 +1477,11 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
+
+                    expect(sut.params!.stringKeyParams["edited-fields"]).notTo(beNil())
+                    let editedFields = sut.params!.stringKeyParams["edited-fields"] as? String
+                    expect(editedFields).to(equal("title,category"))
+
                 }
             }
             
@@ -1536,7 +1543,7 @@ class TrackerEventSpec: QuickSpec {
                     let product = MockProduct()
                     product.objectId = "AAAAA"
                     product.name = "iPhone 7S"
-                    product.price = Float(123.983)
+                    product.price = Double(123.983)
                     product.currency = Currency(code: "EUR", symbol: "€")
                     product.category = .HomeAndGarden
                     product.user = productUser
@@ -1555,7 +1562,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(productId).to(equal(product.objectId))
                     
                     expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
-                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Float
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
                     expect(productPrice).to(equal(product.price!))
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
@@ -1688,6 +1695,91 @@ class TrackerEventSpec: QuickSpec {
                     expect(network).to(equal("facebook"))
                 }
             }
+
+            describe("permissionAlertStart") {
+                it("has its event name") {
+                    sut = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductList, alertType: .Custom)
+                    expect(sut.name.rawValue).to(equal("permission-alert-start"))
+                }
+                it("contains the permission related params when passing by a permission type, page & alertType") {
+                    sut = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductList, alertType: .Custom)
+                    expect(sut.params).notTo(beNil())
+
+                    expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
+                    let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
+                    expect(permissionType).to(equal(EventParameterPermissionType.Push.rawValue))
+
+                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal(EventParameterPermissionTypePage.ProductList.rawValue))
+
+                    expect(sut.params!.stringKeyParams["alert-type"]).notTo(beNil())
+                    let alertType = sut.params!.stringKeyParams["alert-type"] as? String
+                    expect(alertType).to(equal(EventParameterPermissionAlertType.Custom.rawValue))
+                }
+            }
+
+            describe("permissionAlertComplete") {
+                it("has its event name") {
+                    sut = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductList, alertType: .Custom)
+                    expect(sut.name.rawValue).to(equal("permission-alert-complete"))
+                }
+                it("contains the permission related params when passing by a permission type, page & alertType") {
+                    sut = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductList, alertType: .Custom)
+                    expect(sut.params).notTo(beNil())
+
+                    expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
+                    let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
+                    expect(permissionType).to(equal(EventParameterPermissionType.Push.rawValue))
+
+                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal(EventParameterPermissionTypePage.ProductList.rawValue))
+
+                    expect(sut.params!.stringKeyParams["alert-type"]).notTo(beNil())
+                    let alertType = sut.params!.stringKeyParams["alert-type"] as? String
+                    expect(alertType).to(equal(EventParameterPermissionAlertType.Custom.rawValue))
+                }
+            }
+
+            describe("permissionAlertCancel") {
+                it("has its event name") {
+                    sut = TrackerEvent.permissionSystemCancel(.Push, typePage: .ProductList)
+                    expect(sut.name.rawValue).to(equal("permission-system-cancel"))
+                }
+                it("contains the permission related params when passing by a permission type & page") {
+                    sut = TrackerEvent.permissionSystemCancel(.Push, typePage: .ProductList)
+                    expect(sut.params).notTo(beNil())
+
+                    expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
+                    let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
+                    expect(permissionType).to(equal(EventParameterPermissionType.Push.rawValue))
+
+                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal(EventParameterPermissionTypePage.ProductList.rawValue))
+                }
+            }
+
+            describe("permissionSystemComplete") {
+                it("has its event name") {
+                    sut = TrackerEvent.permissionSystemComplete(.Push, typePage: .ProductList)
+                    expect(sut.name.rawValue).to(equal("permission-system-complete"))
+                }
+                it("contains the permission related params when passing by a permission type & page") {
+                    sut = TrackerEvent.permissionSystemComplete(.Push, typePage: .ProductList)
+                    expect(sut.params).notTo(beNil())
+
+                    expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
+                    let permissionType = sut.params!.stringKeyParams["permission-type"] as? String
+                    expect(permissionType).to(equal(EventParameterPermissionType.Push.rawValue))
+
+                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal(EventParameterPermissionTypePage.ProductList.rawValue))
+                }
+            }
+
         }
     }
 }

@@ -243,11 +243,9 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
-        let vc = NewSellProductViewController()
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
+        SellProductControllerFactory.presentSellProductOn(viewController: self)
     }
-    
+
     @IBAction func startSearchingNow(sender: AnyObject) {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)

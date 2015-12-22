@@ -27,4 +27,32 @@ extension String {
         return resultText
         
     }
+
+    func isValidLengthPrice() -> Bool {
+        let separator = stringByTrimmingCharactersInSet(NSCharacterSet.alphanumericCharacterSet())
+        if separator.isEmpty {
+            return characters.count <= Constants.maxPriceIntegerCharacters
+        }
+
+        let parts = componentsSeparatedByString(separator)
+        guard parts.count == 2 else { return false }
+
+        return parts[0].characters.count <= Constants.maxPriceIntegerCharacters &&
+               parts[1].characters.count <= Constants.maxPriceFractionalCharacters
+    }
+
+    func toPriceDouble() -> Double {
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        formatter.locale = NSLocale.autoupdatingCurrentLocale()
+        if let number = formatter.numberFromString(self) {
+            return Double(number)
+        }
+        // Just in case decimal style doesn't work
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        if let number = formatter.numberFromString(self) {
+            return Double(number)
+        }
+        return 0
+    }
 }

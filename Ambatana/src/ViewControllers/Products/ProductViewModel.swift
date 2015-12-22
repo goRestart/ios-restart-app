@@ -92,7 +92,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public private(set) var isFavourite: Bool
     public private(set) var isReported: Bool
     public private(set) var isMine: Bool
-    
+
+    public var shareSocialMessage: SocialMessage {
+        let title = LGLocalizedString.productShareBody
+        return SocialHelper.socialMessageWithTitle(title, product: product)
+    }
+
     // Delegate
     public weak var delegate: ProductViewModelDelegate?
     
@@ -199,11 +204,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public var shareFacebookContent: FBSDKShareLinkContent {
         return shareSocialMessage.fbShareContent
-    }
-    
-    private var shareSocialMessage: SocialMessage {
-        let title = LGLocalizedString.productShareBody
-        return SocialHelper.socialMessageWithTitle(title, product: product)
     }
     
     public var shouldSuggestMarkSoldWhenDeleting: Bool {
@@ -435,12 +435,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // MARK: > Share
 
-    public func shareInEmail(buttonPosition: String) {
+    public func shareInEmail(buttonPosition: EventParameterButtonPosition) {
         let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Email, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
-    public func shareInFacebook(buttonPosition: String) {
+    public func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
         let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Facebook, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
@@ -456,7 +456,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public func shareInFBMessenger() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .FBMessenger, buttonPosition: "bottom")
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .FBMessenger, buttonPosition: .Bottom)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
@@ -470,48 +470,45 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    public func shareInWhatsApp() -> Bool {
-        guard canShareInWhatsapp() else { return false }
-        guard let url = generateWhatsappURL() else { return false }
-        let success = UIApplication.sharedApplication().openURL(url)
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: "bottom")
+    public func shareInWhatsApp() {
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: .Bottom)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-        return success
     }
     
     public func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: "top")
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: .Top)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Twitter, buttonPosition: "top")
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Twitter, buttonPosition: .Top)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    func generateWhatsappURL() -> NSURL? {
-        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
-        guard let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
-        return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
-    }
-    
-    public func canShareInWhatsapp() -> Bool {
-        guard let url = generateWhatsappURL() else { return false }
-        let application = UIApplication.sharedApplication()
-        return application.canOpenURL(url)
-    }
-    
-    /**
-    Detect if the user has the FB Messenger App installed.
-    Done manually because Facebook does not provide a way to do it with the SDK
-    
-    - returns: Wether the content can be shared in facebook-messenger or not
-    */
-    public func canShareInFBMessenger() -> Bool {
-        guard let url = NSURL(string: "fb-messenger-api://") else { return false }
-        let application = UIApplication.sharedApplication()
-        return application.canOpenURL(url)
-    }
+    // TODO: ⛔️⛔️⛔️⛔️⛔️⛔️⛔️
+//    func generateWhatsappURL() -> NSURL? {
+//        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
+//        guard let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
+//        return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
+//    }
+//    
+//    public func canShareInWhatsapp() -> Bool {
+//        guard let url = generateWhatsappURL() else { return false }
+//        let application = UIApplication.sharedApplication()
+//        return application.canOpenURL(url)
+//    }
+//    
+//    /**
+//    Detect if the user has the FB Messenger App installed.
+//    Done manually because Facebook does not provide a way to do it with the SDK
+//    
+//    - returns: Wether the content can be shared in facebook-messenger or not
+//    */
+//    public func canShareInFBMessenger() -> Bool {
+//        guard let url = NSURL(string: "fb-messenger-api://") else { return false }
+//        let application = UIApplication.sharedApplication()
+//        return application.canOpenURL(url)
+//    }
     
 
     // MARK: >  Report

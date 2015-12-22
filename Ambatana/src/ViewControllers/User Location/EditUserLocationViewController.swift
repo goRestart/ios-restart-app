@@ -63,7 +63,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     
     @IBAction func searchButtonPressed() {
-        goToLocation()
+        goToLocation(nil)
     }
 
     @IBAction func gpsLocationButtonPressed() {
@@ -75,11 +75,11 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         viewModel.updateApproximateSwitchChanged()
     }
 
-    func goToLocation() {
+    func goToLocation(resultsIndex: Int?) {
         // Dismissing keyboard so that it doesn't show up after searching. If it fails we will show it programmaticaly
         searchField.resignFirstResponder()
         
-        viewModel.goToLocation()
+        viewModel.goToLocation(resultsIndex)
     }
     
     
@@ -227,7 +227,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         
         suggestionsTableView.hidden = true
 
-        goToLocation()
+        goToLocation(nil)
         
         return true
     }
@@ -268,7 +268,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         if let searchFieldText = searchField.text {
             viewModel.goingToLocation = true
             viewModel.searchText = searchFieldText
-            goToLocation()
+            goToLocation(indexPath.row)
         }
     }
     

@@ -51,10 +51,19 @@ class TrackerProxySpec: QuickSpec {
                 }
                 expect(contained).to(beTrue())
             }
-            it("contains an GoogleTracker tracker") {
+            it("contains an GoogleConversionTracker tracker") {
                 var contained = false
                 for tracker in sut.trackers {
-                    if tracker is GoogleTracker {
+                    if tracker is GoogleConversionTracker {
+                        contained = true
+                    }
+                }
+                expect(contained).to(beTrue())
+            }
+            it("contains a Google Analytics tracker") {
+                var contained = false
+                for tracker in sut.trackers {
+                    if tracker is GANTracker {
                         contained = true
                     }
                 }
@@ -64,6 +73,15 @@ class TrackerProxySpec: QuickSpec {
                 var contained = false
                 for tracker in sut.trackers {
                     if tracker is NanigansTracker {
+                        contained = true
+                    }
+                }
+                expect(contained).to(beTrue())
+            }
+            it("contains an Adjust tracker") {
+                var contained = false
+                for tracker in sut.trackers {
+                    if tracker is AdjustTracker {
                         contained = true
                     }
                 }

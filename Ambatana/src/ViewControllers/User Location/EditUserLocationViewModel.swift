@@ -232,46 +232,59 @@ public class EditUserLocationViewModel: BaseViewModel {
                     
                     //Make the pending call
                     if strongSelf.pendingGoToLocation {
-                        strongSelf.goToLocation()
+                        strongSelf.goToLocation(0)
                     }
                 }
-                
             }
         }
-        
     }
     
     /**
         Launches the search for a location written by the user (or selected from the suggestions table)
     */
 
-    
-    func goToLocation() {
+    func goToLocation(resultsIndex: Int?) {
         usingGPSLocation = false
         pendingGoToLocation = false
-        
+
+        if let resultsIndex = resultsIndex where resultsIndex >= 0 && resultsIndex < predictiveResults.count {
+            setPlace(predictiveResults[resultsIndex])
+            return
+        }
+
         if !serviceAlreadyLoading {
             serviceAlreadyLoading = true
             delegate?.viewModelDidStartSearchingLocation(self)
-            searchService.retrieveAddressForLocation(self.searchText) { [weak self](result: SearchLocationSuggestionsServiceResult) -> Void in
-                if let strongSelf = self {
-                    if let actualDelegate = strongSelf.delegate {
-                        if let places = result.value, let place = places.first, let location = place.location {
-                            let coordinate = location.coordinates2DfromLocation()
-                            strongSelf.currentPlace = place
-                            actualDelegate.viewModel(strongSelf, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress, approximate: strongSelf.approximateLocation)
-                        }
-                        else {
-                            actualDelegate.viewModel(strongSelf, didFailToFindLocationWithResult: result)
-                        }
-                    }
-                    strongSelf.serviceAlreadyLoading = false
+            searchService.retrieveAddressForLocation(self.searchText) {
+                [weak self] (result: SearchLocationSuggestionsServiceResult) -> Void in
+                guard let strongSelf = self else { return }
+
+                if !strongSelf.setFirstPlace(result.value) {
+                    strongSelf.delegate?.viewModel(strongSelf, didFailToFindLocationWithResult: result)
                 }
+
+                strongSelf.serviceAlreadyLoading = false
             }
         }
         else {
             pendingGoToLocation = true
         }
+    }
+
+    private func setFirstPlace(places: [Place]?) -> Bool {
+        if let places = places, let place = places.first {
+            return setPlace(place)
+        }
+        return false
+    }
+
+    private func setPlace(place: Place?) -> Bool {
+        guard let place = place, let location = place.location else { return false }
+        let coordinate = location.coordinates2DfromLocation()
+        self.currentPlace = place
+        self.delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress,
+            approximate: self.approximateLocation)
+        return true
     }
 
 

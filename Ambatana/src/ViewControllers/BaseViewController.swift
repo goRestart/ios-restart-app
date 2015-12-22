@@ -96,9 +96,12 @@ extension UIViewController {
     func setupToastView() {
         guard let toastView = toastView else { return }
         toastView.translatesAutoresizingMaskIntoConstraints = false
+        toastView.alpha = 0
+        toastView.userInteractionEnabled = false
         view.addSubview(toastView)
         
-        toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewTopMarginHidden)
+        toastViewTopMarginConstraint = NSLayoutConstraint(item: toastView, attribute: .Top, relatedBy: .Equal,
+            toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: toastViewTopMarginHidden)
         view.addConstraint(toastViewTopMarginConstraint!)
         
         let views = ["toastView": toastView]

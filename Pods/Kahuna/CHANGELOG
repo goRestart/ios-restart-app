@@ -1,4 +1,17 @@
 -------------------------
+2.3.2 - December 14, 2015
+-------------------------
+- Single Key Scheme environment detection is now based on provisioning profile.
+
+-------------------------
+2.3.1 - November 10, 2015
+-------------------------
+- Enhanced push token handling on every app launch.
+- Automatic handling of didRegisterUserNotificationSettings callback for improved handling of push tokens in iOS 9.
+- New API to enable push notifications.
+- Added in internal analytics to better help debug integrations.
+
+-------------------------
 2.2.4 - October 28, 2015
 -------------------------
 - Turning off iOS 9 flag CLANG_ENABLE_MODULE_DEBUGGING & CLANG_ENABLE_MODULES to avoid linker warnings when integrating Kahuna SDK.
@@ -11,8 +24,8 @@
 -------------------------
 2.2.0 - September 23, 2015
 -------------------------
-- Intelligent Attributes : Added new API for tracking events with properties. 
-  NOTE : Please check with your CS representative before you use the Intelligent Attributes API.
+- Intelligent Events : Added new API for tracking events with properties. 
+  NOTE : Please check with your CS representative before you use the Intelligent Events API.
 
 -------------------------
 2.1.0 

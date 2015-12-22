@@ -34,46 +34,44 @@ class MediaPickerManager {
             
             let alert = UIAlertController(title: title, message: nil, preferredStyle: .ActionSheet)
             alert.addAction(UIAlertAction(title: cameraTitle, style: .Default) { alertAction in
-                self.requestCameraPermissions(controller) {
-                    self.openImagePickerWithSource(.Camera, inController: controller)
-                }
+                showCameraPickerIn(controller)
                 })
             alert.addAction(UIAlertAction(title: galleryTitle, style: .Default) { alertAction in
-                self.requestGalleryPersmissions(controller) {
-                    self.openImagePickerWithSource(.PhotoLibrary, inController: controller)
-                }
+                showGalleryPickerIn(controller)
                 })
             alert.addAction(UIAlertAction(title: cancelTitle, style: .Cancel, handler: nil))
-            controller.presentViewController(alert, animated: true, completion: nil)
+            controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
-    
-    
-    // MARK: Private Methods
-    
-    private static func requestGalleryPersmissions<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
-            
-            let status = PHPhotoLibrary.authorizationStatus()
-            switch (status) {
-            case .Authorized:
-                block()
-            case .Denied:
-                let message = LGLocalizedString.productSellPhotolibraryPermissionsError
-                showSettingsAlertWithMessage(message, inController: controller)
-            case .NotDetermined:
-                PHPhotoLibrary.requestAuthorization { newStatus in
-                    if newStatus == .Authorized { block() }
-                }
-            case .Restricted:
-                let message = LGLocalizedString.productSellPhotolibraryRestrictedError
-                showDefaultAlertWithMessage(message, inController: controller)
-                break
+
+    /**
+    Show the native gallery image picker in the given UIViewController. The view controller must conform to
+    UINavigationControllerDelegate and to UIImagePickerControllerDelegate.
+
+    - parameter controller: UIViewController where the ImagePicker is going to be shown.
+    */
+    static func showGalleryPickerIn<T: UIViewController where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate>(controller: T) {
+            self.requestGalleryPermissions(controller) {
+                self.openImagePickerWithSource(.PhotoLibrary, inController: controller)
             }
     }
-    
-    private static func requestCameraPermissions<T: UIViewController where T: UINavigationControllerDelegate,
+
+    /**
+    Show the native camera in the given UIViewController to pick an image. The view controller must conform to
+    UINavigationControllerDelegate and to UIImagePickerControllerDelegate.
+
+    - parameter controller: UIViewController where the ImagePicker is going to be shown.
+    */
+    static func showCameraPickerIn<T: UIViewController where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate>(controller: T) {
+            self.requestCameraPermissions(controller) {
+                self.openImagePickerWithSource(.Camera, inController: controller)
+            }
+    }
+
+    static func requestCameraPermissions<T: UIViewController where T: UINavigationControllerDelegate,
         T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
-            
+
             guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
                 let message = LGLocalizedString.productSellCameraRestrictedError
                 showDefaultAlertWithMessage(message, inController: controller)
@@ -88,7 +86,11 @@ class MediaPickerManager {
                 showSettingsAlertWithMessage(message, inController: controller)
             case .NotDetermined:
                 AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
-                    if granted { block() }
+                    if granted {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            block()
+                        }
+                    }
                 }
             case .Restricted:
                 // this will never be called, this status is not visible for the user
@@ -96,13 +98,41 @@ class MediaPickerManager {
                 break
             }
     }
+
+
+    // MARK: Private Methods
     
+    private static func requestGalleryPermissions<T: UIViewController where T: UINavigationControllerDelegate,
+        T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
+            
+            let status = PHPhotoLibrary.authorizationStatus()
+            switch (status) {
+            case .Authorized:
+                block()
+            case .Denied:
+                let message = LGLocalizedString.productSellPhotolibraryPermissionsError
+                showSettingsAlertWithMessage(message, inController: controller)
+            case .NotDetermined:
+                PHPhotoLibrary.requestAuthorization { newStatus in
+                    if newStatus == .Authorized {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            block()
+                        }
+                    }
+                }
+            case .Restricted:
+                let message = LGLocalizedString.productSellPhotolibraryRestrictedError
+                showDefaultAlertWithMessage(message, inController: controller)
+                break
+            }
+    }
+
     private static func showDefaultAlertWithMessage<T: UIViewController where T: UINavigationControllerDelegate,
         T: UIImagePickerControllerDelegate>(message: String, inController controller: T) {
             let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,
                 preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .Default, handler: nil))
-            controller.presentViewController(alert, animated: true, completion: nil)
+            controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
     
     private static func showSettingsAlertWithMessage<T: UIViewController where T: UINavigationControllerDelegate,
@@ -113,7 +143,7 @@ class MediaPickerManager {
             alert.addAction(UIAlertAction(title: LGLocalizedString.commonSettings, style: .Default) { alertAction in
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
             })
-            controller.presentViewController(alert, animated: true, completion: nil)
+            controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
     
     private static func openImagePickerWithSource<T: UIViewController where T: UINavigationControllerDelegate,
@@ -121,6 +151,6 @@ class MediaPickerManager {
             let picker = UIImagePickerController()
             picker.sourceType = source
             picker.delegate = controller
-            controller.presentViewController(picker, animated: true, completion: nil)
+            controller.presentViewController(picker, animated: true, onMainThread: true, completion: nil)
     }
 }
