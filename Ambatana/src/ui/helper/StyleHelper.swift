@@ -283,4 +283,17 @@ extension UIButton {
             forState: .Highlighted)
         layer.cornerRadius = StyleHelper.buttonCornerRadius
     }
+
+    func setSecondaryStyle() {
+        guard buttonType == UIButtonType.System else {
+            print("💣 => secondaryStyle can only be applied to systemStyle Buttons")
+            return
+        }
+        
+        layer.cornerRadius = StyleHelper.buttonCornerRadius
+        layer.borderColor = StyleHelper.primaryColor.CGColor
+        layer.borderWidth = 2
+        setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        setBackgroundImage(StyleHelper.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+    }
 }

@@ -331,6 +331,15 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             presentViewController(productPostedVC, animated: true, completion: nil)
     }
 
+    func sellProductViewController(sellVC: SellProductViewController?,
+        didEditProduct editVC: EditSellProductViewController?) {
+            guard let editVC = editVC else { return }
+
+            switchToProfileOnTab(.ProductImSelling)
+            let navC = UINavigationController(rootViewController: editVC)
+            presentViewController(navC, animated: true, completion: nil)
+    }
+
     func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
         openSell()
     }
