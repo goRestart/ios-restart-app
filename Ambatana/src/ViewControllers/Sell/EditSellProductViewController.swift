@@ -34,6 +34,9 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
         categoryButton.setTitle(editViewModel.categoryName, forState: .Normal)
         
         self.setLetGoNavigationBarStyle(LGLocalizedString.editProductTitle)
+        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
+            target: self, action: Selector("closeButtonPressed"))
+        self.navigationItem.leftBarButtonItem = closeButton;
     }
 
     
@@ -51,7 +54,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     internal override func sellCompleted() {
         super.sellCompleted()
         showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { () -> Void in
-            self.navigationController?.popViewControllerAnimated(true)
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
@@ -94,5 +97,12 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
                 }
             }
             self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
+    }
+
+
+    // MARK: - Private methods
+
+    func closeButtonPressed() {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

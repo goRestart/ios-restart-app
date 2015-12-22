@@ -635,7 +635,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     // TODO: Refactor to retrieve a viewModel and build an VC
     dynamic private func editButtonPressed() {
         let vc = viewModel.editViewModelWithDelegate
-        navigationController?.pushViewController(vc, animated: true)
+        let navCtl = UINavigationController(rootViewController: vc)
+        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
     
     // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM

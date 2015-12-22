@@ -78,20 +78,30 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     }
     
     @IBAction func onEditButton(sender: AnyObject) {
-        //TODO: LAUNCH EDIT
+        viewModel.editActionPressed()
     }
 
     // MARK: - ProductPostedViewModelDelegate
 
     func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool) {
         dismissViewControllerAnimated(true) { [weak self] in
-            self?.delegate?.sellProductViewController(self, didCompleteSell: correctly)
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.sellProductViewController(strongSelf, didCompleteSell: correctly)
+        }
+    }
+
+    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel) {
+        dismissViewControllerAnimated(true) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.sellProductViewController(strongSelf,
+                didEditProduct: strongSelf.viewModel?.editViewModelWithDelegate)
         }
     }
 
     func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel) {
         dismissViewControllerAnimated(true) { [weak self] in
-            self?.delegate?.sellProductViewControllerDidTapPostAgain(self)
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.sellProductViewControllerDidTapPostAgain(strongSelf)
         }
     }
 

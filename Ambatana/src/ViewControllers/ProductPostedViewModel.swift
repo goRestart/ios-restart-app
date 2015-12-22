@@ -10,6 +10,7 @@ import LGCoreKit
 
 protocol ProductPostedViewModelDelegate: class {
     func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool)
+    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel)
     func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel)
 }
 
@@ -55,6 +56,13 @@ class ProductPostedViewModel: BaseViewModel {
         } else if let error = postProductError {
             trackEvent(TrackerEvent.productSellErrorClose(user, error: error))
         }
+    }
+
+    func editActionPressed() {
+        if let product = product {
+            trackEvent(TrackerEvent.productSellConfirmationEdit(product, user: user))
+        }
+        delegate?.productPostedViewModelDidEditPosting(self)
     }
 
     func mainActionPressed() {
@@ -117,6 +125,11 @@ class ProductPostedViewModel: BaseViewModel {
         trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Whatsapp))
     }
 
+    // TODO: Refactor to return a view model
+    var editViewModelWithDelegate: EditSellProductViewController? {
+        guard let product = product else { return nil }
+        return EditSellProductViewController(product: product, updateDelegate: nil)
+    }
 
     // MARK: - Private methods
 
