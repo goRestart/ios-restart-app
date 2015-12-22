@@ -314,6 +314,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                         errorDescription = .Forbidden
                     case .NotFound:
                         errorDescription = .NotFound
+                    case .AlreadyExists:
+                        errorDescription = .EmailTaken
                     case .Internal, .Unauthorized, .InternalServerError:
                         errorDescription = .Internal
                     }
@@ -363,14 +365,13 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                     case .Network:
                         message = LGLocalizedString.commonErrorConnectionFailed
                         errorDescription = .Network
+                    case .Unauthorized:
+                        errorDescription = .UserNotFoundOrWrongPassword
                     case .Scammer:
                         errorDescription = .Forbidden
                     case .NotFound:
                         errorDescription = .NotFound
-                    // TODO: ⛔️ Handle EmailTaken
-//                    case .EmailTaken:
-//                        errorDescription = .EmailTaken
-                    case .Internal, .Unauthorized, .InternalServerError:
+                    case .Internal, .AlreadyExists, .InternalServerError:
                         errorDescription = .Internal
                     }
                 case .Internal:
@@ -417,6 +418,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                     errorDescription = .Forbidden
                 case .NotFound:
                     errorDescription = .NotFound
+                case .AlreadyExists:
+                    errorDescription = .EmailTaken
                 case .Internal, .Unauthorized, .InternalServerError:
                     errorDescription = .Internal
                 }

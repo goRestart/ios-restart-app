@@ -160,7 +160,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
                     errorDescription = .Forbidden
                 case .NotFound:
                     errorDescription = .UserNotFoundOrWrongPassword
-                case .Internal, .Unauthorized, .InternalServerError:
+                case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
                     errorDescription = .Internal
                 }
             case .Internal:
