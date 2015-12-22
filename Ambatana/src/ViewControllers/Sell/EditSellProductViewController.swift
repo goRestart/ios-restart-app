@@ -18,9 +18,13 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    convenience init(product: Product, updateDelegate: UpdateDetailInfoDelegate?) {
+        self.init(viewModel: EditSellProductViewModel(product: product), updateDelegate: updateDelegate)
+    }
     
-    init(product: Product, updateDelegate: UpdateDetailInfoDelegate?) {
-        editViewModel = EditSellProductViewModel(product: product)
+    init(viewModel: EditSellProductViewModel, updateDelegate: UpdateDetailInfoDelegate?) {
+        editViewModel = viewModel
         super.init(viewModel: editViewModel)
         
         editViewModel.editDelegate = self
@@ -34,6 +38,9 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
         categoryButton.setTitle(editViewModel.categoryName, forState: .Normal)
         
         self.setLetGoNavigationBarStyle(LGLocalizedString.editProductTitle)
+        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
+            target: self, action: Selector("closeButtonPressed"))
+        self.navigationItem.leftBarButtonItem = closeButton;
     }
 
     
@@ -51,7 +58,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     internal override func sellCompleted() {
         super.sellCompleted()
         showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { () -> Void in
-            self.navigationController?.popViewControllerAnimated(true)
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
@@ -93,5 +100,12 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
                 }
             }
             self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
+    }
+
+
+    // MARK: - Private methods
+
+    func closeButtonPressed() {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

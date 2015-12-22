@@ -190,11 +190,12 @@
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
 "product_negotiable_price" = "Pazarlık edilebilir";
-"product_popular_near_you" = "Yakınlarında popüler olan";
+"product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_subtitle" = "Oldukça net gözüktüğüne dikkat et!";
 "product_post_camera_title" = "Bu senin yayınlanacak fotoğrafın";
 "product_post_confirmation_another" = "veya";
 "product_post_confirmation_another_button" = "Başka bir ürün listele";
+"product_post_confirmation_edit" = "Daha fazla bilgi gir";
 "product_post_confirmation_share" = "Paylaş";
 "product_post_confirmation_subtitle" = "10 dakika içinde letgo'da yayında olacak.";
 "product_post_confirmation_title" = "Ürünün oluşturuluyor!";

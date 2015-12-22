@@ -10,6 +10,8 @@ import LGCoreKit
 
 protocol ProductPostedViewModelDelegate: class {
     func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool)
+    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
+        editViewModel: EditSellProductViewModel)
     func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel)
 }
 
@@ -21,6 +23,9 @@ class ProductPostedViewModel: BaseViewModel {
     var mainText: String?
     var secondaryText: String?
     var shareInfo: SocialMessage?
+    var success: Bool {
+        return product != nil
+    }
     private var product: Product?
     private var postProductError: EventParameterPostProductError?
     private var user: MyUser? {
@@ -54,6 +59,12 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
+    func editActionPressed() {
+        guard let product = product else { return }
+        trackEvent(TrackerEvent.productSellConfirmationEdit(product, user: user))
+        delegate?.productPostedViewModelDidEditPosting(self, editViewModel: EditSellProductViewModel(product: product))
+    }
+
     func mainActionPressed() {
         delegate?.productPostedViewModelDidRestartPosting(self)
 
@@ -68,6 +79,11 @@ class ProductPostedViewModel: BaseViewModel {
         guard let product = product else { return }
 
         trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Email))
+    }
+
+    func shareInTwitter() {
+        guard let product = product else { return }
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Twitter))
     }
 
     func shareInFacebook() {
@@ -108,7 +124,7 @@ class ProductPostedViewModel: BaseViewModel {
         guard let product = product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Whatsapp))
     }
-
+    
 
     // MARK: - Private methods
 

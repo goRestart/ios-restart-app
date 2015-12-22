@@ -598,6 +598,9 @@
 // Done button after setting (or not) a price
 "product_post_done" = "Done";
 
+// Add more details button (max 20 chars) 
+"product_post_confirmation_edit" = "Add more details";
+
 // Post another item button
 "product_post_confirmation_another_button" = "Post another item";
 
