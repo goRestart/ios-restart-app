@@ -32,14 +32,14 @@ extension EnvironmentProxy: AppEnvironment {
         return appEnvironment.amplitudeAPIKey
     }
     
-    var googleConversionPrimaryTrackingId: String {
+    var gcPrimaryTrackingId: String {
         guard let appEnvironment = environment as? AppEnvironment else { return "" }
-        return appEnvironment.googleConversionPrimaryTrackingId
+        return appEnvironment.gcPrimaryTrackingId
     }
     
-    var googleConversionSecondaryTrackingId: String {
+    var gcSecondaryTrackingId: String {
         guard let appEnvironment = environment as? AppEnvironment else { return "" }
-        return appEnvironment.googleConversionSecondaryTrackingId
+        return appEnvironment.gcSecondaryTrackingId
     }
     
     var nanigansAppId: String {
@@ -70,5 +70,15 @@ extension EnvironmentProxy: AppEnvironment {
     var optimizelyAPIKey: String {
         guard let appEnvironment = environment as? AppEnvironment else { return "" }
         return appEnvironment.optimizelyAPIKey
+    }
+
+    var adjustAppToken: String {
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.adjustAppToken
+    }
+
+    var adjustEnvironment: String {
+        guard let appEnvironment = environment as? AppEnvironment else { return "" }
+        return appEnvironment.adjustEnvironment
     }
 }

@@ -174,10 +174,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             
         case .ChangePhoto:
             MediaPickerManager.showImagePickerIn(self)
-//        case .ChangeLocation:
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = storyboard.instantiateViewControllerWithIdentifier("indicateLocationViewController") as! IndicateLocationViewController
-//            self.navigationController?.pushViewController(vc, animated: true)
         case .ChangeUsername:
             let vc = ChangeUsernameViewController()
             navigationController?.pushViewController(vc, animated: true)
@@ -185,8 +181,6 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
             let vc = EditUserLocationViewController()
             navigationController?.pushViewController(vc, animated: true)
         case .ChangePassword:
-//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//            let vc = storyboard.instantiateViewControllerWithIdentifier("ChangePasswordViewController") as! ChangePasswordViewController
             let vc = ChangePasswordViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         case .Help:

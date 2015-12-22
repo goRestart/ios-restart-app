@@ -38,9 +38,9 @@
 "chat_list_title" = "Samtaler";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
-"chat_safety_tips_tip_1" = "Møt ansikt til ansikt og betal med kontanter når avtalen er i boks.";
-"chat_safety_tips_tip_2" = "Hvis du skal sende produktet ditt, pass på at du ikke blir lurt!";
-"chat_safety_tips_tip_3" = "Hvis det er for godt til å være sant, så er det som oftest det!";
+"chat_safety_tips_tip_1" = "Når avtalen er i boks, møt ansikt til ansikt og betal med kontanter.";
+"chat_safety_tips_tip_2" = "Hvis du skal sende produktet ditt, vær smart og forsiktig!";
+"chat_safety_tips_tip_3" = "Hvis det høres for godt ut til å være sant, så er det sannsynligvis det!";
 "chat_safety_tips_title" = "Sikkerhetstips";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
@@ -195,6 +195,7 @@
 "product_post_camera_title" = "Dette er valgt bilde";
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Publiser enda et produkt";
+"product_post_confirmation_edit" = "Legg til flere detaljer";
 "product_post_confirmation_share" = "Del produktet";
 "product_post_confirmation_subtitle" = "Det vil være tilgjengelig på letgo om 10 minutter.";
 "product_post_confirmation_title" = "Ditt produkt er under behandling!";

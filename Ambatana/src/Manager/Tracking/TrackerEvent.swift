@@ -373,6 +373,12 @@ public struct TrackerEvent {
             return TrackerEvent(name: .ProductSellConfirmationPost, params: params)
     }
 
+    public static func productSellConfirmationEdit(product: Product, user: User?) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParamsWithProduct(product, user: user)
+        return TrackerEvent(name: .ProductSellConfirmationEdit, params: params)
+    }
+
     public static func productSellConfirmationClose(product: Product, user: User?) -> TrackerEvent {
             var params = EventParameters()
             params.addProductParamsWithProduct(product, user: user)

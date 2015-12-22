@@ -9,6 +9,13 @@
 import Parse
 import UIKit
 
+protocol NativeShareDelegate {
+    func nativeShareInFacebook()
+    func nativeShareInTwitter()
+    func nativeShareInEmail()
+    func nativeShareInWhatsApp()
+}
+
 private let kLetGoFadingAlertDismissalTime: Double = 2.5
 private let kLetGoBadgeContainerViewTag = 500
 
@@ -170,6 +177,55 @@ extension UIViewController {
             })
         }
     }
+
+    func presentNativeShareWith(shareText shareText: String, delegate: NativeShareDelegate?) {
+
+        let activityItems: [AnyObject] = [shareText]
+        let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
+        // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
+        if vc.respondsToSelector("popoverPresentationController") {
+            let presentationController = vc.popoverPresentationController
+            presentationController?.sourceView = self.view
+        }
+
+        vc.completionWithItemsHandler = {
+            [weak self] (activity, success, items, error) in
+
+            // TODO: comment left here as a clue to manage future activities
+            /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
+
+            println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
+
+            Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
+            Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
+            Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
+            Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
+            */
+
+            guard success else {
+                //In case of cancellation just do nothing -> success == false && error == nil
+                guard error != nil else { return }
+
+                self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
+                return
+            }
+
+            if activity == UIActivityTypePostToFacebook {
+                delegate?.nativeShareInFacebook()
+            } else if activity == UIActivityTypePostToTwitter {
+                delegate?.nativeShareInTwitter()
+            } else if activity == UIActivityTypeMail {
+                delegate?.nativeShareInEmail()
+            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
+                delegate?.nativeShareInWhatsApp()
+            }
+
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
+        }
+        
+        presentViewController(vc, animated: true, completion: nil)
+    }
     
     // dismisses a previously shown custom loading alert message.  Used to patch FB login in iOS 9
     func dismissCustomLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
@@ -178,6 +234,21 @@ extension UIViewController {
             }) { (finished) -> Void in
                 self.dismissViewControllerAnimated(true, completion: completion)
         }
+    }
+
+    /**
+        Helper to present a view controller using the main thread 
+    */
+    func presentViewController(viewControllerToPresent: UIViewController, animated: Bool, onMainThread: Bool,
+        completion: (() -> Void)?) {
+            if onMainThread {
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.presentViewController(viewControllerToPresent, animated: animated, completion: completion)
+                }
+            }
+            else {
+                self.presentViewController(viewControllerToPresent, animated: animated, completion: completion)
+            }
     }
     
 }

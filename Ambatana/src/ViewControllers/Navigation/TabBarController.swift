@@ -276,17 +276,18 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     - parameter animated: If transition should be animated
     */
     func setSellFloatingButtonHidden(hidden: Bool, animated: Bool) {
+        self.floatingSellButton.layer.removeAllAnimations()
+
         let alpha: CGFloat = hidden ? 0 : 1
         if animated {
 
             if !hidden {
-                floatingSellButton.hidden = hidden
+                floatingSellButton.hidden = false
             }
-
             UIView.animateWithDuration(0.35, animations: { [weak self] () -> Void in
                 self?.floatingSellButton.alpha = alpha
-                }, completion: { [weak self] (_) -> Void in
-                    if hidden {
+                }, completion: { [weak self] (completed) -> Void in
+                    if completed {
                         self?.floatingSellButton.hidden = hidden
                     }
                 })
@@ -330,6 +331,15 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             presentViewController(productPostedVC, animated: true, completion: nil)
     }
 
+    func sellProductViewController(sellVC: SellProductViewController?,
+        didEditProduct editVC: EditSellProductViewController?) {
+            guard let editVC = editVC else { return }
+
+            switchToProfileOnTab(.ProductImSelling)
+            let navC = UINavigationController(rootViewController: editVC)
+            presentViewController(navC, animated: true, completion: nil)
+    }
+
     func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
         openSell()
     }
@@ -338,34 +348,26 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     public func navigationController(navigationController: UINavigationController,
         willShowViewController viewController: UIViewController, animated: Bool) {
-            var hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
-            if let baseVC = viewController as? BaseViewController {
-                hidden = hidden || baseVC.floatingSellButtonHidden
-            }
-
-            let vcIdx = (viewControllers! as NSArray).indexOfObject(navigationController)
-            if let tab = Tab(rawValue: vcIdx) {
-                switch tab {
-                case .Home, .Categories, .Sell, .Profile:
-                    setSellFloatingButtonHidden(hidden, animated: false)
-                case .Chats:
-                    setSellFloatingButtonHidden(true, animated: false)
-                }
-            }
+            updateFloatingButtonFor(navigationController, presenting: viewController, animate: false)
     }
 
     public func navigationController(navigationController: UINavigationController,
         didShowViewController viewController: UIViewController, animated: Bool) {
-            var hidden = viewController.hidesBottomBarWhenPushed || tabBar.hidden
-            if let baseVC = viewController as? BaseViewController {
-                hidden = hidden || baseVC.floatingSellButtonHidden
-            }
+            updateFloatingButtonFor(navigationController, presenting: viewController, animate: true)
+    }
 
-            let vcIdx = (viewControllers! as NSArray).indexOfObject(navigationController)
+    private func updateFloatingButtonFor(navigationController: UINavigationController,
+        presenting viewController: UIViewController, animate: Bool) {
+            guard let viewControllers = viewControllers else { return }
+            guard let rootViewCtrl = navigationController.viewControllers.first else { return }
+
+            let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
             if let tab = Tab(rawValue: vcIdx) {
                 switch tab {
                 case .Home, .Categories, .Sell, .Profile:
-                    setSellFloatingButtonHidden(hidden, animated: true)
+                    //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
+                    let showBtn = (viewController == rootViewCtrl) || (viewController is MainProductsViewController)
+                    setSellFloatingButtonHidden(!showBtn, animated: animate)
                 case .Chats:
                     setSellFloatingButtonHidden(true, animated: false)
                 }

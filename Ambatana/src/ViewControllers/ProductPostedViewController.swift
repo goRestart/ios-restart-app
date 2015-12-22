@@ -12,16 +12,26 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 
     weak var delegate: SellProductViewControllerDelegate?
 
+    @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var mainIconImage: UIImageView!
     @IBOutlet weak var mainTextLabel: UILabel!
     @IBOutlet weak var secondaryTextLabel: UILabel!
+
+    // Share container: hidden on this version //TODO: Remove if not used in further versions
     @IBOutlet weak var shareContainer: UIView!
     @IBOutlet weak var shareContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var socialShareView: SocialShareView!
-    @IBOutlet weak var mainButton: UIButton!
     @IBOutlet weak var shareItLabel: UILabel!
     @IBOutlet weak var orLabel: UILabel!
+
+    // Edit Container
+    @IBOutlet weak var editContainer: UIView!
+    @IBOutlet weak var editContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak var editOrLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+
+    @IBOutlet weak var mainButton: UIButton!
 
     // ViewModel
     private var viewModel: ProductPostedViewModel!
@@ -63,18 +73,37 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         viewModel.mainActionPressed()
     }
 
+    @IBAction func onSharebutton(sender: AnyObject) {
+        shareButtonPressed()
+    }
+    
+    @IBAction func onEditButton(sender: AnyObject) {
+        viewModel.editActionPressed()
+    }
 
     // MARK: - ProductPostedViewModelDelegate
 
     func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool) {
         dismissViewControllerAnimated(true) { [weak self] in
-            self?.delegate?.sellProductViewController(self, didCompleteSell: correctly)
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.sellProductViewController(strongSelf, didCompleteSell: correctly)
         }
+    }
+
+    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
+        editViewModel: EditSellProductViewModel) {
+            dismissViewControllerAnimated(true) { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.delegate?.sellProductViewController(strongSelf,
+                    didEditProduct: EditSellProductViewController(viewModel: editViewModel, updateDelegate: nil))
+            }
     }
 
     func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel) {
         dismissViewControllerAnimated(true) { [weak self] in
-            self?.delegate?.sellProductViewControllerDidTapPostAgain(self)
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.sellProductViewControllerDidTapPostAgain(strongSelf)
         }
     }
 
@@ -85,21 +114,28 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 
         contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
         mainButton.setPrimaryStyle()
+        editButton.setSecondaryStyle()
 
         shareItLabel.text = LGLocalizedString.productPostConfirmationShare.uppercaseString
         orLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercaseString
+        editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercaseString
+        editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
 
         mainTextLabel.text = viewModel.mainText
         secondaryTextLabel.text = viewModel.secondaryText
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
 
-        if let shareInfo = viewModel.shareInfo {
-            socialShareView.socialMessage = shareInfo
-            socialShareView.delegate = self
-        } else {
-            shareContainer.hidden = true
-            shareContainerHeight.constant = 0
+        if !viewModel.success {
+            editContainer.hidden = true
+            editContainerHeight.constant = 0
+            shareButton.hidden = true
         }
+    }
+
+    private func shareButtonPressed() {
+        guard let shareInfo = viewModel.shareInfo else { return }
+
+        presentNativeShareWith(shareText: shareInfo.shareText, delegate: self)
     }
 }
 
@@ -134,6 +170,29 @@ extension ProductPostedViewController: SocialShareViewDelegate {
 
     func viewController() -> UIViewController? {
         return self
+    }
+}
+
+
+// MARK: - NativeShareDelegate
+
+extension ProductPostedViewController: NativeShareDelegate {
+
+    func nativeShareInFacebook() {
+        viewModel.shareInFacebook()
+        viewModel.shareInFacebookFinished(.Completed)
+    }
+
+    func nativeShareInTwitter() {
+        viewModel.shareInTwitter()
+    }
+
+    func nativeShareInEmail() {
+        viewModel.shareInEmail()
+    }
+
+    func nativeShareInWhatsApp() {
+        viewModel.shareInWhatsApp()
     }
 }
 

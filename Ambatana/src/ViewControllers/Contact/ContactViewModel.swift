@@ -10,7 +10,7 @@ import Foundation
 import LGCoreKit
 import Parse
 import Result
-import UIDeviceUtil
+import DeviceUtil
 
 public protocol ContactViewModelDelegate: class {
     func viewModel(viewModel: ContactViewModel, updateSendButtonEnabledState enabled: Bool)
@@ -159,8 +159,8 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
         }
 
         finalMessage = finalMessage + "OS Version:  iOS \(UIDevice.currentDevice().systemVersion)\n"
-        
-        if let hwVersion = UIDeviceUtil.hardwareDescription() {
+
+        if let hwVersion = DeviceUtil.hardwareDescription() {
             finalMessage = finalMessage + "Device model: \(hwVersion)\n"
         }
         

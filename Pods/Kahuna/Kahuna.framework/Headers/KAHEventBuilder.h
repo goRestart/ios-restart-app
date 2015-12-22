@@ -20,7 +20,7 @@
 + (KAHEventBuilder*) eventWithName:(NSString*) name;
 - (KAHEventBuilder*) setPurchaseCount:(long) count andPurchaseValue:(long) value;
 
-// NOTE : Please check with your CS representative before you use the Intelligent Attributes API.
+// NOTE : Please check with your CS representative before you use the Intelligent Events API.
 - (KAHEventBuilder*) addProperty:(NSString*)key withValue:(NSString*)value;
 - (KAHEvent*) build;
 
