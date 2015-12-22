@@ -195,6 +195,7 @@
 "product_post_camera_title" = "Voici votre photo";
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Postez un autre bien.";
+"product_post_confirmation_edit" = "Add more details";
 "product_post_confirmation_share" = "Partager";
 "product_post_confirmation_subtitle" = "Il apparaîtra dans letgo sous 10 minutes.";
 "product_post_confirmation_title" = "Votre bien est en cours de traitement !";
