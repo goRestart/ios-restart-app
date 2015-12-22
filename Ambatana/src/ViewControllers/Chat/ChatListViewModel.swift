@@ -6,7 +6,6 @@
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
-import Foundation
 import LGCoreKit
 import Result
 
@@ -23,7 +22,7 @@ public class ChatListViewModel : BaseViewModel {
     var chats: [Chat]?
     var chatManager: ChatManager
 
-    // - computed iVars
+    // computed iVars
     var chatCount : Int {
         return chats?.count ?? 0
     }

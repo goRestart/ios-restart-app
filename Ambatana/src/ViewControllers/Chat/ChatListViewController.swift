@@ -13,12 +13,17 @@ enum ChatListStatus: Int {
     case NoConversations
     case LoadingConversations
     case Conversations
+    case Error
 }
 
 class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate {
 
     // UI
-    // > no conversations interface
+    // Constants
+    private static let defaultErrorButtonHeight: CGFloat = 44
+
+    // no conversations interface
+    @IBOutlet weak var noConversationsView: UIView!
     @IBOutlet weak var noConversationsYet: UILabel!
     @IBOutlet weak var startSellingOrBuyingLabel: UILabel!
     @IBOutlet weak var searchButton: UIButton!
@@ -26,16 +31,27 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     @IBOutlet weak var separatorView: UIView!
     @IBOutlet weak var messageImageView: UIImageView!
 
-    // > table of conversations
+    // table of conversations
     @IBOutlet weak var tableView: UITableView!
 
-    // > loading conversations
+    // loading conversations
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     var refreshControl: UIRefreshControl!
 
-    // > View Status
+    // error loading conversations
+    @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var errorContentView: UIView!
+    @IBOutlet weak var errorImageView: UIImageView!
+    @IBOutlet weak var errorImageViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var errorTitleLabel: UILabel!
+    @IBOutlet weak var errorBodyLabel: UILabel!
+    @IBOutlet weak var errorButton: UIButton!
+    @IBOutlet weak var errorButtonHeightConstraint: NSLayoutConstraint!
+
+    // View Status
     var chatListStatus: ChatListStatus = .NoConversations
-    // > View Model
+
+    // View Model
     var viewModel: ChatListViewModel!
 
 
@@ -117,18 +133,51 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         } else {
             chatListStatus = .NoConversations
         }
-        refreshUI()        
+        refreshUI()
     }
 
     func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ChatsRetrieveServiceError) {
+
         tableView.userInteractionEnabled = true
         refreshControl.endRefreshing()
-        
+
         if error == .Forbidden {
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
                 MyUserManager.sharedInstance.logout(nil)
             }
+        } else {
+            chatListStatus = .Error
+
+            // If we have no data
+            // Set the error state
+            let errBgColor: UIColor?
+            let errBorderColor: UIColor?
+            let errImage: UIImage?
+            let errTitle: String?
+            let errBody: String?
+            let errButTitle: String?
+
+            switch error {
+            case .Network:
+                errImage = UIImage(named: "err_network")
+                errTitle = LGLocalizedString.commonErrorTitle
+                errBody = LGLocalizedString.commonErrorNetworkBody
+                errButTitle = LGLocalizedString.commonErrorRetryButton
+            case .Internal, .Forbidden, .Unauthorized:
+                errImage = UIImage(named: "err_generic")
+                errTitle = LGLocalizedString.commonErrorTitle
+                errBody = LGLocalizedString.commonErrorGenericBody
+                errButTitle = LGLocalizedString.commonErrorRetryButton
+            }
+
+            errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
+            errBorderColor = StyleHelper.lineColor
+
+            generateErrorViewWith(errBgColor, errBorderColor: errBorderColor, errImage: errImage,
+                errTitle: errTitle, errBody: errBody, errButTitle: errButTitle)
+
+            refreshUI()
         }
     }
 
@@ -194,6 +243,13 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         self.refreshControl = UIRefreshControl()
         self.refreshControl.addTarget(self, action: "updateConversations", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
+
+        // Error View
+        errorButtonHeightConstraint.constant = ChatListViewController.defaultErrorButtonHeight
+        errorButton.layer.cornerRadius = 4
+        errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Normal)
+        errorButton.addTarget(self, action: "updateConversations", forControlEvents: .TouchUpInside)
     }
 
     private func refreshUI() {
@@ -203,18 +259,41 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         } else {
             activityIndicator.stopAnimating()
         }
-
         activityIndicator.hidden = chatListStatus != .LoadingConversations
 
-        noConversationsYet.hidden = chatListStatus != .NoConversations
-        startSellingOrBuyingLabel.hidden = chatListStatus != .NoConversations
-        searchButton.hidden = chatListStatus != .NoConversations
-        sellButton.hidden = chatListStatus != .NoConversations
-        separatorView.hidden = chatListStatus != .NoConversations
-        messageImageView.hidden = chatListStatus != .NoConversations
+        noConversationsView.hidden = chatListStatus != .NoConversations
 
         tableView.hidden = chatListStatus != .Conversations
-
         if chatListStatus == .Conversations { self.tableView.reloadData() }
+
+        errorView.hidden = chatListStatus != .Error
     }
+
+    private func generateErrorViewWith(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?,
+        errTitle: String?, errBody: String?, errButTitle: String?) {
+
+            errorView.backgroundColor = errBgColor
+            errorContentView.layer.borderColor = errBorderColor?.CGColor
+            errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
+            errorContentView.layer.cornerRadius = 4
+
+            errorImageView.image = errImage
+            // If there's no image then hide it
+            if let actualErrImage = errImage {
+                errorImageViewHeightConstraint.constant = actualErrImage.size.height
+            } else {
+                errorImageViewHeightConstraint.constant = 0
+            }
+            errorTitleLabel.text = errTitle
+            errorBodyLabel.text = errBody
+            errorButton.setTitle(errButTitle, forState: .Normal)
+            // If there's no button title or action then hide it
+            if errButTitle != nil {
+                errorButtonHeightConstraint.constant = ChatListViewController.defaultErrorButtonHeight
+            } else {
+                errorButtonHeightConstraint.constant = 0
+            }
+            errorView.updateConstraintsIfNeeded()
+    }
+    
 }
