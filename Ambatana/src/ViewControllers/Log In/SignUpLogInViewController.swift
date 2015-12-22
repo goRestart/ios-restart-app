@@ -310,11 +310,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                     case .Network:
                         message = LGLocalizedString.commonErrorConnectionFailed
                         errorDescription = .Network
-                    case .Forbidden:
+                    case .Scammer:
                         errorDescription = .Forbidden
                     case .NotFound:
                         errorDescription = .NotFound
-                    case .Internal:
+                    case .Internal, .Unauthorized, .InternalServerError:
                         errorDescription = .Internal
                     }
                 case .Internal, .UsernameTaken:
@@ -363,14 +363,14 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                     case .Network:
                         message = LGLocalizedString.commonErrorConnectionFailed
                         errorDescription = .Network
-                    case .Forbidden:
+                    case .Scammer:
                         errorDescription = .Forbidden
                     case .NotFound:
                         errorDescription = .NotFound
                     // TODO: ⛔️ Handle EmailTaken
 //                    case .EmailTaken:
 //                        errorDescription = .EmailTaken
-                    case .Internal:
+                    case .Internal, .Unauthorized, .InternalServerError:
                         errorDescription = .Internal
                     }
                 case .Internal:
@@ -413,11 +413,11 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                     errorDescription = .Network
-                case .Forbidden:
+                case .Scammer:
                     errorDescription = .Forbidden
                 case .NotFound:
                     errorDescription = .NotFound
-                case .Internal:
+                case .Internal, .Unauthorized, .InternalServerError:
                     errorDescription = .Internal
                 }
             case .Internal:
