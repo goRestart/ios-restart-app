@@ -151,17 +151,16 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
             let message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
             var errorDescription: EventParameterLoginError?
             
-            // TODO: 
             switch (error) {
             case .Api(let apiError):
                 switch apiError {
                 case .Network:
                     errorDescription = .Network
-                case .Forbidden:
+                case .Scammer:
                     errorDescription = .Forbidden
                 case .NotFound:
                     errorDescription = .UserNotFoundOrWrongPassword
-                case .Internal:
+                case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
                     errorDescription = .Internal
                 }
             case .Internal:

@@ -111,7 +111,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
                 case .NotFound:
                     message = String(format: LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword, viewModel.email)
                     errorDescription = .NotFound
-                case .Forbidden, .Internal:
+                case .Scammer, .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
                     message = LGLocalizedString.resetPasswordSendErrorGeneric
                     errorDescription = .Internal
                 }
