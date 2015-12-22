@@ -19,15 +19,15 @@ public class ChatListViewModel : BaseViewModel {
 
     public weak var delegate : ChatListViewModelDelegate?
 
-    var chats: [Chat]?
+    public var chats: [Chat]?
     var chatManager: ChatManager
 
     // computed iVars
-    var chatCount : Int {
+    public var chatCount : Int {
         return chats?.count ?? 0
     }
 
-    // - Lifecycle
+    // MARK: - Lifecycle
 
     public override convenience init() {
         self.init(chatManager: ChatManager.sharedInstance, chats: [])
@@ -46,11 +46,9 @@ public class ChatListViewModel : BaseViewModel {
 
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chatCount < 1)
 
-        chatManager.retrieveChatsWithCompletion({
-            [weak self] (result: Result<[Chat], ChatsRetrieveServiceError>) -> Void in
+        chatManager.retrieveChatsWithCompletion { [weak self] (result) in
 
             if let strongSelf = self {
-                // Success
                 if let chats = result.value {
                     strongSelf.chats = chats
                     strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, nonEmptyChatList: chats.count > 0)
@@ -58,7 +56,7 @@ public class ChatListViewModel : BaseViewModel {
                     strongSelf.delegate?.didFailRetrievingChatList(strongSelf, error: actualError)
                 }
             }
-        })
+        }
     }
 
     public func updateUnreadMessagesCount() {
@@ -66,7 +64,7 @@ public class ChatListViewModel : BaseViewModel {
     }
 
     public func chatAtIndex(index: Int) -> Chat? {
-        guard let chats = chats else { return nil }
+        guard let chats = chats where index < chatCount else { return nil }
         return chats[index]
     }
 }

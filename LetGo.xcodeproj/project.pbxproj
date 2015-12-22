@@ -32,6 +32,8 @@
 		2EBF3E1D1C2845A80024D947 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1B1C2845A80024D947 /* ConversationCell.xib */; settings = {ASSET_TAGS = (); }; };
 		2EBF3E201C2845C20024D947 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		2EBF3E211C2845C20024D947 /* MakeAnOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1F1C2845C20024D947 /* MakeAnOfferViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		2EBF3E231C296F100024D947 /* ChatListViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E221C296F100024D947 /* ChatListViewModelSpec.swift */; settings = {ASSET_TAGS = (); }; };
+		2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E241C298EB70024D947 /* MockChat.swift */; settings = {ASSET_TAGS = (); }; };
 		2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */; };
 		2EC1C17A1BBC17F400834D64 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */; };
 		2ECEAD131B9E0E3E00C8B40C /* AppRatingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ECEAD121B9E0E3E00C8B40C /* AppRatingView.xib */; };
@@ -335,6 +337,8 @@
 		2EBF3E1B1C2845A80024D947 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConversationCell.xib; path = Chat/Cells/ConversationCell.xib; sourceTree = "<group>"; };
 		2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatListViewController.xib; path = Chat/ChatListViewController.xib; sourceTree = "<group>"; };
 		2EBF3E1F1C2845C20024D947 /* MakeAnOfferViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MakeAnOfferViewController.swift; path = Chat/MakeAnOfferViewController.swift; sourceTree = "<group>"; };
+		2EBF3E221C296F100024D947 /* ChatListViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatListViewModelSpec.swift; sourceTree = "<group>"; };
+		2EBF3E241C298EB70024D947 /* MockChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChat.swift; sourceTree = "<group>"; };
 		2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
 		2ECEAD121B9E0E3E00C8B40C /* AppRatingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AppRatingView.xib; path = "App Rating/AppRatingView.xib"; sourceTree = "<group>"; };
@@ -718,6 +722,7 @@
 			isa = PBXGroup;
 			children = (
 				2E3760391BD92CF100A5A030 /* CategoriesViewModelSpec.swift */,
+				2EBF3E221C296F100024D947 /* ChatListViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1053,6 +1058,7 @@
 				50C9E4D91B73A047001E4E92 /* MockBaseModel.swift */,
 				50C9E4DB1B73A238001E4E92 /* MockProduct.swift */,
 				50C9E4D71B73A017001E4E92 /* MockUser.swift */,
+				2EBF3E241C298EB70024D947 /* MockChat.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2213,11 +2219,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E37603A1BD92CF100A5A030 /* CategoriesViewModelSpec.swift in Sources */,
+				2EBF3E231C296F100024D947 /* ChatListViewModelSpec.swift in Sources */,
 				50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */,
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
 				50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */,
 				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,
 				50C9E4DA1B73A047001E4E92 /* MockBaseModel.swift in Sources */,
+				2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */,
 				50C9E4DE1B749DB7001E4E92 /* TrackerProxySpec.swift in Sources */,
 				50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,

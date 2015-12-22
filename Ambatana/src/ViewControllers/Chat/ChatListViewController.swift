@@ -20,6 +20,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
     // UI
     // Constants
+    private static let chatListCellId = "ConversationCell"
     private static let defaultErrorButtonHeight: CGFloat = 44
 
     // no conversations interface
@@ -52,7 +53,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     var chatListStatus: ChatListStatus = .NoConversations
 
     // View Model
-    var viewModel: ChatListViewModel!
+    var viewModel: ChatListViewModel
 
 
     // MARK: - Lifecycle
@@ -62,9 +63,9 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     }
 
     init(viewModel: ChatListViewModel) {
+        self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: "ChatListViewController")
 
-        self.viewModel = viewModel
         self.viewModel.delegate = self
 
         hidesBottomBarWhenPushed = false
@@ -84,8 +85,8 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         setupUI()
 
         // register cell
-        let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: "ConversationCell")
+        let cellNib = UINib(nibName: ChatListViewController.chatListCellId, bundle: nil)
+        tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListViewController.chatListCellId)
 
         // NSNotificationCenter, observe for user interactions (msgs & offers)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
@@ -96,7 +97,6 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         super.viewWillAppear(animated)
 
         // Update conversations (always forced, so the badges are updated)
-        tableView.userInteractionEnabled = false
         updateConversations()
     }
 
@@ -126,19 +126,12 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     }
 
     func didSucceedRetrievingChatList(viewModel: ChatListViewModel, nonEmptyChatList: Bool) {
-        tableView.userInteractionEnabled = true
         refreshControl.endRefreshing()
-        if nonEmptyChatList {
-            chatListStatus = .Conversations
-        } else {
-            chatListStatus = .NoConversations
-        }
+        chatListStatus = nonEmptyChatList ? .Conversations : .NoConversations
         refreshUI()
     }
 
     func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ChatsRetrieveServiceError) {
-
-        tableView.userInteractionEnabled = true
         refreshControl.endRefreshing()
 
         if error == .Forbidden {
@@ -202,15 +195,13 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell",
+        let cell = tableView.dequeueReusableCellWithIdentifier(ChatListViewController.chatListCellId,
             forIndexPath: indexPath) as! ConversationCell
 
         cell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
-        guard let chat = viewModel.chatAtIndex(indexPath.row), let myUser = MyUserManager.sharedInstance.myUser() else {
-            return cell
+        if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = MyUserManager.sharedInstance.myUser() {
+            cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
-
-        cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         return cell
     }
 
