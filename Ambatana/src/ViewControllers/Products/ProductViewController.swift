@@ -627,53 +627,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     dynamic private func shareButtonPressed() {
-        let activityItems: [AnyObject] = [viewModel.shareText]
-        let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
-        // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
-        if vc.respondsToSelector("popoverPresentationController") {
-            let presentationController = vc.popoverPresentationController
-            presentationController?.sourceView = self.view
-        }
-
-        vc.completionWithItemsHandler = {
-            (activity, success, items, error) in
-
-            // TODO: comment left here as a clue to manage future activities
-            /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
-            
-            println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
-            
-            Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
-            Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
-            Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
-            Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
-            */
-
-            
-            guard success else {
-                //In case of cancellation just do nothing -> success == false && error == nil
-                guard error != nil else { return }
-                
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
-                return
-            }
-            
-            if activity == UIActivityTypePostToFacebook {
-                self.viewModel.shareInFacebook(.Top)
-                self.viewModel.shareInFBCompleted()
-            } else if activity == UIActivityTypePostToTwitter {
-                self.viewModel.shareInTwitterActivity()
-            } else if activity == UIActivityTypeMail {
-                self.viewModel.shareInEmail(.Top)
-            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
-                self.viewModel.shareInWhatsappActivity()
-            }
-            
-            self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
-        }
-
-        presentViewController(vc, animated: true, completion: nil)
+        presentNativeShareWith(shareText: viewModel.shareText, delegate: self)
     }
     
     // MARK: > Actions w navigation
@@ -851,6 +805,28 @@ extension ProductViewController: SocialShareViewDelegate {
 
     func viewController() -> UIViewController? {
         return self
+    }
+}
+
+// MARK: - NativeShareDelegate
+
+extension ProductViewController: NativeShareDelegate {
+
+    func nativeShareInFacebook() {
+        viewModel.shareInFacebook(.Top)
+        viewModel.shareInFBCompleted()
+    }
+
+    func nativeShareInTwitter() {
+        viewModel.shareInTwitterActivity()
+    }
+
+    func nativeShareInEmail() {
+        viewModel.shareInEmail(.Top)
+    }
+
+    func nativeShareInWhatsApp() {
+        viewModel.shareInWhatsappActivity()
     }
 }
 

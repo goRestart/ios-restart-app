@@ -123,42 +123,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     private func shareButtonPressed() {
         guard let shareInfo = viewModel.shareInfo else { return }
 
-        let activityItems: [AnyObject] = [shareInfo.shareText]
-        let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
-        // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
-        if vc.respondsToSelector("popoverPresentationController") {
-            let presentationController = vc.popoverPresentationController
-            presentationController?.sourceView = self.view
-        }
-
-        vc.completionWithItemsHandler = {
-            (activity, success, items, error) in
-
-
-            guard success else {
-                //In case of cancellation just do nothing -> success == false && error == nil
-                guard error != nil else { return }
-
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
-                return
-            }
-
-            if activity == UIActivityTypePostToFacebook {
-                self.viewModel.shareInFacebook()
-                self.viewModel.shareInFacebookFinished(.Completed)
-            } else if activity == UIActivityTypePostToTwitter {
-                self.viewModel.shareInTwitter()
-            } else if activity == UIActivityTypeMail {
-                self.viewModel.shareInEmail()
-            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
-                self.viewModel.shareInWhatsApp()
-            }
-
-            self.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
-        }
-
-        presentViewController(vc, animated: true, completion: nil)
+        presentNativeShareWith(shareText: shareInfo.shareText, delegate: self)
     }
 }
 
@@ -193,6 +158,29 @@ extension ProductPostedViewController: SocialShareViewDelegate {
 
     func viewController() -> UIViewController? {
         return self
+    }
+}
+
+
+// MARK: - NativeShareDelegate
+
+extension ProductPostedViewController: NativeShareDelegate {
+
+    func nativeShareInFacebook() {
+        viewModel.shareInFacebook()
+        viewModel.shareInFacebookFinished(.Completed)
+    }
+
+    func nativeShareInTwitter() {
+        viewModel.shareInTwitter()
+    }
+
+    func nativeShareInEmail() {
+        viewModel.shareInEmail()
+    }
+
+    func nativeShareInWhatsApp() {
+        viewModel.shareInWhatsApp()
     }
 }
 

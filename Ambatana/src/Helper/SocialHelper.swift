@@ -60,6 +60,10 @@ public struct SocialMessage {
     }
 }
 
+public protocol SocialHelperDelegate {
+    
+}
+
 public final class SocialHelper {
     
     /**
