@@ -90,12 +90,14 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         }
     }
 
-    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel) {
-        dismissViewControllerAnimated(true) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.sellProductViewController(strongSelf,
-                didEditProduct: strongSelf.viewModel?.editViewModelWithDelegate)
-        }
+    func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
+        editViewModel: EditSellProductViewModel) {
+            dismissViewControllerAnimated(true) { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.delegate?.sellProductViewController(strongSelf,
+                    didEditProduct: EditSellProductViewController(viewModel: editViewModel, updateDelegate: nil))
+            }
     }
 
     func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel) {

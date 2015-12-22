@@ -18,9 +18,13 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    convenience init(product: Product, updateDelegate: UpdateDetailInfoDelegate?) {
+        self.init(viewModel: EditSellProductViewModel(product: product), updateDelegate: updateDelegate)
+    }
     
-    init(product: Product, updateDelegate: UpdateDetailInfoDelegate?) {
-        editViewModel = EditSellProductViewModel(product: product)
+    init(viewModel: EditSellProductViewModel, updateDelegate: UpdateDetailInfoDelegate?) {
+        editViewModel = viewModel
         super.init(viewModel: editViewModel)
         
         editViewModel.editDelegate = self
