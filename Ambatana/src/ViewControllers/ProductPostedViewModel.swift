@@ -21,6 +21,9 @@ class ProductPostedViewModel: BaseViewModel {
     var mainText: String?
     var secondaryText: String?
     var shareInfo: SocialMessage?
+    var success: Bool {
+        return product != nil
+    }
     private var product: Product?
     private var postProductError: EventParameterPostProductError?
     private var user: MyUser? {
@@ -68,6 +71,11 @@ class ProductPostedViewModel: BaseViewModel {
         guard let product = product else { return }
 
         trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Email))
+    }
+
+    func shareInTwitter() {
+        guard let product = product else { return }
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Twitter))
     }
 
     func shareInFacebook() {
