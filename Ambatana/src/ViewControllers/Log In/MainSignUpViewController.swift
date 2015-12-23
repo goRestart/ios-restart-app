@@ -135,8 +135,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         showCustomLoadingMessageAlert()
     }
 
-    func viewModel(viewModel: MainSignUpViewModel,
-        didFinishLoggingWithFBWithResult result: FBLoginResult) {
+    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
         
             var completion: (() -> Void)? = nil
             let message = LGLocalizedString.mainSignUpFbConnectErrorGeneric

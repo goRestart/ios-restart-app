@@ -47,8 +47,7 @@ protocol SignUpLogInViewModelDelegate: class {
 
     // fb login
     func viewModelDidStartLoggingWithFB(viewModel: SignUpLogInViewModel)
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult
-        result: Result<MyUser, RepositoryError>)
+    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult)
 }
 
 public class SignUpLogInViewModel: BaseViewModel {
@@ -203,28 +202,36 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     
     public func logInWithFacebook() {
-        // Notify the delegate about it started
+
         delegate?.viewModelDidStartLoggingWithFB(self)
-        
-        // Log in
-        // TODO: ⛔️ Retrieve fb token
-        sessionManager.loginFacebook("") { [weak self] result in
+        FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource){
+            [weak self] (result: FBLoginResult) -> () in
             guard let strongSelf = self else { return }
-            
-            if let myUser = result.value {
-                
-                // Tracking
-                TrackerProxy.sharedInstance.setUser(myUser)
-                
-                let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
-                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-            }
-            
-            // Notify the delegate about it finished
-            if let delegate = strongSelf.delegate {
-                delegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
-            }
+            strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
         }
+
+//        // Notify the delegate about it started
+//        delegate?.viewModelDidStartLoggingWithFB(self)
+//        
+//        // Log in
+//        // TODO: ⛔️ Retrieve fb token
+//        sessionManager.loginFacebook("") { [weak self] result in
+//            guard let strongSelf = self else { return }
+//            
+//            if let myUser = result.value {
+//                
+//                // Tracking
+//                TrackerProxy.sharedInstance.setUser(myUser)
+//                
+//                let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
+//                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+//            }
+//            
+//            // Notify the delegate about it finished
+//            if let delegate = strongSelf.delegate {
+//                delegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
+//            }
+//        }
     }
     
     public func loginFailedWithError(error: EventParameterLoginError) {

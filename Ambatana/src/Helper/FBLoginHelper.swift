@@ -22,43 +22,45 @@ class FBLoginHelper {
 
     static let fbPermissions = ["email", "public_profile", "user_friends", "user_birthday", "user_likes"]
 
-    static func logInWithFacebook(sessionManager: SessionManager, start: (() -> ())?,
-        finish: ((result: FBLoginResult, user: MyUser?) -> ())?) {
+    static func logInWithFacebook(sessionManager: SessionManager, tracker: Tracker,
+        loginSource: EventParameterLoginSourceValue, finish: ((result: FBLoginResult) -> ())?) {
 
             let loginManager = FBSDKLoginManager()
             loginManager.logInWithReadPermissions(fbPermissions, fromViewController: nil) {
                 (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
 
                 if let _ = error {
-                    finish?(result: .Internal, user: nil)
+                    finish?(result: .Internal)
                 } else if result.isCancelled {
-                    finish?(result: .Cancelled, user: nil)
+                    finish?(result: .Cancelled)
                 } else if let token = result.token?.tokenString {
-
-                    start?()
 
                     sessionManager.loginFacebook(token) { result in
 
                         if let myUser = result.value {
-                            finish?(result: .Success, user: myUser)
+                            tracker.setUser(myUser)
+                            let trackerEvent = TrackerEvent.loginFB(loginSource)
+                            tracker.trackEvent(trackerEvent)
+
+                            finish?(result: .Success)
                         } else if let error = result.error{
                             switch (error) {
                             case .Api(let apiError):
                                 switch apiError {
                                 case .Network:
-                                    finish?(result: .Network, user: nil)
+                                    finish?(result: .Network)
                                 case .Scammer:
-                                    finish?(result: .Forbidden, user: nil)
+                                    finish?(result: .Forbidden)
                                 case .NotFound:
-                                    finish?(result: .NotFound, user: nil)
+                                    finish?(result: .NotFound)
                                 case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
-                                    finish?(result: .Internal, user: nil)
+                                    finish?(result: .Internal)
                                 }
                             case .Internal:
-                                finish?(result: .Internal, user: nil)
+                                finish?(result: .Internal)
                             }
                         } else {
-                            finish?(result: .Internal, user: nil)
+                            finish?(result: .Internal)
                         }
                     }
                 }

@@ -392,49 +392,36 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         showCustomLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult
-        result: Result<MyUser, RepositoryError>) {
-        
+    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
+
         var completion: (() -> Void)? = nil
-        
-        switch (result) {
+        let message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+        var errorDescription: EventParameterLoginError?
+
+        switch result {
         case .Success:
             completion = {
                 self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
             }
+        case .Cancelled:
             break
-        case .Failure(let error):
-            
-            var message: String = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-            var errorDescription: EventParameterLoginError?
+        case .Network:
+            errorDescription = .Network
+        case .Forbidden:
+            errorDescription = .Forbidden
+        case .NotFound:
+            errorDescription = .UserNotFoundOrWrongPassword
+        case .Internal:
+            errorDescription = .Internal
+        }
 
-            switch (error) {
-            case .Api(let apiError):
-                switch apiError {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                    errorDescription = .Network
-                case .Scammer:
-                    errorDescription = .Forbidden
-                case .NotFound:
-                    errorDescription = .NotFound
-                case .AlreadyExists:
-                    errorDescription = .EmailTaken
-                case .Internal, .Unauthorized, .InternalServerError:
-                    errorDescription = .Internal
-                }
-            case .Internal:
-                errorDescription = .Internal
-            }
-            
-            if let actualErrorDescription = errorDescription {
-                viewModel.loginFailedWithError(actualErrorDescription)
-            }
-            
+        if let actualErrorDescription = errorDescription {
+            viewModel.loginFailedWithError(actualErrorDescription)
             completion = {
                 self.showAutoFadingOutMessageAlert(message, time: 3)
             }
         }
+
         dismissCustomLoadingMessageAlert(completion)
     }
     

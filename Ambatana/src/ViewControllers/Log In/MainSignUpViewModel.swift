@@ -25,8 +25,7 @@ public enum LoginSource: String {
 
 protocol MainSignUpViewModelDelegate: class {
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel)
-    func viewModel(viewModel: MainSignUpViewModel,
-        didFinishLoggingWithFBWithResult result: FBLoginResult)
+    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult)
 
 }
 
@@ -55,23 +54,12 @@ public class MainSignUpViewModel: BaseViewModel {
     }
     
     public func logInWithFacebook() {
-        FBLoginHelper.logInWithFacebook(sessionManager,
-            start: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelDidStartLoggingWithFB(strongSelf)
-            },
-            finish: { [weak self] (result: FBLoginResult, user: MyUser?) -> () in
-                guard let strongSelf = self else { return }
-
-                if let user = user {
-                    TrackerProxy.sharedInstance.setUser(user)
-                    let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
-                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                }
-
-                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
-            }
-        )
+        delegate?.viewModelDidStartLoggingWithFB(self)
+        FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource){
+            [weak self] (result: FBLoginResult) -> () in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
+        }
     }
 
     public func abandon() {
