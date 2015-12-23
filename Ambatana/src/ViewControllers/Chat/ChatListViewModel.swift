@@ -39,20 +39,15 @@ public class ChatListViewModel : BaseViewModel {
         super.init()
     }
 
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
     override func didSetActive(active: Bool) {
         if active {
-            // NSNotificationCenter, observe for user interactions (msgs & offers)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversations",
-                name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
+                name: UIApplicationWillEnterForegroundNotification, object: nil)
 
             updateConversations()
         } else {
             NSNotificationCenter.defaultCenter().removeObserver(self,
-                name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
+                name: UIApplicationWillEnterForegroundNotification, object: nil)
         }
     }
 

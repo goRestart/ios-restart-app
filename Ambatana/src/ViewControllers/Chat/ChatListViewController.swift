@@ -75,6 +75,10 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -83,6 +87,10 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         // register cell
         let cellNib = UINib(nibName: ChatListViewController.chatListCellId, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListViewController.chatListCellId)
+
+        // NSNotificationCenter, observe for user interactions (msgs & offers)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
+            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
 
 
