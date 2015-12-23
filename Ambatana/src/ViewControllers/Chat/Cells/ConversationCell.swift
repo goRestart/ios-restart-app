@@ -51,7 +51,7 @@ public class ConversationCell: UITableViewCell {
     
         var otherUser: User?
         if let myUserId = myUser.objectId, let userFromId = chat.userFrom.objectId, let _ = chat.userTo.objectId {
-                otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
+            otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
         }
         
         // thumbnail

@@ -39,6 +39,18 @@ public class ChatListViewModel : BaseViewModel {
         super.init()
     }
 
+    override func didSetActive(active: Bool) {
+        if active {
+            // NSNotificationCenter, observe for user interactions (msgs & offers)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
+                name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
+
+            updateConversations()
+        } else {
+            NSNotificationCenter.defaultCenter().removeObserver(self,
+                name: UIApplicationWillEnterForegroundNotification, object: nil)
+        }
+    }
 
     // MARK: public methods
 

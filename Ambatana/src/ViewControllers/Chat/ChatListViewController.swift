@@ -9,7 +9,7 @@
 import Foundation
 import LGCoreKit
 
-enum ChatListStatus: Int {
+enum ChatListStatus {
     case NoConversations
     case LoadingConversations
     case Conversations
@@ -87,30 +87,12 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         // register cell
         let cellNib = UINib(nibName: ChatListViewController.chatListCellId, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListViewController.chatListCellId)
-
-        // NSNotificationCenter, observe for user interactions (msgs & offers)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
-            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        // Update conversations (always forced, so the badges are updated)
-        updateConversations()
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
 
 
     // MARK: Public Methods
 
-    func updateConversations() {
+    func refreshConversations() {
         viewModel.updateConversations()
         viewModel.updateUnreadMessagesCount()
     }
@@ -121,14 +103,14 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool) {
         if isFirstLoad {
             chatListStatus = .LoadingConversations
-            refreshUI()
+            resetUI()
         }
     }
 
     func didSucceedRetrievingChatList(viewModel: ChatListViewModel, nonEmptyChatList: Bool) {
         refreshControl.endRefreshing()
         chatListStatus = nonEmptyChatList ? .Conversations : .NoConversations
-        refreshUI()
+        resetUI()
     }
 
     func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ChatsRetrieveServiceError) {
@@ -170,7 +152,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
             generateErrorViewWith(errBgColor, errBorderColor: errBorderColor, errImage: errImage,
                 errTitle: errTitle, errBody: errBody, errButTitle: errButTitle)
 
-            refreshUI()
+            resetUI()
         }
     }
 
@@ -216,7 +198,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     // MARK: NSNotificationCenter
 
     func didReceiveUserInteraction(notification: NSNotification) {
-        updateConversations()
+        refreshConversations()
     }
 
 
@@ -232,7 +214,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
         // add a pull to refresh control
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "updateConversations", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: "refreshConversations", forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl)
 
         // Error View
@@ -240,10 +222,10 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         errorButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        errorButton.addTarget(self, action: "updateConversations", forControlEvents: .TouchUpInside)
+        errorButton.addTarget(self, action: "refreshConversations", forControlEvents: .TouchUpInside)
     }
 
-    private func refreshUI() {
+    private func resetUI() {
 
         if chatListStatus == .LoadingConversations {
             activityIndicator.startAnimating()
