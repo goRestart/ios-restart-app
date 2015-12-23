@@ -52,7 +52,7 @@ public class ChatListViewModel : BaseViewModel {
             updateConversations()
         } else {
             NSNotificationCenter.defaultCenter().removeObserver(self,
-                name: UIApplicationWillEnterForegroundNotification, object: nil)
+                name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         }
     }
 
