@@ -35,37 +35,40 @@ class FBLoginHelper {
                 } else if result.isCancelled {
                     completion?(result: .Cancelled)
                 } else if let token = result.token?.tokenString {
-
                     managerStart?()
+                    loginToManagerWith(token, sessionManager: sessionManager, tracker: tracker,
+                        loginSource: loginSource, completion: completion)
+                }
+            }
+    }
 
-                    sessionManager.loginFacebook(token) { result in
+    private static func loginToManagerWith(token: String, sessionManager: SessionManager, tracker: Tracker,
+        loginSource: EventParameterLoginSourceValue, completion: ((result: FBLoginResult) -> ())?) {
+            sessionManager.loginFacebook(token) { result in
+                if let myUser = result.value {
+                    tracker.setUser(myUser)
+                    let trackerEvent = TrackerEvent.loginFB(loginSource)
+                    tracker.trackEvent(trackerEvent)
 
-                        if let myUser = result.value {
-                            tracker.setUser(myUser)
-                            let trackerEvent = TrackerEvent.loginFB(loginSource)
-                            tracker.trackEvent(trackerEvent)
-
-                            completion?(result: .Success)
-                        } else if let error = result.error{
-                            switch (error) {
-                            case .Api(let apiError):
-                                switch apiError {
-                                case .Network:
-                                    completion?(result: .Network)
-                                case .Scammer:
-                                    completion?(result: .Forbidden)
-                                case .NotFound:
-                                    completion?(result: .NotFound)
-                                case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
-                                    completion?(result: .Internal)
-                                }
-                            case .Internal:
-                                completion?(result: .Internal)
-                            }
-                        } else {
+                    completion?(result: .Success)
+                } else if let error = result.error{
+                    switch (error) {
+                    case .Api(let apiError):
+                        switch apiError {
+                        case .Network:
+                            completion?(result: .Network)
+                        case .Scammer:
+                            completion?(result: .Forbidden)
+                        case .NotFound:
+                            completion?(result: .NotFound)
+                        case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
                             completion?(result: .Internal)
                         }
+                    case .Internal:
+                        completion?(result: .Internal)
                     }
+                } else {
+                    completion?(result: .Internal)
                 }
             }
     }
