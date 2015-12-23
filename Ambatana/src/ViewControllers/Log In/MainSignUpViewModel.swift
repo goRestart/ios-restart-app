@@ -11,7 +11,6 @@ import UIKit
 import LGCoreKit
 import Parse
 import Result
-import FBSDKLoginKit
 
 public enum LoginSource: String {
     case Chats = "messages"
@@ -22,15 +21,6 @@ public enum LoginSource: String {
     case MakeOffer = "offer"
     case AskQuestion = "question"
     case ReportFraud = "report-fraud"
-}
-
-enum FBLoginResult {
-    case Success
-    case Cancelled
-    case Network
-    case Forbidden
-    case NotFound
-    case Internal
 }
 
 protocol MainSignUpViewModelDelegate: class {
@@ -65,54 +55,23 @@ public class MainSignUpViewModel: BaseViewModel {
     }
     
     public func logInWithFacebook() {
-
-        let permissions = ["email", "public_profile", "user_friends", "user_birthday", "user_likes"]
-        let loginManager = FBSDKLoginManager()
-        loginManager.logInWithReadPermissions(permissions, fromViewController: nil) {
-            [weak self] (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-            guard let strongSelf = self else { return }
-
-            if let _ = error {
-                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: .Internal)
-            } else if result.isCancelled {
-                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: .Cancelled)
-            } else if let token = result.token?.tokenString {
-
+        FBLoginHelper.logInWithFacebook(sessionManager,
+            start: { [weak self] in
+                guard let strongSelf = self else { return }
                 strongSelf.delegate?.viewModelDidStartLoggingWithFB(strongSelf)
+            },
+            finish: { [weak self] (result: FBLoginResult, user: MyUser?) -> () in
+                guard let strongSelf = self else { return }
 
-                strongSelf.sessionManager.loginFacebook(token) { [weak self] result in
-                    guard let strongSelf = self else { return }
-
-                    var modelResult: FBLoginResult
-                    if let myUser = result.value {
-                        TrackerProxy.sharedInstance.setUser(myUser)
-                        let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
-                        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
-                        modelResult = .Success
-                    } else if let error = result.error{
-                        switch (error) {
-                        case .Api(let apiError):
-                            switch apiError {
-                            case .Network:
-                                modelResult = .Network
-                            case .Scammer:
-                                modelResult = .Forbidden
-                            case .NotFound:
-                                modelResult = .NotFound
-                            case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
-                                modelResult = .Internal
-                            }
-                        case .Internal:
-                            modelResult = .Internal
-                        }
-                    } else {
-                        modelResult = .Internal
-                    }
-                    strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: modelResult)
+                if let user = user {
+                    TrackerProxy.sharedInstance.setUser(user)
+                    let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 }
+
+                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
             }
-        }
+        )
     }
 
     public func abandon() {
