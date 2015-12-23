@@ -65,8 +65,6 @@ public class MainSignUpViewModel: BaseViewModel {
     }
     
     public func logInWithFacebook() {
-        // Notify the delegate about it started
-        delegate?.viewModelDidStartLoggingWithFB(self)
 
         let permissions = ["email", "public_profile", "user_friends", "user_birthday", "user_likes"]
         let loginManager = FBSDKLoginManager()
@@ -79,6 +77,9 @@ public class MainSignUpViewModel: BaseViewModel {
             } else if result.isCancelled {
                 strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: .Cancelled)
             } else if let token = result.token?.tokenString {
+
+                strongSelf.delegate?.viewModelDidStartLoggingWithFB(strongSelf)
+
                 strongSelf.sessionManager.loginFacebook(token) { [weak self] result in
                     guard let strongSelf = self else { return }
 
