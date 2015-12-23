@@ -237,7 +237,9 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
         MyUserRepository.sharedInstance.updateAvatar(imageData,
             progressBlock: { (progressAsInt) -> Void in
-                self.settingProfileImageProgressView.setProgress(Float(progressAsInt)/100.0, animated: true)
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    self?.settingProfileImageProgressView.setProgress(Float(progressAsInt)/100.0, animated: true)
+                }
             },
             completion: { [weak self] updateResult in
                 guard let strongSelf = self else { return }
