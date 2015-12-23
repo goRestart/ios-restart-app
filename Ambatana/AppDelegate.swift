@@ -63,34 +63,36 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
             let navCtl = UINavigationController(rootViewController: splashVC)
             splashVC.completion = { _ in
 
-                // Removing splash nav controller, otherwise it remains below the tabbar
-                navCtl.view.removeFromSuperview()
-
-                // TODO: ⛔️ Warning!!
-//                // Rebuild user defaults
-//                UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
-                
-                // Show TabBar afterwards
-                let tabBarCtl = TabBarController()
-                actualWindow.rootViewController = tabBarCtl
-                
-                // Open the deep link, if any
-                if let actualDeepLink = deepLink {
-                    tabBarCtl.deepLink = actualDeepLink
-                }
-                else if self.userContinuationUrl != nil {
-                    self.consumeUserContinuation(usingTabBar: tabBarCtl)
-                }
-
-                // check if app launches from shortcut
-                if #available(iOS 9.0, *) {
-                    if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
-                        // Application launched via shortcut
-                        self.handleShortcut(shortcutItem)
+                LGCoreKit.start({ () -> () in
+                    // Removing splash nav controller, otherwise it remains below the tabbar
+                    navCtl.view.removeFromSuperview()
+                    
+                    // TODO: ⛔️ Warning!!
+                    //                // Rebuild user defaults
+                    //                UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
+                    
+                    // Show TabBar afterwards
+                    let tabBarCtl = TabBarController()
+                    actualWindow.rootViewController = tabBarCtl
+                    
+                    // Open the deep link, if any
+                    if let actualDeepLink = deepLink {
+                        tabBarCtl.deepLink = actualDeepLink
                     }
-                }
-                
-                LocationManager.sharedInstance.startSensorLocationUpdates()
+                    else if self.userContinuationUrl != nil {
+                        self.consumeUserContinuation(usingTabBar: tabBarCtl)
+                    }
+                    
+                    // check if app launches from shortcut
+                    if #available(iOS 9.0, *) {
+                        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
+                            // Application launched via shortcut
+                            self.handleShortcut(shortcutItem)
+                        }
+                    }
+                    
+                    LocationManager.sharedInstance.startSensorLocationUpdates()
+                })
             }
             
             actualWindow.rootViewController = navCtl
