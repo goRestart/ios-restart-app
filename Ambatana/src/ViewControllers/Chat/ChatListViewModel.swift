@@ -39,10 +39,14 @@ public class ChatListViewModel : BaseViewModel {
         super.init()
     }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func didSetActive(active: Bool) {
         if active {
             // NSNotificationCenter, observe for user interactions (msgs & offers)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversations",
                 name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
 
             updateConversations()
@@ -69,6 +73,7 @@ public class ChatListViewModel : BaseViewModel {
                 }
             }
         }
+        updateUnreadMessagesCount()
     }
 
     public func updateUnreadMessagesCount() {
@@ -79,4 +84,5 @@ public class ChatListViewModel : BaseViewModel {
         guard let chats = chats where index < chatCount else { return nil }
         return chats[index]
     }
+
 }

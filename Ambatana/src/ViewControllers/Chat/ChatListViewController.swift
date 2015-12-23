@@ -75,10 +75,6 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -94,7 +90,6 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
     func refreshConversations() {
         viewModel.updateConversations()
-        viewModel.updateUnreadMessagesCount()
     }
 
 
@@ -192,13 +187,6 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
             return
         }
         navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
-    }
-
-
-    // MARK: NSNotificationCenter
-
-    func didReceiveUserInteraction(notification: NSNotification) {
-        refreshConversations()
     }
 
 
