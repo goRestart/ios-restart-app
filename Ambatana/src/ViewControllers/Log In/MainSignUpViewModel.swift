@@ -63,7 +63,6 @@ public class MainSignUpViewModel: BaseViewModel {
     }
 
     public func abandon() {
-        // Tracking
         let trackerEvent = TrackerEvent.loginAbandon(loginSource)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }

@@ -122,20 +122,17 @@ public class SignUpLogInViewModel: BaseViewModel {
         if usernameContainsLetgoString(fullName) {
             delegate?.viewModel(self, didFinishSigningUpWithResult:
                 Result<MyUser, SignUpLogInError>(error: .UsernameTaken))
-        }
-        else if fullName.characters.count < Constants.fullNameMinLength {
+        } else if fullName.characters.count < Constants.fullNameMinLength {
             delegate?.viewModel(self, didFinishSigningUpWithResult:
                 Result<MyUser, SignUpLogInError>(error: .InvalidUsername))
-        }
-        else if !email.isEmail() {
+        } else if !email.isEmail() {
             delegate?.viewModel(self, didFinishSigningUpWithResult:
                 Result<MyUser, SignUpLogInError>(error: .InvalidEmail))
-        }
-        else if password.characters.count < Constants.passwordMinLength || password.characters.count > Constants.passwordMaxLength {
-            delegate?.viewModel(self, didFinishSigningUpWithResult:
-                Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
-        }
-        else {
+        } else if password.characters.count < Constants.passwordMinLength ||
+            password.characters.count > Constants.passwordMaxLength {
+                delegate?.viewModel(self, didFinishSigningUpWithResult:
+                    Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
+        } else {
             sessionManager.signUp(email.lowercaseString, password: password, publicUsername: fullName) {
                 [weak self] signUpResult in
                 
@@ -144,19 +141,15 @@ public class SignUpLogInViewModel: BaseViewModel {
                 var result = Result<MyUser, SignUpLogInError>(error: .Internal)
                 if let value = signUpResult.value {
                     result = Result<MyUser, SignUpLogInError>(value: value)
-                    
-                    // Tracking
+
                     TrackerProxy.sharedInstance.setUser(value)
                     TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource))
                 } else if let repositoryError = signUpResult.error {
                     let error = SignUpLogInError(repositoryError: repositoryError)
                     result = Result<MyUser, SignUpLogInError>(error: error)
                 }
-                
-                // Notify the delegate about it finished
-                if let delegate = strongSelf.delegate {
-                    delegate.viewModel(strongSelf, didFinishSigningUpWithResult: result)
-                }
+
+                strongSelf.delegate?.viewModel(strongSelf, didFinishSigningUpWithResult: result)
             }
         }
     }
@@ -170,22 +163,18 @@ public class SignUpLogInViewModel: BaseViewModel {
         if !email.isEmail() {
             delegate?.viewModel(self, didFinishLoggingInWithResult:
                 Result<MyUser, SignUpLogInError>(error: .InvalidEmail))
-        }
-        else if password.characters.count < Constants.passwordMinLength {
+        } else if password.characters.count < Constants.passwordMinLength {
             delegate?.viewModel(self, didFinishLoggingInWithResult:
                 Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
-        }
-        else {
+        } else {
             sessionManager.login(email, password: password) { [weak self] loginResult in
                 guard let strongSelf = self else { return }
                 
                 var result = Result<MyUser, SignUpLogInError>(error: .Internal)
                 if let myUser = loginResult.value {
                     result = Result<MyUser, SignUpLogInError>(value: myUser)
-                    
-                    // Tracking
+
                     TrackerProxy.sharedInstance.setUser(myUser)
-                    
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
                     TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 } else if let repositoryError = loginResult.error {
@@ -193,45 +182,18 @@ public class SignUpLogInViewModel: BaseViewModel {
                     result = Result<MyUser, SignUpLogInError>(error: error)
                 }
 
-                // Notify the delegate about it finished
-                if let delegate = strongSelf.delegate {
-                    delegate.viewModel(strongSelf, didFinishLoggingInWithResult: result)
-                }
+                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingInWithResult: result)
             }
         }
     }
     
     public func logInWithFacebook() {
-
         delegate?.viewModelDidStartLoggingWithFB(self)
         FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource){
             [weak self] (result: FBLoginResult) -> () in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
         }
-
-//        // Notify the delegate about it started
-//        delegate?.viewModelDidStartLoggingWithFB(self)
-//        
-//        // Log in
-//        // TODO: ⛔️ Retrieve fb token
-//        sessionManager.loginFacebook("") { [weak self] result in
-//            guard let strongSelf = self else { return }
-//            
-//            if let myUser = result.value {
-//                
-//                // Tracking
-//                TrackerProxy.sharedInstance.setUser(myUser)
-//                
-//                let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
-//                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-//            }
-//            
-//            // Notify the delegate about it finished
-//            if let delegate = strongSelf.delegate {
-//                delegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
-//            }
-//        }
     }
     
     public func loginFailedWithError(error: EventParameterLoginError) {
@@ -242,10 +204,12 @@ public class SignUpLogInViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupError(error))
     }
     
+    
     // MARK: - Private methods
     
     private func sendButtonShouldBeEnabled() -> Bool {
-        return  email.characters.count > 0 && password.characters.count > 0 && (currentActionType == .Login || ( currentActionType == .Signup && username.characters.count > 0))
+        return  email.characters.count > 0 && password.characters.count > 0 &&
+            (currentActionType == .Login || ( currentActionType == .Signup && username.characters.count > 0))
     }
     
     private func usernameContainsLetgoString(theUsername: String) -> Bool {
