@@ -57,18 +57,11 @@ public class EditUserLocationViewModel: BaseViewModel {
         self.tracker = tracker
         
         self.searchText = ""
-        self.approximateLocation = UserDefaultsManager.sharedInstance.loadIsApproximateLocation()
+        self.approximateLocation = myUserRepository.myUser?.approximateLocation ?? true
         self.goingToLocation = false
         self.serviceAlreadyLoading = false
         self.pendingGoToLocation = false
-        
-        if let location = locationManager.currentLocation {
-            usingGPSLocation = location.type != .Manual
-        }
-        else {
-            usingGPSLocation = true
-        }
-        self.usingGPSLocation = true
+        self.usingGPSLocation = locationManager.currentLocation?.type != .Manual
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
@@ -115,11 +108,11 @@ public class EditUserLocationViewModel: BaseViewModel {
     
     func showInitialUserLocation() {
         goingToLocation = true
-        let user = myUserRepository.myUser
-        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-//        if let location =  MyUserManager.sharedInstance.currentLocation {
-        if let location = MyUserRepository.sharedInstance.myUser?.location {
+
+        if let location = locationManager.currentLocation {
             delegate?.viewModel(self, updateTextFieldWithString: "")
+            
+            let user = myUserRepository.myUser
             let place = Place(postalAddress: user?.postalAddress, location:LGLocationCoordinates2D(location: location))
             self.currentPlace = place
             var userLocationString = ""
@@ -168,9 +161,7 @@ public class EditUserLocationViewModel: BaseViewModel {
         usingGPSLocation = true
 
         if !serviceAlreadyLoading {
-            // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-            if let location = MyUserRepository.sharedInstance.myUser?.location {
-//            if let location = MyUserManager.sharedInstance.currentAutoLocation {
+            if let location = locationManager.currentAutoLocation {
             
                 // Notify
                 delegate?.viewModelDidStartSearchingLocation(self)
@@ -309,10 +300,6 @@ public class EditUserLocationViewModel: BaseViewModel {
 
         let myCompletion: Result<MyUser, RepositoryError> -> () = { [weak self] result in
             if let value = result.value {
-                if let approximateLocation = self?.approximateLocation {
-                    UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
-                }
-                
                 if let myUserLocation = value.location {
                     // Tracking
                     let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)

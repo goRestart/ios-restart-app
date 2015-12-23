@@ -38,8 +38,6 @@ public class MainProductListViewModel: ProductListViewModel {
         self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
         self.isProfileList = false
         
-        // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-        // Observe MyUserManager location updates
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"), name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
     
@@ -59,13 +57,9 @@ public class MainProductListViewModel: ProductListViewModel {
 
         // Active
         if (active) {
-            // TODO: ⛔️ Use LocationManager (inject!!!) to get the current location
-            if let currentLocation = LocationManager.sharedInstance.currentLocation {
+            if let currentLocation = locationManager.currentLocation {
                 retrieveProductsIfNeededWithNewLocation(currentLocation)
             }
-//            if let currentLocation = MyUserManager.sharedInstance.currentLocation {
-//                retrieveProductsIfNeededWithNewLocation(currentLocation)
-//            }
         }
     }
     
