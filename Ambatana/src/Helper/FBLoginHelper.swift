@@ -23,46 +23,52 @@ class FBLoginHelper {
     static let fbPermissions = ["email", "public_profile", "user_friends", "user_birthday", "user_likes"]
 
     static func logInWithFacebook(sessionManager: SessionManager, tracker: Tracker,
-        loginSource: EventParameterLoginSourceValue, finish: ((result: FBLoginResult) -> ())?) {
+        loginSource: EventParameterLoginSourceValue, managerStart: (()->())?,
+        completion: ((result: FBLoginResult) -> ())?) {
 
             let loginManager = FBSDKLoginManager()
             loginManager.logInWithReadPermissions(fbPermissions, fromViewController: nil) {
                 (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
 
                 if let _ = error {
-                    finish?(result: .Internal)
+                    completion?(result: .Internal)
                 } else if result.isCancelled {
-                    finish?(result: .Cancelled)
+                    completion?(result: .Cancelled)
                 } else if let token = result.token?.tokenString {
+                    managerStart?()
+                    loginToManagerWith(token, sessionManager: sessionManager, tracker: tracker,
+                        loginSource: loginSource, completion: completion)
+                }
+            }
+    }
 
-                    sessionManager.loginFacebook(token) { result in
+    private static func loginToManagerWith(token: String, sessionManager: SessionManager, tracker: Tracker,
+        loginSource: EventParameterLoginSourceValue, completion: ((result: FBLoginResult) -> ())?) {
+            sessionManager.loginFacebook(token) { result in
+                if let myUser = result.value {
+                    tracker.setUser(myUser)
+                    let trackerEvent = TrackerEvent.loginFB(loginSource)
+                    tracker.trackEvent(trackerEvent)
 
-                        if let myUser = result.value {
-                            tracker.setUser(myUser)
-                            let trackerEvent = TrackerEvent.loginFB(loginSource)
-                            tracker.trackEvent(trackerEvent)
-
-                            finish?(result: .Success)
-                        } else if let error = result.error{
-                            switch (error) {
-                            case .Api(let apiError):
-                                switch apiError {
-                                case .Network:
-                                    finish?(result: .Network)
-                                case .Scammer:
-                                    finish?(result: .Forbidden)
-                                case .NotFound:
-                                    finish?(result: .NotFound)
-                                case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
-                                    finish?(result: .Internal)
-                                }
-                            case .Internal:
-                                finish?(result: .Internal)
-                            }
-                        } else {
-                            finish?(result: .Internal)
+                    completion?(result: .Success)
+                } else if let error = result.error{
+                    switch (error) {
+                    case .Api(let apiError):
+                        switch apiError {
+                        case .Network:
+                            completion?(result: .Network)
+                        case .Scammer:
+                            completion?(result: .Forbidden)
+                        case .NotFound:
+                            completion?(result: .NotFound)
+                        case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
+                            completion?(result: .Internal)
                         }
+                    case .Internal:
+                        completion?(result: .Internal)
                     }
+                } else {
+                    completion?(result: .Internal)
                 }
             }
     }

@@ -159,12 +159,14 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     @IBAction func showPasswordButtonPressed(sender: AnyObject) {
         passwordTextField.secureTextEntry = !passwordTextField.secureTextEntry
 
-        let imgButton = passwordTextField.secureTextEntry ? UIImage(named: "ic_show_password_inactive") : UIImage(named: "ic_show_password")
+        let imgButton = passwordTextField.secureTextEntry ?
+            UIImage(named: "ic_show_password_inactive") : UIImage(named: "ic_show_password")
         showPasswordButton.setImage(imgButton, forState: .Normal)
         
         // workaround to avoid weird font type
         passwordTextField.font = UIFont(name: "systemFont", size: 17)
-        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(17) ])
+        passwordTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.signUpPasswordFieldHint,
+            attributes: [NSFontAttributeName : UIFont.systemFontOfSize(17) ])
        
     }
     
@@ -187,7 +189,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     
     func textFieldDidBeginEditing(textField: UITextField) {
         
-        scrollView.setContentOffset(CGPointMake(0,textFieldsView.frame.origin.y+textField.frame.origin.y), animated: true)
+        scrollView.setContentOffset(CGPointMake(0,textFieldsView.frame.origin.y+textField.frame.origin.y),
+            animated: true)
 
         guard let tag = TextFieldTag(rawValue: textField.tag) else { return }
         
@@ -255,14 +258,13 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     }
     
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        
-        guard let textFieldText = textField.text else { return true }
-        
-        let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        updateViewModelText(text, fromTextFieldTag: textField.tag)
-        
-        return true
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+        replacementString string: String) -> Bool {
+            guard let textFieldText = textField.text else { return true }
+            
+            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            updateViewModelText(text, fromTextFieldTag: textField.tag)
+            return true
     }
     
     // MARK: - SignUpLogInViewModelDelegate
@@ -297,13 +299,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                 var message = LGLocalizedString.signUpSendErrorGeneric
                 switch (error) {
                 case .InvalidUsername:
-                    message = String(format: LGLocalizedString.signUpSendErrorInvalidUsername, Constants.fullNameMinLength)
+                    message = String(format: LGLocalizedString.signUpSendErrorInvalidUsername,
+                        Constants.fullNameMinLength)
                     errorDescription = .InvalidUsername
                 case .InvalidEmail:
                     message = LGLocalizedString.signUpSendErrorInvalidEmail
                     errorDescription = .InvalidEmail
                 case .InvalidPassword:
-                    message = String(format: LGLocalizedString.signUpSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
+                    message = String(format: LGLocalizedString.signUpSendErrorInvalidPasswordWithMax,
+                        Constants.passwordMinLength, Constants.passwordMaxLength)
                     errorDescription = .InvalidPassword
                 case .Api(let apiError):
                     switch apiError {
@@ -421,7 +425,6 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                 self.showAutoFadingOutMessageAlert(message, time: 3)
             }
         }
-
         dismissCustomLoadingMessageAlert(completion)
     }
     
@@ -452,12 +455,16 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         usernameTextField.tag = TextFieldTag.Username.rawValue
 
         // appearance
-        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Normal)
         connectFBButton.layer.cornerRadius = 4
 
-        sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+        sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Normal)
+        sendButton.setBackgroundImage(StyleHelper.disabledButtonBackgroundColor.imageWithSize(
+            CGSize(width: 1, height: 1)), forState: .Disabled)
+        sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Highlighted)
         
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
@@ -474,8 +481,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         
         if isSignup {
             setupSignupUI()
-        }
-        else {
+        } else {
             setupLoginUI()
         }
 
@@ -484,12 +490,12 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         
         let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
         setLetGoNavigationBarStyle(navBarTitle)
-        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self, action: Selector("helpButtonPressed"))
+        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
+            action: Selector("helpButtonPressed"))
         navigationItem.rightBarButtonItem = helpButton
     }
     
     private func setupSignupUI() {
-        
         usernameButton.hidden = !signupEditModeActive
         usernameIconImageView.hidden = !signupEditModeActive
         usernameTextField.hidden = !signupEditModeActive
@@ -499,15 +505,12 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         passwordButton.hidden = !signupEditModeActive
         passwordIconImageView.hidden = !signupEditModeActive
         passwordTextField.hidden = !signupEditModeActive
-
         passwordTextField.returnKeyType = .Next
         
         sendButton.hidden = !signupEditModeActive
-        
     }
 
     private func setupLoginUI() {
-
         usernameButton.hidden = true
         usernameIconImageView.hidden = true
         usernameTextField.hidden = true
@@ -517,11 +520,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         passwordButton.hidden = !loginEditModeActive
         passwordIconImageView.hidden = !loginEditModeActive
         passwordTextField.hidden = !loginEditModeActive
-        
         passwordTextField.returnKeyType = .Send
 
         sendButton.hidden = !loginEditModeActive
-        
     }
 
     

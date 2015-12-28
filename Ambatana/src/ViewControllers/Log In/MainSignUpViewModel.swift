@@ -54,16 +54,19 @@ public class MainSignUpViewModel: BaseViewModel {
     }
     
     public func logInWithFacebook() {
-        delegate?.viewModelDidStartLoggingWithFB(self)
-        FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource){
-            [weak self] (result: FBLoginResult) -> () in
-            guard let strongSelf = self else { return }
-            strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
-        }
+        FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource,
+            managerStart: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.viewModelDidStartLoggingWithFB(strongSelf)
+            },
+            completion: { [weak self] result in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
+            }
+        )
     }
 
     public func abandon() {
-        // Tracking
         let trackerEvent = TrackerEvent.loginAbandon(loginSource)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
