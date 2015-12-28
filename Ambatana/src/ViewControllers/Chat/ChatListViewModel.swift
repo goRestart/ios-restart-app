@@ -41,13 +41,7 @@ public class ChatListViewModel : BaseViewModel {
 
     override func didSetActive(active: Bool) {
         if active {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateConversations",
-                name: UIApplicationWillEnterForegroundNotification, object: nil)
-
             updateConversations()
-        } else {
-            NSNotificationCenter.defaultCenter().removeObserver(self,
-                name: UIApplicationWillEnterForegroundNotification, object: nil)
         }
     }
 
