@@ -82,7 +82,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // > User
     public var userName: String {
-        return product.user.publicUsername ?? ""
+        return product.user.name ?? ""
     }
     public var userAvatar: NSURL? {
         return product.user.avatar?.fileURL
