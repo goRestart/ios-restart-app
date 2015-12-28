@@ -163,7 +163,11 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         super.viewWillAppear(animated)
         
         guard shouldReload else { return }
-        
+
+        if let myUser = MyUserRepository.sharedInstance.myUser where user.objectId == myUser.objectId {
+            user = myUser
+        }
+
         // UX/UI and Appearance.
         setLetGoNavigationBarStyle("")
         
@@ -194,10 +198,10 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         // UI
         if let avatarURL = user.avatar?.fileURL {
             userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
-        }
-        else {
+        } else {
             userImageView.image = UIImage(named: "no_photo")
         }
+
         userNameLabel.text = user.publicUsername ?? ""
         userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
         
