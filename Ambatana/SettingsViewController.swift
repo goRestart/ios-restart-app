@@ -252,10 +252,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
                     let trackerEvent = TrackerEvent.profileEditEditPicture()
                     TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
-                } else if let _ = updateResult.error { // unable save user with new avatar.
-                    strongSelf.settingProfileImageView.hidden = true
-                    strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.settingsChangeProfilePictureErrorGeneric)
-                } else {
+                } else { // unable save user with new avatar.
                     strongSelf.settingProfileImageView.hidden = true
                     strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.settingsChangeProfilePictureErrorGeneric)
                 }

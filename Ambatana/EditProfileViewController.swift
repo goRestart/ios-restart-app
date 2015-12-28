@@ -164,7 +164,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         
         guard shouldReload else { return }
 
-        if let myUser = MyUserRepository.sharedInstance.myUser {
+        if let myUser = MyUserRepository.sharedInstance.myUser where user.objectId == myUser.objectId {
             user = myUser
         }
 
