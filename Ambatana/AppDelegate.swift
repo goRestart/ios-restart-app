@@ -66,10 +66,6 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
                 // Removing splash nav controller, otherwise it remains below the tabbar
                 navCtl.view.removeFromSuperview()
-
-                // TODO: ⛔️ Warning!!
-//                // Rebuild user defaults
-//                UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
                 
                 // Show TabBar afterwards
                 let tabBarCtl = TabBarController()
