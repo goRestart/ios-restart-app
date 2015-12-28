@@ -11,7 +11,7 @@ import Parse
 import Result
 import UIKit
 
-class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UITextViewDelegate {
+class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UITextFieldDelegate {
     // outlets & buttons
     @IBOutlet weak var currencyButton: UIButton!
     @IBOutlet weak var priceTextField: UITextField!
@@ -43,7 +43,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         
         // setup
         if let price = product?.price {
-            priceTextField.text = String(Int(price)) ?? ""
+            priceTextField.text = String(price) ?? ""
         }
         
         // show keyboard
@@ -70,7 +70,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
     
     @IBAction func makeAnOffer(sender: AnyObject) {
-        if let actualProduct = product, let productUser = product?.user, let myUser = MyUserManager.sharedInstance.myUser(), let productPriceStr = priceTextField.text, let productPrice = Int(productPriceStr) {
+        if let actualProduct = product, let productUser = product?.user, let myUser = MyUserManager.sharedInstance.myUser(), let productPriceStr = priceTextField.text, let productPrice = Double(productPriceStr) {
             
             // Loading
             enableLoadingInterface()
@@ -98,7 +98,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                     
                                     // Tracking
                                     let myUser = MyUserManager.sharedInstance.myUser()
-                                    let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser, amount: Double(productPrice))
+                                    let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser, amount: productPrice)
                                     TrackerProxy.sharedInstance.trackEvent(offerEvent)
                                     
                                     let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
@@ -142,7 +142,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         }
     }
     
-    func generateOfferText(price: Int) -> String {
+    func generateOfferText(price: Double) -> String {
         let currencyCode = product?.currency?.code ?? Constants.defaultCurrencyCode
         let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
         return String(format: LGLocalizedString.makeAnOfferNewOfferMessage, formattedAmount)
@@ -171,6 +171,20 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         else {
             showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
         }
+    }
+
+
+    // MARK: UITextFieldDelegate Methods
+
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let updatedText: String
+        if let text = textField.text {
+            updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        } else {
+            updatedText = string
+        }
+        if !updatedText.isValidLengthPrice() { return false }
+        return true
     }
 }
 
