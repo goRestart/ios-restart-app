@@ -216,14 +216,12 @@ extension UIViewController {
         }
 
         set {
-            if let newValue = newValue {
-                objc_setAssociatedObject(
-                    self,
-                    &AlertKeys.LoadingKey,
-                    newValue,
-                    .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-                )
-            }
+            objc_setAssociatedObject(
+                self,
+                &AlertKeys.LoadingKey,
+                newValue,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
         }
     }
 
