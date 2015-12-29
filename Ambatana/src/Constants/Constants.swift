@@ -43,7 +43,7 @@ struct Constants {
     
     // Filters
     static var distanceFilterDefault: Int {
-        return ABTests.defaultFilterOrderNewest.boolValue ? 0 : 100
+        return 0
     }
     static let distanceFilterOptions = [0, 1, 10, 20, 30, 100]
     
