@@ -133,7 +133,7 @@ public class SignUpLogInViewModel: BaseViewModel {
                 delegate?.viewModel(self, didFinishSigningUpWithResult:
                     Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
         } else {
-            sessionManager.signUp(email.lowercaseString, password: password, publicUsername: fullName) {
+            sessionManager.signUp(email.lowercaseString, password: password, name: fullName) {
                 [weak self] signUpResult in
                 
                 guard let strongSelf = self else { return }

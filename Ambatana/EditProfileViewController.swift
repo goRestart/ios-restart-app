@@ -202,7 +202,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             userImageView.image = UIImage(named: "no_photo")
         }
 
-        userNameLabel.text = user.publicUsername ?? ""
+        userNameLabel.text = user.name ?? ""
         userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
         
         // If it's me, then allow go to settings

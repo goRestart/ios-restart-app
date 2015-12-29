@@ -129,7 +129,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
 
         if setting == .ChangeUsername {
-            cell.nameLabel.text = MyUserRepository.sharedInstance.myUser?.publicUsername
+            cell.nameLabel.text = MyUserRepository.sharedInstance.myUser?.name
         }
 
         if setting == .ChangeLocation {
