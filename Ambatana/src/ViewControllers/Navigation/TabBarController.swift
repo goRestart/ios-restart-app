@@ -412,7 +412,6 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                         self?.switchToTab(tab, checkIfShouldSwitch: false)
                         },
                         elsePresentSignUpWithSuccessAction: { [weak self] in
-                            // FIXME: UX Patch: https://ambatana.atlassian.net/browse/ABIOS-503
                             if tab == .Profile {
                                 self?.switchToTab(.Home)
                             } else {

@@ -136,15 +136,8 @@ UITextFieldDelegate {
             prePermissionType: .ProductList)
     }
     
-    // MARK: - ProductListViewDataDelegate
-
-    public func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
-        //DO NOTHING (TODO: CONSIDER REMOVING METHOD)
-    }
     
-    public func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
-        //DO NOTHING (TODO: CONSIDER REMOVING METHOD)
-    }
+    // MARK: - ProductListViewDataDelegate
     
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt,
         hasProducts: Bool, error: ProductsRetrieveServiceError) {

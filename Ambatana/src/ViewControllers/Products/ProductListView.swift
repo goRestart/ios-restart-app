@@ -11,13 +11,11 @@ import LGCoreKit
 import UIKit
 
 public protocol ProductListViewDataDelegate: class {
-    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt)
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
         error: ProductsRetrieveServiceError)
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
         hasProducts: Bool)
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath)
-    func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool)
 }
 
 public protocol ProductListViewScrollDelegate: class {
@@ -453,22 +451,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         informScrollDelegate(scrollView)
     }
-    
-    public func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        delegate?.productListView(self, shouldHideFloatingSellButton: true)
-    }
-    
-    public func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint,
-        targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-            let moving = abs(velocity.y) > 0
-            delegate?.productListView(self, shouldHideFloatingSellButton: moving)
-    }
-    
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        delegate?.productListView(self, shouldHideFloatingSellButton: false)
-    }
-    
-    
+
+
     // MARK: - ProductListViewModelDataDelegate
     
     public func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt) {
@@ -476,9 +460,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         if page == 0 && viewModel.numberOfProducts == 0 {
             state = .FirstLoadView
         }
-        
-        // Notify the delegate
-        delegate?.productListView(self, didStartRetrievingProductsPage: page)
     }
     
     public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
