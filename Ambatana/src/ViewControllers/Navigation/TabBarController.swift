@@ -412,7 +412,6 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                         self?.switchToTab(tab, checkIfShouldSwitch: false)
                         },
                         elsePresentSignUpWithSuccessAction: { [weak self] in
-                            // FIXME: UX Patch: https://ambatana.atlassian.net/browse/ABIOS-503
                             if tab == .Profile {
                                 self?.switchToTab(.Home)
                             } else {
@@ -712,8 +711,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             preferredStyle: .Alert)
         let yesAction = UIAlertAction(title: LGLocalizedString.commonOk, style: UIAlertActionStyle.Default) {
             (updateToGPSLocation) -> Void in
-            // TODO: ⛔️ Use LocationManager (inject!!!)
-//            MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
+            LocationManager.sharedInstance.setAutomaticLocation(nil)
         }
         let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel) {
             (showSecondAlert) -> Void in
@@ -722,8 +720,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
             let updateAction = UIAlertAction(title: LGLocalizedString.changeLocationConfirmUpdateButton,
                 style: .Default) { (updateToGPSLocation) -> Void in
-                    // TODO: ⛔️ Use LocationManager (inject!!!)
-//                    MyUserManager.sharedInstance.setAutomaticLocationWithPlace(nil)
+                    LocationManager.sharedInstance.setAutomaticLocation(nil)
             }
             secondAlert.addAction(cancelAction)
             secondAlert.addAction(updateAction)

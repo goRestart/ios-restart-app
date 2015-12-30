@@ -254,11 +254,9 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
     }
+
     
     // MARK: - ProductListViewDataDelegate
-    
-    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
-    }
     
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
         error: ProductsRetrieveServiceError) {
@@ -307,8 +305,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
-    }
     
     // MARK: - UICollectionViewDataSource and Delegate methods
     
