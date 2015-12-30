@@ -185,30 +185,12 @@ extension UIViewController {
 // MARK: - Alerts and loading helpers
 
 private struct AlertKeys {
-    static var CustomLoadingKey = 0
     static var LoadingKey = 0
 }
 
 private let kLetGoFadingAlertDismissalTime: Double = 2.5
 
 extension UIViewController {
-
-    private var customLoading: UIViewController? {
-        get {
-            return (objc_getAssociatedObject(self, &AlertKeys.CustomLoadingKey) as? UIViewController)
-        }
-
-        set {
-            if let newValue = newValue {
-                objc_setAssociatedObject(
-                    self,
-                    &AlertKeys.CustomLoadingKey,
-                    newValue,
-                    .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-                )
-            }
-        }
-    }
 
     private var loading: UIAlertController? {
         get {
@@ -254,68 +236,19 @@ extension UIViewController {
         activityIndicator.startAnimating()
 
         self.loading = alert
-        presentViewController(alert, animated: true, completion: nil)
+        presentViewController(alert, animated: true) {
+            if self.loading == nil {
+                //That means we tried to dismiss while presenting. Note that we will be missing the dismiss completion
+                alert.dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
     }
 
     // dismisses a previously shown loading alert message (iOS 8 -- UIAlertController style, iOS 7 -- UIAlertView style)
-    func dismissLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
+    func dismissLoadingMessageAlert(completion: (() -> Void)? = nil) {
         if let alert = self.loading {
-            alert.dismissViewControllerAnimated(true, completion: completion)
             self.loading = nil
-        } else {
-            completion?()
-        }
-    }
-
-
-    // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling
-    // dismissAlert().  Used to patch FB login in iOS 9
-    func showCustomLoadingMessageAlert(customMessage: String? = LGLocalizedString.commonLoading) {
-        guard self.customLoading == nil else { return }
-
-        let bgVC = UIViewController()
-        bgVC.modalPresentationStyle =  UIModalPresentationStyle.OverCurrentContext
-        bgVC.view.backgroundColor =  UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3)
-        bgVC.view.frame = self.view.frame
-        bgVC.view.center = self.view.center
-
-        let alert = UIView(frame: CGRectMake(0, 0, 260, 120))
-        alert.center = bgVC.view.center
-        alert.backgroundColor = UIColor.whiteColor()
-        alert.layer.cornerRadius = 10
-
-        let messageLabel = UILabel(frame:CGRectMake(10, 0, 240, 50))
-        messageLabel.font = UIFont.boldSystemFontOfSize(17)
-        messageLabel.textAlignment = NSTextAlignment.Center
-        messageLabel.numberOfLines = 0
-        messageLabel.text = customMessage
-        alert.addSubview(messageLabel)
-
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-        activityIndicator.color = UIColor.blackColor()
-        activityIndicator.center = CGPointMake(130.5, 85.5)
-        alert.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        bgVC.view.addSubview(alert)
-        alert.alpha = 0
-
-        self.customLoading = bgVC
-
-        presentViewController(bgVC, animated: false) { () -> Void in
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                alert.alpha = 1
-            })
-        }
-    }
-
-    // dismisses a previously shown custom loading alert message.  Used to patch FB login in iOS 9
-    func dismissCustomLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
-        if let loading = self.customLoading {
-            UIView.animateWithDuration(0.1, animations: { () -> Void in
-                loading.view.alpha = 0
-                }) { (finished) -> Void in
-                    loading.dismissViewControllerAnimated(true, completion: completion)
-            }
+            alert.dismissViewControllerAnimated(true, completion: completion)
         } else {
             completion?()
         }

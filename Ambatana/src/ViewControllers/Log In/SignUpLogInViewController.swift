@@ -393,7 +393,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     // MARK: > fb login
     
     func viewModelDidStartLoggingWithFB(viewModel: SignUpLogInViewModel) {
-        showCustomLoadingMessageAlert()
+        showLoadingMessageAlert()
     }
     
     func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
@@ -425,7 +425,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                 self.showAutoFadingOutMessageAlert(message, time: 3)
             }
         }
-        dismissCustomLoadingMessageAlert(completion)
+        dismissLoadingMessageAlert(completion)
     }
     
     // MARK: Private Methods
