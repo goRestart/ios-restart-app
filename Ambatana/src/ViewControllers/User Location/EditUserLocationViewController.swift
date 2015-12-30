@@ -89,12 +89,13 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         viewModel.applyLocation { [weak self] result in
             guard let strongSelf = self else { return }
             
-            strongSelf.dismissLoadingMessageAlert()
-            if let _ = result.value {
-                strongSelf.popBackViewController()
-            }
-            else if let _ = result.error {
-                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.commonError)
+            strongSelf.dismissLoadingMessageAlert() {
+                if let _ = result.value {
+                    strongSelf.popBackViewController()
+                }
+                else if let _ = result.error {
+                    strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.commonError)
+                }
             }
         }
     }
