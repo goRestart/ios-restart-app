@@ -42,9 +42,7 @@ struct Constants {
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0
     
     // Filters
-    static var distanceFilterDefault: Int {
-        return ABTests.defaultFilterOrderNewest.boolValue ? 0 : 100
-    }
+    static var distanceFilterDefault = 0
     static let distanceFilterOptions = [0, 1, 10, 20, 30, 100]
     
     // App sharing
