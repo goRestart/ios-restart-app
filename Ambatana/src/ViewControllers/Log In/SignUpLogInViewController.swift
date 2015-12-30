@@ -404,8 +404,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
 
         switch result {
         case .Success:
-            completion = {
-                self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
+            completion = { [weak self] in
+                self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
             }
         case .Cancelled:
             break
@@ -421,8 +421,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
 
         if let actualErrorDescription = errorDescription {
             viewModel.loginFailedWithError(actualErrorDescription)
-            completion = {
-                self.showAutoFadingOutMessageAlert(message, time: 3)
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message, time: 3)
             }
         }
         dismissLoadingMessageAlert(completion)

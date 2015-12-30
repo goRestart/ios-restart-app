@@ -164,7 +164,6 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
                 self?.showAutoFadingOutMessageAlert(message, time: 3)
             }
         }
-
         dismissLoadingMessageAlert(completion)
     }
     
