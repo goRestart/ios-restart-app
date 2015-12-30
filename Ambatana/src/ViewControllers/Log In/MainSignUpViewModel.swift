@@ -23,10 +23,10 @@ public enum LoginSource: String {
     case ReportFraud = "report-fraud"
 }
 
-public protocol MainSignUpViewModelDelegate: class {
+protocol MainSignUpViewModelDelegate: class {
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel)
-    func viewModel(viewModel: MainSignUpViewModel,
-        didFinishLoggingWithFBWithResult result: Result<MyUser, RepositoryError>)
+    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult)
+
 }
 
 public class MainSignUpViewModel: BaseViewModel {
@@ -54,31 +54,19 @@ public class MainSignUpViewModel: BaseViewModel {
     }
     
     public func logInWithFacebook() {
-        // Notify the delegate about it started
-        delegate?.viewModelDidStartLoggingWithFB(self)
-        
-        // Log in
-        // TODO: ⛔️ Obtain FB token
-        sessionManager.loginFacebook("") { [weak self] result in
-            guard let strongSelf = self else { return }
-            
-            if let myUser = result.value {
-                // Tracking
-                TrackerProxy.sharedInstance.setUser(myUser)
-                
-                let trackerEvent = TrackerEvent.loginFB(strongSelf.loginSource)
-                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource,
+            managerStart: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.viewModelDidStartLoggingWithFB(strongSelf)
+            },
+            completion: { [weak self] result in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
             }
-            
-            // Notify the delegate about it finished
-            if let delegate = strongSelf.delegate {
-                delegate.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
-            }
-        }
+        )
     }
 
     public func abandon() {
-        // Tracking
         let trackerEvent = TrackerEvent.loginAbandon(loginSource)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }

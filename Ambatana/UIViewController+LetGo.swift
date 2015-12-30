@@ -9,15 +9,7 @@
 import Parse
 import UIKit
 
-protocol NativeShareDelegate {
-    func nativeShareInFacebook()
-    func nativeShareInTwitter()
-    func nativeShareInEmail()
-    func nativeShareInWhatsApp()
-}
-
-private let kLetGoFadingAlertDismissalTime: Double = 2.5
-private let kLetGoBadgeContainerViewTag = 500
+// MARK: - UINavigationBar helpers
 
 extension UIViewController {
     
@@ -102,80 +94,25 @@ extension UIViewController {
             return resultButtons
     }
     
+
+
+}
+
+
+// MARK: - Present/pop/share
+
+protocol NativeShareDelegate {
+    func nativeShareInFacebook()
+    func nativeShareInTwitter()
+    func nativeShareInEmail()
+    func nativeShareInWhatsApp()
+}
+
+extension UIViewController {
+
     // gets back one VC from the stack.
     func popBackViewController() {
         self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func showAutoFadingOutMessageAlert(message: String, completionBlock: ((Void) -> Void)? = nil) {
-        showAutoFadingOutMessageAlert(message, time: kLetGoFadingAlertDismissalTime, completionBlock: completionBlock)
-    }
-    
-    // Shows an alert message that fades out after kLetGoFadingAlertDismissalTime seconds
-    func showAutoFadingOutMessageAlert(message: String, time: Double, completionBlock: ((Void) -> Void)? = nil) {
-        let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-        presentViewController(alert, animated: true, completion: nil)
-        // Schedule auto fading out of alert message
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            alert.dismissViewControllerAnimated(true, completion: { () -> Void in
-                if completionBlock != nil { completionBlock!() }
-            })
-        }
-    }
-    
-    // Shows a loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert()
-    func showLoadingMessageAlert(customMessage: String? = LGLocalizedString.commonLoading) {
-        let finalMessage = (customMessage ?? LGLocalizedString.commonLoading)+"\n\n\n"
-        let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .Alert)
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-        activityIndicator.color = UIColor.blackColor()
-        activityIndicator.center = CGPointMake(130.5, 85.5)
-        alert.view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        
-        presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    // dismisses a previously shown loading alert message (iOS 8 -- UIAlertController style, iOS 7 -- UIAlertView style)
-    func dismissLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
-        dismissViewControllerAnimated(true, completion: completion)
-    }
-
-    
-    // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling 
-    // dismissAlert().  Used to patch FB login in iOS 9
-    func showCustomLoadingMessageAlert(customMessage: String? = LGLocalizedString.commonLoading) {
-        let bgVC = UIViewController()
-        bgVC.modalPresentationStyle =  UIModalPresentationStyle.OverCurrentContext
-        bgVC.view.backgroundColor =  UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3)
-        bgVC.view.frame = self.view.frame
-        bgVC.view.center = self.view.center
-        
-        let alert = UIView(frame: CGRectMake(0, 0, 260, 120))
-        alert.center = bgVC.view.center
-        alert.backgroundColor = UIColor.whiteColor()
-        alert.layer.cornerRadius = 10
-        
-        let messageLabel = UILabel(frame:CGRectMake(10, 0, 240, 50))
-        messageLabel.font = UIFont.boldSystemFontOfSize(17)
-        messageLabel.textAlignment = NSTextAlignment.Center
-        messageLabel.numberOfLines = 0
-        messageLabel.text = customMessage
-        alert.addSubview(messageLabel)
-        
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
-        activityIndicator.color = UIColor.blackColor()
-        activityIndicator.center = CGPointMake(130.5, 85.5)
-        alert.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        bgVC.view.addSubview(alert)
-        alert.alpha = 0
-        
-        presentViewController(bgVC, animated: false) { () -> Void in
-            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                alert.alpha = 1
-            })
-        }
     }
 
     func presentNativeShareWith(shareText shareText: String, delegate: NativeShareDelegate?) {
@@ -226,18 +163,10 @@ extension UIViewController {
         
         presentViewController(vc, animated: true, completion: nil)
     }
-    
-    // dismisses a previously shown custom loading alert message.  Used to patch FB login in iOS 9
-    func dismissCustomLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.presentedViewController?.view.alpha = 0
-            }) { (finished) -> Void in
-                self.dismissViewControllerAnimated(true, completion: completion)
-        }
-    }
+
 
     /**
-        Helper to present a view controller using the main thread 
+    Helper to present a view controller using the main thread
     */
     func presentViewController(viewControllerToPresent: UIViewController, animated: Bool, onMainThread: Bool,
         completion: (() -> Void)?) {
@@ -250,5 +179,145 @@ extension UIViewController {
                 self.presentViewController(viewControllerToPresent, animated: animated, completion: completion)
             }
     }
-    
+}
+
+
+// MARK: - Alerts and loading helpers
+
+private struct AlertKeys {
+    static var CustomLoadingKey = 0
+    static var LoadingKey = 0
+}
+
+private let kLetGoFadingAlertDismissalTime: Double = 2.5
+
+extension UIViewController {
+
+    private var customLoading: UIViewController? {
+        get {
+            return (objc_getAssociatedObject(self, &AlertKeys.CustomLoadingKey) as? UIViewController)
+        }
+
+        set {
+            if let newValue = newValue {
+                objc_setAssociatedObject(
+                    self,
+                    &AlertKeys.CustomLoadingKey,
+                    newValue,
+                    .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+                )
+            }
+        }
+    }
+
+    private var loading: UIAlertController? {
+        get {
+            return (objc_getAssociatedObject(self, &AlertKeys.LoadingKey) as? UIAlertController)
+        }
+
+        set {
+            objc_setAssociatedObject(
+                self,
+                &AlertKeys.LoadingKey,
+                newValue,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
+        }
+    }
+
+    func showAutoFadingOutMessageAlert(message: String, completionBlock: ((Void) -> Void)? = nil) {
+        showAutoFadingOutMessageAlert(message, time: kLetGoFadingAlertDismissalTime, completionBlock: completionBlock)
+    }
+
+    // Shows an alert message that fades out after kLetGoFadingAlertDismissalTime seconds
+    func showAutoFadingOutMessageAlert(message: String, time: Double, completionBlock: ((Void) -> Void)? = nil) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+        presentViewController(alert, animated: true, completion: nil)
+        // Schedule auto fading out of alert message
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+            alert.dismissViewControllerAnimated(true, completion: { () -> Void in
+                if completionBlock != nil { completionBlock!() }
+            })
+        }
+    }
+
+    // Shows a loading alert message. It will not fade away, so must be explicitly dismissed by calling dismissAlert()
+    func showLoadingMessageAlert(customMessage: String? = LGLocalizedString.commonLoading) {
+        guard self.loading == nil else { return }
+
+        let finalMessage = (customMessage ?? LGLocalizedString.commonLoading)+"\n\n\n"
+        let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .Alert)
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        activityIndicator.color = UIColor.blackColor()
+        activityIndicator.center = CGPointMake(130.5, 85.5)
+        alert.view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+
+        self.loading = alert
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
+    // dismisses a previously shown loading alert message (iOS 8 -- UIAlertController style, iOS 7 -- UIAlertView style)
+    func dismissLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
+        if let alert = self.loading {
+            alert.dismissViewControllerAnimated(true, completion: completion)
+            self.loading = nil
+        } else {
+            completion?()
+        }
+    }
+
+
+    // Shows a custom loading alert message. It will not fade away, so must be explicitly dismissed by calling
+    // dismissAlert().  Used to patch FB login in iOS 9
+    func showCustomLoadingMessageAlert(customMessage: String? = LGLocalizedString.commonLoading) {
+        guard self.customLoading == nil else { return }
+
+        let bgVC = UIViewController()
+        bgVC.modalPresentationStyle =  UIModalPresentationStyle.OverCurrentContext
+        bgVC.view.backgroundColor =  UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.3)
+        bgVC.view.frame = self.view.frame
+        bgVC.view.center = self.view.center
+
+        let alert = UIView(frame: CGRectMake(0, 0, 260, 120))
+        alert.center = bgVC.view.center
+        alert.backgroundColor = UIColor.whiteColor()
+        alert.layer.cornerRadius = 10
+
+        let messageLabel = UILabel(frame:CGRectMake(10, 0, 240, 50))
+        messageLabel.font = UIFont.boldSystemFontOfSize(17)
+        messageLabel.textAlignment = NSTextAlignment.Center
+        messageLabel.numberOfLines = 0
+        messageLabel.text = customMessage
+        alert.addSubview(messageLabel)
+
+        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
+        activityIndicator.color = UIColor.blackColor()
+        activityIndicator.center = CGPointMake(130.5, 85.5)
+        alert.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        bgVC.view.addSubview(alert)
+        alert.alpha = 0
+
+        self.customLoading = bgVC
+
+        presentViewController(bgVC, animated: false) { () -> Void in
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                alert.alpha = 1
+            })
+        }
+    }
+
+    // dismisses a previously shown custom loading alert message.  Used to patch FB login in iOS 9
+    func dismissCustomLoadingMessageAlert(completion: ((Void) -> Void)? = nil) {
+        if let loading = self.customLoading {
+            UIView.animateWithDuration(0.1, animations: { () -> Void in
+                loading.view.alpha = 0
+                }) { (finished) -> Void in
+                    loading.dismissViewControllerAnimated(true, completion: completion)
+            }
+        } else {
+            completion?()
+        }
+    }
 }

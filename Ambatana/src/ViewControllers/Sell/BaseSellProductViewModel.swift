@@ -121,9 +121,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         self.descr = nil
         self.category = nil
         self.productImages = ProductImages()
-        // TODO: ⛔️ Store provider
-//        self.shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
-        self.shouldShareInFB = false
+        self.shouldShareInFB = myUserRepository.myUser?.authProvider == .Facebook
         self.imagesModified = false
         
         super.init()

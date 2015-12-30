@@ -51,7 +51,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, tracker: Tracker) {
         self.myUserRepository = myUserRepository
         self.tracker = tracker
-        self.username = myUserRepository.myUser?.publicUsername ?? ""
+        self.username = myUserRepository.myUser?.name ?? ""
         super.init()
     }
     
@@ -77,7 +77,7 @@ class ChangeUsernameViewModel: BaseViewModel {
 
             username = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 
-            myUserRepository.updatePublicUsername(username) { [weak self] updateResult in
+            myUserRepository.updateName(username) { [weak self] updateResult in
                 guard let strongSelf = self else { return }
                 
                 if let _ = updateResult.value {
@@ -105,7 +105,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     
     func isValidUsername(theUsername: String) -> Bool {
         return theUsername.isValidUsername() &&
-            (theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != myUserRepository.myUser?.publicUsername)
+            (theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != myUserRepository.myUser?.name)
     }
     
     

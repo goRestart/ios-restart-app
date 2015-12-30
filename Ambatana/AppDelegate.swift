@@ -13,6 +13,7 @@ import FBSDKCoreKit
 import LGCoreKit
 import Parse
 import UIKit
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplicationDelegate {
@@ -66,10 +67,6 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                 LGCoreKit.start({ () -> () in
                     // Removing splash nav controller, otherwise it remains below the tabbar
                     navCtl.view.removeFromSuperview()
-                    
-                    // TODO: ⛔️ Warning!!
-                    //                // Rebuild user defaults
-                    //                UserDefaultsManager.sharedInstance.rebuildUserDefaultsForUser()
                     
                     // Show TabBar afterwards
                     let tabBarCtl = TabBarController()
@@ -274,7 +271,10 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 #else
         Optimizely.sharedInstance().disableGesture = true
 #endif
-        
+
+        // Facebook id
+        FBSDKSettings.setAppID(EnvironmentProxy.sharedInstance.facebookAppId)
+
         // Push notifications, get the deep link if any
         var deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         

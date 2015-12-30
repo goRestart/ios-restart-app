@@ -57,7 +57,8 @@ public class EditUserLocationViewModel: BaseViewModel {
         self.tracker = tracker
         
         self.searchText = ""
-        self.approximateLocation = myUserRepository.myUser?.approximateLocation ?? true
+        self.approximateLocation = locationManager.currentLocation?.type != .Sensor &&
+            locationManager.currentLocation?.type != .Manual
         self.goingToLocation = false
         self.serviceAlreadyLoading = false
         self.pendingGoToLocation = false
