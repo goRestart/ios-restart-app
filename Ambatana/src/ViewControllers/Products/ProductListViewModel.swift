@@ -327,9 +327,14 @@ public class ProductListViewModel: BaseViewModel {
             break
         }
     }
-    
-    
+
+
     // MARK: > UI
+
+
+    public func clearList() {
+        products = []
+    }
     
     /**
         Returns the product at the given index.
