@@ -135,9 +135,8 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     }
 
     private func shareInFbChanged() -> Bool {
-        // TODO: ⛔️⛔️⛔️ should be persisted
-//        return MyUserManager.sharedInstance.myUser()?.didLogInByFacebook != shouldShareInFB
-        return false
+        let fbLogin = myUserRepository.myUser?.authProvider == .Facebook
+        return fbLogin != shouldShareInFB
     }
 
 

@@ -132,40 +132,39 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     // MARK: - MainSignUpViewModelDelegate
     
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel) {
-        showCustomLoadingMessageAlert()
+        showLoadingMessageAlert()
     }
 
     func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
         
-            var completion: (() -> Void)? = nil
-            let message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-            var errorDescription: EventParameterLoginError?
+        var completion: (() -> Void)? = nil
+        let message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+        var errorDescription: EventParameterLoginError?
 
-            switch result {
-            case .Success:
-                completion = {
-                    self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
-                }
-            case .Cancelled:
-                break
-            case .Network:
-                errorDescription = .Network
-            case .Forbidden:
-                errorDescription = .Forbidden
-            case .NotFound:
-                errorDescription = .UserNotFoundOrWrongPassword
-            case .Internal:
-                errorDescription = .Internal
+        switch result {
+        case .Success:
+            completion = { [weak self] in
+                self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
             }
+        case .Cancelled:
+            break
+        case .Network:
+            errorDescription = .Network
+        case .Forbidden:
+            errorDescription = .Forbidden
+        case .NotFound:
+            errorDescription = .UserNotFoundOrWrongPassword
+        case .Internal:
+            errorDescription = .Internal
+        }
 
-            if let actualErrorDescription = errorDescription {
-                viewModel.loginWithFBFailedWithError(actualErrorDescription)
-                completion = {
-                    self.showAutoFadingOutMessageAlert(message, time: 3)
-                }
+        if let actualErrorDescription = errorDescription {
+            viewModel.loginWithFBFailedWithError(actualErrorDescription)
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message, time: 3)
             }
-
-            dismissCustomLoadingMessageAlert(completion)
+        }
+        dismissLoadingMessageAlert(completion)
     }
     
     

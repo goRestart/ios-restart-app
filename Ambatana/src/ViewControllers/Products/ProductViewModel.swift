@@ -485,31 +485,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    // TODO: ⛔️⛔️⛔️⛔️⛔️⛔️⛔️
-//    func generateWhatsappURL() -> NSURL? {
-//        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
-//        guard let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
-//        return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
-//    }
-//    
-//    public func canShareInWhatsapp() -> Bool {
-//        guard let url = generateWhatsappURL() else { return false }
-//        let application = UIApplication.sharedApplication()
-//        return application.canOpenURL(url)
-//    }
-//    
-//    /**
-//    Detect if the user has the FB Messenger App installed.
-//    Done manually because Facebook does not provide a way to do it with the SDK
-//    
-//    - returns: Wether the content can be shared in facebook-messenger or not
-//    */
-//    public func canShareInFBMessenger() -> Bool {
-//        guard let url = NSURL(string: "fb-messenger-api://") else { return false }
-//        let application = UIApplication.sharedApplication()
-//        return application.canOpenURL(url)
-//    }
-    
 
     // MARK: >  Report
     
