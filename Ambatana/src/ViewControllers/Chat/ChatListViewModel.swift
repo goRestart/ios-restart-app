@@ -74,4 +74,8 @@ public class ChatListViewModel : BaseViewModel {
         return chats[index]
     }
 
+    public func clearChatList() {
+        chats = []
+    }
+
 }

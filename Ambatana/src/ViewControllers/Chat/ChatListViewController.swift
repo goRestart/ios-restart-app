@@ -91,6 +91,8 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         // NSNotificationCenter, observe for user interactions (msgs & offers)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
             name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
+            name: MyUserManager.Notification.logout.rawValue, object: nil)
     }
 
 
@@ -100,6 +102,13 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         viewModel.updateConversations()
     }
 
+    /**
+        Clears the table view
+    */
+    func clearChatList(notification: NSNotification) {
+        viewModel.clearChatList()
+        tableView.reloadData()
+    }
 
     // MARK: ChatListViewModelDelegate Methods
 
