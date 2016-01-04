@@ -97,7 +97,7 @@ DEPENDENCIES:
   - DeviceUtil (~> 1.3.5)
   - FastttCamera (~> 0.3.4)
   - FBSDKShareKit (~> 4.7.0)
-  - Google/Analytics
+  - Google/Analytics (~> 1.3.2)
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.3.2)
   - LGCollapsibleLabel (= 0.1.1)
