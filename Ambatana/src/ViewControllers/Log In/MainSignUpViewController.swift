@@ -138,7 +138,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
         
         var completion: (() -> Void)? = nil
-        let message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+        var message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
         var errorDescription: EventParameterLoginError?
 
         switch result {
@@ -154,6 +154,9 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
             errorDescription = .Forbidden
         case .NotFound:
             errorDescription = .UserNotFoundOrWrongPassword
+        case .AlreadyExists:
+            message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
+            errorDescription = .EmailTaken
         case .Internal:
             errorDescription = .Internal
         }

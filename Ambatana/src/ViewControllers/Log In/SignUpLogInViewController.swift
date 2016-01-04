@@ -319,6 +319,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                     case .NotFound:
                         errorDescription = .NotFound
                     case .AlreadyExists:
+                        message = String(format: LGLocalizedString.signUpSendErrorEmailTaken, viewModel.email)
                         errorDescription = .EmailTaken
                     case .Internal, .Unauthorized, .InternalServerError:
                         errorDescription = .Internal
@@ -361,8 +362,10 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                 case .InvalidUsername:
                     errorDescription = .InvalidUsername
                 case .InvalidEmail:
+                    message = LGLocalizedString.logInErrorSendErrorInvalidEmail
                     errorDescription = .InvalidEmail
                 case .InvalidPassword:
+                    message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
                     errorDescription = .InvalidPassword
                 case .Api(let apiError):
                     switch apiError {
@@ -371,6 +374,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                         errorDescription = .Network
                     case .Unauthorized:
                         errorDescription = .UserNotFoundOrWrongPassword
+                        message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
                     case .Scammer:
                         errorDescription = .Forbidden
                     case .NotFound:
@@ -399,7 +403,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
 
         var completion: (() -> Void)? = nil
-        let message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+        var message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
         var errorDescription: EventParameterLoginError?
 
         switch result {
@@ -415,6 +419,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
             errorDescription = .Forbidden
         case .NotFound:
             errorDescription = .UserNotFoundOrWrongPassword
+        case .AlreadyExists:
+            message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
+            errorDescription = .EmailTaken
         case .Internal:
             errorDescription = .Internal
         }
