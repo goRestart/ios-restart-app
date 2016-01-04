@@ -126,8 +126,8 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
             
             switch (result) {
             case .Success:
-                completion = {
-                    self.showAutoFadingOutMessageAlert(LGLocalizedString.changeLocationErrorSearchLocationMessage)
+                completion = { [weak self] in
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.changeLocationErrorSearchLocationMessage)
                 }
                 break
             case .Failure(let error):
@@ -141,8 +141,8 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
                     message = String(format: LGLocalizedString.changeLocationErrorUnknownLocationMessage,
                         arguments: [searchField.text ?? ""])
                 }
-                completion = {
-                    self.showAutoFadingOutMessageAlert(message)
+                completion = { [weak self] in
+                    self?.showAutoFadingOutMessageAlert(message)
                 }
             }
             
@@ -165,11 +165,15 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     }
 
     func viewModelDidApplyLocation(viewModel: EditUserLocationViewModel) {
-        popBackViewController()
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.popBackViewController()
+        }
     }
 
     func viewModelDidFailApplyingLocation(viewModel: EditUserLocationViewModel) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.commonError)
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.commonError)
+        }
     }
 
     // MARK: - MapView methods

@@ -323,17 +323,17 @@ public class EditUserLocationViewModel: BaseViewModel {
                 strongSelf.delegate?.viewModelDidFailApplyingLocation(strongSelf)
             }
         }
-
-        self.delegate?.viewModelDidStartApplyingLocation(self)
         
         if usingGPSLocation {
+            self.delegate?.viewModelDidStartApplyingLocation(self)
             locationManager.setAutomaticLocation(myCompletion)
+        } else if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
+            self.delegate?.viewModelDidStartApplyingLocation(self)
+            let location = CLLocation(latitude: lat, longitude: long)
+            let postalAddress = currentPlace.postalAddress
+            locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
-            if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
-                let location = CLLocation(latitude: lat, longitude: long)
-                let postalAddress = currentPlace.postalAddress
-                locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
-            }
+            self.delegate?.viewModelDidFailApplyingLocation(self)
         }
     }
 }
