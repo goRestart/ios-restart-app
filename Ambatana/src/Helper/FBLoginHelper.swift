@@ -15,6 +15,7 @@ enum FBLoginResult {
     case Network
     case Forbidden
     case NotFound
+    case AlreadyExists
     case Internal
 }
 
@@ -61,7 +62,9 @@ class FBLoginHelper {
                             completion?(result: .Forbidden)
                         case .NotFound:
                             completion?(result: .NotFound)
-                        case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
+                        case .AlreadyExists:
+                            completion?(result: .AlreadyExists)
+                        case .Internal, .Unauthorized, .InternalServerError:
                             completion?(result: .Internal)
                         }
                     case .Internal:
