@@ -73,8 +73,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                     // Open the deep link, if any
                     if let actualDeepLink = deepLink {
                         tabBarCtl.deepLink = actualDeepLink
-                    }
-                    else if self.userContinuationUrl != nil {
+                    } else if self.userContinuationUrl != nil {
                         self.consumeUserContinuation(usingTabBar: tabBarCtl)
                     }
                     
@@ -179,8 +178,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
             if !(navCtl.topViewController is SplashViewController) {
                 configManagerUpdate = true
             }
-        }
-        else if !(window?.rootViewController is SplashViewController) {
+        } else if !(window?.rootViewController is SplashViewController) {
             configManagerUpdate = true
         }
         if configManagerUpdate {

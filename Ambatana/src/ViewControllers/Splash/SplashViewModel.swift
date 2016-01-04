@@ -16,12 +16,14 @@ protocol SplashViewModelDelegate: class {
     func viewModelShouldContinue(viewModel: SplashViewModel)
 }
 
+
 class SplashViewModel: BaseViewModel {
 
     let configManager: ConfigManager
     let completion: (() -> ())?
     var configRequested: Bool
     weak var delegate: SplashViewModelDelegate?
+    
     
     // MARK: - Lifecycle
     
