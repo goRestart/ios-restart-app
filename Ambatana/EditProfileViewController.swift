@@ -163,7 +163,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         ProductCellDrawerFactory.registerCells(favouriteCollectionView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearProductLists:",
-            name: MyUserManager.Notification.logout.rawValue, object: nil)
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {

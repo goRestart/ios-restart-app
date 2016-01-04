@@ -92,7 +92,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
             name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
-            name: MyUserManager.Notification.logout.rawValue, object: nil)
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
 
@@ -134,37 +134,39 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
                 SessionManager.sharedInstance.logout(nil)
             }
         } else {
-            chatListStatus = .Error
+            if viewModel.chatCount <= 0 {
+                chatListStatus = .Error
 
-            // If we have no data
-            // Set the error state
-            let errBgColor: UIColor?
-            let errBorderColor: UIColor?
-            let errImage: UIImage?
-            let errTitle: String?
-            let errBody: String?
-            let errButTitle: String?
+                // If we have no data
+                // Set the error state
+                let errBgColor: UIColor?
+                let errBorderColor: UIColor?
+                let errImage: UIImage?
+                let errTitle: String?
+                let errBody: String?
+                let errButTitle: String?
 
-            switch error {
-            case .Network:
-                errImage = UIImage(named: "err_network")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorNetworkBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            case .Internal, .Forbidden, .Unauthorized:
-                errImage = UIImage(named: "err_generic")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorGenericBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
+                switch error {
+                case .Network:
+                    errImage = UIImage(named: "err_network")
+                    errTitle = LGLocalizedString.commonErrorTitle
+                    errBody = LGLocalizedString.commonErrorNetworkBody
+                    errButTitle = LGLocalizedString.commonErrorRetryButton
+                case .Internal, .Forbidden, .Unauthorized:
+                    errImage = UIImage(named: "err_generic")
+                    errTitle = LGLocalizedString.commonErrorTitle
+                    errBody = LGLocalizedString.commonErrorGenericBody
+                    errButTitle = LGLocalizedString.commonErrorRetryButton
+                }
+
+                errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
+                errBorderColor = StyleHelper.lineColor
+
+                generateErrorViewWith(errBgColor, errBorderColor: errBorderColor, errImage: errImage,
+                    errTitle: errTitle, errBody: errBody, errButTitle: errButTitle)
+                
+                resetUI()
             }
-
-            errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
-            errBorderColor = StyleHelper.lineColor
-
-            generateErrorViewWith(errBgColor, errBorderColor: errBorderColor, errImage: errImage,
-                errTitle: errTitle, errBody: errBody, errButTitle: errButTitle)
-
-            resetUI()
         }
     }
 
