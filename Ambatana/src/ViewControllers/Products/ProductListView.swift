@@ -321,7 +321,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func refreshUI() {
         collectionView.reloadData()
     }
-    
+
+    /**
+        Clears the collection view
+    */
+    public func clearList() {
+        productListViewModel.clearList()
+        collectionView.reloadData()
+    }
+
+
     // MARK: > ViewModel
     
     /**

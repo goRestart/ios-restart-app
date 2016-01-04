@@ -24,6 +24,6 @@
 #import <GoogleAppIndexing/GoogleAppIndexing.h>
 
 // Google Analytics
-//#import <Google/Analytics.h>
+#import <Google/Analytics.h>
 
 #endif

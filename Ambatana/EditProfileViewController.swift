@@ -92,7 +92,11 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -157,8 +161,11 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         
         // register ProductCell
         ProductCellDrawerFactory.registerCells(favouriteCollectionView)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearProductLists:",
+            name: MyUserManager.Notification.logout.rawValue, object: nil)
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -347,9 +354,21 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         let vc = ProductViewController(viewModel: productVM)
         navigationController?.pushViewController(vc, animated: true)
     }
-    
+
+
     // MARK: - UI
-    
+
+    /**
+        Clears the collection view
+    */
+
+    func clearProductLists(notification: NSNotification) {
+        sellingProductListView.clearList()
+        soldProductListView.clearList()
+        favProducts = []
+        favouriteCollectionView.reloadData()
+    }
+
     func selectButton(button: UIButton) {
         button.backgroundColor = kLetGoEnabledButtonBackgroundColor
         button.setTitleColor(kLetGoEnabledButtonForegroundColor, forState: .Normal)

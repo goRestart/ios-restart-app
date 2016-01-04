@@ -16,8 +16,13 @@ public protocol EditUserLocationViewModelDelegate: class {
     func viewModel(viewModel: EditUserLocationViewModel, updateTextFieldWithString locationName: String)
     func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String])
     func viewModelDidFailFindingSuggestions(viewModel: EditUserLocationViewModel)
-    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult result: SearchLocationSuggestionsServiceResult)
-    func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D, withPostalAddress postalAddress: PostalAddress?, approximate: Bool)
+    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult
+        result: SearchLocationSuggestionsServiceResult)
+    func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D,
+        withPostalAddress postalAddress: PostalAddress?, approximate: Bool)
+    func viewModelDidStartApplyingLocation(viewModel: EditUserLocationViewModel)
+    func viewModelDidApplyLocation(viewModel: EditUserLocationViewModel)
+    func viewModelDidFailApplyingLocation(viewModel: EditUserLocationViewModel)
 }
 
 public class EditUserLocationViewModel: BaseViewModel {
@@ -147,7 +152,8 @@ public class EditUserLocationViewModel: BaseViewModel {
             let lat = location.coordinate.latitude
             let long = location.coordinate.longitude
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress, approximate: self.approximateLocation)
+            delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress,
+                approximate: self.approximateLocation)
         }
         
         goingToLocation = false
@@ -169,11 +175,14 @@ public class EditUserLocationViewModel: BaseViewModel {
                 
                 // Retrieve the address
                 serviceAlreadyLoading = true
-                postalAddressService.retrieveAddressForLocation(location.location) { [weak self] (result: PostalAddressRetrievalServiceResult) -> Void in
+                postalAddressService.retrieveAddressForLocation(location.location) {
+                    [weak self] (result: PostalAddressRetrievalServiceResult) -> Void in
+
                     if let strongSelf = self {
                         if let actualDelegate = strongSelf.delegate {
                             if let place = result.value, let postalAddress = place.postalAddress {
-                                actualDelegate.viewModel(strongSelf, centerMapInLocation: location.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
+                                actualDelegate.viewModel(strongSelf, centerMapInLocation: location.coordinate,
+                                    withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
                                 var userLocationString = ""
                                 if let zipCode = postalAddress.zipCode {
                                     userLocationString += zipCode
@@ -204,7 +213,8 @@ public class EditUserLocationViewModel: BaseViewModel {
 
         if !serviceAlreadyLoading {
             serviceAlreadyLoading = true
-            searchService.retrieveAddressForLocation(self.searchText) { [weak self] (suggestionsResult: SearchLocationSuggestionsServiceResult) -> Void in
+            searchService.retrieveAddressForLocation(self.searchText) {
+                [weak self] (suggestionsResult: SearchLocationSuggestionsServiceResult) -> Void in
                 
                 if let strongSelf = self {
                     if let actualDelegate = strongSelf.delegate {
@@ -288,7 +298,8 @@ public class EditUserLocationViewModel: BaseViewModel {
         
         if let location = currentPlace.location {
             let coordinate = location.coordinates2DfromLocation()
-            delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: currentPlace.postalAddress, approximate: self.approximateLocation)
+            delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: currentPlace.postalAddress,
+                approximate: self.approximateLocation)
         }
     }
 
@@ -297,29 +308,32 @@ public class EditUserLocationViewModel: BaseViewModel {
         Saves the user location
     */
 
-    func applyLocation(completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    func applyLocation() {
 
         let myCompletion: Result<MyUser, RepositoryError> -> () = { [weak self] result in
+            guard let strongSelf = self else { return }
             if let value = result.value {
                 if let myUserLocation = value.location {
-                    // Tracking
                     let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
-                    self?.tracker.trackEvent(trackerEvent)
+                    strongSelf.tracker.trackEvent(trackerEvent)
                 }
+                strongSelf.delegate?.viewModelDidApplyLocation(strongSelf)
             }
-            completion?(result)
+            else {
+                strongSelf.delegate?.viewModelDidFailApplyingLocation(strongSelf)
+            }
         }
         
         if usingGPSLocation {
+            self.delegate?.viewModelDidStartApplyingLocation(self)
             locationManager.setAutomaticLocation(myCompletion)
+        } else if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
+            self.delegate?.viewModelDidStartApplyingLocation(self)
+            let location = CLLocation(latitude: lat, longitude: long)
+            let postalAddress = currentPlace.postalAddress
+            locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
-            if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
-                let location = CLLocation(latitude: lat, longitude: long)
-                let postalAddress = currentPlace.postalAddress
-                locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
-            }
+            self.delegate?.viewModelDidFailApplyingLocation(self)
         }
-        
-        
     }
 }
