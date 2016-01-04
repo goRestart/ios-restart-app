@@ -33,9 +33,9 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool) {
         var trackerEvent: TrackerEvent
         if accepted {
-            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
-        } else {
             trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
+        } else {
+            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
         }
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
@@ -258,6 +258,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         // LGCoreKit
 //        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
         LGCoreKit.initialize(launchOptions)
+        LocationManager.sharedInstance.permissionDelegate = self
         
         // Fabric
 #if DEBUG
