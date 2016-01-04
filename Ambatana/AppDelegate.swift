@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         case StartBrowsing = "letgo.startBrowsing"
     }
 
+    
     // MARK: - LocationManagerPermissionDelegate
 
     func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool) {
@@ -40,6 +41,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
+    
     // MARK: - UIApplicationDelegate
     
     // MARK: > Lifecycle
@@ -211,6 +213,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
     }
     
+    
     // MARK: > App continuation
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
@@ -225,6 +228,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         return false
     }
 
+    
     // MARK: > Push notification
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -248,6 +252,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         PushManager.sharedInstance.application(application, didRegisterUserNotificationSettings: notificationSettings)
     }
+    
     
     // MARK: - Private methods
     
@@ -306,6 +311,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont, NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
         UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
     }
+    
     
     // MARK: > Actions
     
