@@ -229,7 +229,7 @@ extension ChatViewController: ChatViewModelDelegate {
         case .Forbidden:
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
-                SessionManager.sharedInstance.logout(nil)
+                SessionManager.sharedInstance.logout()
             }
         }
     }
@@ -249,7 +249,7 @@ extension ChatViewController: ChatViewModelDelegate {
             showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
         case .Forbidden:
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
-                SessionManager.sharedInstance.logout(nil)
+                SessionManager.sharedInstance.logout()
             }
         }
     }

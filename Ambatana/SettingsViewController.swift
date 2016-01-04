@@ -202,7 +202,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
     func logoutUser() {
         // Logout
-        SessionManager.sharedInstance.logout(nil)
+        SessionManager.sharedInstance.logout()
 
         // Tracking
         let trackerEvent = TrackerEvent.logout()
