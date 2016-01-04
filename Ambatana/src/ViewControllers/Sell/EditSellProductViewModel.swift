@@ -33,10 +33,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
             self.currency = currency
         }
         if let price = product.price {
-            let numFormatter = NSNumberFormatter()
-            numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-            numFormatter.usesGroupingSeparator = false
-            self.price = numFormatter.stringFromNumber(price)!
+            self.price = String.fromPriceDouble(price)
         }
         if let descr = product.descr {
             self.descr = descr
