@@ -66,11 +66,6 @@ public class GANTracker: Tracker {
             var configureError:NSError?
             GGLContext.sharedInstance().configureWithError(&configureError)
             assert(configureError == nil, "Error configuring Google services: \(configureError)")
-
-            // Optional: configure GAI options.
-            let gai = GAI.sharedInstance()
-            gai.trackUncaughtExceptions = true  // report uncaught exceptions
-            gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
     }
 
     public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
