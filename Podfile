@@ -48,7 +48,7 @@ pod "NewRelicAgent",         "~> 5.3.4"
 pod "GoogleAppIndexing",    "~> 2.0.1"
 
 # Google Analytics
-#pod "Google/Analytics"      #,      "~> 3.14.0"
+pod "Google/Analytics",     "~> 1.3.2"
 
 # Adjust
 pod "Adjust",               "~> 4.5.0" #:git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"
