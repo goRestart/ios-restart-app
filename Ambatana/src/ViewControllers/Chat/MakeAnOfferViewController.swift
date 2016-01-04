@@ -116,7 +116,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                             strongSelf2.showAutoFadingOutMessageAlert(
                                                 LGLocalizedString.logInErrorSendErrorGeneric,
                                                 completionBlock: { (completion) -> Void in
-                                                    SessionManager.sharedInstance.logout(nil)
+                                                    SessionManager.sharedInstance.logout()
                                             })
                                         } else {
                                             strongSelf2.showAutoFadingOutMessageAlert(
@@ -135,7 +135,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                             if actualError == .Forbidden {
                                 strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric,
                                     completionBlock: { (completion) -> Void in
-                                    SessionManager.sharedInstance.logout(nil)
+                                    SessionManager.sharedInstance.logout()
                                 })
                             } else {
                                 strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
