@@ -34,7 +34,23 @@ PODS:
   - FMDB/common (2.5)
   - FMDB/standard (2.5):
     - FMDB/common
+  - Google/Analytics (1.3.2):
+    - Google/Core
+    - GoogleAnalytics (~> 3.12)
+  - Google/Core (1.3.2):
+    - GoogleInterchangeUtilities (~> 1.0)
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.1)
+  - GoogleAnalytics (3.14.0)
   - GoogleAppIndexing (2.0.1)
+  - GoogleInterchangeUtilities (1.1.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleNetworkingUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleSymbolUtilities (1.0.3)
+  - GoogleUtilities (1.1.0):
+    - GoogleSymbolUtilities (~> 1.0.0)
   - Kahuna (2.3.2)
   - LGCollapsibleLabel (0.1.1)
   - LGCoreKit (0.16.11):
@@ -81,6 +97,7 @@ DEPENDENCIES:
   - DeviceUtil (~> 1.3.5)
   - FastttCamera (~> 0.3.4)
   - FBSDKShareKit (~> 4.7.0)
+  - Google/Analytics
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.3.2)
   - LGCollapsibleLabel (= 0.1.1)
@@ -120,7 +137,13 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: c11ed3c2833472db3bb4a4aecf27af4a6f69b173
   FBSDKShareKit: 213adf63e073f41a346b0e7a689805880dc5150e
   FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
+  Google: 97618e118111b998cce1d8dd1bd98b82301d72db
+  GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
+  GoogleInterchangeUtilities: d7f7174176fbcf9710f696f1acebad4dbd98ac03
+  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
+  GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
+  GoogleUtilities: 8ed9134debe11719097881711464752900668f10
   Kahuna: 1c0a2663d6b1472e620148bec47d9432f55e03ab
   LGCollapsibleLabel: d9cbd82597d995dcfa6c030423b82d338836111a
   LGCoreKit: e131bfe6f5efa4f2f66d4112cfbcba36ffdaa59d

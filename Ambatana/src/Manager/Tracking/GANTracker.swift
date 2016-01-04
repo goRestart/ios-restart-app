@@ -39,6 +39,21 @@ private extension TrackerEvent {
             }
         }
     }
+
+    var ganCategory: String {
+        get {
+            switch name {
+            case .ProductDetailVisit, .ProductAskQuestion, .ProductOffer:
+                return "buyer"
+            case .ProductSellComplete, .ProductMarkAsSold, .ProductDeleteComplete:
+                return "seller"
+            case .UserMessageSent, .SignupEmail, .LoginEmail, .LoginFB, .Logout:
+                return "all"
+            default:
+                return "all"
+            }
+        }
+    }
 }
 
 public class GANTracker: Tracker {
@@ -48,14 +63,14 @@ public class GANTracker: Tracker {
     public func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
 
-//            var configureError:NSError?
-//            GGLContext.sharedInstance().configureWithError(&configureError)
-//            assert(configureError == nil, "Error configuring Google services: \(configureError)")
-//
-//            // Optional: configure GAI options.
-//            let gai = GAI.sharedInstance()
-//            gai.trackUncaughtExceptions = true  // report uncaught exceptions
-//            gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
+            var configureError:NSError?
+            GGLContext.sharedInstance().configureWithError(&configureError)
+            assert(configureError == nil, "Error configuring Google services: \(configureError)")
+
+            // Optional: configure GAI options.
+            let gai = GAI.sharedInstance()
+            gai.trackUncaughtExceptions = true  // report uncaught exceptions
+            gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
     }
 
     public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
@@ -81,7 +96,10 @@ public class GANTracker: Tracker {
 
     public func trackEvent(event: TrackerEvent) {
         if event.shouldTrack {
-            
+            let tracker = GAI.sharedInstance().defaultTracker
+            let builder = GAIDictionaryBuilder.createEventWithCategory(event.ganCategory, action:event.actualName,
+                label: nil, value: nil)
+            tracker.send(builder.build() as [NSObject:AnyObject])
         }
     }
     

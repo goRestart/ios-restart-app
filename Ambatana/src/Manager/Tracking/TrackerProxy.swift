@@ -15,7 +15,7 @@ public class TrackerProxy: Tracker {
     // TODO : uncomment GANTracker once is working
     private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
         GoogleConversionTracker(), NanigansTracker(), KahunaTracker(), OptimizelyTracker(), CrashlyticsTracker(),
-        /* GANTracker(), */ AdjustTracker()]
+        GANTracker(), AdjustTracker()]
 
     // iVars
     public var trackers: [Tracker] = []

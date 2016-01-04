@@ -13,6 +13,7 @@
 		2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1CFF491B58212C00747610 /* ContactViewController.xib */; };
 		2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */; settings = {ASSET_TAGS = (); }; };
 		2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
+		2E278ED91C3A6F97009A3AE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E278ED81C3A6F97009A3AE6 /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
 		2E29C17D1C1ED73A008FCD87 /* GANTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */; settings = {ASSET_TAGS = (); }; };
 		2E29C17F1C1EF921008FCD87 /* AdjustTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17E1C1EF921008FCD87 /* AdjustTracker.swift */; settings = {ASSET_TAGS = (); }; };
 		2E2AB8281C04A2EF0007B8EB /* CrashlyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */; };
@@ -319,6 +320,7 @@
 		2E1CFF491B58212C00747610 /* ContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactViewController.xib; path = Contact/ContactViewController.xib; sourceTree = "<group>"; };
 		2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPermissionsManager.swift; sourceTree = "<group>"; };
 		2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KahunaTracker.swift; sourceTree = "<group>"; };
+		2E278ED81C3A6F97009A3AE6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GANTracker.swift; sourceTree = "<group>"; };
 		2E29C17E1C1EF921008FCD87 /* AdjustTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdjustTracker.swift; sourceTree = "<group>"; };
 		2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashlyticsTracker.swift; sourceTree = "<group>"; };
@@ -1189,6 +1191,7 @@
 		6608E02D1A820FBD005895ED = {
 			isa = PBXGroup;
 			children = (
+				2E278ED81C3A6F97009A3AE6 /* GoogleService-Info.plist */,
 				D4FE33521AF2166800088532 /* 3rd Party */,
 				6608E0381A820FBD005895ED /* LetGo */,
 				D4B546301AEFDD920062D183 /* letgoTests */,
@@ -1799,6 +1802,7 @@
 				2EE47E5A1BBEA5B70034C19D /* Settings.bundle in Resources */,
 				50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */,
 				50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */,
+				2E278ED91C3A6F97009A3AE6 /* GoogleService-Info.plist in Resources */,
 				D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */,
 				D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */,
 				6A6535031C071512006BD33B /* ChatOthersMessageCell.xib in Resources */,
