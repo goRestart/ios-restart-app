@@ -43,7 +43,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         
         // setup
         if let price = product?.price {
-            priceTextField.text = String(price) ?? ""
+            priceTextField.text = String.fromPriceDouble(price)
         }
         
         // show keyboard
@@ -71,10 +71,9 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     @IBAction func makeAnOffer(sender: AnyObject) {
         if let actualProduct = product, let productUser = product?.user,
-            let myUser = MyUserRepository.sharedInstance.myUser, let productPriceStr = priceTextField.text,
-            let productPrice = Double(productPriceStr) {
-            
-            // Loading
+            let myUser = MyUserRepository.sharedInstance.myUser, let productPriceStr = priceTextField.text {
+            let productPrice = productPriceStr.toPriceDouble()
+
             enableLoadingInterface()
 
             // 1. Send the offer
@@ -116,7 +115,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                             strongSelf2.showAutoFadingOutMessageAlert(
                                                 LGLocalizedString.logInErrorSendErrorGeneric,
                                                 completionBlock: { (completion) -> Void in
-                                                    SessionManager.sharedInstance.logout(nil)
+                                                    SessionManager.sharedInstance.logout()
                                             })
                                         } else {
                                             strongSelf2.showAutoFadingOutMessageAlert(
@@ -135,7 +134,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                             if actualError == .Forbidden {
                                 strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric,
                                     completionBlock: { (completion) -> Void in
-                                    SessionManager.sharedInstance.logout(nil)
+                                    SessionManager.sharedInstance.logout()
                                 })
                             } else {
                                 strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)

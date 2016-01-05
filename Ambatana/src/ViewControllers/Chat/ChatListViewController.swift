@@ -131,7 +131,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         if error == .Forbidden {
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-                SessionManager.sharedInstance.logout(nil)
+                SessionManager.sharedInstance.logout()
             }
         } else {
 

@@ -55,4 +55,14 @@ extension String {
         }
         return 0
     }
+
+    static func fromPriceDouble(price: Double) -> String {
+        let numFormatter = NSNumberFormatter()
+        numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
+        numFormatter.usesGroupingSeparator = false
+        if let text = numFormatter.stringFromNumber(price) {
+            return text
+        }
+        return ""
+    }
 }
