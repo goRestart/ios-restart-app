@@ -34,13 +34,8 @@ class SplashViewModel: BaseViewModel {
     }
     
     override func didSetActive(active: Bool) {
-        if active {
-            if !configRequested {
-                updateConfig()
-            } else {
-                afterConfigUpdate()
-            }
-        }
+        guard active else { return }
+        configRequested ? afterConfigUpdate() : updateConfig()
     }
     
     

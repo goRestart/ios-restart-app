@@ -84,7 +84,9 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate, Sp
     }
     
     func viewModel(viewModel: SplashViewModel, shouldShowOnBoarding tourViewController: LGTourViewController) {
-        tourViewController.backgroundColor = UIColor(patternImage: UIImage(named: "pattern_red")!)
+        if let patternImage = UIImage(named: "pattern_red") {
+            tourViewController.backgroundColor = UIColor(patternImage: patternImage)
+        }
         tourViewController.pageTitleColor = UIColor.whiteColor()
         tourViewController.pageBodyColor = UIColor.whiteColor()
         tourViewController.closeButtonImage = UIImage(named: "ic_close")
