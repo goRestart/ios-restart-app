@@ -12,10 +12,6 @@ import Result
 import UIKit
 
 
-public protocol MakeAnOfferDelegate: class {
-    func didSucceedSendingOffer()
-}
-
 class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UITextFieldDelegate {
     // outlets & buttons
     @IBOutlet weak var currencyButton: UIButton!
@@ -26,8 +22,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // data
     var product: Product?
 
-    // delegate
-    weak var delegate: MakeAnOfferDelegate?
     
     override func viewDidLoad() {
         hidesBottomBarWhenPushed = true
@@ -161,18 +155,14 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     func openChatViewControllerWithChat(chat: Chat) {
         if let chatViewModel = ChatViewModel(chat: chat), var controllers = navigationController?.viewControllers {
+            chatViewModel.fromMakeOffer = true
             let chatVC = ChatViewController(viewModel: chatViewModel)
-            delegate = chatVC
             controllers.removeLast()
             controllers.append(chatVC)
             navigationController?.viewControllers = controllers
-            // call delegate
-            delegate?.didSucceedSendingOffer()
-        }
-        else {
+        } else {
             showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
         }
-        
     }
 
 

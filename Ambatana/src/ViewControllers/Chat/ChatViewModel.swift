@@ -30,6 +30,7 @@ public class ChatViewModel: BaseViewModel {
     var isSendingMessage = false
     var askQuestion = false
     public var alreadyAskedForRating = false
+    public var fromMakeOffer = false
     
     public var shouldAskForRating: Bool {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()

@@ -64,7 +64,16 @@ class ChatViewController: SLKTextViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        textView.becomeFirstResponder()
+
+        if viewModel.fromMakeOffer &&
+            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
+                prePermissionType: .Chat){
+                    viewModel.fromMakeOffer = false
+                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
+                        prePermissionType: .Chat)
+        } else {
+            textView.becomeFirstResponder()
+        }
     }
 
     func showActivityIndicator(show: Bool) {
@@ -269,19 +278,6 @@ extension ChatViewController: ChatViewModelDelegate {
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         tableView.endUpdates()
-    }
-}
-
-
-extension ChatViewController: MakeAnOfferDelegate {
-
-    func didSucceedSendingOffer() {
-        if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
-                prePermissionType: .Chat){
-                    textView.resignFirstResponder()
-                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-                        prePermissionType: .Chat)
-        }
     }
 }
 
