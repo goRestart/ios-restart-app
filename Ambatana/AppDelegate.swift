@@ -28,18 +28,20 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         case StartBrowsing = "letgo.startBrowsing"
     }
 
+    
     // MARK: - LocationManagerPermissionDelegate
 
     func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool) {
         var trackerEvent: TrackerEvent
         if accepted {
-            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
-        } else {
             trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
+        } else {
+            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
         }
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
+    
     // MARK: - UIApplicationDelegate
     
     // MARK: > Lifecycle
@@ -60,10 +62,8 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         if let actualWindow = window {
             
             // Open Splash
-            let splashVC = SplashViewController(configManager: configManager)
-            let navCtl = UINavigationController(rootViewController: splashVC)
-            splashVC.completion = { _ in
-
+            let navCtl = UINavigationController()
+            let splashVM = SplashViewModel(configManager: configManager, completion: { () -> () in
                 LGCoreKit.start({ () -> () in
                     // Removing splash nav controller, otherwise it remains below the tabbar
                     navCtl.view.removeFromSuperview()
@@ -75,8 +75,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                     // Open the deep link, if any
                     if let actualDeepLink = deepLink {
                         tabBarCtl.deepLink = actualDeepLink
-                    }
-                    else if self.userContinuationUrl != nil {
+                    } else if self.userContinuationUrl != nil {
                         self.consumeUserContinuation(usingTabBar: tabBarCtl)
                     }
                     
@@ -90,8 +89,10 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                     
                     LocationManager.sharedInstance.startSensorLocationUpdates()
                 })
-            }
+            })
             
+            let splashVC = SplashViewController(viewModel: splashVM)
+            navCtl.viewControllers = [splashVC]
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }
@@ -179,8 +180,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
             if !(navCtl.topViewController is SplashViewController) {
                 configManagerUpdate = true
             }
-        }
-        else if !(window?.rootViewController is SplashViewController) {
+        } else if !(window?.rootViewController is SplashViewController) {
             configManagerUpdate = true
         }
         if configManagerUpdate {
@@ -211,6 +211,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
     }
     
+    
     // MARK: > App continuation
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
@@ -225,6 +226,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         return false
     }
 
+    
     // MARK: > Push notification
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -249,6 +251,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         PushManager.sharedInstance.application(application, didRegisterUserNotificationSettings: notificationSettings)
     }
     
+    
     // MARK: - Private methods
     
     // MARK: > Setup
@@ -258,6 +261,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         // LGCoreKit
 //        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
         LGCoreKit.initialize(launchOptions)
+        LocationManager.sharedInstance.permissionDelegate = self
         
         // Fabric
 #if DEBUG
@@ -305,6 +309,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont, NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
         UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
     }
+    
     
     // MARK: > Actions
     
