@@ -48,6 +48,7 @@ public class ChatListViewModel : BaseViewModel {
     // MARK: public methods
 
     public func updateConversations() {
+        guard !chatManager.loadingChats else { return }
 
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chatCount < 1)
 
