@@ -734,6 +734,6 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         
         // We should ask only one time
         NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: MyUserManager.Notification.didMoveFromManualLocationNotification.rawValue, object: nil)
+            name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
     }
 }
