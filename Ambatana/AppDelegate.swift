@@ -28,18 +28,20 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         case StartBrowsing = "letgo.startBrowsing"
     }
 
+    
     // MARK: - LocationManagerPermissionDelegate
 
     func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool) {
         var trackerEvent: TrackerEvent
         if accepted {
-            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
-        } else {
             trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
+        } else {
+            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
         }
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
+    
     // MARK: - UIApplicationDelegate
     
     // MARK: > Lifecycle
@@ -209,6 +211,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
     }
     
+    
     // MARK: > App continuation
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
@@ -223,6 +226,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         return false
     }
 
+    
     // MARK: > Push notification
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
@@ -247,6 +251,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         PushManager.sharedInstance.application(application, didRegisterUserNotificationSettings: notificationSettings)
     }
     
+    
     // MARK: - Private methods
     
     // MARK: > Setup
@@ -256,6 +261,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         // LGCoreKit
 //        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
         LGCoreKit.initialize(launchOptions)
+        LocationManager.sharedInstance.permissionDelegate = self
         
         // Fabric
 #if DEBUG
@@ -303,6 +309,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont, NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
         UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
     }
+    
     
     // MARK: > Actions
     
