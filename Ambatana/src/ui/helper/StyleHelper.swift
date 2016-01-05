@@ -250,13 +250,7 @@ class StyleHelper {
     static var tipTextFont: UIFont {
         return helveticaNeueMediumFont(size: 14)
     }
-    
-    
-    // MARK: - Product posted
-    
-    static var productPostedIconColor: UIColor {
-        return red
-    }
+
     
     // MARK: - LGTextField
     
