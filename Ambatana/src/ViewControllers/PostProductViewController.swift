@@ -333,16 +333,7 @@ UITextFieldDelegate {
         UIView.animateWithDuration(0.2, delay: 0.8, options: UIViewAnimationOptions(),
             animations: { () -> Void in
                 finalAlphaBlock()
-            }, completion: { [weak self] (completed: Bool) -> Void in
-                finalAlphaBlock()
-
-                if okItemsAlpha == 1 {
-                    self?.priceTextField.becomeFirstResponder()
-                } else {
-                    self?.priceTextField.resignFirstResponder()
-                }
-            }
-        )
+            }, completion: nil)
     }
 
     private func setFlashModeButton() {

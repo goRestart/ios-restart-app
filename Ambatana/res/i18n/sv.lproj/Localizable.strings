@@ -98,8 +98,10 @@
 "contact_title" = "Kontakta Oss";
 "custom_permission_chat_message" = "Aktivera notiser för att veta direkt när någon svarar.";
 "custom_permission_chat_title" = "HÅLL DIG UPPDATERAD";
-"custom_permission_list_message" = "Aktivera notiser för att få nyheter från Letgo och nya produkter.";
-"custom_permission_list_title" = "VÄLKOMMEN!";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Aktivera notiser för att veta när någon vill köpa din produkt.";
 "custom_permission_sell_title" = "SÄLJ SNABBARE";
 "edit_product_send_button" = "Uppdatera";

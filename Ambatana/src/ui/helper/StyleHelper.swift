@@ -250,6 +250,7 @@ class StyleHelper {
     static var tipTextFont: UIFont {
         return helveticaNeueMediumFont(size: 14)
     }
+
     
     // MARK: - LGTextField
     

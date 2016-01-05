@@ -98,8 +98,10 @@
 "contact_title" = "문의하기";
 "custom_permission_chat_message" = "구매자/판매자가 응답했을 때를 위한 즉시 알림 설정하기.";
 "custom_permission_chat_title" = "탑 판매자가 되세요";
-"custom_permission_list_message" = "letgo와 새로운 상품에 관한 뉴스 소식을 얻기위해 알림 설정";
-"custom_permission_list_title" = "환영합니다!";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "누군가 회원님의 상품을 구매하고자 할때를 위한 알림 설정하기.";
 "custom_permission_sell_title" = "빠르게 판매하기";
 "edit_product_send_button" = "업데이트";
