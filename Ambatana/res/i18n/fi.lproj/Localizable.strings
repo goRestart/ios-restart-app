@@ -99,7 +99,11 @@
 "custom_permission_chat_message" = "Aktivoi ilmoitukset saadaksesi välittömästi tiedon, kun joku vastaa.";
 "custom_permission_chat_title" = "PYSY AJAN TASALLA";
 "custom_permission_list_message" = "Aktivoi ilmoitukset saadaksesi uutisia letgolta ja uusista tuotteista.";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
 "custom_permission_list_title" = "TERVETULOA!";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Aktivoi ilmoitukset saadaksesi tiedon, kun joku haluaa ostaa tuotteesi.";
 "custom_permission_sell_title" = "MYY NOPEAMMIN";
 "edit_product_send_button" = "Päivitä";

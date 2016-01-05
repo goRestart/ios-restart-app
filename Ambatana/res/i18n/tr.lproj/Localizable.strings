@@ -99,7 +99,11 @@
 "custom_permission_chat_message" = "Cevap geldiğinde haberdar olmak için bildirimleri etkinleştir.";
 "custom_permission_chat_title" = "HABERDAR OL";
 "custom_permission_list_message" = "letgo ve yeni ürünler hakkındaki yenilikleri takip etmek için bildirimleri etkinleştir.";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
 "custom_permission_list_title" = "HOŞGELDİN!";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Birileri ürününü almak istediğinde, haberinin olması için bildirimleri etkinleştir.";
 "custom_permission_sell_title" = "DAHA HIZLI SAT";
 "edit_product_send_button" = "Güncelle";
@@ -199,8 +203,8 @@
 "product_post_confirmation_share" = "Paylaş";
 "product_post_confirmation_subtitle" = "10 dakika içinde letgo'da yayında olacak.";
 "product_post_confirmation_title" = "Ürünün oluşturuluyor!";
-"product_post_done" = "Tamamlandı.";
-"product_post_generic_error" = "Bir hata oluştuğu için ürün yayınlanamadı";
+"product_post_done" = "Tamamlandı";
+"product_post_generic_error" = "Bir hata oluştuğu için ürün yayınlanamadı.";
 "product_post_network_error" = "Ürünün yayınlanmadı.\nLütfen internete bağlı olduğundan emin ol.";
 "product_post_price_label" = "Fiyat eklemek ister misin?";
 "product_post_product_posted" = "Ürünün yayınlandı. Tebrikler!";
@@ -268,7 +272,7 @@
 "sell_category_selection_label" = "Kategori seç";
 "sell_choose_category_dialog_cancel_button" = "İptal et";
 "sell_choose_category_dialog_title" = "Bir kategori seç";
-"sell_description_field_hint" = "Açıklama";
+"sell_description_field_hint" = "Açıklama (isteğe bağlı)";
 "sell_picture_image_source_camera_button" = "Kamera";
 "sell_picture_image_source_camera_roll_button" = "Fotoğraf galerisi";
 "sell_picture_image_source_cancel_button" = "İptal et";
@@ -299,7 +303,7 @@
 "sell_share_fb_content" = "letgo'da birşeyler satıyorum. Sen de bir göz at!";
 "sell_share_on_facebook_label" = "Ürünümü Facebook'ta paylaş";
 "sell_title" = "Sat";
-"sell_title_field_hint" = "Ürün başlığı";
+"sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
 "sell_uploading_label" = "Ürün yükleniyor. Lütfen bekle...";
 "settings_change_location_button" = "Konum";
 "settings_change_password_button" = "Şifre";

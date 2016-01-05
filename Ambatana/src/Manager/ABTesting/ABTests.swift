@@ -22,9 +22,17 @@ public struct ABTests {
         boolValue: true)
     public static let prePermissionsActive = OptimizelyABLiveVariable.boolVariable("PrePermissionsActive",
         boolValue: true)
+
     public static let newPostingProcess = OptimizelyABLiveVariable.boolVariable("NewPostingProcess", boolValue: true)
+
+    public static let nativePrePermissionAtList = OptimizelyABLiveVariable.boolVariable("nativePrePermissionAtList",
+        boolValue: false)
+    public static let alternativePermissionText = OptimizelyABLiveVariable.boolVariable("AlternativePermissionText",
+        boolValue: false)
+
 
     public static let allValues = [ABTests.mainProductsJustImages, ABTests.navBarTintColor,
         ABTests.productsWithinFilterEnabled, ABTests.loginAfterSell, ABTests.nativePrePermissions,
-        ABTests.prePermissionsActive, ABTests.newPostingProcess]
+        ABTests.prePermissionsActive, ABTests.alternativePermissionText, ABTests.alternativePermissionText,
+        ABTests.newPostingProcess]
 }

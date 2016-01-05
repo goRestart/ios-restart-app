@@ -54,7 +54,7 @@ public class PushPermissionsManager: NSObject {
                 return
             }
 
-            let nativeStyleAlert = (prePermissionType == .Chat && ABTests.nativePrePermissions.boolValue)
+            let nativeStyleAlert = (prePermissionType == .ProductList && ABTests.nativePrePermissionAtList.boolValue)
 
             // tracking data
             permissionType = .Push

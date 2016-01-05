@@ -99,7 +99,11 @@
 "custom_permission_chat_message" = "Активировать уведомления, чтобы немедленно узнавать, когда кто-то ответил.";
 "custom_permission_chat_title" = "БУДЬТЕ В КУРСЕ";
 "custom_permission_list_message" = "Активировать уведомления, чтобы получать новости и новые товары от letgo.";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
 "custom_permission_list_title" = "ДОБРО ПОЖАЛОВАТЬ!";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Активировать уведомления, чтобы узнавать, что кто-то хочет купить ваш товар.";
 "custom_permission_sell_title" = "ПРОДАВАЙТЕ БЫСТРЕЕ";
 "edit_product_send_button" = "Обновить";

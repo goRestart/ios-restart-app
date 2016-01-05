@@ -273,6 +273,19 @@ extension ChatViewController: ChatViewModelDelegate {
 }
 
 
+extension ChatViewController: MakeAnOfferDelegate {
+
+    func didSucceedSendingOffer() {
+        if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
+                prePermissionType: .Chat){
+                    textView.resignFirstResponder()
+                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
+                        prePermissionType: .Chat)
+        }
+    }
+}
+
+
 // MARK: - ChatOthersMessageCellDelegate
 
 extension ChatViewController: ChatOthersMessageCellDelegate {

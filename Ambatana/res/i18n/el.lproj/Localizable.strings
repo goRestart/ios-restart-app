@@ -99,7 +99,11 @@
 "custom_permission_chat_message" = "Ενεργοποιήστε τις ειδοποιήσεις για να γνωρίζετε άμεσα αν σας έχει απαντήσει κάποιος.";
 "custom_permission_chat_title" = "ΜΠΕΙΤΕ ΣΤΟΝ ΚΥΚΛΟ";
 "custom_permission_list_message" = "Ενεργοποιήστε τις ειδοποιήσεις για να λαμβάνετε ειδήσεις του letgo και νέα προϊόντα.";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
 "custom_permission_list_title" = "ΚΑΛΩΣΗΡΘΑΤΕ!";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Ενεργοποιήστε τις ειδοποιήσεις για να γνωρίζετε άμεσα αν κάποιος θέλει να αγοράσει το αντικειμενό σας.";
 "custom_permission_sell_title" = "ΓΡΗΓΟΡΗ ΠΩΛΗΣΗ";
 "edit_product_send_button" = "Ενημέρωση";

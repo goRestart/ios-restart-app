@@ -99,7 +99,11 @@
 "custom_permission_chat_message" = "Activa las notificaciones para saber al instante que alguien te contesta.";
 "custom_permission_chat_title" = "ENTÉRATE DE TODO";
 "custom_permission_list_message" = "Activa las notificaciones para recibir noticias de letgo y nuevos productos.";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
 "custom_permission_list_title" = "¡BIENVENIDO!";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Activa las notificaciones para enterarte cuando alguien quiere comprar tu producto.";
 "custom_permission_sell_title" = "VENDE RÁPIDO";
 "edit_product_send_button" = "Actualizar";

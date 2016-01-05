@@ -11,6 +11,11 @@ import Parse
 import Result
 import UIKit
 
+
+public protocol MakeAnOfferDelegate: class {
+    func didSucceedSendingOffer()
+}
+
 class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UITextFieldDelegate {
     // outlets & buttons
     @IBOutlet weak var currencyButton: UIButton!
@@ -20,6 +25,9 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     // data
     var product: Product?
+
+    // delegate
+    weak var delegate: MakeAnOfferDelegate?
     
     override func viewDidLoad() {
         hidesBottomBarWhenPushed = true
@@ -106,10 +114,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                     
                                     let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
                                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-                                }
-                                // Error
-                                else {
-                                    
+
+                                } else {
                                     if let actualError = retrieveResult.error {
                                         if actualError == .Forbidden {
                                             strongSelf2.showAutoFadingOutMessageAlert(
@@ -125,9 +131,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                 }
                             }
                         }
-                    }
-                    // Error
-                    else {
+                    } else {
                         strongSelf.disableLoadingInterface()
                         
                         if let actualError = sendResult.error {
@@ -158,26 +162,17 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     func openChatViewControllerWithChat(chat: Chat) {
         if let chatViewModel = ChatViewModel(chat: chat), var controllers = navigationController?.viewControllers {
             let chatVC = ChatViewController(viewModel: chatViewModel)
+            delegate = chatVC
             controllers.removeLast()
             controllers.append(chatVC)
             navigationController?.viewControllers = controllers
+            // call delegate
+            delegate?.didSucceedSendingOffer()
         }
         else {
             showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
         }
         
-    }
-    
-    func launchChatVC(chat: Chat) {
-        if let chatViewModel = ChatViewModel(chat: chat), var controllers = navigationController?.viewControllers {
-            let chatVC = ChatViewController(viewModel: chatViewModel)
-            controllers.removeLast()
-            controllers.append(chatVC)
-            navigationController?.viewControllers = controllers
-        }
-        else {
-            showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
-        }
     }
 
 

@@ -50,7 +50,7 @@ struct Constants {
     static let facebookAppInvitePreviewImageURL = "http://cdn.letgo.com/static/app-invites-facebook.jpg"
 
     // Pre Permissions
-    static let itemIndexPushPermissionsTrigger = 30
+    static let itemIndexPushPermissionsTrigger = 10
     static let pushPermissionRepeatTime = (60 * 60 * 24) // 1 day
 
     // Product posting

@@ -99,7 +99,11 @@
 "custom_permission_chat_message" = "Kích hoạt thông báo để ngay lập tức biết khi có tin nhắn trả lời.";
 "custom_permission_chat_title" = "LUÔN ĐƯỢC CẬP NHẬT";
 "custom_permission_list_message" = "Kích hoạt thông báo để nhận bản tin từ letgo và các sản phẩm mới.";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
 "custom_permission_list_title" = "XIN CHÀO MỪNG!";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Kích hoạt thông báo để biết khi có ai muốn mua sản phẩm của bạn.";
 "custom_permission_sell_title" = "BÁN NHANH HƠN";
 "edit_product_send_button" = "Cập nhật";
@@ -201,7 +205,7 @@
 "product_post_confirmation_title" = "Sản phẩm của bạn đang được xử lý!";
 "product_post_done" = "Hoàn thành";
 "product_post_generic_error" = "Có lỗi xảy ra trong khi đăng sản phẩm.";
-"product_post_network_error" = "Sản phẩm của bạn chưa được đăng. \nXin vui lòng kiểm tra kết nối mạng.";
+"product_post_network_error" = "Sản phẩm của bạn chưa được đăng.\nXin vui lòng kiểm tra kết nối mạng.";
 "product_post_price_label" = "Bạn muốn bổ sung giá?";
 "product_post_product_posted" = "Sản phẩm đã được đăng. Xin chúc mừng bạn!";
 "product_post_retake" = "Chụp lại";

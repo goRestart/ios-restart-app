@@ -298,11 +298,17 @@
 // Title for custom alert for pushes in chat
 "custom_permission_chat_title" = "BE IN THE LOOP";
 
-// Message for custom alert for pushes in list
-"custom_permission_list_message" = "Activate notifications to get news from letgo and new products.";
+// Message for custom alert for pushes in list (opt A)
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
 
-// Title for custom alert for pushes in list
-"custom_permission_list_title" = "WELCOME!";
+// Title for custom alert for pushes in list (opt A)
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+
+// Message for custom alert for pushes in list (opt B)
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
+
+// Title for custom alert for pushes in list (opt B)
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 
 // Message for custom alert for pushes in sell
 "custom_permission_sell_message" = "Activate notifications to know when someone wants to buy your product.";

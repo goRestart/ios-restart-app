@@ -306,11 +306,14 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
             switchToProfileOnTab(.ProductImSelling)
-            if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-                showAppRatingViewIfNeeded()
-            } else {
+
+            if PushPermissionsManager.sharedInstance
+                .shouldShowPushPermissionsAlertFromViewController(self, prePermissionType: .Sell) {
+
                 PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
                     prePermissionType: .Sell)
+            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+                showAppRatingViewIfNeeded()
             }
         }
     }
