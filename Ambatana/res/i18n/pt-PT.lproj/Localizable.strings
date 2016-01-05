@@ -98,10 +98,8 @@
 "contact_title" = "Contacte-nos";
 "custom_permission_chat_message" = "Ative as notificações para tomar conhecimento imediato das respostas.";
 "custom_permission_chat_title" = "MANTENHA-SE INFORMADO";
-"custom_permission_list_message" = "Ative as notificações para receber novidades do letgo e novos produtos";
 "custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
 "custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title" = "BEM-VINDO!";
 "custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
 "custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Ative as notificações para ficar a saber que alguém quer comprar o produto.";
@@ -202,7 +200,7 @@
 "product_post_confirmation_edit" = "Adicionar mais detalhes";
 "product_post_confirmation_share" = "Partilhe-o";
 "product_post_confirmation_subtitle" = "Aparecerá no letgo dentro de 10 minutos.";
-"product_post_confirmation_title" = "O seu produto está a ser processado!";
+"product_post_confirmation_title" = "Parabéns!";
 "product_post_done" = "Feito";
 "product_post_generic_error" = "Ocorreu um erro ao publicar o seu produto.";
 "product_post_network_error" = "O seu produto não foi publicado.\nPor favor verifique a configuração da sua rede.";

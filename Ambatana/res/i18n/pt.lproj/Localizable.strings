@@ -199,8 +199,8 @@
 "product_post_confirmation_another_button" = "Post another item";
 "product_post_confirmation_edit" = "Add more details";
 "product_post_confirmation_share" = "Share it";
-"product_post_confirmation_subtitle" = "It will appear on letgo in 10 minutes.";
-"product_post_confirmation_title" = "Your product is being processed!";
+"product_post_confirmation_subtitle" = "Your product will appear on letgo in 10 minutes. It's time to letgo!";
+"product_post_confirmation_title" = "Congratulations!";
 "product_post_done" = "Done";
 "product_post_generic_error" = "There was an error while posting your product.";
 "product_post_network_error" = "Your product hasn't been posted.\nPlease check your network settings.";

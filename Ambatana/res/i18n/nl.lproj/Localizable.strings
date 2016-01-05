@@ -98,10 +98,8 @@
 "contact_title" = "Contact";
 "custom_permission_chat_message" = "Meldingen activeren om direct te weten wanneer iemand reageert.";
 "custom_permission_chat_title" = "BLIJF OP DE HOOGTE";
-"custom_permission_list_message" = "Meldingen activeren om nieuws te krijgen van letgo en nieuwe producten.";
 "custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
 "custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title" = "WELKOM!";
 "custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
 "custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Meldingen activeren om direct te weten wanneer iemand jouw product wilt kopen.";
@@ -202,7 +200,7 @@
 "product_post_confirmation_edit" = "Voeg meer details toe";
 "product_post_confirmation_share" = "Delen";
 "product_post_confirmation_subtitle" = "Het zal binnen 10 minuten op letgo verschijnen.";
-"product_post_confirmation_title" = "Je product wordt verwerkt!";
+"product_post_confirmation_title" = "Gefeliciteerd!";
 "product_post_done" = "Klaar";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";
 "product_post_network_error" = "Je product werd niet geplaatst.\nGelieve je netwerkinstellingen te controleren.";

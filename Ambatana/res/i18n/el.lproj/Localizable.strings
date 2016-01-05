@@ -98,12 +98,10 @@
 "contact_title" = "Επικοινωνία";
 "custom_permission_chat_message" = "Ενεργοποιήστε τις ειδοποιήσεις για να γνωρίζετε άμεσα αν σας έχει απαντήσει κάποιος.";
 "custom_permission_chat_title" = "ΜΠΕΙΤΕ ΣΤΟΝ ΚΥΚΛΟ";
-"custom_permission_list_message" = "Ενεργοποιήστε τις ειδοποιήσεις για να λαμβάνετε ειδήσεις του letgo και νέα προϊόντα.";
-"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
-"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title" = "ΚΑΛΩΣΗΡΘΑΤΕ!";
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-"custom_permission_list_title_B" = "BUY & SELL FASTER";
+"custom_permission_list_message_A" = "Λάβετε άμεσες ειδοποιήσεις για να πουλάτε και να αγοράζετε γρηγορότερα.";
+"custom_permission_list_message_B" = "Για να ζήσετε την απόλυτη εμπειρία letgo, ενεργοποιήστε τις ειδοποιήσεις.";
+"custom_permission_list_title_A" = "ΕΝΕΡΓΟΠΟΙΗΣΤΕ ΤΙΣ ΕΙΔΟΠΟΙΗΣΕΙΣ";
+"custom_permission_list_title_B" = "ΑΓΟΡΑΣΤΕ & ΠΟΥΛΗΣΤΕ ΓΡΗΓΟΡΟΤΕΡΑ";
 "custom_permission_sell_message" = "Ενεργοποιήστε τις ειδοποιήσεις για να γνωρίζετε άμεσα αν κάποιος θέλει να αγοράσει το αντικειμενό σας.";
 "custom_permission_sell_title" = "ΓΡΗΓΟΡΗ ΠΩΛΗΣΗ";
 "edit_product_send_button" = "Ενημέρωση";
@@ -201,8 +199,8 @@
 "product_post_confirmation_another_button" = "Δημοσιεύστε άλλο αντικείμενο";
 "product_post_confirmation_edit" = "Προσθέστε λεπτομέρειες";
 "product_post_confirmation_share" = "Κοινοποιήστε το";
-"product_post_confirmation_subtitle" = "Θα εμφανιστεί στο letgo σε 10 λεπτά.";
-"product_post_confirmation_title" = "Το αντικείμενό σας έχει καταχωρηθεί!";
+"product_post_confirmation_subtitle" = "Το προϊόν σας θα εμφανιστεί στο letgo σε 10 λεπτά.";
+"product_post_confirmation_title" = "Συγχαρητήρια!";
 "product_post_done" = "Έτοιμο";
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση του αντικειμένου σας.";
 "product_post_network_error" = "Το αντικείμενό σας δεν έχει δημοσιευτεί.\nΠαρακαλώ, ελέγξτε τις ρυθμίσεις δικτύου.";

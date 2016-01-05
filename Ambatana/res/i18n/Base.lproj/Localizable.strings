@@ -596,10 +596,10 @@
 "product_post_confirmation_share" = "Share it";
 
 // After posting, real confirmation subtitle
-"product_post_confirmation_subtitle" = "It will appear on letgo in 10 minutes.";
+"product_post_confirmation_subtitle" = "Your product will appear on letgo in 10 minutes. It's time to letgo!";
 
 // After posting, real confirmation
-"product_post_confirmation_title" = "Your product is being processed!";
+"product_post_confirmation_title" = "Congratulations!";
 
 // Done button after setting (or not) a price
 "product_post_done" = "Done";

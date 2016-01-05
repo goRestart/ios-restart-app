@@ -98,10 +98,8 @@
 "contact_title" = "Kontakta Oss";
 "custom_permission_chat_message" = "Aktivera notiser för att veta direkt när någon svarar.";
 "custom_permission_chat_title" = "HÅLL DIG UPPDATERAD";
-"custom_permission_list_message" = "Aktivera notiser för att få nyheter från Letgo och nya produkter.";
 "custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
 "custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title" = "VÄLKOMMEN!";
 "custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
 "custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Aktivera notiser för att veta när någon vill köpa din produkt.";
@@ -202,7 +200,7 @@
 "product_post_confirmation_edit" = "Lägg till mer information";
 "product_post_confirmation_share" = "Dela den";
 "product_post_confirmation_subtitle" = "Den kommer att synas på letgo om 10 minuter.";
-"product_post_confirmation_title" = "Din produkt behandlas!";
+"product_post_confirmation_title" = "Grattis!";
 "product_post_done" = "Klar";
 "product_post_generic_error" = "Ett fel uppstod när vi skulle lägga upp din produkt.";
 "product_post_network_error" = "Din produkt har inte lagts upp.\nVänligen kolla dina nätverksinställningar.";

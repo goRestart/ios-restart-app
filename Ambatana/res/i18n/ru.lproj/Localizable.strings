@@ -98,10 +98,8 @@
 "contact_title" = "Контакты";
 "custom_permission_chat_message" = "Активировать уведомления, чтобы немедленно узнавать, когда кто-то ответил.";
 "custom_permission_chat_title" = "БУДЬТЕ В КУРСЕ";
-"custom_permission_list_message" = "Активировать уведомления, чтобы получать новости и новые товары от letgo.";
 "custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
 "custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title" = "ДОБРО ПОЖАЛОВАТЬ!";
 "custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
 "custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Активировать уведомления, чтобы узнавать, что кто-то хочет купить ваш товар.";
@@ -202,7 +200,7 @@
 "product_post_confirmation_edit" = "Добавить еще информацию";
 "product_post_confirmation_share" = "Поделиться";
 "product_post_confirmation_subtitle" = "Он появится на letgo в течение 10 минут.";
-"product_post_confirmation_title" = "Ваш товар обрабатывается!";
+"product_post_confirmation_title" = "Поздравляем!";
 "product_post_done" = "Готово";
 "product_post_generic_error" = "При размещении товара произошла ошибка.";
 "product_post_network_error" = "Ваш товар не был размещен.\nПожалуйста, проверьте сетевые настройки.";

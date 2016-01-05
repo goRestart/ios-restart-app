@@ -98,10 +98,8 @@
 "contact_title" = "Kontakt oss";
 "custom_permission_chat_message" = "Aktiver varsler for å umiddelbart vite når noen svarer.";
 "custom_permission_chat_title" = "HOLD DEG OPPDATERT";
-"custom_permission_list_message" = "Aktiver varsler for å få nyheter fra letgo og nye produkter.";
 "custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
 "custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title" = "VELKOMMEN!";
 "custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
 "custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Aktiver varsler for å vite når noen ønsker å kjøpe ditt produkt.";
@@ -202,7 +200,7 @@
 "product_post_confirmation_edit" = "Legg til flere detaljer";
 "product_post_confirmation_share" = "Del produktet";
 "product_post_confirmation_subtitle" = "Det vil være tilgjengelig på letgo om 10 minutter.";
-"product_post_confirmation_title" = "Ditt produkt er under behandling!";
+"product_post_confirmation_title" = "Gratulerer!";
 "product_post_done" = "Fullfør";
 "product_post_generic_error" = "Det oppstod en feil ved publisering av ditt produkt.";
 "product_post_network_error" = "Ditt produkt er ikke publisert.\nVennligst sjekk dine nettverksinnstillinger.";

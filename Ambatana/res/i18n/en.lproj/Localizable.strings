@@ -580,7 +580,7 @@
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 
-// Text when price is 0$ 
+// Text when price is 0$
 "product_negotiable_price" = "Negotiable";
 
 // Secondary text when the camera posting appears
@@ -595,16 +595,16 @@
 // Share it section separator
 "product_post_confirmation_share" = "Share it";
 
-// After posting, real confirmation subtitle
-"product_post_confirmation_subtitle" = "It will appear on letgo in 10 minutes.";
+// After posting, real confirmation subtitle. FOR TRANSLATORS: In languages other than English, don't include or translate "It's time to letgo!"
+"product_post_confirmation_subtitle" = "Your product will appear on letgo in 10 minutes. It's time to letgo!";
 
 // After posting, real confirmation
-"product_post_confirmation_title" = "Your product is being processed!";
+"product_post_confirmation_title" = "Congratulations!";
 
 // Done button after setting (or not) a price
 "product_post_done" = "Done";
 
-// Add more details button (max 20 chars) 
+// Add more details button (max 20 chars)
 "product_post_confirmation_edit" = "Add more details";
 
 // Post another item button
@@ -1038,3 +1038,4 @@
 
 // Tour page skip button.
 "tour_page_skip_button" = "Skip";
+
