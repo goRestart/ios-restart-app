@@ -60,10 +60,8 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         if let actualWindow = window {
             
             // Open Splash
-            let splashVC = SplashViewController(configManager: configManager)
-            let navCtl = UINavigationController(rootViewController: splashVC)
-            splashVC.completion = { _ in
-
+            let navCtl = UINavigationController()
+            let splashVM = SplashViewModel(configManager: configManager, completion: { () -> () in
                 LGCoreKit.start({ () -> () in
                     // Removing splash nav controller, otherwise it remains below the tabbar
                     navCtl.view.removeFromSuperview()
@@ -75,8 +73,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                     // Open the deep link, if any
                     if let actualDeepLink = deepLink {
                         tabBarCtl.deepLink = actualDeepLink
-                    }
-                    else if self.userContinuationUrl != nil {
+                    } else if self.userContinuationUrl != nil {
                         self.consumeUserContinuation(usingTabBar: tabBarCtl)
                     }
                     
@@ -90,8 +87,10 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                     
                     LocationManager.sharedInstance.startSensorLocationUpdates()
                 })
-            }
+            })
             
+            let splashVC = SplashViewController(viewModel: splashVM)
+            navCtl.viewControllers = [splashVC]
             actualWindow.rootViewController = navCtl
             actualWindow.makeKeyAndVisible()
         }
@@ -179,8 +178,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
             if !(navCtl.topViewController is SplashViewController) {
                 configManagerUpdate = true
             }
-        }
-        else if !(window?.rootViewController is SplashViewController) {
+        } else if !(window?.rootViewController is SplashViewController) {
             configManagerUpdate = true
         }
         if configManagerUpdate {
