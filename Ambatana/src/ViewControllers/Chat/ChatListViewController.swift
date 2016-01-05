@@ -135,7 +135,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
             }
         } else {
 
-            guard viewModel.chatCount > 0 else { return }
+            guard viewModel.chatCount <= 0 else { return }
 
             chatListStatus = .Error
 
