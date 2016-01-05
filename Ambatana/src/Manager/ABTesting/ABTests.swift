@@ -33,6 +33,6 @@ public struct ABTests {
 
     public static let allValues = [ABTests.mainProductsJustImages, ABTests.navBarTintColor,
         ABTests.productsWithinFilterEnabled, ABTests.loginAfterSell, ABTests.nativePrePermissions,
-        ABTests.prePermissionsActive, ABTests.alternativePermissionText, ABTests.alternativePermissionText,
+        ABTests.prePermissionsActive, ABTests.nativePrePermissionAtList, ABTests.alternativePermissionText,
         ABTests.newPostingProcess]
 }

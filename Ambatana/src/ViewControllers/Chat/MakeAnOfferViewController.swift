@@ -11,7 +11,6 @@ import Parse
 import Result
 import UIKit
 
-
 class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UITextFieldDelegate {
     // outlets & buttons
     @IBOutlet weak var currencyButton: UIButton!
@@ -22,7 +21,6 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // data
     var product: Product?
 
-    
     override func viewDidLoad() {
         hidesBottomBarWhenPushed = true
         
