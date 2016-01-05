@@ -408,12 +408,28 @@ struct LGLocalizedString {
 		return NSLocalizedString("custom_permission_chat_title", comment: "")
 	}
 	
-	static var customPermissionListMessage: String {
-		return NSLocalizedString("custom_permission_list_message", comment: "")
+    static var customPermissionListMessage: String {
+        return NSLocalizedString("custom_permission_list_message_A", comment: "")
+    }
+    
+	static var customPermissionListMessageA: String {
+		return NSLocalizedString("custom_permission_list_message_A", comment: "")
 	}
+    
+    static var customPermissionListMessageB: String {
+        return NSLocalizedString("custom_permission_list_message_B", comment: "")
+    }
 	
 	static var customPermissionListTitle: String {
-		return NSLocalizedString("custom_permission_list_title", comment: "")
+		return NSLocalizedString("custom_permission_list_title_A", comment: "")
+    }
+    
+	static var customPermissionListTitleA: String {
+		return NSLocalizedString("custom_permission_list_title_A", comment: "")
+	}
+	
+	static var customPermissionListTitleB: String {
+		return NSLocalizedString("custom_permission_list_title_B", comment: "")
 	}
 	
 	static var customPermissionSellMessage: String {
