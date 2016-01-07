@@ -13,6 +13,7 @@ public class TrackerProxy: Tracker {
 
     // Constants
     // TODO : uncomment GANTracker once is working
+    // Amplitude must be initiated before OptimizelyTracker or the integration between them won't work
     private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
         GoogleConversionTracker(), NanigansTracker(), KahunaTracker(), OptimizelyTracker(), CrashlyticsTracker(),
         GANTracker(), AdjustTracker()]
