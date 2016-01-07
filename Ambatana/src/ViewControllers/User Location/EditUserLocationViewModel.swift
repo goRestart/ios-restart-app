@@ -330,7 +330,8 @@ public class EditUserLocationViewModel: BaseViewModel {
         } else if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
             self.delegate?.viewModelDidStartApplyingLocation(self)
             let location = CLLocation(latitude: lat, longitude: long)
-            let postalAddress = currentPlace.postalAddress
+            let postalAddress = currentPlace.postalAddress ?? PostalAddress(address: nil, city: nil, zipCode: nil,
+                countryCode: nil, country: nil)
             locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
             self.delegate?.viewModelDidFailApplyingLocation(self)
