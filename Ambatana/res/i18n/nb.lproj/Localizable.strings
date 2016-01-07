@@ -200,7 +200,7 @@
 "product_post_confirmation_edit" = "Legg til flere detaljer";
 "product_post_confirmation_share" = "Del produktet";
 "product_post_confirmation_subtitle" = "Det vil være tilgjengelig på letgo om 10 minutter.";
-"product_post_confirmation_title" = "Ditt produkt er under behandling!";
+"product_post_confirmation_title" = "Gratulerer!";
 "product_post_done" = "Fullfør";
 "product_post_generic_error" = "Det oppstod en feil ved publisering av ditt produkt.";
 "product_post_network_error" = "Ditt produkt er ikke publisert.\nVennligst sjekk dine nettverksinnstillinger.";

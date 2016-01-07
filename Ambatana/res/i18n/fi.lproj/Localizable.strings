@@ -200,7 +200,7 @@
 "product_post_confirmation_edit" = "Lisää tietoja";
 "product_post_confirmation_share" = "Jaa";
 "product_post_confirmation_subtitle" = "Se tulee näkyviin letgoon 10 minuutissa.";
-"product_post_confirmation_title" = "Tuotettasi käsitellään!";
+"product_post_confirmation_title" = "Onneksi olkoon!";
 "product_post_done" = "Valmis";
 "product_post_generic_error" = "Tuotettasi julkaistessa tapahtui virhe.";
 "product_post_network_error" = "Tuotettasi ei ole julkaistu.\nOle hyvä ja tarkista verkkoasetuksesi.";

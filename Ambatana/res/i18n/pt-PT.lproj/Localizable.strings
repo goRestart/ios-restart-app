@@ -200,7 +200,7 @@
 "product_post_confirmation_edit" = "Adicionar mais detalhes";
 "product_post_confirmation_share" = "Partilhe-o";
 "product_post_confirmation_subtitle" = "Aparecerá no letgo dentro de 10 minutos.";
-"product_post_confirmation_title" = "O seu produto está a ser processado!";
+"product_post_confirmation_title" = "Parabéns!";
 "product_post_done" = "Feito";
 "product_post_generic_error" = "Ocorreu um erro ao publicar o seu produto.";
 "product_post_network_error" = "O seu produto não foi publicado.\nPor favor verifique a configuração da sua rede.";

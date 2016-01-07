@@ -98,10 +98,10 @@
 "contact_title" = "Contactez-nous";
 "custom_permission_chat_message" = "Activer les notifications pour être informé instantanément lorsque vous recevez une réponse.";
 "custom_permission_chat_title" = "NOTIFICATIONS";
-"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
-"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-"custom_permission_list_title_B" = "BUY & SELL FASTER";
+"custom_permission_list_message_A" = "Soyez notifié instantanément pour acheter et vendre plus rapidement.";
+"custom_permission_list_message_B" = "Pour profiter pleinement de letgo, activez les notifications.";
+"custom_permission_list_title_A" = "ACTIVER LES NOTIFICATIONS";
+"custom_permission_list_title_B" = "ACHETER & VENDRE PLUS RAPIDEMENT";
 "custom_permission_sell_message" = "Activer les notifications pour être informé lorsque quelqu'un veux acheter votre bien.";
 "custom_permission_sell_title" = "VENDRE RAPIDEMENT";
 "edit_product_send_button" = "Mettre à jour";
@@ -199,8 +199,8 @@
 "product_post_confirmation_another_button" = "Postez un autre bien.";
 "product_post_confirmation_edit" = "Ajouter plus de détails";
 "product_post_confirmation_share" = "Partager";
-"product_post_confirmation_subtitle" = "Il apparaîtra dans letgo sous 10 minutes.";
-"product_post_confirmation_title" = "Votre bien est en cours de traitement !";
+"product_post_confirmation_subtitle" = "Votre bien apparaîtra dans letgo sous 10 minutes.";
+"product_post_confirmation_title" = "Félicitations !";
 "product_post_done" = "Terminé";
 "product_post_generic_error" = "Une erreur est survenue lors de la publication de votre bien.";
 "product_post_network_error" = "Votre bien n'a pas été posté.\nVeuillez vérifier votre connexion réseau.";

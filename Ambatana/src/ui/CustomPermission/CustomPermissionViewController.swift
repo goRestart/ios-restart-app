@@ -16,7 +16,8 @@ public enum PrePermissionType: Int {
     public var title: String {
         switch (self) {
         case ProductList:
-            return LGLocalizedString.customPermissionListTitle
+            return ABTests.alternativePermissionText.boolValue ?
+                LGLocalizedString.customPermissionListTitleB : LGLocalizedString.customPermissionListTitleA
         case Sell:
             return LGLocalizedString.customPermissionSellTitle
         case Chat:
@@ -27,7 +28,8 @@ public enum PrePermissionType: Int {
     public var message: String {
         switch (self) {
         case ProductList:
-            return LGLocalizedString.customPermissionListMessage
+            return ABTests.alternativePermissionText.boolValue ?
+                LGLocalizedString.customPermissionListMessageB : LGLocalizedString.customPermissionListMessageA
         case Sell:
             return LGLocalizedString.customPermissionSellMessage
         case Chat:

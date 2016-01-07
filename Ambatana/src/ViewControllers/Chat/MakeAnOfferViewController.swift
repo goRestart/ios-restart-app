@@ -20,7 +20,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     // data
     var product: Product?
-    
+
     override func viewDidLoad() {
         hidesBottomBarWhenPushed = true
         
@@ -106,10 +106,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                     
                                     let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
                                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-                                }
-                                // Error
-                                else {
-                                    
+
+                                } else {
                                     if let actualError = retrieveResult.error {
                                         if actualError == .Forbidden {
                                             strongSelf2.showAutoFadingOutMessageAlert(
@@ -125,9 +123,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                 }
                             }
                         }
-                    }
-                    // Error
-                    else {
+                    } else {
                         strongSelf.disableLoadingInterface()
                         
                         if let actualError = sendResult.error {
@@ -157,25 +153,12 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     func openChatViewControllerWithChat(chat: Chat) {
         if let chatViewModel = ChatViewModel(chat: chat), var controllers = navigationController?.viewControllers {
+            chatViewModel.fromMakeOffer = true
             let chatVC = ChatViewController(viewModel: chatViewModel)
             controllers.removeLast()
             controllers.append(chatVC)
             navigationController?.viewControllers = controllers
-        }
-        else {
-            showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
-        }
-        
-    }
-    
-    func launchChatVC(chat: Chat) {
-        if let chatViewModel = ChatViewModel(chat: chat), var controllers = navigationController?.viewControllers {
-            let chatVC = ChatViewController(viewModel: chatViewModel)
-            controllers.removeLast()
-            controllers.append(chatVC)
-            navigationController?.viewControllers = controllers
-        }
-        else {
+        } else {
             showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
         }
     }

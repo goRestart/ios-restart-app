@@ -64,7 +64,16 @@ class ChatViewController: SLKTextViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        textView.becomeFirstResponder()
+
+        if viewModel.fromMakeOffer &&
+            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
+                prePermissionType: .Chat){
+                    viewModel.fromMakeOffer = false
+                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
+                        prePermissionType: .Chat)
+        } else {
+            textView.becomeFirstResponder()
+        }
     }
 
     func showActivityIndicator(show: Bool) {
