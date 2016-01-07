@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -20,6 +20,7 @@
                 <outlet property="errorView" destination="ljl-Jf-n6M" id="ngf-WM-0pj"/>
                 <outlet property="firstLoadActivityIndicator" destination="Pbl-p4-Cn4" id="yhM-Du-Lw8"/>
                 <outlet property="firstLoadView" destination="6q1-Ob-tgt" id="cZr-l7-ZLr"/>
+                <outlet property="waterfallLayout" destination="bn2-Cx-1YE" id="5Fc-zS-zVt"/>
                 <outletCollection property="leftInsetConstraints" destination="6AW-wj-rta" collectionClass="NSMutableArray" id="8Qe-kY-UTZ"/>
                 <outletCollection property="leftInsetConstraints" destination="6bM-oG-ScS" collectionClass="NSMutableArray" id="2Xr-7W-cLe"/>
                 <outletCollection property="leftInsetConstraints" destination="nW1-xA-yeT" collectionClass="NSMutableArray" id="ciJ-k5-Q72"/>
@@ -65,7 +66,7 @@
                                 <size key="itemSize" width="145" height="190"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="49"/>
+                                <inset key="sectionInset" minX="5" minY="0.0" maxX="5" maxY="49"/>
                             </collectionViewFlowLayout>
                             <cells/>
                             <connections>

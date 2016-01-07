@@ -51,6 +51,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet weak var dataView: UIView!
     var refreshControl: UIRefreshControl!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var waterfallLayout: CHTCollectionViewWaterfallLayout!
     
     private var lastContentOffset: CGFloat
     private var scrollingDown: Bool
@@ -351,8 +352,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         heightForFooterInSection section: Int) -> CGFloat {
             return Constants.productListFooterHeight
     }
-    
-    
+
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: Constants.productListFixedInsets, left: Constants.productListFixedInsets,
+                bottom: Constants.productListFixedInsets, right: Constants.productListFixedInsets)
+    }
+
+
     // MARK: - UICollectionViewDataSource
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,

@@ -21,7 +21,6 @@ struct ProductCellData {
 
 class ProductCell: UICollectionViewCell, ReusableCell {
 
-    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -29,10 +28,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     // Stripe
     @IBOutlet weak var stripeImageView: UIImageView!
     @IBOutlet weak var stripeLabel: UILabel!
-    
-    // Name Top Constraint: Will be used to adapt the cell when there's no title for it
-    @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
-    
+
     
     // MARK: - Lifecycle
     
@@ -74,13 +70,12 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     
     // Sets up the UI
     private func setupUI() {
-        self.contentView.layer.borderColor = StyleHelper.lineColor.CGColor
-        self.contentView.layer.borderWidth = 0.3
+        thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        thumbnailBgColorView.layer.cornerRadius = StyleHelper.defaultCornerRadius
     }
     
     // Resets the UI to the initial state
     private func resetUI() {
-        nameLabel.text = ""
         priceLabel.text = ""
         thumbnailBgColorView.backgroundColor = StyleHelper.productCellBgColor
         thumbnailImageView.image = nil
