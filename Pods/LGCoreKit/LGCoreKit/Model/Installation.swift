@@ -13,7 +13,7 @@ public protocol Installation: BaseModel, UserDefaultsDecodable {
     var timeZone: String? { get }
     var localeIdentifier: String? { get }
     var deviceToken: String? { get }
-    
+
     init(objectId: String?, appIdentifier: String, appVersion: String, deviceType: String, timeZone: String?, localeIdentifier: String?, deviceToken: String?)
 }
 
@@ -40,10 +40,10 @@ extension Installation  {
         let timeZone = dictionary[InstallationUDKeys.timeZone] as? String
         let localeIdentifier = dictionary[InstallationUDKeys.localeIdentifier] as? String
         let deviceToken = dictionary[InstallationUDKeys.deviceToken] as? String
-        
+
         return self.init(objectId: objectId, appIdentifier: appIdentifier, appVersion: appVersion, deviceType: deviceType, timeZone: timeZone, localeIdentifier: localeIdentifier, deviceToken: deviceToken)
     }
-    
+
     public func encode() -> [String: AnyObject] {
         var dictionary: [String: AnyObject] = [:]
         dictionary[InstallationUDKeys.objectId] = objectId

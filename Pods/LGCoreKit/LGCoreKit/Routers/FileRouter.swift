@@ -10,15 +10,15 @@ import Foundation
 import Alamofire
 
 enum FileRouter: URLRequestAuthenticable {
-    
+
     case Upload
 
     static let endpoint = "/api/products/image"
-    
+
     var requiredAuthLevel: AuthLevel {
         return .User
     }
-    
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case .Upload:

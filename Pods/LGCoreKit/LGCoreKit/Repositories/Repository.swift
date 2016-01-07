@@ -14,7 +14,7 @@ import Result
 public enum RepositoryError: ErrorType {
     case Api(error: ApiError)
     case Internal
-   
+
     init(apiError: ApiError) {
         self = .Api(error: apiError)
     }

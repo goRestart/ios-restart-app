@@ -11,7 +11,7 @@ public struct LGContact: Contact {
     public let email: String
     public let title: String
     public let message: String
-    
+
     public init(email: String, title: String, message: String) {
         self.email = email
         self.title = title

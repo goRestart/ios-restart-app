@@ -9,15 +9,15 @@
 import Foundation
 
 enum UserRouter: URLRequestAuthenticable {
-    
+
     static let endpoint = "/api/users"
-    
+
     case Show(userId: String)
-    
+
     var requiredAuthLevel: AuthLevel {
         return .Installation
     }
-    
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Show(userId):

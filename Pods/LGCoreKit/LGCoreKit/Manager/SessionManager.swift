@@ -21,7 +21,7 @@ enum SessionProvider {
     case Email(email: String, password: String)
     case PwdRecovery(email: String)
     case Facebook(facebookToken: String)
-    
+
     var authProvider: AuthenticationProvider {
         switch self {
         case .ParseUser, .PwdRecovery:
@@ -41,7 +41,7 @@ enum SessionProvider {
 Handles the session.
 */
 public class SessionManager {
-    
+
     // Constants & enum
     public enum Notification: String {
         case Login = "SessionManager.Login"
@@ -50,31 +50,31 @@ public class SessionManager {
 
     // Singleton
     public static let sharedInstance: SessionManager = SessionManager()
-    
+
     // Manager & repositories
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
-    
+
     // DAOs
     private let tokenDAO: TokenDAO
     private let deviceLocationDAO: DeviceLocationDAO
-    
-    
+
+
     // MARK: - Lifecycle
-    
+
     public convenience init() {
         let myUserRepository = MyUserRepository.sharedInstance
         let installationRepository = InstallationRepository.sharedInstance
-        
+
         let locationManager = LocationManager.sharedInstance
         let tokenDAO = TokenKeychainDAO.sharedInstance
         let deviceLocationDAO = DeviceLocationUDDAO.sharedInstance
-       
+
         self.init(locationManager: locationManager, myUserRepository: myUserRepository, installationRepository: installationRepository, tokenDAO: tokenDAO,
             deviceLocationDAO: deviceLocationDAO)
     }
-    
+
     init(locationManager: LocationManager, myUserRepository: MyUserRepository,
         installationRepository: InstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO) {
             self.locationManager = locationManager
@@ -83,10 +83,10 @@ public class SessionManager {
             self.deviceLocationDAO = deviceLocationDAO
             self.installationRepository = installationRepository
     }
-    
-    
+
+
     // MARK: - Public methods
-    
+
     /**
     Starts `SessionManager`.
     - paramter completion: The completion closure.
@@ -98,7 +98,7 @@ public class SessionManager {
         }
         runParseUserMigration(completion)
     }
-    
+
     /**
     Signs up with the given credentials and public user name.
     - parameter email: The email.
@@ -108,10 +108,10 @@ public class SessionManager {
     */
     public func signUp(email: String, password: String, name: String,
         completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-            
+
             let location = deviceLocationDAO.deviceLocation?.location
             myUserRepository.createWithEmail(email, password: password, name: name, location: location) {
-                [weak self] createResult in    
+                [weak self] createResult in
                     if let myUser = createResult.value {
 
                         let provider = SessionProvider.Email(email: email, password: password)
@@ -132,7 +132,7 @@ public class SessionManager {
                     }
             }
     }
-    
+
     /**
     Logs the user in via email.
     - parameter email: The email.
@@ -143,7 +143,7 @@ public class SessionManager {
         let provider: SessionProvider = .Email(email: email, password: password)
         login(provider, completion: completion)
     }
-    
+
     /**
     Logs the user in via Facebook.
     - parameter token: The Facebook token.
@@ -153,7 +153,7 @@ public class SessionManager {
         let provider: SessionProvider = .Facebook(facebookToken: token)
         login(provider, completion: completion)
     }
-    
+
     /**
     Requests a password recovery.
     - parameter email: The email.
@@ -167,7 +167,7 @@ public class SessionManager {
             handleApiResult(result, success: nil, completion: completion)
         }
     }
-    
+
     /**
     Logs the user out.
     */
@@ -180,10 +180,10 @@ public class SessionManager {
 
         setupAfterLoggedOut()
     }
-    
-    
+
+
     // MARK: - Private methods
-    
+
     /**
     Runs a parse user migration if the user was logged in via Parse.
     - parameter completion: The completion closure.
@@ -197,7 +197,7 @@ public class SessionManager {
             completion?()
             return
         }
-        
+
         let provider = SessionProvider.ParseUser(parseToken: parseToken)
         let userRetrievalCompletion: (Result<MyUser, RepositoryError>) -> () = { result in
             if let _ = result.value {
@@ -207,7 +207,7 @@ public class SessionManager {
         }
         login(provider, completion: userRetrievalCompletion)
     }
-    
+
     /**
     Authenticates the user with the given provider and saves the token if succesful.
     - parameter provider: The session provider.
@@ -218,7 +218,7 @@ public class SessionManager {
             let request = SessionRouter.Create(sessionProvider: provider)
             ApiClient.request(request, decoder: self.decoder, completion: completion)
     }
-    
+
     /**
     Authenticates the user and retrieves it.
     - parameter provider: The session provider.
@@ -242,7 +242,7 @@ public class SessionManager {
             }
         }
     }
-    
+
     /**
     Decodes an object to a `MyUser` object.
     - parameter object: The object.
@@ -252,7 +252,7 @@ public class SessionManager {
         let json = JSON.parse(object)
         return LGAuthentication.decode(json).value
     }
-    
+
     /**
     Sets up after authenticating.
     - parameter auth: The authentication.
@@ -263,7 +263,7 @@ public class SessionManager {
         let userToken = Token(value: value, level: .User)
         tokenDAO.save(userToken)
     }
-    
+
     /**
     Sets up after logging-in.
     - parameter myUser: My user.
@@ -274,7 +274,7 @@ public class SessionManager {
         myUserRepository.save(newUser)
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
     }
-    
+
     /**
     Sets up after logging-out.
     */

@@ -13,7 +13,7 @@ public enum ProductReportSaveServiceError: ErrorType, CustomStringConvertible {
     case AlreadyExists
     case Internal
     case Forbidden
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -26,7 +26,7 @@ public enum ProductReportSaveServiceError: ErrorType, CustomStringConvertible {
             return "Forbidden"
         }
     }
-    
+
     init(apiError: ApiError) {
         switch apiError {
         case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .InternalServerError:
@@ -43,10 +43,10 @@ public typealias ProductReportSaveServiceResult = Result<Nil, ProductReportSaveS
 public typealias ProductReportSaveServiceCompletion = ProductReportSaveServiceResult -> Void
 
 public protocol ProductReportSaveService {
-    
+
     /**
         Reports a product.
-    
+
         - parameter product: the product.
         - parameter user: the reporter user.
         - parameter completion: The completion closure.

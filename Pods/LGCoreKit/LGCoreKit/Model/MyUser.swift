@@ -12,11 +12,11 @@ public protocol MyUser: User, UserDefaultsDecodable {
     var email: String? { get }
     var location: LGLocation? { get }
     var authProvider: AuthenticationProvider { get }
-    
+
     init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, email: String?, location: LGLocation?, authProvider: AuthenticationProvider)
 }
 
-public extension MyUser {       
+public extension MyUser {
     var coordinates: LGLocationCoordinates2D? {
         guard let coordinates = location?.coordinate else { return nil }
         return LGLocationCoordinates2D(coordinates: coordinates)
@@ -30,7 +30,7 @@ public extension MyUser {
             return false
         }
     }
-    
+
     func myUserWithNewAuthProvider(newAuthProvider: AuthenticationProvider) -> Self {
         return Self.init(objectId: objectId, name: name, avatar: avatar, postalAddress: postalAddress,
             email: email, location: location, authProvider: newAuthProvider)
@@ -93,11 +93,11 @@ public extension MyUser {
         if let authProviderStr = dictionary[MyUserUDKeys.authProvider] as? String {
             authProvider = AuthenticationProvider(rawValue: authProviderStr) ?? .Unknown
         }
-        
+
         return self.init(objectId: objectId, name: name, avatar: avatar, postalAddress: postalAddress,
             email: email, location: location, authProvider: authProvider)
     }
-    
+
     public func encode() -> [String: AnyObject] {
         var dictionary: [String: AnyObject] = [:]
         dictionary[MyUserUDKeys.objectId] = objectId

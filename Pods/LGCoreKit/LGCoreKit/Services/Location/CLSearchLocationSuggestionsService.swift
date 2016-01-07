@@ -19,22 +19,22 @@ public typealias SearchLocationSuggestionsServiceResult = Result<[Place], Search
 public typealias SearchLocationSuggestionsServiceCompletion = SearchLocationSuggestionsServiceResult -> Void
 
 public class CLSearchLocationSuggestionsService {
-   
+
     // iVars
     private var geocoder: CLGeocoder
-    
+
     // MARK: - Lifecycle
-    
+
     public init() {
         geocoder = CLGeocoder()
     }
-    
+
     // MARK: - PostalAddressRetrievalService
-    
+
     public func retrieveAddressForLocation(searchText: String, completion: SearchLocationSuggestionsServiceCompletion?) {
-        
+
         geocoder.geocodeAddressString(searchText, completionHandler: { (placemarks, error) -> Void in
-            
+
             if let actualPlacemarks = placemarks {
                 var suggestedResults: [Place] = []
                 if !actualPlacemarks.isEmpty {
@@ -57,5 +57,5 @@ public class CLSearchLocationSuggestionsService {
             }
         })
     }
-    
+
 }

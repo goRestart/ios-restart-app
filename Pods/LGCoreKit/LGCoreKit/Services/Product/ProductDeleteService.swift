@@ -11,7 +11,7 @@ import Result
 public enum ProductDeleteServiceError: ErrorType {
     case Network
     case Internal
-    
+
     init(apiError: ApiError) {
         switch apiError {
         case .Network:
@@ -26,10 +26,10 @@ public typealias ProductDeleteServiceResult = Result<Product, ProductDeleteServi
 public typealias ProductDeleteServiceCompletion = ProductDeleteServiceResult -> Void
 
 public protocol ProductDeleteService {
-    
+
     /**
         Deletes the product.
-    
+
         - parameter product: the product to be deleted.
         - parameter sessionToken: the user session token.
         - parameter completion: The completion closure.

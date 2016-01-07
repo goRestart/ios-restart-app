@@ -10,7 +10,7 @@ import Result
 import Argo
 
 final public class LGProductRetrieveService: ProductRetrieveService {
-    
+
     public func retrieveProductWithId(productId: String, completion: ProductRetrieveServiceCompletion?) {
         let request = ProductRouter.Show(productId: productId)
         ApiClient.request(request, decoder: LGProductRetrieveService.decoder) { (result: Result<Product, ApiError>) -> () in

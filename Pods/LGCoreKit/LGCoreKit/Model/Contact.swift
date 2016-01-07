@@ -7,7 +7,7 @@
 //
 
 public protocol Contact {
-    
+
     var email: String { get }
     var title: String { get }
     var message: String { get }

@@ -7,7 +7,7 @@
 //
 
 public class FBUserInfoParser {
-    
+
     // Constant
     // > Graph request response dictionary keys
     private static let idDictKey = "id"
@@ -15,7 +15,7 @@ public class FBUserInfoParser {
     private static let firstNameDictKey = "first_name"
     private static let lastNameDictKey = "last_name"
     private static let emailDictKey = "email"
-    
+
     public static func fbUserInfoWithDictionary(dictionary: NSDictionary) -> FBUserInfo {
         let facebookId = dictionary[FBUserInfoParser.idDictKey] as! String
         let name = dictionary[FBUserInfoParser.nameDictKey] as? String

@@ -9,25 +9,25 @@
 import Result
 
 public class CategoriesManager {
-    
+
     // iVars
     // > Data
     public private(set) var categories: [ProductCategory]
-    
+
     // > Services
     private var categoriesRetrieveService: CategoriesRetrieveService
-    
+
     // Singleton
     public static let sharedInstance: CategoriesManager = CategoriesManager()
-    
+
     public init() {
         self.categories = []
         self.categoriesRetrieveService = LGCategoriesRetrieveService()
     }
-    
+
     /**
         Retrieves all product categories.
-    
+
         - parameter completion: The completion closure.
     */
     public func retrieveCategoriesWithCompletion(completion: CategoriesRetrieveServiceCompletion?) {
@@ -45,6 +45,6 @@ public class CategoriesManager {
         else {
             completion?(CategoriesRetrieveServiceResult(value: categories))
         }
-        
+
     }
 }

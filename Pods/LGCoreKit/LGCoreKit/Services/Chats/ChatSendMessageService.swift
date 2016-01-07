@@ -14,7 +14,7 @@ public enum ChatSendMessageServiceError: ErrorType, CustomStringConvertible {
     case NotFound
     case Internal
     case Forbidden
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -29,7 +29,7 @@ public enum ChatSendMessageServiceError: ErrorType, CustomStringConvertible {
             return "Forbidden"
         }
     }
-    
+
     init(apiError: ApiError) {
         switch apiError {
         case .Network:
@@ -51,7 +51,7 @@ public protocol ChatSendMessageService {
 
     /**
         Sends a message to a given user and product.
-    
+
         - parameter sessionToken: The session token.
         - parameter userId: The sender user id.
         - parameter message: The message.

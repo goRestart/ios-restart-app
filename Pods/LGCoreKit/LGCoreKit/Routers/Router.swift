@@ -24,7 +24,7 @@ struct BouncerBaseURL: BaseURL {
 
 enum Encoding {
     case JSON, URL
-    
+
     var paramEncoding: Alamofire.ParameterEncoding {
         switch self {
         case .URL:
@@ -76,18 +76,18 @@ enum Router<T: BaseURL>: URLRequestConvertible {
     var tokenDAO: TokenDAO {
         return TokenKeychainDAO.sharedInstance
     }
-    
+
     var URLRequest: NSMutableURLRequest {
 
         let baseUrl = NSURL(string: T.baseURL)!
         let mutableURLRequest = NSMutableURLRequest()
         mutableURLRequest.HTTPMethod = method.rawValue
-        
+
         if let parseUser = PFUser.currentUser(), sessionToken = parseUser.sessionToken
             where !PFAnonymousUtils.isLinkedWithUser(parseUser) {
                 mutableURLRequest.setValue(sessionToken, forHTTPHeaderField: LGCoreKitConstants.httpHeaderUserToken)
         }
-        
+
         if let token = tokenDAO.value {
             mutableURLRequest.setValue(token, forHTTPHeaderField: "Authorization")
         }
@@ -116,8 +116,8 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
             req = mutableURLRequest
         }
-        
-        
+
+
         // When calling `paramEncoding.encode` the Content-Type Header is setted automatically to the correct value
         // JSON is a special case. The defaul value would be `application/json` but we need to override it for our
         // custom value for the Bouncer API (only for Bouncer, not the normal API)
@@ -129,15 +129,15 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         default:
             break
         }
-        
-        
+
+
         // All the responses will always be of type JSON, when calling the Bouncer API we need to set the
         // `Accept` Header to our custom JSON format.
         // By default, the Accept Header is `application/json`
         if T.baseURL == BouncerBaseURL.baseURL {
             req.setValue("application/vnd.letgo.v1-mobile+json", forHTTPHeaderField: "Accept")
         }
-        
+
         return req
     }
 }

@@ -13,7 +13,7 @@ public protocol Chat: BaseModel {
     var msgUnreadCount: Int { get }     // Default: 0
     var messages: [Message] { get }     // Default: []
     var updatedAt: NSDate? { get }
-    
+
     mutating func prependMessage( message: Message)
 }
 

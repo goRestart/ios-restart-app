@@ -10,13 +10,13 @@
 import Result
 
 final public class LGContactSendService: ContactSendService {
-    
+
     public init() {}
-    
+
     public func sendContact(contact: Contact, sessionToken: String?, completion: ContactSendServiceCompletion?) {
-        
+
         var params = Dictionary<String, AnyObject>()
-        
+
         params["email"] = contact.email
         params["title"] = contact.title
         params["description"] = contact.message

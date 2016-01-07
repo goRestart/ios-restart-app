@@ -15,13 +15,13 @@ protocol DeviceLocation {
     var zipCode: String? { get }
     var countryCode: String? { get }
     var country : String? { get }
-    
+
     init(latitude: Double?, longitude: Double?, locationType: String?, address: String?,
         city: String?, zipCode: String?, countryCode: String?, country : String?)
 }
 
 extension DeviceLocation {
-    
+
     init(location: LGLocation?, postalAddress: PostalAddress?) {
         let latitude = location?.coordinate.latitude
         let longitude = location?.coordinate.longitude
@@ -34,13 +34,13 @@ extension DeviceLocation {
         self.init(latitude: latitude, longitude: longitude, locationType: locationType?.rawValue, address: address,
             city: city, zipCode: zipCode, countryCode: countryCode, country: country)
     }
-    
+
     var location: LGLocation? {
         guard let latitude = latitude, longitude = longitude, locationType = locationType,
             type = LGLocationType(rawValue: locationType) else { return nil }
         return LGLocation(latitude: latitude, longitude: longitude, type: type)
     }
-    
+
     var postalAddress: PostalAddress {
         return PostalAddress(address: address, city: city, zipCode: zipCode, countryCode: countryCode, country: country)
     }
@@ -74,8 +74,17 @@ extension DeviceLocation {
         return self.init(latitude: latitude, longitude: longitude, locationType: locationType, address: address,
             city: city, zipCode: zipCode, countryCode: countryCode, country: country)
     }
-    
+
     func encode() -> [String: AnyObject] {
-        return Mirror(reflecting: self).toDictionary()
+        var dictionary = [String: AnyObject]()
+        dictionary[DeviceLocationUDKeys.latitude]  = latitude
+        dictionary[DeviceLocationUDKeys.longitude] = longitude
+        dictionary[DeviceLocationUDKeys.locationType] = locationType
+        dictionary[DeviceLocationUDKeys.address] = address
+        dictionary[DeviceLocationUDKeys.city] = city
+        dictionary[DeviceLocationUDKeys.zipCode] = zipCode
+        dictionary[DeviceLocationUDKeys.countryCode] = countryCode
+        dictionary[DeviceLocationUDKeys.country] = country
+        return dictionary
     }
 }

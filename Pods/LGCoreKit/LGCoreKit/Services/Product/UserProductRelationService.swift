@@ -12,7 +12,7 @@ import Result
 public enum UserProductRelationServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -21,7 +21,7 @@ public enum UserProductRelationServiceError: ErrorType, CustomStringConvertible 
             return "Internal"
         }
     }
-    
+
     init(apiError: ApiError) {
         switch apiError {
         case .Internal, .Unauthorized, .NotFound, .Scammer, .AlreadyExists, .InternalServerError:
@@ -36,10 +36,10 @@ public typealias UserProductRelationServiceResult = Result<UserProductRelation, 
 public typealias UserProductRelationServiceCompletion = UserProductRelationServiceResult -> Void
 
 public protocol UserProductRelationService {
-    
+
     /**
     Retrieves the relation between a user and a product (is favorite and is reported)
-    
+
     - parameter userId: The user id.
     - parameter productId: The product id.
     - parameter completion: The completion closure.

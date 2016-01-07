@@ -9,14 +9,14 @@
 import Result
 
 public class LGChatSendMessageService: ChatSendMessageService {
-    
+
     public func sendMessageWithSessionToken(sessionToken: String, userId: String, message: String, type: MessageType, recipientUserId: String, productId: String, completion: ChatSendMessageServiceCompletion?) {
-        
+
         var parameters = Dictionary<String, AnyObject>()
         parameters["type"] = type.rawValue
         parameters["content"] = message
         parameters["userTo"] = recipientUserId
-        
+
         let request = ChatRouter.CreateMessage(objectId: productId, params: parameters)
         ApiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
             if let _ = result.value {

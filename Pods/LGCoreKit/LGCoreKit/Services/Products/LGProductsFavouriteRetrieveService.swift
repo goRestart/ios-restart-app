@@ -14,16 +14,16 @@ final public class LGProductsFavouriteRetrieveService: ProductsFavouriteRetrieve
     public init() {}
 
     public func retrieveFavouriteProducts(user: User, completion: ProductsFavouriteRetrieveServiceCompletion?) {
-        
+
         guard let userId = user.objectId else {
             completion?(ProductsFavouriteRetrieveServiceResult(error: .Internal))
             return
         }
-        
+
         struct CustomProductsFavoriteResponse: ProductsFavouriteResponse {
             var products: [Product]
         }
-        
+
         let request = ProductRouter.IndexFavorites(userId: userId)
         ApiClient.request(request, decoder: LGProductsFavouriteRetrieveService.decoder) {
             (result: Result<[Product], ApiError>) -> () in

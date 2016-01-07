@@ -10,26 +10,26 @@ import Foundation
 import Argo
 
 class InstallationUserDefaultsDAO: InstallationDAO {
-    
+
     static let sharedInstance = InstallationUserDefaultsDAO()
     private let userDefaults: NSUserDefaults
     static let userDefaultsKey = "Installation"
-   
-    
+
+
     // MARK: Inits
-    
+
     convenience init() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         self.init(userDefaults: userDefaults)
     }
-    
+
     init(userDefaults: NSUserDefaults) {
         self.userDefaults = userDefaults
     }
-    
-    
+
+
     // MARK: InstallationDAO Protocol
-    
+
     lazy var installation: Installation? = {
         return self.fetch()
     }()
@@ -39,15 +39,15 @@ class InstallationUserDefaultsDAO: InstallationDAO {
         userDefaults.setValue(dict, forKey: InstallationUserDefaultsDAO.userDefaultsKey)
         self.installation = installation
     }
-    
+
     func delete() {
         userDefaults.removeObjectForKey(InstallationUserDefaultsDAO.userDefaultsKey)
         self.installation = nil
     }
-    
-    
+
+
     // MARK: Private methods
-    
+
     private func fetch() -> Installation? {
         guard let dict = userDefaults.dictionaryForKey(InstallationUserDefaultsDAO.userDefaultsKey) else { return nil }
         let installation: LGInstallation? = LGInstallation.decode(dict)

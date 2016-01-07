@@ -9,9 +9,9 @@
 import Result
 
 final public class LGProductFavouriteDeleteService: ProductFavouriteDeleteService {
-    
+
     public func deleteProductFavourite(productFavourite: ProductFavourite, sessionToken: String, completion: ProductFavouriteDeleteServiceCompletion?) {
-        
+
         guard let userId = productFavourite.user.objectId else {
             completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
             return
@@ -20,7 +20,7 @@ final public class LGProductFavouriteDeleteService: ProductFavouriteDeleteServic
             completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
             return
         }
-        
+
         let request = ProductRouter.DeleteFavorite(userId: userId, productId: productId)
         ApiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
             if let _ = result.value {

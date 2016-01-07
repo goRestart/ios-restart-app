@@ -25,10 +25,10 @@ public struct PostalAddress {
 }
 
 extension PostalAddress : Decodable {
-    
+
     /**
     Expects a json in the form:
-    
+
         {
             "address": "Superhero ave, 3",
             "zip_code": "33948",

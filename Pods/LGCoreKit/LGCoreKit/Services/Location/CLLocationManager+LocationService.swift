@@ -30,7 +30,7 @@ extension CLLocationManager: LocationService {
             return location
         }
     }
-    
+
     public var locationManagerDelegate: CLLocationManagerDelegate! {
         get {
             return delegate
@@ -39,11 +39,11 @@ extension CLLocationManager: LocationService {
             delegate = newValue
         }
     }
-    
+
     public func locationEnabled() -> Bool {
         return CLLocationManager.locationServicesEnabled()
     }
-    
+
     public func authorizationStatus() -> CLAuthorizationStatus {
         return CLLocationManager.authorizationStatus()
     }

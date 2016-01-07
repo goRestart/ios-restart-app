@@ -23,7 +23,7 @@ enum MyUserRouter: URLRequestAuthenticable {
             return "/avatars/\(myUserId)"
         }
     }
-    
+
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .Create:
@@ -36,7 +36,7 @@ enum MyUserRouter: URLRequestAuthenticable {
     var minReceivedAuthLevel: AuthLevel {
         return .User
     }
-    
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Show(myUserId):

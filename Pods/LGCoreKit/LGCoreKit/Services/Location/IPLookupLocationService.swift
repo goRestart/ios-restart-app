@@ -11,7 +11,7 @@ import Result
 public enum IPLookupLocationServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
-    
+
     public var description: String {
         switch (self) {
         case Network:

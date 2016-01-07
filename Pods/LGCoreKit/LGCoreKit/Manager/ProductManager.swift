@@ -9,7 +9,7 @@
 import Result
 
 public class ProductManager {
-    
+
     // Services
     private var productSaveService: ProductSaveService
     private var fileUploadService: FileUploadService
@@ -21,11 +21,11 @@ public class ProductManager {
     private var productRetrieveService: ProductRetrieveService
     private var productReportSaveService: ProductReportSaveService
     private var userProductRelationService : UserProductRelationService
-    
+
     private var productFavouriteList: [ProductFavourite]
-    
+
     // MARK: - Lifecycle
-    
+
     public init(productSaveService: ProductSaveService, fileUploadService: FileUploadService, productDeleteService: ProductDeleteService, productMarkSoldService: ProductMarkSoldService, productMarkUnsoldService: ProductMarkUnsoldService, productFavouriteSaveService: ProductFavouriteSaveService, productFavouriteDeleteService: ProductFavouriteDeleteService, productRetrieveService: ProductRetrieveService, productReportSaveService: ProductReportSaveService, userProductRelationService : UserProductRelationService) {
         self.productSaveService = productSaveService
         self.fileUploadService = fileUploadService
@@ -39,7 +39,7 @@ public class ProductManager {
         self.userProductRelationService = userProductRelationService
         self.productFavouriteList = []
     }
-    
+
     public convenience init() {
         let productSaveService = LGProductSaveService()
         let fileUploadService = LGFileUploadService()
@@ -51,7 +51,7 @@ public class ProductManager {
         let productRetrieveService = LGProductRetrieveService()
         let productReportSaveService = LGProductReportSaveService()
         let userProductRelationService = LGUserProductRelationService()
-        
+
         self.init(productSaveService: productSaveService,
             fileUploadService: fileUploadService,productDeleteService: productDeleteService,
             productMarkSoldService: productMarkSoldService, productMarkUnsoldService: productMarkUnsoldService,
@@ -60,16 +60,16 @@ public class ProductManager {
             productRetrieveService: productRetrieveService, productReportSaveService: productReportSaveService,
             userProductRelationService: userProductRelationService)
     }
-    
+
     // MARK: - Public methods
-    
+
     /**
     Factory method. Will build a new empty product.
     */
     public func newProduct() -> Product {
         return LGProduct()
     }
-    
+
     /**
     Factory method. Will return an updated version from the initial product
     */
@@ -82,10 +82,10 @@ public class ProductManager {
         product.currency = currency
         return product
     }
-    
+
     /**
         Retrieves a product with the given id.
-    
+
         - parameter productId: The product identifier.
         - parameter result: The completion closure.
     */
@@ -196,20 +196,20 @@ public class ProductManager {
                 }
             )
     }
-    
+
     /**
         Delete a product.
-    
+
         - parameter product: the product
         - parameter result: The closure containing the result.
     */
     public func deleteProduct(product: Product, completion: ProductDeleteServiceCompletion?) {
         productDeleteService.deleteProduct(product, sessionToken: "", completion: completion)
     }
-    
+
     /**
         Mark Product as Sold.
-    
+
         - parameter product: the product
         - parameter result: The closure containing the result.
     */
@@ -229,15 +229,15 @@ public class ProductManager {
             }
         }
     }
-    
+
     /**
         Mark Product as Unsold.
-    
+
         - parameter product: the product
         - parameter result: The closure containing the result.
     */
     public func markProductAsUnsold(product: Product, completion: ProductMarkUnsoldServiceCompletion?) {
-        
+
         productMarkUnsoldService.markAsUnsoldProduct(product, sessionToken: "") { markAsUnsoldResult in
             if let unsoldProduct = markAsUnsoldResult.value, let _ = unsoldProduct.objectId {
                 completion?(ProductMarkUnsoldServiceResult(value: unsoldProduct))
@@ -253,10 +253,10 @@ public class ProductManager {
             }
         }
     }
-    
+
     /**
         Retrieves if a product is favourited and reported
-    
+
         - parameter user: The user.
         - parameter product: The product.
         - parameter result: The closure containing the result.
@@ -269,10 +269,10 @@ public class ProductManager {
             completion?(UserProductRelationServiceResult(error: .Internal))
         }
     }
-    
+
     /**
         Adds a product to favourites.
-    
+
         - parameter product: The product.
         - parameter result: The closure containing the result.
     */
@@ -285,10 +285,10 @@ public class ProductManager {
             completion?(ProductFavouriteSaveServiceResult(error: .Internal))
         }
     }
-    
+
     /**
         Removes a product from favourites.
-    
+
         - parameter product: The product.
         - parameter result: The closure containing the result.
     */
@@ -301,10 +301,10 @@ public class ProductManager {
             completion?(ProductFavouriteDeleteServiceResult(error: .Internal))
         }
     }
-    
+
     /**
         Reports a product.
-    
+
         - parameter product: The product.
         - parameter result: The closure containing the result.
     */
@@ -316,12 +316,12 @@ public class ProductManager {
             completion?(ProductReportSaveServiceResult(error: .Internal))
         }
     }
-    
+
     // MARK: - Private methods
-    
+
     /**
         Resizes the given image and returns its data, if possible.
-    
+
         - parameter image: The image.
         :return: The data of the resized image, if possible.
     */
@@ -331,10 +331,10 @@ public class ProductManager {
         }
         return nil
     }
-    
+
     /**
         Uploads the given images with name and data, notifies about the current step and when finished executes the result closure.
-    
+
         - parameter myUserId: My user id.
         - parameter sessionToken: The user session token.
         - parameter imageNameAndDatas: The images name and data tuples
@@ -342,18 +342,18 @@ public class ProductManager {
         - parameter result: The result closure
     */
     private func uploadImagesWithUserId(myUserId: String, sessionToken: String, imageNameAndDatas: [(String, NSData)], step: (Int) -> Void, completion: MultipleFilesUploadServiceCompletion?) {
-        
+
         if imageNameAndDatas.isEmpty {
             completion?(MultipleFilesUploadServiceResult(error: .Internal))
             return
         }
-        
+
         let fileUploadQueue = dispatch_queue_create("ProductManager", DISPATCH_QUEUE_SERIAL) // serial upload of images
         dispatch_async(fileUploadQueue, { () -> Void in
-            
+
             // For each image name and data, upload it
             var fileImages: [File] = []
-            
+
             for imageNameAndData in imageNameAndDatas {
 
                 let fileUploadResult = synchronize({ (synchCompletion) -> Void in
@@ -361,16 +361,16 @@ public class ProductManager {
                         synchCompletion(result)
                     })
                 }, timeoutWith: FileUploadServiceResult(error: .Internal))
-                
+
                 // Succeeded
                 if let file = fileUploadResult.value {
                     fileImages.append(file)
-                    
+
                     dispatch_async(dispatch_get_main_queue()) {
-                        
+
                         // Notify the current step
                         step(fileImages.count)
-                        
+
                         // If finished, then notify about it
                         if fileImages.count >= imageNameAndDatas.count {
                             completion?(MultipleFilesUploadServiceResult(value: fileImages))

@@ -9,20 +9,20 @@
 import Foundation
 
 protocol InstallationDAO {
-    
+
     /**
     Retrieves the current Installation object.
     If there is an Installation cached, will return that one.
     */
     var installation: Installation? { get }
-    
+
     /**
     Save an Installation instance.
-    
+
     - parameter installation: Installation to save
     */
     func save(installation: Installation)
-    
+
     /**
     Deletes the Installation instance.
     */

@@ -10,10 +10,10 @@
 import Result
 
 public protocol UserProductsRetrieveService {
-    
+
     /**
         Retrieves the products with the given parameters.
-    
+
         - parameter params: The product retrieval parameters.
         - parameter completion: The completion closure.
     */

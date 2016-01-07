@@ -15,24 +15,24 @@ public protocol Product: BaseModel {
     var descr: String? { get }
     var price: Double? { get }
     var currency: Currency? { get }
-    
+
     var location: LGLocationCoordinates2D { get }
     var postalAddress: PostalAddress { get }
-    
+
     var languageCode: String? { get }
-        
+
     var category: ProductCategory { get }
     var status: ProductStatus { get }
-    
+
     var thumbnail: File? { get }
     var thumbnailSize: LGSize? { get }
     var images: [File] { get }          // Default value []
-    
+
     var user: User { get }
-    
+
     var updatedAt : NSDate? { get }
     var createdAt : NSDate? { get }
-    
+
 }
 
 extension Product {

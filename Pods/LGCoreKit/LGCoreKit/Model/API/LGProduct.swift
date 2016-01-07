@@ -10,32 +10,32 @@ import Argo
 import Curry
 
 public struct LGProduct: Product {
-    
+
     // Global iVars
     public var objectId: String?
     public var updatedAt: NSDate?
     public var createdAt: NSDate?
-    
+
     // Product iVars
     public var name: String?
     public var descr: String?
     public var price: Double?
     public var currency: Currency?
-    
+
     public var location: LGLocationCoordinates2D
     public var postalAddress: PostalAddress
-    
+
     public var languageCode: String?
-    
+
     public var category: ProductCategory
     public var status: ProductStatus
-    
+
     public var thumbnail: File?
     public var thumbnailSize: LGSize?
     public var images: [File]
-    
+
     public var user: User
-    
+
     init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, descr: String?, price: Double?,
         currency: String?, location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
         category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile], user: LGUser){
@@ -69,7 +69,7 @@ extension LGProduct {
         self.status = ProductStatus.Pending
         self.user = LGUser()
     }
-    
+
     public init(product: Product) {
         self.objectId = product.objectId
         self.updatedAt = product.updatedAt
@@ -93,7 +93,7 @@ extension LGProduct {
 //String convertible
 extension LGProduct: CustomStringConvertible {
     public var description: String {
-        
+
         return "name: \(name); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); descr: \(descr);"
     }
 }
@@ -101,7 +101,7 @@ extension LGProduct: CustomStringConvertible {
 extension LGProduct : Decodable {
     /**
     Expects a json in the form:
-    
+
         {
             "id": "283jcsBPuR",
             "name": "Ylg smartwatch",
@@ -141,7 +141,7 @@ extension LGProduct : Decodable {
         }
     */
     public static func decode(j: JSON) -> Decoded<LGProduct> {
-        
+
         let init1 = curry(LGProduct.init)
                             <^> j <|? "id"                                          // objectId : String?
                             <*> LGArgo.parseDate(json: j, key: "updated_at")        // updatedAt : NSDate?
@@ -159,11 +159,11 @@ extension LGProduct : Decodable {
                             <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
                             <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
                             <*> j <| "owner"                                        // user : LGUser?
-        
+
         if let error = result.error {
             print("LGProduct parse error: \(error)")
         }
-        
+
         return result
     }
 }

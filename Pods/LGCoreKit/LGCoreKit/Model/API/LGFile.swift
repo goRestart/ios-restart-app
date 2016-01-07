@@ -7,9 +7,9 @@
 //
 
 public struct LGFile: File {
-    
+
     public var objectId: String?
-    
+
     public var fileURL: NSURL?
 }
 
@@ -20,7 +20,7 @@ extension LGFile {
             self.fileURL = NSURL(string: urlString)
         }
     }
-    
+
     public init(id: String?, url: NSURL?) {
         self.objectId = id
         self.fileURL = url

@@ -10,19 +10,19 @@ import Result
 import Argo
 
 public class LGChatsRetrieveService: ChatsRetrieveService {
-    
+
     public func retrieveChatsWithSessionToken(sessionToken: String, completion: ChatsRetrieveServiceCompletion?) {
         var parameters = Dictionary<String, AnyObject>()
         parameters["num_results"] = 1000
-        
+
         struct CustomChatsResponse: ChatsResponse {
             var chats: [Chat]
         }
-        
+
         let request = ChatRouter.Index(params: parameters)
         ApiClient.request(request, decoder: LGChatsRetrieveService.decoder) {
             (result: Result<[Chat], ApiError>) -> () in
-            
+
             if let value = result.value {
                 completion?(ChatsRetrieveServiceResult(value: CustomChatsResponse(chats: value)))
             } else if let error = result.error {

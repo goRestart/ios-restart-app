@@ -20,7 +20,7 @@ struct LGAuthentication: Authentication {
 extension LGAuthentication: Decodable {
     /**
     Expects a json in the form:
-    
+
     {
         "id": "string",
         "auth_token": "string"

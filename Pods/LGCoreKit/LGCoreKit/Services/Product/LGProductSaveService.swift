@@ -12,7 +12,7 @@ import Argo
 final public class LGProductSaveService: ProductSaveService {
 
     public func saveProduct(product: Product, forUser user: User, sessionToken: String, completion: ProductSaveServiceCompletion?) {
-        
+
         let params = parametersForSaveProduct(product, user: user).letgoApiParams
         var request: URLRequestAuthenticable
 
@@ -21,7 +21,7 @@ final public class LGProductSaveService: ProductSaveService {
         } else {
             request = ProductRouter.Create(params: params)
         }
-        
+
         ApiClient.request(request, decoder: LGProductSaveService.decoder) { (result: Result<Product, ApiError>) -> () in
             if let value = result.value {
                 completion?(ProductSaveServiceResult(value: value))
@@ -37,13 +37,13 @@ final public class LGProductSaveService: ProductSaveService {
     }
 
     private func parametersForSaveProduct(product: Product, user: User) -> SaveProductParams {
-        
+
         var params = SaveProductParams()
-        
+
         if let name = product.name {
             params.name = name
         }
-        
+
         params.category = String(product.category.rawValue)
 
         if let languageCode = product.languageCode {
@@ -88,18 +88,18 @@ final public class LGProductSaveService: ProductSaveService {
 
         if !product.images.isEmpty {
             var tokensArray : [String] = []
-            
+
             for image in product.images {
                 if let token = image.objectId {
                     tokensArray.append(token)
                 }
             }
-            
+
             params.images = tokensArray
         }
-        
+
         return params
-        
+
     }
 
 }
@@ -115,57 +115,57 @@ extension SaveProductParams {
             if let category = self.category {
                 params["category"] = category
             }
-            
+
             if let languageCode = self.languageCode{
                 params["languageCode"] = languageCode
             }
-            
+
             if let userId = self.userId {
                 params["userId"] = userId
             }
-            
+
             if let description = self.descr {
                 params["description"] = description
             }
-            
+
             if let price = self.price {
                 params["price"] = price
             }
-            
+
             if let currency = self.currency {
                 params["currency"] = currency
             }
-            
+
             if let latitude = self.latitude {
                 params["latitude"] = latitude
             }
-            
+
             if let longitude = self.longitude {
                 params["longitude"] = longitude
             }
-            
+
             if let countryCode = self.countryCode {
                 params["countryCode"] = countryCode
             }
-            
+
             if let city = self.city {
                 params["city"] = city
             }
-            
+
             if let address = self.address {
                 params["address"] = address
             }
-            
+
             if let zipCode = self.zipCode {
                 params["zipCode"] = zipCode
             }
-            
+
             if let images = self.images {
-                
-                
+
+
                 var imageTokensArrayString = "["
                 var i = 0
-                
+
                 while i < images.count {
                     imageTokensArrayString += "\"" + images[i] + "\""
                     if i < images.count - 1 {
@@ -175,9 +175,9 @@ extension SaveProductParams {
                 }
                 imageTokensArrayString += "]"
                 params["images"] = imageTokensArrayString
-                
+
             }
-                        
+
             return params
         }
     }

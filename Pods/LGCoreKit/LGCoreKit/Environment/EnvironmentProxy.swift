@@ -13,16 +13,16 @@ public enum EnvironmentType: String {
 }
 
 public class EnvironmentProxy: Environment {
-    
+
     public static let sharedInstance = EnvironmentProxy()
-    
+
     public private(set) var environment: Environment
-    
+
     // MARK: - Lifecycle
-    
+
     private init() {
-        
-        let envArgs = NSProcessInfo.processInfo().environment       
+
+        let envArgs = NSProcessInfo.processInfo().environment
         if envArgs[EnvironmentType.Production.rawValue] != nil {
             environment = ProductionEnvironment()
         }
@@ -33,9 +33,9 @@ public class EnvironmentProxy: Environment {
             environment = ProductionEnvironment()
         }
     }
-    
+
     // MARK: - Public methods
-    
+
     public func setEnvironmentType(type: EnvironmentType) {
         switch type {
         case .Development:
@@ -44,9 +44,9 @@ public class EnvironmentProxy: Environment {
             environment = ProductionEnvironment()
         }
     }
-    
+
     // MARK: - Environment
-    
+
     public var parseApplicationId: String { get { return environment.parseApplicationId } }
     public var parseClientId: String { get { return environment.parseClientId } }
     public var apiBaseURL: String { get { return environment.apiBaseURL } }

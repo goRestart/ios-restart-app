@@ -11,27 +11,27 @@ import Argo
 import Curry
 
 public struct LGChat: Chat {
-    
+
     // Global iVars
     public var objectId: String?
     public var updatedAt: NSDate?
-    
+
     // Chat iVars
     public var product: Product
     public var userFrom: User
     public var userTo: User
     public var msgUnreadCount: Int
     public var messages: [Message]
-    
+
     public mutating func prependMessage(message: Message) {
         self.messages.insert(message, atIndex: 0)
     }
 }
 
 extension LGChat : Decodable {
-    
+
     private static func newLGChat(objectId: String?, updatedAt: NSDate?, product: LGProduct, userFrom: LGUser, userTo: LGUser, msgUnreadCount: Int, messages: [LGMessage]?) -> LGChat {
-        
+
         let theMessages : [Message]
         if let actualMessages = messages {
             theMessages = actualMessages.map({$0})
@@ -39,13 +39,13 @@ extension LGChat : Decodable {
         else{
             theMessages = []
         }
-        
+
         return LGChat(objectId: objectId, updatedAt: updatedAt, product: product, userFrom: userFrom, userTo: userTo, msgUnreadCount: msgUnreadCount, messages: theMessages)
     }
-    
+
     /**
     Expects a json in the form:
-    
+
         {
             "id": "ca0dd7da-0162-4c06-a8dc-c094bbfc7fe3",
             "product": LGProduct,
@@ -58,7 +58,7 @@ extension LGChat : Decodable {
 
     */
     public static func decode(j: JSON) -> Decoded<LGChat> {
-        
+
         let result = curry(LGChat.newLGChat)
             <^> j <|? "id"
             <*> LGArgo.parseDate(json: j, key: "updated_at")
@@ -67,7 +67,7 @@ extension LGChat : Decodable {
             <*> j <| "user_to"
             <*> LGArgo.mandatoryWithFallback(json: j, key: "unread_count", fallback: 0)
             <*> j <||? "messages"
-        
+
         if let error = result.error {
             print("LGChat parse error: \(error)")
         }

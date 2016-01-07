@@ -10,25 +10,25 @@ import Foundation
 
 
 enum ProductRouter: URLRequestAuthenticable {
-    
+
     case Delete(productId: String)
     case Update(productId: String, params: [String : AnyObject])
     case Patch(productId: String, params: [String : AnyObject])
     case Show(productId: String)
     case Create(params: [String : AnyObject])
     case Index(params: [String : AnyObject])
-    
+
     case IndexForUser(userId: String, params: [String : AnyObject])
     case IndexFavorites(userId: String)
-    
+
     case DeleteFavorite(userId: String, productId: String)
     case SaveFavorite(userId: String, productId: String)
     case UserRelation(userId: String, productId: String)
     case SaveReport(userId: String, productId: String)
-    
+
     static let productBaseUrl = "/api/products"
     static let userBaseUrl = "/api/users"
-    
+
     var endpoint: String {
         switch self {
         case .Delete, .Update, .Patch, .Show, .Create, .Index:
@@ -47,7 +47,7 @@ enum ProductRouter: URLRequestAuthenticable {
             return ProductRouter.userBaseUrl    + "/\(userId)/favorites/products"
         }
     }
-    
+
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .Delete, .Update, .Patch, .Create, .DeleteFavorite, .SaveFavorite, .UserRelation, .SaveReport:
@@ -56,7 +56,7 @@ enum ProductRouter: URLRequestAuthenticable {
             return .Installation
         }
     }
-    
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Delete(productId):

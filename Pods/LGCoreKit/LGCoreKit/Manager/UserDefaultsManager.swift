@@ -34,7 +34,7 @@ public class UserDefaultsManager {
     private static let didAskForPushPermissionsDaily = "didAskForPushPermissionsDaily"
     public static let dailyPermissionDate = "dailyPermissionDate"
     public static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
-    
+
 
     public static let sharedInstance: UserDefaultsManager = UserDefaultsManager()
 

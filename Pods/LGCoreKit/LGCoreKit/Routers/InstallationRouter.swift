@@ -14,7 +14,7 @@ enum InstallationRouter: URLRequestAuthenticable {
 
     case Create(params: [String : AnyObject])
     case Update(objectId: String, params: [String : AnyObject])
-   
+
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .Create:
@@ -23,7 +23,7 @@ enum InstallationRouter: URLRequestAuthenticable {
             return .Installation
         }
     }
-    
+
     var minReceivedAuthLevel: AuthLevel {
         return .Installation
     }

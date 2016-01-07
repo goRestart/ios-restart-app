@@ -12,12 +12,12 @@ public protocol LocationService {
     var distance: CLLocationDistance { get set }
     var accuracy: CLLocationDistance { get set }
     var lastKnownLocation: CLLocation! { get }
-    
+
     var locationManagerDelegate: CLLocationManagerDelegate! { get set }
-    
+
     func locationEnabled() -> Bool
     func authorizationStatus() -> CLAuthorizationStatus
-    
+
     func requestWhenInUseAuthorization()
     func requestAlwaysAuthorization()
 

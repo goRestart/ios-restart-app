@@ -10,10 +10,10 @@ import Argo
 import Curry
 
 extension LGSize : Decodable {
-    
+
     /**
     Expects a json in the form:
-    
+
     {
         "width": 1920,
         "height": 1080,
@@ -38,7 +38,7 @@ public extension JSON {
 }
 
 public extension NSJSONSerialization {
-    
+
     public static func fromData(data: NSData) -> AnyObject? {
         do {
             let object: AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)

@@ -9,15 +9,15 @@
 //import Parse
 //
 //final public class PAUserRetrieveService: UserRetrieveService {
-//    
+//
 //    // MARK: - Lifecycle
-//    
+//
 //    public init() {
-//        
+//
 //    }
-//    
+//
 //    // MARK: - UserSaveService
-//    
+//
 //    public func retrieveUser(user: User, completion: UserRetrieveCompletion) {
 //        if let parseUser = user as? PFUser {
 //            parseUser.fetchInBackgroundWithBlock { (object: PFObject?, error: NSError?) -> Void in
