@@ -82,6 +82,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // > User
     public var userName: String {
+        if isMine {
+            return myUserRepository.myUser?.name ?? product.user.name ?? ""
+        }
         return product.user.name ?? ""
     }
     public var userAvatar: NSURL? {
