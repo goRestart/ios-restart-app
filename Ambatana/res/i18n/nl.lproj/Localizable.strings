@@ -98,10 +98,10 @@
 "contact_title" = "Contact";
 "custom_permission_chat_message" = "Meldingen activeren om direct te weten wanneer iemand reageert.";
 "custom_permission_chat_title" = "BLIJF OP DE HOOGTE";
-"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
-"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-"custom_permission_list_title_B" = "BUY & SELL FASTER";
+"custom_permission_list_message_A" = "Krijg direct meldingen om sneller te kopen en te verkopen.";
+"custom_permission_list_message_B" = "Om de volledige letgo ervaring te krijgen, activeer meldingen.";
+"custom_permission_list_title_A" = "MELDINGEN ACTIVEREN";
+"custom_permission_list_title_B" = "KOOP & VERKOOP SNELLER";
 "custom_permission_sell_message" = "Meldingen activeren om direct te weten wanneer iemand jouw product wilt kopen.";
 "custom_permission_sell_title" = "VERKOOP SNELLER";
 "edit_product_send_button" = "Bijwerken";
@@ -199,7 +199,7 @@
 "product_post_confirmation_another_button" = "Plaats een ander item";
 "product_post_confirmation_edit" = "Voeg meer details toe";
 "product_post_confirmation_share" = "Delen";
-"product_post_confirmation_subtitle" = "Het zal binnen 10 minuten op letgo verschijnen.";
+"product_post_confirmation_subtitle" = "Jouw product zal binnen 10 minuten op letgo verschijnen.";
 "product_post_confirmation_title" = "Gefeliciteerd!";
 "product_post_done" = "Klaar";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";

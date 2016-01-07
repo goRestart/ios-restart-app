@@ -98,10 +98,10 @@
 "contact_title" = "Kontakta Oss";
 "custom_permission_chat_message" = "Aktivera notiser för att veta direkt när någon svarar.";
 "custom_permission_chat_title" = "HÅLL DIG UPPDATERAD";
-"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
-"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-"custom_permission_list_title_B" = "BUY & SELL FASTER";
+"custom_permission_list_message_A" = "Få meddelande direkt för att sälja och köpa snabbare.";
+"custom_permission_list_message_B" = "För att få den bästa letgo-upplevelsen, aktivera meddelanden.";
+"custom_permission_list_title_A" = "AKTIVERA MEDDELANDEN";
+"custom_permission_list_title_B" = "KÖP & SÄLJ SNABBARE";
 "custom_permission_sell_message" = "Aktivera notiser för att veta när någon vill köpa din produkt.";
 "custom_permission_sell_title" = "SÄLJ SNABBARE";
 "edit_product_send_button" = "Uppdatera";
@@ -199,7 +199,7 @@
 "product_post_confirmation_another_button" = "Lägg upp en till vara";
 "product_post_confirmation_edit" = "Lägg till mer information";
 "product_post_confirmation_share" = "Dela den";
-"product_post_confirmation_subtitle" = "Den kommer att synas på letgo om 10 minuter.";
+"product_post_confirmation_subtitle" = "Din pordukt kommer att synas på letgo inom 10 minuter.";
 "product_post_confirmation_title" = "Grattis!";
 "product_post_done" = "Klar";
 "product_post_generic_error" = "Ett fel uppstod när vi skulle lägga upp din produkt.";

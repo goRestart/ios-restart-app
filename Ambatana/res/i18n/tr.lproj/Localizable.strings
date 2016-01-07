@@ -98,10 +98,10 @@
 "contact_title" = "Bize ulaşın";
 "custom_permission_chat_message" = "Cevap geldiğinde haberdar olmak için bildirimleri etkinleştir.";
 "custom_permission_chat_title" = "HABERDAR OL";
-"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
-"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-"custom_permission_list_title_B" = "BUY & SELL FASTER";
+"custom_permission_list_message_A" = "Alışverişleri hızlandırmak için bildirim alımını etkinleştir.";
+"custom_permission_list_message_B" = "Daha kapsamlı bir letgo deneyimi için, bildirimleri etkinleştir.";
+"custom_permission_list_title_A" = "Cevap geldiğinde haberdar olmak için bildirimleri etkinleştir.";
+"custom_permission_list_title_B" = "HIZLICA AL VEYA SAT";
 "custom_permission_sell_message" = "Birileri ürününü almak istediğinde, haberinin olması için bildirimleri etkinleştir.";
 "custom_permission_sell_title" = "DAHA HIZLI SAT";
 "edit_product_send_button" = "Güncelle";
@@ -199,7 +199,7 @@
 "product_post_confirmation_another_button" = "Başka bir ürün listele";
 "product_post_confirmation_edit" = "Daha fazla bilgi gir";
 "product_post_confirmation_share" = "Paylaş";
-"product_post_confirmation_subtitle" = "10 dakika içinde letgo'da yayında olacak.";
+"product_post_confirmation_subtitle" = "Ürünün 10 dakika içinde letgo'da yayında olacak.";
 "product_post_confirmation_title" = "Tebrikler!";
 "product_post_done" = "Tamamlandı";
 "product_post_generic_error" = "Bir hata oluştuğu için ürün yayınlanamadı.";
