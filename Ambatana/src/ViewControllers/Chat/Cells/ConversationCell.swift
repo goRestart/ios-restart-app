@@ -55,7 +55,7 @@ public class ConversationCell: UITableViewCell {
         }
         
         // thumbnail
-        if let thumbURL = otherUser?.avatar?.fileURL {
+        if let thumbURL = chat.product.thumbnail?.fileURL {
             thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo"), completed: {
                 [weak self] (image, error, cacheType, url) -> Void in
                 // tag check to prevent wrong image placement cos' of recycling
