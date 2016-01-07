@@ -178,10 +178,10 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     /**
     Sets the given location as manual.
     - parameter location: The location.
-    - parameter postalAddress: The postal address. If not set it will try to retrieve it.
+    - parameter postalAddress: The postal address.
     - parameter userUpdateCompletion: The `MyUser` update completion closure.
     */
-    public func setManualLocation(location: CLLocation, postalAddress: PostalAddress?,
+    public func setManualLocation(location: CLLocation, postalAddress: PostalAddress,
         completion: ((Result<MyUser, RepositoryError>) -> ())?) {
             isManualLocationEnabled = true
             
@@ -338,13 +338,17 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     
     /**
     Retrieves the postal address for the given location and updates my user & installation.
+    - parameter location: The location to retrieve the postal address from.
+    - parameter completion: The completion closure, what will be called on user update.
     */
-    private func retrievePostalAddressAndUpdate(location: LGLocation) {
-        postalAddressRetrievalService.retrieveAddressForLocation(location.location) { [weak self] result in
-            if let place = result.value {
-                self?.updateLocation(location, postalAddress: place.postalAddress)
+    private func retrievePostalAddressAndUpdate(location: LGLocation,
+        completion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
+            
+            postalAddressRetrievalService.retrieveAddressForLocation(location.location) { [weak self] result in
+                let postalAddress = result.value?.postalAddress ?? PostalAddress(address: nil, city: nil, zipCode: nil,
+                    countryCode: nil, country: nil)
+                self?.updateLocation(location, postalAddress: postalAddress, userUpdateCompletion: completion)
             }
-        }
     }
     
     
@@ -361,11 +365,11 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     private func updateLocation(location: LGLocation, postalAddress: PostalAddress? = nil,
         userUpdateCompletion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
             
-            updateDeviceLocation(location, postalAddress: postalAddress)
-            updateUserLocation(location, postalAddress: postalAddress, completion: userUpdateCompletion)
-            handleLocationUpdate(location, postalAddress: postalAddress)
-            
-            if postalAddress == nil {
+            if let postalAddress = postalAddress {
+                updateDeviceLocation(location, postalAddress: postalAddress)
+                updateUserLocation(location, postalAddress: postalAddress, completion: userUpdateCompletion)
+                handleLocationUpdate(location, postalAddress: postalAddress)
+            } else {
                 retrievePostalAddressAndUpdate(location)
             }
     }
@@ -375,7 +379,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     - parameter location: The location.
     - parameter postalAddress: The postal address.
     */
-    private func updateDeviceLocation(location: LGLocation, postalAddress: PostalAddress?) {
+    private func updateDeviceLocation(location: LGLocation, postalAddress: PostalAddress) {
         var updatedDeviceLocation: DeviceLocation? = nil
         if let deviceLocation = dao.deviceLocation {
             if deviceLocation.shouldReplaceWithNewLocation(location) {
@@ -396,7 +400,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     - parameter postalAddress: The postal address.
     - parameter completion: The completion closure.
     */
-    private func updateUserLocation(location: LGLocation, postalAddress: PostalAddress?,
+    private func updateUserLocation(location: LGLocation, postalAddress: PostalAddress,
         completion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
             
             guard let myUser = myUserRepository.myUser else {

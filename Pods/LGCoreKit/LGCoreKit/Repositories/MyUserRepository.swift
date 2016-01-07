@@ -149,16 +149,15 @@ public class MyUserRepository {
     - parameter postalAddress: The postal address.
     - parameter completion: The completion closure.
     */
-    func updateLocation(location: LGLocation, postalAddress: PostalAddress?,
+    func updateLocation(location: LGLocation, postalAddress: PostalAddress,
         completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-            var wrappedParams: [String: Unwrappable] = [:]
-            wrappedParams[LGMyUser.JSONKeys.latitude] = Nullable<Double>.value(location.coordinate.latitude)
-            wrappedParams[LGMyUser.JSONKeys.longitude] = Nullable<Double>.value(location.coordinate.longitude)
-            wrappedParams[LGMyUser.JSONKeys.zipCode] = Nullable<String>.value(postalAddress?.zipCode)
-            wrappedParams[LGMyUser.JSONKeys.address] = Nullable<String>.value(postalAddress?.address)
-            wrappedParams[LGMyUser.JSONKeys.city] = Nullable<String>.value(postalAddress?.city)
-            wrappedParams[LGMyUser.JSONKeys.countryCode] = Nullable<String>.value(postalAddress?.countryCode)
-            let params = unwrap(wrappedParams)
+            var params = [String: AnyObject]()
+            params[LGMyUser.JSONKeys.latitude] = location.coordinate.latitude
+            params[LGMyUser.JSONKeys.longitude] = location.coordinate.longitude
+            params[LGMyUser.JSONKeys.zipCode] = postalAddress.zipCode ?? ""
+            params[LGMyUser.JSONKeys.address] = postalAddress.address ?? ""
+            params[LGMyUser.JSONKeys.city] = postalAddress.city ?? ""
+            params[LGMyUser.JSONKeys.countryCode] = postalAddress.countryCode ?? ""
 
             //TODO: Replace by standard update method when api includes locationType
             updateWithLocation(location, params: params, completion: completion)

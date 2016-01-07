@@ -10,11 +10,18 @@ import Argo
 import Curry
 
 public struct PostalAddress {
-    public var address: String?
-    public var city: String?
-    public var zipCode: String?
-    public var countryCode: String?
-    public var country : String?
+    public let address: String?
+    public let city: String?
+    public let zipCode: String?
+    public let countryCode: String?
+    public let country : String?
+    public init(address: String?, city: String?, zipCode: String?, countryCode: String?, country: String?) {
+        self.address = address
+        self.city = city
+        self.zipCode = zipCode
+        self.countryCode = countryCode
+        self.country = country
+    }
 }
 
 extension PostalAddress : Decodable {
