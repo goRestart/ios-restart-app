@@ -20,6 +20,7 @@ public class OptimizelyTracker: Tracker {
     
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         Optimizely.startOptimizelyWithAPIToken(EnvironmentProxy.sharedInstance.optimizelyAPIKey, launchOptions:launchOptions)
+        Optimizely.activateAmplitudeIntegration() // For this to work, Optimizely must be initiated after Amplitude!
     }
     
     public func setUser(user: MyUser?) {
