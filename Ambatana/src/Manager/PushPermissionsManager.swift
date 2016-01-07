@@ -50,7 +50,7 @@ public class PushPermissionsManager: NSObject {
                 else { return }
 
             guard ABTests.prePermissionsActive.boolValue else {
-                self.checkForSystemPushPermissions()
+                self.checkForSystemPushPermissions(false)
                 return
             }
 
@@ -98,7 +98,8 @@ public class PushPermissionsManager: NSObject {
             // send tracking
             guard let permissionType = permissionType, let typePage = typePage, let alertType = alertType
                 else { return }
-            let trackerEvent = TrackerEvent.permissionAlertStart(permissionType, typePage: typePage, alertType: alertType)
+            let trackerEvent = TrackerEvent.permissionAlertStart(permissionType, typePage: typePage,
+                alertType: alertType)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
@@ -124,7 +125,7 @@ public class PushPermissionsManager: NSObject {
                 case .Chat, .Sell:
                     UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow:true)
                 }
-                self.checkForSystemPushPermissions()
+                self.checkForSystemPushPermissions(true)
             })
             alert.addAction(noAction)
             alert.addAction(yesAction)
@@ -153,7 +154,7 @@ public class PushPermissionsManager: NSObject {
                         case .Chat, .Sell:
                             UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow:true)
                         }
-                        self.checkForSystemPushPermissions()
+                        self.checkForSystemPushPermissions(true)
                     } else {
                         switch (prePermissionType) {
                         case .ProductList:
@@ -175,26 +176,35 @@ public class PushPermissionsManager: NSObject {
             }
     }
 
-    private func checkForSystemPushPermissions() {
+    private func checkForSystemPushPermissions(fromPrePermissions: Bool) {
         didShowSystemPermissions = false
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didShowSystemPermissions:", name:UIApplicationWillResignActiveNotification, object: nil)
+        if fromPrePermissions {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "didShowSystemPermissions:",
+                name:UIApplicationWillResignActiveNotification, object: nil)
+        }
         askSystemForPushPermissions()
-        shouldGoToSettings()
+        if fromPrePermissions {
+            shouldGoToSettings()
+        }
     }
 
     func didShowSystemPermissions(notification: NSNotification) {
         didShowSystemPermissions = true
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
+            object: nil)
     }
 
     /**
     In case the system permissions alert doesn't appear, we ask the user to change its permissions
     */
     private func shouldGoToSettings() {
-        let _ = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "openAppSettings", userInfo: nil, repeats: false)
+        let _ = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "openAppSettings", userInfo: nil,
+            repeats: false)
     }
 
     func openAppSettings() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
+            object: nil)
 
         guard !didShowSystemPermissions else { return }
 
@@ -217,7 +227,8 @@ public class PushPermissionsManager: NSObject {
 
     private func trackActivated() {
         guard let permissionType = permissionType, let typePage = typePage, let alertType = alertType else { return }
-        let trackerEvent = TrackerEvent.permissionAlertComplete(permissionType, typePage: typePage, alertType: alertType)
+        let trackerEvent = TrackerEvent.permissionAlertComplete(permissionType, typePage: typePage,
+            alertType: alertType)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
