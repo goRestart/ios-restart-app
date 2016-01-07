@@ -533,7 +533,13 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         }
 
         if let userInfo = userInfo {
-            userInfo.setupWith(avatar: viewModel.userAvatar, text: viewModel.userName)
+            
+            var userName = viewModel.userName
+            if viewModel.isMine, let name = MyUserRepository.sharedInstance.myUser?.name {
+                userName = name
+            }
+            
+            userInfo.setupWith(avatar: viewModel.userAvatar, text: userName)
             userInfo.delegate = self
         }
 
