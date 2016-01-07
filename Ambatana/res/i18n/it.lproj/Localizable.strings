@@ -98,10 +98,10 @@
 "contact_title" = "Contattaci";
 "custom_permission_chat_message" = "Attiva il sistema di notifiche per sapere immediatamente quando qualcuno risponde a un tuo messaggio.";
 "custom_permission_chat_title" = "RESTA SEMPRE AGGIORNATO";
-"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
-"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-"custom_permission_list_title_B" = "BUY & SELL FASTER";
+"custom_permission_list_message_A" = "Ricevi notifiche istantanee per comprare e vendere più velocemente.";
+"custom_permission_list_message_B" = "Per vivere appieno l'esperienza su letgo, attiva le notifiche.";
+"custom_permission_list_title_A" = "ATTIVA NOTIFICHE";
+"custom_permission_list_title_B" = "COMPRA E VENDI PIÙ VELOCEMENTE";
 "custom_permission_sell_message" = "Attiva il sistema di notifiche per sapere quando qualcuno desidera acquistare un tuo prodotto.";
 "custom_permission_sell_title" = "VENDI PIÙ VELOCEMENTE";
 "edit_product_send_button" = "Aggiorna";
@@ -199,7 +199,7 @@
 "product_post_confirmation_another_button" = "Pubblica un altro oggetto";
 "product_post_confirmation_edit" = "Aggiungi altri dati";
 "product_post_confirmation_share" = "Condividilo";
-"product_post_confirmation_subtitle" = "Apparirà su letgo tra 10 minuti.";
+"product_post_confirmation_subtitle" = "Il tuo prodotto apparirà su letgo tra 10 minuti.";
 "product_post_confirmation_title" = "Complimenti!";
 "product_post_done" = "Fatto";
 "product_post_generic_error" = "Si è verificato un errore durante la pubblicazione del tuo prodotto.";

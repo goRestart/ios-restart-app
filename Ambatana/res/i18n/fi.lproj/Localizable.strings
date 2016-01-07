@@ -98,10 +98,10 @@
 "contact_title" = "Ota meihin yhteyttä";
 "custom_permission_chat_message" = "Aktivoi ilmoitukset saadaksesi välittömästi tiedon, kun joku vastaa.";
 "custom_permission_chat_title" = "PYSY AJAN TASALLA";
-"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
-"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-"custom_permission_list_title_B" = "BUY & SELL FASTER";
+"custom_permission_list_message_A" = "Ota ilmoitukset käyttöön ostaaksesi ja myydäksesi nopeammin.";
+"custom_permission_list_message_B" = "Saadaksesi letgosta kaiken irti, ota ilmoitukset käyttöön.";
+"custom_permission_list_title_A" = "OTA ILMOITUKSET KÄYTTÖÖN";
+"custom_permission_list_title_B" = "OSTA & MYY NOPEAMMIN";
 "custom_permission_sell_message" = "Aktivoi ilmoitukset saadaksesi tiedon, kun joku haluaa ostaa tuotteesi.";
 "custom_permission_sell_title" = "MYY NOPEAMMIN";
 "edit_product_send_button" = "Päivitä";
@@ -199,7 +199,7 @@
 "product_post_confirmation_another_button" = "Julkaise toinen tuote";
 "product_post_confirmation_edit" = "Lisää tietoja";
 "product_post_confirmation_share" = "Jaa";
-"product_post_confirmation_subtitle" = "Se tulee näkyviin letgoon 10 minuutissa.";
+"product_post_confirmation_subtitle" = "Tuotteesi tulee näkyviin letgohun 10 minuutissa.";
 "product_post_confirmation_title" = "Onneksi olkoon!";
 "product_post_done" = "Valmis";
 "product_post_generic_error" = "Tuotettasi julkaistessa tapahtui virhe.";

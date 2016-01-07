@@ -98,10 +98,10 @@
 "contact_title" = "Контакты";
 "custom_permission_chat_message" = "Активировать уведомления, чтобы немедленно узнавать, когда кто-то ответил.";
 "custom_permission_chat_title" = "БУДЬТЕ В КУРСЕ";
-"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
-"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-"custom_permission_list_title_B" = "BUY & SELL FASTER";
+"custom_permission_list_message_A" = "Включите уведомления, чтобы торговать еще быстрее.";
+"custom_permission_list_message_B" = "Для пользования всеми возможностями letgo включите уведомления.";
+"custom_permission_list_title_A" = "АКТИВИРОВАТЬ УВЕДОМЛЕНИЯ";
+"custom_permission_list_title_B" = "ПОКУПАЙТЕ И ПРОДАВАЙТЕ БЫСТРЕЕ";
 "custom_permission_sell_message" = "Активировать уведомления, чтобы узнавать, что кто-то хочет купить ваш товар.";
 "custom_permission_sell_title" = "ПРОДАВАЙТЕ БЫСТРЕЕ";
 "edit_product_send_button" = "Обновить";
@@ -199,7 +199,7 @@
 "product_post_confirmation_another_button" = "Разместить другой товар";
 "product_post_confirmation_edit" = "Добавить еще информацию";
 "product_post_confirmation_share" = "Поделиться";
-"product_post_confirmation_subtitle" = "Он появится на letgo в течение 10 минут.";
+"product_post_confirmation_subtitle" = "Ваш товар появится на letgo в течение 10 минут.";
 "product_post_confirmation_title" = "Поздравляем!";
 "product_post_done" = "Готово";
 "product_post_generic_error" = "При размещении товара произошла ошибка.";
