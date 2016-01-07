@@ -26,6 +26,17 @@ class ChatViewController: SLKTextViewController {
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
         hidesBottomBarWhenPushed = true
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
+            name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
+            name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+            name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+            name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
+            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
     
     required init!(coder decoder: NSCoder!) {
@@ -43,17 +54,6 @@ class ChatViewController: SLKTextViewController {
         setupToastView()
 
         view.addSubview(ChatProductView())
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
-            name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
-            name: UIMenuControllerWillHideMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
-            name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
-            name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
-            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -64,7 +64,16 @@ class ChatViewController: SLKTextViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        textView.becomeFirstResponder()
+
+        if viewModel.fromMakeOffer &&
+            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
+                prePermissionType: .Chat){
+                    viewModel.fromMakeOffer = false
+                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
+                        prePermissionType: .Chat)
+        } else {
+            textView.becomeFirstResponder()
+        }
     }
 
     func showActivityIndicator(show: Bool) {
@@ -113,7 +122,7 @@ class ChatViewController: SLKTextViewController {
     
     func updateProductView() {
         productView.nameLabel.text = viewModel.chat.product.name
-        productView.userLabel.text = viewModel.chat.product.user.publicUsername
+        productView.userLabel.text = viewModel.chat.product.user.name
         productView.priceLabel.text = viewModel.chat.product.priceString()
         if let thumbURL = viewModel.chat.product.thumbnail?.fileURL {
             switch viewModel.chat.product.status {
@@ -229,7 +238,7 @@ extension ChatViewController: ChatViewModelDelegate {
         case .Forbidden:
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
-                MyUserManager.sharedInstance.logout(nil)
+                SessionManager.sharedInstance.logout()
             }
         }
     }
@@ -249,7 +258,7 @@ extension ChatViewController: ChatViewModelDelegate {
             showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
         case .Forbidden:
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
-                MyUserManager.sharedInstance.logout(nil)
+                SessionManager.sharedInstance.logout()
             }
         }
     }

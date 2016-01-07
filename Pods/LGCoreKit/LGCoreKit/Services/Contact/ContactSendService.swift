@@ -12,6 +12,16 @@ public enum ContactSendServiceError: ErrorType {
     case Network
     case Internal
     case InvalidEmail
+    
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .Scammer, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias ContactSendServiceResult = Result<Contact, ContactSendServiceError>

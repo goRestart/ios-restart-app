@@ -26,6 +26,17 @@ public enum ProductReportSaveServiceError: ErrorType, CustomStringConvertible {
             return "Forbidden"
         }
     }
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        case .Network:
+            self = .Network
+        case .Scammer:
+            self = .Forbidden
+        }
+    }
 }
 
 public typealias ProductReportSaveServiceResult = Result<Nil, ProductReportSaveServiceError>

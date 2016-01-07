@@ -12,6 +12,18 @@ public enum FileUploadServiceError: ErrorType {
     case Network
     case Internal
     case Forbidden
+    
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Unauthorized:
+            self = .Forbidden
+        case .Network:
+            self = .Network
+        case .Internal, .NotFound, .Scammer, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias FileUploadServiceResult = Result<File, FileUploadServiceError>
@@ -30,7 +42,7 @@ public protocol FileUploadService {
         - parameter data: The data to upload.
         - parameter completion: The completion closure.
     */
-    func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, completion: FileUploadServiceCompletion?)
+    func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, progress: (Int -> ())?, completion: FileUploadServiceCompletion?)
     
     /**
         Upload the data into a file.

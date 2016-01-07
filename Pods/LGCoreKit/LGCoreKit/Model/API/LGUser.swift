@@ -15,14 +15,14 @@ public struct LGUser: User {
     public var objectId: String?
     
     // User iVars
-    public var publicUsername: String?
+    public var name: String?
     public var avatar: File?
     public var postalAddress: PostalAddress
     public var isDummy: Bool
     
-    init(objectId: String?, publicUsername: String?, avatar: String?, postalAddress: PostalAddress, isDummy: Bool) {
+    init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, isDummy: Bool) {
         self.objectId = objectId
-        self.publicUsername = publicUsername
+        self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
         self.postalAddress = postalAddress
         self.isDummy = isDummy

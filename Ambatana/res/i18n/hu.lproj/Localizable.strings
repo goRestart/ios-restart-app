@@ -98,8 +98,10 @@
 "contact_title" = "Kapcsolat";
 "custom_permission_chat_message" = "Az értesítések aktiválásával azonnal tudni fogod, ha valaki választ küld.";
 "custom_permission_chat_title" = "MARADJ KÉPBEN";
-"custom_permission_list_message" = "Az értesítések aktiválásával figyelemmel kísérheted a legfrissebb letgo híreket és az új portékákat.";
-"custom_permission_list_title" = "ÜDVÖZLET!";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Az értesítések aktiválásával azonnal tudni fogod, ha valaki megvenné az egyik portékádat.";
 "custom_permission_sell_title" = "ADJ EL GYORSABBAN";
 "edit_product_send_button" = "Frissítés";
@@ -198,7 +200,7 @@
 "product_post_confirmation_edit" = "További részletek";
 "product_post_confirmation_share" = "Megosztás";
 "product_post_confirmation_subtitle" = "10 perc múlva megjelenik a letgo piacán.";
-"product_post_confirmation_title" = "Portékád feldolgozás alatt van!";
+"product_post_confirmation_title" = "Gratulálunk!";
 "product_post_done" = "Kész";
 "product_post_generic_error" = "Hiba történt a portéka meghirdetése során.";
 "product_post_network_error" = "Portékád meghirdetése sikertelen. \nEllenőrizd a hálózati beállításokat.";

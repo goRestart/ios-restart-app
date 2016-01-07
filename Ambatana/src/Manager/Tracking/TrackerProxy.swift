@@ -26,7 +26,7 @@ public class TrackerProxy: Tracker {
         self.trackers = trackers
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCoordinatesFromNotification:",
-            name: MyUserManager.Notification.locationUpdate.rawValue, object: nil)
+            name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
 
     // MARK: - Tracker

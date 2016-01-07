@@ -36,22 +36,33 @@ class PostProductViewModel: BaseViewModel {
     weak var delegate: PostProductViewModelDelegate?
 
     private var productManager: ProductManager
+    private let myUserRepository: MyUserRepository
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
     var currency: Currency
 
-    override init() {
-        self.productManager = ProductManager()
-        self.currency = CurrencyHelper.sharedInstance.currentCurrency
-
-        super.init()
+    
+    // MARK: - Lifecycle
+    
+    override convenience init() {
+        let productManager = ProductManager()
+        let currency = CurrencyHelper.sharedInstance.currentCurrency
+        let myUserRepository = MyUserRepository.sharedInstance
+        self.init(productManager: productManager, myUserRepository: myUserRepository, currency: currency)
     }
 
+    init(productManager: ProductManager, myUserRepository: MyUserRepository, currency: Currency) {
+        self.productManager = productManager
+        self.myUserRepository = myUserRepository
+        self.currency = currency
+        super.init()
+    }
+    
 
-     // MARK: - Public methods
+    // MARK: - Public methods
 
     func onViewLoaded() {
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserRepository.myUser
         let event = TrackerEvent.productSellStart(myUser)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
@@ -118,6 +129,7 @@ class PostProductViewModel: BaseViewModel {
 
 
     // MARK: - Private methods
+    
     private static func saveProduct(manager productManager: ProductManager, uploadedImage: File?, priceText: String?,
         currency: Currency, showConfirmation: Bool, trackInfo: TrackingInfo, controller: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
@@ -133,9 +145,10 @@ class PostProductViewModel: BaseViewModel {
 
                 //Tracking
                 if let product = r.value {
-                    let myUser = MyUserManager.sharedInstance.myUser()
-                    let event = TrackerEvent.productSellComplete(myUser, product: product, buttonName: trackInfo.buttonName,
-                        negotiable: trackInfo.negotiablePrice, pictureSource: trackInfo.imageSource)
+                    let myUser = MyUserRepository.sharedInstance.myUser
+                    let event = TrackerEvent.productSellComplete(myUser, product: product, buttonName:
+                        trackInfo.buttonName, negotiable: trackInfo.negotiablePrice,
+                        pictureSource: trackInfo.imageSource)
                     TrackerProxy.sharedInstance.trackEvent(event)
                 }
 

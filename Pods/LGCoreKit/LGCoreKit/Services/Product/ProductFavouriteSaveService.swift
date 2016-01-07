@@ -26,6 +26,17 @@ public enum ProductFavouriteSaveServiceError: ErrorType, CustomStringConvertible
             return "Forbidden"
         }
     }
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Scammer:
+            self = .Forbidden
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        case .Network:
+            self = .Network
+        }
+    }
 }
 
 public typealias ProductFavouriteSaveServiceResult = Result<ProductFavourite, ProductFavouriteSaveServiceError>

@@ -39,3 +39,9 @@ protocol AppEnvironment: Environment {
     var adjustAppToken: String { get }
     var adjustEnvironment: String { get }
 }
+
+extension AppEnvironment {
+    var appStoreURL: NSURL? {
+        return NSURL(string: String(format: Constants.appStoreURL, arguments: [appleAppId]))
+    }
+}

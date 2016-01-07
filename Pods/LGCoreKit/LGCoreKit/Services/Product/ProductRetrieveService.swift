@@ -20,6 +20,16 @@ public enum ProductRetrieveServiceError: ErrorType, CustomStringConvertible {
             return "Internal"
         }
     }
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .Scammer, .InternalServerError:
+            self = .Internal
+        case .Network:
+            self = .Network
+        }
+    }
+    
 }
 
 public typealias ProductRetrieveServiceResult = Result<Product, ProductRetrieveServiceError>

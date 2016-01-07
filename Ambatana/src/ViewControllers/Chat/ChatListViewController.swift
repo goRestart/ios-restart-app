@@ -92,7 +92,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
             name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
-            name: MyUserManager.Notification.logout.rawValue, object: nil)
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
 
@@ -131,9 +131,12 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         if error == .Forbidden {
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-                MyUserManager.sharedInstance.logout(nil)
+                SessionManager.sharedInstance.logout()
             }
         } else {
+
+            guard viewModel.chatCount <= 0 else { return }
+
             chatListStatus = .Error
 
             // If we have no data
@@ -193,7 +196,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
             forIndexPath: indexPath) as! ConversationCell
 
         cell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
-        if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = MyUserManager.sharedInstance.myUser() {
+        if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = MyUserRepository.sharedInstance.myUser {
             cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
         return cell

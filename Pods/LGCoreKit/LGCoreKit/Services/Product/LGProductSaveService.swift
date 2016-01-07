@@ -6,79 +6,36 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
 import Result
+import Argo
 
 final public class LGProductSaveService: ProductSaveService {
-    
-    // Constants
-    public static let endpoint = "/api/products"
-    
-    // iVars
-    var url: String
-    
-    // MARK: - Lifecycle
-    
-    public init(baseURL: String) {
-        self.url = baseURL + LGProductSaveService.endpoint
-    }
-    
-    public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
-    }
-    
-    // MARK: - ProductSaveService
-    
+
     public func saveProduct(product: Product, forUser user: User, sessionToken: String, completion: ProductSaveServiceCompletion?) {
         
         let params = parametersForSaveProduct(product, user: user).letgoApiParams
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
-        
-        var fullUrl = url
-        var requestMethod = Method.POST
-        
+        var request: URLRequestAuthenticable
+
         if let idProduct = product.objectId {
-            fullUrl = "\(url)/\(idProduct)"
-            requestMethod = Method.PUT
+            request = ProductRouter.Update(productId: idProduct, params: params)
+        } else {
+            request = ProductRouter.Create(params: params)
         }
-                
-        Alamofire.request(requestMethod, fullUrl, parameters: params, headers: headers)
-            .validate(statusCode: 200..<400)
-            .responseObject { (productSaveResponse: Response<LGProductSaveResponse, NSError>) -> Void in
-                // Error
-                if let actualError = productSaveResponse.result.error {
-                    if actualError.domain == NSURLErrorDomain {
-                        completion?(ProductSaveServiceResult(error: .Network))
-                    }
-                    else if let statusCode = productSaveResponse.response?.statusCode {
-                        switch statusCode {
-                        case 403:
-                            completion?(ProductSaveServiceResult(error: .Forbidden))
-                        default:
-                            completion?(ProductSaveServiceResult(error: .Internal))
-                        }
-                    }
-                    else {
-                        completion?(ProductSaveServiceResult(error: .Internal))
-                    }
-                }
-                // Success
-                else if let response = productSaveResponse.result.value {
-                    if requestMethod == .PUT {
-                        completion?(ProductSaveServiceResult(value: response.product))
-                    }
-                    else if requestMethod == .POST {
-                        completion?(ProductSaveServiceResult(value: response.product))
-                    }
-                    else {
-                        completion?(ProductSaveServiceResult(error: .Internal))
-                    }
-                }
+        
+        ApiClient.request(request, decoder: LGProductSaveService.decoder) { (result: Result<Product, ApiError>) -> () in
+            if let value = result.value {
+                completion?(ProductSaveServiceResult(value: value))
+            } else if let error = result.error {
+                completion?(ProductSaveServiceResult(error: ProductSaveServiceError(apiError: error)))
             }
+        }
     }
-    
+
+    static func decoder(object: AnyObject) -> Product? {
+        let product: LGProduct? = decode(object)
+        return product
+    }
+
     private func parametersForSaveProduct(product: Product, user: User) -> SaveProductParams {
         
         var params = SaveProductParams()

@@ -13,8 +13,8 @@ public class ChatManager {
     // Singleton
     public static let sharedInstance: ChatManager = ChatManager()
     
-    // Managers
-    public private(set) var myUserManager: MyUserManager
+    // Repositories
+    private let myUserRepository: MyUserRepository
     
     // Services
     public private(set) var chatsRetrieveService: ChatsRetrieveService
@@ -32,30 +32,34 @@ public class ChatManager {
     // MARK: - Lifecycle
     
     private convenience init() {
-        let myUserManager = MyUserManager.sharedInstance
+        let myUserRepository = MyUserRepository.sharedInstance
         let chatsRetrieveService = LGChatsRetrieveService()
         let chatRetrieveService = LGChatRetrieveService()
         let chatsUnreadCountRetrieveService = LGChatsUnreadCountRetrieveService()
         let chatSendMessageService = LGChatSendMessageService()
-        self.init(myUserManager: myUserManager, chatsRetrieveService: chatsRetrieveService, chatRetrieveService: chatRetrieveService, chatsUnreadCountRetrieveService: chatsUnreadCountRetrieveService, chatSendMessageService: chatSendMessageService)
+        self.init(myUserRepository: myUserRepository, chatsRetrieveService: chatsRetrieveService, chatRetrieveService:
+            chatRetrieveService, chatsUnreadCountRetrieveService: chatsUnreadCountRetrieveService,
+            chatSendMessageService: chatSendMessageService)
     }
     
-    public required init(myUserManager: MyUserManager, chatsRetrieveService: ChatsRetrieveService, chatRetrieveService: ChatRetrieveService, chatsUnreadCountRetrieveService: ChatsUnreadCountRetrieveService, chatSendMessageService: ChatSendMessageService) {
-        // Managers
-        self.myUserManager = myUserManager
-        
-        // Services
-        self.chatsRetrieveService = chatsRetrieveService
-        self.chatRetrieveService = chatRetrieveService
-        self.chatsUnreadCountRetrieveService = chatsUnreadCountRetrieveService
-        self.chatSendMessageService = chatSendMessageService
-        
-        // Data
-        self.chats = []
-        self.loadingChats = false
-        
-        self.unreadMsgCount = 0
-        self.loadingUnreadCount = false
+    public required init(myUserRepository: MyUserRepository, chatsRetrieveService: ChatsRetrieveService,
+        chatRetrieveService: ChatRetrieveService, chatsUnreadCountRetrieveService: ChatsUnreadCountRetrieveService,
+        chatSendMessageService: ChatSendMessageService) {
+            // Repositories
+            self.myUserRepository = myUserRepository
+            
+            // Services
+            self.chatsRetrieveService = chatsRetrieveService
+            self.chatRetrieveService = chatRetrieveService
+            self.chatsUnreadCountRetrieveService = chatsUnreadCountRetrieveService
+            self.chatSendMessageService = chatSendMessageService
+            
+            // Data
+            self.chats = []
+            self.loadingChats = false
+            
+            self.unreadMsgCount = 0
+            self.loadingUnreadCount = false
     }
     
     // MARK: - Public methods
@@ -66,7 +70,7 @@ public class ChatManager {
     - returns: Chat in case myUser and product.user have values. nil otherwise
     */
     public func newChatWithProduct(product: Product) -> Chat? {
-        if let myUser = myUserManager.myUser(){
+        if let myUser = myUserRepository.myUser {
             return LGChat(
                 objectId: nil,
                 updatedAt: NSDate(),
@@ -85,35 +89,30 @@ public class ChatManager {
         - parameter completion: The completion closure.
     */
     public func retrieveChatsWithCompletion(completion: (Result<[Chat], ChatsRetrieveServiceError> -> Void)?) {
-        if let sessionToken = myUserManager.myUser()?.sessionToken {
-            if !loadingChats {
-                loadingChats = true
+        if !loadingChats {
+            loadingChats = true
+            
+            chatsRetrieveService.retrieveChatsWithSessionToken("") { [weak self] (myResult: ChatsRetrieveServiceResult) -> Void in
+                self?.loadingChats = false
                 
-                chatsRetrieveService.retrieveChatsWithSessionToken(sessionToken) { [weak self] (myResult: ChatsRetrieveServiceResult) -> Void in
-                    self?.loadingChats = false
+                // Success
+                if let response = myResult.value {
+                    let chats = response.chats
                     
-                    // Success
-                    if let response = myResult.value {
-                        let chats = response.chats
-                        
-                        // Keep track of the chats
-                        self?.chats = chats
-                        
-                        // Notify
-                        completion?(Result<[Chat], ChatsRetrieveServiceError>(value: chats))
-                    }
-                    // Error
-                    else if let error = myResult.error {
-                        completion?(Result<[Chat], ChatsRetrieveServiceError>(error: error))
-                    }
+                    // Keep track of the chats
+                    self?.chats = chats
+                    
+                    // Notify
+                    completion?(Result<[Chat], ChatsRetrieveServiceError>(value: chats))
                 }
-            }
-            else {
-                completion?(Result<[Chat], ChatsRetrieveServiceError>(error: .Internal))
+                    // Error
+                else if let error = myResult.error {
+                    completion?(Result<[Chat], ChatsRetrieveServiceError>(error: error))
+                }
             }
         }
         else {
-            completion?(Result<[Chat], ChatsRetrieveServiceError>(error: .Unauthorized))
+            completion?(Result<[Chat], ChatsRetrieveServiceError>(error: .Internal))
         }
     }
     
@@ -123,34 +122,29 @@ public class ChatManager {
         - parameter completion: The completion closure.
     */
     public func retrieveUnreadMessageCountWithCompletion(completion: ChatsUnreadCountRetrieveServiceCompletion?) {
-        if let sessionToken = myUserManager.myUser()?.sessionToken {
-            if !loadingUnreadCount {
-                loadingUnreadCount = true
+        if !loadingUnreadCount {
+            loadingUnreadCount = true
+            
+            chatsUnreadCountRetrieveService.retrieveUnreadMessageCountWithSessionToken("") { [weak self] (myResult: ChatsUnreadCountRetrieveServiceResult) -> Void in
+                self?.loadingUnreadCount = false
                 
-                chatsUnreadCountRetrieveService.retrieveUnreadMessageCountWithSessionToken(sessionToken) { [weak self] (myResult: ChatsUnreadCountRetrieveServiceResult) -> Void in
-                    self?.loadingUnreadCount = false
+                // Success
+                if let count = myResult.value {
                     
-                    // Success
-                    if let count = myResult.value {
-                        
-                        // Keep track of unread msg count
-                        self?.unreadMsgCount = count
-                        
-                        // Notify
-                        completion?(ChatsUnreadCountRetrieveServiceResult(value: count))
-                    }
-                    // Error
-                    else if let error = myResult.error {
-                        completion?(ChatsUnreadCountRetrieveServiceResult(error: error))
-                    }
+                    // Keep track of unread msg count
+                    self?.unreadMsgCount = count
+                    
+                    // Notify
+                    completion?(ChatsUnreadCountRetrieveServiceResult(value: count))
                 }
-            }
-            else {
-                completion?(ChatsUnreadCountRetrieveServiceResult(error: .Internal))
+                    // Error
+                else if let error = myResult.error {
+                    completion?(ChatsUnreadCountRetrieveServiceResult(error: error))
+                }
             }
         }
         else {
-            completion?(ChatsUnreadCountRetrieveServiceResult(error: .Unauthorized))
+            completion?(ChatsUnreadCountRetrieveServiceResult(error: .Internal))
         }
     }
     
@@ -178,21 +172,16 @@ public class ChatManager {
         - parameter completion: The completion closure.
     */
     public func retrieveChatWithProductId(productId: String, buyerId: String, completion: (Result<Chat, ChatRetrieveServiceError> -> Void)?) {
-        if let sessionToken = myUserManager.myUser()?.sessionToken {
-            chatRetrieveService.retrieveChatWithSessionToken(sessionToken, productId: productId, buyerId: buyerId) { (myResult: ChatRetrieveServiceResult) -> Void in
-                
-                // Success
-                if let chatResponse = myResult.value {
-                    completion?(Result<Chat, ChatRetrieveServiceError>(value: chatResponse.chat))
-                }
-                // Error
-                else if let error = myResult.error {
-                    completion?(Result<Chat, ChatRetrieveServiceError>(error: error))
-                }
+        chatRetrieveService.retrieveChatWithSessionToken("", productId: productId, buyerId: buyerId) { (myResult: ChatRetrieveServiceResult) -> Void in
+            
+            // Success
+            if let chatResponse = myResult.value {
+                completion?(Result<Chat, ChatRetrieveServiceError>(value: chatResponse.chat))
             }
-        }
-        else {
-            completion?(Result<Chat, ChatRetrieveServiceError>(error: .Unauthorized))
+                // Error
+            else if let error = myResult.error {
+                completion?(Result<Chat, ChatRetrieveServiceError>(error: error))
+            }
         }
     }
     
@@ -231,17 +220,18 @@ public class ChatManager {
         - parameter recipient: The recipient user.
         - parameter completion: The completion closure.
     */
-    private func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User, completion: ChatSendMessageServiceCompletion?) {
-        if let myUser = myUserManager.myUser(), let sessionToken = myUser.sessionToken, let myUserId = myUser.objectId {
-            if let recipientUserId = recipient.objectId, let productId = product.objectId {
-                chatSendMessageService.sendMessageWithSessionToken(sessionToken, userId: myUserId, message: message, type: messageType, recipientUserId: recipientUserId, productId: productId, completion: completion)
+    private func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User,
+        completion: ChatSendMessageServiceCompletion?) {
+            if let myUser = myUserRepository.myUser, let myUserId = myUser.objectId {
+                    if let recipientUserId = recipient.objectId, let productId = product.objectId {
+                        chatSendMessageService.sendMessageWithSessionToken("", userId: myUserId,
+                            message: message, type: messageType, recipientUserId: recipientUserId,
+                            productId: productId, completion: completion)
+                    } else {
+                        completion?(ChatSendMessageServiceResult(error: .NotFound))
+                    }
+            } else {
+                completion?(ChatSendMessageServiceResult(error: .Unauthorized))
             }
-            else {
-                completion?(ChatSendMessageServiceResult(error: .NotFound))
-            }
-        }
-        else {
-            completion?(ChatSendMessageServiceResult(error: .Unauthorized))
-        }
     }
 }

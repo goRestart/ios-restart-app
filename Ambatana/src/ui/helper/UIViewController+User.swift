@@ -11,17 +11,15 @@ import LGCoreKit
 extension UIViewController {
     
     internal func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void, elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
-        let isLogInRequired = MyUserManager.sharedInstance.isMyUserAnonymous()
-        if isLogInRequired {
+        if MyUserRepository.sharedInstance.loggedIn {
+            loggedInAction()
+        } else {
             let vc = MainSignUpViewController(source: source)
             vc.afterLoginAction = afterLogInAction
-
+            
             let navCtl = UINavigationController(rootViewController: vc)
             navCtl.view.backgroundColor = UIColor.whiteColor()
-            self.presentViewController(navCtl, animated: true, completion: nil)
-        }
-        else {
-            loggedInAction()
+            presentViewController(navCtl, animated: true, completion: nil)
         }
     }
 }

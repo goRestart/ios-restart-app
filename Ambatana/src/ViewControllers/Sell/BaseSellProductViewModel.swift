@@ -92,7 +92,9 @@ public class BaseSellProductViewModel: BaseViewModel {
     var savedProduct: Product?
     
     // Managers
+    let myUserRepository: MyUserRepository
     private let productManager: ProductManager
+    let tracker: Tracker
     
     // Delegate
     weak var delegate: SellProductViewModelDelegate?
@@ -101,16 +103,26 @@ public class BaseSellProductViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    public override init() {
+    public convenience override init() {
+        let myUserRepository = MyUserRepository.sharedInstance
+        let productManager = ProductManager()
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker)
+    }
+    
+    public init(myUserRepository: MyUserRepository, productManager: ProductManager, tracker: Tracker) {
+        self.myUserRepository = myUserRepository
+        self.productManager = productManager
+        self.tracker = tracker
+        
         self.title = nil
         self.currency = CurrencyHelper.sharedInstance.currentCurrency
         self.price = nil
         self.descr = nil
         self.category = nil
         self.productImages = ProductImages()
-        self.shouldShareInFB = MyUserManager.sharedInstance.myUser()?.didLogInByFacebook ?? true
+        self.shouldShareInFB = myUserRepository.myUser?.authProvider == .Facebook
         self.imagesModified = false
-        self.productManager = ProductManager()
         
         super.init()
         

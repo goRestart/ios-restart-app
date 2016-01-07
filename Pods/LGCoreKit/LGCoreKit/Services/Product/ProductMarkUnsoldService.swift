@@ -20,6 +20,15 @@ public enum ProductMarkUnsoldServiceError: ErrorType, CustomStringConvertible {
             return "Internal"
         }
     }
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .Scammer, .InternalServerError:
+            self = .Internal
+        case .Network:
+            self = .Network
+        }
+    }
 }
 
 public typealias ProductMarkUnsoldServiceResult = Result<Product, ProductMarkUnsoldServiceError>
@@ -33,6 +42,5 @@ public protocol ProductMarkUnsoldService {
     - parameter product: The product.
     - parameter completion: The completion closure.
     */
-    // TODO: User product id instead of product
     func markAsUnsoldProduct(product: Product, sessionToken: String, completion: ProductMarkUnsoldServiceCompletion?)
 }

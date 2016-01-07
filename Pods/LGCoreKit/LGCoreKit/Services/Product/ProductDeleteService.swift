@@ -11,6 +11,15 @@ import Result
 public enum ProductDeleteServiceError: ErrorType {
     case Network
     case Internal
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .Scammer, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias ProductDeleteServiceResult = Result<Product, ProductDeleteServiceError>

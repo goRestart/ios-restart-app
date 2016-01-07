@@ -6,70 +6,38 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
 import Result
+import Argo
 
 final public class LGProductsRetrieveService: ProductsRetrieveService {
-    
-    // Constants
-    public static let endpoint = "/api/products"
-    
-    // iVars
-    var url: String
-    
-    // MARK: - Lifecycle
-    
-    public init(baseURL: String) {
-        self.url = baseURL + LGProductsRetrieveService.endpoint
-    }
-    
-    public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
-    }
-    
-    // MARK: - ProductsRetrieveService
+
+    public init() {}
     
     public func retrieveProductsWithParams(params: RetrieveProductsParams, completion: ProductsRetrieveServiceCompletion?) {
-        let parameters = params.letgoApiParams
         
-        let sessionToken : String = MyUserManager.sharedInstance.myUser()?.sessionToken ?? ""
-                
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
+        let request = ProductRouter.Index(params: params.letgoApiParams)
+
+        struct CustomProductsResponse: ProductsResponse {
+            var products: [Product]
+        }
         
-        Alamofire.request(.GET, url, parameters: parameters, headers: headers)
-            .validate(statusCode: 200..<400)
-            .responseObject({ (productsResponse: Response<LGProductsResponse, NSError>) -> Void in
-                // Error
-                if let actualError = productsResponse.result.error {
-                    if actualError.domain == NSURLErrorDomain {
-                        completion?(ProductsRetrieveServiceResult(error: .Network))
-                    }
-                    else {
-                        completion?(ProductsRetrieveServiceResult(error: .Internal))
-                    }
-                }
-                // Success
-                else if let actualProductsResponse = productsResponse.result.value {
-                    
-                    //Shuffling only when there isn't sort criteria and there are coordinates
-                    if params.mustShuffle {
-                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                            // Background thread -> shuffle products
-                            let shuffledProducts = actualProductsResponse.shuffledProducts(params.coordinates!)
-                            dispatch_async(dispatch_get_main_queue()) {
-                                // Main thread
-                                completion?(ProductsRetrieveServiceResult(value: LGProductsResponse(products: shuffledProducts)))
-                            }
-                        }
-                    }
-                    else{
-                        //Without coordinates we just return the results
-                        completion?(ProductsRetrieveServiceResult(value: actualProductsResponse))
-                    }
-                }
-            })
+        ApiClient.request(request, decoder: LGProductsRetrieveService.decoder) {
+            (result: Result<[Product], ApiError>) -> () in
+            
+            if let value = result.value {
+                completion?(ProductsRetrieveServiceResult(value: CustomProductsResponse(products: value)))
+            } else if let error = result.error {
+                completion?(ProductsRetrieveServiceResult(error: ProductsRetrieveServiceError(apiError: error)))
+            }
+        }
+    }
+
+    static func decoder(object: AnyObject) -> [Product]? {
+        guard let theProduct : [LGProduct] = decode(object) else {
+            return nil
+        }
+
+        return theProduct.map{$0}
     }
 }
 

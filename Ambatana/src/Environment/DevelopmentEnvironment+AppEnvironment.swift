@@ -12,7 +12,7 @@ import LGCoreKit
 extension DevelopmentEnvironment: AppEnvironment {
     // General
     var appleAppId: String { get { return "986339882" } }
-    var facebookAppId: String { get { return "699538486794082" } }
+    var facebookAppId: String { get { return "924384130976182" } }
     
     // Tracking
     var appsFlyerAPIKey: String { get { return "5EKnCjmwmNKjE2e7gYBo6T" } }

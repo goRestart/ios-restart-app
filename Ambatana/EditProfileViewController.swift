@@ -80,8 +80,8 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     var cellSize = CGSizeMake(160.0, 210.0)
     
-    init(user: User) {
-        self.user = user
+    init(user: User?) {
+        self.user = user ?? MyUserRepository.sharedInstance.myUser ?? LGUser()
         shouldReload = true
         self.productsFavouriteRetrieveService = LGProductsFavouriteRetrieveService()
         super.init(nibName: "EditProfileViewController", bundle: nil)
@@ -163,14 +163,18 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         ProductCellDrawerFactory.registerCells(favouriteCollectionView)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearProductLists:",
-            name: MyUserManager.Notification.logout.rawValue, object: nil)
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         guard shouldReload else { return }
-        
+
+        if let myUser = MyUserRepository.sharedInstance.myUser where user.objectId == myUser.objectId {
+            user = myUser
+        }
+
         // UX/UI and Appearance.
         setLetGoNavigationBarStyle("")
         
@@ -201,20 +205,15 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         // UI
         if let avatarURL = user.avatar?.fileURL {
             userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
-        }
-        else {
+        } else {
             userImageView.image = UIImage(named: "no_photo")
         }
-        userNameLabel.text = user.publicUsername ?? ""
-        if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
-            userLocationLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
-        }
-        else {
-            userLocationLabel.text = user.postalAddress.city ?? ""
-        }
+
+        userNameLabel.text = user.name ?? ""
+        userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
         
         // If it's me, then allow go to settings
-        if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId,
+        if let myUser = MyUserRepository.sharedInstance.myUser, let myUserId = myUser.objectId,
             let userId = user.objectId {
                 if userId == myUserId {
                     setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
@@ -259,15 +258,12 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     }
 
     @IBAction func startSearchingNow(sender: AnyObject) {
-        if let tabBarCtl = tabBarController as? TabBarController {
-            tabBarCtl.switchToTab(.Home)
-        }
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
     }
+
     
     // MARK: - ProductListViewDataDelegate
-    
-    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {
-    }
     
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
         error: ProductsRetrieveServiceError) {
@@ -288,8 +284,8 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             if error == .Forbidden {
                 // logout the scammer!
                 showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-                    MyUserManager.sharedInstance.logout(nil)
-                }
+                    SessionManager.sharedInstance.logout()
+               }
             }
     }
     
@@ -316,8 +312,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
-    }
     
     // MARK: - UICollectionViewDataSource and Delegate methods
     
@@ -356,7 +350,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let product = productAtIndexPath(indexPath)
-        let productVM = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
+        let productVM = ProductViewModel(product: product)
         let vc = ProductViewController(viewModel: productVM)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -502,7 +496,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             noFavouritesLabel.hidden = true
             
             // set text depending on if we are the user being shown or not
-            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId { // user is me!
+            if user.objectId == MyUserRepository.sharedInstance.myUser?.objectId { // user is me!
                 youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
                 youDontHaveSubtitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsSubtitleLabel
                 youDontHaveSubtitleLabel.hidden = false

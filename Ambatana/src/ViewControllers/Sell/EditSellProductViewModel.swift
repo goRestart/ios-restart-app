@@ -17,17 +17,15 @@ public protocol UpdateDetailInfoDelegate : class {
 
 public class EditSellProductViewModel: BaseSellProductViewModel {
 
+    private var initialProduct: Product
     private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
-
-    private var initialProduct: Product
-
-    public init(product: Product) {
-
-        self.editedProduct = product
+    
+    public init(myUserRepository: MyUserRepository, productManager: ProductManager, tracker: Tracker, product: Product){
         self.initialProduct = product
-        super.init()
-
+        self.editedProduct = product
+        super.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker)
+        
         if let name = product.name {
             self.title = name
         }
@@ -35,10 +33,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
             self.currency = currency
         }
         if let price = product.price {
-            let numFormatter = NSNumberFormatter()
-            numFormatter.numberStyle = NSNumberFormatterStyle.DecimalStyle
-            numFormatter.usesGroupingSeparator = false
-            self.price = numFormatter.stringFromNumber(price)!
+            self.price = String.fromPriceDouble(price)
         }
         if let descr = product.descr {
             self.descr = descr
@@ -47,7 +42,15 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
         for file in product.images { productImages.append(file) }
     }
 
-
+    public convenience init(product: Product) {
+        let myUserRepository = MyUserRepository.sharedInstance
+        let productManager = ProductManager()
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker,
+            product: product)
+    }
+    
+    
     // MARK: - Public methods
 
     public override func save() {
@@ -59,7 +62,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
 
     override func trackStart() {
         super.trackStart()
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditStart(myUser, product: editedProduct)
         trackEvent(event)
     }
@@ -67,15 +70,14 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
 
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productEditFormValidationFailed(myUser, product: editedProduct,
-            description: error.rawValue)
+        let myUser = myUserRepository.myUser
+        let event = TrackerEvent.productEditFormValidationFailed(myUser, product: editedProduct, description: error.rawValue)
         trackEvent(event)
     }
 
     override func trackSharedFB() {
         super.trackSharedFB()
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditSharedFB(myUser, product: savedProduct)
         trackEvent(event)
     }
@@ -88,7 +90,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
         // if nothing is changed, we don't track the edition
         guard editedFields().count > 0  else { return }
 
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserRepository.myUser
         let event = TrackerEvent.productEditComplete(myUser, product: product, category: category,
             editedFields: editedFields())
         trackEvent(event)
@@ -99,7 +101,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
 
     private func trackEvent(event: TrackerEvent) {
         if shouldTrack {
-            TrackerProxy.sharedInstance.trackEvent(event)
+            tracker.trackEvent(event)
         }
     }
 
@@ -130,7 +132,8 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     }
 
     private func shareInFbChanged() -> Bool {
-        return MyUserManager.sharedInstance.myUser()?.didLogInByFacebook != shouldShareInFB
+        let fbLogin = myUserRepository.myUser?.authProvider == .Facebook
+        return fbLogin != shouldShareInFB
     }
 
 

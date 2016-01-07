@@ -21,8 +21,20 @@ func ==<T: Equatable>(lhs: [T]?, rhs: [T]?) -> Bool {
 
 // Comparable enums
 // Ref: http://stackoverflow.com/questions/27869397/swift-enumeration-order-and-comparison
-public func <<T: RawRepresentable where T.RawValue: Comparable>(a: T, b: T) -> Bool {
+public func < <T: RawRepresentable where T.RawValue: Comparable>(a: T, b: T) -> Bool {
     return a.rawValue < b.rawValue
+}
+
+public func <= <T: RawRepresentable where T.RawValue: Comparable>(a: T, b: T) -> Bool {
+    return a.rawValue <= b.rawValue
+}
+
+public func > <T: RawRepresentable where T.RawValue: Comparable>(a: T, b: T) -> Bool {
+    return a.rawValue > b.rawValue
+}
+
+public func >= <T: RawRepresentable where T.RawValue: Comparable>(a: T, b: T) -> Bool {
+    return a.rawValue >= b.rawValue
 }
 
 // Synchronizes a asynch closure

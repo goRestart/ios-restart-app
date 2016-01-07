@@ -14,15 +14,22 @@ public enum LGLocationType: String {
     case IPLookup   = "iplookup"
     case Regional   = "regional"
     case LastSaved  = "lastsaved"
+    
+    static let allValues: [LGLocationType] = [.Manual, .Sensor, .IPLookup, .Regional, .LastSaved]
 }
 
-public class LGLocation: CustomStringConvertible, Equatable {
+public final class LGLocation: CustomStringConvertible, Equatable {
     
     public private(set) var location : CLLocation
     public private(set) var type: LGLocationType
     
     public var coordinate: CLLocationCoordinate2D {
         return location.coordinate
+    }
+    
+    public init(latitude: Double, longitude: Double, type: LGLocationType) {
+        self.location = CLLocation(latitude: latitude, longitude: longitude)
+        self.type = type
     }
     
     public init(location: CLLocation, type: LGLocationType) {

@@ -82,7 +82,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // > User
     public var userName: String {
-        return product.user.publicUsername ?? ""
+        return product.user.name ?? ""
     }
     public var userAvatar: NSURL? {
         return product.user.avatar?.fileURL
@@ -104,9 +104,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // Data
     private var product: Product
     
-    // Manager
-    private var productManager: ProductManager
-    private var tracker: Tracker
+    // Repository & Manager
+    private let myUserRepository: MyUserRepository
+    private let productManager: ProductManager
+    private let tracker: Tracker
     
     // MARK: - Computed iVars
     
@@ -150,7 +151,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var productUserProfileViewModel: UIViewController? {
         guard let productUserId = product.user.objectId else { return nil }
 
-        guard let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId else {
+        guard let myUser = myUserRepository.myUser, let myUserId = myUser.objectId else {
             //In case i'm not logged just open seller's profile
             return EditProfileViewController(user: product.user)
         }
@@ -313,31 +314,41 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // MARK: - Lifecycle
     
-    public init(product: Product, tracker: Tracker) {
-        // My user
-        self.isFavourite = false
-        self.isReported = false
-        let productUser = product.user
-        if let productUserId = productUser.objectId, let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId {
-            self.isMine = ( productUserId == myUserId )
-        }
-        else {
-            self.isMine = false
-        }
-        
-        // Data
-        self.product = product
-        
-        // Manager
-        self.productManager = ProductManager()
-        self.tracker = TrackerProxy.sharedInstance
-        
-        super.init()
-        
-        // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let trackerEvent = TrackerEvent.productDetailVisit(product, user: myUser)
-        tracker.trackEvent(trackerEvent)
+    public convenience init(product: Product) {
+        let myUserRepository = MyUserRepository.sharedInstance
+        let productManager = ProductManager()
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, productManager: productManager,
+            product: product, tracker: tracker)
+    }
+    
+    public init(myUserRepository: MyUserRepository, productManager: ProductManager,
+        product: Product, tracker: Tracker) {
+            // My user
+            self.isFavourite = false
+            self.isReported = false
+            let productUser = product.user
+            if let productUserId = productUser.objectId, let myUser = myUserRepository.myUser,
+                let myUserId = myUser.objectId {
+                    self.isMine = ( productUserId == myUserId )
+            } else {
+                self.isMine = false
+            }
+            
+            // Data
+            self.product = product
+            
+            // Manager
+            self.myUserRepository = myUserRepository
+            self.productManager = productManager
+            self.tracker = tracker
+            
+            super.init()
+            
+            // Tracking
+            let myUser = myUserRepository.myUser
+            let trackerEvent = TrackerEvent.productDetailVisit(product, user: myUser)
+            tracker.trackEvent(trackerEvent)
     }
     
     internal override func didSetActive(active: Bool) {
@@ -425,84 +436,60 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: > Share
 
     public func shareInEmail(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Email, buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Email, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Facebook, buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Facebook, buttonPosition: buttonPosition)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
+        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser, network: .Facebook)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Facebook)
+        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser, network: .Facebook)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBMessenger() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger, buttonPosition: .Bottom)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .FBMessenger, buttonPosition: .Bottom)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBMessengerCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
+        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser, network: .FBMessenger)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBMessengerCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: MyUserManager.sharedInstance.myUser(), network: .FBMessenger)
+        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser, network: .FBMessenger)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Whatsapp, buttonPosition: .Bottom)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: .Bottom)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Whatsapp, buttonPosition: .Top)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: .Top)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: MyUserManager.sharedInstance.myUser(), network: .Twitter, buttonPosition: .Top)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Twitter, buttonPosition: .Top)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    func generateWhatsappURL() -> NSURL? {
-        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
-        guard let urlEncodedShareText = shareText.stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
-        return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
-    }
-    
-    public func canShareInWhatsapp() -> Bool {
-        guard let url = generateWhatsappURL() else { return false }
-        let application = UIApplication.sharedApplication()
-        return application.canOpenURL(url)
-    }
-    
-    /**
-    Detect if the user has the FB Messenger App installed.
-    Done manually because Facebook does not provide a way to do it with the SDK
-    
-    - returns: Wether the content can be shared in facebook-messenger or not
-    */
-    public func canShareInFBMessenger() -> Bool {
-        guard let url = NSURL(string: "fb-messenger-api://") else { return false }
-        let application = UIApplication.sharedApplication()
-        return application.canOpenURL(url)
     }
     
 
     // MARK: >  Report
     
     public func reportStarted() {
-        let trackerEvent = TrackerEvent.productReport(self.product, user: MyUserManager.sharedInstance.myUser())
+        let trackerEvent = TrackerEvent.productReport(product, user: myUserRepository.myUser)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
@@ -541,7 +528,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func deleteStarted() {
         // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
+        let myUser = myUserRepository.myUser
         let trackerEvent = TrackerEvent.productDeleteStart(product, user: myUser)
         tracker.trackEvent(trackerEvent)
     }
@@ -574,40 +561,39 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // TODO: Refactor when Chat is following MVVM
     public func ask() {
-        if let myUser = MyUserManager.sharedInstance.myUser() {
-
-            // Notify the delegate
-            delegate?.viewModelDidStartAsking(self)
-            
-            // Retrieve the chat
-            ChatManager.sharedInstance.retrieveChatWithProduct(product, buyer: myUser) { [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
-                if let strongSelf = self, let actualDelegate = strongSelf.delegate {
-                    
-                    var result = Result<UIViewController, ChatRetrieveServiceError>(error: .Internal)
-                    
-                    // Success
-                    if let chat = retrieveResult.value, let viewModel = ChatViewModel(chat: chat) {
-                        viewModel.askQuestion = true
-                        let vc = ChatViewController(viewModel: viewModel)
-                        result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
-                    }
-                    // Error
-                    if let error = retrieveResult.error {
-                        switch error {
-                        // If not found, then no conversation has been created yet, it's a success
-                        case .NotFound:
-                            if let viewModel = ChatViewModel(product: strongSelf.product, askQuestion: true) {
-                                let vc = ChatViewController(viewModel: viewModel)
-                                result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
-                            }
-                        case .Network, .Unauthorized, .Internal, .Forbidden:
-                            result = Result<UIViewController, ChatRetrieveServiceError>(error: error)
-                        }
-                    }
-                    
-                    // Notify the delegate
-                    actualDelegate.viewModel(strongSelf, didFinishAsking: result)
+        guard let myUser = myUserRepository.myUser else { return }
+        
+        // Notify the delegate
+        delegate?.viewModelDidStartAsking(self)
+        
+        // Retrieve the chat
+        ChatManager.sharedInstance.retrieveChatWithProduct(product, buyer: myUser) { [weak self] retrieveResult in
+            if let strongSelf = self, let actualDelegate = strongSelf.delegate {
+                
+                var result = Result<UIViewController, ChatRetrieveServiceError>(error: .Internal)
+                
+                // Success
+                if let chat = retrieveResult.value, let viewModel = ChatViewModel(chat: chat) {
+                    viewModel.askQuestion = true
+                    let vc = ChatViewController(viewModel: viewModel)
+                    result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
                 }
+                // Error
+                if let error = retrieveResult.error {
+                    switch error {
+                        // If not found, then no conversation has been created yet, it's a success
+                    case .NotFound:
+                        if let viewModel = ChatViewModel(product: strongSelf.product, askQuestion: true) {
+                            let vc = ChatViewController(viewModel: viewModel)
+                            result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
+                        }
+                    case .Network, .Unauthorized, .Internal, .Forbidden:
+                        result = Result<UIViewController, ChatRetrieveServiceError>(error: error)
+                    }
+                }
+                
+                // Notify the delegate
+                actualDelegate.viewModel(strongSelf, didFinishAsking: result)
             }
         }
     }
@@ -677,28 +663,25 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     private func markSoldCompleted(soldProduct: Product, source: EventParameterSellSourceValue) {
         // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: soldProduct, user: myUser)
+        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: soldProduct, user: myUserRepository.myUser)
         tracker.trackEvent(trackerEvent)
         
     }
     
     private func markUnsoldCompleted(unsoldProduct: Product) {
         // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let trackerEvent = TrackerEvent.productMarkAsUnsold(unsoldProduct, user: myUser)
+        let trackerEvent = TrackerEvent.productMarkAsUnsold(unsoldProduct, user: myUserRepository.myUser)
         tracker.trackEvent(trackerEvent)
         
     }
     private func deleteCompleted() {
         // Tracking
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let trackerEvent = TrackerEvent.productDeleteComplete(product, user: myUser)
+        let trackerEvent = TrackerEvent.productDeleteComplete(product, user: myUserRepository.myUser)
         tracker.trackEvent(trackerEvent)
     }
     
     private func saveFavouriteCompleted() {
-        let trackerEvent = TrackerEvent.productFavorite(self.product, user: MyUserManager.sharedInstance.myUser())
+        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     

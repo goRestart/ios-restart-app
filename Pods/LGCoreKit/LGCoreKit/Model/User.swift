@@ -7,11 +7,8 @@
 //
 
 public protocol User: BaseModel {
-    
-    var publicUsername: String? { get }
+    var name: String? { get }
     var avatar: File? { get }
     var postalAddress: PostalAddress { get }
     var isDummy: Bool { get }
-    
-
 }

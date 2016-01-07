@@ -11,7 +11,8 @@ import MapKit
 import LGCoreKit
 import Result
 
-class EditUserLocationViewController: BaseViewController, EditUserLocationViewModelDelegate, MKMapViewDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
+class EditUserLocationViewController: BaseViewController, EditUserLocationViewModelDelegate, MKMapViewDelegate,
+UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 
     // UI
     @IBOutlet weak var mapView: MKMapView!
@@ -81,11 +82,9 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         
         viewModel.goToLocation(resultsIndex)
     }
-    
-    
+
     func applyBarButtonPressed() {
         viewModel.applyLocation()
-        self.popBackViewController()
     }
     
     
@@ -102,13 +101,15 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
  
     func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String]) {
 
-        //If searchfield is not first responder means user is not typing so doesn't make sense to show/update suggestions table
+        /*If searchfield is not first responder means user is not typing so doesn't make sense to show/update 
+        suggestions table*/
         if !searchField.isFirstResponder() {
             return
         }
         
         let newHeight = CGFloat(results.count*44)
-        suggestionsTableView.frame = CGRectMake(suggestionsTableView.frame.origin.x, suggestionsTableView.frame.origin.y, suggestionsTableView.frame.size.width, newHeight);
+        suggestionsTableView.frame = CGRectMake(suggestionsTableView.frame.origin.x,
+            suggestionsTableView.frame.origin.y, suggestionsTableView.frame.size.width, newHeight);
         suggestionsTableView.hidden = false
         suggestionsTableView.reloadData()
     }
@@ -118,45 +119,63 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     }
 
     
-    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult result: SearchLocationSuggestionsServiceResult) {
+    func viewModel(viewModel: EditUserLocationViewModel,
+        didFailToFindLocationWithResult result: SearchLocationSuggestionsServiceResult) {
         
-        var completion: (() -> Void)? = nil
-        
-        switch (result) {
-        case .Success:
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeLocationErrorSearchLocationMessage)
+            var completion: (() -> Void)? = nil
+            
+            switch (result) {
+            case .Success:
+                completion = { [weak self] in
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.changeLocationErrorSearchLocationMessage)
+                }
+                break
+            case .Failure(let error):
+                let message: String
+                switch (error) {
+                case .Network:
+                    message = LGLocalizedString.changeLocationErrorSearchLocationMessage
+                case .Internal:
+                    message = LGLocalizedString.changeLocationErrorSearchLocationMessage
+                case .NotFound:
+                    message = String(format: LGLocalizedString.changeLocationErrorUnknownLocationMessage,
+                        arguments: [searchField.text ?? ""])
+                }
+                completion = { [weak self] in
+                    self?.showAutoFadingOutMessageAlert(message)
+                }
             }
-            break
-        case .Failure(let error):
-            let message: String
-            switch (error) {
-            case .Network:
-                message = LGLocalizedString.changeLocationErrorSearchLocationMessage
-            case .Internal:
-                message = LGLocalizedString.changeLocationErrorSearchLocationMessage
-            case .NotFound:
-                message = String(format: LGLocalizedString.changeLocationErrorUnknownLocationMessage, arguments: [searchField.text ?? ""])
-            }
-            completion = {
-                self.showAutoFadingOutMessageAlert(message)
-            }
-        }
-        
-        dismissLoadingMessageAlert(completion)
-        
-        // Showing keyboard again as the user must update the text
-        searchField.becomeFirstResponder()
+            
+            dismissLoadingMessageAlert(completion)
+            
+            // Showing keyboard again as the user must update the text
+            searchField.becomeFirstResponder()
     }
 
     
-    func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D, withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
-        dismissLoadingMessageAlert()
-        centerMapInLocation(location, withPostalAddress: postalAddress, approximate: approximate)
-        viewModel.goingToLocation = false
+    func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D,
+        withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
+            dismissLoadingMessageAlert()
+            centerMapInLocation(location, withPostalAddress: postalAddress, approximate: approximate)
+            viewModel.goingToLocation = false
     }
-    
-    
+
+    func viewModelDidStartApplyingLocation(viewModel: EditUserLocationViewModel) {
+        showLoadingMessageAlert()
+    }
+
+    func viewModelDidApplyLocation(viewModel: EditUserLocationViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.popBackViewController()
+        }
+    }
+
+    func viewModelDidFailApplyingLocation(viewModel: EditUserLocationViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.commonError)
+        }
+    }
+
     // MARK: - MapView methods
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -191,16 +210,17 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         super.touchesBegan(touches, withEvent: event)
     }
 
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        if let textFieldText = textField.text {
-            let searchText = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            
-            if searchText.isEmpty {
-                suggestionsTableView.hidden = true
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+        replacementString string: String) -> Bool {
+            if let tfText = textField.text {
+                let searchText = (tfText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+                
+                if searchText.isEmpty {
+                    suggestionsTableView.hidden = true
+                }
+                viewModel.searchText = searchText
             }
-            viewModel.searchText = searchText
-        }
-        return true
+            return true
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
@@ -277,50 +297,54 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         
         self.setLetGoNavigationBarStyle(LGLocalizedString.changeLocationTitle)
         
-        applyBarButton = UIBarButtonItem(title: LGLocalizedString.changeLocationApplyButton, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("applyBarButtonPressed"))
+        applyBarButton = UIBarButtonItem(title: LGLocalizedString.changeLocationApplyButton,
+            style: UIBarButtonItemStyle.Plain, target: self, action: Selector("applyBarButtonPressed"))
         self.navigationItem.rightBarButtonItem = applyBarButton;
 
         suggestionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
     }
     
-    private func centerMapInLocation(coordinate: CLLocationCoordinate2D, withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
+    private func centerMapInLocation(coordinate: CLLocationCoordinate2D,
+        withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
         
-        mapView.removeAnnotations(mapView.annotations)
-        mapView.removeOverlays(mapView.overlays)
-        
-        if !approximate {
-            let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius, Constants.accurateRegionRadius)
-            self.mapView.setRegion(region, animated: true)
+            mapView.removeAnnotations(mapView.annotations)
+            mapView.removeOverlays(mapView.overlays)
             
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            if let title = postalAddress?.address {
-                annotation.title = title
-            }
-            var subtitle = ""
-            if let zipCode = postalAddress?.zipCode {
-                subtitle += zipCode
-            }
-            if let city = postalAddress?.city {
-                if !subtitle.isEmpty {
-                    subtitle += " "
+            if !approximate {
+                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius,
+                    Constants.accurateRegionRadius)
+                self.mapView.setRegion(region, animated: true)
+                
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = coordinate
+                if let title = postalAddress?.address {
+                    annotation.title = title
                 }
-                subtitle += city
+                var subtitle = ""
+                if let zipCode = postalAddress?.zipCode {
+                    subtitle += zipCode
+                }
+                if let city = postalAddress?.city {
+                    if !subtitle.isEmpty {
+                        subtitle += " "
+                    }
+                    subtitle += city
+                }
+                annotation.subtitle = subtitle
+                
+                mapView.addAnnotation(annotation)
+                mapView.selectAnnotation(annotation, animated: true)
+                
             }
-            annotation.subtitle = subtitle
-            
-            mapView.addAnnotation(annotation)
-            mapView.selectAnnotation(annotation, animated: true)
-            
-        }
-        else {
-            let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius, Constants.nonAccurateRegionRadius)
-            mapView.setRegion(region, animated: true)
-            
-            // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
-            let circle = MKCircle(centerCoordinate:coordinate, radius: Constants.nonAccurateRegionRadius*0.40)
-            mapView.addOverlay(circle)
-        }
+            else {
+                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius,
+                    Constants.nonAccurateRegionRadius)
+                mapView.setRegion(region, animated: true)
+                
+                // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
+                let circle = MKCircle(centerCoordinate:coordinate, radius: Constants.nonAccurateRegionRadius*0.40)
+                mapView.addOverlay(circle)
+            }
     }
 }

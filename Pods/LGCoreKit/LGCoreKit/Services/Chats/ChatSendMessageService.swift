@@ -29,6 +29,19 @@ public enum ChatSendMessageServiceError: ErrorType, CustomStringConvertible {
             return "Forbidden"
         }
     }
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Scammer:
+            self = .Forbidden
+        case .NotFound:
+            self = .NotFound
+        case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias ChatSendMessageServiceResult = Result<Message, ChatSendMessageServiceError>

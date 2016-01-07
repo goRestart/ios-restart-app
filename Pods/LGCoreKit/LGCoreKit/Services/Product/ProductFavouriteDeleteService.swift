@@ -20,6 +20,15 @@ public enum ProductFavouriteDeleteServiceError: ErrorType, CustomStringConvertib
             return "Internal"
         }
     }
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .Scammer, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias ProductFavouriteDeleteServiceResult = Result<Nil, ProductFavouriteDeleteServiceError>

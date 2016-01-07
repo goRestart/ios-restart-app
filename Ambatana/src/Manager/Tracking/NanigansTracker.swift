@@ -82,7 +82,7 @@ public class NanigansTracker: Tracker {
                 for (name, value) in params {
                     nanStringKeyParams[name] = value
                 }
-                if let email = MyUserManager.sharedInstance.myUser()?.email {
+                if let email = MyUserRepository.sharedInstance.myUser?.email {
                     nanStringKeyParams["ut1"] = stringSha256(email)
                 }
             }

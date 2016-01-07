@@ -21,7 +21,7 @@ public struct LGCoreKitConstants {
     
     static let httpHeaderUserToken = "X-Letgo-Parse-User-Token"
     
-    static let maxDistanceToAskUpdateLocation = 1000.0
+    static let defaultManualLocationThreshold = 1000.0
     static let locationRetrievalTimeout: NSTimeInterval = 10    // seconds
     
     static let locationDistanceFilter: CLLocationDistance = 250

@@ -6,72 +6,42 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-
-import Alamofire
 import Result
+import Argo
 
 final public class LGUserProductsRetrieveService: UserProductsRetrieveService {
     
-    // Constants
-    public static let endpoint = "/api/users"
-    
-    // iVars
-    var url: String
-    
-    // MARK: - Lifecycle
-    
-    public init(baseURL: String) {
-        
-        self.url = baseURL + LGUserProductsRetrieveService.endpoint
-    }
-    
-    public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
-    }
-    
-    // MARK: - ProductsRetrieveService
+    public init() {}
     
     public func retrieveUserProductsWithParams(params: RetrieveProductsParams, completion: ProductsRetrieveServiceCompletion?) {
         
-        var fullUrl = ""
-        if let userId = params.userObjectId {
-            fullUrl = "\(url)/\(userId)/products"
-        } else {
+        guard let userId = params.userObjectId  else {
             completion?(ProductsRetrieveServiceResult(error: .Internal))
+            return
         }
         
-        let parameters = params.userProductApiParams
+        struct CustomProductsResponse: ProductsResponse {
+            var products: [Product]
+        }
         
-        let sessionToken : String = MyUserManager.sharedInstance.myUser()?.sessionToken ?? ""
-        
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
-
-        Alamofire.request(.GET, fullUrl, parameters: parameters, headers: headers)
-            .validate(statusCode: 200..<400)
-            .responseObject {  (productsResponse: Response<LGProductsResponse, NSError>) in
-                // Error
-                if let actualError = productsResponse.result.error {
-                    if actualError.domain == NSURLErrorDomain {
-                        completion?(ProductsRetrieveServiceResult(error: .Network))
-                    } else if let statusCode = productsResponse.response?.statusCode {
-                        switch statusCode {
-                        case 403:
-                            completion?(ProductsRetrieveServiceResult(error: .Forbidden))
-                        default:
-                            completion?(ProductsRetrieveServiceResult(error: .Internal))
-                        }
-                    }
-                    else {
-                        completion?(ProductsRetrieveServiceResult(error: .Internal))
-                    }
-                }
-                // Success
-                else if let actualProductsResponse = productsResponse.result.value {
-                    completion?(ProductsRetrieveServiceResult(value: actualProductsResponse))
-                }
+        let request = ProductRouter.IndexForUser(userId: userId, params: params.userProductApiParams)
+        ApiClient.request(request, decoder: LGUserProductsRetrieveService.decoder) {
+            (result : Result<[Product], ApiError>) -> () in
+            
+            if let value = result.value {
+                completion?(ProductsRetrieveServiceResult(value: CustomProductsResponse(products: value)))
+            } else if let error = result.error {
+                completion?(ProductsRetrieveServiceResult(error: ProductsRetrieveServiceError(apiError: error)))
             }
+        }
+    }
+
+    static func decoder(object: AnyObject) -> [Product]? {
+        guard let theProduct : [LGProduct] = decode(object) else {
+            return nil
+        }
+
+        return theProduct.map{$0}
     }
 }
 

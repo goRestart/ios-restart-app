@@ -18,6 +18,18 @@ public enum ProductSaveServiceError: String, ErrorType {
     case LongDescription = "description too long"
     case NoCategory = "no category selected"
     case Forbidden = "forbidden"
+    
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Scammer:
+            self = .Forbidden
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        case .Network:
+            self = .Network
+        }
+    }
 }
 
 public typealias ProductSaveServiceResult = Result<Product, ProductSaveServiceError>

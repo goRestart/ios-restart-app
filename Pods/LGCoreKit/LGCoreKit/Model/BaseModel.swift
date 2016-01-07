@@ -15,4 +15,8 @@ public extension BaseModel {
     public var isSaved: Bool {
         return objectId != nil
     }
+    
+    func toDictionary() -> [String: AnyObject] {
+        return Mirror(reflecting: self).toDictionary()
+    }
 }

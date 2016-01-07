@@ -40,27 +40,27 @@ public class PushManager: NSObject, KahunaDelegate {
     public static let sharedInstance: PushManager = PushManager()
 
     // Services
-    private var installationSaveService: InstallationSaveService
-
+    private var installationRepository: InstallationRepository
+    
     // iVars
     public private(set) var unreadMessagesCount: Int
 
     // MARK: - Lifecycle
 
-    public required init(installationSaveService: InstallationSaveService) {
-        self.installationSaveService = installationSaveService
+    public required init(installationRepository: InstallationRepository) {
+        self.installationRepository = installationRepository
         unreadMessagesCount = 0
         super.init()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "login:",
-            name: MyUserManager.Notification.login.rawValue, object: nil)
+            name: SessionManager.Notification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:",
-            name: MyUserManager.Notification.logout.rawValue, object: nil)
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
     public convenience override init() {
-        let installationSaveService = PAInstallationSaveService()
-        self.init(installationSaveService: installationSaveService)
+        let installationRepository = InstallationRepository()
+        self.init(installationRepository: installationRepository)
     }
 
     deinit {
@@ -133,12 +133,6 @@ public class PushManager: NSObject, KahunaDelegate {
                 if application.applicationState == .Active {
                     if let newBadge = self.getBadgeNumberFromNotification(userInfo) {
                         UIApplication.sharedApplication().applicationIconBadgeNumber = newBadge
-                        PFInstallation.currentInstallation().badge = newBadge
-                        PFInstallation.currentInstallation().saveInBackgroundWithBlock({ (success, error) -> Void in
-                            if !success {
-                                PFInstallation.currentInstallation().saveEventually(nil)
-                            }
-                        })
                     }
                 } else {
                     guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
@@ -155,20 +149,19 @@ public class PushManager: NSObject, KahunaDelegate {
 
     public func application(application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-            // Save the installation with the received device token
-            MyUserManager.sharedInstance.saveInstallationDeviceToken(deviceToken)
-            Kahuna.setDeviceToken(deviceToken);
+            installationRepository.updatePushToken(tokenStringFromData(deviceToken), completion: nil)
+            Kahuna.setDeviceToken(deviceToken)
     }
 
     public func application(application: UIApplication,
         didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-            Kahuna.handleNotificationRegistrationFailure(error);
+            Kahuna.handleNotificationRegistrationFailure(error)
     }
 
     public func application(application: UIApplication, handleActionWithIdentifier identifier: String?,
         forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
             Kahuna.handleNotification(userInfo, withActionIdentifier: identifier,
-                withApplicationState: UIApplication.sharedApplication().applicationState);
+                withApplicationState: UIApplication.sharedApplication().applicationState)
     }
 
     public func application(application: UIApplication,
@@ -199,11 +192,6 @@ public class PushManager: NSObject, KahunaDelegate {
                 if let _ = self {
                     // Update the unread message count
                     self?.unreadMessagesCount = count
-
-                    // Update installation's badge
-                    let installation = PFInstallation.currentInstallation()
-                    installation.badge = count
-                    self?.installationSaveService.save(installation, completion: nil)
                 }
                 // Update app's badge
                 UIApplication.sharedApplication().applicationIconBadgeNumber = count
@@ -216,9 +204,15 @@ public class PushManager: NSObject, KahunaDelegate {
 
     
     // MARK: - Private methods
+    
+    private func tokenStringFromData(data: NSData) -> String {
+        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+        return (data.description as NSString).stringByTrimmingCharactersInSet(characterSet)
+            .stringByReplacingOccurrencesOfString(" ", withString: "") as String
+    }
 
     private func setupKahuna() {
-        Kahuna.launchWithKey(EnvironmentProxy.sharedInstance.kahunaAPIKey);
+        Kahuna.launchWithKey(EnvironmentProxy.sharedInstance.kahunaAPIKey)
     }
 
     dynamic private func login(notification: NSNotification) {

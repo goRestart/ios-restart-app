@@ -31,16 +31,24 @@ public class ProfileProductListViewModel: ProductListViewModel {
         }
     }
     
+    // Repositories
+    let myUserRepository: MyUserRepository
+    
     // MARK: - Lifecycle
     
-    public init(user: User? = nil, type: ProfileProductListViewType = .Selling) {
-        self.user = user ?? MyUserManager.sharedInstance.myUser()
-        self.type = type
+    public init(myUserRepository: MyUserRepository, user: User?, type: ProfileProductListViewType?) {
+        self.myUserRepository = myUserRepository
+        self.user = user ?? myUserRepository.myUser
+        self.type = type ?? .Selling
         super.init()
         
         self.isProfileList = true
-        
         self.sortCriteria = .Creation
+    }
+    
+    public convenience init(user: User? = nil, type: ProfileProductListViewType? = .Selling) {
+        let myUserRepository = MyUserRepository.sharedInstance
+        self.init(myUserRepository: myUserRepository, user: user, type: type)
     }
     
 }

@@ -15,14 +15,6 @@ public struct PostalAddress {
     public var zipCode: String?
     public var countryCode: String?
     public var country : String?
-    
-    public init(address: String?, city: String?, zipCode: String?, countryCode: String?, country : String?){
-        self.address = address
-        self.city = city
-        self.zipCode = zipCode
-        self.countryCode = countryCode
-        self.country = country
-    }
 }
 
 extension PostalAddress : Decodable {

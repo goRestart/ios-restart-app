@@ -6,11 +6,12 @@
 //  Copyright © 2015 Ambatana Inc. All rights reserved.
 //
 
+import Argo
+import CoreLocation
 import Foundation
 
-import Argo
 
-public class LGArgo{
+public class LGArgo {
     
     public static func mandatoryWithFallback <A where A: Decodable, A == A.DecodedType>(json json: JSON, key: String, fallback: A) -> Decoded<A> {
         let result : Decoded<A> = json <| key
@@ -31,6 +32,13 @@ public class LGArgo{
         }
     }
     
+    public static func jsonToCoordinates(input: JSON) -> Decoded<LGLocationCoordinates2D?> {
+        guard let latitude : Double = input <| "latitude", let longitude : Double = input <| "longitude" else {
+            return Decoded<LGLocationCoordinates2D?>.Success(nil)
+        }
+        return Decoded<LGLocationCoordinates2D?>.Success(LGLocationCoordinates2D(latitude: latitude, longitude: longitude))
+    }
+    
     public static func jsonToCoordinates(input: JSON?, latKey: String, lonKey: String) -> Decoded<LGLocationCoordinates2D> {
         guard let jsonInput = input else {
             return Decoded<LGLocationCoordinates2D>.customError("Missing Json input")
@@ -44,6 +52,22 @@ public class LGArgo{
         }
         
         return Decoded<LGLocationCoordinates2D>.Success(LGLocationCoordinates2D(latitude: latitude, longitude: longitude))
+    }
+    
+    public static func jsonToLocation(json: JSON, latKey: String, lonKey: String) -> Decoded<LGLocation?> {
+        guard let latitude : Double = json <| latKey else { return Decoded<LGLocation?>.Success(nil) }
+        guard let longitude : Double = json <| lonKey else { return Decoded<LGLocation?>.Success(nil) }
+        
+        let clLocation = CLLocation(latitude: latitude, longitude: longitude)
+        let location = LGLocation(location: clLocation, type: .LastSaved)
+        return Decoded<LGLocation?>.Success(location)
+    }
+    
+    public static func jsonToAvatarFile(input: JSON, avatarKey: String) -> Decoded<File?> {
+        guard let fileUrl : String = input <| avatarKey else {
+            return Decoded<File?>.Success(nil)
+        }
+        return Decoded<File?>.Success(LGFile(id: nil, urlString: fileUrl))
     }
     
     public static func jsonArrayToFileArray(input: [JSON]?) -> Decoded<[LGFile]> {

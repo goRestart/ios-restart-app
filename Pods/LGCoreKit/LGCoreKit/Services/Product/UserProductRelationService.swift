@@ -21,6 +21,15 @@ public enum UserProductRelationServiceError: ErrorType, CustomStringConvertible 
             return "Internal"
         }
     }
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Internal, .Unauthorized, .NotFound, .Scammer, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        case .Network:
+            self = .Network
+        }
+    }
 }
 
 public typealias UserProductRelationServiceResult = Result<UserProductRelation, UserProductRelationServiceError>

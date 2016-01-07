@@ -26,6 +26,17 @@ public enum ChatsUnreadCountRetrieveServiceError: ErrorType, CustomStringConvert
             return "Forbidden"
         }
     }
+    
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Scammer:
+            self = .Forbidden
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias ChatsUnreadCountRetrieveServiceResult = Result<Int, ChatsUnreadCountRetrieveServiceError>

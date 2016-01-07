@@ -15,6 +15,7 @@ public protocol Environment {
 
     // API
     var apiBaseURL: String { get }
+    var bouncerBaseURL: String { get }
 
     // Config
     var configURL: String { get }

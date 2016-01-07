@@ -102,7 +102,7 @@ public class KahunaTracker: Tracker {
         
         var userAttributes : Dictionary = Dictionary(dictionaryLiteral:("last_session_end_date", dateFormatter.stringFromDate(NSDate())), ("UUID", ""))
         
-        if let userID = MyUserManager.sharedInstance.myUser()?.objectId {
+        if let userID = MyUserRepository.sharedInstance.myUser?.objectId {
             userAttributes["UUID"] = userID
         }
 
@@ -119,7 +119,7 @@ public class KahunaTracker: Tracker {
         
         var userAttributes : Dictionary = Dictionary(dictionaryLiteral:("last_session_start_date", dateFormatter.stringFromDate(NSDate())), ("UUID", ""))
 
-        if let userID = MyUserManager.sharedInstance.myUser()?.objectId {
+        if let userID = MyUserRepository.sharedInstance.myUser?.objectId {
             userAttributes["UUID"] = userID
         }
         
@@ -135,24 +135,23 @@ public class KahunaTracker: Tracker {
     
 
     public func setUser(user: MyUser?) {
-        
-        if let actualUser = user {
+        if let user = user {
             
             var userAttributes : [NSObject:AnyObject] = [:]
             
             let version =  NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
             let language = NSLocale.preferredLanguages()[0]
 
-            userAttributes["public_username"] = actualUser.publicUsername ?? ""
+            userAttributes["public_username"] = user.name ?? ""
             userAttributes["language"] = language
             userAttributes["app_version"] = version
             
-            if let latitude = actualUser.gpsCoordinates?.latitude, let longitude = actualUser.gpsCoordinates?.longitude {
+            if let latitude = user.location?.coordinate.latitude, let longitude = user.location?.coordinate.longitude {
                 userAttributes["latitude"] = latitude
                 userAttributes["longitude"] = longitude
                 
-                userAttributes["city"] = actualUser.postalAddress.city ?? ""
-                userAttributes["country_code"] = actualUser.postalAddress.countryCode ?? ""
+                userAttributes["city"] = user.postalAddress.city ?? ""
+                userAttributes["country_code"] = user.postalAddress.countryCode ?? ""
             }
 
             // TODO: kahuna os???

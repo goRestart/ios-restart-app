@@ -65,7 +65,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     override func sellProductViewModel(viewModel: BaseSellProductViewModel,
         didFailWithError error: ProductSaveServiceError) {
         
-        super.sellProductViewModel(viewModel, didFailWithError: error)
+            super.sellProductViewModel(viewModel, didFailWithError: error)
 
             var completion: ((Void) -> Void)? = nil
             
@@ -86,8 +86,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
             case .NoDescription:
                 message = LGLocalizedString.sellSendErrorInvalidDescription
             case .LongDescription:
-                message = String(format: LGLocalizedString.sellSendErrorInvalidDescriptionTooLong,
-                    Constants.productDescriptionMaxLength)
+                message = String(format: LGLocalizedString.sellSendErrorInvalidDescriptionTooLong, Constants.productDescriptionMaxLength)
             case .NoCategory:
                 message = LGLocalizedString.sellSendErrorInvalidCategory
             case .Forbidden:
@@ -96,7 +95,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
                 completion = {
                     self.editViewModel.shouldEnableTracking()
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        MyUserManager.sharedInstance.logout(nil)
+                        SessionManager.sharedInstance.logout()
                     })
                 }
             }

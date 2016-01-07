@@ -21,6 +21,15 @@ public enum UserRetrieveServiceError: ErrorType, CustomStringConvertible {
             return "Internal"
         }
     }
+
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Scammer, .NotFound, .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias UserRetrieveServiceResult = Result<User, UserRetrieveServiceError>

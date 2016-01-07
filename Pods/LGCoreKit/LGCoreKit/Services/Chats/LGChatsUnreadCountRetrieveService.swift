@@ -6,58 +6,29 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
 import Result
+import Argo
 
 public class LGChatsUnreadCountRetrieveService: ChatsUnreadCountRetrieveService {
 
-    public static let endpoint = "/api/products/messages/unread-count"
+    public func retrieveUnreadMessageCountWithSessionToken(sessionToken: String,
+        completion: ChatsUnreadCountRetrieveServiceCompletion?) {
 
-    // iVars
-    var url: String
-    
-    // MARK: - Lifecycle
-    
-    public init(baseURL: String) {
-        self.url = baseURL + LGChatsUnreadCountRetrieveService.endpoint
-    }
-    
-    public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
-    }
-    
-    // MARK: - ChatsUnreadCountRetrieveService
-    
-    public func retrieveUnreadMessageCountWithSessionToken(sessionToken: String, completion: ChatsUnreadCountRetrieveServiceCompletion?) {
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
-        Alamofire.request(.GET, url, headers: headers)
-            .validate(statusCode: 200..<400)
-            .responseObject({ (response: Response<LGChatsUnreadCountResponse, NSError>) -> Void in
-                // Success
-                if let chatsUnreadCountResponse = response.result.value {
-                    completion?(ChatsUnreadCountRetrieveServiceResult(value: chatsUnreadCountResponse.count))
+            let request = ChatRouter.UnreadCount
+            ApiClient.request(request, decoder: LGChatsUnreadCountRetrieveService.decoder) {
+                (result: Result<Int, ApiError>) -> () in
+                
+                if let value = result.value {
+                    completion?(ChatsUnreadCountRetrieveServiceResult(value: value))
+                } else if let error = result.error {
+                    let countError = ChatsUnreadCountRetrieveServiceError(apiError: error)
+                    completion?(ChatsUnreadCountRetrieveServiceResult(error: countError))
                 }
-                // Error
-                else if let actualError = response.result.error {
-                    if actualError.domain == NSURLErrorDomain {
-                        completion?(ChatsUnreadCountRetrieveServiceResult(error: .Network))
-                    }
-                    else if let statusCode = response.response?.statusCode {
-                        switch statusCode {
-                        case 401:
-                            completion?(ChatsUnreadCountRetrieveServiceResult(error: .Unauthorized))
-                        case 403:
-                            completion?(ChatsUnreadCountRetrieveServiceResult(error: .Forbidden))
-                        default:
-                            completion?(ChatsUnreadCountRetrieveServiceResult(error: .Internal))
-                        }
-                    }
-                    else {
-                        completion?(ChatsUnreadCountRetrieveServiceResult(error: .Internal))
-                    }
-                }
-            })
+            }
+    }
+
+    static func decoder(object: AnyObject) -> Int? {
+        let count: Int? = JSON.parse(object) <| "count"
+        return count
     }
 }

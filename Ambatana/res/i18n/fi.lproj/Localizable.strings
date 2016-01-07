@@ -98,8 +98,10 @@
 "contact_title" = "Ota meihin yhteyttä";
 "custom_permission_chat_message" = "Aktivoi ilmoitukset saadaksesi välittömästi tiedon, kun joku vastaa.";
 "custom_permission_chat_title" = "PYSY AJAN TASALLA";
-"custom_permission_list_message" = "Aktivoi ilmoitukset saadaksesi uutisia letgolta ja uusista tuotteista.";
-"custom_permission_list_title" = "TERVETULOA!";
+"custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
+"custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
+"custom_permission_list_title_B" = "BUY & SELL FASTER";
 "custom_permission_sell_message" = "Aktivoi ilmoitukset saadaksesi tiedon, kun joku haluaa ostaa tuotteesi.";
 "custom_permission_sell_title" = "MYY NOPEAMMIN";
 "edit_product_send_button" = "Päivitä";
@@ -198,7 +200,7 @@
 "product_post_confirmation_edit" = "Lisää tietoja";
 "product_post_confirmation_share" = "Jaa";
 "product_post_confirmation_subtitle" = "Se tulee näkyviin letgoon 10 minuutissa.";
-"product_post_confirmation_title" = "Tuotettasi käsitellään!";
+"product_post_confirmation_title" = "Onneksi olkoon!";
 "product_post_done" = "Valmis";
 "product_post_generic_error" = "Tuotettasi julkaistessa tapahtui virhe.";
 "product_post_network_error" = "Tuotettasi ei ole julkaistu.\nOle hyvä ja tarkista verkkoasetuksesi.";

@@ -24,7 +24,7 @@ public protocol ContactViewModelDelegate: class {
 public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDelegate {
     
     // Manager & Services
-    private let myUserManager: MyUserManager
+    private let myUserRepository: MyUserRepository
     private let contactService : ContactSendService
     
     // View Model
@@ -64,19 +64,19 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     
     // MARK: - Lifecycle
     
-    public required init(myUserManager: MyUserManager, contactService: ContactSendService) {
-        self.myUserManager = myUserManager
+    public required init(myUserRepository: MyUserRepository, contactService: ContactSendService) {
+        self.myUserRepository = myUserRepository
         self.contactService = contactService
-        self.email = myUserManager.myUser()?.email ?? ""
+        self.email = myUserRepository.myUser?.email ?? ""
         self.subject = nil
         self.message = ""
         super.init()
     }
     
     public convenience override init() {
-        let myUserManager = MyUserManager.sharedInstance
+        let myUserRepository = MyUserRepository.sharedInstance
         let contactService = LGContactSendService()
-        self.init(myUserManager: myUserManager, contactService: contactService)
+        self.init(myUserRepository: myUserRepository, contactService: contactService)
     }
     
     // MARK: - Public methods
@@ -98,18 +98,13 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     public func sendContact() {
         
         if self.email.isEmail() {
-            let contact = MyUserManager.sharedInstance.newContactWithEmail(
-                                    email,
-                                    title: subject?.name ?? "",
-                                    message: self.message + systemInfoForMessage() + " " + self.email
-                                )
-            
-            let sessionToken = MyUserManager.sharedInstance.myUser()?.sessionToken
+            let contact = LGContact(email: email, title: subject?.name ?? "",
+                message: self.message + systemInfoForMessage() + " " + self.email)
             
             delegate?.viewModelDidStartSendingContact(self)
             
             // Send the contact
-            self.contactService.sendContact(contact, sessionToken: sessionToken) { [weak self] (finalResult: ContactSendServiceResult) in
+            self.contactService.sendContact(contact, sessionToken: "") { [weak self] (finalResult: ContactSendServiceResult) in
                 
                 if let strongSelf = self {
                     if let actualDelegate = strongSelf.delegate {
@@ -128,7 +123,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
             
             // Save the email if
             if shouldUpdateMyEmail() {
-                self.myUserManager.updateEmail(email, completion: nil)
+                myUserRepository.updateEmail(email, completion: nil)
             }
         } else {
             delegate?.viewModel(self, didFailValidationWithError: .InvalidEmail)
@@ -143,7 +138,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     
     private func shouldUpdateMyEmail() -> Bool {
         // Should update the email if nil or empty
-        if let myUserEmail = MyUserManager.sharedInstance.myUser()?.email {
+        if let myUserEmail = myUserRepository.myUser?.email {
             return myUserEmail.isEmpty
         }
         return true

@@ -15,7 +15,8 @@ public struct DevelopmentEnvironment: Environment {
 
     // API
     public let apiBaseURL = "http://api.stg.letgo.com"  // old_dev: "http://devel.api.letgo.com"
-    
+    public let bouncerBaseURL = "http://bouncer.stg.letgo.com/api"
+
     // Config
     public let configURL = "http://letgo-images-devel.s3.amazonaws.com/config/ios.json"
 }

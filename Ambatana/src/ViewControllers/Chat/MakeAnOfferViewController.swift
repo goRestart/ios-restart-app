@@ -20,7 +20,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     // data
     var product: Product?
-    
+
     override func viewDidLoad() {
         hidesBottomBarWhenPushed = true
         
@@ -43,7 +43,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         
         // setup
         if let price = product?.price {
-            priceTextField.text = String(price) ?? ""
+            priceTextField.text = String.fromPriceDouble(price)
         }
         
         // show keyboard
@@ -70,21 +70,24 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
     
     @IBAction func makeAnOffer(sender: AnyObject) {
-        if let actualProduct = product, let productUser = product?.user, let myUser = MyUserManager.sharedInstance.myUser(), let productPriceStr = priceTextField.text, let productPrice = Double(productPriceStr) {
-            
-            // Loading
+        if let actualProduct = product, let productUser = product?.user,
+            let myUser = MyUserRepository.sharedInstance.myUser, let productPriceStr = priceTextField.text {
+            let productPrice = productPriceStr.toPriceDouble()
+
             enableLoadingInterface()
 
             // 1. Send the offer
             let offerText = generateOfferText(productPrice)
-            ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) { [weak self] (sendResult: ChatSendMessageServiceResult) -> Void in
+            ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) {
+                [weak self] (sendResult: ChatSendMessageServiceResult) -> Void in
                 if let strongSelf = self {
 
                     // Success
                     if let _ = sendResult.value {
 
                         // 2. Retrieve the chat
-                        ChatManager.sharedInstance.retrieveChatWithProduct(actualProduct, buyer: myUser) { [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
+                        ChatManager.sharedInstance.retrieveChatWithProduct(actualProduct, buyer: myUser) {
+                            [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
                             if let strongSelf2 = self {
 
                                 // Not loading
@@ -97,37 +100,37 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                     strongSelf2.openChatViewControllerWithChat(chat)
                                     
                                     // Tracking
-                                    let myUser = MyUserManager.sharedInstance.myUser()
-                                    let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser, amount: productPrice)
+                                    let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser,
+                                        amount: productPrice)
                                     TrackerProxy.sharedInstance.trackEvent(offerEvent)
                                     
                                     let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
                                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-                                }
-                                // Error
-                                else {
-                                    
+
+                                } else {
                                     if let actualError = retrieveResult.error {
                                         if actualError == .Forbidden {
-                                            strongSelf2.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                                                MyUserManager.sharedInstance.logout(nil)
+                                            strongSelf2.showAutoFadingOutMessageAlert(
+                                                LGLocalizedString.logInErrorSendErrorGeneric,
+                                                completionBlock: { (completion) -> Void in
+                                                    SessionManager.sharedInstance.logout()
                                             })
                                         } else {
-                                            strongSelf2.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
+                                            strongSelf2.showAutoFadingOutMessageAlert(
+                                                LGLocalizedString.makeAnOfferSendErrorGeneric)
                                         }
                                     }
                                 }
                             }
                         }
-                    }
-                    // Error
-                    else {
+                    } else {
                         strongSelf.disableLoadingInterface()
                         
                         if let actualError = sendResult.error {
                             if actualError == .Forbidden {
-                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                                    MyUserManager.sharedInstance.logout(nil)
+                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric,
+                                    completionBlock: { (completion) -> Void in
+                                    SessionManager.sharedInstance.logout()
                                 })
                             } else {
                                 strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
@@ -150,25 +153,12 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     func openChatViewControllerWithChat(chat: Chat) {
         if let chatViewModel = ChatViewModel(chat: chat), var controllers = navigationController?.viewControllers {
+            chatViewModel.fromMakeOffer = true
             let chatVC = ChatViewController(viewModel: chatViewModel)
             controllers.removeLast()
             controllers.append(chatVC)
             navigationController?.viewControllers = controllers
-        }
-        else {
-            showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
-        }
-        
-    }
-    
-    func launchChatVC(chat: Chat) {
-        if let chatViewModel = ChatViewModel(chat: chat), var controllers = navigationController?.viewControllers {
-            let chatVC = ChatViewController(viewModel: chatViewModel)
-            controllers.removeLast()
-            controllers.append(chatVC)
-            navigationController?.viewControllers = controllers
-        }
-        else {
+        } else {
             showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
         }
     }
@@ -176,15 +166,16 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
 
     // MARK: UITextFieldDelegate Methods
 
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let updatedText: String
-        if let text = textField.text {
-            updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        } else {
-            updatedText = string
-        }
-        if !updatedText.isValidLengthPrice() { return false }
-        return true
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+        replacementString string: String) -> Bool {
+            let updatedText: String
+            if let text = textField.text {
+                updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            } else {
+                updatedText = string
+            }
+            if !updatedText.isValidLengthPrice() { return false }
+            return true
     }
 }
 

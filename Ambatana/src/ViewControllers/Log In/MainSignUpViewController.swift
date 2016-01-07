@@ -108,7 +108,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     }
     
     @IBAction func connectFBButtonPressed(sender: AnyObject) {
-         viewModel.logInWithFacebook()
+        viewModel.logInWithFacebook()
     }
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
@@ -132,62 +132,44 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     // MARK: - MainSignUpViewModelDelegate
     
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel) {
-        showCustomLoadingMessageAlert()
+        showLoadingMessageAlert()
     }
-    
-    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: UserLogInFBResult) {
+
+    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
         
         var completion: (() -> Void)? = nil
-        
-        switch (result) {
+        var message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+        var errorDescription: EventParameterLoginError?
+
+        switch result {
         case .Success:
-            completion = {
-                self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
+            completion = { [weak self] in
+                self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
             }
+        case .Cancelled:
             break
-        case .Failure(let error):
-            
-            var message: String?
-            var errorDescription: EventParameterLoginError?
-            
-            switch (error) {
-            case .Cancelled:
-                break
-            case .EmailTaken:
-                message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-                errorDescription = .EmailTaken
-            case .InvalidPassword:
-                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-                errorDescription = .InvalidPassword
-            case .PasswordMismatch:
-                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-                errorDescription = .PasswordMismatch
-            case .UsernameTaken:
-                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-                errorDescription = .UsernameTaken
-            case .Forbidden:
-                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-                errorDescription = .Forbidden
-            case .Network:
-                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-                errorDescription = .Network
-            case .Internal:
-                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-                errorDescription = .Internal
-            }
-            
-            if let actualErrorDescription = errorDescription {
-                viewModel.loginWithFBFailedWithError(actualErrorDescription)
-            }
-            
-            completion = {
-                if let actualMessage = message {
-                    self.showAutoFadingOutMessageAlert(actualMessage, time: 3)
-                }
+        case .Network:
+            errorDescription = .Network
+        case .Forbidden:
+            errorDescription = .Forbidden
+        case .NotFound:
+            errorDescription = .UserNotFoundOrWrongPassword
+        case .AlreadyExists:
+            message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
+            errorDescription = .EmailTaken
+        case .Internal:
+            errorDescription = .Internal
+        }
+
+        if let actualErrorDescription = errorDescription {
+            viewModel.loginWithFBFailedWithError(actualErrorDescription)
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message, time: 3)
             }
         }
-        dismissCustomLoadingMessageAlert(completion)
+        dismissLoadingMessageAlert(completion)
     }
+    
     
     // MARK: UITextViewDelegate
     

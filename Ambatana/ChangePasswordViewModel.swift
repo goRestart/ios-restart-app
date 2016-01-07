@@ -10,17 +10,35 @@ import LGCoreKit
 import Parse
 import Result
 
-public protocol ChangePasswordViewModelDelegate : class {
-    func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool)
-    func viewModel(viewModel: ChangePasswordViewModel, didFailValidationWithError error: UserSaveServiceError)
-    func viewModelDidStartSendingPassword(viewModel: ChangePasswordViewModel)
-    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult result: UserSaveServiceResult)
+enum ChangePasswordError: ErrorType {
+    case InvalidPassword
+    case PasswordMismatch
+    case Api(apiError: ApiError)
+    case Internal
     
+    init(repositoryError: RepositoryError) {
+        switch repositoryError {
+        case .Api(let apiError):
+            self = .Api(apiError: apiError)
+        case .Internal:
+            self = .Internal
+        }
+    }
+}
+
+protocol ChangePasswordViewModelDelegate: class {
+    func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool)
+    func viewModel(viewModel: ChangePasswordViewModel, didFailValidationWithError error: ChangePasswordError)
+    func viewModelDidStartSendingPassword(viewModel: ChangePasswordViewModel)
+    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
+        result: Result<MyUser, ChangePasswordError>)
 }
 
 public class ChangePasswordViewModel: BaseViewModel {
    
     weak var delegate : ChangePasswordViewModelDelegate?
+    
+    private let myUserRepository: MyUserRepository
     
     public var password: String {
         didSet {
@@ -34,10 +52,16 @@ public class ChangePasswordViewModel: BaseViewModel {
         }
     }
 
-    override init() {
+    init(myUserRepository: MyUserRepository) {
+        self.myUserRepository = myUserRepository
         self.password = ""
         self.confirmPassword = ""
         super.init()
+    }
+    
+    override convenience init() {
+        let myUserRepository = MyUserRepository.sharedInstance
+        self.init(myUserRepository: myUserRepository)
     }
     
     
@@ -49,25 +73,24 @@ public class ChangePasswordViewModel: BaseViewModel {
             
             delegate?.viewModelDidStartSendingPassword(self)
             
-            MyUserManager.sharedInstance.updatePassword(password) { [weak self] (result: UserSaveServiceResult) in
-                if let strongSelf = self {
-                    // Success
-                    if let actualDelegate = strongSelf.delegate {
-                        if let _ = result.value {
-                            actualDelegate.viewModel(strongSelf, didFinishSendingPasswordWithResult: result)
-                        }
-                            // Error
-                        else {
-                            actualDelegate.viewModel(strongSelf, didFinishSendingPasswordWithResult: result)
-                        }
-                    }
+            myUserRepository.updatePassword(password) { [weak self] updatePwdResult in
+                guard let strongSelf = self else { return }
+                guard let delegate = strongSelf.delegate else { return }
+                
+                var result = Result<MyUser, ChangePasswordError>(error: .Internal)
+                if let value = updatePwdResult.value {
+                    result = Result<MyUser, ChangePasswordError>(value: value)
+                } else if let repositoryError = updatePwdResult.error {
+                    let error = ChangePasswordError(repositoryError: repositoryError)
+                    result = Result<MyUser, ChangePasswordError>(error: error)
                 }
+                delegate.viewModel(strongSelf, didFinishSendingPasswordWithResult: result)
             }
         }
         else if !isValidPassword() {
-            delegate?.viewModel(self, didFailValidationWithError:UserSaveServiceError.InvalidPassword)
+            delegate?.viewModel(self, didFailValidationWithError: .InvalidPassword)
         } else {
-            delegate?.viewModel(self, didFailValidationWithError:UserSaveServiceError.PasswordMismatch)
+            delegate?.viewModel(self, didFailValidationWithError: .PasswordMismatch)
         }
         
     }

@@ -59,6 +59,10 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         }
         return resultTags
     }
+    
+    // Manager & repositories
+    private let myUserRepository: MyUserRepository
+    private let tracker: Tracker
 
     // Constants
     private static let maxMonthsAgo = 3
@@ -68,18 +72,27 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
     weak var bubbleDelegate: InfoBubbleDelegate?
     weak var permissionsDelegate: PermissionsDelegate?
     
-    
     // MARK: - Lifecycle
     
-    public init(searchString: String? = nil, filters: ProductFilters) {
-        self.searchString = searchString
-        self.filters = filters
-        
-        super.init()
+    public init(myUserRepository: MyUserRepository, tracker: Tracker, searchString: String? = nil,
+        filters: ProductFilters) {
+            self.myUserRepository = myUserRepository
+            self.tracker = tracker
+            self.searchString = searchString
+            self.filters = filters
+            
+            super.init()
+    }
+    
+    public convenience init(searchString: String? = nil, filters: ProductFilters) {
+        let myUserRepository = MyUserRepository.sharedInstance
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, tracker: tracker, searchString: searchString, filters: filters)
     }
     
     public convenience init(searchString: String? = nil) {
-        self.init(searchString: searchString, filters: ProductFilters())
+        let filters = ProductFilters()
+        self.init(searchString: searchString, filters: filters)
     }
     
     
@@ -102,8 +115,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
             if actualSearchString.characters.count > 0 {
                 
                 // Tracking
-                TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchComplete(MyUserManager.sharedInstance.myUser(),
-                    searchQuery: searchString ?? ""))
+                tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchString ?? ""))
                 
                 // Notify the delegate
                 delegate?.mainProductsViewModel(self, didSearchWithViewModel: viewModelForSearch())
@@ -119,7 +131,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)
         
         // Tracking
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.filterStart())
+        tracker.trackEvent(TrackerEvent.filterStart())
     }
     
     /**
@@ -127,7 +139,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
     */
     public func searchBegan() {
         // Tracking
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.searchStart(MyUserManager.sharedInstance.myUser()))
+        tracker.trackEvent(TrackerEvent.searchStart(myUserRepository.myUser))
     }
     
     /**

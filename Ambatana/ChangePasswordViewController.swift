@@ -102,56 +102,50 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         showLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: ChangePasswordViewModel, didFailValidationWithError error: UserSaveServiceError) {
+    func viewModel(viewModel: ChangePasswordViewModel, didFailValidationWithError error: ChangePasswordError) {
         let message: String
         switch (error) {
-        case .Network:
-            message = LGLocalizedString.changePasswordSendErrorGeneric
-        case .Internal, .InvalidUsername, .EmailTaken, .UsernameTaken:
-            message = LGLocalizedString.changePasswordSendErrorGeneric
         case .InvalidPassword:
             message = String(format: LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
         case .PasswordMismatch:
             message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
+        case .Api, .Internal:
+            message = LGLocalizedString.changePasswordSendErrorGeneric
         }
         self.showAutoFadingOutMessageAlert(message)
     }
     
-    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult result: UserSaveServiceResult) {
-        var completion: (() -> Void)? = nil
-        
-        switch (result) {
-        case .Success:
-            completion = {
-                // clean fields
-                self.passwordTextfield.text = ""
-                self.confirmPasswordTextfield.text = ""
-
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.changePasswordSendOk) {
-                    navigationController?.popViewControllerAnimated(true)
+    func viewModel(viewModel: ChangePasswordViewModel, didFinishSendingPasswordWithResult
+        result: Result<MyUser, ChangePasswordError>) {
+            var completion: (() -> Void)? = nil
+            
+            switch (result) {
+            case .Success:
+                completion = {
+                    // clean fields
+                    self.passwordTextfield.text = ""
+                    self.confirmPasswordTextfield.text = ""
+                    
+                    self.showAutoFadingOutMessageAlert(LGLocalizedString.changePasswordSendOk) {
+                        navigationController?.popViewControllerAnimated(true)
+                    }
+                }
+                break
+            case .Failure(let error):
+                let message: String
+                switch (error) {
+                case .InvalidPassword:
+                    message = String(format: LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
+                case .PasswordMismatch:
+                    message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
+                case .Api, .Internal:
+                    message = LGLocalizedString.changePasswordSendErrorGeneric
+                }
+                completion = {
+                    self.showAutoFadingOutMessageAlert(message)
                 }
             }
-            break
-        case .Failure(let error):
-            let message: String
-            switch (error) {
-            case .Network:
-                message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal:
-                message = LGLocalizedString.commonErrorConnectionFailed
-            case .InvalidPassword:
-                message = String(format: LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
-            case .PasswordMismatch:
-                message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
-            case .InvalidUsername, .EmailTaken, .UsernameTaken:
-                // should never happen
-                message = LGLocalizedString.changePasswordSendErrorGeneric
-            }
-            completion = {
-                self.showAutoFadingOutMessageAlert(message)
-            }
-        }
-        dismissLoadingMessageAlert(completion)
+            dismissLoadingMessageAlert(completion)
     }
     
     func viewModel(viewModel: ChangePasswordViewModel, updateSendButtonEnabledState enabled: Bool) {

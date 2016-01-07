@@ -6,29 +6,9 @@
 //  Copyright © 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
 import Result
 
 final public class LGProductMarkUnsoldService: ProductMarkUnsoldService {
-    
-    // Constants
-    public static let endpoint = "/api/products"
-    
-    // iVars
-    var url: String
-    
-    // MARK: - Lifecycle
-    
-    public init(baseURL: String) {
-        
-        self.url = baseURL + LGProductMarkSoldService.endpoint
-    }
-    
-    public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
-    }
-    
-    // MARK: - ProductMarkSoldService
     
     public func markAsUnsoldProduct(product: Product, sessionToken: String, completion: ProductMarkUnsoldServiceCompletion?) {
         
@@ -37,30 +17,18 @@ final public class LGProductMarkUnsoldService: ProductMarkUnsoldService {
             return
         }
         
-        let fullUrl = "\(url)/\(productId)"
+        let params: [String: AnyObject] = ["status": ProductStatus.Approved.rawValue]
         
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
-        var params = Dictionary<String, AnyObject>()
-        params["status"] = ProductStatus.Approved.rawValue
-        
-        Alamofire.request(.PATCH, fullUrl, parameters: params, encoding: .JSON, headers: headers)
-            .validate(statusCode: 200..<400)
-            .response { (request, response, _, error: NSError?) -> Void in
-                // Error
-                if let actualError = error {
-                    if actualError.domain == NSURLErrorDomain {
-                        completion?(ProductMarkUnsoldServiceResult(error: .Network))
-                    }
-                    else {
-                        completion?(ProductMarkUnsoldServiceResult(error: .Internal))
-                    }
-                } else {
-                    var result = LGProduct(product: product)
-                    result.status = .Approved
-                    completion?(ProductMarkUnsoldServiceResult(value: result))
-                }
+        let request = ProductRouter.Patch(productId: productId, params: params)
+        ApiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
+            if let _ = result.value {
+                var result = LGProduct(product: product)
+                result.status = .Approved
+                completion?(ProductMarkUnsoldServiceResult(value: result))
+            } else if let error = result.error {
+                let favError = ProductMarkUnsoldServiceError(apiError: error)
+                completion?(ProductMarkUnsoldServiceResult(error: favError))
+            }
         }
     }
 }

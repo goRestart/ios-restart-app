@@ -69,7 +69,7 @@ public class ConversationCell: UITableViewCell {
         productLabel.text = chat.product.name ?? ""
         
         // user name
-        userLabel.text = otherUser?.publicUsername ?? ""
+        userLabel.text = otherUser?.name ?? ""
         
         // time / deleted
         var timeLabelValue: String = ""
