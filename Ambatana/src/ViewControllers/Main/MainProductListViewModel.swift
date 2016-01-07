@@ -67,7 +67,7 @@ public class MainProductListViewModel: ProductListViewModel {
     
     public override func retrieveProductsFirstPage() {
         // Update before requesting the first page
-        countryCode = myUserRepository.myUser?.postalAddress.countryCode
+        countryCode = locationManager.currentPostalAddress?.countryCode
         super.retrieveProductsFirstPage()
     }
     
