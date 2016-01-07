@@ -18,8 +18,8 @@ public enum ProductSaveServiceError: String, ErrorType {
     case LongDescription = "description too long"
     case NoCategory = "no category selected"
     case Forbidden = "forbidden"
-    
-    
+
+
     init(apiError: ApiError) {
         switch apiError {
         case .Scammer:
@@ -36,10 +36,10 @@ public typealias ProductSaveServiceResult = Result<Product, ProductSaveServiceEr
 public typealias ProductSaveServiceCompletion = ProductSaveServiceResult -> Void
 
 public protocol ProductSaveService {
-    
+
     /**
         Saves the product.
-    
+
         - parameter product: the product
         - parameter user: the user
         - parameter completion: The completion closure.

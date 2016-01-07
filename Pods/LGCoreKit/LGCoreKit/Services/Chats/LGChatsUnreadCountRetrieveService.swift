@@ -17,7 +17,7 @@ public class LGChatsUnreadCountRetrieveService: ChatsUnreadCountRetrieveService 
             let request = ChatRouter.UnreadCount
             ApiClient.request(request, decoder: LGChatsUnreadCountRetrieveService.decoder) {
                 (result: Result<Int, ApiError>) -> () in
-                
+
                 if let value = result.value {
                     completion?(ChatsUnreadCountRetrieveServiceResult(value: value))
                 } else if let error = result.error {

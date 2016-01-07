@@ -40,10 +40,10 @@ extension LGInstallation : Decodable {
         let localeIdentifier = "locale_identifier"
         let deviceToken = "device_token"
     }
-    
+
     /**
     Expects a json in the form:
-    
+
         {
             "id": "string",
             "app_identifier": "string",
@@ -63,7 +63,7 @@ extension LGInstallation : Decodable {
     static func decode(j: JSON) -> Decoded<LGInstallation> {
         return decode(j, keys: ApiInstallationKeys())
     }
-    
+
     static func decode(j: JSON, keys: LGInstallationKeys) -> Decoded<LGInstallation> {
         let init1 = curry(LGInstallation.init)
                             <^> j <|? keys.objectId
@@ -73,17 +73,17 @@ extension LGInstallation : Decodable {
         let result = init1  <*> j <|? keys.timeZone
                             <*> j <|? keys.localeIdentifier
                             <*> j <|? keys.deviceToken
-        
+
         if let error = result.error {
             print("LGInstallation parse error: \(error)")
         }
-        
+
         return result
     }
 }
 
 extension LGInstallation {
-    
+
     struct UDInstallationKeys: LGInstallationKeys {
         let objectId = "objectId"
         let appIdentifier = "appIdentifier"
@@ -93,7 +93,7 @@ extension LGInstallation {
         let localeIdentifier = "localeIdentifier"
         let deviceToken = "deviceToken"
     }
-    
+
     static func decode(dictionary: [String: AnyObject]) -> LGInstallation? {
         let j = JSON.parse(dictionary)
         return decode(j, keys: UDInstallationKeys()).value

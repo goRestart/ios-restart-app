@@ -19,7 +19,7 @@ final public class LGProductReportSaveService: ProductReportSaveService {
             completion?(ProductReportSaveServiceResult(error: .Internal))
             return
         }
-        
+
         let request = ProductRouter.SaveReport(userId: userId, productId: productId)
         ApiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
             if let _ = result.value {

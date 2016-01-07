@@ -17,16 +17,16 @@ import Foundation
 struct LGMyUser: MyUser {
     // BaseModel
     var objectId: String?
-    
+
     // User
     var name: String?
     var avatar: File?
     var postalAddress: PostalAddress
-    
+
     // MyUser
     var email: String?
     var location: LGLocation?
-    
+
     var authProvider: AuthenticationProvider
 }
 
@@ -47,10 +47,10 @@ extension LGMyUser: Decodable {
         static let zipCode = "zip_code"
         static let countryCode = "country_code"
     }
-    
+
     /**
     Decodes a json with the following format:
-    
+
     {
         "id": "string",
         "latitude": 0,

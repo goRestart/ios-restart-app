@@ -12,10 +12,10 @@ import Argo
 class InstallationApiDataSource: InstallationDataSource {
 
     static let sharedInstance = InstallationApiDataSource()
-    
+
     /**
     Create an installation in the API from the given Installation object
-    
+
     - parameter data:       Installation object with default values to create in API
     - parameter completion: Closure to call when the operation finishes
     */
@@ -27,7 +27,7 @@ class InstallationApiDataSource: InstallationDataSource {
     /**
     Update an installation in the API from the given parameters.
     If the given Installation doesn't have an objectId, the operation will fail
-    
+
     - parameter data:       Installation object we want to update in the API
     - parameter completion: Closure to call when the operation finishes
     */
@@ -38,9 +38,9 @@ class InstallationApiDataSource: InstallationDataSource {
 
     /**
     Helper method to decode a JSON (AnyObject) to a LGInstallation (Installation protocol)
-    
+
     - parameter jsonData: JSON with the Installation data
-    
+
     - returns: Installation object (an LGInstallation instance)
     */
     private func decodeJson(jsonData: AnyObject) -> Installation? {

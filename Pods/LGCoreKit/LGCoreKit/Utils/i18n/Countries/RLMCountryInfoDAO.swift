@@ -9,15 +9,15 @@
 import RealmSwift
 
 public class RLMCountryInfoDAO: CountryInfoDAO {
-    
+
     public init?() {
         let dbFileName = "country_info-v1"
         let oldDBFilenames = ["country_currency_info, country_currency_info-v2"]
         let dbExt = "realm"
-        
+
         let fm = NSFileManager.defaultManager()
         let cachePath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0] as NSString
-        
+
         // Erase old DBs
         for oldDBFilename in oldDBFilenames {
             let dbCachePath = cachePath.stringByAppendingString("/\(oldDBFilename).\(dbExt)")
@@ -28,7 +28,7 @@ public class RLMCountryInfoDAO: CountryInfoDAO {
                 }
             }
         }
-        
+
         // If the new db does not exist copy it into library caches
         let dbBundlePath = NSBundle.LGCoreKitBundle().pathForResource(dbFileName, ofType: dbExt)!
         let dbCachePath = cachePath.stringByAppendingString("/\(dbFileName).\(dbExt)")
@@ -39,11 +39,11 @@ public class RLMCountryInfoDAO: CountryInfoDAO {
             } catch _ {
             }
         }
-        
+
         //Set default configuration for realm using the provided path
         let config = Realm.Configuration(path: dbCachePath, readOnly: true)
         Realm.Configuration.defaultConfiguration = config
-        
+
 //                // Export to CSV
 //        let realm = try! Realm()
 //        let countryCurrencyInfos = realm.objects(RLMCountryInfo)
@@ -65,9 +65,9 @@ public class RLMCountryInfoDAO: CountryInfoDAO {
 //        }
 //        print("")
     }
-    
+
     // MARK: - CountryCurrencyInfoDAO
-    
+
     public func fetchCountryInfoWithCurrencyCode(currencyCode: String) -> CountryInfo? {
         let realm: Realm
         do {
@@ -78,9 +78,9 @@ public class RLMCountryInfoDAO: CountryInfoDAO {
         } catch _ {
             return nil
         }
-        
+
     }
-    
+
     public func fetchCountryInfoWithCountryCode(countryCode: String) -> CountryInfo? {
         let realm: Realm
         do {

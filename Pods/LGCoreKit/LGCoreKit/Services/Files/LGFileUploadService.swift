@@ -13,7 +13,7 @@ final public class LGFileUploadService: FileUploadService {
 
     public func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData,
         progress: (Int -> ())? = nil, completion: FileUploadServiceCompletion?) {
-            
+
             let request = FileRouter.Upload
             ApiClient.upload(request, decoder: LGFileUploadService.decoder, multipart: { multipartFormData in
                 if let userIdData = userId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
@@ -34,14 +34,14 @@ final public class LGFileUploadService: FileUploadService {
                 progress?(Int(p))
             }
     }
-    
+
     public func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL,
         completion: FileUploadServiceCompletion?) {
-            
+
         let request = NSURLRequest(URL: sourceURL)
         NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {
             (response: NSURLResponse?, data: NSData?, error: NSError?) in
-            
+
             if let actualData = data {
                 self.uploadFileWithUserId(userId, sessionToken: sessionToken, data: actualData, completion: completion)
             } else if let _ = error {

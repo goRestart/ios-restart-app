@@ -13,14 +13,14 @@ import Result
 public enum ApiError: ErrorType {
     case Network
     case Internal
-    
+
     case Unauthorized
     case NotFound
     case AlreadyExists
     case Scammer
     case InternalServerError
-        
-    
+
+
     static func errorForCode(code: Int) -> ApiError {
         switch code {
         case 400:   // Bad request is our fault
@@ -62,9 +62,9 @@ extension URLRequestAuthenticable {
 }
 
 class ApiClient {
-    
+
     static let tokenDAO: TokenDAO = TokenKeychainDAO.sharedInstance
-    
+
     static func request<T>(request: URLRequestAuthenticable, decoder: AnyObject -> T?,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
 
@@ -87,9 +87,9 @@ class ApiClient {
                 completion?(ResultResult<T, ApiError>.t(error: .Unauthorized))
                 return
             }
-            
+
             Alamofire.upload(request, multipartFormData: multipart) { result in
-                
+
                 switch result {
                 case let .Success(upload, _, _):
                     upload.validate(statusCode: 200..<400)
@@ -105,14 +105,14 @@ class ApiClient {
                 }
             }
     }
-    
-    
+
+
     // MARK: - Private methods
-    
+
     private static func createInstallationIfNeeded(request: URLRequestAuthenticable,
         success: (() -> ())?,
         completion: ((ResultResult<Void, ApiError>.t) -> ())?) {
-            
+
             if tokenDAO.level == .None && request.requiredAuthLevel > .None {
                 InstallationRepository.sharedInstance.create { result in
                     if let _ = result.value {
@@ -127,7 +127,7 @@ class ApiClient {
                 completion?(ResultResult<Void, ApiError>.t(value: Void()))
             }
     }
-    
+
     private static func privateRequest<T>(request: URLRequestAuthenticable,
         decoder: AnyObject -> T?, completion: ((ResultResult<T, ApiError>.t) -> ())?) {
             Manager.validatedRequest(request).responseObject(decoder) { (response: Response<T, NSError>) in
@@ -135,16 +135,16 @@ class ApiClient {
                     handlePrivateResponse(request, response: response, value: value, completion: completion)
             }
     }
-    
-    private static func handlePrivateResponse<T, U>(request: URLRequestAuthenticable, response: Response<T, NSError>, 
-        value: U?, completion: ((ResultResult<U, ApiError>.t) -> ())?) {        
+
+    private static func handlePrivateResponse<T, U>(request: URLRequestAuthenticable, response: Response<T, NSError>,
+        value: U?, completion: ((ResultResult<U, ApiError>.t) -> ())?) {
             if let error = errorFromAlamofireResponse(response) {
                 handlePrivateApiErrorResponse(request, error: error, completion: completion)
             } else if let value = value {
                 upgradeTokenIfNeeded(request, response: response, value: value, completion: completion)
             }
     }
-    
+
     private static func errorFromAlamofireResponse<T>(response: Response<T, NSError>) -> ApiError? {
         guard let error = response.result.error else { return nil }
         if error.domain == NSURLErrorDomain {
@@ -155,14 +155,14 @@ class ApiClient {
             return .Internal
         }
     }
-    
+
     private static func handlePrivateApiErrorResponse<T>(request: URLRequestAuthenticable, error: ApiError,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
-            
+
             switch error {
             case .Unauthorized:
                 let currentLevel = tokenDAO.level
-                
+
                 switch currentLevel {
                 case .None, .User:
                     break
@@ -177,13 +177,13 @@ class ApiClient {
             case .Network, .Internal, .NotFound, .AlreadyExists, .InternalServerError:
                 break
             }
-            
+
             completion?(ResultResult<T, ApiError>.t(error: error))
     }
-    
+
     private static func upgradeTokenIfNeeded<T, U>(request: URLRequestAuthenticable,
         response: Response<T, NSError>, value: U, completion: ((ResultResult<U, ApiError>.t) -> ())?) {
-            
+
             let currentLevel = tokenDAO.level
             if let token = response.response?.allHeaderFields["authentication-info"] as? String {
                 let minReceivedLevel = request.minReceivedAuthLevel
@@ -193,5 +193,5 @@ class ApiClient {
             }
             completion?(ResultResult<U, ApiError>.t(value: value))
     }
-    
+
 }

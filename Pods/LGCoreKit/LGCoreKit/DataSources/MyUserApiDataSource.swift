@@ -10,27 +10,27 @@ import Argo
 import Result
 
 class MyUserApiDataSource: MyUserDataSource {
-    
+
     static let sharedInstance = MyUserApiDataSource()
 
-    
+
     // MARK: - MyUserDataSource
-    
+
     func show(myUserId: String, completion: ((Result<MyUser, ApiError>) -> ())?) {
         let request = MyUserRouter.Show(myUserId: myUserId)
         ApiClient.request(request, decoder: decoder, completion: completion)
     }
-    
+
     func createWithEmail(email: String, password: String, name: String, location: LGLocation?,
         completion: ((Result<MyUser, ApiError>) -> ())?) {
             var data: [String: AnyObject] = [:]
-            
+
             data[LGMyUser.JSONKeys.email] = email
             data[LGMyUser.JSONKeys.password] = password
             data[LGMyUser.JSONKeys.name] = name
             data[LGMyUser.JSONKeys.latitude] = location?.coordinate.latitude
             data[LGMyUser.JSONKeys.longitude] = location?.coordinate.longitude
-            
+
             let request = MyUserRouter.Create(params: data)
             ApiClient.request(request, decoder: decoder, completion: completion)
     }
@@ -44,7 +44,7 @@ class MyUserApiDataSource: MyUserDataSource {
         var data: [String: AnyObject] = [:]
 
         data[LGMyUser.JSONKeys.avatar] = avatar
-        
+
         let request = MyUserRouter.UpdateAvatar(myUserId: myUserId, params: data)
 
         ApiClient.upload(request, decoder: decoder, multipart: { multipartFormData in
@@ -55,9 +55,9 @@ class MyUserApiDataSource: MyUserDataSource {
         }
     }
 
-    
+
     // MARK: - Private methods
-    
+
     /**
     Decodes an object to a `MyUser` object.
     - parameter object: The object.

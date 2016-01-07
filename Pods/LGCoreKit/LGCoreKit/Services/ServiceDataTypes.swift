@@ -29,7 +29,7 @@ public struct RetrieveProductParams: CustomStringConvertible, Equatable {
     public init(objectId: String) {
         self.objectId = objectId
     }
-    
+
     public var description: String { return "objectId: \(objectId)" }
 }
 
@@ -52,11 +52,11 @@ public struct RetrieveProductsParams: CustomStringConvertible, Equatable {
     public var distanceRadius: Int?
     public var distanceType: DistanceType?
     public var userObjectId: String?
-    
+
     public init() {
-        
+
     }
-    
+
     public var description: String { return "queryString: \(queryString); latitude: \(coordinates?.latitude); longitude: \(coordinates?.longitude); countryCode: \(countryCode); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); timeCriteria: \(timeCriteria); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); distanceType: \(distanceType); userObjectId: \(userObjectId)" }
 }
 
@@ -71,7 +71,7 @@ public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool
 }
 
 public struct SaveProductParams: CustomStringConvertible, Equatable {
-    
+
     public var name: String?
     public var category: String?
     public var languageCode: String?
@@ -86,16 +86,16 @@ public struct SaveProductParams: CustomStringConvertible, Equatable {
     public var address: String?
     public var zipCode: String?
     public var images: [String]?
-    
+
     public init() {
-        
+
     }
-    
+
     public var description: String { return "name: \(name); category: \(category); languageCode: \(languageCode); userId: \(userId); descr: \(descr); price: \(price); currency: \(currency); latitude: \(latitude); longitude: \(longitude); countryCode: \(countryCode); city: \(city); address: \(address); zipCode: \(zipCode); images: \(images)" }
 }
 
 public func ==(lhs: SaveProductParams, rhs: SaveProductParams) -> Bool {
-    
+
     return lhs.name == rhs.name && lhs.category == rhs.category &&
         lhs.languageCode == rhs.languageCode && lhs.userId == rhs.userId &&
         lhs.price == rhs.price && lhs.currency == rhs.currency &&

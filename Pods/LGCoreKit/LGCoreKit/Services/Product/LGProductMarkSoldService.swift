@@ -9,16 +9,16 @@
 import Result
 
 final public class LGProductMarkSoldService: ProductMarkSoldService {
-    
+
     public func markAsSoldProduct(product: Product, sessionToken: String, completion: ProductMarkSoldServiceCompletion?) {
-        
+
         guard let productId = product.objectId else {
             completion?(ProductMarkSoldServiceResult(error: .Internal))
             return
         }
 
         let params: [String: AnyObject] = ["status": ProductStatus.Sold.rawValue]
-        
+
         let request = ProductRouter.Patch(productId: productId, params: params)
         ApiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
             if let _ = result.value {

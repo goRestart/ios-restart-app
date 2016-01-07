@@ -18,7 +18,7 @@ public enum LocationServicesAuthStatus {
 public enum LocationServiceStatus: Equatable {
     case Disabled
     case Enabled(LocationServicesAuthStatus)
-    
+
     public init(enabled: Bool, authStatus: CLAuthorizationStatus) {
         if !enabled {
             self = .Disabled
@@ -41,7 +41,7 @@ public enum LocationServiceStatus: Equatable {
 }
 
 public func ==(lhs: LocationServiceStatus, rhs: LocationServiceStatus) -> Bool {
-    
+
     switch (lhs, rhs) {
     case (.Disabled, .Disabled):
         return true

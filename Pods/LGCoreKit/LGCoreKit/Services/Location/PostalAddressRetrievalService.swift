@@ -18,10 +18,10 @@ public typealias PostalAddressRetrievalServiceResult = Result<Place, PostalAddre
 public typealias PostalAddressRetrievalServiceCompletion = PostalAddressRetrievalServiceResult -> Void
 
 public protocol PostalAddressRetrievalService {
-    
+
     /**
         Retrieves the address for the given location.
-    
+
         - parameter location: The location.
         - parameter completion: The completion closure.
     */

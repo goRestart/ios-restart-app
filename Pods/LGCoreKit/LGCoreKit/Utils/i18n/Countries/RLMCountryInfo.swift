@@ -18,18 +18,18 @@ public class RLMCountryInfo: Object, CountryInfo {
     dynamic public var capital = ""
     dynamic public var lat: Double = Double.infinity
     dynamic public var lon: Double = Double.infinity
-    
+
     public var locale: NSLocale? {
         return NSLocale(localeIdentifier: defaultLocale)
     }
-    
+
     public var coordinate: CLLocationCoordinate2D? {
         if lat != Double.infinity && lon != Double.infinity {
             return CLLocationCoordinate2DMake(lat, lon)
         }
         return kCLLocationCoordinate2DInvalid
     }
-    
+
     public override static func primaryKey() -> String? {
         return "id"
     }

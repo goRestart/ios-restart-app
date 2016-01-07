@@ -15,17 +15,18 @@ extension CLPlacemark {
     public func place() -> Place {
 
         var place = Place()
-        
+
         place.name = self.name
         if let placemarkLocation = self.location {
             place.location = LGLocationCoordinates2D(coordinates: placemarkLocation.coordinate)
         }
-        
+
         let address = postalAddressStringFromAddressDictionary(self.addressDictionary, addCountryName: false)
         let postalAddress = PostalAddress(address: address, city: self.locality, zipCode: self.postalCode,
             countryCode: self.ISOcountryCode, country: self.country)
+
         place.postalAddress = postalAddress
-        
+
         var resumedData = ""
         if let name = self.name {
             resumedData += name
@@ -40,10 +41,10 @@ extension CLPlacemark {
             resumedData += ", \(country)"
         }
         place.placeResumedData = resumedData
-        
+
         return place
     }
-    
+
     /**
     Returns a localized string from postal address dictionary.
     - parameter addressDict: A postal address dictionary.

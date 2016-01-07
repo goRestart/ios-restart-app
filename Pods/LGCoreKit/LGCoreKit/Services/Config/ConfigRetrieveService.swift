@@ -11,7 +11,7 @@ import Result
 public enum ConfigRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -26,10 +26,10 @@ public typealias ConfigRetrieveServiceResult = Result<Config, ConfigRetrieveServ
 public typealias ConfigRetrieveServiceCompletion = ConfigRetrieveServiceResult -> Void
 
 public protocol ConfigRetrieveService {
-    
+
     /**
         Retrieves the config file.
-    
+
         - parameter completion: The completion closure.
     */
     func retrieveConfigWithCompletion(completion: ConfigRetrieveServiceCompletion?)

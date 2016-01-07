@@ -10,7 +10,7 @@ import Parse
 
 public class LGCoreKit {
     public static func initialize(launchOptions: [NSObject: AnyObject]?) {
-       
+
         // Parse setup
         Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId, clientKey: EnvironmentProxy.sharedInstance.parseClientId)
     }

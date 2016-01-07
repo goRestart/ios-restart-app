@@ -15,7 +15,7 @@ protocol MyUserDataSource {
     - parameter completion: The completion closure.
     */
     func show(myUserId: String, completion: ((Result<MyUser, ApiError>) -> ())?)
-    
+
     /**
     Creates a user with the given email, password and location.
     - parameter email: The email.
@@ -26,7 +26,7 @@ protocol MyUserDataSource {
     */
     func createWithEmail(email: String, password: String, name: String, location: LGLocation?,
         completion: ((Result<MyUser, ApiError>) -> ())?)
-    
+
     /**
     Updates a my user with the given parameters.
     - parameter myUserId: My user identifier.

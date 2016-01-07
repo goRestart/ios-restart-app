@@ -9,15 +9,15 @@
 import Foundation
 
 enum ContactRouter: URLRequestAuthenticable {
-    
+
     static let endpoint = "/api/contacts"
 
     case Send(params: [String : AnyObject])
-    
+
     var requiredAuthLevel: AuthLevel {
         return .Installation
     }
-    
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Send(params):

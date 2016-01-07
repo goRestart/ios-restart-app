@@ -9,11 +9,11 @@
 import Foundation
 
 enum LocationRouter: URLRequestAuthenticable {
-    
+
     case IPLookup
 
     static let endpoint = "/api/iplookup.json"
-    
+
     var requiredAuthLevel: AuthLevel {
         return .None
     }

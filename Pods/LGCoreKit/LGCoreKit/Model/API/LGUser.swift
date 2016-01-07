@@ -10,16 +10,16 @@ import Argo
 import Curry
 
 public struct LGUser: User {
-    
+
     // Global iVars
     public var objectId: String?
-    
+
     // User iVars
     public var name: String?
     public var avatar: File?
     public var postalAddress: PostalAddress
     public var isDummy: Bool
-    
+
     init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, isDummy: Bool) {
         self.objectId = objectId
         self.name = name
@@ -38,10 +38,10 @@ extension LGUser {
 }
 
 extension LGUser : Decodable {
-    
+
     /**
     Expects a json in the form:
-    
+
         {
             "id": "gpPAiKx5ch-d142342134-1241243d2134",
             "name": "Bruce W. Fuckencio",
@@ -53,7 +53,7 @@ extension LGUser : Decodable {
         }
     */
     public static func decode(j: JSON) -> Decoded<LGUser> {
-        
+
         //Rest of object passing the resulting avatar
         let result = curry(LGUser.init)
             <^> j <|? "id"
@@ -61,11 +61,11 @@ extension LGUser : Decodable {
             <*> j <|? "avatar_url"
             <*> PostalAddress.decode(j)
             <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
-        
+
         if let error = result.error {
             print("LGUser parse error: \(error)")
         }
-        
+
         return result
     }
 }

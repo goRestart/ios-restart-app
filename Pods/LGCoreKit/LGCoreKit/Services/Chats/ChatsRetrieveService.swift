@@ -13,7 +13,7 @@ public enum ChatsRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Unauthorized
     case Internal
     case Forbidden
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -26,7 +26,7 @@ public enum ChatsRetrieveServiceError: ErrorType, CustomStringConvertible {
             return "Forbidden"
         }
     }
-    
+
     init(apiError: ApiError) {
         switch apiError {
         case .Network:
@@ -43,10 +43,10 @@ public typealias ChatsRetrieveServiceResult = Result<ChatsResponse, ChatsRetriev
 public typealias ChatsRetrieveServiceCompletion = ChatsRetrieveServiceResult -> Void
 
 public protocol ChatsRetrieveService {
-    
+
     /**
         Retrieves the chats of a user.
-    
+
         - parameter sessionToken: The user session token.
         - parameter completion: The completion closure.
     */

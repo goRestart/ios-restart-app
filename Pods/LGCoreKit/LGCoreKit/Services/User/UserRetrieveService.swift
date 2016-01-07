@@ -12,7 +12,7 @@ import Result
 public enum UserRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -36,10 +36,10 @@ public typealias UserRetrieveServiceResult = Result<User, UserRetrieveServiceErr
 public typealias UserRetrieveServiceCompletion = UserRetrieveServiceResult -> Void
 
 public protocol UserRetrieveService {
-    
+
     /**
         Retrieves a user.
-    
+
         - parameter user: The user.
         - parameter completion: The completion closure.
     */

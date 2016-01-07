@@ -10,6 +10,6 @@ public enum AuthenticationProvider: String {
     case Unknown = "Unknown"
     case Email = "Email"
     case Facebook = "Facebook"
-    
+
     static let allValues: [AuthenticationProvider] = [.Unknown, .Email, .Facebook]
 }

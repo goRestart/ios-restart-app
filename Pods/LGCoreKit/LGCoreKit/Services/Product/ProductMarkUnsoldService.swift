@@ -11,7 +11,7 @@ import Result
 public enum ProductMarkUnsoldServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -20,7 +20,7 @@ public enum ProductMarkUnsoldServiceError: ErrorType, CustomStringConvertible {
             return "Internal"
         }
     }
-    
+
     init(apiError: ApiError) {
         switch apiError {
         case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .Scammer, .InternalServerError:
@@ -35,10 +35,10 @@ public typealias ProductMarkUnsoldServiceResult = Result<Product, ProductMarkUns
 public typealias ProductMarkUnsoldServiceCompletion = ProductMarkUnsoldServiceResult -> Void
 
 public protocol ProductMarkUnsoldService {
-    
+
     /**
     Marks a product as unsold.
-    
+
     - parameter product: The product.
     - parameter completion: The completion closure.
     */

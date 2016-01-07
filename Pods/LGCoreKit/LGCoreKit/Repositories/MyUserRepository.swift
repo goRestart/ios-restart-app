@@ -14,19 +14,19 @@ public class MyUserRepository {
 
     // TODO: Replace by standard persist when api includes locationType
     private var persistWithoutOverridingLocation: (MyUser) -> ()
-    
+
     // Singleton
     public static let sharedInstance: MyUserRepository = MyUserRepository()
-    
-    
+
+
     // MARK: Lifecycle
-    
+
     public convenience init() {
         let dataSource = MyUserApiDataSource.sharedInstance
         let dao = MyUserUDDAO.sharedInstance
         self.init(dataSource: dataSource, dao: dao)
     }
-    
+
     init(dataSource: MyUserDataSource, dao: MyUserDAO) {
         self.dataSource = dataSource
         self.dao = dao
@@ -41,8 +41,8 @@ public class MyUserRepository {
             dao.save(userToSave)
         }
     }
-    
-    
+
+
     // MARK: - Public methods
 
     /**
@@ -51,14 +51,14 @@ public class MyUserRepository {
     public var myUser: MyUser? {
         return dao.myUser
     }
-    
+
     /**
     Returns if the user is logged in.
     */
     public var loggedIn: Bool {
         return myUser != nil
     }
-    
+
     /**
     Updates the name of my user.
     - parameter myUserId: My user identifier.
@@ -69,7 +69,7 @@ public class MyUserRepository {
         let params: [String: AnyObject] = [LGMyUser.JSONKeys.name: name]
         update(params, completion: completion)
     }
-    
+
     /**
     Updates the password of my user.
     - parameter myUserId: My user identifier.
@@ -80,7 +80,7 @@ public class MyUserRepository {
         let params: [String: AnyObject] = [LGMyUser.JSONKeys.password: password]
         update(params, completion: completion)
     }
-    
+
     /**
     Updates the email of my user.
     - parameter myUserId: My user identifier.
@@ -104,7 +104,7 @@ public class MyUserRepository {
 
 
     // MARK: - Internal methods
-       
+
     /**
     Creates a `MyUser` with the given credentials, public user name and location.
     - parameter email: The email.
@@ -130,7 +130,7 @@ public class MyUserRepository {
                     }
             }
     }
-    
+
     /**
     Retrieves my user.
     - parameter myUserId: My user identifier.
@@ -141,7 +141,7 @@ public class MyUserRepository {
             handleApiResult(result, success: self?.persistWithoutOverridingLocation, completion: completion)
         }
     }
-    
+
     /**
     Updates the location of my user. If no postal address is passed-by it nullifies it.
     - parameter myUserId: My user identifier.
@@ -162,7 +162,7 @@ public class MyUserRepository {
             //TODO: Replace by standard update method when api includes locationType
             updateWithLocation(location, params: params, completion: completion)
     }
-    
+
     /**
     Saves the given `MyUser`.
     - parameter myUser: My user.
@@ -170,15 +170,15 @@ public class MyUserRepository {
     func save(myUser: MyUser) {
         persistWithoutOverridingLocation(myUser)
     }
-    
+
     /**
     Deletes the user.
     */
     func deleteUser() {
         dao.delete()
     }
-    
-    
+
+
     // MARK: - Private methods
 
     /**

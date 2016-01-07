@@ -7,25 +7,25 @@
 //
 
 public class UserManager {
-    
+
     private var userRetrieveService: UserRetrieveService
-    
+
     // MARK: - Lifecycle
-    
+
     public required init(userRetrieveService: UserRetrieveService) {
         self.userRetrieveService = userRetrieveService
     }
-    
+
     public convenience init() {
         let userRetrieveService = LGUserRetrieveService()
         self.init(userRetrieveService: userRetrieveService)
     }
-    
+
     // MARK: - Public methods
-    
+
     /**
         Retrieves a product with the given id.
-    
+
         - parameter productId: The product identifier.
         - parameter result: The completion closure.
     */

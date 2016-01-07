@@ -12,7 +12,7 @@ public enum ProductsRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
     case Forbidden
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -23,7 +23,7 @@ public enum ProductsRetrieveServiceError: ErrorType, CustomStringConvertible {
             return "Forbidden"
         }
     }
-    
+
     init(apiError: ApiError) {
         switch apiError {
         case .Scammer:
@@ -40,10 +40,10 @@ public typealias ProductsRetrieveServiceResult = Result<ProductsResponse, Produc
 public typealias ProductsRetrieveServiceCompletion = ProductsRetrieveServiceResult -> Void
 
 public protocol ProductsRetrieveService {
-    
+
     /**
         Retrieves the products with the given parameters.
-    
+
         - parameter params: The product retrieval parameters.
         - parameter completion: The completion closure.
     */

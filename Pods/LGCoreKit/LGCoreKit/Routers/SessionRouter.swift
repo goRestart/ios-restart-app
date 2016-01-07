@@ -14,9 +14,9 @@ import Foundation
 enum SessionRouter: URLRequestAuthenticable {
     case Create(sessionProvider: SessionProvider)
     case Delete(userToken: String)
-    
+
     static let endpoint = "/authentication"
-    
+
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .Create:
@@ -25,7 +25,7 @@ enum SessionRouter: URLRequestAuthenticable {
             return .User
         }
     }
-    
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case .Create(let sessionProvider):

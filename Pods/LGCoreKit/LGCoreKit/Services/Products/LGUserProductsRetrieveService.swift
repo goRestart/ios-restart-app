@@ -10,24 +10,24 @@ import Result
 import Argo
 
 final public class LGUserProductsRetrieveService: UserProductsRetrieveService {
-    
+
     public init() {}
-    
+
     public func retrieveUserProductsWithParams(params: RetrieveProductsParams, completion: ProductsRetrieveServiceCompletion?) {
-        
+
         guard let userId = params.userObjectId  else {
             completion?(ProductsRetrieveServiceResult(error: .Internal))
             return
         }
-        
+
         struct CustomProductsResponse: ProductsResponse {
             var products: [Product]
         }
-        
+
         let request = ProductRouter.IndexForUser(userId: userId, params: params.userProductApiParams)
         ApiClient.request(request, decoder: LGUserProductsRetrieveService.decoder) {
             (result : Result<[Product], ApiError>) -> () in
-            
+
             if let value = result.value {
                 completion?(ProductsRetrieveServiceResult(value: CustomProductsResponse(products: value)))
             } else if let error = result.error {
@@ -49,11 +49,11 @@ extension RetrieveProductsParams {
     var userProductApiParams: Dictionary<String, AnyObject> {
         get {
             var params = Dictionary<String, AnyObject>()
-            
+
             if let numRes = self.numProducts {
                 params["num_results"] = numRes
             }
-            
+
             if let offset = self.offset {
                 params["offset"] = offset
             }
@@ -64,7 +64,7 @@ extension RetrieveProductsParams {
             } else {
                 params["status"] = UserProductStatus.Selling.rawValue
             }
-            
+
             return params
 
         }

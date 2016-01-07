@@ -13,8 +13,8 @@ enum Nullable<Wrapped>: Unwrappable {
     case None
     case Null
     case Some(Wrapped)
-    
-    
+
+
     /**
     Creates an instance initialized with the given value.
     - parameter value: The value.
@@ -28,7 +28,7 @@ enum Nullable<Wrapped>: Unwrappable {
             return Nullable<Wrapped>.Null
         }
     }
-    
+
     static func literal(value: AnyObject) -> Nullable<Wrapped> {
         if let value = value as? Wrapped {
             return Nullable<Wrapped>.Some(value)
@@ -70,11 +70,11 @@ extension Nullable: StringLiteralConvertible {
     init(stringLiteral value: String) {
         self = Nullable.literal(value)
     }
-    
+
     init(extendedGraphemeClusterLiteral value: String) {
         self = Nullable.literal(value)
     }
-    
+
     init(unicodeScalarLiteral value: String) {
         self = Nullable.literal(value)
     }

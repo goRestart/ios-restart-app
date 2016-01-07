@@ -10,11 +10,11 @@ import Argo
 import Curry
 
 public struct LGMessage: Message {
-    
+
     // Global iVars
     public var objectId: String?
     public var createdAt: NSDate?
-    
+
     // Message iVars
     public var text: String
     public var type: MessageType
@@ -51,10 +51,10 @@ extension LGMessage {
 }
 
 extension LGMessage : Decodable {
-    
+
     /**
     Expects a json in the form:
-    
+
         {
             "id": 3,
             "text": "hola que ase 3",
@@ -65,7 +65,7 @@ extension LGMessage : Decodable {
         }
     */
     public static func decode(j: JSON) -> Decoded<LGMessage> {
-        
+
         let init1 = curry(LGMessage.init)
             <^> j <|? "id"
             <*> LGArgo.parseDate(json: j, key: "created_at")
@@ -78,7 +78,7 @@ extension LGMessage : Decodable {
         if let error = result.error {
             print("LGMessage parse error: \(error)")
         }
-        
+
         return result
     }
 }

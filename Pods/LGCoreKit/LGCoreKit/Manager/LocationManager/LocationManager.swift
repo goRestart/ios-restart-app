@@ -25,24 +25,24 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         case LocationUpdate = "LocationManager.LocationUpdate"
         case MovedFarFromSavedManualLocation = "LocationManager.MovedFarFromSavedManualLocation"
     }
-    
+
     // Singleton
     public static let sharedInstance: LocationManager = LocationManager()
-    
+
     // Delegate
     public weak var permissionDelegate: LocationManagerPermissionDelegate?
-    
+
     // Repositories
     private let myUserRepository: MyUserRepository
-    
+
     // Services
     private let sensorLocationService: LocationService
     private let ipLookupLocationService: IPLookupLocationService
     private let postalAddressRetrievalService: PostalAddressRetrievalService
-    
+
     // DAO
     private let dao: DeviceLocationDAO
-    
+
     // Helpers
     private let countryHelper: CountryHelper
     private let currencyHelper: CurrencyHelper
@@ -51,7 +51,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     private var sensorLocation: LGLocation?
     private var inaccurateLocation: LGLocation?
     private var lastNotifiedLocation: LGLocation?
-    
+
     /**
     Returns if the manual location is enabled.
     */
@@ -63,43 +63,43 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     */
     public var manualLocationThreshold: Double
 
-    
+
     // MARK: - Lifecycle
-    
+
     init(myUserRepository: MyUserRepository,
         sensorLocationService: LocationService, ipLookupLocationService: IPLookupLocationService,
         postalAddressRetrievalService: PostalAddressRetrievalService, deviceLocationDAO: DeviceLocationDAO,
         countryHelper: CountryHelper, currencyHelper: CurrencyHelper) {
             self.myUserRepository = myUserRepository
-            
+
             self.sensorLocationService = sensorLocationService
             self.ipLookupLocationService = ipLookupLocationService
             self.postalAddressRetrievalService = postalAddressRetrievalService
-            
+
             self.dao = deviceLocationDAO
-            
+
             self.countryHelper = countryHelper
             self.currencyHelper = currencyHelper
-            
+
             if let lastKnownLocation = sensorLocationService.lastKnownLocation {
                 self.sensorLocation = LGLocation(location: lastKnownLocation, type: .Sensor)
             }
             self.inaccurateLocation = nil
             self.lastNotifiedLocation = nil
-            
+
             self.isManualLocationEnabled = false
 
             self.manualLocationThreshold = LGCoreKitConstants.defaultManualLocationThreshold
-            
+
             super.init()
-            
+
             // Setup
             self.sensorLocationService.locationManagerDelegate = self
             self.setup()
-            
+
             // Start retrieving inaccurate location (iplookup with regional fallback)
             self.retrieveInaccurateLocation()
-            
+
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("login:"),
                 name: SessionManager.Notification.Login.rawValue, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("logout:"),
@@ -113,18 +113,18 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         sensorLocationService.accuracy = LGCoreKitConstants.locationDesiredAccuracy
         let ipLookupLocationService = LGIPLookupLocationService()
         let postalAddressRetrievalService = CLPostalAddressRetrievalService()
-        
+
         let deviceLocationDAO = DeviceLocationUDDAO.sharedInstance
-        
+
         let countryHelper = CountryHelper()
         let currencyHelper = CurrencyHelper.sharedInstance
-        
+
         self.init(myUserRepository: myUserRepository, sensorLocationService: sensorLocationService,
             ipLookupLocationService: ipLookupLocationService,
             postalAddressRetrievalService: postalAddressRetrievalService, deviceLocationDAO: deviceLocationDAO,
             countryHelper: countryHelper, currencyHelper: currencyHelper)
     }
-    
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: SessionManager.Notification.Login.rawValue,
             object: nil)
@@ -132,14 +132,14 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             object: nil)
     }
 
-    
+
     // MARK: - Public methods
 
     // MARK: > Location
-    
+
     /**
     Returns the current location with the following preference/fallback:
-    
+
         1. User location if its type is manual
         2. Sensor
         3. User location
@@ -155,7 +155,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         if let deviceLocation = dao.deviceLocation?.location { return deviceLocation }
         return inaccurateLocation
     }
-    
+
     /**
     Returns the best accurate automatic location.
     */
@@ -163,10 +163,10 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         if let sensorLocation = sensorLocation { return sensorLocation }
         return inaccurateLocation
     }
-    
+
     /**
     Returns the current postal address with the following preference/fallback:
-    
+
         1. User
         2. Device
     */
@@ -174,7 +174,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         if let userPostalAddress = myUserRepository.myUser?.postalAddress { return userPostalAddress }
         return dao.deviceLocation?.postalAddress
     }
-    
+
     /**
     Sets the given location as manual.
     - parameter location: The location.
@@ -184,22 +184,22 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     public func setManualLocation(location: CLLocation, postalAddress: PostalAddress,
         completion: ((Result<MyUser, RepositoryError>) -> ())?) {
             isManualLocationEnabled = true
-            
+
             let lgLocation = LGLocation(location: location, type: .Manual)
             updateLocation(lgLocation, postalAddress: postalAddress, userUpdateCompletion: completion)
     }
-    
+
     /**
     Sets the location as automatic.
     - parameter userUpdateCompletion: The `MyUser` update completion closure.
     */
     public func setAutomaticLocation(userUpdateCompletion: ((Result<MyUser, RepositoryError>) -> ())?) {
         isManualLocationEnabled = false
-        
+
         guard let currentAutoLocation = currentAutoLocation else { return }
         updateLocation(currentAutoLocation, postalAddress: nil, userUpdateCompletion: userUpdateCompletion)
     }
-    
+
     /**
     Returns the current location service status.
     */
@@ -207,8 +207,8 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         return LocationServiceStatus(enabled: sensorLocationService.locationEnabled(),
             authStatus: sensorLocationService.authorizationStatus())
     }
-    
-    
+
+
     // MARK: > Sensor location updates
 
     /**
@@ -239,7 +239,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         sensorLocationService.stopUpdatingLocation()
     }
 
-    
+
     // MARK: - CLLocationManagerDelegate
 
     public func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
@@ -254,7 +254,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         case .NotDetermined:
             break
         }
-        
+
         if let didAcceptPermission = didAcceptPermission {
             permissionDelegate?.locationManager(self, didAcceptPermission: didAcceptPermission)
         }
@@ -262,10 +262,10 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
 
     public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
-        
+
         sensorLocation = LGLocation(location: lastLocation, type: .Sensor)
         guard let location = sensorLocation else { return }
-        
+
         updateLocation(location)
     }
 
@@ -273,19 +273,19 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     // MARK: - Private methods
 
     // MARK: > Setup
-    
+
     /**
     Setup.
     */
     private func setup() {
         let postalAddress = myUserRepository.myUser?.postalAddress ?? dao.deviceLocation?.postalAddress
         setCurrencyHelperPostalAddress(postalAddress)
-        
+
         if let myUserLocationType = myUserRepository.myUser?.location?.type where myUserLocationType == .Manual {
             isManualLocationEnabled = true
         }
     }
-    
+
     /**
     Sets the given postal address to the currency helper.
     - parameter postalAddress: The postal address.
@@ -294,10 +294,10 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         guard let countryCode = postalAddress?.countryCode else { return }
         currencyHelper.setCountryCode(countryCode)
     }
-    
-    
+
+
     // MARK: > Innacurate location & address retrieval
-    
+
     /**
     Requests the IP lookup location retrieval and, if fails it uses the regional.
     */
@@ -335,7 +335,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         return LGLocation(location: location, type: .Regional)
     }
-    
+
     /**
     Retrieves the postal address for the given location and updates my user & installation.
     - parameter location: The location to retrieve the postal address from.
@@ -350,11 +350,11 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
                 self?.updateLocation(location, postalAddress: postalAddress, userUpdateCompletion: completion)
             }
     }
-    
-    
+
+
     // MARK: > Location update
-    
-    
+
+
     /**
     Updates location and postal address in my user & installation, and runs recursively if `postalAddress` is `nil`
     after retrieving it.
@@ -364,7 +364,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     */
     private func updateLocation(location: LGLocation, postalAddress: PostalAddress? = nil,
         userUpdateCompletion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
-            
+
             if let postalAddress = postalAddress {
                 updateDeviceLocation(location, postalAddress: postalAddress)
                 updateUserLocation(location, postalAddress: postalAddress, completion: userUpdateCompletion)
@@ -373,7 +373,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
                 retrievePostalAddressAndUpdate(location)
             }
     }
-    
+
     /**
     Updates location and postal address in `DeviceLocation`.
     - parameter location: The location.
@@ -393,7 +393,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             dao.save(updatedDeviceLocation)
         }
     }
-    
+
     /**
     Updates location and postal address in `MyUser`.
     - parameter location: The location.
@@ -402,14 +402,14 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     */
     private func updateUserLocation(location: LGLocation, postalAddress: PostalAddress,
         completion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
-            
+
             guard let myUser = myUserRepository.myUser else {
                 completion?(Result<MyUser, RepositoryError>(error: .Internal))
                 return
             }
 
             checkFarAwayMovementAndNotify(myUser: myUser, location: location)
-        
+
             if myUser.shouldReplaceWithNewLocation(location, manualLocationEnabled: isManualLocationEnabled) {
                 let myCompletion: (Result<MyUser, RepositoryError>) -> () = { [weak self] result in
                     self?.handleLocationUpdate(location, postalAddress: postalAddress)
@@ -436,7 +436,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
                 notifyMovedFarFromSavedManualLocation()
         }
     }
-    
+
     /**
     Handles a location update.
     - parameter location: The location.
@@ -446,16 +446,16 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         if let postalAddress = postalAddress {
             setCurrencyHelperPostalAddress(postalAddress)
         }
-        
+
         guard let currentLocation = currentLocation where currentLocation != lastNotifiedLocation else { return }
-        
+
         lastNotifiedLocation = currentLocation
         notifyLocationUpdate(currentLocation)
     }
-    
-    
+
+
     // MARK: > NSNotificationCenter
-    
+
     /**
     Notifies about a location update.
     - parameter location: The location to notify about.
@@ -464,7 +464,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.LocationUpdate.rawValue,
             object: location)
     }
-    
+
     /**
     Notifies about that the user moved far from the saved manual location.
     */
@@ -472,7 +472,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.MovedFarFromSavedManualLocation.rawValue,
             object: nil)
     }
-    
+
     /**
     Called when login notification is launched.
     - parameter notification: The notification that arised this method.
@@ -481,17 +481,17 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         guard notification.name == SessionManager.Notification.Login.rawValue else { return }
         setup()
     }
-    
+
     /**
     Called when logout notification is launched.
     - parameter notification: The notification that arised this method.
     */
     dynamic private func logout(notification: NSNotification) {
         guard notification.name == SessionManager.Notification.Logout.rawValue else { return }
-        
+
         let installationPostalAddress = dao.deviceLocation?.postalAddress
         setCurrencyHelperPostalAddress(installationPostalAddress)
-        
+
         isManualLocationEnabled = false
     }
 }
@@ -502,7 +502,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
 private extension MyUser {
     func shouldReplaceWithNewLocation(newLocation: LGLocation, manualLocationEnabled: Bool) -> Bool {
         guard let savedLocation = location else { return true }
-        
+
         switch savedLocation.type {
         case .IPLookup:
             switch newLocation.type {
@@ -542,7 +542,7 @@ private extension MyUser {
 private extension DeviceLocation {
     func shouldReplaceWithNewLocation(newLocation: LGLocation) -> Bool {
         guard let savedLocation = location else { return true }
-        
+
         switch savedLocation.type {
         case .IPLookup:
             switch newLocation.type {

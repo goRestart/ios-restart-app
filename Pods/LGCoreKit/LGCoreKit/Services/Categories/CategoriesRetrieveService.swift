@@ -17,10 +17,10 @@ public typealias CategoriesRetrieveServiceResult = Result<[ProductCategory], Cat
 public typealias CategoriesRetrieveServiceCompletion = CategoriesRetrieveServiceResult -> Void
 
 public protocol CategoriesRetrieveService {
-    
+
     /**
         Retrieves all product categories.
-    
+
         - parameter completion: The completion closure.
     */
     func retrieveCategoriesWithCompletion(completion: CategoriesRetrieveServiceCompletion?)

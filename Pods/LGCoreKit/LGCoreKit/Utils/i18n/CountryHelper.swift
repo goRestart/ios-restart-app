@@ -13,17 +13,17 @@ public class CountryHelper {
     // iVars
     private var locale: NSLocale
     private var countryInfoDAO: CountryInfoDAO
-    
+
     // MARK: - Lifecycle
-    
+
     public init(locale: NSLocale = NSLocale.currentLocale(), countryInfoDAO: CountryInfoDAO = RLMCountryInfoDAO()!) {
-        
+
         self.locale = locale
         self.countryInfoDAO = countryInfoDAO
     }
-    
+
     // MARK: - Public methods
-    
+
     public var regionCoordinate: CLLocationCoordinate2D {
         if let countryCode = locale.objectForKey(NSLocaleCountryCode) as? String,
            let countryInfo = countryInfoDAO.fetchCountryInfoWithCountryCode(countryCode.uppercaseString),

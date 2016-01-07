@@ -9,12 +9,12 @@
 import Foundation
 
 enum ChatRouter: URLRequestAuthenticable {
-    
+
     case Index(params: [String : AnyObject])
     case Show(objectId: String, params: [String : AnyObject])
     case CreateMessage(objectId: String, params: [String : AnyObject])
     case UnreadCount
-    
+
     var endpoint: String {
         switch self {
         case .Index:
@@ -27,11 +27,11 @@ enum ChatRouter: URLRequestAuthenticable {
             return "/api/products/messages/unread-count"
         }
     }
-    
+
     var requiredAuthLevel: AuthLevel {
         return .User
     }
-    
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Index(params):

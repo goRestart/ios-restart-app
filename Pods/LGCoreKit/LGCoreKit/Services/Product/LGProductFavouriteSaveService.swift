@@ -9,9 +9,9 @@
 import Result
 
 final public class LGProductFavouriteSaveService: ProductFavouriteSaveService {
-    
+
     public func saveFavouriteProduct(product: Product, user: User, sessionToken: String, completion: ProductFavouriteSaveServiceCompletion?) {
-        
+
         guard let userId = user.objectId else {
             completion?(ProductFavouriteSaveServiceResult(error: .Internal))
             return
