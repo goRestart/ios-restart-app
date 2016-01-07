@@ -37,6 +37,8 @@ struct Constants {
     static let productListMaxDaysLabel = 30.0
     static let productListMaxMonthsLabel = 3.0
     static let productListFooterHeight: CGFloat = 70
+    static let productListFixedInsets: CGFloat = 5
+    static let productListNewLabelThreshold: NSTimeInterval = 60 * 60 * 24 // 1 day
     
     // Categories
     static let categoriesCellFactor: CGFloat = 150.0 / 160.0

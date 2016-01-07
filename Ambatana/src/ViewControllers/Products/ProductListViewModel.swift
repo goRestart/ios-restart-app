@@ -32,7 +32,7 @@ public class ProductListViewModel: BaseViewModel {
     
     private static let cellMinHeight: CGFloat = 160.0
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
-    private static let cellWidth: CGFloat = UIScreen.mainScreen().bounds.size.width * (1 / columnCount)
+    private static let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width - (Constants.productListFixedInsets*2)) / columnCount
     
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
@@ -350,7 +350,8 @@ public class ProductListViewModel: BaseViewModel {
     func productCellDataAtIndex(index: Int) -> ProductCellData {        
         let product = products[index]
         return ProductCellData(title: product.name, price: product.priceString(),
-            thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt)
+            thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
+            cellWidth: ProductListViewModel.cellWidth)
     }
     
     /**
@@ -375,7 +376,7 @@ public class ProductListViewModel: BaseViewModel {
             if thumbnailSize.height != 0 && thumbnailSize.width != 0 {
                 let thumbFactor = thumbnailSize.height / thumbnailSize.width
                 var baseSize = defaultCellSize
-                baseSize.height = max(ProductListViewModel.cellMinHeight, round(baseSize.height * CGFloat(thumbFactor)))
+                baseSize.height = max(ProductListViewModel.cellMinHeight, round(baseSize.width * CGFloat(thumbFactor)))
                 return baseSize
             }
         }

@@ -29,11 +29,6 @@ public enum ProductListViewState {
         errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
-public enum ProductListCellMode {
-    case FullInfo
-    case JustImage
-}
-
 public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
@@ -96,8 +91,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             collectionView.contentInset = collectionViewContentInset
         }
     }
-    
-    public var cellMode = ProductListCellMode.FullInfo
+    public var defaultCellSize: CGSize {
+        return productListViewModel.defaultCellSize
+    }
     
     // Data
     internal(set) var productListViewModel: ProductListViewModel
@@ -351,8 +347,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         heightForFooterInSection section: Int) -> CGFloat {
             return Constants.productListFooterHeight
     }
-    
-    
+
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: Constants.productListFixedInsets, left: Constants.productListFixedInsets,
+                bottom: Constants.productListFixedInsets, right: Constants.productListFixedInsets)
+    }
+
+
     // MARK: - UICollectionViewDataSource
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -372,7 +374,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func collectionView(collectionView: UICollectionView,
         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-            let drawer = ProductCellDrawerFactory.drawerForProductMode(cellMode)
+            let drawer = ProductCellDrawerFactory.drawerForProduct()
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
             drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item))

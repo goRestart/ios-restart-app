@@ -21,8 +21,6 @@ public class MainProductListView: ProductListView {
         
         super.init(viewModel: mainProductListViewModel, coder: aDecoder)
         mainProductListViewModel.dataDelegate = self
-        
-        self.cellMode = ABTests.mainProductsJustImages.boolValue ? .JustImage : .FullInfo
     }
     
     

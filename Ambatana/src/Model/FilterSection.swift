@@ -26,13 +26,7 @@ extension FilterSection {
     }
     
     public static func allValues()  -> [FilterSection] {
-        
-        if ABTests.productsWithinFilterEnabled.boolValue {
-            return [.Distance, .Categories, .Within, .SortBy]
-        }
-        else {
-            return [.Distance, .Categories, .SortBy]
-        }
+        return [.Distance, .Categories, .Within, .SortBy]
     }
     
 }
