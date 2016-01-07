@@ -121,6 +121,7 @@ UITextFieldDelegate {
 
         cameraDevice = cameraDevice.toggle
         fastCamera.cameraDevice = cameraDevice
+        flashButton.hidden = cameraDevice == .Front
     }
 
     @IBAction func onTakePhotoButton(sender: AnyObject) {

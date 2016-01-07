@@ -236,12 +236,7 @@ extension UIViewController {
         activityIndicator.startAnimating()
 
         self.loading = alert
-        presentViewController(alert, animated: true) {
-            if self.loading == nil {
-                //That means we tried to dismiss while presenting. Note that we will be missing the dismiss completion
-                alert.dismissViewControllerAnimated(true, completion: nil)
-            }
-        }
+        presentViewController(alert, animated: true, completion: nil)
     }
 
     // dismisses a previously shown loading alert message (iOS 8 -- UIAlertController style, iOS 7 -- UIAlertView style)
