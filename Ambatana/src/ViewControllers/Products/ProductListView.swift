@@ -91,6 +91,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             collectionView.contentInset = collectionViewContentInset
         }
     }
+    public var defaultCellSize: CGSize {
+        return productListViewModel.defaultCellSize
+    }
     
     // Data
     internal(set) var productListViewModel: ProductListViewModel

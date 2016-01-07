@@ -13,6 +13,8 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
 
         guard let cell = collectionCell as? ProductCell else { return }
 
+        cell.setCellWidth(data.cellWidth)
+
         cell.priceLabel.text = data.price ?? ""
 
         // Thumb

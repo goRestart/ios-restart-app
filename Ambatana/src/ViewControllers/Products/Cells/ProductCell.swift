@@ -17,6 +17,7 @@ struct ProductCellData {
     var thumbUrl: NSURL?
     var status: ProductStatus
     var date: NSDate?
+    var cellWidth: CGFloat
 }
 
 class ProductCell: UICollectionViewCell, ReusableCell {
@@ -24,6 +25,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
+    @IBOutlet weak var priceGradientView: UIView!
     
     // Stripe
     @IBOutlet weak var stripeImageView: UIImageView!
@@ -42,7 +44,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         super.prepareForReuse()
         self.resetUI()
     }
-    
+
     
     // MARK: - Static methods
 
@@ -65,13 +67,27 @@ class ProductCell: UICollectionViewCell, ReusableCell {
             })
     }
 
-    
+    func setCellWidth(width: CGFloat) {
+        if let sublayers = priceGradientView.layer.sublayers {
+            let gradientBounds = CGRect(x: 0, y: 0, width: width, height: priceGradientView.height)
+            for sublayer in sublayers {
+                sublayer.frame = gradientBounds
+            }
+        }
+    }
+
+
     // MARK: - Private methods
     
     // Sets up the UI
     private func setupUI() {
         thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         thumbnailBgColorView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
+            locations: [0.0,1.0])
+        shadowLayer.frame = priceGradientView.bounds
+        priceGradientView.layer.addSublayer(shadowLayer)
+        priceGradientView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         let rotation = CGFloat(M_PI_4)
         stripeLabel.transform = CGAffineTransformMakeRotation(rotation)
     }
