@@ -10,13 +10,6 @@ import Foundation
 
 public struct ABTests {
 
-    public static let mainProductsJustImages = OptimizelyABLiveVariable.boolVariable("MainProductsJustImages",
-        boolValue: false)
-
-    public static let navBarTintColor = OptimizelyABLiveVariable.colorVariable("NavBarTintColor",
-        colorValue: StyleHelper.primaryColor)
-    public static let productsWithinFilterEnabled = OptimizelyABLiveVariable.boolVariable("ProductsWithinFilter",
-        boolValue: true)
     public static let loginAfterSell = OptimizelyABLiveVariable.boolVariable("LoginAfterSell", boolValue: true)
     public static let nativePrePermissions = OptimizelyABLiveVariable.boolVariable("NativePrePermissions",
         boolValue: true)
@@ -31,8 +24,6 @@ public struct ABTests {
         boolValue: false)
 
 
-    public static let allValues = [ABTests.mainProductsJustImages, ABTests.navBarTintColor,
-        ABTests.productsWithinFilterEnabled, ABTests.loginAfterSell, ABTests.nativePrePermissions,
-        ABTests.prePermissionsActive, ABTests.nativePrePermissionAtList, ABTests.alternativePermissionText,
-        ABTests.newPostingProcess]
+    public static let allValues = [ABTests.loginAfterSell, ABTests.nativePrePermissions, ABTests.prePermissionsActive,
+        ABTests.nativePrePermissionAtList, ABTests.alternativePermissionText, ABTests.newPostingProcess]
 }

@@ -104,7 +104,7 @@ class StyleHelper {
     // MARK: - NavBar
     
     static var navBarButtonsColor: UIColor {
-        return ABTests.navBarTintColor.colorValue
+        return primaryColor;
     }
     
     static var navBarTitleColor: UIColor {

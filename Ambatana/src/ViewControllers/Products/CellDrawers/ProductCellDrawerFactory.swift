@@ -10,7 +10,7 @@ import Foundation
 
 public class ProductCellDrawerFactory {
 
-    static func drawerForProductMode(mode: ProductListCellMode) -> ProductCellDrawer {
+    static func drawerForProduct() -> ProductCellDrawer {
         return ImageProductCellDrawer()
     }
 

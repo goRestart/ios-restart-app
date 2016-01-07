@@ -29,11 +29,6 @@ public enum ProductListViewState {
         errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
-public enum ProductListCellMode {
-    case FullInfo
-    case JustImage
-}
-
 public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
@@ -97,8 +92,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             collectionView.contentInset = collectionViewContentInset
         }
     }
-    
-    public var cellMode = ProductListCellMode.FullInfo
     
     // Data
     internal(set) var productListViewModel: ProductListViewModel
@@ -379,7 +372,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func collectionView(collectionView: UICollectionView,
         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-            let drawer = ProductCellDrawerFactory.drawerForProductMode(cellMode)
+            let drawer = ProductCellDrawerFactory.drawerForProduct()
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
             drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item))
