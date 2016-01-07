@@ -27,11 +27,10 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
             cell.stripeLabel.text = LGLocalizedString.productListItemSoldStatusLabel
 
         case .Pending, .Approved, .Discarded, .Deleted:
-            if let createdAt = data.date {
-                if NSDate().timeIntervalSinceDate(createdAt) < 60*60*24 {
+            if let createdAt = data.date where
+                NSDate().timeIntervalSinceDate(createdAt) < Constants.productListNewLabelThreshold {
                     cell.stripeImageView.image = UIImage(named: "stripe_new")
                     cell.stripeLabel.text = LGLocalizedString.productListItemNewStatusLabel
-                }
             }
         }
     }

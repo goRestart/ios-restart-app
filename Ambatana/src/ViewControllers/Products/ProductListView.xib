@@ -20,7 +20,6 @@
                 <outlet property="errorView" destination="ljl-Jf-n6M" id="ngf-WM-0pj"/>
                 <outlet property="firstLoadActivityIndicator" destination="Pbl-p4-Cn4" id="yhM-Du-Lw8"/>
                 <outlet property="firstLoadView" destination="6q1-Ob-tgt" id="cZr-l7-ZLr"/>
-                <outlet property="waterfallLayout" destination="bn2-Cx-1YE" id="5Fc-zS-zVt"/>
                 <outletCollection property="leftInsetConstraints" destination="6AW-wj-rta" collectionClass="NSMutableArray" id="8Qe-kY-UTZ"/>
                 <outletCollection property="leftInsetConstraints" destination="6bM-oG-ScS" collectionClass="NSMutableArray" id="2Xr-7W-cLe"/>
                 <outletCollection property="leftInsetConstraints" destination="nW1-xA-yeT" collectionClass="NSMutableArray" id="ciJ-k5-Q72"/>

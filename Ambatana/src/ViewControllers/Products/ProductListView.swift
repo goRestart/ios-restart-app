@@ -46,7 +46,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet weak var dataView: UIView!
     var refreshControl: UIRefreshControl!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var waterfallLayout: CHTCollectionViewWaterfallLayout!
     
     private var lastContentOffset: CGFloat
     private var scrollingDown: Bool

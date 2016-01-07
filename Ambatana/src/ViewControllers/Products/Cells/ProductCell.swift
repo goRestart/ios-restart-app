@@ -72,8 +72,10 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     private func setupUI() {
         thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         thumbnailBgColorView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        let rotation = CGFloat(M_PI_4)
+        stripeLabel.transform = CGAffineTransformMakeRotation(rotation)
     }
-    
+
     // Resets the UI to the initial state
     private func resetUI() {
         priceLabel.text = ""
@@ -81,8 +83,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         thumbnailImageView.image = nil
         stripeImageView.image = nil
         stripeLabel.text = ""
-        let rotation = CGFloat(M_PI_4)
-        stripeLabel.transform = CGAffineTransformMakeRotation(rotation)
     }
     
 }
