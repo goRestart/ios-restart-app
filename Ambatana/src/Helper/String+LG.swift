@@ -29,9 +29,12 @@ extension String {
     }
 
     func isValidLengthPrice() -> Bool {
-        let separator = stringByTrimmingCharactersInSet(NSCharacterSet.alphanumericCharacterSet())
+        let separator = componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet())
+            .joinWithSeparator("")
         if separator.isEmpty {
             return characters.count <= Constants.maxPriceIntegerCharacters
+        } else if separator.characters.count > 1 {
+            return false
         }
 
         let parts = componentsSeparatedByString(separator)
