@@ -23,6 +23,7 @@ struct ProductCellData {
 class ProductCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var cellContent: UIView!
+    @IBOutlet weak var cellContentHeight: NSLayoutConstraint!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -89,6 +90,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         priceGradientView.layer.addSublayer(shadowLayer)
         let rotation = CGFloat(M_PI_4)
         stripeLabel.transform = CGAffineTransformMakeRotation(rotation)
+//        cellContentHeight.constant = 0
     }
 
     // Resets the UI to the initial state
