@@ -342,7 +342,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     - parameter completion: The completion closure, what will be called on user update.
     */
     private func retrievePostalAddressAndUpdate(location: LGLocation,
-        completion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
+        completion: ((Result<MyUser, RepositoryError>) -> ())?) {
             
             postalAddressRetrievalService.retrieveAddressForLocation(location.location) { [weak self] result in
                 let postalAddress = result.value?.postalAddress ?? PostalAddress(address: nil, city: nil, zipCode: nil,
@@ -370,7 +370,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
                 updateUserLocation(location, postalAddress: postalAddress, completion: userUpdateCompletion)
                 handleLocationUpdate(location, postalAddress: postalAddress)
             } else {
-                retrievePostalAddressAndUpdate(location)
+                retrievePostalAddressAndUpdate(location, completion: userUpdateCompletion)
             }
     }
 
