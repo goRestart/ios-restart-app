@@ -299,15 +299,14 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                 var message = LGLocalizedString.signUpSendErrorGeneric
                 switch (error) {
                 case .InvalidUsername:
-                    message = String(format: LGLocalizedString.signUpSendErrorInvalidUsername,
-                        Constants.fullNameMinLength)
+                    message = LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength)
                     errorDescription = .InvalidUsername
                 case .InvalidEmail:
                     message = LGLocalizedString.signUpSendErrorInvalidEmail
                     errorDescription = .InvalidEmail
                 case .InvalidPassword:
-                    message = String(format: LGLocalizedString.signUpSendErrorInvalidPasswordWithMax,
-                        Constants.passwordMinLength, Constants.passwordMaxLength)
+                    message = LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+                        Constants.passwordMaxLength)
                     errorDescription = .InvalidPassword
                 case .Api(let apiError):
                     switch apiError {
@@ -319,7 +318,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                     case .NotFound:
                         errorDescription = .NotFound
                     case .AlreadyExists:
-                        message = String(format: LGLocalizedString.signUpSendErrorEmailTaken, viewModel.email)
+                        message = LGLocalizedString.signUpSendErrorEmailTaken(viewModel.email)
                         errorDescription = .EmailTaken
                     case .Internal, .Unauthorized, .InternalServerError:
                         errorDescription = .Internal

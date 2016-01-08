@@ -229,9 +229,9 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         let distanceString = String(format: "%d %@", arguments: [min(Constants.productListMaxDistanceLabel, distance),
             type.string])
         if distance <= Constants.productListMaxDistanceLabel {
-            return String(format: LGLocalizedString.productDistanceXFromYou, distanceString)
+            return LGLocalizedString.productDistanceXFromYou(distanceString)
         } else {
-            return String(format: LGLocalizedString.productDistanceMoreThanFromYou, distanceString)
+            return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
         }
     }
     

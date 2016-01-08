@@ -84,7 +84,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
                 return true
             }
             else {
-                self.showAutoFadingOutMessageAlert(String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength), time: 3.5)
+                self.showAutoFadingOutMessageAlert(
+                    LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength), time: 3.5)
                 return false
             }
         } else {
@@ -104,9 +105,9 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         case .Api, .Internal:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .InvalidUsername:
-            message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength)
+            message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
         case .UsernameTaken:
-            message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo, viewModel.username)
+            message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
         }
         
         self.showAutoFadingOutMessageAlert(message)
@@ -130,9 +131,9 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
             case .Api, .Internal:
                 message = LGLocalizedString.commonErrorConnectionFailed
             case .InvalidUsername:
-                message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsername, Constants.fullNameMinLength)
+                message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
             case .UsernameTaken:
-                message = String(format: LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo, viewModel.username)
+                message = LGLocalizedString.changeUsernameErrorInvalidUsernameLetgo(viewModel.username)
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)

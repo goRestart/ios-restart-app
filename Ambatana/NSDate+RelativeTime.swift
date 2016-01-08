@@ -24,14 +24,14 @@ extension NSDate {
         if seconds < 10 {
             return LGLocalizedString.commonTimeNowLabel
         } else if seconds < 60 {
-            return String(format: LGLocalizedString.commonTimeSecondsAgoLabel, Int(seconds))
+            return LGLocalizedString.commonTimeSecondsAgoLabel(Int(seconds))
         }
         
         if minutes < 60 {
             if minutes == 1 {
                 return LGLocalizedString.commonTimeAMinuteAgoLabel
             } else {
-                return String(format: LGLocalizedString.commonTimeMinutesAgoLabel, Int(minutes))
+                return LGLocalizedString.commonTimeMinutesAgoLabel(Int(minutes))
             }
         }
         
@@ -39,7 +39,7 @@ extension NSDate {
             if hours == 1 {
                 return LGLocalizedString.commonTimeHourAgoLabel
             } else {
-                return String(format: LGLocalizedString.commonTimeHoursAgoLabel, Int(hours))
+                return LGLocalizedString.commonTimeHoursAgoLabel(Int(hours))
             }
         }
         
@@ -47,7 +47,7 @@ extension NSDate {
             if days == 1 {
                 return LGLocalizedString.commonTimeDayAgoLabel
             } else {
-                return String(format: LGLocalizedString.commonTimeDaysAgoLabel, Int(days))
+                return LGLocalizedString.commonTimeDaysAgoLabel(Int(days))
             }
         }
         
@@ -55,7 +55,7 @@ extension NSDate {
             if weeks == 1 {
                 return LGLocalizedString.commonTimeWeekAgoLabel
             } else {
-                return String(format: LGLocalizedString.commonTimeWeeksAgoLabel, Int(weeks))
+                return LGLocalizedString.commonTimeWeeksAgoLabel(Int(weeks))
             }
         }
         
