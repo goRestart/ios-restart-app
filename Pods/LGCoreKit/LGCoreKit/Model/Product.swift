@@ -9,29 +9,41 @@
 import CoreGraphics
 import UIKit
 
+//Remove all setters and change by a factory method if required
 public protocol Product: BaseModel {
-    var name: String? { get set }
-    var descr: String? { get set }
-    var price: NSNumber? { get set }
-    var currency: Currency? { get set }
-    
-    var location: LGLocationCoordinates2D? { get set }
-    var postalAddress: PostalAddress { get set }
-    
-    var languageCode: String? { get set }
-        
-    var categoryId: NSNumber? { get set }   // TODO: To be refactored to user ProductCategory when @objc is removed
-    var status: ProductStatus { get set }
-    
-    var thumbnail: File? { get set }
-    var thumbnailSize: LGSize? { get }
-    var images: [File] { get set }
-    
-    var user: User? { get set }
-    
-    var reported: NSNumber? { get set }
-    var favorited: NSNumber? { get set }
+    var name: String? { get }
+    var descr: String? { get }
+    var price: Double? { get }
+    var currency: Currency? { get }
 
-    func formattedPrice() -> String
-    func updateWithProduct(product: Product )
+    var location: LGLocationCoordinates2D { get }
+    var postalAddress: PostalAddress { get }
+
+    var languageCode: String? { get }
+
+    var category: ProductCategory { get }
+    var status: ProductStatus { get }
+
+    var thumbnail: File? { get }
+    var thumbnailSize: LGSize? { get }
+    var images: [File] { get }          // Default value []
+
+    var user: User { get }
+
+    var updatedAt : NSDate? { get }
+    var createdAt : NSDate? { get }
+
+}
+
+extension Product {
+    public func formattedPrice() -> String {
+        let actualCurrencyCode = currency?.code ?? LGCoreKitConstants.defaultCurrencyCode
+        if let actualPrice = price {
+            let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: actualPrice)
+            return formattedPrice ?? "\(actualPrice)"
+        }
+        else {
+            return ""
+        }
+    }
 }

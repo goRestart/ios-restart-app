@@ -20,7 +20,8 @@ private let kLetGoEnabledButtonForegroundColor = UIColor(red: 0.949, green: 0.36
 private let kLetGoEditProfileCellFactor: CGFloat = 210.0 / 160.0
 
 
-class EditProfileViewController: UIViewController, ProductListViewDataDelegate, UICollectionViewDelegate, UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
+class EditProfileViewController: UIViewController, ProductListViewDataDelegate, UICollectionViewDelegate,
+UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     enum ProfileTab {
         case ProductImSelling
@@ -43,7 +44,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     // Sold
     @IBOutlet weak var soldProductListView: ProfileProductListView!
-
+    
     // Favourites
     @IBOutlet weak var favouriteCollectionView: UICollectionView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -79,8 +80,8 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     var cellSize = CGSizeMake(160.0, 210.0)
     
-    init(user: User) {
-        self.user = user
+    init(user: User?) {
+        self.user = user ?? MyUserRepository.sharedInstance.myUser ?? LGUser()
         shouldReload = true
         self.productsFavouriteRetrieveService = LGProductsFavouriteRetrieveService()
         super.init(nibName: "EditProfileViewController", bundle: nil)
@@ -91,7 +92,11 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -119,7 +124,7 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         
         // center activity indicator (if there's a tabbar)
         let bottomMargin: CGFloat
-        if let tabBarCtl = self.tabBarController {
+        if let tabBarCtl = tabBarController {
             bottomMargin = tabBarCtl.tabBar.hidden ? 0 : -tabBarCtl.tabBar.frame.size.height/2
         }
         else {
@@ -131,84 +136,88 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
         let layout = CHTCollectionViewWaterfallLayout()
         layout.minimumColumnSpacing = 0.0
         layout.minimumInteritemSpacing = 0.0
-        self.favouriteCollectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
-        self.favouriteCollectionView.alwaysBounceVertical = true
-        self.favouriteCollectionView.collectionViewLayout = layout
+        favouriteCollectionView.autoresizingMask = .FlexibleHeight
+        favouriteCollectionView.alwaysBounceVertical = true
+        favouriteCollectionView.collectionViewLayout = layout
         
         // Add bottom inset (tabbar) if tabbar visible
         let bottomInset: CGFloat
-        let footerHeight: CGFloat
-        if let tabBarCtl = self.tabBarController {
+        let sellButtonHeight: CGFloat
+        if let tabBarCtl = tabBarController {
             bottomInset = tabBarCtl.tabBar.hidden ? 0 : tabBarCtl.tabBar.frame.height
-            footerHeight = tabBarCtl.tabBar.hidden ? 0 : 80
+            sellButtonHeight = tabBarCtl.tabBar.hidden ? 0 : Constants.tabBarSellFloatingButtonHeight
         }
         else {
             bottomInset = 0
-            footerHeight = 0
+            sellButtonHeight = 0
         }
         favouriteCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
         sellingProductListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
-        sellingProductListView.collectionViewFooterHeight = footerHeight
+        sellingProductListView.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0,
+            bottom: sellButtonHeight, right: 0)
         soldProductListView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
-        soldProductListView.collectionViewFooterHeight = footerHeight
+        soldProductListView.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0,
+            bottom: sellButtonHeight, right: 0)
         
         // register ProductCell
-        let cellNib = UINib(nibName: "ProductCell", bundle: nil)
-        favouriteCollectionView.registerNib(cellNib, forCellWithReuseIdentifier: "ProductCell")
+        ProductCellDrawerFactory.registerCells(favouriteCollectionView)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearProductLists:",
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if shouldReload {
-            // UX/UI and Appearance.
-            setLetGoNavigationBarStyle("")
-            
-            sellingProductListView.hidden = true
-            soldProductListView.hidden = true
-            favouriteCollectionView.hidden = true
-            activityIndicator.startAnimating()
-            
-            // load
-            isSellProductsEmpty = true
-            isSoldProductsEmpty = true
-            favProducts = []
-            
-            // reset UI
-            sellingProductListView.delegate = self
-            sellingProductListView.user = user
-            sellingProductListView.type = .Selling
-            soldProductListView.delegate = self
-            soldProductListView.user = user
-            soldProductListView.type = .Sold
-            
-            favouriteCollectionView.reloadData()
-            
-            retrieveProductsForTab(ProfileTab.ProductImSelling)
-            retrieveProductsForTab(ProfileTab.ProductISold)
-            retrieveProductsForTab(ProfileTab.ProductFavourite)
-            
-            // UI
-            if let avatarURL = user.avatar?.fileURL {
-                userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
-            }
-            else {
-                userImageView.image = UIImage(named: "no_photo")
-            }
-            userNameLabel.text = user.publicUsername ?? ""
-            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId {
-                userLocationLabel.text = MyUserManager.sharedInstance.profileLocationInfo ?? ""
-            }
-            else {
-                userLocationLabel.text = user.postalAddress.city ?? ""
-            }
-            
-            // If it's me, then allow go to settings
-            if let myUser = MyUserManager.sharedInstance.myUser(), let myUserId = myUser.objectId, let userId = user.objectId {
+        guard shouldReload else { return }
+
+        if let myUser = MyUserRepository.sharedInstance.myUser where user.objectId == myUser.objectId {
+            user = myUser
+        }
+
+        // UX/UI and Appearance.
+        setLetGoNavigationBarStyle("")
+        
+        sellingProductListView.hidden = true
+        soldProductListView.hidden = true
+        favouriteCollectionView.hidden = true
+        activityIndicator.startAnimating()
+        
+        // load
+        isSellProductsEmpty = true
+        isSoldProductsEmpty = true
+        favProducts = []
+        
+        // reset UI
+        sellingProductListView.delegate = self
+        sellingProductListView.user = user
+        sellingProductListView.type = .Selling
+        soldProductListView.delegate = self
+        soldProductListView.user = user
+        soldProductListView.type = .Sold
+        
+        favouriteCollectionView.reloadData()
+        
+        retrieveProductsForTab(ProfileTab.ProductImSelling)
+        retrieveProductsForTab(ProfileTab.ProductISold)
+        retrieveProductsForTab(ProfileTab.ProductFavourite)
+        
+        // UI
+        if let avatarURL = user.avatar?.fileURL {
+            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
+        } else {
+            userImageView.image = UIImage(named: "no_photo")
+        }
+
+        userNameLabel.text = user.name ?? ""
+        userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
+        
+        // If it's me, then allow go to settings
+        if let myUser = MyUserRepository.sharedInstance.myUser, let myUserId = myUser.objectId,
+            let userId = user.objectId {
                 if userId == myUserId {
-                    setLetGoRightButtonsWithImageNames(["navbar_settings"], andSelectors: ["goToSettings"])
+                    setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
                 }
-            }
         }
     }
     
@@ -224,14 +233,14 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     func goToSettings() {
         let vc = SettingsViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func showSellProducts(sender: AnyObject) {
         selectedTab = .ProductImSelling
         updateUIForCurrentTab()
     }
-
+    
     @IBAction func showSoldProducts(sender: AnyObject) {
         selectedTab = .ProductISold
         updateUIForCurrentTab()
@@ -245,124 +254,121 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
-        let vc = NewSellProductViewController()
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
+        SellProductControllerFactory.presentSellProductOn(viewController: self)
     }
-    
+
     @IBAction func startSearchingNow(sender: AnyObject) {
-        if let tabBarCtl = tabBarController as? TabBarController {
-            tabBarCtl.switchToTab(.Home)
-        }
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
     }
+
     
     // MARK: - ProductListViewDataDelegate
     
-    func productListView(productListView: ProductListView, didStartRetrievingProductsPage page: UInt) {  
+    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+        error: ProductsRetrieveServiceError) {
+            
+            if productListView == sellingProductListView {
+                isSellProductsEmpty = !hasProducts
+                loadingSellProducts = false
+                
+                retrievalFinishedForProductsAtTab(.ProductImSelling)
+            }
+            else if productListView == soldProductListView {
+                isSoldProductsEmpty = !hasProducts
+                loadingSoldProducts = false
+                
+                retrievalFinishedForProductsAtTab(.ProductISold)
+            }
+            
+            if error == .Forbidden {
+                // logout the scammer!
+                showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
+                    SessionManager.sharedInstance.logout()
+               }
+            }
     }
     
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool, error: ProductsRetrieveServiceError) {
-        
-        if productListView == sellingProductListView {
-            isSellProductsEmpty = !hasProducts
-            loadingSellProducts = false
+    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
+        hasProducts: Bool) {
             
-            retrievalFinishedForProductsAtTab(.ProductImSelling)
-        }
-        else if productListView == soldProductListView {
-            isSoldProductsEmpty = !hasProducts
-            loadingSoldProducts = false
-            
-            retrievalFinishedForProductsAtTab(.ProductISold)
-        }
-        
-        if error == .Forbidden {
-            // logout the scammer!
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                MyUserManager.sharedInstance.logout(nil)
-            })
-        }
-    }
-    
-    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
-        
-        if productListView == sellingProductListView {
-            isSellProductsEmpty = !hasProducts
-            loadingSellProducts = false
-            
-            retrievalFinishedForProductsAtTab(.ProductImSelling)
-        }
-        else if productListView == soldProductListView {
-            isSoldProductsEmpty = !hasProducts
-            loadingSoldProducts = false
-            
-            retrievalFinishedForProductsAtTab(.ProductISold)
-        }       
+            if productListView == sellingProductListView {
+                isSellProductsEmpty = !hasProducts
+                loadingSellProducts = false
+                
+                retrievalFinishedForProductsAtTab(.ProductImSelling)
+            }
+            else if productListView == soldProductListView {
+                isSoldProductsEmpty = !hasProducts
+                loadingSoldProducts = false
+                
+                retrievalFinishedForProductsAtTab(.ProductISold)
+            }
     }
     
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
         let vc = ProductViewController(viewModel: productVM)
-        // TODO: @ahl: Delegate stuff!
-//        vc.delegate = self
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
-    func productListView(productListView: ProductListView, shouldUpdateDistanceLabel distance: Int, withDistanceType type: DistanceType) {
-    }
     
-    func productListView(productListView: ProductListView, shouldHideDistanceLabel hidden: Bool) {
-    }
-    
-    func productListView(productListView: ProductListView, shouldHideFloatingSellButton hidden: Bool) {
-    }
-
     // MARK: - UICollectionViewDataSource and Delegate methods
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, heightForFooterInSection section: Int) -> CGFloat {
-        if let tabBarCtl = self.tabBarController {
-            return tabBarCtl.tabBar.hidden ? 0 : 80
-        }
-        return 0
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+        heightForFooterInSection section: Int) -> CGFloat {
+            if let tabBarCtl = tabBarController {
+                return tabBarCtl.tabBar.hidden ? 0 : Constants.tabBarSellFloatingButtonHeight
+            }
+            return 0
     }
     
-    func collectionView(collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        // TODO: Calculate size in the future when using thumbnail sizes from REST API.
-        return cellSize
+            // TODO: Calculate size in the future when using thumbnail sizes from REST API.
+            return cellSize
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, columnCountForSection section: Int) -> Int {
-        return 2
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+        columnCountForSection section: Int) -> Int {
+            return 2
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return favProducts.count
     }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ProductCell", forIndexPath: indexPath) as! ProductCell
-        cell.tag = indexPath.hash
-        
-        if let product = self.productAtIndexPath(indexPath) {
-            cell.setupCellWithProduct(product, indexPath: indexPath)
-        }
-        
-        return cell
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+        -> UICollectionViewCell {
+            let drawer = ProductCellDrawerFactory.drawerForProduct()
+            let cell = drawer.cell(collectionView, atIndexPath: indexPath)
+            cell.tag = indexPath.hash
+            drawer.draw(cell, data: productCellDataAtIndex(indexPath))
+
+            return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // TODO: VM should be provided by this VC's VM
-        if let product = self.productAtIndexPath(indexPath) {
-            let productVM = ProductViewModel(product: product, tracker: TrackerProxy.sharedInstance)
-            let vc = ProductViewController(viewModel: productVM)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        let product = productAtIndexPath(indexPath)
+        let productVM = ProductViewModel(product: product)
+        let vc = ProductViewController(viewModel: productVM)
+        navigationController?.pushViewController(vc, animated: true)
     }
-        
+
+
     // MARK: - UI
-    
+
+    /**
+        Clears the collection view
+    */
+
+    func clearProductLists(notification: NSNotification) {
+        sellingProductListView.clearList()
+        soldProductListView.clearList()
+        favProducts = []
+        favouriteCollectionView.reloadData()
+    }
+
     func selectButton(button: UIButton) {
         button.backgroundColor = kLetGoEnabledButtonBackgroundColor
         button.setTitleColor(kLetGoEnabledButtonForegroundColor, forState: .Normal)
@@ -381,6 +387,10 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     }
     
     func updateUIForCurrentTab() {
+        
+        // Check if view is initialized
+        guard let youDontHaveTitleLabel = youDontHaveTitleLabel else { return }
+        
         youDontHaveTitleLabel.hidden = true
         
         switch selectedTab {
@@ -434,27 +444,22 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
                 loadingSoldProducts = true
                 soldProductListView.refresh()
             case .ProductFavourite:
-
+                
                 // Retrieve the products
                 loadingFavProducts = true
                 
-                productsFavouriteRetrieveService.retrieveFavouriteProducts(user) { [weak self] (myResult: ProductsFavouriteRetrieveServiceResult) in
+                productsFavouriteRetrieveService.retrieveFavouriteProducts(user) {
+                    [weak self] (myResult: ProductsFavouriteRetrieveServiceResult) in
                     
                     if let strongSelf = self {
                         if let actualResult = myResult.value {
                             // Success
                             strongSelf.favProducts = actualResult.products
                         }
-                        else {
-                            // Failure
-                            if let _ = myResult.error {
-//                                result?(ProductsFavouriteRetrieveServiceResult(error: actualError))
-                            }
-                        }
                         
                         strongSelf.loadingFavProducts = false
                         strongSelf.favouriteCollectionView.reloadData()
-                        strongSelf.retrievalFinishedForProductsAtTab(tab)     
+                        strongSelf.retrievalFinishedForProductsAtTab(tab)
                     }
                 }
             }
@@ -491,24 +496,22 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
             noFavouritesLabel.hidden = true
             
             // set text depending on if we are the user being shown or not
-            if user.objectId == MyUserManager.sharedInstance.myUser()?.objectId { // user is me!
+            if user.objectId == MyUserRepository.sharedInstance.myUser?.objectId { // user is me!
                 youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
                 youDontHaveSubtitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsSubtitleLabel
                 youDontHaveSubtitleLabel.hidden = false
                 
                 startSearchingNowButton.hidden = false
                 startSellingNowButton.hidden = false
-            }
-            else {
+            } else {
                 youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesOtherUserNoProductsLabel
                 youDontHaveSubtitleLabel.hidden = true
                 
                 startSearchingNowButton.hidden = true
                 startSellingNowButton.hidden = true
             }
-        }
-        // Else, update the UI
-        else {
+        } else {
+            // Else, update the UI
             favouriteCollectionView.hidden = false
             
             youDontHaveTitleLabel.hidden = true
@@ -527,8 +530,15 @@ class EditProfileViewController: UIViewController, ProductListViewDataDelegate, 
     
     // MARK: Helper
     
-    func productAtIndexPath(indexPath: NSIndexPath) -> Product? {
+    func productAtIndexPath(indexPath: NSIndexPath) -> Product {
         let row = indexPath.row
         return favProducts[row]
+    }
+    
+    func productCellDataAtIndex(indexPath: NSIndexPath) -> ProductCellData {
+        let product = productAtIndexPath(indexPath)
+        return ProductCellData(title: product.name, price: product.priceString(),
+            thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
+            cellWidth: sellingProductListView.defaultCellSize.width)
     }
 }

@@ -10,14 +10,9 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 
+class NewSellProductViewController: BaseSellProductViewController {
 
-@objc protocol NewSellProductViewControllerDelegate {
-    optional func sellProductViewController(sellVC: NewSellProductViewController?, didCompleteSell successfully: Bool)
-}
-
-class NewSellProductViewController: SellProductViewController {
-
-    var completedSellDelegate: NewSellProductViewControllerDelegate?
+    weak var completedSellDelegate: SellProductViewControllerDelegate?
 
     private var newSellViewModel : NewSellProductViewModel
 
@@ -45,13 +40,13 @@ class NewSellProductViewController: SellProductViewController {
         showAutoFadingOutMessageAlert(LGLocalizedString.sellSendOk) { () -> Void in
             self.dismissViewControllerAnimated(true, completion: { [weak self] in
                 if let strongSelf = self {
-                    strongSelf.completedSellDelegate?.sellProductViewController?(self, didCompleteSell: true)
+                    strongSelf.completedSellDelegate?.sellProductViewController(self, didCompleteSell: true)
                 }
             })
         }
     }
     
-    override func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
+    override func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductSaveServiceError) {
 
         super.sellProductViewModel(viewModel, didFailWithError: error)
         
@@ -74,7 +69,7 @@ class NewSellProductViewController: SellProductViewController {
         case .NoDescription:
             message = LGLocalizedString.sellSendErrorInvalidDescription
         case .LongDescription:
-            message = String(format: LGLocalizedString.sellSendErrorInvalidDescriptionTooLong, Constants.productDescriptionMaxLength)
+            message = LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
         case .NoCategory:
             message = LGLocalizedString.sellSendErrorInvalidCategory
         case .Forbidden:
@@ -82,7 +77,7 @@ class NewSellProductViewController: SellProductViewController {
             message = LGLocalizedString.logInErrorSendErrorGeneric
             completion = {
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                    MyUserManager.sharedInstance.logout(nil)
+                    SessionManager.sharedInstance.logout()
                 })
                 self.newSellViewModel.shouldEnableTracking()
             }

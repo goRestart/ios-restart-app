@@ -6,16 +6,43 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public class PostalAddress {
-    public var address: String?
-    public var city: String?
-    public var countryCode: String?
-    public var zipCode: String?
-    
-    // MARK: - Lifecycle
-    
-    public init() {
-        
+import Argo
+import Curry
+
+public struct PostalAddress {
+    public let address: String?
+    public let city: String?
+    public let zipCode: String?
+    public let countryCode: String?
+    public let country : String?
+    public init(address: String?, city: String?, zipCode: String?, countryCode: String?, country: String?) {
+        self.address = address
+        self.city = city
+        self.zipCode = zipCode
+        self.countryCode = countryCode
+        self.country = country
     }
 }
 
+extension PostalAddress : Decodable {
+
+    /**
+    Expects a json in the form:
+
+        {
+            "address": "Superhero ave, 3",
+            "zip_code": "33948",
+            "city": "Gotham",
+            "country_code": "ES",
+            "country" : "España"
+        }
+    */
+    public static func decode(j: JSON) -> Decoded<PostalAddress> {
+        return curry(PostalAddress.init)
+            <^> j <|? "address"
+            <*> j <|? "city"
+            <*> j <|? "zip_code"
+            <*> j <|? "country_code"
+            <*> j <|? "country"
+    }
+}

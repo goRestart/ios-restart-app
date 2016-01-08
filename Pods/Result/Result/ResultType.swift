@@ -50,6 +50,41 @@ public extension ResultType {
 			ifSuccess: transform,
 			ifFailure: Result<U, Error>.Failure)
 	}
+	
+	/// Returns a new Result by mapping `Failure`'s values using `transform`, or re-wrapping `Success`es’ values.
+	public func mapError<Error2>(@noescape transform: Error -> Error2) -> Result<Value, Error2> {
+		return flatMapError { .Failure(transform($0)) }
+	}
+	
+	/// Returns the result of applying `transform` to `Failure`’s errors, or re-wrapping `Success`es’ values.
+	public func flatMapError<Error2>(@noescape transform: Error -> Result<Value, Error2>) -> Result<Value, Error2> {
+		return analysis(
+			ifSuccess: Result<Value, Error2>.Success,
+			ifFailure: transform)
+	}
+}
+
+/// Protocol used to constrain `tryMap` to `Result`s with compatible `Error`s.
+public protocol ErrorTypeConvertible: ErrorType {
+	typealias ConvertibleType = Self
+	static func errorFromErrorType(error: ErrorType) -> ConvertibleType
+}
+
+public extension ResultType where Error: ErrorTypeConvertible {
+
+	/// Returns the result of applying `transform` to `Success`es’ values, or wrapping thrown errors.
+	public func tryMap<U>(@noescape transform: Value throws -> U) -> Result<U, Error> {
+		return flatMap { value in
+			do {
+				return .Success(try transform(value))
+			}
+			catch {
+				let convertedError = Error.errorFromErrorType(error) as! Error
+				// Revisit this in a future version of Swift. https://twitter.com/jckarter/status/672931114944696321
+				return .Failure(convertedError)
+			}
+		}
+	}
 }
 
 // MARK: - Operators

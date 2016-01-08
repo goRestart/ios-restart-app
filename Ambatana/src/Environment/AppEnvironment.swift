@@ -16,8 +16,8 @@ protocol AppEnvironment: Environment {
     // Tracking
     var appsFlyerAPIKey: String { get }
     var amplitudeAPIKey: String { get }
-    var googleConversionPrimaryTrackingId: String { get }
-    var googleConversionSecondaryTrackingId: String { get }
+    var gcPrimaryTrackingId: String { get }
+    var gcSecondaryTrackingId: String { get }
     var nanigansAppId: String { get }
     
     // Push notifications
@@ -31,4 +31,17 @@ protocol AppEnvironment: Environment {
     
     // Config
     var configFileName: String { get }
+    
+    // AB Testing
+    var optimizelyAPIKey: String { get }
+
+    // Adjust
+    var adjustAppToken: String { get }
+    var adjustEnvironment: String { get }
+}
+
+extension AppEnvironment {
+    var appStoreURL: NSURL? {
+        return NSURL(string: String(format: Constants.appStoreURL, arguments: [appleAppId]))
+    }
 }

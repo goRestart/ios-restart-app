@@ -87,15 +87,15 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
     }
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) as! CategoryCell
+        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) as? CategoryCell else { return UICollectionViewCell() }
         
         // configure cell
         guard let category = viewModel.categoryAtIndex(indexPath.row) else {
             return cell
         }
         
-        cell.titleLabel.text = category.name()
-        cell.imageView.image = category.image()
+        cell.titleLabel.text = category.name
+        cell.imageView.image = category.image
         
         return cell
     }

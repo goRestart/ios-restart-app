@@ -6,11 +6,9 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public protocol Contact: BaseModel {
-    
-    var email: String? { get set }
-    var title: String? { get set }
-    var message: String? { get set }
-    
-    var user: User? { get set }
+public protocol Contact {
+
+    var email: String { get }
+    var title: String { get }
+    var message: String { get }
 }

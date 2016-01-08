@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public struct Nil: Equatable {}
+public struct Nil: Equatable {
+    public init() {}
+}
 public func ==(lhs: Nil, rhs: Nil) -> Bool {
     return true
 }

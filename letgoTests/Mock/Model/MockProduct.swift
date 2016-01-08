@@ -9,41 +9,41 @@
 import LGCoreKit
 
 class MockProduct: MockBaseModel, Product {
-   
+
     // Product iVars
     var name: String?
     var descr: String?
-    var price: NSNumber?
+    var price: Double?
     var currency: Currency?
     
-    var location: LGLocationCoordinates2D?
+    var location: LGLocationCoordinates2D
     var distance: NSNumber?
     
     var postalAddress: PostalAddress
     
     var languageCode: String?
     
-    var categoryId: NSNumber?
+    var category: ProductCategory
     var status: ProductStatus
     
     var thumbnail: File?
     var thumbnailSize: LGSize?
     var images: [File]
     
-    var user: User?
+    var user: User
     
     var processed: NSNumber?
 
-    var reported: NSNumber?
-    var favorited: NSNumber?
 
-    
     // MARK: - Lifecycle
     
     override init() {
         self.images = []
-        self.postalAddress = PostalAddress()
+        self.location = LGLocationCoordinates2D(latitude:0,longitude:0)
+        self.postalAddress = PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
         self.status = .Pending
+        self.category = .Electronics
+        self.user = MockUser()
         super.init()
     }
     
@@ -68,7 +68,7 @@ class MockProduct: MockBaseModel, Product {
         
         languageCode = product.languageCode
         
-        categoryId = product.categoryId
+        category = product.category
         status = product.status
         
         thumbnail = product.thumbnail
@@ -76,6 +76,7 @@ class MockProduct: MockBaseModel, Product {
         
         user = product.user
     }
+    
     
     // MARK: - Public methods
     
@@ -91,7 +92,7 @@ class MockProduct: MockBaseModel, Product {
         
         mockProduct.languageCode = product.languageCode
         
-        mockProduct.categoryId = product.categoryId
+        mockProduct.category = product.category
         mockProduct.status = product.status
         
         mockProduct.thumbnail = product.thumbnail

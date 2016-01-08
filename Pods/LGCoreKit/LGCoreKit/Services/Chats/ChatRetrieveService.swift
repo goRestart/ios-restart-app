@@ -14,7 +14,7 @@ public enum ChatRetrieveServiceError: ErrorType, CustomStringConvertible {
     case NotFound
     case Internal
     case Forbidden
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -29,16 +29,29 @@ public enum ChatRetrieveServiceError: ErrorType, CustomStringConvertible {
             return "Forbidden"
         }
     }
+
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Scammer:
+            self = .Forbidden
+        case .NotFound:
+            self = .NotFound
+        case .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias ChatRetrieveServiceResult = Result<ChatResponse, ChatRetrieveServiceError>
 public typealias ChatRetrieveServiceCompletion = ChatRetrieveServiceResult -> Void
 
 public protocol ChatRetrieveService {
-    
+
     /**
         Retrieves a chat of a user.
-    
+
         - parameter sessionToken: The user session token.
         - parameter productId: The product id.
         - parameter buyerId: The user id of the buyer.

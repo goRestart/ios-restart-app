@@ -1,0 +1,1 @@
+../../../FastttCamera/FastttCamera/IFTTTDeviceOrientation.h

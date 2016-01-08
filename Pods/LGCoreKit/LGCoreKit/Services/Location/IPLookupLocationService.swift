@@ -11,13 +11,22 @@ import Result
 public enum IPLookupLocationServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
-    
+
     public var description: String {
         switch (self) {
         case Network:
             return "Network"
         case Internal:
             return "Internal"
+        }
+    }
+
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Scammer, .NotFound, .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
+            self = .Internal
         }
     }
 }

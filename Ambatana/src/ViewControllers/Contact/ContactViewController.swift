@@ -98,6 +98,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
     
     func viewModel(viewModel: ContactViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
+        sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
         sendBarButton.enabled = enabled
     }
     
@@ -236,7 +237,8 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
 
         sendButton.layer.cornerRadius = 4
         sendButton.enabled = false
-        
+        sendButton.alpha = StyleHelper.disabledButtonAlpha
+
         self.setLetGoNavigationBarStyle(LGLocalizedString.contactTitle)
         
         sendBarButton = UIBarButtonItem(title: LGLocalizedString.contactSendButton, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("sendBarButtonPressed"))

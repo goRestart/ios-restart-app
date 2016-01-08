@@ -6,68 +6,35 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
 import Result
+import Argo
 
 public class LGChatRetrieveService: ChatRetrieveService {
-    
-    // Constants
-    public static func endpointWithProductId(productId: String) -> String {
-        return "/api/products/\(productId)/messages"
-    }
-    
-    // iVars
-    var baseURL: String
-    
-    // MARK: - Lifecycle
-    
-    public init(baseURL: String) {
-        self.baseURL = baseURL
-    }
 
-    public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
-    }
-    
-    // MARK: - ChatsRetrieveService
-    
-    public func retrieveChatWithSessionToken(sessionToken: String, productId: String, buyerId: String, completion: ChatRetrieveServiceCompletion?) {
+    public func retrieveChatWithSessionToken(sessionToken: String, productId: String, buyerId: String,
+        completion: ChatRetrieveServiceCompletion?) {
 
-        let url = EnvironmentProxy.sharedInstance.apiBaseURL + LGChatRetrieveService.endpointWithProductId(productId)
         var parameters = Dictionary<String, AnyObject>()
         parameters["buyer"] = buyerId
         parameters["productId"] = productId
         parameters["num_results"] = 1000
-        
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
-        Alamofire.request(.GET, url, parameters: parameters, headers: headers)
-            .validate(statusCode: 200..<400)
-            .responseObject { (response: Response<LGChatResponse, NSError>) in
-                if let chatResponse = response.result.value {
-                    completion?(ChatRetrieveServiceResult(value: chatResponse))
-                }
-                else if let error = response.result.error {
-                    if error.domain == NSURLErrorDomain {
-                        completion?(ChatRetrieveServiceResult(error: .Network))
-                    }
-                    else if let statusCode =  response.response?.statusCode {
-                        switch statusCode {
-                        case 401:
-                            completion?(ChatRetrieveServiceResult(error: .Unauthorized))
-                        case 403:
-                            completion?(ChatRetrieveServiceResult(error: .Forbidden))
-                        case 404:
-                            completion?(ChatRetrieveServiceResult(error: .NotFound))
-                        default:
-                            completion?(ChatRetrieveServiceResult(error: .Internal))
-                        }
-                    }
-                    else {
-                        completion?(ChatRetrieveServiceResult(error: .Internal))
-                    }
-                }
+
+        struct CustomChatResponse: ChatResponse {
+            var chat: Chat
         }
+
+        let request = ChatRouter.Show(objectId: productId, params: parameters)
+        ApiClient.request(request, decoder: LGChatRetrieveService.decoder) { (result: Result<Chat, ApiError>) -> () in
+            if let value = result.value {
+                completion?(ChatRetrieveServiceResult(value: CustomChatResponse(chat: value)))
+            } else if let error = result.error {
+                completion?(ChatRetrieveServiceResult(error: ChatRetrieveServiceError(apiError: error)))
+            }
+        }
+    }
+
+    static func decoder(object: AnyObject) -> Chat? {
+        let chat: LGChat? = decode(object)
+        return chat
     }
 }

@@ -9,15 +9,15 @@
 import Result
 
 public class ConfigManager {
-    
+
     private let service : ConfigRetrieveService
     private let dao : ConfigDAO
     private let appCurrentVersion : String
-    
+
     private var config: Config?
 
     public var updateTimeout: Double    // seconds
-    
+
     public var shouldForceUpdate: Bool {
         guard let actualConfig = config else {
             return false
@@ -29,33 +29,39 @@ public class ConfigManager {
         }
         return false
     }
+    public var shouldShowOnboarding: Bool {
+        guard let actualConfig = config else {
+            return LGCoreKitConstants.defaultShouldShowOnboarding
+        }
+        return actualConfig.showOnboarding
+    }
 
     // MARK: - Lifecycle
 
     public convenience init(dao: ConfigDAO) {
-        
+
         let config = dao.retrieve()
         let configURL = config?.configURL ?? EnvironmentProxy.sharedInstance.configURL
-        
+
         let service = LGConfigRetrieveService(url: configURL)
         let appVersion = (NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String) ?? ""
-        
+
         self.init(service: service, dao: dao, appCurrentVersion: appVersion)
     }
-    
+
     public init(service: ConfigRetrieveService, dao: ConfigDAO, appCurrentVersion: String) {
         self.service = service
         self.dao = dao
         self.appCurrentVersion = appCurrentVersion
-        
+
         self.config = dao.retrieve()
         self.updateTimeout = LGCoreKitConstants.defaultConfigTimeOut
     }
-    
+
     // MARK : - Public methods
 
     public func updateWithCompletion(completion: (() -> Void)?) {
-        
+
         var didNotifyCompletion = false
         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(updateTimeout * Double(NSEC_PER_SEC)))
         dispatch_after(delayTime, dispatch_get_main_queue()) {
@@ -64,13 +70,13 @@ public class ConfigManager {
                 completion?()
             }
         }
-        
+
         service.retrieveConfigWithCompletion { [weak self] (myResult: ConfigRetrieveServiceResult) -> Void in
             if let strongSelf = self {
                 if let config = myResult.value {
                     // Update the in-memory file
                     strongSelf.config = config
-                    
+
                     // save the file to disk
                     strongSelf.dao.save(config)
                 }
@@ -81,9 +87,9 @@ public class ConfigManager {
             }
         }
     }
-    
+
     // MARK : - Private methods
-    
+
     private func shouldForceUpdate(config: Config) -> (forceUpdate: Bool, suggestedUpdate: Bool) {
         for version in config.forceUpdateVersions {
             let versionNum = version

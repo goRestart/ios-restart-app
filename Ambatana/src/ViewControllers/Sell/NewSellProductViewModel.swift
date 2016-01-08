@@ -9,38 +9,34 @@
 import SDWebImage
 import LGCoreKit
 
-public class NewSellProductViewModel: SellProductViewModel {
-   
+
+public class NewSellProductViewModel: BaseSellProductViewModel {
+
     
     // MARK: - Tracking methods
     
     internal override func trackStart() {
         super.trackStart()
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productSellStart(myUser)
-        TrackerProxy.sharedInstance.trackEvent(event)
+        let event = TrackerEvent.productSellStart(myUserRepository.myUser)
+        tracker.trackEvent(event)
     }
     
     
     internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
         super.trackValidationFailedWithError(error)
-
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productSellFormValidationFailed(myUser, description: error.rawValue)
+        let event = TrackerEvent.productSellFormValidationFailed(myUserRepository.myUser, description: error.rawValue)
         trackEvent(event)
     }
     
     internal override func trackSharedFB() {
         super.trackSharedFB()
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productSellSharedFB(myUser, product: savedProduct)
+        let event = TrackerEvent.productSellSharedFB(myUserRepository.myUser, product: savedProduct)
         trackEvent(event)
     }
     
     internal override func trackComplete(product: Product) {
         super.trackComplete(product)
-        let myUser = MyUserManager.sharedInstance.myUser()
-        let event = TrackerEvent.productSellComplete(myUser, product: product)
+        let event = TrackerEvent.productSellComplete(myUserRepository.myUser, product: product)
         trackEvent(event)
     }
     
@@ -49,7 +45,7 @@ public class NewSellProductViewModel: SellProductViewModel {
     
     private func trackEvent(event: TrackerEvent) {
         if shouldTrack {
-            TrackerProxy.sharedInstance.trackEvent(event)
+            tracker.trackEvent(event)
         }
     }
 }

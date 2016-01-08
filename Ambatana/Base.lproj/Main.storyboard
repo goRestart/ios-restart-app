@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -14,16 +15,18 @@
                         <viewControllerLayoutGuide type="bottom" id="PZ5-gl-Z4d"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hM0-Dh-jwJ">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="KtE-CT-aYO">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <animations/>
                                 <connections>
                                     <outlet property="delegate" destination="1e2-Pe-z0n" id="sA0-wm-i7d"/>
                                 </connections>
                             </mapView>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="KtE-CT-aYO" firstAttribute="leading" secondItem="hM0-Dh-jwJ" secondAttribute="leading" id="FJX-6Q-8kx"/>
@@ -44,7 +47,6 @@
         <!--Change Password View Controller-->
         <scene sceneID="FeY-Kc-QZX">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="h6O-nj-IHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="ChangePasswordViewController" id="g21-fO-ZoM" customClass="ChangePasswordViewController" customModule="LetGo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vEd-Qd-7EW"/>
@@ -56,6 +58,7 @@
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iUl-rO-kWZ" customClass="LGTextField" customModule="LetGo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="26" width="320" height="44"/>
+                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="WFp-Yq-au3"/>
@@ -65,6 +68,7 @@
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="WrN-Te-O0p" customClass="LGTextField" customModule="LetGo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="70" width="320" height="44"/>
+                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="Sdm-Hw-0yX"/>
@@ -74,6 +78,7 @@
                             </textField>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q3c-Ll-g6g">
                                 <rect key="frame" x="15" y="129" width="290" height="44"/>
+                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="lxT-C9-WCV"/>
@@ -89,6 +94,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="q3c-Ll-g6g" firstAttribute="leading" secondItem="pax-XN-DFk" secondAttribute="leading" constant="15" id="Ehi-Td-RXF"/>
@@ -110,6 +116,7 @@
                         <outlet property="sendButton" destination="q3c-Ll-g6g" id="MbD-gx-SZt"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h6O-nj-IHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="852" y="1629"/>
         </scene>
@@ -127,6 +134,7 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lgg-4s-Thy">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="delegate" destination="9k4-lE-YS1" id="mCr-Yh-bfh"/>
@@ -134,6 +142,7 @@
                             </scrollView>
                             <pageControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="3fB-fj-4QY">
                                 <rect key="frame" x="140" y="447" width="39" height="37"/>
+                                <animations/>
                                 <color key="pageIndicatorTintColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="1" green="0.36355292797088623" blue="0.38490483164787292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
@@ -141,6 +150,7 @@
                                 </connections>
                             </pageControl>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="lgg-4s-Thy" firstAttribute="leading" secondItem="gkn-ta-aGw" secondAttribute="leadingMargin" constant="-16" id="6wq-ME-hS6"/>
@@ -176,6 +186,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AhN-X5-bDh">
                                 <rect key="frame" x="16" y="32" width="32" height="34"/>
+                                <animations/>
                                 <color key="backgroundColor" red="0.0" green="0.57647058819999997" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="32" id="4qg-Z9-kYl"/>
@@ -187,14 +198,16 @@
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Price" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rhL-jt-cdK">
                                 <rect key="frame" x="56" y="34" width="248" height="30"/>
+                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="next"/>
                                 <connections>
                                     <outlet property="delegate" destination="J7x-I7-tMF" id="oLg-WZ-u4V"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fC-u2-KeU">
                                 <rect key="frame" x="16" y="98" width="288" height="40"/>
+                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.36355292797088623" blue="0.38490483164787292" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="zF6-RV-63V"/>
@@ -209,9 +222,11 @@
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="L7k-tA-J0J">
                                 <rect key="frame" x="150" y="108" width="20" height="20"/>
+                                <animations/>
                                 <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
                         </subviews>
+                        <animations/>
                         <color key="backgroundColor" red="0.90196079015731812" green="0.90196079015731812" blue="0.90196079015731812" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="AhN-X5-bDh" firstAttribute="centerY" secondItem="rhL-jt-cdK" secondAttribute="centerY" id="4gG-eq-CmU"/>
@@ -241,9 +256,4 @@
             <point key="canvasLocation" x="1894" y="991"/>
         </scene>
     </scenes>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

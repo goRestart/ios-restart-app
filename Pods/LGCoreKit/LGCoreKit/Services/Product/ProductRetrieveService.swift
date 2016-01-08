@@ -11,7 +11,7 @@ import Result
 public enum ProductRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -20,16 +20,26 @@ public enum ProductRetrieveServiceError: ErrorType, CustomStringConvertible {
             return "Internal"
         }
     }
+
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .Scammer, .InternalServerError:
+            self = .Internal
+        case .Network:
+            self = .Network
+        }
+    }
+
 }
 
 public typealias ProductRetrieveServiceResult = Result<Product, ProductRetrieveServiceError>
 public typealias ProductRetrieveServiceCompletion = ProductRetrieveServiceResult -> Void
 
 public protocol ProductRetrieveService {
-    
+
     /**
         Retrieves the product with the given parameters.
-    
+
         - parameter productId: The product id.
         - parameter completion: The completion closure.
     */

@@ -29,7 +29,7 @@ public struct RetrieveProductParams: CustomStringConvertible, Equatable {
     public init(objectId: String) {
         self.objectId = objectId
     }
-    
+
     public var description: String { return "objectId: \(objectId)" }
 }
 
@@ -43,32 +43,35 @@ public struct RetrieveProductsParams: CustomStringConvertible, Equatable {
     public var countryCode: String?
     public var categoryIds: [Int]?
     public var sortCriteria: ProductSortCriteria?
+    public var timeCriteria: ProductTimeCriteria?
     public var offset: Int?                 // skip results
     public var numProducts: Int?            // number products to return
     public var statuses: [ProductStatus]?   // Default 1,3
     public var maxPrice: Int?
     public var minPrice: Int?
     public var distanceRadius: Int?
+    public var distanceType: DistanceType?
     public var userObjectId: String?
-    
+
     public init() {
-        
+
     }
-    
-    public var description: String { return "queryString: \(queryString); latitude: \(coordinates?.latitude); longitude: \(coordinates?.longitude); countryCode: \(countryCode); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); userObjectId: \(userObjectId)" }
+
+    public var description: String { return "queryString: \(queryString); latitude: \(coordinates?.latitude); longitude: \(coordinates?.longitude); countryCode: \(countryCode); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); timeCriteria: \(timeCriteria); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); distanceType: \(distanceType); userObjectId: \(userObjectId)" }
 }
 
 public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool {
     return lhs.queryString == rhs.queryString && lhs.coordinates == rhs.coordinates &&
         lhs.countryCode == rhs.countryCode && lhs.categoryIds == rhs.categoryIds &&
-        lhs.sortCriteria == rhs.sortCriteria && lhs.offset == rhs.offset &&
-        lhs.numProducts == rhs.numProducts && lhs.statuses == rhs.statuses &&
-        lhs.maxPrice == rhs.maxPrice && lhs.minPrice == rhs.minPrice &&
-        lhs.distanceRadius == rhs.distanceRadius && lhs.userObjectId == rhs.userObjectId
+        lhs.sortCriteria == rhs.sortCriteria && lhs.timeCriteria == rhs.timeCriteria &&
+        lhs.offset == rhs.offset && lhs.numProducts == rhs.numProducts &&
+        lhs.statuses == rhs.statuses && lhs.maxPrice == rhs.maxPrice &&
+        lhs.minPrice == rhs.minPrice && lhs.distanceRadius == rhs.distanceRadius &&
+        lhs.distanceType == rhs.distanceType && lhs.userObjectId == rhs.userObjectId
 }
 
 public struct SaveProductParams: CustomStringConvertible, Equatable {
-    
+
     public var name: String?
     public var category: String?
     public var languageCode: String?
@@ -83,16 +86,16 @@ public struct SaveProductParams: CustomStringConvertible, Equatable {
     public var address: String?
     public var zipCode: String?
     public var images: [String]?
-    
+
     public init() {
-        
+
     }
-    
+
     public var description: String { return "name: \(name); category: \(category); languageCode: \(languageCode); userId: \(userId); descr: \(descr); price: \(price); currency: \(currency); latitude: \(latitude); longitude: \(longitude); countryCode: \(countryCode); city: \(city); address: \(address); zipCode: \(zipCode); images: \(images)" }
 }
 
 public func ==(lhs: SaveProductParams, rhs: SaveProductParams) -> Bool {
-    
+
     return lhs.name == rhs.name && lhs.category == rhs.category &&
         lhs.languageCode == rhs.languageCode && lhs.userId == rhs.userId &&
         lhs.price == rhs.price && lhs.currency == rhs.currency &&
@@ -105,7 +108,7 @@ public func ==(lhs: SaveProductParams, rhs: SaveProductParams) -> Bool {
 
 // MARK: - ENUMS & STRUCTS
 
-@objc public enum ProductSortCriteria: Int, Equatable {
+public enum ProductSortCriteria: Int, Equatable {
     case Distance = 1, PriceAsc = 2, PriceDesc = 3, Creation = 4
     var string: String? {
         get {
@@ -113,12 +116,28 @@ public func ==(lhs: SaveProductParams, rhs: SaveProductParams) -> Bool {
             case .Distance:
                 return nil
             case .PriceAsc:
-                return "price asc"
+                return "price_asc"
             case .PriceDesc:
-                return "price desc"
+                return "price_desc"
             case .Creation:
-                return "createdAt desc"
+                return "recent"
             }
+        }
+    }
+}
+
+public enum ProductTimeCriteria: Int, Equatable {
+    case Day = 1, Week = 2, Month = 3, All = 4
+    var string : String? {
+        switch self {
+        case .Day:
+            return "day"
+        case .Week:
+            return "week"
+        case .Month:
+            return "month"
+        case .All:
+            return nil
         }
     }
 }

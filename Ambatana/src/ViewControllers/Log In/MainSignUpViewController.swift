@@ -9,7 +9,7 @@
 import LGCoreKit
 import Result
 
-class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate {
+class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate, UITextViewDelegate {
 
     // Data
     var afterLoginAction: (() -> Void)?
@@ -29,16 +29,20 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     @IBOutlet weak var claimLabel: UILabel!
     
     // > Main View
+    
+    @IBOutlet weak var firstDividerView: UIView!
+    @IBOutlet weak var quicklyLabel: UILabel!
+
     @IBOutlet weak var connectFBButton: UIButton!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
 
     @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var logInButton: UIButton!
     
     // Footer
-    @IBOutlet weak var registeredLabel: UILabel!
-    @IBOutlet weak var logInLabel: UILabel!
-    @IBOutlet weak var contactUsButton: UIButton!
+    
+    @IBOutlet weak var legalTextView: UITextView!
     
     // > Helper
     var lines: [CALayer]
@@ -87,7 +91,8 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(dividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
+        lines.append(firstDividerView.addBottomBorderWithWidth(1, color: StyleHelper.darkLineColor))
     }
     
     // MARK: - Actions
@@ -97,18 +102,23 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    func helpButtonPressed() {
+        let vc = HelpViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @IBAction func connectFBButtonPressed(sender: AnyObject) {
-         viewModel.logInWithFacebook()
+        viewModel.logInWithFacebook()
     }
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
-        let vc = SignUpViewController(source: viewModel.loginSource)
+        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: .Signup)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
-        let vc = LogInViewController(source: viewModel.loginSource)
+        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: .Login)
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -122,37 +132,53 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
     // MARK: - MainSignUpViewModelDelegate
     
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel) {
-        showCustomLoadingMessageAlert()
+        showLoadingMessageAlert()
     }
-    
-    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: UserLogInFBResult) {
+
+    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
         
         var completion: (() -> Void)? = nil
-        
-        switch (result) {
+        var message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
+        var errorDescription: EventParameterLoginError?
+
+        switch result {
         case .Success:
-            completion = {
-                self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
+            completion = { [weak self] in
+                self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
             }
+        case .Cancelled:
             break
-        case .Failure(let error):
-            
-            var message: String?
-            switch (error) {
-            case .Cancelled:
-                break
-            case .EmailTaken:
-                message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            case .Internal, .Network, .Forbidden, .InvalidPassword, .PasswordMismatch, .UsernameTaken:
-                message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-            }
-            completion = {
-                if let actualMessage = message {
-                    self.showAutoFadingOutMessageAlert(actualMessage, time: 3)
-                }
+        case .Network:
+            errorDescription = .Network
+        case .Forbidden:
+            errorDescription = .Forbidden
+        case .NotFound:
+            errorDescription = .UserNotFoundOrWrongPassword
+        case .AlreadyExists:
+            message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
+            errorDescription = .EmailTaken
+        case .Internal:
+            errorDescription = .Internal
+        }
+
+        if let actualErrorDescription = errorDescription {
+            viewModel.loginWithFBFailedWithError(actualErrorDescription)
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message, time: 3)
             }
         }
-        dismissCustomLoadingMessageAlert(completion)
+        dismissLoadingMessageAlert(completion)
+    }
+    
+    
+    // MARK: UITextViewDelegate
+    
+
+    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
+        
+        UIApplication.sharedApplication().openURL(url)
+        
+        return true
     }
     
     // MARK: - Private methods
@@ -164,20 +190,40 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate 
         // Navigation bar
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self, action: Selector("closeButtonPressed"))
         navigationItem.leftBarButtonItem = closeButton
+        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self, action: Selector("helpButtonPressed"))
+        navigationItem.rightBarButtonItem = helpButton
 
         // Appearance
         connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         connectFBButton.layer.cornerRadius = 4
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         signUpButton.layer.cornerRadius = 4
-        
+
+        logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        logInButton.layer.cornerRadius = 4
+
         // i18n
         claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
+        quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
+        
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
-        registeredLabel.text = LGLocalizedString.mainSignUpAlreadyRegisteredLabel
-        logInLabel.text = LGLocalizedString.mainSignUpLogInLabel
-        contactUsButton.setTitle(LGLocalizedString.mainSignUpContactUsButton, forState: .Normal)
+        logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
+
+        let links = ["Terms of Service": "http://www.google.com",
+                     "Privacy Policy": "http://www.apple.com"]
+        
+        let localizedLegalText = "By signing up or loging in, you agree to our Terms of Service and Privacy Policy"
+
+        legalTextView.delegate = self
+        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links, textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont(name: "Helvetica Neue", size: 15.0)!, range: NSMakeRange(0, attributtedLegalText.length-1))
+        legalTextView.attributedText = attributtedLegalText
+        legalTextView.textAlignment = .Center
+        // no legal text yet...
+        legalTextView.hidden = true
+        
     }
+
 }

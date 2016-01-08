@@ -10,17 +10,13 @@ import Foundation
 
 public struct DevelopmentEnvironment: Environment {
     // Parse
-    public let parseApplicationId = "3zW8RQIC7yEoG9WhWjNduehap6csBrHQ2whOebiz"
-    public let parseClientId = "4dmYjzpoyMbAdDdmCTBG6s7TTHtNTAaQaJN6YOAk"
+    public let parseApplicationId = "RWaXNfBnphULM5paOjBXJVglOlCTxb4h7T2kyY3Z"// old_dev: "3zW8RQIC7yEoG9WhWjNduehap6csBrHQ2whOebiz"
+    public let parseClientId = "sZI4kMi6fx2iQrSWtE3AKfMrgeYX0GwcbrSy6VRq"// old_dev: "4dmYjzpoyMbAdDdmCTBG6s7TTHtNTAaQaJN6YOAk"
 
     // API
-    public let apiBaseURL = "http://devel.api.letgo.com"
-    public let apiClientId = "2_63roc3zwvhc0cgkkcs0wg0ogkwks0wcg8kgswcswsggg8ogokk"
-    public let apiClientSecret = "64szvwjvm1wkwgogswsgccoco4ggckkwg444kswccg0404g040"
-    
-    // Images
-    public let imagesBaseURL = "http://devel.cdn.letgo.com/images"  // @ahl: to be removed when full image URL is coming in the products response
-    
+    public let apiBaseURL = "http://api.stg.letgo.com"  // old_dev: "http://devel.api.letgo.com"
+    public let bouncerBaseURL = "http://bouncer.stg.letgo.com/api"
+
     // Config
     public let configURL = "http://letgo-images-devel.s3.amazonaws.com/config/ios.json"
 }

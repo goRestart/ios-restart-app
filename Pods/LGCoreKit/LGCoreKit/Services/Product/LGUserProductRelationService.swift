@@ -7,56 +7,26 @@
 //
 
 
-import Alamofire
 import Result
+import Argo
 
 final public class LGUserProductRelationService: UserProductRelationService {
-    
-    // Constants
-    public static let endpoint = "/api/products"
-    
-    // iVars
-    var url: String
-    
-    // MARK: - Lifecycle
-    
-    public init(baseURL: String) {
-        self.url = baseURL + LGUserProductRelationService.endpoint
-    }
-    
-    public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
-    }
-    
-    // MARK: - ProductsRetrieveService
-    
-    public func retrieveUserProductRelationWithId(userId: String, productId: String, completion: UserProductRelationServiceCompletion?) {
-    
-        let fullUrl = "\(url)/\(productId)/users/\(userId)"
-        let sessionToken : String = MyUserManager.sharedInstance.myUser()?.sessionToken ?? ""
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
-        
-        Alamofire.request(.GET, fullUrl, parameters: nil, headers: headers)
-            .validate(statusCode: 200..<400)
-            .responseObject { (relationResponse: Response<LGUserProductRelationResponse, NSError>) -> Void in
-                // Error
-                if let actualError = relationResponse.result.error {
-                    if actualError.domain == NSURLErrorDomain {
-                        completion?(UserProductRelationServiceResult(error: .Network))
-                    }
-                    else {
-                        completion?(UserProductRelationServiceResult(error: .Internal))
-                    }
-                }
-                // Success
-                else if let actualRelationResponse = relationResponse.result.value {
-                    let relation = LGUserProductRelation()
-                    relation.isFavorited = actualRelationResponse.isFavorited
-                    relation.isReported = actualRelationResponse.isReported
-                    completion?(UserProductRelationServiceResult(value: relation))
-                }
+
+    public func retrieveUserProductRelationWithId(userId: String, productId: String,
+        completion: UserProductRelationServiceCompletion?) {
+        let request = ProductRouter.UserRelation(userId: userId, productId: productId)
+        ApiClient.request(request, decoder: LGUserProductRelationService.decoder) {
+            (result: Result<UserProductRelation, ApiError>) in
+            if let value = result.value {
+                completion?(UserProductRelationServiceResult(value: value))
+            } else if let error = result.error {
+                completion?(UserProductRelationServiceResult(error: UserProductRelationServiceError(apiError: error)))
             }
+        }
+    }
+
+    static func decoder(object: AnyObject) -> UserProductRelation? {
+        let relation: LGUserProductRelation? = decode(object)
+        return relation
     }
 }

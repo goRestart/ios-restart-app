@@ -15,8 +15,8 @@ public class FBUserInfo {
     public let lastName: String?
     public let email: String?
     public let avatarURL: NSURL
-    
-    public init(facebookId: String, name: String?, firstName: String?, lastName: String?, email: String?, avatarURL: NSURL) {
+
+    public required init(facebookId: String, name: String?, firstName: String?, lastName: String?, email: String?, avatarURL: NSURL) {
         self.facebookId = facebookId
         self.name = name
         self.firstName = firstName

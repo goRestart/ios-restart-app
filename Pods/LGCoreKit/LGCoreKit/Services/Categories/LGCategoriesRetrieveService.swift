@@ -9,14 +9,14 @@
 import Result
 
 final public class LGCategoriesRetrieveService: CategoriesRetrieveService {
-    
+
     // MARK: - Lifecycle
-    
+
     public init() {
     }
-    
+
     // MARK: - CategoriesRetrieveService
-    
+
     public func retrieveCategoriesWithCompletion(completion: CategoriesRetrieveServiceCompletion?) {
         completion?(CategoriesRetrieveServiceResult(value: ProductCategory.allValues()))
     }

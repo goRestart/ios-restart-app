@@ -1,1 +1,3 @@
-"NSLocationWhenInUseUsageDescription" = "O letgo precisa ter acesso a sua localização para exibir os produtos próximos à você.";
+"NSLocationWhenInUseUsageDescription" = "letgo needs to access your location to show you products nearby";
+"sell_shortcut_title" = "Sell Your Stuff";
+"start_browsing_shortcut_title" = "Start Browsing!";

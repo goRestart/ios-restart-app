@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4.2</string>
+	<string>1.5.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -28,12 +28,23 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb699538486794082</string>
+				<string>fb924384130976182</string>
 				<string>letgo</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.optimizely</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>optly3728230154</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>27</string>
+	<string>33</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -46,6 +57,15 @@
 				<key>KitName</key>
 				<string>Crashlytics</string>
 			</dict>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>socket_token</key>
+					<string>AANI178BXDHQGRq7ymEOcZrtUDK-o_U1~3728230154</string>
+				</dict>
+				<key>KitName</key>
+				<string>Optimizely</string>
+			</dict>
 		</array>
 	</dict>
 	<key>FacebookAppID</key>
@@ -55,11 +75,21 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
+		<string>fbapi20130214</string>
+		<string>fbapi20130410</string>
+		<string>fbapi20130702</string>
+		<string>fbapi20131010</string>
+		<string>fbapi20131219</string>
+		<string>fbapi20140410</string>
+		<string>fbapi20140116</string>
+		<string>fbapi20150313</string>
+		<string>fbapi20150629</string>
 		<string>fb-messenger-api</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 		<string>letgo</string>
 		<string>whatsapp</string>
+		<string>optly3728230154</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -76,6 +106,15 @@
 				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
 				<false/>
 			</dict>
+			<key>amazonaws.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.1</string>
+			</dict>
 			<key>facebook.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
@@ -90,6 +129,15 @@
 				<key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
 				<false/>
 			</dict>
+			<key>letgo.com</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.1</string>
+			</dict>
 			<key>nanigans.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
@@ -99,24 +147,6 @@
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
 				<string>TLSv1.1</string>
 			</dict>
-            <key>letgo.com</key>
-            <dict>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSTemporaryExceptionMinimumTLSVersion</key>
-                <string>TLSv1.1</string>
-            </dict>
-            <key>amazonaws.com</key>
-            <dict>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSTemporaryExceptionMinimumTLSVersion</key>
-                <string>TLSv1.1</string>
-            </dict>
 			<key>parsetfss.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
@@ -130,6 +160,25 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>letgo needs to access your location to be able to show you products close to you.</string>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>tabbar_sell</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>sell_shortcut_title</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>letgo.sell</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>tabbar_home</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>start_browsing_shortcut_title</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>letgo.startBrowsing</string>
+		</dict>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -140,5 +189,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

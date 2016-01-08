@@ -11,18 +11,18 @@ import CoreLocation
 import Result
 
 public class CLPostalAddressRetrievalService: PostalAddressRetrievalService {
-    
-    // iVars
     private var geocoder: CLGeocoder
-    
+
+
     // MARK: - Lifecycle
-    
+
     public init() {
-        geocoder = CLGeocoder()
+        self.geocoder = CLGeocoder()
     }
-    
+
+
     // MARK: - PostalAddressRetrievalService
-    
+
     public func retrieveAddressForLocation(location: CLLocation, completion: PostalAddressRetrievalServiceCompletion?) {
         geocoder.reverseGeocodeLocation(location) { (placemarks: [CLPlacemark]?, error: NSError?) -> Void in
             // Success

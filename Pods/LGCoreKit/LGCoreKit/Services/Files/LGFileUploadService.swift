@@ -2,93 +2,58 @@
 //  LGFileUploadService.swift
 //  LGCoreKit
 //
-//  Created by Dídac on 28/08/15.
-//  Copyright (c) 2015 Ambatana Inc. All rights reserved.
+//  Created by Isaac Roldan on 11/12/15.
+//  Copyright © 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
+import Argo
 import Result
-import SwiftyJSON
 
 final public class LGFileUploadService: FileUploadService {
-    
-    // Constants
-    public static let endpoint = "/api/products/image"
-    
-    // iVars
-    var url: String
-    
-    // MARK: - Lifecycle
-    
-    public init(baseURL: String) {
-        self.url = baseURL + LGFileUploadService.endpoint
-    }
-    
-    public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
-    }
-    
-    // MARK: - FileUploadService
 
-    public func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData, completion: FileUploadServiceCompletion?) {
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
-        Alamofire.upload(.POST, url, headers: headers, multipartFormData: {
-                multipartFormData in
-                multipartFormData.appendBodyPart(data: userId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)!, name: "userId")
+    public func uploadFileWithUserId(userId: String, sessionToken: String, data: NSData,
+        progress: (Int -> ())? = nil, completion: FileUploadServiceCompletion?) {
+
+            let request = FileRouter.Upload
+            ApiClient.upload(request, decoder: LGFileUploadService.decoder, multipart: { multipartFormData in
+                if let userIdData = userId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
+                    multipartFormData.appendBodyPart(data: userIdData, name: "userId")
+                }
                 multipartFormData.appendBodyPart(data: data, name: "image", fileName: "image.jpg", mimeType: "image/jpg")
-            },
-            encodingCompletion: {
-                encodingResult in
-                switch encodingResult {
-                case .Success(let upload, _, _ ):
-                    upload.validate(statusCode: 200..<400)
-                    .responseObject { (response: Response<LGUploadFileResponse, NSError>) in
-                        // Success                        
-                        if let uploadFileResponse = response.result.value {
-                            let file = LGFile(url: nil)
-                            file.token = uploadFileResponse.imageId
-                            completion?(FileUploadServiceResult(value: file))
-                        }
-                        // Error
-                        else if let error = response.result.error {
-                            if error.domain == NSURLErrorDomain {
-                                completion?(FileUploadServiceResult(error: .Network))
-                            }
-                            else if let statusCode = response.response?.statusCode {
-                                switch statusCode {
-                                case 403:
-                                    completion?(FileUploadServiceResult(error: .Forbidden))
-                                default:
-                                    completion?(FileUploadServiceResult(error: .Internal))
-                                }
-                            }
-                            else {
-                                completion?(FileUploadServiceResult(error: .Internal))
-                            }
-                        }
-                    }
-                case .Failure(_):
+            }, completion: { result in
+                if let value = result.value {
+                    let file = LGFile(id: value, url: nil)
+                    completion?(FileUploadServiceResult(value: file))
+                } else if let error = result.error {
+                    completion?(FileUploadServiceResult(error: FileUploadServiceError(apiError: error)))
+                } else {
                     completion?(FileUploadServiceResult(error: .Internal))
                 }
-            })
+            }) { (written, totalWritten, totalExpectedToWrite) -> Void in
+                let p = totalWritten*100/totalExpectedToWrite
+                progress?(Int(p))
+            }
     }
-    
-    public func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL, completion: FileUploadServiceCompletion?) {
+
+    public func uploadFileWithUserId(userId: String, sessionToken: String, sourceURL: NSURL,
+        completion: FileUploadServiceCompletion?) {
+
         let request = NSURLRequest(URL: sourceURL)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) { (response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
-            // Success
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {
+            (response: NSURLResponse?, data: NSData?, error: NSError?) in
+
             if let actualData = data {
                 self.uploadFileWithUserId(userId, sessionToken: sessionToken, data: actualData, completion: completion)
-            }
-            // Error
-            else if let _ = error {
+            } else if let _ = error {
                 completion?(FileUploadServiceResult(error: .Network))
-            }
-            else {
+            } else {
                 completion?(FileUploadServiceResult(error: .Internal))
             }
         }
+    }
+
+    static func decoder(object: AnyObject) -> String? {
+        let theImage: String? = JSON.parse(object) <| "imageId"
+        return theImage
     }
 }

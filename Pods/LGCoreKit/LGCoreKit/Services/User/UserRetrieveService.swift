@@ -12,7 +12,7 @@ import Result
 public enum UserRetrieveServiceError: ErrorType, CustomStringConvertible {
     case Network
     case Internal
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -21,16 +21,25 @@ public enum UserRetrieveServiceError: ErrorType, CustomStringConvertible {
             return "Internal"
         }
     }
+
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Scammer, .NotFound, .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias UserRetrieveServiceResult = Result<User, UserRetrieveServiceError>
 public typealias UserRetrieveServiceCompletion = UserRetrieveServiceResult -> Void
 
 public protocol UserRetrieveService {
-    
+
     /**
         Retrieves a user.
-    
+
         - parameter user: The user.
         - parameter completion: The completion closure.
     */

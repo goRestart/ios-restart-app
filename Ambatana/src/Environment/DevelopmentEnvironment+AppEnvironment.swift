@@ -6,18 +6,19 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import Adjust
 import LGCoreKit
 
 extension DevelopmentEnvironment: AppEnvironment {
     // General
     var appleAppId: String { get { return "986339882" } }
-    var facebookAppId: String { get { return "699538486794082" } }
+    var facebookAppId: String { get { return "924384130976182" } }
     
     // Tracking
     var appsFlyerAPIKey: String { get { return "5EKnCjmwmNKjE2e7gYBo6T" } }
     var amplitudeAPIKey: String { get { return "1c32ba5ed444237608436bad4f310307" } }
-    var googleConversionPrimaryTrackingId: String { get { return "947998763" } }
-    var googleConversionSecondaryTrackingId: String { get { return "952362970" } }
+    var gcPrimaryTrackingId: String { get { return "947998763" } }
+    var gcSecondaryTrackingId: String { get { return "952362970" } }
     var nanigansAppId: String { get { return "298434" } }
     
     // Push notifications
@@ -34,4 +35,11 @@ extension DevelopmentEnvironment: AppEnvironment {
 
     // Config
     var configFileName: String { get { return "ios-devel" } }
+    
+    // AB Testing
+    var optimizelyAPIKey: String { get { return "AANI18IBpYo0Me6aWVN88XVYBszyWl3f~3728230154" } }
+
+    // Adjust
+    var adjustAppToken: String { get { return "ddy5ww1scx6o" } }
+    var adjustEnvironment: String { get { return ADJEnvironmentSandbox } }
 }

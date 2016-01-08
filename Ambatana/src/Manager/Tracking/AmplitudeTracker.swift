@@ -47,7 +47,7 @@ public class AmplitudeTracker: Tracker {
     public func applicationDidBecomeActive(application: UIApplication) {
     }
     
-    public func setUser(user: User?) {
+    public func setUser(user: MyUser?) {
         let userId = user?.email ?? ""
         Amplitude.instance().setUserId(userId)
 
@@ -59,8 +59,8 @@ public class AmplitudeTracker: Tracker {
         
         var properties: [NSObject : AnyObject] = [:]
         properties[AmplitudeTracker.userPropIdKey] = user?.objectId ?? ""
-        properties[AmplitudeTracker.userPropLatitudeKey] = user?.gpsCoordinates?.latitude
-        properties[AmplitudeTracker.userPropLongitudeKey] = user?.gpsCoordinates?.longitude
+        properties[AmplitudeTracker.userPropLatitudeKey] = user?.location?.coordinate.latitude
+        properties[AmplitudeTracker.userPropLongitudeKey] = user?.location?.coordinate.longitude
         
         properties[AmplitudeTracker.userPropTypeKey] = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
         Amplitude.instance().setUserProperties(properties, replace: true)
@@ -71,6 +71,6 @@ public class AmplitudeTracker: Tracker {
     }
     
     public func updateCoordinates() {
-        setUser(MyUserManager.sharedInstance.myUser())
+        setUser(MyUserRepository.sharedInstance.myUser)
     }
 }

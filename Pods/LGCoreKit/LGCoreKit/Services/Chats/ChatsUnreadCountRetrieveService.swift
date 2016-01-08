@@ -13,7 +13,7 @@ public enum ChatsUnreadCountRetrieveServiceError: ErrorType, CustomStringConvert
     case Unauthorized
     case Internal
     case Forbidden
-    
+
     public var description: String {
         switch (self) {
         case Network:
@@ -26,16 +26,27 @@ public enum ChatsUnreadCountRetrieveServiceError: ErrorType, CustomStringConvert
             return "Forbidden"
         }
     }
+
+    init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Scammer:
+            self = .Forbidden
+        case .Internal, .Unauthorized, .NotFound, .AlreadyExists, .InternalServerError:
+            self = .Internal
+        }
+    }
 }
 
 public typealias ChatsUnreadCountRetrieveServiceResult = Result<Int, ChatsUnreadCountRetrieveServiceError>
 public typealias ChatsUnreadCountRetrieveServiceCompletion = ChatsUnreadCountRetrieveServiceResult -> Void
 
 public protocol ChatsUnreadCountRetrieveService {
-    
+
     /**
         Retrieves the unread message count for the current user.
-    
+
         - parameter sessionToken: The user session token.
         - parameter completion: The completion closure.
     */

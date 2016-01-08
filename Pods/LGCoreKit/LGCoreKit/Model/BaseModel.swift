@@ -6,10 +6,17 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public protocol BaseModel: class {
-    var objectId: String? { get set }
-    var updatedAt: NSDate? { get }
-    var createdAt: NSDate? { get }
-    
-    var isSaved: Bool { get }
+public protocol BaseModel {
+    // Optional: Has value if saved (either cache or remote)
+    var objectId: String? { get }
+}
+
+public extension BaseModel {
+    public var isSaved: Bool {
+        return objectId != nil
+    }
+
+    func toDictionary() -> [String: AnyObject] {
+        return Mirror(reflecting: self).toDictionary()
+    }
 }

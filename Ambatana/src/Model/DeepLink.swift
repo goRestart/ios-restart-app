@@ -10,7 +10,7 @@
     Deep link types, describes host.
 */
 public enum DeepLinkType: String {
-    case Home = "home", Sell = "sell", Product = "products", User = "users"
+    case Home = "home", Sell = "sell", Product = "products", User = "users", Chat = "chat", Chats = "chats"
 }
 
 /**
@@ -24,10 +24,16 @@ public struct DeepLink: CustomStringConvertible {
     
     var isValid: Bool {
         switch type {
-        case .Home, .Sell:
+        case .Home, .Sell, .Chats:
             return true
         case .Product, .User:
             return components.count > 0
+        case .Chat:
+            // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
+            if let _ = query["p"], let _ = query["b"] {
+                return true
+            }
+            return false
         }
     }
     
@@ -128,6 +134,28 @@ public struct DeepLink: CustomStringConvertible {
         }
     }
 
+    public init?(action: Action, url: NSURL) {
+    
+        switch action {
+        case .Message( _ , let messageProduct, let messageBuyer):
+            self.url = url
+            self.query = ["p" : messageProduct, "b" : messageBuyer]
+            self.components = []
+            self.type = .Chat
+        case .URL(let actionDeepLink):
+            self = actionDeepLink
+        }
+    }
+    
+    public mutating func buildWithAction(action: Action) {
+        
+        switch action {
+        case .Message( _ , let messageProduct, let messageBuyer):
+            query = ["p" : messageProduct, "b" : messageBuyer]
+        case .URL(let actionDeepLink):
+            self = actionDeepLink
+        }
+    }
     
     private func decomposeIdSlug(sluggedId: String) -> String? {
         let slugComponents = sluggedId.componentsSeparatedByString("_")

@@ -13,27 +13,32 @@ import MessageUI
 import Result
 import SDWebImage
 import UIKit
+import LGCollapsibleLabel
 
-public class ProductViewController: BaseViewController, FBSDKSharingDelegate, GalleryViewDelegate, MFMailComposeViewControllerDelegate, ProductViewModelDelegate {
+public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate {
 
     // Constants
     private static let addressIconVisibleHeight: CGFloat = 16
     private static let footerViewVisibleHeight: CGFloat = 64
+    private static let labelsTopMargin: CGFloat = 15
+    private static let addressTopMarginWithDescription: CGFloat = 30
     
     // UI
     // > Navigation Bar
     private var favoriteButton: UIButton?
+    private var userInfo: NavBarUserInfo?
     
     // > Main
     @IBOutlet weak var galleryView: GalleryView!
-    @IBOutlet weak var userAvatarImageView: UIImageView!
-    @IBOutlet weak var usernameContainerView: UIView!
-    @IBOutlet weak var usernameLabel: UILabel!
-    
-    @IBOutlet weak var nameLabel: UILabel!
+
+    @IBOutlet weak var priceTitleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var descriptionTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
     
+    @IBOutlet weak var addressIconTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressIconHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
@@ -42,6 +47,9 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     // http://stackoverflow.com/questions/3690972/why-maskstobounds-yes-prevents-calayer-shadow
     @IBOutlet weak var productStatusLabel: UILabel!
     @IBOutlet weak var productStatusShadow: UIView!     // just for the shadow
+    
+    // > Share Buttons
+    @IBOutlet weak var socialShareView: SocialShareView!
     
     // > Bottom
     @IBOutlet weak var bottomView: UIView!
@@ -58,7 +66,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // >> Me selling
     @IBOutlet weak var meSellingView: UIView!
-    @IBOutlet weak var markSoldButton: UIButton!
+    @IBOutlet weak var markSoldButton: UIButton! // used to mark as sold or "resell" depending on the product status
     
     // > Other
     private var lines : [CALayer]
@@ -106,40 +114,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     // MARK: > Actions
     
-    @IBAction func userButtonPressed(sender: AnyObject) {
-        openProductUserProfile()
-    }
-    
     @IBAction func mapViewButtonPressed(sender: AnyObject) {
         openMap()
-    }
-    
-    @IBAction func shareFBButtonPressed(sender: AnyObject) {
-        viewModel.shareInFacebook("bottom")
-        let content = viewModel.shareFacebookContent
-        FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
-    }
-    
-    @IBAction func shareEmailButtonPressed(sender: AnyObject) {
-        let isEmailAccountConfigured = MFMailComposeViewController.canSendMail()
-        if isEmailAccountConfigured {
-            let vc = MFMailComposeViewController()
-            vc.mailComposeDelegate = self
-            vc.setSubject(viewModel.shareEmailSubject)
-            vc.setMessageBody(viewModel.shareEmailBody, isHTML: false)
-            presentViewController(vc, animated: true, completion: nil)
-            viewModel.shareInEmail("bottom")
-        }
-        else {
-            showAutoFadingOutMessageAlert(LGLocalizedString.productShareEmailError)
-        }
-    }
-    
-    @IBAction func shareWhatsAppButtonPressed(sender: AnyObject) {
-        let isWhatsAppInstalled = viewModel.shareInWhatsApp()
-        if !isWhatsAppInstalled {
-            showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
-        }
     }
     
     @IBAction func reportButtonPressed(sender: AnyObject) {
@@ -182,37 +158,37 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         })
     }
     
+    /**
+        markSoldPressed is the action related to the markSoldButton, works both ways: to "sell" and put it back to "available"
+    */
+    
     @IBAction func markSoldPressed(sender: AnyObject) {
-        ifLoggedInThen(.MarkAsSold, loggedInAction: {
-            self.showMarkSoldAlert()
-        },
-        elsePresentSignUpWithSuccessAction: {
-            self.updateUI()
-            self.showMarkSoldAlert()
-        })
+        if viewModel.productIsSold {
+            ifLoggedInThen(.MarkAsUnsold, loggedInAction: {
+                self.showMarkUnsoldAlert()
+                },
+                elsePresentSignUpWithSuccessAction: {
+                    self.updateUI()
+                    self.showMarkUnsoldAlert()
+            })
+        } else {
+            ifLoggedInThen(.MarkAsSold, loggedInAction: {
+                self.showMarkSoldAlert()
+                },
+                elsePresentSignUpWithSuccessAction: {
+                    self.updateUI()
+                    self.showMarkSoldAlert()
+            })
+        }
     }
     
-    // MARK: - FBSDKSharingDelegate
-    
-    public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
-        viewModel.shareInFBCompleted()
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)  // TODO: Create a string for this screen
-    }
-    
-    public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.sellSendSharingFacebookOk)  // TODO: Create a string for this screen
-    }
-    
-    public func sharerDidCancel(sharer: FBSDKSharing!) {
-        viewModel.shareInFBCancelled()
-    }
-    
+
     // MARK: - GalleryViewDelegate
     
     public func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
         // TODO: Refactor into GalleryViewController with proper MVVM
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as! PhotosInDetailViewController
+        guard let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as? PhotosInDetailViewController else { return }
         
         // add the images
         var imageURLs : [NSURL] = []
@@ -226,18 +202,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         vc.productName = viewModel.name
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    // MARK: - MFMailComposeViewControllerDelegate
-    
-    public func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        var message: String? = nil
-        if result.rawValue == MFMailComposeResultFailed.rawValue { // we just give feedback if something nasty happened.
-            message = LGLocalizedString.productShareEmailError
-        }
-        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            if message != nil { self.showAutoFadingOutMessageAlert(message!) }
-        })
-    }
+
     
     // MARK: - ProductViewModelDelegate
     
@@ -256,7 +221,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     public func viewModelForbiddenAccessToFavourite(viewModel: ProductViewModel) {
         showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-            MyUserManager.sharedInstance.logout(nil)
+            SessionManager.sharedInstance.logout()
         })
     }
     
@@ -291,7 +256,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         if error == .Forbidden {
             completion = {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                    MyUserManager.sharedInstance.logout(nil)
+                    SessionManager.sharedInstance.logout()
                 })
             }
         }
@@ -355,6 +320,29 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         dismissLoadingMessageAlert(completion)
     }
     
+    public func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult) {
+        let completion: (() -> Void)?
+        if let _ = result.value {
+            
+            completion = {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productSellAgainSuccessMessage, time: 3) {
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+            }
+            updateUI()
+        }
+        else {
+            completion = {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.productSellAgainErrorGeneric)
+            }
+        }
+        dismissLoadingMessageAlert(completion)
+    }
+    
     public func viewModelDidStartAsking(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
     }
@@ -374,7 +362,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 if actualError == .Forbidden {
                     completion = {
                         self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                            MyUserManager.sharedInstance.logout(nil)
+                            SessionManager.sharedInstance.logout()
                         })
                     }
                 }
@@ -411,12 +399,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     private func setupUI() {
         // Setup
         // > Navigation Bar
+        userInfo = NavBarUserInfo.buildNavbarUserInfo()
+        setLetGoNavigationBarStyle(userInfo)
         setLetGoNavigationBarStyle("")
         setFavouriteButtonAsFavourited(false)
         
         // > Main
-        usernameContainerView.layer.cornerRadius = 2
-        
         productStatusLabel.layer.cornerRadius = 18
         productStatusLabel.layer.masksToBounds = true
         
@@ -425,9 +413,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         productStatusShadow.layer.shadowOpacity = 0.24
         productStatusShadow.layer.shadowRadius = 8.0
 
-        userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
-        userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-        userAvatarImageView.layer.borderWidth = 2
+        priceTitleLabel.text = LGLocalizedString.productPriceLabel.uppercaseString
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
+        descriptionCollapsible.addGestureRecognizer(tapGesture)
+        descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercaseString
+        descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercaseString
 
         reportButton.titleLabel?.numberOfLines = 2
         reportButton.titleLabel?.lineBreakMode = .ByWordWrapping
@@ -455,13 +446,26 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
-        markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
         
+        let markSoldTitle = viewModel.productIsSold ? LGLocalizedString.productMarkAsSoldButton : LGLocalizedString.productMarkAsSoldButton
+        markSoldButton.setTitle(markSoldTitle, forState: .Normal)
+
         // Delegates
         galleryView.delegate = self
         
+        // Share Buttons
+        socialShareView.delegate = self
+        socialShareView.socialMessage = viewModel.shareSocialMessage
+
         // Update the UI
         updateUI()
+    }
+    
+    dynamic private func toggleDescriptionState() {
+        UIView.animateWithDuration(0.25) {
+            self.descriptionCollapsible.toggleState()
+            self.view.layoutIfNeeded()
+        }
     }
     
     private func updateUI() {
@@ -495,7 +499,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 currentTag++
             }
             
-            let buttons = setLetGoRightButtonsWithImageNames(imageNames, andSelectors: selectors, withTags: tags)
+            let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags)
             for button in buttons {
                 if button.tag == favTag {
                     favoriteButton = button
@@ -527,17 +531,22 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
                 }
             }
         }
-        
-        // Main
-        if let userAvatarURL = viewModel.userAvatar {
-            userAvatarImageView.sd_setImageWithURL(userAvatarURL, placeholderImage: UIImage(named: "no_photo"))
+
+        if let userInfo = userInfo {
+            userInfo.setupWith(avatar: viewModel.userAvatar, text: viewModel.userName)
+            userInfo.delegate = self
         }
-        usernameLabel.text = viewModel.userName
-        
-        nameLabel.text = viewModel.name
+
         priceLabel.text = viewModel.price
-        descriptionLabel.text = viewModel.descr
-        addressIconHeightConstraint.constant = viewModel.addressIconVisible ? ProductViewController.addressIconVisibleHeight : 0
+        nameLabel.text = viewModel.name
+        nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.labelsTopMargin
+        descriptionCollapsible.mainText = viewModel.descr
+        descriptionTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 0 :
+            ProductViewController.labelsTopMargin
+        addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ?
+            ProductViewController.labelsTopMargin : ProductViewController.addressTopMarginWithDescription
+        addressIconHeightConstraint.constant = viewModel.addressIconVisible ?
+            ProductViewController.addressIconVisibleHeight : 0
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
             let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
@@ -550,7 +559,12 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
         deleteButton.hidden = !viewModel.isDeletable
         
         // Footer
-        footerViewHeightConstraint.constant = viewModel.isFooterVisible ? ProductViewController.footerViewVisibleHeight : 0
+        footerViewHeightConstraint.constant = viewModel.isFooterVisible ?
+            ProductViewController.footerViewVisibleHeight : 0
+
+        let title = viewModel.productIsSold ?
+            LGLocalizedString.productSellAgainButton : LGLocalizedString.productMarkAsSoldButton
+        markSoldButton.setTitle(title, forState: .Normal)
         
         // Footer other / me selling subviews
         otherSellingView.hidden = viewModel.isMine
@@ -559,7 +573,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     
     private func setFavouriteButtonAsFavourited(favourited: Bool) {
         let imageName = favourited ? "navbar_fav_on" : "navbar_fav_off"
-        let image = UIImage(named: imageName)!.imageWithRenderingMode(.AlwaysOriginal)
+        let image = UIImage(named: imageName)!.imageWithRenderingMode(.AlwaysTemplate)
         favoriteButton?.setImage(image, forState: .Normal)
     }
     
@@ -613,44 +627,7 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     }
     
     dynamic private func shareButtonPressed() {
-        let activityItems: [AnyObject] = [viewModel.shareText]
-        let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
-        // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
-        if vc.respondsToSelector("popoverPresentationController") {
-            let presentationController = vc.popoverPresentationController
-            presentationController?.sourceView = self.view
-        }
-
-        vc.completionWithItemsHandler = {
-            (activity, success, items, error) in
-
-            // TODO: comment left here as a clue to manage future activities
-            /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
-            
-            println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
-            
-            Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
-            Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
-            Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
-            Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
-            */
-
-            if success {
-                if activity == UIActivityTypePostToFacebook {
-                    self.viewModel.shareInFacebook("top")
-                    self.viewModel.shareInFBCompleted()
-                } else if activity == UIActivityTypePostToTwitter {
-                    self.viewModel.shareInTwitterActivity()
-                } else if activity == UIActivityTypeMail {
-                    self.viewModel.shareInEmail("top")
-                } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
-                    self.viewModel.shareInWhatsappActivity()
-                }
-            }
-        }
-
-        presentViewController(vc, animated: true, completion: nil)
+        presentNativeShareWith(shareText: viewModel.shareText, delegate: self)
     }
     
     // MARK: > Actions w navigation
@@ -658,14 +635,8 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
     // TODO: Refactor to retrieve a viewModel and build an VC
     dynamic private func editButtonPressed() {
         let vc = viewModel.editViewModelWithDelegate
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    // TODO: Refactor to retrieve a viewModel and build an VC
-    private func openProductUserProfile() {
-        if let vc = viewModel.productUserProfileViewModel {
-            navigationController?.pushViewController(vc, animated: true)
-        }
+        let navCtl = UINavigationController(rootViewController: vc)
+        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
     
     // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM
@@ -756,4 +727,107 @@ public class ProductViewController: BaseViewController, FBSDKSharingDelegate, Ga
             self.viewModel.markSoldStarted(source)
         })
     }
+    
+    private func showMarkUnsoldAlert() {
+        let alert = UIAlertController(title: LGLocalizedString.productSellAgainConfirmTitle, message: LGLocalizedString.productSellAgainConfirmMessage, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: { (_) -> Void in
+            self.viewModel.markUnsoldAbandon()
+        })
+        let unsoldAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
+            self.viewModel.markUnsold()
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(unsoldAction)
+        
+        presentViewController(alert, animated: true, completion: {
+            self.viewModel.markUnsoldStarted()
+        })
+    }
 }
+
+
+// MARK: - NavBarUserInfoDelegate
+
+extension ProductViewController: NavBarUserInfoDelegate {
+    func navBarUserInfoTapped(navbarUserInfo: NavBarUserInfo) {
+        openProductUserProfile()
+    }
+
+    // TODO: Refactor to retrieve a viewModel and build an VC
+    private func openProductUserProfile() {
+        if let vc = viewModel.productUserProfileViewModel {
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+}
+
+
+// MARK: - SocialShareViewDelegate
+
+extension ProductViewController: SocialShareViewDelegate {
+
+    func shareInEmail(){
+        viewModel.shareInEmail(.Bottom)
+    }
+
+    func shareInFacebook() {
+        viewModel.shareInFacebook(.Bottom)
+    }
+
+    func shareInFacebookFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBCompleted()
+        case .Cancelled:
+            viewModel.shareInFBCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+
+    func shareInFBMessenger() {
+        viewModel.shareInFBMessenger()
+    }
+
+    func shareInFBMessengerFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBMessengerCompleted()
+        case .Cancelled:
+            viewModel.shareInFBMessengerCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+
+    func shareInWhatsApp() {
+        viewModel.shareInWhatsApp()
+    }
+
+    func viewController() -> UIViewController? {
+        return self
+    }
+}
+
+// MARK: - NativeShareDelegate
+
+extension ProductViewController: NativeShareDelegate {
+
+    func nativeShareInFacebook() {
+        viewModel.shareInFacebook(.Top)
+        viewModel.shareInFBCompleted()
+    }
+
+    func nativeShareInTwitter() {
+        viewModel.shareInTwitterActivity()
+    }
+
+    func nativeShareInEmail() {
+        viewModel.shareInEmail(.Top)
+    }
+
+    func nativeShareInWhatsApp() {
+        viewModel.shareInWhatsappActivity()
+    }
+}
+

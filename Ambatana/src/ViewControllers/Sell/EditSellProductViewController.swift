@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 
 
-class EditSellProductViewController: SellProductViewController, EditSellProductViewModelDelegate {
+class EditSellProductViewController: BaseSellProductViewController, EditSellProductViewModelDelegate {
 
     
     private var editViewModel : EditSellProductViewModel
@@ -18,9 +18,13 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    convenience init(product: Product, updateDelegate: UpdateDetailInfoDelegate?) {
+        self.init(viewModel: EditSellProductViewModel(product: product), updateDelegate: updateDelegate)
+    }
     
-    init(product: Product, updateDelegate: UpdateDetailInfoDelegate?) {
-        editViewModel = EditSellProductViewModel(product: product)
+    init(viewModel: EditSellProductViewModel, updateDelegate: UpdateDetailInfoDelegate?) {
+        editViewModel = viewModel
         super.init(viewModel: editViewModel)
         
         editViewModel.editDelegate = self
@@ -30,73 +34,78 @@ class EditSellProductViewController: SellProductViewController, EditSellProductV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        editViewModel.loadPictures()
-        
         sendButton.setTitle(LGLocalizedString.editProductSendButton, forState: .Normal)
         categoryButton.setTitle(editViewModel.categoryName, forState: .Normal)
         
         self.setLetGoNavigationBarStyle(LGLocalizedString.editProductTitle)
+        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
+            target: self, action: Selector("closeButtonPressed"))
+        self.navigationItem.leftBarButtonItem = closeButton;
     }
-    
-    // MARK: - EditSellProductViewModelDelegate Methods
-    
-    func editSellProductViewModel(viewModel: EditSellProductViewModel, didDownloadImageAtIndex index: Int) {
-        imageCollectionView.reloadData()
-    }
+
     
     // MARK: - SellProductViewModelDelegate Methods
 
-    override func sellProductViewModel(viewModel: SellProductViewModel, didFinishSavingProductWithResult result: ProductSaveServiceResult) {
-        super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
-        
-        if let savedProduct = result.value {
-            editViewModel.updateInfoOfPreviousVCWithProduct(savedProduct)
-        }
+    override func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult
+        result: ProductSaveServiceResult) {
+            super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
+            
+            if let savedProduct = result.value {
+                editViewModel.updateInfoOfPreviousVCWithProduct(savedProduct)
+            }
     }
     
     internal override func sellCompleted() {
         super.sellCompleted()
         showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { () -> Void in
-            self.navigationController?.popViewControllerAnimated(true)
+            self.dismissViewControllerAnimated(true, completion: nil)
         }
     }
     
-    override func sellProductViewModel(viewModel: SellProductViewModel, didFailWithError error: ProductSaveServiceError) {
+    override func sellProductViewModel(viewModel: BaseSellProductViewModel,
+        didFailWithError error: ProductSaveServiceError) {
         
-        super.sellProductViewModel(viewModel, didFailWithError: error)
+            super.sellProductViewModel(viewModel, didFailWithError: error)
 
-        var completion: ((Void) -> Void)? = nil
-        
-        let message: String
-        switch (error) {
-        case .Network, .Internal:
-            self.editViewModel.shouldDisableTracking()
-            message = LGLocalizedString.editProductSendErrorUploadingProduct
-            completion = {
-                self.editViewModel.shouldEnableTracking()
+            var completion: ((Void) -> Void)? = nil
+            
+            let message: String
+            switch (error) {
+            case .Network, .Internal:
+                self.editViewModel.shouldDisableTracking()
+                message = LGLocalizedString.editProductSendErrorUploadingProduct
+                completion = {
+                    self.editViewModel.shouldEnableTracking()
+                }
+            case .NoImages:
+                message = LGLocalizedString.sellSendErrorInvalidImageCount
+            case .NoTitle:
+                message = LGLocalizedString.sellSendErrorInvalidTitle
+            case .NoPrice:
+                message = LGLocalizedString.sellSendErrorInvalidPrice
+            case .NoDescription:
+                message = LGLocalizedString.sellSendErrorInvalidDescription
+            case .LongDescription:
+                message = LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
+            case .NoCategory:
+                message = LGLocalizedString.sellSendErrorInvalidCategory
+            case .Forbidden:
+                self.editViewModel.shouldDisableTracking()
+                message = LGLocalizedString.logInErrorSendErrorGeneric
+                completion = {
+                    self.editViewModel.shouldEnableTracking()
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        SessionManager.sharedInstance.logout()
+                    })
+                }
             }
-        case .NoImages:
-            message = LGLocalizedString.sellSendErrorInvalidImageCount
-        case .NoTitle:
-            message = LGLocalizedString.sellSendErrorInvalidTitle
-        case .NoPrice:
-            message = LGLocalizedString.sellSendErrorInvalidPrice
-        case .NoDescription:
-            message = LGLocalizedString.sellSendErrorInvalidDescription
-        case .LongDescription:
-            message = String(format: LGLocalizedString.sellSendErrorInvalidDescriptionTooLong, Constants.productDescriptionMaxLength)
-        case .NoCategory:
-            message = LGLocalizedString.sellSendErrorInvalidCategory
-        case .Forbidden:
-            self.editViewModel.shouldDisableTracking()
-            message = LGLocalizedString.logInErrorSendErrorGeneric
-            completion = {
-                self.editViewModel.shouldEnableTracking()
-                self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                    MyUserManager.sharedInstance.logout(nil)
-                })
-            }
-        }
-        self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
+            self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
+    }
+
+
+    // MARK: - Private methods
+
+    func closeButtonPressed() {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }

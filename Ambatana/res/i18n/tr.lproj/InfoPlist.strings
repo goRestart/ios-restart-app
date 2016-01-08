@@ -1,1 +1,3 @@
-"NSLocationWhenInUseUsageDescription" = "yakındaki ürünleri gösterebilmesi için letgo'nun bulunduğun yer bilgisine ulaşması gerekir";
+"NSLocationWhenInUseUsageDescription" = "letgo'nun yakınındaki ürünleri gösterebilmesi için, bulunduğun konum bilgisine ulaşması gerekir";
+"sell_shortcut_title" = "Eşyalarını Sat";
+"start_browsing_shortcut_title" = "Aramaya başla!";

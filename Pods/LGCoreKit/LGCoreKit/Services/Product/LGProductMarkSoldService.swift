@@ -6,55 +6,29 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Alamofire
 import Result
 
 final public class LGProductMarkSoldService: ProductMarkSoldService {
-    
-    // Constants
-    public static let endpoint = "/api/products"
-    
-    // iVars
-    var url: String
-    
-    // MARK: - Lifecycle
-    
-    public init(baseURL: String) {
-        
-        self.url = baseURL + LGProductMarkSoldService.endpoint
-    }
-    
-    public convenience init() {
-        self.init(baseURL: EnvironmentProxy.sharedInstance.apiBaseURL)
-    }
 
-    // MARK: - ProductMarkSoldService
-    
     public func markAsSoldProduct(product: Product, sessionToken: String, completion: ProductMarkSoldServiceCompletion?) {
-        
-        let fullUrl = "\(url)/\(product.objectId!)"
-        
-        let headers = [
-            LGCoreKitConstants.httpHeaderUserToken: sessionToken
-        ]
-        var params = Dictionary<String, AnyObject>()
-        params["status"] = ProductStatus.Sold.rawValue
-        
-        Alamofire.request(.PATCH, fullUrl, parameters: params, encoding: .JSON, headers: headers)
-            .validate(statusCode: 200..<400)
-            .response { (request, response, _, error: NSError?) -> Void in
-                // Error
-                if let actualError = error {
-                    if actualError.domain == NSURLErrorDomain {
-                        completion?(ProductMarkSoldServiceResult(error: .Network))
-                    }
-                    else {
-                        completion?(ProductMarkSoldServiceResult(error: .Internal))
-                    }
-                } else {
-                    completion?(ProductMarkSoldServiceResult(value: product))
-                }
+
+        guard let productId = product.objectId else {
+            completion?(ProductMarkSoldServiceResult(error: .Internal))
+            return
         }
-        
+
+        let params: [String: AnyObject] = ["status": ProductStatus.Sold.rawValue]
+
+        let request = ProductRouter.Patch(productId: productId, params: params)
+        ApiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
+            if let _ = result.value {
+                var result = LGProduct(product: product)
+                result.status = .Sold
+                completion?(ProductMarkSoldServiceResult(value: result))
+            } else if let error = result.error {
+                let favError = ProductMarkSoldServiceError(apiError: error)
+                completion?(ProductMarkSoldServiceResult(error: favError))
+            }
+        }
     }
 }

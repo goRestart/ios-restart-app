@@ -14,23 +14,42 @@ public enum LGLocationType: String {
     case IPLookup   = "iplookup"
     case Regional   = "regional"
     case LastSaved  = "lastsaved"
+
+    static let allValues: [LGLocationType] = [.Manual, .Sensor, .IPLookup, .Regional, .LastSaved]
 }
 
-public class LGLocation: CustomStringConvertible {
-    
+public final class LGLocation: CustomStringConvertible, Equatable {
+
     public private(set) var location : CLLocation
     public private(set) var type: LGLocationType
-    
+
     public var coordinate: CLLocationCoordinate2D {
         return location.coordinate
     }
-    
+
+    public init(latitude: Double, longitude: Double, type: LGLocationType) {
+        self.location = CLLocation(latitude: latitude, longitude: longitude)
+        self.type = type
+    }
+
     public init(location: CLLocation, type: LGLocationType) {
         self.location = location
         self.type = type
     }
-    
+
     public var description : String {
         return "location: \(location.description); type: \(type.rawValue)"
     }
+}
+
+public func ==(lhs: LGLocation, rhs: LGLocation) -> Bool {
+    guard lhs.type == rhs.type else { return false }
+
+    let lLat = lhs.location.coordinate.latitude
+    let lLon = lhs.location.coordinate.longitude
+
+    let rLat = rhs.location.coordinate.latitude
+    let rLon = rhs.location.coordinate.longitude
+
+    return lLat == rLat && lLon == rLon
 }

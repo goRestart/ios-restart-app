@@ -6,17 +6,11 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-public class LGProductFavourite: LGBaseModel, ProductFavourite {
-    
-    public var product: Product?
-    public var user: User?
-    
-    // MARK: - Lifecycle
-    
-    public override init() {
-        self.product = LGProduct()
-        self.user = LGUser()
-        
-        super.init()
-    }
+public struct LGProductFavourite: ProductFavourite {
+
+    // Global iVars
+    public var objectId: String?
+
+    public var product: Product
+    public var user: User
 }

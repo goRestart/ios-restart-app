@@ -1,0 +1,100 @@
+# Customise this file, documentation can be found here:
+# https://github.com/KrauseFx/fastlane/tree/master/docs
+# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# By default, fastlane will send which actions are used
+# No personal data is shared, more information on https://github.com/fastlane/enhancer
+# Uncomment the following line to opt out
+# opt_out_usage
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "1.37.0"
+
+default_platform :ios
+
+def stringGeneration(wti_upload, wti_download)
+  if wti_upload
+    system "ruby ../Scripts/strings_update.rb --wti-upload -i ../"
+  elsif wti_download
+    system "ruby ../Scripts/strings_update.rb --wti-download -i ../"
+  else 
+    system "ruby ../Scripts/strings_update.rb --no-wti-download -i ../"
+  end
+end
+
+platform :ios do
+  
+  before_all do
+
+  end
+
+  desc "Build and distribute build to Crashlytics"
+  lane :beta do
+
+    download_strings
+
+    cocoapods
+
+    gym(
+      workspace: "LetGo.xcworkspace",
+      configuration: "Adhoc",
+      scheme: "LetGo",
+      silent: false,
+      clean: true,
+      use_legacy_build_api: true
+    )
+
+    crashlytics(
+      crashlytics_path: "./Crashlytics.framework",
+      api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
+      build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
+      groups: ['letgo-testers'],
+      notes: "Distributed using Fastlane"
+    )
+
+  end
+
+  lane :upload_strings do
+    if !stringGeneration(true, false)
+      return -1
+    end
+  end
+
+  lane :download_strings do
+    if !stringGeneration(false, true)
+      return -1
+    end
+  end
+
+  lane :generate_strings do 
+    if !stringGeneration(false, false)
+      return -1
+    end
+  end
+
+  after_all do |lane|
+
+    # This block is called, only if the executed lane was successful
+    
+    notify "Fastlane finished '#{lane}' successfully" # Mac OS X Notification
+    
+  end
+
+  error do |lane, exception|
+
+    puts "exception: #{exception.message}"
+
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/KrauseFx/fastlane/blob/master/docs/Platforms.md
+# All available actions: https://github.com/KrauseFx/fastlane/blob/master/docs/Actions.md

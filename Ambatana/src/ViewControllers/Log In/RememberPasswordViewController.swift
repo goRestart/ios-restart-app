@@ -26,13 +26,15 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     @IBOutlet weak var resetPasswordButton: UIButton!
     
+    @IBOutlet weak var instructionsLabel : UILabel!
+    
     // > Helper
     var lines: [CALayer]
     
     // MARK: - Lifecycle
     
-    init(source: EventParameterLoginSourceValue) {
-        self.viewModel = RememberPasswordViewModel(source: source)
+    init(source: EventParameterLoginSourceValue, email: String) {
+        self.viewModel = RememberPasswordViewModel(source: source, email: email)
         self.lines = []
         super.init(viewModel: viewModel, nibName: "RememberPasswordViewController")
         self.viewModel.delegate = self
@@ -49,7 +51,11 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         
         emailTextField.becomeFirstResponder()
         emailTextField.tintColor = StyleHelper.textFieldTintColor
-
+        
+        // update the textfield with the e-mail from previous view
+        emailTextField.text = viewModel.email
+        updateViewModelText(viewModel.email, fromTextFieldTag: emailTextField.tag)
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -73,44 +79,27 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     
     func viewModel(viewModel: RememberPasswordViewModel, updateSendButtonEnabledState enabled: Bool) {
         resetPasswordButton.enabled = enabled
+        resetPasswordButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
     func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel) {
         showLoadingMessageAlert()
     }
-    
-    func viewModel(viewModel: RememberPasswordViewModel, didFinishResettingPasswordWithResult result: UserPasswordResetServiceResult) {
-        
-        var completion: (() -> Void)? = nil
-        
-        switch (result) {
-        case .Success:
-            completion = {
-                self.showAutoFadingOutMessageAlert(String(format: LGLocalizedString.resetPasswordSendOk, viewModel.email)) {
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }
-            }
-            break
-        case .Failure(let error):
-            let message: String
-            switch (error) {
-            case .InvalidEmail:
-                message = LGLocalizedString.resetPasswordSendErrorInvalidEmail
-            case .UserNotFound:
-                message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword
-            case .Network:
-                message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal:
-                message = LGLocalizedString.resetPasswordSendErrorGeneric
-            }
-            completion = {
-                self.showAutoFadingOutMessageAlert(message)
+
+    func viewModelDidFinishResetPassword(viewModel: RememberPasswordViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.resetPasswordSendOk(viewModel.email)) { [weak self] in
+                self?.dismissViewControllerAnimated(true, completion: nil)
             }
         }
-        
-        dismissLoadingMessageAlert(completion)
     }
-    
+
+    func viewModel(viewModel: RememberPasswordViewModel, didFailResetPassword error: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(error)
+        }
+    }
+
     // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(textField: UITextField) {
@@ -176,6 +165,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         setLetGoNavigationBarStyle(LGLocalizedString.resetPasswordTitle)
         emailTextField.placeholder = LGLocalizedString.resetPasswordEmailFieldHint
         resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, forState: .Normal)
+        instructionsLabel.text = LGLocalizedString.resetPasswordInstructions
         
         // Tags
         emailTextField.tag = TextFieldTag.Email.rawValue
@@ -186,6 +176,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
             resetPasswordButton.enabled = email.characters.count > 0
         } else {
             resetPasswordButton.enabled = false
+            resetPasswordButton.alpha = StyleHelper.disabledButtonAlpha
         }
     }
     

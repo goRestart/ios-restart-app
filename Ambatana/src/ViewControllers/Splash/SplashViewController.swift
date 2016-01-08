@@ -7,55 +7,104 @@
 //
 
 import LGCoreKit
+import LGTour
 import UIKit
 import Result
 
-class SplashViewController: BaseViewController {
+class SplashViewController: BaseViewController, LGTourViewControllerDelegate, SplashViewModelDelegate {
 
-    let configManager: ConfigManager
-    var completionBlock: (Bool -> Void)?
+    let viewModel: SplashViewModel   
+    
     
     // MARK: - Lifecycle
     
-    init(configManager: ConfigManager) {
-        self.configManager = configManager
-        super.init(viewModel: nil, nibName: "SplashViewController")
+    init(viewModel: SplashViewModel) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: "SplashViewController")
+        self.viewModel.delegate = self
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-       
-    internal override func viewWillAppearFromBackground(fromBackground: Bool) {
-        super.viewWillAppearFromBackground(fromBackground)
+
+    
+    // MARK: - LGTourViewControllerDelegate
+    
+    func tourViewControllerDidLoad(tourViewController: LGTourViewController) {
+        // Save that the onboarding was shown so don't show it again
+        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
         
-        configManager.updateWithCompletion { () -> Void in
-            
-            let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
-            if self.configManager.shouldForceUpdate && UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
-                // show blocking alert
-                let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle, message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
-                let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton, style: .Default, handler: { (action :UIAlertAction!) -> Void in
-                    UIApplication.sharedApplication().openURL(NSURL(string:itunesURL)!)
-                })
-                
-                alert.addAction(openAppStore)
-                
-                self.presentViewController(alert, animated: true, completion: nil)
-            }
-            else {
-                MyUserManager.sharedInstance.saveMyUserIfNew { [weak self] (result: UserSaveServiceResult) in
-                    self?.completionBlock?(result.value != nil)
-                    
-                    if let myUser = MyUserManager.sharedInstance.myUser() {
-                        TrackerProxy.sharedInstance.setUser(myUser)
-                    }
-                }
-            }
-        }
+        // Tracking
+        let event = TrackerEvent.onboardingStart()
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    func tourViewController(tourViewController: LGTourViewController, didShowPageAtIndex index: Int) {
+        
     }
+    
+    func tourViewController(tourViewController: LGTourViewController,
+        didAbandonWithButtonType buttonType: CloseButtonType, atIndex index: Int) {
+            //Dismiss tour
+            tourViewController.dismissViewControllerAnimated(false, completion: nil)
+            
+            // Tracking
+            let event = TrackerEvent.onboardingAbandonAtPageNumber(index, buttonType: buttonType)
+            TrackerProxy.sharedInstance.trackEvent(event)
+            
+            // Run completion
+            viewModel.completion?()
+    }
+    
+    func tourViewControllerDidFinish(tourViewController: LGTourViewController) {
+        //Dismiss tour
+        tourViewController.dismissViewControllerAnimated(false, completion: nil)
+        
+        // Tracking
+        let event = TrackerEvent.onboardingComplete()
+        TrackerProxy.sharedInstance.trackEvent(event)
+        
+        // Run completion
+        viewModel.completion?()
+    }
+    
+    
+    // MARK: - SplashViewModelDelegate
+    
+    func viewModelShouldForceUpdate(viewModel: SplashViewModel) {
+        let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle,
+            message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
+        let action = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton, style: .Default,
+            handler: { [weak self] action in
+                self?.viewModel.openAppStore()
+        })
+        alert.addAction(action)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func viewModel(viewModel: SplashViewModel, shouldShowOnBoarding tourViewController: LGTourViewController) {
+        if let patternImage = UIImage(named: "pattern_red") {
+            tourViewController.backgroundColor = UIColor(patternImage: patternImage)
+        }
+        tourViewController.pageTitleColor = UIColor.whiteColor()
+        tourViewController.pageBodyColor = UIColor.whiteColor()
+        tourViewController.closeButtonImage = UIImage(named: "ic_close")
+        tourViewController.leftButtonImage = UIImage(named: "ic_arrow_white_left")
+        tourViewController.skipButtonBackgroundColor = UIColor.whiteColor()
+        tourViewController.skipButtonTextColor = StyleHelper.primaryColor
+        tourViewController.skipButtonBorderRadius = 4
+        tourViewController.skipButtonNonLastPageText = LGLocalizedString.tourPageSkipButton
+        tourViewController.skipButtonLastPageText = LGLocalizedString.tourPageOkButton
+        tourViewController.rightButtonImage = UIImage(named: "ic_arrow_white_right")
+        tourViewController.delegate = self
+        navigationController?.presentViewController(tourViewController, animated: false, completion: nil)
+    }
+    
+    func viewModelShouldContinue(viewModel: SplashViewModel) {
+        // Run completion
+        viewModel.completion?()
+    }
+    
+    
 }

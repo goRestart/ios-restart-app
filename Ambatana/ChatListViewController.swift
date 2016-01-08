@@ -30,7 +30,8 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Data
     var chats: [Chat]?
-    
+
+
     // MARK: - Lifecycle
     
     init() {
@@ -41,6 +42,10 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewDidLoad() {
@@ -61,27 +66,37 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         // register cell
         let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: "ConversationCell")
+
+        // NSNotificationCenter, observe for user interactions (msgs & offers)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
+            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        // NSNotificationCenter, observe for user interactions (msgs & offers)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:", name: PushManager.Notification.didReceiveUserInteraction.rawValue, object: nil)
         
         // Update conversations (always forced, so the badges are updated)
         updateConversations()
         
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"),
+            name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
-    
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        NSNotificationCenter.defaultCenter().removeObserver(self,
+            name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
-    
+
+    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
+        updateConversations()
+    }
+
+
     // MARK: - Conversation management
     
     func updateConversations() {
@@ -99,7 +114,9 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
         }
         tableView.userInteractionEnabled = false
         
-        ChatManager.sharedInstance.retrieveChatsWithCompletion({ [weak self] (result: Result<[Chat], ChatsRetrieveServiceError>) -> Void in
+        ChatManager.sharedInstance.retrieveChatsWithCompletion({
+            [weak self] (result: Result<[Chat], ChatsRetrieveServiceError>) -> Void in
+
             if let strongSelf = self {
                 // Success
                 if let chats = result.value {
@@ -113,8 +130,9 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
                 } else if let actualError = result.error {
                     if actualError == .Forbidden {
                         // logout the scammer!
-                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                            MyUserManager.sharedInstance.logout(nil)
+                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric,
+                            completionBlock: { (completion) -> Void in
+                                SessionManager.sharedInstance.logout(nil)
                         })
                     }
                 }
@@ -127,6 +145,7 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
             }
         })
     }
+
     
     // MARK: - Appearance & different contexts interfaces
     
@@ -175,20 +194,19 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     func disableConversationsInterface() {
         tableView.hidden = true
     }
-    
+
+
     // MARK: - Button actions
     
     @IBAction func searchProducts(sender: AnyObject) {
-        if let tabBarCtl = tabBarController as? TabBarController {
-            tabBarCtl.switchToTab(.Home)
-        }
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
     }
 
     @IBAction func sellProducts(sender: AnyObject) {
-        let vc = NewSellProductViewController()
-        let navCtl = UINavigationController(rootViewController: vc)
-        presentViewController(navCtl, animated: true, completion: nil)
+        SellProductControllerFactory.presentSellProductOn(viewController: self)
     }
+
 
     // MARK: - UITableViewDelegate & DataSource methods
     
@@ -198,10 +216,11 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath) as! ConversationCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell",
+            forIndexPath: indexPath) as! ConversationCell
         
         cell.tag = indexPath.hash
-        if let chat = chats?[indexPath.row], let myUser = MyUserManager.sharedInstance.myUser() {
+        if let chat = chats?[indexPath.row], let myUser = MyUserRepository.sharedInstance.myUser {
             cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
         return cell
@@ -209,10 +228,11 @@ class ChatListViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let chat = chats?[indexPath.row], let chatVC = ChatViewController(chat: chat) {
-            navigationController?.pushViewController(chatVC, animated: true)
+        if let chat = chats?[indexPath.row], let chatViewModel = ChatViewModel(chat: chat) {
+            navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
         }
     }
+
     
     // MARK: - NSNotificationCenter
     

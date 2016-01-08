@@ -16,13 +16,22 @@ public protocol EditUserLocationViewModelDelegate: class {
     func viewModel(viewModel: EditUserLocationViewModel, updateTextFieldWithString locationName: String)
     func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String])
     func viewModelDidFailFindingSuggestions(viewModel: EditUserLocationViewModel)
-    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult result: SearchLocationSuggestionsServiceResult)
-    func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D, withPostalAddress postalAddress: PostalAddress?, approximate: Bool)
+    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithResult
+        result: SearchLocationSuggestionsServiceResult)
+    func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D,
+        withPostalAddress postalAddress: PostalAddress?, approximate: Bool)
+    func viewModelDidStartApplyingLocation(viewModel: EditUserLocationViewModel)
+    func viewModelDidApplyLocation(viewModel: EditUserLocationViewModel)
+    func viewModelDidFailApplyingLocation(viewModel: EditUserLocationViewModel)
 }
 
 public class EditUserLocationViewModel: BaseViewModel {
    
     public weak var delegate : EditUserLocationViewModelDelegate?
+    
+    private let locationManager: LocationManager
+    private let myUserRepository: MyUserRepository
+    private let tracker: Tracker
     
     private let searchService : CLSearchLocationSuggestionsService
     private let postalAddressService : PostalAddressRetrievalService
@@ -33,6 +42,7 @@ public class EditUserLocationViewModel: BaseViewModel {
     var goingToLocation : Bool          // while map is moving to show a location, no call to suggestions is made
     var usingGPSLocation : Bool         // user uses GPS location
     var serviceAlreadyLoading : Bool    // if the service is already waiting for a response, we don't launch another request
+    var pendingGoToLocation : Bool      // In case goToLocation was called while serviceAlreadyLoading
     var predictiveResults : [Place]
     var currentPlace : Place
     
@@ -44,24 +54,33 @@ public class EditUserLocationViewModel: BaseViewModel {
         }
     }
     
-    // MARK: -Lifecycle
+    // MARK: - Lifecycle
     
-    override init() {
-        searchText = ""
-        approximateLocation =  UserDefaultsManager.sharedInstance.loadIsApproximateLocation()
-        goingToLocation = false
-        serviceAlreadyLoading = false
-        if let location = MyUserManager.sharedInstance.currentLocation {
-            usingGPSLocation = location.type != .Manual
-        }
-        else {
-            usingGPSLocation = true
-        }
-        predictiveResults = []
-        currentPlace = Place()
-        searchService = CLSearchLocationSuggestionsService()
-        postalAddressService = CLPostalAddressRetrievalService()
+    init(locationManager: LocationManager, myUserRepository: MyUserRepository, tracker: Tracker) {
+        self.locationManager = locationManager
+        self.myUserRepository = myUserRepository
+        self.tracker = tracker
+        
+        self.searchText = ""
+        self.approximateLocation = locationManager.currentLocation?.type != .Sensor &&
+            locationManager.currentLocation?.type != .Manual
+        self.goingToLocation = false
+        self.serviceAlreadyLoading = false
+        self.pendingGoToLocation = false
+        self.usingGPSLocation = locationManager.currentLocation?.type != .Manual
+        
+        self.predictiveResults = []
+        self.currentPlace = Place.newPlace()
+        self.searchService = CLSearchLocationSuggestionsService()
+        self.postalAddressService = CLPostalAddressRetrievalService()
         super.init()
+    }
+    
+    override convenience init() {
+        let locationManager = LocationManager.sharedInstance
+        let myUserRepository = MyUserRepository.sharedInstance
+        let tracker = TrackerProxy.sharedInstance
+        self.init(locationManager: locationManager, myUserRepository: myUserRepository, tracker: tracker)
     }
     
     // MARK: public methods
@@ -95,12 +114,12 @@ public class EditUserLocationViewModel: BaseViewModel {
     
     func showInitialUserLocation() {
         goingToLocation = true
-        let user = MyUserManager.sharedInstance.myUser()
-        if let location =  MyUserManager.sharedInstance.currentLocation {
+
+        if let location = locationManager.currentLocation {
             delegate?.viewModel(self, updateTextFieldWithString: "")
-            let place = Place()
-            place.postalAddress = user?.postalAddress
-            place.location = LGLocationCoordinates2D(location: location)
+            
+            let user = myUserRepository.myUser
+            let place = Place(postalAddress: user?.postalAddress, location:LGLocationCoordinates2D(location: location))
             self.currentPlace = place
             var userLocationString = ""
             
@@ -133,7 +152,8 @@ public class EditUserLocationViewModel: BaseViewModel {
             let lat = location.coordinate.latitude
             let long = location.coordinate.longitude
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress, approximate: self.approximateLocation)
+            delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress,
+                approximate: self.approximateLocation)
         }
         
         goingToLocation = false
@@ -148,18 +168,21 @@ public class EditUserLocationViewModel: BaseViewModel {
         usingGPSLocation = true
 
         if !serviceAlreadyLoading {
-            if let location = MyUserManager.sharedInstance.currentAutoLocation {
-                
+            if let location = locationManager.currentAutoLocation {
+            
                 // Notify
                 delegate?.viewModelDidStartSearchingLocation(self)
                 
                 // Retrieve the address
                 serviceAlreadyLoading = true
-                postalAddressService.retrieveAddressForLocation(location.location) { [weak self] (result: PostalAddressRetrievalServiceResult) -> Void in
+                postalAddressService.retrieveAddressForLocation(location.location) {
+                    [weak self] (result: PostalAddressRetrievalServiceResult) -> Void in
+
                     if let strongSelf = self {
                         if let actualDelegate = strongSelf.delegate {
                             if let place = result.value, let postalAddress = place.postalAddress {
-                                actualDelegate.viewModel(strongSelf, centerMapInLocation: location.coordinate, withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
+                                actualDelegate.viewModel(strongSelf, centerMapInLocation: location.coordinate,
+                                    withPostalAddress: postalAddress, approximate: strongSelf.approximateLocation)
                                 var userLocationString = ""
                                 if let zipCode = postalAddress.zipCode {
                                     userLocationString += zipCode
@@ -190,7 +213,8 @@ public class EditUserLocationViewModel: BaseViewModel {
 
         if !serviceAlreadyLoading {
             serviceAlreadyLoading = true
-            searchService.retrieveAddressForLocation(self.searchText) { [weak self] (suggestionsResult: SearchLocationSuggestionsServiceResult) -> Void in
+            searchService.retrieveAddressForLocation(self.searchText) {
+                [weak self] (suggestionsResult: SearchLocationSuggestionsServiceResult) -> Void in
                 
                 if let strongSelf = self {
                     if let actualDelegate = strongSelf.delegate {
@@ -207,39 +231,62 @@ public class EditUserLocationViewModel: BaseViewModel {
                         }
                     }
                     strongSelf.serviceAlreadyLoading = false
+                    
+                    //Make the pending call
+                    if strongSelf.pendingGoToLocation {
+                        strongSelf.goToLocation(0)
+                    }
                 }
             }
         }
-        
     }
     
     /**
         Launches the search for a location written by the user (or selected from the suggestions table)
     */
 
-    
-    func goToLocation() {
+    func goToLocation(resultsIndex: Int?) {
         usingGPSLocation = false
-        
+        pendingGoToLocation = false
+
+        if let resultsIndex = resultsIndex where resultsIndex >= 0 && resultsIndex < predictiveResults.count {
+            setPlace(predictiveResults[resultsIndex])
+            return
+        }
+
         if !serviceAlreadyLoading {
             serviceAlreadyLoading = true
             delegate?.viewModelDidStartSearchingLocation(self)
-            searchService.retrieveAddressForLocation(self.searchText) { [weak self](result: SearchLocationSuggestionsServiceResult) -> Void in
-                if let strongSelf = self {
-                    if let actualDelegate = strongSelf.delegate {
-                        if let places = result.value, let place = places.first, let location = place.location {
-                            let coordinate = location.coordinates2DfromLocation()
-                            strongSelf.currentPlace = place
-                            actualDelegate.viewModel(strongSelf, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress, approximate: strongSelf.approximateLocation)
-                        }
-                        else {
-                            actualDelegate.viewModel(strongSelf, didFailToFindLocationWithResult: result)
-                        }
-                    }
-                    strongSelf.serviceAlreadyLoading = false
+            searchService.retrieveAddressForLocation(self.searchText) {
+                [weak self] (result: SearchLocationSuggestionsServiceResult) -> Void in
+                guard let strongSelf = self else { return }
+
+                if !strongSelf.setFirstPlace(result.value) {
+                    strongSelf.delegate?.viewModel(strongSelf, didFailToFindLocationWithResult: result)
                 }
+
+                strongSelf.serviceAlreadyLoading = false
             }
         }
+        else {
+            pendingGoToLocation = true
+        }
+    }
+
+    private func setFirstPlace(places: [Place]?) -> Bool {
+        if let places = places, let place = places.first {
+            return setPlace(place)
+        }
+        return false
+    }
+
+    private func setPlace(place: Place?) -> Bool {
+        guard let place = place, let location = place.location else { return false }
+        let coordinate = location.coordinates2DfromLocation()
+        self.currentPlace = place
+        self.delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: place.postalAddress,
+            approximate: self.approximateLocation)
+        return true
     }
 
 
@@ -251,7 +298,8 @@ public class EditUserLocationViewModel: BaseViewModel {
         
         if let location = currentPlace.location {
             let coordinate = location.coordinates2DfromLocation()
-            delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: currentPlace.postalAddress, approximate: self.approximateLocation)
+            delegate?.viewModel(self, centerMapInLocation: coordinate, withPostalAddress: currentPlace.postalAddress,
+                approximate: self.approximateLocation)
         }
     }
 
@@ -262,21 +310,31 @@ public class EditUserLocationViewModel: BaseViewModel {
 
     func applyLocation() {
 
-        UserDefaultsManager.sharedInstance.saveIsApproximateLocation(approximateLocation)
-        
-        if usingGPSLocation {
-            MyUserManager.sharedInstance.setAutomaticLocationWithPlace(currentPlace)
-        } else {
-            if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
-                let location = CLLocation(latitude: lat, longitude: long)
-                MyUserManager.sharedInstance.setManualLocation(location, place: currentPlace)
+        let myCompletion: Result<MyUser, RepositoryError> -> () = { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                if let myUserLocation = value.location {
+                    let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
+                    strongSelf.tracker.trackEvent(trackerEvent)
+                }
+                strongSelf.delegate?.viewModelDidApplyLocation(strongSelf)
+            }
+            else {
+                strongSelf.delegate?.viewModelDidFailApplyingLocation(strongSelf)
             }
         }
         
-        // Tracking
-        if let location = MyUserManager.sharedInstance.currentLocation {
-            let trackerEvent = TrackerEvent.profileEditEditLocation(location)
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        if usingGPSLocation {
+            self.delegate?.viewModelDidStartApplyingLocation(self)
+            locationManager.setAutomaticLocation(myCompletion)
+        } else if let lat = currentPlace.location?.latitude, let long = currentPlace.location?.longitude {
+            self.delegate?.viewModelDidStartApplyingLocation(self)
+            let location = CLLocation(latitude: lat, longitude: long)
+            let postalAddress = currentPlace.postalAddress ?? PostalAddress(address: nil, city: nil, zipCode: nil,
+                countryCode: nil, country: nil)
+            locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
+        } else {
+            self.delegate?.viewModelDidFailApplyingLocation(self)
         }
     }
 }
