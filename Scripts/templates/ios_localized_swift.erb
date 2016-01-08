@@ -6,10 +6,26 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-struct LGLocalizedString {
-	<% @terms.each do |term| %>
+struct LGLocalizedString {<%
+@terms.each do |term| 
+	if term.restriction == 'i' || term.restriction == nil
+    	if term.is_comment?
+%>
+	// <%= term.values[@current_lang] %>
+<% 		
+		elsif term.has_specifiers?
+%>
+	static func <%= term.keyword_constant_swift %>(<%= term.specifiers_args %>) -> String {
+		return String(format: NSLocalizedString("<%= term.keyword %>", comment: ""), <%= term.specifiers_vars %>)
+	}
+<% 
+		else
+%>
 	static var <%= term.keyword_constant_swift %>: String {
 		return NSLocalizedString("<%= term.keyword %>", comment: "")
 	}
-	<%end %>
-}
+<%
+		end
+	end
+end 
+%>}
