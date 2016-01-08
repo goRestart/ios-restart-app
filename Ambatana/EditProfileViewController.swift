@@ -306,12 +306,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             }
     }
     
-    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
-        let vc = ProductViewController(viewModel: productVM)
-        navigationController?.pushViewController(vc, animated: true)
+    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
+        thumbnailImage: UIImage?) {
+            let product = productAtIndexPath(indexPath)
+            let productVM = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
+            let vc = ProductViewController(viewModel: productVM)
+            navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     
     // MARK: - UICollectionViewDataSource and Delegate methods
     
@@ -348,14 +350,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let product = productAtIndexPath(indexPath)
-        let productVM = ProductViewModel(product: product)
-        let vc = ProductViewController(viewModel: productVM)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-
     // MARK: - UI
 
     /**

@@ -559,7 +559,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
 
                         // TODO: Refactor TabBarController with MVVM
-                        let vm = ProductViewModel(product: product)
+                        let vm = ProductViewModel(product: product, thumbnailImage: nil)
                         let vc = ProductViewController(viewModel: vm)
                         navBarCtl.pushViewController(vc, animated: true)
                     }
