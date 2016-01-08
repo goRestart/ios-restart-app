@@ -53,6 +53,11 @@ def generate_ios(language, target_directory)
   end
 end
 
+def generate_ios_constants(target_directory)
+  process_template 'ios_localized_swift.erb', target_directory, 'LGLocalizedString.swift'
+  puts ' > '+'LGLocalizedString.swift'.yellow
+end
+
 #Prints on screen all the unused keys and also marks that keys on spreadsheet as unused
 def check_unused_ios(worksheet, from_row, to_row, target_directory, mark)
   puts "\nUNUSED IOS KEYS:"
@@ -98,7 +103,7 @@ def wti_pull(ios_path)
 end
 
 def drive_pull(ios_path)
-  system "ruby #{File.dirname(__FILE__)}/helpers/localized_generator.rb -s Localizable.strings -d #{ios_path}Ambatana/src/Constants/"
+  generate_ios_constants("#{ios_path}Ambatana/src/Constants/")
   system "cp Localizable.strings #{ios_path}Ambatana/res/i18n/Base.lproj/Localizable.strings"
   system "rm Localizable.strings"
 end
@@ -218,7 +223,7 @@ for row in first_term_row..last_term_row
     # puts "Processing: #{key} - #{term_comment}"
     term = Term.new(key,term_comment,keep_keys)
     term_text = worksheet[row, 3]
-    term.values.store "base", term_text
+    term.store_value("base", term_text)
 
     if(term_text.blank?)
       puts "Warning: Missing ".red+"base".cyan+" for #{key}".red

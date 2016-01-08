@@ -63,15 +63,21 @@ platform :ios do
   end
 
   lane :upload_strings do
-    stringGeneration(true, false)
+    if !stringGeneration(true, false)
+      return -1
+    end
   end
 
-  lane :download_strings do 
-    stringGeneration(false, true)
+  lane :download_strings do
+    if !stringGeneration(false, true)
+      return -1
+    end
   end
 
   lane :generate_strings do 
-    stringGeneration(false, false)
+    if !stringGeneration(false, false)
+      return -1
+    end
   end
 
   after_all do |lane|

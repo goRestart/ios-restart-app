@@ -7,9 +7,9 @@
 //
 
 struct LGLocalizedString {
-	<% @keys.each do |key| %>
-	static var <%= key.keyword_constant_swift %>: String {
-		return NSLocalizedString("<%= key.keyword %>", comment: "")
+	<% @terms.each do |term| %>
+	static var <%= term.keyword_constant_swift %>: String {
+		return NSLocalizedString("<%= term.keyword %>", comment: "")
 	}
 	<%end %>
 }
