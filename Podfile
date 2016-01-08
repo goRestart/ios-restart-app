@@ -15,7 +15,7 @@ pod "FBSDKShareKit",         "~> 4.7.0"
     
 # Tracking
 # pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
-pod "Amplitude-iOS",        "~> 3.2.0"
+pod "Amplitude-iOS",        "~> 3.4.1"
     
 # letgo Core
 pod "LGCoreKit",            :path => "../lgcorekit" #"0.17.2"
