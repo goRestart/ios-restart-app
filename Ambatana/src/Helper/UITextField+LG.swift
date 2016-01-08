@@ -8,17 +8,14 @@
 
 extension UITextField {
     func textReplacingCharactersInRange(range: NSRange, replacementString string: String) -> String {
-        let updatedText: String
         if let text = self.text {
-            updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        } else {
-            updatedText = string
+            return (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
         }
-        return updatedText
+        return string
     }
 
     func shouldChangePriceInRange(range: NSRange, replacementString string: String) -> Bool {
-        let updatedText =  textReplacingCharactersInRange(range, replacementString: string)
+        let updatedText = textReplacingCharactersInRange(range, replacementString: string)
         return updatedText.isValidLengthPrice()
     }
 }
