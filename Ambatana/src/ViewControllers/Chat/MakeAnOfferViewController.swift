@@ -168,14 +168,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
         replacementString string: String) -> Bool {
-            let updatedText: String
-            if let text = textField.text {
-                updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            } else {
-                updatedText = string
-            }
-            if !updatedText.isValidLengthPrice() { return false }
-            return true
+            return textField.shouldChangePriceInRange(range, replacementString: string)
     }
 }
 

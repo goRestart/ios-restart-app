@@ -181,16 +181,8 @@ UITextFieldDelegate {
 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
         replacementString string: String) -> Bool {
-
             guard textField == priceTextField else { return true }
-
-            let updatedText: String
-            if let text = textField.text {
-                updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            } else {
-                updatedText = string
-            }
-            return updatedText.isValidLengthPrice()
+            return textField.shouldChangePriceInRange(range, replacementString: string)
     }
 
 

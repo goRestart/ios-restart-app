@@ -184,28 +184,19 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
         replacementString string: String) -> Bool {
             
-            if textField == priceTextField {
-                let updatedText: String
-                if let text = textField.text {
-                    updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
-                } else {
-                    updatedText = string
-                }
-                if !updatedText.isValidLengthPrice() { return false }
+            if textField == priceTextField && !textField.shouldChangePriceInRange(range, replacementString: string) {
+                 return false
             }
-            
-            if let textFieldText = textField.text {
-                let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-                
-                if let tag = TextFieldTag(rawValue: textField.tag) {
-                    switch (tag) {
-                    case .ProductTitle:
-                        viewModel.title = text.isEmpty ? nil : text
-                    case .ProductPrice:
-                        viewModel.price = text.isEmpty ? nil : text
-                    case .ProductDescription:
-                        break
-                    }
+
+            let text = textField.textReplacingCharactersInRange(range, replacementString: string)
+            if let tag = TextFieldTag(rawValue: textField.tag) {
+                switch (tag) {
+                case .ProductTitle:
+                    viewModel.title = text.isEmpty ? nil : text
+                case .ProductPrice:
+                    viewModel.price = text.isEmpty ? nil : text
+                case .ProductDescription:
+                    break
                 }
             }
             return true
