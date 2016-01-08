@@ -88,6 +88,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return product.user.name ?? ""
     }
     public var userAvatar: NSURL? {
+        if isMine {
+            return myUserRepository.myUser?.avatar?.fileURL ?? product.user.avatar?.fileURL
+        }
         return product.user.avatar?.fileURL
     }
     
