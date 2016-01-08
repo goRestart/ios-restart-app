@@ -22,6 +22,7 @@ struct ProductCellData {
 
 class ProductCell: UICollectionViewCell, ReusableCell {
 
+    @IBOutlet weak var cellContent: UIView!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
@@ -81,13 +82,11 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     
     // Sets up the UI
     private func setupUI() {
-        thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        thumbnailBgColorView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        cellContent.layer.cornerRadius = StyleHelper.defaultCornerRadius
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
             locations: [0.0,1.0])
         shadowLayer.frame = priceGradientView.bounds
         priceGradientView.layer.addSublayer(shadowLayer)
-        priceGradientView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         let rotation = CGFloat(M_PI_4)
         stripeLabel.transform = CGAffineTransformMakeRotation(rotation)
     }
