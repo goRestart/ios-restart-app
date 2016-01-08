@@ -3,10 +3,10 @@ class FormatSpecifiers
     def initialize(string)
         @specifiers = []
         
-        matches = string.scan(/%(\d)?\$?(@|d|D|u|U|x|X|o|O|f|e|E|g|G|c|C|s|S|p|a|A|F|ld|lx|lu|zx)/)
-        matches.sort! { |a,b| a[0] <=> b[0] }
+        matches = string.scan(/%((\d)\$)?(@|d|D|u|U|x|X|o|O|f|e|E|g|G|c|C|s|S|p|a|A|F|ld|lx|lu|zx)/)
+        matches.sort! { |a,b| a[1] <=> b[1] }
         matches.each { |match|
-            @specifiers.push(match[1])
+            @specifiers.push(match[2])
         }
     end
     
