@@ -94,7 +94,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(String(format: LGLocalizedString.resetPasswordSendOk, viewModel.email)) {
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.resetPasswordSendOk(viewModel.email)) {
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
             }
@@ -109,7 +109,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
                     message = LGLocalizedString.commonErrorConnectionFailed
                     errorDescription = .Network
                 case .NotFound:
-                    message = String(format: LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword, viewModel.email)
+                    message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(viewModel.email)
                     errorDescription = .NotFound
                 case .Scammer, .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
                     message = LGLocalizedString.resetPasswordSendErrorGeneric

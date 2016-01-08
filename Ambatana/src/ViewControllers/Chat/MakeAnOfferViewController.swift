@@ -148,7 +148,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     func generateOfferText(price: Double) -> String {
         let currencyCode = product?.currency?.code ?? Constants.defaultCurrencyCode
         let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
-        return String(format: LGLocalizedString.makeAnOfferNewOfferMessage, formattedAmount)
+        return LGLocalizedString.makeAnOfferNewOfferMessage(formattedAmount)
     }
     
     func openChatViewControllerWithChat(chat: Chat) {

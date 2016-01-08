@@ -106,7 +106,8 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         let message: String
         switch (error) {
         case .InvalidPassword:
-            message = String(format: LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
+            message = LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+                Constants.passwordMaxLength)
         case .PasswordMismatch:
             message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
         case .Api, .Internal:
@@ -135,7 +136,8 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
                 let message: String
                 switch (error) {
                 case .InvalidPassword:
-                    message = String(format: LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax, Constants.passwordMinLength, Constants.passwordMaxLength)
+                    message = LGLocalizedString.changePasswordSendErrorInvalidPasswordWithMax(
+                        Constants.passwordMinLength, Constants.passwordMaxLength)
                 case .PasswordMismatch:
                     message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
                 case .Api, .Internal:

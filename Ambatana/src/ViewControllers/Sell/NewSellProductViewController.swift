@@ -69,7 +69,7 @@ class NewSellProductViewController: BaseSellProductViewController {
         case .NoDescription:
             message = LGLocalizedString.sellSendErrorInvalidDescription
         case .LongDescription:
-            message = String(format: LGLocalizedString.sellSendErrorInvalidDescriptionTooLong, Constants.productDescriptionMaxLength)
+            message = LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
         case .NoCategory:
             message = LGLocalizedString.sellSendErrorInvalidCategory
         case .Forbidden:

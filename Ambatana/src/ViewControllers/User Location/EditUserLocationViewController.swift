@@ -138,8 +138,7 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
                 case .Internal:
                     message = LGLocalizedString.changeLocationErrorSearchLocationMessage
                 case .NotFound:
-                    message = String(format: LGLocalizedString.changeLocationErrorUnknownLocationMessage,
-                        arguments: [searchField.text ?? ""])
+                    message = LGLocalizedString.changeLocationErrorUnknownLocationMessage(searchField.text ?? "")
                 }
                 completion = { [weak self] in
                     self?.showAutoFadingOutMessageAlert(message)
