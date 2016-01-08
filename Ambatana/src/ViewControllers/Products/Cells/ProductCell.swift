@@ -21,15 +21,17 @@ struct ProductCellData {
 }
 
 class ProductCell: UICollectionViewCell, ReusableCell {
-
+    
+    @IBOutlet weak var shadowImage: UIImageView!
     @IBOutlet weak var cellContent: UIView!
-    @IBOutlet weak var cellContentHeight: NSLayoutConstraint!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var thumbnailBgColorView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var priceGradientView: UIView!
-    
-    // Stripe
+
+    @IBOutlet weak var buttonsContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak var likeButton: UIButton!
+
     @IBOutlet weak var stripeImageView: UIImageView!
     @IBOutlet weak var stripeLabel: UILabel!
 
@@ -79,6 +81,11 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     }
 
 
+    // MARK: - Actions
+
+
+
+
     // MARK: - Private methods
     
     // Sets up the UI
@@ -90,7 +97,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         priceGradientView.layer.addSublayer(shadowLayer)
         let rotation = CGFloat(M_PI_4)
         stripeLabel.transform = CGAffineTransformMakeRotation(rotation)
-//        cellContentHeight.constant = 0
     }
 
     // Resets the UI to the initial state

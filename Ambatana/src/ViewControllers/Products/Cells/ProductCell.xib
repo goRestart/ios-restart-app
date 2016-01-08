@@ -16,6 +16,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="153" height="193.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_product_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="3Rs-4R-xUN">
+                        <rect key="frame" x="4" y="4" width="145" height="186"/>
+                        <animations/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </imageView>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U25-jS-eMH" userLabel="cellContent">
                         <rect key="frame" x="8" y="8" width="137" height="178"/>
                         <subviews>
@@ -128,12 +133,16 @@
                 <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
+                    <constraint firstItem="3Rs-4R-xUN" firstAttribute="bottom" secondItem="U25-jS-eMH" secondAttribute="bottom" constant="4" id="63M-gG-Zc5"/>
                     <constraint firstItem="RTJ-Uh-fyf" firstAttribute="top" secondItem="U25-jS-eMH" secondAttribute="top" constant="-2" id="6d4-tW-rWp"/>
                     <constraint firstItem="U25-jS-eMH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="MKe-So-JRq"/>
                     <constraint firstItem="h6x-Ls-H2g" firstAttribute="centerY" secondItem="RTJ-Uh-fyf" secondAttribute="centerY" constant="-9" id="PpP-xD-T3V"/>
                     <constraint firstAttribute="bottomMargin" secondItem="U25-jS-eMH" secondAttribute="bottom" id="UgW-dp-0pm"/>
                     <constraint firstItem="RTJ-Uh-fyf" firstAttribute="trailing" secondItem="U25-jS-eMH" secondAttribute="trailing" constant="2" id="XMn-Nd-cQU"/>
                     <constraint firstItem="h6x-Ls-H2g" firstAttribute="leading" secondItem="RTJ-Uh-fyf" secondAttribute="leading" constant="14" id="YSH-6e-Ivc"/>
+                    <constraint firstItem="3Rs-4R-xUN" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" constant="-4" id="b5i-su-Kkt"/>
+                    <constraint firstItem="3Rs-4R-xUN" firstAttribute="trailing" secondItem="U25-jS-eMH" secondAttribute="trailing" constant="4" id="gV1-MN-U87"/>
+                    <constraint firstItem="3Rs-4R-xUN" firstAttribute="top" secondItem="U25-jS-eMH" secondAttribute="top" constant="-4" id="kde-1z-Doq"/>
                     <constraint firstAttribute="trailingMargin" secondItem="U25-jS-eMH" secondAttribute="trailing" id="pON-59-oKd"/>
                     <constraint firstItem="U25-jS-eMH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="sjt-vN-9yk"/>
                 </constraints>
@@ -141,10 +150,12 @@
             <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
+                <outlet property="buttonsContainerHeight" destination="qKP-Py-8f0" id="iF9-GH-ena"/>
                 <outlet property="cellContent" destination="U25-jS-eMH" id="ybK-mq-hS3"/>
-                <outlet property="cellContentHeight" destination="qKP-Py-8f0" id="diM-tX-WCK"/>
+                <outlet property="likeButton" destination="JFh-08-dYV" id="VAl-EE-ZJE"/>
                 <outlet property="priceGradientView" destination="q07-IL-PD5" id="hgE-bb-EUM"/>
                 <outlet property="priceLabel" destination="Q3S-98-0Z1" id="gsi-wX-8gC"/>
+                <outlet property="shadowImage" destination="3Rs-4R-xUN" id="8vG-e6-hfF"/>
                 <outlet property="stripeImageView" destination="RTJ-Uh-fyf" id="hIc-JI-WFh"/>
                 <outlet property="stripeLabel" destination="h6x-Ls-H2g" id="t2y-NC-Ajj"/>
                 <outlet property="thumbnailBgColorView" destination="jgH-1b-N7M" id="wiE-DN-Ksd"/>
@@ -156,6 +167,7 @@
     <resources>
         <image name="ic_product_chat" width="16" height="16"/>
         <image name="ic_product_like_off" width="15" height="15"/>
+        <image name="ic_product_shadow" width="21" height="21"/>
         <image name="ic_product_share" width="14" height="18"/>
         <image name="stripe_new" width="70" height="70"/>
     </resources>
