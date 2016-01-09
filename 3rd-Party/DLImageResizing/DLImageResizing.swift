@@ -15,7 +15,7 @@ extension UIImage {
     // Returns a copy of this image, cropped to certain bounds.
     func croppedImage(bounds: CGRect) -> UIImage? {
         if let imageRef = CGImageCreateWithImageInRect(self.CGImage, bounds) {
-            let croppedImage = UIImage(CGImage: imageRef)
+            let croppedImage = UIImage(CGImage: imageRef, scale: 1.0, orientation: self.imageOrientation)
             return croppedImage
         }
         return self
@@ -175,7 +175,7 @@ extension UIImage {
             
             // create the image and return it
             if let clippedImage = CGBitmapContextCreateImage(context) {
-                return UIImage(CGImage: clippedImage)
+                return UIImage(CGImage: clippedImage, scale: 1.0, orientation: self.imageOrientation)
             }
             
         }
@@ -225,7 +225,7 @@ extension UIImage {
         // draw the image in the context and return it
         CGContextDrawImage(context, CGRectMake(0, 0, CGFloat(width), CGFloat(height)), cgImage)
         if let cgAlphaImage = CGBitmapContextCreateImage(context) {
-            return UIImage(CGImage: cgAlphaImage)
+            return UIImage(CGImage: cgAlphaImage, scale: 1.0, orientation: self.imageOrientation)
         }
         return self
     }
@@ -246,7 +246,7 @@ extension UIImage {
         // create the transparent border image mask
         let maskImage = self.newBorderMask(borderSize, size: newFrame.size)
         if let transparentBorderImage = CGImageCreateWithMask(borderImage, maskImage) {
-            return UIImage(CGImage: transparentBorderImage)
+            return UIImage(CGImage: transparentBorderImage, scale: 1.0, orientation: self.imageOrientation)
         }
         return self
     }
@@ -272,24 +272,3 @@ extension UIImage {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
