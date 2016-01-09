@@ -28,6 +28,8 @@ class FBLoginHelper {
         completion: ((result: FBLoginResult) -> ())?) {
 
             let loginManager = FBSDKLoginManager()
+            // Clear the fb token
+            loginManager.logOut()
             loginManager.logInWithReadPermissions(fbPermissions, fromViewController: nil) {
                 (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
 
@@ -37,14 +39,15 @@ class FBLoginHelper {
                     completion?(result: .Cancelled)
                 } else if let token = result.token?.tokenString {
                     managerStart?()
-                    loginToManagerWith(token, sessionManager: sessionManager, tracker: tracker,
-                        loginSource: loginSource, completion: completion)
+                    loginToManagerWith(token, sessionManager: sessionManager, loginManager: loginManager,
+                        tracker: tracker, loginSource: loginSource, completion: completion)
                 }
             }
     }
 
-    private static func loginToManagerWith(token: String, sessionManager: SessionManager, tracker: Tracker,
-        loginSource: EventParameterLoginSourceValue, completion: ((result: FBLoginResult) -> ())?) {
+    private static func loginToManagerWith(token: String, sessionManager: SessionManager,
+        loginManager: FBSDKLoginManager, tracker: Tracker, loginSource: EventParameterLoginSourceValue,
+        completion: ((result: FBLoginResult) -> ())?) {
             sessionManager.loginFacebook(token) { result in
                 if let myUser = result.value {
                     tracker.setUser(myUser)
@@ -52,7 +55,9 @@ class FBLoginHelper {
                     tracker.trackEvent(trackerEvent)
 
                     completion?(result: .Success)
-                } else if let error = result.error{
+                } else if let error = result.error {
+                    // If session managers fails we should FB logout to clear the fb token
+                    loginManager.logOut()
                     switch (error) {
                     case .Api(let apiError):
                         switch apiError {
@@ -71,6 +76,8 @@ class FBLoginHelper {
                         completion?(result: .Internal)
                     }
                 } else {
+                    // If session managers fails we should FB logout to clear the fb token
+                    loginManager.logOut()
                     completion?(result: .Internal)
                 }
             }
