@@ -216,8 +216,7 @@ public class PushManager: NSObject, KahunaDelegate {
     }
 
     dynamic private func login(notification: NSNotification) {
-        if let user = notification.object as? MyUser {
-
+        if let user = MyUserRepository.sharedInstance.myUser {
             let uc = Kahuna.createUserCredentials()
             var loginError: NSError?
             if let userId = user.objectId {
