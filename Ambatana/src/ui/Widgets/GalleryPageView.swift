@@ -17,7 +17,7 @@ public class GalleryPageView: UIView {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     // Data
-    var previewURL: NSURL?
+    var previewImage: UIImage?
     var imageURL: NSURL?
     var loaded: Bool = false
     
@@ -40,11 +40,9 @@ public class GalleryPageView: UIView {
         }
 
         // If has preview then show preview and then the actual image (w/o spinner)
-        if let actualPreviewURL = previewURL {
-            SDWebImageManager.sharedManager().imageDownloader.downloadImageWithURL(actualPreviewURL, options: .ProgressiveDownload, progress: nil, completed: { (previewImage, _, _, _) -> Void in
-                self.imageView.sd_setImageWithURL(self.imageURL, placeholderImage: previewImage, completed: { (_, error, cacheType, _) -> Void in
-                    self.loaded = error == nil
-                })
+        if let previewImage = previewImage {
+            self.imageView.sd_setImageWithURL(self.imageURL, placeholderImage: previewImage, completed: { (_, error, cacheType, _) -> Void in
+                self.loaded = error == nil
             })
         }
         // Otherwise show the actual image (with spinner)

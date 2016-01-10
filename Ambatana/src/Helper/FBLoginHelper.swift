@@ -28,6 +28,8 @@ class FBLoginHelper {
         completion: ((result: FBLoginResult) -> ())?) {
 
             let loginManager = FBSDKLoginManager()
+            // Clear the fb token
+            loginManager.logOut()
             loginManager.logInWithReadPermissions(fbPermissions, fromViewController: nil) {
                 (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
 
@@ -37,43 +39,57 @@ class FBLoginHelper {
                     completion?(result: .Cancelled)
                 } else if let token = result.token?.tokenString {
                     managerStart?()
-                    loginToManagerWith(token, sessionManager: sessionManager, tracker: tracker,
-                        loginSource: loginSource, completion: completion)
+                    loginToManagerWith(token, sessionManager: sessionManager, loginManager: loginManager,
+                        tracker: tracker, loginSource: loginSource, completion: completion)
                 }
             }
     }
 
-    private static func loginToManagerWith(token: String, sessionManager: SessionManager, tracker: Tracker,
-        loginSource: EventParameterLoginSourceValue, completion: ((result: FBLoginResult) -> ())?) {
+    private static func loginToManagerWith(token: String, sessionManager: SessionManager,
+        loginManager: FBSDKLoginManager, tracker: Tracker, loginSource: EventParameterLoginSourceValue,
+        completion: ((result: FBLoginResult) -> ())?) {
             sessionManager.loginFacebook(token) { result in
                 if let myUser = result.value {
                     tracker.setUser(myUser)
                     let trackerEvent = TrackerEvent.loginFB(loginSource)
                     tracker.trackEvent(trackerEvent)
 
-                    completion?(result: .Success)
-                } else if let error = result.error{
+                    callCompletion(completion, withResult: .Success)
+                } else if let error = result.error {
+                    // If session managers fails we should FB logout to clear the fb token
+                    loginManager.logOut()
                     switch (error) {
                     case .Api(let apiError):
                         switch apiError {
                         case .Network:
-                            completion?(result: .Network)
+                            callCompletion(completion, withResult: .Network)
                         case .Scammer:
-                            completion?(result: .Forbidden)
+                            callCompletion(completion, withResult: .Forbidden)
                         case .NotFound:
-                            completion?(result: .NotFound)
+                            callCompletion(completion, withResult: .NotFound)
                         case .AlreadyExists:
-                            completion?(result: .AlreadyExists)
+                            callCompletion(completion, withResult: .AlreadyExists)
                         case .Internal, .Unauthorized, .InternalServerError:
-                            completion?(result: .Internal)
+                            callCompletion(completion, withResult: .Internal)
                         }
                     case .Internal:
-                        completion?(result: .Internal)
+                        callCompletion(completion, withResult: .Internal)
                     }
                 } else {
-                    completion?(result: .Internal)
+                    // If session managers fails we should FB logout to clear the fb token
+                    loginManager.logOut()
+                    callCompletion(completion, withResult: .Internal)
                 }
             }
     }
-
+    
+    private static func callCompletion(completion: ((result: FBLoginResult) -> ())?,
+        withResult result : FBLoginResult) {
+            /*TODO: Adding delay just because ios queues loading alert while fb is dismissng. this is
+            to avoid loading being hang up forever*/
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                completion?(result: result)
+            }
+    }
 }

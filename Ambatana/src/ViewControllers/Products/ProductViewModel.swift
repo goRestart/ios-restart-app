@@ -76,9 +76,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var location: LGLocationCoordinates2D? {
         return product.location
     }
-    public var thumbnailURL : NSURL? {
-        return product.thumbnail?.fileURL
-    }
+    public let thumbnailImage : UIImage?
     
     // > User
     public var userName: String {
@@ -320,16 +318,16 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // MARK: - Lifecycle
     
-    public convenience init(product: Product) {
+    public convenience init(product: Product, thumbnailImage: UIImage?) {
         let myUserRepository = MyUserRepository.sharedInstance
         let productManager = ProductManager()
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productManager: productManager,
-            product: product, tracker: tracker)
+            product: product, thumbnailImage: thumbnailImage, tracker: tracker)
     }
     
     public init(myUserRepository: MyUserRepository, productManager: ProductManager,
-        product: Product, tracker: Tracker) {
+        product: Product, thumbnailImage: UIImage?, tracker: Tracker) {
             // My user
             self.isFavourite = false
             self.isReported = false
@@ -343,6 +341,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             
             // Data
             self.product = product
+            self.thumbnailImage = thumbnailImage
             
             // Manager
             self.myUserRepository = myUserRepository

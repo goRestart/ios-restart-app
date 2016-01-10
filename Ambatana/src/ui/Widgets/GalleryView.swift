@@ -90,11 +90,11 @@ enum GalleryPageControlPosition {
     
     // MARK: - Public methods
     
-    public func addPageWithImageAtURL(url: NSURL, previewURL: NSURL?) {
+    public func addPageWithImageAtURL(url: NSURL, previewImage: UIImage?) {
         // Create the page
         let page = GalleryPageView.galleryItemView()
         page.frame = CGRectMake(scrollView.contentSize.width, 0, CGRectGetWidth(frame), CGRectGetHeight(frame))
-        page.previewURL = previewURL
+        page.previewImage = previewImage
         page.imageURL = url
         
         // Resize the scroll view's content size

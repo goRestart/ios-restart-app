@@ -195,8 +195,9 @@ UITextFieldDelegate {
             tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
     }
     
-    public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
+    public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
+        thumbnailImage: UIImage?) {
+        let productVM = productListView.productViewModelForProductAtIndex(indexPath.row, thumbnailImage: thumbnailImage)
         let vc = ProductViewController(viewModel: productVM)
         navigationController?.pushViewController(vc, animated: true)
     }
