@@ -85,54 +85,21 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
     func viewModelDidStartResettingPassword(viewModel: RememberPasswordViewModel) {
         showLoadingMessageAlert()
     }
-    
-    func viewModel(viewModel: RememberPasswordViewModel, didFinishResettingPasswordWithResult
-        result: Result<Void, RememberPasswordError>) {
-        
-        var completion: (() -> Void)? = nil
-        
-        switch (result) {
-        case .Success:
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.resetPasswordSendOk(viewModel.email)) {
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }
-            }
-            break
-        case .Failure(let error):
-            let message: String
-            let errorDescription: EventParameterLoginError
-            switch (error) {
-            case .Api(let apiError):
-                switch apiError {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                    errorDescription = .Network
-                case .NotFound:
-                    message = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(viewModel.email)
-                    errorDescription = .NotFound
-                case .Scammer, .Internal, .Unauthorized, .AlreadyExists, .InternalServerError:
-                    message = LGLocalizedString.resetPasswordSendErrorGeneric
-                    errorDescription = .Internal
-                }
-            case .Internal:
-                message = LGLocalizedString.resetPasswordSendErrorGeneric
-                errorDescription = .Internal
-            case .InvalidEmail:
-                message = LGLocalizedString.resetPasswordSendErrorInvalidEmail
-                errorDescription = .InvalidEmail
-            }
-            
-            viewModel.resetPasswordFailedWithError(errorDescription)
-            
-            completion = {
-                self.showAutoFadingOutMessageAlert(message)
+
+    func viewModelDidFinishResetPassword(viewModel: RememberPasswordViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.resetPasswordSendOk(viewModel.email)) { [weak self] in
+                self?.dismissViewControllerAnimated(true, completion: nil)
             }
         }
-        
-        dismissLoadingMessageAlert(completion)
     }
-    
+
+    func viewModel(viewModel: RememberPasswordViewModel, didFailResetPassword error: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(error)
+        }
+    }
+
     // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(textField: UITextField) {

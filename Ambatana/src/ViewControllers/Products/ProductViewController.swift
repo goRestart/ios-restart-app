@@ -456,9 +456,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         // Share Buttons
         socialShareView.delegate = self
         socialShareView.socialMessage = viewModel.shareSocialMessage
-
-        // Update the UI
-        updateUI()
     }
     
     dynamic private func toggleDescriptionState() {
@@ -518,16 +515,15 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         for i in 0..<viewModel.numberOfImages {
             if let imageURL = viewModel.imageURLAtIndex(i) {
                 if i == 0 {
-                    if let thumbnailURL = viewModel.thumbnailURL {
-                        galleryView.addPageWithImageAtURL(imageURL, previewURL: thumbnailURL)
+                    if let thumbnailImage = viewModel.thumbnailImage {
+                        galleryView.addPageWithImageAtURL(imageURL, previewImage: thumbnailImage)
                     }
                     else {
-                        galleryView.addPageWithImageAtURL(imageURL, previewURL: nil)
+                        galleryView.addPageWithImageAtURL(imageURL, previewImage: nil)
                     }
-                    
                 }
                 else {
-                    galleryView.addPageWithImageAtURL(imageURL, previewURL: nil)
+                    galleryView.addPageWithImageAtURL(imageURL, previewImage: nil)
                 }
             }
         }

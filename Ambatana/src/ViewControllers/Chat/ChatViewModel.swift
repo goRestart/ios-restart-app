@@ -52,7 +52,7 @@ public class ChatViewModel: BaseViewModel {
     }
     
     public var productViewModel: ProductViewModel {
-        return ProductViewModel(product: chat.product)
+        return ProductViewModel(product: chat.product, thumbnailImage: nil)
     }
     
     public convenience init?(chat: Chat) {

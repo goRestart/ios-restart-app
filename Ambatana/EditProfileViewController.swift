@@ -306,12 +306,16 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             }
     }
     
-    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
-        let vc = ProductViewController(viewModel: productVM)
-        navigationController?.pushViewController(vc, animated: true)
+    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
+        thumbnailImage: UIImage?) {
+            guard productListView == sellingProductListView || productListView == soldProductListView else { return }
+            
+            let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
+                thumbnailImage: thumbnailImage)
+            let vc = ProductViewController(viewModel: productVM)
+            navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     
     // MARK: - UICollectionViewDataSource and Delegate methods
     
@@ -348,14 +352,15 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(cv: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let product = productAtIndexPath(indexPath)
-        let productVM = ProductViewModel(product: product)
+        let cell = collectionView(cv, cellForItemAtIndexPath: indexPath) as? ProductCell
+        let thumbnailImage = cell?.thumbnailImageView.image
+        let productVM = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
         let vc = ProductViewController(viewModel: productVM)
         navigationController?.pushViewController(vc, animated: true)
     }
-
-
+    
     // MARK: - UI
 
     /**

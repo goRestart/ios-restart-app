@@ -3,8 +3,7 @@ PODS:
     - Adjust/Core (= 4.5.0)
   - Adjust/Core (4.5.0)
   - Alamofire (3.0.1)
-  - Amplitude-iOS (3.2.1):
-    - FMDB/standard (~> 2.5)
+  - Amplitude-iOS (3.4.1)
   - Argo (2.2.0)
   - Bolts (1.5.1):
     - Bolts/AppLinks (= 1.5.1)
@@ -31,9 +30,6 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.7.1):
     - FBSDKCoreKit
-  - FMDB/common (2.5)
-  - FMDB/standard (2.5):
-    - FMDB/common
   - Google/Analytics (1.3.2):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
@@ -54,7 +50,7 @@ PODS:
   - Kahuna (2.3.2)
   - KeychainSwift (3.0.10)
   - LGCollapsibleLabel (0.1.1)
-  - LGCoreKit (0.17.2):
+  - LGCoreKit (0.17.3):
     - Alamofire (~> 3.0.1)
     - Argo (~> 2.2.0)
     - Curry (~> 1.3.0)
@@ -68,7 +64,7 @@ PODS:
     - Timepiece (~> 0.4.2)
   - LGSemiModalNavController (0.2.0)
   - LGTour (0.1.3)
-  - NewRelicAgent (5.3.4)
+  - NewRelicAgent (5.3.5)
   - Nimble (2.0.0)
   - Parse (1.9.1):
     - Bolts/Tasks (>= 1.4.0)
@@ -85,16 +81,16 @@ PODS:
   - RealmSwift (0.95.3):
     - Realm (= 0.95.3)
   - Result (1.0.1)
-  - SDWebImage (3.7.3):
-    - SDWebImage/Core (= 3.7.3)
-  - SDWebImage/Core (3.7.3)
+  - SDWebImage (3.7.4):
+    - SDWebImage/Core (= 3.7.4)
+  - SDWebImage/Core (3.7.4)
   - SlackTextViewController (1.7.2)
   - Timepiece (0.4.2)
   - TMReachability (3.2)
 
 DEPENDENCIES:
   - Adjust (~> 4.5.0)
-  - Amplitude-iOS (~> 3.2.0)
+  - Amplitude-iOS (~> 3.4.1)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - DeviceUtil (~> 1.3.5)
   - FastttCamera (~> 0.3.4)
@@ -103,7 +99,7 @@ DEPENDENCIES:
   - GoogleAppIndexing (~> 2.0.1)
   - Kahuna (~> 2.3.2)
   - LGCollapsibleLabel (= 0.1.1)
-  - LGCoreKit (= 0.17.2)
+  - LGCoreKit (= 0.17.3)
   - LGSemiModalNavController (~> 0.2.0)
   - LGTour (= 0.1.3)
   - NewRelicAgent (~> 5.3.4)
@@ -128,7 +124,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Adjust: 297176446c127f1232b9591b2b37cdc4796850b8
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
-  Amplitude-iOS: d4217c0912e3ef7bddb8f5abeb4acffa57d8dfc5
+  Amplitude-iOS: aeec249c4143d67274c77edd6538aa177cda6c2e
   Argo: 4f52a32b4cd913c204e5a45f420b3fccad3e3f24
   Bolts: a12663244b1d3351c738882e71902fc74db54f64
   CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
@@ -138,7 +134,6 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 9141b70960a37930850370495fe565f4a27ac141
   FBSDKLoginKit: c11ed3c2833472db3bb4a4aecf27af4a6f69b173
   FBSDKShareKit: 213adf63e073f41a346b0e7a689805880dc5150e
-  FMDB: 96e8f1bcc1329e269330f99770ad4285d9003e52
   Google: 97618e118111b998cce1d8dd1bd98b82301d72db
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
@@ -149,10 +144,10 @@ SPEC CHECKSUMS:
   Kahuna: 1c0a2663d6b1472e620148bec47d9432f55e03ab
   KeychainSwift: b3fcc33bd6e12778be79d9be27e0f2e369b8cc4e
   LGCollapsibleLabel: d9cbd82597d995dcfa6c030423b82d338836111a
-  LGCoreKit: 977107ef454f3946433862f83340ac819e51d49a
+  LGCoreKit: 0ad2412da33029d86e4fe1d7a9e9fd9bfcbd4e39
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   LGTour: 83d3acf4b769c9d3e12c9687487512482f868e27
-  NewRelicAgent: cf111fc652ec0dd7b3fdef05016dc9e0867eaddb
+  NewRelicAgent: 0e5d8312054fe779237efc12e05f10c314884c47
   Nimble: 472e75466819eb8c06299233e87c694a9b51328a
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
   ParseFacebookUtilsV4: aadebfaaaf4a45bf0a0992863bf48c8fc49189e3
@@ -161,7 +156,7 @@ SPEC CHECKSUMS:
   Realm: 55885fa05865344994ad8b56da96669ffa39fbf1
   RealmSwift: 586df4b5a6d01473d2653b16e9fe7debce4a87ed
   Result: caef80340451e1f07492fa1e89117f83613bce24
-  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
+  SDWebImage: 247edd7dd80dd6124197b0d6a17846fe9d1df968
   SlackTextViewController: 1f4e8f68c156ef93de73fd422db2b8d5d5b0f4e7
   Timepiece: cf53bb908bf542acc0e3d5f69cabfed869df4ebd
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
