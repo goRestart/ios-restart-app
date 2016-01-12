@@ -130,7 +130,9 @@ public class MainProductsViewModel: BaseViewModel {
     }
 
     public func chatViewModelForProduct(product: Product) -> ChatViewModel? {
-        return ChatViewModel(product: product, askQuestion: true)
+        guard let chatVM = ChatViewModel(product: product) else { return nil }
+        chatVM.askQuestion = true
+        return chatVM
     }
     
     /**

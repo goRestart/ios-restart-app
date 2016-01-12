@@ -66,95 +66,53 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         activityIndicator.stopAnimating()
         makeAnOfferButton.setTitle("send", forState: .Normal)
     }
+
     
     // MARK: - Button actions
-    
+
     @IBAction func makeAnOffer(sender: AnyObject) {
-        if let actualProduct = product, let productUser = product?.user,
-            let myUser = MyUserRepository.sharedInstance.myUser, let productPriceStr = priceTextField.text {
-            let productPrice = productPriceStr.toPriceDouble()
-
-            enableLoadingInterface()
-
-            // 1. Send the offer
-            let offerText = generateOfferText(productPrice)
-            ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) {
-                [weak self] (sendResult: ChatSendMessageServiceResult) -> Void in
-                if let strongSelf = self {
-
-                    // Success
-                    if let _ = sendResult.value {
-
-                        // 2. Retrieve the chat
-                        ChatManager.sharedInstance.retrieveChatWithProduct(actualProduct, buyer: myUser) {
-                            [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
-                            if let strongSelf2 = self {
-
-                                // Not loading
-                                strongSelf2.disableLoadingInterface()
-                                
-                                // Success
-                                if let chat = retrieveResult.value {
-                                    
-                                    // 3. Open chat
-                                    strongSelf2.openChatViewControllerWithChat(chat)
-                                    
-                                    // Tracking
-                                    let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser,
-                                        amount: productPrice)
-                                    TrackerProxy.sharedInstance.trackEvent(offerEvent)
-                                    
-                                    let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
-                                    TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-
-                                } else {
-                                    if let actualError = retrieveResult.error {
-                                        if actualError == .Forbidden {
-                                            strongSelf2.showAutoFadingOutMessageAlert(
-                                                LGLocalizedString.logInErrorSendErrorGeneric,
-                                                completionBlock: { (completion) -> Void in
-                                                    SessionManager.sharedInstance.logout()
-                                            })
-                                        } else {
-                                            strongSelf2.showAutoFadingOutMessageAlert(
-                                                LGLocalizedString.makeAnOfferSendErrorGeneric)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        strongSelf.disableLoadingInterface()
-                        
-                        if let actualError = sendResult.error {
-                            if actualError == .Forbidden {
-                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric,
-                                    completionBlock: { (completion) -> Void in
-                                    SessionManager.sharedInstance.logout()
-                                })
-                            } else {
-                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
-                            }
-                        }
-                    }
-                }
-            }
+        guard let actualProduct = product, let productUser = product?.user,
+            let myUser = MyUserRepository.sharedInstance.myUser, let productPriceStr = priceTextField.text else {
+                showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
+                return
         }
-        else {
-            showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorInvalidPrice , time: 3.5);
+        enableLoadingInterface()
+
+        let productPrice = productPriceStr.toPriceDouble()
+        let offerText = generateOfferText(productPrice)
+        ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) {
+            [weak self] (sendResult: ChatSendMessageServiceResult) -> Void in
+
+            self?.disableLoadingInterface()
+
+            guard let _ = sendResult.value else {
+                self?.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
+                return
+            }
+
+            guard let chatVM = ChatViewModel(product: actualProduct) else { return }
+            chatVM.fromMakeOffer = true
+            self?.openChatViewControllerWithChatVM(chatVM)
+
+            // Tracking
+            let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser,
+                amount: productPrice)
+            TrackerProxy.sharedInstance.trackEvent(offerEvent)
+
+            let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
+            TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
         }
     }
-    
+
     func generateOfferText(price: Double) -> String {
         let currencyCode = product?.currency?.code ?? Constants.defaultCurrencyCode
         let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
         return LGLocalizedString.makeAnOfferNewOfferMessage(formattedAmount)
     }
     
-    func openChatViewControllerWithChat(chat: Chat) {
-        if let chatViewModel = ChatViewModel(chat: chat), var controllers = navigationController?.viewControllers {
-            chatViewModel.fromMakeOffer = true
-            let chatVC = ChatViewController(viewModel: chatViewModel)
+    func openChatViewControllerWithChatVM(chatVM: ChatViewModel) {
+        if var controllers = navigationController?.viewControllers {
+            let chatVC = ChatViewController(viewModel: chatVM)
             controllers.removeLast()
             controllers.append(chatVC)
             navigationController?.viewControllers = controllers

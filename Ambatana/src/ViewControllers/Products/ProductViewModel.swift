@@ -562,9 +562,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: >  Ask
 
     public func ask() {
-        guard let _ = myUserRepository.myUser,
-            let viewModel = ChatViewModel(product: self.product, askQuestion: true) else { return }
-
+        guard let _ = myUserRepository.myUser, let viewModel = ChatViewModel(product: self.product) else { return }
+        viewModel.askQuestion = true
         delegate?.viewModel(self, didFinishAsking: viewModel)
     }
 

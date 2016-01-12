@@ -62,10 +62,9 @@ public class ChatViewModel: BaseViewModel {
         self.init(chat: chat, myUserRepository: myUserRepository, chatManager: chatManager, tracker: tracker)
     }
     
-    public convenience init?(product: Product, askQuestion: Bool) {
+    public convenience init?(product: Product) {
         guard let chatFromProduct = ChatManager.sharedInstance.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
-        self.askQuestion = askQuestion
     }
     
     public init?(chat: Chat, myUserRepository: MyUserRepository, chatManager: ChatManager, tracker: Tracker) {
