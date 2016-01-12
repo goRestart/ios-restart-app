@@ -6,8 +6,19 @@
 //  Copyright © 2015 Ambatana. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
+
+struct ProductCellData {
+    var title: String?
+    var price: String?
+    var thumbUrl: NSURL?
+    var status: ProductStatus
+    var date: NSDate?
+    var isFavorite: Bool
+    var cellWidth: CGFloat
+    var indexPath: NSIndexPath?
+}
 
 protocol ProductCellDrawer: CollectionCellDrawer {
-    func draw(collectionCell: UICollectionViewCell, data: ProductCellData)
+    func draw(collectionCell: UICollectionViewCell, data: ProductCellData, delegate: ProductCellDelegate?)
 }

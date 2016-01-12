@@ -347,7 +347,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             let drawer = ProductCellDrawerFactory.drawerForProduct()
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
-            drawer.draw(cell, data: productCellDataAtIndex(indexPath))
+            drawer.draw(cell, data: productCellDataAtIndex(indexPath), delegate: nil)
 
             return cell
     }
@@ -544,6 +544,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         let product = productAtIndexPath(indexPath)
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            cellWidth: sellingProductListView.defaultCellSize.width)
+            isFavorite: false, cellWidth: sellingProductListView.defaultCellSize.width, indexPath: nil)
     }
 }

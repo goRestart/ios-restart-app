@@ -57,16 +57,25 @@
                                         <rect key="frame" x="0.0" y="0.0" width="45" height="34"/>
                                         <animations/>
                                         <state key="normal" image="ic_product_like_off"/>
+                                        <connections>
+                                            <action selector="onDirectLikeBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="IbS-KH-cIP"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3Q-eG-7YE" userLabel="shareBtn">
                                         <rect key="frame" x="47" y="0.0" width="45" height="34"/>
                                         <animations/>
                                         <state key="normal" image="ic_product_share"/>
+                                        <connections>
+                                            <action selector="onDirectShareBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0Dn-dc-xE1"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lo1-3n-nzY" userLabel="msgBtn">
                                         <rect key="frame" x="92" y="0.0" width="45" height="34"/>
                                         <animations/>
                                         <state key="normal" image="ic_product_chat"/>
+                                        <connections>
+                                            <action selector="onDirectChatBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="q3M-X9-XO2"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <animations/>
@@ -167,7 +176,7 @@
     <resources>
         <image name="ic_product_chat" width="16" height="16"/>
         <image name="ic_product_like_off" width="15" height="15"/>
-        <image name="ic_product_shadow" width="21" height="21"/>
+        <image name="ic_product_shadow" width="23" height="23"/>
         <image name="ic_product_share" width="14" height="18"/>
         <image name="stripe_new" width="70" height="70"/>
     </resources>

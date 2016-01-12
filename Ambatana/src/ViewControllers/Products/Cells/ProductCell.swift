@@ -6,18 +6,13 @@
 //  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
-import LGCoreKit
-import Parse
-import pop
 import UIKit
+import pop
 
-struct ProductCellData {
-    var title: String?
-    var price: String?
-    var thumbUrl: NSURL?
-    var status: ProductStatus
-    var date: NSDate?
-    var cellWidth: CGFloat
+protocol ProductCellDelegate: class {
+    func onProductCellDidChat(cell: ProductCell, indexPath: NSIndexPath)
+    func onProductCellDidShare(cell: ProductCell, indexPath: NSIndexPath)
+    func onProductCellDidLike(cell: ProductCell, indexPath: NSIndexPath)
 }
 
 class ProductCell: UICollectionViewCell, ReusableCell {
@@ -34,6 +29,9 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var stripeImageView: UIImageView!
     @IBOutlet weak var stripeLabel: UILabel!
+
+    private var indexPath: NSIndexPath?
+    private weak var delegate: ProductCellDelegate?
 
     
     // MARK: - Lifecycle
@@ -59,6 +57,16 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public / internal methods
 
+    func setupDelegate(delegate: ProductCellDelegate?, indexPath: NSIndexPath?) {
+        self.indexPath = indexPath
+        self.delegate = delegate
+        if let _ = delegate, let _ = indexPath {
+            //TODO SHOW ACTIONS
+        } else {
+            //TODO HIDE ACTIONS
+        }
+    }
+
     func setImageUrl(imageUrl: NSURL) {
         thumbnailImageView.sd_setImageWithURL(imageUrl, placeholderImage: nil, completed: {
             [weak self] (image, error, cacheType, url) -> Void in
@@ -83,7 +91,20 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Actions
 
+    @IBAction func onDirectChatBtn(sender: AnyObject) {
+        guard let indexPath = indexPath else { return }
+        delegate?.onProductCellDidChat(self, indexPath: indexPath)
+    }
 
+    @IBAction func onDirectShareBtn(sender: AnyObject) {
+        guard let indexPath = indexPath else { return }
+        delegate?.onProductCellDidShare(self, indexPath: indexPath)
+    }
+    
+    @IBAction func onDirectLikeBtn(sender: AnyObject) {
+        guard let indexPath = indexPath else { return }
+        delegate?.onProductCellDidLike(self, indexPath: indexPath)
+    }
 
 
     // MARK: - Private methods
@@ -106,6 +127,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         thumbnailImageView.image = nil
         stripeImageView.image = nil
         stripeLabel.text = ""
+        indexPath = nil
+        delegate = nil
     }
-    
 }

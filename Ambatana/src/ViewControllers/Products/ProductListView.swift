@@ -237,7 +237,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             productListViewModel.topProductInfoDelegate = newValue
         }
     }
-    
+    public var actionsDelegate: ProductListActionsDelegate? {
+        get {
+            return productListViewModel.actionsDelegate
+        }
+        set {
+            productListViewModel.actionsDelegate = newValue
+        }
+    }
+
     // Delegate
     weak public var delegate: ProductListViewDataDelegate?
     weak public var scrollDelegate : ProductListViewScrollDelegate?
@@ -379,7 +387,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             let drawer = ProductCellDrawerFactory.drawerForProduct()
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
-            drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item))
+            drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item), delegate: self)
             
             productListViewModel.setCurrentItemIndex(indexPath.item)
             
@@ -611,5 +619,22 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     private func productAtIndex(index: Int) -> Product {
         return productListViewModel.productAtIndex(index)
+    }
+}
+
+
+// MARK: - ProductCellDelegate
+
+extension ProductListView: ProductCellDelegate {
+    func onProductCellDidChat(cell: ProductCell, indexPath: NSIndexPath) {
+        productListViewModel.cellDidTapChat(indexPath.row)
+    }
+
+    func onProductCellDidShare(cell: ProductCell, indexPath: NSIndexPath) {
+        productListViewModel.cellDidTapShare(indexPath.row)
+    }
+
+    func onProductCellDidLike(cell: ProductCell, indexPath: NSIndexPath) {
+        productListViewModel.cellDidTapFavorite(indexPath.row)
     }
 }

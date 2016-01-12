@@ -9,10 +9,11 @@
 import Foundation
 
 class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCellDrawer {
-    func draw(collectionCell: UICollectionViewCell, data: ProductCellData) {
+    func draw(collectionCell: UICollectionViewCell, data: ProductCellData, delegate: ProductCellDelegate?) {
 
         guard let cell = collectionCell as? ProductCell else { return }
 
+        cell.setupDelegate(delegate, indexPath: data.indexPath)
         cell.setCellWidth(data.cellWidth)
 
         cell.priceLabel.text = data.price ?? ""

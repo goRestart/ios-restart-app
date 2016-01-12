@@ -72,6 +72,7 @@ UITextFieldDelegate {
         mainProductListView.delegate = self
         mainProductListView.scrollDelegate = self
         mainProductListView.topProductInfoDelegate = self.viewModel
+        mainProductListView.actionsDelegate = self.viewModel
         mainProductListView.queryString = viewModel.searchString
         
         //Applying previous filters
@@ -238,7 +239,17 @@ UITextFieldDelegate {
         setProductListFilters()
         mainProductListView.refresh()
     }
-    
+
+    func mainProductSViewModel(viewMode: MainProductsViewModel, showShare shareText: String,
+        delegate: NativeShareDelegate) {
+            presentNativeShareWith(shareText: shareText, delegate: delegate)
+    }
+
+    func mainProductSViewModel(viewMode: MainProductsViewModel, showChatWithViewModel chatVM: ChatViewModel) {
+        let chatVC = ChatViewController(viewModel: chatVM)
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
+
     func endEdit() {
         cancelSearchOverlayButton?.removeFromSuperview()
         cancelSearchOverlayButton = nil

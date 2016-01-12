@@ -25,6 +25,11 @@ public protocol TopProductInfoDelegate: class {
     func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int)
 }
 
+public protocol ProductListActionsDelegate: class {
+    func productListViewModel(productListViewModel: ProductListViewModel, didTapChatOnProduct product: Product)
+    func productListViewModel(productListViewModel: ProductListViewModel, didTapShareOnProduct product: Product)
+}
+
 public class ProductListViewModel: BaseViewModel {
     
     // MARK: - Constants
@@ -72,6 +77,7 @@ public class ProductListViewModel: BaseViewModel {
     // Delegate
     public weak var dataDelegate: ProductListViewModelDataDelegate?
     public weak var topProductInfoDelegate: TopProductInfoDelegate?
+    public weak var actionsDelegate: ProductListActionsDelegate?
     
     // Manager
     private let locationManager: LocationManager
@@ -329,6 +335,18 @@ public class ProductListViewModel: BaseViewModel {
         }
     }
 
+    public func cellDidTapFavorite(index: Int) {
+        //TODO FAVORITE/UNFAVORITE PRODUCT AND UPDATE LIST
+    }
+
+    public func cellDidTapChat(index: Int) {
+        actionsDelegate?.productListViewModel(self, didTapChatOnProduct: productAtIndex(index))
+    }
+
+    public func cellDidTapShare(index: Int) {
+        actionsDelegate?.productListViewModel(self, didTapShareOnProduct: productAtIndex(index))
+    }
+
 
     // MARK: > UI
 
@@ -346,12 +364,13 @@ public class ProductListViewModel: BaseViewModel {
     public func productAtIndex(index: Int) -> Product {
         return products[index]
     }
-    
+
     func productCellDataAtIndex(index: Int) -> ProductCellData {        
         let product = products[index]
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            cellWidth: ProductListViewModel.cellWidth)
+            isFavorite: false, cellWidth: ProductListViewModel.cellWidth,
+            indexPath: NSIndexPath(forRow: index, inSection: 0))
     }
     
     /**
