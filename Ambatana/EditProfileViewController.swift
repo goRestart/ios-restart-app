@@ -544,6 +544,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         let product = productAtIndexPath(indexPath)
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            isFavorite: false, cellWidth: sellingProductListView.defaultCellSize.width, indexPath: nil)
+            isFavorite: false, cellWidth: sellingProductListView.defaultCellSize.width, showActions: false,
+            indexPath: nil)
     }
 }

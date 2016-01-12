@@ -16,6 +16,8 @@ protocol ProductCellDelegate: class {
 }
 
 class ProductCell: UICollectionViewCell, ReusableCell {
+
+    private static let buttonsContainerShownHeight: CGFloat = 34
     
     @IBOutlet weak var shadowImage: UIImageView!
     @IBOutlet weak var cellContent: UIView!
@@ -57,13 +59,13 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     // MARK: - Public / internal methods
 
-    func setupDelegate(delegate: ProductCellDelegate?, indexPath: NSIndexPath?) {
+    func setupActions(show: Bool, delegate: ProductCellDelegate?, indexPath: NSIndexPath?) {
         self.indexPath = indexPath
         self.delegate = delegate
-        if let _ = delegate, let _ = indexPath {
-            //TODO SHOW ACTIONS
+        if let _ = delegate, let _ = indexPath where show {
+            self.buttonsContainerHeight.constant = ProductCell.buttonsContainerShownHeight
         } else {
-            //TODO HIDE ACTIONS
+            self.buttonsContainerHeight.constant = 0
         }
     }
 

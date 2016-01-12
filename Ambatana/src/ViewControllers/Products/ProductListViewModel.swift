@@ -369,7 +369,7 @@ public class ProductListViewModel: BaseViewModel {
         let product = products[index]
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            isFavorite: false, cellWidth: ProductListViewModel.cellWidth,
+            isFavorite: false, cellWidth: ProductListViewModel.cellWidth, showActions: true,
             indexPath: NSIndexPath(forRow: index, inSection: 0))
     }
     

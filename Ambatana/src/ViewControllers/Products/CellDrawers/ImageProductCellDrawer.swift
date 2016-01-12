@@ -13,7 +13,7 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
 
         guard let cell = collectionCell as? ProductCell else { return }
 
-        cell.setupDelegate(delegate, indexPath: data.indexPath)
+        cell.setupActions(data.showActions, delegate: delegate, indexPath: data.indexPath)
         cell.setCellWidth(data.cellWidth)
 
         cell.priceLabel.text = data.price ?? ""

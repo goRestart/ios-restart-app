@@ -16,6 +16,7 @@ struct ProductCellData {
     var date: NSDate?
     var isFavorite: Bool
     var cellWidth: CGFloat
+    var showActions: Bool
     var indexPath: NSIndexPath?
 }
 
