@@ -525,6 +525,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             // Notify the delegate
             delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
     }
+
+    public func viewModel(viewModel: ProductListViewModel, didUpdateProductDataAtIndex index: Int) {
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        collectionView.reloadItemsAtIndexPaths([indexPath])
+    }
     
     
     // MARK: - Private methods

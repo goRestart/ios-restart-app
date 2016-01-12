@@ -27,13 +27,14 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Lifecycle
 
-    init(locationManager: LocationManager, myUserRepository: MyUserRepository, tracker: Tracker) {
+    init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager,
+        myUserRepository: MyUserRepository, tracker: Tracker) {
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
         self.tracker = tracker
         self.lastReceivedLocation = locationManager.currentLocation
         self.locationActivatedWhileLoading = false
-        super.init()
+        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager)
         
         self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
         self.isProfileList = false
@@ -41,11 +42,16 @@ public class MainProductListViewModel: ProductListViewModel {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"), name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
     
-    override convenience init() {
+    convenience init() {
         let locationManager = LocationManager.sharedInstance
         let myUserRepository = MyUserRepository.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(locationManager: locationManager, myUserRepository: myUserRepository, tracker: tracker)
+        let productsRetrieveService = LGProductsRetrieveService()
+        let userProductsRetrieveService = LGUserProductsRetrieveService()
+        let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
+            userProductsRetrieveService: userProductsRetrieveService)
+        self.init(locationManager: locationManager, productsManager: productsManager, productManager: ProductManager(),
+            myUserRepository: myUserRepository, tracker: tracker)
     }
     
      deinit {

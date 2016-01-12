@@ -16,6 +16,7 @@ public protocol ProductListViewModelDataDelegate: class {
         error: ProductsRetrieveServiceError)
     func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool,
         atIndexPaths indexPaths: [NSIndexPath])
+    func viewModel(viewModel: ProductListViewModel, didUpdateProductDataAtIndex index: Int)
 }
 
 public protocol TopProductInfoDelegate: class {
@@ -82,6 +83,7 @@ public class ProductListViewModel: BaseViewModel {
     // Manager
     private let locationManager: LocationManager
     private let productsManager: ProductsManager
+    private let productManager: ProductManager
     
     // Data
     private var products: [Product]
@@ -146,13 +148,19 @@ public class ProductListViewModel: BaseViewModel {
     
     
     // MARK: - Lifecycle
-    
-    public override init() {
-        self.locationManager = LocationManager.sharedInstance
+
+    public override convenience init() {
         let productsRetrieveService = LGProductsRetrieveService()
         let userProductsRetrieveService = LGUserProductsRetrieveService()
-        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
+        let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
             userProductsRetrieveService: userProductsRetrieveService)
+        self.init(locationManager: LocationManager.sharedInstance, productsManager: productsManager, productManager: ProductManager())
+    }
+    
+    public init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager) {
+        self.locationManager = locationManager
+        self.productsManager = productsManager
+        self.productManager = productManager
         
         self.products = []
         self.pageNumber = 0
@@ -336,7 +344,26 @@ public class ProductListViewModel: BaseViewModel {
     }
 
     public func cellDidTapFavorite(index: Int) {
-        //TODO FAVORITE/UNFAVORITE PRODUCT AND UPDATE LIST
+        let product = productAtIndex(index)
+        let isFavourite = false //product.isFavourite
+        if isFavourite {
+            productManager.deleteFavourite(product) { [weak self] result in
+                //TODO UNCOMMENT WHEN SERVICE WORKING
+//                guard let product = result.value else { return }
+
+                self?.updateProduct(product, atIndex: index)
+
+                //TODO TRACKINGS
+            }
+        }
+        else {
+            productManager.saveFavourite(product) { [weak self] result in
+                guard let productFavorite = result.value else { return }
+                self?.updateProduct(productFavorite.product, atIndex: index)
+
+                //TODO TRACKINGS
+            }
+        }
     }
 
     public func cellDidTapChat(index: Int) {
@@ -432,6 +459,15 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Internal methods
     
     internal func didSucceedRetrievingProducts() {
-        
+
+    }
+
+
+    // MARK: - Private methods
+
+    private func updateProduct(product: Product, atIndex index: Int) {
+        guard index >= 0 && index < products.count else { return }
+        products[index] = product
+        dataDelegate?.viewModel(self, didUpdateProductDataAtIndex: index)
     }
 }
