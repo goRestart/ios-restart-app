@@ -10,8 +10,8 @@ import Foundation
 
 public class ProductCellDrawerFactory {
 
-    static func drawerForProduct() -> ProductCellDrawer {
-        return ImageProductCellDrawer()
+    static func drawerForProduct(withActions: Bool) -> ProductCellDrawer {
+        return ImageProductCellDrawer(showActions: withActions)
     }
 
     static func registerCells(collectionView: UICollectionView) {

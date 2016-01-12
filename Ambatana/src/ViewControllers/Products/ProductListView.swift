@@ -384,7 +384,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func collectionView(collectionView: UICollectionView,
         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-            let drawer = ProductCellDrawerFactory.drawerForProduct()
+            let drawer = ProductCellDrawerFactory.drawerForProduct(productListViewModel.showCellActions)
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
             drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item), delegate: self)

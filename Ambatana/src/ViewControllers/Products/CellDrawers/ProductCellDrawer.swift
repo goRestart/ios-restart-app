@@ -16,10 +16,10 @@ struct ProductCellData {
     var date: NSDate?
     var isFavorite: Bool
     var cellWidth: CGFloat
-    var showActions: Bool
     var indexPath: NSIndexPath?
 }
 
 protocol ProductCellDrawer: CollectionCellDrawer {
+    func draw(collectionCell: UICollectionViewCell, data: ProductCellData)
     func draw(collectionCell: UICollectionViewCell, data: ProductCellData, delegate: ProductCellDelegate?)
 }

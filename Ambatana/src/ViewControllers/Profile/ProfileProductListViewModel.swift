@@ -30,7 +30,10 @@ public class ProfileProductListViewModel: ProductListViewModel {
             }
         }
     }
-    
+    public override var showCellActions: Bool {
+        return false
+    }
+
     // Repositories
     let myUserRepository: MyUserRepository
     

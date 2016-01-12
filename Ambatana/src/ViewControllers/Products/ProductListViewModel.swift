@@ -117,9 +117,11 @@ public class ProductListViewModel: BaseViewModel {
     public var isLastPage: Bool {
         return productsManager.lastPage
     }
-    
     public var hasFilters: Bool {
         return categories != nil || timeCriteria != nil || distanceRadius != nil
+    }
+    public var showCellActions: Bool {
+        return true
     }
     
     internal var retrieveProductsFirstPageParams: RetrieveProductsParams {
@@ -396,7 +398,7 @@ public class ProductListViewModel: BaseViewModel {
         let product = products[index]
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            isFavorite: false, cellWidth: ProductListViewModel.cellWidth, showActions: true,
+            isFavorite: false, cellWidth: ProductListViewModel.cellWidth,
             indexPath: NSIndexPath(forRow: index, inSection: 0))
     }
     
