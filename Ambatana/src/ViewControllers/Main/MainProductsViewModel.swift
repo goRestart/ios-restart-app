@@ -16,9 +16,6 @@ protocol MainProductsViewModelDelegate: class {
     func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
     func mainProductsViewModelRefresh(viewModel: MainProductsViewModel)
-     func mainProductSViewModel(viewMode: MainProductsViewModel, showShare shareText: String,
-        delegate: NativeShareDelegate)
-    func mainProductSViewModel(viewMode: MainProductsViewModel, showChatWithViewModel chatVM: ChatViewModel)
 }
 
 protocol InfoBubbleDelegate: class {
@@ -126,6 +123,14 @@ public class MainProductsViewModel: BaseViewModel {
         
         // Tracking
         tracker.trackEvent(TrackerEvent.filterStart())
+    }
+
+    public func socialMessageForProduct(product: Product) -> SocialMessage {
+        return SocialHelper.socialMessageWithTitle(LGLocalizedString.productShareBody, product: product)
+    }
+
+    public func chatViewModelForProduct(product: Product) -> ChatViewModel? {
+        return ChatViewModel(product: product, askQuestion: true)
     }
     
     /**
@@ -286,39 +291,6 @@ extension MainProductsViewModel: TopProductInfoDelegate {
 
         guard index == Constants.itemIndexPushPermissionsTrigger else { return }
         permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
-    }
-}
-
-
-// MARK: - ProductListActionsDelegate
-
-extension MainProductsViewModel: ProductListActionsDelegate {
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        didTapChatOnProduct product: Product) {
-            guard let myUser = myUserRepository.myUser else { return }
-            // Retrieve the chat
-            //TODO SHOW LOADING??
-            ChatManager.sharedInstance.retrieveChatWithProduct(product, buyer: myUser) { [weak self] retrieveResult in
-                guard let strongSelf = self else { return }
-
-                if let chat = retrieveResult.value, let viewModel = ChatViewModel(chat: chat) {
-                    //TODO CHANGE BY ANOTHER SOURCE
-                    viewModel.askQuestion = true
-                    strongSelf.delegate?.mainProductSViewModel(strongSelf, showChatWithViewModel: viewModel)
-                }
-                else if let error = retrieveResult.error where error == .NotFound {
-                    //TODO CHANGE BY ANOTHER SOURCE
-                    if let viewModel = ChatViewModel(product: product, askQuestion: true) {
-                        strongSelf.delegate?.mainProductSViewModel(strongSelf, showChatWithViewModel: viewModel)
-                    }
-                }
-            }
-    }
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        didTapShareOnProduct product: Product) {
-            let socialMessage = SocialHelper.socialMessageWithTitle(LGLocalizedString.productShareBody, product: product)
-            delegate?.mainProductSViewModel(self, showShare: socialMessage.shareText, delegate: self)
     }
 }
 

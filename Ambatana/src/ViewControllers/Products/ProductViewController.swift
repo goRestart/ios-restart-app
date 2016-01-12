@@ -343,34 +343,39 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         dismissLoadingMessageAlert(completion)
     }
     
-    public func viewModelDidStartAsking(viewModel: ProductViewModel) {
-        showLoadingMessageAlert()
+//    public func viewModelDidStartAsking(viewModel: ProductViewModel) {
+//        showLoadingMessageAlert()
+//    }
+
+    public func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel) {
+        let chatVC = ChatViewController(viewModel: chatVM)
+        self.navigationController?.pushViewController(chatVC, animated: true)
     }
 
-    public func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>) {
-        var completion: (() -> Void)?
-        if let viewController = result.value {
-            completion = {
-                self.navigationController?.pushViewController(viewController, animated: true)
-            }
-        }
-        else {
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productChatErrorGeneric)
-            }
-            if let actualError = result.error {
-                if actualError == .Forbidden {
-                    completion = {
-                        self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                            SessionManager.sharedInstance.logout()
-                        })
-                    }
-                }
-            }
-        }
-        dismissLoadingMessageAlert(completion)
-    }
-    
+//    public func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>) {
+//        var completion: (() -> Void)?
+//        if let viewController = result.value {
+//            completion = {
+//                self.navigationController?.pushViewController(viewController, animated: true)
+//            }
+//        }
+//        else {
+//            completion = {
+//                self.showAutoFadingOutMessageAlert(LGLocalizedString.productChatErrorGeneric)
+//            }
+//            if let actualError = result.error {
+//                if actualError == .Forbidden {
+//                    completion = {
+//                        self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
+//                            SessionManager.sharedInstance.logout()
+//                        })
+//                    }
+//                }
+//            }
+//        }
+//        dismissLoadingMessageAlert(completion)
+//    }
+
     // MARK: - Private methods
     
     // MARK: > UI

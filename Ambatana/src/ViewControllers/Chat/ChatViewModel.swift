@@ -65,7 +65,6 @@ public class ChatViewModel: BaseViewModel {
     public convenience init?(product: Product, askQuestion: Bool) {
         guard let chatFromProduct = ChatManager.sharedInstance.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
-        isNewChat = true
         self.askQuestion = askQuestion
     }
     
@@ -100,7 +99,13 @@ public class ChatViewModel: BaseViewModel {
                 strongSelf.delegate?.didSucceedRetrievingChatMessages()
             }
             else if let error = result.error {
-                strongSelf.delegate?.didFailRetrievingChatMessages(error)
+                if error == .NotFound {
+                    //New chat!! this is success
+                    strongSelf.isNewChat = true
+                    strongSelf.delegate?.didSucceedRetrievingChatMessages()
+                } else {
+                    strongSelf.delegate?.didFailRetrievingChatMessages(error)
+                }
             }
         }
     }
