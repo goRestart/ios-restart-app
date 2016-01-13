@@ -24,10 +24,6 @@ enum InstallationRouter: URLRequestAuthenticable {
         }
     }
 
-    var minReceivedAuthLevel: AuthLevel {
-        return .Installation
-    }
-
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Create(params):

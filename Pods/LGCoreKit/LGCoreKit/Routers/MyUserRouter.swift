@@ -33,10 +33,6 @@ enum MyUserRouter: URLRequestAuthenticable {
         }
     }
 
-    var minReceivedAuthLevel: AuthLevel {
-        return .User
-    }
-
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Show(myUserId):
