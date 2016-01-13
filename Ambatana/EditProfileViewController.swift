@@ -542,8 +542,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     func productCellDataAtIndex(indexPath: NSIndexPath) -> ProductCellData {
         let product = productAtIndexPath(indexPath)
+        var isMine = false
+        if let productUserId = product.user.objectId, myUser = MyUserRepository.sharedInstance.myUser,
+            myUserId = myUser.objectId where productUserId == myUserId {
+                isMine = true
+        }
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            isFavorite: false, cellWidth: sellingProductListView.defaultCellSize.width, indexPath: indexPath)
+            isFavorite: false, isMine: isMine, cellWidth: sellingProductListView.defaultCellSize.width,
+            indexPath: indexPath)
     }
 }

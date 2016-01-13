@@ -15,6 +15,7 @@ struct ProductCellData {
     var status: ProductStatus
     var date: NSDate?
     var isFavorite: Bool
+    var isMine: Bool
     var cellWidth: CGFloat
     var indexPath: NSIndexPath?
 }

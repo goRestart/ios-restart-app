@@ -35,7 +35,7 @@ public class MainProductListViewModel: ProductListViewModel {
         self.lastReceivedLocation = locationManager.currentLocation
         self.locationActivatedWhileLoading = false
         super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
-            cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
+            myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
         
         self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
         self.isProfileList = false

@@ -42,7 +42,7 @@ public class ProfileProductListViewModel: ProductListViewModel {
         self.user = user ?? myUserRepository.myUser
         self.type = type ?? .Selling
         super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
-            cellDrawer: ProductCellDrawerFactory.drawerForProduct(false))
+            myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(false))
         
         self.isProfileList = true
         self.sortCriteria = .Creation

@@ -81,10 +81,11 @@ public class ProductListViewModel: BaseViewModel {
     public weak var topProductInfoDelegate: TopProductInfoDelegate?
     public weak var actionsDelegate: ProductListActionsDelegate?
     
-    // Manager
+    // Manager & Repository
     private let locationManager: LocationManager
     private let productsManager: ProductsManager
     private let productManager: ProductManager
+    private let myUserRepository: MyUserRepository
     
     // Data
     private var products: [Product]
@@ -156,14 +157,16 @@ public class ProductListViewModel: BaseViewModel {
         let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
             userProductsRetrieveService: userProductsRetrieveService)
         self.init(locationManager: LocationManager.sharedInstance, productsManager: productsManager,
-            productManager: ProductManager(), cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
+            productManager: ProductManager(), myUserRepository: MyUserRepository.sharedInstance,
+            cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
     }
     
     init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager,
-        cellDrawer: ProductCellDrawer) {
+        myUserRepository: MyUserRepository, cellDrawer: ProductCellDrawer) {
             self.locationManager = locationManager
             self.productsManager = productsManager
             self.productManager = productManager
+            self.myUserRepository = myUserRepository
             self.cellDrawer = cellDrawer
             
             self.products = []
@@ -398,9 +401,14 @@ public class ProductListViewModel: BaseViewModel {
 
     func productCellDataAtIndex(index: Int) -> ProductCellData {        
         let product = products[index]
+        var isMine = false
+        if let productUserId = product.user.objectId, myUser = myUserRepository.myUser, myUserId = myUser.objectId
+            where productUserId == myUserId {
+                isMine = true
+        }
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            isFavorite: false, cellWidth: ProductListViewModel.cellWidth,
+            isFavorite: false, isMine: isMine, cellWidth: ProductListViewModel.cellWidth,
             indexPath: NSIndexPath(forRow: index, inSection: 0))
     }
     
