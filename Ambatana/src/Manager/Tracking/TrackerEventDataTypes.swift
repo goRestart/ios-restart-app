@@ -203,6 +203,7 @@ public enum EventParameterButtonNameType: String {
 public enum EventParameterButtonPosition: String {
     case Top = "top"
     case Bottom = "bottom"
+    case None = "N/A"
 }
 
 public enum EventParameterShareNetwork: String {
@@ -294,10 +295,11 @@ public enum EventParameterEditedFields: String {
     }
 }
 
-public enum EventParameterPermissionTypePage: String {
+public enum EventParameterTypePage: String {
     case ProductList = "product-list"
     case Chat = "chat"
     case Sell = "product-sell"
+    case ProductDetail = "product-detail"
 }
 
 public enum EventParameterPermissionType: String {

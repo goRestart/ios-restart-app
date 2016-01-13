@@ -206,40 +206,44 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductDetailVisit, params: params)
     }
 
-    public static func productFavorite(product: Product, user: User?) -> TrackerEvent {
+    public static func productFavorite(product: Product, user: User?, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params.addProductParamsWithProduct(product, user: user)
+        params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .ProductFavorite, params: params)
     }
     
     public static func productShare(product: Product, user: User?, network: EventParameterShareNetwork,
-        buttonPosition: EventParameterButtonPosition) -> TrackerEvent {
+        buttonPosition: EventParameterButtonPosition, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params.addProductParamsWithProduct(product, user: user)
         params[.ShareNetwork] = network.rawValue
         params[.ButtonPosition] = buttonPosition.rawValue
+        params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .ProductShare, params: params)
     }
 
-    public static func productShareCancel(product: Product, user: User?, network: EventParameterShareNetwork)
-        -> TrackerEvent {
+    public static func productShareCancel(product: Product, user: User?, network: EventParameterShareNetwork,
+        typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params.addProductParamsWithProduct(product, user: user)
             params[.ProductType] = product.user.isDummy ?
                 EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
             params[.ShareNetwork] = network.rawValue
+            params[.TypePage] = typePage.rawValue
             return TrackerEvent(name: .ProductShareCancel, params: params)
     }
 
-    public static func productShareComplete(product: Product, user: User?, network: EventParameterShareNetwork)
-        -> TrackerEvent {
+    public static func productShareComplete(product: Product, user: User?, network: EventParameterShareNetwork,
+        typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params.addProductParamsWithProduct(product, user: user)
             params[.ProductType] = product.user.isDummy ?
                 EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
             params[.ShareNetwork] = network.rawValue
+            params[.TypePage] = typePage.rawValue
             return TrackerEvent(name: .ProductShareComplete, params: params)
     }
 
@@ -252,10 +256,11 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductOffer, params: params)
     }
 
-    public static func productAskQuestion(product: Product, user: User?) -> TrackerEvent {
+    public static func productAskQuestion(product: Product, user: User?, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params.addProductParamsWithProduct(product, user: user)
+        params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
 
@@ -533,7 +538,7 @@ public struct TrackerEvent {
     }
 
     public static func permissionAlertStart(permissionType: EventParameterPermissionType,
-        typePage: EventParameterPermissionTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
+        typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
             var params = EventParameters()
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
@@ -542,7 +547,7 @@ public struct TrackerEvent {
     }
 
     public static func permissionAlertComplete(permissionType: EventParameterPermissionType,
-        typePage: EventParameterPermissionTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
+        typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
             var params = EventParameters()
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
@@ -551,7 +556,7 @@ public struct TrackerEvent {
     }
 
     public static func permissionSystemCancel(permissionType: EventParameterPermissionType,
-        typePage: EventParameterPermissionTypePage) -> TrackerEvent {
+        typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
@@ -559,7 +564,7 @@ public struct TrackerEvent {
     }
 
     public static func permissionSystemComplete(permissionType: EventParameterPermissionType,
-        typePage: EventParameterPermissionTypePage) -> TrackerEvent {
+        typePage: EventParameterTypePage) -> TrackerEvent {
             var params = EventParameters()
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue

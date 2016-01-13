@@ -48,7 +48,7 @@ public enum PrePermissionType: Int {
         }
     }
 
-    public var trackingParam: EventParameterPermissionTypePage {
+    public var trackingParam: EventParameterTypePage {
         switch (self) {
         case ProductList:
             return .ProductList
