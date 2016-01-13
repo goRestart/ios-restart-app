@@ -30,9 +30,6 @@ public class ProfileProductListViewModel: ProductListViewModel {
             }
         }
     }
-    public override var showCellActions: Bool {
-        return false
-    }
 
     // Repositories
     let myUserRepository: MyUserRepository
@@ -44,7 +41,8 @@ public class ProfileProductListViewModel: ProductListViewModel {
         self.myUserRepository = myUserRepository
         self.user = user ?? myUserRepository.myUser
         self.type = type ?? .Selling
-        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager)
+        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
+            cellDrawer: ProductCellDrawerFactory.drawerForProduct(false))
         
         self.isProfileList = true
         self.sortCriteria = .Creation

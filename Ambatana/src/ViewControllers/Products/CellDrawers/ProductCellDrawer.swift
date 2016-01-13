@@ -20,6 +20,7 @@ struct ProductCellData {
 }
 
 protocol ProductCellDrawer: CollectionCellDrawer {
+    func cellHeightForThumbnailHeight(height: CGFloat) -> CGFloat
     func draw(collectionCell: UICollectionViewCell, data: ProductCellData)
     func draw(collectionCell: UICollectionViewCell, data: ProductCellData, delegate: ProductCellDelegate?)
 }

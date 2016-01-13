@@ -17,7 +17,7 @@ protocol ProductCellDelegate: class {
 
 class ProductCell: UICollectionViewCell, ReusableCell {
 
-    private static let buttonsContainerShownHeight: CGFloat = 34
+    static let buttonsContainerShownHeight: CGFloat = 34
     
     @IBOutlet weak var shadowImage: UIImageView!
     @IBOutlet weak var cellContent: UIView!

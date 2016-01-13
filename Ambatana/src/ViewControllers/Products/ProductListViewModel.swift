@@ -95,6 +95,7 @@ public class ProductListViewModel: BaseViewModel {
 
     // UI
     public private(set) var defaultCellSize: CGSize!
+    let cellDrawer: ProductCellDrawer
     
     
     // MARK: - Computed iVars
@@ -119,9 +120,6 @@ public class ProductListViewModel: BaseViewModel {
     }
     public var hasFilters: Bool {
         return categories != nil || timeCriteria != nil || distanceRadius != nil
-    }
-    public var showCellActions: Bool {
-        return true
     }
     
     internal var retrieveProductsFirstPageParams: RetrieveProductsParams {
@@ -151,29 +149,32 @@ public class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    public override convenience init() {
+    override convenience init() {
         let productsRetrieveService = LGProductsRetrieveService()
         let userProductsRetrieveService = LGUserProductsRetrieveService()
         let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
             userProductsRetrieveService: userProductsRetrieveService)
-        self.init(locationManager: LocationManager.sharedInstance, productsManager: productsManager, productManager: ProductManager())
+        self.init(locationManager: LocationManager.sharedInstance, productsManager: productsManager,
+            productManager: ProductManager(), cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
     }
     
-    public init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager) {
-        self.locationManager = locationManager
-        self.productsManager = productsManager
-        self.productManager = productManager
-        
-        self.products = []
-        self.pageNumber = 0
-        self.maxDistance = 1
-        self.refreshing = false
-        self.isProfileList = false
-        self.nextPageRetrievalLastError = nil
-        
-        let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
-        self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
-        super.init()
+    init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager,
+        cellDrawer: ProductCellDrawer) {
+            self.locationManager = locationManager
+            self.productsManager = productsManager
+            self.productManager = productManager
+            self.cellDrawer = cellDrawer
+            
+            self.products = []
+            self.pageNumber = 0
+            self.maxDistance = 1
+            self.refreshing = false
+            self.isProfileList = false
+            self.nextPageRetrievalLastError = nil
+            
+            let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
+            self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
+            super.init()
     }
     
     
@@ -420,15 +421,16 @@ public class ProductListViewModel: BaseViewModel {
     */
     public func sizeForCellAtIndex(index: Int) -> CGSize {
         let product = productAtIndex(index)
-        if let thumbnailSize = product.thumbnailSize {
-            if thumbnailSize.height != 0 && thumbnailSize.width != 0 {
-                let thumbFactor = thumbnailSize.height / thumbnailSize.width
-                var baseSize = defaultCellSize
-                baseSize.height = max(ProductListViewModel.cellMinHeight, round(baseSize.width * CGFloat(thumbFactor)))
-                return baseSize
-            }
-        }
-        return defaultCellSize
+
+        guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
+            else { return defaultCellSize }
+
+        let thumbFactor = CGFloat(thumbnailSize.height / thumbnailSize.width)
+        let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
+        return CGSize(
+            width: defaultCellSize.width,
+            height: cellDrawer.cellHeightForThumbnailHeight(imageFinalHeight)
+        )
     }
         
     /**

@@ -34,12 +34,14 @@ public class MainProductListViewModel: ProductListViewModel {
         self.tracker = tracker
         self.lastReceivedLocation = locationManager.currentLocation
         self.locationActivatedWhileLoading = false
-        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager)
+        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
+            cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
         
         self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
         self.isProfileList = false
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"), name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"),
+            name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
     
     convenience init() {
