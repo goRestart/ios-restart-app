@@ -35,7 +35,6 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult)
 
-//    func viewModelDidStartAsking(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel)
 }
 
@@ -128,10 +127,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         // It's editable when the product is mine and is on sale
         return isMine && isOnSale
     }
-    
-    // TODO: Refactor to return a view model
-    public var editViewModelWithDelegate: UIViewController {
-        return EditSellProductViewController(product: product, updateDelegate: self)
+
+    public var editViewModelWithDelegate: EditSellProductViewModel {
+        return EditSellProductViewModel(product: product)
     }
     
     public var isFavouritable: Bool {

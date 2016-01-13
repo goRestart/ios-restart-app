@@ -300,6 +300,7 @@ extension MainProductsViewModel: TopProductInfoDelegate {
 //MARK: - NativeShareDelegate
 
 extension MainProductsViewModel: NativeShareDelegate {
+    //TODO IMPLEMENT THIS METHODS ON TRACKINGS RELATED TASK
     func nativeShareInFacebook() {
 
     }

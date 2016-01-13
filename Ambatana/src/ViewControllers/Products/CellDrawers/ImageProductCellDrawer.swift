@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import LGCoreKit
 
 class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCellDrawer {
 

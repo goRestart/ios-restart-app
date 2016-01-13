@@ -631,15 +631,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 // MARK: - ProductCellDelegate
 
 extension ProductListView: ProductCellDelegate {
-    func onProductCellDidChat(cell: ProductCell, indexPath: NSIndexPath) {
+    func productCellDidChat(cell: ProductCell, indexPath: NSIndexPath) {
         productListViewModel.cellDidTapChat(indexPath.row)
     }
 
-    func onProductCellDidShare(cell: ProductCell, indexPath: NSIndexPath) {
+    func productCellDidShare(cell: ProductCell, indexPath: NSIndexPath) {
         productListViewModel.cellDidTapShare(indexPath.row)
     }
 
-    func onProductCellDidLike(cell: ProductCell, indexPath: NSIndexPath) {
+    func productCellDidLike(cell: ProductCell, indexPath: NSIndexPath) {
         productListViewModel.cellDidTapFavorite(indexPath.row)
     }
 }

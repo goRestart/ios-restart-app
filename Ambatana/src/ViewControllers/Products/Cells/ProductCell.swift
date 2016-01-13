@@ -10,9 +10,9 @@ import UIKit
 import pop
 
 protocol ProductCellDelegate: class {
-    func onProductCellDidChat(cell: ProductCell, indexPath: NSIndexPath)
-    func onProductCellDidShare(cell: ProductCell, indexPath: NSIndexPath)
-    func onProductCellDidLike(cell: ProductCell, indexPath: NSIndexPath)
+    func productCellDidChat(cell: ProductCell, indexPath: NSIndexPath)
+    func productCellDidShare(cell: ProductCell, indexPath: NSIndexPath)
+    func productCellDidLike(cell: ProductCell, indexPath: NSIndexPath)
 }
 
 class ProductCell: UICollectionViewCell, ReusableCell {
@@ -98,17 +98,17 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     @IBAction func onDirectChatBtn(sender: AnyObject) {
         guard let indexPath = indexPath else { return }
-        delegate?.onProductCellDidChat(self, indexPath: indexPath)
+        delegate?.productCellDidChat(self, indexPath: indexPath)
     }
 
     @IBAction func onDirectShareBtn(sender: AnyObject) {
         guard let indexPath = indexPath else { return }
-        delegate?.onProductCellDidShare(self, indexPath: indexPath)
+        delegate?.productCellDidShare(self, indexPath: indexPath)
     }
     
     @IBAction func onDirectLikeBtn(sender: AnyObject) {
         guard let indexPath = indexPath else { return }
-        delegate?.onProductCellDidLike(self, indexPath: indexPath)
+        delegate?.productCellDidLike(self, indexPath: indexPath)
     }
 
 
