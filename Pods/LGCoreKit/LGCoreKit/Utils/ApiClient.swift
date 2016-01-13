@@ -7,6 +7,7 @@
 //
 
 import Alamofire
+import JWT
 import Result
 
 
@@ -51,34 +52,46 @@ enum AuthLevel: Int {
 
 protocol URLRequestAuthenticable: URLRequestConvertible {
     var requiredAuthLevel: AuthLevel { get }
-    // Minimum received auth level from the response. Doesn't mean the actual received auth level.
-    var minReceivedAuthLevel: AuthLevel { get }
 }
 
-extension URLRequestAuthenticable {
-    var minReceivedAuthLevel: AuthLevel {
-        return requiredAuthLevel
-    }
-}
 
 class ApiClient {
 
     static let tokenDAO: TokenDAO = TokenKeychainDAO.sharedInstance
 
+    
+    // MARK: - Internal methods
+    
+    /**
+    Runs a request.
+    - parameter request: The request.
+    - parameter decoder: The decoder.
+    - parameter completion: The completion closure.
+    */
     static func request<T>(request: URLRequestAuthenticable, decoder: AnyObject -> T?,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
 
-            createInstallationIfNeeded(request, success: {
-                ApiClient.request(request, decoder: decoder, completion: completion)
-            }, completion: { result in
-                if let _ = result.value {
-                    privateRequest(request, decoder: decoder, completion: completion)
-                } else if let error = result.error {
+            createInstallationIfNeeded(request,
+                createSucceeded: {
+                    ApiClient.request(request, decoder: decoder, completion: completion)
+                },
+                failed: { error in
                     completion?(ResultResult<T, ApiError>.t(error: error))
+                },
+                createNotNeeded: {
+                    privateRequest(request, decoder: decoder, completion: completion)
                 }
-            })
+            )
     }
 
+    /**
+    Uploads a file.
+    - parameter request: The request.
+    - parameter decoder: The decoder.
+    - parameter multipart: The multipart encoder.
+    - parameter completion: The completion closure.
+    - parameter progress: The closure that notifies about the upload progress.
+    */
     static func upload<T>(request: URLRequestAuthenticable, decoder: AnyObject -> T?,
         multipart: MultipartFormData -> Void, completion: ((ResultResult<T, ApiError>.t) -> ())?,
         progress: ((written: Int64, totalWritten: Int64, totalExpectedToWrite: Int64) -> Void)? = nil) {
@@ -109,42 +122,66 @@ class ApiClient {
 
     // MARK: - Private methods
 
-    private static func createInstallationIfNeeded(request: URLRequestAuthenticable,
-        success: (() -> ())?,
-        completion: ((ResultResult<Void, ApiError>.t) -> ())?) {
-
+    /**
+    Creates an installation if the request requires installation token and we do not have it.
+    - parameter createSucceeded: Completion closure executed when the installation is created successfully.
+    - parameter failed: Completion closure executed when the installation creation fails or the required auth level is
+                        higher than required.
+    - parameter createNotNeeded: Completion closure executed when the installation creation is not needed.
+    */
+    private static func createInstallationIfNeeded(request: URLRequestAuthenticable, createSucceeded: (() -> ())?,
+        failed: ((ApiError) -> ())?, createNotNeeded: (() -> ())?) {
+            
             if tokenDAO.level == .None && request.requiredAuthLevel > .None {
                 InstallationRepository.sharedInstance.create { result in
                     if let _ = result.value {
-                        success?()
+                        createSucceeded?()
                     } else if let error = result.error {
-                        completion?(ResultResult<Void, ApiError>.t(error: error))
+                        failed?(error)
                     }
                 }
             } else if request.requiredAuthLevel > tokenDAO.level {
-                completion?(ResultResult<Void, ApiError>.t(error: .Unauthorized))
+                failed?(.Unauthorized)
             } else {
-                completion?(ResultResult<Void, ApiError>.t(value: Void()))
+                createNotNeeded?()
             }
     }
 
-    private static func privateRequest<T>(request: URLRequestAuthenticable,
-        decoder: AnyObject -> T?, completion: ((ResultResult<T, ApiError>.t) -> ())?) {
+    /**
+    Executes the given request with a decoder.
+    - parameter request: The request.
+    - parameter decoder: The decoder.
+    - parameter completion: The completion closure.
+    */
+    private static func privateRequest<T>(request: URLRequestAuthenticable, decoder: AnyObject -> T?,
+        completion: ((ResultResult<T, ApiError>.t) -> ())?) {
             Manager.validatedRequest(request).responseObject(decoder) { (response: Response<T, NSError>) in
-                    let value = response.result.value
-                    handlePrivateResponse(request, response: response, value: value, completion: completion)
+                handlePrivateResponse(request, response: response, completion: completion)
             }
     }
 
-    private static func handlePrivateResponse<T, U>(request: URLRequestAuthenticable, response: Response<T, NSError>,
-        value: U?, completion: ((ResultResult<U, ApiError>.t) -> ())?) {
+    /**
+    Handles the private request response.
+    - parameter request: The request.
+    - parameter response: The response.
+    - parameter completion: The completion closure.
+    */
+    private static func handlePrivateResponse<T>(request: URLRequestAuthenticable, response: Response<T, NSError>,
+        completion: ((ResultResult<T, ApiError>.t) -> ())?) {
             if let error = errorFromAlamofireResponse(response) {
-                handlePrivateApiErrorResponse(request, error: error, completion: completion)
-            } else if let value = value {
-                upgradeTokenIfNeeded(request, response: response, value: value, completion: completion)
+                handlePrivateApiErrorResponse(error)
+                completion?(ResultResult<T, ApiError>.t(error: error))
+            } else if let value = response.result.value {
+                updateToken(response)
+                completion?(ResultResult<T, ApiError>.t(value: value))
             }
     }
 
+    /**
+    Returns an `ApiError` from the given response.
+    - parameter response: The request response.
+    - returns An `ApiError`.
+    */
     private static func errorFromAlamofireResponse<T>(response: Response<T, NSError>) -> ApiError? {
         guard let error = response.result.error else { return nil }
         if error.domain == NSURLErrorDomain {
@@ -156,13 +193,15 @@ class ApiClient {
         }
     }
 
-    private static func handlePrivateApiErrorResponse<T>(request: URLRequestAuthenticable, error: ApiError,
-        completion: ((ResultResult<T, ApiError>.t) -> ())?) {
+    /**
+    Handles an API error deleting the `Installation` if unauthorized or logging out the current user if scammer.
+    - parameter error: The API error.
+    */
+    private static func handlePrivateApiErrorResponse(error: ApiError) {
 
             switch error {
             case .Unauthorized:
                 let currentLevel = tokenDAO.level
-
                 switch currentLevel {
                 case .None, .User:
                     break
@@ -177,21 +216,36 @@ class ApiClient {
             case .Network, .Internal, .NotFound, .AlreadyExists, .InternalServerError:
                 break
             }
-
-            completion?(ResultResult<T, ApiError>.t(error: error))
     }
 
-    private static func upgradeTokenIfNeeded<T, U>(request: URLRequestAuthenticable,
-        response: Response<T, NSError>, value: U, completion: ((ResultResult<U, ApiError>.t) -> ())?) {
-
-            let currentLevel = tokenDAO.level
-            if let token = response.response?.allHeaderFields["authentication-info"] as? String {
-                let minReceivedLevel = request.minReceivedAuthLevel
-                if minReceivedLevel >= currentLevel {
-                    tokenDAO.save(Token(value: token, level: minReceivedLevel))
-                }
-            }
-            completion?(ResultResult<U, ApiError>.t(value: value))
+    /**
+    Updates the token with the given request response.
+    - parameter response: The request response.
+    */
+    private static func updateToken<T>(response: Response<T, NSError>) {
+        guard let token = decodeToken(response) else { return }
+        tokenDAO.save(token)
     }
-
+    
+    /**
+    Decodes the given response and returns a token.
+    - parameter response: The request response.
+    - returns: The token with value as `"Bearer <token>"`.
+    */
+    private static func decodeToken<T>(response: Response<T, NSError>) -> Token? {
+        guard let authenticationInfo = response.response?.allHeaderFields["authentication-info"] as? String,
+                  token = authenticationInfo.componentsSeparatedByString(" ").last,
+                  payload = try? JWT.decode(token, algorithm: .HS256(""), verify: false),
+                  data = payload["data"] as? [String: AnyObject],
+                  roles = data["roles"] as? [String] else {
+                    return nil
+        }
+        
+        if roles.contains("user") {
+            return Token(value: authenticationInfo, level: .User)
+        } else if roles.contains("app") {
+            return Token(value: authenticationInfo, level: .Installation)
+        }
+        return nil
+    }
 }

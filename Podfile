@@ -11,14 +11,15 @@ xcodeproj "LetGo.xcodeproj"
 pod "Parse",                "~> 1.9.0"
 pod "SDWebImage"
 
-pod "FBSDKShareKit",         "~> 4.7.0"
+pod "FBSDKLoginKit",         "~> 4.8.0"
+pod "FBSDKCoreKit",          "~> 4.8.0"
     
 # Tracking
 # pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
 pod "Amplitude-iOS",        "~> 3.4.1"
     
 # letgo Core
-pod "LGCoreKit",            "0.17.3" #:path => "../lgcorekit"
+pod "LGCoreKit",            "0.17.4"
 
 # Slack Chat controller
 pod "SlackTextViewController", "~> 1.7.2"
@@ -39,7 +40,7 @@ pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 pod "DeviceUtil",         "~> 1.3.5"
 
 # Push Notifications
-pod "Kahuna",               "~> 2.3.2"
+pod "Kahuna",               "2.3.2"
 
 # New Relic
 pod "NewRelicAgent",         "~> 5.3.4"
