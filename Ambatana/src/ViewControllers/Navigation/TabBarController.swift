@@ -627,8 +627,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         // Show loading
         showLoadingMessageAlert()
 
-        ChatManager.sharedInstance.retrieveChatWithProductId(productId, buyerId: buyerId) {
-            [weak self] (result: Result<Chat, ChatRetrieveServiceError>) -> Void in
+        ChatRepository.sharedInstance.retrieveChatWithProductId(productId, buyerId: buyerId) {
+            [weak self] (result: Result<Chat, RepositoryError>) -> Void in
 
             var loadingDismissCompletion: (() -> Void)? = nil
 
@@ -646,12 +646,14 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             } else if let error = result.error {
                 // Error
                 let message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden:
-                    message = LGLocalizedString.commonChatNotAvailable
-                }
+                // ⚠️ TODO: put correct errors once Repository Error is finished
+                message = LGLocalizedString.commonChatNotAvailable
+//                switch error {
+//                case .Network:
+//                    message = LGLocalizedString.commonErrorConnectionFailed
+//                case .Internal, .NotFound, .Unauthorized, .Forbidden:
+//                    message = LGLocalizedString.commonChatNotAvailable
+//                }
 
                 loadingDismissCompletion = { () -> Void in
                     self?.showAutoFadingOutMessageAlert(message)

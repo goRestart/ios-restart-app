@@ -78,16 +78,16 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
 
             // 1. Send the offer
             let offerText = generateOfferText(productPrice)
-            ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) {
-                [weak self] (sendResult: ChatSendMessageServiceResult) -> Void in
+            ChatRepository.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) {
+                [weak self] (sendResult: Result<Message, RepositoryError>) -> Void in
                 if let strongSelf = self {
 
                     // Success
                     if let _ = sendResult.value {
 
                         // 2. Retrieve the chat
-                        ChatManager.sharedInstance.retrieveChatWithProduct(actualProduct, buyer: myUser) {
-                            [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
+                        ChatRepository.sharedInstance.retrieveChatWithProduct(actualProduct, buyer: myUser) {
+                            [weak self] (retrieveResult: Result<Chat, RepositoryError>) -> Void in
                             if let strongSelf2 = self {
 
                                 // Not loading
@@ -107,40 +107,22 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                     let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser)
                                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
 
-                                } else {
-                                    if let actualError = retrieveResult.error {
-                                        if actualError == .Forbidden {
-                                            strongSelf2.showAutoFadingOutMessageAlert(
-                                                LGLocalizedString.logInErrorSendErrorGeneric,
-                                                completionBlock: { (completion) -> Void in
-                                                    SessionManager.sharedInstance.logout()
-                                            })
-                                        } else {
-                                            strongSelf2.showAutoFadingOutMessageAlert(
-                                                LGLocalizedString.makeAnOfferSendErrorGeneric)
-                                        }
-                                    }
+                                } else if let _ = retrieveResult.error {
+                                        strongSelf2.showAutoFadingOutMessageAlert(
+                                            LGLocalizedString.makeAnOfferSendErrorGeneric)
                                 }
                             }
                         }
                     } else {
                         strongSelf.disableLoadingInterface()
                         
-                        if let actualError = sendResult.error {
-                            if actualError == .Forbidden {
-                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric,
-                                    completionBlock: { (completion) -> Void in
-                                    SessionManager.sharedInstance.logout()
-                                })
-                            } else {
-                                strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
-                            }
+                        if let _ = sendResult.error {
+                            strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
                         }
                     }
                 }
             }
-        }
-        else {
+        } else {
             showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorInvalidPrice , time: 3.5);
         }
     }

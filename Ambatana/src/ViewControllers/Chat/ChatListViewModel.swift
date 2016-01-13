@@ -11,7 +11,7 @@ import Result
 
 public protocol ChatListViewModelDelegate: class {
     func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool)
-    func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ChatsRetrieveServiceError)
+    func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ErrorData)
     func didSucceedRetrievingChatList(viewModel: ChatListViewModel, nonEmptyChatList: Bool)
 }
 
@@ -20,7 +20,7 @@ public class ChatListViewModel : BaseViewModel {
     public weak var delegate : ChatListViewModelDelegate?
 
     public var chats: [Chat]?
-    var chatManager: ChatManager
+    var chatRepository: ChatRepository
 
     // computed iVars
     public var chatCount : Int {
@@ -30,11 +30,11 @@ public class ChatListViewModel : BaseViewModel {
     // MARK: - Lifecycle
 
     public override convenience init() {
-        self.init(chatManager: ChatManager.sharedInstance, chats: [])
+        self.init(chatRepository: ChatRepository.sharedInstance, chats: [])
     }
 
-    public required init(chatManager: ChatManager, chats: [Chat]) {
-        self.chatManager = chatManager
+    public required init(chatRepository: ChatRepository, chats: [Chat]) {
+        self.chatRepository = chatRepository
         self.chats = chats
         super.init()
     }
@@ -48,18 +48,33 @@ public class ChatListViewModel : BaseViewModel {
     // MARK: public methods
 
     public func updateConversations() {
-        guard !chatManager.loadingChats else { return }
+        guard !chatRepository.loadingChats else { return }
 
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chatCount < 1)
 
-        chatManager.retrieveChatsWithCompletion { [weak self] (result) in
+        chatRepository.retrieveChatsWithCompletion { [weak self] (result) in
 
             if let strongSelf = self {
                 if let chats = result.value {
                     strongSelf.chats = chats
                     strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, nonEmptyChatList: chats.count > 0)
                 } else if let actualError = result.error {
-                    strongSelf.delegate?.didFailRetrievingChatList(strongSelf, error: actualError)
+
+                    var errorData = ErrorData()
+                    // ⚠️ TODO : remove comments & update with real RepositoryError values
+//                    switch actualError {
+//                    case .Forbidden:
+//                        errorData.isScammer = true
+//                    case .Network:
+//                        errorData.errImage = UIImage(named: "err_network")
+//                        errorData.errTitle = LGLocalizedString.commonErrorTitle
+//                        errorData.errBody = LGLocalizedString.commonErrorNetworkBody
+//                        errorData.errButTitle = LGLocalizedString.commonErrorRetryButton
+//                    case .Internal, .Unauthorized:
+//                        break
+//                    }
+
+                    strongSelf.delegate?.didFailRetrievingChatList(strongSelf, error: errorData)
                 }
             }
         }

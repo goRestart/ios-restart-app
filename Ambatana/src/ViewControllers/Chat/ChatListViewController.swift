@@ -125,10 +125,10 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         resetUI()
     }
 
-    func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ChatsRetrieveServiceError) {
+    func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ErrorData) {
         refreshControl.endRefreshing()
 
-        if error == .Forbidden {
+        if error.isScammer {
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
                 SessionManager.sharedInstance.logout()
@@ -139,34 +139,32 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
             chatListStatus = .Error
 
-            // If we have no data
-            // Set the error state
-            let errBgColor: UIColor?
-            let errBorderColor: UIColor?
-            let errImage: UIImage?
-            let errTitle: String?
-            let errBody: String?
-            let errButTitle: String?
+//            // If we have no data
+//            // Set the error state
+//            let errBgColor: UIColor?
+//            let errBorderColor: UIColor?
+//            let errImage: UIImage?
+//            let errTitle: String?
+//            let errBody: String?
+//            let errButTitle: String?
+//
+//            switch error {
+//            case .Network:
+//                errImage = UIImage(named: "err_network")
+//                errTitle = LGLocalizedString.commonErrorTitle
+//                errBody = LGLocalizedString.commonErrorNetworkBody
+//                errButTitle = LGLocalizedString.commonErrorRetryButton
+//            case .Internal, .Forbidden, .Unauthorized:
+//                errImage = UIImage(named: "err_generic")
+//                errTitle = LGLocalizedString.commonErrorTitle
+//                errBody = LGLocalizedString.commonErrorGenericBody
+//                errButTitle = LGLocalizedString.commonErrorRetryButton
+//            }
+//
+//            errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
+//            errBorderColor = StyleHelper.lineColor
 
-            switch error {
-            case .Network:
-                errImage = UIImage(named: "err_network")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorNetworkBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            case .Internal, .Forbidden, .Unauthorized:
-                errImage = UIImage(named: "err_generic")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorGenericBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            }
-
-            errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
-            errBorderColor = StyleHelper.lineColor
-
-            generateErrorViewWith(errBgColor, errBorderColor: errBorderColor, errImage: errImage,
-                errTitle: errTitle, errBody: errBody, errButTitle: errButTitle)
-
+            generateErrorViewWithErrorData(error)
             resetUI()
         }
     }
@@ -250,26 +248,26 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         errorView.hidden = chatListStatus != .Error
     }
 
-    private func generateErrorViewWith(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?,
-        errTitle: String?, errBody: String?, errButTitle: String?) {
-
-            errorView.backgroundColor = errBgColor
-            errorContentView.layer.borderColor = errBorderColor?.CGColor
-            errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
+//    private func generateErrorViewWith(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?,
+//        errTitle: String?, errBody: String?, errButTitle: String?) {
+    private func generateErrorViewWithErrorData(errorData: ErrorData) {
+            errorView.backgroundColor = errorData.errBgColor
+            errorContentView.layer.borderColor = errorData.errBorderColor?.CGColor
+            errorContentView.layer.borderWidth = errorData.errBorderColor != nil ? 0.5 : 0
             errorContentView.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
-            errorImageView.image = errImage
+            errorImageView.image = errorData.errImage
             // If there's no image then hide it
-            if let actualErrImage = errImage {
+            if let actualErrImage = errorData.errImage {
                 errorImageViewHeightConstraint.constant = actualErrImage.size.height
             } else {
                 errorImageViewHeightConstraint.constant = 0
             }
-            errorTitleLabel.text = errTitle
-            errorBodyLabel.text = errBody
-            errorButton.setTitle(errButTitle, forState: .Normal)
+            errorTitleLabel.text = errorData.errTitle
+            errorBodyLabel.text = errorData.errBody
+            errorButton.setTitle(errorData.errButTitle, forState: .Normal)
             // If there's no button title or action then hide it
-            if errButTitle != nil {
+            if errorData.errButTitle != nil {
                 errorButtonHeightConstraint.constant = ChatListViewController.defaultErrorButtonHeight
             } else {
                 errorButtonHeightConstraint.constant = 0

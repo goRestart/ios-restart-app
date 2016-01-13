@@ -347,25 +347,15 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         showLoadingMessageAlert()
     }
 
-    public func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>) {
+    public func viewModel(viewModel: ProductViewModel, didFinishAskingAndShouldShowViewController vc: UIViewController?) {
         var completion: (() -> Void)?
-        if let viewController = result.value {
+        if let viewController = vc {
             completion = {
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
-        }
-        else {
+        } else {
             completion = {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.productChatErrorGeneric)
-            }
-            if let actualError = result.error {
-                if actualError == .Forbidden {
-                    completion = {
-                        self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                            SessionManager.sharedInstance.logout()
-                        })
-                    }
-                }
             }
         }
         dismissLoadingMessageAlert(completion)
