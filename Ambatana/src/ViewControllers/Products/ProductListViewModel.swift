@@ -359,8 +359,6 @@ public class ProductListViewModel: BaseViewModel {
 //                guard let product = result.value else { return }
 
                 self?.updateProduct(product, atIndex: index)
-
-                //TODO TRACKINGS
             }
         }
         else {
@@ -368,7 +366,9 @@ public class ProductListViewModel: BaseViewModel {
                 guard let productFavorite = result.value else { return }
                 self?.updateProduct(productFavorite.product, atIndex: index)
 
-                //TODO TRACKINGS
+                let trackerEvent = TrackerEvent.productFavorite(product, user: self?.myUserRepository.myUser,
+                    typePage: .ProductList)
+                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             }
         }
     }

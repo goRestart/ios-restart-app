@@ -125,8 +125,9 @@ public class MainProductsViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.filterStart())
     }
 
-    public func socialMessageForProduct(product: Product) -> SocialMessage {
-        return SocialHelper.socialMessageWithTitle(LGLocalizedString.productShareBody, product: product)
+    public func shareDelegateForProduct(product: Product) -> MainProductsViewModelShareDelegate? {
+        guard let myUser = myUserRepository.myUser else { return nil }
+        return MainProductsViewModelShareDelegate(product: product, myUser: myUser)
     }
 
     public func chatViewModelForProduct(product: Product) -> ChatViewModel? {
@@ -299,21 +300,41 @@ extension MainProductsViewModel: TopProductInfoDelegate {
 
 //MARK: - NativeShareDelegate
 
-extension MainProductsViewModel: NativeShareDelegate {
-    //TODO IMPLEMENT THIS METHODS ON TRACKINGS RELATED TASK
-    func nativeShareInFacebook() {
+public class MainProductsViewModelShareDelegate: NativeShareDelegate {
 
+    let sharingProduct: Product
+    let sharingUser: MyUser
+    var shareText: String {
+        return SocialHelper.socialMessageWithTitle(LGLocalizedString.productShareBody,
+            product: sharingProduct).shareText
+    }
+
+    init(product: Product, myUser: MyUser) {
+        self.sharingProduct = product
+        self.sharingUser = myUser
+    }
+
+    func nativeShareInFacebook() {
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Facebook,
+            buttonPosition: .None, typePage: .ProductList)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func nativeShareInTwitter() {
-
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Twitter,
+            buttonPosition: .None, typePage: .ProductList)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func nativeShareInEmail() {
-
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Email,
+            buttonPosition: .None, typePage: .ProductList)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func nativeShareInWhatsApp() {
-
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Whatsapp,
+            buttonPosition: .None, typePage: .ProductList)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }

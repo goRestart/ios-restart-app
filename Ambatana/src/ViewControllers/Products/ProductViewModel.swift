@@ -659,7 +659,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     private func saveFavouriteCompleted() {
-        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser,
+            typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
