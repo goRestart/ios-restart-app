@@ -344,7 +344,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            let drawer = ProductCellDrawerFactory.drawerForProduct(false)
+            let drawer = ProductCellDrawerFactory.drawerForProduct(true)
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
             drawer.draw(cell, data: productCellDataAtIndex(indexPath), delegate: nil)

@@ -65,6 +65,9 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         if let _ = delegate, let _ = indexPath where show {
             self.buttonsContainerHeight.constant = ProductCell.buttonsContainerShownHeight
         } else {
+            if show {
+                print("💣 Trying to show product cell actions but no delegate was set")
+            }
             self.buttonsContainerHeight.constant = 0
         }
     }
