@@ -38,6 +38,7 @@ public class ProductListViewModel: BaseViewModel {
     
     private static let cellMinHeight: CGFloat = 160.0
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
+    private static let cellMaxThumbFactor: CGFloat = 2.0
     private static let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width - (Constants.productListFixedInsets*2)) / columnCount
     
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
@@ -425,7 +426,8 @@ public class ProductListViewModel: BaseViewModel {
         guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
             else { return defaultCellSize }
 
-        let thumbFactor = CGFloat(thumbnailSize.height / thumbnailSize.width)
+        let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
+            CGFloat(thumbnailSize.height / thumbnailSize.width))
         let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
         return CGSize(
             width: defaultCellSize.width,
