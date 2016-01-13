@@ -282,7 +282,7 @@ extension MainProductsViewModel: TopProductInfoDelegate {
     Called when the products list is pulling to refresh
 
     - Parameter productListViewModel: the productListViewModel who called its delegate
-    - Parameter dateForTopProduct: the creation date of the upmost product in the list
+    - Parameter pullToRefreshInProggress: whether or not the pull to refresh is in progress
     */
     public func productListViewModel(productListViewModel: ProductListViewModel,
         pullToRefreshInProggress refreshing: Bool) {
