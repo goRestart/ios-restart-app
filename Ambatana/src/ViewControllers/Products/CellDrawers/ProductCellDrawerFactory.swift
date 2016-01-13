@@ -11,7 +11,8 @@ import Foundation
 public class ProductCellDrawerFactory {
 
     static func drawerForProduct(withActions: Bool) -> ProductCellDrawer {
-        return ImageProductCellDrawer(showActions: withActions)
+        //TODO ENABLE BACK WHEN CONNECTED TO NEW COREKIT
+        return ImageProductCellDrawer(showActions: false)
     }
 
     static func registerCells(collectionView: UICollectionView) {
