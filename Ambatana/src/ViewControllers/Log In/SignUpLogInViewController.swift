@@ -75,8 +75,8 @@ SignUpLogInViewModelDelegate {
     
     // MARK: - Lifecycle
     
-    init(viewModel: SignUpLogInViewModel) {//source: EventParameterLoginSourceValue, action: LoginActionType) {
-        self.viewModel = viewModel//SignUpLogInViewModel(source: source, action: action)
+    init(viewModel: SignUpLogInViewModel) {
+        self.viewModel = viewModel
         self.lines = []
         self.loginEditModeActive = false
         self.signupEditModeActive = false
