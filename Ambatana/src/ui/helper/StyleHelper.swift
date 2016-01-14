@@ -101,7 +101,7 @@ class StyleHelper {
         return 1 / UIScreen.mainScreen().scale
     }
 
-    static var termsConditionsFont: {
+    static var termsConditionsFont: UIFont {
         return helveticaNeueFont(size: 15)
     }
 

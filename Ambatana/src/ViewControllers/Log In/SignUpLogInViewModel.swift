@@ -54,6 +54,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     
     // Delegate
     weak var delegate: SignUpLogInViewModelDelegate?
+    let loginSource: EventParameterLoginSourceValue
     
     // Action Type
     var currentActionType : LoginActionType {
@@ -97,7 +98,7 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     private let sessionManager: SessionManager
     private let locationManager: LocationManager
-    private let loginSource: EventParameterLoginSourceValue
+
 
     private var newsletterParameter: EventParameterNewsletter {
         if !termsAndConditionsEnabled {
