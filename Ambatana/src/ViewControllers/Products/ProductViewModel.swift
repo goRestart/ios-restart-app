@@ -35,9 +35,7 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult)
 
-    func viewModelDidStartAsking(viewModel: ProductViewModel)
-    // TODO: Refactor to return a ViewModel
-    func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>)
+    func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel)
 }
 
 public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
@@ -129,10 +127,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         // It's editable when the product is mine and is on sale
         return isMine && isOnSale
     }
-    
-    // TODO: Refactor to return a view model
-    public var editViewModelWithDelegate: UIViewController {
-        return EditSellProductViewController(product: product, updateDelegate: self)
+
+    public var editViewModelWithDelegate: EditSellProductViewModel {
+        return EditSellProductViewModel(product: product)
     }
     
     public var isFavouritable: Bool {
@@ -559,49 +556,15 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         }
     }
 
+
     // MARK: >  Ask
-    
-    public func askStarted() {
-    }
-    
-    // TODO: Refactor when Chat is following MVVM
+
     public func ask() {
-        guard let myUser = myUserRepository.myUser else { return }
-        
-        // Notify the delegate
-        delegate?.viewModelDidStartAsking(self)
-        
-        // Retrieve the chat
-        ChatManager.sharedInstance.retrieveChatWithProduct(product, buyer: myUser) { [weak self] retrieveResult in
-            if let strongSelf = self, let actualDelegate = strongSelf.delegate {
-                
-                var result = Result<UIViewController, ChatRetrieveServiceError>(error: .Internal)
-                
-                // Success
-                if let chat = retrieveResult.value, let viewModel = ChatViewModel(chat: chat) {
-                    viewModel.askQuestion = true
-                    let vc = ChatViewController(viewModel: viewModel)
-                    result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
-                }
-                // Error
-                if let error = retrieveResult.error {
-                    switch error {
-                        // If not found, then no conversation has been created yet, it's a success
-                    case .NotFound:
-                        if let viewModel = ChatViewModel(product: strongSelf.product, askQuestion: true) {
-                            let vc = ChatViewController(viewModel: viewModel)
-                            result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
-                        }
-                    case .Network, .Unauthorized, .Internal, .Forbidden:
-                        result = Result<UIViewController, ChatRetrieveServiceError>(error: error)
-                    }
-                }
-                
-                // Notify the delegate
-                actualDelegate.viewModel(strongSelf, didFinishAsking: result)
-            }
-        }
+        guard let _ = myUserRepository.myUser, let viewModel = ChatViewModel(product: self.product) else { return }
+        viewModel.askQuestion = true
+        delegate?.viewModel(self, didFinishAsking: viewModel)
     }
+
     
     // MARK: > Mark as Sold
     

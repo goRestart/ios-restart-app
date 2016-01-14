@@ -237,7 +237,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             productListViewModel.topProductInfoDelegate = newValue
         }
     }
-    
+    public var actionsDelegate: ProductListActionsDelegate? {
+        get {
+            return productListViewModel.actionsDelegate
+        }
+        set {
+            productListViewModel.actionsDelegate = newValue
+        }
+    }
+
     // Delegate
     weak public var delegate: ProductListViewDataDelegate?
     weak public var scrollDelegate : ProductListViewScrollDelegate?
@@ -376,10 +384,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func collectionView(collectionView: UICollectionView,
         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-            let drawer = ProductCellDrawerFactory.drawerForProduct()
+            let drawer = productListViewModel.cellDrawer
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
-            drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item))
+            drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item), delegate: self)
             
             productListViewModel.setCurrentItemIndex(indexPath.item)
             
@@ -517,6 +525,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             // Notify the delegate
             delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
     }
+
+    public func viewModel(viewModel: ProductListViewModel, didUpdateProductDataAtIndex index: Int) {
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        collectionView.reloadItemsAtIndexPaths([indexPath])
+    }
     
     
     // MARK: - Private methods
@@ -611,5 +624,22 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     private func productAtIndex(index: Int) -> Product {
         return productListViewModel.productAtIndex(index)
+    }
+}
+
+
+// MARK: - ProductCellDelegate
+
+extension ProductListView: ProductCellDelegate {
+    func productCellDidChat(cell: ProductCell, indexPath: NSIndexPath) {
+        productListViewModel.cellDidTapChat(indexPath.row)
+    }
+
+    func productCellDidShare(cell: ProductCell, indexPath: NSIndexPath) {
+        productListViewModel.cellDidTapShare(indexPath.row)
+    }
+
+    func productCellDidLike(cell: ProductCell, indexPath: NSIndexPath) {
+        productListViewModel.cellDidTapFavorite(indexPath.row)
     }
 }

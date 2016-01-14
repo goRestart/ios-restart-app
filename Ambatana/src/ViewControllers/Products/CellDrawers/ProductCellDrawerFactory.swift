@@ -10,8 +10,9 @@ import Foundation
 
 public class ProductCellDrawerFactory {
 
-    static func drawerForProduct() -> ProductCellDrawer {
-        return ImageProductCellDrawer()
+    static func drawerForProduct(withActions: Bool) -> ProductCellDrawer {
+        //TODO ENABLE BACK WHEN CONNECTED TO NEW COREKIT
+        return ImageProductCellDrawer(showActions: false)
     }
 
     static func registerCells(collectionView: UICollectionView) {
