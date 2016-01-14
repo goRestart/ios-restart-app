@@ -30,12 +30,18 @@ protocol MainSignUpViewModelDelegate: class {
 }
 
 public class MainSignUpViewModel: BaseViewModel {
-   
+
+    var termsAndConditionsURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
+    }
+    var privacyURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.privacyURL)
+    }
     
+    private let sessionManager: SessionManager
+    private let loginSource: EventParameterLoginSourceValue
+
     weak var delegate: MainSignUpViewModelDelegate?
-    
-    let sessionManager: SessionManager
-    let loginSource: EventParameterLoginSourceValue
     
     // Public methods
     
@@ -75,4 +81,11 @@ public class MainSignUpViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error))
     }
 
+    public func loginSignupViewModelForLogin() -> SignUpLogInViewModel {
+        return SignUpLogInViewModel(source: loginSource, action: .Login)
+    }
+
+    public func loginSignupViewModelForSignUp() -> SignUpLogInViewModel {
+        return SignUpLogInViewModel(source: loginSource, action: .Signup)
+    }
 }

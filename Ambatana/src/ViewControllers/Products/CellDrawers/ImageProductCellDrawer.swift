@@ -17,11 +17,7 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
     }
 
     func cellHeightForThumbnailHeight(height: CGFloat) -> CGFloat {
-        if showActions {
-            return height + ProductCell.buttonsContainerShownHeight
-        } else {
-            return height
-        }
+        return showActions ? height + ProductCell.buttonsContainerShownHeight : height
     }
 
     func draw(collectionCell: UICollectionViewCell, data: ProductCellData) {

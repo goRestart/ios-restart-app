@@ -10,7 +10,8 @@ import UIKit
 import LGCoreKit
 import Result
 
-class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUpLogInViewModelDelegate {
+class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate,
+SignUpLogInViewModelDelegate {
     
     @IBOutlet weak var loginSegmentedControl: UISegmentedControl!
 
@@ -41,10 +42,18 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
 
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
+    @IBOutlet weak var termsConditionsContainer: UIView!
+    @IBOutlet weak var termsConditionsContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak var termsConditionsText: UITextView!
+    @IBOutlet weak var termsConditionsSwitch: UISwitch!
+    @IBOutlet weak var newsletterLabel: UILabel!
+    @IBOutlet weak var newsletterSwitch: UISwitch!
+
     @IBOutlet weak var sendButton: UIButton!
     
-    
     // Constants & enum
+
+    private static let termsConditionsShownHeight: CGFloat = 118
     
     enum TextFieldTag: Int {
         case Email = 1000, Password, Username
@@ -57,14 +66,17 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     
     var lines: [CALayer]
     
-    var loginEditModeActive : Bool
-    var signupEditModeActive : Bool
+    var loginEditModeActive: Bool
+    var signupEditModeActive: Bool
+    var termsConditionsActive: Bool {
+        return signupEditModeActive && viewModel.termsAndConditionsEnabled
+    }
 
     
     // MARK: - Lifecycle
     
-    init(source: EventParameterLoginSourceValue, action: LoginActionType) {
-        self.viewModel = SignUpLogInViewModel(source: source, action: action)
+    init(viewModel: SignUpLogInViewModel) {
+        self.viewModel = viewModel
         self.lines = []
         self.loginEditModeActive = false
         self.signupEditModeActive = false
@@ -81,7 +93,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+
+        setupStaticUI()
         setupUI()
     }
 
@@ -132,6 +145,14 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         scrollView.setContentOffset(CGPointMake(0,0), animated: false)
 
         setupUI()
+    }
+    
+    @IBAction func onSwitchValueChanged(sender: UISwitch) {
+        if sender == termsConditionsSwitch {
+            viewModel.termsAccepted = sender.on
+        } else if sender == newsletterSwitch {
+            viewModel.newsletterAccepted = sender.on
+        }
     }
     
     @IBAction func connectWithFacebookButtonPressed(sender: AnyObject) {
@@ -266,7 +287,15 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
             updateViewModelText(text, fromTextFieldTag: textField.tag)
             return true
     }
+
+
+    // MARK: - UITextViewDelegate
+    func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
+        UIApplication.sharedApplication().openURL(url)
+        return true
+    }
     
+
     // MARK: - SignUpLogInViewModelDelegate
     
     // MARK: > visual
@@ -308,6 +337,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                     message = LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
                         Constants.passwordMaxLength)
                     errorDescription = .InvalidPassword
+                case .TermsNotAccepted:
+                    message = LGLocalizedString.signUpAcceptanceError
+                    errorDescription = .TermsNotAccepted
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
                     errorDescription = .Network
@@ -373,6 +405,8 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                     errorDescription = .NotFound
                 case .Internal, .AlreadyExists:
                     errorDescription = .Internal
+                case .TermsNotAccepted: //Will never happen
+                    errorDescription = .Internal
                 }
                 viewModel.loginFailedWithError(errorDescription)
                 completion = {
@@ -425,26 +459,22 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
     }
     
     // MARK: Private Methods
-    
-    private func setupUI() {
-        
-        // action type
-        loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
 
+    private func setupStaticUI() {
         // i18n
         loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpSignUpButton, forSegmentAtIndex: 0)
         loginSegmentedControl.setTitle(LGLocalizedString.mainSignUpLogInLabel, forSegmentAtIndex: 1)
         usernameTextField.placeholder = LGLocalizedString.signUpUsernameFieldHint
         emailTextField.placeholder = LGLocalizedString.signUpEmailFieldHint
         passwordTextField.placeholder = LGLocalizedString.signUpPasswordFieldHint
-        
+        newsletterLabel.text = LGLocalizedString.signUpNewsleter
         quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
-        
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
-        
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, forState: .Normal)
-        
+
+        setupTermsConditionsText()
+
         // tags
         emailTextField.tag = TextFieldTag.Email.rawValue
         passwordTextField.tag = TextFieldTag.Password.rawValue
@@ -453,7 +483,7 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         // appearance
         connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        connectFBButton.layer.cornerRadius = 4
+        connectFBButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
         sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
@@ -461,16 +491,28 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
             CGSize(width: 1, height: 1)), forState: .Disabled)
         sendButton.setBackgroundImage(StyleHelper.highlightedRedButtonColor.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Highlighted)
-        
-        sendButton.layer.cornerRadius = 4
+
+        sendButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         sendButton.enabled = false
         sendButton.alpha = StyleHelper.disabledButtonAlpha
+
+        showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
+
+        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
+            action: Selector("helpButtonPressed"))
+        navigationItem.rightBarButtonItem = helpButton
+    }
+
+    private func setupUI() {
+        
+        // action type
+        loginSegmentedControl.selectedSegmentIndex = viewModel.currentActionType.rawValue
+
 
         emailButton.hidden = false
         emailIconImageView.hidden = false
         emailTextField.hidden = false
 
-        showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
         showPasswordButton.hidden = !(viewModel.showPasswordShouldBeVisible)
         
         let isSignup = viewModel.currentActionType == .Signup
@@ -486,15 +528,34 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         
         let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
         setLetGoNavigationBarStyle(navBarTitle)
-        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
-            action: Selector("helpButtonPressed"))
-        navigationItem.rightBarButtonItem = helpButton
+    }
+
+    private func setupTermsConditionsText() {
+        guard let conditionsURL = viewModel.termsAndConditionsURL, let privacyURL = viewModel.privacyURL else {
+            // Should not happen
+            termsConditionsText.text =  LGLocalizedString.signUpTermsConditions
+            return
+        }
+
+        let links = [LGLocalizedString.signUpTermsConditionsTermsPart: conditionsURL,
+            LGLocalizedString.signUpTermsConditionsPrivacyPart: privacyURL]
+        let localizedLegalText = LGLocalizedString.signUpTermsConditions
+        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
+            textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: StyleHelper.termsConditionsFont,
+            range: NSMakeRange(0, attributtedLegalText.length))
+        termsConditionsText.attributedText = attributtedLegalText
+        termsConditionsText.delegate = self
     }
     
     private func setupSignupUI() {
         usernameButton.hidden = !signupEditModeActive
         usernameIconImageView.hidden = !signupEditModeActive
         usernameTextField.hidden = !signupEditModeActive
+
+        termsConditionsContainerHeight.constant = termsConditionsActive ?
+            SignUpLogInViewController.termsConditionsShownHeight : 0
+        termsConditionsContainer.hidden = !termsConditionsActive
 
         forgotPasswordButton.hidden = true
         
@@ -510,6 +571,9 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
         usernameButton.hidden = true
         usernameIconImageView.hidden = true
         usernameTextField.hidden = true
+
+        termsConditionsContainerHeight.constant = 0
+        termsConditionsContainer.hidden = true
         
         forgotPasswordButton.hidden = !loginEditModeActive
         
