@@ -782,7 +782,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productFavorite") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productFavorite(product, user: nil)
+                    sut = TrackerEvent.productFavorite(product, user: nil, typePage: .ProductDetail)
                     expect(sut.name.rawValue).to(equal("product-detail-favorite"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -810,11 +810,15 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress.zipCode = "12345"
                     product.postalAddress.city = "Baltimore"
                     
-                    sut = TrackerEvent.productFavorite(product, user: myUser)
+                    sut = TrackerEvent.productFavorite(product, user: myUser, typePage: .ProductDetail)
                     expect(sut.params).notTo(beNil())
-                    
+
+                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal(EventParameterTypePage.ProductDetail.rawValue))
+
                     // Product
-                    
+
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
@@ -854,7 +858,7 @@ class TrackerEventSpec: QuickSpec {
                 it("has its event name") {
                     let product = MockProduct()
                     sut = TrackerEvent.productShare(product, user: nil, network: EventParameterShareNetwork.Email,
-                        buttonPosition: .Top)
+                        buttonPosition: .Top, typePage: .ProductDetail)
                     expect(sut.name.rawValue).to(equal("product-detail-share"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -882,11 +886,16 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress.zipCode = "12345"
                     product.postalAddress.city = "Baltimore"
                     
-                    sut = TrackerEvent.productShare(product, user: myUser, network: .Email, buttonPosition: .Top)
+                    sut = TrackerEvent.productShare(product, user: myUser, network: .Email, buttonPosition: .Top
+                        , typePage: .ProductDetail)
                     expect(sut.params).notTo(beNil())
-                    
+
+                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal(EventParameterTypePage.ProductDetail.rawValue))
+
                     // Product
-                    
+
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
                     expect(productId).to(equal(product.objectId))
@@ -922,14 +931,16 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the network where the content has been shared") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: .Top)
+                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: .Top
+                        , typePage: .ProductDetail)
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
                     expect(network).to(equal("facebook"))
                 }
                 it("contains the position of the button used to share") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: .Bottom)
+                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: .Bottom
+                        , typePage: .ProductDetail)
                     expect(sut.params!.stringKeyParams["button-position"]).notTo(beNil())
                     let buttonPosition = sut.params!.stringKeyParams["button-position"] as? String
                     expect(buttonPosition).to(equal("bottom"))
@@ -944,7 +955,8 @@ class TrackerEventSpec: QuickSpec {
                     product = MockProduct()
                     product.objectId = "123ABC"
                     user = MockUser()
-                    tracker = TrackerEvent.productShareCancel(product, user: user, network: .Facebook)
+                    tracker = TrackerEvent.productShareCancel(product, user: user, network: .Facebook
+                        , typePage: .ProductDetail)
                 }
                 it("has the correct event name") {
                     expect(tracker.name.rawValue) == "product-detail-share-cancel"
@@ -974,7 +986,8 @@ class TrackerEventSpec: QuickSpec {
                     product = MockProduct()
                     product.objectId = "123ABC"
                     user = MockUser()
-                    tracker = TrackerEvent.productShareComplete(product, user: user, network: .Facebook)
+                    tracker = TrackerEvent.productShareComplete(product, user: user, network: .Facebook
+                        , typePage: .ProductDetail)
                 }
                 it("has the correct event name") {
                     expect(tracker.name.rawValue) == "product-detail-share-complete"
@@ -1030,7 +1043,11 @@ class TrackerEventSpec: QuickSpec {
                     
                     sut = TrackerEvent.productOffer(product, user: myUser, amount: 0)
                     expect(sut.params).notTo(beNil())
-                    
+
+                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal(EventParameterTypePage.ProductDetail.rawValue))
+
                     // Product
                     
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1079,7 +1096,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productAskQuestion") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productAskQuestion(product, user: nil)
+                    sut = TrackerEvent.productAskQuestion(product, user: nil, typePage: .ProductDetail)
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1107,9 +1124,13 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress.zipCode = "12345"
                     product.postalAddress.city = "Baltimore"
                     
-                    sut = TrackerEvent.productAskQuestion(product, user: myUser)
+                    sut = TrackerEvent.productAskQuestion(product, user: myUser, typePage: .ProductDetail)
                     expect(sut.params).notTo(beNil())
-                    
+
+                    expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal(EventParameterTypePage.ProductDetail.rawValue))
+
                     // Product
                     
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1711,7 +1732,7 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterPermissionTypePage.ProductList.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.ProductList.rawValue))
 
                     expect(sut.params!.stringKeyParams["alert-type"]).notTo(beNil())
                     let alertType = sut.params!.stringKeyParams["alert-type"] as? String
@@ -1734,7 +1755,7 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterPermissionTypePage.ProductList.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.ProductList.rawValue))
 
                     expect(sut.params!.stringKeyParams["alert-type"]).notTo(beNil())
                     let alertType = sut.params!.stringKeyParams["alert-type"] as? String
@@ -1757,7 +1778,7 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterPermissionTypePage.ProductList.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.ProductList.rawValue))
                 }
             }
 
@@ -1776,7 +1797,7 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                    expect(typePage).to(equal(EventParameterPermissionTypePage.ProductList.rawValue))
+                    expect(typePage).to(equal(EventParameterTypePage.ProductList.rawValue))
                 }
             }
 
