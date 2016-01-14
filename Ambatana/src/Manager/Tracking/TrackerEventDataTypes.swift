@@ -244,6 +244,7 @@ public enum EventParameterLoginError: String {
     case EmailTaken
     case PasswordMismatch
     case UsernameTaken
+    case TermsNotAccepted
 
 
     public var description: String {
@@ -272,6 +273,8 @@ public enum EventParameterLoginError: String {
             return "PasswordMismatch"
         case UsernameTaken:
             return "UsernameTaken"
+        case TermsNotAccepted:
+            return "TermsNotAccepted"
         }
     }
 }

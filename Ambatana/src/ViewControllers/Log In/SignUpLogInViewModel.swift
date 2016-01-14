@@ -11,7 +11,7 @@ import LGCoreKit
 import Result
 
 enum SignUpLogInError: ErrorType {
-    case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword
+    case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword, TermsNotAccepted
     case Api(apiError: ApiError)
     case Internal
     
@@ -82,11 +82,24 @@ public class SignUpLogInViewModel: BaseViewModel {
             delegate?.viewModel(self, updateShowPasswordVisible: showPasswordShouldBeVisible)
         }
     }
+    var termsAccepted: Bool
+    var newsletterAccepted: Bool
 
     var showPasswordShouldBeVisible : Bool {
         return password.characters.count > 0
     }
-    
+
+    var termsAndConditionsEnabled: Bool {
+        //TODO: CHECK TURKEY!
+        return true
+    }
+
+    var termsAndConditionsURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
+    }
+    var privacyURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.privacyURL)
+    }
 
     // MARK: - Lifecycle
     
@@ -96,6 +109,8 @@ public class SignUpLogInViewModel: BaseViewModel {
         self.username = ""
         self.email = ""
         self.password = ""
+        self.termsAccepted = false
+        self.newsletterAccepted = false
         self.currentActionType = action
         super.init()
     }
@@ -132,6 +147,9 @@ public class SignUpLogInViewModel: BaseViewModel {
             password.characters.count > Constants.passwordMaxLength {
                 delegate?.viewModel(self, didFinishSigningUpWithResult:
                     Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
+        } else if termsAndConditionsEnabled && (!termsAccepted || !newsletterAccepted) {
+            delegate?.viewModel(self, didFinishSigningUpWithResult:
+                Result<MyUser, SignUpLogInError>(error: .TermsNotAccepted))
         } else {
             sessionManager.signUp(email.lowercaseString, password: password, name: fullName) {
                 [weak self] signUpResult in

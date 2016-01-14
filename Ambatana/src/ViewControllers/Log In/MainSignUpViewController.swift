@@ -175,9 +175,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     
 
     func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
-        
         UIApplication.sharedApplication().openURL(url)
-        
         return true
     }
     
