@@ -161,6 +161,7 @@ public enum EventParameterName: String {
     case NegotiablePrice      = "negotiable-price"
     case PictureSource        = "picture-source"
     case EditedFields         = "edited-fields"
+    case Newsletter           = "newsletter"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -245,6 +246,7 @@ public enum EventParameterLoginError: String {
     case EmailTaken
     case PasswordMismatch
     case UsernameTaken
+    case TermsNotAccepted
 
 
     public var description: String {
@@ -273,6 +275,8 @@ public enum EventParameterLoginError: String {
             return "PasswordMismatch"
         case UsernameTaken:
             return "UsernameTaken"
+        case TermsNotAccepted:
+            return "TermsNotAccepted"
         }
     }
 }
@@ -311,6 +315,12 @@ public enum EventParameterPermissionType: String {
 public enum EventParameterPermissionAlertType: String {
     case Custom = "custom"
     case NativeLike = "native-alike"
+}
+
+public enum EventParameterNewsletter: String {
+    case True = "true"
+    case False = "false"
+    case Unset = "N/A"
 }
 
 

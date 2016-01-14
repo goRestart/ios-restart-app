@@ -91,10 +91,12 @@ public struct TrackerEvent {
         return TrackerEvent(name: .LoginEmail, params: params)
     }
 
-    public static func signupEmail(source: EventParameterLoginSourceValue) -> TrackerEvent {
-        var params = EventParameters()
-        params.addLoginParamsWithSource(source)
-        return TrackerEvent(name: .SignupEmail, params: params)
+    public static func signupEmail(source: EventParameterLoginSourceValue, newsletter: EventParameterNewsletter)
+        -> TrackerEvent {
+            var params = EventParameters()
+            params.addLoginParamsWithSource(source)
+            params[.Newsletter] = newsletter.rawValue
+            return TrackerEvent(name: .SignupEmail, params: params)
     }
 
     public static func logout() -> TrackerEvent {
