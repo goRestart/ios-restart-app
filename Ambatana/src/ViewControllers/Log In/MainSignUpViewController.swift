@@ -211,19 +211,16 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
 
-        let links = ["Terms of Service": "http://www.google.com",
-                     "Privacy Policy": "http://www.apple.com"]
+        let links = [LGLocalizedString.mainSignUpTermsConditionsTermsPart: "http://www.google.com",
+                     LGLocalizedString.mainSignUpTermsConditionsConditionsPart: "http://www.apple.com"]
         
-        let localizedLegalText = "By signing up or loging in, you agree to our Terms of Service and Privacy Policy"
+        let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
 
         legalTextView.delegate = self
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links, textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
         attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont(name: "Helvetica Neue", size: 15.0)!, range: NSMakeRange(0, attributtedLegalText.length-1))
         legalTextView.attributedText = attributtedLegalText
         legalTextView.textAlignment = .Center
-        // no legal text yet...
-        legalTextView.hidden = true
-        
     }
 
 }
