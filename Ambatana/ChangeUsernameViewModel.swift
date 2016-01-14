@@ -18,9 +18,8 @@ enum ChangeUsernameError: ErrorType {
     
     init(repositoryError: RepositoryError) {
         switch repositoryError {
-        case .Api(let apiError):
-            self = .Api(apiError: apiError)
-        case .Internal:
+            // TODO: Use the new RepositoryError
+        default:
             self = .Internal
         }
     }

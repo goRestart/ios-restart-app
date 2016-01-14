@@ -37,11 +37,11 @@ public class ProfileProductListViewModel: ProductListViewModel {
     // MARK: - Lifecycle
     
     public init(myUserRepository: MyUserRepository, user: User?, type: ProfileProductListViewType?,
-        locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager) {
+        locationManager: LocationManager, productRepository: ProductRepository) {
         self.myUserRepository = myUserRepository
         self.user = user ?? myUserRepository.myUser
         self.type = type ?? .Selling
-        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
+            super.init(locationManager: locationManager, productRepository: productRepository,
             myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(false))
         
         self.isProfileList = true
@@ -50,14 +50,11 @@ public class ProfileProductListViewModel: ProductListViewModel {
     
     public convenience init(user: User? = nil, type: ProfileProductListViewType? = .Selling) {
 
-        let productsRetrieveService = LGProductsRetrieveService()
-        let userProductsRetrieveService = LGUserProductsRetrieveService()
-        let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
-            userProductsRetrieveService: userProductsRetrieveService)
+        
+        let productRepository = ProductRepository.sharedInstance
         let myUserRepository = MyUserRepository.sharedInstance
         self.init(myUserRepository: myUserRepository, user: user, type: type,
-            locationManager: LocationManager.sharedInstance, productsManager: productsManager,
-            productManager: ProductManager())
+            locationManager: LocationManager.sharedInstance, productRepository: productRepository)
     }
     
 }

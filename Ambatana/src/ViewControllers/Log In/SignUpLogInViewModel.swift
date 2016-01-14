@@ -17,9 +17,7 @@ enum SignUpLogInError: ErrorType {
     
     init(repositoryError: RepositoryError) {
         switch repositoryError {
-        case .Api(let apiError):
-            self = .Api(apiError: apiError)
-        case .Internal:
+        default:
             self = .Internal
         }
     }

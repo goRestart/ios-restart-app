@@ -13,7 +13,7 @@ import Result
 public protocol ProductListViewModelDataDelegate: class {
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
     func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: ProductsRetrieveServiceError)
+        error: RepositoryError)
     func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool,
         atIndexPaths indexPaths: [NSIndexPath])
     func viewModel(viewModel: ProductListViewModel, didUpdateProductDataAtIndex index: Int)
@@ -83,8 +83,7 @@ public class ProductListViewModel: BaseViewModel {
     
     // Manager & Repository
     private let locationManager: LocationManager
-    private let productsManager: ProductsManager
-    private let productManager: ProductManager
+    private let productRepository: ProductRepository
     private let myUserRepository: MyUserRepository
     
     // Data
@@ -99,27 +98,27 @@ public class ProductListViewModel: BaseViewModel {
     public private(set) var defaultCellSize: CGSize!
     let cellDrawer: ProductCellDrawer
     
+    public var isLastPage: Bool = false
+    public var isLoading: Bool = false
+    
+    var canRetrieveProducts: Bool {
+        return !isLoading
+    }
+    
+    var canRetrieveProductsNextPage: Bool {
+        return !isLastPage && !isLoading
+    }
     
     // MARK: - Computed iVars
     
     public var numberOfProducts: Int {
         return products.count
     }
+    
     public var numberOfColumns: Int {
         return Int(ProductListViewModel.columnCount)
     }
-    public var isLoading: Bool {
-        return productsManager.isLoading
-    }
-    public var canRetrieveProducts: Bool {
-        return productsManager.canRetrieveProducts
-    }
-    public var canRetrieveProductsNextPage: Bool {
-        return productsManager.canRetrieveProductsNextPage && nextPageRetrievalLastError == nil
-    }
-    public var isLastPage: Bool {
-        return productsManager.lastPage
-    }
+
     public var hasFilters: Bool {
         return categories != nil || timeCriteria != nil || distanceRadius != nil
     }
@@ -152,20 +151,16 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     override convenience init() {
-        let productsRetrieveService = LGProductsRetrieveService()
-        let userProductsRetrieveService = LGUserProductsRetrieveService()
-        let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
-            userProductsRetrieveService: userProductsRetrieveService)
-        self.init(locationManager: LocationManager.sharedInstance, productsManager: productsManager,
-            productManager: ProductManager(), myUserRepository: MyUserRepository.sharedInstance,
+        self.init(locationManager: LocationManager.sharedInstance,
+            productRepository: ProductRepository.sharedInstance,
+            myUserRepository: MyUserRepository.sharedInstance,
             cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
     }
     
-    init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager,
+    init(locationManager: LocationManager, productRepository: ProductRepository,
         myUserRepository: MyUserRepository, cellDrawer: ProductCellDrawer) {
             self.locationManager = locationManager
-            self.productsManager = productsManager
-            self.productManager = productManager
+            self.productRepository = productRepository
             self.myUserRepository = myUserRepository
             self.cellDrawer = cellDrawer
             
@@ -186,108 +181,60 @@ public class ProductListViewModel: BaseViewModel {
     
     // MARK: > Requests
 
-    /**
-        Retrieve the products first page, with the current query parameters.
-    */
-    public func retrieveProductsFirstPage() {
-        
-        // Reset next page error
-        nextPageRetrievalLastError = nil
-        
-        // Keep track the current product count for later notification
-        let currentCount = numberOfProducts
-        
-        // Let the delegate know that product retrieval started
-        dataDelegate?.viewModel(self, didStartRetrievingProductsPage: 0)
-        
-        let completion = { [weak self] (result: ProductsRetrieveServiceResult) -> Void in
-            if let strongSelf = self {
-                // Success
-                if let productsResponse = result.value {
-                    // Update the products & the current page number
-                    let products = productsResponse.products
-                    strongSelf.products = products
-                    strongSelf.pageNumber = 0
-                    strongSelf.maxDistance = 1
-                    // Notify the delegate
-                    let hasProducts = strongSelf.products.count > 0
-                    let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: products.count)
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: 0,
-                        hasProducts: hasProducts, atIndexPaths: indexPaths)
-                    
-                    // Notify me
-                    strongSelf.didSucceedRetrievingProducts()
-                }
-                // Error
-                else if let error = result.error {
-                    // Notify the delegate
-                    let hasProducts = strongSelf.products.count > 0
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: 0,
-                        hasProducts: hasProducts, error: error)
-                }
-            }
-        }
-        
-        // Run the retrieval
-        let params = retrieveProductsFirstPageParams
-        if isProfileList {
-            productsManager.retrieveUserProductsWithParams(params, completion: completion)
-        } else {
-            productsManager.retrieveProductsWithParams(params, completion: completion)
+    
+    public func retrieveProducts() {
+        if canRetrieveProducts {
+            retrieveProductsWithOffset(0)
         }
     }
     
-    /**
-        Retrieve the products next page, with the last query parameters.
-    */
     public func retrieveProductsNextPage() {
-        
-        // Reset next page error
-        nextPageRetrievalLastError = nil
-        
-        // Keep track the current product count & page number for later notification
-        let currentCount = numberOfProducts
-        let nextPageNumber = pageNumber + 1
-        
-        // Let the delegate know that product retrieval started
-        dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
-        
-        let completion = { [weak self] (result: ProductsRetrieveServiceResult) -> Void in
-            if let strongSelf = self {
-                // Success
-                if let productsResponse = result.value {
-                    // Add the new products & update the page number
-                    let newProducts = productsResponse.products
-                    strongSelf.products.appendContentsOf(newProducts)
-                    strongSelf.pageNumber = nextPageNumber
-
-                    // Notify the delegate
-                    let hasProducts = strongSelf.products.count > 0
-                    let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
-                        hasProducts: hasProducts, atIndexPaths: indexPaths)
-                    
-                    // Notify me
-                    strongSelf.didSucceedRetrievingProducts()
-                }
-                // Error
-                else if let error = result.error {
-                    strongSelf.nextPageRetrievalLastError = error
-                    
-                    let hasProducts = strongSelf.products.count > 0
-                    strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
-                        hasProducts: hasProducts, error: error)
-                }
-            }
-        }
-        
-        // Run the retrieval
-        if isProfileList {
-            productsManager.retrieveUserProductsNextPageWithCompletion(completion)
-        } else {
-            productsManager.retrieveProductsNextPageWithCompletion(completion)
+        if canRetrieveProductsNextPage {
+            retrieveProductsWithOffset(products.count)
         }
     }
+    
+    private func retrieveProductsWithOffset(offset: Int) {
+        
+        isLoading = true
+        nextPageRetrievalLastError = nil
+        
+        let currentCount = numberOfProducts
+        let nextPageNumber = (pageNumber == 0 ? 0 : pageNumber + 1)
+
+        dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
+
+        let params = retrieveProductsFirstPageParams
+        productRepository.index(params, pageOffset: offset) { [weak self] result in
+                       guard let strongSelf = self else { return }
+            if let newProducts = result.value {
+                
+                
+                if offset == 0 {
+                    strongSelf.products = newProducts
+                    strongSelf.maxDistance = 1
+                    strongSelf.pageNumber = 0
+                } else {
+                    strongSelf.products += newProducts
+                    strongSelf.pageNumber += 1
+                }
+
+                let hasProducts = strongSelf.products.count > 0
+                let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
+                strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
+                    hasProducts: hasProducts, atIndexPaths: indexPaths)
+                strongSelf.isLastPage = newProducts.count == 0
+                strongSelf.didSucceedRetrievingProducts()
+            }
+            else if let error = result.error {
+                let hasProducts = strongSelf.products.count > 0
+                strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
+                    hasProducts: hasProducts, error: error)
+            }
+            self?.isLoading = false
+        }
+    }
+    
     
     /**
         Calculates the distance from the product to the point sent on the last query
@@ -352,23 +299,22 @@ public class ProductListViewModel: BaseViewModel {
 
     public func cellDidTapFavorite(index: Int) {
         let product = productAtIndex(index)
-        let isFavourite = false //product.isFavourite
-        if isFavourite {
-            productManager.deleteFavourite(product) { [weak self] result in
-                //TODO UNCOMMENT WHEN SERVICE WORKING
-//                guard let product = result.value else { return }
-
-                self?.updateProduct(product, atIndex: index)
-
-                //TODO TRACKINGS
+        if product.favorite {
+            productRepository.deleteFavorite(product) { [weak self] result in
+                if let value = result.value {
+                    self?.updateProduct(value, atIndex: index)
+                } else if let _ = result.error {
+                    // TODO: Do something with the error
+                }
             }
         }
         else {
-            productManager.saveFavourite(product) { [weak self] result in
-                guard let productFavorite = result.value else { return }
-                self?.updateProduct(productFavorite.product, atIndex: index)
-
-                //TODO TRACKINGS
+            productRepository.saveFavorite(product) { [weak self] result in
+                if let value = result.value {
+                    self?.updateProduct(value, atIndex: index)
+                } else if let _ = result.error {
+                    // TODO: Do something with the error
+                }
             }
         }
     }
@@ -455,7 +401,7 @@ public class ProductListViewModel: BaseViewModel {
 
         let threshold = Int(Float(numberOfProducts) * ProductListViewModel.itemsPagingThresholdPercentage)
         let shouldRetrieveProductsNextPage = index >= threshold
-        if shouldRetrieveProductsNextPage && canRetrieveProductsNextPage {
+        if shouldRetrieveProductsNextPage {
             retrieveProductsNextPage()
         }
     }

@@ -59,20 +59,22 @@ class FBLoginHelper {
                     // If session managers fails we should FB logout to clear the fb token
                     loginManager.logOut()
                     switch (error) {
-                    case .Api(let apiError):
-                        switch apiError {
-                        case .Network:
-                            callCompletion(completion, withResult: .Network)
-                        case .Scammer:
-                            callCompletion(completion, withResult: .Forbidden)
-                        case .NotFound:
-                            callCompletion(completion, withResult: .NotFound)
-                        case .AlreadyExists:
-                            callCompletion(completion, withResult: .AlreadyExists)
-                        case .Internal, .Unauthorized, .InternalServerError:
-                            callCompletion(completion, withResult: .Internal)
-                        }
-                    case .Internal:
+                        
+                        // TODO: Use the new RepositoryError
+//                    case .Api(let apiError):
+//                        switch apiError {
+//                        case .Network:
+//                            callCompletion(completion, withResult: .Network)
+//                        case .Scammer:
+//                            callCompletion(completion, withResult: .Forbidden)
+//                        case .NotFound:
+//                            callCompletion(completion, withResult: .NotFound)
+//                        case .AlreadyExists:
+//                            callCompletion(completion, withResult: .AlreadyExists)
+//                        case .Internal, .Unauthorized, .InternalServerError:
+//                            callCompletion(completion, withResult: .Internal)
+//                        }
+                    default:
                         callCompletion(completion, withResult: .Internal)
                     }
                 } else {

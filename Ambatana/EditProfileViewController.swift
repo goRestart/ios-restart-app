@@ -266,7 +266,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     // MARK: - ProductListViewDataDelegate
     
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: ProductsRetrieveServiceError) {
+        error: RepositoryError) {
             
             if productListView == sellingProductListView {
                 isSellProductsEmpty = !hasProducts
@@ -280,13 +280,13 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
                 
                 retrievalFinishedForProductsAtTab(.ProductISold)
             }
-            
-            if error == .Forbidden {
-                // logout the scammer!
-                showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-                    SessionManager.sharedInstance.logout()
-               }
-            }
+//            
+//            if error == RepositoryError.Unauthorized {
+//                // logout the scammer!
+//                showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
+//                    SessionManager.sharedInstance.logout()
+//               }
+//            }
     }
     
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,

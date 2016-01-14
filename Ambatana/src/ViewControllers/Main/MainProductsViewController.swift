@@ -141,7 +141,7 @@ UITextFieldDelegate {
     // MARK: - ProductListViewDataDelegate
     
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt,
-        hasProducts: Bool, error: ProductsRetrieveServiceError) {
+        hasProducts: Bool, error: RepositoryError) {
             
             // If we already have data & it's the first page then show a toast
             if hasProducts && page > 0 {
@@ -149,9 +149,9 @@ UITextFieldDelegate {
                 switch error {
                 case .Network:
                     toastTitle = LGLocalizedString.toastNoNetwork
-                case .Internal:
+                case .Internal, .NotFound:
                     toastTitle = LGLocalizedString.toastErrorInternal
-                case .Forbidden:
+                case .Unauthorized:
                     toastTitle = nil
                 }
                 if let toastTitle = toastTitle {
