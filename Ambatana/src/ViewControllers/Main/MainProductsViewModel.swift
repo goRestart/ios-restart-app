@@ -126,8 +126,7 @@ public class MainProductsViewModel: BaseViewModel {
     }
 
     public func shareDelegateForProduct(product: Product) -> MainProductsViewModelShareDelegate? {
-        guard let myUser = myUserRepository.myUser else { return nil }
-        return MainProductsViewModelShareDelegate(product: product, myUser: myUser)
+        return MainProductsViewModelShareDelegate(product: product, myUser: myUserRepository.myUser)
     }
 
     public func chatViewModelForProduct(product: Product) -> ChatViewModel? {
@@ -303,13 +302,13 @@ extension MainProductsViewModel: TopProductInfoDelegate {
 public class MainProductsViewModelShareDelegate: NativeShareDelegate {
 
     let sharingProduct: Product
-    let sharingUser: MyUser
+    let sharingUser: MyUser?
     var shareText: String {
         return SocialHelper.socialMessageWithTitle(LGLocalizedString.productShareBody,
             product: sharingProduct).shareText
     }
 
-    init(product: Product, myUser: MyUser) {
+    init(product: Product, myUser: MyUser?) {
         self.sharingProduct = product
         self.sharingUser = myUser
     }
