@@ -234,7 +234,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
         attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont(name: "Helvetica Neue", size: 15.0)!,
-            range: NSMakeRange(0, attributtedLegalText.length-1))
+            range: NSMakeRange(0, attributtedLegalText.length))
         legalTextView.attributedText = attributtedLegalText
         legalTextView.textAlignment = .Center
         legalTextView.delegate = self
