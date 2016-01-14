@@ -552,7 +552,7 @@ SignUpLogInViewModelDelegate {
         let localizedLegalText = LGLocalizedString.signUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
             textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont(name: "Helvetica Neue", size: 15.0)!,
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: StyleHelper.termsConditionsFont,
             range: NSMakeRange(0, attributtedLegalText.length))
         termsConditionsText.attributedText = attributtedLegalText
         termsConditionsText.delegate = self
