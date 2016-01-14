@@ -161,6 +161,7 @@ public enum EventParameterName: String {
     case NegotiablePrice      = "negotiable-price"
     case PictureSource        = "picture-source"
     case EditedFields         = "edited-fields"
+    case Newsletter           = "newsletter"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -312,6 +313,12 @@ public enum EventParameterPermissionType: String {
 public enum EventParameterPermissionAlertType: String {
     case Custom = "custom"
     case NativeLike = "native-alike"
+}
+
+public enum EventParameterNewsletter: String {
+    case True = "true"
+    case False = "false"
+    case Unset = "N/A"
 }
 
 

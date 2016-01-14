@@ -51,10 +51,6 @@ protocol SignUpLogInViewModelDelegate: class {
 }
 
 public class SignUpLogInViewModel: BaseViewModel {
-
-    let sessionManager: SessionManager
-    let locationManager: LocationManager
-    let loginSource: EventParameterLoginSourceValue
     
     // Delegate
     weak var delegate: SignUpLogInViewModelDelegate?
@@ -97,6 +93,18 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     var privacyURL: NSURL? {
         return LetgoURLHelper.composeURL(Constants.privacyURL)
+    }
+
+    private let sessionManager: SessionManager
+    private let locationManager: LocationManager
+    private let loginSource: EventParameterLoginSourceValue
+
+    private var newsletterParameter: EventParameterNewsletter {
+        if !termsAndConditionsEnabled {
+            return .Unset
+        } else {
+            return newsletterAccepted ? .True : .False
+        }
     }
 
     // MARK: - Lifecycle
@@ -150,7 +158,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             password.characters.count > Constants.passwordMaxLength {
                 delegate?.viewModel(self, didFinishSigningUpWithResult:
                     Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
-        } else if termsAndConditionsEnabled && (!termsAccepted || !newsletterAccepted) {
+        } else if termsAndConditionsEnabled && !termsAccepted {
             delegate?.viewModel(self, didFinishSigningUpWithResult:
                 Result<MyUser, SignUpLogInError>(error: .TermsNotAccepted))
         } else {
@@ -164,7 +172,8 @@ public class SignUpLogInViewModel: BaseViewModel {
                     result = Result<MyUser, SignUpLogInError>(value: value)
 
                     TrackerProxy.sharedInstance.setUser(value)
-                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource))
+                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
+                        newsletter: strongSelf.newsletterParameter))
                 } else if let repositoryError = signUpResult.error {
                     let error = SignUpLogInError(repositoryError: repositoryError)
                     result = Result<MyUser, SignUpLogInError>(error: error)
