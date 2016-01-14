@@ -455,6 +455,8 @@ extension MainProductsViewController: ProductListActionsDelegate {
 
     public func productListViewModel(productListViewModel: ProductListViewModel,
         didTapShareOnProduct product: Product) {
-            presentNativeShareWith(shareText: viewModel.socialMessageForProduct(product).shareText, delegate: viewModel)
+            if let shareDelegate = viewModel.shareDelegateForProduct(product) {
+                presentNativeShareWith(shareText: shareDelegate.shareText, delegate: shareDelegate)
+            }
     }
 }

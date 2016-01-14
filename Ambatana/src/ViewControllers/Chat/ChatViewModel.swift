@@ -17,6 +17,11 @@ public protocol ChatViewModelDelegate: class {
     func didSucceedSendingMessage()
 }
 
+public enum AskQuestionSource {
+    case ProductList
+    case ProductDetail
+}
+
 public class ChatViewModel: BaseViewModel {
     let chatManager: ChatManager
     let myUserRepository: MyUserRepository
@@ -28,10 +33,10 @@ public class ChatViewModel: BaseViewModel {
     public weak var delegate: ChatViewModelDelegate?
     public var isNewChat = false
     var isSendingMessage = false
-    var askQuestion = false
+    var askQuestion: AskQuestionSource?
     public var alreadyAskedForRating = false
     public var fromMakeOffer = false
-    
+
     public var shouldAskForRating: Bool {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
@@ -121,10 +126,10 @@ public class ChatViewModel: BaseViewModel {
             if let sentMessage = result.value {
                 strongSelf.chat.prependMessage(sentMessage)
                 strongSelf.delegate?.didSucceedSendingMessage()
-                
-                if strongSelf.askQuestion {
-                    strongSelf.askQuestion = false
-                    strongSelf.trackQuestion()
+
+                if let askQuestion = strongSelf.askQuestion {
+                    strongSelf.askQuestion = nil
+                    strongSelf.trackQuestion(askQuestion)
                 }
                 strongSelf.trackMessageSent()
             }
@@ -144,9 +149,16 @@ public class ChatViewModel: BaseViewModel {
     
     // MARK: Tracking
     
-    func trackQuestion() {
+    func trackQuestion(source: AskQuestionSource) {
         let myUser = myUserRepository.myUser
-        let askQuestionEvent = TrackerEvent.productAskQuestion(chat.product, user: myUser)
+        let typePageParam: EventParameterTypePage
+        switch source {
+        case .ProductDetail:
+            typePageParam = .ProductDetail
+        case .ProductList:
+            typePageParam = .ProductList
+        }
+        let askQuestionEvent = TrackerEvent.productAskQuestion(chat.product, user: myUser, typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
     

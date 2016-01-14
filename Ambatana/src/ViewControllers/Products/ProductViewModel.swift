@@ -438,52 +438,62 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: > Share
 
     public func shareInEmail(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Email, buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Email,
+            buttonPosition: buttonPosition, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Facebook, buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Facebook,
+            buttonPosition: buttonPosition, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser, network: .Facebook)
+        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser,
+            network: .Facebook, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser, network: .Facebook)
+        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser,
+            network: .Facebook, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBMessenger() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .FBMessenger, buttonPosition: .Bottom)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .FBMessenger,
+            buttonPosition: .Bottom, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBMessengerCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser, network: .FBMessenger)
+        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser,
+            network: .FBMessenger, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBMessengerCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser, network: .FBMessenger)
+        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser,
+            network: .FBMessenger, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: .Bottom)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp,
+            buttonPosition: .Bottom, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: .Top)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp,
+            buttonPosition: .Top, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Twitter, buttonPosition: .Top)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Twitter,
+            buttonPosition: .Top, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
@@ -561,7 +571,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
     public func ask() {
         guard let _ = myUserRepository.myUser, let viewModel = ChatViewModel(product: self.product) else { return }
-        viewModel.askQuestion = true
+        viewModel.askQuestion = .ProductDetail
         delegate?.viewModel(self, didFinishAsking: viewModel)
     }
 
@@ -649,7 +659,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     private func saveFavouriteCompleted() {
-        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser)
+        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser,
+            typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
