@@ -11,4 +11,12 @@ public class HelpViewModel: BaseViewModel {
     public var url: NSURL? {
         return LetgoURLHelper.composeURL(Constants.helpURL)
     }
+
+    var termsAndConditionsURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
+    }
+    
+    var privacyURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.privacyURL)
+    }
 }
