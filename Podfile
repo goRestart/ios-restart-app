@@ -19,7 +19,7 @@ pod "FBSDKCoreKit",          "~> 4.8.0"
 pod "Amplitude-iOS",        "~> 3.4.1"
     
 # letgo Core
-pod "LGCoreKit",            "0.17.4"
+pod "LGCoreKit",            "0.17.4"# :path => "../lgcorekit" #
 
 # Slack Chat controller
 pod "SlackTextViewController", "~> 1.7.2"
@@ -40,7 +40,7 @@ pod "CHTCollectionViewWaterfallLayout", "~> 0.9.1"
 pod "DeviceUtil",         "~> 1.3.5"
 
 # Push Notifications
-pod "Kahuna",               "2.3.2"
+pod "Kahuna",               "~> 2.3.1"
 
 # New Relic
 pod "NewRelicAgent",         "~> 5.3.4"
@@ -64,7 +64,7 @@ pod "FastttCamera",         "~> 0.3.4"
 pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 
 target "letgoTests", :exclusive => true do
-    pod "Kahuna",               "~> 2.3.2"
+    pod "Kahuna",               "~> 2.3.1"
     
     ## Testing
     pod "Quick",            "~> 0.4"
