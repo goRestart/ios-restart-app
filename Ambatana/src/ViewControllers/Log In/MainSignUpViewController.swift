@@ -112,13 +112,13 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     }
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
-        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: .Signup)
+        let vc = SignUpLogInViewController(viewModel: viewModel.loginSignupViewModelForSignUp())
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func logInButtonPressed(sender: AnyObject) {
-        let vc = SignUpLogInViewController(source: viewModel.loginSource, action: .Login)
+        let vc = SignUpLogInViewController(viewModel: viewModel.loginSignupViewModelForLogin())
         vc.afterLoginAction = afterLoginAction
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -188,18 +188,23 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     private func setupUI() {
         
         // Navigation bar
-        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self, action: Selector("closeButtonPressed"))
+        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
+            action: Selector("closeButtonPressed"))
         navigationItem.leftBarButtonItem = closeButton
-        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self, action: Selector("helpButtonPressed"))
+        let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
+            action: Selector("helpButtonPressed"))
         navigationItem.rightBarButtonItem = helpButton
 
         // Appearance
-        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Normal)
         connectFBButton.layer.cornerRadius = 4
-        signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Normal)
         signUpButton.layer.cornerRadius = 4
 
-        logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Normal)
         logInButton.layer.cornerRadius = 4
 
         // i18n
@@ -211,16 +216,28 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
 
-        let links = [LGLocalizedString.mainSignUpTermsConditionsTermsPart: "http://www.google.com",
-                     LGLocalizedString.mainSignUpTermsConditionsConditionsPart: "http://www.apple.com"]
-        
-        let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
 
-        legalTextView.delegate = self
-        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links, textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont(name: "Helvetica Neue", size: 15.0)!, range: NSMakeRange(0, attributtedLegalText.length-1))
+        setupTermsAndConditions()
+    }
+
+    private func setupTermsAndConditions() {
+
+        guard let conditionsURL = viewModel.termsAndConditionsURL, let privacyURL = viewModel.privacyURL else {
+            // Should not happen
+            legalTextView.text =  LGLocalizedString.mainSignUpTermsConditions
+            return
+        }
+
+        let links = [LGLocalizedString.mainSignUpTermsConditionsTermsPart: conditionsURL,
+            LGLocalizedString.mainSignUpTermsConditionsPrivacyPart: privacyURL]
+        let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
+        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
+            textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: UIFont(name: "Helvetica Neue", size: 15.0)!,
+            range: NSMakeRange(0, attributtedLegalText.length-1))
         legalTextView.attributedText = attributtedLegalText
         legalTextView.textAlignment = .Center
+        legalTextView.delegate = self
     }
 
 }

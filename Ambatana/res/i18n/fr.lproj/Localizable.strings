@@ -154,7 +154,7 @@
 "main_sign_up_quickly_label" = "SE CONNECTER RAPIDEMENT AVEC";
 "main_sign_up_sign_up_button" = "S'inscrire";
 "main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
-"main_sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "make_an_offer_new_offer_message" = "Nouvelle offre de %@";
 "make_an_offer_price_field_hint" = "Prix";
@@ -341,7 +341,7 @@
 "sign_up_send_error_invalid_username" = "Veuillez entrer un nom valide, avec au moins %d caractères.";
 "sign_up_send_error_invalid_username_letgo" = "Un autre compte utilise %@, veuillez choisir un autre nom d'utilisateur.";
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
-"sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Créer un nouveau compte";
 "sign_up_username_field_hint" = "Nom complet";

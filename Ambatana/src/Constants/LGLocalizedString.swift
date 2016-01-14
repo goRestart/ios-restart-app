@@ -635,8 +635,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("main_sign_up_terms_conditions_terms_part", comment: "")
 	}
 
-	static var mainSignUpTermsConditionsConditionsPart: String {
-		return NSLocalizedString("main_sign_up_terms_conditions_conditions_part", comment: "")
+	static var mainSignUpTermsConditionsPrivacyPart: String {
+		return NSLocalizedString("main_sign_up_terms_conditions_privacy_part", comment: "")
 	}
 
 	static func makeAnOfferNewOfferMessage(var1: String) -> String {
@@ -1383,8 +1383,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("sign_up_terms_conditions_terms_part", comment: "")
 	}
 
-	static var signUpTermsConditionsConditionsPart: String {
-		return NSLocalizedString("sign_up_terms_conditions_conditions_part", comment: "")
+	static var signUpTermsConditionsPrivacyPart: String {
+		return NSLocalizedString("sign_up_terms_conditions_privacy_part", comment: "")
 	}
 
 	static var signUpNewsleter: String {

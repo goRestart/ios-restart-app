@@ -154,7 +154,8 @@
 "main_sign_up_quickly_label" = "ŞUNUNLA HIZLICA BAĞLAN";
 "main_sign_up_sign_up_button" = "Kaydol";
 "main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
-"main_sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_conditions_part" = "Gizlilik Politikası";
+"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "make_an_offer_new_offer_message" = "%@ değerinde yeni teklif";
 "make_an_offer_price_field_hint" = "Fiyat";
@@ -328,9 +329,9 @@
 "settings_invite_facebook_friends_ok" = "Davetin başarıyla paylaşıldı!";
 "settings_logout_button" = "Çıkış yap";
 "settings_title" = "Ayarlar";
-"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
+"sign_up_acceptance_error" = "Kaydolmak için letgo Kullanım Şartlarını ve Gizlilik Politikasını kabul etmelisin";
 "sign_up_email_field_hint" = "E-posta";
-"sign_up_newsleter" = "I want to receive the letgo newsletter";
+"sign_up_newsleter" = "letgo'dan e-bültenler almak istiyorum";
 "sign_up_password_field_hint" = "Şifre";
 "sign_up_send_button" = "Kaydol";
 "sign_up_send_error_email_taken" = "%@ e-posta adresi zaten kayıtlı. Lütfen, bu adresi kullanarak giriş yap.";
@@ -340,9 +341,10 @@
 "sign_up_send_error_invalid_password_with_max" = "Lütfen geçerli bir şifre gir. Şifre en az %d, en fazla %d karakterden oluşmalıdır.";
 "sign_up_send_error_invalid_username" = "Lütfen, en az %d karakterden oluşan geçerli bir kullanıcı adı gir.";
 "sign_up_send_error_invalid_username_letgo" = "%@ başka bir hesap tarafından kullanılıyor, lütfen başka bir kullanıcı adı seç.";
-"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
-"sign_up_terms_conditions_conditions_part" = "Privacy Policy";
-"sign_up_terms_conditions_terms_part" = "Terms & Conditions";
+"sign_up_terms_conditions" = "letgo Şartlar ve Koşullarını ve Gizlilik Politikasını kabul ediyorum";
+"sign_up_terms_conditions_conditions_part" = "Gizlilik Politikasını";
+"sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+"sign_up_terms_conditions_terms_part" = "Şartlar ve Koşullarını";
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
 "tab_bar_tool_tip" = "Eşyalarını Sat";

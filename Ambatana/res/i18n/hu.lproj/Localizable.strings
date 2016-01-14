@@ -154,7 +154,7 @@
 "main_sign_up_quickly_label" = "GYORS KAPCSOLÓDÁS:";
 "main_sign_up_sign_up_button" = "Regisztráció";
 "main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
-"main_sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "make_an_offer_new_offer_message" = "Új ajánlat: %@";
 "make_an_offer_price_field_hint" = "Ár";
@@ -341,7 +341,7 @@
 "sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
 "sign_up_send_error_invalid_username_letgo" = "Másik fiók használja a következőt: %@ Válassz másik felhasználónevet!";
 "sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
-"sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Új fiók létrehozása";
 "sign_up_username_field_hint" = "Teljes név";

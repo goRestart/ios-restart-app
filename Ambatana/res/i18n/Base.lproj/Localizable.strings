@@ -470,7 +470,7 @@
 "main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 
 // Privacy Policy" Part of the complete text
-"main_sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 
 // Make an offer new offer message. Check attached image "make_an_offer.png"
 "make_an_offer_new_offer_message" = "New offer: %@";
@@ -1031,7 +1031,7 @@
 "sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 
 // Privacy Policy" Part of the complete text (just turkey)
-"sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"sign_up_terms_conditions_privacy_part" = "Privacy Policy";
 
 // Receive newsleter checkbox (just turkey)
 "sign_up_newsleter" = "I want to receive the letgo newsletter";
