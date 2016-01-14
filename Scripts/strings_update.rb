@@ -241,6 +241,7 @@ generate_ios "base", "./"
 if wti_upload
   wti_push(ios_path)
   wti_pull(ios_path)
+  drive_pull(ios_path)
 elsif wti_download
   wti_pull(ios_path)
   generate_ios "base", "./"
