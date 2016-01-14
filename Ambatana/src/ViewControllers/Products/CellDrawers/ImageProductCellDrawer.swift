@@ -32,6 +32,7 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
 
         guard let cell = collectionCell as? ProductCell else { return }
 
+        //Doesn't make sense to show like/chat actions if product is mine.
         cell.setupActions(showActions && !data.isMine, delegate: delegate, indexPath: data.indexPath)
         cell.setCellWidth(data.cellWidth)
 

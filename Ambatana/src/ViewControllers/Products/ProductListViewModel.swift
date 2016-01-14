@@ -402,7 +402,7 @@ public class ProductListViewModel: BaseViewModel {
     func productCellDataAtIndex(index: Int) -> ProductCellData {        
         let product = products[index]
         var isMine = false
-        if let productUserId = product.user.objectId, myUser = myUserRepository.myUser, myUserId = myUser.objectId
+        if let productUserId = product.user.objectId, myUserId = myUserRepository.myUser?.objectId
             where productUserId == myUserId {
                 isMine = true
         }

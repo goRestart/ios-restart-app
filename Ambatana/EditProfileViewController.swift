@@ -543,8 +543,8 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     func productCellDataAtIndex(indexPath: NSIndexPath) -> ProductCellData {
         let product = productAtIndexPath(indexPath)
         var isMine = false
-        if let productUserId = product.user.objectId, myUser = MyUserRepository.sharedInstance.myUser,
-            myUserId = myUser.objectId where productUserId == myUserId {
+        if let productUserId = product.user.objectId, myUserId = MyUserRepository.sharedInstance.myUser?.objectId
+            where productUserId == myUserId {
                 isMine = true
         }
         return ProductCellData(title: product.name, price: product.priceString(),
