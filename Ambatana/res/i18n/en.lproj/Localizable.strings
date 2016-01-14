@@ -103,6 +103,21 @@
 // Change name title.  Check attached image "change_username.png"
 "change_username_title" = "Change Name";
 
+// Chat list Archive
+"chat_list_archive" = "Archive";
+
+// Chat List Archive alert title
+"chat_list_archive_alert_title" = "Archive Chats";
+
+// Chat List Archive alert text
+"chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
+
+// Chat List Archive error when archiving one chat
+"chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
+
+// Chat List Archive error when archiving multiple chats
+"chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
+
 // Chat list empty label. Check attached image  "chat_list (empty).png"
 "chat_list_empty_label" = "No conversations (yet!)";
 
@@ -448,6 +463,15 @@
 // Main sign up sign up button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_sign_up_button" = "Sign Up";
 
+// Main terms and conditions complete text
+"main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
+
+// "Terms of Service" Part of the complete text
+"main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
+
+// Privacy Policy" Part of the complete text
+"main_sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+
 // Make an offer new offer message. Check attached image "make_an_offer.png"
 "make_an_offer_new_offer_message" = "New offer: %@";
 
@@ -580,7 +604,7 @@
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 
-// Text when price is 0$
+// Text when price is 0$ 
 "product_negotiable_price" = "Negotiable";
 
 // Secondary text when the camera posting appears
@@ -595,7 +619,7 @@
 // Share it section separator
 "product_post_confirmation_share" = "Share it";
 
-// After posting, real confirmation subtitle. FOR TRANSLATORS: In languages other than English, don't include or translate "It's time to letgo!"
+// After posting, real confirmation subtitle
 "product_post_confirmation_subtitle" = "Your product will appear on letgo in 10 minutes. It's time to letgo!";
 
 // After posting, real confirmation
@@ -604,7 +628,7 @@
 // Done button after setting (or not) a price
 "product_post_done" = "Done";
 
-// Add more details button (max 20 chars)
+// Add more details button (max 20 chars) 
 "product_post_confirmation_edit" = "Add more details";
 
 // Post another item button
@@ -1000,6 +1024,21 @@
 // Sign up username field hint. Check image @ "sign_up_email_field_hint" segment
 "sign_up_username_field_hint" = "Full name";
 
+// Sign up terms and conditions complete text (just turkey)
+"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+
+// "Terms of Service" Part of the complete text (just turkey)
+"sign_up_terms_conditions_terms_part" = "Terms & Conditions";
+
+// Privacy Policy" Part of the complete text (just turkey)
+"sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+
+// Receive newsleter checkbox (just turkey)
+"sign_up_newsleter" = "I want to receive the letgo newsletter";
+
+// Alert when you don't accept one of the above (just turkey)
+"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
+
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
 
@@ -1038,4 +1077,3 @@
 
 // Tour page skip button.
 "tour_page_skip_button" = "Skip";
-

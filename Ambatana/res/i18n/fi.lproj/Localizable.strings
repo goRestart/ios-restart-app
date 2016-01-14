@@ -33,6 +33,11 @@
 "change_username_save_button" = "Tallenna";
 "change_username_send_ok" = "Käyttäjänimi vaihdettu onnistuneesti.";
 "change_username_title" = "Vaihda nimi";
+"chat_list_archive" = "Archive";
+"chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
+"chat_list_archive_alert_title" = "Archive Chats";
+"chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
+"chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
 "chat_list_empty_label" = "Ei keskusteluja";
 "chat_list_start_selling_or_buying_label" = "Aloita myyminen tai ostaminen!";
 "chat_list_title" = "Keskustelut";
@@ -148,6 +153,9 @@
 "main_sign_up_or_label" = "TAI KÄYTÄ SÄHKÖPOSTIASI";
 "main_sign_up_quickly_label" = "YHDISTÄ NOPEASTI KÄYTTÄEN";
 "main_sign_up_sign_up_button" = "Rekisteröidy";
+"main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
+"main_sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "make_an_offer_new_offer_message" = "Uusi tarjous: %@";
 "make_an_offer_price_field_hint" = "Hinta";
 "make_an_offer_send_button" = "Lähetä";
@@ -320,7 +328,9 @@
 "settings_invite_facebook_friends_ok" = "Kutsusi jaettiin onnistuneesti!";
 "settings_logout_button" = "Kirjaudu ulos";
 "settings_title" = "Asetukset";
+"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Sähköposti";
+"sign_up_newsleter" = "I want to receive the letgo newsletter";
 "sign_up_password_field_hint" = "Salasana";
 "sign_up_send_button" = "Rekisteröidy";
 "sign_up_send_error_email_taken" = "Sähköpostiosoite %@ on jo rekisteröity. Ole hyvä ja käytä sitä sisäänkirjautumiseen.";
@@ -330,6 +340,9 @@
 "sign_up_send_error_invalid_password_with_max" = "Ole hyvä ja syötä kelvollinen salasana. Siinä pitää olla %d-%d merkkiä.";
 "sign_up_send_error_invalid_username" = "Ole hyvä ja syötä kelvollinen nimi, jossa on vähintään %d merkkiä.";
 "sign_up_send_error_invalid_username_letgo" = "%@ on toisen tilin käytössä, ole hyvä ja valitse toinen käyttäjänimi.";
+"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+"sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Luo uusi tili";
 "sign_up_username_field_hint" = "Koko nimi";
 "tab_bar_tool_tip" = "Myy tavaroitasi";

@@ -33,6 +33,11 @@
 "change_username_save_button" = "저장";
 "change_username_send_ok" = "유저명이 성공적으로 변경되었습니다";
 "change_username_title" = "이름 변경";
+"chat_list_archive" = "Archive";
+"chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
+"chat_list_archive_alert_title" = "Archive Chats";
+"chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
+"chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
 "chat_list_empty_label" = "대화가 없습니다";
 "chat_list_start_selling_or_buying_label" = "판매 혹은 구매를 시작하세요";
 "chat_list_title" = "채팅";
@@ -148,6 +153,9 @@
 "main_sign_up_or_label" = "혹은 이메일 사용하기";
 "main_sign_up_quickly_label" = "빠르게 연결하세요";
 "main_sign_up_sign_up_button" = "회원가입";
+"main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
+"main_sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "make_an_offer_new_offer_message" = "%@의 새로운 제시";
 "make_an_offer_price_field_hint" = "가격";
 "make_an_offer_send_button" = "발송";
@@ -320,7 +328,9 @@
 "settings_invite_facebook_friends_ok" = "초대가 성공적으로 공유되었습니다!";
 "settings_logout_button" = "로그아웃";
 "settings_title" = "설정";
+"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "이메일";
+"sign_up_newsleter" = "I want to receive the letgo newsletter";
 "sign_up_password_field_hint" = "비밀번호";
 "sign_up_send_button" = "회원가입";
 "sign_up_send_error_email_taken" = "이메일 주소 %@는 이미 등록된 사용자 입니다. 로그인을 해주세요.";
@@ -330,6 +340,9 @@
 "sign_up_send_error_invalid_password_with_max" = "사용가능한 %d자 이상 %d자 미만의 비밀번호를 입력해주세요.";
 "sign_up_send_error_invalid_username" = "%d자 이상 등록 가능한 이름을 입력해 주세요.";
 "sign_up_send_error_invalid_username_letgo" = "%@에 다른 계정이 사용 중입니다";
+"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+"sign_up_terms_conditions_conditions_part" = "Privacy Policy";
+"sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "새 계정 만들기";
 "sign_up_username_field_hint" = "이름";
 "tab_bar_tool_tip" = "고객님의 물건을 판매하세요";
