@@ -53,6 +53,7 @@ protocol SignUpLogInViewModelDelegate: class {
 public class SignUpLogInViewModel: BaseViewModel {
 
     let sessionManager: SessionManager
+    let locationManager: LocationManager
     let loginSource: EventParameterLoginSourceValue
     
     // Delegate
@@ -89,10 +90,7 @@ public class SignUpLogInViewModel: BaseViewModel {
         return password.characters.count > 0
     }
 
-    var termsAndConditionsEnabled: Bool {
-        //TODO: CHECK TURKEY!
-        return true
-    }
+    var termsAndConditionsEnabled: Bool
 
     var termsAndConditionsURL: NSURL? {
         return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
@@ -103,8 +101,10 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, source: EventParameterLoginSourceValue, action: LoginActionType) {
+    init(sessionManager: SessionManager, locationManager: LocationManager, source: EventParameterLoginSourceValue,
+        action: LoginActionType) {
         self.sessionManager = sessionManager
+        self.locationManager = locationManager
         self.loginSource = source
         self.username = ""
         self.email = ""
@@ -112,12 +112,15 @@ public class SignUpLogInViewModel: BaseViewModel {
         self.termsAccepted = false
         self.newsletterAccepted = false
         self.currentActionType = action
+        self.termsAndConditionsEnabled = false
         super.init()
+        self.checkTermsAndConditionsEnabled()
     }
     
     convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
         let sessionManager = SessionManager.sharedInstance
-        self.init(sessionManager: sessionManager, source: source, action: action)
+        let locationManager = LocationManager.sharedInstance
+        self.init(sessionManager: sessionManager, locationManager: locationManager, source: source, action: action)
     }
     
     
@@ -245,5 +248,17 @@ public class SignUpLogInViewModel: BaseViewModel {
             lowerCaseUsername.rangeOfString("let g0") != nil ||
             lowerCaseUsername.rangeOfString("iet g0") != nil
     }
-    
+
+    /**
+    Right now terms and conditions will be enabled just for Turkey so it will be depending on location country code or
+    phone region
+    */
+    private func checkTermsAndConditionsEnabled() {
+        let turkey = "tr"
+
+        let systemCountryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
+        let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
+
+        termsAndConditionsEnabled = systemCountryCode.lowercaseString == turkey || countryCode.lowercaseString == turkey
+    }
 }

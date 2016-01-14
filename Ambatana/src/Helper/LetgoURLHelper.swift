@@ -48,6 +48,6 @@ class LetgoURLHelper {
         let components = systemLanguage.componentsSeparatedByString("-")
         // In case it's like es-ES, just take the first "es"
         guard let firstComponent = components.first else { return LetgoURLHelper.defaultLang }
-        return firstComponent
+        return firstComponent.lowercaseString
     }
 }
