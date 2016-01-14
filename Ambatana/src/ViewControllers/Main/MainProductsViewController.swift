@@ -70,6 +70,7 @@ UITextFieldDelegate {
         mainProductListView.collectionViewContentInset.top = topBarHeight
         mainProductListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         mainProductListView.delegate = self
+        mainProductListView.actionsDelegate = self
         mainProductListView.scrollDelegate = self
         mainProductListView.topProductInfoDelegate = self.viewModel
         mainProductListView.queryString = viewModel.searchString
@@ -238,7 +239,7 @@ UITextFieldDelegate {
         setProductListFilters()
         mainProductListView.refresh()
     }
-    
+
     func endEdit() {
         cancelSearchOverlayButton?.removeFromSuperview()
         cancelSearchOverlayButton = nil
@@ -431,5 +432,29 @@ UITextFieldDelegate {
         mainProductListView.sortCriteria = viewModel.filters.selectedOrdering
         mainProductListView.distanceRadius = viewModel.filters.distanceRadius
         mainProductListView.distanceType = viewModel.filters.distanceType
+    }
+}
+
+
+// MARK: - ProductListActionsDelegate
+
+extension MainProductsViewController: ProductListActionsDelegate {
+
+    public func productListViewModel(productListViewModel: ProductListViewModel,
+        didTapChatOnProduct product: Product) {
+
+            let showChatAction = { [weak self] in
+                guard let chatVM = self?.viewModel.chatViewModelForProduct(product) else { return }
+                let chatVC = ChatViewController(viewModel: chatVM)
+                self?.navigationController?.pushViewController(chatVC, animated: true)
+            }
+
+            ifLoggedInThen(.AskQuestion, loggedInAction: showChatAction,
+                elsePresentSignUpWithSuccessAction: showChatAction)
+    }
+
+    public func productListViewModel(productListViewModel: ProductListViewModel,
+        didTapShareOnProduct product: Product) {
+            presentNativeShareWith(shareText: viewModel.socialMessageForProduct(product).shareText, delegate: viewModel)
     }
 }

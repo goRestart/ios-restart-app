@@ -308,22 +308,17 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                     message = LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
                         Constants.passwordMaxLength)
                     errorDescription = .InvalidPassword
-                case .Api(let apiError):
-                    switch apiError {
-                    case .Network:
-                        message = LGLocalizedString.commonErrorConnectionFailed
-                        errorDescription = .Network
-                    case .Scammer:
-                        errorDescription = .Forbidden
-                    case .NotFound:
-                        errorDescription = .NotFound
-                    case .AlreadyExists:
-                        message = LGLocalizedString.signUpSendErrorEmailTaken(viewModel.email)
-                        errorDescription = .EmailTaken
-                    case .Internal, .Unauthorized, .InternalServerError:
-                        errorDescription = .Internal
-                    }
-                case .Internal, .UsernameTaken:
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                    errorDescription = .Network
+                case .Scammer:
+                    errorDescription = .Forbidden
+                case .NotFound:
+                    errorDescription = .NotFound
+                case .AlreadyExists:
+                    message = LGLocalizedString.signUpSendErrorEmailTaken(viewModel.email)
+                    errorDescription = .EmailTaken
+                case .Internal, .UsernameTaken, .Unauthorized:
                     message = LGLocalizedString.signUpSendErrorGeneric
                     errorDescription = .Internal
                 }
@@ -366,22 +361,17 @@ class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, SignUp
                 case .InvalidPassword:
                     message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
                     errorDescription = .InvalidPassword
-                case .Api(let apiError):
-                    switch apiError {
-                    case .Network:
-                        message = LGLocalizedString.commonErrorConnectionFailed
-                        errorDescription = .Network
-                    case .Unauthorized:
-                        errorDescription = .UserNotFoundOrWrongPassword
-                        message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-                    case .Scammer:
-                        errorDescription = .Forbidden
-                    case .NotFound:
-                        errorDescription = .NotFound
-                    case .Internal, .AlreadyExists, .InternalServerError:
-                        errorDescription = .Internal
-                    }
-                case .Internal:
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                    errorDescription = .Network
+                case .Unauthorized:
+                    errorDescription = .UserNotFoundOrWrongPassword
+                    message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+                case .Scammer:
+                    errorDescription = .Forbidden
+                case .NotFound:
+                    errorDescription = .NotFound
+                case .Internal, .AlreadyExists:
                     errorDescription = .Internal
                 }
                 viewModel.loginFailedWithError(errorDescription)

@@ -62,11 +62,10 @@ public class ChatViewModel: BaseViewModel {
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository, tracker: tracker)
     }
     
-    public convenience init?(product: Product, askQuestion: Bool) {
+
+    public convenience init?(product: Product) {
         guard let chatFromProduct = ChatRepository.sharedInstance.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
-        isNewChat = true
-        self.askQuestion = askQuestion
     }
     
     public init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository, tracker: Tracker) {
@@ -98,9 +97,15 @@ public class ChatViewModel: BaseViewModel {
             if let chat = result.value {
                 strongSelf.chat = chat
                 strongSelf.delegate?.didSucceedRetrievingChatMessages()
-            }
-            else if let _ = result.error {
-                strongSelf.delegate?.didFailRetrievingChatMessages()
+            } else if let error = result.error {
+                switch (error) {
+                case .NotFound:
+                    //New chat!! this is success
+                    strongSelf.isNewChat = true
+                    strongSelf.delegate?.didSucceedRetrievingChatMessages()
+                case .Network, .Unauthorized, .Internal:
+                    strongSelf.delegate?.didFailRetrievingChatMessages()
+                }
             }
         }
     }

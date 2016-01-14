@@ -284,6 +284,8 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         if chatListStatus == .Conversations { tableView.reloadData() }
 
         errorView.hidden = chatListStatus != .Error
+
+        archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
     }
 
     private func generateErrorViewWithErrorData(errorData: ErrorData) {
@@ -371,6 +373,5 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
         dismissLoadingMessageAlert(completion)
         refreshConversations()
-        archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
     }
 }

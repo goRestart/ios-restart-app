@@ -16,6 +16,7 @@ public protocol ProductListViewModelDataDelegate: class {
         error: ProductsRetrieveServiceError)
     func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool,
         atIndexPaths indexPaths: [NSIndexPath])
+    func viewModel(viewModel: ProductListViewModel, didUpdateProductDataAtIndex index: Int)
 }
 
 public protocol TopProductInfoDelegate: class {
@@ -25,6 +26,11 @@ public protocol TopProductInfoDelegate: class {
     func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int)
 }
 
+public protocol ProductListActionsDelegate: class {
+    func productListViewModel(productListViewModel: ProductListViewModel, didTapChatOnProduct product: Product)
+    func productListViewModel(productListViewModel: ProductListViewModel, didTapShareOnProduct product: Product)
+}
+
 public class ProductListViewModel: BaseViewModel {
     
     // MARK: - Constants
@@ -32,6 +38,7 @@ public class ProductListViewModel: BaseViewModel {
     
     private static let cellMinHeight: CGFloat = 160.0
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
+    private static let cellMaxThumbFactor: CGFloat = 2.0
     private static let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width - (Constants.productListFixedInsets*2)) / columnCount
     
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
@@ -72,10 +79,13 @@ public class ProductListViewModel: BaseViewModel {
     // Delegate
     public weak var dataDelegate: ProductListViewModelDataDelegate?
     public weak var topProductInfoDelegate: TopProductInfoDelegate?
+    public weak var actionsDelegate: ProductListActionsDelegate?
     
-    // Manager
+    // Manager & Repository
     private let locationManager: LocationManager
     private let productsManager: ProductsManager
+    private let productManager: ProductManager
+    private let myUserRepository: MyUserRepository
     
     // Data
     private var products: [Product]
@@ -87,6 +97,7 @@ public class ProductListViewModel: BaseViewModel {
 
     // UI
     public private(set) var defaultCellSize: CGSize!
+    let cellDrawer: ProductCellDrawer
     
     
     // MARK: - Computed iVars
@@ -109,7 +120,6 @@ public class ProductListViewModel: BaseViewModel {
     public var isLastPage: Bool {
         return productsManager.lastPage
     }
-    
     public var hasFilters: Bool {
         return categories != nil || timeCriteria != nil || distanceRadius != nil
     }
@@ -140,24 +150,35 @@ public class ProductListViewModel: BaseViewModel {
     
     
     // MARK: - Lifecycle
-    
-    public override init() {
-        self.locationManager = LocationManager.sharedInstance
+
+    override convenience init() {
         let productsRetrieveService = LGProductsRetrieveService()
         let userProductsRetrieveService = LGUserProductsRetrieveService()
-        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
+        let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
             userProductsRetrieveService: userProductsRetrieveService)
-        
-        self.products = []
-        self.pageNumber = 0
-        self.maxDistance = 1
-        self.refreshing = false
-        self.isProfileList = false
-        self.nextPageRetrievalLastError = nil
-        
-        let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
-        self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
-        super.init()
+        self.init(locationManager: LocationManager.sharedInstance, productsManager: productsManager,
+            productManager: ProductManager(), myUserRepository: MyUserRepository.sharedInstance,
+            cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
+    }
+    
+    init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager,
+        myUserRepository: MyUserRepository, cellDrawer: ProductCellDrawer) {
+            self.locationManager = locationManager
+            self.productsManager = productsManager
+            self.productManager = productManager
+            self.myUserRepository = myUserRepository
+            self.cellDrawer = cellDrawer
+            
+            self.products = []
+            self.pageNumber = 0
+            self.maxDistance = 1
+            self.refreshing = false
+            self.isProfileList = false
+            self.nextPageRetrievalLastError = nil
+            
+            let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
+            self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
+            super.init()
     }
     
     
@@ -329,6 +350,37 @@ public class ProductListViewModel: BaseViewModel {
         }
     }
 
+    public func cellDidTapFavorite(index: Int) {
+        let product = productAtIndex(index)
+        let isFavourite = false //product.isFavourite
+        if isFavourite {
+            productManager.deleteFavourite(product) { [weak self] result in
+                //TODO UNCOMMENT WHEN SERVICE WORKING
+//                guard let product = result.value else { return }
+
+                self?.updateProduct(product, atIndex: index)
+
+                //TODO TRACKINGS
+            }
+        }
+        else {
+            productManager.saveFavourite(product) { [weak self] result in
+                guard let productFavorite = result.value else { return }
+                self?.updateProduct(productFavorite.product, atIndex: index)
+
+                //TODO TRACKINGS
+            }
+        }
+    }
+
+    public func cellDidTapChat(index: Int) {
+        actionsDelegate?.productListViewModel(self, didTapChatOnProduct: productAtIndex(index))
+    }
+
+    public func cellDidTapShare(index: Int) {
+        actionsDelegate?.productListViewModel(self, didTapShareOnProduct: productAtIndex(index))
+    }
+
 
     // MARK: > UI
 
@@ -346,12 +398,18 @@ public class ProductListViewModel: BaseViewModel {
     public func productAtIndex(index: Int) -> Product {
         return products[index]
     }
-    
+
     func productCellDataAtIndex(index: Int) -> ProductCellData {        
         let product = products[index]
+        var isMine = false
+        if let productUserId = product.user.objectId, myUserId = myUserRepository.myUser?.objectId
+            where productUserId == myUserId {
+                isMine = true
+        }
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            cellWidth: ProductListViewModel.cellWidth)
+            isFavorite: false, isMine: isMine, cellWidth: ProductListViewModel.cellWidth,
+            indexPath: NSIndexPath(forRow: index, inSection: 0))
     }
     
     /**
@@ -372,15 +430,17 @@ public class ProductListViewModel: BaseViewModel {
     */
     public func sizeForCellAtIndex(index: Int) -> CGSize {
         let product = productAtIndex(index)
-        if let thumbnailSize = product.thumbnailSize {
-            if thumbnailSize.height != 0 && thumbnailSize.width != 0 {
-                let thumbFactor = thumbnailSize.height / thumbnailSize.width
-                var baseSize = defaultCellSize
-                baseSize.height = max(ProductListViewModel.cellMinHeight, round(baseSize.width * CGFloat(thumbFactor)))
-                return baseSize
-            }
-        }
-        return defaultCellSize
+
+        guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
+            else { return defaultCellSize }
+
+        let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
+            CGFloat(thumbnailSize.height / thumbnailSize.width))
+        let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
+        return CGSize(
+            width: defaultCellSize.width,
+            height: cellDrawer.cellHeightForThumbnailHeight(imageFinalHeight)
+        )
     }
         
     /**
@@ -413,6 +473,15 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Internal methods
     
     internal func didSucceedRetrievingProducts() {
-        
+
+    }
+
+
+    // MARK: - Private methods
+
+    private func updateProduct(product: Product, atIndex index: Int) {
+        guard index >= 0 && index < products.count else { return }
+        products[index] = product
+        dataDelegate?.viewModel(self, didUpdateProductDataAtIndex: index)
     }
 }

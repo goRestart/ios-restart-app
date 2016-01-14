@@ -65,18 +65,15 @@ public class ChatListViewModel : BaseViewModel {
                 } else if let actualError = result.error {
 
                     var errorData = ErrorData()
-                    // ⚠️ TODO : uncomment & update with real RepositoryError values
-//                    switch actualError {
-//                    case .Forbidden:
-//                        errorData.isScammer = true
-//                    case .Network:
-//                        errorData.errImage = UIImage(named: "err_network")
-//                        errorData.errTitle = LGLocalizedString.commonErrorTitle
-//                        errorData.errBody = LGLocalizedString.commonErrorNetworkBody
-//                        errorData.errButTitle = LGLocalizedString.commonErrorRetryButton
-//                    case .Internal, .Unauthorized:
-//                        break
-//                    }
+                    switch actualError {
+                    case .Network:
+                        errorData.errImage = UIImage(named: "err_network")
+                        errorData.errTitle = LGLocalizedString.commonErrorTitle
+                        errorData.errBody = LGLocalizedString.commonErrorNetworkBody
+                        errorData.errButTitle = LGLocalizedString.commonErrorRetryButton
+                    case .Internal, .NotFound, .Unauthorized:
+                        break
+                    }
 
                     strongSelf.delegate?.didFailRetrievingChatList(strongSelf, error: errorData)
                 }

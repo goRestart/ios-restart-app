@@ -12,13 +12,26 @@ import Result
 
 enum SignUpLogInError: ErrorType {
     case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword
-    case Api(apiError: ApiError)
+
+    case Network
+    case NotFound
+    case Unauthorized
+    case AlreadyExists
+    case Scammer
     case Internal
-    
-    init(repositoryError: RepositoryError) {
-        switch repositoryError {
-        case .Api(let apiError):
-            self = .Api(apiError: apiError)
+
+    init(sessionManagerError: SessionManagerError) {
+        switch sessionManagerError {
+        case .Network:
+            self = .Network
+        case .NotFound:
+            self = .NotFound
+        case .Unauthorized:
+            self = .Unauthorized
+        case .AlreadyExists:
+            self = .AlreadyExists
+        case .Scammer:
+            self = .Scammer
         case .Internal:
             self = .Internal
         }
@@ -144,8 +157,8 @@ public class SignUpLogInViewModel: BaseViewModel {
 
                     TrackerProxy.sharedInstance.setUser(value)
                     TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource))
-                } else if let repositoryError = signUpResult.error {
-                    let error = SignUpLogInError(repositoryError: repositoryError)
+                } else if let sessionManagerError = signUpResult.error {
+                    let error = SignUpLogInError(sessionManagerError: sessionManagerError)
                     result = Result<MyUser, SignUpLogInError>(error: error)
                 }
 
@@ -177,8 +190,8 @@ public class SignUpLogInViewModel: BaseViewModel {
                     TrackerProxy.sharedInstance.setUser(myUser)
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
                     TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                } else if let repositoryError = loginResult.error {
-                    let error = SignUpLogInError(repositoryError: repositoryError)
+                } else if let sessionManagerError = loginResult.error {
+                    let error = SignUpLogInError(sessionManagerError: sessionManagerError)
                     result = Result<MyUser, SignUpLogInError>(error: error)
                 }
 

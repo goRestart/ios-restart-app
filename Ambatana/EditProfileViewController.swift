@@ -344,10 +344,10 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            let drawer = ProductCellDrawerFactory.drawerForProduct()
+            let drawer = ProductCellDrawerFactory.drawerForProduct(true)
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
-            drawer.draw(cell, data: productCellDataAtIndex(indexPath))
+            drawer.draw(cell, data: productCellDataAtIndex(indexPath), delegate: nil)
 
             return cell
     }
@@ -542,8 +542,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     func productCellDataAtIndex(indexPath: NSIndexPath) -> ProductCellData {
         let product = productAtIndexPath(indexPath)
+        var isMine = false
+        if let productUserId = product.user.objectId, myUserId = MyUserRepository.sharedInstance.myUser?.objectId
+            where productUserId == myUserId {
+                isMine = true
+        }
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            cellWidth: sellingProductListView.defaultCellSize.width)
+            isFavorite: false, isMine: isMine, cellWidth: sellingProductListView.defaultCellSize.width,
+            indexPath: indexPath)
     }
 }

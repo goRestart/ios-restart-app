@@ -342,25 +342,13 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         }
         dismissLoadingMessageAlert(completion)
     }
-    
-    public func viewModelDidStartAsking(viewModel: ProductViewModel) {
-        showLoadingMessageAlert()
+
+    public func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel) {
+        let chatVC = ChatViewController(viewModel: chatVM)
+        self.navigationController?.pushViewController(chatVC, animated: true)
     }
 
-    public func viewModel(viewModel: ProductViewModel, didFinishAskingAndShouldShowViewController vc: UIViewController?) {
-        var completion: (() -> Void)?
-        if let viewController = vc {
-            completion = {
-                self.navigationController?.pushViewController(viewController, animated: true)
-            }
-        } else {
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productChatErrorGeneric)
-            }
-        }
-        dismissLoadingMessageAlert(completion)
-    }
-    
+
     // MARK: - Private methods
     
     // MARK: > UI
@@ -618,9 +606,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     // MARK: > Actions w navigation
     
-    // TODO: Refactor to retrieve a viewModel and build an VC
     dynamic private func editButtonPressed() {
-        let vc = viewModel.editViewModelWithDelegate
+        let editVM = viewModel.editViewModelWithDelegate
+        let vc = EditSellProductViewController(viewModel: editVM, updateDelegate: viewModel)
         let navCtl = UINavigationController(rootViewController: vc)
         navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }

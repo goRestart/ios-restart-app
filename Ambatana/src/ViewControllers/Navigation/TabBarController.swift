@@ -645,15 +645,15 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                 }
             } else if let error = result.error {
                 // Error
-                let message: String
+                var message: String
                 // ⚠️ TODO: put correct errors once Repository Error is finished
                 message = LGLocalizedString.commonChatNotAvailable
-//                switch error {
-//                case .Network:
-//                    message = LGLocalizedString.commonErrorConnectionFailed
-//                case .Internal, .NotFound, .Unauthorized, .Forbidden:
-//                    message = LGLocalizedString.commonChatNotAvailable
-//                }
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized:
+                    message = LGLocalizedString.commonChatNotAvailable
+                }
 
                 loadingDismissCompletion = { () -> Void in
                     self?.showAutoFadingOutMessageAlert(message)
