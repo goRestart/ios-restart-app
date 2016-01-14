@@ -89,18 +89,6 @@ public class ChatViewModel: BaseViewModel {
 
         self.otherUser = myUserId == userFromId ? chat.userTo : chat.userFrom
         self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
-
-        print(myUserId)
-        print(userFromId)
-        print(productOwnerId)
-        print(self.otherUser)
-        print(self.buyer)
-
-//        fd5ad46f-6d90-4938-9de1-f677a8a5fc32  -> me
-//        fd5ad46f-6d90-4938-9de1-f677a8a5fc32  -> userFrom
-//        9528167f-4bcb-4cab-a5ee-ec78af4b86d4  -> owner
-//        9528167f-4bcb-4cab-a5ee-ec78af4b86d4  -> otheruser
-//        fd5ad46f-6d90-4938-9de1-f677a8a5fc32  -> buyer
     }
     
     public func loadMessages() {

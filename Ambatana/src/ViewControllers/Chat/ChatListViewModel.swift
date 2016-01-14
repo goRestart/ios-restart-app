@@ -13,6 +13,8 @@ public protocol ChatListViewModelDelegate: class {
     func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool)
     func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ErrorData)
     func didSucceedRetrievingChatList(viewModel: ChatListViewModel, nonEmptyChatList: Bool)
+    func didFailArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
+    func didSucceedArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
 }
 
 public class ChatListViewModel : BaseViewModel {
@@ -21,6 +23,9 @@ public class ChatListViewModel : BaseViewModel {
 
     public var chats: [Chat]?
     var chatRepository: ChatRepository
+
+    public var archivedChats = 0
+    public var failedArchivedChats = 0
 
     // computed iVars
     public var chatCount : Int {
@@ -48,7 +53,6 @@ public class ChatListViewModel : BaseViewModel {
     // MARK: public methods
 
     public func updateConversations() {
-        guard !chatRepository.loadingChats else { return }
 
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chatCount < 1)
 
@@ -61,7 +65,7 @@ public class ChatListViewModel : BaseViewModel {
                 } else if let actualError = result.error {
 
                     var errorData = ErrorData()
-                    // ⚠️ TODO : remove comments & update with real RepositoryError values
+                    // ⚠️ TODO : uncomment & update with real RepositoryError values
 //                    switch actualError {
 //                    case .Forbidden:
 //                        errorData.isScammer = true
@@ -92,6 +96,27 @@ public class ChatListViewModel : BaseViewModel {
 
     public func clearChatList() {
         chats = []
+    }
+
+    public func archiveChatsAtIndexes(indexes: [NSIndexPath]) {
+        archivedChats = 0
+        failedArchivedChats = 0
+        for index in indexes {
+            if let chat = chats?[index.row] {
+                chatRepository.archiveChatWithId(chat) { [weak self] (result: Result<Void, RepositoryError>) -> () in
+
+                    if let strongSelf = self {
+                        strongSelf.archivedChats++
+                        if let _ = result.error {
+                            strongSelf.failedArchivedChats++
+                            strongSelf.delegate?.didFailArchivingChat(strongSelf, atPosition: index.row, ofTotal: indexes.count)
+                        } else {
+                            strongSelf.delegate?.didSucceedArchivingChat(strongSelf, atPosition: index.row, ofTotal: indexes.count)
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

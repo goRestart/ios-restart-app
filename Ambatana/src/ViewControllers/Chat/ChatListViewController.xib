@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatListViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="activityIndicator" destination="c2P-Hi-R6Q" id="27T-13-RNA"/>
+                <outlet property="editModeToolbar" destination="HPR-MA-QKz" id="Pes-Om-hxi"/>
                 <outlet property="errorBodyLabel" destination="Jzf-tT-U1U" id="Pub-G7-wSH"/>
                 <outlet property="errorButton" destination="Q3A-ok-rh2" id="Kyp-jY-Oi5"/>
                 <outlet property="errorButtonHeightConstraint" destination="dlM-UX-u89" id="uEC-fr-7vB"/>
@@ -218,6 +219,14 @@
                         </mask>
                     </variation>
                 </view>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HPR-MA-QKz">
+                    <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="aTC-GV-DUJ"/>
+                    </constraints>
+                    <items/>
+                </toolbar>
             </subviews>
             <animations/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -225,6 +234,7 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="ZxO-PJ-aaK" secondAttribute="trailing" id="ANh-9C-p86"/>
                 <constraint firstAttribute="trailing" secondItem="o9p-UU-81V" secondAttribute="trailing" id="K9J-aX-QgX"/>
+                <constraint firstAttribute="bottom" secondItem="HPR-MA-QKz" secondAttribute="bottom" id="LCJ-Uq-H6p"/>
                 <constraint firstAttribute="trailing" secondItem="UcB-38-ywk" secondAttribute="trailing" id="NDX-hm-CUf"/>
                 <constraint firstAttribute="bottom" secondItem="UcB-38-ywk" secondAttribute="bottom" id="PMu-X4-d9s"/>
                 <constraint firstItem="ZxO-PJ-aaK" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" constant="64" id="SDR-4S-QYh"/>
@@ -234,8 +244,10 @@
                 <constraint firstItem="UcB-38-ywk" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="gQ1-ZS-oFL"/>
                 <constraint firstItem="o9p-UU-81V" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="gpd-8I-PIP"/>
                 <constraint firstItem="UcB-38-ywk" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" id="jVX-6v-lS7"/>
+                <constraint firstAttribute="trailing" secondItem="HPR-MA-QKz" secondAttribute="trailing" id="kP6-aT-WIf"/>
                 <constraint firstItem="o9p-UU-81V" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" id="l7U-rw-kCv"/>
                 <constraint firstAttribute="bottom" secondItem="ZxO-PJ-aaK" secondAttribute="bottom" constant="49" id="lI0-7V-9u9"/>
+                <constraint firstItem="HPR-MA-QKz" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="luT-4s-ChM"/>
                 <constraint firstAttribute="centerY" secondItem="c2P-Hi-R6Q" secondAttribute="centerY" id="v71-Y3-mMS"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>

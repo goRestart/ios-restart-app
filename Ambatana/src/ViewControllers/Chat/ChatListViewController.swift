@@ -55,6 +55,10 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     // View Model
     var viewModel: ChatListViewModel
 
+    // Edit mode toolbar
+    @IBOutlet weak var editModeToolbar: UIToolbar!
+    var archiveBarButton: UIBarButtonItem = UIBarButtonItem()
+
 
     // MARK: - Lifecycle
 
@@ -110,6 +114,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         tableView.reloadData()
     }
 
+
     // MARK: ChatListViewModelDelegate Methods
 
     func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool) {
@@ -134,39 +139,22 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
                 SessionManager.sharedInstance.logout()
             }
         } else {
-
             guard viewModel.chatCount <= 0 else { return }
 
             chatListStatus = .Error
-
-//            // If we have no data
-//            // Set the error state
-//            let errBgColor: UIColor?
-//            let errBorderColor: UIColor?
-//            let errImage: UIImage?
-//            let errTitle: String?
-//            let errBody: String?
-//            let errButTitle: String?
-//
-//            switch error {
-//            case .Network:
-//                errImage = UIImage(named: "err_network")
-//                errTitle = LGLocalizedString.commonErrorTitle
-//                errBody = LGLocalizedString.commonErrorNetworkBody
-//                errButTitle = LGLocalizedString.commonErrorRetryButton
-//            case .Internal, .Forbidden, .Unauthorized:
-//                errImage = UIImage(named: "err_generic")
-//                errTitle = LGLocalizedString.commonErrorTitle
-//                errBody = LGLocalizedString.commonErrorGenericBody
-//                errButTitle = LGLocalizedString.commonErrorRetryButton
-//            }
-//
-//            errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
-//            errBorderColor = StyleHelper.lineColor
-
             generateErrorViewWithErrorData(error)
             resetUI()
         }
+    }
+
+    func didFailArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int) {
+        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
+        archiveConversationsFinishedWithTotal(ofTotal)
+    }
+
+    func didSucceedArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int) {
+        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
+        archiveConversationsFinishedWithTotal(ofTotal)
     }
 
 
@@ -197,14 +185,52 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = MyUserRepository.sharedInstance.myUser {
             cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
+
         return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let chat = viewModel.chatAtIndex(indexPath.row), let chatViewModel = ChatViewModel(chat: chat) else {
-            return
+        if tableView.editing {
+            archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        } else {
+            guard let chat = viewModel.chatAtIndex(indexPath.row), let chatViewModel = ChatViewModel(chat: chat) else {
+                return
+            }
+            navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
         }
-        navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
+    }
+
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        if tableView.editing {
+            archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        }
+    }
+
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
+
+        tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] (completed) -> (Void) in
+            self?.setToolbarHidden(!editing, animated: true)
+        })
+
+        if editing {
+            // hide tabbar and show toolbar
+            tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] (completed) -> (Void) in
+                self?.setToolbarHidden(!editing, animated: true)
+            })
+
+        } else {
+            // hide toolbar and show tabbar
+            self.setToolbarHidden(!editing, animated: true, completion: { (completed) -> (Void) in
+                tabBarController?.setTabBarHidden(editing, animated: true)
+            })
+        }
+        archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+    }
+
+    func archiveChats() {
+        showArchiveAlert()
     }
 
 
@@ -213,6 +239,18 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     private func setupUI() {
         // appearance
         setLetGoNavigationBarStyle(LGLocalizedString.chatListTitle)
+
+        self.navigationItem.rightBarButtonItem = editButtonItem()
+        self.tableView.allowsMultipleSelectionDuringEditing = true
+
+        // setup toolbar for edit mode
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
+        self.archiveBarButton = UIBarButtonItem(title: "Archive", style: .Plain, target: self, action: "archiveChats")
+        self.archiveBarButton.enabled = false
+
+        self.editModeToolbar.setItems([flexibleSpace, self.archiveBarButton], animated: false)
+        self.editModeToolbar.tintColor = StyleHelper.primaryColor
+        self.setToolbarHidden(true, animated: false)
 
         // internationalization
         noConversationsYet.text = LGLocalizedString.chatListEmptyLabel
@@ -248,8 +286,6 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         errorView.hidden = chatListStatus != .Error
     }
 
-//    private func generateErrorViewWith(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?,
-//        errTitle: String?, errBody: String?, errButTitle: String?) {
     private func generateErrorViewWithErrorData(errorData: ErrorData) {
             errorView.backgroundColor = errorData.errBgColor
             errorContentView.layer.borderColor = errorData.errBorderColor?.CGColor
@@ -274,5 +310,67 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
             }
             errorView.updateConstraintsIfNeeded()
     }
-    
+
+    private func setToolbarHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
+
+        // bail if the current state matches the desired state
+        if ((editModeToolbar.frame.origin.y >= CGRectGetMaxY(self.view.frame)) == hidden) { return }
+
+        // get a frame calculation ready
+        let frame = editModeToolbar.frame
+        let height = frame.size.height
+        let offsetY = (hidden ? height : -height)
+
+        // zero duration means no animation
+        let duration : NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
+
+        //  animate the tabBar
+        UIView.animateWithDuration(duration, animations: { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.editModeToolbar.frame = CGRectOffset(frame, 0, offsetY)
+            self?.view.layoutIfNeeded()
+        }, completion: completion)
+    }
+
+    private func showArchiveAlert() {
+
+        let alert = UIAlertController(title: "_Archive Chats",
+            message: "_If you archive these chats, they will move to the archived section.",
+            preferredStyle: .Alert)
+
+        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
+        let yesAction = UIAlertAction(title: "_Archive", style: .Default, handler: { [weak self] (_) -> Void in
+            if let strongSelf = self, indexArray = strongSelf.tableView.indexPathsForSelectedRows {
+                strongSelf.showLoadingMessageAlert("_Archiving Chats")
+                strongSelf.viewModel.archiveChatsAtIndexes(indexArray)
+            }
+            })
+        alert.addAction(noAction)
+        alert.addAction(yesAction)
+
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    private func archiveConversationsFinishedWithTotal(totalChats: Int) {
+
+        guard viewModel.archivedChats == totalChats else { return }
+
+        var message: String
+        var completion: (() -> Void)? = nil
+
+        if viewModel.failedArchivedChats > 0  {
+            if totalChats > 1 {
+                message = "_failed archiving some messages"
+            } else {
+                message = "_failed archiving 1 message"
+            }
+            completion = {
+                self.showAutoFadingOutMessageAlert(message)
+            }
+        }
+
+        dismissLoadingMessageAlert(completion)
+        refreshConversations()
+        archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+    }
 }

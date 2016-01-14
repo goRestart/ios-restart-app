@@ -293,11 +293,11 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     controller that has 'hidesBottomBarWhenPushed = true' tabBar is removed from view hierarchy so the constraint will
     dissapear. Also when the tabBar is set again, is added into a different layer so the constraint cannot be set again.
     */
-    override func setTabBarHidden(hidden:Bool, animated:Bool) {
+    override func setTabBarHidden(hidden:Bool, animated:Bool, completion: ((Bool) -> (Void))? = nil) {
 
         let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
         floatingSellButtonMarginConstraint.constant = floatingOffset
-        super.setTabBarHidden(hidden, animated: animated)
+        super.setTabBarHidden(hidden, animated: animated, completion: completion)
 
     }
 
