@@ -102,10 +102,13 @@ UITextFieldDelegate {
 
 
     // MARK: - Actions
+    
     @IBAction func onCloseButton(sender: AnyObject) {
-        viewModel.closeButtonPressed(sellController: self, delegate: delegate)
-        priceTextField.resignFirstResponder()
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.priceTextField.resignFirstResponder()
+            strongSelf.viewModel.closeButtonPressed(sellController: strongSelf, delegate: strongSelf.delegate)
+        }
     }
     
     @IBAction func onToggleFlashButton(sender: AnyObject) {
@@ -149,8 +152,12 @@ UITextFieldDelegate {
 
     @IBAction func onDoneButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
-        viewModel.doneButtonPressed(priceText: priceTextField.text, sellController: self, delegate: delegate)
-        dismissViewControllerAnimated(true, completion: nil)
+
+        dismissViewControllerAnimated(true) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.viewModel.doneButtonPressed(priceText: strongSelf.priceTextField.text,
+                sellController: strongSelf, delegate: strongSelf.delegate)
+        }
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
