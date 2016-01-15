@@ -11,18 +11,14 @@ import LGCoreKit
 import Result
 
 enum SignUpLogInError: ErrorType {
-<<<<<<< HEAD
-    case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword
+
+    case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword, TermsNotAccepted
 
     case Network
     case NotFound
     case Unauthorized
     case AlreadyExists
     case Scammer
-=======
-    case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword, TermsNotAccepted
-    case Api(apiError: ApiError)
->>>>>>> develop
     case Internal
 
     init(sessionManagerError: SessionManagerError) {

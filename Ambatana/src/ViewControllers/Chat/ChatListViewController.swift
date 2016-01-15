@@ -107,7 +107,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     }
 
     /**
-        Clears the table view
+    Clears the table view
     */
     func clearChatList(notification: NSNotification) {
         viewModel.clearChatList()
@@ -212,13 +212,13 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
         tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] (completed) -> (Void) in
             self?.setToolbarHidden(!editing, animated: true)
-        })
+            })
 
         if editing {
             // hide tabbar and show toolbar
             tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] (completed) -> (Void) in
                 self?.setToolbarHidden(!editing, animated: true)
-            })
+                })
 
         } else {
             // hide toolbar and show tabbar
@@ -244,8 +244,10 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         self.tableView.allowsMultipleSelectionDuringEditing = true
 
         // setup toolbar for edit mode
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self, action: nil)
-        self.archiveBarButton = UIBarButtonItem(title: "Archive", style: .Plain, target: self, action: "archiveChats")
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
+            action: nil)
+        self.archiveBarButton = UIBarButtonItem(title: LGLocalizedString.chatListArchive, style: .Plain, target: self,
+            action: "archiveChats")
         self.archiveBarButton.enabled = false
 
         self.editModeToolbar.setItems([flexibleSpace, self.archiveBarButton], animated: false)
@@ -289,28 +291,28 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
     }
 
     private func generateErrorViewWithErrorData(errorData: ErrorData) {
-            errorView.backgroundColor = errorData.errBgColor
-            errorContentView.layer.borderColor = errorData.errBorderColor?.CGColor
-            errorContentView.layer.borderWidth = errorData.errBorderColor != nil ? 0.5 : 0
-            errorContentView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        errorView.backgroundColor = errorData.errBgColor
+        errorContentView.layer.borderColor = errorData.errBorderColor?.CGColor
+        errorContentView.layer.borderWidth = errorData.errBorderColor != nil ? 0.5 : 0
+        errorContentView.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
-            errorImageView.image = errorData.errImage
-            // If there's no image then hide it
-            if let actualErrImage = errorData.errImage {
-                errorImageViewHeightConstraint.constant = actualErrImage.size.height
-            } else {
-                errorImageViewHeightConstraint.constant = 0
-            }
-            errorTitleLabel.text = errorData.errTitle
-            errorBodyLabel.text = errorData.errBody
-            errorButton.setTitle(errorData.errButTitle, forState: .Normal)
-            // If there's no button title or action then hide it
-            if errorData.errButTitle != nil {
-                errorButtonHeightConstraint.constant = ChatListViewController.defaultErrorButtonHeight
-            } else {
-                errorButtonHeightConstraint.constant = 0
-            }
-            errorView.updateConstraintsIfNeeded()
+        errorImageView.image = errorData.errImage
+        // If there's no image then hide it
+        if let actualErrImage = errorData.errImage {
+            errorImageViewHeightConstraint.constant = actualErrImage.size.height
+        } else {
+            errorImageViewHeightConstraint.constant = 0
+        }
+        errorTitleLabel.text = errorData.errTitle
+        errorBodyLabel.text = errorData.errBody
+        errorButton.setTitle(errorData.errButTitle, forState: .Normal)
+        // If there's no button title or action then hide it
+        if errorData.errButTitle != nil {
+            errorButtonHeightConstraint.constant = ChatListViewController.defaultErrorButtonHeight
+        } else {
+            errorButtonHeightConstraint.constant = 0
+        }
+        errorView.updateConstraintsIfNeeded()
     }
 
     private func setToolbarHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
@@ -331,21 +333,22 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
             guard let strongSelf = self else { return }
             strongSelf.editModeToolbar.frame = CGRectOffset(frame, 0, offsetY)
             self?.view.layoutIfNeeded()
-        }, completion: completion)
+            }, completion: completion)
     }
 
     private func showArchiveAlert() {
 
-        let alert = UIAlertController(title: "_Archive Chats",
-            message: "_If you archive these chats, they will move to the archived section.",
+        let alert = UIAlertController(title: LGLocalizedString.chatListArchiveAlertTitle,
+            message: LGLocalizedString.chatListArchiveAlertText,
             preferredStyle: .Alert)
 
         let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
-        let yesAction = UIAlertAction(title: "_Archive", style: .Default, handler: { [weak self] (_) -> Void in
-            if let strongSelf = self, indexArray = strongSelf.tableView.indexPathsForSelectedRows {
-                strongSelf.showLoadingMessageAlert("_Archiving Chats")
-                strongSelf.viewModel.archiveChatsAtIndexes(indexArray)
-            }
+        let yesAction = UIAlertAction(title: LGLocalizedString.chatListArchive, style: .Default,
+            handler: { [weak self] (_) -> Void in
+                if let strongSelf = self, indexArray = strongSelf.tableView.indexPathsForSelectedRows {
+                    strongSelf.showLoadingMessageAlert()
+                    strongSelf.viewModel.archiveChatsAtIndexes(indexArray)
+                }
             })
         alert.addAction(noAction)
         alert.addAction(yesAction)
@@ -362,15 +365,15 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
         if viewModel.failedArchivedChats > 0  {
             if totalChats > 1 {
-                message = "_failed archiving some messages"
+                message = LGLocalizedString.chatListArchiveErrorMultiple
             } else {
-                message = "_failed archiving 1 message"
+                message = LGLocalizedString.chatListArchiveErrorOne
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
             }
         }
-
+        
         dismissLoadingMessageAlert(completion)
         refreshConversations()
     }
