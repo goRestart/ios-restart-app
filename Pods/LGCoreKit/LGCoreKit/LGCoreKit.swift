@@ -16,7 +16,18 @@ public class LGCoreKit {
 
         SessionManager.sharedInstance.initialize()
     }
+
     public static func start(completion: (() -> ())?) {
-        SessionManager.sharedInstance.start(completion)
+        SessionManager.sharedInstance.start() {
+            ProductRepository.sharedInstance.indexFavorites() { _ in
+                completion?()
+            }
+        }
+    }
+    
+    static func setupAfterLoggedIn(completion: (() -> ())?) {
+        ProductRepository.sharedInstance.indexFavorites() { _ in
+            completion?()
+        }
     }
 }

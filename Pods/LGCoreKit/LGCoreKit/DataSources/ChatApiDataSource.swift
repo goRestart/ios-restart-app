@@ -14,7 +14,8 @@ class ChatApiDataSource: ChatDataSource {
     static let sharedInstance = ChatApiDataSource()
 
     func retrieveChats(completion: ChatDataSourceRetrieveChatsCompletion?) {
-        let parameters: [String : AnyObject] = [:]
+        var parameters: [String : AnyObject] = [:]
+        parameters["num_results"] = 1000
         let request = ChatRouter.Index(params: parameters)
         ApiClient.request(request, decoder: chatsDecoder, completion: completion)
     }
