@@ -10,9 +10,11 @@ import Parse
 
 public class LGCoreKit {
     public static func initialize(launchOptions: [NSObject: AnyObject]?) {
-
         // Parse setup
-        Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId, clientKey: EnvironmentProxy.sharedInstance.parseClientId)
+        Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId,
+            clientKey: EnvironmentProxy.sharedInstance.parseClientId)
+
+        SessionManager.sharedInstance.initialize()
     }
     public static func start(completion: (() -> ())?) {
         SessionManager.sharedInstance.start(completion)

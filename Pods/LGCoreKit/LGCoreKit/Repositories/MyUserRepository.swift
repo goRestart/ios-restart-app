@@ -110,17 +110,18 @@ public class MyUserRepository {
     - parameter email: The email.
     - parameter password: The password.
     - parameter name: The name.
+    - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
     - parameter location: The location.
     - parameter completion: The completion closure.
     */
-    func createWithEmail(email: String, password: String, name: String, location: LGLocation?,
+    func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
         completion: ((Result<MyUser, RepositoryError>) -> ())?) {
             guard myUser == nil else {
-                completion?(Result<MyUser, RepositoryError>(error: .Internal))
+                completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser")))
                 return
             }
-            dataSource.createWithEmail(email, password: password, name: name, location: location) {
-                (result: Result<MyUser, ApiError>) -> () in
+            dataSource.createWithEmail(email, password: password, name: name, newsletter: newsletter,
+                location: location) { (result: Result<MyUser, ApiError>) -> () in
                     if let value = result.value {
                         let myUser = value.myUserWithNewAuthProvider(.Email)
                         completion?(Result<MyUser, RepositoryError>(value: myUser))
@@ -188,7 +189,7 @@ public class MyUserRepository {
     */
     private func update(params: [String: AnyObject], completion: ((Result<MyUser, RepositoryError>) -> ())?) {
         guard let myUserId = myUser?.objectId else {
-            completion?(Result<MyUser, RepositoryError>(error: .Internal))
+            completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
             return
         }
         var paramsWithId = params
@@ -208,7 +209,7 @@ public class MyUserRepository {
     private func updateWithLocation(location: LGLocation?, params: [String: AnyObject],
         completion: ((Result<MyUser, RepositoryError>) -> ())?) {
             guard let myUserId = myUser?.objectId else {
-                completion?(Result<MyUser, RepositoryError>(error: .Internal))
+                completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
                 return
             }
             var paramsWithId = params
@@ -240,7 +241,7 @@ public class MyUserRepository {
     private func uploadAvatar(avatar: NSData, progressBlock: ((Int) -> ())?,
         completion: ((Result<MyUser, RepositoryError>) -> ())?) {
             guard let myUserId = myUser?.objectId else {
-                completion?(Result<MyUser, RepositoryError>(error: .Internal))
+                completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
                 return
             }
             dataSource.uploadAvatar(avatar, myUserId: myUserId, progressBlock: progressBlock) {

@@ -35,10 +35,14 @@ public struct LGProduct: Product {
     public var images: [File]
 
     public var user: User
+    
+    // This parameters is not included in the API, we set a default value that must be changed if needed once 
+    // the object is created after the decoding.
+    public var favorite: Bool = false
 
     init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, descr: String?, price: Double?,
         currency: String?, location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
-        category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile], user: LGUser){
+        category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile], user: LGUser) {
             self.objectId = objectId
             self.updatedAt = updatedAt
             self.createdAt = createdAt
@@ -55,6 +59,7 @@ public struct LGProduct: Product {
             self.thumbnailSize = thumbnailSize
             self.images = images.map({$0})
             self.user = user
+            self.favorite = false
     }
 }
 
@@ -87,6 +92,7 @@ extension LGProduct {
         self.thumbnailSize = product.thumbnailSize
         self.images = product.images
         self.user = product.user
+        self.favorite = product.favorite
     }
 }
 

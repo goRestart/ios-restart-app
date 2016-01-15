@@ -14,6 +14,7 @@ enum ChatRouter: URLRequestAuthenticable {
     case Show(objectId: String, params: [String : AnyObject])
     case CreateMessage(objectId: String, params: [String : AnyObject])
     case UnreadCount
+    case Archive(objectId: String)
 
     var endpoint: String {
         switch self {
@@ -25,6 +26,8 @@ enum ChatRouter: URLRequestAuthenticable {
             return "/api/products/\(objectId)/messages"
         case .UnreadCount:
             return "/api/products/messages/unread-count"
+        case .Archive(let objectId):
+            return "/api/products/conversations/\(objectId)/archive"
         }
     }
 
@@ -42,6 +45,8 @@ enum ChatRouter: URLRequestAuthenticable {
             return Router<APIBaseURL>.Create(endpoint: endpoint, params: params, encoding: .URL).URLRequest
         case .UnreadCount:
             return Router<APIBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest
+        case .Archive:
+            return Router<APIBaseURL>.Create(endpoint: endpoint, params: [:], encoding: .URL).URLRequest
         }
     }
 }

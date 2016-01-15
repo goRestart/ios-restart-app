@@ -11,6 +11,84 @@ import Result
 import Parse
 
 
+// MARK: - SessionManagerError
+
+public enum SessionManagerError: ErrorType {
+
+    case Network
+    case NotFound
+    case Unauthorized
+    case AlreadyExists
+    case Scammer
+    case Internal(message: String)
+
+    public init(apiError: ApiError) {
+        switch apiError {
+        case .Network:
+            self = .Network
+        case .Unauthorized:
+            self = .Unauthorized
+        case .NotFound:
+            self = .NotFound
+        case .AlreadyExists:
+            self = .AlreadyExists
+        case .Scammer:
+            self = .Scammer
+        case .InternalServerError:
+            self = .Internal(message: "Internal Server Error")
+        case .Internal:
+            self = .Internal(message: "Internal API Error")
+        }
+    }
+
+    public init(repositoryError: RepositoryError) {
+        switch repositoryError {
+        case .Network:
+            self = .Network
+        case .Unauthorized:
+            self = .Unauthorized
+        case .NotFound:
+            self = .NotFound
+        case let .Internal(message):
+            self = .Internal(message: message)
+        }
+    }
+}
+
+
+// MARK: - HOF
+
+/**
+Handles the given API result and executes a completion with a `SessionManagerError`.
+- parameter result: The result to handle.
+- parameter success: A completion block that is executed only on successful result.
+- parameter completion: A completion block that is executed on both successful & failure result.
+*/
+func handleApiResult<T>(result: Result<T, ApiError>, completion: ((Result<T, SessionManagerError>) -> ())?) {
+    handleApiResult(result, success: nil, failed: nil, completion: completion)
+}
+
+func handleApiResult<T>(result: Result<T, ApiError>,
+    success: ((T) -> ())?,
+    completion: ((Result<T, SessionManagerError>) -> ())?) {
+        handleApiResult(result, success: success, failed: nil, completion: completion)
+}
+
+func handleApiResult<T>(result: Result<T, ApiError>,
+    success: ((T) -> ())?,
+    failed: ((ApiError) -> ())?,
+    completion: ((Result<T, SessionManagerError>) -> ())?) {
+        if let value = result.value {
+            success?(value)
+            completion?(Result<T, SessionManagerError>(value: value))
+        } else if let apiError = result.error {
+            failed?(apiError)
+            let error = SessionManagerError(apiError: apiError)
+            completion?(Result<T, SessionManagerError>(error: error))
+        }
+}
+
+
 // MARK: - SessionProvider
 
 /**
@@ -63,7 +141,7 @@ public class SessionManager {
 
     // MARK: - Lifecycle
 
-    public convenience init() {
+    convenience init() {
         let myUserRepository = MyUserRepository.sharedInstance
         let installationRepository = InstallationRepository.sharedInstance
 
@@ -71,8 +149,8 @@ public class SessionManager {
         let tokenDAO = TokenKeychainDAO.sharedInstance
         let deviceLocationDAO = DeviceLocationUDDAO.sharedInstance
 
-        self.init(locationManager: locationManager, myUserRepository: myUserRepository, installationRepository: installationRepository, tokenDAO: tokenDAO,
-            deviceLocationDAO: deviceLocationDAO)
+        self.init(locationManager: locationManager, myUserRepository: myUserRepository,
+            installationRepository: installationRepository, tokenDAO: tokenDAO, deviceLocationDAO: deviceLocationDAO)
     }
 
     init(locationManager: LocationManager, myUserRepository: MyUserRepository,
@@ -88,14 +166,20 @@ public class SessionManager {
     // MARK: - Public methods
 
     /**
-    Starts `SessionManager`.
-    - paramter completion: The completion closure.
+    Initializes `SessionManager`. Will cleanup tokens in case of clean installation
     */
-    public func start(completion: (() -> ())?) {
+    func initialize() {
         if installationRepository.installation == nil {
             //If there is no installation, we need to (re)create it, but first the token (if any) must be reseted.
             tokenDAO.reset()
         }
+    }
+
+    /**
+    Starts `SessionManager`.
+    - paramter completion: The completion closure.
+    */
+    func start(completion: (() -> ())?) {
         runParseUserMigration(completion)
     }
 
@@ -104,13 +188,15 @@ public class SessionManager {
     - parameter email: The email.
     - parameter password: The password.
     - parameter name: The name.
+    - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
     - parameter completion: The completion closure.
     */
-    public func signUp(email: String, password: String, name: String,
-        completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    public func signUp(email: String, password: String, name: String, newsletter: Bool?,
+        completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
 
             let location = deviceLocationDAO.deviceLocation?.location
-            myUserRepository.createWithEmail(email, password: password, name: name, location: location) {
+            myUserRepository.createWithEmail(email, password: password, name: name, newsletter: newsletter,
+                location: location) {
                 [weak self] createResult in
                     if let myUser = createResult.value {
 
@@ -119,16 +205,15 @@ public class SessionManager {
                             if let auth = authResult.value {
                                 self?.setupAfterAuthentication(auth)
                                 self?.setupAfterLoggedIn(myUser, provider: provider)
-                                completion?(Result<MyUser, RepositoryError>(value: myUser))
+                                completion?(Result<MyUser, SessionManagerError>(value: myUser))
                             }
                             else if let apiError = authResult.error {
-                                let error = RepositoryError(apiError: apiError)
-                                completion?(Result<MyUser, RepositoryError>(error: error))
+                                let error = SessionManagerError(apiError: apiError)
+                                completion?(Result<MyUser, SessionManagerError>(error: error))
                             }
                         }
-                    }
-                    else if let error = createResult.error {
-                        completion?(Result<MyUser, RepositoryError>(error: error))
+                    } else if let error = createResult.error {
+                        completion?(Result<MyUser, SessionManagerError>(error: SessionManagerError(repositoryError: error)))
                     }
             }
     }
@@ -139,7 +224,7 @@ public class SessionManager {
     - parameter password: The password.
     - parameter completion: The completion closure.
     */
-    public func login(email: String, password: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    public func login(email: String, password: String, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
         let provider: SessionProvider = .Email(email: email, password: password)
         login(provider, completion: completion)
     }
@@ -149,7 +234,7 @@ public class SessionManager {
     - parameter token: The Facebook token.
     - parameter completion: The completion closure.
     */
-    public func loginFacebook(token: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    public func loginFacebook(token: String, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
         let provider: SessionProvider = .Facebook(facebookToken: token)
         login(provider, completion: completion)
     }
@@ -159,7 +244,7 @@ public class SessionManager {
     - parameter email: The email.
     - parameter completion: The completion closure.
     */
-    public func recoverPassword(email: String, completion: ((Result<Void, RepositoryError>) -> ())?) {
+    public func recoverPassword(email: String, completion: ((Result<Void, SessionManagerError>) -> ())?) {
         let provider: SessionProvider = .PwdRecovery(email: email)
         let request = SessionRouter.Create(sessionProvider: provider)
         let decoder: AnyObject -> Void? = { object in return Void() }
@@ -199,7 +284,7 @@ public class SessionManager {
         }
 
         let provider = SessionProvider.ParseUser(parseToken: parseToken)
-        let userRetrievalCompletion: (Result<MyUser, RepositoryError>) -> () = { result in
+        let userRetrievalCompletion: (Result<MyUser, SessionManagerError>) -> () = { result in
             if let _ = result.value {
                 PFUser.logOutInBackground()
             }
@@ -224,21 +309,22 @@ public class SessionManager {
     - parameter provider: The session provider.
     - parameter completion: The completion closure.
     */
-    private func login(provider: SessionProvider, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    private func login(provider: SessionProvider, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
         authenticate(provider) { [weak self] authResult in
             if let auth = authResult.value {
                 self?.setupAfterAuthentication(auth)
                 self?.myUserRepository.show(auth.myUserId, completion: { [weak self] userShowResult in
                     if let myUser = userShowResult.value {
                         self?.setupAfterLoggedIn(myUser, provider: provider)
-                    } else if let _ = userShowResult.error {
+                        completion?(Result<MyUser, SessionManagerError>(value: myUser))
+                    } else if let error = userShowResult.error {
                         self?.tokenDAO.deleteUserToken()
+                        completion?(Result<MyUser, SessionManagerError>(error: SessionManagerError(repositoryError: error)))
                     }
-                    completion?(userShowResult)
                 })
             } else if let apiError = authResult.error {
-                let error = RepositoryError(apiError: apiError)
-                completion?(Result<MyUser, RepositoryError>(error: error))
+                let error = SessionManagerError(apiError: apiError)
+                completion?(Result<MyUser, SessionManagerError>(error: error))
             }
         }
     }
