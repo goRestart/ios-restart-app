@@ -16,6 +16,7 @@ public class MainProductListViewModel: ProductListViewModel {
     private let tracker: Tracker
     
     // Data
+    private var wasLoggedIn: Bool
     private var lastReceivedLocation: LGLocation?
     private var locationActivatedWhileLoading: Bool
     
@@ -36,6 +37,7 @@ public class MainProductListViewModel: ProductListViewModel {
             self.tracker = tracker
             self.lastReceivedLocation = locationManager.currentLocation
             self.locationActivatedWhileLoading = false
+            self.wasLoggedIn = myUserRepository.loggedIn
             super.init(locationManager: locationManager, productRepository: productRepository,
                 myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
             
@@ -97,29 +99,34 @@ public class MainProductListViewModel: ProductListViewModel {
     // MARK: - Private methods
     
     private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
-        
-        // If new location is manual
+
+        var shouldUpdate = false
+
         if canRetrieveProducts {
-            
             // If there are no products, then refresh
             if numberOfProducts == 0 {
-                retrieveProductsFirstPage()
+                shouldUpdate = true
             }
             // If new location is manual OR last location was manual, and location has changed then refresh
             else if newLocation.type == .Manual || lastReceivedLocation?.type == .Manual {
                 if let lastReceivedLocation = lastReceivedLocation {
                     if (newLocation != lastReceivedLocation) {
-                        retrieveProductsFirstPage()
+                        shouldUpdate = true
                     }
                 }
             }
             // If new location is not manual and we improved the location type to sensors
             else if lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
-                retrieveProductsFirstPage()
+                shouldUpdate = true
             }
         } else if numberOfProducts == 0 && lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
             // in case the user allows sensors while loading the product list with the iplookup parameters
             locationActivatedWhileLoading = true
+        }
+
+        if shouldUpdate || wasLoggedIn != myUserRepository.loggedIn {
+            wasLoggedIn = myUserRepository.loggedIn
+            retrieveProductsFirstPage()
         }
         
         // Track the received location
