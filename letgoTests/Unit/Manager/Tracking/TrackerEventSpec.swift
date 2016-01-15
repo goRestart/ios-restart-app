@@ -1625,22 +1625,15 @@ class TrackerEventSpec: QuickSpec {
                     it("has its event name ") {
                         expect(sut.name.rawValue).to(equal("profile-visit"))
                     }
-                    it("has user-to-id") {
-                        expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
-                        let userToId = sut.params!.stringKeyParams["user-to-id"] as? String
-                        expect(userToId).to(equal(user.objectId))
+                    it("user-to-id parameter matches") {
+                        expect(sut.params?.stringKeyParams["user-to-id"] as? String) == user.objectId
                     }
-                    it("has type-page") {
-                        expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
-                        let typePage = sut.params!.stringKeyParams["type-page"] as? String
-                        expect(userToId).to(equal("product-detail"))
+                    it("type-page parameter matches") {
+                        expect(sut.params?.stringKeyParams["type-page"] as? String) == "product-detail"
                     }
-                    it("has tab") {
-                        expect(sut.params!.stringKeyParams["tab"]).notTo(beNil())
-                        let tab = sut.params!.stringKeyParams["tab"] as? String
-                        expect(userToId).to(equal("selling"))
+                    it("tab parameter matches") {
+                        expect(sut.params?.stringKeyParams["tab"] as? String) == "selling"
                     }
-
                 }
             }
 
