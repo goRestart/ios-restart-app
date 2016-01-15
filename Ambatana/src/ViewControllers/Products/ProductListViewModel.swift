@@ -84,7 +84,7 @@ public class ProductListViewModel: BaseViewModel {
     // Manager & Repository
     private let locationManager: LocationManager
     private let productsManager: ProductsManager
-    private let productManager: ProductManager
+    private let productRepository: ProductRepository
     private let myUserRepository: MyUserRepository
     
     // Data
@@ -157,15 +157,15 @@ public class ProductListViewModel: BaseViewModel {
         let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
             userProductsRetrieveService: userProductsRetrieveService)
         self.init(locationManager: LocationManager.sharedInstance, productsManager: productsManager,
-            productManager: ProductManager(), myUserRepository: MyUserRepository.sharedInstance,
+            productRepository: ProductRepository.sharedInstance, myUserRepository: MyUserRepository.sharedInstance,
             cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
     }
     
-    init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager,
+    init(locationManager: LocationManager, productsManager: ProductsManager, productRepository: ProductRepository,
         myUserRepository: MyUserRepository, cellDrawer: ProductCellDrawer) {
             self.locationManager = locationManager
             self.productsManager = productsManager
-            self.productManager = productManager
+            self.productRepository = productRepository
             self.myUserRepository = myUserRepository
             self.cellDrawer = cellDrawer
             
@@ -352,19 +352,15 @@ public class ProductListViewModel: BaseViewModel {
 
     public func cellDidTapFavorite(index: Int) {
         let product = productAtIndex(index)
-        let isFavourite = false //product.isFavourite
-        if isFavourite {
-            productManager.deleteFavourite(product) { [weak self] result in
-                //TODO UNCOMMENT WHEN SERVICE WORKING
-//                guard let product = result.value else { return }
-
+        if product.favorite {
+            productRepository.deleteFavorite(product) { [weak self] result in
+                guard let product = result.value else { return }
                 self?.updateProduct(product, atIndex: index)
             }
-        }
-        else {
-            productManager.saveFavourite(product) { [weak self] result in
-                guard let productFavorite = result.value else { return }
-                self?.updateProduct(productFavorite.product, atIndex: index)
+        } else {
+            productRepository.saveFavorite(product) { [weak self] result in
+                guard let product = result.value else { return }
+                self?.updateProduct(product, atIndex: index)
 
                 let trackerEvent = TrackerEvent.productFavorite(product, user: self?.myUserRepository.myUser,
                     typePage: .ProductList)
@@ -408,7 +404,7 @@ public class ProductListViewModel: BaseViewModel {
         }
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            isFavorite: false, isMine: isMine, cellWidth: ProductListViewModel.cellWidth,
+            isFavorite: product.favorite, isMine: isMine, cellWidth: ProductListViewModel.cellWidth,
             indexPath: NSIndexPath(forRow: index, inSection: 0))
     }
     

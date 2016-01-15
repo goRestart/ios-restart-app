@@ -27,15 +27,16 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Lifecycle
 
-    init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager,
+    init(locationManager: LocationManager, productsManager: ProductsManager, productRepository: ProductRepository,
         myUserRepository: MyUserRepository, tracker: Tracker) {
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
         self.tracker = tracker
         self.lastReceivedLocation = locationManager.currentLocation
         self.locationActivatedWhileLoading = false
-        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
-            myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
+        super.init(locationManager: locationManager, productsManager: productsManager,
+            productRepository: productRepository, myUserRepository: myUserRepository,
+            cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
         
         self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
         self.isProfileList = false
@@ -52,8 +53,8 @@ public class MainProductListViewModel: ProductListViewModel {
         let userProductsRetrieveService = LGUserProductsRetrieveService()
         let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
             userProductsRetrieveService: userProductsRetrieveService)
-        self.init(locationManager: locationManager, productsManager: productsManager, productManager: ProductManager(),
-            myUserRepository: myUserRepository, tracker: tracker)
+        self.init(locationManager: locationManager, productsManager: productsManager,
+            productRepository: ProductRepository.sharedInstance, myUserRepository: myUserRepository, tracker: tracker)
     }
     
      deinit {

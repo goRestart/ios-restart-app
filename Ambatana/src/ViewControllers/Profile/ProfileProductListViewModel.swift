@@ -37,12 +37,13 @@ public class ProfileProductListViewModel: ProductListViewModel {
     // MARK: - Lifecycle
     
     public init(myUserRepository: MyUserRepository, user: User?, type: ProfileProductListViewType?,
-        locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager) {
+        locationManager: LocationManager, productsManager: ProductsManager, productRepository: ProductRepository) {
         self.myUserRepository = myUserRepository
         self.user = user ?? myUserRepository.myUser
         self.type = type ?? .Selling
-        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
-            myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(false))
+        super.init(locationManager: locationManager, productsManager: productsManager,
+            productRepository: productRepository, myUserRepository: myUserRepository,
+            cellDrawer: ProductCellDrawerFactory.drawerForProduct(false))
         
         self.isProfileList = true
         self.sortCriteria = .Creation
@@ -57,7 +58,7 @@ public class ProfileProductListViewModel: ProductListViewModel {
         let myUserRepository = MyUserRepository.sharedInstance
         self.init(myUserRepository: myUserRepository, user: user, type: type,
             locationManager: LocationManager.sharedInstance, productsManager: productsManager,
-            productManager: ProductManager())
+            productRepository: ProductRepository.sharedInstance)
     }
     
 }
