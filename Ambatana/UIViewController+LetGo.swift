@@ -8,6 +8,7 @@
 
 import Parse
 import UIKit
+import SafariServices
 
 // MARK: - UINavigationBar helpers
 
@@ -246,6 +247,21 @@ extension UIViewController {
             alert.dismissViewControllerAnimated(true, completion: completion)
         } else {
             completion?()
+        }
+    }
+}
+
+
+// MARK: - Internal urls presenters
+
+extension UIViewController {
+    func openInternalUrl(url: NSURL) {
+        if #available(iOS 9.0, *) {
+            let svc = SFSafariViewController(URL: url, entersReaderIfAvailable: false)
+            svc.view.tintColor = StyleHelper.primaryColor
+            self.presentViewController(svc, animated: true, completion: nil)
+        } else {
+            UIApplication.sharedApplication().openURL(url)
         }
     }
 }

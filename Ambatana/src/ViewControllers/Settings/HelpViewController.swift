@@ -45,6 +45,7 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
         }
     }
     
+    
     // MARK: - Private methods
 
     dynamic private func showOptions() {
@@ -52,28 +53,28 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
             preferredStyle: .ActionSheet)
 
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .Default,
-            handler: self.showTerms))
+            handler: { [weak self] action in self?.showTerms() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .Default,
-            handler: self.showPrivacy))
+            handler: { [weak self] action in self?.showPrivacy() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.contactTitle, style: .Default,
-            handler: self.openContact))
+            handler: { [weak self] action in self?.openContact() }))
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
-    private func showTerms(action: UIAlertAction) {
+    private func showTerms() {
         if let termsUrl = viewModel.termsAndConditionsURL {
-            UIApplication.sharedApplication().openURL(termsUrl)
+            openInternalUrl(termsUrl)
         }
     }
 
-    private func showPrivacy(action: UIAlertAction) {
+    private func showPrivacy() {
         if let privacyUrl = viewModel.privacyURL {
-            UIApplication.sharedApplication().openURL(privacyUrl)
+            openInternalUrl(privacyUrl)
         }
     }
 
-    private func openContact(action: UIAlertAction) {
+    private func openContact() {
         let vc = ContactViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
