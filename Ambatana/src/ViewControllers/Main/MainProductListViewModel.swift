@@ -16,9 +16,8 @@ public class MainProductListViewModel: ProductListViewModel {
     private let tracker: Tracker
     
     // Data
-    private var wasLoggedIn: Bool
     private var lastReceivedLocation: LGLocation?
-    private var locationActivatedWhileLoading: Bool
+    private var shouldRetryLoad: Bool
     
     
     // MARK: - Computed iVars
@@ -36,8 +35,7 @@ public class MainProductListViewModel: ProductListViewModel {
             self.myUserRepository = myUserRepository
             self.tracker = tracker
             self.lastReceivedLocation = locationManager.currentLocation
-            self.locationActivatedWhileLoading = false
-            self.wasLoggedIn = myUserRepository.loggedIn
+            self.shouldRetryLoad = false
             super.init(locationManager: locationManager, productRepository: productRepository,
                 myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
             
@@ -73,6 +71,14 @@ public class MainProductListViewModel: ProductListViewModel {
     }
     
     // MARK: - Public methods
+
+    public func sessionDidChange() {
+        guard canRetrieveProducts else {
+            shouldRetryLoad = true
+            return
+        }
+        retrieveProductsFirstPage()
+    }
     
     public func retrieveProductsFirstPage() {
         // Update before requesting the first page
@@ -89,9 +95,9 @@ public class MainProductListViewModel: ProductListViewModel {
         let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
         tracker.trackEvent(trackerEvent)
 
-        if locationActivatedWhileLoading {
+        if shouldRetryLoad {
             // in case the user allows sensors while loading the product list with the iplookup parameters
-            locationActivatedWhileLoading = false
+            shouldRetryLoad = false
             retrieveProductsFirstPage()
         }
     }
@@ -121,11 +127,10 @@ public class MainProductListViewModel: ProductListViewModel {
             }
         } else if numberOfProducts == 0 && lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
             // in case the user allows sensors while loading the product list with the iplookup parameters
-            locationActivatedWhileLoading = true
+            shouldRetryLoad = true
         }
 
-        if shouldUpdate || wasLoggedIn != myUserRepository.loggedIn {
-            wasLoggedIn = myUserRepository.loggedIn
+        if shouldUpdate{
             retrieveProductsFirstPage()
         }
         
