@@ -8,7 +8,6 @@
 
 import LGCoreKit
 import Result
-import SafariServices
 
 class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate, UITextViewDelegate {
 
@@ -175,12 +174,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     // MARK: UITextViewDelegate
     
     func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
-        if #available(iOS 9.0, *) {
-            let svc = SFSafariViewController(URL: url, entersReaderIfAvailable: true)
-            self.presentViewController(svc, animated: true, completion: nil)
-        } else {
-            UIApplication.sharedApplication().openURL(url)
-        }
+        openInternalUrl(url)
         return false
     }
     

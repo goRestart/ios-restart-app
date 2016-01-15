@@ -12,7 +12,7 @@ public class ProductCellDrawerFactory {
 
     static func drawerForProduct(withActions: Bool) -> ProductCellDrawer {
         //TODO ENABLE BACK WHEN CONNECTED TO NEW COREKIT
-        return ImageProductCellDrawer(showActions: withActions)
+        return ImageProductCellDrawer(showActions: false)
     }
 
     static func registerCells(collectionView: UICollectionView) {

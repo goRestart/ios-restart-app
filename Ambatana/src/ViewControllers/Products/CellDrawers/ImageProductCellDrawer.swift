@@ -34,8 +34,6 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
 
         cell.priceLabel.text = data.price ?? ""
 
-        cell.likeButton.enabled = false
-
         // Thumb
         if let thumbURL = data.thumbUrl {
             cell.setImageUrl(thumbURL)
