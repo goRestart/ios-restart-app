@@ -431,10 +431,10 @@ extension PostProductViewController {
     
     func centerPriceContentContainer(keyboardNotification: NSNotification) {
         let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
-        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options, animations: { [weak self] () -> Void in
-            guard let strongSelf = self else { return }
-            strongSelf.selectPriceContentContainerCenterY.constant = -(kbAnimation.size.height/2)
-            strongSelf.selectPriceContainer.layoutIfNeeded()
+        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options, animations: {
+            [weak self] in
+            self?.selectPriceContentContainerCenterY.constant = -(kbAnimation.size.height/2)
+            self?.selectPriceContainer.layoutIfNeeded()
         }, completion: nil)
     }
     
