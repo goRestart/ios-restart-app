@@ -210,21 +210,21 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
 
-        tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] completed in
+        tabBarController?.setTabBarHidden(editing, animated: true) { [weak self] completed in
             self?.setToolbarHidden(!editing, animated: true)
-            })
+        }
 
         if editing {
             // hide tabbar and show toolbar
-            tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] completed in
+            tabBarController?.setTabBarHidden(editing, animated: true) { [weak self] completed in
                 self?.setToolbarHidden(!editing, animated: true)
-                })
+            }
 
         } else {
             // hide toolbar and show tabbar
-            self.setToolbarHidden(!editing, animated: true, completion: { completed in
+            self.setToolbarHidden(!editing, animated: true) { completed in
                 tabBarController?.setTabBarHidden(editing, animated: true)
-            })
+            }
         }
         archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
     }
@@ -361,15 +361,15 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
         var message: String
         var completion: (() -> ())? = nil
-        
+
         if viewModel.failedArchivedChats > 0  {
             if totalChats > 1 {
                 message = LGLocalizedString.chatListArchiveErrorMultiple
             } else {
                 message = LGLocalizedString.chatListArchiveErrorOne
             }
-            completion = {
-                self.showAutoFadingOutMessageAlert(message)
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message)
             }
         }
         

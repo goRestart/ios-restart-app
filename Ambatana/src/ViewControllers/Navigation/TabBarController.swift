@@ -647,7 +647,6 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             } else if let error = result.error {
                 // Error
                 var message: String
-                message = LGLocalizedString.commonChatNotAvailable
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed

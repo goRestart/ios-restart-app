@@ -23,6 +23,7 @@ public class ChatListViewModel : BaseViewModel {
 
     public var chats: [Chat]?
     var chatRepository: ChatRepository
+    var retrievingChats: Bool
 
     public var archivedChats = 0
     public var failedArchivedChats = 0
@@ -41,6 +42,7 @@ public class ChatListViewModel : BaseViewModel {
     public required init(chatRepository: ChatRepository, chats: [Chat]) {
         self.chatRepository = chatRepository
         self.chats = chats
+        self.retrievingChats = false
         super.init()
     }
 
@@ -53,30 +55,30 @@ public class ChatListViewModel : BaseViewModel {
     // MARK: public methods
 
     public func updateConversations() {
-
+        retrievingChats = true
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chatCount < 1)
 
-        chatRepository.retrieveChatsWithCompletion { [weak self] (result) in
+        chatRepository.retrieveChatsWithCompletion { [weak self] result in
 
-            if let strongSelf = self {
-                if let chats = result.value {
-                    strongSelf.chats = chats
-                    strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, nonEmptyChatList: chats.count > 0)
-                } else if let actualError = result.error {
+            guard let strongSelf = self else { return }
+            strongSelf.retrievingChats = false
+            if let chats = result.value {
+                strongSelf.chats = chats
+                strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, nonEmptyChatList: chats.count > 0)
+            } else if let actualError = result.error {
 
-                    var errorData = ErrorData()
-                    switch actualError {
-                    case .Network:
-                        errorData.errImage = UIImage(named: "err_network")
-                        errorData.errTitle = LGLocalizedString.commonErrorTitle
-                        errorData.errBody = LGLocalizedString.commonErrorNetworkBody
-                        errorData.errButTitle = LGLocalizedString.commonErrorRetryButton
-                    case .Internal, .NotFound, .Unauthorized:
-                        break
-                    }
-
-                    strongSelf.delegate?.didFailRetrievingChatList(strongSelf, error: errorData)
+                var errorData = ErrorData()
+                switch actualError {
+                case .Network:
+                    errorData.errImage = UIImage(named: "err_network")
+                    errorData.errTitle = LGLocalizedString.commonErrorTitle
+                    errorData.errBody = LGLocalizedString.commonErrorNetworkBody
+                    errorData.errButTitle = LGLocalizedString.commonErrorRetryButton
+                case .Internal, .NotFound, .Unauthorized:
+                    break
                 }
+
+                strongSelf.delegate?.didFailRetrievingChatList(strongSelf, error: errorData)
             }
         }
         updateUnreadMessagesCount()
@@ -99,8 +101,8 @@ public class ChatListViewModel : BaseViewModel {
         archivedChats = 0
         failedArchivedChats = 0
         for index in indexes {
-            guard let chat = chats?[index.row] else { return }
-            chatRepository.archiveChatWithId(chat) { [weak self] (result: Result<Void, RepositoryError>) -> () in
+            guard let chat = chats?[index.row] else { continue }
+            chatRepository.archiveChatWithId(chat) { [weak self] result in
 
                 guard let strongSelf = self else { return }
                 strongSelf.archivedChats++
