@@ -104,9 +104,9 @@ UITextFieldDelegate {
     // MARK: - Actions
     
     @IBAction func onCloseButton(sender: AnyObject) {
+        priceTextField.resignFirstResponder()
         dismissViewControllerAnimated(true) { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.priceTextField.resignFirstResponder()
             strongSelf.viewModel.closeButtonPressed(sellController: strongSelf, delegate: strongSelf.delegate)
         }
     }
