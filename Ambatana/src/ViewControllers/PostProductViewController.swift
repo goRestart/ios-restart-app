@@ -31,6 +31,7 @@ UITextFieldDelegate {
     @IBOutlet weak var galleryButton: UIButton!
 
     @IBOutlet weak var selectPriceContainer: UIView!
+    @IBOutlet weak var selectPriceContentContainerCenterY: NSLayoutConstraint!
     @IBOutlet weak var customLoadingView: LoadingIndicator!
     @IBOutlet weak var postedInfoLabel: UILabel!
     @IBOutlet weak var addPriceLabel: UILabel!
@@ -63,10 +64,19 @@ UITextFieldDelegate {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         self.viewModel.delegate = self
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+            name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+            name: UIKeyboardWillHideNotification, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewDidLoad() {
@@ -333,7 +343,16 @@ UITextFieldDelegate {
         UIView.animateWithDuration(0.2, delay: 0.8, options: UIViewAnimationOptions(),
             animations: { () -> Void in
                 finalAlphaBlock()
-            }, completion: nil)
+            }, completion: { [weak self] (completed: Bool) -> Void in
+                finalAlphaBlock()
+
+                if okItemsAlpha == 1 {
+                    self?.priceTextField.becomeFirstResponder()
+                } else {
+                    self?.priceTextField.resignFirstResponder()
+                }
+            }
+        )
     }
 
     private func setFlashModeButton() {
@@ -395,6 +414,30 @@ extension PostProductViewController: UIImagePickerControllerDelegate, UINavigati
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         picker.dismissViewControllerAnimated(true, completion: nil)
     }
+}
+
+
+// MARK: - Keyboard notifications
+
+extension PostProductViewController {
+    
+    func keyboardWillShow(notification: NSNotification) {
+        centerPriceContentContainer(notification)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        centerPriceContentContainer(notification)
+    }
+    
+    func centerPriceContentContainer(keyboardNotification: NSNotification) {
+        let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
+        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options, animations: { [weak self] () -> Void in
+            guard let strongSelf = self else { return }
+            strongSelf.selectPriceContentContainerCenterY.constant = -(kbAnimation.size.height/2)
+            strongSelf.selectPriceContainer.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
 }
 
 
