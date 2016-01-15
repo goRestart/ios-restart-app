@@ -131,7 +131,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         if error == .Forbidden {
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-                SessionManager.sharedInstance.logout()
+                Core.sessionManager.logout()
             }
         } else {
 
@@ -196,7 +196,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
             forIndexPath: indexPath) as! ConversationCell
 
         cell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
-        if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = MyUserRepository.sharedInstance.myUser {
+        if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = Core.myUserRepository.myUser {
             cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
         return cell

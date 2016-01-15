@@ -81,9 +81,9 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     var cellSize = CGSizeMake(160.0, 210.0)
     
     init(user: User?) {
-        self.user = user ?? MyUserRepository.sharedInstance.myUser ?? LGUser()
+        self.user = user ?? Core.myUserRepository.myUser ?? LGUser()
         shouldReload = true
-        self.productsFavouriteRetrieveService = LGProductsFavouriteRetrieveService()
+        self.productsFavouriteRetrieveService = Core.productsFavouriteRetrieveService
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
         hidesBottomBarWhenPushed = false
@@ -171,7 +171,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         
         guard shouldReload else { return }
 
-        if let myUser = MyUserRepository.sharedInstance.myUser where user.objectId == myUser.objectId {
+        if let myUser = Core.myUserRepository.myUser where user.objectId == myUser.objectId {
             user = myUser
         }
 
@@ -213,7 +213,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
         
         // If it's me, then allow go to settings
-        if let myUser = MyUserRepository.sharedInstance.myUser, let myUserId = myUser.objectId,
+        if let myUser = Core.myUserRepository.myUser, let myUserId = myUser.objectId,
             let userId = user.objectId {
                 if userId == myUserId {
                     setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
@@ -284,7 +284,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             if error == .Forbidden {
                 // logout the scammer!
                 showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-                    SessionManager.sharedInstance.logout()
+                    Core.sessionManager.logout()
                }
             }
     }
@@ -496,7 +496,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             noFavouritesLabel.hidden = true
             
             // set text depending on if we are the user being shown or not
-            if user.objectId == MyUserRepository.sharedInstance.myUser?.objectId { // user is me!
+            if user.objectId == Core.myUserRepository.myUser?.objectId { // user is me!
                 youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
                 youDontHaveSubtitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsSubtitleLabel
                 youDontHaveSubtitleLabel.hidden = false

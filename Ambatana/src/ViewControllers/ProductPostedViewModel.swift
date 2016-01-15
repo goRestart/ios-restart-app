@@ -29,7 +29,7 @@ class ProductPostedViewModel: BaseViewModel {
     private var product: Product?
     private var postProductError: EventParameterPostProductError?
     private var user: MyUser? {
-        return MyUserRepository.sharedInstance.myUser
+        return Core.myUserRepository.myUser
     }
 
     init(postResult: ProductSaveServiceResult) {

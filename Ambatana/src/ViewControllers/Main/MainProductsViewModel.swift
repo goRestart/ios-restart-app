@@ -85,7 +85,7 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
     }
     
     public convenience init(searchString: String? = nil, filters: ProductFilters) {
-        let myUserRepository = MyUserRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, tracker: tracker, searchString: searchString, filters: filters)
     }

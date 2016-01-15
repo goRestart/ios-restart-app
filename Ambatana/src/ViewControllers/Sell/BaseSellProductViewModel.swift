@@ -104,8 +104,8 @@ public class BaseSellProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     public convenience override init() {
-        let myUserRepository = MyUserRepository.sharedInstance
-        let productManager = ProductManager()
+        let myUserRepository = Core.myUserRepository
+        let productManager = Core.productManager
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker)
     }
@@ -116,7 +116,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         self.tracker = tracker
         
         self.title = nil
-        self.currency = CurrencyHelper.sharedInstance.currentCurrency
+        self.currency = Core.currencyHelper.currentCurrency
         self.price = nil
         self.descr = nil
         self.category = nil

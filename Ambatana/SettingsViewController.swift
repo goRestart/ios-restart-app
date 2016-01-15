@@ -129,17 +129,17 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
 
         if setting == .ChangeUsername {
-            cell.nameLabel.text = MyUserRepository.sharedInstance.myUser?.name
+            cell.nameLabel.text = Core.myUserRepository.myUser?.name
         }
 
         if setting == .ChangeLocation {
-            if let myUser = MyUserRepository.sharedInstance.myUser {
+            if let myUser = Core.myUserRepository.myUser {
                 cell.nameLabel.text = myUser.postalAddress.city ?? myUser.postalAddress.countryCode
             }
         }
 
         if setting == .ChangePhoto {
-            if let myUser = MyUserRepository.sharedInstance.myUser, let avatarUrl = myUser.avatar?.fileURL {
+            if let myUser = Core.myUserRepository.myUser, let avatarUrl = myUser.avatar?.fileURL {
                 cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: UIImage(named: "no_photo"))
             }
             else {
@@ -202,7 +202,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
     func logoutUser() {
         // Logout
-        SessionManager.sharedInstance.logout()
+        Core.sessionManager.logout()
 
         // Tracking
         let trackerEvent = TrackerEvent.logout()
@@ -234,7 +234,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
                 return
         }
 
-        MyUserRepository.sharedInstance.updateAvatar(imageData,
+        Core.myUserRepository.updateAvatar(imageData,
             progressBlock: { (progressAsInt) -> Void in
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     self?.settingProfileImageProgressView.setProgress(Float(progressAsInt)/100.0, animated: true)

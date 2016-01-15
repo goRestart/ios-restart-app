@@ -12,7 +12,7 @@ import LGCoreKit
 public class ChatCellDrawerFactory {
         
     static func drawerForMessage(message: Message) -> ChatCellDrawer {
-        let myUserRepository = MyUserRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
         return myUserRepository.isMessageMine(message) ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
     }
     

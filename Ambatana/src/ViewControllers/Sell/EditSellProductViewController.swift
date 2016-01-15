@@ -95,7 +95,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
                 completion = {
                     self.editViewModel.shouldEnableTracking()
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        SessionManager.sharedInstance.logout()
+                        Core.sessionManager.logout()
                     })
                 }
             }

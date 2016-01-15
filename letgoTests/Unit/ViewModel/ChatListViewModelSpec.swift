@@ -35,7 +35,7 @@ class ChatListViewModelSpec: QuickSpec, ChatListViewModelDelegate {
 
             context("init with params") {
                 beforeEach {
-                    let chatManager = ChatManager.sharedInstance
+                    let chatManager = Core.chatManager.sharedInstance
                     let chatOne = MockChat()
                     chatOne.objectId = "chatOne"
                     let chatTwo = MockChat()

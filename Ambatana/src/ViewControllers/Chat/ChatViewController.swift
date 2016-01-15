@@ -238,7 +238,7 @@ extension ChatViewController: ChatViewModelDelegate {
         case .Forbidden:
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
-                SessionManager.sharedInstance.logout()
+                Core.sessionManager.logout()
             }
         }
     }
@@ -258,7 +258,7 @@ extension ChatViewController: ChatViewModelDelegate {
             showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
         case .Forbidden:
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
-                SessionManager.sharedInstance.logout()
+                Core.sessionManager.logout()
             }
         }
     }
@@ -266,7 +266,7 @@ extension ChatViewController: ChatViewModelDelegate {
     func didSucceedSendingMessage() {
         if viewModel.shouldAskForRating { askForRating() }
 
-        if UserDefaultsManager.sharedInstance.loadAlreadyRated() &&
+        if Core.userDefaultsManager.loadAlreadyRated() &&
             PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
                 prePermissionType: .Chat){
                     textView.resignFirstResponder()

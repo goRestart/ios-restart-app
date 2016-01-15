@@ -47,7 +47,7 @@ public class ProfileProductListViewModel: ProductListViewModel {
     }
     
     public convenience init(user: User? = nil, type: ProfileProductListViewType? = .Selling) {
-        let myUserRepository = MyUserRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
         self.init(myUserRepository: myUserRepository, user: user, type: type)
     }
     

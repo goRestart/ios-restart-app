@@ -101,7 +101,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     
     convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
-        let sessionManager = SessionManager.sharedInstance
+        let sessionManager = Core.sessionManager
         self.init(sessionManager: sessionManager, source: source, action: action)
     }
     

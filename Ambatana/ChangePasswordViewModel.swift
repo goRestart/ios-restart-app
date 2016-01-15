@@ -60,7 +60,7 @@ public class ChangePasswordViewModel: BaseViewModel {
     }
     
     override convenience init() {
-        let myUserRepository = MyUserRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
         self.init(myUserRepository: myUserRepository)
     }
     

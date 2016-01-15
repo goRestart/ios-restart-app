@@ -142,12 +142,8 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     public override init() {
-        self.locationManager = LocationManager.sharedInstance
-        let productsRetrieveService = LGProductsRetrieveService()
-        let userProductsRetrieveService = LGUserProductsRetrieveService()
-        self.productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
-            userProductsRetrieveService: userProductsRetrieveService)
-        
+        self.locationManager = Core.locationManager
+        self.productsManager = Core.productsManager       
         self.products = []
         self.pageNumber = 0
         self.maxDistance = 1

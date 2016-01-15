@@ -59,7 +59,7 @@ public class PushManager: NSObject, KahunaDelegate {
     }
 
     public convenience override init() {
-        let installationRepository = InstallationRepository()
+        let installationRepository = Core.installationRepository
         self.init(installationRepository: installationRepository)
     }
 
@@ -185,7 +185,7 @@ public class PushManager: NSObject, KahunaDelegate {
     */
     public func updateUnreadMessagesCount() {
 
-        ChatManager.sharedInstance.retrieveUnreadMessageCountWithCompletion { [weak self]
+        Core.chatManager.retrieveUnreadMessageCountWithCompletion { [weak self]
             (result: ChatsUnreadCountRetrieveServiceResult) -> Void in
             // Success
             if let count = result.value {

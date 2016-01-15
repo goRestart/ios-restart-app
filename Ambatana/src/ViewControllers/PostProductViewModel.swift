@@ -45,9 +45,9 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     override convenience init() {
-        let productManager = ProductManager()
-        let currency = CurrencyHelper.sharedInstance.currentCurrency
-        let myUserRepository = MyUserRepository.sharedInstance
+        let productManager = Core.productManager
+        let currency = Core.currencyHelper.currentCurrency
+        let myUserRepository = Core.myUserRepository
         self.init(productManager: productManager, myUserRepository: myUserRepository, currency: currency)
     }
 
@@ -145,7 +145,7 @@ class PostProductViewModel: BaseViewModel {
 
                 //Tracking
                 if let product = r.value {
-                    let myUser = MyUserRepository.sharedInstance.myUser
+                    let myUser = Core.myUserRepository.myUser
                     let event = TrackerEvent.productSellComplete(myUser, product: product, buttonName:
                         trackInfo.buttonName, negotiable: trackInfo.negotiablePrice,
                         pictureSource: trackInfo.imageSource)

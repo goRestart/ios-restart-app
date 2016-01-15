@@ -318,8 +318,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: - Lifecycle
     
     public convenience init(product: Product) {
-        let myUserRepository = MyUserRepository.sharedInstance
-        let productManager = ProductManager()
+        let myUserRepository = Core.myUserRepository
+        let productManager = Core.productManager
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productManager: productManager,
             product: product, tracker: tracker)
@@ -570,7 +570,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         delegate?.viewModelDidStartAsking(self)
         
         // Retrieve the chat
-        ChatManager.sharedInstance.retrieveChatWithProduct(product, buyer: myUser) { [weak self] retrieveResult in
+        Core.chatManager.retrieveChatWithProduct(product, buyer: myUser) { [weak self] retrieveResult in
             if let strongSelf = self, let actualDelegate = strongSelf.delegate {
                 
                 var result = Result<UIViewController, ChatRetrieveServiceError>(error: .Internal)

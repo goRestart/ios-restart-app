@@ -221,7 +221,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     public func viewModelForbiddenAccessToFavourite(viewModel: ProductViewModel) {
         showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-            SessionManager.sharedInstance.logout()
+            Core.sessionManager.logout()
         })
     }
     
@@ -256,7 +256,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         if error == .Forbidden {
             completion = {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                    SessionManager.sharedInstance.logout()
+                    Core.sessionManager.logout()
                 })
             }
         }
@@ -362,7 +362,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 if actualError == .Forbidden {
                     completion = {
                         self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                            SessionManager.sharedInstance.logout()
+                            Core.sessionManager.logout()
                         })
                     }
                 }

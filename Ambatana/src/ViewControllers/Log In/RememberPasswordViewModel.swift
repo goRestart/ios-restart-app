@@ -44,7 +44,7 @@ public class RememberPasswordViewModel: BaseViewModel {
     }
     
     convenience init(source: EventParameterLoginSourceValue, email: String) {
-        let sessionManager = SessionManager.sharedInstance
+        let sessionManager = Core.sessionManager
         self.init(sessionManager: sessionManager, source: source, email: email)
     }
     

@@ -31,7 +31,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         // > set the product currency
         if let actualProduct = product {
             let currencyCode = actualProduct.currency?.code ?? Constants.defaultCurrencyCode
-            let currencySymbol = CurrencyHelper.sharedInstance.currencySymbolWithCurrencyCode(currencyCode)
+            let currencySymbol = Core.currencyHelper.currencySymbolWithCurrencyCode(currencyCode)
             self.currencyButton.setTitle(currencySymbol, forState: .Normal)
         }
         self.currencyButton.layer.cornerRadius = 6.0
@@ -71,14 +71,14 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     @IBAction func makeAnOffer(sender: AnyObject) {
         if let actualProduct = product, let productUser = product?.user,
-            let myUser = MyUserRepository.sharedInstance.myUser, let productPriceStr = priceTextField.text {
+            let myUser = Core.myUserRepository.myUser, let productPriceStr = priceTextField.text {
             let productPrice = productPriceStr.toPriceDouble()
 
             enableLoadingInterface()
 
             // 1. Send the offer
             let offerText = generateOfferText(productPrice)
-            ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) {
+            Core.chatManager.sendOffer(offerText, product: actualProduct, recipient: productUser) {
                 [weak self] (sendResult: ChatSendMessageServiceResult) -> Void in
                 if let strongSelf = self {
 
@@ -86,7 +86,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                     if let _ = sendResult.value {
 
                         // 2. Retrieve the chat
-                        ChatManager.sharedInstance.retrieveChatWithProduct(actualProduct, buyer: myUser) {
+                        Core.chatManager.retrieveChatWithProduct(actualProduct, buyer: myUser) {
                             [weak self] (retrieveResult: Result<Chat, ChatRetrieveServiceError>) -> Void in
                             if let strongSelf2 = self {
 
@@ -113,7 +113,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                                             strongSelf2.showAutoFadingOutMessageAlert(
                                                 LGLocalizedString.logInErrorSendErrorGeneric,
                                                 completionBlock: { (completion) -> Void in
-                                                    SessionManager.sharedInstance.logout()
+                                                    Core.sessionManager.logout()
                                             })
                                         } else {
                                             strongSelf2.showAutoFadingOutMessageAlert(
@@ -130,7 +130,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                             if actualError == .Forbidden {
                                 strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric,
                                     completionBlock: { (completion) -> Void in
-                                    SessionManager.sharedInstance.logout()
+                                    Core.sessionManager.logout()
                                 })
                             } else {
                                 strongSelf.showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
@@ -147,7 +147,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     
     func generateOfferText(price: Double) -> String {
         let currencyCode = product?.currency?.code ?? Constants.defaultCurrencyCode
-        let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
+        let formattedAmount = Core.currencyHelper.formattedAmountWithCurrencyCode(currencyCode, amount: price)
         return LGLocalizedString.makeAnOfferNewOfferMessage(formattedAmount)
     }
     

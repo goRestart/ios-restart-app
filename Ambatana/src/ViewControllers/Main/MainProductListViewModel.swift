@@ -42,8 +42,8 @@ public class MainProductListViewModel: ProductListViewModel {
     }
     
     override convenience init() {
-        let locationManager = LocationManager.sharedInstance
-        let myUserRepository = MyUserRepository.sharedInstance
+        let locationManager = Core.locationManager
+        let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(locationManager: locationManager, myUserRepository: myUserRepository, tracker: tracker)
     }
