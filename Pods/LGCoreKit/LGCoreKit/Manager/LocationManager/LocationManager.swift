@@ -404,7 +404,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         completion: ((Result<MyUser, RepositoryError>) -> ())? = nil) {
 
             guard let myUser = myUserRepository.myUser else {
-                completion?(Result<MyUser, RepositoryError>(error: .Internal))
+                completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
                 return
             }
 

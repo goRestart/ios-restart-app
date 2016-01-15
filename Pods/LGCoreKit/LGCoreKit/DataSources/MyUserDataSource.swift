@@ -21,10 +21,11 @@ protocol MyUserDataSource {
     - parameter email: The email.
     - parameter password: The password.
     - parameter name: The name.
+    - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
     - parameter location: The location.
     - parameter completion: The completion closure.
     */
-    func createWithEmail(email: String, password: String, name: String, location: LGLocation?,
+    func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
         completion: ((Result<MyUser, ApiError>) -> ())?)
 
     /**

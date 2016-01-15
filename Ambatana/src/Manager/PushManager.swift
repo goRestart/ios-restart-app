@@ -185,8 +185,8 @@ public class PushManager: NSObject, KahunaDelegate {
     */
     public func updateUnreadMessagesCount() {
 
-        ChatManager.sharedInstance.retrieveUnreadMessageCountWithCompletion { [weak self]
-            (result: ChatsUnreadCountRetrieveServiceResult) -> Void in
+        ChatRepository.sharedInstance.retrieveUnreadMessageCountWithCompletion { [weak self]
+            (result: Result<Int, RepositoryError>) -> Void in
             // Success
             if let count = result.value {
                 if let _ = self {

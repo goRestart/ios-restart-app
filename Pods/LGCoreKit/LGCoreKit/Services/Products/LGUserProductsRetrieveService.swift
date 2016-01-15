@@ -40,33 +40,25 @@ final public class LGUserProductsRetrieveService: UserProductsRetrieveService {
         guard let theProduct : [LGProduct] = decode(object) else {
             return nil
         }
-
+        
         return theProduct.map{$0}
     }
 }
 
 extension RetrieveProductsParams {
     var userProductApiParams: Dictionary<String, AnyObject> {
-        get {
-            var params = Dictionary<String, AnyObject>()
-
-            if let numRes = self.numProducts {
-                params["num_results"] = numRes
-            }
-
-            if let offset = self.offset {
-                params["offset"] = offset
-            }
-
-            // TODO: Think twice about this :-P
-            if self.statuses == [.Sold, .SoldOld] {
-                params["status"] = UserProductStatus.Sold.rawValue
-            } else {
-                params["status"] = UserProductStatus.Selling.rawValue
-            }
-
-            return params
-
+        var params = Dictionary<String, AnyObject>()
+        
+        params["num_results"] = numProducts
+        params["offset"] = offset
+        
+        // TODO: Think twice about this :-P
+        if self.statuses == [.Sold, .SoldOld] {
+            params["status"] = UserProductStatus.Sold.rawValue
+        } else {
+            params["status"] = UserProductStatus.Selling.rawValue
         }
+        
+        return params
     }
 }

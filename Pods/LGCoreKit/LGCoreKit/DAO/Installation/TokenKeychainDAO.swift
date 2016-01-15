@@ -42,6 +42,22 @@ class TokenKeychainDAO: TokenDAO {
         self.token = token
     }
 
+    func get(level level: AuthLevel) -> Token? {
+        switch level {
+        case .None:
+            return Token(value: nil, level: .None)
+        case .Installation:
+            if let installationToken = keychain.get(TokenKeychainDAO.installationKey) {
+                return Token(value: installationToken, level: .Installation)
+            }
+        case .User:
+            if let userToken = keychain.get(TokenKeychainDAO.userKey) {
+                return Token(value: userToken, level: .User)
+            }
+        }
+        return nil
+    }
+
     func deleteUserToken() {
         keychain.delete(TokenKeychainDAO.userKey)
         token = fetch()
@@ -69,12 +85,11 @@ class TokenKeychainDAO: TokenDAO {
     }
 
     private func fetch() -> Token {
-
-        if let userToken = keychain.get(TokenKeychainDAO.userKey) {
-            return Token(value: userToken, level: .User)
+        if let userToken = get(level: .User) {
+            return userToken
         }
-        if let installationToken = keychain.get(TokenKeychainDAO.installationKey) {
-            return Token(value: installationToken, level: .Installation)
+        if let installationToken = get(level: .Installation) {
+            return installationToken
         }
         return Token(value: nil, level: .None)
     }

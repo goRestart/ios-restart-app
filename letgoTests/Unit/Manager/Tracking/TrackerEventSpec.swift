@@ -1614,7 +1614,29 @@ class TrackerEventSpec: QuickSpec {
                     
                 }
             }
-            
+
+            describe("profileVisit") {
+                context("profileVisit") {
+                    beforeEach {
+                        let user = MockUser()
+                        user.objectId = "12345"
+                        sut = TrackerEvent.profileVisit(user, typePage: .ProductDetail, tab: .Selling)
+                    }
+                    it("has its event name ") {
+                        expect(sut.name.rawValue).to(equal("profile-visit"))
+                    }
+                    it("user-to-id parameter matches") {
+                        expect(sut.params?.stringKeyParams["user-to-id"] as? String) == user.objectId
+                    }
+                    it("type-page parameter matches") {
+                        expect(sut.params?.stringKeyParams["type-page"] as? String) == "product-detail"
+                    }
+                    it("tab parameter matches") {
+                        expect(sut.params?.stringKeyParams["tab"] as? String) == "selling"
+                    }
+                }
+            }
+
             describe("profileEditStart") {
                 it("has its event name") {
                     sut = TrackerEvent.profileEditStart()

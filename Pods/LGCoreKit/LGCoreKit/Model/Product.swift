@@ -32,7 +32,7 @@ public protocol Product: BaseModel {
 
     var updatedAt : NSDate? { get }
     var createdAt : NSDate? { get }
-
+    var favorite: Bool { get }          // Default value false
 }
 
 extension Product {
@@ -45,5 +45,29 @@ extension Product {
         else {
             return ""
         }
+    }
+}
+
+extension Product {
+    func encode() -> [String: AnyObject] {
+        var params: [String: AnyObject] = [:]
+        params["name"] = name
+        params["category"] = category.rawValue
+        params["languageCode"] = languageCode
+        params["userId"] = user.objectId
+        params["description"] = descr
+        params["price"] = price
+        params["currency"] = currency
+        params["latitude"] = location.latitude
+        params["longitude"] = location.longitude
+        params["countryCode"] = postalAddress.countryCode
+        params["city"] = postalAddress.city
+        params["address"] = postalAddress.address
+        params["zipCode"] = postalAddress.zipCode
+        
+        let tokensString = images.flatMap{$0.objectId}.joinWithSeparator(",")
+        params["images"] = "[" + tokensString + "]"
+        
+        return params
     }
 }

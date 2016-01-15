@@ -46,6 +46,7 @@ extension LGMyUser: Decodable {
         static let city = "city"
         static let zipCode = "zip_code"
         static let countryCode = "country_code"
+        static let newsletter = "newsletter"
     }
 
     /**

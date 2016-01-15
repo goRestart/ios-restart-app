@@ -13,13 +13,21 @@ import Result
 enum ChangeUsernameError: ErrorType {
     case UsernameTaken
     case InvalidUsername
-    case Api(apiError: ApiError)
+    
+    case Network
     case Internal
+    case NotFound
+    case Unauthorized
     
     init(repositoryError: RepositoryError) {
         switch repositoryError {
-            // TODO: Use the new RepositoryError
-        default:
+        case .Network:
+            self = .Internal
+        case .NotFound:
+            self = .NotFound
+        case .Unauthorized:
+            self = .Unauthorized
+        case .Internal:
             self = .Internal
         }
     }

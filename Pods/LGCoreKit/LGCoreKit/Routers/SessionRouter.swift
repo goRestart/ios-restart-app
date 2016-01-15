@@ -26,14 +26,23 @@ enum SessionRouter: URLRequestAuthenticable {
         }
     }
 
+    var tokenDAO: TokenDAO {
+        return TokenKeychainDAO.sharedInstance
+    }
+
     var URLRequest: NSMutableURLRequest {
         switch self {
         case .Create(let sessionProvider):
             var params: [String: AnyObject] = [:]
             params["provider"] = sessionProvider.provider
             params["credentials"] = sessionProvider.credentials
-            return Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
+            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
                 encoding: nil).URLRequest
+            if let token = tokenDAO.get(level: .Installation)?.value {
+                //Force installation token as authorization
+                urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
+            }
+            return urlRequest
         case .Delete(let userToken):
             return Router<BouncerBaseURL>.Delete(endpoint: SessionRouter.endpoint, objectId: userToken).URLRequest
         }

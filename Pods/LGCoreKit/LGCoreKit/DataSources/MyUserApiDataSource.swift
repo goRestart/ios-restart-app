@@ -21,7 +21,7 @@ class MyUserApiDataSource: MyUserDataSource {
         ApiClient.request(request, decoder: decoder, completion: completion)
     }
 
-    func createWithEmail(email: String, password: String, name: String, location: LGLocation?,
+    func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
         completion: ((Result<MyUser, ApiError>) -> ())?) {
             var data: [String: AnyObject] = [:]
 
@@ -30,6 +30,9 @@ class MyUserApiDataSource: MyUserDataSource {
             data[LGMyUser.JSONKeys.name] = name
             data[LGMyUser.JSONKeys.latitude] = location?.coordinate.latitude
             data[LGMyUser.JSONKeys.longitude] = location?.coordinate.longitude
+            if let newsletter = newsletter {
+                data[LGMyUser.JSONKeys.newsletter] = newsletter
+            }
 
             let request = MyUserRouter.Create(params: data)
             ApiClient.request(request, decoder: decoder, completion: completion)

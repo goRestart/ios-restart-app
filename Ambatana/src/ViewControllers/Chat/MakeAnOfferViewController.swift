@@ -71,6 +71,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
 
     @IBAction func makeAnOffer(sender: AnyObject) {
+
         guard let actualProduct = product, let productUser = product?.user,
             let myUser = MyUserRepository.sharedInstance.myUser, let productPriceStr = priceTextField.text else {
                 showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
@@ -80,8 +81,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
 
         let productPrice = productPriceStr.toPriceDouble()
         let offerText = generateOfferText(productPrice)
-        ChatManager.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) {
-            [weak self] (sendResult: ChatSendMessageServiceResult) -> Void in
+        ChatRepository.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) {
+            [weak self] (sendResult: Result<Message, RepositoryError>) -> Void in
 
             self?.disableLoadingInterface()
 

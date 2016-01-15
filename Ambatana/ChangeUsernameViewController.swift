@@ -102,7 +102,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
     func viewModel(viewModel: ChangeUsernameViewModel, didFailValidationWithError error: ChangeUsernameError) {
         let message: String
         switch (error) {
-        case .Api, .Internal:
+        case .Network, .Internal, .NotFound, .Unauthorized:
             message = LGLocalizedString.commonErrorConnectionFailed
         case .InvalidUsername:
             message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)
@@ -128,7 +128,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         case .Failure(let error):
             let message: String
             switch (error) {
-            case .Api, .Internal:
+            case .Network, .Internal, .NotFound, .Unauthorized:
                 message = LGLocalizedString.commonErrorConnectionFailed
             case .InvalidUsername:
                 message = LGLocalizedString.changeUsernameErrorInvalidUsername(Constants.fullNameMinLength)

@@ -228,21 +228,13 @@ extension ChatViewController: ChatViewModelDelegate {
     
     // MARK: > Retrieve Messages
     
-    func didFailRetrievingChatMessages(error: ChatRetrieveServiceError) {
+    func didFailRetrievingChatMessages() {
         showActivityIndicator(false)
-        switch (error) {
-        case .Internal, .Network, .NotFound, .Unauthorized:
-            showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
-                self?.popBackViewController()
-            }
-        case .Forbidden:
-            // logout the scammer!
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
-                SessionManager.sharedInstance.logout()
-            }
+        showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
+            self?.popBackViewController()
         }
     }
-    
+
     func didSucceedRetrievingChatMessages() {
         showActivityIndicator(false)
         if viewModel.shouldShowSafetyTipes { showSafetyTips() }
@@ -252,15 +244,8 @@ extension ChatViewController: ChatViewModelDelegate {
     
     // MARK: > Send Message
     
-    func didFailSendingMessage(error: ChatSendMessageServiceError) {
-        switch (error) {
-        case .Internal, .Network, .NotFound, .Unauthorized:
-            showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
-        case .Forbidden:
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { completion in
-                SessionManager.sharedInstance.logout()
-            }
-        }
+    func didFailSendingMessage() {
+        showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
     }
     
     func didSucceedSendingMessage() {
@@ -288,7 +273,7 @@ extension ChatViewController: ChatOthersMessageCellDelegate {
     
     func didTapOnUserAvatar() {
         guard let user = viewModel.otherUser else { return }
-        let vc = EditProfileViewController(user: user)
+        let vc = EditProfileViewController(user: user, source: .Chat)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -74,7 +74,8 @@ public enum EventName: String {
     case ProductDeleteComplete              = "product-delete-complete"
     
     case UserMessageSent                    = "user-sent-message"
-    
+
+    case ProfileVisit                       = "profile-visit"
     case ProfileEditStart                   = "profile-edit-start"
     case ProfileEditEditName                = "profile-edit-edit-name"
     case ProfileEditEditLocation            = "profile-edit-edit-location"
@@ -162,6 +163,7 @@ public enum EventParameterName: String {
     case PictureSource        = "picture-source"
     case EditedFields         = "edited-fields"
     case Newsletter           = "newsletter"
+    case Tab                  = "tab"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -321,6 +323,12 @@ public enum EventParameterNewsletter: String {
     case True = "true"
     case False = "false"
     case Unset = "N/A"
+}
+
+public enum EventParameterTab: String {
+    case Selling = "selling"
+    case Sold = "sold"
+    case Favorites = "favorites"
 }
 
 

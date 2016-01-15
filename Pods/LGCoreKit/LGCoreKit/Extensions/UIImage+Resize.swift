@@ -110,4 +110,17 @@ extension UIImage {
 
         return transform
     }
+    
+    /**
+    Resizes the current image and returns its data, if possible.
+    
+    :return: The data of the resized image, if possible.
+    */
+    func resizeImageData() -> NSData? {
+        if let resizedImage = self.resizedImageToMaxSide(LGCoreKitConstants.productImageMaxSide,
+            interpolationQuality: .Medium) {
+                return UIImageJPEGRepresentation(resizedImage, LGCoreKitConstants.productImageJPEGQuality)
+        }
+        return nil
+    }
 }

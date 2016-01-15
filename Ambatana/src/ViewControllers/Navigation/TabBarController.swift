@@ -50,7 +50,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             case Chats:
                 return ChatListViewController()
             case Profile:
-                return EditProfileViewController(user: nil)
+                return EditProfileViewController(user: nil, source: .TabBar)
             }
         }
 
@@ -153,7 +153,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("askUserToUpdateLocation"), name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("askUserToUpdateLocation"),
+            name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
 
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
@@ -293,11 +294,11 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     controller that has 'hidesBottomBarWhenPushed = true' tabBar is removed from view hierarchy so the constraint will
     dissapear. Also when the tabBar is set again, is added into a different layer so the constraint cannot be set again.
     */
-    override func setTabBarHidden(hidden:Bool, animated:Bool) {
+    override func setTabBarHidden(hidden:Bool, animated:Bool, completion: (Bool -> Void)? = nil) {
 
         let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
         floatingSellButtonMarginConstraint.constant = floatingOffset
-        super.setTabBarHidden(hidden, animated: animated)
+        super.setTabBarHidden(hidden, animated: animated, completion: completion)
 
     }
 
@@ -600,7 +601,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
 
                         // TODO: Refactor TabBarController with MVVM
-                        let vc = EditProfileViewController(user: user)
+                        let vc = EditProfileViewController(user: user, source: .TabBar)
                         navBarCtl.pushViewController(vc, animated: true)
                     }
                 }
@@ -627,8 +628,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         // Show loading
         showLoadingMessageAlert()
 
-        ChatManager.sharedInstance.retrieveChatWithProductId(productId, buyerId: buyerId) {
-            [weak self] (result: Result<Chat, ChatRetrieveServiceError>) -> Void in
+        ChatRepository.sharedInstance.retrieveChatWithProductId(productId, buyerId: buyerId) {
+            [weak self] (result: Result<Chat, RepositoryError>) -> Void in
 
             var loadingDismissCompletion: (() -> Void)? = nil
 
@@ -645,11 +646,11 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                 }
             } else if let error = result.error {
                 // Error
-                let message: String
+                var message: String
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden:
+                case .Internal, .NotFound, .Unauthorized:
                     message = LGLocalizedString.commonChatNotAvailable
                 }
 

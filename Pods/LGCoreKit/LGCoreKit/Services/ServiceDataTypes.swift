@@ -146,3 +146,28 @@ public enum UserProductStatus: String {
     case Selling = "selling"
     case Sold = "sold"
 }
+
+
+extension RetrieveProductsParams {
+    
+    var letgoApiParams: Dictionary<String, AnyObject> {
+        var params = Dictionary<String, AnyObject>()
+        params["search_term"] = queryString
+        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
+        params["country_code"] = countryCode
+        let categories = categoryIds?.map { String($0) }.joinWithSeparator(",")
+        if categories != "" {
+            params["categories"] = categories
+        }
+        params["max_price"] = maxPrice
+        params["min_price"] = minPrice
+        params["distance_radius"] = distanceRadius
+        params["distance_type"] = distanceType?.string
+        params["num_results"] = numProducts
+        params["offset"] = offset
+        params["sort"] = sortCriteria?.string
+        params["since"] = timeCriteria?.string
+        
+        return params
+    }
+}

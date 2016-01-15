@@ -83,6 +83,11 @@ class ApiClient {
                 }
             )
     }
+    
+    static func request(request: URLRequestAuthenticable,
+        completion: ((ResultResult<Void, ApiError>.t) -> ())?) {
+            ApiClient.request(request, decoder: { object in return Void() }, completion: completion)
+    }
 
     /**
     Uploads a file.
