@@ -50,7 +50,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             case Chats:
                 return ChatListViewController()
             case Profile:
-                return EditProfileViewController(user: nil)
+                return EditProfileViewController(user: nil, source: .TabBar)
             }
         }
 
@@ -600,7 +600,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
 
                         // TODO: Refactor TabBarController with MVVM
-                        let vc = EditProfileViewController(user: user)
+                        let vc = EditProfileViewController(user: user, source: .TabBar)
                         navBarCtl.pushViewController(vc, animated: true)
                     }
                 }

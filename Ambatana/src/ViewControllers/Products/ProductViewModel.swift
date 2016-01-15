@@ -154,13 +154,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
         guard let myUser = myUserRepository.myUser, let myUserId = myUser.objectId else {
             //In case i'm not logged just open seller's profile
-            return EditProfileViewController(user: product.user)
+            return EditProfileViewController(user: product.user, source: .ProductDetail)
         }
 
         guard myUserId != productUserId  else { return nil }
 
         //If the seller is not me, open seller's profile
-        return EditProfileViewController(user: product.user)
+        return EditProfileViewController(user: product.user, source: .ProductDetail)
     }
     
     // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
