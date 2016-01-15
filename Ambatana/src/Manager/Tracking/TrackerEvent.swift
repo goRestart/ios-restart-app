@@ -474,6 +474,17 @@ public struct TrackerEvent {
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
 
+    public static func profileVisit(user: User, typePage: EventParameterTypePage, tab: EventParameterTab)
+        -> TrackerEvent {
+            var params = EventParameters()
+            params[.TypePage] = typePage.rawValue
+            if let userId = user.objectId {
+                params[.UserToId] = userId
+            }
+            params[.Tab] = tab.rawValue
+            return TrackerEvent(name: .ProfileVisit, params: params)
+    }
+
     public static func profileEditStart() -> TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .ProfileEditStart, params: params)
