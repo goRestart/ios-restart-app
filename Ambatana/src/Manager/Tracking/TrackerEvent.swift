@@ -478,9 +478,7 @@ public struct TrackerEvent {
         -> TrackerEvent {
             var params = EventParameters()
             params[.TypePage] = typePage.rawValue
-            if let userId = user.objectId {
-                params[.UserToId] = userId
-            }
+            params[.UserToId] = user.objectId
             params[.Tab] = tab.rawValue
             return TrackerEvent(name: .ProfileVisit, params: params)
     }
