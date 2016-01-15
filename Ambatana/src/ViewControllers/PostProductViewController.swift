@@ -313,7 +313,7 @@ UITextFieldDelegate {
                 animations: { [weak self] in
                     self?.postedInfoLabel.alpha = 1
                 },
-                completion: { [weak self] (completed: Bool) -> Void in
+                completion: { [weak self] completed in
                     self?.postedInfoLabel.alpha = 1
                     self?.setSelectPriceBottomItems(loading, error: error)
                 }
