@@ -288,7 +288,7 @@ extension ChatViewController: ChatOthersMessageCellDelegate {
     
     func didTapOnUserAvatar() {
         guard let user = viewModel.otherUser else { return }
-        let vc = EditProfileViewController(user: user)
+        let vc = EditProfileViewController(user: user, source: .Chat)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }

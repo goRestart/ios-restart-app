@@ -8,7 +8,6 @@
 
 import CHTCollectionViewWaterfallLayout
 import LGCoreKit
-import Parse
 import Result
 import UIKit
 import SDWebImage
@@ -19,6 +18,12 @@ private let kLetGoEnabledButtonBackgroundColor = UIColor.whiteColor()
 private let kLetGoEnabledButtonForegroundColor = UIColor(red: 0.949, green: 0.361, blue: 0.376, alpha: 1.0)
 private let kLetGoEditProfileCellFactor: CGFloat = 210.0 / 160.0
 
+
+enum EditProfileSource {
+    case TabBar
+    case ProductDetail
+    case Chat
+}
 
 class EditProfileViewController: UIViewController, ProductListViewDataDelegate, UICollectionViewDelegate,
 UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
@@ -67,6 +72,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         }
     }
     var selectedTab: ProfileTab = .ProductImSelling
+    var source: EditProfileSource
     
     private var isSellProductsEmpty: Bool = true
     private var isSoldProductsEmpty: Bool = true
@@ -77,16 +83,45 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     private var loadingFavProducts: Bool = false
     
     private var shouldReload: Bool
+
+    private var isMyUser: Bool {
+        if let myUserId = MyUserRepository.sharedInstance.myUser?.objectId, userId = user.objectId {
+            return userId == myUserId
+        }
+        return false
+    }
+
+    private var tabEventParameter: EventParameterTab {
+        switch selectedTab {
+        case .ProductImSelling:
+            return .Selling
+        case .ProductISold:
+            return .Sold
+        case .ProductFavourite:
+            return .Favorites
+        }
+    }
+    private var typePageEventParameter: EventParameterTypePage? {
+        switch source {
+        case .TabBar:
+            return nil
+        case .Chat:
+            return .Chat
+        case .ProductDetail:
+            return .ProductDetail
+        }
+    }
     
     var cellSize = CGSizeMake(160.0, 210.0)
     
-    init(user: User?) {
+    init(user: User?, source: EditProfileSource) {
         self.user = user ?? MyUserRepository.sharedInstance.myUser ?? LGUser()
-        shouldReload = true
+        self.source = source
+        self.shouldReload = true
         self.productsFavouriteRetrieveService = LGProductsFavouriteRetrieveService()
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
-        hidesBottomBarWhenPushed = false
+        self.hidesBottomBarWhenPushed = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -211,13 +246,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
 
         userNameLabel.text = user.name ?? ""
         userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
-        
-        // If it's me, then allow go to settings
-        if let myUser = MyUserRepository.sharedInstance.myUser, let myUserId = myUser.objectId,
-            let userId = user.objectId {
-                if userId == myUserId {
-                    setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
-                }
+
+        if isMyUser {
+            //Allow go to settings
+            setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
+        } else if let typePage = typePageEventParameter {
+            //Track profile visit
+            let trackerEvent = TrackerEvent.profileVisit(user, typePage: typePage, tab: tabEventParameter)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
     }
     
@@ -501,7 +537,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             noFavouritesLabel.hidden = true
             
             // set text depending on if we are the user being shown or not
-            if user.objectId == MyUserRepository.sharedInstance.myUser?.objectId { // user is me!
+            if isMyUser {
                 youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
                 youDontHaveSubtitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsSubtitleLabel
                 youDontHaveSubtitleLabel.hidden = false
