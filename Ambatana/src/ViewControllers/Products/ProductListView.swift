@@ -12,7 +12,7 @@ import UIKit
 
 public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: ProductsRetrieveServiceError)
+        error: RepositoryError)
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
         hasProducts: Bool)
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
@@ -301,9 +301,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func refresh() {
         productListViewModel.refreshing = true
         if productListViewModel.canRetrieveProducts {
-            productListViewModel.retrieveProductsFirstPage()
-        }
-        else {
+            productListViewModel.retrieveProducts()
+        } else {
             refreshControl.endRefreshing()
         }
     }
@@ -486,7 +485,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: ProductsRetrieveServiceError) {
+        error: RepositoryError) {
             // Update the UI
             if page == 0 {
                 refreshControl.endRefreshing()

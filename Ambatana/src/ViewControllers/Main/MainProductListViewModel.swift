@@ -19,42 +19,40 @@ public class MainProductListViewModel: ProductListViewModel {
     private var lastReceivedLocation: LGLocation?
     private var locationActivatedWhileLoading: Bool
     
+    
     // MARK: - Computed iVars
     
     public override var canRetrieveProducts: Bool {
         return super.canRetrieveProducts && queryCoordinates != nil
     }
     
+    
     // MARK: - Lifecycle
-
-    init(locationManager: LocationManager, productsManager: ProductsManager, productRepository: ProductRepository,
+    
+    init(locationManager: LocationManager, productRepository: ProductRepository,
         myUserRepository: MyUserRepository, tracker: Tracker) {
-        self.locationManager = locationManager
-        self.myUserRepository = myUserRepository
-        self.tracker = tracker
-        self.lastReceivedLocation = locationManager.currentLocation
-        self.locationActivatedWhileLoading = false
-        super.init(locationManager: locationManager, productsManager: productsManager,
-            productRepository: productRepository, myUserRepository: myUserRepository,
-            cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
-        
-        self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
-        self.isProfileList = false
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"),
-            name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
+            self.locationManager = locationManager
+            self.myUserRepository = myUserRepository
+            self.tracker = tracker
+            self.lastReceivedLocation = locationManager.currentLocation
+            self.locationActivatedWhileLoading = false
+            super.init(locationManager: locationManager, productRepository: productRepository,
+                myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
+            
+            self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
+            self.isProfileList = false
+            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"),
+                name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
     
     convenience init() {
         let locationManager = LocationManager.sharedInstance
         let myUserRepository = MyUserRepository.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        let productsRetrieveService = LGProductsRetrieveService()
-        let userProductsRetrieveService = LGUserProductsRetrieveService()
-        let productsManager = ProductsManager(productsRetrieveService: productsRetrieveService,
-            userProductsRetrieveService: userProductsRetrieveService)
-        self.init(locationManager: locationManager, productsManager: productsManager,
-            productRepository: ProductRepository.sharedInstance, myUserRepository: myUserRepository, tracker: tracker)
+        let productRepository = ProductRepository.sharedInstance
+        self.init(locationManager: locationManager, productRepository: productRepository,
+            myUserRepository: myUserRepository, tracker: tracker)
     }
     
      deinit {
@@ -74,10 +72,10 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Public methods
     
-    public override func retrieveProductsFirstPage() {
+    public func retrieveProductsFirstPage() {
         // Update before requesting the first page
         countryCode = locationManager.currentPostalAddress?.countryCode
-        super.retrieveProductsFirstPage()
+        super.retrieveProducts()
     }
     
     // MARK: - Internal methods
