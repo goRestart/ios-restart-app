@@ -316,13 +316,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
                 
                 retrievalFinishedForProductsAtTab(.ProductISold)
             }
-//            
-//            if error == RepositoryError.Unauthorized {
-//                // logout the scammer!
-//                showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-//                    SessionManager.sharedInstance.logout()
-//               }
-//            }
     }
     
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,

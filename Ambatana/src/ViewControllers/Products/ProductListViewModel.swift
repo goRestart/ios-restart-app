@@ -55,11 +55,9 @@ public class ProductListViewModel: BaseViewModel {
         // If we had specified coordinates
         if let specifiedCoordinates = coordinates {
             coords = specifiedCoordinates
-        }
-        else if let currentLocation = locationManager.currentLocation {
+        } else if let currentLocation = locationManager.currentLocation {
             coords = LGLocationCoordinates2D(location: currentLocation)
-        }
-        else {
+        } else {
             coords = nil
         }
         return coords
@@ -224,8 +222,7 @@ public class ProductListViewModel: BaseViewModel {
                     hasProducts: hasProducts, atIndexPaths: indexPaths)
                 strongSelf.isLastPage = newProducts.count == 0
                 strongSelf.didSucceedRetrievingProducts()
-            }
-            else if let error = result.error {
+            } else if let error = result.error {
                 let hasProducts = strongSelf.products.count > 0
                 strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
                     hasProducts: hasProducts, error: error)
@@ -306,8 +303,7 @@ public class ProductListViewModel: BaseViewModel {
                     // TODO: Do something with the error
                 }
             }
-        }
-        else {
+        } else {
             productRepository.saveFavorite(product) { [weak self] result in
                 if let value = result.value {
                     self?.updateProduct(value, atIndex: index)
