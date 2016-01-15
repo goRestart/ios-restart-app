@@ -52,6 +52,9 @@ pod "GoogleAppIndexing",    "~> 2.0.1"
 # Google Analytics
 pod "Google/Analytics",     "~> 1.3.2"
 
+#Google IDFA Support
+pod "GoogleIDFASupport",    "~> 3.14.0"
+
 # Adjust
 pod "Adjust",               "~> 4.5.0" #:git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"
 

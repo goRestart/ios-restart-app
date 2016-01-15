@@ -667,9 +667,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */,
 				2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */,
 				C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */,
-				6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */,
 				66A0CFD01A83612500FAADF0 /* AudioToolbox.framework in Frameworks */,
 				66A0CFD11A83612500FAADF0 /* CFNetwork.framework in Frameworks */,
 				66A0CFD21A83612500FAADF0 /* CoreGraphics.framework in Frameworks */,
