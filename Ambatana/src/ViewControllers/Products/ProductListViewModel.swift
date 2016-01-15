@@ -342,6 +342,12 @@ public class ProductListViewModel: BaseViewModel {
         return products[index]
     }
 
+    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel {
+        let productVM = ProductViewModel(product: productAtIndex(index), thumbnailImage: thumbnailImage)
+        productVM.updatesDelegate = self
+        return productVM
+    }
+
     func productCellDataAtIndex(index: Int) -> ProductCellData {        
         let product = products[index]
         var isMine = false
@@ -426,5 +432,20 @@ public class ProductListViewModel: BaseViewModel {
         guard index >= 0 && index < products.count else { return }
         products[index] = product
         dataDelegate?.viewModel(self, didUpdateProductDataAtIndex: index)
+    }
+}
+
+
+// MARK: - ProductViewModelUpdatesDelegate
+
+extension ProductListViewModel: ProductViewModelUpdatesDelegate {
+    public func productViewModel(viewModel: ProductViewModel, updatedProduct: Product) {
+        for (index, item) in products.enumerate() {
+            guard let itemId = item.objectId, productId = updatedProduct.objectId where itemId == productId
+                else { continue }
+
+            updateProduct(updatedProduct, atIndex: index)
+            return
+        }
     }
 }

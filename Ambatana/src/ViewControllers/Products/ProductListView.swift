@@ -345,8 +345,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         - returns: The product view model.
     */
     public func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel {
-        let product = productAtIndex(index)
-        return ProductViewModel(product: product, thumbnailImage: thumbnailImage)
+        return productListViewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
     }
     
     
@@ -613,16 +612,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         default:
             break
         }
-    }
-    
-    /**
-        Returns the product at the given index.
-        
-        - parameter index: The index of the product.
-        - returns: The product.
-    */
-    private func productAtIndex(index: Int) -> Product {
-        return productListViewModel.productAtIndex(index)
     }
 }
 
