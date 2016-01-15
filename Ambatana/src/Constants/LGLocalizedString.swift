@@ -147,6 +147,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_username_title", comment: "")
 	}
 
+	static var chatListArchive: String {
+		return NSLocalizedString("chat_list_archive", comment: "")
+	}
+
+	static var chatListArchiveAlertTitle: String {
+		return NSLocalizedString("chat_list_archive_alert_title", comment: "")
+	}
+
+	static var chatListArchiveAlertText: String {
+		return NSLocalizedString("chat_list_archive_alert_text", comment: "")
+	}
+
+	static var chatListArchiveErrorOne: String {
+		return NSLocalizedString("chat_list_archive_error_one", comment: "")
+	}
+
+	static var chatListArchiveErrorMultiple: String {
+		return NSLocalizedString("chat_list_archive_error_multiple", comment: "")
+	}
+
 	static var chatListEmptyLabel: String {
 		return NSLocalizedString("chat_list_empty_label", comment: "")
 	}
@@ -605,6 +625,18 @@ struct LGLocalizedString {
 
 	static var mainSignUpSignUpButton: String {
 		return NSLocalizedString("main_sign_up_sign_up_button", comment: "")
+	}
+
+	static var mainSignUpTermsConditions: String {
+		return NSLocalizedString("main_sign_up_terms_conditions", comment: "")
+	}
+
+	static var mainSignUpTermsConditionsTermsPart: String {
+		return NSLocalizedString("main_sign_up_terms_conditions_terms_part", comment: "")
+	}
+
+	static var mainSignUpTermsConditionsPrivacyPart: String {
+		return NSLocalizedString("main_sign_up_terms_conditions_privacy_part", comment: "")
 	}
 
 	static func makeAnOfferNewOfferMessage(var1: String) -> String {
@@ -1341,6 +1373,26 @@ struct LGLocalizedString {
 
 	static var signUpUsernameFieldHint: String {
 		return NSLocalizedString("sign_up_username_field_hint", comment: "")
+	}
+
+	static var signUpTermsConditions: String {
+		return NSLocalizedString("sign_up_terms_conditions", comment: "")
+	}
+
+	static var signUpTermsConditionsTermsPart: String {
+		return NSLocalizedString("sign_up_terms_conditions_terms_part", comment: "")
+	}
+
+	static var signUpTermsConditionsPrivacyPart: String {
+		return NSLocalizedString("sign_up_terms_conditions_privacy_part", comment: "")
+	}
+
+	static var signUpNewsleter: String {
+		return NSLocalizedString("sign_up_newsleter", comment: "")
+	}
+
+	static var signUpAcceptanceError: String {
+		return NSLocalizedString("sign_up_acceptance_error", comment: "")
 	}
 
 	static var tabBarToolTip: String {

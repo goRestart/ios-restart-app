@@ -312,6 +312,9 @@ public class ProductListViewModel: BaseViewModel {
             productRepository.saveFavorite(product) { [weak self] result in
                 if let value = result.value {
                     self?.updateProduct(value, atIndex: index)
+                    let trackerEvent = TrackerEvent.productFavorite(product, user: self?.myUserRepository.myUser,
+                    typePage: .ProductList)
+                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 } else if let _ = result.error {
                     // TODO: Do something with the error
                 }

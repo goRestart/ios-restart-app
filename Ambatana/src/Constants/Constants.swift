@@ -24,6 +24,8 @@ struct Constants {
     static let appStoreURL = "http://itunes.apple.com/app/id%@?mt=8"
     static let websiteURL = "http://www.letgo.com"
     static let helpURL = "http://%@.letgo.com/%@/help_app"
+    static let termsAndConditionsURL = "http://%@.letgo.com/%@/terms-and-conditions"
+    static let privacyURL = "http://%@.letgo.com/%@/privacy"
     static let productURL = "\(Constants.websiteURL)/product/%@"
     static let whatsAppShareURL = "whatsapp://send?text=%@"
     
