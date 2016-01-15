@@ -92,6 +92,7 @@ public class GANTracker: Tracker {
     public func trackEvent(event: TrackerEvent) {
         if event.shouldTrack {
             let tracker = GAI.sharedInstance().defaultTracker
+            tracker.allowIDFACollection = true  // Needed for remarketing features
             let builder = GAIDictionaryBuilder.createEventWithCategory(event.ganCategory, action:event.actualName,
                 label: nil, value: nil)
             tracker.send(builder.build() as [NSObject:AnyObject])
