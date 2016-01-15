@@ -44,7 +44,7 @@ pod "DeviceUtil",         "~> 1.3.5"
 pod "Kahuna",               "2.3.1"
 
 # New Relic
-pod "NewRelicAgent",         "~> 5.3.4"
+pod "NewRelicAgent",         "5.3.1"
 
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0.1"

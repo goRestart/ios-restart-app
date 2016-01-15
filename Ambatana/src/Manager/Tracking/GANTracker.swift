@@ -66,6 +66,10 @@ public class GANTracker: Tracker {
             var configureError:NSError?
             GGLContext.sharedInstance().configureWithError(&configureError)
             assert(configureError == nil, "Error configuring Google services: \(configureError)")
+
+            // Needed for remarketing features
+            let tracker = GAI.sharedInstance().defaultTracker
+            tracker.allowIDFACollection = true
     }
 
     public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,

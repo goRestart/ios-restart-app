@@ -2721,7 +2721,6 @@
 		86678F22ABFF105E881B6F30216F9569 /* PFDevice.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFDevice.m; path = Parse/Internal/PFDevice.m; sourceTree = "<group>"; };
 		8682EFD4019CD09F72E5A28F33D258CC /* FBSDKAccessTokenCacheV4.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FBSDKAccessTokenCacheV4.m; path = FBSDKCoreKit/FBSDKCoreKit/Internal/TokenCaching/FBSDKAccessTokenCacheV4.m; sourceTree = "<group>"; };
 		8686AC7CB55A5243A3B2D550A4FB8E46 /* RealmSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RealmSwift-umbrella.h"; sourceTree = "<group>"; };
-		86B473EE41B3050F400A0B610051AED0 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = NewRelic_iOS_Agent_5.3.5/NewRelicAgent.framework; sourceTree = "<group>"; };
 		86B767685E4D0667F535BAE0FEC4F553 /* shared_ptr.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; name = shared_ptr.hpp; path = include/realm/util/shared_ptr.hpp; sourceTree = "<group>"; };
 		86DFB146EBE9CB12A5D5F8301C839687 /* FBSDKButton+Subclass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "FBSDKButton+Subclass.h"; path = "FBSDKCoreKit/FBSDKCoreKit/Internal/UI/FBSDKButton+Subclass.h"; sourceTree = "<group>"; };
 		86E25C076B215ECE107CEB5C61BD74B3 /* MyUserUDDAO.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MyUserUDDAO.swift; path = LGCoreKit/DAO/MyUser/MyUserUDDAO.swift; sourceTree = "<group>"; };
@@ -3485,6 +3484,7 @@
 		F83A608A1DFA5AAD1CBB74BDB03356B3 /* BFAppLinkReturnToRefererController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BFAppLinkReturnToRefererController.h; path = Bolts/iOS/BFAppLinkReturnToRefererController.h; sourceTree = "<group>"; };
 		F83EC92E26CE9F93724A9005D4452095 /* Parse-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Parse-dummy.m"; sourceTree = "<group>"; };
 		F84575308A01291D470EBACDE9FF6C7A /* RLMObjectSchema_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RLMObjectSchema_Private.h; path = include/realm/RLMObjectSchema_Private.h; sourceTree = "<group>"; };
+		F845C5969BC375D0969B6D4CA409E8B0 /* NewRelicAgent.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NewRelicAgent.framework; path = NewRelic_iOS_Agent_5.3.1/NewRelicAgent.framework; sourceTree = "<group>"; };
 		F8547C47B6F6DA6E3060115B54DD916E /* POPAnimationExtras.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = POPAnimationExtras.h; path = pop/POPAnimationExtras.h; sourceTree = "<group>"; };
 		F8896B9AB29C38386BD851F5687FDF64 /* PFRESTCloudCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRESTCloudCommand.m; path = Parse/Internal/Commands/PFRESTCloudCommand.m; sourceTree = "<group>"; };
 		F90F07C00F1334ED0189AAD863004B9E /* libProtocolBuffers.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libProtocolBuffers.a; path = Libraries/libProtocolBuffers.a; sourceTree = "<group>"; };
@@ -3940,14 +3940,6 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Parse";
-			sourceTree = "<group>";
-		};
-		06BF145A3EF211657AFBC0C62F599DF7 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				86B473EE41B3050F400A0B610051AED0 /* NewRelicAgent.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		08986E4037E88D086C0DB59C31847404 /* Support Files */ = {
@@ -5392,6 +5384,14 @@
 			path = "../Target Support Files/JSONWebToken";
 			sourceTree = "<group>";
 		};
+		8AAB3D3BA2390DF85226938964B9E354 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F845C5969BC375D0969B6D4CA409E8B0 /* NewRelicAgent.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8B8F628B9E835C2112FBC6A774435FAB /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -6383,7 +6383,7 @@
 		F7764E00043638D343C30D3DF95F27A2 /* NewRelicAgent */ = {
 			isa = PBXGroup;
 			children = (
-				06BF145A3EF211657AFBC0C62F599DF7 /* Frameworks */,
+				8AAB3D3BA2390DF85226938964B9E354 /* Frameworks */,
 			);
 			path = NewRelicAgent;
 			sourceTree = "<group>";
