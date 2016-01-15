@@ -200,7 +200,7 @@ public class ProductListViewModel: BaseViewModel {
         nextPageRetrievalLastError = nil
         
         let currentCount = numberOfProducts
-        var nextPageNumber = (pageNumber == 0 ? 0 : pageNumber + 1)
+        var nextPageNumber = (offset == 0 ? 0 : pageNumber + 1)
 
         dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
 
@@ -208,8 +208,6 @@ public class ProductListViewModel: BaseViewModel {
         productRepository.index(params, pageOffset: offset) { [weak self] result in
                        guard let strongSelf = self else { return }
             if let newProducts = result.value {
-                
-                
                 if offset == 0 {
                     strongSelf.products = newProducts
                     strongSelf.maxDistance = 1
