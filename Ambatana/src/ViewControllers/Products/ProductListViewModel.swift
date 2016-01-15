@@ -27,6 +27,8 @@ public protocol TopProductInfoDelegate: class {
 }
 
 public protocol ProductListActionsDelegate: class {
+    func productListViewModel(productListViewModel: ProductListViewModel,
+        requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void)
     func productListViewModel(productListViewModel: ProductListViewModel, didTapChatOnProduct product: Product)
     func productListViewModel(productListViewModel: ProductListViewModel, didTapShareOnProduct product: Product)
 }
@@ -352,21 +354,24 @@ public class ProductListViewModel: BaseViewModel {
 
     public func cellDidTapFavorite(index: Int) {
         let product = productAtIndex(index)
-        if product.favorite {
-            productRepository.deleteFavorite(product) { [weak self] result in
-                guard let product = result.value else { return }
-                self?.updateProduct(product, atIndex: index)
-            }
-        } else {
-            productRepository.saveFavorite(product) { [weak self] result in
-                guard let product = result.value else { return }
-                self?.updateProduct(product, atIndex: index)
+        let loggedInAction = { [weak self] in
+            if product.favorite {
+                self?.productRepository.deleteFavorite(product) { [weak self] result in
+                    guard let product = result.value else { return }
+                    self?.updateProduct(product, atIndex: index)
+                }
+            } else {
+                self?.productRepository.saveFavorite(product) { [weak self] result in
+                    guard let product = result.value else { return }
+                    self?.updateProduct(product, atIndex: index)
 
-                let trackerEvent = TrackerEvent.productFavorite(product, user: self?.myUserRepository.myUser,
-                    typePage: .ProductList)
-                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                    let trackerEvent = TrackerEvent.productFavorite(product, user: self?.myUserRepository.myUser,
+                        typePage: .ProductList)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+                }
             }
         }
+        actionsDelegate?.productListViewModel(self, requiresLoginWithSource: .Favourite, completion: loggedInAction)
     }
 
     public func cellDidTapChat(index: Int) {
@@ -379,7 +384,6 @@ public class ProductListViewModel: BaseViewModel {
 
 
     // MARK: > UI
-
 
     public func clearList() {
         products = []

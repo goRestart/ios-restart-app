@@ -441,6 +441,12 @@ UITextFieldDelegate {
 extension MainProductsViewController: ProductListActionsDelegate {
 
     public func productListViewModel(productListViewModel: ProductListViewModel,
+        requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void) {
+            ifLoggedInThen(source, loggedInAction: completion,
+                elsePresentSignUpWithSuccessAction: completion)
+    }
+
+    public func productListViewModel(productListViewModel: ProductListViewModel,
         didTapChatOnProduct product: Product) {
 
             let showChatAction = { [weak self] in
