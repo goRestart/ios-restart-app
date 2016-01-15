@@ -22,6 +22,13 @@ public class MainProductListView: ProductListView {
         super.init(viewModel: mainProductListViewModel, coder: aDecoder)
         mainProductListViewModel.dataDelegate = self
     }
+
+
+    // MARK: - Public methods
+
+    public func sessionDidChange() {
+        mainProductListViewModel.sessionDidChange()
+    }
     
     
     // MARK: - ProductListViewModelDataDelegate

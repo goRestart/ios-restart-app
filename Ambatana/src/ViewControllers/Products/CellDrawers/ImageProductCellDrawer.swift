@@ -25,14 +25,15 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
     }
 
     func draw(collectionCell: UICollectionViewCell, data: ProductCellData, delegate: ProductCellDelegate?) {
-
         guard let cell = collectionCell as? ProductCell else { return }
+        cell.setCellWidth(data.cellWidth)
 
         //Doesn't make sense to show like/chat actions if product is mine.
         cell.setupActions(showActions && !data.isMine, delegate: delegate, indexPath: data.indexPath)
-        cell.setCellWidth(data.cellWidth)
-
         cell.priceLabel.text = data.price ?? ""
+        cell.likeButton.setImage(data.isFavorite ?
+            UIImage(named: "ic_product_like_on") : UIImage(named: "ic_product_like_off"),
+            forState: UIControlState.Normal)
 
         // Thumb
         if let thumbURL = data.thumbUrl {

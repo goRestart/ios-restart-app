@@ -177,7 +177,8 @@ public class SignUpLogInViewModel: BaseViewModel {
             delegate?.viewModel(self, didFinishSigningUpWithResult:
                 Result<MyUser, SignUpLogInError>(error: .TermsNotAccepted))
         } else {
-            sessionManager.signUp(email.lowercaseString, password: password, name: fullName, newsletter: nil) {
+            let newsletter: Bool? = termsAndConditionsEnabled ? self.newsletterAccepted : nil
+            sessionManager.signUp(email.lowercaseString, password: password, name: fullName, newsletter: newsletter) {
                 [weak self] signUpResult in
                 
                 guard let strongSelf = self else { return }

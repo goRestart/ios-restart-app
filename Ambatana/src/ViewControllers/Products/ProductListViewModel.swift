@@ -27,6 +27,8 @@ public protocol TopProductInfoDelegate: class {
 }
 
 public protocol ProductListActionsDelegate: class {
+    func productListViewModel(productListViewModel: ProductListViewModel,
+        requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void)
     func productListViewModel(productListViewModel: ProductListViewModel, didTapChatOnProduct product: Product)
     func productListViewModel(productListViewModel: ProductListViewModel, didTapShareOnProduct product: Product)
 }
@@ -295,26 +297,24 @@ public class ProductListViewModel: BaseViewModel {
 
     public func cellDidTapFavorite(index: Int) {
         let product = productAtIndex(index)
-        if product.favorite {
-            productRepository.deleteFavorite(product) { [weak self] result in
-                if let value = result.value {
-                    self?.updateProduct(value, atIndex: index)
-                } else if let _ = result.error {
-                    // TODO: Do something with the error
+        let loggedInAction = { [weak self] in
+            if product.favorite {
+                self?.productRepository.deleteFavorite(product) { [weak self] result in
+                    guard let product = result.value else { return }
+                    self?.updateProduct(product, atIndex: index)
                 }
-            }
-        } else {
-            productRepository.saveFavorite(product) { [weak self] result in
-                if let value = result.value {
-                    self?.updateProduct(value, atIndex: index)
+            } else {
+                self?.productRepository.saveFavorite(product) { [weak self] result in
+                    guard let product = result.value else { return }
+                    self?.updateProduct(product, atIndex: index)
+
                     let trackerEvent = TrackerEvent.productFavorite(product, user: self?.myUserRepository.myUser,
-                    typePage: .ProductList)
-                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                } else if let _ = result.error {
-                    // TODO: Do something with the error
+                        typePage: .ProductList)
+                    TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 }
             }
         }
+        actionsDelegate?.productListViewModel(self, requiresLoginWithSource: .Favourite, completion: loggedInAction)
     }
 
     public func cellDidTapChat(index: Int) {
@@ -327,7 +327,6 @@ public class ProductListViewModel: BaseViewModel {
 
 
     // MARK: > UI
-
 
     public func clearList() {
         products = []
@@ -343,6 +342,12 @@ public class ProductListViewModel: BaseViewModel {
         return products[index]
     }
 
+    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel {
+        let productVM = ProductViewModel(product: productAtIndex(index), thumbnailImage: thumbnailImage)
+        productVM.updatesDelegate = self
+        return productVM
+    }
+
     func productCellDataAtIndex(index: Int) -> ProductCellData {        
         let product = products[index]
         var isMine = false
@@ -352,7 +357,7 @@ public class ProductListViewModel: BaseViewModel {
         }
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            isFavorite: false, isMine: isMine, cellWidth: ProductListViewModel.cellWidth,
+            isFavorite: product.favorite, isMine: isMine, cellWidth: ProductListViewModel.cellWidth,
             indexPath: NSIndexPath(forRow: index, inSection: 0))
     }
     
@@ -427,5 +432,20 @@ public class ProductListViewModel: BaseViewModel {
         guard index >= 0 && index < products.count else { return }
         products[index] = product
         dataDelegate?.viewModel(self, didUpdateProductDataAtIndex: index)
+    }
+}
+
+
+// MARK: - ProductViewModelUpdatesDelegate
+
+extension ProductListViewModel: ProductViewModelUpdatesDelegate {
+    public func productViewModel(viewModel: ProductViewModel, updatedProduct: Product) {
+        for (index, item) in products.enumerate() {
+            guard let itemId = item.objectId, productId = updatedProduct.objectId where itemId == productId
+                else { continue }
+
+            updateProduct(updatedProduct, atIndex: index)
+            return
+        }
     }
 }
