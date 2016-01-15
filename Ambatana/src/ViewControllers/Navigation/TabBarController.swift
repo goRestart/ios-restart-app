@@ -153,7 +153,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("askUserToUpdateLocation"), name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("askUserToUpdateLocation"),
+            name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
 
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
@@ -293,7 +294,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     controller that has 'hidesBottomBarWhenPushed = true' tabBar is removed from view hierarchy so the constraint will
     dissapear. Also when the tabBar is set again, is added into a different layer so the constraint cannot be set again.
     */
-    override func setTabBarHidden(hidden:Bool, animated:Bool, completion: ((Bool) -> (Void))? = nil) {
+    override func setTabBarHidden(hidden:Bool, animated:Bool, completion: (Bool -> Void)? = nil) {
 
         let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
         floatingSellButtonMarginConstraint.constant = floatingOffset

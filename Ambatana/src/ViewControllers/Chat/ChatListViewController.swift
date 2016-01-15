@@ -210,19 +210,19 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: animated)
 
-        tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] (completed) -> (Void) in
+        tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] completed in
             self?.setToolbarHidden(!editing, animated: true)
             })
 
         if editing {
             // hide tabbar and show toolbar
-            tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] (completed) -> (Void) in
+            tabBarController?.setTabBarHidden(editing, animated: true, completion: { [weak self] completed in
                 self?.setToolbarHidden(!editing, animated: true)
                 })
 
         } else {
             // hide toolbar and show tabbar
-            self.setToolbarHidden(!editing, animated: true, completion: { (completed) -> (Void) in
+            self.setToolbarHidden(!editing, animated: true, completion: { completed in
                 tabBarController?.setTabBarHidden(editing, animated: true)
             })
         }
@@ -330,8 +330,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
 
         //  animate the tabBar
         UIView.animateWithDuration(duration, animations: { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.editModeToolbar.frame = CGRectOffset(frame, 0, offsetY)
+            self?.editModeToolbar.frame = CGRectOffset(frame, 0, offsetY)
             self?.view.layoutIfNeeded()
             }, completion: completion)
     }
@@ -353,7 +352,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         alert.addAction(noAction)
         alert.addAction(yesAction)
 
-        self.presentViewController(alert, animated: true, completion: nil)
+        presentViewController(alert, animated: true, completion: nil)
     }
 
     private func archiveConversationsFinishedWithTotal(totalChats: Int) {
@@ -361,8 +360,8 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         guard viewModel.archivedChats == totalChats else { return }
 
         var message: String
-        var completion: (() -> Void)? = nil
-
+        var completion: (() -> ())? = nil
+        
         if viewModel.failedArchivedChats > 0  {
             if totalChats > 1 {
                 message = LGLocalizedString.chatListArchiveErrorMultiple

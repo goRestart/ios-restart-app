@@ -28,14 +28,12 @@ extension UITabBarController {
 
         //  animate the tabBar
         UIView.animateWithDuration(duration) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.tabBar.frame = CGRectOffset(frame, 0, offsetY)
+            self?.tabBar.frame = CGRectOffset(frame, 0, offsetY)
             self?.view.layoutIfNeeded()
         }
 
         UIView.animateWithDuration(duration, animations: { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.tabBar.frame = CGRectOffset(frame, 0, offsetY)
+            self?.tabBar.frame = CGRectOffset(frame, 0, offsetY)
             self?.view.layoutIfNeeded()
         }, completion: completion)
     }

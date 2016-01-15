@@ -99,21 +99,21 @@ public class ChatListViewModel : BaseViewModel {
         archivedChats = 0
         failedArchivedChats = 0
         for index in indexes {
-            if let chat = chats?[index.row] {
-                chatRepository.archiveChatWithId(chat) { [weak self] (result: Result<Void, RepositoryError>) -> () in
+            guard let chat = chats?[index.row] else { return }
+            chatRepository.archiveChatWithId(chat) { [weak self] (result: Result<Void, RepositoryError>) -> () in
 
-                    if let strongSelf = self {
-                        strongSelf.archivedChats++
-                        if let _ = result.error {
-                            strongSelf.failedArchivedChats++
-                            strongSelf.delegate?.didFailArchivingChat(strongSelf, atPosition: index.row, ofTotal: indexes.count)
-                        } else {
-                            strongSelf.delegate?.didSucceedArchivingChat(strongSelf, atPosition: index.row, ofTotal: indexes.count)
-                        }
-                    }
+                guard let strongSelf = self else { return }
+                strongSelf.archivedChats++
+                if let _ = result.error {
+                    strongSelf.failedArchivedChats++
+                    strongSelf.delegate?.didFailArchivingChat(strongSelf, atPosition: index.row,
+                        ofTotal: indexes.count)
+                } else {
+                    strongSelf.delegate?.didSucceedArchivingChat(strongSelf, atPosition: index.row,
+                        ofTotal: indexes.count)
                 }
             }
         }
     }
-
+    
 }
