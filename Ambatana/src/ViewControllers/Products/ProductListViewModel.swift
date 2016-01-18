@@ -181,6 +181,12 @@ public class ProductListViewModel: BaseViewModel {
     
     // MARK: > Requests
 
+    /**
+        Update the Fav info of the cached products from local
+    */
+    public func relaodProducts() {
+        products = productRepository.updateFavoritesInfo(products)
+    }
     
     public func retrieveProducts() {
         if canRetrieveProducts {
