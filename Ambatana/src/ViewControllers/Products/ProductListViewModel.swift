@@ -182,9 +182,10 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: > Requests
 
     /**
-        Update the Fav info of the cached products from local
+        Update the Favorite info for all cached products
+        This method won't do any API call, just update with the favorite info stored locally.
     */
-    public func relaodProducts() {
+    public func reloadProducts() {
         products = productRepository.updateFavoritesInfo(products)
     }
     
