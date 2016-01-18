@@ -12,7 +12,7 @@ import UIKit
 
 public protocol ProductListViewDataDelegate: class {
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: ProductsRetrieveServiceError)
+        error: RepositoryError)
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
         hasProducts: Bool)
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
@@ -301,9 +301,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func refresh() {
         productListViewModel.refreshing = true
         if productListViewModel.canRetrieveProducts {
-            productListViewModel.retrieveProductsFirstPage()
-        }
-        else {
+            productListViewModel.retrieveProducts()
+        } else {
             refreshControl.endRefreshing()
         }
     }
@@ -346,8 +345,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         - returns: The product view model.
     */
     public func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel {
-        let product = productAtIndex(index)
-        return ProductViewModel(product: product, thumbnailImage: thumbnailImage)
+        return productListViewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
     }
     
     
@@ -486,7 +484,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: ProductsRetrieveServiceError) {
+        error: RepositoryError) {
             // Update the UI
             if page == 0 {
                 refreshControl.endRefreshing()
@@ -614,16 +612,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         default:
             break
         }
-    }
-    
-    /**
-        Returns the product at the given index.
-        
-        - parameter index: The index of the product.
-        - returns: The product.
-    */
-    private func productAtIndex(index: Int) -> Product {
-        return productListViewModel.productAtIndex(index)
     }
 }
 

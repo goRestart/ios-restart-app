@@ -22,6 +22,13 @@ public class MainProductListView: ProductListView {
         super.init(viewModel: mainProductListViewModel, coder: aDecoder)
         mainProductListViewModel.dataDelegate = self
     }
+
+
+    // MARK: - Public methods
+
+    public func sessionDidChange() {
+        mainProductListViewModel.sessionDidChange()
+    }
     
     
     // MARK: - ProductListViewModelDataDelegate
@@ -64,7 +71,7 @@ public class MainProductListView: ProductListView {
     }
     
     public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
-        hasProducts: Bool, error: ProductsRetrieveServiceError) {
+        hasProducts: Bool, error: RepositoryError) {
 
             defer {
                 super.viewModel(viewModel, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
@@ -88,7 +95,7 @@ public class MainProductListView: ProductListView {
                 errTitle = LGLocalizedString.commonErrorTitle
                 errBody = LGLocalizedString.commonErrorNetworkBody
                 errButTitle = LGLocalizedString.commonErrorRetryButton
-            case .Internal, .Forbidden:
+            case .Internal, .Unauthorized, .NotFound:
                 errImage = UIImage(named: "err_generic")
                 errTitle = LGLocalizedString.commonErrorTitle
                 errBody = LGLocalizedString.commonErrorGenericBody

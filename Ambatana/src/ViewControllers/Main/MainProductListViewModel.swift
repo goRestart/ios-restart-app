@@ -17,7 +17,8 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // Data
     private var lastReceivedLocation: LGLocation?
-    private var locationActivatedWhileLoading: Bool
+    private var shouldRetryLoad: Bool
+    
     
     // MARK: - Computed iVars
     
@@ -25,32 +26,32 @@ public class MainProductListViewModel: ProductListViewModel {
         return super.canRetrieveProducts && queryCoordinates != nil
     }
     
+    
     // MARK: - Lifecycle
-
-    init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager,
+    
+    init(locationManager: LocationManager, productRepository: ProductRepository,
         myUserRepository: MyUserRepository, tracker: Tracker) {
-        self.locationManager = locationManager
-        self.myUserRepository = myUserRepository
-        self.tracker = tracker
-        self.lastReceivedLocation = locationManager.currentLocation
-        self.locationActivatedWhileLoading = false
-        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
-            myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
-        
-        self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
-        self.isProfileList = false
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"),
-            name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
+            self.locationManager = locationManager
+            self.myUserRepository = myUserRepository
+            self.tracker = tracker
+            self.lastReceivedLocation = locationManager.currentLocation
+            self.shouldRetryLoad = false
+            super.init(locationManager: locationManager, productRepository: productRepository,
+                myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
+            
+            self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
+            self.isProfileList = false
+            
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"),
+                name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
     
     convenience init() {
         let locationManager = Core.locationManager
+        let productRepository = Core.productRepository
         let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
-        let productsManager = Core.productsManager
-        let productManager = Core.productManager
-        self.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
+        self.init(locationManager: locationManager, productRepository: productRepository,
             myUserRepository: myUserRepository, tracker: tracker)
     }
     
@@ -70,11 +71,19 @@ public class MainProductListViewModel: ProductListViewModel {
     }
     
     // MARK: - Public methods
+
+    public func sessionDidChange() {
+        guard canRetrieveProducts else {
+            shouldRetryLoad = true
+            return
+        }
+        retrieveProductsFirstPage()
+    }
     
-    public override func retrieveProductsFirstPage() {
+    public func retrieveProductsFirstPage() {
         // Update before requesting the first page
         countryCode = locationManager.currentPostalAddress?.countryCode
-        super.retrieveProductsFirstPage()
+        super.retrieveProducts()
     }
     
     // MARK: - Internal methods
@@ -86,9 +95,9 @@ public class MainProductListViewModel: ProductListViewModel {
         let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
         tracker.trackEvent(trackerEvent)
 
-        if locationActivatedWhileLoading {
+        if shouldRetryLoad {
             // in case the user allows sensors while loading the product list with the iplookup parameters
-            locationActivatedWhileLoading = false
+            shouldRetryLoad = false
             retrieveProductsFirstPage()
         }
     }
@@ -96,29 +105,33 @@ public class MainProductListViewModel: ProductListViewModel {
     // MARK: - Private methods
     
     private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
-        
-        // If new location is manual
+
+        var shouldUpdate = false
+
         if canRetrieveProducts {
-            
             // If there are no products, then refresh
             if numberOfProducts == 0 {
-                retrieveProductsFirstPage()
+                shouldUpdate = true
             }
             // If new location is manual OR last location was manual, and location has changed then refresh
             else if newLocation.type == .Manual || lastReceivedLocation?.type == .Manual {
                 if let lastReceivedLocation = lastReceivedLocation {
                     if (newLocation != lastReceivedLocation) {
-                        retrieveProductsFirstPage()
+                        shouldUpdate = true
                     }
                 }
             }
             // If new location is not manual and we improved the location type to sensors
             else if lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
-                retrieveProductsFirstPage()
+                shouldUpdate = true
             }
         } else if numberOfProducts == 0 && lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
             // in case the user allows sensors while loading the product list with the iplookup parameters
-            locationActivatedWhileLoading = true
+            shouldRetryLoad = true
+        }
+
+        if shouldUpdate{
+            retrieveProductsFirstPage()
         }
         
         // Track the received location

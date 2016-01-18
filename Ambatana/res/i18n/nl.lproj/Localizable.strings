@@ -154,8 +154,7 @@
 "main_sign_up_quickly_label" = "VERBIND SNEL MET";
 "main_sign_up_sign_up_button" = "Aanmelden";
 "main_sign_up_terms_conditions" = "Door het aanmelden of inloggen, ga je akkoord met onze Algemene Voorwaarden en Privacy Beleid";
-"main_sign_up_terms_conditions_conditions_part" = "Privacy Beleid";
-"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_privacy_part" = "Privacy Beleid";
 "main_sign_up_terms_conditions_terms_part" = "Algemene Voorwaarden";
 "make_an_offer_new_offer_message" = "Nieuw bod van %@";
 "make_an_offer_price_field_hint" = "Prijs";
@@ -188,6 +187,8 @@
 "product_gallery_title" = "Foto's";
 "product_list_item_new_status_label" = "NIEUW";
 "product_list_item_sold_status_label" = "VERKOCHT";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oeps! Jouw locatie is uitgeschakeld. Stel jouw locatie in om de beste aanbiedingen in jouw omgeving te zien!";
 "product_list_no_products_body" = "Jij bent de eerste verkenner van jouw stad. Welkom!";
 "product_list_no_products_title" = "STAD ONTGRENDELD!";

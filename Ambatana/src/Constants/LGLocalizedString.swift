@@ -767,6 +767,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_list_item_sold_status_label", comment: "")
 	}
 
+	static var productListItemTimeMinuteLabel: String {
+		return NSLocalizedString("product_list_item_time_minute_label", comment: "")
+	}
+
+	static var productListItemTimeHourLabel: String {
+		return NSLocalizedString("product_list_item_time_hour_label", comment: "")
+	}
+
 	static var productListLocationDisabledGoToIndicateLocationLabel: String {
 		return NSLocalizedString("product_list_location_disabled_go_to_indicate_location_label", comment: "")
 	}

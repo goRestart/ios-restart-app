@@ -154,8 +154,7 @@
 "main_sign_up_quickly_label" = "CONÉCTATE FÁCILMENTE CON";
 "main_sign_up_sign_up_button" = "Regístrate";
 "main_sign_up_terms_conditions" = "Al registrarte o iniciar sesión, aceptas nuestros Términos y Condiciones y la Política de Privacidad";
-"main_sign_up_terms_conditions_conditions_part" = "Política de Privacidad";
-"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_privacy_part" = "Política de Privacidad";
 "main_sign_up_terms_conditions_terms_part" = "Términos y Condiciones";
 "make_an_offer_new_offer_message" = "Nueva oferta de %@";
 "make_an_offer_price_field_hint" = "Precio";
@@ -188,6 +187,8 @@
 "product_gallery_title" = "Fotos";
 "product_list_item_new_status_label" = "NUEVO";
 "product_list_item_sold_status_label" = "VENDIDO";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "¡Ups! Tu ubicación está desactivada. Activa tu ubicación para ver las mejores ofertas cerca de ti!";
 "product_list_no_products_body" = "Eres el primer explorador de esta ciudad. ¡Bienvenido!";
 "product_list_no_products_title" = "¡CIUDAD DESBLOQUEADA!";

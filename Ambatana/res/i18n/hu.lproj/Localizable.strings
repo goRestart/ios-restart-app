@@ -33,11 +33,11 @@
 "change_username_save_button" = "Mentés";
 "change_username_send_ok" = "Felhasználónév sikeresen megváltoztatva";
 "change_username_title" = "Név megváltoztatása";
-"chat_list_archive" = "Archive";
-"chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
-"chat_list_archive_alert_title" = "Archive Chats";
-"chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
-"chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
+"chat_list_archive" = "Archív";
+"chat_list_archive_alert_text" = "Ha archiválod ezt a csevegést, nem fogod tudni újra megnézni, hacsak a beszélgetőpartnered nem ír ismét.";
+"chat_list_archive_alert_title" = "Archív csevegések";
+"chat_list_archive_error_multiple" = "Hiba történt néhány beszélgetés archiválása során. Próbálkozz újra!";
+"chat_list_archive_error_one" = "Hiba történt a beszélgetés archiválása során. Próbálkozz újra!";
 "chat_list_empty_label" = "Még nincsenek beszélgetések";
 "chat_list_start_selling_or_buying_label" = "Kezdj eladni vagy venni!";
 "chat_list_title" = "Beszélgetések";
@@ -153,9 +153,9 @@
 "main_sign_up_or_label" = "VAGY HASZNÁLJ E-MAIL CÍMET";
 "main_sign_up_quickly_label" = "GYORS KAPCSOLÓDÁS:";
 "main_sign_up_sign_up_button" = "Regisztráció";
-"main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
-"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
-"main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
+"main_sign_up_terms_conditions" = "A regisztrációval vagy a bejelentkezéssel elfogadod Felhasználási feltételeinket és Adatkezelési irányelveinket";
+"main_sign_up_terms_conditions_privacy_part" = "Adatkezelési irányelveinket";
+"main_sign_up_terms_conditions_terms_part" = "Felhasználási feltételeinket";
 "make_an_offer_new_offer_message" = "Új ajánlat: %@";
 "make_an_offer_price_field_hint" = "Ár";
 "make_an_offer_send_button" = "Küldés";
@@ -187,6 +187,8 @@
 "product_gallery_title" = "Fotók";
 "product_list_item_new_status_label" = "ÚJ";
 "product_list_item_sold_status_label" = "ELADVA";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hoppá! A helyadatok le vannak tiltva. Engedélyezd, hogy láthasd a közeli ajánlatokat!";
 "product_list_no_products_body" = "Te vagy az első felfedező ebből a városból. Üdv!";
 "product_list_no_products_title" = "VÁROS FELOLDVA!";
@@ -211,7 +213,7 @@
 "product_post_confirmation_title" = "Gratulálunk!";
 "product_post_done" = "Kész";
 "product_post_generic_error" = "Hiba történt a portéka meghirdetése során.";
-"product_post_network_error" = "Portékád meghirdetése sikertelen. \nEllenőrizd a hálózati beállításokat.";
+"product_post_network_error" = "Portékád meghirdetése sikertelen.\nEllenőrizd a hálózati beállításokat.";
 "product_post_price_label" = "Hozzáadod az árát?";
 "product_post_product_posted" = "Portéka meghirdetve. Gratulálunk!";
 "product_post_retake" = "Újra";

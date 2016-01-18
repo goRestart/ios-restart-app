@@ -38,6 +38,10 @@ public protocol ProductViewModelDelegate: class {
     func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel)
 }
 
+public protocol ProductViewModelUpdatesDelegate: class {
+    func productViewModel(viewModel: ProductViewModel, updatedProduct: Product)
+}
+
 public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
     // Output
@@ -102,6 +106,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
     // Delegate
     public weak var delegate: ProductViewModelDelegate?
+    public weak var updatesDelegate: ProductViewModelUpdatesDelegate?
     
     // Data
     private var product: Product
@@ -109,6 +114,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // Repository & Manager
     private let myUserRepository: MyUserRepository
     private let productManager: ProductManager
+    private let productRepository: ProductRepository
     private let tracker: Tracker
     
     // MARK: - Computed iVars
@@ -318,13 +324,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public convenience init(product: Product, thumbnailImage: UIImage?) {
         let myUserRepository = Core.myUserRepository
-        let productManager = Core.productManager
+        let productRepository = Core.productRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, productManager: productManager,
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
             product: product, thumbnailImage: thumbnailImage, tracker: tracker)
     }
     
-    public init(myUserRepository: MyUserRepository, productManager: ProductManager,
+    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
         product: Product, thumbnailImage: UIImage?, tracker: Tracker) {
             // My user
             self.isFavourite = false
@@ -343,7 +349,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             
             // Manager
             self.myUserRepository = myUserRepository
-            self.productManager = productManager
+            self.productRepository = productRepository
+            //TODO TO BE REMOVED WHEN ALL CALLS MIGRATED TO PRODUCT REPOSITORY
+            self.productManager = Core.productManager
             self.tracker = tracker
             
             super.init()
@@ -355,21 +363,18 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     internal override func didSetActive(active: Bool) {
-        
-        if active {
-            delegate?.viewModelDidStartRetrievingUserProductRelation(self)
-            
-            productManager.retrieveUserProductRelation(product) { [weak self] (result: UserProductRelationServiceResult) -> Void in
-                
-                if let strongSelf = self {
-                    if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
-                        strongSelf.isFavourite = favorited
-                        strongSelf.isReported = reported
-                    }
-                    strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
-                    strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
-                }
+        guard active else { return }
+        guard let productId = product.objectId else { return }
+
+        delegate?.viewModelDidStartRetrievingUserProductRelation(self)
+        productRepository.retrieveUserProductRelation(productId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
+                strongSelf.isFavourite = favorited
+                strongSelf.isReported = reported
             }
+            strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
+            strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
         }
     }
     
@@ -379,48 +384,33 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func switchFavourite() {
         delegate?.viewModelDidStartSwitchingFavouriting(self)
-        
-        // If favourite, then remove from favourites / delete
+
         if isFavourite {
-            productManager.deleteFavourite(product) { [weak self] (result: ProductFavouriteDeleteServiceResult) -> Void in
-                if let strongSelf = self {
-                    // Success
-                    if let _ = result.value {
-                        // Update the flag
-                        strongSelf.isFavourite = false
-                        
-                        // Run completed
-                        strongSelf.deleteFavouriteCompleted()
-                    }
-                    
-                    // Notify the delegate
-                    strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
+            productRepository.deleteFavorite(product) { [weak self] result in
+                guard let strongSelf = self else { return }
+                if let product = result.value {
+                    strongSelf.product = product
+                    strongSelf.isFavourite = product.favorite
+                    strongSelf.deleteFavoriteCompleted()
                 }
+                strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
             }
-        }
-        // Otherwise, add it / save
-        else {
-            productManager.saveFavourite(product) { [weak self] (result: ProductFavouriteSaveServiceResult) -> Void in
-                if let strongSelf = self {
-                    // Success
-                    if let _ = result.value {
-                        // Update the flag
-                        strongSelf.isFavourite = true
-                        
-                        // Run completed
-                        strongSelf.saveFavouriteCompleted()
+        } else {
+            productRepository.saveFavorite(product) { [weak self] result in
+                guard let strongSelf = self else { return }
+                if let product = result.value {
+                    strongSelf.product = product
+                    strongSelf.isFavourite = product.favorite
+                    strongSelf.saveFavoriteCompleted()
+                } else if let error = result.error {
+                    switch error {
+                    case .Unauthorized:
+                        strongSelf.delegate?.viewModelForbiddenAccessToFavourite(strongSelf)
+                    case .Network, .NotFound, .Internal:
+                        break
                     }
-                    else {
-                        if let actualError = result.error {
-                            if actualError == .Forbidden {
-                                strongSelf.delegate?.viewModelForbiddenAccessToFavourite(strongSelf)
-                            }
-                        }
-                    }
-                    
-                    // Notify the delegate
-                    strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
                 }
+                strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
             }
         }
     }
@@ -659,13 +649,16 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         tracker.trackEvent(trackerEvent)
     }
     
-    private func saveFavouriteCompleted() {
+    private func saveFavoriteCompleted() {
         let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser,
             typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        updatesDelegate?.productViewModel(self, updatedProduct: product)
     }
     
-    private func deleteFavouriteCompleted() {
+    private func deleteFavoriteCompleted() {
+        updatesDelegate?.productViewModel(self, updatedProduct: product)
     }
     
 }

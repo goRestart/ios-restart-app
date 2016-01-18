@@ -74,7 +74,13 @@ UITextFieldDelegate {
         mainProductListView.scrollDelegate = self
         mainProductListView.topProductInfoDelegate = self.viewModel
         mainProductListView.queryString = viewModel.searchString
-        
+
+        //Listen to login
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loggedIn:",
+            name: SessionManager.Notification.Login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loggedOut:",
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
+
         //Applying previous filters
         setProductListFilters()
         
@@ -94,6 +100,10 @@ UITextFieldDelegate {
         
         // Add filters button
         setFiltersNavbarButton()
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -141,7 +151,7 @@ UITextFieldDelegate {
     // MARK: - ProductListViewDataDelegate
     
     public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt,
-        hasProducts: Bool, error: ProductsRetrieveServiceError) {
+        hasProducts: Bool, error: RepositoryError) {
             
             // If we already have data & it's the first page then show a toast
             if hasProducts && page > 0 {
@@ -149,9 +159,9 @@ UITextFieldDelegate {
                 switch error {
                 case .Network:
                     toastTitle = LGLocalizedString.toastNoNetwork
-                case .Internal:
+                case .Internal, .NotFound:
                     toastTitle = LGLocalizedString.toastErrorInternal
-                case .Forbidden:
+                case .Unauthorized:
                     toastTitle = nil
                 }
                 if let toastTitle = toastTitle {
@@ -322,7 +332,15 @@ UITextFieldDelegate {
     
     
     // MARK: - Private methods
-    
+
+    dynamic func loggedIn(notification: NSNotification) {
+        mainProductListView.sessionDidChange()
+    }
+
+    dynamic func loggedOut(notification: NSNotification) {
+        mainProductListView.sessionDidChange()
+    }
+
     private func setBarsHidden(hidden: Bool, animated: Bool = true) {
         self.tabBarController?.setTabBarHidden(hidden, animated: animated)
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
@@ -439,6 +457,12 @@ UITextFieldDelegate {
 // MARK: - ProductListActionsDelegate
 
 extension MainProductsViewController: ProductListActionsDelegate {
+
+    public func productListViewModel(productListViewModel: ProductListViewModel,
+        requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void) {
+            ifLoggedInThen(source, loggedInAction: completion,
+                elsePresentSignUpWithSuccessAction: completion)
+    }
 
     public func productListViewModel(productListViewModel: ProductListViewModel,
         didTapChatOnProduct product: Product) {
