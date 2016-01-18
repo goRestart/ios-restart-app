@@ -299,7 +299,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Retrieves the products first page.
     */
     public func refresh() {
-        
         productListViewModel.refreshing = true
         if productListViewModel.canRetrieveProducts {
             productListViewModel.retrieveProducts()
