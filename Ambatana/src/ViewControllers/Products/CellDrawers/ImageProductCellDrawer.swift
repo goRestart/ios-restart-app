@@ -29,14 +29,11 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
         cell.setCellWidth(data.cellWidth)
         cell.setupActions(showActions, delegate: delegate, indexPath: data.indexPath)
         cell.priceLabel.text = data.price ?? ""
-        
         cell.likeButton.setImage(data.isFavorite ?
             UIImage(named: "ic_product_like_on") : UIImage(named: "ic_product_like_off"),
             forState: UIControlState.Normal)
         cell.likeButton.enabled = !data.isMine
-        cell.shareButton.enabled = true
-        cell.chatButton.enabled = !data.isMine
-
+        
         // Thumb
         if let thumbURL = data.thumbUrl {
             cell.setImageUrl(thumbURL)
@@ -47,6 +44,7 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
         case .Sold, .SoldOld:
             cell.stripeImageView.image = UIImage(named: "stripe_sold")
             cell.stripeLabel.text = LGLocalizedString.productListItemSoldStatusLabel
+            cell.chatButton.enabled = false
 
         case .Pending, .Approved, .Discarded, .Deleted:
             if let createdAt = data.date where
@@ -54,6 +52,7 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
                     cell.stripeImageView.image = UIImage(named: "stripe_new")
                     cell.stripeLabel.text = LGLocalizedString.productListItemNewStatusLabel
             }
+            cell.chatButton.enabled = !data.isMine
         }
     }
 }
