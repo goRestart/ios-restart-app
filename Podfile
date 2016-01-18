@@ -20,7 +20,7 @@ pod "FBSDKShareKit",		 "~> 4.8.0"
 pod "Amplitude-iOS",        "~> 3.4.1"
     
 # letgo Core
-pod "LGCoreKit",            "0.17.5" #:path => "../lgcorekit"
+pod "LGCoreKit",            "0.17.6" #:path => "../lgcorekit" #
 
 # Slack Chat controller
 pod "SlackTextViewController", "~> 1.7.2"
@@ -44,13 +44,16 @@ pod "DeviceUtil",         "~> 1.3.5"
 pod "Kahuna",               "2.3.1"
 
 # New Relic
-pod "NewRelicAgent",         "~> 5.3.4"
+pod "NewRelicAgent",         "5.3.1"
 
 # Google app indexing
 pod "GoogleAppIndexing",    "~> 2.0.1"
 
 # Google Analytics
 pod "Google/Analytics",     "~> 1.3.2"
+
+#Google IDFA Support
+pod "GoogleIDFASupport",    "~> 3.14.0"
 
 # Adjust
 pod "Adjust",               "~> 4.5.0" #:git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"

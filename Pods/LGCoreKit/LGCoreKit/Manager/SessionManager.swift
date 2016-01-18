@@ -137,29 +137,33 @@ public class SessionManager {
     // DAOs
     private let tokenDAO: TokenDAO
     private let deviceLocationDAO: DeviceLocationDAO
-
+    private let favoritesDAO: FavoritesDAO
 
     // MARK: - Lifecycle
 
     convenience init() {
         let myUserRepository = MyUserRepository.sharedInstance
         let installationRepository = InstallationRepository.sharedInstance
-
+        
         let locationManager = LocationManager.sharedInstance
         let tokenDAO = TokenKeychainDAO.sharedInstance
         let deviceLocationDAO = DeviceLocationUDDAO.sharedInstance
-
+        let favoritesDAO = FavoritesUDDAO.sharedInstance
+        
         self.init(locationManager: locationManager, myUserRepository: myUserRepository,
-            installationRepository: installationRepository, tokenDAO: tokenDAO, deviceLocationDAO: deviceLocationDAO)
+            installationRepository: installationRepository, tokenDAO: tokenDAO, deviceLocationDAO: deviceLocationDAO,
+            favoritesDAO: favoritesDAO)
     }
 
     init(locationManager: LocationManager, myUserRepository: MyUserRepository,
-        installationRepository: InstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO) {
+        installationRepository: InstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
+        favoritesDAO: FavoritesDAO) {
             self.locationManager = locationManager
             self.myUserRepository = myUserRepository
             self.tokenDAO = tokenDAO
             self.deviceLocationDAO = deviceLocationDAO
             self.installationRepository = installationRepository
+            self.favoritesDAO = favoritesDAO
     }
 
 
@@ -358,7 +362,9 @@ public class SessionManager {
     private func setupAfterLoggedIn(myUser: MyUser, provider: SessionProvider) {
         let newUser = myUser.myUserWithNewAuthProvider(provider.authProvider)
         myUserRepository.save(newUser)
-        NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
+        LGCoreKit.setupAfterLoggedIn {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
+        }
     }
 
     /**
@@ -367,6 +373,7 @@ public class SessionManager {
     private func setupAfterLoggedOut() {
         tokenDAO.deleteUserToken()
         myUserRepository.deleteUser()
+        favoritesDAO.clean()
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.Logout.rawValue, object: nil)
     }
 }

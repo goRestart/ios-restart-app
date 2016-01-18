@@ -154,8 +154,7 @@
 "main_sign_up_quickly_label" = "CONÉCTATE FÁCILMENTE CON";
 "main_sign_up_sign_up_button" = "Regístrate";
 "main_sign_up_terms_conditions" = "Al registrarte o iniciar sesión, aceptas nuestros Términos y Condiciones y la Política de Privacidad";
-"main_sign_up_terms_conditions_conditions_part" = "Política de Privacidad";
-"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_privacy_part" = "Política de Privacidad";
 "main_sign_up_terms_conditions_terms_part" = "Términos y Condiciones";
 "make_an_offer_new_offer_message" = "Nueva oferta de %@";
 "make_an_offer_price_field_hint" = "Precio";

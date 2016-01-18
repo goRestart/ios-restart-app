@@ -9,9 +9,11 @@
 protocol FavoritesDAO {
     var favorites: [String] { get }
     func save(products: [Product])
+    func save(product: Product)
     func save(productIDs: [String])
     func save(productId: String)
     func remove(productId: String)
+    func remove(product: Product)
     func clean()
 }
 
@@ -23,5 +25,15 @@ extension FavoritesDAO {
     
     func save(productId: String) {
         save([productId])
+    }
+    
+    func save(product: Product) {
+        save([product])
+    }
+    
+    func remove(product: Product) {
+        if let productId = product.objectId {
+            remove(productId)
+        }
     }
 }

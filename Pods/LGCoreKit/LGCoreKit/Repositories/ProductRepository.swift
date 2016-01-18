@@ -224,12 +224,13 @@ public final class ProductRepository {
             return
         }
         
-        dataSource.saveFavorite(productId, userId: userId) { result in
+        dataSource.saveFavorite(productId, userId: userId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
                 newProduct.favorite = true
+                self?.favoritesDAO.save(product)
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -246,12 +247,13 @@ public final class ProductRepository {
             return
         }
         
-        dataSource.deleteFavorite(productId, userId: userId)  { result in
+        dataSource.deleteFavorite(productId, userId: userId)  { [weak self] result in
             if let error = result.error {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 var newProduct = LGProduct(product: product)
                 newProduct.favorite = false
+                self?.favoritesDAO.remove(product)
                 completion?(ProductResult(value: newProduct))
             }
         }
@@ -267,7 +269,9 @@ public final class ProductRepository {
         }
         
         dataSource.retrieveRelation(productId, userId: userId) { result in
-            handleApiResult(result, completion: completion)
+            handleApiResult(result, success: { [weak self] value in
+                value.isFavorited ? self?.favoritesDAO.save(productId) : self?.favoritesDAO.remove(productId)
+                }, completion: completion)
         }
     }
     
