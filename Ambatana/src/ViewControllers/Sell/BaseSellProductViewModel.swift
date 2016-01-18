@@ -288,10 +288,18 @@ public class BaseSellProductViewModel: BaseViewModel {
             }
         }
         
-        if localImages.isEmpty {
-            productRepository.create(product, images: remoteImages, completion: commonCompletion)
+        if let _ = product.objectId {
+            if localImages.isEmpty {
+                productRepository.update(product, images: remoteImages, completion: commonCompletion)
+            } else {
+                productRepository.update(product, images: localImages, progress: nil, completion: commonCompletion)
+            }
         } else {
-            productRepository.create(product, images: localImages, progress: nil, completion: commonCompletion)
+            if localImages.isEmpty {
+                productRepository.create(product, images: remoteImages, completion: commonCompletion)
+            } else {
+                productRepository.create(product, images: localImages, progress: nil, completion: commonCompletion)
+            }
         }
     }
 }
