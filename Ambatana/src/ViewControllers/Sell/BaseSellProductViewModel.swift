@@ -229,7 +229,7 @@ public class BaseSellProductViewModel: BaseViewModel {
     }
 
     public func save() {
-        saveProduct(nil)
+        createProduct()
     }
     
     public var fbShareContent: FBSDKShareLinkContent? {
@@ -241,13 +241,16 @@ public class BaseSellProductViewModel: BaseViewModel {
     }
     
     // MARK: - Private methods
-    
-    internal func saveProduct(product: Product? = nil) {
-        guard let newProduct = productRepository.newProduct() where product == nil else {
+
+    func createProduct() {
+        guard let newProduct = productRepository.newProduct() else {
             delegate?.sellProductViewModel(self, didFailWithError: .Internal)
             return
         }
-        var theProduct = product ?? newProduct
+        saveProduct(newProduct)
+    }
+    
+    func saveProduct(var theProduct: Product) {
         guard let category = category else {
             delegate?.sellProductViewModel(self, didFailWithError: .NoCategory)
             return
