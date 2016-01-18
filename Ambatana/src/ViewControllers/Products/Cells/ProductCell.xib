@@ -61,8 +61,8 @@
                                             <action selector="onDirectLikeBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="IbS-KH-cIP"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3Q-eG-7YE" userLabel="shareBtn">
-                                        <rect key="frame" x="47" y="0.0" width="45" height="34"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3Q-eG-7YE" userLabel="shareBtn">
+                                        <rect key="frame" x="46" y="0.0" width="45" height="32"/>
                                         <animations/>
                                         <state key="normal" image="ic_product_share"/>
                                         <connections>
@@ -87,7 +87,7 @@
                                     <constraint firstAttribute="trailing" secondItem="Lo1-3n-nzY" secondAttribute="trailing" id="Kbp-gV-hdO"/>
                                     <constraint firstItem="Lo1-3n-nzY" firstAttribute="width" secondItem="Kug-w2-pWI" secondAttribute="width" multiplier="0.33" id="NOX-QL-BbW"/>
                                     <constraint firstItem="JFh-08-dYV" firstAttribute="leading" secondItem="Kug-w2-pWI" secondAttribute="leading" id="OWt-1l-uR1"/>
-                                    <constraint firstAttribute="bottom" secondItem="p3Q-eG-7YE" secondAttribute="bottom" id="PVn-va-szc"/>
+                                    <constraint firstAttribute="bottom" secondItem="p3Q-eG-7YE" secondAttribute="bottom" constant="2" id="PVn-va-szc"/>
                                     <constraint firstItem="p3Q-eG-7YE" firstAttribute="top" secondItem="Kug-w2-pWI" secondAttribute="top" id="SSs-ba-W8Q"/>
                                     <constraint firstAttribute="bottom" secondItem="Lo1-3n-nzY" secondAttribute="bottom" id="XfB-n0-BQt"/>
                                     <constraint firstItem="JFh-08-dYV" firstAttribute="width" secondItem="Kug-w2-pWI" secondAttribute="width" multiplier="0.33" id="gaC-fO-wpP"/>
