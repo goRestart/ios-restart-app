@@ -154,8 +154,7 @@
 "main_sign_up_quickly_label" = "ΣΥΝΔΕΘΕΙΤΕ ΓΡΗΓΟΡΑ ΜΕΣΩ";
 "main_sign_up_sign_up_button" = "Εγγραφή";
 "main_sign_up_terms_conditions" = "Κάνοντας εγγραφή ή σύνδεση, συμφωνείτε με τους Όροι & Προϋποθέσεις και με την Πολιτική Απορρήτου";
-"main_sign_up_terms_conditions_conditions_part" = "Πολιτική Απορρήτου";
-"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_privacy_part" = "Πολιτική Απορρήτου";
 "main_sign_up_terms_conditions_terms_part" = "Όροι & Προϋποθέσεις";
 "make_an_offer_new_offer_message" = "Νέα προσφορά %@";
 "make_an_offer_price_field_hint" = "Τιμή";
