@@ -38,6 +38,11 @@ class ProductPostedViewModel: BaseViewModel {
         setup(postResult)
     }
 
+    init(productImage: UIImage, priceText: String?) {
+        //TODO: IMPLEMENT
+        super.init()
+    }
+
 
     // MARK: - Public methods
 
