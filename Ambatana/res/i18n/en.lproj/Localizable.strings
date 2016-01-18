@@ -568,6 +568,12 @@
 // Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"
 "product_list_item_sold_status_label" = "SOLD";
 
+// Product list item how long new item in minutes label
+"product_list_item_time_minute_label" = "%im";
+
+// Product list item how long new item in hours label
+"product_list_item_time_hour_label" = "%ih";
+
 // Product list location disabled go to indicate location label.
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Enable location to see the best offers nearby!";
 

@@ -30,7 +30,10 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var likeButton: UIButton!
 
     @IBOutlet weak var stripeImageView: UIImageView!
+
+    @IBOutlet weak var stripeInfoView: UIView!
     @IBOutlet weak var stripeLabel: UILabel!
+    @IBOutlet weak var stripeIcon: UIImageView!
 
     private var indexPath: NSIndexPath?
     private weak var delegate: ProductCellDelegate?
@@ -122,7 +125,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         shadowLayer.frame = priceGradientView.bounds
         priceGradientView.layer.addSublayer(shadowLayer)
         let rotation = CGFloat(M_PI_4)
-        stripeLabel.transform = CGAffineTransformMakeRotation(rotation)
+        stripeInfoView.transform = CGAffineTransformMakeRotation(rotation)
     }
 
     // Resets the UI to the initial state
@@ -132,6 +135,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         thumbnailImageView.image = nil
         stripeImageView.image = nil
         stripeLabel.text = ""
+        stripeIcon.image = nil
         indexPath = nil
         delegate = nil
     }

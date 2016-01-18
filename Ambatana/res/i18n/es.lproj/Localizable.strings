@@ -187,6 +187,8 @@
 "product_gallery_title" = "Fotos";
 "product_list_item_new_status_label" = "NUEVO";
 "product_list_item_sold_status_label" = "VENDIDO";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "¡Ups! Tu ubicación está desactivada. Activa tu ubicación para ver las mejores ofertas cerca de ti!";
 "product_list_no_products_body" = "Eres el primer explorador de esta ciudad. ¡Bienvenido!";
 "product_list_no_products_title" = "¡CIUDAD DESBLOQUEADA!";

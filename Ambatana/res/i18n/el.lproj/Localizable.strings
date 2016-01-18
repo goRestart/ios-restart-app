@@ -187,6 +187,8 @@
 "product_gallery_title" = "Φωτογραφίες";
 "product_list_item_new_status_label" = "ΝΕΟ";
 "product_list_item_sold_status_label" = "ΠΩΛΗΘΗΚΕ";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Όπα! Η τοποθεσία σου είναι απενεργοποιημένη. Ενεργοποίησε την και δες τις καλύτερες προσφορές κοντά σου!";
 "product_list_no_products_body" = "Είστε ο πρώτος εξερευνητής στην πόλη σας. Καλως ήρθατε!";
 "product_list_no_products_title" = "ΞΕΚΛΕΙΔΩΜΑ ΠΟΛΗΣ!";
