@@ -21,10 +21,10 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
     
-    public init(myUserRepository: MyUserRepository, productManager: ProductManager, tracker: Tracker, product: Product){
+    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker, product: Product){
         self.initialProduct = product
         self.editedProduct = product
-        super.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker)
+        super.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker)
         
         if let name = product.name {
             self.title = name
@@ -44,9 +44,9 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
 
     public convenience init(product: Product) {
         let myUserRepository = MyUserRepository.sharedInstance
-        let productManager = ProductManager()
+        let productRepository = ProductRepository.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker,
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker,
             product: product)
     }
     
@@ -67,7 +67,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
         trackEvent(event)
     }
 
-    override func trackValidationFailedWithError(error: ProductSaveServiceError) {
+    override func trackValidationFailedWithError(error: ProductCreateValidationError) {
         super.trackValidationFailedWithError(error)
 
         let myUser = myUserRepository.myUser

@@ -118,7 +118,7 @@ class PostProductViewModel: BaseViewModel {
         fileRepository.upload(image, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
             guard let image = result.value else {
-                let error = result.error ?? RepositoryError.Internal(message: "")
+                guard let error = result.error else { return }
                 let errorString: String
                 switch (error) {
                 case .Internal, .Unauthorized, .NotFound:

@@ -141,8 +141,7 @@ class ProductPostedViewModel: BaseViewModel {
             mainButtonText = LGLocalizedString.productPostConfirmationAnotherButton
             shareInfo = SocialHelper.socialMessageWithTitle(LGLocalizedString.sellShareFbContent, product: product)
         }
-        else {
-            let error = postResult.error ?? .Internal(message:"")
+        else if let error = postResult.error {
             switch error {
             case .Network:
                 secondaryText = LGLocalizedString.productPostNetworkError

@@ -10,8 +10,8 @@ import UIKit
 
 extension NSDate {
     
-    func relativeTimeString() -> String
-    {
+    func relativeTimeString() -> String {
+
         let time = self.timeIntervalSince1970
         let now = NSDate().timeIntervalSince1970
         
@@ -60,5 +60,34 @@ extension NSDate {
         }
         
         return LGLocalizedString.commonTimeMoreThanOneMonthAgoLabel
+    }
+
+    /**
+    Gives a string showing how many minutes or hours have passed since date
+
+    - parameter date: the date since to count the time
+    
+    - returns: A string with format "1m", "45m", "1h", "24h", "1500h"
+    */
+    func simpleTimeStringForDate() -> String {
+
+        let time = self.timeIntervalSince1970
+        let now = NSDate().timeIntervalSince1970
+
+        let seconds = Float(now - time)
+
+        let second: Float = 1
+        let minute: Float = 60.0
+        let hour: Float = minute * 60.0
+
+        let minsAgo = round(seconds/minute)
+        let hoursAgo = round(seconds/hour)
+
+        switch seconds {
+        case second..<hour:
+            return String(format: "%im", Int(minsAgo))
+        default:
+            return String(format: "%ih", Int(hoursAgo))
+        }
     }
 }

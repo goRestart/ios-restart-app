@@ -154,7 +154,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     }
     
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult
-        result: ProductSaveServiceResult) {
+        result: ProductResult) {
             loadingView.hidden = true
             
             if viewModel.shouldShareInFB {
@@ -166,7 +166,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
             }
     }
     
-    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductSaveServiceError) {
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductCreateValidationError) {
         loadingView.hidden = true
     }
     

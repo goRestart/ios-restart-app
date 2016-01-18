@@ -610,7 +610,7 @@
 // Product mark as sold success message. Message displayal is like the other error messages
 "product_mark_as_sold_success_message" = "Congratulations, your product was successfully marked as sold!";
 
-// Text when price is 0$ 
+// Text when price is 0$
 "product_negotiable_price" = "Negotiable";
 
 // Secondary text when the camera posting appears
@@ -631,7 +631,7 @@
 // After posting, real confirmation
 "product_post_confirmation_title" = "Congratulations!";
 
-// Add more details button (max 20 chars) 
+// Add more details button (max 20 chars)
 "product_post_confirmation_edit" = "Add more details";
 
 // Post another item button
@@ -1104,3 +1104,4 @@
 
 // Tour page skip button.
 "tour_page_skip_button" = "Skip";
+
