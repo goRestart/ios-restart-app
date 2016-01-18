@@ -187,6 +187,8 @@
 "product_gallery_title" = "Fotos";
 "product_list_item_new_status_label" = "NOVO";
 "product_list_item_sold_status_label" = "VENDIDO";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Ups! A sua localização está desligada. Defina a sua localização para ver as melhores ofertas nas redondezas!";
 "product_list_no_products_body" = "É o primeiro explorador da sua cidade. Bem-vindo!";
 "product_list_no_products_title" = "CIDADE DESBLOQUEADA!";
@@ -203,6 +205,10 @@
 "product_popular_near_you" = "Popular perto de si";
 "product_post_camera_subtitle" = "Certifique-se que é a melhor!";
 "product_post_camera_title" = "Esta é a sua foto em destaque";
+"product_post_close_alert_close_button" = "Discard";
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+"product_post_close_alert_ok_button" = "Post Product";
+"product_post_close_alert_title" = "Product not posted";
 "product_post_confirmation_another" = "Ou";
 "product_post_confirmation_another_button" = "Publique outro item";
 "product_post_confirmation_edit" = "Adicionar mais detalhes";
@@ -211,12 +217,15 @@
 "product_post_confirmation_title" = "Parabéns!";
 "product_post_done" = "Feito";
 "product_post_generic_error" = "Ocorreu um erro ao publicar o seu produto.";
+"product_post_login_message" = "To sell your stuff, you have to log in";
 "product_post_network_error" = "O seu produto não foi publicado.\nPor favor verifique a configuração da sua rede.";
 "product_post_price_label" = "Quer adicionar um preço?";
 "product_post_product_posted" = "Produto publicado. Parabéns!";
+"product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
 "product_post_use_photo" = "Publicar";
+"product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "Preço";
 "product_report_confirm_cancel_button" = "Cancelar";
 "product_report_confirm_message" = "Tem a certeza que deseja denunciar este artigo?";

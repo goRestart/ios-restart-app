@@ -187,6 +187,8 @@
 "product_gallery_title" = "Фотографии";
 "product_list_item_new_status_label" = "НОВОЕ";
 "product_list_item_sold_status_label" = "ПРОДАНО";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Упс! Определение местоположения выключено. Укажите свое местоположение, чтобы видеть лучшие предложения недалеко от вас!";
 "product_list_no_products_body" = "Вы - первый пользователь из своего города. Добро пожаловать!";
 "product_list_no_products_title" = "ГОРОД ОТКРЫТ!";
@@ -203,6 +205,10 @@
 "product_popular_near_you" = "Популярное рядом с вами";
 "product_post_camera_subtitle" = "Убедитесь, что она подходит!";
 "product_post_camera_title" = "Это ваша фотография";
+"product_post_close_alert_close_button" = "Discard";
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+"product_post_close_alert_ok_button" = "Post Product";
+"product_post_close_alert_title" = "Product not posted";
 "product_post_confirmation_another" = "Или";
 "product_post_confirmation_another_button" = "Разместить другой товар";
 "product_post_confirmation_edit" = "Добавить еще информацию";
@@ -211,12 +217,15 @@
 "product_post_confirmation_title" = "Поздравляем!";
 "product_post_done" = "Готово";
 "product_post_generic_error" = "При размещении товара произошла ошибка.";
+"product_post_login_message" = "To sell your stuff, you have to log in";
 "product_post_network_error" = "Ваш товар не был размещен.\nПожалуйста, проверьте сетевые настройки.";
 "product_post_price_label" = "Хотите указать цену?";
 "product_post_product_posted" = "Товар опубликован. Поздравляем!";
+"product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Переснять";
 "product_post_retry_button" = "Попробовать еще";
 "product_post_use_photo" = "Разместить";
+"product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "Цена";
 "product_report_confirm_cancel_button" = "Отменена";
 "product_report_confirm_message" = "Вы уверены, что хотите пожаловаться на продукт?";

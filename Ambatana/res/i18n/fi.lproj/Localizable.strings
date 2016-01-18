@@ -187,6 +187,8 @@
 "product_gallery_title" = "Kuvat";
 "product_list_item_new_status_label" = "UUTUUS";
 "product_list_item_sold_status_label" = "MYYTY";
+"product_list_item_time_hour_label" = "%it";
+"product_list_item_time_minute_label" = "%imin";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hups! Sijaintitietosi on pois päältä. Aseta sijaintisi, jotta näet parhaat tarjoukset lähelläsi!";
 "product_list_no_products_body" = "Olet ensimmäinen tutkimusmatkailija kaupungistasi. Tervetuloa!";
 "product_list_no_products_title" = "KAUPUNKI AVATTU!";
@@ -203,6 +205,10 @@
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_subtitle" = "Varmista, että se on hyvä!";
 "product_post_camera_title" = "Tämä on tuotteesi kuva";
+"product_post_close_alert_close_button" = "Discard";
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+"product_post_close_alert_ok_button" = "Post Product";
+"product_post_close_alert_title" = "Product not posted";
 "product_post_confirmation_another" = "Tai";
 "product_post_confirmation_another_button" = "Julkaise toinen tuote";
 "product_post_confirmation_edit" = "Lisää tietoja";
@@ -211,12 +217,15 @@
 "product_post_confirmation_title" = "Onneksi olkoon!";
 "product_post_done" = "Valmis";
 "product_post_generic_error" = "Tuotettasi julkaistessa tapahtui virhe.";
+"product_post_login_message" = "To sell your stuff, you have to log in";
 "product_post_network_error" = "Tuotettasi ei ole julkaistu.\nOle hyvä ja tarkista verkkoasetuksesi.";
 "product_post_price_label" = "Haluatko lisätä hinnan?";
 "product_post_product_posted" = "Tuote julkaistu. Onneksi olkoon!";
+"product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Ota uusi kuva";
 "product_post_retry_button" = "Yritä uudelleen";
 "product_post_use_photo" = "Käytä";
+"product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "Hinta";
 "product_report_confirm_cancel_button" = "Peruuta";
 "product_report_confirm_message" = "Oletko varma että haluat tehdä ilmoituksen tästä tuotteesta?";

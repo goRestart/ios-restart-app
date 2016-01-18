@@ -187,6 +187,8 @@
 "product_gallery_title" = "Bilder";
 "product_list_item_new_status_label" = "NY";
 "product_list_item_sold_status_label" = "SÅLD";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hoppsan! Din navigation är avstängd. Välj din Plats för att se de bästa erbjudandena i närområdet!";
 "product_list_no_products_body" = "Du är den första som utforskar från din stad. Välkommen!";
 "product_list_no_products_title" = "STAD UPPLÅST!";
@@ -203,6 +205,10 @@
 "product_popular_near_you" = "Populärt nära dig";
 "product_post_camera_subtitle" = "Se till att den är bra!";
 "product_post_camera_title" = "Detta är din huvudbild";
+"product_post_close_alert_close_button" = "Discard";
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+"product_post_close_alert_ok_button" = "Post Product";
+"product_post_close_alert_title" = "Product not posted";
 "product_post_confirmation_another" = "Eller";
 "product_post_confirmation_another_button" = "Lägg upp en till vara";
 "product_post_confirmation_edit" = "Lägg till mer information";
@@ -211,12 +217,15 @@
 "product_post_confirmation_title" = "Grattis!";
 "product_post_done" = "Klar";
 "product_post_generic_error" = "Ett fel uppstod när vi skulle lägga upp din produkt.";
+"product_post_login_message" = "To sell your stuff, you have to log in";
 "product_post_network_error" = "Din produkt har inte lagts upp.\nVänligen kolla dina nätverksinställningar.";
 "product_post_price_label" = "Vill du lägga till ett pris?";
 "product_post_product_posted" = "Produkten har lagts upp. Grattis!";
+"product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Ta en ny";
 "product_post_retry_button" = "Försök igen";
 "product_post_use_photo" = "Lägg upp";
+"product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "Pris";
 "product_report_confirm_cancel_button" = "Avbryt";
 "product_report_confirm_message" = "Är du säker på att du vill rapportera denna produkt?";

@@ -187,6 +187,8 @@
 "product_gallery_title" = "Fotoğraflar";
 "product_list_item_new_status_label" = "YENİ";
 "product_list_item_sold_status_label" = "SATILDI";
+"product_list_item_time_hour_label" = "%idk";
+"product_list_item_time_minute_label" = "%isn";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Konumun kapalı. Yakınındaki en iyi teklifleri görmek için konumunu ayarla.";
 "product_list_no_products_body" = "Şehrindeki ilk kaşif sensin. Hoş geldin!";
 "product_list_no_products_title" = "ŞEHRİN KİLİDİ AÇILDI!";
@@ -203,6 +205,10 @@
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_subtitle" = "Oldukça net gözüktüğüne dikkat et!";
 "product_post_camera_title" = "Bu senin yayınlanacak olan fotoğrafın";
+"product_post_close_alert_close_button" = "Discard";
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+"product_post_close_alert_ok_button" = "Post Product";
+"product_post_close_alert_title" = "Product not posted";
 "product_post_confirmation_another" = "veya";
 "product_post_confirmation_another_button" = "Başka bir ürün listele";
 "product_post_confirmation_edit" = "Daha fazla bilgi gir";
@@ -211,12 +217,15 @@
 "product_post_confirmation_title" = "Tebrikler!";
 "product_post_done" = "Tamamlandı";
 "product_post_generic_error" = "Bir hata oluştuğu için ürün yayınlanamadı.";
+"product_post_login_message" = "To sell your stuff, you have to log in";
 "product_post_network_error" = "Ürünün yayınlanmadı.\nLütfen internete bağlı olduğundan emin ol.";
 "product_post_price_label" = "Fiyat eklemek ister misin?";
 "product_post_product_posted" = "Ürünün yayınlandı. Tebrikler!";
+"product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Tekrar Çek";
 "product_post_retry_button" = "Yeniden Dene";
 "product_post_use_photo" = "Yayınla";
+"product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "FİYAT";
 "product_report_confirm_cancel_button" = "İptal";
 "product_report_confirm_message" = "Bu ürünü şikayet etmek istediğinden emin misin?";

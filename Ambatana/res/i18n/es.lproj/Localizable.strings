@@ -187,6 +187,8 @@
 "product_gallery_title" = "Fotos";
 "product_list_item_new_status_label" = "NUEVO";
 "product_list_item_sold_status_label" = "VENDIDO";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "¡Ups! Tu ubicación está desactivada. Activa tu ubicación para ver las mejores ofertas cerca de ti!";
 "product_list_no_products_body" = "Eres el primer explorador de esta ciudad. ¡Bienvenido!";
 "product_list_no_products_title" = "¡CIUDAD DESBLOQUEADA!";
@@ -203,6 +205,10 @@
 "product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_subtitle" = "¡Asegúrate de que sea buena!";
 "product_post_camera_title" = "Esta es tu foto destacada";
+"product_post_close_alert_close_button" = "Discard";
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+"product_post_close_alert_ok_button" = "Post Product";
+"product_post_close_alert_title" = "Product not posted";
 "product_post_confirmation_another" = "O";
 "product_post_confirmation_another_button" = "Publica otro producto";
 "product_post_confirmation_edit" = "Añade más detalles";
@@ -211,12 +217,15 @@
 "product_post_confirmation_title" = "¡Enhorabuena!";
 "product_post_done" = "Hecho";
 "product_post_generic_error" = "Se ha producido un error al publicar tu producto.";
+"product_post_login_message" = "To sell your stuff, you have to log in";
 "product_post_network_error" = "Tu producto no se ha publicado.\nPor favor comprueba tu conexión.";
 "product_post_price_label" = "¿Quieres añadir un precio?";
 "product_post_product_posted" = "Publicado. ¡Enhorabuena!";
+"product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Cambiar";
 "product_post_retry_button" = "Vuelve a intentarlo";
 "product_post_use_photo" = "Publicar";
+"product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "Precio";
 "product_report_confirm_cancel_button" = "Cancelar";
 "product_report_confirm_message" = "¿Estás seguro de que quieres denunciar este artículo?";

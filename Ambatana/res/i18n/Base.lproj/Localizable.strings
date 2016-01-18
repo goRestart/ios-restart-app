@@ -568,6 +568,12 @@
 // Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"
 "product_list_item_sold_status_label" = "SOLD";
 
+// Product list item how long new item in minutes label
+"product_list_item_time_minute_label" = "%im";
+
+// Product list item how long new item in hours label
+"product_list_item_time_hour_label" = "%ih";
+
 // Product list location disabled go to indicate location label.
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Enable location to see the best offers nearby!";
 
@@ -608,10 +614,10 @@
 "product_negotiable_price" = "Negotiable";
 
 // Secondary text when the camera posting appears
-"product_post_camera_subtitle" = "Make sure it's a good one!";
+"product_post_camera_subtitle" = "This is your featured photo. Make sure it's a good one!";
 
 // Main text when the camera posting appears
-"product_post_camera_title" = "This is your featured photo";
+"product_post_camera_title" = "What are you selling?";
 
 // Post another item separator
 "product_post_confirmation_another" = "Or";
@@ -625,14 +631,17 @@
 // After posting, real confirmation
 "product_post_confirmation_title" = "Congratulations!";
 
-// Done button after setting (or not) a price
-"product_post_done" = "Done";
-
 // Add more details button (max 20 chars) 
 "product_post_confirmation_edit" = "Add more details";
 
 // Post another item button
 "product_post_confirmation_another_button" = "Post another item";
+
+// Done button after setting (or not) a price
+"product_post_done" = "Done";
+
+// Login message when asking for login
+"product_post_login_message" = "To sell your stuff, you have to log in";
 
 // When posting failed but it's our fault
 "product_post_generic_error" = "There was an error while posting your product.";
@@ -649,11 +658,29 @@
 // Confirmation BEFORE setting the price
 "product_post_product_posted" = "Product posted. Congrats!";
 
+// Confirmation BEFORE setting the price when not logged in
+"product_post_product_posted_not_logged" = "Photo Uploaded!";
+
 // Retake photo button
 "product_post_retake" = "Retake";
 
 // Use Photo button
 "product_post_use_photo" = "Post";
+
+// User photo button when not logged in
+"product_post_use_photo_not_logged" = "Use Photo";
+
+// When closing without posting alert title
+"product_post_close_alert_title" = "Product not posted";
+
+// When closing without posting alert description
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+
+// When closing without posting alert ok button
+"product_post_close_alert_ok_button" = "Post Product";
+
+// When closing without posting alert close button
+"product_post_close_alert_close_button" = "Discard";
 
 // Price label above price on product
 "product_price_label" = "Price";
