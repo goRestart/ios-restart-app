@@ -205,6 +205,10 @@
 "product_popular_near_you" = "Népszerű a közeledben";
 "product_post_camera_subtitle" = "Figyelj, hogy jó legyen!";
 "product_post_camera_title" = "Ez a kiemelt fotód";
+"product_post_close_alert_close_button" = "Discard";
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+"product_post_close_alert_ok_button" = "Post Product";
+"product_post_close_alert_title" = "Product not posted";
 "product_post_confirmation_another" = "vagy";
 "product_post_confirmation_another_button" = "Mást is meghirdetek";
 "product_post_confirmation_edit" = "További részletek";
@@ -213,12 +217,15 @@
 "product_post_confirmation_title" = "Gratulálunk!";
 "product_post_done" = "Kész";
 "product_post_generic_error" = "Hiba történt a portéka meghirdetése során.";
+"product_post_login_message" = "To sell your stuff, you have to log in";
 "product_post_network_error" = "Portékád meghirdetése sikertelen.\nEllenőrizd a hálózati beállításokat.";
 "product_post_price_label" = "Hozzáadod az árát?";
 "product_post_product_posted" = "Portéka meghirdetve. Gratulálunk!";
+"product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Újra";
 "product_post_retry_button" = "Újra";
 "product_post_use_photo" = "Meghirdetés";
+"product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "Ár";
 "product_report_confirm_cancel_button" = "Mégse";
 "product_report_confirm_message" = "Biztosan jelenteni szeretnéd ezt a portékát?";

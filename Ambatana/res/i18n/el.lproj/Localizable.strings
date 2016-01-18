@@ -187,8 +187,8 @@
 "product_gallery_title" = "Φωτογραφίες";
 "product_list_item_new_status_label" = "ΝΕΟ";
 "product_list_item_sold_status_label" = "ΠΩΛΗΘΗΚΕ";
-"product_list_item_time_hour_label" = "%ih";
-"product_list_item_time_minute_label" = "%im";
+"product_list_item_time_hour_label" = "%iώρ.";
+"product_list_item_time_minute_label" = "%iλεπ.";
 "product_list_location_disabled_go_to_indicate_location_label" = "Όπα! Η τοποθεσία σου είναι απενεργοποιημένη. Ενεργοποίησε την και δες τις καλύτερες προσφορές κοντά σου!";
 "product_list_no_products_body" = "Είστε ο πρώτος εξερευνητής στην πόλη σας. Καλως ήρθατε!";
 "product_list_no_products_title" = "ΞΕΚΛΕΙΔΩΜΑ ΠΟΛΗΣ!";
@@ -205,6 +205,10 @@
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_subtitle" = "Βεβαιωθείτε πως είναι καλή!";
 "product_post_camera_title" = "Αυτή είναι η προτεινόμενη φωτογραφία σας";
+"product_post_close_alert_close_button" = "Discard";
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+"product_post_close_alert_ok_button" = "Post Product";
+"product_post_close_alert_title" = "Product not posted";
 "product_post_confirmation_another" = "'Η";
 "product_post_confirmation_another_button" = "Δημοσιεύστε άλλο αντικείμενο";
 "product_post_confirmation_edit" = "Προσθέστε λεπτομέρειες";
@@ -213,12 +217,15 @@
 "product_post_confirmation_title" = "Συγχαρητήρια!";
 "product_post_done" = "Έτοιμο";
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση του αντικειμένου σας.";
+"product_post_login_message" = "To sell your stuff, you have to log in";
 "product_post_network_error" = "Το αντικείμενό σας δεν έχει δημοσιευτεί.\nΠαρακαλώ, ελέγξτε τις ρυθμίσεις δικτύου.";
 "product_post_price_label" = "Θέλετε να προσθέσετε τιμή;";
 "product_post_product_posted" = "Συγχαρητήρια! Το αντικείμενο σας δημοσιεύτηκε.";
+"product_post_product_posted_not_logged" = "Photo Uploaded!";
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
 "product_post_use_photo" = "Δημοσιεύστε";
+"product_post_use_photo_not_logged" = "Use Photo";
 "product_price_label" = "Τιμή";
 "product_report_confirm_cancel_button" = "Ακύρωση";
 "product_report_confirm_message" = "Είστε σίγουροι πως θέλετε να αναφέρετε αυτό το προϊόν;";
