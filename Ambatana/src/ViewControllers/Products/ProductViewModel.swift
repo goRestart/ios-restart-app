@@ -134,6 +134,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return EditSellProductViewModel(product: product)
     }
     
+    public var isFavorite: Bool {
+        return product.favorite
+    }
+    
     public var isFavouritable: Bool {
         return !isMine
     }
