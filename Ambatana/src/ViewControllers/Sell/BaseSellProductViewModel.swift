@@ -243,8 +243,11 @@ public class BaseSellProductViewModel: BaseViewModel {
     // MARK: - Private methods
     
     internal func saveProduct(product: Product? = nil) {
-
-        var theProduct = product ?? productRepository.newProduct()
+        guard let newProduct = productRepository.newProduct() where product == nil else {
+            delegate?.sellProductViewModel(self, didFailWithError: .Internal)
+            return
+        }
+        var theProduct = product ?? newProduct
         guard let category = category else {
             delegate?.sellProductViewModel(self, didFailWithError: .NoCategory)
             return
