@@ -77,11 +77,18 @@ public class ConversationCell: UITableViewCell {
         switch chat.product.status {
         case .Deleted:
             timeLabelValue = LGLocalizedString.commonProductDeleted
-        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+            timeLabel.font = StyleHelper.conversationProductDeletedFont
+            timeLabel.textColor = StyleHelper.conversationProductDeletedColor
+        case .Pending, .Approved, .Discarded:
             if let lastUpdated = chat.updatedAt {
                 timeLabelValue = lastUpdated.relativeTimeString()
             }
+        case .Sold, .SoldOld:
+            timeLabelValue = LGLocalizedString.commonProductSold
+            timeLabel.font = StyleHelper.conversationProductSoldFont
+            timeLabel.textColor = StyleHelper.conversationProductSoldColor
         }
+        
         timeLabel.text = timeLabelValue
         
         // badge
@@ -105,9 +112,14 @@ public class ConversationCell: UITableViewCell {
         thumbnailImageView.layer.cornerRadius = thumbnailImageView.frame.size.width / 2.0
         thumbnailImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
         thumbnailImageView.layer.borderWidth = 1
-        productLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        userLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
-        timeLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
+        productLabel.font = StyleHelper.conversationProductFont
+        userLabel.font = StyleHelper.conversationUserNameFont
+        timeLabel.font = StyleHelper.conversationTimeFont
+        
+        productLabel.textColor = StyleHelper.conversationProductColor
+        userLabel.textColor = StyleHelper.conversationUserNameColor
+        timeLabel.textColor = StyleHelper.conversationTimeColor
+        
         badgeView.layer.cornerRadius = 5
     }
     
