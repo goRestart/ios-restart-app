@@ -161,10 +161,12 @@
             <connections>
                 <outlet property="buttonsContainerHeight" destination="qKP-Py-8f0" id="iF9-GH-ena"/>
                 <outlet property="cellContent" destination="U25-jS-eMH" id="ybK-mq-hS3"/>
+                <outlet property="chatButton" destination="Lo1-3n-nzY" id="1pz-7M-kgz"/>
                 <outlet property="likeButton" destination="JFh-08-dYV" id="VAl-EE-ZJE"/>
                 <outlet property="priceGradientView" destination="q07-IL-PD5" id="hgE-bb-EUM"/>
                 <outlet property="priceLabel" destination="Q3S-98-0Z1" id="gsi-wX-8gC"/>
                 <outlet property="shadowImage" destination="3Rs-4R-xUN" id="8vG-e6-hfF"/>
+                <outlet property="shareButton" destination="p3Q-eG-7YE" id="NiN-3Z-cfy"/>
                 <outlet property="stripeImageView" destination="RTJ-Uh-fyf" id="hIc-JI-WFh"/>
                 <outlet property="stripeLabel" destination="h6x-Ls-H2g" id="t2y-NC-Ajj"/>
                 <outlet property="thumbnailBgColorView" destination="jgH-1b-N7M" id="wiE-DN-Ksd"/>
