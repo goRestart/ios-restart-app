@@ -24,16 +24,16 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidStartReporting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
     func viewModelDidCompleteReporting(viewModel: ProductViewModel)
-    func viewModelDidFailReporting(viewModel: ProductViewModel, error: ProductReportSaveServiceError)
+    func viewModelDidFailReporting(viewModel: ProductViewModel, error: RepositoryError)
     
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductDeleteServiceResult)
+    func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductResult)
     
     func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductMarkSoldServiceResult)
+    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductResult)
 
     func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult)
+    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductResult)
 
     func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel)
 }
@@ -113,7 +113,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     // Repository & Manager
     private let myUserRepository: MyUserRepository
-    private let productManager: ProductManager
     private let productRepository: ProductRepository
     private let tracker: Tracker
     
@@ -349,8 +348,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             // Manager
             self.myUserRepository = myUserRepository
             self.productRepository = productRepository
-            //TODO TO BE REMOVED WHEN ALL CALLS MIGRATED TO PRODUCT REPOSITORY
-            self.productManager = ProductManager()
             self.tracker = tracker
             
             super.init()
@@ -487,7 +484,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-
+    
     // MARK: >  Report
     
     public func reportStarted() {
@@ -506,25 +503,19 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         
         // Otherwise, start
         delegate?.viewModelDidStartReporting(self)
-        productManager.saveReport(product) { [weak self] (result: ProductReportSaveServiceResult) -> Void in
-            if let strongSelf = self {
-                // Success
-                if let _ = result.value {
-                    // Update the flag
-                    strongSelf.isReported = true
-                    
-                    // Run completed
-                    strongSelf.reportCompleted()
-                    // Notify the delegate
-                    strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
-                } else {
-                    let failure = result.error ?? .Internal
-                    strongSelf.delegate?.viewModelDidFailReporting(strongSelf, error: failure)
-                }
-                
+        
+        productRepository.saveReport(product) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let _ = result.value {
+                strongSelf.isReported = true
+                strongSelf.reportCompleted()
+                strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
+            } else if let error = result.error {
+                strongSelf.delegate?.viewModelDidFailReporting(strongSelf, error: error)
             }
         }
     }
+    
     
     // MARK: > Delete
     
@@ -540,19 +531,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func delete() {
         delegate?.viewModelDidStartDeleting(self)
-        productManager.deleteProduct(product) { [weak self] (result: ProductDeleteServiceResult) -> Void in
-            if let strongSelf = self {
-                if let product = result.value {
-                    // Update the status
-                    strongSelf.product = product
-                    
-                    // Run completed
-                    strongSelf.deleteCompleted()
-                }
-                
-                // Notify the delegate
-                strongSelf.delegate?.viewModel(strongSelf, didFinishDeleting: result)
+        productRepository.delete(product) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                strongSelf.product = value
+                strongSelf.deleteCompleted()
             }
+            strongSelf.delegate?.viewModel(strongSelf, didFinishDeleting: result)
         }
     }
 
@@ -573,20 +558,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func markSold(source: EventParameterSellSourceValue) {
         delegate?.viewModelDidStartMarkingAsSold(self)
-        productManager.markProductAsSold(product) { [weak self] ( result: ProductMarkSoldServiceResult) -> Void in
-            if let strongSelf = self {
-                // Success
-                if let soldProduct = result.value {
-                    // Update the status
-                    strongSelf.product = soldProduct
-                    
-                    // Run completed
-                    strongSelf.markSoldCompleted(soldProduct, source: source)
-                }
-                
-                // Notify the delegate
-                strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsSold: result)
+        productRepository.markProductAsSold(product) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                strongSelf.product = value
+                strongSelf.markSoldCompleted(value, source: source)
             }
+            strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsSold: result)
         }
     }
     
@@ -599,17 +577,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func markUnsold() {
         delegate?.viewModelDidStartMarkingAsUnsold(self)
-        productManager.markProductAsUnsold(product) { [weak self] ( result: ProductMarkUnsoldServiceResult) -> Void in
-            if let strongSelf = self {
-                // Success
-                if let unsoldProduct = result.value {
-                    // Run completed. 'unsoldProduct' already has its status updated
-                    strongSelf.markUnsoldCompleted(unsoldProduct)
-                }
-                
-                // Notify the delegate
-                strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsUnsold: result)
+        productRepository.markProductAsUnsold(product) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                strongSelf.markUnsoldCompleted(value)
             }
+            strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsUnsold: result)
         }
     }
     
@@ -659,5 +632,4 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     private func deleteFavoriteCompleted() {
         updatesDelegate?.productViewModel(self, updatedProduct: product)
     }
-    
 }

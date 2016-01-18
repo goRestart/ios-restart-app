@@ -10,16 +10,41 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 
+public enum ProductCreateValidationError: String, ErrorType {
+    case Network = "network"
+    case Internal = "internal"
+    case NoImages = "no images present"
+    case NoTitle  = "no title"
+    case NoPrice = "invalid price"
+    case NoDescription = "no description"
+    case LongDescription = "description too long"
+    case NoCategory = "no category selected"
+    
+    init(repoError: RepositoryError) {
+        switch repoError {
+        case .Internal:
+            self = .Internal
+        case .Network:
+            self = .Network
+        case .NotFound:
+            self = .Internal
+        case .Unauthorized:
+            self = .Internal
+        }
+    }
+}
+
+
 protocol SellProductViewModelDelegate : class {
     func sellProductViewModel(viewModel: BaseSellProductViewModel, archetype: Bool)
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didSelectCategoryWithName categoryName: String)
     func sellProductViewModelDidStartSavingProduct(viewModel: BaseSellProductViewModel)
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didUpdateProgressWithPercentage percentage: Float)
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult
-        result: ProductSaveServiceResult)
+        result: ProductResult)
     func sellProductViewModel(viewModel: BaseSellProductViewModel, shouldUpdateDescriptionWithCount count: Int)
     func sellProductViewModeldidAddOrDeleteImage(viewModel: BaseSellProductViewModel)
-    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductSaveServiceError)
+    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductCreateValidationError)
     func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel)
 }
 
@@ -93,7 +118,7 @@ public class BaseSellProductViewModel: BaseViewModel {
     
     // Managers
     let myUserRepository: MyUserRepository
-    private let productManager: ProductManager
+    private let productRepository: ProductRepository
     let tracker: Tracker
     
     // Delegate
@@ -105,14 +130,14 @@ public class BaseSellProductViewModel: BaseViewModel {
     
     public convenience override init() {
         let myUserRepository = MyUserRepository.sharedInstance
-        let productManager = ProductManager()
+        let productRepository = ProductRepository.sharedInstance
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, productManager: productManager, tracker: tracker)
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker)
     }
     
-    public init(myUserRepository: MyUserRepository, productManager: ProductManager, tracker: Tracker) {
+    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker) {
         self.myUserRepository = myUserRepository
-        self.productManager = productManager
+        self.productRepository = productRepository
         self.tracker = tracker
         
         self.title = nil
@@ -142,7 +167,7 @@ public class BaseSellProductViewModel: BaseViewModel {
 
     internal func trackStart() { }
     
-    internal func trackValidationFailedWithError(error: ProductSaveServiceError) { }
+    internal func trackValidationFailedWithError(error: ProductCreateValidationError) { }
 
     internal func trackSharedFB() { }
     
@@ -219,20 +244,20 @@ public class BaseSellProductViewModel: BaseViewModel {
     
     internal func saveProduct(product: Product? = nil) {
 
-        var theProduct = product ?? productManager.newProduct()
+        var theProduct = product ?? productRepository.newProduct()
         guard let category = category else {
-            let error = ProductSaveServiceError.NoCategory
-            delegate?.sellProductViewModel(self, didFailWithError: error)
+            delegate?.sellProductViewModel(self, didFailWithError: .NoCategory)
             return
         }
         let priceText = price ?? "0"
-        theProduct = productManager.updateProduct(theProduct, name: title, price: priceText.toPriceDouble(),
+        
+        theProduct = productRepository.updateProduct(theProduct, name: title, price: priceText.toPriceDouble(),
             description: descr, category: category, currency: currency)
 
         saveTheProduct(theProduct, withImages: productImages)
     }
     
-    func validate() -> ProductSaveServiceError? {
+    func validate() -> ProductCreateValidationError? {
         
         if images.count < 1 {
             return .NoImages
@@ -243,54 +268,30 @@ public class BaseSellProductViewModel: BaseViewModel {
         }
         return nil
     }
-
+    
     func saveTheProduct(product: Product, withImages images: ProductImages) {
-
+        
         delegate?.sellProductViewModelDidStartSavingProduct(self)
-
+        
         let localImages = images.localImages
         let remoteImages = images.remoteImages
-        if localImages.isEmpty {
-            saveTheProduct(product, withImages: remoteImages)
-        } else {
-            productManager.saveProductImages(localImages,
-                progress: { [weak self] (p: Float) -> Void in
-                    if let strongSelf = self {
-                        strongSelf.delegate?.sellProductViewModel(strongSelf, didUpdateProgressWithPercentage: p)
-                    }
-                },
-                completion: { [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
-                    guard let strongSelf = self else { return }
-                    guard let images = multipleFilesUploadResult.value else {
-                        let error = multipleFilesUploadResult.error ?? .Internal
-                        switch (error) {
-                        case .Internal:
-                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: .Internal)
-                        case .Network:
-                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: .Network)
-                        case .Forbidden:
-                            strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: .Forbidden)
-                        }
-                        return
-                    }
-                    strongSelf.saveTheProduct(product, withImages: remoteImages + images)
-                }
-            )
-        }
-    }
-
-    func saveTheProduct(product: Product, withImages images: [File]) {
-        productManager.saveProduct(product, imageFiles: images) { [weak self] (r: ProductSaveServiceResult) -> Void in
-            if let strongSelf = self {
-                if let actualProduct = r.value {
-                    strongSelf.savedProduct = actualProduct
-                    strongSelf.trackComplete(actualProduct)
-                    strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: r)
-                } else {
-                    let error = r.error ?? ProductSaveServiceError.Internal
-                    strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: error)
-                }
+        
+        let commonCompletion: ProductCompletion = { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let actualProduct = result.value {
+                strongSelf.savedProduct = actualProduct
+                strongSelf.trackComplete(actualProduct)
+                strongSelf.delegate?.sellProductViewModel(strongSelf, didFinishSavingProductWithResult: result)
+            } else if let error = result.error {
+                let newError = ProductCreateValidationError(repoError: error)
+                strongSelf.delegate?.sellProductViewModel(strongSelf, didFailWithError: newError)
             }
+        }
+        
+        if localImages.isEmpty {
+            productRepository.create(product, images: remoteImages, completion: commonCompletion)
+        } else {
+            productRepository.create(product, images: localImages, progress: nil, completion: commonCompletion)
         }
     }
 }
