@@ -37,6 +37,7 @@ class PostProductViewModel: BaseViewModel {
 
     private var productManager: ProductManager
     private let myUserRepository: MyUserRepository
+    private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
     var currency: Currency
@@ -68,6 +69,7 @@ class PostProductViewModel: BaseViewModel {
     }
 
     func pressedRetakeImage() {
+        pendingToUploadImage = nil
         uploadedImage = nil
         uploadedImageSource = nil
         delegate?.postProductViewModelDidRestartTakingImage(self)
@@ -85,6 +87,12 @@ class PostProductViewModel: BaseViewModel {
 
     func imageSelected(image: UIImage) {
 
+//        guard myUserRepository.loggedIn else {
+//            pendingToUploadImage = image
+//            self.delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
+//            return
+//        }
+
         delegate?.postProductViewModelDidStartUploadingImage(self)
 
         productManager.saveProductImages([image], progress: nil) {
@@ -95,12 +103,10 @@ class PostProductViewModel: BaseViewModel {
                 let error = multipleFilesUploadResult.error ?? .Internal
                 let errorString: String
                 switch (error) {
-                case .Internal:
+                case .Internal, .Forbidden:
                     errorString = LGLocalizedString.productPostGenericError
                 case .Network:
                     errorString = LGLocalizedString.productPostNetworkError
-                case .Forbidden:
-                    errorString = LGLocalizedString.productPostGenericError
                 }
                 strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: errorString)
                 return
@@ -113,14 +119,20 @@ class PostProductViewModel: BaseViewModel {
 
     func doneButtonPressed(priceText price: String?, sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource, price: price)
-            PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: price,
-                currency: currency, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
-                delegate: delegate)
+            if myUserRepository.loggedIn {
+                let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource, price: price)
+                PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: price,
+                    currency: currency, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
+                    delegate: delegate)
+            } else {
+
+            }
     }
 
     func closeButtonPressed(sellController sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
+            guard myUserRepository.loggedIn else { return }
+
             let trackInfo = TrackingInfo(buttonName: .Close, imageSource: uploadedImageSource, price: nil)
             PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: nil,
                 currency: currency, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
