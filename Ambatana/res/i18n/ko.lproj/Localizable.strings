@@ -187,6 +187,8 @@
 "product_gallery_title" = "사진";
 "product_list_item_new_status_label" = "새로운";
 "product_list_item_sold_status_label" = "품절";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "위치정보가 꺼져있네요. 최고의 상품 할인정보를 위해서 위치를 성절해주세요!";
 "product_list_no_products_body" = "당신은 도시에서 첫번째 판매자입니다. 환영합니다!";
 "product_list_no_products_title" = "도시 잠금을 풀었습니다!";

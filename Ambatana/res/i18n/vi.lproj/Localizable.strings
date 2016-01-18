@@ -187,6 +187,8 @@
 "product_gallery_title" = "Ảnh";
 "product_list_item_new_status_label" = "MỚI";
 "product_list_item_sold_status_label" = "ĐÃ BÁN";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Ồ! Địa điểm của bạn đã bị tắt. Hãy thiết lập địa điểm để xem những giao dịch gần bạn!";
 "product_list_no_products_body" = "Bạn là người đầu tiên đến từ thành phố của bạn. Xin chào mừng!";
 "product_list_no_products_title" = "MỞ KHÓA THÀNH PHỐ!";
