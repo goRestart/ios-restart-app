@@ -350,7 +350,6 @@ public class ProductListViewModel: BaseViewModel {
 
     func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel {
         let productVM = ProductViewModel(product: productAtIndex(index), thumbnailImage: thumbnailImage)
-        productVM.updatesDelegate = self
         return productVM
     }
 
@@ -438,20 +437,5 @@ public class ProductListViewModel: BaseViewModel {
         guard index >= 0 && index < products.count else { return }
         products[index] = product
         dataDelegate?.viewModel(self, didUpdateProductDataAtIndex: index)
-    }
-}
-
-
-// MARK: - ProductViewModelUpdatesDelegate
-
-extension ProductListViewModel: ProductViewModelUpdatesDelegate {
-    public func productViewModel(viewModel: ProductViewModel, updatedProduct: Product) {
-        for (index, item) in products.enumerate() {
-            guard let itemId = item.objectId, productId = updatedProduct.objectId where itemId == productId
-                else { continue }
-
-            updateProduct(updatedProduct, atIndex: index)
-            return
-        }
     }
 }
