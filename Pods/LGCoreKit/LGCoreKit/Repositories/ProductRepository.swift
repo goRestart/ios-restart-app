@@ -45,8 +45,24 @@ public final class ProductRepository {
             self.favoritesDAO = favoritesDAO
     }
     
-    public func newProduct() -> Product {
-        return LGProduct()
+    public func newProduct() -> Product? {
+        var product = LGProduct()
+        guard let myUser = myUserRepository.myUser, location = myUser.coordinates else { return nil }
+        product.user = myUser
+        product.location = location
+        product.postalAddress = myUserRepository.myUser?.postalAddress ?? PostalAddress.emptyAddress()
+        return product
+    }
+
+    public func updateProduct(product: Product, name: String?, price: Double?, description: String?,
+        category: ProductCategory, currency: Currency?) -> Product {
+            var product = LGProduct(product: product)
+            product.name = name
+            product.price = price
+            product.descr = description
+            product.category = category
+            product.currency = currency
+            return product
     }
     
     
@@ -257,6 +273,11 @@ public final class ProductRepository {
                 completion?(ProductResult(value: newProduct))
             }
         }
+    }
+    
+    public func updateFavoritesInfo(products: [Product]) -> [Product] {
+        let favorites = favoritesDAO.favorites
+        return setFavorites(products, favorites: favorites)
     }
     
     

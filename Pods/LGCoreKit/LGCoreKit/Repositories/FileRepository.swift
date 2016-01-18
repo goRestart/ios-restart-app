@@ -25,7 +25,7 @@ public protocol FileRepository {
 
 public final class LGFileRepository: FileRepository {
 
-    static let sharedInstance: LGFileRepository = LGFileRepository()
+    public static let sharedInstance: FileRepository = LGFileRepository()
     
     let myUserRepository: MyUserRepository
     let fileDataSource: FileDataSource
@@ -81,7 +81,7 @@ public final class LGFileRepository: FileRepository {
             return
         }
         
-        uploadFile(userId, data: data, imageName: "image.jpg", progress: progress, completion: completion)
+        uploadFile(userId, data: data, imageName: "image", progress: progress, completion: completion)
     }
     
     

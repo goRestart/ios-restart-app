@@ -35,7 +35,8 @@ class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
 
-    private var productManager: ProductManager
+    private let productRepository: ProductRepository
+    private let fileRepository: FileRepository
     private let myUserRepository: MyUserRepository
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
@@ -45,17 +46,21 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     override convenience init() {
-        let productManager = ProductManager()
+        let productRepository = ProductRepository.sharedInstance
+        let fileRepository = LGFileRepository.sharedInstance
         let currency = CurrencyHelper.sharedInstance.currentCurrency
         let myUserRepository = MyUserRepository.sharedInstance
-        self.init(productManager: productManager, myUserRepository: myUserRepository, currency: currency)
+        self.init(productRepository: productRepository, fileRepository: fileRepository,
+            myUserRepository: myUserRepository, currency: currency)
     }
 
-    init(productManager: ProductManager, myUserRepository: MyUserRepository, currency: Currency) {
-        self.productManager = productManager
-        self.myUserRepository = myUserRepository
-        self.currency = currency
-        super.init()
+    init(productRepository: ProductRepository, fileRepository: FileRepository, myUserRepository: MyUserRepository,
+        currency: Currency) {
+            self.productRepository = productRepository
+            self.fileRepository = fileRepository
+            self.myUserRepository = myUserRepository
+            self.currency = currency
+            super.init()
     }
     
 
@@ -87,20 +92,16 @@ class PostProductViewModel: BaseViewModel {
 
         delegate?.postProductViewModelDidStartUploadingImage(self)
 
-        productManager.saveProductImages([image], progress: nil) {
-            [weak self] (multipleFilesUploadResult: MultipleFilesUploadServiceResult) -> Void in
-
+        fileRepository.upload(image, progress: nil) { [weak self] result in
             guard let strongSelf = self else { return }
-            guard let images = multipleFilesUploadResult.value, let image = images.first else {
-                let error = multipleFilesUploadResult.error ?? .Internal
+            guard let image = result.value else {
+                guard let error = result.error else { return }
                 let errorString: String
                 switch (error) {
-                case .Internal:
+                case .Internal, .Unauthorized, .NotFound:
                     errorString = LGLocalizedString.productPostGenericError
                 case .Network:
                     errorString = LGLocalizedString.productPostNetworkError
-                case .Forbidden:
-                    errorString = LGLocalizedString.productPostGenericError
                 }
                 strongSelf.delegate?.postProductViewModelDidFinishUploadingImage(strongSelf, error: errorString)
                 return
@@ -114,7 +115,7 @@ class PostProductViewModel: BaseViewModel {
     func doneButtonPressed(priceText price: String?, sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
             let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource, price: price)
-            PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: price,
+            PostProductViewModel.saveProduct(repository: productRepository, uploadedImage: uploadedImage, priceText: price,
                 currency: currency, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
                 delegate: delegate)
     }
@@ -122,7 +123,7 @@ class PostProductViewModel: BaseViewModel {
     func closeButtonPressed(sellController sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
             let trackInfo = TrackingInfo(buttonName: .Close, imageSource: uploadedImageSource, price: nil)
-            PostProductViewModel.saveProduct(manager: productManager, uploadedImage: uploadedImage, priceText: nil,
+            PostProductViewModel.saveProduct(repository: productRepository, uploadedImage: uploadedImage, priceText: nil,
                 currency: currency, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
                 delegate: delegate)
     }
@@ -130,21 +131,18 @@ class PostProductViewModel: BaseViewModel {
 
     // MARK: - Private methods
     
-    private static func saveProduct(manager productManager: ProductManager, uploadedImage: File?, priceText: String?,
+    private static func saveProduct(repository productRepository: ProductRepository, uploadedImage: File?, priceText: String?,
         currency: Currency, showConfirmation: Bool, trackInfo: TrackingInfo, controller: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            guard let uploadedImage = uploadedImage else { return }
+            guard let uploadedImage = uploadedImage, var theProduct = productRepository.newProduct() else { return }
 
-            var theProduct = productManager.newProduct()
             let priceText = priceText ?? "0"
-            theProduct = productManager.updateProduct(theProduct, name: nil, price: priceText.toPriceDouble(),
+            theProduct = productRepository.updateProduct(theProduct, name: nil, price: priceText.toPriceDouble(),
                 description: nil, category: .Other, currency: currency)
 
-            productManager.saveProduct(theProduct, imageFiles: [uploadedImage]){
-                (r: ProductSaveServiceResult) -> Void in
-
+            productRepository.create(theProduct, images: [uploadedImage]) { result in
                 //Tracking
-                if let product = r.value {
+                if let product = result.value {
                     let myUser = MyUserRepository.sharedInstance.myUser
                     let event = TrackerEvent.productSellComplete(myUser, product: product, buttonName:
                         trackInfo.buttonName, negotiable: trackInfo.negotiablePrice,
@@ -153,10 +151,10 @@ class PostProductViewModel: BaseViewModel {
                 }
 
                 if showConfirmation {
-                    let productPostedViewModel = ProductPostedViewModel(postResult: r)
+                    let productPostedViewModel = ProductPostedViewModel(postResult: result)
                     delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
                 } else {
-                    delegate?.sellProductViewController(controller, didCompleteSell: r.value != nil)
+                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil)
                 }
             }
     }

@@ -22,6 +22,10 @@ public struct PostalAddress {
         self.countryCode = countryCode
         self.country = country
     }
+
+    public static func emptyAddress() -> PostalAddress {
+        return PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
+    }
 }
 
 extension PostalAddress : Decodable {

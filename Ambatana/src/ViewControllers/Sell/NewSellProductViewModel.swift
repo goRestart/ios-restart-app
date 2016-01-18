@@ -22,7 +22,7 @@ public class NewSellProductViewModel: BaseSellProductViewModel {
     }
     
     
-    internal override func trackValidationFailedWithError(error: ProductSaveServiceError) {
+    internal override func trackValidationFailedWithError(error: ProductCreateValidationError) {
         super.trackValidationFailedWithError(error)
         let event = TrackerEvent.productSellFormValidationFailed(myUserRepository.myUser, description: error.rawValue)
         trackEvent(event)
