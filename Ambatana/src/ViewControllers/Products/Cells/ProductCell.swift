@@ -28,7 +28,9 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var buttonsContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var likeButton: UIButton!
-
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var chatButton: UIButton!
+    
     @IBOutlet weak var stripeImageView: UIImageView!
 
     @IBOutlet weak var stripeInfoView: UIView!
