@@ -380,7 +380,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         userInfo = NavBarUserInfo.buildNavbarUserInfo()
         setLetGoNavigationBarStyle(userInfo)
         setLetGoNavigationBarStyle("")
-        setFavouriteButtonAsFavourited(false)
         
         // > Main
         productStatusLabel.layer.cornerRadius = 18
@@ -481,6 +480,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 }
             }
         }
+        
+        // Fav status
+        setFavouriteButtonAsFavourited(viewModel.isFavorite)
        
         // Product Status Label
         productStatusLabel.hidden = !viewModel.isProductStatusLabelVisible

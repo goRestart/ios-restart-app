@@ -38,9 +38,6 @@ public protocol ProductViewModelDelegate: class {
     func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel)
 }
 
-public protocol ProductViewModelUpdatesDelegate: class {
-    func productViewModel(viewModel: ProductViewModel, updatedProduct: Product)
-}
 
 public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
@@ -106,7 +103,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
     // Delegate
     public weak var delegate: ProductViewModelDelegate?
-    public weak var updatesDelegate: ProductViewModelUpdatesDelegate?
     
     // Data
     private var product: Product
@@ -135,6 +131,10 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
     public var editViewModelWithDelegate: EditSellProductViewModel {
         return EditSellProductViewModel(product: product)
+    }
+    
+    public var isFavorite: Bool {
+        return product.favorite
     }
     
     public var isFavouritable: Bool {
@@ -625,11 +625,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser,
             typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
-        updatesDelegate?.productViewModel(self, updatedProduct: product)
     }
     
     private func deleteFavoriteCompleted() {
-        updatesDelegate?.productViewModel(self, updatedProduct: product)
     }
 }
