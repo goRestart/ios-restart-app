@@ -187,6 +187,8 @@
 "product_gallery_title" = "Fotók";
 "product_list_item_new_status_label" = "ÚJ";
 "product_list_item_sold_status_label" = "ELADVA";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hoppá! A helyadatok le vannak tiltva. Engedélyezd, hogy láthasd a közeli ajánlatokat!";
 "product_list_no_products_body" = "Te vagy az első felfedező ebből a városból. Üdv!";
 "product_list_no_products_title" = "VÁROS FELOLDVA!";

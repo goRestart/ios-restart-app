@@ -240,7 +240,8 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         // appearance
         setLetGoNavigationBarStyle(LGLocalizedString.chatListTitle)
 
-        self.navigationItem.rightBarButtonItem = editButtonItem()
+        // ⚠️ TODO: uncomment lines when Archive Chats functionality has to be enabled again
+//        self.navigationItem.rightBarButtonItem = editButtonItem()
         self.tableView.allowsMultipleSelectionDuringEditing = true
 
         // setup toolbar for edit mode

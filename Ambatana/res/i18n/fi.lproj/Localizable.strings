@@ -187,6 +187,8 @@
 "product_gallery_title" = "Kuvat";
 "product_list_item_new_status_label" = "UUTUUS";
 "product_list_item_sold_status_label" = "MYYTY";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Hups! Sijaintitietosi on pois päältä. Aseta sijaintisi, jotta näet parhaat tarjoukset lähelläsi!";
 "product_list_no_products_body" = "Olet ensimmäinen tutkimusmatkailija kaupungistasi. Tervetuloa!";
 "product_list_no_products_title" = "KAUPUNKI AVATTU!";

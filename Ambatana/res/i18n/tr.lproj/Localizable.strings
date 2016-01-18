@@ -187,6 +187,8 @@
 "product_gallery_title" = "Fotoğraflar";
 "product_list_item_new_status_label" = "YENİ";
 "product_list_item_sold_status_label" = "SATILDI";
+"product_list_item_time_hour_label" = "%ih";
+"product_list_item_time_minute_label" = "%im";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Konumun kapalı. Yakınındaki en iyi teklifleri görmek için konumunu ayarla.";
 "product_list_no_products_body" = "Şehrindeki ilk kaşif sensin. Hoş geldin!";
 "product_list_no_products_title" = "ŞEHRİN KİLİDİ AÇILDI!";
