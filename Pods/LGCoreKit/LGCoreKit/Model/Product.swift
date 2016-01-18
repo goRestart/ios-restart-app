@@ -57,7 +57,7 @@ extension Product {
         params["userId"] = user.objectId
         params["description"] = descr
         params["price"] = price
-        params["currency"] = currency
+        params["currency"] = currency?.code
         params["latitude"] = location.latitude
         params["longitude"] = location.longitude
         params["countryCode"] = postalAddress.countryCode
@@ -65,7 +65,7 @@ extension Product {
         params["address"] = postalAddress.address
         params["zipCode"] = postalAddress.zipCode
         
-        let tokensString = images.flatMap{$0.objectId}.joinWithSeparator(",")
+        let tokensString = images.flatMap{$0.objectId}.map{"\"" + $0 + "\""}.joinWithSeparator(",")
         params["images"] = "[" + tokensString + "]"
         
         return params

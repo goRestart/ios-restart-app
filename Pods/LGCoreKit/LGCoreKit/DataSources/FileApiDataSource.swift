@@ -22,6 +22,7 @@ final class FileApiDataSource: FileDataSource {
             if let userIdData = userId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
                 multipart.appendBodyPart(data: userIdData, name: "userId")
             }
+            multipart.appendBodyPart(data: data, name: imageName, fileName: imageName+".jpg", mimeType: "image/jpg")
             }, completion: completion) { (written, totalWritten, totalExpectedToWrite) in
                 let p = Float(totalWritten)/Float(totalExpectedToWrite)
                 progress?(p)
