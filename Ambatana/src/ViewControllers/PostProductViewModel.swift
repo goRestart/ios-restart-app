@@ -13,6 +13,8 @@ protocol PostProductViewModelDelegate: class {
     func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage)
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
+    func postProductviewModel(viewModel: PostProductViewModel, shouldCloseWithCompletion completion: (() -> Void)?)
+    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
 }
 
 private struct TrackingInfo {
@@ -34,6 +36,21 @@ private struct TrackingInfo {
 class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
+
+    var usePhotoButtonText: String {
+        if myUserRepository.loggedIn {
+            return LGLocalizedString.productPostUsePhoto
+        } else {
+            return LGLocalizedString.productPostUsePhotoNotLogged
+        }
+    }
+    var confirmationOkText: String {
+        if myUserRepository.loggedIn {
+            return LGLocalizedString.productPostProductPosted
+        } else {
+            return LGLocalizedString.productPostProductPostedNotLogged
+        }
+    }
 
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
@@ -118,37 +135,45 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    func doneButtonPressed(priceText price: String?, sellController: SellProductViewController,
+    func shouldShowCloseAlert() -> Bool {
+        return !myUserRepository.loggedIn
+    }
+
+    func doneButtonPressed(priceText priceText: String?, sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource, price: price)
+            let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource, price: priceText)
             if myUserRepository.loggedIn {
-                saveProduct(priceText: price, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
-                    delegate: delegate)
+                self.delegate?.postProductviewModel(self, shouldCloseWithCompletion: { [weak self] in
+                    guard let product = self?.buildProduct(priceText: priceText) else { return }
+                    self?.saveProduct(product, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
+                        delegate: delegate)
+                    })
             } else if let imageToUpload = pendingToUploadImage {
-                passInfoToConfirmation(imageToUpload: imageToUpload, priceText: price, trackInfo: trackInfo,
-                    controller: sellController, delegate: delegate)
+                passInfoToConfirmation(imageToUpload: imageToUpload, priceText: priceText, trackInfo: trackInfo,
+                    controller: sellController, sellDelegate: delegate)
             }
     }
 
     func closeButtonPressed(sellController sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            guard myUserRepository.loggedIn else { return }
+            guard let product = buildProduct(priceText: nil) else {
+                self.delegate?.postProductviewModel(self, shouldCloseWithCompletion: nil)
+                return
+            }
 
-            let trackInfo = TrackingInfo(buttonName: .Close, imageSource: uploadedImageSource, price: nil)
-            saveProduct(priceText: nil, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
-                delegate: delegate)
+            self.delegate?.postProductviewModel(self, shouldCloseWithCompletion: { [weak self] in
+                let trackInfo = TrackingInfo(buttonName: .Close, imageSource: self?.uploadedImageSource, price: nil)
+                self?.saveProduct(product, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
+                    delegate: delegate)
+            })
     }
 
 
     // MARK: - Private methods
     
-    private func saveProduct(priceText priceText: String?, showConfirmation: Bool, trackInfo: TrackingInfo,
+    private func saveProduct(theProduct: Product, showConfirmation: Bool, trackInfo: TrackingInfo,
         controller: SellProductViewController, delegate: SellProductViewControllerDelegate?) {
-            guard let uploadedImage = uploadedImage, var theProduct = productRepository.newProduct() else { return }
-
-            let priceText = priceText ?? "0"
-            theProduct = productRepository.updateProduct(theProduct, name: nil, price: priceText.toPriceDouble(),
-                description: nil, category: .Other, currency: currency)
+            guard let uploadedImage = uploadedImage else { return }
 
             productRepository.create(theProduct, images: [uploadedImage]) { result in
                 //Tracking
@@ -170,8 +195,22 @@ class PostProductViewModel: BaseViewModel {
     }
 
     private func passInfoToConfirmation(imageToUpload image: UIImage, priceText: String?, trackInfo: TrackingInfo,
-        controller: SellProductViewController, delegate: SellProductViewControllerDelegate?) {
-            let productPostedViewModel = ProductPostedViewModel(productImage: image, priceText: priceText)
-            delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
+        controller: SellProductViewController, sellDelegate: SellProductViewControllerDelegate?) {
+            delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.postProductviewModel(strongSelf, shouldCloseWithCompletion: { [weak self] in
+                    guard let product = self?.buildProduct(priceText: priceText) else { return }
+                    let productPostedViewModel = ProductPostedViewModel(productToPost: product)
+                    sellDelegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
+                })
+            })
+    }
+
+    private func buildProduct(priceText priceText: String?) -> Product? {
+        guard let theProduct = productRepository.newProduct() else { return nil }
+        let priceText = priceText ?? "0"
+        let price = priceText.toPriceDouble()
+        return productRepository.updateProduct(theProduct, name: nil, price: price, description: nil,
+            category: .Other, currency: currency)
     }
 }

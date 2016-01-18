@@ -38,7 +38,7 @@ class ProductPostedViewModel: BaseViewModel {
         setup(postResult)
     }
 
-    init(productImage: UIImage, priceText: String?) {
+    init(productToPost: Product) {
         //TODO: IMPLEMENT
         super.init()
     }

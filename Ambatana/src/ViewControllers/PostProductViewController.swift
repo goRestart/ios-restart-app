@@ -115,9 +115,25 @@ UITextFieldDelegate {
     
     @IBAction func onCloseButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
-        dismissViewControllerAnimated(true) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.viewModel.closeButtonPressed(sellController: strongSelf, delegate: strongSelf.delegate)
+        if viewModel.shouldShowCloseAlert() {
+            let alert = UIAlertController(title: LGLocalizedString.productPostCloseAlertTitle,
+                message: LGLocalizedString.productPostCloseAlertDescription, preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertCloseButton,
+                style: .Default, handler: { [weak self] action in
+                    guard let strongSelf = self else { return }
+                    strongSelf.viewModel.closeButtonPressed(sellController: strongSelf, delegate: strongSelf.delegate)
+                })
+            let postAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertOkButton, style: .Default,
+                handler: { [weak self] action in
+                    guard let strongSelf = self else { return }
+                    strongSelf.viewModel.doneButtonPressed(priceText: nil, sellController: strongSelf,
+                        delegate: strongSelf.delegate)
+            })
+            alert.addAction(cancelAction)
+            alert.addAction(postAction)
+            presentViewController(alert, animated: true, completion: nil)
+        } else {
+            viewModel.closeButtonPressed(sellController: self, delegate: delegate)
         }
     }
     
@@ -163,11 +179,7 @@ UITextFieldDelegate {
     @IBAction func onDoneButton(sender: AnyObject) {
         priceTextField.resignFirstResponder()
 
-        dismissViewControllerAnimated(true) { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.viewModel.doneButtonPressed(priceText: strongSelf.priceTextField.text,
-                sellController: strongSelf, delegate: strongSelf.delegate)
-        }
+        viewModel.doneButtonPressed(priceText: priceTextField.text, sellController: self, delegate: delegate)
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
@@ -193,6 +205,14 @@ UITextFieldDelegate {
         setSelectPriceState(loading: false, error: error)
     }
 
+    func postProductviewModel(viewModel: PostProductViewModel, shouldCloseWithCompletion completion: (() -> Void)?) {
+        dismissViewControllerAnimated(true, completion: completion)
+    }
+
+    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
+        ifLoggedInThen(.Sell, loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
+    }
+
 
     // MARK: - UITextFieldDelegate
 
@@ -216,7 +236,7 @@ UITextFieldDelegate {
         cameraTitleLabel.text = LGLocalizedString.productPostCameraTitle
         cameraSubtitleLabel.text = LGLocalizedString.productPostCameraSubtitle
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
-        usePhotoButton.setTitle(LGLocalizedString.productPostUsePhoto, forState: UIControlState.Normal)
+        usePhotoButton.setTitle(viewModel.usePhotoButtonText, forState: UIControlState.Normal)
         addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercaseString
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
             attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -303,7 +323,7 @@ UITextFieldDelegate {
 
         postedInfoLabel.alpha = 0
         postedInfoLabel.text = error != nil ?
-            LGLocalizedString.commonErrorTitle.capitalizedString : LGLocalizedString.productPostProductPosted
+            LGLocalizedString.commonErrorTitle.capitalizedString : viewModel.confirmationOkText
         postErrorLabel.text = error
 
         if (loading) {
